@@ -23,7 +23,7 @@ class org_openpsa_products_validation
      */
     public function is_code_available(array $fields)
     {
-        $result = array();
+        $result = [];
         if (!empty($fields['id'])) {
             $product = org_openpsa_products_product_dba::get_cached((int) $fields['id']);
         } else {

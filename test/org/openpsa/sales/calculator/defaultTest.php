@@ -18,7 +18,7 @@ class org_openpsa_sales_calculatorTest extends openpsa_testcase
     public function setUp()
     {
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
-        $this->_deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', array('salesproject' => $salesproject->id));
+        $this->_deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', ['salesproject' => $salesproject->id]);
     }
 
     public function testGet_invoice_items()
@@ -26,10 +26,10 @@ class org_openpsa_sales_calculatorTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $project = $this->create_object('org_openpsa_projects_project');
-        $task_attributes = array(
+        $task_attributes = [
             'project' => $project->id,
             'agreement' => $this->_deliverable->id
-        );
+        ];
         $task = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
         $invoice = $this->create_object('org_openpsa_invoices_invoice_dba');
 

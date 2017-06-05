@@ -58,7 +58,7 @@ class org_openpsa_notifications_notifier_email implements org_openpsa_notificati
             // No explicit content defined, dump all keys
             foreach ($message as $key => $value) {
                 // TODO (nice-to-have): RFC "fold" the value
-                if (!in_array($key, array('title', 'attachments', 'from'))) {
+                if (!in_array($key, ['title', 'attachments', 'from'])) {
                     $message['content'] .= "{$key}: {$value}\n";
                 }
             }

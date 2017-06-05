@@ -13,7 +13,7 @@
  */
 class midcom_response_json extends midcom_response
 {
-    public function __construct(array $data = array())
+    public function __construct(array $data = [])
     {
         $this->_data = $data;
     }

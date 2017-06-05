@@ -24,14 +24,14 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
      *
      * @var array
      */
-    public $testers = array();
+    public $testers = [];
 
     /**
      * Rules for smart-campaign
      *
      * @var array
      */
-    public $rules = array();
+    public $rules = [];
 
     public function __construct($id = null)
     {
@@ -83,7 +83,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             $unserRet = @unserialize(midcom_helper_misc::fix_serialization($this->rulesSerialized));
             if ($unserRet === false) {
                 debug_add('Failed to unserialize rulesSerialized', MIDCOM_LOG_WARN);
-                $this->rules = array();
+                $this->rules = [];
                 return;
             }
         }
@@ -187,7 +187,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         }
         $time = $time ?: time();
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
-        $stat = midcom_services_at_interface::register($time, 'org.openpsa.directmarketing', 'background_update_campaign_members', array('campaign_guid' => $this->guid));
+        $stat = midcom_services_at_interface::register($time, 'org.openpsa.directmarketing', 'background_update_campaign_members', ['campaign_guid' => $this->guid]);
         if (!$stat) {
             debug_add('Failed to register an AT job for members update, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
         } else {

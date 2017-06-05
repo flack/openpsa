@@ -118,7 +118,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * @var array
      * @see $attachments_info
      */
-    var $images = array();
+    var $images = [];
 
     /**
      * This array maps attachment identifiers to image identifier/derived image name pairs.
@@ -132,7 +132,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      *
      * @var array
      */
-    protected $_attachment_map = array();
+    protected $_attachment_map = [];
 
     /**
      * The current image title to use when operating on images.
@@ -144,7 +144,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     /**
      * Titles of each image, keyed by the MD5 identifier
      */
-    var $titles = array();
+    var $titles = [];
 
     /**
      * Output mode
@@ -225,7 +225,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         if (array_key_exists($this->_identifier, $this->images)) {
             $force_pending_attachments = $this->images[$this->_identifier];
         } else {
-            $force_pending_attachments = array();
+            $force_pending_attachments = [];
         }
         if (!$this->_set_image($filename, $tmpname, $title, $force_pending_attachments)) {
             return false;
@@ -265,7 +265,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         }
         // If applicable, recreate imagemap from guids list stored for the object
         else {
-            $identifiers = array();
+            $identifiers = [];
             $source = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}");
             if (preg_match_all('/([0-9a-f]{32,})([^,]+?):/', $source, $regs)) {
                 foreach ($regs[1] as $i => $reg) {
@@ -281,7 +281,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                 debug_add("item '{$item}' is broken!", MIDCOM_LOG_ERROR);
                 continue;
             }
-            $this->_attachment_map[$info[0]] = array($info[1], $info[2]);
+            $this->_attachment_map[$info[0]] = [$info[1], $info[2]];
         }
     }
 
@@ -382,7 +382,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
 
             // FIXME: wouldn't it be better to access $dm2->types->imagesfield->images ??
             case 'array':
-                $result = array();
+                $result = [];
                 // FIXME: this probably does not work as expected, look into this
                 foreach ($this->images as $images) {
                     $tmp = $images['main'];
@@ -405,7 +405,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      */
     private function _save_image_listing()
     {
-        $data = array();
+        $data = [];
 
         foreach ($this->attachments_info as $identifier => $info) {
             if (empty($identifier)) {
@@ -518,7 +518,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     {
         parent::_sort_attachments();
 
-        uasort($this->images, array($this, '_sort_images_callback'));
+        uasort($this->images, [$this, '_sort_images_callback']);
     }
 
     /**
@@ -739,7 +739,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             return new RegexIterator($iterator, '/[^~]$/i');
         } catch (UnexpectedValueException $e) {
             debug_add("failed to create iterator:" . $e->getMessage(), MIDCOM_LOG_ERROR);
-            return array();
+            return [];
         }
     }
 }

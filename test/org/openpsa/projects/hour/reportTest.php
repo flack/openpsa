@@ -19,7 +19,7 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_project = self::create_class_object('org_openpsa_projects_project');
-        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', array('project' => self::$_project->id));
+        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', ['project' => self::$_project->id]);
     }
 
     public function testCRUD()
@@ -66,7 +66,7 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
 
     public function test_get_parent()
     {
-        $report = $this->create_object('org_openpsa_projects_hour_report_dba', array('task' => self::$_task->id));
+        $report = $this->create_object('org_openpsa_projects_hour_report_dba', ['task' => self::$_task->id]);
         $parent = $report->get_parent();
         $this->assertEquals(self::$_task->guid, $parent->guid);
     }

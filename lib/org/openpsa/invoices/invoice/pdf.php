@@ -53,19 +53,19 @@ class org_openpsa_invoices_invoice_pdf
             }
         }
         if (empty($message)) {
-            return array();
+            return [];
         }
         midcom\workflow\dialog::add_head_elements();
         $l10n_midcom = midcom::get()->i18n->get_l10n();
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');
 
-        return array(
+        return [
             'data-dialog' => 'confirm',
             'data-dialog-heading' => $l10n->get('create_pdf'),
             'data-dialog-text' => $l10n->get($message),
             'data-dialog-confirm-label' => $l10n_midcom->get('confirm'),
             'data-dialog-cancel-label' => $l10n_midcom->get('cancel')
-        );
+        ];
     }
 
     public function render_and_attach()

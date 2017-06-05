@@ -30,7 +30,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @var Array
      */
-    var $fields = array();
+    var $fields = [];
 
     /**
      * The title of this schema, used to display schemas when
@@ -81,7 +81,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @var Array
      */
-    var $field_order = array();
+    var $field_order = [];
 
     /**
      * The operations to add to the form.
@@ -91,7 +91,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @var Array
      */
-    var $operations = array('save' => '', 'cancel' => '');
+    var $operations = ['save' => '', 'cancel' => ''];
 
     /**
      * This array holds custom information attached to this schema. Its exact usage is component
@@ -99,7 +99,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @var Array
      */
-    var $customdata = array();
+    var $customdata = [];
 
     /**
      * Form-wide validation callbacks, executed by QuickForm. This is a list of arrays. Each
@@ -108,7 +108,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @var Array
      */
-    var $validation = array();
+    var $validation = [];
 
     /**
      * Custom data filter rules.
@@ -119,7 +119,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @var Array
      */
-    var $filters = array();
+    var $filters = [];
 
     /**
      * Construct a schema, takes a schema snippet URI resolvable through the
@@ -175,9 +175,9 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                     $extended_schema_name = $schema['extends']['name'];
                 }
             } elseif (isset($contents[$schema['extends']])) {
-                $schema['extends'] = array(
+                $schema['extends'] = [
                     'name' => $schema['extends'],
-                );
+                ];
             } else {
                 $path = $schema['extends'];
             }
@@ -217,7 +217,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 // This is probably either fields or operations
                 if (is_array($value)) {
                     if (!isset($extended_schemadb[$extended_schema_name][$key])) {
-                        $extended_schemadb[$extended_schema_name][$key] = array();
+                        $extended_schemadb[$extended_schema_name][$key] = [];
                     }
 
                     foreach ($value as $name => $field) {
@@ -385,7 +385,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         if (!array_key_exists($name, $this->fields)) {
             throw new midcom_error("Field {$name} not found.");
         }
-        $this->field_order = array_diff($this->field_order, array($name));
+        $this->field_order = array_diff($this->field_order, [$name]);
         unset($this->fields[$name]);
     }
 
@@ -406,7 +406,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         }
         /* Rest of the defaults */
         // Simple ones
-        $simple_defaults = array(
+        $simple_defaults = [
             'description' => null,
             'helptext' => null,
             'static_prepend' => null,
@@ -419,19 +419,19 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             'required' => false,
             'index_method' => 'auto',
             'index_merge_with_content' => true,
-            'customdata' => array()
-        );
+            'customdata' => []
+        ];
         $config = array_merge($simple_defaults, $config);
 
         // And complex ones
         if (!array_key_exists('storage', $config)) {
-            $config['storage'] = array(
+            $config['storage'] = [
                 'location' => 'parameter',
                 'domain' => 'midcom.helper.datamanager2'
-            );
+            ];
         } else {
             if (is_string($config['storage'])) {
-                $config['storage'] = array('location' => $config['storage']);
+                $config['storage'] = ['location' => $config['storage']];
             }
             if (strtolower($config['storage']['location']) === 'parameter') {
                 $config['storage']['location'] = strtolower($config['storage']['location']);
@@ -443,11 +443,11 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
 
         if (   !array_key_exists('type_config', $config)
             || !is_array($config['type_config'])) {
-            $config['type_config'] = array();
+            $config['type_config'] = [];
         }
         if (   !array_key_exists('widget_config', $config)
             || !is_array($config['type_config'])) {
-            $config['widget_config'] = array();
+            $config['widget_config'] = [];
         }
 
         $config['validation'] = $this->_complete_validation_field($config);
@@ -455,14 +455,14 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
 
     private function _complete_validation_field($config)
     {
-        $validation = array();
+        $validation = [];
         if (array_key_exists('validation', $config)) {
             $validation = (array) $config['validation'];
         }
 
         foreach ($validation as $key => $rule) {
             if (!is_array($rule)) {
-                $rule = array('type' => $rule);
+                $rule = ['type' => $rule];
             } elseif (!array_key_exists('type', $rule)) {
                 throw new midcom_error("Missing validation rule type for rule {$key} on field {$config['name']}, this is a required option.");
             } elseif (   $rule['type'] == 'compare'
@@ -470,10 +470,10 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 throw new midcom_error("Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");
             }
 
-            $defaults = array(
+            $defaults = [
                 'message' => "validation failed: {$rule['type']}",
                 'format' => ''
-            );
+            ];
 
             $validation[$key] = array_merge($defaults, $rule);
         }
@@ -491,7 +491,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      */
     public static function load_database($raw_db)
     {
-        static $loaded_dbs = array();
+        static $loaded_dbs = [];
         $path = null;
         if (is_string($raw_db)) {
             // Determine if the given string is a path - assume that a path
@@ -513,7 +513,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             throw new midcom_error("Provided DM2 schema is not in Array format.");
         }
 
-        $schemadb = array();
+        $schemadb = [];
 
         foreach (array_keys($raw_db) as $name) {
             $schemadb[$name] = new static($raw_db, $name, $path);

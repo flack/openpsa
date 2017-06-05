@@ -72,14 +72,14 @@ class midcom_services_auth
      *
      * @var Array
      */
-    private $_group_cache = array();
+    private $_group_cache = [];
 
     /**
      * Internal cache of all loaded users, indexed by their identifiers.
      *
      * @var Array
      */
-    private $_user_cache = array();
+    private $_user_cache = [];
 
     /**
      * This flag indicates if sudo mode is active during execution. This will only be the
@@ -877,7 +877,7 @@ class midcom_services_auth
 
         // Kill the session forcibly:
         @session_start();
-        $_SESSION = array();
+        $_SESSION = [];
         session_destroy();
     }
 

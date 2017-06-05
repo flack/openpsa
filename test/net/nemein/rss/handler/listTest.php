@@ -18,23 +18,23 @@ class net_nemein_rss_handler_listTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::create_user(true);
-        $data = array(
+        $data = [
             'component' => 'net.nehmer.blog',
             'name' => __CLASS__ . time()
-        );
+        ];
         self::$topic = self::create_class_object('midcom_db_topic', $data);
         self::$topic->set_parameter('net.nehmer.blog', 'rss_subscription_enable', true);
     }
 
     public function test_handler_opml()
     {
-        $data = $this->run_handler(self::$topic, array('__feeds', 'rss', 'feeds.opml'));
+        $data = $this->run_handler(self::$topic, ['__feeds', 'rss', 'feeds.opml']);
         $this->assertEquals('____feeds-rss-feeds_opml', $data['handler_id']);
     }
 
     public function test_handler_edit()
     {
-        $data = $this->run_handler(self::$topic, array('__feeds', 'rss', 'list'));
+        $data = $this->run_handler(self::$topic, ['__feeds', 'rss', 'list']);
         $this->assertEquals('____feeds-rss-feeds_list', $data['handler_id']);
     }
 }

@@ -20,8 +20,8 @@ class midcom_helper_filesync_exporter_snippet extends midcom_helper_filesync_exp
             mkdir($snippetdir_path);
         }
 
-        $filenames = array();
-        $foldernames = array();
+        $filenames = [];
+        $foldernames = [];
 
         $snippet_qb = midcom_db_snippet::new_query_builder();
         $snippet_qb->add_constraint('snippetdir', '=', $snippetdir->id);

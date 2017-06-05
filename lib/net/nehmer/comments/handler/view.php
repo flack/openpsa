@@ -99,13 +99,13 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                     && $this->_config->get('use_captcha_if_anonymous'))) {
                 $this->_schemadb['comment']->append_field(
                     'captcha',
-                    array(
+                    [
                         'title' => $this->_l10n_midcom->get('captcha field title'),
                         'storage' => null,
                         'type' => 'captcha',
                         'widget' => 'captcha',
                         'widget_config' => $this->_config->get('captcha_config'),
-                    )
+                    ]
                 );
             }
 
@@ -123,7 +123,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     {
         $this->_load_schemadb();
 
-        $defaults = array();
+        $defaults = [];
         if (midcom::get()->auth->user) {
             $defaults['author'] = midcom::get()->auth->user->name;
         }

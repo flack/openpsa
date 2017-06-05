@@ -259,7 +259,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
-        $data['defaults'] = array();
+        $data['defaults'] = [];
         if (   $handler_id == '____mfa-asgard-object_create_toplevel'
             || $handler_id == '____mfa-asgard-object_create_chooser') {
             midcom::get()->auth->require_user_do('midgard:create', null, $this->_new_type);
@@ -315,7 +315,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     private function _get_defaults()
     {
-        $defaults = array();
+        $defaults = [];
         if ($this->_object) {
             // Figure out the linking property
             $parent_property = null;
@@ -372,11 +372,11 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     private function _object_to_jsdata($object)
     {
-        $jsdata = array(
+        $jsdata = [
             'id' => (string) @$object->id,
             'guid' => @$object->guid,
             'pre_selected' => true
-        );
+        ];
 
         foreach (array_keys($this->_schemadb['object']->fields) as $field) {
             $value = @$object->$field;

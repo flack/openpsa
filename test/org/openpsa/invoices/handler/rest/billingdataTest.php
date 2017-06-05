@@ -20,13 +20,13 @@ class org_openpsa_invoices_handler_rest_billingdataTest extends openpsa_testcase
         self::$_person = self::create_user(true);
     }
 
-    private function perform_get_request($params = array())
+    private function perform_get_request($params = [])
     {
         $_SERVER["REQUEST_METHOD"] = "GET";
         $_GET = $params;
 
         ob_start();
-        $data = $this->run_handler('org.openpsa.invoices', array('rest', 'billingdata'));
+        $data = $this->run_handler('org.openpsa.invoices', ['rest', 'billingdata']);
         ob_end_clean();
 
         return $data['__openpsa_testcase_response'];
@@ -37,13 +37,13 @@ class org_openpsa_invoices_handler_rest_billingdataTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         // test invalid request
-        $response = $this->perform_get_request(array()); // invalid filter options, we need at least an id / guid
+        $response = $this->perform_get_request([]); // invalid filter options, we need at least an id / guid
 
         $this->assertEquals(500, $response->code);
         $this->assertEquals($response->_data["message"], "Invalid filter options");
 
         // test valid request
-        $response = $this->perform_get_request(array("guid" => "", "linkGuid" => self::$_person->guid));
+        $response = $this->perform_get_request(["guid" => "", "linkGuid" => self::$_person->guid]);
 
         $obj = $response->_data["object"];
 

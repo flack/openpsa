@@ -43,7 +43,7 @@ class datamanager
      *
      * @var array
      */
-    private $defaults = array();
+    private $defaults = [];
 
     /**
      *
@@ -203,7 +203,7 @@ class datamanager
 
     public function get_content_html()
     {
-        $ret = array();
+        $ret = [];
 
         $view = $this->get_form()->createView();
 

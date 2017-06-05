@@ -24,7 +24,7 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
      */
     public function get_leaves()
     {
-        $leaves = array();
+        $leaves = [];
         if ($this->_config->get('hide_navigation')) {
             return $leaves;
         }
@@ -48,12 +48,12 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
 
         foreach ($articles as $article) {
             $article_url = ($article->name == 'index') ? '' : "{$article->name}/";
-            $leaves[$article->id] = array(
+            $leaves[$article->id] = [
                 MIDCOM_NAV_URL => $article_url,
                 MIDCOM_NAV_NAME => $article->title ?: $article->name,
                 MIDCOM_NAV_GUID => $article->guid,
                 MIDCOM_NAV_OBJECT => $article,
-            );
+            ];
         }
 
         return $leaves;

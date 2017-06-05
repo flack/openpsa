@@ -85,12 +85,12 @@ class org_openpsa_calendar_vcal
                 // Attendee must have email address of valid format, these must also be unique.
                 $person->email = preg_replace('/[^0-9_\x61-\x7a]/i', '_', strtolower($person->name)) . '_is_not@openpsa2.org';
             }
-            $parameters = array(
+            $parameters = [
                 'ROLE' => 'REQ-PARTICIPANT',
                 'CUTYPE' => 'INDIVIDUAL',
                 'PARTSTAT' => 'ACCEPTED',
                 'CN' => $person->rname,
-            );
+            ];
             $vevent->add('ATTENDEE', "mailto:{$person->email}", $parameters);
         }
     }

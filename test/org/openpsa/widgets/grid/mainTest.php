@@ -29,7 +29,7 @@ class org_openpsa_widgets_grid_mainTest extends openpsa_testcase
     {
         $grid = new org_openpsa_widgets_grid('test', 'local');
         $this->assertNull($grid->get_provider());
-        $provider = new org_openpsa_widgets_grid_provider(array());
+        $provider = new org_openpsa_widgets_grid_provider([]);
         $grid->set_provider($provider);
         $this->assertEquals($provider, $grid->get_provider());
     }

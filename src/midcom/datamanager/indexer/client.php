@@ -17,7 +17,7 @@ abstract class client extends midcom_services_indexer_client
 {
     public function process_results($name, array $results, $datamanager)
     {
-        $documents = array();
+        $documents = [];
 
         foreach ($results as $object) {
             if (!$datamanager->set_storage($object)) {

@@ -18,7 +18,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      *
      * @var array
      */
-    public $root_types = array();
+    public $root_types = [];
 
     /**
      * Some object
@@ -32,12 +32,12 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      *
      * @var Array
      */
-    private $_object_path = array();
+    private $_object_path = [];
 
-    private $_reflectors = array();
-    private $_request_data = array();
-    private $expanded_root_types = array();
-    protected $shown_objects = array();
+    private $_reflectors = [];
+    private $_request_data = [];
+    private $expanded_root_types = [];
+    protected $shown_objects = [];
 
     public function __construct($object, &$request_data)
     {
@@ -111,7 +111,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
         $ref = $this->_get_reflector($object);
 
-        $child_types = array();
+        $child_types = [];
         foreach ($ref->get_child_classes() as $class) {
             $qb = $ref->_child_objects_type_qb($class, $object, false);
 
@@ -123,14 +123,14 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             if ($this->_is_collapsed($class, $count)) {
                 $qb->set_limit($this->_config->get('max_navigation_entries'));
             }
-            $child_types[$class] = array('total' => $count, 'qb' => $qb);
+            $child_types[$class] = ['total' => $count, 'qb' => $qb];
         }
 
         if (!empty($child_types)) {
             echo "<ul>\n";
             foreach ($child_types as $type => $data) {
                 $children = $data['qb']->execute();
-                $label_mapping = array();
+                $label_mapping = [];
                 foreach ($children as $i => $child) {
                     if (isset($this->shown_objects[$child->guid])) {
                         continue;
@@ -176,7 +176,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
         $root_objects = $qb->execute();
 
-        $label_mapping = array();
+        $label_mapping = [];
         foreach ($root_objects as $i => $object) {
             $label_mapping[$i] = htmlspecialchars($ref->get_object_label($object));
         }
@@ -256,7 +256,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
                 && ($this->_request_data['plugin_name'] == "asgard_{$component}")) {
                 $this->_request_data['expanded'] = true;
                 midcom_show_style('midgard_admin_asgard_navigation_section_header');
-                call_user_func(array($class, 'navigation'));
+                call_user_func([$class, 'navigation']);
             } else {
                 $this->_request_data['expanded'] = false;
                 midcom_show_style('midgard_admin_asgard_navigation_section_header');
@@ -305,7 +305,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     private function _process_root_types()
     {
         // Included or excluded types
-        $types = array();
+        $types = [];
 
         // Get the types that might have special display conditions
         if (   $this->_config->get('midgard_types')
@@ -345,7 +345,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $types = array_intersect($this->root_types, $types);
         }
 
-        $label_mapping = array();
+        $label_mapping = [];
         foreach ($types as $root_type) {
             // If the regular expression has been set, check which types should be shown
             if (   $regexp !== '//'
@@ -449,7 +449,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $this->_request_data['navigation_type'] = '';
         }
 
-        $label_mapping = array();
+        $label_mapping = [];
 
         foreach ($this->root_types as $root_type) {
             $ref = $this->_get_reflector($root_type);

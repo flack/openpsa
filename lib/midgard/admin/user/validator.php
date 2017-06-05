@@ -23,7 +23,7 @@ class midgard_admin_user_validator
      */
     public function is_username_available(array $fields)
     {
-        $result = array();
+        $result = [];
         if (!empty($fields["username"])) {
             $user = midcom::get()->auth->get_user_by_name($fields["username"]);
 

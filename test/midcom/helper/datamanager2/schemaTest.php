@@ -24,13 +24,13 @@ class midcom_helper_datamanager2_schemaTest extends openpsa_testcase
         $this->assertInstanceOf('midcom_helper_datamanager2_schema', $db['default']);
         $this->assertEquals('default', $db['default']->name);
         $this->assertEquals('invoice', $db['default']->description);
-        $this->assertEquals(array(), $db['default']->customdata);
-        $this->assertEquals(array(), $db['default']->validation);
-        $this->assertEquals(array(), $db['default']->filters);
+        $this->assertEquals([], $db['default']->customdata);
+        $this->assertEquals([], $db['default']->validation);
+        $this->assertEquals([], $db['default']->filters);
         $this->assertInstanceOf('midcom_services_i18n_l10n', $db['default']->l10n_schema);
 
-        $db['default']->validation = array('TEST');
+        $db['default']->validation = ['TEST'];
         $db = midcom_helper_datamanager2_schema::load_database($filename);
-        $this->assertEquals(array(), $db['default']->validation);
+        $this->assertEquals([], $db['default']->validation);
     }
 }

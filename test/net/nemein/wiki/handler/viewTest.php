@@ -18,17 +18,17 @@ class net_nemein_wiki_handler_viewTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $topic_attributes = array(
+        $topic_attributes = [
             'component' => 'net.nemein.wiki',
             'name' => __CLASS__ . time(),
             'extra' => __CLASS__ . time()
-        );
+        ];
         self::$_topic = self::create_class_object('midcom_db_topic', $topic_attributes);
-        $article_properties = array(
+        $article_properties = [
             'topic' => self::$_topic->id,
             'title' => __CLASS__ . ' ' . time(),
             'content' => midcom::get()->i18n->get_l10n('net.nemein.wiki')->get('wiki default page content')
-        );
+        ];
         self::$_page = self::create_class_object('net_nemein_wiki_wikipage', $article_properties);
     }
 
@@ -50,21 +50,21 @@ class net_nemein_wiki_handler_viewTest extends openpsa_testcase
 
     public function testHandler_view()
     {
-        $data = $this->run_handler(self::$_topic, array(self::$_page->name));
+        $data = $this->run_handler(self::$_topic, [self::$_page->name]);
         $this->assertEquals('view', $data['handler_id']);
         $this->show_handler($data);
     }
 
     public function testHandler_raw()
     {
-        $data = $this->run_handler(self::$_topic, array('raw', self::$_page->name));
+        $data = $this->run_handler(self::$_topic, ['raw', self::$_page->name]);
         $this->assertEquals('raw', $data['handler_id']);
         $this->show_handler($data);
     }
 
     public function testHandler_whatlinks()
     {
-        $data = $this->run_handler(self::$_topic, array('whatlinks', self::$_page->name));
+        $data = $this->run_handler(self::$_topic, ['whatlinks', self::$_page->name]);
         $this->assertEquals('whatlinks', $data['handler_id']);
         $this->show_handler($data);
     }
@@ -76,7 +76,7 @@ class net_nemein_wiki_handler_viewTest extends openpsa_testcase
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST['subscribe'] = true;
 
-        $url = $this->run_relocate_handler(self::$_topic, array('subscribe', self::$_page->name));
+        $url = $this->run_relocate_handler(self::$_topic, ['subscribe', self::$_page->name]);
         $this->assertEquals(self::$_page->name . '/', $url);
     }
 }

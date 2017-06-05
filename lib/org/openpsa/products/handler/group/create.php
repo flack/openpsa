@@ -53,7 +53,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_defaults()
     {
-        $defaults = array();
+        $defaults = [];
         $qb = org_openpsa_products_product_group_dba::new_query_builder();
         $qb->add_constraint('up', '=', $this->_request_data['up']);
         $existing_groups = $qb->count_unchecked();
@@ -106,10 +106,10 @@ implements midcom_helper_datamanager2_interfaces_create
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
 
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $data['controller'],
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         return $workflow->run();
     }
 

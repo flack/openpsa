@@ -66,7 +66,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         }
 
         // Only first instance of AJAX controller for an object per view is actually editable
-        static $usedform_identifiers = array();
+        static $usedform_identifiers = [];
         if (array_key_exists($this->form_identifier, $usedform_identifiers)) {
             $this->_editable = false;
             return false;
@@ -186,10 +186,10 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
             $this->allow_removal = false;
         }
 
-        $config = array(
+        $config = [
             'mode' => $mode,
             'allow_removal' => $this->allow_removal
-        );
+        ];
 
         return json_encode($config);
     }
@@ -203,7 +203,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     {
         $is_editable = $this->_is_ajax_editable();
 
-        $result = array();
+        $result = [];
         foreach ($this->datamanager->schema->field_order as $name) {
             $html_contents = $this->datamanager->types[$name]->convert_to_html();
             // Composite type has its own AJAX controller so we don't want to add triggers to this AJAX controller

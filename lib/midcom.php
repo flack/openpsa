@@ -33,12 +33,12 @@ class midcom
      *
      * @var Array
      */
-    private static $_services = array();
+    private static $_services = [];
 
     /**
      * Mapping of service names to classes implementing the service
      */
-    private static $_service_classes = array(
+    private static $_service_classes = [
         'auth' => 'midcom_services_auth',
         'componentloader' => 'midcom_helper__componentloader',
         'cache' => 'midcom_services_cache',
@@ -59,7 +59,7 @@ class midcom
         'tmp' => 'midcom_services_tmp',
         'toolbars' => 'midcom_services_toolbars',
         'uimessages' => 'midcom_services_uimessages',
-    );
+    ];
 
     public static function init()
     {

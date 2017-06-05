@@ -25,18 +25,18 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _prepare_toolbar($handler_id)
     {
-        $buttons = array(
-            array(
+        $buttons = [
+            [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$this->_request_data['name']}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
-            ),
-            array(
+            ],
+            [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/edit/{$this->_request_data['name']}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-            )
-        );
+            ]
+        ];
         $this->_request_data['asgard_toolbar']->add_items($buttons);
 
         switch ($handler_id) {
@@ -315,7 +315,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     private function _get_config_from_controller()
     {
         $post = $this->_controller->formmanager->form->getSubmitValues();
-        $config_array = array();
+        $config_array = [];
         foreach ($this->_request_data['config']->_global as $key => $val) {
             if (isset($post[$key])) {
                 $newval = $post[$key];
@@ -451,11 +451,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _detect_schema($key, $value)
     {
-        $result = array(
+        $result = [
             'title'       => $key,
             'type'        => 'text',
             'widget'      => 'text',
-        );
+        ];
 
         $type = gettype($value);
         switch ($type) {

@@ -27,7 +27,7 @@ ignore_user_abort(true);
 midcom::get()->disable_limits();
 
 $nap = new midcom_helper_nav();
-$nodes = array();
+$nodes = [];
 $nodeid = $nap->get_root_node();
 $loader = midcom::get()->componentloader;
 $indexer = midcom::get()->indexer;

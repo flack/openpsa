@@ -17,7 +17,7 @@ class org_openpsa_products_handler_group_csvimportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.products');
 
-        $data = $this->run_handler('org.openpsa.products', array('import', 'group', 'csv'));
+        $data = $this->run_handler('org.openpsa.products', ['import', 'group', 'csv']);
         $this->assertEquals('import_group_csv', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

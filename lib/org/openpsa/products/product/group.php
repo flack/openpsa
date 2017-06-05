@@ -64,16 +64,16 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
      * @param array $label_fields  Object properties to show in the label (will be shown space separated)
      * @return array
      */
-    public static function list_groups($up = 0, $prefix = '', $keyproperty = 'id', $order_by_score = false, $label_fields = array('code', 'title'))
+    public static function list_groups($up = 0, $prefix = '', $keyproperty = 'id', $order_by_score = false, $label_fields = ['code', 'title'])
     {
-        static $result_cache = array();
+        static $result_cache = [];
 
         $cache_key = md5($up . $keyproperty . $prefix . $order_by_score . implode('', $label_fields));
         if (isset($result_cache[$cache_key])) {
             return $result_cache[$cache_key];
         }
 
-        $result_cache[$cache_key] = array();
+        $result_cache[$cache_key] = [];
         $ret =& $result_cache[$cache_key];
 
         if (empty($up)) {
@@ -89,7 +89,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
             $up = $group->id;
         }
 
-        $value_properties = array('title', 'code', 'id');
+        $value_properties = ['title', 'code', 'id'];
         if ($keyproperty !== 'id') {
             $value_properties[] = $keyproperty;
         }

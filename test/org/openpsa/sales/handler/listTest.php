@@ -27,22 +27,22 @@ class org_openpsa_sales_handler_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.sales');
         $this->assertEquals('frontpage', $data['handler_id']);
 
-        $data = $this->run_handler('org.openpsa.sales', array('list', 'lost'));
+        $data = $this->run_handler('org.openpsa.sales', ['list', 'lost']);
         $this->assertEquals('list_state', $data['handler_id']);
 
-        $data = $this->run_handler('org.openpsa.sales', array('list', 'canceled'));
+        $data = $this->run_handler('org.openpsa.sales', ['list', 'canceled']);
         $this->assertEquals('list_state', $data['handler_id']);
 
-        $data = $this->run_handler('org.openpsa.sales', array('list', 'active'));
+        $data = $this->run_handler('org.openpsa.sales', ['list', 'active']);
         $this->assertEquals('list_state', $data['handler_id']);
 
-        $data = $this->run_handler('org.openpsa.sales', array('list', 'won'));
+        $data = $this->run_handler('org.openpsa.sales', ['list', 'won']);
         $this->assertEquals('list_state', $data['handler_id']);
 
-        $data = $this->run_handler('org.openpsa.sales', array('list', 'delivered'));
+        $data = $this->run_handler('org.openpsa.sales', ['list', 'delivered']);
         $this->assertEquals('list_state', $data['handler_id']);
 
-        $data = $this->run_handler('org.openpsa.sales', array('list', 'invoiced'));
+        $data = $this->run_handler('org.openpsa.sales', ['list', 'invoiced']);
         $this->assertEquals('list_state', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

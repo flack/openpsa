@@ -45,7 +45,7 @@ class midcom_services_cache implements EventSubscriberInterface
      *
      * @var Array
      */
-    private $_modules = array();
+    private $_modules = [];
 
     /**
      * List of all modules in the order they need to be unloaded. This is a FILO queue, the
@@ -53,7 +53,7 @@ class midcom_services_cache implements EventSubscriberInterface
      *
      * @var Array
      */
-    private $_unload_queue = array();
+    private $_unload_queue = [];
 
     /**
      * Cache service startup. It initializes all cache modules configured in the
@@ -64,19 +64,19 @@ class midcom_services_cache implements EventSubscriberInterface
      */
     public function __construct()
     {
-        array_map(array($this, 'load_module'), midcom::get()->config->get('cache_autoload_queue'));
+        array_map([$this, 'load_module'], midcom::get()->config->get('cache_autoload_queue'));
         midcom::get()->dispatcher->addSubscriber($this);
     }
 
     public static function getSubscribedEvents()
     {
-        return array(
-            dbaevent::CREATE => array('handle_create'),
-            dbaevent::UPDATE => array('handle_update'),
-            dbaevent::DELETE => array('handle_event'),
-            dbaevent::APPROVE => array('handle_event'),
-            dbaevent::UNAPPROVE => array('handle_event'),
-        );
+        return [
+            dbaevent::CREATE => ['handle_create'],
+            dbaevent::UPDATE => ['handle_update'],
+            dbaevent::DELETE => ['handle_event'],
+            dbaevent::APPROVE => ['handle_event'],
+            dbaevent::UNAPPROVE => ['handle_event'],
+        ];
     }
 
     public function handle_event(dbaevent $event)

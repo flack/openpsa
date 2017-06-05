@@ -34,7 +34,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->provider = new org_openpsa_widgets_grid_provider($this);
     }
 
-    public function get_qb($field = null, $direction = 'ASC', array $search = array())
+    public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
         $qb = org_openpsa_products_product_dba::new_query_builder();
 
@@ -96,7 +96,7 @@ implements org_openpsa_widgets_grid_provider_client
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $link_html = "<a href='{$prefix}product/{$object->guid}/'>";
 
-        return array(
+        return [
             'id' => $object->id,
             'index_code' => $object->code,
             'code' => $link_html . $object->code . '</a>',
@@ -106,7 +106,7 @@ implements org_openpsa_widgets_grid_provider_client
             'delivery' => $object->delivery,
             'orgOpenpsaObtype' => $object->orgOpenpsaObtype,
             'unit' => $object->unit
-        );
+        ];
     }
 
     /**
@@ -168,10 +168,10 @@ implements org_openpsa_widgets_grid_provider_client
 
         if (!empty($this->_request_data['group'])) {
             $workflow = $this->get_workflow('datamanager2');
-            $this->_view_toolbar->add_item($workflow->get_button("edit/{$this->_request_data['group']->guid}/", array(
+            $this->_view_toolbar->add_item($workflow->get_button("edit/{$this->_request_data['group']->guid}/", [
                 MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )));
+            ]));
             if ($this->_request_data['group']->orgOpenpsaObtype == org_openpsa_products_product_group_dba::TYPE_SMART) {
                 $allow_create_product = false;
             }
@@ -189,14 +189,14 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $workflow = $this->get_workflow('datamanager2');
         foreach (array_keys($this->_request_data[$schemadb_name]) as $name) {
-            $config = array(
+            $config = [
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . $default_icon . '.png',
                 MIDCOM_TOOLBAR_ENABLED => $allowed,
                 MIDCOM_TOOLBAR_LABEL => sprintf(
                     $this->_l10n_midcom->get('create %s'),
                     $this->_l10n->get($this->_request_data[$schemadb_name][$name]->description)
                 ),
-            );
+            ];
             if (isset($this->_request_data[$schemadb_name][$name]->customdata['icon'])) {
                 $config[MIDCOM_TOOLBAR_ICON] = $this->_request_data[$schemadb_name][$name]->customdata['icon'];
             }

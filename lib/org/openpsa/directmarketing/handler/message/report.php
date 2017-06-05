@@ -46,10 +46,10 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      */
     private function _analyze_message_report(array $data)
     {
-        $this->_request_data['report'] = array(
-            'campaign_data' => array(),
-            'receipt_data' => array()
-        );
+        $this->_request_data['report'] = [
+            'campaign_data' => [],
+            'receipt_data' => []
+        ];
         $qb_receipts = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb_receipts->add_constraint('message', '=', $this->_message->id);
         $qb_receipts->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
@@ -110,22 +110,22 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
     private function _get_link_data($segmentation_param)
     {
-        $this->_request_data['report']['link_data'] = array();
+        $this->_request_data['report']['link_data'] = [];
         $link_data =& $this->_request_data['report']['link_data'];
 
-        $link_data['counts'] = array();
-        $link_data['percentages'] = array('of_links' => array(), 'of_recipients' => array());
-        $link_data['rules'] = array();
-        $link_data['tokens'] = array();
+        $link_data['counts'] = [];
+        $link_data['percentages'] = ['of_links' => [], 'of_recipients' => []];
+        $link_data['rules'] = [];
+        $link_data['tokens'] = [];
         if ($segmentation_param) {
-            $link_data['segments'] = array();
+            $link_data['segments'] = [];
         }
-        $segment_prototype = array(
-            'counts' => array(),
-            'percentages' => array('of_links' => array(), 'of_recipients' => array()),
-            'rules' => array(),
-            'tokens' => array()
-        );
+        $segment_prototype = [
+            'counts' => [],
+            'percentages' => ['of_links' => [], 'of_recipients' => []],
+            'rules' => [],
+            'tokens' => []
+        ];
 
         $qb_links = org_openpsa_directmarketing_link_log_dba::new_query_builder();
         $qb_links->add_constraint('message', '=', $this->_message->id);
@@ -168,28 +168,28 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 $segment_data['rules'][$link->target] = $link_data['rules'][$link->target];
 
                 if (!$segment_notfound) {
-                    $segmentrule = array(
+                    $segmentrule = [
                         'comment' => $this->_l10n->get('segment limits'),
                         'type' => 'AND',
                         'class' => 'org_openpsa_contacts_person_dba',
-                        'rules' => array(
-                            array(
+                        'rules' => [
+                            [
                                 'property' => 'parameter.domain',
                                 'match' => '=',
                                 'value' => 'org.openpsa.directmarketing.segments',
-                            ),
-                            array(
+                            ],
+                            [
                                 'property' => 'parameter.name',
                                 'match' => '=',
                                 'value' => $segmentation_param,
-                            ),
-                            array(
+                            ],
+                            [
                                 'property' => 'parameter.value',
                                 'match' => '=',
                                 'value' => $segment,
-                            ),
-                        ),
-                    );
+                            ],
+                        ],
+                    ];
                     // On a second thought, we cannot query for empty parameter values...
                     $segment_data['rules'][$link->target]['comment'] = sprintf($this->_l10n->get('all persons in market segment "%s" who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d'), $segment, $link->target, $link->message, $this->_message->campaign);
                     $segment_data['rules'][$link->target]['classes'][] = $segmentrule;
@@ -212,48 +212,48 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
     private function _generate_link_rules(org_openpsa_directmarketing_link_log_dba $link)
     {
-        return array(
+        return [
             'comment' => sprintf($this->_l10n->get('all persons who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d'), $link->target, $link->message, $this->_message->campaign),
             'type' => 'AND',
-            'classes' => array(
-                array(
+            'classes' => [
+                [
                     'comment' => $this->_l10n->get('link and message limits'),
                     'type' => 'AND',
                     'class' => 'org_openpsa_directmarketing_link_log_dba',
-                    'rules' => array(
-                        array(
+                    'rules' => [
+                        [
                             'property' => 'target',
                             'match' => '=',
                             'value' => $link->target,
-                        ),
+                        ],
                         // PONDER: do we want to limit to this message only ??
-                        array(
+                        [
                             'property' => 'message',
                             'match' => '=',
                             'value' => $link->message,
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
                 // Add rule that prevents unsubscribed persons from ending up to the smart-campaign ??
-                array(
+                [
                     'comment' => $this->_l10n->get('not-unsubscribed -limits'),
                     'type' => 'AND',
                     'class' => 'org_openpsa_directmarketing_campaign_member_dba',
-                    'rules' => array(
-                        array(
+                    'rules' => [
+                        [
                             'property' => 'orgOpenpsaObtype',
                             'match' => '<>',
                             'value' => org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED,
-                        ),
-                        array(
+                        ],
+                        [
                             'property' => 'campaign',
                             'match' => '=',
                             'value' => $this->_message->campaign,
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     private function _calculate_percentages(&$array, $link)
@@ -278,7 +278,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     private function _initialize_field(&$array, $link)
     {
         if (!isset($array[$link->target])) {
-            $array[$link->target] = array();
+            $array[$link->target] = [];
             $array[$link->target]['total'] = 0;
         }
         if (!isset($array[$link->target][$link->token])) {
@@ -345,21 +345,21 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
         $this->add_breadcrumb("message/report/{$this->_message->guid}/", sprintf($this->_l10n->get('report for message %s'), $this->_message->title));
 
-        $buttons = array(
-            array(
+        $buttons = [
+            [
                 MIDCOM_TOOLBAR_URL => "message/{$this->_message->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-            ),
-            array(
+            ],
+            [
                 MIDCOM_TOOLBAR_URL => "message/compose/{$this->_message->guid}/" . midcom::get()->auth->user->guid . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('preview message'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'p',
                 MIDCOM_TOOLBAR_ENABLED => $this->_message->can_do('midgard:read'),
-                MIDCOM_TOOLBAR_OPTIONS => array('target' => '_BLANK'),
-            )
-        );
+                MIDCOM_TOOLBAR_OPTIONS => ['target' => '_BLANK'],
+            ]
+        ];
         $this->_view_toolbar->add_items($buttons);
         $this->_analyze_message_report($data);
     }

@@ -57,29 +57,29 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
      */
     private function _populate_node_toolbar()
     {
-        $buttons = array();
+        $buttons = [];
         if ($this->_topic->can_do('midgard:update')) {
             if ($this->_topic->can_do('midgard:create')) {
-                $buttons[] = array(
+                $buttons[] = [
                     MIDCOM_TOOLBAR_URL => 'export/product/csv/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('export products'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('export products'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editshred.png',
-                );
-                $buttons[] = array(
+                ];
+                $buttons[] = [
                     MIDCOM_TOOLBAR_URL => 'import/product/csv/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import products'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('import products from csv-file'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editshred.png',
-                );
+                ];
             }
             if ($this->_topic->can_do('midcom:component_config')) {
                 $workflow = $this->get_workflow('datamanager2');
-                $buttons[] = $workflow->get_button('config/', array(
+                $buttons[] = $workflow->get_button('config/', [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
-                ));
+                ]);
             }
         }
         $this->_node_toolbar->add_items($buttons);
@@ -126,23 +126,23 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             if (!empty($feeds)) {
                 foreach ($feeds as $title => $url) {
                     midcom::get()->head->add_link_head(
-                        array(
+                        [
                             'rel'   => 'alternate',
                             'type'  => 'application/rss+xml',
                             'title' => $this->_l10n->get($title),
                             'href'  => $url,
-                        )
+                        ]
                     );
                 }
             }
         } else {
             midcom::get()->head->add_link_head(
-                array(
+                [
                     'rel'   => 'alternate',
                     'type'  => 'application/rss+xml',
                     'title' => $this->_l10n->get('updated products'),
                     'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
-                )
+                ]
             );
         }
     }
@@ -154,26 +154,26 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
      */
     public function update_breadcrumb_line($object)
     {
-        $tmp = array();
+        $tmp = [];
         $root_group = $this->_config->get('root_group');
 
         while ($object) {
             $parent = $object->get_parent();
 
             if ($object instanceof org_openpsa_products_product_dba) {
-                $tmp[] = array(
+                $tmp[] = [
                     MIDCOM_NAV_URL => "product/{$object->guid}/",
                     MIDCOM_NAV_NAME => $object->title,
-                );
+                ];
             } else {
                 if ($object->guid === $root_group) {
                     break;
                 }
 
-                $tmp[] = array(
+                $tmp[] = [
                     MIDCOM_NAV_URL => $object->guid . '/',
                     MIDCOM_NAV_NAME => $object->title,
-                );
+                ];
             }
             $object = $parent;
         }
@@ -184,7 +184,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     {
         $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options');
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.products');
-        $options = array();
+        $options = [];
         foreach ($unit_options as $key => $name) {
             $options[$key] = $l10n->get($name);
         }

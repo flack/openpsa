@@ -54,7 +54,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
             $inherit_label = $this->_l10n->get('widget privilege: inherit');
         }
 
-        $elements = array();
+        $elements = [];
 
         $elements[] = $this->_form->createElement(
             'radio',
@@ -62,7 +62,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
             MIDCOM_PRIVILEGE_ALLOW,
             $this->_l10n->get('widget privilege: allow'),
             MIDCOM_PRIVILEGE_ALLOW,
-            array('class' => 'radiobutton')
+            ['class' => 'radiobutton']
         );
         $elements[] = $this->_form->createElement(
             'radio',
@@ -70,7 +70,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
             MIDCOM_PRIVILEGE_DENY,
             $this->_l10n->get('widget privilege: deny'),
             MIDCOM_PRIVILEGE_DENY,
-            array('class' => 'radiobutton')
+            ['class' => 'radiobutton']
         );
         $elements[] = $this->_form->createElement(
             'radio',
@@ -78,7 +78,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
             MIDCOM_PRIVILEGE_INHERIT,
             $inherit_label,
             MIDCOM_PRIVILEGE_INHERIT,
-            array('class' => 'radiobutton')
+            ['class' => 'radiobutton']
         );
 
         $this->_elements = $elements;
@@ -89,7 +89,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
             $this->_translate($this->_field['title']),
             "&nbsp;"
         );
-        $group->setAttributes(array('class' => 'radiobox'));
+        $group->setAttributes(['class' => 'radiobox']);
     }
 
     public function get_default()

@@ -119,12 +119,12 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         // Add RSS feed to headers
         if ($this->_config->get('rss_enable')) {
             midcom::get()->head->add_link_head(
-                array(
+                [
                     'rel'   => 'alternate',
                     'type'  => 'application/rss+xml',
                     'title' => $this->_l10n->get('rss 2.0 feed') . ": {$this->_request_data['category']}",
                     'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "feeds/category/{$this->_request_data['category']}/",
-                )
+                ]
             );
         }
         return true;
@@ -176,7 +176,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
                     $data['node'] = $nap->get_node($article->topic);
                 }
 
-                midcom_show_style('index-item', array($article->guid));
+                midcom_show_style('index-item', [$article->guid]);
             }
         } else {
             midcom_show_style('index-empty');

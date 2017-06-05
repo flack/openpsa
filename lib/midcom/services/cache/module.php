@@ -28,7 +28,7 @@ abstract class midcom_services_cache_module
      *
      * @var Doctrine\Common\Cache\CacheProvider[]
      */
-    protected $_backends = array();
+    protected $_backends = [];
 
     /**
      * The cache key prefix.
@@ -128,7 +128,7 @@ abstract class midcom_services_cache_module
                 break;
             case 'sqlite':
                 $sqlite = new SQLite3("{$directory}/{$name}.db");
-                $table = str_replace(array('.', '-'), '_', $name);
+                $table = str_replace(['.', '-'], '_', $name);
                 $backend = new Cache\SQLite3Cache($sqlite, $table);
                 break;
             case 'null':
@@ -137,7 +137,7 @@ abstract class midcom_services_cache_module
                 break;
         }
 
-        $cache = new Cache\ChainCache(array(new Cache\ArrayCache, $backend));
+        $cache = new Cache\ChainCache([new Cache\ArrayCache, $backend]);
         $cache->memcache_operational = $memcache_operational;
         return $cache;
     }

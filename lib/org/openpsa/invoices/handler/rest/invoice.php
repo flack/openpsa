@@ -38,16 +38,16 @@ class org_openpsa_invoices_handler_rest_invoice extends midcom_baseclasses_compo
         $qb->add_constraint("customerContact", "=", $person->id);
         $invoices = $qb->execute();
 
-        $data = array();
+        $data = [];
         foreach ($invoices as $invoice) {
             $date = $invoice->date ? $invoice->date : $invoice->metadata->created;
-            $data[] = array(
+            $data[] = [
                 "guid" => $invoice->guid,
                 "number" => $invoice->number,
                 "date" => $date,
                 "status" => $invoice->get_status(),
                 "sum" => $invoice->sum
-            );
+            ];
         }
 
         $this->_responseStatus = 200;

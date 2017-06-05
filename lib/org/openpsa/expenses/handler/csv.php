@@ -22,7 +22,7 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
             && strpos($_GET['filename'], '.csv')) {
             $data['filename'] = $_GET['filename'];
         }
-        return array(midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours')));
+        return [midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours'))];
     }
 
     public function _load_data($handler_id, &$args, &$data)

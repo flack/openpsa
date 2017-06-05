@@ -54,7 +54,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->formatter = $this->_l10n->get_formatter();
     }
 
-    public function get_qb($field = null, $direction = 'ASC', array $search = array())
+    public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
         $qb = org_openpsa_invoices_invoice_dba::new_collector();
         if (!is_null($field)) {
@@ -89,7 +89,7 @@ implements org_openpsa_widgets_grid_provider_client
     public function get_row(midcom_core_dbaobject $invoice)
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $entry = array();
+        $entry = [];
         $number = $invoice->get_label();
         $link_html = "<a href='{$prefix}invoice/{$invoice->guid}/'>" . $number . "</a>";
 
@@ -120,10 +120,10 @@ implements org_openpsa_widgets_grid_provider_client
         }
 
         if (!empty($this->_request_data['deliverable'])) {
-            $constraints = array(
+            $constraints = [
                 'invoice' => $invoice->id,
                 'deliverable' => $this->_request_data['deliverable']->id
-            );
+            ];
             $item_sum = org_openpsa_invoices_invoice_item_dba::get_sum($constraints);
             $this->_request_data['totals']['deliverable'] += $item_sum;
             $entry['index_item_sum'] = $item_sum;
@@ -180,11 +180,11 @@ implements org_openpsa_widgets_grid_provider_client
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
             $workflow = $this->get_workflow('datamanager2');
-            $this->_node_toolbar->add_item($workflow->get_button('config/', array(
+            $this->_node_toolbar->add_item($workflow->get_button('config/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
-            )));
+            ]));
         }
 
         $this->_request_data['customer'] = $this->_customer;
@@ -294,28 +294,28 @@ implements org_openpsa_widgets_grid_provider_client
             $this->_customer = new org_openpsa_contacts_person_dba($args[0]);
         }
         $data['customer'] = $this->_customer;
-        $buttons = array();
+        $buttons = [];
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {
             $workflow = $this->get_workflow('datamanager2');
-            $buttons[] = $workflow->get_button("invoice/new/{$this->_customer->guid}/", array(
+            $buttons[] = $workflow->get_button("invoice/new/{$this->_customer->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-            ));
+            ]);
 
             if ($this->_customer->can_do('midgard:create')) {
-                $buttons[] = $workflow->get_button("billingdata/" . $this->_customer->guid . "/", array(
+                $buttons[] = $workflow->get_button("billingdata/" . $this->_customer->guid . "/", [
                     MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('edit billingdata', 'org.openpsa.contacts'),
-                    MIDCOM_TOOLBAR_OPTIONS => array('data-refresh-opener' => 'false'),
-                ));
+                    MIDCOM_TOOLBAR_OPTIONS => ['data-refresh-opener' => 'false'],
+                ]);
             }
         }
 
         if ($this->_request_data['contacts_url']) {
-            $buttons[] = array(
+            $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $this->_request_data['contacts_url'] . (is_a($this->_customer, 'org_openpsa_contacts_group_dba') ? 'group' : 'person') . "/{$this->_customer->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-            );
+            ];
         }
         $this->_view_toolbar->add_items($buttons);
 
@@ -356,11 +356,11 @@ implements org_openpsa_widgets_grid_provider_client
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         if ($sales_url = $siteconfig->get_node_full_url('org.openpsa.sales')) {
             $this->_view_toolbar->add_item(
-                array(
+                [
                     MIDCOM_TOOLBAR_URL => $sales_url . "deliverable/{$this->_deliverable->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to deliverable'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-                )
+                ]
             );
         }
 

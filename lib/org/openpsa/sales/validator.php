@@ -18,7 +18,7 @@ class org_openpsa_sales_validator
         $result = $this->validate_units($fields);
 
         if ($result === true) {
-            $result = array();
+            $result = [];
         }
         if (   (   empty($fields['end_date'])
                 || $fields['end_date'] == '0000-00-00')
@@ -33,7 +33,7 @@ class org_openpsa_sales_validator
 
     public function validate_units(array $fields)
     {
-        $result = array();
+        $result = [];
         if (   empty($fields['invoiceByActualUnits'])
             && empty($fields['plannedUnits'])) {
             $result['plannedUnits'] = midcom::get()->i18n->get_string('select either planned units or invoice by actual units', 'org.openpsa.sales');

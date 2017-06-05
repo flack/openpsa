@@ -32,14 +32,14 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      *
      * @var array
      */
-    private $_target_classes = array();
+    private $_target_classes = [];
 
     /**
      * Additional constraints for the QBs used to find the related objects
      *
      * @var array
      */
-    private $_object_constraints = array();
+    private $_object_constraints = [];
 
     /**
      * Limit for the QBs used to find the related objects
@@ -53,7 +53,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      *
      * @var array
      */
-    private $_object_orders = array();
+    private $_object_orders = [];
 
     /**
      * Constructor, takes one or more object guids and classnames and constructs a collector accordingly.
@@ -104,11 +104,11 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      */
     public function add_object_constraint($field, $operator, $value)
     {
-        $this->_object_constraints[] = array(
+        $this->_object_constraints[] = [
             'field' => $field,
             'operator' => $operator,
             'value' => $value
-        );
+        ];
     }
 
     /**
@@ -119,10 +119,10 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      */
     public function add_object_order($field, $direction)
     {
-        $this->_object_orders[] = array(
+        $this->_object_orders[] = [
             'field' => $field,
             'direction' => $direction
-        );
+        ];
     }
 
     /**
@@ -178,11 +178,11 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      */
     public function get_related_objects_grouped_by($key)
     {
-        $entries = array();
-        $guids = array();
+        $entries = [];
+        $guids = [];
 
         $this->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
-        $relations = $this->get_rows(array($key));
+        $relations = $this->get_rows([$key]);
 
         if (count($relations) == 0) {
             return $entries;
@@ -191,20 +191,20 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         foreach ($relations as $relation) {
             $group_value = $relation[$key];
             if (!array_key_exists($group_value, $guids)) {
-                $guids[$group_value] = array();
+                $guids[$group_value] = [];
             }
             $guids[$group_value][] = $relation[$this->_other_prefix . 'Guid'];
         }
 
         foreach ($guids as $group_value => $grouped_guids) {
             foreach ($this->_target_classes as $classname) {
-                $qb = call_user_func(array($classname, 'new_query_builder'));
+                $qb = call_user_func([$classname, 'new_query_builder']);
                 $qb->add_constraint('guid', 'IN', $grouped_guids);
                 $this->_apply_object_constraints($qb);
                 $this->_apply_object_orders($qb);
                 $this->_apply_object_limit($qb);
                 if (!array_key_exists($group_value, $entries)) {
-                    $entries[$group_value] = array();
+                    $entries[$group_value] = [];
                 }
                 $entries[$group_value] = array_merge($entries[$group_value], $qb->execute());
             }
@@ -219,7 +219,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      */
     public function get_related_objects($component = false)
     {
-        $entries = array();
+        $entries = [];
 
         $guids = $this->get_related_guids($component);
 
@@ -228,7 +228,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         }
 
         foreach ($this->_target_classes as $classname) {
-            $qb = call_user_func(array($classname, 'new_query_builder'));
+            $qb = call_user_func([$classname, 'new_query_builder']);
             $qb->add_constraint('guid', 'IN', $guids);
             $this->_apply_object_constraints($qb);
             $this->_apply_object_orders($qb);

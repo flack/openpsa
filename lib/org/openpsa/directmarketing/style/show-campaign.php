@@ -41,7 +41,7 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title u
 
     $data['campaign']->get_testers();
     if (count($data['campaign']->testers) > 0) {
-        $testers = array();
+        $testers = [];
         foreach (array_keys($data['campaign']->testers) as $id) {
             $person = org_openpsa_widgets_contact::get($id);
             $testers[] = $person->show_inline();

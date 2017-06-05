@@ -17,22 +17,22 @@ class midcom_helper_datamanager2_ajax_autocompleteTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.helper.datamanager2');
         $invoice = new org_openpsa_invoices_invoice_dba();
-        $invoice_parameters = array('number' => $invoice->generate_invoice_number());
+        $invoice_parameters = ['number' => $invoice->generate_invoice_number()];
         $invoice = $this->create_object('org_openpsa_invoices_invoice_dba', $invoice_parameters);
-        $request = array(
+        $request = [
             'component' => 'org.openpsa.invoices',
             'class' => 'org_openpsa_invoices_invoice_dba',
             'id_field' => 'id',
-            'searchfields' => array('number'),
+            'searchfields' => ['number'],
         	'titlefield' => 'number',
-            'result_headers' => array(
-                array(
+            'result_headers' => [
+                [
                     'title' => 'number',
                     'name' => 'number',
-                ),
-            ),
+                ],
+            ],
             'term' => (string) $invoice->number
-        );
+        ];
 
         $handler = new midcom_helper_datamanager2_ajax_autocomplete($request);
         $res = $handler->get_results();
@@ -46,28 +46,28 @@ class midcom_helper_datamanager2_ajax_autocompleteTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.helper.datamanager2');
         $project_title = 'PROJECT_TEST_' . __CLASS__ . '_' . time();
-        $project = $this->create_object('org_openpsa_projects_project', array('title' => $project_title));
+        $project = $this->create_object('org_openpsa_projects_project', ['title' => $project_title]);
 
-        $task_properties = array(
+        $task_properties = [
             'project' => $project->id,
             'title' => 'TASK_TEST_' . __CLASS__ . '_' . time()
-        );
+        ];
         $task = $this->create_object('org_openpsa_projects_task_dba', $task_properties);
 
-        $request = array(
+        $request = [
             'component' => 'org.openpsa.projects',
             'class' => 'org_openpsa_projects_task_dba',
             'id_field' => 'id',
-            'searchfields' => array('title', 'project.title'),
+            'searchfields' => ['title', 'project.title'],
             'titlefield' => 'title',
-            'result_headers' => array(
-                array(
+            'result_headers' => [
+                [
                     'title' => 'title',
                     'name' => 'title',
-                ),
-            ),
+                ],
+            ],
             'term' => $project_title
-        );
+        ];
 
         $handler = new midcom_helper_datamanager2_ajax_autocomplete($request);
         $res = $handler->get_results();

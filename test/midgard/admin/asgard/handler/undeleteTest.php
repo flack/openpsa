@@ -18,7 +18,7 @@ class midgard_admin_asgard_handler_undeleteTest extends openpsa_testcase
         $this->create_user(true);
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'trash'));
+        $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'trash']);
         $this->assertEquals('____mfa-asgard-trash', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -29,7 +29,7 @@ class midgard_admin_asgard_handler_undeleteTest extends openpsa_testcase
         $this->create_user(true);
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'trash', 'midgard_style'));
+        $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'trash', 'midgard_style']);
         $this->assertEquals('____mfa-asgard-trash_type', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

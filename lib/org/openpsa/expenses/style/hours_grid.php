@@ -1,12 +1,12 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $invoice_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
-$footer_data = array('hours' => 0);
-$categories = array($data['l10n']->get('uninvoiceable'), $data['l10n']->get('invoiceable'), $data['l10n']->get('invoiced'));
-$entries = array();
+$footer_data = ['hours' => 0];
+$categories = [$data['l10n']->get('uninvoiceable'), $data['l10n']->get('invoiceable'), $data['l10n']->get('invoiced')];
+$entries = [];
 $workflow = new midcom\workflow\datamanager2;
 foreach ($data['hours'] as $report) {
-    $entry = array();
+    $entry = [];
 
     $entry['id'] = $report->id;
     $entry['date'] = strftime('%Y-%m-%d', $report->date);
@@ -72,14 +72,14 @@ $data['grid']->set_option('loadonce', true)
     ->set_option('sortorder', 'desc')
     ->set_option('multiselect', true)
     ->set_option('grouping', true)
-    ->set_option('groupingView', array(
-        'groupField' => array('category'),
-        'groupColumnShow' => array(false),
-        'groupText' => array('<strong>{0}</strong> ({1})'),
-        'groupOrder' => array('asc'),
-        'groupSummary' => array(true),
+    ->set_option('groupingView', [
+        'groupField' => ['category'],
+        'groupColumnShow' => [false],
+        'groupText' => ['<strong>{0}</strong> ({1})'],
+        'groupOrder' => ['asc'],
+        'groupSummary' => [true],
         'showSummaryOnHide' => true
-    ));
+    ]);
 
 $data['grid']->set_footer_data($footer_data);
 ?>

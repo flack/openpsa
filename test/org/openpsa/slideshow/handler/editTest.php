@@ -23,7 +23,7 @@ class org_openpsa_slideshow_handler_editTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.slideshow');
 
-        $data = $this->run_handler('org.openpsa.slideshow', array('edit'));
+        $data = $this->run_handler('org.openpsa.slideshow', ['edit']);
         $this->assertEquals('edit', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -34,14 +34,14 @@ class org_openpsa_slideshow_handler_editTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.slideshow');
 
         $topic = $this->get_component_node('org.openpsa.slideshow');
-        $image = $this->create_object('org_openpsa_slideshow_image_dba', array('topic' => $topic->id));
+        $image = $this->create_object('org_openpsa_slideshow_image_dba', ['topic' => $topic->id]);
 
-        $_POST = array(
+        $_POST = [
             'operation' => 'delete',
             'guids' => $image->guid
-        );
+        ];
 
-        $data = $this->run_handler('org.openpsa.slideshow', array('edit', 'ajax'));
+        $data = $this->run_handler('org.openpsa.slideshow', ['edit', 'ajax']);
         $this->assertEquals('edit_ajax', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

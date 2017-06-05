@@ -18,17 +18,17 @@ class org_openpsa_helpers_listTest extends openpsa_testcase
         $org = $this->create_object('org_openpsa_contacts_group_dba');
         $org->refresh();
         $person = $this->create_object('midcom_db_person');
-        $this->create_object('midcom_db_member', array('uid' => $person->id, 'gid' => $org->id));
-        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba', array('customerContact' => $person->id));
+        $this->create_object('midcom_db_member', ['uid' => $person->id, 'gid' => $org->id]);
+        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba', ['customerContact' => $person->id]);
 
         midcom::get()->auth->request_sudo('org.openpsa.helpers');
 
         $result = org_openpsa_helpers_list::task_groups($salesproject);
 
-        $expected = array(
+        $expected = [
             0 => '',
             $org->id => $org->get_label()
-        );
+        ];
 
         $this->assertEquals($expected, $result);
 

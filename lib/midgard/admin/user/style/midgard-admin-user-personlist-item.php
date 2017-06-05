@@ -36,7 +36,7 @@ use Doctrine\ORM\Query\Expr\Join;
         ->setParameter('person', $data['person']->id);
 
     $memberships = $qb->execute();
-    $groups = array();
+    $groups = [];
     foreach ($memberships as $group) {
         $value = $group->get_label();
         if ($group->can_do('midgard:update')) {

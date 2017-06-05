@@ -19,11 +19,11 @@ use midcom\datamanager\extension\compat;
  */
 class schema
 {
-    private $defaults = array(
-        'operations' => array('save' => '', 'cancel' => '')
-    );
+    private $defaults = [
+        'operations' => ['save' => '', 'cancel' => '']
+    ];
 
-    private $config = array();
+    private $config = [];
 
     /**
      *
@@ -63,23 +63,23 @@ class schema
     public function build_form(FormBuilderInterface $builder)
     {
         foreach ($this->config['fields'] as $name => $config) {
-            $options = array(
+            $options = [
                 'label' => $config['title'],
                 'widget_config' => $config['widget_config'],
                 'type_config' => $config['type_config'],
                 'required' => $config['required'],
-                'constraints' => $config['required'] ? array(new NotBlank()) : null,
+                'constraints' => $config['required'] ? [new NotBlank()] : null,
                 'dm2_type' => $config['type'],
                 'start_fieldset' => $config['start_fieldset'],
                 'end_fieldset' => $config['end_fieldset'],
                 'index_method' => $config['index_method'],
-                'attr' => array('readonly' => $config['readonly'])
-            );
+                'attr' => ['readonly' => $config['readonly']]
+            ];
 
             $builder->add($name, compat::get_type_name($config['widget']), $options);
         }
 
-        $builder->add('form_toolbar', compat::get_type_name('toolbar'), array('operations' => $this->config['operations']));
+        $builder->add('form_toolbar', compat::get_type_name('toolbar'), ['operations' => $this->config['operations']]);
         return $builder->getForm();
     }
 
@@ -122,12 +122,12 @@ class schema
     {
         $resolver = new OptionsResolver();
 
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'title' => '',
             'type' => null,
-            'type_config' => array(),
+            'type_config' => [],
             'widget' => null,
-            'widget_config' => array(),
+            'widget_config' => [],
             'required' => false,
             'readonly' => false,
             'default' => null,
@@ -135,8 +135,8 @@ class schema
             'index_method' => 'auto',
             'start_fieldset' => null,
             'end_fieldset' => null,
-            'validation' => array()
-        ));
+            'validation' => []
+        ]);
 
         $normalize_widget = function (Options $options, $value) {
             if (   $value == 'images'
@@ -147,31 +147,31 @@ class schema
         };
 
         $normalize_storage = function (Options $options, $value) use ($name) {
-            $default = array(
+            $default = [
                 'location' => 'parameter',
                 'domain' => 'midcom.helper.datamanager2',
                 'name' => $name
-            );
+            ];
             if ($value === '__UNSET__') {
                 return $default;
             }
             if ($value === null) {
                 if ($options['type'] === 'privilege') {
-                    return array(
+                    return [
                         'location' => 'privilege',
                         'name' => $name
-                    );
+                    ];
                 }
                 return null;
             }
             if (is_string($value)) {
                 if ($value === 'metadata') {
-                    return array('location' => $value, 'name' => $name);
+                    return ['location' => $value, 'name' => $name];
                 }
                 if ($value === 'parameter') {
                     return $default;
                 }
-                return array('location' => $value);
+                return ['location' => $value];
             }
             if (strtolower($value['location']) === 'parameter') {
                 $value['location'] = strtolower($value['location']);
@@ -186,14 +186,14 @@ class schema
         };
 
         $normalize_validation = function (Options $options, $config) {
-            $validation = array();
+            $validation = [];
             if (array_key_exists('validation', (array) $config)) {
                 $validation = (array) $config['validation'];
             }
 
             foreach ($validation as $key => $rule) {
                 if (!is_array($rule)) {
-                    $rule = array('type' => $rule);
+                    $rule = ['type' => $rule];
                 } elseif (!array_key_exists('type', $rule)) {
                     throw new midcom_error("Missing validation rule type for rule {$key} on field {$config['name']}, this is a required option.");
                 } elseif (   $rule['type'] == 'compare'
@@ -201,10 +201,10 @@ class schema
                     throw new midcom_error("Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");
                 }
 
-                $defaults = array(
+                $defaults = [
                     'message' => "validation failed: {$rule['type']}",
                     'format' => ''
-                );
+                ];
 
                 $validation[$key] = array_merge($defaults, $rule);
             }

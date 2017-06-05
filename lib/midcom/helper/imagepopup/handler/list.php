@@ -23,7 +23,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
     /**
      * Search results
      */
-    private $_search_results = array();
+    private $_search_results = [];
 
     /**
      * @param mixed $handler_id The ID of the handler.

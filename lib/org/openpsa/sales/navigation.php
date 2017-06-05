@@ -15,13 +15,13 @@ class org_openpsa_sales_navigation extends midcom_baseclasses_components_navigat
 {
     public function get_leaves()
     {
-        $leaves = array();
-        $modes = array('active', 'won', 'delivered', 'invoiced', 'lost', 'canceled');
+        $leaves = [];
+        $modes = ['active', 'won', 'delivered', 'invoiced', 'lost', 'canceled'];
         foreach ($modes as $mode) {
-            $leaves["{$this->_topic->id}:{$mode}"] = array(
+            $leaves["{$this->_topic->id}:{$mode}"] = [
                 MIDCOM_NAV_URL => "list/{$mode}/",
                 MIDCOM_NAV_NAME => $this->_l10n->get('salesprojects ' . $mode),
-            );
+            ];
         }
         return $leaves;
     }

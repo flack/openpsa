@@ -18,12 +18,12 @@ class org_openpsa_expenses_handler_csvTest extends openpsa_testcase
         $this->create_user(true);
         midcom::get()->auth->request_sudo('org.openpsa.expenses');
         $project = $this->create_object('org_openpsa_projects_project');
-        $task = $this->create_object('org_openpsa_projects_task_dba', array('project' => $project->id));
-        $report = $this->create_object('org_openpsa_projects_hour_report_dba', array('task' => $task->id));
+        $task = $this->create_object('org_openpsa_projects_task_dba', ['project' => $project->id]);
+        $report = $this->create_object('org_openpsa_projects_hour_report_dba', ['task' => $task->id]);
 
-        $_POST['guids'] = array($report->guid);
+        $_POST['guids'] = [$report->guid];
 
-        $data = $this->run_handler('org.openpsa.expenses', array('csv', 'hours'));
+        $data = $this->run_handler('org.openpsa.expenses', ['csv', 'hours']);
         $this->assertEquals('csv', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

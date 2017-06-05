@@ -33,7 +33,7 @@ class midcom_response
      *
      * @var array
      */
-    public $_data = array();
+    public $_data = [];
 
     public function __get($name)
     {

@@ -18,7 +18,7 @@ class midgard_admin_asgard_handler_component_configurationTest extends openpsa_t
         $this->create_user(true);
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'components', 'configuration', 'net.nehmer.blog'));
+        $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'components', 'configuration', 'net.nehmer.blog']);
         $this->assertEquals('____mfa-asgard-components_configuration', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -29,7 +29,7 @@ class midgard_admin_asgard_handler_component_configurationTest extends openpsa_t
         $this->create_user(true);
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'components', 'configuration', 'edit', 'net.nehmer.blog'));
+        $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'components', 'configuration', 'edit', 'net.nehmer.blog']);
         $this->assertEquals('____mfa-asgard-components_configuration_edit', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -40,9 +40,9 @@ class midgard_admin_asgard_handler_component_configurationTest extends openpsa_t
         $this->create_user(true);
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
-        $topic = $this->create_object('midcom_db_topic', array('component' => 'net.nehmer.blog'));
+        $topic = $this->create_object('midcom_db_topic', ['component' => 'net.nehmer.blog']);
 
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'components', 'configuration', 'edit', 'net.nehmer.blog', $topic->guid));
+        $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'components', 'configuration', 'edit', 'net.nehmer.blog', $topic->guid]);
         $this->assertEquals('____mfa-asgard-components_configuration_edit_folder', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

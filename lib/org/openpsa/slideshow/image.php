@@ -134,11 +134,11 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
 
     public static function get_imagedata(array $images)
     {
-        $data = array();
+        $data = [];
         if (empty($images)) {
             return $data;
         }
-        $ids = array();
+        $ids = [];
         foreach ($images as $image) {
             $ids[] = $image->attachment;
             $ids[] = $image->image;
@@ -147,7 +147,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
 
         $mc = midcom_db_attachment::new_collector();
         $mc->add_constraint('id', 'IN', $ids);
-        $rows = $mc->get_rows(array('id', 'name', 'guid'), 'id');
+        $rows = $mc->get_rows(['id', 'name', 'guid'], 'id');
 
         foreach ($images as $image) {
             if (   !isset($rows[$image->attachment])
@@ -159,13 +159,13 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
             $orig_data = $rows[$image->attachment];
             $image_data = $rows[$image->image];
             $thumb_data = $rows[$image->thumbnail];
-            $data[] = array(
+            $data[] = [
                 'big' => midcom_db_attachment::get_url($orig_data['guid'], $orig_data['name']),
                 'image' => midcom_db_attachment::get_url($image_data['guid'], $image_data['name']),
                 'thumb' => midcom_db_attachment::get_url($thumb_data['guid'], $thumb_data['name']),
                 'title' => (string) $image->title,
                 'description' => (string) $image->description
-            );
+            ];
         }
 
         return $data;

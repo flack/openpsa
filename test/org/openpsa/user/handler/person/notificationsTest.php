@@ -24,7 +24,7 @@ class org_openpsa_user_handler_person_notificationsTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.user');
 
-        $data = $this->run_handler('org.openpsa.user', array('person', 'notifications', self::$_user->guid));
+        $data = $this->run_handler('org.openpsa.user', ['person', 'notifications', self::$_user->guid]);
         $this->assertEquals('person_notifications', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

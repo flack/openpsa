@@ -54,13 +54,13 @@ class midcom_helper_datamanager2_widget_password extends midcom_helper_datamanag
      */
     public function add_elements_to_form($attributes)
     {
-        $attributes = array_merge($attributes, array('class' => 'shorttext'));
+        $attributes = array_merge($attributes, ['class' => 'shorttext']);
         $title = $this->_translate($this->_field['title']);
         $confirm_name = "{$this->name}_confirm";
         $confirm_title = "{$title} " . $this->_translate($this->confirm_text);
         $this->_form->addElement('password', $this->name, $title, $attributes);
-        $this->_form->addElement('password', $confirm_name, $confirm_title, array('class' => 'shorttext'));
-        $this->_form->addRule(array($this->name, $confirm_name), $this->_translate('passwords do not match'), 'compare', null);
+        $this->_form->addElement('password', $confirm_name, $confirm_title, ['class' => 'shorttext']);
+        $this->_form->addRule([$this->name, $confirm_name], $this->_translate('passwords do not match'), 'compare', null);
 
         if ($this->require_password) {
             $this->_form->addRule($this->name, 'required', 'required', '');

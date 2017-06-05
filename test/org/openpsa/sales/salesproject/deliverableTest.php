@@ -62,7 +62,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public function testGet_parent()
     {
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', array('salesproject' => $this->_salesproject->id));
+        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', ['salesproject' => $this->_salesproject->id]);
         $parent = $deliverable->get_parent();
         $this->assertEquals($parent->guid, $this->_salesproject->guid);
     }
@@ -103,65 +103,65 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public function providerOrder()
     {
-        return array(
-            0 => array(
-                'attributes' => array(
-                    'product' => array(
+        return [
+            0 => [
+                'attributes' => [
+                    'product' => [
                         'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
                         'type' => org_openpsa_products_product_dba::TYPE_GOODS,
-                    ),
-                    'deliverable' => array(
+                    ],
+                    'deliverable' => [
                         'plannedUnits' => 10,
                         'costPerUnit' => 2,
-                    )
-                ),
+                    ]
+                ],
                 true,
-                'results' => array(
-                    'deliverable' => array(
+                'results' => [
+                    'deliverable' => [
                         'plannedUnits' => 10,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
-                    ),
-                    'salesproject' => array(
+                    ],
+                    'salesproject' => [
                         'state' => org_openpsa_sales_salesproject_dba::STATE_WON
-                    )
-                ),
-            ),
-            1 => array(
-                'attributes' => array(
-                    'product' => array(),
-                    'deliverable' => array(
+                    ]
+                ],
+            ],
+            1 => [
+                'attributes' => [
+                    'product' => [],
+                    'deliverable' => [
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
-                    )
-                ),
+                    ]
+                ],
                 false,
-                'results' => array()
-            ),
-            2 => array(
-                'attributes' => array(
-                    'product' => array(
+                'results' => []
+            ],
+            2 => [
+                'attributes' => [
+                    'product' => [
                         'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
                         'type' => org_openpsa_products_product_dba::TYPE_GOODS,
-                    ),
-                    'deliverable' => array(
+                    ],
+                    'deliverable' => [
                         'plannedUnits' => 10,
                         'costPerUnit' => 2,
                         'invoiceByActualUnits' => true,
-                    )
-                ),
+                    ]
+                ],
                 true,
-                'results' => array(
-                    'deliverable' => array(
+                'results' => [
+                    'deliverable' => [
                         'plannedUnits' => 10,
                         'cost' => 0,
                         'units' => 0,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
-                    ),
-                    'salesproject' => array(
+                    ],
+                    'salesproject' => [
                         'state' => org_openpsa_sales_salesproject_dba::STATE_WON
-                    )
-                ),
-            ),
-        );
+                    ]
+                ],
+            ],
+        ];
     }
 
     /**
@@ -169,9 +169,9 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
      */
     public function testDecline()
     {
-        $attributes = array(
+        $attributes = [
             'salesproject' => $this->_salesproject->id
-        );
+        ];
 
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
 
@@ -218,50 +218,50 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public function providerCalculate_price()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'invoiceByActualUnits' => true,
                     'plannedUnits' => 1,
                     'units' => 1,
                     'pricePerUnit' => 100,
                     'costPerUnit' => 10,
                     'costType' => 'm',
-                ),
-                array(
+                ],
+                [
                     'price' => 100,
                     'cost' => 10,
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'invoiceByActualUnits' => false,
                     'plannedUnits' => 2,
                     'units' => 1,
                     'pricePerUnit' => 100,
                     'costPerUnit' => 10,
                     'costType' => 'm',
-                ),
-                array(
+                ],
+                [
                     'price' => 200,
                     'cost' => 20,
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'invoiceByActualUnits' => true,
                     'plannedUnits' => 0,
                     'units' => 2,
                     'pricePerUnit' => 100,
                     'costPerUnit' => 10,
                     'costType' => '%',
-                ),
-                array(
+                ],
+                [
                     'price' => 200,
                     'cost' => 20,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     public function tearDown()

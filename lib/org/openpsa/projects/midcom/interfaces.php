@@ -76,7 +76,7 @@ implements midcom_services_permalinks_resolver
         $qb->add_constraint('id', 'IN', array_unique($suspects));
         $tasks = $qb->execute();
         foreach ($tasks as $task) {
-            $to_array = array('other_obj' => false, 'link' => false);
+            $to_array = ['other_obj' => false, 'link' => false];
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $task);
             $to_array['other_obj'] = $task;
@@ -103,7 +103,7 @@ implements midcom_services_permalinks_resolver
         $qb->add_constraint('id', 'IN', array_unique($suspects));
         $tasks = $qb->execute();
         foreach ($tasks as $task) {
-            $to_array = array('other_obj' => false, 'link' => false);
+            $to_array = ['other_obj' => false, 'link' => false];
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $task);
             $to_array['other_obj'] = $task;

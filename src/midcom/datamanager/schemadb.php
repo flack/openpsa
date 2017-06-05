@@ -12,7 +12,7 @@ use midcom_error;
  */
 class schemadb
 {
-    private $schemas = array();
+    private $schemas = [];
 
     public function add($name, schema $schema)
     {

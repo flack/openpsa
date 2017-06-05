@@ -18,7 +18,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      *
      * @var array
      */
-    protected $_index_entries = array();
+    protected $_index_entries = [];
 
     /**
      * @var midcom_services_i18n_formatter
@@ -99,7 +99,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      */
     private function _load_autoindex_data()
     {
-        $view = array();
+        $view = [];
         $datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
         $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
         $qb->add_order('title');
@@ -164,13 +164,13 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
 
     private function _get_attachment_data($filename, array $data)
     {
-        return array(
+        return [
             'name' => $filename,
             'url' => $data['url'],
             'size' => $data['formattedsize'],
             'desc' => $data['filename'],
             'url' => $data['mimetype'],
             'lastmod' => $this->formatter->datetime($data['lastmod'])
-        );
+        ];
     }
 }

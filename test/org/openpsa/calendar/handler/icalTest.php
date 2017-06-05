@@ -18,20 +18,20 @@ class org_openpsa_calendar_handler_icalTest extends openpsa_testcase
         $user = $this->create_user(true);
         $account = new midcom_core_account($user);
 
-        $attributes = array(
+        $attributes = [
             'up' => org_openpsa_calendar_interface::find_root_event()->id,
             'start' => time() - 10,
             'end' => time() + 8000,
             'title' => 'Event Title',
             'description' => "Event \nDescription",
             'location' => 'Event Location',
-        );
+        ];
         $event = $this->create_object('org_openpsa_calendar_event_dba', $attributes);
 
-        $attributes = array(
+        $attributes = [
             'uid' => $user->id,
             'eid' => $event->id
-        );
+        ];
         $eventmember = $this->create_object('org_openpsa_calendar_event_member_dba', $attributes);
 
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
@@ -39,7 +39,7 @@ class org_openpsa_calendar_handler_icalTest extends openpsa_testcase
         $user->lastname = 'Lastname';
 
 
-        $data = $this->run_handler('org.openpsa.calendar', array('ical', 'events', $account->get_username()));
+        $data = $this->run_handler('org.openpsa.calendar', ['ical', 'events', $account->get_username()]);
         $this->assertEquals('ical_user_feed', $data['handler_id']);
 
         $this->assertEquals(1, sizeof($data['events']));

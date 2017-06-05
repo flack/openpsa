@@ -67,17 +67,17 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
     private function _prepare_output()
     {
         $workflow = $this->get_workflow('datamanager2');
-        $buttons = array(
-            array(
+        $buttons = [
+            [
                 MIDCOM_TOOLBAR_URL => $this->object_url,
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-            ),
-            $workflow->get_button($this->_request_data['url_prefix'] . "create/" . $this->object->guid . "/", array(
+            ],
+            $workflow->get_button($this->_request_data['url_prefix'] . "create/" . $this->object->guid . "/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add journal entry'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png'
-            ))
-        );
+            ])
+        ];
         $this->_view_toolbar->add_items($buttons);
 
         org_openpsa_widgets_contact::add_head_elements();
@@ -102,30 +102,30 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         //set the start-constraints for journal-entries
         $time_span = 7 * 24 * 60 * 60; //7 days
 
-        $data['journal_constraints'] = array(
+        $data['journal_constraints'] = [
             //just show entries of current_user
-            array(
+            [
                 'property' => 'metadata.creator',
                 'operator' => '=',
                 'value' => midcom::get()->auth->user->guid,
-            ),
+            ],
             //only show entries with followUp set and within the next 7 days
-            array(
+            [
                 'property' => 'followUp',
                 'operator' => '<',
                 'value' => $args[0] + $time_span,
-            ),
-            array(
+            ],
+            [
                 'property' => 'followUp',
                 'operator' => '>',
                 'value' => 0,
-            ),
-            array(
+            ],
+            [
                 'property' => 'closed',
                 'operator' => '=',
                 'value' => false,
-            )
-        );
+            ]
+        ];
         $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
         org_openpsa_widgets_grid::add_head_elements();
         midcom::get()->head->set_pagetitle($this->_l10n->get('journal entries'));
@@ -161,8 +161,8 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
 
         //get the corresponding objects
         if (!empty($data['entries'])) {
-            $data['linked_objects'] = array();
-            $data['linked_raw_objects'] = array();
+            $data['linked_objects'] = [];
+            $data['linked_raw_objects'] = [];
 
             foreach ($data['entries'] as $i => $entry) {
                 if (array_key_exists($entry->linkGuid, $data['linked_objects'])) {

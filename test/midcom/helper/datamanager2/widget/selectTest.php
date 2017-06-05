@@ -17,19 +17,19 @@ class midcom_helper_datamanager2_widget_selectTest extends openpsa_testcase
 {
     public function test_get_default()
     {
-        $config = array(
-            'type_config' => array(
+        $config = [
+            'type_config' => [
                 'allow_multiple' => false,
-                'options' => array(
+                'options' => [
                     1 => 'value 1',
                     2 => 'value 2'
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
-        $default_values = array(
-            'test_select_1' => array(2)
-        );
+        $default_values = [
+            'test_select_1' => [2]
+        ];
 
         midcom::get()->auth->request_sudo('midcom.helper.datamanager2');
 
@@ -38,7 +38,7 @@ class midcom_helper_datamanager2_widget_selectTest extends openpsa_testcase
 
         $this->assertNull($widget->get_default(), 'nullstorage test failed');
 
-        $dm2_helper->defaults = array('test_select_1' => 2);
+        $dm2_helper->defaults = ['test_select_1' => 2];
         $widget = $dm2_helper->get_widget('select', 'select', $config);
 
         $this->assertEquals($default_values, $widget->get_default(), 'nullstorage/default test failed');
@@ -50,7 +50,7 @@ class midcom_helper_datamanager2_widget_selectTest extends openpsa_testcase
 
         $this->assertNull($widget->get_default(), 'create test failed');
 
-        $dm2_helper->defaults = array('test_select_1' => 2);
+        $dm2_helper->defaults = ['test_select_1' => 2];
         $widget = $dm2_helper->get_widget('select', 'select', $config);
 
         $this->assertEquals($default_values, $widget->get_default(), 'create/default test failed');

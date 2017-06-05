@@ -33,10 +33,10 @@ class org_openpsa_core_acl_synchronizer
         }
 
         $privileges = $object->get_privileges();
-        $needed_privileges = array(
-            'midgard:read' => array('value' => MIDCOM_PRIVILEGE_DENY, 'assignee' => 'EVERYONE'),
-            'midgard:owner' => array('value' => MIDCOM_PRIVILEGE_ALLOW)
-        );
+        $needed_privileges = [
+            'midgard:read' => ['value' => MIDCOM_PRIVILEGE_DENY, 'assignee' => 'EVERYONE'],
+            'midgard:owner' => ['value' => MIDCOM_PRIVILEGE_ALLOW]
+        ];
         // Handle ACL storage
         switch ($accesstype) {
             case org_openpsa_core_acl::ACCESS_PUBLIC:

@@ -102,7 +102,7 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
         $mail->to = $this->get('to');
         $mail->body = $this->get('body');
 
-        $parameters = array();
+        $parameters = [];
         foreach ($values as $field => $value) {
             $parameters[strtoupper($field)] = $value;
         }

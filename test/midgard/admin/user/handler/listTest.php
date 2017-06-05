@@ -17,7 +17,7 @@ class midgard_admin_user_handler_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midgard.admin.user');
 
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard_midgard.admin.user'));
+        $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard_midgard.admin.user']);
         $this->assertEquals('____mfa-asgard_midgard.admin.user-user_list', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -27,7 +27,7 @@ class midgard_admin_user_handler_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midgard.admin.user');
 
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard_midgard.admin.user', 'password', 'email'));
+        $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard_midgard.admin.user', 'password', 'email']);
         $this->assertEquals('____mfa-asgard_midgard.admin.user-user_password_email', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

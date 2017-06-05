@@ -20,8 +20,8 @@ class midcom_helper_filesync_exporter_style extends midcom_helper_filesync_expor
             mkdir($style_path);
         }
 
-        $filenames = array();
-        $foldernames = array();
+        $filenames = [];
+        $foldernames = [];
 
         $element_qb = midcom_db_element::new_query_builder();
         $element_qb->add_constraint('style', '=', $style->id);

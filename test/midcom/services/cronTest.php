@@ -27,72 +27,72 @@ class midcom_services_cronTest extends openpsa_testcase
 
     public function provider_load_jobs()
     {
-        return array(
-            array(
+        return [
+            [
                 MIDCOM_CRON_MINUTE,
-                array(),
-                array()
-            ),
-            array(
+                [],
+                []
+            ],
+            [
                 MIDCOM_CRON_MINUTE,
-                array(
-                    'midcom.services.at' => array(
-                        array(
+                [
+                    'midcom.services.at' => [
+                        [
                             'handler' => 'midcom_services_at_cron_check',
                             'recurrence' => MIDCOM_CRON_MINUTE,
-                        ),
-                        array(
+                        ],
+                        [
                             'handler' => 'midcom_services_at_cron_clean',
                             'recurrence' => MIDCOM_CRON_DAY,
-                        )
-                    )
-                ),
-                array(
-                    array(
+                        ]
+                    ]
+                ],
+                [
+                    [
                         'component' => 'midcom.services.at',
                         'handler' => 'midcom_services_at_cron_check',
                         'recurrence' => MIDCOM_CRON_MINUTE,
-                    )
-                )
-            ),
-            array(
+                    ]
+                ]
+            ],
+            [
                 MIDCOM_CRON_HOUR,
-                array(
-                    'midcom.services.at' => array(
-                        array(
+                [
+                    'midcom.services.at' => [
+                        [
                             'handler' => 'midcom_services_at_cron_check',
                             'recurrence' => MIDCOM_CRON_MINUTE,
-                        ),
-                        array(
+                        ],
+                        [
                             'handler' => 'midcom_services_at_cron_clean',
                             'recurrence' => MIDCOM_CRON_DAY,
-                        )
-                    )
-                ),
-                array()
-            ),
-            array(
+                        ]
+                    ]
+                ],
+                []
+            ],
+            [
                 MIDCOM_CRON_DAY,
-                array(
-                    'midcom.services.at' => array(
-                        array(
+                [
+                    'midcom.services.at' => [
+                        [
                             'handler' => 'midcom_services_at_cron_check',
                             'recurrence' => MIDCOM_CRON_MINUTE,
-                        ),
-                        array(
+                        ],
+                        [
                             'handler' => 'midcom_services_at_cron_clean',
                             'recurrence' => MIDCOM_CRON_DAY,
-                        )
-                    )
-                ),
-                array(
-                    array(
+                        ]
+                    ]
+                ],
+                [
+                    [
                         'component' => 'midcom.services.at',
                         'handler' => 'midcom_services_at_cron_clean',
                         'recurrence' => MIDCOM_CRON_DAY,
-                    )
-                )
-            )
-        );
+                    ]
+                ]
+            ]
+        ];
     }
 }

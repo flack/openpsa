@@ -17,10 +17,10 @@ class net_nemein_wiki_handler_createTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $topic_attributes = array(
+        $topic_attributes = [
             'component' => 'net.nemein.wiki',
             'name' => __CLASS__ . time()
-        );
+        ];
         self::$_topic = self::create_class_object('midcom_db_topic', $topic_attributes);
     }
 
@@ -29,7 +29,7 @@ class net_nemein_wiki_handler_createTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('net.nemein.wiki');
 
         $_GET['wikiword'] = __CLASS__ . ' ' . time();
-        $data = $this->run_handler(self::$_topic, array('create'));
+        $data = $this->run_handler(self::$_topic, ['create']);
         $this->assertEquals('create_by_word', $data['handler_id']);
 
         $this->show_handler($data);
@@ -41,7 +41,7 @@ class net_nemein_wiki_handler_createTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('net.nemein.wiki');
 
         $_GET['wikiword'] = __CLASS__ . ' ' . time();
-        $data = $this->run_handler(self::$_topic, array('create', 'default'));
+        $data = $this->run_handler(self::$_topic, ['create', 'default']);
         $this->assertEquals('create_by_word_schema', $data['handler_id']);
 
         $this->show_handler($data);
@@ -55,7 +55,7 @@ class net_nemein_wiki_handler_createTest extends openpsa_testcase
         $topic_name = __CLASS__ . time();
         $wikiword = time();
         $_GET['wikiword'] = $topic_name . ' / ' . $wikiword;
-        $url = $this->run_relocate_handler(self::$_topic, array('create', 'default'));
+        $url = $this->run_relocate_handler(self::$_topic, ['create', 'default']);
 
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('up', '=', self::$_topic->id);

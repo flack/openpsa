@@ -20,28 +20,28 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
 
     private function _load_component_data($name, midcom_core_manifest $manifest)
     {
-        $component_array = array(
+        $component_array = [
             'name' => $name,
             'title' => $this->_i18n->get_string($name, $name),
             'purecode' => $manifest->purecode,
             'icon' => midcom::get()->componentloader->get_component_icon($name),
             'description' => $manifest->description,
             'toolbar' => new midcom_helper_toolbar()
-        );
+        ];
         $component_array['toolbar']->add_item(
-            array(
+            [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$name}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
-            )
+            ]
         );
 
         $component_array['toolbar']->add_item(
-            array(
+            [
                 MIDCOM_TOOLBAR_URL => "__ais/help/{$name}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('midcom.admin.help', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
-            )
+            ]
         );
 
         return $component_array;
@@ -49,9 +49,9 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
 
     private function _list_components()
     {
-        $this->_request_data['core_components'] = array();
-        $this->_request_data['components'] = array();
-        $this->_request_data['libraries'] = array();
+        $this->_request_data['core_components'] = [];
+        $this->_request_data['components'] = [];
+        $this->_request_data['libraries'] = [];
 
         foreach (midcom::get()->componentloader->manifests as $name => $manifest) {
             $type = 'components';
@@ -129,11 +129,11 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $data['view_title'] = $data['component_data']['title'];
 
         $data['asgard_toolbar']->add_item(
-            array(
+            [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$data['component']}",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
-            )
+            ]
         );
 
         // Set the breadcrumb data

@@ -43,7 +43,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
 
-        $operations = array();
+        $operations = [];
         $operations['save'] = '';
         $operations['preview'] = $this->_l10n->get('preview');
         $operations['cancel'] = '';
@@ -85,10 +85,10 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('edit %s'), $this->_page->title));
 
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $this->_controller,
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
 
         foreach ($data['schemadb'] as $name => $schema) {
             if ($name == $this->_controller->datamanager->schema->name) {
@@ -96,7 +96,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
                 continue;
             }
             $label = sprintf($this->_l10n->get('change to %s'), $this->_l10n->get($schema->description));
-            $workflow->add_post_button("change/{$this->_page->name}/", $label, array('change_to' => $name));
+            $workflow->add_post_button("change/{$this->_page->name}/", $label, ['change_to' => $name]);
         }
 
         $response = $workflow->run();

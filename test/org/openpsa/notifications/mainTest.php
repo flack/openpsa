@@ -15,9 +15,9 @@ class org_openpsa_notifications_mainTest extends openpsa_testcase
 {
     public function test_notify()
     {
-        $person = $this->create_object('midcom_db_person', array('email' => 'noreply@openpsa2.org'));
+        $person = $this->create_object('midcom_db_person', ['email' => 'noreply@openpsa2.org']);
         $person->set_parameter('org.openpsa.notifications', 'net.nehmer.comments:comment_posted', 'email');
-        $stat = org_openpsa_notifications::notify('net.nehmer.comments:comment_posted', $person->guid, array());
+        $stat = org_openpsa_notifications::notify('net.nehmer.comments:comment_posted', $person->guid, []);
         $this->assertTrue($stat);
     }
 

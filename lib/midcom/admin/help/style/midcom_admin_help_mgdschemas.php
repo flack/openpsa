@@ -61,7 +61,7 @@ if (count($data['mgdschemas']) > 0) {
                 $signature .= '<span class="method_name">' . $reflectionmethod->getName() . '</span>';
 
                 $signature .= '(';
-                $parametersdata = array();
+                $parametersdata = [];
                 $parameters = $reflectionmethod->getParameters();
                 foreach ($parameters as $reflectionparameter) {
                     $parametersignature = '';

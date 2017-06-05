@@ -169,12 +169,12 @@ class form extends base
 
     public function hidden_widget(FormView $view, array $data)
     {
-        return $this->renderer->block($view, 'form_widget_simple', array('type' => isset($data['type']) ? $data['type'] : "hidden"));
+        return $this->renderer->block($view, 'form_widget_simple', ['type' => isset($data['type']) ? $data['type'] : "hidden"]);
     }
 
     public function email_widget(FormView $view, array $data)
     {
-        return $this->renderer->block($view, 'form_widget_simple', array('type' => isset($data['type']) ? $data['type'] : "email"));
+        return $this->renderer->block($view, 'form_widget_simple', ['type' => isset($data['type']) ? $data['type'] : "email"]);
     }
 
     public function autocomplete_widget(FormView $view, array $data)
@@ -225,7 +225,7 @@ class form extends base
             && $data['multiple'] === false) {
             $data['required'] = false;
         }
-        $string .= $this->renderer->block($view, 'widget_attributes', array('required' => $data['required']));
+        $string .= $this->renderer->block($view, 'widget_attributes', ['required' => $data['required']]);
 
         if ($data['multiple']) {
             $string .= ' multiple="multiple"';
@@ -241,12 +241,12 @@ class form extends base
             $string .= '>' . $data['empty_value'] . '</option>';
         }
         if (count($data['preferred_choices']) > 0) {
-            $string .= $this->renderer->block($view, 'choice_widget_options', array('choices' => $data['preferred_choices']));
+            $string .= $this->renderer->block($view, 'choice_widget_options', ['choices' => $data['preferred_choices']]);
             if (count($data['choices']) > 0 && null !== $data['separator']) {
                 $string .= '<option disabled="disabled">' . $data['separator'] . '</option>';
             }
         }
-        $string .= $this->renderer->block($view, 'choice_widget_options', array('choices' => $data['choices']));
+        $string .= $this->renderer->block($view, 'choice_widget_options', ['choices' => $data['choices']]);
         return $string . '</select>';
     }
 
@@ -277,7 +277,7 @@ class form extends base
         foreach ($data['choices'] as $index => $choice) {
             if (is_array($choice)) {
                 $string .= '<optgroup label="' . $index . '">';
-                $string .= $this->renderer->block($view, 'choice_widget_options', array('choices' => $choice));
+                $string .= $this->renderer->block($view, 'choice_widget_options', ['choices' => $choice]);
                 $string .= '</optgroup>';
             } else {
                 $string .= '<option value="' . $choice->value . '"';
@@ -293,7 +293,7 @@ class form extends base
     public function codemirror_widget(FormView $view, array $data)
     {
         //we set required to false, because codemirror doesn't play well with html5 validation..
-        $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes', array('required' => false)) . '>';
+        $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes', ['required' => false]) . '>';
         $string .= $data['value'] . '</textarea>';
         if (!empty($data['codemirror_snippet'])) {
             $snippet = str_replace('{$id}', $data['id'], $data['codemirror_snippet']);
@@ -393,27 +393,27 @@ class form extends base
 
     public function submit_widget(FormView $view, array $data)
     {
-        return $this->renderer->block($view, 'button_widget', array('type' => isset($data['type']) ? $data['type'] : 'submit'));
+        return $this->renderer->block($view, 'button_widget', ['type' => isset($data['type']) ? $data['type'] : 'submit']);
     }
 
     public function delete_widget(FormView $view, array $data)
     {
-        return $this->renderer->block($view, 'button_widget', array('type' => isset($data['type']) ? $data['type'] : 'delete'));
+        return $this->renderer->block($view, 'button_widget', ['type' => isset($data['type']) ? $data['type'] : 'delete']);
     }
 
     public function textarea_widget(FormView $view, array $data)
     {
-        $view->vars['attr'] = array(
+        $view->vars['attr'] = [
             'class' => 'longtext',
             'cols' => 50
-        );
+        ];
         return '<textarea' . $this->renderer->block($view, 'widget_attributes') . '>' . $data['value'] . '</textarea>';
     }
 
     public function tinymce_widget(FormView $view, array $data)
     {
         //we set required to false, because tinymce doesn't play well with html5 validation..
-        $string = '<textarea' . $this->renderer->block($view, 'widget_attributes', array('required' => false)) . '>' . $data['value'] . '</textarea>';
+        $string = '<textarea' . $this->renderer->block($view, 'widget_attributes', ['required' => false]) . '>' . $data['value'] . '</textarea>';
         return $string . $this->jsinit($data['tinymce_snippet']);
     }
 

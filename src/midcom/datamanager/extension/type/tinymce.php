@@ -35,7 +35,7 @@ class tinymce extends TextareaType
 
         $map_attr = function (Options $options, $value) {
             if ($value === null) {
-                $value = array();
+                $value = [];
             }
             $value['rows'] = !empty($options['widget_config']['height']) ? $options['widget_config']['height'] : 6;
             $value['cols'] = !empty($options['widget_config']['width']) ? $options['widget_config']['width'] : 50;
@@ -47,25 +47,25 @@ class tinymce extends TextareaType
             return \midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config');
         };
 
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'attr' => $map_attr,
             'config' => $get_config
-        ));
+        ]);
 
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
-            $widget_defaults = array(
+            $widget_defaults = [
                 'mode' => 'exact',
                 'theme' => $options['config']->get('tinymce_default_theme'),
                 'local_config' => '',
                 'use_imagepopup' => true,
                 'mce_config_snippet' => null
-            );
+            ];
             return helper::resolve_options($widget_defaults, $value);
         });
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
-            $type_defaults = array(
+            $type_defaults = [
 
-            );
+            ];
             return helper::resolve_options($type_defaults, $value);
         });
     }
@@ -89,14 +89,14 @@ class tinymce extends TextareaType
         parent::buildView($view, $form, $options);
 
         $config = $this->get_configuration($options);
-        $tiny_options = array(
+        $tiny_options = [
             'config' => $config,
             'mode' => $options['widget_config']['mode'],
             'elements' => $view->vars['id'],
             'local_config' => $options['widget_config']['local_config'],
             'language' => midcom::get()->i18n->get_current_language(),
             'img' => ($options['widget_config']['use_imagepopup'])? $this->_get_image_popup($form) : '',
-        );
+        ];
         $snippet = $this->_get_snippet($tiny_options);
         $view->vars['tinymce_snippet'] = $snippet;
     }

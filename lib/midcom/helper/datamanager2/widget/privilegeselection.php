@@ -44,11 +44,11 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
     {
         $this->_require_type_class('midcom_helper_datamanager2_type_privilege');
 
-        $this->_privilege_options = array(
+        $this->_privilege_options = [
             MIDCOM_PRIVILEGE_INHERIT => $this->_l10n->get('widget privilege: inherit'),
             MIDCOM_PRIVILEGE_ALLOW => $this->_l10n->get('widget privilege: allow'),
             MIDCOM_PRIVILEGE_DENY => $this->_l10n->get('widget privilege: deny'),
-        );
+        ];
 
         midcom::get()->head->enable_jquery();
 
@@ -70,7 +70,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
         $effective_value = $this->_type->get_effective_value() ? 'allow' : 'deny';
         $this->_privilege_options[MIDCOM_PRIVILEGE_INHERIT] = sprintf($this->_l10n->get('widget privilege: inherit %s'), $this->_l10n->get('widget privilege: ' . $effective_value));
 
-        $elements = array();
+        $elements = [];
 
         $attributes['class'] = 'dropdown privilegeselection';
         $this->_element = $this->_form->createElement('select', $this->name, '', $this->_privilege_options, $attributes);
@@ -104,7 +104,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
             $this->name,
             '',
             '',
-            array('class' => 'privilegeselection')
+            ['class' => 'privilegeselection']
         );
     }
 
@@ -116,7 +116,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
             $key = key($this->_privilege_options);
         }
 
-        return array($this->name => $key);
+        return [$this->name => $key];
     }
 
     public function sync_type_with_widget($results)

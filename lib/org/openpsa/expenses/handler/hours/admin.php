@@ -112,7 +112,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $data['controller'] = $this->_load_create_controller();
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
 
-        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
+        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
         return $workflow->run();
     }
 
@@ -137,12 +137,12 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         midcom::get()->head->set_pagetitle($this->_l10n->get($handler_id));
 
-        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
+        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
         if ($this->_hour_report->can_do('midgard:delete')) {
-            $delete = $this->get_workflow('delete', array(
+            $delete = $this->get_workflow('delete', [
                 'object' => $this->_hour_report,
                 'label' => $this->_l10n->get('hour report')
-            ));
+            ]);
             $workflow->add_dialog_button($delete, "hours/delete/{$this->_hour_report->guid}/");
         }
         return $workflow->run();
@@ -158,7 +158,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
-        $options = array('object' => $hour_report);
+        $options = ['object' => $hour_report];
 
         try {
             $task = org_openpsa_projects_task_dba::get_cached($hour_report->task);
@@ -199,7 +199,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
     private function parse_input(array $input)
     {
-        if (!in_array($input['action'], array('invoiceable', 'invoice', 'task'))) {
+        if (!in_array($input['action'], ['invoiceable', 'invoice', 'task'])) {
             throw new midcom_error('passed action ' . $input['action'] . ' is unknown');
         }
         if ($input['action'] == 'invoiceable') {

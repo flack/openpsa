@@ -50,7 +50,7 @@ class midcom_services_i18n
      *
      * @var midcom_services_i18n_l10n[]
      */
-    private $_obj_l10n = array();
+    private $_obj_l10n = [];
 
     /**
      * Current language.
@@ -147,7 +147,7 @@ class midcom_services_i18n
      */
     private function _read_http_negotiation()
     {
-        $http_langs = array();
+        $http_langs = [];
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $rawdata = explode(",", $_SERVER['HTTP_ACCEPT_LANGUAGE']);
             foreach ($rawdata as $data) {
@@ -397,7 +397,7 @@ class midcom_services_i18n
      */
     public function list_languages()
     {
-        $languages = array();
+        $languages = [];
         foreach ($this->_language_db as $identifier => $language) {
             if ($language['enname'] != $language['localname']) {
                 $languages[$identifier] = "{$language['enname']} ({$language['localname']})";

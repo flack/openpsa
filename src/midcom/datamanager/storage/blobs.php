@@ -21,14 +21,14 @@ class blobs extends delayed
      *
      * @var midcom_db_attachment[]
      */
-    protected $map = array();
+    protected $map = [];
 
     /**
      * @return midcom_db_attachment[]
      */
     public function load()
     {
-        $results = array();
+        $results = [];
         if (!$this->object->id) {
             return $results;
         }
@@ -50,7 +50,7 @@ class blobs extends delayed
      */
     public function save()
     {
-        $this->map = array();
+        $this->map = [];
         $existing = $this->load();
 
         if (!empty($this->value)) {
@@ -139,7 +139,7 @@ class blobs extends delayed
      */
     protected function save_attachment_list()
     {
-        $list = array();
+        $list = [];
 
         foreach ($this->map as $identifier => $attachment) {
             $list[] = $identifier . ':' . $attachment->guid;
@@ -153,7 +153,7 @@ class blobs extends delayed
      */
     protected function load_attachment_list()
     {
-        $map = array();
+        $map = [];
         $raw_list = $this->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->config['name']}");
         if (!$raw_list) {
             return $map;

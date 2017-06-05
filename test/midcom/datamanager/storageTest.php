@@ -19,21 +19,21 @@ class storageTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('dm.test');
         $topic = new \midcom_db_topic;
 
-        $config = array(
-            'fields' => array(
-                'test' => array(
-                    'storage' => array(
+        $config = [
+            'fields' => [
+                'test' => [
+                    'storage' => [
                         'location' => 'parameter',
                         'domain' => 'dm.test',
                         'name' => 'test',
-                    ),
+                    ],
                     'type' => 'text',
                     'widget' => 'text'
-                )
-            )
-        );
+                ]
+            ]
+        ];
         $schema = new schema($config);
-        $storage = new storage\container\dbacontainer($schema, $topic, array());
+        $storage = new storage\container\dbacontainer($schema, $topic, []);
 
         $storage->test = '23';
         $storage->save();
@@ -49,21 +49,21 @@ class storageTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('dm.test');
         $topic = $this->create_object('midcom_db_topic');
 
-        $config = array(
-            'fields' => array(
-                'test' => array(
-                    'storage' => array(
+        $config = [
+            'fields' => [
+                'test' => [
+                    'storage' => [
                         'location' => 'parameter',
                         'domain' => 'dm.test',
                         'name' => 'test',
-                    ),
+                    ],
                     'type' => 'text',
                     'widget' => 'text'
-                )
-            )
-        );
+                ]
+            ]
+        ];
         $schema = new schema($config);
-        $storage = new storage\container\dbacontainer($schema, $topic, array());
+        $storage = new storage\container\dbacontainer($schema, $topic, []);
 
         $storage->test = '23';
         $storage->save();
@@ -76,19 +76,19 @@ class storageTest extends openpsa_testcase
 
     public function test_process_blobs()
     {
-        $config = array(
-            'fields' => array(
-                'test' => array(
+        $config = [
+            'fields' => [
+                'test' => [
                     'title' => 'test',
                     'storage' => null,
                     'type' => 'blobs',
                     'widget' => 'downloads'
-                ),
-            )
-        );
+                ],
+            ]
+        ];
         $schema = new schema($config);
         $topic = new \midcom_db_topic;
-        $storage = new storage\container\dbacontainer($schema, $topic, array());
+        $storage = new storage\container\dbacontainer($schema, $topic, []);
 
         $this->assertArrayHasKey('test', $storage);
         $node = $storage->current();

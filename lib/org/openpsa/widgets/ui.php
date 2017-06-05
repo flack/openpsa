@@ -21,8 +21,8 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
 
     public static function get_search_providers()
     {
-        $defaults = array('autocomplete' => false);
-        $providers = array();
+        $defaults = ['autocomplete' => false];
+        $providers = [];
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $configured_providers = self::get_config_value('search_providers');
         $user_id = false;
@@ -32,7 +32,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         }
         foreach ($configured_providers as $component => $config) {
             if (!is_array($config)) {
-                $config = array('route' => $config);
+                $config = ['route' => $config];
             }
             $config = array_merge($defaults, $config);
 
@@ -40,12 +40,12 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
             if (   $node_url
                 && (   !$user_id
                     || midcom::get()->auth->acl->can_do_byguid('midgard:read', $siteconfig->get_node_guid($component), 'midcom_db_topic', $user_id))) {
-                $providers[] = array(
+                $providers[] = [
                     'placeholder' => midcom::get()->i18n->get_string('search title', $component),
                     'url' => $node_url . $config['route'],
                     'identifier' => $component,
                     'autocomplete' => $config['autocomplete'],
-                );
+                ];
             }
         }
         return $providers;
@@ -81,7 +81,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
     public static function enable_ui_tab()
     {
         $head = midcom::get()->head;
-        $head->enable_jquery_ui(array('tabs'));
+        $head->enable_jquery_ui(['tabs']);
 
         //functions needed for ui-tab to work here
         $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/history.js-1.8.0/jquery.history.js');
@@ -94,21 +94,21 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
      * @param string $guid The GUID, if any
      * @param array $tabdata Any custom tabs the handler wnats to add
      */
-    public static function render_tabs($guid = null, $tabdata = array())
+    public static function render_tabs($guid = null, $tabdata = [])
     {
         $uipage = self::get_config_value('ui_page');
         $prefix = midcom_connection::get_url('self') . $uipage . '/';
 
         if (null !== $guid) {
             //pass the urls & titles for the tabs
-            $tabdata[] = array(
+            $tabdata[] = [
                'url' => '__mfa/org.openpsa.relatedto/journalentry/' . $guid . '/',
                'title' => midcom::get()->i18n->get_string('journal entries', 'org.openpsa.relatedto'),
-            );
-            $tabdata[] = array(
+            ];
+            $tabdata[] = [
                'url' => '__mfa/org.openpsa.relatedto/render/' . $guid . '/both/',
                'title' => midcom::get()->i18n->get_string('related objects', 'org.openpsa.relatedto'),
-            );
+            ];
         }
 
         echo '<div id="tabs">';

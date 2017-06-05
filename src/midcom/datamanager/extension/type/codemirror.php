@@ -34,7 +34,7 @@ class codemirror extends TextareaType
 
         $map_attr = function (Options $options, $value) {
             if ($value === null) {
-                $value = array();
+                $value = [];
             }
             $value['rows'] = !empty($options['widget_config']['height']) ? $options['widget_config']['height'] : 6;
             $value['cols'] = !empty($options['widget_config']['width']) ? $options['widget_config']['width'] : 50;
@@ -46,22 +46,22 @@ class codemirror extends TextareaType
             return \midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config');
         };
 
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'attr' => $map_attr,
             'config' => $get_config
-        ));
+        ]);
 
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
-            $widget_defaults = array(
+            $widget_defaults = [
                 'enabled' => true,
                 'language' => 'php',
-            );
+            ];
             return helper::resolve_options($widget_defaults, $value);
         });
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
-            $type_defaults = array(
-                'modes' => array('xml', 'javascript', 'css', 'clike', 'php'),
-            );
+            $type_defaults = [
+                'modes' => ['xml', 'javascript', 'css', 'clike', 'php'],
+            ];
             return helper::resolve_options($type_defaults, $value);
         });
     }

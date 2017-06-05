@@ -19,7 +19,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
      *
      * @var array
      */
-    public $modes = array('xml', 'javascript', 'css', 'clike', 'php');
+    public $modes = ['xml', 'javascript', 'css', 'clike', 'php'];
 
     /**
      * Widget version
@@ -34,7 +34,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
     public $value;
 
     var $code_valid = true;
-    var $code_valid_errors = array();
+    var $code_valid_errors = [];
 
     /**
      * Whether to enable the widget for preview
@@ -99,7 +99,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
         $tmpfile = tempnam(midcom::get()->config->get('midcom_tempdir'), 'midcom_helper_datamanager2_type_php_');
         file_put_contents($tmpfile, $this->value);
         $return_status = 0;
-        $parse_results = array();
+        $parse_results = [];
         exec("php -l {$tmpfile} 2>&1", $parse_results, $return_status);
         unlink($tmpfile);
 

@@ -25,12 +25,12 @@ class images extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
-            $widget_defaults = array(
+            $widget_defaults = [
                 'map_action_elements' => false,
                 'show_title' => true,
                 'show_description' => false,
                 'sortable' => false
-            );
+            ];
             return helper::resolve_options($widget_defaults, $value);
         });
     }
@@ -47,7 +47,7 @@ class images extends AbstractType
         if ($options['widget_config']['show_description']) {
             $builder->add('description', compat::get_type_name('text'));
         }
-        $builder->add('identifier', compat::get_type_name('hidden'), array('data' => 'file'));
+        $builder->add('identifier', compat::get_type_name('hidden'), ['data' => 'file']);
         if ($options['widget_config']['sortable']) {
             $builder->add('score', compat::get_type_name('hidden'));
         }

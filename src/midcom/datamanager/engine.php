@@ -16,7 +16,7 @@ class engine extends AbstractRendererEngine
     /**
      * {@inheritdoc}
      */
-    public function renderBlock(FormView $view, $resource, $blockName, array $variables = array())
+    public function renderBlock(FormView $view, $resource, $blockName, array $variables = [])
     {
         $data = array_merge($view->vars, $variables);
         return $resource->$blockName($view, $data);
@@ -30,7 +30,7 @@ class engine extends AbstractRendererEngine
         // Check each theme whether it contains the searched block
         if (isset($this->themes[$cacheKey])) {
             for ($i = count($this->themes[$cacheKey]) - 1; $i >= 0; --$i) {
-                if (is_callable(array($this->themes[$cacheKey][$i], $blockName))) {
+                if (is_callable([$this->themes[$cacheKey][$i], $blockName])) {
                     $this->resources[$cacheKey][$blockName] = $this->themes[$cacheKey][$i];
                     return true;
                 }

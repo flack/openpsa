@@ -45,7 +45,7 @@ class org_openpsa_mail_message
     public function get_message()
     {
         // set headers
-        $headers_setter_map = array(
+        $headers_setter_map = [
             "content-type" => "setContentType",
             "content-description" => "setDescription",
             "from" => "setFrom",
@@ -56,7 +56,7 @@ class org_openpsa_mail_message
             "subject" => "setSubject",
             "date" => "setDate",
             "return-path" => "setReturnPath"
-        );
+        ];
 
         // map headers we got to swift setter methods
         $msg_headers = $this->_message->getHeaders();
@@ -151,12 +151,12 @@ class org_openpsa_mail_message
         preg_match_all($regExp_src, $this->_html_body, $matches_src);
         debug_print_r("matches_src:", $matches_src);
 
-        $matches = array(
+        $matches = [
             "whole" => $matches_src[0],
             "uri" => $matches_src[3],
             "proto" => $matches_src[4],
             "location" => $matches_src[6]
-        );
+        ];
 
         foreach ($matches["whole"] as $key => $match) {
             $location = $matches["location"][$key];
@@ -209,7 +209,7 @@ class org_openpsa_mail_message
     private function _encode_address_field($value)
     {
         if (is_array($value)) {
-            array_walk($value, array($this, '_encode_address_field'));
+            array_walk($value, [$this, '_encode_address_field']);
             return $value;
         }
         if (strpos($value, '<')) {
@@ -218,7 +218,7 @@ class org_openpsa_mail_message
             $name = preg_replace('/"\s*$/', '', $name);
             $address = substr($value, strpos($value, '<') + 1);
             $address = substr($address, 0, strlen($address) - 1);
-            $value = array($address => $name);
+            $value = [$address => $name];
         }
         return $value;
     }

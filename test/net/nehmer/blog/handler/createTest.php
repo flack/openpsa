@@ -24,17 +24,17 @@ class net_nehmer_blog_handler_createTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nehmer.blog');
 
-        $data = $this->run_handler(self::$_topic, array('create', 'default'));
+        $data = $this->run_handler(self::$_topic, ['create', 'default']);
         $this->assertEquals('create', $data['handler_id']);
 
         $this->show_handler($data);
 
-        $formdata = array(
+        $formdata = [
             'title' => uniqid(__CLASS__),
             'content' => '<p>TEST</p>'
-        );
+        ];
 
-        $this->submit_dm2_no_relocate_form('controller', $formdata, self::$_topic, array('create', 'default'));
+        $this->submit_dm2_no_relocate_form('controller', $formdata, self::$_topic, ['create', 'default']);
         $url = $this->get_dialog_url();
         $this->assertEquals('', $url);
 

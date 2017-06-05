@@ -3,13 +3,13 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 // Map, timestamps => text
 // default is 1, 3, 6 and a year
-$lastmod_content = array(
+$lastmod_content = [
     0 => $data['l10n']->get('no limit'),
     strtotime('-1 month') => $data['l10n']->get('since 1 month'),
     strtotime('-3 month') => $data['l10n']->get('since 3 months'),
     strtotime('-6 month') => $data['l10n']->get('since 6 months'),
     strtotime('-1 year') => $data['l10n']->get('since 1 year')
-);
+];
 
 $query = midcom_helper_xsspreventer::escape_attribute($data['query']);
 ?>

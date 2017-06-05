@@ -75,16 +75,16 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      *
      * @var array
      */
-    private $_templates = array(
+    private $_templates = [
         'form_toolbar' => "<div class='form_toolbar'>{element}</div>",
-    );
+    ];
 
     /**
      * Array containing the templates for elements in groups.
      *
      * @var array
      */
-    private $_group_element_templates = array();
+    private $_group_element_templates = [];
 
     /**
      * Array containing the templates for group wraps.
@@ -94,7 +94,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      *
      * @var array
      */
-    private $_group_wraps = array();
+    private $_group_wraps = [];
 
     /**
      * True if we are inside a group
@@ -108,7 +108,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      *
      * @var array
      */
-    private $_group_elements = array();
+    private $_group_elements = [];
 
     /**
      * Template for an element inside a group
@@ -136,14 +136,14 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      *
      * @var array
      */
-    private $_current_groups = array();
+    private $_current_groups = [];
 
     /**
      * All group templates for running groups (i.e. prepared and ready).
      *
      * @var array
      */
-    private $_current_group_templates = array();
+    private $_current_group_templates = [];
 
     /**
      * Collected HTML of the hidden fields
@@ -375,12 +375,12 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
     {
         $name = $group->getName();
 
-        $this->_current_group_templates[$name] = array(
+        $this->_current_group_templates[$name] = [
             'group_template' => $this->_prepare_template($name, $group, $required, $error, 'group'),
             'group_element_template' => empty($this->_group_element_templates[$name]) ? '' : $this->_group_element_templates[$name],
             'group_wrap' => empty($this->_group_wraps[$name]) ? '' : $this->_group_wraps[$name],
-            'group_elements' => array(),
-        );
+            'group_elements' => [],
+        ];
 
         $this->_in_group = true;
         $this->_set_group_templates($name);
@@ -524,6 +524,6 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
         $this->setElementTemplate('{element}');
         $this->setFormTemplate("\n\t<form{attributes}>{content}\n\t</form>\n");
         $this->setRequiredNoteTemplate('');
-        $this->_templates = array();
+        $this->_templates = [];
     }
 }

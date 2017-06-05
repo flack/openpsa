@@ -75,7 +75,7 @@ class controller
      */
     public function get_errors()
     {
-        $errors = array();
+        $errors = [];
         foreach ($this->form as $child) {
             $messages = '';
             foreach ($child->getErrors(true) as $error) {

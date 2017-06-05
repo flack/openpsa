@@ -15,18 +15,18 @@ namespace midcom\events;
  */
 class watcher
 {
-    private $classes = array();
+    private $classes = [];
 
     private $component;
 
-    private $operations = array(
+    private $operations = [
         dbaevent::CREATE => \MIDCOM_OPERATION_DBA_CREATE,
         dbaevent::UPDATE => \MIDCOM_OPERATION_DBA_UPDATE,
         dbaevent::DELETE => \MIDCOM_OPERATION_DBA_DELETE,
         dbaevent::IMPORT => \MIDCOM_OPERATION_DBA_IMPORT,
-    );
+    ];
 
-    public function __construct($component, array $classes = array())
+    public function __construct($component, array $classes = [])
     {
         $this->component = $component;
         $this->classes = $classes;

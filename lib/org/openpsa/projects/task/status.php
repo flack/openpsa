@@ -110,7 +110,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
 
     public function get_status_message()
     {
-        $map = array(
+        $map = [
             self::PROPOSED => 'proposed to %s by %s',
             self::DECLINED => 'declined by %s',
             self::ACCEPTED => 'accepted by %s',
@@ -121,7 +121,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
             self::COMPLETED => 'marked as completed by %s',
             self::APPROVED => 'approved by %s',
             self::CLOSED => 'closed by %s'
-        );
+        ];
         if (array_key_exists($this->type, $map)) {
             return $map[$this->type];
         }

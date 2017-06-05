@@ -50,7 +50,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
 
     private function _prepare_qb()
     {
-        $qb = call_user_func(array($this->_request['class'], 'new_query_builder'));
+        $qb = call_user_func([$this->_request['class'], 'new_query_builder']);
 
         if (   !empty($this->_request['constraints'])
             && is_array($this->_request['constraints'])) {
@@ -111,7 +111,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
 
     private function _get_search_constraints()
     {
-        $constraints = array();
+        $constraints = [];
         $query = $this->_request["term"];
         if (preg_match('/^%+$/', $query)) {
             debug_add('query is all wildcards, don\'t waste time in adding LIKE constraints');
@@ -143,11 +143,11 @@ class midcom_helper_datamanager2_ajax_autocomplete
                     continue;
             }
             debug_add("adding search (ORed) constraint: {$field} {$operator} '{$query}'");
-            $constraints[] = array(
+            $constraints[] = [
                 'field' => $field,
                 'op' => $operator,
                 'value' => $query
-            );
+            ];
         }
         return $constraints;
     }
@@ -190,13 +190,13 @@ class midcom_helper_datamanager2_ajax_autocomplete
         }
 
         $results = $this->get_objects();
-        $items = array();
+        $items = [];
 
         foreach ($results as $object) {
-            $item = array(
+            $item = [
                 'id' => $object->{$this->_request['id_field']},
                 'label' => midcom_helper_datamanager2_widget_autocomplete::create_item_label($object, $this->_request['result_headers'], $this->_request['get_label_for']),
-            );
+            ];
             if (!empty($this->_request['categorize_by_parent_label'])) {
                 $item['category'] = '';
                 if ($parent = $object->get_parent()) {
@@ -208,7 +208,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
             $items[] = $item;
         }
 
-        usort($items, array('midcom_helper_datamanager2_widget_autocomplete', 'sort_items'));
+        usort($items, ['midcom_helper_datamanager2_widget_autocomplete', 'sort_items']);
 
         return $items;
     }

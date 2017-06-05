@@ -16,9 +16,9 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_salesproject';
 
-    public $autodelete_dependents = array(
+    public $autodelete_dependents = [
         'org_openpsa_contacts_role_dba' => 'objectGuid'
-    );
+    ];
 
     //org.openpsa.sales salesproject states
     const STATE_LOST = 11000;
@@ -183,7 +183,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
      */
     function get_members()
     {
-        $this->_contacts = array();
+        $this->_contacts = [];
         // Make sure primary contact comes out on top
         if ($this->customerContact) {
             $this->_contacts[$this->customerContact] = true;

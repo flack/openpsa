@@ -16,12 +16,12 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Used to store map of probabilities when seeking duplicates for given person/group
      */
-    private $p_map = array();
+    private $p_map = [];
 
     /**
      * Cache memberships when possible
      */
-    private $membership_cache = array();
+    private $membership_cache = [];
 
     /**
      * Minimum score to count as duplicate
@@ -38,12 +38,12 @@ class org_openpsa_contacts_duplicates_check
      */
     function find_duplicates_person(org_openpsa_contacts_person_dba $person, $threshold = 1)
     {
-        $this->p_map = array(); //Make sure this is clean before starting
-        $ret = array();
+        $this->p_map = []; //Make sure this is clean before starting
+        $ret = [];
         //Search for all potential duplicates (more detailed checking is done later)
         $check_persons = $this->get_person_candidates($person);
 
-        $person = $this->normalize_fields(array(
+        $person = $this->normalize_fields([
             'firstname' => $person->firstname,
             'lastname' => $person->lastname,
             'email' => $person->email,
@@ -52,7 +52,7 @@ class org_openpsa_contacts_duplicates_check
             'street' => $person->street,
             'homephone' => $person->homephone,
             'id' => $person->id
-        ), $person->guid);
+        ], $person->guid);
 
         foreach ($check_persons as $check_person) {
             $p_array = $this->p_duplicate_person($person, $check_person);
@@ -86,8 +86,8 @@ class org_openpsa_contacts_duplicates_check
             $mc->end_group();
         }
 
-        $results = $mc->get_rows(array('firstname', 'id', 'lastname', 'email', 'handphone', 'homephone', 'city', 'street'));
-        $persons = array();
+        $results = $mc->get_rows(['firstname', 'id', 'lastname', 'email', 'handphone', 'homephone', 'city', 'street']);
+        $persons = [];
         foreach ($results as $guid => $result) {
             $persons[] = $this->normalize_fields($result, $guid);
         }
@@ -110,7 +110,7 @@ class org_openpsa_contacts_duplicates_check
      */
     function p_duplicate_person(array $person1, array $person2)
     {
-        $ret = array(
+        $ret = [
             'p' => 0,
             'email_match' => false,
             'handphone_match' => false,
@@ -118,7 +118,7 @@ class org_openpsa_contacts_duplicates_check
             'fname_lname_street_match' => false,
             'fname_hphone_match' => false,
             'fname_lname_company_match' => false
-        );
+        ];
 
         //TODO: read weight values from configuration
         if ($this->match('email', $person1, $person2)) {
@@ -187,7 +187,7 @@ class org_openpsa_contacts_duplicates_check
     private function load_memberships($id)
     {
         if (!isset($this->membership_cache[$id])) {
-            $this->membership_cache[$id] = array();
+            $this->membership_cache[$id] = [];
             $mc = midcom_db_member::new_collector('uid', $id);
             $mc->add_constraint('gid.orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
             $memberships = $mc->get_values('gid');
@@ -206,19 +206,19 @@ class org_openpsa_contacts_duplicates_check
      */
     function find_duplicates_group(org_openpsa_contacts_group_dba $group, $threshold = 1)
     {
-        $this->p_map = array(); //Make sure this is clean before starting
-        $ret = array();
+        $this->p_map = []; //Make sure this is clean before starting
+        $ret = [];
 
         $check_groups = $this->get_group_candidates($group);
 
-        $group = $this->normalize_fields(array(
+        $group = $this->normalize_fields([
             'official' => $group->official,
             'street' => $group->street,
             'phone' => $group->phone,
             'homepage' => $group->homepage,
             'city' => $group->city,
             'id' => $group->id
-        ), $group->guid);
+        ], $group->guid);
 
         foreach ($check_groups as $check_group) {
             $p_array = $this->p_duplicate_group($group, $check_group);
@@ -247,9 +247,9 @@ class org_openpsa_contacts_duplicates_check
             $this->add_constraint($mc, $group, 'city');
             $mc->end_group();
         }
-        $results = $mc->get_rows(array('id', 'homepage', 'phone', 'official', 'street', 'city'));
+        $results = $mc->get_rows(['id', 'homepage', 'phone', 'official', 'street', 'city']);
 
-        $groups = array();
+        $groups = [];
         foreach ($results as $guid => $result) {
             $groups[] = $this->normalize_fields($result, $guid);
         }
@@ -265,7 +265,7 @@ class org_openpsa_contacts_duplicates_check
      */
     function p_duplicate_group(array $group1, array $group2)
     {
-        $ret = array(
+        $ret = [
             'p' => 0,
             'homepage_match' => false,
             'phone_match' => false,
@@ -273,7 +273,7 @@ class org_openpsa_contacts_duplicates_check
             'official_match' => false,
             'official_city_match' => false,
             'official_street_match' => false
-        );
+        ];
 
         //TODO: read weight values from configuration
         if ($this->match('homepage', $group1, $group2)) {
@@ -313,7 +313,7 @@ class org_openpsa_contacts_duplicates_check
      */
     function check_all_persons($threshold = 1)
     {
-        $this->p_map = array(); //Make sure this is clean before starting
+        $this->p_map = []; //Make sure this is clean before starting
         $this->threshold = $threshold;
         midcom::get()->disable_limits();
 
@@ -324,11 +324,11 @@ class org_openpsa_contacts_duplicates_check
         */
         $persons = $this->get_person_candidates();
 
-        $params = array();
+        $params = [];
         $params['objects'] =& $persons;
         $params['mode'] = 'person';
 
-        array_walk($persons, array($this, 'check_all_arraywalk'), $params);
+        array_walk($persons, [$this, 'check_all_arraywalk'], $params);
 
         return $this->p_map;
     }
@@ -365,7 +365,7 @@ class org_openpsa_contacts_duplicates_check
             if ($key2 < $key1) {
                 if (isset($this->p_map[$arr2['guid']][$arr1['guid']])) {
                     if (!isset($this->p_map[$arr1['guid']])) {
-                        $this->p_map[$arr1['guid']] = array();
+                        $this->p_map[$arr1['guid']] = [];
                     }
                     $this->p_map[$arr1['guid']][$arr2['guid']] = $this->p_map[$arr2['guid']][$arr1['guid']];
                 }
@@ -394,7 +394,7 @@ class org_openpsa_contacts_duplicates_check
             }
 
             if (!isset($this->p_map[$arr1['guid']])) {
-                $this->p_map[$arr1['guid']] = array();
+                $this->p_map[$arr1['guid']] = [];
             }
 
             $this->p_map[$arr1['guid']][$arr2['guid']] = $p_arr;
@@ -408,16 +408,16 @@ class org_openpsa_contacts_duplicates_check
      */
     function check_all_groups($threshold = 1)
     {
-        $this->p_map = array(); //Make sure this is clean before starting
+        $this->p_map = []; //Make sure this is clean before starting
         $this->threshold = $threshold;
 
         midcom::get()->disable_limits();
 
         $groups = $this->get_group_candidates();
-        $params = array();
+        $params = [];
         $params['objects'] =& $groups;
         $params['mode'] = 'group';
-        array_walk($groups, array($this, 'check_all_arraywalk'), $params);
+        array_walk($groups, [$this, 'check_all_arraywalk'], $params);
 
         return $this->p_map;
     }

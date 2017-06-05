@@ -47,7 +47,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_defaults()
     {
-        return array('title' => $this->_wikiword);
+        return ['title' => $this->_wikiword];
     }
 
     /**
@@ -175,10 +175,10 @@ implements midcom_helper_datamanager2_interfaces_create
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('create wikipage %s'), $this->_wikiword));
 
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $data['controller'],
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         return $workflow->run();
     }
 

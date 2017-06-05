@@ -74,7 +74,7 @@ abstract class midcom_core_dbaobject
      *
      * @var array
      */
-    public $autodelete_dependents = array();
+    public $autodelete_dependents = [];
 
     /**
      * Constructor. Creates an abstraction layer for an MgdSchema object.
@@ -105,7 +105,7 @@ abstract class midcom_core_dbaobject
             //Some useful information for performance tuning
             if (   midcom::get()->config->get('log_level') >= MIDCOM_LOG_DEBUG
                 && $this->__object->guid) {
-                static $guids = array();
+                static $guids = [];
                 static $total = 0;
 
                 $total++;
@@ -265,7 +265,7 @@ abstract class midcom_core_dbaobject
      */
     public static function undelete($guid)
     {
-        return midcom_baseclasses_core_dbobject::undelete(array($guid), get_called_class());
+        return midcom_baseclasses_core_dbobject::undelete([$guid], get_called_class());
     }
 
     /**
@@ -534,7 +534,7 @@ abstract class midcom_core_dbaobject
     public static function new_reflection_property()
     {
         $classname = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class(get_called_class());
-        return call_user_func(array($classname, 'new_reflection_property'));
+        return call_user_func([$classname, 'new_reflection_property']);
     }
 
     // ACL Shortcuts
@@ -558,11 +558,11 @@ abstract class midcom_core_dbaobject
     // DBA API
     public function get_class_magic_default_privileges()
     {
-        return array(
-            'EVERYONE' => array(),
-            'ANONYMOUS' => array(),
-            'USERS' => array()
-        );
+        return [
+            'EVERYONE' => [],
+            'ANONYMOUS' => [],
+            'USERS' => []
+        ];
     }
 
     private function _delete_dependents()

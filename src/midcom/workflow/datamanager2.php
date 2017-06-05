@@ -36,23 +36,23 @@ class datamanager2 extends dialog
     public function configure(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'controller' => null,
                 'save_callback' => null
-            ))
-            ->setAllowedTypes('controller', array('null', 'midcom_helper_datamanager2_controller'));
+            ])
+            ->setAllowedTypes('controller', ['null', 'midcom_helper_datamanager2_controller']);
     }
 
     public function get_button_config()
     {
-        return array(
+        return [
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_l10n('midcom')->get('edit'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-            MIDCOM_TOOLBAR_OPTIONS => array(
+            MIDCOM_TOOLBAR_OPTIONS => [
                 'data-dialog' => 'dialog',
                 'data-dialog-cancel-label' => midcom::get()->i18n->get_l10n('midcom')->get('cancel')
-            )
-        );
+            ]
+        ];
     }
 
     public function run()
@@ -71,9 +71,9 @@ class datamanager2 extends dialog
                 }
             }
             midcom::get()->head->add_jscript('refresh_opener(' . $url . ');');
-            $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, array(midcom::get(), 'finish'));
+            $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [midcom::get(), 'finish']);
         } else {
-            $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, array($this->controller, 'display_form'));
+            $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$this->controller, 'display_form']);
         }
         return new \midcom_response_styled($context, 'POPUP');
     }

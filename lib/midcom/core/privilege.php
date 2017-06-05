@@ -36,7 +36,7 @@ class midcom_core_privilege
      *
      * @var array
      */
-    private $__privilege = array(
+    private $__privilege = [
         'guid' => '',
         'objectguid' => '',
         'privilegename'=> '',
@@ -44,7 +44,7 @@ class midcom_core_privilege
         'scope' => -1,
         'classname' => '',
         'value' => null
-    );
+    ];
 
     /**
      * The actual midcom_core_privilege_db object for this privilege.
@@ -191,7 +191,7 @@ class midcom_core_privilege
         if ($assignee === null) {
             $assignee = $this->assignee;
         }
-        return (in_array($assignee, array('SELF', 'EVERYONE', 'USERS', 'ANONYMOUS', 'OWNER')));
+        return (in_array($assignee, ['SELF', 'EVERYONE', 'USERS', 'ANONYMOUS', 'OWNER']));
     }
 
     /**
@@ -293,11 +293,11 @@ class midcom_core_privilege
                 MIDCOM_LOG_INFO);
             return false;
         }
-        $valid_values = array(
+        $valid_values = [
             MIDCOM_PRIVILEGE_ALLOW,
             MIDCOM_PRIVILEGE_DENY,
             MIDCOM_PRIVILEGE_INHERIT,
-        );
+        ];
 
         if (!in_array($this->value, $valid_values)) {
             debug_add("Invalid privilege value '{$this->value}'.", MIDCOM_LOG_INFO);
@@ -356,7 +356,7 @@ class midcom_core_privilege
      */
     private static function _get_privileges($guid, $type)
     {
-        static $cache = array();
+        static $cache = [];
 
         $cache_key = $type . '::' . $guid;
 
@@ -384,7 +384,7 @@ class midcom_core_privilege
      */
     protected static function _query_privileges($guid, $type)
     {
-        $result = array();
+        $result = [];
 
         $mc = new midgard_collector('midcom_core_privilege_db', 'objectguid', $guid);
         $mc->add_constraint('value', '<>', MIDCOM_PRIVILEGE_INHERIT);

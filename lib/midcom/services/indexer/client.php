@@ -47,7 +47,7 @@ abstract class midcom_services_indexer_client
      *
      * @var array
      */
-    private $_queries = array();
+    private $_queries = [];
 
     /**
      * Constructor
@@ -80,7 +80,7 @@ abstract class midcom_services_indexer_client
 
     public function add_query($name, midcom_core_querybuilder $qb, $schemadb)
     {
-        $this->_queries[$name] = array($qb, $schemadb);
+        $this->_queries[$name] = [$qb, $schemadb];
     }
 
     public function reindex()

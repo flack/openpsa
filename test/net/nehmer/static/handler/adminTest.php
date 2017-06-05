@@ -18,15 +18,15 @@ class net_nehmer_static_handler_adminTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $topic_attributes = array(
+        $topic_attributes = [
             'component' => 'net.nehmer.static',
             'name' => __CLASS__ . time()
-        );
+        ];
         self::$_topic = self::create_class_object('midcom_db_topic', $topic_attributes);
-        $article_properties = array(
+        $article_properties = [
             'topic' => self::$_topic->id,
             'name' => __CLASS__ . time()
-        );
+        ];
         self::$_article = self::create_class_object('midcom_db_article', $article_properties);
     }
 
@@ -34,7 +34,7 @@ class net_nehmer_static_handler_adminTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nehmer.static');
 
-        $data = $this->run_handler(self::$_topic, array('edit', self::$_article->guid));
+        $data = $this->run_handler(self::$_topic, ['edit', self::$_article->guid]);
         $this->assertEquals('edit', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -44,8 +44,8 @@ class net_nehmer_static_handler_adminTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nehmer.static');
 
-        $_POST = array('referrer' => self::$_article->name . '/');
-        $url = $this->run_relocate_handler(self::$_topic, array('delete', self::$_article->guid));
+        $_POST = ['referrer' => self::$_article->name . '/'];
+        $url = $this->run_relocate_handler(self::$_topic, ['delete', self::$_article->guid]);
         $this->assertEquals(self::$_article->name . '/', $url);
 
         midcom::get()->auth->drop_sudo();

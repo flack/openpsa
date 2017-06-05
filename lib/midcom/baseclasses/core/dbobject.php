@@ -19,8 +19,8 @@ use midcom\events\dbaevent;
  */
 class midcom_baseclasses_core_dbobject
 {
-    private static $parameter_cache = array();
-    private static $parameter_all = array();
+    private static $parameter_cache = [];
+    private static $parameter_all = [];
 
     /**
      * "Pre-flight" checks for update method
@@ -469,7 +469,7 @@ class midcom_baseclasses_core_dbobject
             }
 
             foreach ($children_types as $type => $children) {
-                $child_guids = array();
+                $child_guids = [];
                 foreach ($children as $child) {
                     if ($child->metadata->deleted) {
                         $child_guids[] = $child->guid;
@@ -560,7 +560,7 @@ class midcom_baseclasses_core_dbobject
 
             if (is_array($children_types)) {
                 foreach ($children_types as $child_type => $children) {
-                    $child_guids = array();
+                    $child_guids = [];
                     foreach ($children as $child) {
                         if (!$child->metadata->deleted) {
                             $child->delete();
@@ -891,14 +891,14 @@ class midcom_baseclasses_core_dbobject
     private static function _list_parameters_domain(midcom_core_dbaobject $object, $domain)
     {
         if (!isset(self::$parameter_cache[$object->guid])) {
-            self::$parameter_cache[$object->guid] = array();
+            self::$parameter_cache[$object->guid] = [];
         }
 
         if (isset(self::$parameter_cache[$object->guid][$domain])) {
             return self::$parameter_cache[$object->guid][$domain];
         }
 
-        self::$parameter_cache[$object->guid][$domain] = array();
+        self::$parameter_cache[$object->guid][$domain] = [];
 
         $mc = midgard_parameter::new_collector('parentguid', $object->guid);
         $mc->set_key_property('name');
@@ -926,7 +926,7 @@ class midcom_baseclasses_core_dbobject
     private static function _list_parameters_all(midcom_core_dbaobject $object)
     {
         if (!isset(self::$parameter_cache[$object->guid])) {
-            self::$parameter_cache[$object->guid] = array();
+            self::$parameter_cache[$object->guid] = [];
         }
 
         if (!isset(self::$parameter_all[$object->guid])) {
@@ -943,7 +943,7 @@ class midcom_baseclasses_core_dbobject
                 $domain = $mc->get_subkey($guid, 'domain');
 
                 if (!isset(self::$parameter_cache[$object->guid][$domain])) {
-                    self::$parameter_cache[$object->guid][$domain] = array();
+                    self::$parameter_cache[$object->guid][$domain] = [];
                 }
 
                 self::$parameter_cache[$object->guid][$domain][$name] = $mc->get_subkey($guid, 'value');
@@ -1330,7 +1330,7 @@ class midcom_baseclasses_core_dbobject
     {
         if (!$object->id) {
             debug_add('Cannot retrieve attachments on a non-persistant object.', MIDCOM_LOG_WARN);
-            return array();
+            return [];
         }
 
         return self::get_attachment_qb($object)->execute();

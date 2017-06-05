@@ -18,7 +18,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
      *
      * @var midcom_helper_datamanager2_datamanager[] Array of datamanager instances
      */
-    private $_datamanagers = array();
+    private $_datamanagers = [];
 
     /**
      * Flag indicating whether or not the GUID of the first type should be included in exports.
@@ -34,13 +34,13 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
      */
     public $include_totals = false;
 
-    public $csv = array();
+    public $csv = [];
 
     protected $_schema;
 
-    private $_rows = array();
+    private $_rows = [];
 
-    private $_totals = array();
+    private $_totals = [];
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -98,7 +98,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         $rows = $this->_load_data($handler_id, $args, $data);
         if (count($this->_datamanagers) == 1) {
             foreach ($rows as $row) {
-                $this->_rows[] = array($row);
+                $this->_rows[] = [$row];
             }
         } else {
             $this->_rows = $rows;
@@ -125,7 +125,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         reset($this->_datamanagers);
         $first_type = key($this->_datamanagers);
         $multiple_types = count($this->_datamanagers) > 1;
-        $row = array();
+        $row = [];
         if ($this->include_guid) {
             $row[] = $first_type . ' GUID';
         }
@@ -150,7 +150,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         $this->_dump_rows();
 
         if ($this->include_totals) {
-            $row = array();
+            $row = [];
             foreach ($this->_datamanagers as $type => $datamanager) {
                 foreach ($datamanager->schema->field_order as $name) {
                     $fieldtype =& $datamanager->schema->fields[$name]['type'];
@@ -173,7 +173,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         $first_type = key($this->_datamanagers);
         // Output each row
         foreach ($this->_rows as $num => $row) {
-            $output = array();
+            $output = [];
             foreach ($this->_datamanagers as $type => $datamanager) {
                 if (!array_key_exists($type, $row)) {
                     debug_add("row #{$num} does not have {$type} set", MIDCOM_LOG_INFO);
@@ -209,7 +209,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     private function _print_row(array $row)
     {
-        $row = array_map(array($this, 'encode_csv'), $row);
+        $row = array_map([$this, 'encode_csv'], $row);
         echo implode($this->csv['s'], $row);
         echo $this->csv['nl'];
         flush();

@@ -46,7 +46,7 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
         }
 
         return $nodes->each(function(Crawler $node, $i) {
-            $tag = array('title' => false, 'href' => false, 'hreflang' => false);
+            $tag = ['title' => false, 'href' => false, 'hreflang' => false];
             foreach ($tag as $property => &$value) {
                 if ($node->attr($property) !== null) {
                     $value = $node->attr($property);
@@ -69,11 +69,11 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
         $nodes = $crawler->filter('a[rel="' . $relation . '"]');
 
         return $nodes->each(function(Crawler $node, $i) {
-            return array(
+            return [
                 'title' => ($node->attr('title') !== null) ? $node->attr('title') : false,
                 'href' => ($node->attr('href') !== null) ? $node->attr('href') : false,
                 'value' => ($node->text() !== null) ? $node->text() : false,
-            );
+            ];
         });
     }
 }

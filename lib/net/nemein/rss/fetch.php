@@ -64,7 +64,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
              * if they are deleted before, this triggers a segfault under PHP 5.4
              * @see https://github.com/simplepie/simplepie/issues/284
              */
-            static $parsers = array();
+            static $parsers = [];
             $parsers[] = $parser;
         }
         return $parser;
@@ -94,7 +94,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $parser = self::raw_fetch($this->_feed->url);
         if ($parser->error()) {
             $this->lasterror = $parser->error();
-            return array();
+            return [];
         }
         if (!empty($parser->data['headers']['etag'])) {
             // Etag checking
@@ -105,7 +105,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 && $feed_etag == $etag) {
                 // Feed hasn't changed, skip updating
                 debug_add("Feed {$this->_feed->url} has not changed since " . date('c', $this->_feed->latestfetch), MIDCOM_LOG_WARN);
-                return array();
+                return [];
             }
 
             $this->_feed->set_parameter('net.nemein.rss', 'etag', $etag);
@@ -125,14 +125,14 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     public function import()
     {
         if (!$this->_node->component) {
-            return array();
+            return [];
         }
 
         $items = $this->fetch();
 
         if (count($items) == 0) {
             // This feed didn't return any items, skip
-            return array();
+            return [];
         }
 
         // Reverse items so that creation times remain in correct order even for feeds without timestamps
@@ -203,14 +203,14 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $article->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
         $article->set_rcs_message(sprintf(midcom::get()->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $title, $this->_feed->title));
 
-        $values = array(
+        $values = [
             'title' => $title,
             $this->_guid_property => $guid, // FIXME: This breaks with URLs longer than 255 chars
             'content' => $item->get_content(),
             'url' => $item->get_link(),
             'extra1' => '|feed:' . md5($this->_feed->url) . '|',
-        );
-        $meta_values = array();
+        ];
+        $meta_values = [];
 
         // Safety, make sure we have sane name (the allow_catenate was set earlier, so this will not clash
         if (empty($article->name)) {
@@ -366,7 +366,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         }
 
         // Create array of item GUIDs
-        $item_guids = array();
+        $item_guids = [];
         foreach ($items as $item) {
             $item_guids[] = $item->get_id();
         }
@@ -377,7 +377,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $qb->add_constraint('extra1', 'LIKE', "%|feed:{$feed_category}|%");
         $qb->add_constraint($this->_guid_property, 'NOT IN', $item_guids);
         $local_items = $qb->execute_unchecked();
-        $purge_guids = array();
+        $purge_guids = [];
         foreach ($local_items as $item) {
             $purge_guids[] = $item->guid;
             $item->delete();
@@ -395,7 +395,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      */
     public static function parse_item_author(net_nemein_rss_parser_item $item)
     {
-        $author_info = array();
+        $author_info = [];
 
         $author = $item->get_author();
 
@@ -511,7 +511,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     private function _parse_tags($article, $field = 'content')
     {
         $html_tags = org_openpsa_httplib_helpers::get_anchor_values($article->$field, 'tag');
-        $tags = array();
+        $tags = [];
 
         if (count($html_tags) > 0) {
             foreach ($html_tags as $html_tag) {

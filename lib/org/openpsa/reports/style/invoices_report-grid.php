@@ -2,32 +2,32 @@
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');
 
-$status_options = array(
+$status_options = [
     'scheduled' => $l10n->get('scheduled'),
     'canceled' => $l10n->get('canceled'),
     'unsent' => $l10n->get('unsent'),
     'paid' => $l10n->get('paid'),
     'overdue' => $l10n->get('overdue'),
     'open' => $l10n->get('open')
-);
-$entries = array();
+];
+$entries = [];
 
 $grid_id = 'invoices_report_grid';
 if ($data['query']->orgOpenpsaObtype !== org_openpsa_reports_query_dba::OBTYPE_REPORT_TEMPORARY) {
     $grid_id .= $data['query']->id;
 }
 
-$footer_data = array(
+$footer_data = [
     'number' => $data['l10n']->get('totals'),
     'sum' => 0,
     'vat_sum' => 0
-);
+];
 $sortname = 'date';
 $sortorder = 'asc';
-$cancelations = array();
+$cancelations = [];
 
 foreach ($data['invoices'] as $invoice) {
-    $entry = array(
+    $entry = [
         'id' => $invoice->id,
         'index_number' => $invoice->number,
         'number' => $invoice->description,
@@ -43,7 +43,7 @@ foreach ($data['invoices'] as $invoice) {
         'sum' => $invoice->sum,
         'vat' => $invoice->vat,
         'vat_sum' => ($invoice->sum / 100) * $invoice->vat
-    );
+    ];
 
     $footer_data['sum'] += $invoice->sum;
     $footer_data['vat_sum'] += $entry['vat_sum'];
@@ -119,14 +119,14 @@ $grid->set_column('number', $l10n->get('invoice number'), 'width: 120', 'string'
 
 $grid->set_option('loadonce', true)
     ->set_option('grouping', true)
-    ->set_option('groupingView', array(
-             'groupField' => array('status'),
-             'groupColumnShow' => array(false),
-             'groupText' => array('<strong>{0}</strong> ({1})'),
-             'groupOrder' => array('asc'),
-             'groupSummary' => array(true),
+    ->set_option('groupingView', [
+             'groupField' => ['status'],
+             'groupColumnShow' => [false],
+             'groupText' => ['<strong>{0}</strong> ({1})'],
+             'groupOrder' => ['asc'],
+             'groupSummary' => [true],
              'showSummaryOnHide' => true
-         ))
+         ])
     ->set_option('sortname', $sortname)
     ->set_option('sortorder', $sortorder);
 

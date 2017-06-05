@@ -108,7 +108,7 @@ class midcom_compat_default extends midcom_compat_environment
  */
 class midcom_compat_unittest extends midcom_compat_environment
 {
-    private static $_headers = array();
+    private static $_headers = [];
 
     public function __construct()
     {
@@ -119,11 +119,11 @@ class midcom_compat_unittest extends midcom_compat_environment
         if (preg_match('/^Location: (.*?)$/', $string, $matches)) {
             throw new openpsa_test_relocate($matches[1], $http_response_code);
         }
-        self::$_headers[] = array(
+        self::$_headers[] = [
             'value' => $string,
             'replace' => $replace,
             'http_response_code' => $http_response_code
-        );
+        ];
     }
 
     public function stop_request($message = '')
@@ -141,7 +141,7 @@ class midcom_compat_unittest extends midcom_compat_environment
     public static function flush_registered_headers()
     {
         $headers = self::$_headers;
-        self::$_headers = array();
+        self::$_headers = [];
         return $headers;
     }
 }

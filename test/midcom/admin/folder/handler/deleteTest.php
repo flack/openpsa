@@ -17,18 +17,18 @@ class midcom_admin_folder_handler_deleteTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.admin.folder');
         $parent = self::get_component_node('net.nehmer.static');
-        $attributes = array(
+        $attributes = [
             'component' => 'net.nehmer.static',
             'parent' => $parent->id
-        );
+        ];
         $topic = $this->create_object('midcom_db_topic', $attributes);
 
-        $data = $this->run_handler($topic, array('__ais', 'folder', 'delete'));
+        $data = $this->run_handler($topic, ['__ais', 'folder', 'delete']);
         $this->assertEquals('____ais-folder-delete', $data['handler_id']);
 
-        $_POST = array('confirm-delete' => true);
+        $_POST = ['confirm-delete' => true];
 
-        $url = $this->run_relocate_handler($topic, array('__ais', 'folder', 'delete'));
+        $url = $this->run_relocate_handler($topic, ['__ais', 'folder', 'delete']);
 
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('id', '=', $topic->id);

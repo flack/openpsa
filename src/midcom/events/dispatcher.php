@@ -25,12 +25,12 @@ class dispatcher extends EventDispatcher
      *
      * @var array
      */
-    private $watches = array(
+    private $watches = [
         \MIDCOM_OPERATION_DBA_CREATE => dbaevent::CREATE,
         \MIDCOM_OPERATION_DBA_UPDATE => dbaevent::UPDATE,
         \MIDCOM_OPERATION_DBA_DELETE => dbaevent::DELETE,
         \MIDCOM_OPERATION_DBA_IMPORT => dbaevent::IMPORT,
-    );
+    ];
 
     /**
      * Compat function for ragnaroek-style events.
@@ -53,7 +53,7 @@ class dispatcher extends EventDispatcher
                 // contains the operation_id we're checking a watch for.
                 if ($watch['operations'] & $operation_id) {
                     $listener = new watcher($component, $watch['classes']);
-                    $this->addListener($event_name, array($listener, 'handle_event'));
+                    $this->addListener($event_name, [$listener, 'handle_event']);
                 }
             }
         }

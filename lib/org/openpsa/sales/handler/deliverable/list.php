@@ -14,7 +14,7 @@
 class org_openpsa_sales_handler_deliverable_list extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client
 {
-    public function get_qb($field = null, $direction = 'ASC', array $search = array())
+    public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
         $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('product', $this->_product->id);
         if (!is_null($field)) {
@@ -31,7 +31,7 @@ implements org_openpsa_widgets_grid_provider_client
         $deliverable_link = "<a href='{$prefix}deliverable/{$deliverable->guid}/'>" . $deliverable->title . "</a>";
         $salesproject_link = "<a href='{$prefix}salesproject/{$salesproject->guid}/'>" . $salesproject->title . "</a>";
 
-        return array(
+        return [
             'id' => $deliverable->id,
             'index_title' => $deliverable->title,
             'title' => $deliverable_link,
@@ -43,7 +43,7 @@ implements org_openpsa_widgets_grid_provider_client
             'pricePerUnit' => $deliverable->pricePerUnit,
             'units' => $deliverable->units,
             'invoiced' => $deliverable->invoiced
-        );
+        ];
     }
 
     /**
@@ -62,11 +62,11 @@ implements org_openpsa_widgets_grid_provider_client
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $products_url = $siteconfig->get_node_full_url('org.openpsa.products');
         $this->_view_toolbar->add_item(
-            array(
+            [
                 MIDCOM_TOOLBAR_URL => $products_url . 'product/' . $this->_product->guid . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to product'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-            )
+            ]
         );
 
         $title = sprintf($this->_l10n->get('deliverables for product %s'), $this->_product->title);

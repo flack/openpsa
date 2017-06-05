@@ -48,5 +48,5 @@ interface midcom_services_indexer_backend
      * @param array $options Options to modify the backend behavior
      * @return midcom_services_indexer_document[] An array of documents matching the query, or false on a failure.
      */
-    public function query($query, midcom_services_indexer_filter $filter = null, array $options = array());
+    public function query($query, midcom_services_indexer_filter $filter = null, array $options = []);
 }

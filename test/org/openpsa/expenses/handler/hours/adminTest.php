@@ -19,8 +19,8 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         $project = self::create_class_object('org_openpsa_projects_project');
-        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', array('project' => $project->id));
-        self::$_report = self::create_class_object('org_openpsa_projects_hour_report_dba', array('task' => self::$_task->id));
+        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', ['project' => $project->id]);
+        self::$_report = self::create_class_object('org_openpsa_projects_hour_report_dba', ['task' => self::$_task->id]);
         self::create_user(true);
     }
 
@@ -28,7 +28,7 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
-        $data = $this->run_handler('org.openpsa.expenses', array('hours', 'edit', self::$_report->guid));
+        $data = $this->run_handler('org.openpsa.expenses', ['hours', 'edit', self::$_report->guid]);
         $this->assertEquals('hours_edit', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -38,7 +38,7 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
-        $data = $this->run_handler('org.openpsa.expenses', array('hours', 'delete', self::$_report->guid));
+        $data = $this->run_handler('org.openpsa.expenses', ['hours', 'delete', self::$_report->guid]);
         $this->assertEquals('hours_delete', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -48,23 +48,23 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
-        $data = $this->run_handler('org.openpsa.expenses', array('hours', 'create', 'hour_report'));
+        $data = $this->run_handler('org.openpsa.expenses', ['hours', 'create', 'hour_report']);
         $this->assertEquals('hours_create', $data['handler_id']);
 
         $person = $this->create_object('midcom_db_person');
 
-        $formdata = array(
+        $formdata = [
             'description' => __CLASS__ . '::' . __FUNCTION__,
             'hours' => '2',
-            'person' => array(
+            'person' => [
                 'selection' => '[' . $person->id . ']'
-            ),
-            'task' => array(
+            ],
+            'task' => [
                 'selection' => '[' . self::$_task->id . ']'
-            ),
-        );
+            ],
+        ];
 
-        $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.expenses', array('hours', 'create', 'hour_report'));
+        $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.expenses', ['hours', 'create', 'hour_report']);
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
         $qb->add_constraint('task', '=', self::$_task->id);
         $qb->add_constraint('description', '=', __CLASS__ . '::' . __FUNCTION__);
@@ -79,7 +79,7 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
-        $data = $this->run_handler('org.openpsa.expenses', array('hours', 'create', 'hour_report', self::$_task->guid));
+        $data = $this->run_handler('org.openpsa.expenses', ['hours', 'create', 'hour_report', self::$_task->guid]);
         $this->assertEquals('hours_create_task', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

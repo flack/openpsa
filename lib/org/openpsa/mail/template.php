@@ -87,9 +87,9 @@ class org_openpsa_mail_template
      *
      * @var array
      */
-    private $_parameters = array();
+    private $_parameters = [];
 
-    private $_patterns = array();
+    private $_patterns = [];
 
     /**
      * Constructs the template engine and parses the passed parameters
@@ -122,7 +122,7 @@ class org_openpsa_mail_template
      */
     public function parse($input)
     {
-        return preg_replace_callback($this->_patterns, array($this, '_replace_callback'), $input);
+        return preg_replace_callback($this->_patterns, [$this, '_replace_callback'], $input);
     }
 
     private function _replace_callback($matches)

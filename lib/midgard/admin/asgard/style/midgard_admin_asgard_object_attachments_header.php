@@ -18,7 +18,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             echo "    <tbody>\n";
             foreach ($data['files'] as $file) {
                 $mime_icon = midcom_helper_misc::get_mime_icon($file->mimetype);
-                $workflow = new midcom\workflow\delete(array('object' => $file, 'label' => $file->name));
+                $workflow = new midcom\workflow\delete(['object' => $file, 'label' => $file->name]);
                 $revisor = midcom::get()->auth->get_user($file->metadata->revisor);
                 $class = '';
                 if (   isset($data['file'])

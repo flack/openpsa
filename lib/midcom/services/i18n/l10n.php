@@ -108,7 +108,7 @@ class midcom_services_i18n_l10n
      *
      * @var Array
      */
-    private static $_localedb = array();
+    private static $_localedb = [];
 
     /**
      * The string database, a reference into the global cache.
@@ -146,7 +146,7 @@ class midcom_services_i18n_l10n
         $this->_fallback_language = midcom::get()->i18n->get_fallback_language();
 
         if (!isset(self::$_localedb[$this->_library])) {
-            self::$_localedb[$this->_library] = array();
+            self::$_localedb[$this->_library] = [];
         }
 
         $this->_stringdb =& self::$_localedb[$this->_library];
@@ -162,7 +162,7 @@ class midcom_services_i18n_l10n
      */
     private function _load_language($lang)
     {
-        $this->_stringdb[$lang] = array();
+        $this->_stringdb[$lang] = [];
         $filename = "{$this->_library_filename}.{$lang}.txt";
 
         if (midcom::get()->config->get('cache_module_memcache_backend') != 'flatfile') {
@@ -199,7 +199,7 @@ class midcom_services_i18n_l10n
 
     private function parse_data(array $data, $lang, $filename)
     {
-        $stringtable = array();
+        $stringtable = [];
         $version = '';
         $language = '';
         $instring = false;
@@ -456,7 +456,7 @@ class midcom_services_i18n_l10n
     {
         $this->_check_for_language($language);
         if (empty($this->_stringdb[$language])) {
-            return array();
+            return [];
         }
         return $this->_stringdb[$language];
     }

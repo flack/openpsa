@@ -132,10 +132,10 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             ?>
         </div>
         <?php
-            $tabs = array(array(
+            $tabs = [[
                 'url' => $expenses_url . "hours/task/all/" . $task->guid . "/",
                 'title' => $data['l10n']->get('hour reports'),
-            ));
+            ]];
 
             org_openpsa_widgets_ui::render_tabs($task->guid, $tabs);
         ?>

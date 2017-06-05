@@ -24,7 +24,7 @@ class midgard_admin_user_handler_group_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midgard.admin.user');
 
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard_midgard.admin.user', 'group'));
+        $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard_midgard.admin.user', 'group']);
         $this->assertEquals('____mfa-asgard_midgard.admin.user-group_list', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -34,7 +34,7 @@ class midgard_admin_user_handler_group_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midgard.admin.user');
 
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard_midgard.admin.user', 'group', 'move', self::$_group->guid));
+        $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard_midgard.admin.user', 'group', 'move', self::$_group->guid]);
         $this->assertEquals('____mfa-asgard_midgard.admin.user-group_move', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -43,8 +43,8 @@ class midgard_admin_user_handler_group_listTest extends openpsa_testcase
     public function test_belongs_to()
     {
         $root = $this->create_object('midcom_db_group');
-        $child = $this->create_object('midcom_db_group', array('owner' => $root->id));
-        $grandchild = $this->create_object('midcom_db_group', array('owner' => $child->id));
+        $child = $this->create_object('midcom_db_group', ['owner' => $root->id]);
+        $grandchild = $this->create_object('midcom_db_group', ['owner' => $child->id]);
 
         $other = $this->create_object('midcom_db_group');
 

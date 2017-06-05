@@ -18,7 +18,7 @@ class org_openpsa_expenses_handler_hours_listTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         $project = self::create_class_object('org_openpsa_projects_project');
-        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', array('project' => $project->id));
+        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', ['project' => $project->id]);
         self::create_user(true);
     }
 
@@ -26,7 +26,7 @@ class org_openpsa_expenses_handler_hours_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
-        $data = $this->run_handler('org.openpsa.expenses', array('hours', 'task', self::$_task->guid));
+        $data = $this->run_handler('org.openpsa.expenses', ['hours', 'task', self::$_task->guid]);
         $this->assertEquals('list_hours_task', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -36,7 +36,7 @@ class org_openpsa_expenses_handler_hours_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
-        $data = $this->run_handler('org.openpsa.expenses', array('hours', 'task', 'all', self::$_task->guid));
+        $data = $this->run_handler('org.openpsa.expenses', ['hours', 'task', 'all', self::$_task->guid]);
         $this->assertEquals('list_hours_task_all', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -46,14 +46,14 @@ class org_openpsa_expenses_handler_hours_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
-        $_GET = array(
-            'date' => array(
+        $_GET = [
+            'date' => [
                 'from' => '2011-10-03',
                 'to' => '2011-10-10'
-            )
-        );
+            ]
+        ];
 
-        $data = $this->run_handler('org.openpsa.expenses', array('hours'));
+        $data = $this->run_handler('org.openpsa.expenses', ['hours']);
         $this->assertEquals('list_hours', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

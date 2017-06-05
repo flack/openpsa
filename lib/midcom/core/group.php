@@ -124,7 +124,7 @@ class midcom_core_group
      */
     public function list_members()
     {
-        $return = array();
+        $return = [];
 
         if (empty($this->_storage->id)) {
             debug_add('$this->storage is not object or id is empty', MIDCOM_LOG_ERROR);
@@ -162,10 +162,10 @@ class midcom_core_group
         $mc->execute();
         $result = $mc->list_keys();
         if (empty($result)) {
-            return array();
+            return [];
         }
 
-        $return = array();
+        $return = [];
         foreach (array_keys($result) as $gid) {
             try {
                 $group = new midcom_core_group($gid);
@@ -223,7 +223,7 @@ class midcom_core_group
     public function get_privileges()
     {
         if (is_null($this->_storage)) {
-            return array();
+            return [];
         }
         return midcom_core_privilege::get_self_privileges($this->_storage->guid);
     }

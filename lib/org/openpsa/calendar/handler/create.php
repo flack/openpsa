@@ -39,7 +39,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_defaults()
     {
-        $defaults = array('participants' => array());
+        $defaults = ['participants' => []];
         if ($person = midcom::get()->auth->get_user($this->resource)) {
             $person = $person->get_storage();
             $defaults['participants'][$person->id] = $person;
@@ -101,9 +101,9 @@ implements midcom_helper_datamanager2_interfaces_create
         $conflictmanager = new org_openpsa_calendar_conflictmanager(new org_openpsa_calendar_event_dba);
         // Load the controller instance
         $data['controller'] = $this->get_controller('create');
-        $data['controller']->formmanager->form->addFormRule(array($conflictmanager, 'validate_form'));
+        $data['controller']->formmanager->form->addFormRule([$conflictmanager, 'validate_form']);
 
-        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
+        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
         $response = $workflow->run();
         if ($workflow->get_state() == 'save') {
             $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);

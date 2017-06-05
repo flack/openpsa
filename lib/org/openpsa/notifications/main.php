@@ -132,12 +132,12 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
 
     public function load_schemadb()
     {
-        $schemadb = array(
-            'default' => array(
+        $schemadb = [
+            'default' => [
                 'description' => 'notifications',
-                'fields'      => array()
-            )
-        );
+                'fields'      => []
+            ]
+        ];
         $schemadb = midcom_helper_datamanager2_schema::load_database($schemadb);
         $notifiers = $this->_list_notifiers();
 
@@ -149,34 +149,34 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
             $total = sizeof($actions);
             foreach ($actions as $action => $settings) {
                 $action_key = "{$component}:{$action}";
-                $field_config = array(
+                $field_config = [
                     'title'   => $this->_i18n->get_string("action {$action}", $component),
-                    'storage' => array(
+                    'storage' => [
                         'location' => 'configuration',
                         'domain'   => 'org.openpsa.notifications',
                         'name'     => $action_key,
-                    ),
+                    ],
                     'type'    => 'select',
                     'widget'  => 'radiocheckselect',
-                    'type_config' => array(
+                    'type_config' => [
                         'options' => $notifiers,
-                    ),
-                );
+                    ],
+                ];
                 if (!empty($settings['default'])) {
                     $field_config['default'] = $settings['default'];
                 }
                 if ($i == 0) {
-                    $field_config['start_fieldset'] = array(
+                    $field_config['start_fieldset'] = [
                         'title' => $this->_i18n->get_string($component, $component),
                         'css_group' => 'area',
-                    );
+                    ];
                 }
                 if (++$i == $total) {
                     $field_config['end_fieldset'] = '';
                 }
 
                 $schemadb['default']->append_field(
-                    str_replace(array(':', '.'), '_', $action_key),
+                    str_replace([':', '.'], '_', $action_key),
                     $field_config
                 );
             }
@@ -187,10 +187,10 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
     private function _list_notifiers()
     {
         // TODO: Figure out which notifiers are possible
-        return array(
+        return [
             ''         => $this->_l10n->get('inherit'),
             'none'     => $this->_l10n->get('none'),
             'email'    => $this->_l10n->get('email'),
-        );
+        ];
     }
 }

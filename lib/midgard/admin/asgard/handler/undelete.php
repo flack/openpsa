@@ -35,7 +35,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
         $data['view_title'] = $this->_l10n->get('trash');
 
-        $data['types'] = array();
+        $data['types'] = [];
         foreach (midcom_connection::get_schema_types() as $type) {
             if (substr($type, 0, 2) == '__') {
                 continue;

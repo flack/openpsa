@@ -31,7 +31,7 @@ class midcom_admin_folder_selectcomponent extends  midcom_helper_datamanager2_wi
         // TODO: This doesn't support Access control yet.
 
         if ($this->_field['readonly']) {
-            $this->_all_elements = array();
+            $this->_all_elements = [];
             foreach ($this->_type->selection as $key) {
                 $this->_all_elements[$key] = $this->_type->get_name_for_key($key);
             }
@@ -39,17 +39,17 @@ class midcom_admin_folder_selectcomponent extends  midcom_helper_datamanager2_wi
             $this->_all_elements = $this->_type->list_all();
         }
 
-        $select_attributes = array_merge($attributes, array(
+        $select_attributes = array_merge($attributes, [
             'class' => ($this->_type->allow_multiple) ? 'list' : 'dropdown',
-        ));
+        ]);
         $select_attributes['class'] .= ' selectcomponent';
 
         $select_element = $this->_form->createElement('select', $this->name, $this->_translate($this->_field['title']),
-           array(), $select_attributes);
+           [], $select_attributes);
 
         // Translate and add
         foreach ($this->_all_elements as $key => $value) {
-            $option_attributes = array();
+            $option_attributes = [];
             if (midcom::get()->componentloader->get_component_icon($key, false)) {
                 $option_attributes['style'] = 'background-image: url("' . MIDCOM_STATIC_URL . '/' . midcom::get()->componentloader->get_component_icon($key) . '")';
             }

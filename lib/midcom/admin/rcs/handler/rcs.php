@@ -16,12 +16,12 @@ class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
 
     protected function get_breadcrumbs()
     {
-        $items = array();
+        $items = [];
         if (!is_a($this->object, 'midcom_db_topic')) {
-            $items[] = array(
+            $items[] = [
                 MIDCOM_NAV_URL => $this->get_object_url(),
                 MIDCOM_NAV_NAME => $this->resolve_object_title()
-            );
+            ];
         }
         return $items;
     }
@@ -29,11 +29,11 @@ class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
     protected function handler_callback($handler_id)
     {
         $this->_view_toolbar->add_item(
-            array(
+            [
                 MIDCOM_TOOLBAR_URL => $this->get_object_url(),
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('back to %s'), $this->resolve_object_title()),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_up.png',
-            )
+            ]
         );
     }
 

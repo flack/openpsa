@@ -14,25 +14,25 @@
 class midcom_core_service_implementation_urlparsertopic implements midcom_core_service_urlparser
 {
     public $argc = 0;
-    public $argv = array();
-    private $argv_original = array();
+    public $argv = [];
+    private $argv_original = [];
 
     private $current_object = null;
 
     private $url = '';
 
     // Run-time cache of objects by URL
-    private $objects = array();
+    private $objects = [];
 
     public function tokenize($url)
     {
-        static $tokenized = array();
+        static $tokenized = [];
         $original_url = $url;
         if (isset($tokenized[$original_url])) {
             return $tokenized[$original_url];
         }
 
-        $tokenized[$original_url] = array();
+        $tokenized[$original_url] = [];
         if (strlen(midcom_connection::get_url('prefix')) > 1) {
             // FIXME: Replace only the first instance, there might be others matching the same string
             $url = str_replace(midcom_connection::get_url('prefix') . "/", '/', $url);
@@ -195,9 +195,9 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         array_shift($this->argv_original);
         $this->argc -= 1;
 
-        return array(
+        return [
             $key => $value,
-        );
+        ];
     }
 
     /**

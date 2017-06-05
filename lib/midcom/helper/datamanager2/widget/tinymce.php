@@ -196,11 +196,11 @@ EOT;
      */
     private function _get_configuration()
     {
-        $ok_elements = array(
+        $ok_elements = [
             'simple'   => true,
             'advanced' => true,
             'tiny'     => true,
-        );
+        ];
         if (array_key_exists($this->theme, $ok_elements)) {
             $function = "_get_{$this->theme}_configuration";
             return $this->$function();

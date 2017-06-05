@@ -176,11 +176,11 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
     {
         if (   $this->minimum !== null
             && $fields[$this->name] < $this->minimum) {
-            return array($this->name => sprintf($this->_l10n->get('type number: value must not be smaller than %s'), $this->minimum));
+            return [$this->name => sprintf($this->_l10n->get('type number: value must not be smaller than %s'), $this->minimum)];
         }
         if (   $this->maximum !== null
             && $fields[$this->name] > $this->maximum) {
-            return array($this->name => sprintf($this->_l10n->get('type number: value must not be larger than %s'), $this->maximum));
+            return [$this->name => sprintf($this->_l10n->get('type number: value must not be larger than %s'), $this->maximum)];
         }
 
         return true;

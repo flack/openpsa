@@ -25,14 +25,14 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      *
      * @var array
      */
-    private $_options = array();
+    private $_options = [];
 
     /**
      * The grid's options as passed in PHP
      *
      * @var array
      */
-    private $_raw_options = array();
+    private $_raw_options = [];
 
     /**
      * The grid's columns
@@ -47,7 +47,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      *
      * @var array
      */
-    private $_columns = array();
+    private $_columns = [];
 
     /**
      * Flag that tracks if JS/CSS files have already been added
@@ -61,7 +61,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      *
      * @var array
      */
-    private $_footer_data = array();
+    private $_footer_data = [];
 
     /**
      * Should formatters be applied to footer row
@@ -96,7 +96,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         $jqgrid_path = '/org.openpsa.widgets/jqGrid-' . $version . '/';
 
         $head = midcom::get()->head;
-        $head->enable_jquery_ui(array('button', 'mouse', 'resizable'));
+        $head->enable_jquery_ui(['button', 'mouse', 'resizable']);
 
         //needed js/css-files for jqgrid
         $lang = "en";
@@ -221,11 +221,11 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         if (empty($name)) {
             throw new midcom_error('Invalid column name ' . $name);
         }
-        $this->_columns[$name] = array(
+        $this->_columns[$name] = [
             'label' => $label,
             'options' => $options,
             'separate_index' => $separate_index
-        );
+        ];
         return $this;
     }
 
@@ -309,7 +309,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         $string .= $this->_prepend_js;
         $string .= 'org_openpsa_grid_helper.setup_grid("' . $this->_identifier . '", {';
 
-        $colnames = array();
+        $colnames = [];
         foreach ($this->_columns as $name => $column) {
             if ($column['separate_index']) {
                 $colnames[] = 'index_' . $name;

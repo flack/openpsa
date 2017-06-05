@@ -23,7 +23,7 @@ class parameter extends delayed
      * TODO: still to be implentend
      * @var string
      */
-    private $other = array();
+    private $other = [];
 
     /**
      * {@inheritdoc}
@@ -68,19 +68,19 @@ class parameter extends delayed
             case 'array':
                 if (   !is_array($source)
                     && empty($source)) {
-                    $source = array();
+                    $source = [];
                 }
                 return $source;
 
             case 'imploded':
                 if (!is_string($source)) {
-                    return array();
+                    return [];
                 }
                 return explode($glue, $source);
 
             case 'imploded_wrapped':
                 if (!is_string($source)) {
-                    return array();
+                    return [];
                 }
                 return explode($glue, substr($source, 1, -1));
 
@@ -132,16 +132,16 @@ class parameter extends delayed
 
         if ($this->others) {
             if (is_string($this->others)) {
-                $this->others = array(
+                $this->others = [
                     $this->others => $this->others,
-                );
+                ];
             }
             $options = array_merge($this->value, $this->others);
         } else {
             $options = $this->value;
         }
 
-        $result = array();
+        $result = [];
         foreach ($options as $key) {
             if (strpos($key, $glue) !== false) {
                 debug_add("The option key '{$key}' contained the multiple separator ($this->config['type_config']['multiple_storagemode']) char, which is not allowed for imploded storage targets. ignoring silently.",

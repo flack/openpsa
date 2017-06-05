@@ -279,7 +279,7 @@
  */
 class midcom_config implements arrayaccess
 {
-    private $_default_config = array(
+    private $_default_config = [
         // Authentication configuration
         'auth_type' => 'Plaintext',
         'auth_backend' => 'simple',
@@ -304,18 +304,18 @@ class midcom_config implements arrayaccess
 
         // Cache configuration
         'cache_base_directory' => '/tmp/',
-        'cache_autoload_queue' => array('content', 'nap', 'memcache'),
+        'cache_autoload_queue' => ['content', 'nap', 'memcache'],
 
         // Content Cache
         'cache_module_content_name' => 'auto',
 
         //Memory Caching Daemon
         'cache_module_memcache_backend' => 'flatfile',
-        'cache_module_memcache_backend_config' => array(),
-        'cache_module_memcache_data_groups' => array('ACL', 'PARENT', 'L10N', 'MISC'),
+        'cache_module_memcache_backend_config' => [],
+        'cache_module_memcache_data_groups' => ['ACL', 'PARENT', 'L10N', 'MISC'],
 
         // Defaults:
-        'cache_module_content_backend' => array('driver' => 'flatfile'),
+        'cache_module_content_backend' => ['driver' => 'flatfile'],
         'cache_module_content_uncached' => true,
         'cache_module_content_headers_strategy' => 'revalidate',
         'cache_module_content_headers_strategy_authenticated' => 'private',
@@ -328,7 +328,7 @@ class midcom_config implements arrayaccess
         'cache_module_content_caching_strategy' => 'user',
 
         // NAP Cache
-        'cache_module_nap_backend' => array() /* Auto-Detect */,
+        'cache_module_nap_backend' => [] /* Auto-Detect */,
 
         // CRON Service configuration
         'cron_day_hours' => 0,
@@ -343,9 +343,9 @@ class midcom_config implements arrayaccess
         // Indexer Configuration
         'indexer_backend' => false,
         'indexer_index_name' => 'auto',
-        'indexer_reindex_allowed_ips' => array('127.0.0.1'),
+        'indexer_reindex_allowed_ips' => ['127.0.0.1'],
 
-        'indexer_config_options' => array('fl' => '*,score', 'rows' => 1000, 'defType' => 'dismax', 'qf' => 'content'),
+        'indexer_config_options' => ['fl' => '*,score', 'rows' => 1000, 'defType' => 'dismax', 'qf' => 'content'],
 
         // XMLTCP indexer backend
         'indexer_xmltcp_host' => "127.0.0.1",
@@ -355,7 +355,7 @@ class midcom_config implements arrayaccess
         // Logging Configuration
         'log_filename' => '/tmp/midcom.log',
         'log_level' => MIDCOM_LOG_ERROR,
-        'error_actions' => array(),
+        'error_actions' => [],
 
         // Core configuration
         'midcom_root_topic_guid' => '',
@@ -367,13 +367,13 @@ class midcom_config implements arrayaccess
         'midcom_temporary_resource_timeout' => 86400,
         'midcom_max_memory' => -1,
         'midcom_max_execution_time' => 0,
-        'midcom_components' => array(),
+        'midcom_components' => [],
 
         // Visibility settings (NAP)
         'show_hidden_objects' => true,
         'show_unapproved_objects' => true,
         // Style Engine defaults
-        'styleengine_default_styles' => array(),
+        'styleengine_default_styles' => [],
 
         // Toolbars service
         'toolbars_host_style_class' => 'midcom_toolbar host_toolbar',
@@ -429,10 +429,10 @@ class midcom_config implements arrayaccess
         'metadata_schema' => 'file:/midcom/config/metadata_default.inc',
 
         // Map MidCOM metadata properties to HTML meta tags
-        'metadata_head_elements' => array(
+        'metadata_head_elements' => [
             'published'   => 'DC.date',
             'description'   => 'description',
-        ),
+        ],
 
         // Whether to gather and display Open Graph Protocol metadata for Midgard pages
         'metadata_opengraph' => false,
@@ -473,9 +473,9 @@ class midcom_config implements arrayaccess
          * Theme support
          */
         'theme' => '',
-    );
+    ];
 
-    private $_merged_config = array();
+    private $_merged_config = [];
 
     public function __construct()
     {
@@ -483,10 +483,10 @@ class midcom_config implements arrayaccess
 
         /* ----- MERGE THE CONFIGURATION ----- */
         if (!array_key_exists('midcom_config_site', $GLOBALS)) {
-            $GLOBALS['midcom_config_site'] = array();
+            $GLOBALS['midcom_config_site'] = [];
         }
         if (!array_key_exists('midcom_config_local', $GLOBALS)) {
-            $GLOBALS['midcom_config_local'] = array();
+            $GLOBALS['midcom_config_local'] = [];
         }
         $this->_merged_config = array_merge(
             $this->_default_config,
@@ -500,7 +500,7 @@ class midcom_config implements arrayaccess
         $this->_default_config['auth_backend_simple_cookie_id'] = midcom_connection::get('config', 'auth_cookie_id');
 
         if (class_exists('Memcache')) {
-            $this->_default_config['cache_module_content_backend'] = array('driver' => 'memcached');
+            $this->_default_config['cache_module_content_backend'] = ['driver' => 'memcached'];
             $this->_default_config['cache_module_memcache_backend'] = 'memcached';
         }
         if (isset($_SERVER['SERVER_ADDR'])) {

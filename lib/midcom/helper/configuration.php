@@ -48,21 +48,21 @@ class midcom_helper_configuration
      *
      * @var Array
      */
-    public $_global = array();
+    public $_global = [];
 
     /**
      * Locally overridden configuration data.
      *
      * @var Array
      */
-    public $_local = array();
+    public $_local = [];
 
     /**
      * Merged, current configuration state.
      *
      * @var Array
      */
-    private $_merged = array();
+    private $_merged = [];
 
     /**
      * Internal cache-related items
@@ -119,7 +119,7 @@ class midcom_helper_configuration
             $this->_object = midcom::get()->dbfactory->convert_midgard_to_midcom($this->_object);
         }
 
-        $array = array();
+        $array = [];
         $manifest = midcom::get()->componentloader->manifests[$this->_path];
         if (!empty($manifest->extends)) {
             $array = $this->_object->list_parameters($manifest->extends);
@@ -128,7 +128,7 @@ class midcom_helper_configuration
 
         if ($global) {
             $this->_global = ($merge) ? array_merge($this->_global, $array) : $array;
-            $this->_local = array();
+            $this->_local = [];
             $this->_merged = $array;
         }
 
@@ -227,7 +227,7 @@ class midcom_helper_configuration
      */
     public function reset_local()
     {
-        $this->_local = array();
+        $this->_local = [];
         $this->_merged = $this->_global;
     }
 

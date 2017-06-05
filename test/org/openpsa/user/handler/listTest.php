@@ -34,7 +34,7 @@ class org_openpsa_user_handler_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.user');
 
-        $data = $this->run_handler('org.openpsa.user', array('json'));
+        $data = $this->run_handler('org.openpsa.user', ['json']);
         $this->assertEquals('user_list_json', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

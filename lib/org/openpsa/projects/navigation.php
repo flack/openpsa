@@ -18,23 +18,23 @@ class org_openpsa_projects_navigation extends midcom_baseclasses_components_navi
      */
     public function get_leaves()
     {
-        return array(
-            "{$this->_topic->id}:tasks_open" => array(
+        return [
+            "{$this->_topic->id}:tasks_open" => [
                 MIDCOM_NAV_URL => "task/list/all/open/",
                 MIDCOM_NAV_NAME => $this->_l10n->get('open tasks'),
-            ),
-            "{$this->_topic->id}:tasks_closed" => array(
+            ],
+            "{$this->_topic->id}:tasks_closed" => [
                 MIDCOM_NAV_URL => "task/list/all/closed/",
                 MIDCOM_NAV_NAME => $this->_l10n->get('closed tasks'),
-            ),
-            "{$this->_topic->id}:tasks_invoiceable" => array(
+            ],
+            "{$this->_topic->id}:tasks_invoiceable" => [
                 MIDCOM_NAV_URL => "task/list/all/invoiceable/",
                 MIDCOM_NAV_NAME => $this->_l10n->get('invoiceable tasks'),
-            ),
-            "{$this->_topic->id}:tasks_invoiced" => array(
+            ],
+            "{$this->_topic->id}:tasks_invoiced" => [
                 MIDCOM_NAV_URL => "task/list/all/invoiced/",
                 MIDCOM_NAV_NAME => $this->_l10n->get('invoiced tasks'),
-            )
-        );
+            ]
+        ];
     }
 }

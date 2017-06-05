@@ -34,7 +34,7 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
             midcom::get()->metadata->set_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);
             $this->bind_view_to_object($data['feed']);
         } else {
-            $data['items'] = array();
+            $data['items'] = [];
             $qb = net_nemein_rss_feed_dba::new_query_builder();
             $qb->add_order('title');
             $qb->add_constraint('node', '=', $this->_topic->id);

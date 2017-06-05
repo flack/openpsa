@@ -13,7 +13,7 @@
  */
 class org_openpsa_helpers_list
 {
-    private static $_seen = array();
+    private static $_seen = [];
 
     /**
      * Function for listing groups task/salesproject contacts are members of
@@ -22,13 +22,13 @@ class org_openpsa_helpers_list
      * @param string $mode By which property should groups be listed
      * @param array $contacts Default contacts for nonpersistent objects
      */
-    public static function task_groups(midcom_core_dbaobject $task, $mode = 'id', array $contacts = array())
+    public static function task_groups(midcom_core_dbaobject $task, $mode = 'id', array $contacts = [])
     {
         //TODO: Localize something for the empty choice ?
-        $ret = array(0 => '');
-        self::$_seen = array();
+        $ret = [0 => ''];
+        self::$_seen = [];
 
-        if (!in_array($mode, array('id', 'guid'))) {
+        if (!in_array($mode, ['id', 'guid'])) {
             debug_add('Mode ' . $mode . ' not supported', MIDCOM_LOG_ERROR);
             return $ret;
         }
@@ -86,7 +86,7 @@ class org_openpsa_helpers_list
         //Only query once per request
         static $cache = null;
         if (is_null($cache)) {
-            $cache = array();
+            $cache = [];
             if ($add_all) {
                 //TODO: Localization
                 $cache['all'] = 'all';
@@ -109,13 +109,13 @@ class org_openpsa_helpers_list
     public static function workgroups($add_me = 'last', $show_members = false)
     {
         if (!midcom::get()->auth->user) {
-            return array();
+            return [];
         }
-        static $cache = array();
+        static $cache = [];
         // List user's ACL groups for usage in DM arrays
         $array_name = $add_me . '_' . $show_members;
         if (!array_key_exists($array_name, $cache)) {
-            $cache[$array_name] = array();
+            $cache[$array_name] = [];
             if ($add_me == 'first') {
                 //TODO: Localization
                 $cache[$array_name][midcom::get()->auth->user->id] = 'me';

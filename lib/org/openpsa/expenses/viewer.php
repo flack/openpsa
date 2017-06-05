@@ -27,10 +27,10 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
                 $create_url .= $task . "/";
             }
 
-            $this->_view_toolbar->add_item($workflow->get_button($create_url, array(
+            $this->_view_toolbar->add_item($workflow->get_button($create_url, [
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schemadb[$name]->description)),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-            )));
+            ]));
         }
     }
 
@@ -60,7 +60,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
     {
         $qf = new org_openpsa_core_queryfilter('org_openpsa_expenses_list');
         $person_filter = new org_openpsa_core_filter_multiselect('person');
-        $person_filter->set_callback(array($this, 'get_person_options'));
+        $person_filter->set_callback([$this, 'get_person_options']);
         $person_filter->set_label($this->_l10n->get("choose user"));
         $qf->add_filter($person_filter);
 
@@ -81,7 +81,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
         $qb_persons = midcom_db_person::new_query_builder();
         midcom_core_account::add_username_constraint($qb_persons, '<>', '');
 
-        $person_array = array();
+        $person_array = [];
 
         $persons = $qb_persons->execute();
         foreach ($persons as $person) {

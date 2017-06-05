@@ -24,7 +24,7 @@ implements midcom_helper_datamanager2_interfaces_create
      *
      * @var net_nemein_redirector_tinyurl_dba[]
      */
-    private $_tinyurls = array();
+    private $_tinyurls = [];
 
     /**
      * Datamanager2 instance
@@ -68,7 +68,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if ($handler_id === 'edit') {
             $this->add_breadcrumb("{$this->_tinyurl->name}/", $this->_tinyurl->title);
             $this->add_breadcrumb("edit/{$this->_tinyurl->name}", $this->_l10n_midcom->get('edit'));
-            $workflow = $this->get_workflow('delete', array('object' => $this->_tinyurl));
+            $workflow = $this->get_workflow('delete', ['object' => $this->_tinyurl]);
             $this->_view_toolbar->add_item($workflow->get_button('delete/' . $this->_tinyurl->guid . '/'));
             $this->_view_toolbar->bind_to($this->_tinyurl);
         } elseif ($handler_id === 'create') {
@@ -174,7 +174,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_tinyurl = $this->_get_item($args[0]);
-        $workflow = $this->get_workflow('delete', array('object' => $this->_tinyurl));
+        $workflow = $this->get_workflow('delete', ['object' => $this->_tinyurl]);
         return $workflow->run();
     }
 

@@ -20,19 +20,19 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
     {
         self::$_person = self::create_user(true);
         self::$_invoice = self::create_class_object('org_openpsa_invoices_invoice_dba');
-        self::create_class_object('org_openpsa_invoices_invoice_item_dba', array('invoice' => self::$_invoice->id));
+        self::create_class_object('org_openpsa_invoices_invoice_item_dba', ['invoice' => self::$_invoice->id]);
     }
 
     public function testHandler_create_cancelation()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $data = array(
+        $data = [
             'customerContact' => self::$_person->id,
             'sum' => 300,
             'date' => gmmktime(0, 0, 0, date('n'), date('j'), date('Y')),
             'vat' => 19,
-        );
+        ];
         $invoice = $this->create_object('org_openpsa_invoices_invoice_dba', $data);
 
         // we got a fresh invoice, it should be cancelable
@@ -40,11 +40,11 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
 
         // process
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = array(
+        $_POST = [
             'id' => $invoice->id,
             'relocate' => true
-        );
-        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'action', 'create_cancelation'));
+        ];
+        $url = $this->run_relocate_handler('org.openpsa.invoices', ['invoice', 'action', 'create_cancelation']);
 
         // now we should got a cancelation invoice
         $invoice->refresh();
@@ -79,14 +79,14 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $topic = $this->create_object('midcom_db_topic', array('component' => 'org.openpsa.invoices'));
+        $topic = $this->create_object('midcom_db_topic', ['component' => 'org.openpsa.invoices']);
         $topic->set_parameter('org.openpsa.invoices', 'invoice_pdfbuilder_class', 'nonexistent');
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = array(
+        $_POST = [
             'id' => self::$_invoice->id,
             'relocate' => true
-        );
-        $url = $this->run_relocate_handler($topic, array('invoice', 'action', 'create_pdf'));
+        ];
+        $url = $this->run_relocate_handler($topic, ['invoice', 'action', 'create_pdf']);
         $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
 
         midcom::get()->auth->drop_sudo();
@@ -96,11 +96,11 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = array(
+        $_POST = [
             'id' => self::$_invoice->id,
             'relocate' => true
-        );
-        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'action', 'mark_sent'));
+        ];
+        $url = $this->run_relocate_handler('org.openpsa.invoices', ['invoice', 'action', 'mark_sent']);
         $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
 
         midcom::get()->auth->drop_sudo();
@@ -110,11 +110,11 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = array(
+        $_POST = [
             'id' => self::$_invoice->id,
             'relocate' => true
-        );
-        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'action', 'mark_paid'));
+        ];
+        $url = $this->run_relocate_handler('org.openpsa.invoices', ['invoice', 'action', 'mark_paid']);
         $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
 
         midcom::get()->auth->drop_sudo();

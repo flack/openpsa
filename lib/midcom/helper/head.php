@@ -18,21 +18,21 @@ class midcom_helper_head
      *
      * @var array
      */
-    private $_jshead = array();
+    private $_jshead = [];
 
     /**
      * Array with all JavaScript file inclusions.
      *
      * @var array
      */
-    private $_jsfiles = array();
+    private $_jsfiles = [];
 
     /**
      * Array with all prepend JavaScript declarations for the page's head.
      *
      * @var array
      */
-    private $_prepend_jshead = array();
+    private $_prepend_jshead = [];
 
     /**
      * Boolean showing if jQuery is enabled
@@ -48,21 +48,21 @@ class midcom_helper_head
      *
      * @var array
      */
-    private $_jquery_states = array();
+    private $_jquery_states = [];
 
     /**
      * Array with all linked URLs for HEAD.
      *
      * @var Array
      */
-    private $_linkhrefs = array();
+    private $_linkhrefs = [];
 
     /**
      * Array with all methods for the BODY's onload event.
      *
      * @var Array
      */
-    private $_jsonload = array();
+    private $_jsonload = [];
 
     /**
      * string with all metatags to go into the page head.
@@ -90,7 +90,7 @@ class midcom_helper_head
      *
      * @var array
      */
-    private $_link_head = array();
+    private $_link_head = [];
 
     /**
      * Sets the page title for the current context.
@@ -132,7 +132,7 @@ class midcom_helper_head
         // like call. $url is inserted into src. Duplicates are omitted.
         if (!in_array($url, $this->_jsfiles)) {
             $this->_jsfiles[] = $url;
-            $js_call = array('url' => $url);
+            $js_call = ['url' => $url];
             if ($prepend) {
                 // Add the javascript include to the beginning, not the end of array
                 array_unshift($this->_jshead, $js_call);
@@ -162,7 +162,7 @@ class midcom_helper_head
      */
     public function add_jscript($script, $defer = '', $prepend = false)
     {
-        $js_call = array('content' => trim($script), 'defer' => $defer);
+        $js_call = ['content' => trim($script), 'defer' => $defer];
         if ($prepend) {
             $this->_prepend_jshead[] = $js_call;
         } else {
@@ -292,11 +292,11 @@ class midcom_helper_head
      */
     public function add_stylesheet($url, $media = false)
     {
-        $attributes = array(
+        $attributes = [
             'rel'  => 'stylesheet',
             'type' => 'text/css',
             'href' => $url,
-        );
+        ];
         if ($media) {
             $attributes['media'] = $media;
         }
@@ -409,10 +409,10 @@ class midcom_helper_head
         }
 
         if (!empty($this->_prepend_jshead)) {
-            array_map(array($this, '_print_js'), $this->_prepend_jshead);
+            array_map([$this, '_print_js'], $this->_prepend_jshead);
         }
 
-        array_map(array($this, '_print_js'), $this->_jshead);
+        array_map([$this, '_print_js'], $this->_jshead);
         $this->print_jquery_statuses();
     }
 
@@ -527,7 +527,7 @@ class midcom_helper_head
      *
      * @param array $components The components that should be loaded
      */
-    public function enable_jquery_ui(array $components = array())
+    public function enable_jquery_ui(array $components = [])
     {
         $this->enable_jquery();
         $this->add_jsfile(MIDCOM_JQUERY_UI_URL . '/core.min.js');

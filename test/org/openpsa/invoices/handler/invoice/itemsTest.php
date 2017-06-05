@@ -20,14 +20,14 @@ class org_openpsa_invoices_handler_invoice_itemsTest extends openpsa_testcase
     {
         self::$_person = self::create_user(true);
         self::$_invoice = self::create_class_object('org_openpsa_invoices_invoice_dba');
-        self::create_class_object('org_openpsa_invoices_invoice_item_dba', array('invoice' => self::$_invoice->id));
+        self::create_class_object('org_openpsa_invoices_invoice_item_dba', ['invoice' => self::$_invoice->id]);
     }
 
     public function testHandler_items()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'items', self::$_invoice->guid));
+        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'items', self::$_invoice->guid]);
         $this->assertEquals('invoice_items', $data['handler_id']);
 
         $this->show_handler($data);
@@ -38,7 +38,7 @@ class org_openpsa_invoices_handler_invoice_itemsTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'recalculation', self::$_invoice->guid));
+        $url = $this->run_relocate_handler('org.openpsa.invoices', ['invoice', 'recalculation', self::$_invoice->guid]);
         $this->assertEquals('invoice/items/' . self::$_invoice->guid . '/', $url);
 
         midcom::get()->auth->drop_sudo();
@@ -47,17 +47,17 @@ class org_openpsa_invoices_handler_invoice_itemsTest extends openpsa_testcase
     public function testHandler_itemedit()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
-        $item = $this->create_object('org_openpsa_invoices_invoice_item_dba', array('invoice' => self::$_invoice->id));
+        $item = $this->create_object('org_openpsa_invoices_invoice_item_dba', ['invoice' => self::$_invoice->id]);
 
-        $_POST = array(
+        $_POST = [
             'oper' => 'edit',
             'id' => $item->id,
             'description' => 'TEST DESCRIPTION',
             'price' => 20,
             'quantity' => 10
-        );
+        ];
 
-        $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'itemedit', self::$_invoice->guid));
+        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'itemedit', self::$_invoice->guid]);
         $this->assertEquals('invoice_item_edit', $data['handler_id']);
 
         $item->refresh();

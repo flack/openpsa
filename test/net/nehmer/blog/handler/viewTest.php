@@ -20,10 +20,10 @@ class net_nehmer_blog_handler_viewTest extends openpsa_testcase
     {
         self::$_topic = self::get_component_node('net.nehmer.blog');
 
-        $article_properties = array(
+        $article_properties = [
             'topic' => self::$_topic->id,
             'name' => 'index'
-        );
+        ];
         self::$_article = self::create_class_object('midcom_db_article', $article_properties);
     }
 
@@ -42,7 +42,7 @@ class net_nehmer_blog_handler_viewTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nehmer.blog');
 
-        $data = $this->run_handler(self::$_topic, array('index'));
+        $data = $this->run_handler(self::$_topic, ['index']);
         $this->assertEquals('view', $data['handler_id']);
 
         $this->show_handler($data);

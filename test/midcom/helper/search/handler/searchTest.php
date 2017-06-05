@@ -30,7 +30,7 @@ class midcom_helper_search_handler_searchTest extends openpsa_testcase
 
     public function testHandler_searchform_advanced()
     {
-        $data = $this->run_handler(self::$_topic, array('advanced'));
+        $data = $this->run_handler(self::$_topic, ['advanced']);
         $this->assertEquals('advanced', $data['handler_id']);
 
         $this->show_handler($data);
@@ -42,7 +42,7 @@ class midcom_helper_search_handler_searchTest extends openpsa_testcase
     public function testHandler_result($options)
     {
         $_REQUEST = $options;
-        $data = $this->run_handler(self::$_topic, array('result'));
+        $data = $this->run_handler(self::$_topic, ['result']);
 
         $this->assertEquals('result', $data['handler_id']);
 
@@ -51,27 +51,27 @@ class midcom_helper_search_handler_searchTest extends openpsa_testcase
 
     public function provider_result()
     {
-        return array(
-            1 => array(
-                array(
+        return [
+            1 => [
+                [
                     'type' => 'basic',
                     'query' => 'test'
-                )
-            ),
-            2 => array(
-                array(
+                ]
+            ],
+            2 => [
+                [
                     'type' => 'advanced',
                     'query' => 'test',
-                    'append_terms' => array('test1', 'test2'),
+                    'append_terms' => ['test1', 'test2'],
                     'lastmodified' => time() - 20000
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 
     public function testHandler_opensearchdescription()
     {
-        $data = $this->run_handler(self::$_topic, array('opensearch.xml'));
+        $data = $this->run_handler(self::$_topic, ['opensearch.xml']);
         $this->assertEquals('opensearch_description', $data['handler_id']);
 
         $this->show_handler($data);

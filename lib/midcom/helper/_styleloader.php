@@ -66,7 +66,7 @@ class midcom_helper__styleloader
      *
      * @var array
      */
-    private $_scope = array();
+    private $_scope = [];
 
     /**
      * Current topic
@@ -87,40 +87,40 @@ class midcom_helper__styleloader
      *
      * @var array
      */
-    private $_context = array();
+    private $_context = [];
 
     /**
      * Style element cache
      *
      * @var array
      */
-    private $_styles = array();
+    private $_styles = [];
 
     /**
      * Default style element cache
      *
      * @var array
      */
-    private $_snippets = array();
+    private $_snippets = [];
 
     /**
      * List of styledirs to handle after componentstyle
      *
      * @var array
      */
-    private $_styledirs_append = array();
+    private $_styledirs_append = [];
 
     /**
      * List of styledirs to handle before componentstyle
      *
      * @var array
      */
-    private $_styledirs_prepend = array();
+    private $_styledirs_prepend = [];
 
     /**
      * The stack of directories to check for styles.
      */
-    private $_styledirs = array();
+    private $_styledirs = [];
 
     /**
      * Data to pass to the style
@@ -137,12 +137,12 @@ class midcom_helper__styleloader
      */
     public function get_style_path_from_id($id)
     {
-        static $path_cache = array();
+        static $path_cache = [];
         if (isset($path_cache[$id])) {
             return $path_cache[$id];
         }
         // Construct the path
-        $path_parts = array();
+        $path_parts = [];
         $original_id = $id;
 
         try {
@@ -178,7 +178,7 @@ class midcom_helper__styleloader
      */
     public function get_style_id_from_path($path, $rootstyle = 0)
     {
-        static $cached = array();
+        static $cached = [];
 
         $cache_key = $rootstyle . '::' . $path;
 
@@ -227,7 +227,7 @@ class midcom_helper__styleloader
      */
     private function _get_element_in_styletree($id, $name)
     {
-        static $cached = array();
+        static $cached = [];
         $cache_key = $id . '::' . $name;
 
         if (array_key_exists($cache_key, $cached)) {
@@ -278,7 +278,7 @@ class midcom_helper__styleloader
      */
     public function show($path)
     {
-        if ($this->_context === array()) {
+        if ($this->_context === []) {
             debug_add("Trying to show '{$path}' but there is no context set", MIDCOM_LOG_INFO);
             return false;
         }
@@ -351,7 +351,7 @@ class midcom_helper__styleloader
      * @param array $data Request date, if you don't want to use the global data
      * @throws midcom_error
      */
-    public function render($preparsed, $path, array $data = array())
+    public function render($preparsed, $path, array $data = [])
     {
         if (   empty($data)
             && midcom_core_context::get()->has_custom_key('request_data')) {
@@ -678,13 +678,13 @@ class midcom_helper__styleloader
 
         // Prepare styledir stacks
         if (!isset($this->_styledirs[$context])) {
-            $this->_styledirs[$context] = array();
+            $this->_styledirs[$context] = [];
         }
         if (!isset($this->_styledirs_prepend[$context])) {
-            $this->_styledirs_prepend[$context] = array();
+            $this->_styledirs_prepend[$context] = [];
         }
         if (!isset($this->_styledirs_append[$context])) {
-            $this->_styledirs_append[$context] = array();
+            $this->_styledirs_append[$context] = [];
         }
 
         if (   $this->_topic

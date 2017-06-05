@@ -36,7 +36,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
      * @return array|false
      * @author Dmitry (dio) Levashov
      **/
-    public function upload($fp, $dst, $name, $tmpname, $hashes = array())
+    public function upload($fp, $dst, $name, $tmpname, $hashes = [])
     {
         if ($this->commandDisabled('upload')) {
             return $this->setError(elFinder::ERROR_PERM_DENIED);
@@ -113,11 +113,11 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
             }
         }
 
-        $stat = array(
+        $stat = [
             'mime'   => $mime,
             'width'  => 0,
             'height' => 0,
-            'size'   => $tmpsize);
+            'size'   => $tmpsize];
 
         if (strpos($mime, 'image') === 0 && ($s = getimagesize($tmpname))) {
             $stat['width'] = $s[0];
@@ -247,7 +247,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         if ($object === false) {
             return '';
         }
-        $output = array($object->get_label());
+        $output = [$object->get_label()];
 
         $parent = $object->get_parent();
         while (   $parent
@@ -315,13 +315,13 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         }
         $object = midcom::get()->dbfactory->get_object_by_guid($path);
 
-        $data = array(
+        $data = [
             'ts' => $object->metadata->revised,
             'read' => true,
             'write' => $object->can_do('midgard:update'),
             'locked' => $object->metadata->is_locked(),
             'mime' => ''
-        );
+        ];
         $creator = org_openpsa_widgets_contact::get($object->metadata->creator);
         $data['owner'] = $creator->show_inline();
 

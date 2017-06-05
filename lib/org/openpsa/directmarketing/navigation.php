@@ -15,7 +15,7 @@ class org_openpsa_directmarketing_navigation extends midcom_baseclasses_componen
 {
     public function get_leaves()
     {
-        $leaves = array();
+        $leaves = [];
 
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $qb->add_constraint('node', '=', $this->_topic->id);
@@ -24,12 +24,12 @@ class org_openpsa_directmarketing_navigation extends midcom_baseclasses_componen
         $campaigns = $qb->execute();
 
         foreach ($campaigns as $campaign) {
-            $leaves["campaign_{$campaign->id}"] = array(
+            $leaves["campaign_{$campaign->id}"] = [
                 MIDCOM_NAV_URL => "campaign/{$campaign->guid}/",
                 MIDCOM_NAV_NAME => $campaign->title,
                 MIDCOM_NAV_GUID => $campaign->guid,
                 MIDCOM_NAV_OBJECT => $campaign,
-            );
+            ];
         }
         return $leaves;
     }

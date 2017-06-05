@@ -375,10 +375,10 @@ class midcom_helper_reflector_nameresolver
     {
         if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $name, $name_matches)) {
             // Name already has i and base parts, split them.
-            return array((int) $name_matches[2], (string) $name_matches[1]);
+            return [(int) $name_matches[2], (string) $name_matches[1]];
         }
         // Defaults
-        return array($default, $name);
+        return [$default, $name];
     }
 
     /**
@@ -420,7 +420,7 @@ class midcom_helper_reflector_nameresolver
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
                 midcom::get()->auth->drop_sudo();
                 debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, letting higher level decide", MIDCOM_LOG_ERROR);
-                return array($i, $base_name);
+                return [$i, $base_name];
             }
             foreach ($root_classes as $schema_type) {
                 $i = $this->process_schema_type($this->_get_root_qb($schema_type), $i, $schema_type, $base_name, $extension);
@@ -428,7 +428,7 @@ class midcom_helper_reflector_nameresolver
         }
         midcom::get()->auth->drop_sudo();
 
-        return array($i, $base_name);
+        return [$i, $base_name];
     }
 
     private function process_schema_type($qb, $i, $schema_type, $base_name, $extension)

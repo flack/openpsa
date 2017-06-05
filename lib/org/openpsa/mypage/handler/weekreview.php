@@ -28,23 +28,23 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
     private function _populate_toolbar()
     {
-        $buttons = array(
-            array(
+        $buttons = [
+            [
                 MIDCOM_TOOLBAR_URL => 'day/' . strftime('%Y-%m-%d', $this->_request_data['week_start']) . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('day review'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-            ),
-            array(
+            ],
+            [
                 MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['prev_week'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
-            ),
-            array(
+            ],
+            [
                 MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['next_week'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
-            )
-        );
+            ]
+        ];
         $this->_view_toolbar->add_items($buttons);
     }
 
@@ -128,10 +128,10 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     {
         $date = date('Y-m-d', $time);
         if (!array_key_exists($date, $array)) {
-            $array[$date] = array();
+            $array[$date] = [];
         }
         if (!array_key_exists($time, $array[$date])) {
-            $array[$date][$time] = array();
+            $array[$date][$time] = [];
         }
         $array[$date][$time][$object->guid] = $object;
     }
@@ -160,7 +160,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $data['prev_week'] = $date->format('Y-m-d');
 
         // Empty the data array
-        $data['review_data'] = array();
+        $data['review_data'] = [];
 
         // Then start looking for stuff to display
         $this->_list_events_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);

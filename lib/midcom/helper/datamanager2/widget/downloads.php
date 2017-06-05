@@ -223,20 +223,20 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 $sortable .
                 "<td class=\"new filename\">";
         $this->_elements['s_new_filename'] = $this->_form->createElement('static', 's_new_filename', '', $html);
-        $attributes = array(
+        $attributes = [
             'class' => 'new filename',
             'id'    => "{$this->_namespace}{$this->name}_e_new_filename",
-        );
+        ];
         $this->_elements['e_new_filename'] = $this->_form->createElement('text', 'e_new_filename', '', $attributes);
 
         // Title Column
         $html = "</td>\n" .
                 "<td class=\"new title\">";
         $this->_elements['s_new_title'] = $this->_form->createElement('static', 's_new_title', '', $html);
-        $attributes = array(
+        $attributes = [
             'class' => 'new title',
             'id'    => "{$this->_namespace}{$this->name}_e_new_title",
-        );
+        ];
         $this->_elements['e_new_title'] = $this->_form->createElement('text', 'e_new_title', '', $attributes);
 
         if (!$frozen) {
@@ -245,16 +245,16 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"
                       value=\"" . $this->progress_id . "\" />";
             $this->_elements['s_new_upload'] = $this->_form->createElement('static', 's_new_upload', '', $html);
-            $attributes = array(
+            $attributes = [
                 'class' => 'new file',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_file",
-            );
+            ];
             $this->_elements['e_new_file'] = $this->_form->createElement('file', 'e_new_file', '', $attributes);
 
-            $attributes = array(
+            $attributes = [
                 'class' => 'submit new upload',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_upload",
-            );
+            ];
             if ($this->show_progressbar) {
                 $url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/get_progress.php';
                 $attributes['onclick'] = "beginUpload('{$this->progress_id}','{$url}');$(this).prop('disabled', true)";
@@ -303,10 +303,10 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         // Title Column, set the value explicitly, as we are sometimes called after the defaults kick in.
         $html = "<td class=\"exist title\" title=\"{$info['description']}\">";
         $this->_elements["s_exist_{$identifier}_title"] = $this->_form->createElement('static', "s_exist_{$identifier}_title", '', $html);
-        $attributes = array(
+        $attributes = [
             'class' => 'exist title',
             'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_title",
-        );
+        ];
         $this->_elements["e_exist_{$identifier}_title"] = $this->_form->createElement('text', "e_exist_{$identifier}_title", '', $attributes);
         $this->_elements["e_exist_{$identifier}_title"]->setValue($info['description']);
 
@@ -317,16 +317,16 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"
                           value=\"" . $this->progress_id . "\" />";
                 $this->_elements["s_exist_{$identifier}_upload"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', $html);
-                $attributes = array(
+                $attributes = [
                     'class' => 'exist file',
                     'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_file",
-                );
+                ];
                 $this->_elements["e_exist_{$identifier}_file"] = $this->_form->createElement('file', "e_exist_{$identifier}_file", '', $attributes);
 
-                $attributes = array(
+                $attributes = [
                     'class' => 'submit exist upload',
                     'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_upload",
-                );
+                ];
                 if ($this->show_progressbar) {
                     $url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/get_progress.php';
                     $attributes['onclick'] = "beginUpload('{$this->progress_id}','{$url}');$(this).prop('disabled', true)";
@@ -336,10 +336,10 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 $this->_elements["e_exist_{$identifier}_upload"] = $this->_form->createElement('submit', "{$this->name}_e_exist_{$identifier}_upload", $this->_l10n->get('replace file'), $attributes);
             }
             if ($this->_type->attachments[$identifier]->can_do('midgard:delete')) {
-                $attributes = array(
+                $attributes = [
                     'class' => 'submit exist delete',
                     'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_delete",
-                );
+                ];
                 $this->_elements["e_exist_{$identifier}_delete"] = $this->_form->createElement('submit', "{$this->name}_e_exist_{$identifier}_delete", $this->_l10n->get('delete file'), $attributes);
             }
 
@@ -386,7 +386,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      */
     private function _compute_elements($frozen = false)
     {
-        $this->_elements = array();
+        $this->_elements = [];
 
         $this->_add_table_header($frozen);
 
@@ -562,10 +562,10 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         if (sizeof($this->_type->attachments_info) == 0) {
             return null;
         }
-        $defaults = array();
+        $defaults = [];
         foreach ($this->_type->attachments_info as $identifier => $info) {
             $defaults["e_exist_{$identifier}_title"] = $info['description'];
         }
-        return array($this->name => $defaults);
+        return [$this->name => $defaults];
     }
 }

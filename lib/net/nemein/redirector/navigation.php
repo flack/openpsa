@@ -15,7 +15,7 @@ class net_nemein_redirector_navigation extends midcom_baseclasses_components_nav
 {
     public function get_leaves()
     {
-        $leaves = array();
+        $leaves = [];
         $qb = net_nemein_redirector_tinyurl_dba::new_query_builder();
         $qb->add_constraint('node', '=', $this->_topic->guid);
         $qb->add_order('metadata.score', 'DESC');
@@ -25,12 +25,12 @@ class net_nemein_redirector_navigation extends midcom_baseclasses_components_nav
         $results = $qb->execute();
 
         foreach ($results as $tinyurl) {
-            $leaves[$tinyurl->id] = array(
+            $leaves[$tinyurl->id] = [
                 MIDCOM_NAV_URL => "{$tinyurl->name}/",
                 MIDCOM_NAV_NAME => $tinyurl->title,
                 MIDCOM_NAV_GUID => $tinyurl->guid,
                 MIDCOM_NAV_OBJECT => $tinyurl,
-            );
+            ];
         }
 
         return $leaves;

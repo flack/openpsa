@@ -53,19 +53,19 @@ implements midcom_helper_datamanager2_interfaces_edit
             && !isset($schemadb['metadata']->fields['review_date'])) {
             $schemadb['metadata']->append_field(
                 'review_date',
-                array(
+                [
                     'title' => $this->_l10n->get('review date'),
                     'type' => 'date',
-                    'type_config' => array(
+                    'type_config' => [
                         'storage_type' => 'UNIXTIME',
-                    ),
-                    'storage' => array(
+                    ],
+                    'storage' => [
                         'location' => 'parameter',
                         'domain' => 'midcom.helper.metadata',
                         'name' => 'review_date',
-                    ),
+                    ],
                     'widget' => 'jsdate',
-                )
+                ]
             );
         }
         return $schemadb;

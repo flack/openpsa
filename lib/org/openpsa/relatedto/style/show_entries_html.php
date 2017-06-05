@@ -8,15 +8,15 @@
     //add static data to jqgrid if wanted
     $start = true;
     if (array_key_exists('entries', $data)) {
-        $rows = array();
+        $rows = [];
         $workflow = new midcom\workflow\datamanager2;
         foreach ($data['entries'] as $entry) {
-            $row = array(
+            $row = [
                 'id' => $entry->id,
                 'index_name' => $entry->title,
                 'description' => $entry->text,
                 'index_date' => $entry->followUp,
-            );
+            ];
 
             $row['name'] = '<a href="' . $data['url_prefix'] . 'edit/' . $entry->guid . '" ' . $workflow->render_attributes() . '>';
             $row['name'] .= "<span>" . $entry->title . "</span></a>";

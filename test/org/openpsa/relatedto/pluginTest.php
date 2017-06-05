@@ -60,6 +60,6 @@ class org_openpsa_relatedto_pluginTest extends openpsa_testcase
 
         $expected = 'org_openpsa_relatedto%5B0%5D%5BtoGuid%5D=' . $salesproject->guid . '&org_openpsa_relatedto%5B0%5D%5BtoComponent%5D=org.openpsa.sales&org_openpsa_relatedto%5B0%5D%5BtoClass%5D=org_openpsa_sales_salesproject_dba&org_openpsa_relatedto%5B0%5D%5Bstatus%5D=120&org_openpsa_relatedto%5B0%5D%5BfromComponent%5D=org.openpsa.invoices&org_openpsa_relatedto%5B0%5D%5BfromClass%5D=org_openpsa_invoices_invoice_dba&org_openpsa_relatedto%5B0%5D%5BfromGuid%5D=' . $invoice->guid;
 
-        $this->assertEquals($expected, org_openpsa_relatedto_plugin::relatedto2get(array($relatedto)));
+        $this->assertEquals($expected, org_openpsa_relatedto_plugin::relatedto2get([$relatedto]));
     }
 }

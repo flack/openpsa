@@ -18,7 +18,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      *
      * @var array
      */
-    private $_schemadbs = array();
+    private $_schemadbs = [];
 
     /**
      * Flag to track whether an import was successfully performed
@@ -35,11 +35,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);
 
         $this->_view_toolbar->add_item(
-            array(
+            [
                 MIDCOM_TOOLBAR_URL => "campaign/{$this->_request_data['campaign']->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-            )
+            ]
         );
 
         $this->bind_view_to_object($this->_request_data['campaign']);
@@ -141,7 +141,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             }
 
             if ($contacts_raw) {
-                $importer = new org_openpsa_directmarketing_importer_simpleemails($this->_schemadbs, array('separator' => $separator));
+                $importer = new org_openpsa_directmarketing_importer_simpleemails($this->_schemadbs, ['separator' => $separator]);
                 $this->_run_import($importer, $contacts_raw);
             }
         }
@@ -231,7 +231,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         if (array_key_exists('org_openpsa_directmarketing_import_separator', $_POST)) {
             $data['time_start'] = time();
 
-            $data['rows'] = array();
+            $data['rows'] = [];
             $data['separator'] = $_POST['org_openpsa_directmarketing_import_separator'];
             if ($data['separator'] != ';') {
                 $data['separator'] = ',';
@@ -305,11 +305,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         // Update the breadcrumb
         $this->_update_breadcrumb($handler_id, $args);
 
-        $data['rows'] = array();
-        $config = array(
+        $data['rows'] = [];
+        $config = [
             'fields' => $_POST['org_openpsa_directmarketing_import_csv_field'],
             'separator' => $_POST['org_openpsa_directmarketing_import_separator'],
-        );
+        ];
         $importer = new org_openpsa_directmarketing_importer_csv($this->_schemadbs, $config);
         $this->_run_import($importer, $_POST['org_openpsa_directmarketing_import_tmp_file']);
     }

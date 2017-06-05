@@ -54,7 +54,7 @@ abstract class midcom_core_query
      *
      * @var array
      */
-    protected $_orders = array();
+    protected $_orders = [];
 
     /**
      * Type that the application expects to retrieve from this instance.
@@ -100,7 +100,7 @@ abstract class midcom_core_query
             throw new midcom_error("Cannot create a midcom_core_query instance for the type {$classname}: Class does not exist.");
         }
 
-        static $_class_mapping_cache = array();
+        static $_class_mapping_cache = [];
 
         $this->_real_class = $classname;
         if (empty($_class_mapping_cache[$classname])) {
@@ -297,10 +297,10 @@ abstract class midcom_core_query
             debug_add("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }
-        $this->_orders[] = array(
+        $this->_orders[] = [
             'field' => $field,
             'direction' => $direction
-        );
+        ];
 
         return true;
     }

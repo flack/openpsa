@@ -34,24 +34,24 @@ class jsdate extends AbstractType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'error_bubbling' => false
-        ));
+        ]);
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
-            $widget_defaults = array(
+            $widget_defaults = [
                 'showOn' => 'both',
                 'format' => '%Y-%m-%d %H:%M',
                 'hide_seconds' => true,
                 'show_time' => true,
                 'maxyear' => ($options['type_config']['storage_type'] == jsdate::UNIXTIME) ? 2030 : 9999,
                 'minyear' => ($options['type_config']['storage_type'] == jsdate::UNIXTIME) ? 1970 : 0,
-            );
+            ];
             return helper::resolve_options($widget_defaults, $value);
         });
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
-            $type_defaults = array(
+            $type_defaults = [
                 'storage_type' => jsdate::ISO,
-            );
+            ];
             return helper::resolve_options($type_defaults, $value);
         });
     }
@@ -63,12 +63,12 @@ class jsdate extends AbstractType
     {
         $builder->addModelTransformer(new jsdatetransformer($options));
 
-        $date_options = array(
+        $date_options = [
             'widget' => 'single_text'
-        );
+        ];
 
         if ($options['required']) {
-            $date_options['constraints'] = array(new NotBlank());
+            $date_options['constraints'] = [new NotBlank()];
         }
 
         $builder->add('date', compat::get_type_name('date'), $date_options);
@@ -77,21 +77,21 @@ class jsdate extends AbstractType
             if (!$options['widget_config']['hide_seconds']) {
                 $pattern .= ':[0-5][0-9]';
             }
-            $time_options = array(
+            $time_options = [
                 'widget' => 'single_text',
                 'with_seconds' => !$options['widget_config']['hide_seconds'],
-                'attr' => array('size' => 11, 'pattern' => $pattern),
+                'attr' => ['size' => 11, 'pattern' => $pattern],
                 'error_bubbling' => true,
-            );
+            ];
             if ($options['required']) {
-                $time_options['constraints'] = array(new NotBlank());
+                $time_options['constraints'] = [new NotBlank()];
             }
 
             $builder->add('time', compat::get_type_name('time'), $time_options);
         }
 
         $head = midcom::get()->head;
-        $head->enable_jquery_ui(array('datepicker'));
+        $head->enable_jquery_ui(['datepicker']);
     }
 
     /**

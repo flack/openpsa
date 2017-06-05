@@ -26,7 +26,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
         $helper = new org_openpsa_user_accounthelper;
         // test error cases
-        $person = self::create_class_object('midcom_db_person', array());
+        $person = self::create_class_object('midcom_db_person', []);
         // no person guid
         $this->assertFalse($helper->create_account("", "", ""));
         // no username
@@ -35,14 +35,14 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $this->assertFalse($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Bob"), "", "", true));
 
         // test with no password given
-        $person = self::create_class_object('midcom_db_person', array());
+        $person = self::create_class_object('midcom_db_person', []);
         $this->assertTrue($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Alice"), "", "", false, false), $helper->errstr);
 
         // this should work, so creating an account again should fail
         $this->assertFalse($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Alice"), ""));
 
         // test with password given
-        $person = self::create_class_object('midcom_db_person', array());
+        $person = self::create_class_object('midcom_db_person', []);
         $helper = new org_openpsa_user_accounthelper();
         $password = $helper->generate_safe_password();
 
@@ -145,11 +145,11 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         midcom::get()->auth->request_sudo("midcom.core");
 
         // try invalid data
-        $this->_get_person_by_formdata(array(), false);
+        $this->_get_person_by_formdata([], false);
 
         // try invalid username
         $fake_username = uniqid("abcabcab");
-        $this->_get_person_by_formdata(array("username" => $fake_username, "password" => "abc"), false);
+        $this->_get_person_by_formdata(["username" => $fake_username, "password" => "abc"], false);
 
         // try valid username
         $username = uniqid("PBF");
@@ -158,7 +158,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $account->set_username($username);
         $account->save();
 
-        $this->_get_person_by_formdata(array("username" => $username, "password" => "abc"), true);
+        $this->_get_person_by_formdata(["username" => $username, "password" => "abc"], true);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -238,7 +238,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         do {
             $password3 = $accounthelper->generate_safe_password();
         } while ($password3 === $password || $password3 === $password1 || $password3 === $password2);
-        $old_passwords = array($password1, $password2);
+        $old_passwords = [$password1, $password2];
 
         midcom::get()->auth->request_sudo('org.openpsa.user');
         self::$_user->set_parameter('org_openpsa_user_password', 'old_passwords', serialize($old_passwords));
@@ -276,11 +276,11 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $this->assertEquals('', $account->get_password());
         $this->assertEquals($password, self::$_user->get_parameter('org_openpsa_user_blocked_account', 'account_password'));
 
-        $args = array(
+        $args = [
             'guid' => self::$_user->guid,
             'parameter_name' => 'org_openpsa_user_blocked_account',
             'password' => 'account_password',
-        );
+        ];
 
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('argumentsstore', '=', serialize($args));
@@ -320,6 +320,6 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $this->assertEquals(midcom_connection::prepare_password($new_password), $account->get_password());
         $this->assertEquals($new_username, $account->get_username());
         $this->assertFalse(is_null(self::$_user->get_parameter('org_openpsa_user_password', 'last_change')));
-        $this->assertEquals(serialize(array($password)), self::$_user->get_parameter('org_openpsa_user_password', 'old_passwords'));
+        $this->assertEquals(serialize([$password]), self::$_user->get_parameter('org_openpsa_user_password', 'old_passwords'));
     }
 }

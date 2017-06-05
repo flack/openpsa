@@ -25,15 +25,15 @@ class midcom_services_indexer_documentTest extends openpsa_testcase
 
     public function provider_html2text()
     {
-        return array(
-            array('some string', 'some string'),
-            array('<strong>some</strong> string', 'some string'),
-            array("<strong>some\n</strong> string", 'some string'),
-            array('<strong id="dummy">some</strong> string', 'some string'),
-            array('<strong id="dummy">some</strong><img src="test.jpg" />string', 'some string'),
-            array('<!-- pls ignore --><strong id="dummy">some</strong><img src="test" />string', 'some string'),
-            array('1 + 2 > -5', '1 + 2 > -5'),
-            array('1 + 2 &gt; -5', '1 + 2 > -5'),
-        );
+        return [
+            ['some string', 'some string'],
+            ['<strong>some</strong> string', 'some string'],
+            ["<strong>some\n</strong> string", 'some string'],
+            ['<strong id="dummy">some</strong> string', 'some string'],
+            ['<strong id="dummy">some</strong><img src="test.jpg" />string', 'some string'],
+            ['<!-- pls ignore --><strong id="dummy">some</strong><img src="test" />string', 'some string'],
+            ['1 + 2 > -5', '1 + 2 > -5'],
+            ['1 + 2 &gt; -5', '1 + 2 > -5'],
+        ];
     }
 }

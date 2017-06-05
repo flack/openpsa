@@ -57,7 +57,7 @@ class midcom_helper_datamanager2_widget_csrf extends midcom_helper_datamanager2_
         $this->_form->addElement('hidden', $this->name, null, $attributes);
         $this->_form->applyFilter($this->name, 'trim');
 
-        $this->_form->addFormRule(array(&$this, 'validate'));
+        $this->_form->addFormRule([&$this, 'validate']);
     }
 
     /**
@@ -68,10 +68,10 @@ class midcom_helper_datamanager2_widget_csrf extends midcom_helper_datamanager2_
         $value = (string) $fields[$this->name];
 
         if (!$value) {
-            return array($this->name => $this->_l10n->get('type csrf: missing csrf token'));
+            return [$this->name => $this->_l10n->get('type csrf: missing csrf token')];
         }
         if (!$this->manager->isTokenValid(new CsrfToken($this->_namespace . $this->name, $value))) {
-            return array($this->name => $this->_l10n->get('type csrf: invalid csrf token'));
+            return [$this->name => $this->_l10n->get('type csrf: invalid csrf token')];
         }
 
         return true;

@@ -61,7 +61,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
      *
      * @var array
      */
-    public $constraints = array();
+    public $constraints = [];
 
     /**
      * Fields/properties to show on results
@@ -85,7 +85,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
      *
      * @var array
      */
-    public $result_headers = array();
+    public $result_headers = [];
 
     /**
      * In search results replaces given field with the object's label
@@ -115,7 +115,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
      *
      * @var array
      */
-    public $searchfields = array();
+    public $searchfields = [];
 
     /**
      * associative array of ordering info, always added last
@@ -137,7 +137,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
      *
      * @var array
      */
-    public $orders = array();
+    public $orders = [];
 
     /**
      * Field/property to use as the key/id
@@ -190,14 +190,14 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
      *
      * @var array
      */
-    private $_widget_elements = array();
+    private $_widget_elements = [];
 
     /**
      * The initialization event handler post-processes the maxlength setting.
      */
     public function _on_initialize()
     {
-        $this->_require_type_class(array('midcom_helper_datamanager2_type_select', 'midcom_helper_datamanager2_type_mnrelation'));
+        $this->_require_type_class(['midcom_helper_datamanager2_type_select', 'midcom_helper_datamanager2_type_mnrelation']);
 
         if (!empty($this->clever_class)) {
             $this->_load_clever_class();
@@ -232,12 +232,12 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
 
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
 
-        $components = array('menu', 'autocomplete');
+        $components = ['menu', 'autocomplete'];
         if ($sortable) {
             $components[] = 'sortable';
         }
         if ($creation_mode_enabled) {
-            $components = array_merge($components, array('mouse', 'draggable', 'resizable', 'button', 'dialog'));
+            $components = array_merge($components, ['mouse', 'draggable', 'resizable', 'button', 'dialog']);
         }
         $head->enable_jquery_ui($components);
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
@@ -267,12 +267,12 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             'hidden',
             "selection",
             json_encode($selection),
-            array(
+            [
                 'id' => "{$this->_element_id}_selection",
-            )
+            ]
         );
 
-        $preset = array();
+        $preset = [];
         if (!empty($selection)) {
             $qb = new midcom_core_querybuilder($this->class);
             $qb->add_constraint($this->id_field, 'IN', $selection);
@@ -288,13 +288,13 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             'text',
             "search_input",
             $this->_translate($this->_field['title']),
-            array_merge($attributes, array(
+            array_merge($attributes, [
                 'class' => 'shorttext autocomplete_input',
                 'id' => "{$this->_element_id}_search_input",
-            ))
+            ])
         );
 
-        $handler_options = json_encode(array(
+        $handler_options = json_encode([
             'handler_url' => $handler_url,
             'class' => $this->class,
             'component' => $this->component,
@@ -313,7 +313,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             'creation_mode_enabled' => $this->creation_mode_enabled,
             'creation_handler' => $this->creation_handler,
             'creation_default_key' => $this->creation_default_key
-        ));
+        ]);
 
         $script = <<<EOT
             var {$this->_element_id}_handler_options = {$handler_options}
@@ -333,15 +333,15 @@ EOT;
             $script
         );
 
-        $this->_form->addGroup($this->_widget_elements, $this->name, $this->_translate($this->_field['title']), '', array('class' => 'midcom_helper_datamanager2_widget_autocomplete'));
+        $this->_form->addGroup($this->_widget_elements, $this->name, $this->_translate($this->_field['title']), '', ['class' => 'midcom_helper_datamanager2_widget_autocomplete']);
         if ($this->_field['required']) {
             $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
-            $this->_form->addGroupRule($this->name, array(
-                "selection" => array(
-                    array($errmsg, 'required'),
-                    array($errmsg, 'regex', '/\[.+?\]/')
-                )
-            ));
+            $this->_form->addGroupRule($this->name, [
+                "selection" => [
+                    [$errmsg, 'required'],
+                    [$errmsg, 'regex', '/\[.+?\]/']
+                ]
+            ]);
         }
     }
 
@@ -363,7 +363,7 @@ EOT;
 
     private function _get_form_selection($data)
     {
-        $selection = array();
+        $selection = [];
         if (   !isset($data[$this->name])
             || !is_array($data[$this->name])
             || !array_key_exists("selection", $data[$this->name])) {
@@ -430,7 +430,7 @@ EOT;
         if (sizeof($this->_type->selection) == 0) {
             return null;
         }
-        return array($this->name => array_fill_keys($this->_type->selection, true));
+        return [$this->name => array_fill_keys($this->_type->selection, true)];
     }
 
     /**
@@ -448,7 +448,7 @@ EOT;
         if (count($selection) == 0) {
             return $this->_translate('type select: no selection');
         }
-        $labels = array();
+        $labels = [];
         foreach ($selection as $key) {
             if ($this->id_field == 'id') {
                 $key = (int) $key;
@@ -468,7 +468,7 @@ EOT;
 
     public static function create_item_label($object, $result_headers, $get_label_for)
     {
-        $label = array();
+        $label = [];
         foreach ($result_headers as $header_item) {
             $item_name = $header_item['name'];
 

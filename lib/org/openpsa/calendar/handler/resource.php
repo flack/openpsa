@@ -50,7 +50,7 @@ implements midcom_helper_datamanager2_interfaces_create
         // Load the controller instance
         $data['controller'] = $this->get_controller('create');
 
-        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
+        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
         return $workflow->run();
     }
 }

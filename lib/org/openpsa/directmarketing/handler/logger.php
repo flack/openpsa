@@ -25,7 +25,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         if (empty($_POST['token'])) {
             throw new midcom_error('Token not present in POST or empty');
         }
-        $this->_request_data['update_status'] = array('receipts' => array(), 'members' => array());
+        $this->_request_data['update_status'] = ['receipts' => [], 'members' => []];
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
         $ret = $this->_qb_token_receipts($_POST['token']);
@@ -127,7 +127,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
     private function _create_link_receipt($receipt, $token, $target)
     {
         if (!array_key_exists('create_status', $this->_request_data)) {
-            $this->_request_data['create_status'] = array('receipts' => array(), 'links' => array());
+            $this->_request_data['create_status'] = ['receipts' => [], 'links' => []];
         }
 
         //Store the click in database

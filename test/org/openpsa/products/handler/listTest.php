@@ -17,7 +17,7 @@ class org_openpsa_products_handler_listTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_group = self::create_class_object('org_openpsa_products_product_group_dba', array('code' => 'TEST_' . __CLASS__ . time()));
+        self::$_group = self::create_class_object('org_openpsa_products_product_group_dba', ['code' => 'TEST_' . __CLASS__ . time()]);
     }
 
     public function testHandler_index()
@@ -34,7 +34,7 @@ class org_openpsa_products_handler_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.products');
 
-        $data = $this->run_handler('org.openpsa.products', array(self::$_group->guid));
+        $data = $this->run_handler('org.openpsa.products', [self::$_group->guid]);
         $this->assertEquals('list_group', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

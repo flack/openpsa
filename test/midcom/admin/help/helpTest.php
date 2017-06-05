@@ -73,34 +73,34 @@ class midcom_admin_help_helpTest extends openpsa_testcase
 
     public function provider_list_files()
     {
-        return array(
-            array(
+        return [
+            [
                 'org.openpsa.core',
                 false,
-                array(
-                    'urlmethods' => array(
+                [
+                    'urlmethods' => [
                         'path' => '/urlmethods',
                         'subject' => 'Additional URL methods',
                         'lang' => 'en'
-                    ),
-                )
-            ),
-            array(
+                    ],
+                ]
+            ],
+            [
                 'net.nehmer.blog',
                 false,
-                array(
-                    '01_component_config' => array(
+                [
+                    '01_component_config' => [
                         'path' => MIDCOM_ROOT . '/net/nehmer/blog/documentation/01_component_config.en.txt',
                         'subject' => 'Component configuration',
                         'lang' => 'en'
-                    ),
-                    'style' => array(
+                    ],
+                    'style' => [
                         'path' => MIDCOM_ROOT . '/net/nehmer/blog/documentation/style.en.txt',
                         'subject' => 'net.nehmer.blog style elements',
                         'lang' => 'en'
-                    ),
-                )
-            )
-        );
+                    ],
+                ]
+            ]
+        ];
     }
 }

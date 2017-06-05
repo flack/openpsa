@@ -13,7 +13,7 @@
  */
 class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_directmarketing_sender_backend
 {
-    private $_config = array();
+    private $_config = [];
 
     /**
      * @var org_openpsa_directmarketing_campaign_message_dba
@@ -27,7 +27,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
             $config['mail_send_backend'] = 'try_default';
         }
         if (!isset($config['mail_send_backend_params'])) {
-            $config['mail_send_backend_params'] = array();
+            $config['mail_send_backend_params'] = [];
         }
         //Check for bounce detector usage
         if (!empty($config['bounce_detector_address'])) {
@@ -133,7 +133,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
      */
     private function _get_attachments()
     {
-        $attachments = array();
+        $attachments = [];
         foreach ($this->_config['dm_types'] as $field => $typedata) {
             if (empty($typedata->attachments_info)) {
                 continue;
@@ -147,7 +147,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
             }
 
             foreach ($typedata->attachments_info as $attachment_data) {
-                $att = array();
+                $att = [];
                 $att['name'] = $attachment_data['filename'];
                 $att['mimetype'] = $attachment_data['mimetype'];
                 $fp = $attachment_data['object']->open('r');

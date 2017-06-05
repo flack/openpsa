@@ -21,9 +21,9 @@ class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
     {
         self::$_invoice = self::create_class_object('org_openpsa_invoices_invoice_dba');
         self::$_salesproject = self::create_class_object('org_openpsa_sales_salesproject_dba');
-        $attributes = array(
+        $attributes = [
             'salesproject' => self::$_salesproject->id
-        );
+        ];
         self::$_deliverable = self::create_class_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
     }
 

@@ -46,7 +46,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      *
      * @var Array
      */
-    private $_data_groups = array();
+    private $_data_groups = [];
 
     /**
      * The cache backend instance to use.

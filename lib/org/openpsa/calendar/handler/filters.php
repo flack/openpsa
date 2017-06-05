@@ -37,7 +37,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Load the controller
         $data['controller'] = $this->get_controller('simple', $this->_person);
 
-        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
+        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
         $response = $workflow->run();
         if ($workflow->get_state() == 'save') {
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');

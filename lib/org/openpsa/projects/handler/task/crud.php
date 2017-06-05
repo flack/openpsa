@@ -73,40 +73,40 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     private function _populate_read_toolbar()
     {
-        $buttons = array();
+        $buttons = [];
         $workflow = $this->get_workflow('datamanager2');
-        $buttons[] = $workflow->get_button("task/edit/{$this->_object->guid}/", array(
+        $buttons[] = $workflow->get_button("task/edit/{$this->_object->guid}/", [
             MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-        ));
+        ]);
 
         if (   $this->_object->reportedHours == 0
             && $this->_object->can_do('midgard:delete')) {
-            $delete_workflow = $this->get_workflow('delete', array('object' => $this->_object));
+            $delete_workflow = $this->get_workflow('delete', ['object' => $this->_object]);
             $buttons[] = $delete_workflow->get_button("task/delete/{$this->_object->guid}/");
         }
 
         if ($this->_object->status == org_openpsa_projects_task_status_dba::CLOSED) {
-            $buttons[] = array(
+            $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "workflow/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('reopen'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder-expanded.png',
                 MIDCOM_TOOLBAR_POST => true,
-                MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
+                MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                     'org_openpsa_projects_workflow_action[reopen]' => 'dummy',
                     'org_openpsa_projects_workflow_action_redirect' => "task/{$this->_object->guid}/"
-                ),
-            );
+                ],
+            ];
         } elseif ($this->_object->status_type == 'ongoing') {
-            $buttons[] = array(
+            $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "workflow/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark completed'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
                 MIDCOM_TOOLBAR_POST => true,
-                MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
+                MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                     'org_openpsa_projects_workflow_action[complete]' => 'dummy',
                     'org_openpsa_projects_workflow_action_redirect' => "task/{$this->_object->guid}/"
-                ),
-            );
+                ],
+            ];
         }
 
         if ($this->_object->agreement) {
@@ -114,11 +114,11 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($this->_object->agreement);
                 $siteconfig = org_openpsa_core_siteconfig::get_instance();
                 if ($sales_url = $siteconfig->get_node_full_url('org.openpsa.sales')) {
-                    $buttons[] = array(
+                    $buttons[] = [
                         MIDCOM_TOOLBAR_URL => "{$sales_url}deliverable/{$agreement->guid}/",
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('agreement'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-                    );
+                    ];
                 }
 
             } catch (midcom_error $e) {
@@ -213,10 +213,10 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $task_booked_time = 0;
         $task_booked_percentage = 100;
 
-        $bookings = array(
-            'confirmed' => array(),
-            'suspected' => array(),
-        );
+        $bookings = [
+            'confirmed' => [],
+            'suspected' => [],
+        ];
         $mc = new org_openpsa_relatedto_collector($this->_object->guid, 'org_openpsa_calendar_event_dba');
         $mc->add_object_order('start', 'ASC');
         $events = $mc->get_related_objects_grouped_by('status');

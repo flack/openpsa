@@ -15,10 +15,10 @@ class midcom_services_at_entryTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        $args = array(
+        $args = [
             'arg1' => 'test',
             'arg2' => 12,
-        );
+        ];
 
         midcom::get()->auth->request_sudo('midcom.services.at');
         $entry = new midcom_services_at_entry_dba();

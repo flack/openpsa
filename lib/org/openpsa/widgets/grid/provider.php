@@ -88,7 +88,7 @@ class org_openpsa_widgets_grid_provider
      *
      * @var array
      */
-    private $_search = array();
+    private $_search = [];
 
     public function __construct($source, $datatype = 'json')
     {
@@ -242,12 +242,12 @@ class org_openpsa_widgets_grid_provider
             $this->_total_rows = count($rows);
         }
 
-        $response = array(
+        $response = [
             'total' => ceil($this->_total_rows / $this->_results_per_page),
             'page' => ($this->_offset / $this->_results_per_page) + 1,
             'records' => $this->_total_rows,
             'rows' => $rows
-        );
+        ];
         midcom::get()->cache->content->content_type('application/json');
         midcom::get()->header('Content-type: application/json; charset=UTF-8');
 
@@ -269,7 +269,7 @@ class org_openpsa_widgets_grid_provider
         if (   !empty($query['_search'])
             && $query['_search'] === 'true') {
             foreach ($query as $field => $value) {
-                if (in_array($field, array('_search', 'nd', 'page', 'rows', 'sidx', 'sord'))) {
+                if (in_array($field, ['_search', 'nd', 'page', 'rows', 'sidx', 'sord'])) {
                     continue;
                 }
                 $this->_search[str_replace('index_', '', $field)] = $value;
@@ -298,7 +298,7 @@ class org_openpsa_widgets_grid_provider
                 $qb->set_offset($this->_offset);
             }
         }
-        $this->_rows = array();
+        $this->_rows = [];
 
         if ($qb instanceof midcom_core_querybuilder) {
             $items = $qb->execute();

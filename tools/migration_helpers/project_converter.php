@@ -214,7 +214,7 @@ class project_converter
 
         $this->_output('Merging data from salesproject ' . $this->_salesproject->title);
 
-        $property_map = array(
+        $property_map = [
             'title' => 'title',
             'description' => 'description',
             'start' => 'start',
@@ -223,7 +223,7 @@ class project_converter
             'status' => 'status',
             'customer' => 'customer',
             'owner' => 'owner',
-        );
+        ];
         foreach ($property_map as $source => $destination) {
             if (   $source == 'start'
                 && $this->_new_object->start > 0
@@ -247,7 +247,7 @@ class project_converter
     {
         $this->_new_object = new org_openpsa_project();
 
-        $property_map = array(
+        $property_map = [
             'title' => 'title',
             'description' => 'description',
             'start' => 'start',
@@ -264,7 +264,7 @@ class project_converter
             'orgOpenpsaAccesstype' => 'orgOpenpsaAccesstype',
             'orgOpenpsaWgtype' => 'orgOpenpsaWgtype',
             'orgOpenpsaOwnerWg' => 'orgOpenpsaOwnerWg',
-        );
+        ];
         foreach ($property_map as $source => $destination) {
             $this->_new_object->$destination = $this->_project->$source;
         }

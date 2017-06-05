@@ -1,22 +1,22 @@
 <?php
 $grid = $data['grid'];
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$rows = array();
+$rows = [];
 $formatter = $data['l10n']->get_formatter();
 
-$state_labels = array(
+$state_labels = [
     org_openpsa_sales_salesproject_dba::STATE_LOST => $data['l10n']->get('lost'),
     org_openpsa_sales_salesproject_dba::STATE_CANCELED => $data['l10n']->get('canceled'),
     org_openpsa_sales_salesproject_dba::STATE_ACTIVE => $data['l10n']->get('active'),
     org_openpsa_sales_salesproject_dba::STATE_WON => $data['l10n']->get('won'),
     org_openpsa_sales_salesproject_dba::STATE_DELIVERED => $data['l10n']->get('delivered'),
     org_openpsa_sales_salesproject_dba::STATE_INVOICED => $data['l10n']->get('invoiced')
-);
+];
 
 foreach ($data['salesprojects'] as $salesproject) {
     $salesproject_url = "{$prefix}salesproject/{$salesproject->guid}/";
 
-    $row = array();
+    $row = [];
 
     $row['id'] = $salesproject->id;
 
@@ -107,14 +107,14 @@ $grid->set_option('scroll', 1)
     ->set_option('sortname', 'index_title');
 
 $grid->set_option('grouping', true)
-    ->set_option('groupingView', array(
-        'groupField' => ($data['mode'] != 'customer') ? array('customer') : array('state'),
-        'groupColumnShow' => array(false),
-        'groupText' => array('<strong>{0}</strong> ({1})'),
-        'groupOrder' => array('asc'),
-        'groupSummary' => array(true),
+    ->set_option('groupingView', [
+        'groupField' => ($data['mode'] != 'customer') ? ['customer'] : ['state'],
+        'groupColumnShow' => [false],
+        'groupText' => ['<strong>{0}</strong> ({1})'],
+        'groupOrder' => ['asc'],
+        'groupSummary' => [true],
         'showSummaryOnHide' => true
-    ));
+    ]);
 
 $grid->render($rows);
 ?>

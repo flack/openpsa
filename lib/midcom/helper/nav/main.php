@@ -37,7 +37,7 @@ class midcom_helper_nav
      *
      * @var array
      */
-    private static $_backends = array();
+    private static $_backends = [];
 
     /**
      * The context ID we're associated with.
@@ -342,7 +342,7 @@ class midcom_helper_nav
         // this is the rest of the lot, we need to traverse everything, unfortunately.
         // First, we traverse a list of nodes to be checked on by one, avoiding a recursive
         // function call.
-        $unprocessed_node_ids = array($this->get_root_node());
+        $unprocessed_node_ids = [$this->get_root_node()];
 
         while (count($unprocessed_node_ids) > 0) {
             $node_id = array_shift($unprocessed_node_ids);
@@ -412,7 +412,7 @@ class midcom_helper_nav
      * @param array     $skip_guids       Array of guids that are skipped.
      * @return string    The computed breadcrumb line.
      */
-    public function get_breadcrumb_line($separator = ' &gt; ', $class = null, $skip_levels = 0, $current_class = null, $skip_guids = array())
+    public function get_breadcrumb_line($separator = ' &gt; ', $class = null, $skip_levels = 0, $current_class = null, $skip_guids = [])
     {
         $breadcrumb_data = $this->get_breadcrumb_data();
         $result = '';
@@ -515,7 +515,7 @@ class midcom_helper_nav
     public function get_breadcrumb_data($id = null)
     {
         $prefix = midcom_core_context::get($this->_contextid)->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $result = array();
+        $result = [];
 
         if (!$id) {
             $curr_leaf = $this->get_current_leaf();
@@ -534,26 +534,26 @@ class midcom_helper_nav
         }
         foreach ($this->get_node_path($curr_node) as $node_id) {
             $node = $this->get_node($node_id);
-            $result[$node[MIDCOM_NAV_ID]] = array(
+            $result[$node[MIDCOM_NAV_ID]] = [
                 MIDCOM_NAV_URL => $node[MIDCOM_NAV_ABSOLUTEURL],
                 MIDCOM_NAV_NAME => $node[MIDCOM_NAV_NAME],
                 MIDCOM_NAV_TYPE => 'node',
                 MIDCOM_NAV_ID => $node_id,
                 'napobject' => $node,
-            );
+            ];
         }
         if ($curr_leaf !== false) {
             $leaf = $this->get_leaf($curr_leaf);
 
             // Ignore Index Article Leaves
             if ($leaf[MIDCOM_NAV_URL] != '') {
-                $result[$leaf[MIDCOM_NAV_ID]] = array(
+                $result[$leaf[MIDCOM_NAV_ID]] = [
                     MIDCOM_NAV_URL => $leaf[MIDCOM_NAV_ABSOLUTEURL],
                     MIDCOM_NAV_NAME => $leaf[MIDCOM_NAV_NAME],
                     MIDCOM_NAV_TYPE => 'leaf',
                     MIDCOM_NAV_ID => $curr_leaf,
                     'napobject' => $leaf,
-                );
+                ];
             }
         }
 
@@ -569,13 +569,13 @@ class midcom_helper_nav
                         $url = $entry[MIDCOM_NAV_URL];
                     }
 
-                    $result[$id] = array(
+                    $result[$id] = [
                         MIDCOM_NAV_URL => $url,
                         MIDCOM_NAV_NAME => $entry[MIDCOM_NAV_NAME],
                         MIDCOM_NAV_TYPE => 'custom',
                         MIDCOM_NAV_ID => $id,
                         'napobject' => $entry,
-                    );
+                    ];
                 }
             }
         }
@@ -594,7 +594,7 @@ class midcom_helper_nav
         if ($node_id === null) {
             return $this->_backend->get_node_path();
         }
-        $path = array();
+        $path = [];
         $node = $this->get_node($node_id);
         while ($node) {
             $path[] = $node[MIDCOM_NAV_ID];

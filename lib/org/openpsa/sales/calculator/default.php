@@ -99,7 +99,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
     {
         $this->_invoice = $invoice;
 
-        $items = array();
+        $items = [];
         // Mark the tasks (and hour reports) related to this agreement as invoiced
         $tasks = $this->_find_tasks();
 

@@ -206,20 +206,20 @@ END;
                 $sortable .
                 "            <td class=\"new filename\">";
         $this->_elements['s_new_filename'] = $this->_form->createElement('static', 's_new_filename', '', $html);
-        $attributes = array(
+        $attributes = [
             'class' => 'new filename',
             'id'    => "{$this->_namespace}{$this->name}_e_new_filename",
-        );
+        ];
         $this->_elements['e_new_filename'] = $this->_form->createElement('text', 'e_new_filename', '', $attributes);
 
         // Title Column
         $html = "            </td>\n
                             <td class=\"new title\">";
         $this->_elements['s_new_title'] = $this->_form->createElement('static', 's_new_title', '', $html);
-        $attributes = array(
+        $attributes = [
             'class' => 'new title',
             'id'    => "{$this->_namespace}{$this->name}_e_new_title",
-        );
+        ];
         $this->_elements['e_new_title'] = $this->_form->createElement('text', 'e_new_title', '', $attributes);
 
         if (!$frozen) {
@@ -227,15 +227,15 @@ END;
             $html = "            </td>\n
                                 <td class=\"new upload\">";
             $this->_elements['s_new_upload'] = $this->_form->createElement('static', 's_new_upload', '', $html);
-            $attributes = array(
+            $attributes = [
                 'class' => 'new file',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_file",
-            );
+            ];
             $this->_elements['e_new_file'] = $this->_form->createElement('file', 'e_new_file', '', $attributes);
-            $attributes = array(
+            $attributes = [
                 'class' => 'new upload',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_upload",
-            );
+            ];
 
             $this->_elements['e_new_upload'] = $this->_form->createElement('submit', "{$this->name}_e_new_upload", $this->_l10n->get('upload file'), $attributes);
         }
@@ -270,15 +270,15 @@ END;
             // Controls Column
             $html = "</td><td class=\"new upload\" colspan=\"2\">";
             $this->_elements['s_new_upload'] = $this->_form->createElement('static', 's_new_upload', '', $html);
-            $attributes = array(
+            $attributes = [
                 'class' => 'new file',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_file",
-            );
+            ];
             $this->_elements['e_new_file'] = $this->_form->createElement('file', 'e_new_file', '', $attributes);
-            $attributes = array(
+            $attributes = [
                 'class' => 'new upload',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_upload",
-            );
+            ];
             $this->_elements['e_new_upload'] = $this->_form->createElement('submit', "{$this->name}_e_new_upload", $this->_l10n->get('upload file'), $attributes);
         }
 
@@ -341,10 +341,10 @@ END;
         // Title Column, set the value explicitly, as we are sometimes called after the defaults kick in.
         $html = "            <td class=\"exist title\" title=\"{$img_title}\">";
         $this->_elements["s_exist_{$identifier}_title"] = $this->_form->createElement('static', "s_exist_{$identifier}_title", '', $html);
-        $attributes = array(
+        $attributes = [
             'class' => 'exist title',
             'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_title",
-        );
+        ];
         $this->_elements["e_exist_{$identifier}_title"] = $this->_form->createElement('text', "e_exist_{$identifier}_title", '', $attributes);
         $this->_elements["e_exist_{$identifier}_title"]->setValue($img_title);
 
@@ -399,24 +399,24 @@ END;
             $html = "            </td>\n
                                  <td class=\"exist upload\">\n";
             $this->_elements["s_exist_{$identifier}_upload"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', $html);
-            $attributes = array(
+            $attributes = [
                 'class' => 'exist file',
                 'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_file",
                 'onchange' => "midcom_helper_dm2_widget_images_check(event, 'e_exist_{$identifier}_delete')",
-            );
+            ];
             $this->_elements["e_exist_{$identifier}_file"] = $this->_form->createElement('file', "e_exist_{$identifier}_file", '', $attributes);
             $this->_elements["s_exist_{$identifier}_br"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', "<br/>");
-            $attributes = array(
+            $attributes = [
                 'class' => 'exist upload',
                 'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_upload",
-            );
+            ];
             $this->_elements["e_exist_{$identifier}_upload"] = $this->_form->createElement('submit', "{$this->name}_e_exist_{$identifier}_upload", $this->_l10n->get('replace file'), $attributes);
         }
         if ($info['object']->can_do('midgard:delete')) {
-            $attributes = array(
+            $attributes = [
                 'class' => 'exist delete',
                 'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_delete",
-            );
+            ];
             $this->_elements["e_exist_{$identifier}_delete"] = $this->_form->createElement('submit', "{$this->name}_e_exist_{$identifier}_delete", $this->_l10n->get('delete file'), $attributes);
         }
         // WTF, the identifiers look wonky here
@@ -465,7 +465,7 @@ END;
      */
     private function _compute_elements($frozen = false)
     {
-        $this->_elements = array();
+        $this->_elements = [];
 
         $this->_add_table_header($frozen);
 
@@ -626,7 +626,7 @@ END;
             $this->_type->_sorted_list = $_REQUEST['midcom_helper_datamanager2_sortable'][$this->name];
              */
             // Explicitly set scores for each attachment found in the blobs type
-            $this->_type->_sorted_list = array();
+            $this->_type->_sorted_list = [];
             $images_scores = $_REQUEST['midcom_helper_datamanager2_sortable'][$this->name];
             $images_scores = array_intersect_key($images_scores, $this->_type->images);
             foreach ($images_scores as $images_identifier => $score) {
@@ -657,7 +657,7 @@ END;
         if (sizeof($this->_type->images) == 0) {
             return null;
         }
-        $defaults = array();
+        $defaults = [];
         foreach (array_keys($this->_type->images) as $identifier) {
             if (isset($this->_type->titles[$identifier])) {
                 $defaults["e_exist_{$identifier}_title"] = $this->_type->titles[$identifier];
@@ -665,6 +665,6 @@ END;
                 $defaults["e_exist_{$identifier}_title"] = '';
             }
         }
-        return array($this->name => $defaults);
+        return [$this->name => $defaults];
     }
 }

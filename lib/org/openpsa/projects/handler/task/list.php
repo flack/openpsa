@@ -16,7 +16,7 @@ use Doctrine\ORM\Query\Expr\Join;
 class org_openpsa_projects_handler_task_list extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client
 {
-    private $_status_order = array(
+    private $_status_order = [
         'proposed' => 0,
         'current' => 1,
         'pending_accept' => 2,
@@ -24,7 +24,7 @@ implements org_openpsa_widgets_grid_provider_client
         'declined' => 4,
         'completed' => 5,
         'closed' => 6
-    );
+    ];
 
     /**
      * Grid controller
@@ -168,7 +168,7 @@ implements org_openpsa_widgets_grid_provider_client
             return '';
         }
         if (is_scalar($ids)) {
-            $ids = array($ids => true);
+            $ids = [$ids => true];
         }
         $person_string = '';
         foreach (array_keys($ids) as $id) {
@@ -194,28 +194,28 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_qb->get_doctrine()
             ->leftJoin('org_openpsa_task_resource', 'r', Join::WITH, 'c.id = r.task')
             ->where('(r.orgOpenpsaObtype = :rtype AND r.person = :user AND c.status IN(:r_statuses)) OR (c.manager = :user AND c.status IN(:m_statuses))')
-            ->setParameters(array(
+            ->setParameters([
                 'rtype' => org_openpsa_projects_task_resource_dba::RESOURCE,
                 'user' => midcom_connection::get_user(),
-                'r_statuses' => array(
+                'r_statuses' => [
                     org_openpsa_projects_task_status_dba::PROPOSED,
                     org_openpsa_projects_task_status_dba::ACCEPTED,
                     org_openpsa_projects_task_status_dba::STARTED,
                     org_openpsa_projects_task_status_dba::REOPENED,
                     org_openpsa_projects_task_status_dba::COMPLETED
-                ),
-                'm_statuses' => array(
+                ],
+                'm_statuses' => [
                     org_openpsa_projects_task_status_dba::PROPOSED,
                     org_openpsa_projects_task_status_dba::DECLINED,
                     org_openpsa_projects_task_status_dba::COMPLETED,
                     org_openpsa_projects_task_status_dba::ONHOLD
-                )
-            ));
+                ]
+            ]);
 
         org_openpsa_widgets_grid::add_head_elements();
     }
 
-    public function get_qb($field = null, $direction = 'ASC', array $search = array())
+    public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
         if (!is_null($field)) {
             $this->_qb->add_order($field, $direction);
@@ -335,12 +335,12 @@ implements org_openpsa_widgets_grid_provider_client
                 $this->_qb->add_constraint(
                     'status',
                     'IN',
-                    array(
+                    [
                         org_openpsa_projects_task_status_dba::ACCEPTED,
                         org_openpsa_projects_task_status_dba::STARTED,
                         org_openpsa_projects_task_status_dba::REJECTED,
                         org_openpsa_projects_task_status_dba::REOPENED
-                    )
+                    ]
                 );
                 $this->_provider->add_order('end');
                 break;
@@ -409,10 +409,10 @@ implements org_openpsa_widgets_grid_provider_client
      */
     private function get_table_row_data($task)
     {
-        $ret = array(
+        $ret = [
             'project' => '&nbsp;',
             'index_project' => '',
-        );
+        ];
 
         try {
             $project = org_openpsa_projects_project::get_cached($task->project);
@@ -470,16 +470,16 @@ implements org_openpsa_widgets_grid_provider_client
         $workflow = $this->get_workflow('datamanager2');
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project')) {
-            $this->_view_toolbar->add_item($workflow->get_button('project/new/', array(
+            $this->_view_toolbar->add_item($workflow->get_button('project/new/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create project"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-            )));
+            ]));
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba')) {
-            $this->_view_toolbar->add_item($workflow->get_button('task/new/', array(
+            $this->_view_toolbar->add_item($workflow->get_button('task/new/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-            )));
+            ]));
         }
     }
 }

@@ -28,7 +28,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      */
     public static function find_links_object(midcom_core_dbaobject $object, $defaults = false)
     {
-        $ret = array();
+        $ret = [];
         $components = array_keys(midcom::get()->componentloader->manifests);
         //Check all installed components
         foreach ($components as $component) {
@@ -51,7 +51,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      */
     public static function find_links_object_component(midcom_core_dbaobject $object, $component, $defaults = false)
     {
-        $ret = array();
+        $ret = [];
 
         //Make sure we can load and access the component
         if (!midcom::get()->componentloader->load_graceful($component)) {
@@ -89,7 +89,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      */
     public static function defaults_helper($link, $defaults, $component = false, $obj = false)
     {
-        $properties = array('fromClass', 'toClass', 'fromGuid', 'toGuid', 'fromComponent', 'toComponent', 'status', 'toExtra', 'toExtra');
+        $properties = ['fromClass', 'toClass', 'fromGuid', 'toGuid', 'fromComponent', 'toComponent', 'status', 'toExtra', 'toExtra'];
         foreach ($properties as $property) {
             if (   !empty($defaults->$property)
                 && empty($link->$property)) {

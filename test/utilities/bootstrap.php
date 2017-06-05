@@ -48,7 +48,7 @@ openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache');
 openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs');
 openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs');
 
-$subdirs = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F');
+$subdirs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'];
 foreach ($subdirs as $dir) {
     openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs/' . $dir);
     foreach ($subdirs as $subdir) {
@@ -80,7 +80,7 @@ if (! defined('MIDCOM_STATIC_URL')) {
     define('MIDCOM_STATIC_URL', '/openpsa2-static');
 }
 
-$_SERVER = array(
+$_SERVER = [
     'HTTP_HOST' => 'localhost',
     'SERVER_NAME' => 'localhost',
     'SERVER_SOFTWARE' => 'PHPUnit',
@@ -91,7 +91,7 @@ $_SERVER = array(
     'REQUEST_TIME' => time(),
     'REMOTE_PORT' => '12345',
     'SCRIPT_NAME' => 'unittest-run'
-);
+];
 
 // Include the MidCOM environment for running OpenPSA
 require MIDCOM_ROOT . '/midcom.php';

@@ -18,13 +18,13 @@ class org_openpsa_calendar_handler_agendaTest extends openpsa_testcase
         $this->create_user(true);
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
-        $attributes = array(
+        $attributes = [
             'start' => 1144056938,
             'end' => 1144066938
-        );
+        ];
         $event = $this->create_object('org_openpsa_calendar_event_dba', $attributes);
 
-        $data = $this->run_handler('org.openpsa.calendar', array('agenda', 'day', '2006-04-03'));
+        $data = $this->run_handler('org.openpsa.calendar', ['agenda', 'day', '2006-04-03']);
         $this->assertEquals('agenda_day', $data['handler_id']);
 
         $this->show_handler($data);

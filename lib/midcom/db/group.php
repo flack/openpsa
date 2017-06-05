@@ -16,9 +16,9 @@ class midcom_db_group extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_group';
 
-    public $autodelete_dependents = array(
+    public $autodelete_dependents = [
         'midcom_db_member' => 'gid'
-    );
+    ];
 
     public function get_label()
     {

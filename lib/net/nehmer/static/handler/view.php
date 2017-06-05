@@ -36,17 +36,17 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         $this->_request_data['article'] = $this->_article;
         $this->_request_data['datamanager'] = $this->_datamanager;
 
-        $buttons = array();
+        $buttons = [];
         $workflow = $this->get_workflow('datamanager2');
         if ($this->_article->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("edit/{$this->_article->guid}/", array(
+            $buttons[] = $workflow->get_button("edit/{$this->_article->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
+            ]);
         }
 
         if (   $this->_article->topic === $this->_topic->id
             && $this->_article->can_do('midgard:delete')) {
-            $delete = $this->get_workflow('delete', array('object' => $this->_article));
+            $delete = $this->get_workflow('delete', ['object' => $this->_article]);
             $buttons[] = $delete->get_button("delete/{$this->_article->guid}/");
         }
 

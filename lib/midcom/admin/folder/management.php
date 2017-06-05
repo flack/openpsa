@@ -40,7 +40,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
      */
     public static function get_component_list($parent_component = '')
     {
-        $components = array();
+        $components = [];
 
         // Loop through the list of components of component loader
         foreach (midcom::get()->componentloader->manifests as $manifest) {
@@ -55,10 +55,10 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
                 continue;
             }
 
-            $components[$manifest->name] = array(
+            $components[$manifest->name] = [
                 'name'        => $manifest->get_name_translated(),
                 'description' => midcom::get()->i18n->get_string($manifest->description, $manifest->name)
-            );
+            ];
         }
 
         // Sort the components in alphabetical order (by key i.e. component class name)
@@ -67,7 +67,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         // Set the parent component to be the first if applicable
         if (   $parent_component !== ''
             && array_key_exists($parent_component, $components)) {
-            $temp = array();
+            $temp = [];
             $temp[$parent_component] = $components[$parent_component];
             unset($components[$parent_component]);
 
@@ -84,7 +84,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
      */
     public static function list_components($parent_component = '', $all = false)
     {
-        $list = array();
+        $list = [];
 
         $urltopics = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS);
         if ($urltopic = end($urltopics)) {
@@ -117,7 +117,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
      */
     public static function list_styles($up = 0, $prefix = '/', $spacer = '')
     {
-        static $style_array = array();
+        static $style_array = [];
 
         $style_array[''] = midcom::get()->i18n->get_string('default', 'midcom.admin.folder');
 

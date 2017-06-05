@@ -14,13 +14,13 @@
  */
 class org_openpsa_mail_backend_unittest extends org_openpsa_mail_backend
 {
-    public static $mails = array();
+    public static $mails = [];
     private $_index;
 
     public function __construct(array $params)
     {
         $this->_index = sizeof(self::$mails);
-        self::$mails[$this->_index] = array('params' => $params);
+        self::$mails[$this->_index] = ['params' => $params];
     }
 
     public function mail(org_openpsa_mail_message $message)
@@ -34,7 +34,7 @@ class org_openpsa_mail_backend_unittest extends org_openpsa_mail_backend
     public static function flush()
     {
         $mails = self::$mails;
-        self::$mails = array();
+        self::$mails = [];
         return $mails;
     }
 }

@@ -60,7 +60,7 @@ class midcom_services_dbclassloader
      *
      * @var Array
      */
-    private $_midgard_classes = array();
+    private $_midgard_classes = [];
 
     /**
      * A mapping storing which component handles which class.
@@ -71,7 +71,7 @@ class midcom_services_dbclassloader
      *
      * @var Array
      */
-    private $_mgdschema_class_handler = array();
+    private $_mgdschema_class_handler = [];
 
     /**
      * This is the main class loader function. It takes a component/filename pair as
@@ -192,7 +192,7 @@ class midcom_services_dbclassloader
         $class_parts = array_filter(explode('_', $classname));
         $component = '';
         // Fix for incorrectly named classes
-        $component_map = array(
+        $component_map = [
             'midcom.db' => 'midcom',
             'midcom.core' => 'midcom',
             'midgard' => 'midcom',
@@ -212,7 +212,7 @@ class midcom_services_dbclassloader
             'org.openpsa.task' => 'org.openpsa.projects',
             'org.openpsa.project' => 'org.openpsa.projects',
             'org.openpsa.hour' => 'org.openpsa.projects'
-        );
+        ];
 
         foreach ($class_parts as $part) {
             if (empty($component)) {
@@ -259,7 +259,7 @@ class midcom_services_dbclassloader
      */
     public function get_midcom_class_name_for_mgdschema_object($object)
     {
-        static $dba_classes_by_mgdschema = array();
+        static $dba_classes_by_mgdschema = [];
 
         if (is_string($object)) {
             // In some cases we get a class name instead
@@ -313,7 +313,7 @@ class midcom_services_dbclassloader
      */
     public function get_mgdschema_class_name_for_midcom_class($classname)
     {
-        static $mapping = array();
+        static $mapping = [];
 
         if (!array_key_exists($classname, $mapping)) {
             $mapping[$classname] = false;

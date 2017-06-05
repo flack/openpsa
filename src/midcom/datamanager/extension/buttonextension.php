@@ -18,9 +18,9 @@ class buttonextension extends AbstractTypeExtension
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'operation' => '',
-        ));
+        ]);
     }
 
     public function getExtendedType()

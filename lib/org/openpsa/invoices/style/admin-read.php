@@ -166,11 +166,11 @@ if ($invoice->cancelationInvoice) {
 if (!empty($data['reports'])) {
     $grid_id = 'invoice_' . $invoice->number . '_hours_grid';
 
-    $guids = array();
-    $rows = array();
+    $guids = [];
+    $rows = [];
 
     foreach ($data['reports'] as $report) {
-        $row = array();
+        $row = [];
 
         $guids[] = $report->guid;
 

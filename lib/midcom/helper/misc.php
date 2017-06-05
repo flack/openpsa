@@ -44,7 +44,7 @@ class midcom_helper_misc
      */
     public static function get_snippet_content_graceful($path)
     {
-        static $cached_snippets = array();
+        static $cached_snippets = [];
         if (array_key_exists($path, $cached_snippets)) {
             return $cached_snippets[$path];
         }
@@ -142,9 +142,9 @@ class midcom_helper_misc
     public static function preparse($code)
     {
         // Get style elements
-        $code = preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", array('midcom_helper_misc', 'include_element'), $code);
+        $code = preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", ['midcom_helper_misc', 'include_element'], $code);
         // Echo variables
-        return preg_replace_callback("%&\(([^)]*)\);%i", array('midcom_helper_formatter', 'convert_to_php'), $code);
+        return preg_replace_callback("%&\(([^)]*)\);%i", ['midcom_helper_formatter', 'convert_to_php'], $code);
     }
 
     /**
@@ -175,7 +175,7 @@ class midcom_helper_misc
                     }
                     return '';
                 }
-                return preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", array('midcom_helper_misc', 'include_element'), $value);
+                return preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", ['midcom_helper_misc', 'include_element'], $value);
         }
     }
 
@@ -196,7 +196,7 @@ class midcom_helper_misc
             debug_add("Couldn't read directory {$mime_fspath}", MIDCOM_LOG_WARN);
         }
 
-        $check_files = array();
+        $check_files = [];
         switch ($mimetype_filename) {
             case 'application-x-zip-compressed':
                 $check_files[] = "gnome-application-zip.png";
@@ -254,7 +254,7 @@ class midcom_helper_misc
 
         $preg='/s:([0-9]+):"(.*?)";/ms';
         preg_match_all($preg, $data, $matches);
-        $cache = array();
+        $cache = [];
 
         foreach ($matches[0] as $k => $origFullStr) {
             $origLen = $matches[1][$k];
@@ -283,7 +283,7 @@ class midcom_helper_misc
      */
     public static function find_node_by_component($component, $node_id = null, midcom_helper_nav $nap = null)
     {
-        static $cache = array();
+        static $cache = [];
 
         $cache_node = $node_id;
         if (is_null($cache_node)) {
@@ -346,7 +346,7 @@ class midcom_helper_misc
         //check if we have elements for the sub-styles
         while (!empty($path_array)) {
             $theme_path = implode('/', $path_array);
-            $candidates = array();
+            $candidates = [];
             if ($substyle) {
                 $candidates[] =  $theme_root . $theme_path .  "/style/{$substyle}/{$element_name}.php";
             }

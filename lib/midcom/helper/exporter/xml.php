@@ -35,7 +35,7 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
 
     private function _xml_to_array(SimpleXMLIterator $sxi)
     {
-        $data = array();
+        $data = [];
         foreach ($sxi as $key => $val) {
             if ($sxi->hasChildren()) {
                 $data[$key] = $this->_xml_to_array($val);
@@ -58,7 +58,7 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
      * @param midcom_helper_datamanager2_datamanager $datamanager
      * @return string
      */
-    public function dm2data($datamanager, $fallback_label = 'default', $additional_data = array())
+    public function dm2data($datamanager, $fallback_label = 'default', $additional_data = [])
     {
         $content = $datamanager->get_content_xml();
         $content['guid'] = $datamanager->storage->object->guid;

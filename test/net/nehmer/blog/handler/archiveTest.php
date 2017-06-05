@@ -19,10 +19,10 @@ class net_nehmer_blog_handler_archiveTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_topic = self::get_component_node('net.nehmer.blog');
-        $article_properties = array(
+        $article_properties = [
             'topic' => self::$_topic->id,
             'name' => __CLASS__ . time()
-        );
+        ];
         self::$_article = self::create_class_object('midcom_db_article', $article_properties);
     }
 
@@ -30,7 +30,7 @@ class net_nehmer_blog_handler_archiveTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nehmer.blog');
 
-        $data = $this->run_handler(self::$_topic, array('archive'));
+        $data = $this->run_handler(self::$_topic, ['archive']);
         $this->assertEquals('archive-welcome', $data['handler_id']);
 
         $this->show_handler($data);
@@ -41,7 +41,7 @@ class net_nehmer_blog_handler_archiveTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nehmer.blog');
 
-        $data = $this->run_handler(self::$_topic, array('archive', 'year', date('Y')));
+        $data = $this->run_handler(self::$_topic, ['archive', 'year', date('Y')]);
         $this->assertEquals('archive-year', $data['handler_id']);
 
         $this->show_handler($data);
@@ -52,7 +52,7 @@ class net_nehmer_blog_handler_archiveTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nehmer.blog');
 
-        $data = $this->run_handler(self::$_topic, array('archive', 'month', date('Y'), date('m')));
+        $data = $this->run_handler(self::$_topic, ['archive', 'month', date('Y'), date('m')]);
         $this->assertEquals('archive-month', $data['handler_id']);
 
         $this->show_handler($data);

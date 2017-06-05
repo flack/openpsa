@@ -21,10 +21,10 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_task';
 
-    public $autodelete_dependents = array(
+    public $autodelete_dependents = [
         'org_openpsa_projects_task_status_dba' => 'task',
         'org_openpsa_projects_task_resource_dba' => 'task',
-    );
+    ];
 
     public $contacts = null; //Shorthand access for contact members
     public $resources = null; // --''--
@@ -130,7 +130,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
      */
     public function get_label()
     {
-        $label_elements = array($this->title);
+        $label_elements = [$this->title];
         $task = $this;
         while ($task = $task->get_parent()) {
             if (isset($task->title)) {
@@ -157,15 +157,15 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
 
         if (!is_array($this->contacts)) {
-            $this->contacts = array();
+            $this->contacts = [];
         }
         if (!is_array($this->resources)) {
-            $this->resources = array();
+            $this->resources = [];
         }
 
         $mc = org_openpsa_projects_task_resource_dba::new_collector('task', $this->id);
         $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_projects_task_resource_dba::PROSPECT);
-        $ret = $mc->get_rows(array('orgOpenpsaObtype', 'person'));
+        $ret = $mc->get_rows(['orgOpenpsaObtype', 'person']);
 
         foreach ($ret as $data) {
             if ($data['orgOpenpsaObtype'] == org_openpsa_projects_task_resource_dba::CONTACT) {
@@ -291,12 +291,12 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     private function list_hours()
     {
-        $hours = array(
+        $hours = [
             'reported'    => 0,
             'approved'    => 0,
             'invoiced'    => 0,
             'invoiceable' => 0,
-        );
+        ];
 
         // Check agreement for invoiceability rules
         try {
@@ -349,10 +349,10 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
      */
     private function _get_status()
     {
-        $return = array(
+        $return = [
             'status_comment' => '',
             'status_time' => false,
-        );
+        ];
         //Simplistic approach
         $mc = org_openpsa_projects_task_status_dba::new_collector('task', $this->id);
         if ($this->status > org_openpsa_projects_task_status_dba::PROPOSED) {
@@ -367,7 +367,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $mc->add_order('type', 'DESC'); //Our timestamps are not accurate enough so if we have multiple with same timestamp suppose highest type is latest
         $mc->set_limit(1);
 
-        $ret = $mc->get_rows(array('type', 'comment', 'timestamp'));
+        $ret = $mc->get_rows(['type', 'comment', 'timestamp']);
         if (empty($ret)) {
             //Failure to get status object
 

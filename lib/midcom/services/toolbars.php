@@ -57,7 +57,7 @@ class midcom_services_toolbars
      *
      * @var array
      */
-    private $_toolbars = array();
+    private $_toolbars = [];
 
     /**
      * midcom.services.toolbars has two modes, it can either display one centralized toolbar
@@ -93,7 +93,7 @@ class midcom_services_toolbars
         }
 
         if (midcom::get()->auth->can_user_do('midcom:ajax', null, $this)) {
-            midcom::get()->head->enable_jquery_ui(array('mouse', 'draggable'));
+            midcom::get()->head->enable_jquery_ui(['mouse', 'draggable']);
 
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
 
@@ -112,11 +112,11 @@ class midcom_services_toolbars
 
     public function get_class_magic_default_privileges()
     {
-        return array(
-            'EVERYONE' => array(),
-            'ANONYMOUS' => array(),
-            'USERS' => array()
-        );
+        return [
+            'EVERYONE' => [],
+            'ANONYMOUS' => [],
+            'USERS' => []
+        ];
     }
 
     /**

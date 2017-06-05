@@ -24,7 +24,7 @@ class midgard_admin_user_handler_user_editTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midgard.admin.user');
 
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard_midgard.admin.user', 'edit', self::$_user->guid));
+        $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard_midgard.admin.user', 'edit', self::$_user->guid]);
         $this->assertEquals('____mfa-asgard_midgard.admin.user-user_edit', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

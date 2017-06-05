@@ -31,7 +31,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->add_breadcrumb("__mfa/asgard_midgard.admin.user/", $this->_l10n->get('midgard.admin.user'));
         $this->add_breadcrumb('__mfa/asgard_midgard.admin.user/group', $this->_l10n->get('groups'));
 
-        $tmp = array();
+        $tmp = [];
 
         $grp = $this->_group;
         while ($grp) {
@@ -95,19 +95,19 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_update_breadcrumb();
 
         $data['asgard_toolbar']->add_item(
-            array(
+            [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/group/move/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('move group'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
-            )
+            ]
         );
 
         $data['asgard_toolbar']->add_item(
-            array(
+            [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/group/folders/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('folders'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder.png',
-            )
+            ]
         );
         midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
         return new midgard_admin_asgard_response($this, '_show_edit');

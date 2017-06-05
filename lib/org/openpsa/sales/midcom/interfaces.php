@@ -82,7 +82,7 @@ implements midcom_services_permalinks_resolver
         $qbret = $qb->execute();
 
         foreach ($qbret as $salesproject) {
-            $to_array = array('other_obj' => false, 'link' => false);
+            $to_array = ['other_obj' => false, 'link' => false];
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $salesproject);
             $to_array['other_obj'] = $salesproject;
@@ -110,10 +110,10 @@ implements midcom_services_permalinks_resolver
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $salesproject);
 
-            $links_array[] = array(
+            $links_array[] = [
                 'other_obj' => $salesproject,
                 'link' => $link
-            );
+            ];
         }
     }
 
@@ -171,7 +171,7 @@ implements midcom_services_permalinks_resolver
             return false;
         }
 
-        $message = array(
+        $message = [
             'title' => sprintf($this->_l10n->get('notification for agreement %s'), $deliverable->title),
             'content' => sprintf(
                 $this->_l10n->get('agreement %s ends on %s. click here: %s'),
@@ -179,7 +179,7 @@ implements midcom_services_permalinks_resolver
                 $this->_l10n->get_formatter()->date($deliverable->end),
                 midcom::get()->permalinks->create_permalink($deliverable->guid)
             )
-        );
+        ];
 
         return org_openpsa_notifications::notify('org.openpsa.sales:new_notification_message', $project->owner, $message);
     }

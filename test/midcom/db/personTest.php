@@ -37,10 +37,10 @@ class midcom_db_personTest extends openpsa_testcase
         $this->assertEquals('Lastname, Firstname', $person->rname);
 
         $group = $this->create_object('midcom_db_group');
-        $attributes = array(
+        $attributes = [
             'gid' => $group->id,
             'uid' => $person->id
-        );
+        ];
         $member = $this->create_object('midcom_db_member', $attributes);
 
         $stat = $person->delete();
@@ -66,33 +66,33 @@ class midcom_db_personTest extends openpsa_testcase
 
     public function providerUpdate_computed_members()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'firstname' => 'FIRSTNAME',
                     'lastname' => 'LASTNAME',
                     'email' => 'test@test.com',
-                ),
-                array(
+                ],
+                [
                     'name' => 'FIRSTNAME LASTNAME',
                     'rname' => 'LASTNAME, FIRSTNAME',
                     'emaillink' => '<a href="mailto:test@test.com" title="FIRSTNAME LASTNAME">test@test.com</a>',
                     'homepagelink' => '',
-                ),
-            ),
-            array(
-                array(
+                ],
+            ],
+            [
+                [
                     'firstname' => '',
                     'lastname' => 'LASTNAME',
                     'homepage' => 'http://openpsa2.org',
-                ),
-                array(
+                ],
+                [
                     'name' => 'LASTNAME',
                     'rname' => 'LASTNAME',
                     'emaillink' => '',
                     'homepagelink' => '<a href="http://openpsa2.org" title="LASTNAME">http://openpsa2.org</a>',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

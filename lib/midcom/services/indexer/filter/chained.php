@@ -36,7 +36,7 @@ class midcom_services_indexer_filter_chained extends midcom_services_indexer_fil
 
     public function get_query_string()
     {
-        $ret = array();
+        $ret = [];
         foreach ($this->filters as $filter) {
             $ret[] = $filter->get_query_string();
         }

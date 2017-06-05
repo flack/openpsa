@@ -17,7 +17,7 @@ class midcom_admin_folder_handler_editTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.admin.folder');
 
-        $data = $this->run_handler('net.nehmer.static', array('__ais', 'folder', 'create'));
+        $data = $this->run_handler('net.nehmer.static', ['__ais', 'folder', 'create']);
         $this->assertEquals('____ais-folder-create', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -27,7 +27,7 @@ class midcom_admin_folder_handler_editTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.admin.folder');
 
-        $data = $this->run_handler('net.nehmer.static', array('__ais', 'folder', 'edit'));
+        $data = $this->run_handler('net.nehmer.static', ['__ais', 'folder', 'edit']);
         $this->assertEquals('____ais-folder-edit', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

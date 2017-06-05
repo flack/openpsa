@@ -21,14 +21,14 @@ class org_openpsa_documents_handler_document_viewTest extends openpsa_testcase
         self::$_person = self::create_user(true);
 
         $topic = self::get_component_node('org.openpsa.documents');
-        self::$_document = self::create_class_object('org_openpsa_documents_document_dba', array('topic' => $topic->id));
+        self::$_document = self::create_class_object('org_openpsa_documents_document_dba', ['topic' => $topic->id]);
     }
 
     public function testHandler_versions()
     {
         midcom::get()->auth->request_sudo('org.openpsa.documents');
 
-        $data = $this->run_handler('org.openpsa.documents', array('document', 'versions', self::$_document->guid));
+        $data = $this->run_handler('org.openpsa.documents', ['document', 'versions', self::$_document->guid]);
         $this->assertEquals('document-versions', $data['handler_id']);
 
         $this->show_handler($data);
@@ -39,7 +39,7 @@ class org_openpsa_documents_handler_document_viewTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.documents');
 
-        $data = $this->run_handler('org.openpsa.documents', array('document', self::$_document->guid));
+        $data = $this->run_handler('org.openpsa.documents', ['document', self::$_document->guid]);
         $this->assertEquals('document-view', $data['handler_id']);
 
         $this->show_handler($data);

@@ -30,57 +30,57 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
             $last = array_pop($parts);
 
             // Match /xxx/get
-            $this->_request_switch["{$last}_report_get"] = array(
-                'fixed_args' => array($last, 'get'),
-                'handler' => array("org_openpsa_reports_handler_{$last}_report", 'generator_get'),
-            );
+            $this->_request_switch["{$last}_report_get"] = [
+                'fixed_args' => [$last, 'get'],
+                'handler' => ["org_openpsa_reports_handler_{$last}_report", 'generator_get'],
+            ];
 
             // Match /xxx/<edit>/<guid>
-            $this->_request_switch["{$last}_edit_report_guid"] = array(
-                'fixed_args' => array($last, 'edit'),
+            $this->_request_switch["{$last}_edit_report_guid"] = [
+                'fixed_args' => [$last, 'edit'],
                 'variable_args' => 1,
-                'handler' => array("org_openpsa_reports_handler_{$last}_report", 'query_form'),
-            );
+                'handler' => ["org_openpsa_reports_handler_{$last}_report", 'query_form'],
+            ];
 
             // Match /xxx/<guid>/<filename>
-            $this->_request_switch["{$last}_report_guid_file"] = array(
-                'fixed_args' => array($last),
+            $this->_request_switch["{$last}_report_guid_file"] = [
+                'fixed_args' => [$last],
                 'variable_args' => 2,
-                'handler' => array("org_openpsa_reports_handler_{$last}_report", 'generator'),
-            );
+                'handler' => ["org_openpsa_reports_handler_{$last}_report", 'generator'],
+            ];
 
             // Match /xxx/<guid>
-            $this->_request_switch["{$last}_report_guid"] = array(
-                'fixed_args' => array($last),
+            $this->_request_switch["{$last}_report_guid"] = [
+                'fixed_args' => [$last],
                 'variable_args' => 1,
-                'handler' => array("org_openpsa_reports_handler_{$last}_report", 'generator'),
-            );
+                'handler' => ["org_openpsa_reports_handler_{$last}_report", 'generator'],
+            ];
 
             // Match /xxx
-            $this->_request_switch["{$last}_report"] = array(
-                'fixed_args' => array($last),
-                'handler' => array("org_openpsa_reports_handler_{$last}_report", 'query_form'),
-            );
+            $this->_request_switch["{$last}_report"] = [
+                'fixed_args' => [$last],
+                'handler' => ["org_openpsa_reports_handler_{$last}_report", 'query_form'],
+            ];
         }
 
         // Match /csv/<filename>
-        $this->_request_switch['csv_export'] = array(
+        $this->_request_switch['csv_export'] = [
             'fixed_args'    => 'csv',
             'variable_args' => 1,
             'handler'       => 'csv',
-        );
+        ];
 
         // Match /delete/<guid>
-        $this->_request_switch['delete_report'] = array(
+        $this->_request_switch['delete_report'] = [
             'fixed_args'    => 'delete',
             'variable_args' => 1,
             'handler'       => 'delete_report',
-        );
+        ];
 
         // Match /
-        $this->_request_switch['frontpage'] = array(
+        $this->_request_switch['frontpage'] = [
             'handler' => 'frontpage'
-        );
+        ];
     }
 
     public function _on_handle($handler, array $args)
@@ -158,14 +158,14 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
         if (is_array($this->_available_generators)) {
             return $this->_available_generators;
         }
-        $this->_available_generators = array();
+        $this->_available_generators = [];
 
-        $components = array(
+        $components = [
             // TODO: better localization strings
             'org.openpsa.projects' => $this->_i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
             'org.openpsa.sales' => $this->_i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'),
             'org.openpsa.invoices' => $this->_i18n->get_string('org.openpsa.invoices', 'org.openpsa.invoices'),
-        );
+        ];
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
 

@@ -25,21 +25,21 @@ class photo extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'error_bubbling' => false
-        ));
+        ]);
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
-            $widget_defaults = array(
+            $widget_defaults = [
                 'map_action_elements' => false,
                 'show_title' => false
-            );
+            ];
             return helper::resolve_options($widget_defaults, $value);
         });
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
             if ($options['required']) {
-                return array(new constraint());
+                return [new constraint()];
             }
-            return array();
+            return [];
         });
     }
 
@@ -49,14 +49,14 @@ class photo extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addViewTransformer(new transformer($options));
-        $builder->add('file', compat::get_type_name('file'), array('required' => false));
+        $builder->add('file', compat::get_type_name('file'), ['required' => false]);
         if ($options['widget_config']['show_title']) {
             $builder->add('title', compat::get_type_name('text'));
         }
-        $builder->add('delete', compat::get_type_name('checkbox'), array('attr' => array(
+        $builder->add('delete', compat::get_type_name('checkbox'), ['attr' => [
             "class" => "midcom_datamanager_photo_checkbox"
-        ), "required" => false ));
-        $builder->add('identifier', compat::get_type_name('hidden'), array('data' => 'file'));
+        ], "required" => false ]);
+        $builder->add('identifier', compat::get_type_name('hidden'), ['data' => 'file']);
 
         $head = midcom::get()->head;
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/photo.css');

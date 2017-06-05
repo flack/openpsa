@@ -10,11 +10,11 @@ if (!defined('MIDCOM_STATIC_URL')) {
     define('MIDCOM_STATIC_URL', '/midcom-static');
 }
 
-$matches = array();
-$content_array = array(
+$matches = [];
+$content_array = [
     'head_js' => midcom::get()->head->get_jshead_elements(),
-    'head_css' => array()
-);
+    'head_css' => []
+];
 
 $link_head = midcom::get()->head->get_link_head();
 

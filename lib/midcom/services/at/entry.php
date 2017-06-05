@@ -28,7 +28,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
      *
      * @var array
      */
-    public $arguments = array();
+    public $arguments = [];
 
     /**
      * Makes sure $arguments is properly set
@@ -82,7 +82,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
             $unserRet = @unserialize(midcom_helper_misc::fix_serialization($this->argumentsstore));
             if ($unserRet === false) {
                 debug_add('Failed to unserialize argumentsstore', MIDCOM_LOG_WARN);
-                $this->arguments = array();
+                $this->arguments = [];
                 return;
             }
         }

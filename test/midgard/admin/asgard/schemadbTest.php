@@ -30,139 +30,139 @@ class midgard_admin_asgard_schemadbTest extends openpsa_testcase
 
     public function provider_sort()
     {
-        return array(
-            array(
+        return [
+            [
                 new midcom_db_article,
                 'name',
                 'abstract',
                 -1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_article,
                 'abstract',
                 'name',
                 1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_article,
                 'title',
                 'name',
                 1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_article,
                 'abstract',
                 'content',
                 -1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_article,
                 'abstract',
                 'extra1',
                 -1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_article,
                 'up',
                 'name',
                 1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_article,
                 'up',
                 'extra1',
                 -1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_article,
                 'up',
                 'topic',
                 1
-            ),
-            array(
+            ],
+            [
                 new org_openpsa_calendar_event_dba,
                 'start',
                 'title',
                 1
-            ),
-            array(
+            ],
+            [
                 new org_openpsa_calendar_event_dba,
                 'start',
                 'description',
                 1
-            ),
-            array(
+            ],
+            [
                 new org_openpsa_calendar_event_dba,
                 'start',
                 'up',
                 1
-            ),
-            array(
+            ],
+            [
                 new org_openpsa_calendar_event_dba,
                 'start',
                 'end',
                 -1
-            ),
-            array(
+            ],
+            [
                 new org_openpsa_calendar_event_dba,
                 'start',
                 'orgOpenpsaOwnerWg',
                 -1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_person,
                 'handphone',
                 'email',
                 -1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_person,
                 'handphone',
                 'lastname',
                 1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_person,
                 'handphone',
                 'extra',
                 1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_person,
                 'handphone',
                 'homephone',
                 -1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_person,
                 'street',
                 'firstname',
                 1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_person,
                 'street',
                 'extra',
                 1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_person,
                 'street',
                 'homephone',
                 1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_person,
                 'street',
                 'city',
                 -1
-            ),
-            array(
+            ],
+            [
                 new midcom_db_person,
                 'street',
                 'email',
                 -1
-            )
-        );
+            ]
+        ];
     }
 }

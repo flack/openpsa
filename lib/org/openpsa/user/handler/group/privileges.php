@@ -54,7 +54,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         midcom::get()->head->set_pagetitle($this->_l10n->get("permissions"));
 
-        $workflow = $this->get_workflow('datamanager2', array('controller' => $this->get_controller('simple', $this->_group)));
+        $workflow = $this->get_workflow('datamanager2', ['controller' => $this->get_controller('simple', $this->_group)]);
         return $workflow->run();
     }
 }

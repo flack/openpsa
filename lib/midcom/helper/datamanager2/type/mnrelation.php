@@ -149,7 +149,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var array
      */
-    public $constraints = array();
+    public $constraints = [];
 
     /**
      * Set this to false to use with chooser, this skips making sure the key exists in option list
@@ -193,14 +193,14 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var Array
      */
-    public $sorted_order = array();
+    public $sorted_order = [];
 
     /**
      * Additional fields to set on the object
      *
      * @var Array
      */
-    public $additional_fields = array();
+    public $additional_fields = [];
 
     /**
      * This flag controls whether multiple selections are allowed, or not.
@@ -281,7 +281,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      */
     public function convert_from_storage($source)
     {
-        $this->selection = array();
+        $this->selection = [];
         // Check for the defaults section first
         if (is_array($source)) {
             foreach ($source as $id) {
@@ -328,7 +328,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         // Build a reverse lookup map for the existing membership objects.
         // We map keys to _membership_objects indexes.
         // If we have duplicate keys, the latter will overwrite the former, leaving the dupe for deletion.
-        $existing_members = array();
+        $existing_members = [];
         foreach ($this->_membership_objects as $index => $member) {
             $key = $member->{$this->member_fieldname};
             $existing_members[$key] = $index;
@@ -355,7 +355,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
 
     private function _get_new_membership_objects($existing_members)
     {
-        $new_membership_objects = array();
+        $new_membership_objects = [];
         // Cache the total quantity of items and get the order if the field is supposed to store the member order
         if (   $this->sortable
             && isset($this->sorted_order)) {

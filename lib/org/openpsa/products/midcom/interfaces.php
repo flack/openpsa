@@ -55,7 +55,7 @@ implements midcom_services_permalinks_resolver
             debug_add("No indexing to groups and products, skipping", MIDCOM_LOG_WARN);
             return true;
         }
-        $dms = array();
+        $dms = [];
         $schemadb_group = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_group'));
         $dms['group'] = new midcom_helper_datamanager2_datamanager($schemadb_group);
 

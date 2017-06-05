@@ -30,7 +30,7 @@ abstract class midcom_helper_exporter
             return false;
         }
 
-        $out = array();
+        $out = [];
         $fields = midcom_helper_reflector::get_object_fieldnames($object);
 
         foreach ($fields as $key) {

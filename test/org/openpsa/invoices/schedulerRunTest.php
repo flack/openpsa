@@ -32,46 +32,46 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
 
         $this->_group = $this->create_object('org_openpsa_products_product_group_dba');
 
-        $product_attributes = array(
+        $product_attributes = [
             'productGroup' => $this->_group->id,
             'code' => 'TEST-' . __CLASS__ . time(),
             'delivery' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
-        );
+        ];
         $this->_product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
 
-        $salesproject_attributes = array(
+        $salesproject_attributes = [
             'owner' => $this->_manager->id,
             'customer' => $this->_organization->id,
-        );
+        ];
         $this->_salesproject = $this->create_object('org_openpsa_sales_salesproject_dba', $salesproject_attributes);
 
-        $member_attributes = array(
+        $member_attributes = [
             'person' => $this->_member->id,
             'objectGuid' => $this->_salesproject->guid,
             'role' => org_openpsa_sales_salesproject_dba::ROLE_MEMBER
-        );
+        ];
         $this->create_object('org_openpsa_contacts_role_dba', $member_attributes);
 
-        $deliverable_attributes = array(
+        $deliverable_attributes = [
             'salesproject' => $this->_salesproject->id,
             'product' => $this->_product->id,
             'description' => 'TEST DESCRIPTION',
             'plannedUnits' => 15,
             'orgOpenpsaObtype' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION,
             'unit' => 'm'
-        );
+        ];
         $this->_deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
 
         $this->_project = $this->_salesproject->get_project();
 
-        $task_attributes = array(
+        $task_attributes = [
            'project' => $this->_project->id,
            'agreement' => $this->_deliverable->id,
            'title' => 'TEST TITLE',
-        );
+        ];
         $this->_task = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
 
-        $this->_hour_report = $this->create_object('org_openpsa_projects_hour_report_dba', array('task' => $this->_task->id));
+        $this->_hour_report = $this->create_object('org_openpsa_projects_hour_report_dba', ['task' => $this->_task->id]);
     }
 
     private function _apply_input($input)
@@ -97,16 +97,16 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         }
         $this->assertTrue($this->_deliverable->update());
 
-        $invoice_data = array(
+        $invoice_data = [
             'sent' => time()
-        );
+        ];
         $invoice = $this->create_object('org_openpsa_invoices_invoice_dba', $invoice_data);
-        $item_data = array(
+        $item_data = [
             'deliverable' => $this->_deliverable->id,
             'invoice' => $invoice->id,
             'units' => 1,
             'pricePerUnit' => $value
-        );
+        ];
 
         $this->create_object('org_openpsa_invoices_invoice_item_dba', $item_data);
         $this->_deliverable->refresh();
@@ -305,66 +305,66 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $customer = $this->create_object('org_openpsa_contacts_group_dba');
         $customer_contact = $this->create_object('org_openpsa_contacts_person_dba');
 
-        return array(
+        return [
             //SET 0: Deliverable not yet started
-            array(
-                array(
+            [
+                [
                     'cycle_number' => 1,
                     'send_invoice' => true,
-                ),
-                array(
-                    '_deliverable' => array(
+                ],
+                [
+                    '_deliverable' => [
                         'start' => $future_one_month,
                         'end' => $future_two_month,
                         'unit' => 'm',
-                    )
-                ),
-                array(
-                    'at_entry' => array(
+                    ]
+                ],
+                [
+                    'at_entry' => [
                         'start' => $future_one_month
-                    ),
+                    ],
                     'invoice' => false,
-                    '_deliverable' => array(
+                    '_deliverable' => [
                         'invoiced' => 0
-                    )
-                )
-            ),
+                    ]
+                ]
+            ],
 
             //SET 1: First deliverable cycle, no invoice yet
-            array(
-                array(
+            [
+                [
                     'cycle_number' => 1,
                     'send_invoice' => true,
-                ),
-                array(
-                    '_deliverable' => array(
+                ],
+                [
+                    '_deliverable' => [
                         'start' => $past_one_month,
                         'end' => $future_two_month,
                         'unit' => 'm',
-                    ),
-                ),
-                array(
-                    'at_entry' => array(
+                    ],
+                ],
+                [
+                    'at_entry' => [
                         'start' => $midnight_today
-                    ),
+                    ],
                     'invoice' => false,
-                    '_deliverable' => array(
+                    '_deliverable' => [
                         'invoiced' => 0
-                    )
-                )
-            ),
+                    ]
+                ]
+            ],
 
             //SET 2: First deliverable cycle, invoice by planned units, customer is set
-            array(
-                array(
+            [
+                [
                     'cycle_number' => 1,
                     'send_invoice' => true,
-                ),
-                array(
-                    '_salesproject' => array(
+                ],
+                [
+                    '_salesproject' => [
                         'customer' => $customer->id,
-                    ),
-                    '_deliverable' => array(
+                    ],
+                    '_deliverable' => [
                         'start' => $beginning_feb,
                         'end' => $future_two_month,
                         'invoiceByActualUnits' => false,
@@ -372,37 +372,37 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                         'pricePerUnit' => 10,
                         'unit' => 'm',
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED
-                    ),
-                    '_product' => array(
+                    ],
+                    '_product' => [
                         'delivery' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
-                    )
-                ),
-                array(
-                    'at_entry' => array(
+                    ]
+                ],
+                [
+                    'at_entry' => [
                         'start' => $beginning_mar
-                    ),
-                    'invoice' => array(
+                    ],
+                    'invoice' => [
                         'sum' => 120,
                         'customer' => $customer->id
-                    ),
-                    '_deliverable' => array(
+                    ],
+                    '_deliverable' => [
                         'invoiced' => 120,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED
-                    )
-                )
-            ),
+                    ]
+                ]
+            ],
 
             //SET 3: second deliverable cycle, invoice by actual units, customerContact is set
-            array(
-                array(
+            [
+                [
                     'cycle_number' => 2,
                     'send_invoice' => true,
-                ),
-                array(
-                    '_salesproject' => array(
+                ],
+                [
+                    '_salesproject' => [
                         'customerContact' => $customer_contact->id
-                    ),
-                    '_deliverable' => array(
+                    ],
+                    '_deliverable' => [
                         'start' => $past_two_month,
                         'end' => $future_two_month,
                         'invoiceByActualUnits' => true,
@@ -410,48 +410,48 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                         'pricePerUnit' => 10,
                         'unit' => 'm',
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED
-                    ),
-                    '_product' => array(
+                    ],
+                    '_product' => [
                         'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_SERVICE
-                    ),
-                    '_task' => array(
+                    ],
+                    '_task' => [
                         'reportedHours' => 13
-                    ),
-                    '_hour_report' => array(
+                    ],
+                    '_hour_report' => [
                         'hours' => 13,
                         'invoiceable' => true
-                    )
-                ),
-                array(
-                    '_deliverable' => array(
+                    ]
+                ],
+                [
+                    '_deliverable' => [
                         'invoiced' => 130,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED
-                    ),
-                    '_task' => array(
+                    ],
+                    '_task' => [
                         'invoicedHours' => 13
-                    ),
-                    'invoice' => array(
+                    ],
+                    'invoice' => [
                         'sum' => 130,
-                        'invoice_items' => array(
-                            array(
+                        'invoice_items' => [
+                            [
                                 'units' => 13,
                                 'pricePerUnit' => 10
-                            )
-                        ),
+                            ]
+                        ],
                         'customerContact' => $customer_contact->id
-                    ),
+                    ],
                     'new_task' => true,
-                )
-            ),
+                ]
+            ],
 
             //SET 4: Invoice service by actual units with no invoiceable reports
-            array(
-                'params' => array(
+            [
+                'params' => [
                     'cycle_number' => 2,
                     'send_invoice' => true,
-                ),
-                'input' => array(
-                    '_deliverable' => array(
+                ],
+                'input' => [
+                    '_deliverable' => [
                         'title' => 'SET 4',
                         'start' => $past_two_month,
                         'end' => $future_two_month,
@@ -461,36 +461,36 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                         'unit' => 'm',
                         'invoiced' => 140,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED
-                    ),
-                    '_product' => array(
+                    ],
+                    '_product' => [
                         'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_SERVICE
-                    ),
-                    '_hour_report' => array(
+                    ],
+                    '_hour_report' => [
                         'hours' => 14,
                         'invoiceable' => false
-                    )
-                ),
-                'output' => array(
-                    '_deliverable' => array(
+                    ]
+                ],
+                'output' => [
+                    '_deliverable' => [
                         'invoiced' => 140,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED
-                    ),
-                    '_task' => array(
+                    ],
+                    '_task' => [
                         'invoicedHours' => 0
-                    ),
+                    ],
                     'invoice' => false,
                     'new_task' => true,
-                )
-            ),
+                ]
+            ],
 
             //SET 5: Invoice goods by actual units
-            array(
-                'params' => array(
+            [
+                'params' => [
                     'cycle_number' => 2,
                     'send_invoice' => true,
-                ),
-                'input' => array(
-                    '_deliverable' => array(
+                ],
+                'input' => [
+                    '_deliverable' => [
                         'title' => 'SET 5',
                         'start' => $past_two_month,
                         'end' => $future_two_month,
@@ -500,25 +500,25 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                         'unit' => 'm',
                         'invoiced' => 180,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED
-                    ),
-                    '_task' => array(
+                    ],
+                    '_task' => [
                         'agreement' => 0,
-                    ),
-                    '_product' => array(
+                    ],
+                    '_product' => [
                         'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_GOODS
-                    )
-                ),
-                'output' => array(
-                    '_deliverable' => array(
+                    ]
+                ],
+                'output' => [
+                    '_deliverable' => [
                         'invoiced' => 280,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED
-                    ),
-                    'invoice' => array(
+                    ],
+                    'invoice' => [
                         'sum' => 100,
-                    )
-                )
-            ),
-        );
+                    ]
+                ]
+            ],
+        ];
     }
 
 
@@ -529,7 +529,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $deliverable_attributes = array(
+        $deliverable_attributes = [
            'salesproject' => $this->_salesproject->id,
            'product' => $this->_product->id,
            'description' => 'TEST DESCRIPTION 2',
@@ -540,15 +540,15 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
            'invoiceByActualUnits' => true,
            'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED,
            'start' => strtotime('2010-02-02 00:00:00')
-        );
+        ];
         $deliverable2 = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
 
-        $task_attributes = array(
+        $task_attributes = [
            'project' => $this->_project->id,
            'agreement' => $deliverable2->id,
            'title' => 'TEST TITLE 2',
            'reportedHours' => 10
-        );
+        ];
         $task2 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
 
         $this->_product->delivery = org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION;

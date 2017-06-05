@@ -47,7 +47,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
     {
         foreach ($topic_array as $topic) {
             if ($topic->up == $root_topic->id) {
-                $tree_array[$root_topic->id][$topic->id] = array("topic" => $topic);
+                $tree_array[$root_topic->id][$topic->id] = ["topic" => $topic];
                 $this->_tree_array_build($topic_array, $topic, $tree_array[$root_topic->id]);
             }
         }
@@ -83,9 +83,9 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
      */
     public function _show_navigation($handler_id, array &$data)
     {
-        $tree_array = array(
-            $data['root_topic']->id => array('topic' => $data['root_topic'])
-        );
+        $tree_array = [
+            $data['root_topic']->id => ['topic' => $data['root_topic']]
+        ];
         $this->_tree_array_build($data['topic_array'], $data['root_topic'], $tree_array);
 
         midcom_show_style('show-navigation-start');

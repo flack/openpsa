@@ -45,7 +45,7 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
         $tag_array = net_nemein_tag_handler::string2tag_array($this->value);
         $this->auto_context = trim($this->auto_context);
         if (!empty($this->auto_context)) {
-            $new_tag_array = array();
+            $new_tag_array = [];
             foreach ($tag_array as $tagname => $url) {
                 $context = net_nemein_tag_handler::resolve_context($tagname);
                 if (empty($context)) {

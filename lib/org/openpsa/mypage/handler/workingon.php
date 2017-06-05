@@ -30,11 +30,11 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
         $task_conf['id_field'] = 'guid';
 
-        $task_conf['constraints'][] = array(
+        $task_conf['constraints'][] = [
             'field' => 'status',
             'op'    => '<',
             'value' => org_openpsa_projects_task_status_dba::COMPLETED,
-        );
+        ];
         $data['widget_config'] = $task_conf;
 
         // List work hours this week
@@ -53,19 +53,19 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      */
     private function _list_work_hours()
     {
-        $this->_request_data['customers'] = array();
-        $this->_request_data['hours'] = array(
-            'invoiceable' => array(),
-            'uninvoiceable' => array(),
+        $this->_request_data['customers'] = [];
+        $this->_request_data['hours'] = [
+            'invoiceable' => [],
+            'uninvoiceable' => [],
             'total_invoiceable' => 0,
             'total_uninvoiceable' => 0,
-        );
+        ];
 
         $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('person', midcom_connection::get_user());
         $hours_mc->add_constraint('date', '>=', $this->_request_data['week_start']);
         $hours_mc->add_constraint('date', '<=', $this->_request_data['week_end']);
 
-        $reports = $hours_mc->get_rows(array('task', 'invoiceable', 'hours'));
+        $reports = $hours_mc->get_rows(['task', 'invoiceable', 'hours']);
         foreach ($reports as $report) {
             $this->_add_hour_data($report);
         }
@@ -78,7 +78,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      */
     private function _add_hour_data(array $array)
     {
-        static $customer_cache = array();
+        static $customer_cache = [];
         if (!isset($customer_cache[$array['task']])) {
             $customer = 0;
             $customer_label = $this->_l10n->get('no customer');

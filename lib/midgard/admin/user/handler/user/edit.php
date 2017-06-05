@@ -24,29 +24,29 @@ implements midcom_helper_datamanager2_interfaces_edit
     private function _prepare_toolbar(&$data, $handler_id)
     {
         if ($this->_config->get('allow_manage_accounts')) {
-            $data['asgard_toolbar']->add_item(array(
+            $data['asgard_toolbar']->add_item([
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/preferences/{$this->_person->guid}/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('user preferences', 'midgard.admin.asgard'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
-            ));
+            ]);
             $account = new midcom_core_account($this->_person);
             if ($account->get_username() !== '') {
-                $data['asgard_toolbar']->add_item(array(
+                $data['asgard_toolbar']->add_item([
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/account/{$this->_person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit account'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
-                ));
-                $data['asgard_toolbar']->add_item(array(
+                ]);
+                $data['asgard_toolbar']->add_item([
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/account/delete/{$this->_person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete account'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                ));
+                ]);
             } else {
-                $data['asgard_toolbar']->add_item(array(
+                $data['asgard_toolbar']->add_item([
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/account/{$this->_person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create account'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-                ));
+                ]);
             }
             midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
         }

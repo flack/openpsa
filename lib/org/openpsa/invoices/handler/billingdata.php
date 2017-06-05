@@ -29,7 +29,7 @@ implements midcom_helper_datamanager2_interfaces_create
         // Fill VAT select
         $vat_array = explode(',', $this->_config->get('vat_percentages'));
         if (!empty($vat_array)) {
-            $vat_values = array();
+            $vat_values = [];
             foreach ($vat_array as $vat) {
                 $vat_values[$vat] = "{$vat}%";
             }
@@ -75,13 +75,13 @@ implements midcom_helper_datamanager2_interfaces_create
             $data['controller'] = $this->get_controller('create');
         }
 
-        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
+        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
         if (   $mode == 'edit'
             && $billing_data[0]->can_do('midgard:delete')) {
-            $delete = $this->get_workflow('delete', array(
+            $delete = $this->get_workflow('delete', [
                 'object' => $billing_data[0],
                 'label' => $this->_l10n->get('billing data')
-            ));
+            ]);
             $workflow->add_dialog_button($delete, "billingdata/delete/{$billing_data[0]->guid}/");
         }
 
@@ -102,10 +102,10 @@ implements midcom_helper_datamanager2_interfaces_create
         $billing_data->require_do('midgard:delete');
         $this->_linked_object = midcom::get()->dbfactory->get_object_by_guid($billing_data->linkGuid);
 
-        $workflow = $this->get_workflow('delete', array(
+        $workflow = $this->get_workflow('delete', [
             'object' => $billing_data,
             'success_url' => $this->get_relocate_url()
-        ));
+        ]);
         return $workflow->run();
     }
 

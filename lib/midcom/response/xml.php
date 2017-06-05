@@ -38,7 +38,7 @@ class midcom_response_xml extends midcom_response
     {
         $output = '';
         if (is_array($value)) {
-            $subtypes = array();
+            $subtypes = [];
             foreach ($value as $key => $subvalue) {
                 if (is_int($key)) {
                     $output .= $this->_render_tag($field, $subvalue);

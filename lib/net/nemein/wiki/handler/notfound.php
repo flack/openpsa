@@ -41,28 +41,28 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
         // Populate toolbar for actions available
         $data['wiki_tools'] = new midcom_helper_toolbar();
         $workflow = $this->get_workflow('datamanager2');
-        $buttons = array();
+        $buttons = [];
         if ($this->_topic->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button('create/?wikiword=' . rawurlencode($data['wikiword']), array(
+            $buttons[] = $workflow->get_button('create/?wikiword=' . rawurlencode($data['wikiword']), [
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('create page %s'), $data['wikiword']),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-html.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_topic->can_do('midgard:create'),
-            ));
-            $buttons[] = $workflow->get_button('create/redirect/?wikiword=' . rawurlencode($data['wikiword']), array(
+            ]);
+            $buttons[] = $workflow->get_button('create/redirect/?wikiword=' . rawurlencode($data['wikiword']), [
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('create redirection page %s'), $data['wikiword']),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-html.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_topic->can_do('midgard:create'),
-            ));
+            ]);
         }
 
-        $buttons[] = array(
+        $buttons[] = [
             MIDCOM_TOOLBAR_URL => 'http://' . $this->_i18n->get_current_language() . '.wikipedia.org/wiki/' . rawurlencode($data['wikiword']),
             MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('look for %s in wikipedia'), $data['wikiword']),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
-            MIDCOM_TOOLBAR_OPTIONS => array(
+            MIDCOM_TOOLBAR_OPTIONS => [
                 'rel' => 'directlink',
-            )
-        );
+            ]
+        ];
         $data['wiki_tools']->add_items($buttons);
         $this->add_breadcrumb('notfound/' . rawurlencode($data['wikiword']), $data['wikiword']);
     }

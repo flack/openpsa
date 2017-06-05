@@ -46,13 +46,13 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      *
      * @var array
      */
-    public $headers = array(
+    public $headers = [
         'Subject' => null,
         'From' => null,
         'To' => null,
         'Cc' => null,
         'Bcc' => null,
-    );
+    ];
 
     /**
      * HTML body (of MIME/multipart message)
@@ -66,7 +66,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      *
      * @var array
      */
-    public $parameters = array();
+    public $parameters = [];
 
     /**
      * Primary keys are int, secondary keys for decoded array are:
@@ -78,7 +78,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      *
      * @var array
      */
-    public $attachments = array();
+    public $attachments = [];
 
     /**
      * Character encoding in which the texts etc are
@@ -108,7 +108,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     private $_backend = false;
 
-    public function __construct($backend = 'try_default', $backend_params = array())
+    public function __construct($backend = 'try_default', $backend_params = [])
     {
         parent::__construct();
 

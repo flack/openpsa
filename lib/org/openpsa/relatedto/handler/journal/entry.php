@@ -36,7 +36,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('add journal entry'));
 
-        $workflow = $this->get_workflow('datamanager2', array('controller' => $this->get_controller('create')));
+        $workflow = $this->get_workflow('datamanager2', ['controller' => $this->get_controller('create')]);
         return $workflow->run();
     }
 
@@ -63,9 +63,9 @@ implements midcom_helper_datamanager2_interfaces_create
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('journal entry')));
 
-        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
+        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
         if ($journal_entry->can_do('midgard:delete')) {
-            $delete = $this->get_workflow('delete', array('object' => $journal_entry));
+            $delete = $this->get_workflow('delete', ['object' => $journal_entry]);
             $url_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
             $workflow->add_dialog_button($delete, $url_prefix . "delete/" . $journal_entry->guid . "/");
         }
@@ -75,7 +75,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
-        $workflow = $this->get_workflow('delete', array('object' => $journal_entry));
+        $workflow = $this->get_workflow('delete', ['object' => $journal_entry]);
         return $workflow->run();
     }
 }

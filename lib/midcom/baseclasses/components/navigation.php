@@ -69,7 +69,7 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
      */
     public function get_leaves()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -87,11 +87,11 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
             return null;
         }
 
-        return array(
+        return [
             MIDCOM_NAV_URL => '',
             MIDCOM_NAV_NAME => $this->_topic->extra,
             MIDCOM_NAV_CONFIGURATION => $this->_config,
-        );
+        ];
     }
 
     /**

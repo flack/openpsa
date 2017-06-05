@@ -76,7 +76,7 @@ class org_openpsa_contacts_duplicates_merge
             }
             $qb->end_group();
             $results = $qb->execute();
-            $todelete = array();
+            $todelete = [];
             foreach ($results as $result) {
                 $needs_update = false;
                 foreach ($fieldconfig as $field => $conf) {
@@ -117,7 +117,7 @@ class org_openpsa_contacts_duplicates_merge
     private function merge_metadata($person1, $person2, array $config)
     {
         foreach (array_keys($config) as $class) {
-            $qb = call_user_func(array($class, 'new_query_builder'));
+            $qb = call_user_func([$class, 'new_query_builder']);
             $qb->begin_group('OR');
             $qb->add_constraint('metadata.approver', '=', $person2->guid);
             $qb->add_constraint('metadata.owner', '=', $person2->guid);
@@ -158,10 +158,10 @@ class org_openpsa_contacts_duplicates_merge
     private function merge_persons($person1, $person2)
     {
         // Copy fields missing from person1 and present in person2 over
-        $skip_properties = array(
+        $skip_properties = [
             'id' => true,
             'guid' => true,
-        );
+        ];
         $changed = false;
         foreach ($person2 as $property => $value) {
             // Copy only simple properties not marked to be skipped missing from person1

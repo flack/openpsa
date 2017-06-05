@@ -26,7 +26,7 @@ class org_openpsa_user_handler_group_viewTest extends openpsa_testcase
 
         $group = $this->create_object('midcom_db_group');
 
-        $data = $this->run_handler('org.openpsa.user', array('group', $group->guid));
+        $data = $this->run_handler('org.openpsa.user', ['group', $group->guid]);
         $this->assertEquals('group_view', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

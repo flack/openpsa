@@ -79,13 +79,13 @@ class delete extends dialog
         }
 
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'recursive' => false,
                 'success_url' => '',
                 'label' => null,
                 'object' => null,
                 'dialog_text' => null
-            ))
+            ])
             ->setRequired('object')
             ->setAllowedTypes('object', 'midcom_core_dbaobject')
             ->setNormalizer('label', function ($options, $value) {
@@ -108,11 +108,11 @@ class delete extends dialog
             $dialog_text .= '<div id="delete-child-list"></div>';
         }
 
-        return array(
+        return [
             MIDCOM_TOOLBAR_LABEL => $this->l10n_midcom->get('delete'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
             MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-            MIDCOM_TOOLBAR_OPTIONS => array(
+            MIDCOM_TOOLBAR_OPTIONS => [
                 'data-dialog' => 'delete',
                 'data-form-id' => $this->form_identifier,
                 'data-dialog-heading' => $this->l10n_midcom->get('confirm delete'),
@@ -120,8 +120,8 @@ class delete extends dialog
                 'data-dialog-cancel-label' => $this->l10n_midcom->get('cancel'),
                 'data-recursive' => $this->recursive ? 'true' : 'false',
                 'data-guid' => $this->object->guid,
-            )
-        );
+            ]
+        ];
     }
 
     public function run()
@@ -131,7 +131,7 @@ class delete extends dialog
             $object = $this->object;
             $object->require_do('midgard:delete');
             $method = $this->recursive ? 'delete_tree' : 'delete';
-            $message = array('title' => $this->l10n_midcom->get('midcom'), 'type' => 'info');
+            $message = ['title' => $this->l10n_midcom->get('midcom'), 'type' => 'info'];
             if ($object->{$method}()) {
                 $this->state = static::SUCCESS;
                 $url = $this->success_url;

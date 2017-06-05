@@ -60,29 +60,29 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
     private function _populate_toolbar()
     {
         $workflow = $this->get_workflow('datamanager2');
-        $buttons = array();
+        $buttons = [];
         if ($this->_request_data['directory']->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button("document/create/", array(
+            $buttons[] = $workflow->get_button("document/create/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new document'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-            ));
-            $buttons[] = $workflow->get_button("create/", array(
+            ]);
+            $buttons[] = $workflow->get_button("create/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new directory'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-            ));
+            ]);
         }
         if ($this->_request_data['directory']->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("edit/", array(
+            $buttons[] = $workflow->get_button("edit/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit directory'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
+            ]);
         }
         if ($this->_request_data['directory']->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', array('object' => $this->_request_data['directory'], 'recursive' => true));
-            $buttons[] = $workflow->get_button("__ais/folder/delete/", array(
+            $workflow = $this->get_workflow('delete', ['object' => $this->_request_data['directory'], 'recursive' => true]);
+            $buttons[] = $workflow->get_button("__ais/folder/delete/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete directory'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-            ));
+            ]);
         }
         $this->_view_toolbar->add_items($buttons);
         $this->bind_view_to_object($this->_request_data['directory']);
@@ -105,14 +105,14 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
      */
     public function _handler_connector($handler_id, array $args, array &$data)
     {
-        $options = array(
-            'roots' => array(
-                array(
+        $options = [
+            'roots' => [
+                [
                     'driver' => 'Openpsa',
                     'path' => $this->_topic->guid
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
         $connector = new elFinderConnector(new elFinder($options));
         $connector->run();

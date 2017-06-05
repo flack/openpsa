@@ -41,7 +41,7 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
      * @param string $operator The constraint operator
      * @param array $options The filter's options, if any
      */
-    public function __construct($name, $operator = '=', array $options = array())
+    public function __construct($name, $operator = '=', array $options = [])
     {
         $this->name = $name;
         $this->_operator = $operator;
@@ -107,13 +107,13 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
             $data = call_user_func($this->_option_callback);
         }
 
-        $options = array();
+        $options = [];
         foreach ($data as $id => $title) {
-            $option = array(
+            $option = [
                 'id' => $id,
                 'title' => $title,
                 'selected' => in_array($id, $this->_selection)
-            );
+            ];
             $options[] = $option;
         }
         return $options;

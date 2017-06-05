@@ -90,7 +90,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
      */
     public function add_elements_to_form($attributes)
     {
-        $elements = array();
+        $elements = [];
 
         $alt = $this->_l10n->get('captcha image alt text');
         $url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/captcha.php/' .
@@ -111,7 +111,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
             '<br />', false);
         $this->_form->addElement('hidden', "{$this->name}_session_key", $this->_session_key);
 
-        $this->_form->addFormRule(array(&$this, 'validate'));
+        $this->_form->addFormRule([&$this, 'validate']);
     }
 
     /**
@@ -121,13 +121,13 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
     {
         $session = new midcom_services_session($this->_session_domain);
         if (!$session->exists($this->_session_key)) {
-            return array("{$this->name}_group" => $this->_l10n->get('captcha validation failed'));
+            return ["{$this->name}_group" => $this->_l10n->get('captcha validation failed')];
         }
         $passphrase = $session->get($this->_session_key);
         if ($fields[$this->name] != $passphrase) {
             $this->_element->setValue('');
 
-            return array("{$this->name}_group" => $this->_l10n->get('captcha validation failed'));
+            return ["{$this->name}_group" => $this->_l10n->get('captcha validation failed')];
         }
 
         return true;

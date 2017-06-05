@@ -45,30 +45,30 @@ implements midcom_helper_datamanager2_interfaces_view
         $auth = midcom::get()->auth;
         if (   $this->_person->id == midcom_connection::get_user()
             || $auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface')) {
-            $buttons = array();
+            $buttons = [];
             $workflow = $this->get_workflow('datamanager2');
             if ($this->_person->can_do('midgard:update')) {
-                $buttons[] = $workflow->get_button("edit/{$this->_person->guid}/", array(
+                $buttons[] = $workflow->get_button("edit/{$this->_person->guid}/", [
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                ));
+                ]);
             }
             if ($this->_person->can_do('midgard:delete')) {
-                $delete_workflow = $this->get_workflow('delete', array('object' => $this->_person));
+                $delete_workflow = $this->get_workflow('delete', ['object' => $this->_person]);
                 $buttons[] = $delete_workflow->get_button("delete/{$this->_person->guid}/");
             }
             if (   midcom_connection::is_user($this->_person)
                 && $this->_person->can_do('midgard:privileges')) {
-                $buttons[] = $workflow->get_button("privileges/{$this->_person->guid}/", array(
+                $buttons[] = $workflow->get_button("privileges/{$this->_person->guid}/", [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
                     MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
-                ));
+                ]);
             }
 
             if ($this->_person->can_do('midgard:update')) {
-                $buttons[] = $workflow->get_button("person/notifications/{$this->_person->guid}/", array(
+                $buttons[] = $workflow->get_button("person/notifications/{$this->_person->guid}/", [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
-                ));
+                ]);
             }
             $this->_view_toolbar->add_items($buttons);
         }

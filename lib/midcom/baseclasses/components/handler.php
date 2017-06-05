@@ -49,7 +49,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      *
      * @var Array
      */
-    var $_request_data = array();
+    var $_request_data = [];
 
     /**
      * The request class that has invoked this handler instance.
@@ -81,7 +81,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      *
      * @var array
      */
-    private $_breadcrumbs = array();
+    private $_breadcrumbs = [];
 
     /**
      * Initializes the request handler class, called by the component interface after
@@ -130,10 +130,10 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      */
     public function add_breadcrumb($url, $title)
     {
-        $this->_breadcrumbs[] = array(
+        $this->_breadcrumbs[] = [
             MIDCOM_NAV_URL => $url,
             MIDCOM_NAV_NAME => $title,
-        );
+        ];
     }
 
     /**
@@ -188,7 +188,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      */
     public function get_schema_defaults()
     {
-        return array();
+        return [];
     }
 
     /**

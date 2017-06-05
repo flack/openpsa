@@ -71,7 +71,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _show_list($handler_id, array &$data)
     {
-        $campaigns = array();
+        $campaigns = [];
 
         midcom_show_style('show-campaign-list-header');
 
@@ -80,7 +80,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         $memberships = $qb->execute();
 
-        $campaign_membership_map = array();
+        $campaign_membership_map = [];
         foreach ($memberships as $membership) {
             try {
                 $campaigns[$membership->campaign] = new org_openpsa_directmarketing_campaign_dba($membership->campaign);
@@ -97,7 +97,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $qb_all->add_order('metadata.created', $this->_config->get('campaign_list_order'));
         $campaigns_all = $qb_all->execute();
 
-        $data['campaigns_all'] = array();
+        $data['campaigns_all'] = [];
         foreach ($campaigns_all as $campaign) {
             if ($campaign->can_do('midgard:create')) {
                 $data['campaigns_all'][] = $campaign;

@@ -17,7 +17,7 @@ class midcom_core_collectorTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_topic = self::create_class_object('midcom_db_topic', array('name' => __CLASS__ . time()));
+        self::$_topic = self::create_class_object('midcom_db_topic', ['name' => __CLASS__ . time()]);
     }
 
     /**
@@ -62,7 +62,7 @@ class midcom_core_collectorTest extends openpsa_testcase
         $values = $mc->get_values('name');
 
         $this->assertEquals(1, sizeof($values));
-        $this->assertEquals($values, array(self::$_topic->guid => self::$_topic->name));
+        $this->assertEquals($values, [self::$_topic->guid => self::$_topic->name]);
     }
 
     public function test_get_objects()

@@ -17,19 +17,19 @@ class midcom_helper_datamanager2_type_textTest extends openpsa_testcase
 {
     public function test_validate_htmlpurifier()
     {
-        $config = array(
-            'type_config' => array(
+        $config = [
+            'type_config' => [
                 'purify' => true,
-                'forbidden_patterns' => array(
-                    array(
+                'forbidden_patterns' => [
+                    [
                         'type' => 'regex',
                         'pattern' => '%(<[^>]+>)%si',
                         'explanation' => 'HTML is not allowed',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             'widget' => 'textarea',
-        );
+        ];
 
         $topic = $this->create_object('midcom_db_topic');
 

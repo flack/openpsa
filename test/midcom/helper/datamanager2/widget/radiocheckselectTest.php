@@ -17,19 +17,19 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 {
     public function test_get_default_radio()
     {
-        $config = array(
-            'type_config' => array(
+        $config = [
+            'type_config' => [
                 'allow_multiple' => false,
-                'options' => array(
+                'options' => [
                     1 => 'value 1',
                     2 => 'value 2'
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
-        $default_values = array(
+        $default_values = [
             'test_radiocheckselect_1' => 2
-        );
+        ];
 
         midcom::get()->auth->request_sudo('midcom.helper.datamanager2');
 
@@ -38,7 +38,7 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 
         $this->assertNull($widget->get_default(), 'nullstorage test failed');
 
-        $dm2_helper->defaults = array('test_radiocheckselect_1' => 2);
+        $dm2_helper->defaults = ['test_radiocheckselect_1' => 2];
         $widget = $dm2_helper->get_widget('radiocheckselect', 'select', $config);
 
         $this->assertEquals($default_values, $widget->get_default(), 'nullstorage/default test failed');
@@ -50,7 +50,7 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 
         $this->assertNull($widget->get_default(), 'create test failed');
 
-        $dm2_helper->defaults = array('test_radiocheckselect_1' => 2);
+        $dm2_helper->defaults = ['test_radiocheckselect_1' => 2];
         $widget = $dm2_helper->get_widget('radiocheckselect', 'select', $config);
 
         $this->assertEquals($default_values, $widget->get_default(), 'create/default test failed');
@@ -75,19 +75,19 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 
     public function test_get_default_checkbox()
     {
-        $config = array(
-            'type_config' => array(
+        $config = [
+            'type_config' => [
                 'allow_multiple' => true,
-                'options' => array(
+                'options' => [
                     1 => 'value 1',
                     2 => 'value 2'
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
-        $default_values = array(
-            'test_radiocheckselect_1' => array(2 => true)
-        );
+        $default_values = [
+            'test_radiocheckselect_1' => [2 => true]
+        ];
 
         midcom::get()->auth->request_sudo('midcom.helper.datamanager2');
 
@@ -96,7 +96,7 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 
         $this->assertNull($widget->get_default(), 'nullstorage test failed');
 
-        $dm2_helper->defaults = array('test_radiocheckselect_1' => array(2));
+        $dm2_helper->defaults = ['test_radiocheckselect_1' => [2]];
         $widget = $dm2_helper->get_widget('radiocheckselect', 'select', $config);
 
         $this->assertEquals($default_values, $widget->get_default(), 'nullstorage/default test failed');
@@ -108,7 +108,7 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 
         $this->assertNull($widget->get_default(), 'create test failed');
 
-        $dm2_helper->defaults = array('test_radiocheckselect_1' => array(2));
+        $dm2_helper->defaults = ['test_radiocheckselect_1' => [2]];
         $widget = $dm2_helper->get_widget('radiocheckselect', 'select', $config);
 
         $this->assertEquals($default_values, $widget->get_default(), 'create/default test failed');
@@ -118,7 +118,7 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
         $widget = $dm2_helper->get_widget('radiocheckselect', 'select', $config);
 
         $this->assertEquals('', $widget->get_default(), 'simple test failed');
-        $event->extra = serialize(array(2));
+        $event->extra = serialize([2]);
 
         $dm2_helper = new openpsa_test_dm2_helper($event);
         //Lazy workaround to reuse the default array from above

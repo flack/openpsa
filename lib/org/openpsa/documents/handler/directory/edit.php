@@ -70,10 +70,10 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
         $this->_load_edit_controller();
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('directory')));
 
-        $workflow = new midcom\workflow\datamanager2(array(
+        $workflow = new midcom\workflow\datamanager2([
             'controller' => $this->_controller,
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         return $workflow->run();
     }
 

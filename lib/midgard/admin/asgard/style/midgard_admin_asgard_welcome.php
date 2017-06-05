@@ -1,7 +1,7 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-$type_choices = array();
+$type_choices = [];
 foreach ($data['schema_types'] as $schema_type) {
     if (!isset($data['reflectors'][$schema_type])) {
         $data['reflectors'][$schema_type] = new midcom_helper_reflector($schema_type);
@@ -10,11 +10,11 @@ foreach ($data['schema_types'] as $schema_type) {
     $type_choices[$schema_type] = $data['reflectors'][$schema_type]->get_class_label();
     asort($type_choices);
 }
-$type_choices = array('any' => $data['l10n']->get('any')) + $type_choices;
+$type_choices = ['any' => $data['l10n']->get('any')] + $type_choices;
 
-$revised_after_choices = array();
+$revised_after_choices = [];
 if ($data['config']->get('enable_review_dates')) {
-    $review_by_choices = array();
+    $review_by_choices = [];
     $revised_after_choices['any'] = $data['l10n']->get('any');
     $review_by_choices['any'] = $data['l10n']->get('any');
     // 1 week

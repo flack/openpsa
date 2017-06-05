@@ -24,7 +24,7 @@ class org_openpsa_contacts_handler_mycontactsTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
-        $data = $this->run_handler('org.openpsa.contacts', array('mycontacts'));
+        $data = $this->run_handler('org.openpsa.contacts', ['mycontacts']);
         $this->assertEquals('mycontacts', $data['handler_id']);
 
         $this->show_handler($data);
@@ -37,7 +37,7 @@ class org_openpsa_contacts_handler_mycontactsTest extends openpsa_testcase
 
         $person = $this->create_object('org_openpsa_contacts_person_dba');
 
-        $url = $this->run_relocate_handler('org.openpsa.contacts', array('mycontacts', 'add', $person->guid));
+        $url = $this->run_relocate_handler('org.openpsa.contacts', ['mycontacts', 'add', $person->guid]);
         $this->assertEquals('person/' . $person->guid . '/', $url);
 
         $qb = org_openpsa_contacts_list_dba::new_query_builder();
@@ -62,11 +62,11 @@ class org_openpsa_contacts_handler_mycontactsTest extends openpsa_testcase
 
         $person = $this->create_object('org_openpsa_contacts_person_dba');
 
-        $url = $this->run_relocate_handler('org.openpsa.contacts', array('mycontacts', 'add', $person->guid));
+        $url = $this->run_relocate_handler('org.openpsa.contacts', ['mycontacts', 'add', $person->guid]);
         $this->assertEquals('person/' . $person->guid . '/', $url);
 
 
-        $url = $this->run_relocate_handler('org.openpsa.contacts', array('mycontacts', 'remove', $person->guid));
+        $url = $this->run_relocate_handler('org.openpsa.contacts', ['mycontacts', 'remove', $person->guid]);
         $this->assertEquals('person/' . $person->guid . '/', $url);
 
         $qb = org_openpsa_contacts_list_dba::new_query_builder();

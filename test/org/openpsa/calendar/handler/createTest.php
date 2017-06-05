@@ -24,8 +24,8 @@ class org_openpsa_calendar_handler_createTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
-        $_GET = array('start' => '2012-12-10 20:30:00');
-        $data = $this->run_handler('org.openpsa.calendar', array('event', 'new'));
+        $_GET = ['start' => '2012-12-10 20:30:00'];
+        $data = $this->run_handler('org.openpsa.calendar', ['event', 'new']);
         $this->assertEquals('new_event', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -35,12 +35,12 @@ class org_openpsa_calendar_handler_createTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
-        $data = $this->run_handler('org.openpsa.calendar', array('event', 'new'));
+        $data = $this->run_handler('org.openpsa.calendar', ['event', 'new']);
         $this->assertEquals('new_event', $data['handler_id']);
 
         $title = uniqid(__CLASS__ . '::' . __FUNCTION__);
 
-        $formdata = array(
+        $formdata = [
             'title' => $title,
             'start_date' => '2009-10-11',
             'start_hours' => '10',
@@ -48,11 +48,11 @@ class org_openpsa_calendar_handler_createTest extends openpsa_testcase
             'end_date' => '2009-10-11',
             'end_hours' => '14',
             'end_minutes' => '15'
-        );
+        ];
         $this->set_dm2_formdata($data['controller'], $formdata);
-        $data = $this->run_handler('org.openpsa.calendar', array('event', 'new'));
+        $data = $this->run_handler('org.openpsa.calendar', ['event', 'new']);
 
-        $this->assertEquals(array(), $data['controller']->formmanager->form->_errors, 'Form validation failed');
+        $this->assertEquals([], $data['controller']->formmanager->form->_errors, 'Form validation failed');
 
         $this->assertEquals('new_event', $data['handler_id']);
 

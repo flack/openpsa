@@ -77,9 +77,9 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                     $component_suggestion = $this->_config->get('default_component');
                 }
 
-                $this->_controller->defaults = array(
+                $this->_controller->defaults = [
                     'component' => $component_suggestion,
-                );
+                ];
                 break;
 
             default:
@@ -138,10 +138,10 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
         midcom::get()->head->set_pagetitle($title);
 
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $this->_controller,
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         return $workflow->run();
     }
 

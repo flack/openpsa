@@ -25,7 +25,7 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
      *
      * @var array
      */
-    public $title_fields = array('title');
+    public $title_fields = ['title'];
 
     /**
      * Callback for rendering object links. It receives the GUID as parameter
@@ -39,7 +39,7 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
      *
      * @var array
      */
-    public $constraints = array();
+    public $constraints = [];
 
     /**
      * The object's class name
@@ -77,7 +77,7 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
         self::add_head_elements();
     }
 
-    public function render(array $items = array())
+    public function render(array $items = [])
     {
         if (empty($items)) {
             $items = $this->_list_items($this->root_node);
@@ -111,9 +111,9 @@ JSINIT;
      */
     private function _list_items($id)
     {
-        $data = array();
+        $data = [];
 
-        $value_properties = array('id');
+        $value_properties = ['id'];
         $mc = midcom::get()->dbfactory->new_collector($this->_object_class, $this->_parent_field, (int) $id);
         foreach ($this->constraints as $constraint) {
             $mc->add_constraint($constraint[0], $constraint[1], $constraint[2]);
@@ -129,7 +129,7 @@ JSINIT;
         }
 
         foreach ($results as $guid => $values) {
-            $entry = array('guid' => $guid);
+            $entry = ['guid' => $guid];
 
             foreach ($this->title_fields as $field) {
                 if (!empty($values[$field])) {
@@ -179,7 +179,7 @@ JSINIT;
         }
 
         $head = midcom::get()->head;
-        $head->enable_jquery_ui(array('effect', 'effect-blind'));
+        $head->enable_jquery_ui(['effect', 'effect-blind']);
         $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.cookie.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/fancytree-2.23.0/jquery.fancytree-all.min.js');
         $head->add_stylesheet(MIDCOM_STATIC_URL . "/jQuery/fancytree-2.23.0/skin-win7/ui.fancytree.min.css");

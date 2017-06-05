@@ -36,13 +36,13 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public function get_class_magic_default_privileges()
     {
-        return array(
-            'EVERYONE' => array(),
-            'ANONYMOUS' => array(),
-            'USERS' => array(
+        return [
+            'EVERYONE' => [],
+            'ANONYMOUS' => [],
+            'USERS' => [
                 'midgard:create' => MIDCOM_PRIVILEGE_ALLOW
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -266,7 +266,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     public function get_logs()
     {
-        $log_entries = array();
+        $log_entries = [];
         $logs = $this->list_parameters('net.nehmer.comments:moderation_log');
         foreach ($logs as $action => $details) {
             // TODO: Show everything only to moderators
@@ -287,12 +287,12 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
                         break;
                 }
 
-                $log_entries[$log_action[1]] = array(
+                $log_entries[$log_action[1]] = [
                     'action'   => $log_action[0],
                     'reporter' => $reporter,
                     'ip'       => $log_details[1],
                     'browser'  => $log_details[2],
-                );
+                ];
             }
         }
         return $log_entries;
@@ -310,16 +310,16 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $browser = str_replace(':', '_', $_SERVER['HTTP_USER_AGENT']);
         $date_string = gmdate('Ymd\This');
 
-        $log_action = array(
+        $log_action = [
             0 => $action,
             1 => $date_string
-        );
+        ];
 
-        $log_details = array(
+        $log_details = [
             0 => $reporter,
             1 => str_replace(':', '_', $_SERVER['REMOTE_ADDR']),
             2 => $browser
-        );
+        ];
 
         if ($extra !== null) {
             $log_details[] = $extra;
@@ -330,11 +330,11 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     public static function get_default_status()
     {
-        $view_status = array(
+        $view_status = [
             net_nehmer_comments_comment::NEW_ANONYMOUS,
             net_nehmer_comments_comment::NEW_USER,
             net_nehmer_comments_comment::MODERATED,
-        );
+        ];
 
         $config = midcom_baseclasses_components_configuration::get('net.nehmer.comments', 'config');
         if ($config->get('show_reported_abuse_as_normal')) {
@@ -425,7 +425,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $authors = explode('|', substr($parent->metadata->authors, 1, -1));
         if (empty($authors)) {
             // Fall back to original creator if authors are not set for some reason
-            $authors = array($parent->metadata->creator);
+            $authors = [$parent->metadata->creator];
         }
 
         //Go through all the authors
@@ -451,7 +451,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     private function _construct_message()
     {
         // Construct the message
-        $message = array();
+        $message = [];
 
         // Resolve parent title
         $parent_object = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);

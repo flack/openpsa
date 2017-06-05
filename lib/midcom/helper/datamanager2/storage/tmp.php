@@ -31,7 +31,7 @@ class midcom_helper_datamanager2_storage_tmp extends midcom_helper_datamanager2_
      *     safely.
      * @param midcom_core_temporary_object $object The temporary object to use.
      */
-    public function __construct($schema, $defaults = array(), $object)
+    public function __construct($schema, $defaults = [], $object)
     {
         parent::__construct($schema, $defaults);
         $this->object = $object;

@@ -30,42 +30,42 @@ class renderer extends FormRenderer
         $this->getEngine()->setTheme($view, $template);
     }
 
-    public function start(FormView $view, array $attributes = array())
+    public function start(FormView $view, array $attributes = [])
     {
         return $this->renderBlock($view, 'form_start', $attributes);
     }
 
-    public function end(FormView $view, array $attributes = array())
+    public function end(FormView $view, array $attributes = [])
     {
         return $this->renderBlock($view, 'form_end', $attributes);
     }
 
-    public function widget(FormView $view, array $attributes = array())
+    public function widget(FormView $view, array $attributes = [])
     {
         return $this->searchAndRenderBlock($view, 'widget', $attributes);
     }
 
-    public function block(FormView $view, $name, array $attributes = array())
+    public function block(FormView $view, $name, array $attributes = [])
     {
         return $this->renderBlock($view, $name, $attributes);
     }
 
-    public function rest(FormView $view, array $attributes = array())
+    public function rest(FormView $view, array $attributes = [])
     {
         return $this->searchAndRenderBlock($view, 'rest', $attributes);
     }
 
-    public function errors(FormView $view, array $attributes = array())
+    public function errors(FormView $view, array $attributes = [])
     {
         return $this->searchAndRenderBlock($view, 'errors', $attributes);
     }
 
-    public function row(FormView $view, array $attributes = array())
+    public function row(FormView $view, array $attributes = [])
     {
         return $this->searchAndRenderBlock($view, 'row', $attributes);
     }
 
-    public function label(FormView $view, array $attributes = array())
+    public function label(FormView $view, array $attributes = [])
     {
         return $this->searchAndRenderBlock($view, 'label', $attributes);
     }

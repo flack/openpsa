@@ -24,7 +24,7 @@ class org_openpsa_contacts_handler_person_viewTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
-        $data = $this->run_handler('org.openpsa.contacts', array('person', self::$_person->guid));
+        $data = $this->run_handler('org.openpsa.contacts', ['person', self::$_person->guid]);
         $this->assertEquals('person_view', $data['handler_id']);
 
         $this->show_handler($data);
@@ -35,7 +35,7 @@ class org_openpsa_contacts_handler_person_viewTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
-        $data = $this->run_handler('org.openpsa.contacts', array('person', 'memberships', self::$_person->guid));
+        $data = $this->run_handler('org.openpsa.contacts', ['person', 'memberships', self::$_person->guid]);
         $this->assertEquals('group_memberships', $data['handler_id']);
 
         $this->show_handler($data);

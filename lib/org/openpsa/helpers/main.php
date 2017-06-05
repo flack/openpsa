@@ -42,7 +42,7 @@ class org_openpsa_helpers
       */
      public static function get_dm2_attachments($object, $field)
      {
-         $attachments = array();
+         $attachments = [];
          $identifiers = explode(',', $object->get_parameter('midcom.helper.datamanager2.type.blobs', 'guids_' . $field));
          if (empty($identifiers)) {
              return $attachments;

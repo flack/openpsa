@@ -50,9 +50,9 @@ class createphp
     public static function add_head_elements()
     {
         $head = \midcom::get()->head;
-        $head->enable_jquery_ui(array(
+        $head->enable_jquery_ui([
             'button', 'dialog', 'droppable', 'effect', 'effect-highlight'
-        ));
+        ]);
 
         $prefix = MIDCOM_STATIC_URL . '/openpsa.createphp/';
 
@@ -114,7 +114,7 @@ class createphp
     public function process_rest($data, $rdf_schema_name = false)
     {
         if (null === $data) {
-            $data = array();
+            $data = [];
         }
 
         if (!$rdf_schema_name) {

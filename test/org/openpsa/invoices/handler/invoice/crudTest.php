@@ -26,10 +26,10 @@ class org_openpsa_invoices_handler_invoice_crudTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'new'));
+        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'new']);
         $this->assertEquals('invoice_new_nocustomer', $data['handler_id']);
 
-        $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'new', self::$_person->guid));
+        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'new', self::$_person->guid]);
         $this->assertEquals('invoice_new', $data['handler_id']);
 
         $this->show_handler($data);
@@ -40,7 +40,7 @@ class org_openpsa_invoices_handler_invoice_crudTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'edit', self::$_invoice->guid));
+        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'edit', self::$_invoice->guid]);
         $this->assertEquals('invoice_edit', $data['handler_id']);
 
         $this->show_handler($data);
@@ -51,7 +51,7 @@ class org_openpsa_invoices_handler_invoice_crudTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'delete', self::$_invoice->guid));
+        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'delete', self::$_invoice->guid]);
         $this->assertEquals('invoice_delete', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -61,7 +61,7 @@ class org_openpsa_invoices_handler_invoice_crudTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $data = $this->run_handler('org.openpsa.invoices', array('invoice', self::$_invoice->guid));
+        $data = $this->run_handler('org.openpsa.invoices', ['invoice', self::$_invoice->guid]);
         $this->assertEquals('invoice', $data['handler_id']);
 
         $this->show_handler($data);

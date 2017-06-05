@@ -22,14 +22,14 @@ class delete implements WorkflowInterface
         if (    $object->can_do('midgard:delete')
              && !empty($object->up)) {
             // show delete for all collection children
-            return array(
+            return [
                 'name' => "delete",
                 'label' => \midcom::get()->i18n->get_l10n('midcom')->get('delete'),
-                'action' => array(
+                'action' => [
                     'type' => "backbone_destroy"
-                ),
+                ],
                 'type' => "button"
-            );
+            ];
         }
         return null;
     }
@@ -39,6 +39,6 @@ class delete implements WorkflowInterface
         if (!$object->delete()) {
             throw new \midcom_error("failed to delete " . get_class($object) . " #" . $object->id . ': ' . \midcom_connection::get_error_string());
         }
-        return array();
+        return [];
     }
 }

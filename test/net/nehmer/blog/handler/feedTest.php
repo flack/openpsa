@@ -20,16 +20,16 @@ class net_nehmer_blog_handler_feedTest extends openpsa_testcase
     {
         self::$topic = self::get_component_node('net.nehmer.blog');
 
-        $article_properties = array(
+        $article_properties = [
             'topic' => self::$topic->id,
             'name' => __CLASS__ . time()
-        );
+        ];
         self::$article = self::create_class_object('midcom_db_article', $article_properties);
     }
 
     public function testHandler_index()
     {
-        $data = $this->run_handler(self::$topic, array('feeds'));
+        $data = $this->run_handler(self::$topic, ['feeds']);
         $this->assertEquals('feed-index', $data['handler_id']);
 
         $this->show_handler($data);
@@ -37,10 +37,10 @@ class net_nehmer_blog_handler_feedTest extends openpsa_testcase
 
     public function testHandler_feed()
     {
-        $data = $this->run_handler(self::$topic, array('feeds', 'category', 'dummy'));
+        $data = $this->run_handler(self::$topic, ['feeds', 'category', 'dummy']);
         $this->assertEquals('feed-category-rss2', $data['handler_id']);
 
-        $data = $this->run_handler(self::$topic, array('rss.xml'));
+        $data = $this->run_handler(self::$topic, ['rss.xml']);
         $this->assertEquals('feed-rss2', $data['handler_id']);
 
         $this->show_handler($data);

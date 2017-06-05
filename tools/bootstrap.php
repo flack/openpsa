@@ -6,7 +6,7 @@
  */
 function openpsa_prepare_topics()
 {
-    $openpsa_topics = array(
+    $openpsa_topics = [
         'Calendar' => 'org.openpsa.calendar',
         'Contacts' => 'org.openpsa.contacts',
         'Documents' => 'org.openpsa.documents',
@@ -18,7 +18,7 @@ function openpsa_prepare_topics()
         'Sales' => 'org.openpsa.sales',
         'User Management' => 'org.openpsa.user',
         'Wiki' => 'net.nemein.wiki',
-    );
+    ];
     $qb = new midgard_query_builder('midgard_topic');
     $qb->add_constraint('name', '=', 'openpsa');
     $qb->add_constraint('up', '=', 0);

@@ -14,14 +14,14 @@ class schemaTest extends openpsa_testcase
 {
     public function test_process_parameter()
     {
-        $schema = new schema(array('fields' => array(
-            'test' => array(
+        $schema = new schema(['fields' => [
+            'test' => [
                 'title' => 'test',
                 'storage' => 'parameter',
                 'type' => 'text',
                 'widget' => 'text'
-            ),
-        )));
+            ],
+        ]]);
         $fields = $schema->get_fields();
         $this->assertArrayHasKey('test', $fields);
         $this->assertArrayHasKey('storage', $fields['test']);

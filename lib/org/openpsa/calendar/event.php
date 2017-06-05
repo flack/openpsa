@@ -27,14 +27,14 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      *
      * @var array
      */
-    public $participants = array();
+    public $participants = [];
 
     /**
      * like $participants but for resources.
      *
      * @var array
      */
-    public $resources = array();
+    public $resources = [];
 
     /**
      * vCalendar (or similar external source) GUID for this event
@@ -102,7 +102,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
         // Hide details if we're not allowed to see them
         if (!$this->can_do('org.openpsa.calendar:read')) {
-            $keep = array('metadata', 'id', 'guid', 'start', 'end', 'orgOpenpsaAccesstype');
+            $keep = ['metadata', 'id', 'guid', 'start', 'end', 'orgOpenpsaAccesstype'];
             $hide = array_diff($this->get_properties(), $keep);
             foreach ($hide as $key) {
                 $this->$key = null;
@@ -279,7 +279,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     private function get_suspected_sales_links()
     {
         // Do no seek if we already have confirmed links
-        $mc = new org_openpsa_relatedto_collector($this->guid, array('org_openpsa_salesproject_dba', 'org_openpsa_salesproject_deliverable_dba'));
+        $mc = new org_openpsa_relatedto_collector($this->guid, ['org_openpsa_salesproject_dba', 'org_openpsa_salesproject_deliverable_dba']);
         $mc->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
 
         $links = $mc->get_related_guids();
@@ -443,7 +443,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      */
     private function implode_members(array $array)
     {
-        $output = array();
+        $output = [];
         foreach (array_keys($array) as $pid) {
             $person = org_openpsa_contacts_person_dba::get_cached($pid);
             $output[] = $person->name;

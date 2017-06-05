@@ -96,7 +96,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
 
         $account = new midcom_core_account($person);
 
-        $replace_map = array(
+        $replace_map = [
             $sep_start . 'UNSUBSCRIBE_URL' . $sep_end => $this->get_unsubscribe_url($node),
             $sep_start . 'UNSUBSCRIBE_ALL_URL' . $sep_end => "{$node[MIDCOM_NAV_FULLURL]}campaign/unsubscribe_all/{$person->guid}/",
             $sep_start . 'UNSUBSCRIBE_ALL_FUTURE_URL' . $sep_end => "{$node[MIDCOM_NAV_FULLURL]}campaign/unsubscribe_all_future/{$person->guid}/all.html",
@@ -106,7 +106,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
             $sep_start . 'FNAME' . $sep_end => $person->firstname,
             $sep_start . 'LNAME' . $sep_end => $person->lastname,
             $sep_start . 'UNAME' . $sep_end => $account->get_username(),
-        );
+        ];
         $content = str_replace(array_keys($replace_map), $replace_map, $content);
 
         if (preg_match_all('/' . $sep_start . 'CALLBACK:(.*?)' . $sep_end . '/', $content, $callback_matches)) {
@@ -136,7 +136,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
     /**
      * Creates a message receipt of type.
      */
-    public function create_receipt($message_id, $type, $token, array $parameters = array())
+    public function create_receipt($message_id, $type, $token, array $parameters = [])
     {
         $receipt = new org_openpsa_directmarketing_campaign_messagereceipt_dba();
         $receipt->orgOpenpsaObtype = $type;

@@ -28,7 +28,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
 
     public function get_classes()
     {
-        $classes = array();
+        $classes = [];
         foreach (midcom_connection::get_schema_types() as $mgdschema) {
             if (   substr($mgdschema, 0, 2) == '__'
                 || !midgard_reflector_object::has_metadata_class($mgdschema)) {
@@ -73,11 +73,11 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         }
         $objects = $qb->execute();
 
-        $stats = array(
+        $stats = [
             'found' => count($objects),
             'purged' => 0,
-            'errors' => array()
-        );
+            'errors' => []
+        ];
 
         foreach ($objects as $obj) {
             if (!$obj->purge()) {

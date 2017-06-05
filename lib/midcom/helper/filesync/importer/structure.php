@@ -50,7 +50,7 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
         // FIXME: Implement ACLs
 
         // Handle subdirectories
-        $foldernames = array();
+        $foldernames = [];
         foreach ($structure['nodes'] as $child_structure) {
             $this->read_structure($child_structure, $topic->id);
             $foldernames[] = $child_structure['name'];

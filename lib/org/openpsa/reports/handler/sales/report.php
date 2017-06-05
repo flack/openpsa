@@ -19,7 +19,7 @@ implements org_openpsa_widgets_grid_provider_client
     /**
      * {@inheritdoc}
      */
-    public function get_qb($field = null, $direction = 'ASC', array $search = array())
+    public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
 
@@ -27,9 +27,9 @@ implements org_openpsa_widgets_grid_provider_client
             ->leftJoin('org_openpsa_salesproject_deliverable', 'd', Join::WITH, 'd.id = c.deliverable')
             ->leftJoin('org_openpsa_salesproject', 's', Join::WITH, 's.id = d.salesproject')
             ->where('d.state <> :state AND s.state <> :s_state')
-            ->setParameters(array(
+            ->setParameters([
                 'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED,
-                's_state' => org_openpsa_sales_salesproject_dba::STATE_LOST)
+                's_state' => org_openpsa_sales_salesproject_dba::STATE_LOST]
             );
 
         if ($this->_request_data['query_data']['resource'] != 'all') {
@@ -50,7 +50,7 @@ implements org_openpsa_widgets_grid_provider_client
     public function get_row(midcom_core_dbaobject $object)
     {
         $invoices_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
-        $row = array(
+        $row = [
             'invoice' => '',
             'index_invoice' => '',
             'owner' => '',
@@ -60,7 +60,7 @@ implements org_openpsa_widgets_grid_provider_client
             'product' => '',
             'item' => '',
             'amount' => 0
-        );
+        ];
 
         try {
             $invoice = org_openpsa_invoices_invoice_dba::get_cached($object->invoice);
@@ -104,7 +104,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         parent::_handler_generator($handler_id, $args, $data);
 
-        $data['invoices'] = array();
+        $data['invoices'] = [];
 
         // Calculate time range
         $data['start'] = $this->_request_data['query_data']['start'];

@@ -22,7 +22,7 @@ class midcom_connection
      */
     private static $_data;
 
-    private static $_defaults = array(
+    private static $_defaults = [
         'user' => 0,
         'admin' => false,
         'root' => false,
@@ -34,14 +34,14 @@ class midcom_connection
         'debug' => false,
 
         'author' => 0,
-        'config' => array(
+        'config' => [
             'prefix' => '',
             'auth_cookie_id' => 1,
-        ),
+        ],
 
-        'schema' => array(
-        ),
-    );
+        'schema' => [
+        ],
+    ];
 
     /**
      * DB connection setup routine
@@ -124,10 +124,10 @@ class midcom_connection
      */
     public static function login($username, $password, $trusted = false)
     {
-        $login_tokens = array(
+        $login_tokens = [
             'login' => $username,
             'authtype' => midcom::get()->config->get('auth_type'),
-        );
+        ];
 
         if (!$trusted) {
             $login_tokens['password'] = self::prepare_password($password, $username);
@@ -340,7 +340,7 @@ class midcom_connection
         $page_style = '';
         $path = $self;
 
-        self::$_data['argv'] = array();
+        self::$_data['argv'] = [];
         $args_started = false;
         foreach ($path_parts as $part) {
             if ($part === '') {

@@ -35,11 +35,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     public function get_schema_defaults()
     {
-        return array(
+        return [
             'username' => $this->account->get_username(),
             'person' => $this->person->guid,
             'usertype' => $this->account->get_usertype()
-        );
+        ];
     }
 
     /**
@@ -69,11 +69,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         midgard_admin_asgard_plugin::bind_to_object($this->person, $handler_id, $data);
 
         if ($this->account->get_username() !== '') {
-            $data['asgard_toolbar']->add_item(array(
+            $data['asgard_toolbar']->add_item([
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/account/delete/{$this->person->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete account'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                ));
+                ]);
             $data['view_title'] = $this->_l10n->get('edit account');
         } else {
             $data['view_title'] = $this->_l10n->get('create account');

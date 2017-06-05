@@ -5,7 +5,7 @@
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 define('OPENPSA_TEST_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
-$GLOBALS['midcom_config_local'] = array();
+$GLOBALS['midcom_config_local'] = [];
 
 // Check that the environment is a working one
 if (!midcom_connection::setup(dirname(__DIR__) . DIRECTORY_SEPARATOR)) {

@@ -19,16 +19,16 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     public function _on_initialize()
     {
         if ($this->_config->get('view_in_url')) {
-            $this->_request_switch['view-raw'] = array(
-                'handler' => array('net_nehmer_blog_handler_view', 'view'),
-                'fixed_args' => array('view', 'raw'),
+            $this->_request_switch['view-raw'] = [
+                'handler' => ['net_nehmer_blog_handler_view', 'view'],
+                'fixed_args' => ['view', 'raw'],
                 'variable_args' => 1,
-            );
-            $this->_request_switch['view'] = array(
-                'handler' => array('net_nehmer_blog_handler_view', 'view'),
+            ];
+            $this->_request_switch['view'] = [
+                'handler' => ['net_nehmer_blog_handler_view', 'view'],
                 'fixed_args' => 'view',
                 'variable_args' => 1,
-            );
+            ];
         }
 
         if ($this->_config->get('rss_subscription_enable')) {
@@ -59,31 +59,31 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     {
         if ($this->_config->get('rss_enable')) {
             midcom::get()->head->add_link_head(
-                array(
+                [
                     'rel'   => 'alternate',
                     'type'  => 'application/rss+xml',
                     'title' => $this->_l10n->get('rss 2.0 feed'),
                     'href'  => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
-                )
+                ]
             );
             midcom::get()->head->add_link_head(
-                array(
+                [
                     'rel'   => 'alternate',
                     'type'  => 'application/atom+xml',
                     'title' => $this->_l10n->get('atom feed'),
                     'href'  => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'atom.xml',
-                )
+                ]
             );
         }
 
         // RSD (Really Simple Discoverability) autodetection
         midcom::get()->head->add_link_head(
-            array(
+            [
                 'rel' => 'EditURI',
                 'type' => 'application/rsd+xml',
                 'title' => 'RSD',
                 'href' => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rsd.xml',
-            )
+            ]
         );
     }
 
@@ -92,18 +92,18 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      */
     private function _populate_node_toolbar()
     {
-        $buttons = array();
+        $buttons = [];
         $workflow = $this->get_workflow('datamanager2');
         if ($this->_topic->can_do('midgard:create')) {
             foreach (array_keys($this->_request_data['schemadb']) as $name) {
-                $buttons[] = $workflow->get_button("create/{$name}/", array(
+                $buttons[] = $workflow->get_button("create/{$name}/", [
                     MIDCOM_TOOLBAR_LABEL => sprintf(
                         $this->_l10n_midcom->get('create %s'),
                         $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
                     ),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                ));
+                ]);
             }
         }
 
@@ -113,11 +113,11 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
-            $buttons[] = $workflow->get_button('config/', array(
+            $buttons[] = $workflow->get_button('config/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
-            ));
+            ]);
         }
         $this->_node_toolbar->add_items($buttons);
     }
@@ -140,7 +140,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     {
         if ($this->_config->get('categories') == '') {
             // No categories defined, skip this.
-            $this->_request_data['categories'] = array();
+            $this->_request_data['categories'] = [];
             return false;
         }
 
@@ -213,7 +213,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      */
     public function article_qb_constraints($qb, $handler_id)
     {
-        $topic_guids = array($this->_topic->guid);
+        $topic_guids = [$this->_topic->guid];
 
         // Resolve any other topics we may need
         if ($list_from_folders = $this->_config->get('list_from_folders')) {

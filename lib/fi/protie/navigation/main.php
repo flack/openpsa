@@ -45,7 +45,7 @@ class fi_protie_navigation
      *
      * @var Array
      */
-    private $node_path = array();
+    private $node_path = [];
 
     /**
      * ID for the folder to get the navigation
@@ -335,7 +335,7 @@ class fi_protie_navigation
 
     private function _get_css_classes($child, $item, $item_counter, $item_count)
     {
-        $classes = array();
+        $classes = [];
 
         if ($child[MIDCOM_NAV_TYPE] === 'node') {
             if (   $item[MIDCOM_NAV_ID] === $this->_nap->get_current_node()

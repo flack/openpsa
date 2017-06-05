@@ -20,10 +20,10 @@ class net_nehmer_blog_handler_adminTest extends openpsa_testcase
     {
         self::$_topic = self::get_component_node('net.nehmer.blog');
 
-        $article_properties = array(
+        $article_properties = [
             'topic' => self::$_topic->id,
             'name' => __CLASS__ . time()
-        );
+        ];
         self::$_article = self::create_class_object('midcom_db_article', $article_properties);
     }
 
@@ -31,7 +31,7 @@ class net_nehmer_blog_handler_adminTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nehmer.blog');
 
-        $data = $this->run_handler(self::$_topic, array('edit', self::$_article->guid));
+        $data = $this->run_handler(self::$_topic, ['edit', self::$_article->guid]);
         $this->assertEquals('edit', $data['handler_id']);
 
         $this->show_handler($data);
@@ -42,8 +42,8 @@ class net_nehmer_blog_handler_adminTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nehmer.blog');
 
-        $_POST = array('referrer' => self::$_article->name . '/');
-        $url = $this->run_relocate_handler(self::$_topic, array('delete', self::$_article->guid));
+        $_POST = ['referrer' => self::$_article->name . '/'];
+        $url = $this->run_relocate_handler(self::$_topic, ['delete', self::$_article->guid]);
         $this->assertEquals(self::$_article->name . '/', $url);
 
         midcom::get()->auth->drop_sudo();

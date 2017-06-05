@@ -17,10 +17,10 @@ class org_openpsa_calendar_viewerTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $attributes = array(
+        $attributes = [
             'component' => 'org.openpsa.calendar',
             'name' => __CLASS__ . time()
-        );
+        ];
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
         self::$_topic = self::create_class_object('midcom_db_topic', $attributes);
         self::$_topic->set_parameter('org.openpsa.calendar', 'calendar_root_event', 0);

@@ -77,7 +77,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     public function _show_user_events($handler_id, array &$data)
     {
         $encoder = new org_openpsa_calendar_vcal;
-        array_map(array($encoder, 'add_event'), $this->_request_data['events']);
+        array_map([$encoder, 'add_event'], $this->_request_data['events']);
         echo $encoder;
     }
 
@@ -145,7 +145,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
                         $event->title = $this->_l10n->get('busy');
                         break;
                     case is_array($event->$fieldname):
-                        $event->$fieldname = array();
+                        $event->$fieldname = [];
                         break;
                     case is_string($event->$fieldname):
                     default:

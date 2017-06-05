@@ -19,12 +19,12 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
 
         // Add machine-readable RSS link
         midcom::get()->head->add_link_head(
-            array(
+            [
                 'rel'   => 'alternate',
                 'type'  => 'application/rss+xml',
                 'title' => sprintf($this->_l10n->get('latest updates in %s'), $this->_topic->extra),
                 'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
-            )
+            ]
         );
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/net.nemein.wiki/wiki.css");
@@ -37,25 +37,25 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
                 $action = 'subscribe';
             }
             $this->_node_toolbar->add_item(
-                array(
+                [
                     MIDCOM_TOOLBAR_URL => "subscribe/index/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
                     MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                         $action => 1,
                         'target'      => 'folder',
-                    ),
-                )
+                    ],
+                ]
             );
         }
 
         $this->_node_toolbar->add_item(
-            array(
+            [
                 MIDCOM_TOOLBAR_URL => "orphans/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('orphaned pages'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcut.png',
-            )
+            ]
         );
     }
 

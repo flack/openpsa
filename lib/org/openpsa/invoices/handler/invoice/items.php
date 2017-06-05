@@ -29,11 +29,11 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
     {
         $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
 
-        $data['entries'] = array();
+        $data['entries'] = [];
 
         $invoice_sum = 0;
         foreach ($this->_object->get_invoice_items() as $item) {
-            $entry =  array();
+            $entry =  [];
             $entry['id'] = $item->id;
             try {
                 $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($item->deliverable);
@@ -63,7 +63,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
 
         $data['invoice'] = $this->_object;
         $data['grid'] = new org_openpsa_widgets_grid('invoice_items', 'local');
-        $data['grid']->set_footer_data(array('sum' => $invoice_sum));
+        $data['grid']->set_footer_data(['sum' => $invoice_sum]);
         $this->_prepare_output();
     }
 
@@ -75,12 +75,12 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit invoice items') . ': ' . $title);
         $this->_view_toolbar->add_item(
-            array(
+            [
                 MIDCOM_TOOLBAR_URL => "invoice/recalculation/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('recalculate_by_reports'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-            )
+            ]
         );
 
         $this->_master->add_next_previous($this->_object, $this->_view_toolbar, 'invoice/items/');
@@ -130,14 +130,14 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
                 throw new midcom_error('Failed to delete item: ' . midcom_connection::get_error_string());
             }
         }
-        $result = array(
+        $result = [
             'id' => $item->id,
             'quantity' => $item->units,
             'price' => $item->pricePerUnit,
             'description' => $item->description,
             'position' => $item->position,
             'oldid' => $_POST['id']
-        );
+        ];
         return new midcom_response_json($result);
     }
 
@@ -150,7 +150,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
             || !isset($_POST['quantity'])) {
             throw new midcom_error('Incomplete POST data');
         }
-        if (!in_array($_POST['oper'], array('edit', 'del'))) {
+        if (!in_array($_POST['oper'], ['edit', 'del'])) {
             throw new midcom_error('Invalid operation "' . $_POST['oper'] . '"');
         }
     }
@@ -168,7 +168,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         if (!$item->update()) {
             throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());
         }
-        return new midcom_response_json(array());
+        return new midcom_response_json([]);
     }
 
     /**

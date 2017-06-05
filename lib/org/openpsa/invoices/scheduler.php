@@ -56,8 +56,8 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             $this_cycle_amount = $calculator->process_deliverable($this->_deliverable, $cycle_number);
         }
 
-        $tasks_completed = array();
-        $tasks_not_completed = array();
+        $tasks_completed = [];
+        $tasks_not_completed = [];
 
         if ($product->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE) {
             // Close previous task(s)
@@ -100,10 +100,10 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
     private function _create_at_entry($cycle_number, $start)
     {
-        $args = array(
+        $args = [
             'deliverable' => $this->_deliverable->guid,
             'cycle'       => $cycle_number,
-        );
+        ];
         $at_entry = new midcom_services_at_entry_dba();
         $at_entry->start = $start;
         $at_entry->component = 'org.openpsa.sales';
@@ -122,7 +122,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
     private function _notify_owner($calculator, $cycle_number, $next_run, $invoiced_sum, $tasks_completed, $tasks_not_completed, $new_task = null)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $message = array();
+        $message = [];
         $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
         try {
             $owner = midcom_db_person::get_cached($salesproject->owner);

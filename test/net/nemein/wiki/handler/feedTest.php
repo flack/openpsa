@@ -17,16 +17,16 @@ class net_nemein_wiki_handler_feedTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $topic_attributes = array(
+        $topic_attributes = [
             'component' => 'net.nemein.wiki',
             'name' => __CLASS__ . time()
-        );
+        ];
         self::$_topic = self::create_class_object('midcom_db_topic', $topic_attributes);
     }
 
     public function testHandler_rss()
     {
-        $data = $this->run_handler(self::$_topic, array('rss.xml'));
+        $data = $this->run_handler(self::$_topic, ['rss.xml']);
         $this->assertEquals('rss', $data['handler_id']);
         $this->show_handler($data);
     }

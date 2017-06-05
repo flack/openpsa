@@ -88,7 +88,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function get_schema_defaults()
     {
         if (empty($_GET['defaults'])) {
-            return array();
+            return [];
         }
         return $_GET['defaults'];
     }
@@ -203,11 +203,11 @@ implements midcom_helper_datamanager2_interfaces_create
 
     private function object_to_jsdata()
     {
-        $jsdata = array(
+        $jsdata = [
             'id' => @$this->_object->id,
             'guid' => @$this->_object->guid,
             'pre_selected' => true
-        );
+        ];
 
         switch ($this->_dbaclass) {
             case 'org_openpsa_contacts_person_dba':

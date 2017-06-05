@@ -17,16 +17,16 @@ class net_nemein_wiki_handler_orphanTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $topic_attributes = array(
+        $topic_attributes = [
             'component' => 'net.nemein.wiki',
             'name' => __CLASS__ . time()
-        );
+        ];
         self::$_topic = self::create_class_object('midcom_db_topic', $topic_attributes);
     }
 
     public function testHandler_orphan()
     {
-        $data = $this->run_handler(self::$_topic, array('orphans'));
+        $data = $this->run_handler(self::$_topic, ['orphans']);
         $this->assertEquals('orphans', $data['handler_id']);
         $this->show_handler($data);
     }

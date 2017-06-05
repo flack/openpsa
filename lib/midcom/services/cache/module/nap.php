@@ -201,7 +201,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->_cache->fetch("{$this->_prefix}-{$key}");
         if (!is_array($result)) {
-            $result = array();
+            $result = [];
         }
         $result[$lang_id] = $data;
         $this->_cache->save("{$this->_prefix}-{$key}", $result, $timeout);
@@ -224,7 +224,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->_cache->fetch("{$this->_prefix}-{$guid}");
         if (!is_array($result)) {
-            $result = array();
+            $result = [];
         }
         $result[$lang_id] = $data;
         $this->_cache->save($this->_prefix . '-' . $guid, $result, $timeout);
@@ -267,7 +267,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->_cache->fetch("{$this->_prefix}-{$key}");
         if (!is_array($result)) {
-            $result = array();
+            $result = [];
         }
         $result[$lang_id] = $data;
         $this->_cache->save("{$this->_prefix}-{$key}", $result, $timeout);

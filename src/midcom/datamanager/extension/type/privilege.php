@@ -20,11 +20,11 @@ use midcom\datamanager\storage\container\dbacontainer;
  */
 class privilege extends RadioType
 {
-    private $defaultChoices = array(
+    private $defaultChoices = [
         'widget privilege: allow' => MIDCOM_PRIVILEGE_ALLOW,
         'widget privilege: deny' => MIDCOM_PRIVILEGE_DENY,
         'widget privilege: inherit' => MIDCOM_PRIVILEGE_INHERIT,
-    );
+    ];
 
     /**
      * {@inheritdoc}
@@ -35,11 +35,11 @@ class privilege extends RadioType
             $return_options = $this->defaultChoices;
             return $return_options;
         };
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'choices' => $map_privilege,
             'choices_as_values' => true,
             'expanded' => true,
-        ));
+        ]);
     }
 
     /**

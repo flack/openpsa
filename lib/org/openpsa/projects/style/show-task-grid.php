@@ -11,19 +11,19 @@ if (   $data['view_identifier'] == 'my_tasks'
     $grouping = 'manager';
 }
 
-$footer_data = array('task' => $data['l10n']->get('totals'));
+$footer_data = ['task' => $data['l10n']->get('totals')];
 
 $grid = $data['provider']->get_grid($grid_id);
 $grid->set_option('loadonce', true)
 ->set_option('grouping', true)
-->set_option('groupingView', array(
-    'groupField' => array($grouping),
-    'groupColumnShow' => array(false),
-    'groupText' => array('<strong>{0}</strong> ({1})'),
-    'groupOrder' => array('asc'),
-    'groupSummary' => array(true),
+->set_option('groupingView', [
+    'groupField' => [$grouping],
+    'groupColumnShow' => [false],
+    'groupText' => ['<strong>{0}</strong> ({1})'],
+    'groupOrder' => ['asc'],
+    'groupSummary' => [true],
     'showSummaryOnHide' => true
-));
+]);
 
 if (   $data['view_identifier'] == 'my_tasks'
     || $data['view_identifier'] == 'project_tasks') {

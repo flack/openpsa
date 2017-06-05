@@ -19,7 +19,7 @@ class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmark
     public function parse($input)
     {
         $reader = new VCard(fopen($input, 'r'));
-        $parsed = array();
+        $parsed = [];
 
         while ($card = $reader->getNext()) {
             $contact = $this->_parse_vcard($card);
@@ -33,11 +33,11 @@ class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmark
 
     private function _parse_vcard(Component $card)
     {
-        $contact = array(
-            'person'              => array(),
-            'organization'        => array(),
-            'organization_member' => array(),
-        );
+        $contact = [
+            'person'              => [],
+            'organization'        => [],
+            'organization_member' => [],
+        ];
 
         if ($card->FN) {
             $name_parts = explode(' ', $card->FN->value, 2);

@@ -27,9 +27,9 @@ class midcom_helper_filesync_exporter_styleTest extends openpsa_testcase
         $style_name = uniqid('style_' . __CLASS__ . __FUNCTION__);
 
         $element_name = uniqid('element_' . __CLASS__ . __FUNCTION__);
-        $style = $this->create_object('midcom_db_style', array('name' => $style_name));
-        $sub_style = $this->create_object('midcom_db_style', array('name' => $style_name, 'up' => $style->id));
-        $element = $this->create_object('midcom_db_element', array('name' => $element_name, 'style' => $sub_style->id));
+        $style = $this->create_object('midcom_db_style', ['name' => $style_name]);
+        $sub_style = $this->create_object('midcom_db_style', ['name' => $style_name, 'up' => $style->id]);
+        $element = $this->create_object('midcom_db_element', ['name' => $element_name, 'style' => $sub_style->id]);
 
         $exporter = new midcom_helper_filesync_exporter_style(self::$_rootdir);
         midcom::get()->auth->request_sudo('midcom.helper.filesync');

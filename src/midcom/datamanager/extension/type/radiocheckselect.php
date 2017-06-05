@@ -23,7 +23,7 @@ class radiocheckselect extends ChoiceType
     {
         parent::configureOptions($resolver);
         $map_options = function (Options $options) {
-            $return_options = array();
+            $return_options = [];
             if (isset($options['type_config']['options'])) {
                 foreach ($options['type_config']['options'] as $key => $value) {
                     //symfony expects only strings
@@ -36,13 +36,13 @@ class radiocheckselect extends ChoiceType
             return !empty($options['type_config']['allow_multiple']);
         };
 
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'choices' => $map_options,
             'choices_as_values' => true,
             'expanded' => true,
             'multiple' => $map_multiple,
             'placeholder' => false
-        ));
+        ]);
     }
 
     /**

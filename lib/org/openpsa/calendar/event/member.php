@@ -83,7 +83,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         }
 
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
-        $message = array();
+        $message = [];
         $timeframe = $l10n->get_formatter()->timeframe($event->start, $event->end);
         $action = 'org.openpsa.calendar:event_' . $type;
 
@@ -127,13 +127,13 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
             $encoder = new org_openpsa_calendar_vcal;
             $encoder->add_event($event);
-            $message['attachments'] = array(
-                array(
+            $message['attachments'] = [
+                [
                     'name' => $generator->from_string(sprintf('%s on %s', $event->title, date('Ymd_Hi', $event->start))) . '.ics',
                     'mimetype' => 'text/calendar',
                     'content' => (string) $encoder,
-                ),
-            );
+                ],
+            ];
         }
 
         return org_openpsa_notifications::notify($action, $recipient->guid, $message);
@@ -165,7 +165,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
      */
     public static function find_free_times($amount, org_openpsa_contacts_person_dba $person, $start, $end)
     {
-        $slots = array();
+        $slots = [];
 
         // Get current events for person
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
@@ -180,11 +180,11 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         $qb->add_order('start', 'ASC');
         $qb->add_order('end', 'ASC');
 
-        $events_by_date = array();
+        $events_by_date = [];
         foreach ($qb->execute() as $event) {
             $ymd = date('Ymd', $event->start);
             if (!array_key_exists($ymd, $events_by_date)) {
-                $events_by_date[$ymd] = array();
+                $events_by_date[$ymd] = [];
             }
             $events_by_date[$ymd][] = $event;
         }
@@ -202,7 +202,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             $dummy = new org_openpsa_calendar_event_dba();
             $dummy->start = $stamp;
             $dummy->end = $stamp + 1;
-            $events_by_date[$ymd] = array($dummy);
+            $events_by_date[$ymd] = [$dummy];
         }
 
         foreach ($events_by_date as $ymd => $events) {
@@ -259,11 +259,11 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
 
     private static function _create_slot($start, $end, $previous, $next = false)
     {
-        return array(
+        return [
             'start' => $start,
             'end' => $end,
             'previous' => $previous,
             'next' => $next,
-        );
+        ];
     }
 }

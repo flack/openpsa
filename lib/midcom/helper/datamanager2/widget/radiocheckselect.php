@@ -66,7 +66,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
      */
     public function add_elements_to_form($attributes)
     {
-        $elements = array();
+        $elements = [];
         $all_elements = $this->_type->list_all();
         foreach ($all_elements as $key => $value) {
             if ($this->_type->allow_multiple) {
@@ -75,7 +75,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
                     $key,
                     $key,
                     $this->_translate($value),
-                    array('class' => 'checkbox')
+                    ['class' => 'checkbox']
                 );
             } else {
                 $elements[] = $this->_form->createElement(
@@ -84,7 +84,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
                     $key,
                     $this->_translate($value),
                     $key,
-                    array('class' => 'radiobutton')
+                    ['class' => 'radiobutton']
                 );
             }
         }
@@ -118,16 +118,16 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
             if (sizeof($this->_type->selection) == 0) {
                 return null;
             }
-            return array($this->name => array_fill_keys($this->_type->selection, true));
+            return [$this->name => array_fill_keys($this->_type->selection, true)];
         }
         if (count($this->_type->selection) > 0) {
-            return array($this->name => $this->_type->selection[0]);
+            return [$this->name => $this->_type->selection[0]];
         }
         if ($this->_field['required']) {
             // Select the first radiobox always when this is a required field:
             $all = $this->_type->list_all();
             reset($all);
-            return array($this->name => key($all));
+            return [$this->name => key($all)];
         }
         return null;
     }
@@ -138,7 +138,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
      */
     public function sync_type_with_widget($results)
     {
-        $this->_type->selection = array();
+        $this->_type->selection = [];
 
         if ($this->_type->allow_multiple) {
             if ($results[$this->name]) {
@@ -146,7 +146,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
                 $this->_type->selection = array_keys(array_intersect_key($all_elements, $results[$this->name]));
             }
         } elseif ($results[$this->name] !== null) {
-            $this->_type->selection = array($results[$this->name]);
+            $this->_type->selection = [$results[$this->name]];
         }
     }
 

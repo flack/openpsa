@@ -24,23 +24,23 @@ class org_openpsa_user_handler_person_createTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.user');
 
-        $data = $this->run_handler('org.openpsa.user', array('create'));
+        $data = $this->run_handler('org.openpsa.user', ['create']);
         $this->assertEquals('user_create', $data['handler_id']);
 
         $username = uniqid(__FUNCTION__);
-        $formdata = array(
+        $formdata = [
             'firstname' => __CLASS__ . '::' . __FUNCTION__,
             'lastname' => __CLASS__ . '::' . __FUNCTION__,
             'email' => __FUNCTION__ . '@openpsa2.org',
             'org_openpsa_user_person_account_password_switch' => '1',
             'username' => $username,
-            'password' => array(
+            'password' => [
                 'password_input' => 'p@ssword123'
-            ),
+            ],
             'send_welcome_mail' => '1'
-        );
+        ];
 
-        $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.user', array('create'));
+        $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.user', ['create']);
         $url = $this->get_dialog_url();
 
         $tokens = explode('/', trim($url, '/'));

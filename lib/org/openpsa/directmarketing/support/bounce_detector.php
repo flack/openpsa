@@ -64,7 +64,7 @@ if (substr($BOUNCE_LOGGER, 0, strlen("file://")) == "file://") {
 } elseif (   substr($BOUNCE_LOGGER, 0, strlen("http://")) == "http://"
           || substr($BOUNCE_LOGGER, 0, strlen("https://")) == "https://") {
     $client = new org_openpsa_httplib();
-    $client->post($BOUNCE_LOGGER, array("token" => $token));
+    $client->post($BOUNCE_LOGGER, ["token" => $token]);
     exit(0);
 }
 error_log("Error logging bounce token: $BOUNCE_LOGGER");

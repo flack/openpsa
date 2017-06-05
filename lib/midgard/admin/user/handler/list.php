@@ -11,7 +11,7 @@
  */
 class midgard_admin_user_handler_list extends midcom_baseclasses_components_handler
 {
-    private $_persons = array();
+    private $_persons = [];
 
     public function _on_initialize()
     {
@@ -25,19 +25,19 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
     private function _prepare_toolbar(&$data)
     {
-        $buttons = array(
-            array(
+        $buttons = [
+            [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/create/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create user'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_config->get('allow_manage_accounts'),
-            ),
-            array(
+            ],
+            [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/group/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('groups'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
-            )
-        );
+            ]
+        ];
         $data['asgard_toolbar']->add_items($buttons);
     }
 
@@ -55,10 +55,10 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         $this->_list_persons();
 
         // Used in many checks, keys are IDs, values objects
-        $data['groups'] = array();
+        $data['groups'] = [];
 
         // Used in select
-        $data['groups_for_select'] = array();
+        $data['groups_for_select'] = [];
 
         if (count($this->_persons) > 0) {
             $this->list_groups_for_select(0, $data, 0);
@@ -112,7 +112,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         $mc->add_order('name');
 
         // Get the results
-        $groupdata = $mc->get_rows(array('name', 'official', 'id', 'guid'));
+        $groupdata = $mc->get_rows(['name', 'official', 'id', 'guid']);
 
         // Hide empty groups
         if (count($groupdata) === 0) {
@@ -249,7 +249,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         $mail->body = $_POST['body'];
         $mail->subject = $_POST['subject'];
         $now = time();
-        $mail->parameters = array(
+        $mail->parameters = [
             'PASSWORD' => $password,
             'FROM' => $this->_config->get('message_sender'),
             'LONGDATE' => $this->_l10n->get_formatter()->datetime($now, 'full'),
@@ -259,7 +259,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
             'LASTNAME' => $person->lastname,
             'USERNAME' => $account->get_username(),
             'EMAIL' => $person->email,
-        );
+        ];
 
         // Send the message
         if ($mail->send()) {
@@ -290,7 +290,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         $data['view_title'] = $this->_l10n->get('batch generate passwords');
         $formatter = $this->_l10n->get_formatter();
         $now = time();
-        $data['variables'] = array(
+        $data['variables'] = [
             '__FIRSTNAME__' => $this->_l10n->get('firstname'),
             '__LASTNAME__' => $this->_l10n->get('lastname'),
             '__USERNAME__' => $this->_l10n->get('username'),
@@ -300,7 +300,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
             '__LONGDATE__' => sprintf($this->_l10n->get('long dateformat (%s)'), $formatter->datetime($now, 'full')),
             '__SHORTDATE__' => sprintf($this->_l10n->get('short dateformat (%s)'), $formatter->date($now)),
             '__TIME__' => sprintf($this->_l10n->get('current time (%s)'), $formatter->time($now)),
-        );
+        ];
     }
 
     /**

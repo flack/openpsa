@@ -17,7 +17,7 @@ class schemaextension extends AbstractExtension
      */
     protected function loadTypes()
     {
-        return array(
+        return [
             new type\autocomplete,
             new type\blobs,
             new type\codemirror,
@@ -29,7 +29,7 @@ class schemaextension extends AbstractExtension
             new type\select,
         	new type\tinymce,
             new type\toolbar,
-        );
+        ];
     }
 
     /**
@@ -37,6 +37,6 @@ class schemaextension extends AbstractExtension
      */
     protected function loadTypeExtensions()
     {
-        return array(new formextension, new buttonextension);
+        return [new formextension, new buttonextension];
     }
 }

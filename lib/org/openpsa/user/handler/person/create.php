@@ -39,10 +39,10 @@ implements midcom_helper_datamanager2_interfaces_create
         $last = count($account_schema['default']->fields);
         foreach ($account_schema['default']->fields as $name => $field) {
             if ($current++ == 0) {
-                $field['start_fieldset'] = array(
+                $field['start_fieldset'] = [
                     'title' => 'account_fieldset',
                     'css_group' => 'area meta',
-                );
+                ];
             } elseif ($current == $last) {
                 $field['end_fieldset'] = '';
             }
@@ -56,9 +56,9 @@ implements midcom_helper_datamanager2_interfaces_create
     public function get_schema_defaults()
     {
         if ($this->_group) {
-            return array($this->_group->id);
+            return [$this->_group->id];
         }
-        return array();
+        return [];
     }
 
     /**
@@ -79,10 +79,10 @@ implements midcom_helper_datamanager2_interfaces_create
         midcom::get()->head->set_pagetitle($this->_l10n->get('create person'));
 
         $data['controller'] = $this->get_controller('create');
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $data['controller'],
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         return $workflow->run();
     }
 

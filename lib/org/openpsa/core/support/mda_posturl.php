@@ -34,7 +34,7 @@ if (empty($message_source)) {
 
 //Post to target
 $client = new org_openpsa_httplib();
-$response = $client->post($POST_TO, array('message_source' => $message_source));
+$response = $client->post($POST_TO, ['message_source' => $message_source]);
 //If anything at all goes wrong dump debug data and exit with errorcode
 if ($response === false) {
     error_log("Error posting message to {$POST_TO}:\n===\n{$client->error}===\n");

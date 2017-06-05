@@ -21,15 +21,15 @@ class org_openpsa_projects_projectbroker
      */
     function find_task_prospects($task)
     {
-        $return = array();
-        $classes = array(
+        $return = [];
+        $classes = [
             'midgard_person',
             'midcom_db_person',
             'org_openpsa_contacts_person_dba',
-        );
+        ];
         $tag_map = net_nemein_tag_handler::get_object_tags($task);
 
-        $tags = array();
+        $tags = [];
         // Resolve tasks tags (with contexts) into single array of tags without contexts
         foreach (array_keys($tag_map) as $tagname) {
             $tag = net_nemein_tag_handler::resolve_tagname($tagname);

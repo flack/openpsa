@@ -18,17 +18,17 @@ class mnrelation extends delayed
     public function __construct($object, $config)
     {
         parent::__construct($object, $config);
-        $defaults = array(
+        $defaults = [
             'sortable' => false,
             'mapping_class_name' => null,
             'master_fieldname' => null,
             'member_fieldname' => null,
             'master_is_id' => false,
-            'constraints' => array(),
+            'constraints' => [],
             'require_corresponding_option' => false,
             'sortable_sort_order' => 'DESC',
-            'additional_fields' => array(),
-        );
+            'additional_fields' => [],
+        ];
         $this->config['type_config'] = helper::merge_defaults($defaults, $this->config['type_config']);
     }
 
@@ -115,7 +115,7 @@ class mnrelation extends delayed
             $qb->add_constraint($fieldname, '=', $value);
         }
 
-        $indexed = array();
+        $indexed = [];
         $results = $qb->execute();
         foreach ($results as $result) {
             $indexed[$result->{$this->config['type_config']['member_fieldname']}] = $result;

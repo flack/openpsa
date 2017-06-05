@@ -1,11 +1,11 @@
 <?php
 $parameter_toolbar = new midcom_helper_toolbar();
 $parameter_toolbar->add_item(
-    array(
+    [
         MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/create/midgard_parameter/{$data['object']->guid}/",
         MIDCOM_TOOLBAR_LABEL => $data['l10n']->get('add parameter'),
         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-    )
+    ]
 );
 echo $parameter_toolbar->render();
 
@@ -19,26 +19,26 @@ if (count($data['parameters']) > 0) {
     echo "        </tr>\n";
     echo "    </thead>\n";
     echo "    <tbody>\n";
-    $shown_domains = array();
+    $shown_domains = [];
     foreach ($data['parameters'] as $parameter) {
         $parameter_toolbar = new midcom_helper_toolbar();
-        $buttons = array(
-            array(
+        $buttons = [
+            [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/view/{$parameter->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $data['l10n_midcom']->get('view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
-            ),
-            array(
+            ],
+            [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/edit/{$parameter->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $data['l10n_midcom']->get('edit'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-            ),
-            array(
+            ],
+            [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/delete/{$parameter->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $data['l10n_midcom']->get('delete'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-            )
-        );
+            ]
+        ];
         $parameter_toolbar->add_items($buttons);
         if (!in_array($parameter->domain, $shown_domains)) {
             echo "        <tr>\n";

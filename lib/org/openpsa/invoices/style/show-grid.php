@@ -11,10 +11,10 @@ if ($data['list_type'] == 'overdue') {
     $classes .= ' normal';
 }
 
-$footer_data = array(
+$footer_data = [
     'customer' => $data['l10n']->get('totals'),
     'sum' => $formatter->number($grid->get_provider()->get_column_total('index_sum'))
-);
+];
 
 $grid->set_option('loadonce', true);
 

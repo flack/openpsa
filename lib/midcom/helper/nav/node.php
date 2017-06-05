@@ -73,7 +73,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
             midcom::get()->auth->drop_sudo();
         }
 
-        $result = array();
+        $result = [];
         foreach ($leaves as $id => $leaf) {
             $leaf = new midcom_helper_nav_leaf($this, $leaf, $id, $from_cache);
             $result[$leaf->id] = $leaf;
@@ -100,7 +100,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
                   Aborting write_to_cache, this is a critical cache inconsistency.', MIDCOM_LOG_WARN);
             return;
         }
-        $cachedata = array();
+        $cachedata = [];
         foreach ($leaves as $leaf) {
             $cachedata[$leaf->id] = $leaf->write_to_cache();
         }

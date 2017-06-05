@@ -19,15 +19,15 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     protected $_mgd_reflector;
     protected $_dummy_object;
 
-    private static $_cache = array(
-        'l10n' => array(),
-        'instance' => array(),
-        'title' => array(),
-        'name' => array(),
-        'fieldnames' => array(),
+    private static $_cache = [
+        'l10n' => [],
+        'instance' => [],
+        'title' => [],
+        'name' => [],
+        'fieldnames' => [],
         'object_icon_map' => null,
         'create_icon_map' => null
-    );
+    ];
 
     /**
      * Constructor, takes classname or object, resolved MgdSchema root class automagically
@@ -216,7 +216,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return $obj->get_label_property();
         }
         if (midcom::get()->dbfactory->is_a($obj, 'midcom_db_person')) {
-            return array('rname', 'id');
+            return ['rname', 'id'];
         }
         if ($this->get_title_property_nonstatic($obj) !== false) {
             return $this->get_title_property_nonstatic($obj);
@@ -278,7 +278,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             self::$_cache['create_icon_map'] = self::_get_icon_map('create_type_magic', 'new-text.png');
         }
 
-        $icon_callback = array($type, 'get_create_icon');
+        $icon_callback = [$type, 'get_create_icon'];
         switch (true) {
             // class has static method to tell us the answer ? great !
             case (is_callable($icon_callback)):
@@ -378,7 +378,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     {
         $config = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config');
         $icons2classes = $config->get($config_key);
-        $icon_map = array();
+        $icon_map = [];
         //sanity
         if (!is_array($icons2classes)) {
             debug_add('Config key "' . $config_key . '" is not an array', MIDCOM_LOG_ERROR);
@@ -402,7 +402,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     public function get_search_properties()
     {
         // Return cached results if we have them
-        static $cache = array();
+        static $cache = [];
         if (isset($cache[$this->mgdschema_class])) {
             return $cache[$this->mgdschema_class];
         }
@@ -410,14 +410,14 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         $properties = self::get_object_fieldnames($this->_dummy_object);
 
-        $default_properties = array(
+        $default_properties = [
             'title' => true,
             'tag' => true,
             'firstname' => true,
             'lastname' => true,
             'official' => true,
             'username' => true,
-        );
+        ];
 
         $search_properties = array_intersect_key($default_properties, array_flip($properties));
 
@@ -438,14 +438,14 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // Exceptions - always search these fields
-        $always_search_all = $this->_config->get('always_search_fields') ?: array();
+        $always_search_all = $this->_config->get('always_search_fields') ?: [];
         if (!empty($always_search_all[$this->mgdschema_class])) {
             $fields = array_intersect($always_search_all[$this->mgdschema_class], $properties);
             $search_properties = $search_properties + array_flip($fields);
         }
 
         // Exceptions - never search these fields
-        $never_search_all = $this->_config->get('never_search_fields') ?: array();
+        $never_search_all = $this->_config->get('never_search_fields') ?: [];
         if (!empty($never_search_all[$this->mgdschema_class])) {
             $search_properties = array_diff_key($search_properties, array_flip($never_search_all[$this->mgdschema_class]));
         }
@@ -470,7 +470,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     public function get_link_properties()
     {
         // Return cached results if we have them
-        static $cache = array();
+        static $cache = [];
         if (isset($cache[$this->mgdschema_class])) {
             return $cache[$this->mgdschema_class];
         }
@@ -483,7 +483,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         // Get property list and start checking (or abort on error)
         $properties = self::get_object_fieldnames($obj);
 
-        $links = array();
+        $links = [];
         $parent_property = midgard_object_class::get_property_parent($obj);
         $up_property = midgard_object_class::get_property_up($obj);
         foreach ($properties as $property) {
@@ -497,13 +497,13 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 continue;
             }
             debug_add("Processing property '{$property}'");
-            $linkinfo = array(
+            $linkinfo = [
                 'class' => null,
                 'target' => null,
                 'parent' => false,
                 'up' => false,
                 'type' => $ref->get_midgard_type($property),
-            );
+            ];
             if ($parent_property === $property) {
                 debug_add("Is 'parent' property");
                 $linkinfo['parent'] = true;
@@ -590,7 +590,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public static function get_object($guid, $type)
     {
-        static $objects = array();
+        static $objects = [];
 
         if (!isset($objects[$guid])) {
             $qb = new midgard_query_builder($type);
@@ -613,7 +613,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public static function resolve_baseclass($classname)
     {
-        static $cached = array();
+        static $cached = [];
 
         if (is_object($classname)) {
             $class_instance = $classname;

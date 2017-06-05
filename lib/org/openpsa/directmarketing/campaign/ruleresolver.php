@@ -154,7 +154,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     public function execute()
     {
         $this->mc->add_order('lastname', 'ASC');
-        return $this->mc->get_rows(array('lastname', 'firstname', 'email', 'guid'), 'id');
+        return $this->mc->get_rows(['lastname', 'firstname', 'email', 'guid'], 'id');
     }
 
     /**
@@ -273,17 +273,17 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             }
             switch (true) {
                 case (is_a($parent, 'midcom_db_person')):
-                    $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->id);
+                    $person_rule = ['property' => 'id', 'match' => '=', 'value' => $parent->id];
                     return $this->add_person_rule($person_rule);
 
                 case (midcom::get()->dbfactory->is_a($parent, 'midgard_group')):
-                    $group_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->id);
+                    $group_rule = ['property' => 'id', 'match' => '=', 'value' => $parent->id];
                     return $this->add_group_rule($group_rule);
 
                 case midcom::get()->dbfactory->is_a($parent, 'org_openpsa_campaign_member'):
                 case midcom::get()->dbfactory->is_a($parent, 'org_openpsa_campaign_message_receipt'):
                 case midcom::get()->dbfactory->is_a($parent, 'org_openpsa_link_log'):
-                    $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->person);
+                    $person_rule = ['property' => 'id', 'match' => '=', 'value' => $parent->person];
                     return $this->add_person_rule($person_rule);
 
                 default:
@@ -314,7 +314,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     private function add_misc_rule(array $rule, $class, $person_property)
     {
-        $persons = array( 0 => -1);
+        $persons = [ 0 => -1];
         $match = $rule['match'];
         $constraint_match = "IN";
         if ($rule['match'] == '<>') {
@@ -343,24 +343,24 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
     public static function build_property_map(midcom_services_i18n_l10n $l10n)
     {
-        $types = array(
+        $types = [
             'person' => new org_openpsa_contacts_person_dba,
             'group' => new org_openpsa_contacts_group_dba,
             'membership' => new org_openpsa_contacts_member_dba
-        );
-        $return = array();
+        ];
+        $return = [];
         foreach ($types as $name => $object) {
-            $return[$name] = array(
+            $return[$name] = [
                 'properties' => self::list_object_properties($object, $l10n),
                 'localized' => $l10n->get('class:' . $name),
                 'parameters' => false
-            );
+            ];
         }
-        $return['generic_parameters'] = array(
+        $return['generic_parameters'] = [
             'properties' => false,
             'localized' => $l10n->get('class:generic parameters'),
             'parameters' => true
-        );
+        ];
 
         return $return;
     }
@@ -376,19 +376,19 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     public static function list_object_properties(midcom_core_dbaobject $object, midcom_services_i18n_l10n $l10n)
     {
         // These are internal to midgard and/or not valid QB constraints
-        $skip_properties = array(
+        $skip_properties = [
             // These will be deprecated soon
             'orgOpenpsaAccesstype',
             'orgOpenpsaWgtype',
             // Skip metadata for now
             'metadata'
-        );
+        ];
 
         if (midcom::get()->dbfactory->is_a($object, 'midgard_member')) {
             // The info field is a special case
             $skip_properties[] = 'info';
         }
-        $ret = array();
+        $ret = [];
 
         foreach ($object->get_properties() as $property) {
             if (   preg_match('/^_/', $property)

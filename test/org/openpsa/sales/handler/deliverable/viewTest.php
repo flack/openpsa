@@ -26,13 +26,13 @@ class org_openpsa_sales_salesproject_deliverable_viewTest extends openpsa_testca
     {
         midcom::get()->auth->request_sudo('org.openpsa.sales');
 
-        $deliverable_attributes = array(
+        $deliverable_attributes = [
             'salesproject' => self::$_salesproject->id,
-        );
+        ];
 
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
 
-        $data = $this->run_handler('org.openpsa.sales', array('deliverable', $deliverable->guid));
+        $data = $this->run_handler('org.openpsa.sales', ['deliverable', $deliverable->guid]);
         $this->assertEquals('deliverable_view', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

@@ -30,23 +30,23 @@ class autocomplete extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
-            $widget_defaults = array(
+            $widget_defaults = [
                 'creation_mode_enabled' => false,
                 'class' => null,
                 'component' => null,
                 'id_field' => 'guid',
-                'constraints' => array(),
-                'result_headers' => array(),
-                'orders' => array(),
+                'constraints' => [],
+                'result_headers' => [],
+                'orders' => [],
                 'auto_wildcards' => 'both',
                 'creation_handler' => null,
                 'creation_default_key' => null,
                 'get_label_for' => null,
                 'categorize_by_parent_label' => false,
-                'searchfields' => array(),
+                'searchfields' => [],
                 'min_chars' => 2,
                 'sortable' => false
-            );
+            ];
 
             if (!empty($value['clever_class'])) {
                 $config = \midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config');
@@ -62,14 +62,14 @@ class autocomplete extends AbstractType
             return helper::resolve_options($widget_defaults, $value);
         });
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
-            $type_defaults = array(
-                'options' => array(),
+            $type_defaults = [
+                'options' => [],
                 'allow_other' => false,
                 'allow_multiple' => ($options['dm2_type'] == 'mnrelation'),
                 'require_corresponding_option' => true,
                 'multiple_storagemode' => 'serialized',
                 'multiple_separator' => '|'
-            );
+            ];
             return helper::resolve_options($type_defaults, $value);
         });
     }
@@ -82,11 +82,11 @@ class autocomplete extends AbstractType
         $builder->addModelTransformer(new transformer($options));
         $builder->add('selection', compat::get_type_name('hidden'));
         $builder->get('selection')->addViewTransformer(new jsontransformer);
-        $builder->add('search_input', compat::get_type_name('search'), array('mapped' => false));
+        $builder->add('search_input', compat::get_type_name('search'), ['mapped' => false]);
 
         $head = midcom::get()->head;
 
-        $components = array('menu', 'autocomplete');
+        $components = ['menu', 'autocomplete'];
 
         if ($options['widget_config']['sortable']) {
             $components[] = 'mouse';
@@ -94,7 +94,7 @@ class autocomplete extends AbstractType
         }
 
         if ($options['widget_config']['creation_mode_enabled']) {
-            $components = array_merge($components, array('mouse', 'draggable', 'resizable', 'button', 'dialog'));
+            $components = array_merge($components, ['mouse', 'draggable', 'resizable', 'button', 'dialog']);
         }
         $head->enable_jquery_ui($components);
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
@@ -109,7 +109,7 @@ class autocomplete extends AbstractType
     {
         $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
 
-        $preset = array();
+        $preset = [];
         if (!empty($view->vars['data']['selection'])) {
             foreach ($view->vars['data']['selection'] as $identifier) {
                 if ($options['widget_config']['id_field'] == 'id') {

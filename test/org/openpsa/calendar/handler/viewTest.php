@@ -22,7 +22,7 @@ class org_openpsa_calendar_handler_viewTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
-        $data = $this->run_handler('org.openpsa.calendar', array('month', '2012-10-17'));
+        $data = $this->run_handler('org.openpsa.calendar', ['month', '2012-10-17']);
         $this->assertEquals('calendar_view_mode_date', $data['handler_id']);
 
         $this->show_handler($data);
@@ -33,12 +33,12 @@ class org_openpsa_calendar_handler_viewTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
-        $_GET = array(
+        $_GET = [
             'start' => time(),
             'end' => time() + 3600,
-        );
+        ];
 
-        $data = $this->run_handler('org.openpsa.calendar', array('json'));
+        $data = $this->run_handler('org.openpsa.calendar', ['json']);
         $this->assertEquals('calendar_view_json', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -49,7 +49,7 @@ class org_openpsa_calendar_handler_viewTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
         $event = $this->create_object('org_openpsa_calendar_event_dba');
 
-        $data = $this->run_handler('org.openpsa.calendar', array('event', 'raw', $event->guid));
+        $data = $this->run_handler('org.openpsa.calendar', ['event', 'raw', $event->guid]);
         $this->assertEquals('event_view_raw', $data['handler_id']);
 
         $this->show_handler($data);
@@ -61,7 +61,7 @@ class org_openpsa_calendar_handler_viewTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
         $event = $this->create_object('org_openpsa_calendar_event_dba');
 
-        $data = $this->run_handler('org.openpsa.calendar', array('event', $event->guid));
+        $data = $this->run_handler('org.openpsa.calendar', ['event', $event->guid]);
         $this->assertEquals('event_view', $data['handler_id']);
 
         $this->show_handler($data);

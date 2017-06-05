@@ -81,10 +81,10 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         $this->_load_controller();
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('person')));
 
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $this->_controller,
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         return $workflow->run();
     }
 
@@ -104,7 +104,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
-        $workflow = $this->get_workflow('delete', array('object' => $this->_contact));
+        $workflow = $this->get_workflow('delete', ['object' => $this->_contact]);
         return $workflow->run();
     }
 }

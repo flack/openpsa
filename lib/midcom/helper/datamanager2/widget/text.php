@@ -85,14 +85,14 @@ class midcom_helper_datamanager2_widget_text extends midcom_helper_datamanager2_
         }
         if (is_a($this->_type, 'midcom_helper_datamanager2_type_number')) {
             $this->_form->addRule($this->name, $this->_translate('validation failed: numeric'), 'regex', '/^-?[0-9]*([.,][0-9]*)?$/');
-            $this->_form->addFormRule(array(&$this->_type, 'validate_number'));
+            $this->_form->addFormRule([&$this->_type, 'validate_number']);
         }
 
         if (!empty($this->_type->forbidden_patterns)) {
-            $this->_form->addFormRule(array(&$this->_type, 'validate_forbidden_patterns'));
+            $this->_form->addFormRule([&$this->_type, 'validate_forbidden_patterns']);
         }
         if (!empty($this->_type->allowed_patterns)) {
-            $this->_form->addFormRule(array(&$this->_type, 'validate_allowed_patterns'));
+            $this->_form->addFormRule([&$this->_type, 'validate_allowed_patterns']);
         }
     }
 

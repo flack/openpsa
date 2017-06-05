@@ -19,7 +19,7 @@ class org_openpsa_core_queryfilter
      *
      * @var org_openpsa_core_filter[]
      */
-    private $_filters = array();
+    private $_filters = [];
 
     /**
      * The queryfilter's identifier

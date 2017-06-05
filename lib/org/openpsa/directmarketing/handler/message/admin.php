@@ -76,7 +76,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit message'));
 
-        $workflow = $this->get_workflow('datamanager2', array('controller' => $this->_controller));
+        $workflow = $this->get_workflow('datamanager2', ['controller' => $this->_controller]);
         return $workflow->run();
     }
 
@@ -89,10 +89,10 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     {
         $message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $campaign = new org_openpsa_directmarketing_campaign_dba($message->campaign);
-        $workflow = $this->get_workflow('delete', array(
+        $workflow = $this->get_workflow('delete', [
             'object' => $message,
             'success_url' => "campaign/{$campaign->guid}/"
-        ));
+        ]);
         return $workflow->run();
     }
 
@@ -117,10 +117,10 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('copy message'));
 
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $this->_controller,
-            'save_callback' => array($this, 'copy_callback')
-        ));
+            'save_callback' => [$this, 'copy_callback']
+        ]);
         return $workflow->run();
     }
 
@@ -132,16 +132,16 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $qb->add_constraint('guid', 'IN', $campaigns);
         $campaigns = $qb->execute();
         $original = $this->_message;
-        $copy_data = array();
+        $copy_data = [];
 
         foreach ($campaigns as $campaign) {
-            $new_object = $copy->copy_object($original, $campaign, array('sendStarted' => 0, 'sendCompleted' => 0));
+            $new_object = $copy->copy_object($original, $campaign, ['sendStarted' => 0, 'sendCompleted' => 0]);
 
             // Store for later use
-            $copy_data[] = array(
+            $copy_data[] = [
                 'message' => $new_object,
                 'campaign' => $campaign
-            );
+            ];
         }
 
         $message = $this->_l10n->get('message was copied to the following campaigns') . '<br><dl>';

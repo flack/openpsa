@@ -24,18 +24,18 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
 
     public function providerGet_component_classes()
     {
-        return array(
-            array(
+        return [
+            [
                 'org.openpsa.projects',
-                array(
+                [
                     'org_openpsa_hour_report' => 'org_openpsa_projects_hour_report_dba',
                     'org_openpsa_project' => 'org_openpsa_projects_project',
                     'org_openpsa_task' => 'org_openpsa_projects_task_dba',
                     'org_openpsa_task_resource' => 'org_openpsa_projects_task_resource_dba',
                     'org_openpsa_task_status' => 'org_openpsa_projects_task_status_dba'
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 
     /**
@@ -49,21 +49,21 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
 
     public function providerGet_midcom_class_name_for_mgdschema_object()
     {
-        $ret = array(
-            array(
+        $ret = [
+            [
                 new org_openpsa_task,
                 'org_openpsa_projects_task_dba'
-            ),
-            array(
+            ],
+            [
                 new midgard_person,
                 'midcom_db_person'
-            )
-        );
+            ]
+        ];
         if (class_exists('openpsa_person')) {
-            $ret[] = array(
+            $ret[] = [
                 new openpsa_person,
                 'midcom_db_person'
-            );
+            ];
         }
         return $ret;
     }

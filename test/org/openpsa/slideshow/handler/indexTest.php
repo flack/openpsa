@@ -21,7 +21,7 @@ class org_openpsa_slideshow_handler_indexTest extends openpsa_testcase
 
     public function test_handler_index_subfolders()
     {
-        $data = $this->run_handler('org.openpsa.slideshow', array('subfolders'));
+        $data = $this->run_handler('org.openpsa.slideshow', ['subfolders']);
         $this->assertEquals('index_subfolders', $data['handler_id']);
     }
 }

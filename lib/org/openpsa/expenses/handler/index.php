@@ -86,23 +86,23 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
     {
         $week_start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
         $week_end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
-        $buttons = array(
-            array(
+        $buttons = [
+            [
                 MIDCOM_TOOLBAR_URL => 'hours/?date[from]=' . $week_start . '&date[to]=' . $week_end,
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('list view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
-            ),
-            array(
+            ],
+            [
                 MIDCOM_TOOLBAR_URL => $previous_week . "/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous week'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
-            ),
-            array(
+            ],
+            [
                 MIDCOM_TOOLBAR_URL => $next_week . "/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next week'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
-            )
-        );
+            ]
+        ];
         $this->_view_toolbar->add_items($buttons);
     }
 
@@ -113,8 +113,8 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
     {
         $workflow = $this->get_workflow('datamanager2');
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $reports = array();
-        $hours = $hours_mc->get_rows(array('task', 'hours', 'date', 'person'));
+        $reports = [];
+        $hours = $hours_mc->get_rows(['task', 'hours', 'date', 'person']);
         $formatter = $this->_l10n->get_formatter();
         foreach ($hours as $guid => $row) {
             try {
@@ -137,12 +137,12 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
                     $person_name = '';
                 }
 
-                $reports[$row_identifier] = array(
+                $reports[$row_identifier] = [
                     'task' => $this->_get_list_link($task->get_label(), null, $task->guid),
                     'index_task' => $task->get_label(),
                     'person' => $person_label,
                     'index_person' => $person_name
-                );
+                ];
             }
             if (!isset($reports[$row_identifier][$date_identifier])) {
                 $reports[$row_identifier]['index_' . $date_identifier] = $row['hours'];
@@ -164,17 +164,17 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
             $url .= 'task/' . $task_guid . '/';
         }
 
-        $filters = array();
+        $filters = [];
 
         if ($date !== null) {
-            $filters['date'] = array('from' => $date, 'to' => $date);
+            $filters['date'] = ['from' => $date, 'to' => $date];
         } else {
             $start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
             $end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
-            $filters['date'] = array('from' => $start, 'to' => $end);
+            $filters['date'] = ['from' => $start, 'to' => $end];
         }
         if ($person_id !== null) {
-            $filters['person'] = array($person_id);
+            $filters['person'] = [$person_id];
         }
         if (!empty($filters)) {
             $url .= '?' . http_build_query($filters);
@@ -192,10 +192,10 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
     public function _show_index($handler_id, array &$data)
     {
         $data['grid'] = new org_openpsa_widgets_grid('hours_week', 'local');
-        $data['group_options'] = array(
+        $data['group_options'] = [
             'task' => $this->_l10n->get('task'),
             'person' => $this->_l10n->get('person')
-        );
+        ];
 
         midcom_show_style('hours_week');
     }

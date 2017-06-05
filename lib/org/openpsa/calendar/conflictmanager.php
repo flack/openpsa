@@ -18,14 +18,14 @@ class org_openpsa_calendar_conflictmanager
      *
      * @var mixed
      */
-    public $busy_members = array();
+    public $busy_members = [];
 
     /**
      * busy event resources
      *
      * @var mixed
      */
-    public $busy_resources = array();
+    public $busy_resources = [];
 
     /**
      * The event we're working on
@@ -61,7 +61,7 @@ class org_openpsa_calendar_conflictmanager
         }
 
         if (!$this->run($this->_event->rob_tentative)) {
-            return array('participants' => '');
+            return ['participants' => ''];
         }
 
         return true;
@@ -114,7 +114,7 @@ class org_openpsa_calendar_conflictmanager
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
         //Storage for events that have been modified due the course of this method
-        $modified_events = array();
+        $modified_events = [];
 
         foreach ($this->_load_participants() as $member) {
             $this->_process_participant($member, $modified_events, $rob_tentative);
@@ -137,7 +137,7 @@ class org_openpsa_calendar_conflictmanager
         foreach ($modified_events as $event) {
             //These events have been robbed of (some of) their resources
             $creator = midcom_db_person::get_cached($event->metadata->creator);
-            $other_participants = array_diff_key($event->participants, array($creator->id => true));
+            $other_participants = array_diff_key($event->participants, [$creator->id => true]);
             if (   count($other_participants) == 0
                 && count($event->resources) == 0) {
                 /* If modified event has no-one or only creator as participant and no resources
@@ -168,7 +168,7 @@ class org_openpsa_calendar_conflictmanager
             $qb->add_constraint('uid', 'IN', array_keys($this->_event->participants));
             return $qb->execute();
         }
-        return array();
+        return [];
     }
 
     private function _load_resources()
@@ -179,7 +179,7 @@ class org_openpsa_calendar_conflictmanager
             $qb->add_constraint('resource', 'IN', array_keys($this->_event->resources));
             return $qb->execute();
         }
-        return array();
+        return [];
     }
 
     private function _process_resource($member, array &$modified_events, $rob_tentative)
@@ -245,7 +245,7 @@ class org_openpsa_calendar_conflictmanager
         $field = 'busy_' . $type;
         if (!array_key_exists($id, $this->$field)) {
             //for mapping
-            $this->{$field}[$id] = array();
+            $this->{$field}[$id] = [];
         }
         //PONDER: The display end might have issues with event guid that they cannot see without sudo...
         $this->{$field}[$id][] = $event;
@@ -253,7 +253,7 @@ class org_openpsa_calendar_conflictmanager
 
     private function is_processed($type, $eid, $id)
     {
-        static $processed = array();
+        static $processed = [];
         $cache_key = $type . '::' . $eid . '::' . $id;
 
         if (!empty($processed[$cache_key])) {

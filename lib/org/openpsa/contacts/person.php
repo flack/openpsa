@@ -18,10 +18,10 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_person';
 
-    public $autodelete_dependents = array(
+    public $autodelete_dependents = [
         'org_openpsa_calendar_event_member_dba' => 'uid',
         'midcom_db_member' => 'uid'
-    );
+    ];
 
     private $_register_prober = false;
 
@@ -66,9 +66,9 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     public function _on_updated()
     {
         if ($this->_register_prober) {
-            $args = array(
+            $args = [
                 'person' => $this->guid,
-            );
+            ];
             midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
         }
     }

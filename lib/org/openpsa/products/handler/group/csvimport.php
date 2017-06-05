@@ -20,11 +20,11 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
         midcom::get()->auth->require_admin_user();
         $this->_request_data['type'] = 'group';
 
-        $this->_request_data['import_status'] = array(
+        $this->_request_data['import_status'] = [
             'already_created' => 0,
             'created_new' => 0,
             'failed_create' => 0,
-        );
+        ];
 
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_group']);
 
@@ -122,7 +122,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
 
         if (array_key_exists('org_openpsa_products_import_separator', $_POST)) {
             $data['time_start'] = time();
-            $data['rows'] = array();
+            $data['rows'] = [];
             $data['separator'] = ($_POST['org_openpsa_products_import_separator'] == ';') ? ';' : ',';
 
             if (is_uploaded_file($_FILES['org_openpsa_products_import_upload']['tmp_name'])) {
@@ -180,7 +180,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
     {
         $this->_prepare_handler($args);
 
-        $data['groups'] = array();
+        $data['groups'] = [];
 
         if (!array_key_exists('org_openpsa_products_import_separator', $_POST)) {
             throw new midcom_error('No CSV separator specified.');
@@ -192,7 +192,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
 
         $data['time_start'] = time();
 
-        $data['rows'] = array();
+        $data['rows'] = [];
         $data['separator'] = $_POST['org_openpsa_products_import_separator'];
 
         // Start processing the file
@@ -215,7 +215,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
             $data['rows'][] = $csv_line;
             $read_rows++;
 
-            $group = array();
+            $group = [];
 
             if ($read_rows == 1) {
                 // First line is headers, skip
@@ -254,7 +254,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
 
     private function _import_groups(array $groups, $level = 0)
     {
-        $secondary_groups = array();
+        $secondary_groups = [];
 
         foreach ($groups as $group) {
             if (isset($group['org_openpsa_products_import_parent_group'])) {

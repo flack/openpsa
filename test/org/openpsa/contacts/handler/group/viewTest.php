@@ -26,7 +26,7 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
-        $data = $this->run_handler('org.openpsa.contacts', array('group', self::$_group->guid));
+        $data = $this->run_handler('org.openpsa.contacts', ['group', self::$_group->guid]);
         $this->assertEquals('group_view', $data['handler_id']);
 
         $output = $this->show_handler($data);
@@ -37,13 +37,13 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
 
     public function testHandler_view_organization()
     {
-        $attributes = array(
+        $attributes = [
             'orgOpenpsaObtype' => org_openpsa_contacts_group_dba::ORGANIZATION
-        );
+        ];
         $organization = $this->create_object('org_openpsa_contacts_group_dba', $attributes);
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
-        $data = $this->run_handler('org.openpsa.contacts', array('group', $organization->guid));
+        $data = $this->run_handler('org.openpsa.contacts', ['group', $organization->guid]);
         $this->assertEquals('group_view', $data['handler_id']);
 
         $output = $this->show_handler($data);
@@ -56,7 +56,7 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
-        $data = $this->run_handler('org.openpsa.contacts', array('group', 'json', self::$_group->guid));
+        $data = $this->run_handler('org.openpsa.contacts', ['group', 'json', self::$_group->guid]);
         $this->assertEquals('group_view_json', $data['handler_id']);
 
         $output = $this->show_handler($data);

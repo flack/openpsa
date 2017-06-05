@@ -24,12 +24,12 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     /**
      * Contact information of the person being displayed
      */
-    public $contact_details = array(
+    public $contact_details = [
         'guid' => '',
         'id' => '',
         'firstname' => '',
         'lastname' => ''
-    );
+    ];
 
     /**
      * Optional URI to person details
@@ -106,7 +106,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      */
     public static function get($src)
     {
-        static $cache = array();
+        static $cache = [];
 
         if (isset($cache[$src])) {
             return $cache[$src];
@@ -150,7 +150,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             $this->contact_details['lastname'] = $person->lastname;
         }
 
-        foreach (array('handphone', 'workphone', 'homephone', 'email', 'homepage') as $property) {
+        foreach (['handphone', 'workphone', 'homephone', 'email', 'homepage'] as $property) {
             if ($person->$property) {
                 $this->contact_details[$property] = $person->$property;
             }
@@ -318,7 +318,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         $mc = org_openpsa_contacts_member_dba::new_collector('uid', $this->contact_details['id']);
         $mc->add_constraint('gid.orgOpenpsaObtype', '>=', org_openpsa_contacts_group_dba::ORGANIZATION);
-        $memberships = $mc->get_rows(array('gid', 'extra'));
+        $memberships = $mc->get_rows(['gid', 'extra']);
 
         foreach ($memberships as $data) {
             try {
@@ -349,7 +349,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      */
     public static function show_address_card($customer, $cards)
     {
-        $cards_to_show = array();
+        $cards_to_show = [];
         $multiple_addresses = false;
         $inherited_cards_only = true;
         $default_shown = false;

@@ -19,11 +19,11 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
     public function test_property_exists($input)
     {
         $reflector = midcom_helper_reflector::get($input);
-        $test_properties = array(
+        $test_properties = [
             'guid',
             'name',
             'title',
-        );
+        ];
 
         foreach ($test_properties as $property) {
             $this->assertTrue($reflector->property_exists($property), 'Property ' . $property . ' not found');
@@ -32,32 +32,32 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function provider_property_exists()
     {
-        return array(
-            array(
+        return [
+            [
                 new midgard_article
-            ),
-            array(
+            ],
+            [
                 new midcom_db_article,
-            ),
-            array(
+            ],
+            [
                 'midgard_article',
-            ),
-            array(
+            ],
+            [
                 'midcom_db_article',
-            ),
-            array(
+            ],
+            [
                 new midgard_topic,
-            ),
-            array(
+            ],
+            [
                 new midcom_db_topic,
-            ),
-            array(
+            ],
+            [
                 'midgard_topic',
-            ),
-            array(
+            ],
+            [
                 'midcom_db_topic',
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -71,12 +71,12 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerGet_class_label()
     {
-        return array(
-            1 => array('org_openpsa_projects_project', 'Projects Project'),
-            2 => array('midcom_db_article', 'Article'),
-            3 => array('midcom_db_person', 'Person'),
-            4 => array('org_openpsa_contacts_person_dba', 'Contacts Person'),
-        );
+        return [
+            1 => ['org_openpsa_projects_project', 'Projects Project'],
+            2 => ['midcom_db_article', 'Article'],
+            3 => ['midcom_db_person', 'Person'],
+            4 => ['org_openpsa_contacts_person_dba', 'Contacts Person'],
+        ];
     }
 
     /**
@@ -90,15 +90,15 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerGet_label_property()
     {
-        return array(
-            1 => array('org_openpsa_projects_project', 'title'),
-            2 => array('midcom_db_article', 'title'),
-            3 => array('midgard_topic', 'extra'),
-            4 => array('midcom_db_snippet', 'name'),
-            5 => array('midcom_db_member', 'guid'),
-            6 => array('midcom_db_person', array('rname', 'id')),
-            7 => array('org_openpsa_contacts_person_dba', 'rname'),
-        );
+        return [
+            1 => ['org_openpsa_projects_project', 'title'],
+            2 => ['midcom_db_article', 'title'],
+            3 => ['midgard_topic', 'extra'],
+            4 => ['midcom_db_snippet', 'name'],
+            5 => ['midcom_db_member', 'guid'],
+            6 => ['midcom_db_person', ['rname', 'id']],
+            7 => ['org_openpsa_contacts_person_dba', 'rname'],
+        ];
     }
 
     /**
@@ -116,15 +116,15 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerGet_object_label()
     {
-        return array(
-            1 => array('org_openpsa_projects_project', array('title' => 'Project Title'), 'Project Title'),
-            2 => array('org_openpsa_sales_salesproject_dba', array('title' => 'Test Article'), 'Test Article'),
-            3 => array('midgard_topic', array('extra' => 'Test Topic'), 'Test Topic'),
-            4 => array('midcom_db_snippet', array('name' => 'Test Snippet'), 'Test Snippet'),
-            5 => array('org_openpsa_role', array(), ''),
-            6 => array('midcom_db_person', array('firstname' => 'Firstname', 'lastname' => 'Lastname'), 'Lastname, Firstname'),
-            7 => array('org_openpsa_contacts_person_dba', array('rname' => 'rname, test'), 'rname, test'),
-        );
+        return [
+            1 => ['org_openpsa_projects_project', ['title' => 'Project Title'], 'Project Title'],
+            2 => ['org_openpsa_sales_salesproject_dba', ['title' => 'Test Article'], 'Test Article'],
+            3 => ['midgard_topic', ['extra' => 'Test Topic'], 'Test Topic'],
+            4 => ['midcom_db_snippet', ['name' => 'Test Snippet'], 'Test Snippet'],
+            5 => ['org_openpsa_role', [], ''],
+            6 => ['midcom_db_person', ['firstname' => 'Firstname', 'lastname' => 'Lastname'], 'Lastname, Firstname'],
+            7 => ['org_openpsa_contacts_person_dba', ['rname' => 'rname, test'], 'rname, test'],
+        ];
     }
 
     /**
@@ -142,12 +142,12 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerGet_object_title()
     {
-        return array(
-            1 => array('org_openpsa_projects_project', array('title' => 'Project Title'), 'Project Title'),
-            2 => array('org_openpsa_sales_salesproject_dba', array('title' => 'Test Article'), 'Test Article'),
-            3 => array('midgard_topic', array('extra' => 'Test Topic'), 'Test Topic'),
-            4 => array('org_openpsa_role', array(), ''),
-        );
+        return [
+            1 => ['org_openpsa_projects_project', ['title' => 'Project Title'], 'Project Title'],
+            2 => ['org_openpsa_sales_salesproject_dba', ['title' => 'Test Article'], 'Test Article'],
+            3 => ['midgard_topic', ['extra' => 'Test Topic'], 'Test Topic'],
+            4 => ['org_openpsa_role', [], ''],
+        ];
     }
 
     /**
@@ -162,13 +162,13 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerGet_title_property()
     {
-        return array(
-            1 => array('org_openpsa_projects_project', 'title'),
-            2 => array('midcom_db_article', 'title'),
-            3 => array('midgard_topic', 'extra'),
-            4 => array('midcom_db_member', ''),
-            6 => array('org_openpsa_contacts_person_dba', 'lastname'),
-        );
+        return [
+            1 => ['org_openpsa_projects_project', 'title'],
+            2 => ['midcom_db_article', 'title'],
+            3 => ['midgard_topic', 'extra'],
+            4 => ['midcom_db_member', ''],
+            6 => ['org_openpsa_contacts_person_dba', 'lastname'],
+        ];
     }
 
     /**
@@ -183,13 +183,13 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerGet_name_property()
     {
-        return array(
-            1 => array('midcom_db_article', 'name'),
-            2 => array('midgard_topic', 'name'),
-            3 => array('midcom_db_snippet', 'name'),
-            4 => array('org_openpsa_calendar_event_dba', 'extra'),
-            5 => array('org_openpsa_contacts_person_dba', ''),
-        );
+        return [
+            1 => ['midcom_db_article', 'name'],
+            2 => ['midgard_topic', 'name'],
+            3 => ['midcom_db_snippet', 'name'],
+            4 => ['org_openpsa_calendar_event_dba', 'extra'],
+            5 => ['org_openpsa_contacts_person_dba', ''],
+        ];
     }
 
     /**
@@ -203,14 +203,14 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerGet_create_icon()
     {
-        return array(
-            1 => array('midcom_db_article', 'new-text.png'),
-            2 => array('midgard_topic', 'new-dir.png'),
-            3 => array('midcom_db_snippet', 'new-text.png'),
-            4 => array('org_openpsa_organization', 'stock_people-new.png'),
-            5 => array('org_openpsa_calendar_event_dba', 'stock_event_new.png'),
-            6 => array('org_openpsa_contacts_person_dba', 'stock_person-new.png'),
-        );
+        return [
+            1 => ['midcom_db_article', 'new-text.png'],
+            2 => ['midgard_topic', 'new-dir.png'],
+            3 => ['midcom_db_snippet', 'new-text.png'],
+            4 => ['org_openpsa_organization', 'stock_people-new.png'],
+            5 => ['org_openpsa_calendar_event_dba', 'stock_event_new.png'],
+            6 => ['org_openpsa_contacts_person_dba', 'stock_person-new.png'],
+        ];
     }
 
     /**
@@ -225,15 +225,15 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerGet_object_icon()
     {
-        return array(
-            1 => array('midcom_db_article', '/stock-icons/16x16/document.png'),
-            2 => array('midgard_topic', '/stock-icons/16x16/stock_folder.png'),
-            3 => array('midcom_db_snippet', '/stock-icons/16x16/script.png'),
-            4 => array('org_openpsa_organization', '/stock-icons/16x16/stock_people.png'),
-            5 => array('org_openpsa_calendar_event_dba', '/stock-icons/16x16/stock_event.png'),
-            6 => array('org_openpsa_contacts_person_dba', '/stock-icons/16x16/stock_person.png'),
-            7 => array('midcom_db_element', '/stock-icons/16x16/text-x-generic-template.png'),
-        );
+        return [
+            1 => ['midcom_db_article', '/stock-icons/16x16/document.png'],
+            2 => ['midgard_topic', '/stock-icons/16x16/stock_folder.png'],
+            3 => ['midcom_db_snippet', '/stock-icons/16x16/script.png'],
+            4 => ['org_openpsa_organization', '/stock-icons/16x16/stock_people.png'],
+            5 => ['org_openpsa_calendar_event_dba', '/stock-icons/16x16/stock_event.png'],
+            6 => ['org_openpsa_contacts_person_dba', '/stock-icons/16x16/stock_person.png'],
+            7 => ['midcom_db_element', '/stock-icons/16x16/text-x-generic-template.png'],
+        ];
     }
 
     /**
@@ -250,14 +250,14 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerGet_search_properties()
     {
-        return array(
-            1 => array('midcom_db_article', array('name', 'title')),
-            2 => array('midgard_topic', array('name', 'title', 'extra')),
-            3 => array('midcom_db_snippet', array('name')),
-            4 => array('org_openpsa_organization', array('official', 'name')),
-            5 => array('org_openpsa_calendar_event_dba', array('title')),
-            6 => array('org_openpsa_person', array('lastname', 'title', 'firstname', 'email')),
-        );
+        return [
+            1 => ['midcom_db_article', ['name', 'title']],
+            2 => ['midgard_topic', ['name', 'title', 'extra']],
+            3 => ['midcom_db_snippet', ['name']],
+            4 => ['org_openpsa_organization', ['official', 'name']],
+            5 => ['org_openpsa_calendar_event_dba', ['title']],
+            6 => ['org_openpsa_person', ['lastname', 'title', 'firstname', 'email']],
+        ];
     }
 
     /**
@@ -270,10 +270,10 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerClass_rewrite()
     {
-        return array(
-            1 => array('org_openpsa_calendar_event_dba', 'org_openpsa_event'),
-            3 => array('midgard_snippet', 'midgard_snippet'),
-        );
+        return [
+            1 => ['org_openpsa_calendar_event_dba', 'org_openpsa_event'],
+            3 => ['midgard_snippet', 'midgard_snippet'],
+        ];
     }
 
     /**
@@ -286,10 +286,10 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerIs_same_class()
     {
-        return array(
-            1 => array('org_openpsa_calendar_event_dba', 'org_openpsa_event', true),
-            3 => array('midgard_snippet', 'org_openpsa_invoices_billing_data_dba', false),
-        );
+        return [
+            1 => ['org_openpsa_calendar_event_dba', 'org_openpsa_event', true],
+            3 => ['midgard_snippet', 'org_openpsa_invoices_billing_data_dba', false],
+        ];
     }
 
     public function testGet_object()
@@ -311,11 +311,11 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerResolve_baseclass()
     {
-        return array(
-            1 => array('org_openpsa_calendar_event_dba', 'org_openpsa_event'),
-            2 => array('org_openpsa_calendar_event_member_dba', 'org_openpsa_eventmember'),
-            3 => array('org_openpsa_contacts_person_dba', 'org_openpsa_person'),
-        );
+        return [
+            1 => ['org_openpsa_calendar_event_dba', 'org_openpsa_event'],
+            2 => ['org_openpsa_calendar_event_member_dba', 'org_openpsa_eventmember'],
+            3 => ['org_openpsa_contacts_person_dba', 'org_openpsa_person'],
+        ];
     }
 
     /**
@@ -329,48 +329,48 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerGet_link_properties()
     {
-        return array(
-            1 => array('midcom_db_article', array(
-                 'topic' => array(
+        return [
+            1 => ['midcom_db_article', [
+                 'topic' => [
                      'class' => 'midgard_topic',
                      'target' => 'id',
                      'parent' => true,
                      'up' => false,
                      'type' => MGD_TYPE_UINT,
-                 ),
-                 'up' => array(
+                 ],
+                 'up' => [
                      'class' => 'midgard_article',
                      'target' => 'id',
                      'parent' => false,
                      'up' => true,
                      'type' => MGD_TYPE_UINT,
-                 ),
-            )),
-            2 => array('midcom_db_snippet', array(
-                 'snippetdir' => array(
+                 ],
+            ]],
+            2 => ['midcom_db_snippet', [
+                 'snippetdir' => [
                      'class' => 'midgard_snippetdir',
                      'target' => 'id',
                      'parent' => true,
                      'up' => false,
                      'type' => MGD_TYPE_UINT,
-                 ),
-             )),
-             3 => array('org_openpsa_relatedto_dba', array(
-                 'fromGuid' => array(
+                 ],
+             ]],
+             3 => ['org_openpsa_relatedto_dba', [
+                 'fromGuid' => [
                      'class' => null,
                      'target' => 'guid',
                      'parent' => false,
                      'up' => false,
                      'type' => MGD_TYPE_GUID,
-                 ),
-                 'toGuid' => array(
+                 ],
+                 'toGuid' => [
                      'class' => null,
                      'target' => 'guid',
                      'parent' => false,
                      'up' => false,
                      'type' => MGD_TYPE_GUID,
-                 ),
-             )),
-        );
+                 ],
+             ]],
+        ];
     }
 }

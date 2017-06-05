@@ -1,8 +1,8 @@
 <?php
-$view_types = array(
+$view_types = [
     'today',
     'yesterday',
-);
+];
 $formatter = $data['l10n']->get_formatter();
 foreach (array_filter($view_types) as $type) {
     echo "<div class=\"area\">\n";

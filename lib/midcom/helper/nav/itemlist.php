@@ -48,7 +48,7 @@ abstract class midcom_helper_nav_itemlist
         if ($nodes_list === false) {
             throw new midcom_error("Could not retrieve the subnode listing.");
         }
-        return array_map(array($this->_nap, 'get_node'), $nodes_list);
+        return array_map([$this->_nap, 'get_node'], $nodes_list);
     }
 
     /**
@@ -60,7 +60,7 @@ abstract class midcom_helper_nav_itemlist
         if ($leaves_list === false) {
             throw new midcom_error("Could not retrieve the leaf listing.");
         }
-        return array_map(array($this->_nap, 'get_leaf'), $leaves_list);
+        return array_map([$this->_nap, 'get_leaf'], $leaves_list);
     }
 
     /**

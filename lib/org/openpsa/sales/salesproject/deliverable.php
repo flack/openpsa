@@ -163,18 +163,18 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         debug_add('Units before update: ' . $this->units . ", uninvoiceable: " . $this->uninvoiceableUnits);
 
         if (null === $hours) {
-            $hours = array(
+            $hours = [
                 'reported' => 0,
                 'invoiced' => 0,
                 'invoiceable' => 0
-            );
+            ];
         }
         $agreement_hours = $hours;
 
         // List hours from tasks of the agreement
         $mc = org_openpsa_projects_task_dba::new_collector('agreement', $this->id);
         $mc->add_constraint('id', '<>', $task_id);
-        $other_tasks = $mc->get_rows(array('reportedHours', 'invoicedHours', 'invoiceableHours'));
+        $other_tasks = $mc->get_rows(['reportedHours', 'invoicedHours', 'invoiceableHours']);
 
         foreach ($other_tasks as $other_task) {
             // Add the hours of the other tasks to agreement's totals

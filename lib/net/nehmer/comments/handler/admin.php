@@ -62,7 +62,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
 
     private function _load_comments()
     {
-        $view_status = array();
+        $view_status = [];
         switch ($this->_request_data['handler']) {
             case 'reported_abuse':
                 $this->_request_data['status_to_show'] = 'reported abuse';

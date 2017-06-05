@@ -32,7 +32,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      *
      * @var array        List of GUIDs of objects that shall not be copied
      */
-    public $exclude = array();
+    public $exclude = [];
 
     /**
      * Override properties of the new root object. This feature is
@@ -40,7 +40,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      *
      * @var array        Property-value pairs
      */
-    public $root_object_values = array();
+    public $root_object_values = [];
 
     /**
      * Switch for attachments
@@ -80,7 +80,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Metadata fields that shall be copied
      */
-    public $copy_metadata_fields = array(
+    public $copy_metadata_fields = [
         'owner',
         'authors',
         'schedulestart',
@@ -88,7 +88,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         'navnoentry',
         'hidden',
         'score',
-    );
+    ];
 
     /**
      * Switch for halt on error. If this is set to false, errors will be
@@ -103,14 +103,14 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      *
      * @var array
      */
-    public $errors = array();
+    public $errors = [];
 
     /**
      * Newly created objects
      *
      * @var array
      */
-    public $new_objects = array();
+    public $new_objects = [];
 
     /**
      * New root object
@@ -150,7 +150,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         $mgdschema_class = midcom_helper_reflector::resolve_baseclass($object);
         $mgdschema_object = new $mgdschema_class($object->guid);
 
-        static $targets = array();
+        static $targets = [];
 
         // Return the cached results
         if (isset($targets[$mgdschema_class])) {
@@ -158,13 +158,13 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         // Empty result set for the current class
-        $target = array(
+        $target = [
             'id' => null,
             'parent' => '',
             'class' => $mgdschema_class,
             'label' => '',
             'reflector' => new midcom_helper_reflector($object),
-        );
+        ];
 
         // Try to get the parent property for determining, which property should be
         // used to point the parent of the new object. Attachments are a special case.
@@ -286,7 +286,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * @param array $defaults
      * @return boolean Indicating success
      */
-    public function copy_object(&$source, &$parent = null, array $defaults = array())
+    public function copy_object(&$source, &$parent = null, array $defaults = [])
     {
         // Resolve the source object
         self::resolve_object($source);
@@ -445,9 +445,9 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      */
     public function copy_attachments(&$source, &$target)
     {
-        $defaults = array(
+        $defaults = [
             'parentguid' => $target->guid,
-        );
+        ];
 
         foreach ($source->list_attachments() as $attachment) {
             $this->copy_object($attachment, $target, $defaults);
@@ -512,7 +512,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * @param boolean $copy_attachments Switch to determine if the attachments should be copied (creates only a new link, doesn't duplicate the content)
      * @return mixed               False on failure, newly created MgdSchema root object on success
      */
-    public static function copy_object_tree($source, $parent, $exclude = array(), $copy_parameters = true, $copy_metadata = true, $copy_attachments = true)
+    public static function copy_object_tree($source, $parent, $exclude = [], $copy_parameters = true, $copy_metadata = true, $copy_attachments = true)
     {
         $copy = new midcom_helper_reflector_copy();
         $copy->source =& $source;

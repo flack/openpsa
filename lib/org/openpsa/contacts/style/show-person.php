@@ -18,7 +18,7 @@ $node = $nap->get_node($nap->get_current_node());
     $data['datamanager']->display_view(true);
 
     //add tabs
-    $tabs = array();
+    $tabs = [];
     $siteconfig = org_openpsa_core_siteconfig::get_instance();
     $invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices');
     $sales_url = $siteconfig->get_node_relative_url('org.openpsa.sales');
@@ -29,17 +29,17 @@ $node = $nap->get_node($nap->get_current_node());
         $qb->add_constraint('customerContact', '=', $data['person']->id);
         $qb->set_limit(1);
         if ($qb->count() > 0) {
-            $tabs[] = array(
+            $tabs[] = [
                 'url' => $invoices_url . "list/customer/all/{$data['person']->guid}/",
                 'title' => midcom::get()->i18n->get_string('invoices', 'org.openpsa.invoices'),
-            );
+            ];
         }
     }
     if ($sales_url) {
-        $tabs[] = array(
+        $tabs[] = [
             'url' => $sales_url . "list/customer/{$data['person']->guid}/",
             'title' => midcom::get()->i18n->get_string('salesprojects', 'org.openpsa.sales'),
-        );
+        ];
     }
     org_openpsa_widgets_ui::render_tabs($data['person']->guid, $tabs);
 ?>

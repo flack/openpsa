@@ -39,7 +39,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      *
      * @var Array
      */
-    private $_defaults = array();
+    private $_defaults = [];
 
     /**
      * The salesproject we're working, if any
@@ -99,13 +99,13 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
             $fields =& $this->_schemadb['default']->fields;
             try {
                 $customer = new org_openpsa_contacts_group_dba($args[0]);
-                $fields['customer']['type_config']['options'] = array(0 => '', $customer->id => $customer->official);
+                $fields['customer']['type_config']['options'] = [0 => '', $customer->id => $customer->official];
 
                 $this->_defaults['customer'] = $customer->id;
             } catch (midcom_error $e) {
                 $customer = new org_openpsa_contacts_person_dba($args[0]);
                 $this->_defaults['customerContact'] = $customer->id;
-                $fields['customer']['type_config']['options'] = org_openpsa_helpers_list::task_groups(new org_openpsa_sales_salesproject_dba, 'id', array($customer->id => true));
+                $fields['customer']['type_config']['options'] = org_openpsa_helpers_list::task_groups(new org_openpsa_sales_salesproject_dba, 'id', [$customer->id => true]);
             }
             $this->add_breadcrumb("list/customer/{$customer->guid}/", sprintf($this->_l10n->get('salesprojects with %s'), $customer->get_label()));
         }
@@ -140,7 +140,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('salesproject')));
 
-        $workflow = $this->get_workflow('datamanager2', array('controller' => $this->_controller));
+        $workflow = $this->get_workflow('datamanager2', ['controller' => $this->_controller]);
         return $workflow->run();
     }
 
@@ -157,10 +157,10 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('create salesproject'));
 
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $this->_controller,
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         return $workflow->run();
     }
 
@@ -177,10 +177,10 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
-        $workflow = $this->get_workflow('delete', array(
+        $workflow = $this->get_workflow('delete', [
             'object' => $this->_salesproject,
             'recursive' => true
-        ));
+        ]);
         return $workflow->run();
     }
 }

@@ -24,7 +24,7 @@ class org_openpsa_invoices_handler_projectsTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $data = $this->run_handler('org.openpsa.invoices', array('projects'));
+        $data = $this->run_handler('org.openpsa.invoices', ['projects']);
         $this->assertEquals('list_projects_uninvoiced', $data['handler_id']);
 
         $this->show_handler($data);
@@ -37,30 +37,30 @@ class org_openpsa_invoices_handler_projectsTest extends openpsa_testcase
 
         $customer = $this->create_object('org_openpsa_contacts_group_dba');
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
-        $deliverable_attributes = array(
+        $deliverable_attributes = [
             'salesproject' => $salesproject->id,
             'price' => 100,
             'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED,
             'invoiceByActualUnits' => false
-        );
+        ];
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
-        $task_attributes = array(
+        $task_attributes = [
             'project' => $salesproject->id,
             'agreement' => $deliverable->id,
             'status' => org_openpsa_projects_task_status_dba::COMPLETED,
             'invoiceableHours' => true
-        );
+        ];
         $task = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
 
-        $_POST = array(
+        $_POST = [
             'org_openpsa_invoices_invoice' => true,
-            'org_openpsa_invoices_invoice_tasks' => array($task->id => true),
-            'org_openpsa_invoices_invoice_tasks_price' => array($task->id => 10),
-            'org_openpsa_invoices_invoice_tasks_units' => array($task->id => 10),
+            'org_openpsa_invoices_invoice_tasks' => [$task->id => true],
+            'org_openpsa_invoices_invoice_tasks_price' => [$task->id => 10],
+            'org_openpsa_invoices_invoice_tasks_units' => [$task->id => 10],
             'org_openpsa_invoices_invoice_customer' => $customer->id
-        );
+        ];
 
-        $url = $this->run_relocate_handler('org.openpsa.invoices', array('projects'));
+        $url = $this->run_relocate_handler('org.openpsa.invoices', ['projects']);
 
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
         $qb->add_constraint('task', '=', $task->id);

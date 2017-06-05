@@ -14,9 +14,9 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_organization';
 
-    public $autodelete_dependents = array(
+    public $autodelete_dependents = [
         'org_openpsa_contacts_member_dba' => 'gid'
-    );
+    ];
 
     const OTHERGROUP = 0;
     const MYCONTACTS = 500;
@@ -24,10 +24,10 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     const DAUGHTER = 1001;
     const DEPARTMENT = 1002;
 
-    private $members = array();
+    private $members = [];
     private $_members_loaded = false;
     private $_register_prober = false;
-    private $_address_extras = array();
+    private $_address_extras = [];
 
     public function __set($name, $value)
     {
@@ -106,7 +106,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     public function _on_updated()
     {
         if ($this->_register_prober) {
-            $args = array('group' => $this->guid);
+            $args = ['group' => $this->guid];
             midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
         }
     }

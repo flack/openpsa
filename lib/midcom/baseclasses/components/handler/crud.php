@@ -84,13 +84,13 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      *
      * @var array
      */
-    protected $_defaults = array();
+    protected $_defaults = [];
 
     /**
      *
      * @var array
      */
-    private $args = array();
+    private $args = [];
 
     /**
      * Load an object, should be implemented in the component handler.
@@ -226,18 +226,18 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     public function _populate_toolbar($handler_id)
     {
         $prefix = $this->_get_url_prefix();
-        $buttons = array();
+        $buttons = [];
         if (   $this->_mode !== 'update'
             && $this->_object->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
-            $buttons[] = $workflow->get_button($prefix . "edit/{$this->_object->guid}/", array(
+            $buttons[] = $workflow->get_button($prefix . "edit/{$this->_object->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
+            ]);
         }
 
         if (   $this->_mode !== 'delete'
             && $this->_object->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', array('object' => $this->_object));
+            $workflow = $this->get_workflow('delete', ['object' => $this->_object]);
             $buttons[] = $workflow->get_button($prefix . "delete/{$this->_object->guid}/");
         }
         $this->_view_toolbar->add_items($buttons);
@@ -393,10 +393,10 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
         $this->_update_title($handler_id);
         $this->args = $args;
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $this->_controller,
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         return $workflow->run();
     }
 
@@ -483,10 +483,10 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_update_title($handler_id);
         $this->args = $args;
         $data['controller'] = $this->_controller;
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $this->_controller,
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         return $workflow->run();
     }
 
@@ -502,7 +502,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_mode = 'delete';
         $this->_load_object($handler_id, $args, $data);
 
-        $options = array('object' => $this->_object);
+        $options = ['object' => $this->_object];
         $this->_load_parent($handler_id, $args, $data);
         if ($this->_parent) {
             $options['success_url'] = $this->_get_object_url($this->_parent);

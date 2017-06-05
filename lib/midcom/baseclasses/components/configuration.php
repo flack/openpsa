@@ -30,7 +30,7 @@ class midcom_baseclasses_components_configuration
      *
      * @var array
      */
-    private static $_data = array();
+    private static $_data = [];
 
     public static function get($component, $key = null)
     {
@@ -58,11 +58,11 @@ class midcom_baseclasses_components_configuration
      */
     private static function _initialize($component)
     {
-        self::$_data[$component] = array(
+        self::$_data[$component] = [
             'active_leaf' => false,
-            'config' => array(),
-            'routes' => array()
-        );
+            'config' => [],
+            'routes' => []
+        ];
         self::_load_configuration($component);
         self::_load_routes($component);
     }
@@ -84,7 +84,7 @@ class midcom_baseclasses_components_configuration
      */
     private static function _load_configuration($component)
     {
-        $data = array();
+        $data = [];
         $loader = midcom::get()->componentloader;
         if (!empty($loader->manifests[$component]->extends)) {
             $component_path = $loader->path_to_snippetpath($loader->manifests[$component]->extends);
@@ -120,7 +120,7 @@ class midcom_baseclasses_components_configuration
         $data = self::read_array_from_file($component_path . '/config/routes.inc');
         if (!$data) {
             // Empty defaults
-            $data = array();
+            $data = [];
         }
         self::$_data[$component]['routes'] = $data;
     }
@@ -138,7 +138,7 @@ class midcom_baseclasses_components_configuration
     public static function read_array_from_file($filename)
     {
         if (!file_exists($filename)) {
-            return array();
+            return [];
         }
 
         try {

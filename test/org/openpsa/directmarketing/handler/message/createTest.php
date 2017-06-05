@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_handler_message_createTest extends openpsa_tes
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
-        $data = $this->run_handler('org.openpsa.directmarketing', array('message', 'create', $campaign->guid, 'textemail'));
+        $data = $this->run_handler('org.openpsa.directmarketing', ['message', 'create', $campaign->guid, 'textemail']);
         $this->assertEquals('create_message', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

@@ -21,7 +21,7 @@ interface org_openpsa_widgets_grid_provider_client
      * @param array $search Optional search filters
      * @return midcom_core_query QB or MC instance
      */
-    public function get_qb($field = null, $direction = 'ASC', array $search = array());
+    public function get_qb($field = null, $direction = 'ASC', array $search = []);
 
     /**
      * Transfers a result object into a grid row

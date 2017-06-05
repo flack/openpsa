@@ -18,8 +18,8 @@ class org_openpsa_contacts_duplicates_mergeTest extends openpsa_testcase
         $person1 = $this->create_object('midcom_db_person');
         $person2 = $this->create_object('midcom_db_person');
         $group = $this->create_object('midcom_db_group');
-        $this->create_object('midcom_db_member', array('uid' => $person1->id, 'gid' => $group->id));
-        $this->create_object('midcom_db_member', array('uid' => $person2->id, 'gid' => $group->id));
+        $this->create_object('midcom_db_member', ['uid' => $person1->id, 'gid' => $group->id]);
+        $this->create_object('midcom_db_member', ['uid' => $person2->id, 'gid' => $group->id]);
         $config = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config');
         $merger = new org_openpsa_contacts_duplicates_merge('person', $config);
 
@@ -36,8 +36,8 @@ class org_openpsa_contacts_duplicates_mergeTest extends openpsa_testcase
         $person1 = $this->create_object('midcom_db_person');
         $person2 = $this->create_object('midcom_db_person');
         $event = $this->create_object('org_openpsa_calendar_event_dba');
-        $this->create_object('org_openpsa_calendar_event_member_dba', array('uid' => $person1->id, 'eid' => $event->id));
-        $this->create_object('org_openpsa_calendar_event_member_dba', array('uid' => $person2->id, 'eid' => $event->id));
+        $this->create_object('org_openpsa_calendar_event_member_dba', ['uid' => $person1->id, 'eid' => $event->id]);
+        $this->create_object('org_openpsa_calendar_event_member_dba', ['uid' => $person2->id, 'eid' => $event->id]);
         $config = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config');
         $merger = new org_openpsa_contacts_duplicates_merge('person', $config);
 

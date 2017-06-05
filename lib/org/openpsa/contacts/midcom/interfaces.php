@@ -39,7 +39,7 @@ implements midcom_services_permalinks_resolver
      */
     public static function find_root_group($name = '__org_openpsa_contacts')
     {
-        static $root_groups = array();
+        static $root_groups = [];
 
         //Check if we have already initialized
         if (!empty($root_groups[$name])) {
@@ -91,7 +91,7 @@ implements midcom_services_permalinks_resolver
 
     private function _get_data_from_url($url)
     {
-        $data = array();
+        $data = [];
 
         // TODO: Error handling
         $client = new org_openpsa_httplib();
@@ -120,7 +120,7 @@ implements midcom_services_permalinks_resolver
         }
 
         $microformats = Mf2\parse($html);
-        $hcards = array();
+        $hcards = [];
         foreach ($microformats['items'] as $item) {
             if (in_array('h-card', $item['type'])) {
                 $hcards[] = $item['properties'];

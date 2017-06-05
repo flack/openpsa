@@ -248,7 +248,7 @@ class midcom_core_manifest
      *
      * @var Array
      */
-    public $privileges = array();
+    public $privileges = [];
 
     /**
      * A list of class definition filenames
@@ -257,7 +257,7 @@ class midcom_core_manifest
      *
      * @var array
      */
-    public $class_mapping = array();
+    public $class_mapping = [];
 
     /**
      * A list of all watches defined by the component.
@@ -274,7 +274,7 @@ class midcom_core_manifest
      *
      * @var array
      */
-    public $customdata = array();
+    public $customdata = [];
 
     /**
      * the filename the manifest was loaded from
@@ -331,7 +331,7 @@ class midcom_core_manifest
      */
     private function _process_privileges()
     {
-        $processed = array();
+        $processed = [];
         foreach ($this->privileges as $name => $defaults) {
             $processed["{$this->name}:{$name}"] = $defaults;
         }

@@ -37,16 +37,16 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
 
         if ($this->_deliverable->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
-            $this->_view_toolbar->add_item($workflow->get_button("deliverable/edit/{$this->_deliverable->guid}/", array(
+            $this->_view_toolbar->add_item($workflow->get_button("deliverable/edit/{$this->_deliverable->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )));
+            ]));
         }
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_request_data['projects_url'] = $siteconfig->get_node_relative_url('org.openpsa.projects');
         $this->_request_data['invoices_url'] = $siteconfig->get_node_relative_url('org.openpsa.invoices');
         if ($this->_deliverable->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', array('object' => $this->_deliverable));
+            $workflow = $this->get_workflow('delete', ['object' => $this->_deliverable]);
             $this->_view_toolbar->add_item($workflow->get_button("deliverable/delete/{$this->_deliverable->guid}/"));
         }
         try {

@@ -20,7 +20,7 @@ class midcom_helper_backendTest extends openpsa_testcase
         $backend = new midcom_helper_nav_backend($context->id);
         $this->assertEquals($backend->get_root_node(), $root_topic->id);
         $this->assertEquals($backend->get_current_node(), $root_topic->id);
-        $this->assertEquals($backend->get_node_path(), array($root_topic->id));
+        $this->assertEquals($backend->get_node_path(), [$root_topic->id]);
         $this->assertEquals($backend->get_node_uplink($root_topic->id), -1);
     }
 
@@ -29,17 +29,17 @@ class midcom_helper_backendTest extends openpsa_testcase
         $root_topic_name = uniqid('root');
         $child_topic_name = uniqid('child');
         $article_name = uniqid('article');
-        $root_topic = $this->create_object('midcom_db_topic', array('name' => $root_topic_name));
-        $child_attributes = array(
+        $root_topic = $this->create_object('midcom_db_topic', ['name' => $root_topic_name]);
+        $child_attributes = [
             'name' => $child_topic_name,
             'up' => $root_topic->id,
             'component' => 'net.nehmer.static'
-        );
+        ];
         $child_topic = $this->create_object('midcom_db_topic', $child_attributes);
-        $article_attributes = array(
+        $article_attributes = [
             'name' => $article_name,
             'topic' => $child_topic->id,
-        );
+        ];
         $article = $this->create_object('midcom_db_article', $article_attributes);
         $leaf_id = $child_topic->id . '-' . $article->id;
         midcom_baseclasses_components_configuration::set($child_topic->component, 'active_leaf', $article->id);
@@ -48,7 +48,7 @@ class midcom_helper_backendTest extends openpsa_testcase
         $context->set_current();
         $context->parser = new midcom_core_service_implementation_urlparsertopic;
 
-        $context->parser->parse(array($child_topic_name, $article_name));
+        $context->parser->parse([$child_topic_name, $article_name]);
         $context->parser->get_object();
         $context->get_handler($child_topic);
         $backend = new midcom_helper_nav_backend($context->id);
@@ -57,12 +57,12 @@ class midcom_helper_backendTest extends openpsa_testcase
         $this->assertEquals($backend->get_current_node(), $child_topic->id);
         $this->assertEquals($backend->get_current_upper_node(), $root_topic->id);
         $this->assertEquals($backend->get_node_uplink($child_topic->id), $root_topic->id);
-        $this->assertEquals($backend->get_node_path(), array($root_topic->id, $child_topic->id));
-        $this->assertEquals($backend->list_nodes($root_topic->id, true), array($child_topic->id));
+        $this->assertEquals($backend->get_node_path(), [$root_topic->id, $child_topic->id]);
+        $this->assertEquals($backend->list_nodes($root_topic->id, true), [$child_topic->id]);
 
-        $this->assertEquals($backend->list_leaves($child_topic->id, true), array($child_topic->id . '-' . $article->id));
+        $this->assertEquals($backend->list_leaves($child_topic->id, true), [$child_topic->id . '-' . $article->id]);
 
-        $expected = array(
+        $expected = [
             MIDCOM_NAV_URL => $article->name . '/',
             MIDCOM_NAV_NAME => $article->name,
             MIDCOM_NAV_GUID => $article->guid,
@@ -78,7 +78,7 @@ class midcom_helper_backendTest extends openpsa_testcase
             MIDCOM_NAV_ICON => null,
             MIDCOM_NAV_LEAFID => $article->id,
             MIDCOM_NAV_SORTABLE => true,
-        );
+        ];
 
         $actual = $backend->get_leaf($leaf_id);
         $this->assertTrue(is_array($actual));

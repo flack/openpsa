@@ -75,14 +75,14 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
             $attributes['wrap'] = $this->wrap;
         }
 
-        $elements = array();
+        $elements = [];
         $elements[] = $this->_form->createElement('textarea', $this->name, $this->_translate($this->_field['title']), $attributes);
         $this->_form->applyFilter($this->name, 'trim');
 
         $elements[] = $this->_form->createElement('static', "{$this->name}_toolbar", '', "<script> var simplemde = new SimpleMDE({ element: $('#{$this->_namespace}{$this->name}')[0], status: false });\n</script>");
 
         $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), ' ', false);
-        $this->_form->updateElementAttr($this->name, array('class' => 'midcom_helper_datamanager2_widget_markdown'));
+        $this->_form->updateElementAttr($this->name, ['class' => 'midcom_helper_datamanager2_widget_markdown']);
     }
 
     public function get_default()

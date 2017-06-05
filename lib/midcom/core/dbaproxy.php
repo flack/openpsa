@@ -60,7 +60,7 @@ class midcom_core_dbaproxy
         $this->__tried_to_load = true;
 
         try {
-            $this->__object = call_user_func(array($this->__midcom_class_name__, 'get_cached'), $this->__identifier);
+            $this->__object = call_user_func([$this->__midcom_class_name__, 'get_cached'], $this->__identifier);
             return true;
         } catch (midcom_error $e) {
             $e->log();
@@ -117,7 +117,7 @@ class midcom_core_dbaproxy
             return null;
         }
 
-        return call_user_func_array(array($this->__object, $method), $arguments);
+        return call_user_func_array([$this->__object, $method], $arguments);
     }
 
     /**
@@ -126,6 +126,6 @@ class midcom_core_dbaproxy
      */
     public function __sleep()
     {
-        return array('__identifier', '__midcom_class_name__');
+        return ['__identifier', '__midcom_class_name__'];
     }
 }

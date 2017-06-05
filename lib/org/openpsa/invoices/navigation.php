@@ -15,15 +15,15 @@ class org_openpsa_invoices_navigation extends midcom_baseclasses_components_navi
 {
     public function get_leaves()
     {
-        return array(
-            "{$this->_topic->id}:scheduled" => array(
+        return [
+            "{$this->_topic->id}:scheduled" => [
                 MIDCOM_NAV_URL => "scheduled/",
                 MIDCOM_NAV_NAME => $this->_l10n->get('scheduled invoices'),
-            ),
-            "{$this->_topic->id}:projects" => array(
+            ],
+            "{$this->_topic->id}:projects" => [
                 MIDCOM_NAV_URL => "projects/",
                 MIDCOM_NAV_NAME => $this->_l10n->get('project invoicing'),
-            ),
-        );
+            ],
+        ];
     }
 }

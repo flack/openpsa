@@ -18,9 +18,9 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_document';
 
-    public $autodelete_dependents = array(
+    public $autodelete_dependents = [
         'org_openpsa_documents_document_dba' => 'nextVersion'
-    );
+    ];
 
     const STATUS_DRAFT = 4000;
     const STATUS_FINAL = 4001;

@@ -26,7 +26,7 @@ class net_nemein_wiki_handler_orphan extends midcom_baseclasses_components_handl
         midcom::get()->head->set_pagetitle($data['view_title']);
         $this->_node_toolbar->hide_item('orphans/');
 
-        $data['orphans'] = array();
+        $data['orphans'] = [];
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
         $qb->add_constraint('name', '<>', 'index');

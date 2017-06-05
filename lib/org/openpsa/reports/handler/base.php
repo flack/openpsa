@@ -13,7 +13,7 @@
  */
 abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_components_handler
 {
-    private $_datamanagers = array();
+    private $_datamanagers = [];
     protected $module;
 
     /**
@@ -239,7 +239,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     /**
      * Convert midcom acl identifier to array of person ids
      */
-    protected function _expand_resource($resource_id, $ret = array())
+    protected function _expand_resource($resource_id, $ret = [])
     {
         debug_add('Got resource_id: ' . $resource_id);
         $dba_obj = midcom::get()->auth->get_assignee($resource_id);

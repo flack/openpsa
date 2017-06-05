@@ -25,7 +25,7 @@ class midcom_services_metadata
      *
      * @var Array
      */
-    private $_metadata = array();
+    private $_metadata = [];
 
     /**
      * Class of the current page per each context.
@@ -34,7 +34,7 @@ class midcom_services_metadata
      *
      * @var Array
      */
-    private $_page_classes = array();
+    private $_page_classes = [];
 
     /**
      * Returns the node metadata of the specified context. The metadata
@@ -83,7 +83,7 @@ class midcom_services_metadata
      */
     private function _create_metadata($context_id)
     {
-        $this->_metadata[$context_id] = array();
+        $this->_metadata[$context_id] = [];
         $this->_metadata[$context_id][MIDCOM_METADATA_VIEW] = null;
         $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = null;
 
@@ -146,7 +146,7 @@ class midcom_services_metadata
      */
     public function get_object_classes($object, $existing_classes = null)
     {
-        $css_classes = array();
+        $css_classes = [];
         if (!is_null($existing_classes)) {
             $css_classes[] = $existing_classes;
         }
@@ -214,19 +214,19 @@ class midcom_services_metadata
 
         // HTML generator information
         midcom::get()->head->add_meta_head(
-            array(
+            [
                 'name' => 'generator',
                 'content' => 'Midgard/' . mgd_version() . ' MidCOM/' . midcom::get_version() . ' PHP/' . phpversion()
-            )
+            ]
         );
 
         // Last revision time for the entire page
         if ($request_metadata['lastmodified']) {
             midcom::get()->head->add_meta_head(
-                array(
+                [
                     'name' => 'lastupdated',
                     'content' => @gmdate('Y-m-d H:i:s\Z', $request_metadata['lastmodified'])
-                )
+                ]
             );
         }
 
@@ -246,10 +246,10 @@ class midcom_services_metadata
                     }
 
                     midcom::get()->head->add_meta_head(
-                        array(
+                        [
                             'name' => $metatag,
                             'content' => $content,
-                        )
+                        ]
                     );
                 }
             }
@@ -275,37 +275,37 @@ class midcom_services_metadata
             $request_metadata = $this->get_request_metadata();
 
             midcom::get()->head->add_meta_head(
-                array(
+                [
                     'property' => 'og:type',
                     'content' => $opengraph_type,
-                )
+                ]
             );
             midcom::get()->head->add_meta_head(
-                array(
+                [
                     'property' => 'og:title',
                     'content' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE),
-                )
+                ]
             );
             midcom::get()->head->add_meta_head(
-                array(
+                [
                     'property' => 'og:url',
                     'content' => $request_metadata['permalink'],
-                )
+                ]
             );
             $opengraph_image = $view_metadata->object->get_parameter('midcom.helper.metadata', 'opengraph_image');
             if (mgd_is_guid($opengraph_image)) {
                 midcom::get()->head->add_meta_head(
-                    array(
+                    [
                         'property' => 'og:image',
                         'content' => midcom_db_attachment::get_url($opengraph_image),
-                    )
+                    ]
                 );
             }
             midcom::get()->head->add_meta_head(
-                array(
+                [
                     'property' => 'og:description',
                     'content' => $view_metadata->get('description'),
-                )
+                ]
             );
         }
     }
@@ -319,10 +319,10 @@ class midcom_services_metadata
     public function get_opengraph_types()
     {
         if (!midcom::get()->config->get('metadata_opengraph')) {
-            return array();
+            return [];
         }
 
-        return array(
+        return [
             'none' => 'opengraph type select',
             'activity' => 'opengraph activity activity',
             'sport' => 'opengraph activity sport',
@@ -361,7 +361,7 @@ class midcom_services_metadata
             'article' => 'opengraph website article',
             'blog' => 'opengraph website blog',
             'website' => 'opengraph website website',
-        );
+        ];
     }
 
     /**
@@ -439,11 +439,11 @@ class midcom_services_metadata
         if ($context === null) {
             $context = midcom_core_context::get();
         }
-        $meta = array(
+        $meta = [
             'lastmodified' => $context->get_key(MIDCOM_CONTEXT_LASTMODIFIED),
             'permalinkguid' => $context->get_key(MIDCOM_CONTEXT_PERMALINKGUID),
             'permalink' => midcom::get()->permalinks->create_permalink($context->get_key(MIDCOM_CONTEXT_PERMALINKGUID)),
-        );
+        ];
 
         if (   is_object($meta['lastmodified'])
             && is_a($meta['lastmodified'], 'midgard_datetime')) {

@@ -20,14 +20,14 @@ class midcom_helper__dbfactory
      *
      * @var array
      */
-    private $_parent_mapping = array();
+    private $_parent_mapping = [];
 
     /**
      * Cache for possible parent configurations per mgdschema class
      *
      * @var array
      */
-    private $_parent_candidates = array();
+    private $_parent_candidates = [];
 
     /**
      * This is a replacement for the original midgard_object_class::get_object_by_guid method, which takes
@@ -64,14 +64,14 @@ class midcom_helper__dbfactory
      */
     public function &get_cached($classname, $src)
     {
-        static $cache = array();
+        static $cache = [];
 
         if (empty($src)) {
             throw new midcom_error('invalid source identifier');
         }
 
         if (!isset($cache[$classname])) {
-            $cache[$classname] = array();
+            $cache[$classname] = [];
         }
 
         if (isset($cache[$classname][$src])) {
@@ -232,13 +232,13 @@ class midcom_helper__dbfactory
             //This must be a GUID link (or wrongly configured schema)
             try {
                 $parent = $this->get_object_by_guid($parent_guid);
-                $parent_data = array(
+                $parent_data = [
                     $parent->__midcom_class_name__ => $parent_guid
-                );
+                ];
             } catch (midcom_error $e) {
-                $parent_data = array(
+                $parent_data = [
                     '' => null
-                );
+                ];
                 $parent = null;
             }
             // Cache the classname so that we can avoid get_object_by_guid calls the next time
@@ -284,7 +284,7 @@ class midcom_helper__dbfactory
 
     private function _get_parent_guid_cached($object_guid, $the_object, $class = null)
     {
-        static $cached_parent_data = array();
+        static $cached_parent_data = [];
 
         $parent_data = false;
         if (mgd_is_guid($object_guid)) {
@@ -309,7 +309,7 @@ class midcom_helper__dbfactory
                     try {
                         $the_object = $this->get_object_by_guid($object_guid);
                     } catch (midcom_error $e) {
-                        return array('' => null);
+                        return ['' => null];
                     }
                 }
 
@@ -318,7 +318,7 @@ class midcom_helper__dbfactory
 
             $parent_guid = current($parent_data);
             $classname = key($parent_data);
-            $parent_data = array();
+            $parent_data = [];
             if (!empty($classname)) {
                 $classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($classname);
             }
@@ -341,7 +341,7 @@ class midcom_helper__dbfactory
     private function _get_parent_guid_uncached(midcom_core_dbaobject $object)
     {
         if (method_exists($object, 'get_parent_guid_uncached')) {
-            return array('' => $object->get_parent_guid_uncached());
+            return ['' => $object->get_parent_guid_uncached()];
         }
 
         $candidates = $this->_get_parent_candidates($object->__mgdschema_class_name__);
@@ -349,10 +349,10 @@ class midcom_helper__dbfactory
         foreach ($candidates as $data) {
             $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], $object->{$data['source_property']});
             if (null !== $parent_guid) {
-                return array($data['target_class'] => $parent_guid);
+                return [$data['target_class'] => $parent_guid];
             }
         }
-        return array('' => null);
+        return ['' => null];
     }
 
     /**
@@ -362,7 +362,7 @@ class midcom_helper__dbfactory
     private function _get_parent_guid_uncached_static($object_guid, $class_name)
     {
         if (method_exists($class_name, 'get_parent_guid_uncached_static')) {
-            return array('', call_user_func(array($class_name, 'get_parent_guid_uncached_static'), $object_guid, $class_name));
+            return ['', call_user_func([$class_name, 'get_parent_guid_uncached_static'], $object_guid, $class_name)];
         }
 
         $class_name = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($class_name);
@@ -380,10 +380,10 @@ class midcom_helper__dbfactory
             $link_value = key($link_values);
             $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], $link_value);
             if (null !== $parent_guid) {
-                return array($data['target_class'] => $parent_guid);
+                return [$data['target_class'] => $parent_guid];
             }
         }
-        return array('' => null);
+        return ['' => null];
     }
 
     private function _load_guid($target_class, $target_property, $link_value)
@@ -392,7 +392,7 @@ class midcom_helper__dbfactory
             return null;
         }
         if (!array_key_exists($target_class, $this->_parent_mapping)) {
-            $this->_parent_mapping[$target_class] = array();
+            $this->_parent_mapping[$target_class] = [];
         }
         if (array_key_exists($link_value, $this->_parent_mapping[$target_class])) {
             return $this->_parent_mapping[$target_class][$link_value];
@@ -412,17 +412,17 @@ class midcom_helper__dbfactory
     private function _get_parent_candidates($classname)
     {
         if (!isset($this->_parent_candidates[$classname])) {
-            $this->_parent_candidates[$classname] = array();
+            $this->_parent_candidates[$classname] = [];
             $reflector = new midgard_reflection_property($classname);
             $up_property = midgard_object_class::get_property_up($classname);
             $parent_property = midgard_object_class::get_property_parent($classname);
 
             if ($up_property) {
-                $this->_parent_candidates[$classname][] = array(
+                $this->_parent_candidates[$classname][] = [
                     'source_property' => $up_property,
                     'target_property' => $reflector->get_link_target($up_property),
                     'target_class' => $reflector->get_link_name($up_property),
-                );
+                ];
             }
 
             if (   $parent_property
@@ -434,11 +434,11 @@ class midcom_helper__dbfactory
                         $target_class = $person_class;
                     }
                 }
-                $this->_parent_candidates[$classname][] = array(
+                $this->_parent_candidates[$classname][] = [
                     'source_property' => $parent_property,
                     'target_property' => $reflector->get_link_target($parent_property),
                     'target_class' => $target_class,
-                );
+                ];
             }
             // FIXME: Handle GUID linking
         }

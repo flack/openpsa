@@ -40,12 +40,12 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
     public function get_schema_defaults()
     {
-        return array(
+        return [
             'topic' => $this->_topic->id,
             'author' => midcom_connection::get_user(),
             'orgOpenpsaAccesstype' => $this->_topic->get_parameter('org.openpsa.core', 'orgOpenpsaAccesstype'),
             'orgOpenpsaOwnerWg' => $this->_topic->get_parameter('org.openpsa.core', 'orgOpenpsaOwnerWg'),
-        );
+        ];
     }
 
     /**
@@ -82,10 +82,10 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
     private function run_workflow()
     {
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $this->_controller,
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         return $workflow->run();
     }
 
@@ -185,7 +185,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_document = $this->_load_document($args[0]);
-        $workflow = $this->get_workflow('delete', array('object' => $this->_document));
+        $workflow = $this->get_workflow('delete', ['object' => $this->_document]);
         return $workflow->run();
     }
 }

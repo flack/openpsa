@@ -66,26 +66,26 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     private function _prepare_toolbar()
     {
         $toolbar = new midgard_admin_asgard_toolbar();
-        $buttons = array(
-            array(
+        $buttons = [
+            [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('save in browser'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 's',
-                MIDCOM_TOOLBAR_OPTIONS => array('id' => 'save-script')
-            ),
-            array(
+                MIDCOM_TOOLBAR_OPTIONS => ['id' => 'save-script']
+            ],
+            [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('restore from browser'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'r',
-                MIDCOM_TOOLBAR_OPTIONS => array('id' => 'restore-script')
-            ),
-            array(
+                MIDCOM_TOOLBAR_OPTIONS => ['id' => 'restore-script']
+            ],
+            [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('clear all'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'r',
-                MIDCOM_TOOLBAR_OPTIONS => array('id' => 'clear-script')
-            )
-        );
+                MIDCOM_TOOLBAR_OPTIONS => ['id' => 'clear-script']
+            ]
+        ];
         $toolbar->add_items($buttons);
         return $toolbar;
     }

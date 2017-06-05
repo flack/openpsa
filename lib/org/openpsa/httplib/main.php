@@ -20,18 +20,18 @@ use Buzz\Util\Url;
  */
 class org_openpsa_httplib extends midcom_baseclasses_components_purecode
 {
-    private $params = array(
+    private $params = [
         'timeout' => 30,
         'ssl_verify_peer' => false,
         'follow_redirects' => true
-    );
+    ];
 
     public $error = '';
 
-    public $basicauth = array(
+    public $basicauth = [
         'user' => false,
         'password' => false,
-    );
+    ];
 
     /**
      * Set one of the HTTP_Request2 parameters
@@ -78,7 +78,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      * @param string $password Password, if any
      * @return string Contents
      */
-    public function get($url, array $headers = array(), $username = null, $password = null)
+    public function get($url, array $headers = [], $username = null, $password = null)
     {
         $request = new Request(RequestInterface::METHOD_GET);
 
@@ -93,7 +93,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      * @param array $headers Additional HTTP headers
      * @return string Contents
      */
-    public function post($uri, array $variables, array $headers = array())
+    public function post($uri, array $variables, array $headers = [])
     {
         // Handle the variables to POST
         if (empty($variables)) {

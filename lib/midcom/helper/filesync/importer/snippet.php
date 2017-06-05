@@ -18,8 +18,8 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
         $snippetdir = $this->_get_node('midcom_db_snippetdir', $parent_id, $path);
 
         $directory = dir($path);
-        $foldernames = array();
-        $filenames = array();
+        $foldernames = [];
+        $filenames = [];
         while (false !== ($entry = $directory->read())) {
             if (substr($entry, 0, 1) == '.') {
                 // Ignore dotfiles

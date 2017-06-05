@@ -15,19 +15,19 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
 {
     public function test_array2data()
     {
-        $arr = array(
+        $arr = [
             "message" => "hello world",
             "code" => 200,
             "object" => $this->_get_object()
-        );
+        ];
 
         $mapper = new midcom_helper_exporter_json();
         $data = $mapper->array2data($arr);
 
-        $expected = json_encode(array(
+        $expected = json_encode([
             "message" => $arr["message"],
             "code" => $arr["code"],
-            "object" => $this->_get_data_array($arr['object']->metadata->creator))
+            "object" => $this->_get_data_array($arr['object']->metadata->creator)]
         );
         $this->assertJsonStringEqualsJsonString($expected, $data);
     }
@@ -65,13 +65,13 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
 
     private function _get_data_array($creator)
     {
-        $data = array(
+        $data = [
             'guid' => '',
             'id' => 0,
             'name' => 'Test',
             'style' => 33,
             'value' => 'test',
-            'metadata' => array(
+            'metadata' => [
                 'creator' => $creator,
                 'created' => 0,
                 'revisor' => $creator,
@@ -95,8 +95,8 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
                 'isapproved' => false,
                 'islocked' => false,
                 'exported' => 0
-           )
-        );
+           ]
+        ];
         return $data;
     }
 }

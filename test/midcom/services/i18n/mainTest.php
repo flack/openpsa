@@ -32,15 +32,15 @@ class midcom_services_i18nTest extends openpsa_testcase
 
     public function provider_read_http_negotiation()
     {
-        return array(
-            array(
+        return [
+            [
                 'de-de,de;q=0.8,en-us;q=0.5,en;q=0.3',
                 'de'
-            ),
-            array(
+            ],
+            [
                 'it-IT',
                 'it'
-            )
-        );
+            ]
+        ];
     }
 }

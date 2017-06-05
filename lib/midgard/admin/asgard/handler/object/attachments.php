@@ -25,7 +25,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      *
      * @var array
      */
-    private $_files = array();
+    private $_files = [];
 
     /**
      * Current file being edited
@@ -296,11 +296,11 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $filename = $args[1];
         $file = $this->_get_file($filename);
 
-        $workflow = $this->get_workflow('delete', array(
+        $workflow = $this->get_workflow('delete', [
             'object' => $file,
             'label' => $filename,
             'success_url' => "__mfa/asgard/object/attachments/{$this->_object->guid}/"
-        ));
+        ]);
         return $workflow->run();
     }
 }

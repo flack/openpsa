@@ -18,15 +18,15 @@ class controllerTest extends openpsa_testcase
     public function test_process_cancel()
     {
         $schemadb = new schemadb;
-        $schemadb->add('default', new schema(array('fields' => array())));
+        $schemadb->add('default', new schema(['fields' => []]));
         $dm = new datamanager($schemadb);
         $controller = $dm->get_controller('test');
         $_SERVER['REQUEST_METHOD'] = 'post';
-        $_POST = array(
-            'test' => array(
-                'form_toolbar' => array('cancel0' => '')
-            )
-        );
+        $_POST = [
+            'test' => [
+                'form_toolbar' => ['cancel0' => '']
+            ]
+        ];
         $result = $controller->process();
         $this->assertSame(controller::CANCEL, $result);
     }

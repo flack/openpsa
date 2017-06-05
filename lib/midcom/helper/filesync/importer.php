@@ -48,8 +48,8 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
 
     protected function _read_dirs($path)
     {
-        $foldernames = array();
-        $nodes = array();
+        $foldernames = [];
+        $nodes = [];
         foreach (glob($path . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $dirname) {
             $nodes[] = $dirname;
             $foldernames[] = basename($dirname);

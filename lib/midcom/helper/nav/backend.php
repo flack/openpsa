@@ -94,7 +94,7 @@ class midcom_helper_nav_backend
      * @todo Update the data structure documentation
      * @var midcom_helper_nav_leaf[]
      */
-    private $_leaves = array();
+    private $_leaves = [];
 
     /**
      * Node cache. It is an array which contains elements indexed by
@@ -107,7 +107,7 @@ class midcom_helper_nav_backend
      * @todo Update the data structure documentation
      * @var midcom_helper_nav_node[]
      */
-    private static $_nodes = array();
+    private static $_nodes = [];
 
     /**
      * List of all topics for which the leaves have been loaded.
@@ -116,7 +116,7 @@ class midcom_helper_nav_backend
      *
      * @var midcom_helper_nav_leaf[]
      */
-    private $_loaded_leaves = array();
+    private $_loaded_leaves = [];
 
     /**
      * The systemwide component loader instance
@@ -148,7 +148,7 @@ class midcom_helper_nav_backend
      *
      * @var Array
      */
-    private $_node_path = array();
+    private $_node_path = [];
 
     /**
      * User id for ACL checks. This is set when instantiating to avoid unnecessary overhead
@@ -182,7 +182,7 @@ class midcom_helper_nav_backend
             $this->_user_id = midcom::get()->auth->acl->get_user_id();
         }
 
-        $node_path_candidates = array($this->_root);
+        $node_path_candidates = [$this->_root];
         $this->_current = $this->_root;
         foreach (midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_URLTOPICS) as $topic) {
             $id = $this->_nodeid($topic->id, null);
@@ -243,7 +243,7 @@ class midcom_helper_nav_backend
         $topic_id = (int) $node_id;
 
         // Load parent nodes also to cache
-        $up_ids = array();
+        $up_ids = [];
         if ($up) {
             $parent_id = $up;
 
@@ -354,7 +354,7 @@ class midcom_helper_nav_backend
             return;
         }
 
-        $this->_loaded_leaves[$node->id] = array();
+        $this->_loaded_leaves[$node->id] = [];
 
         $leaves = array_filter($this->_get_leaves($node), function($leaf) {
             return $leaf->is_object_visible();
@@ -379,7 +379,7 @@ class midcom_helper_nav_backend
     {
         $fullprefix = midcom::get()->config->get('midcom_site_url');
         $absoluteprefix = midcom_connection::get_url('self');
-        $result = array();
+        $result = [];
 
         foreach ($node->get_leaves() as $id => $leaf) {
             if (!$leaf->is_readable_by($this->_user_id)) {
@@ -412,11 +412,11 @@ class midcom_helper_nav_backend
      */
     public function list_nodes($parent_node, $show_noentry)
     {
-        static $listed = array();
+        static $listed = [];
 
         if ($this->_loadNode($parent_node) !== MIDCOM_ERROK) {
             debug_add("Unable to load parent node $parent_node", MIDCOM_LOG_ERROR);
-            return array();
+            return [];
         }
 
         $cache_identifier = $parent_node . (($show_noentry) ? 'noentry' : '');
@@ -428,7 +428,7 @@ class midcom_helper_nav_backend
 
         // No results, return an empty array
         if (count($subnodes) === 0) {
-            $listed[$cache_identifier] = array();
+            $listed[$cache_identifier] = [];
             return $listed[$cache_identifier];
         }
 
@@ -439,7 +439,7 @@ class midcom_helper_nav_backend
             $up = $this->_nodeid($node, $up);
         }
 
-        $result = array();
+        $result = [];
 
         foreach ($subnodes as $id) {
             if ($this->_loadNode($id, $up) !== MIDCOM_ERROK) {
@@ -471,10 +471,10 @@ class midcom_helper_nav_backend
      */
     public function list_leaves($parent_node, $show_noentry)
     {
-        static $listed = array();
+        static $listed = [];
 
         if ($this->_loadNode($parent_node) !== MIDCOM_ERROK) {
-            return array();
+            return [];
         }
 
         if (isset($listed[$parent_node])) {
@@ -485,7 +485,7 @@ class midcom_helper_nav_backend
             $this->_load_leaves(self::$_nodes[$parent_node]);
         }
 
-        $result = array();
+        $result = [];
         foreach ($this->_loaded_leaves[self::$_nodes[$parent_node]->id] as $id => $leaf) {
             if ($show_noentry || !$leaf->noentry) {
                 $result[] = $id;
@@ -661,7 +661,7 @@ class midcom_helper_nav_backend
      */
     private function _up($nodeid)
     {
-        static $cache = array();
+        static $cache = [];
 
         if (!isset($cache[$nodeid])) {
             $ids = explode("_", $nodeid);

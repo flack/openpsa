@@ -20,12 +20,12 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
-        self::$_salesproject = self::create_class_object('org_openpsa_sales_salesproject_dba', array('customerContact' => self::$_person->id));
+        self::$_salesproject = self::create_class_object('org_openpsa_sales_salesproject_dba', ['customerContact' => self::$_person->id]);
         $product_group = self::create_class_object('org_openpsa_products_product_group_dba');
-        $product_attributes = array(
+        $product_attributes = [
             'productGroup' => $product_group->id,
             'name' => 'TEST_' . __CLASS__ . '_' . time(),
-        );
+        ];
         self::$_product = self::create_class_object('org_openpsa_products_product_dba', $product_attributes);
     }
 
@@ -37,39 +37,39 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         $product->delivery = org_openpsa_products_product_dba::DELIVERY_SINGLE;
         $product->update();
 
-        $deliverable_attributes = array(
+        $deliverable_attributes = [
             'salesproject' => self::$_salesproject->id,
             'product' => self::$_product->id,
             'orgOpenpsaObtype' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
             'units' => 1,
             'pricePerUnit' => 5
-        );
+        ];
 
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
-        $_POST = array(
+        $_POST = [
             'order' => true,
-        );
+        ];
 
-        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
+        $url = $this->run_relocate_handler('org.openpsa.sales', ['deliverable', 'process', $deliverable->guid]);
         $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED, $deliverable->state);
 
-        $_POST = array(
+        $_POST = [
             'deliver' => true,
-        );
-        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
+        ];
+        $url = $this->run_relocate_handler('org.openpsa.sales', ['deliverable', 'process', $deliverable->guid]);
         $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED, $deliverable->state);
 
-        $_POST = array(
+        $_POST = [
             'invoice' => true,
-        );
-        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
+        ];
+        $url = $this->run_relocate_handler('org.openpsa.sales', ['deliverable', 'process', $deliverable->guid]);
         $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED, $deliverable->state);
@@ -93,25 +93,25 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         $product->delivery = org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION;
         $product->update();
 
-        $deliverable_attributes = array(
+        $deliverable_attributes = [
             'salesproject' => self::$_salesproject->id,
             'product' => self::$_product->id,
             'start' => time(),
             'continuous' => true,
             'unit' => 'q',
             'orgOpenpsaObtype' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION,
-        );
+        ];
 
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
         $deliverable->update();
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
-        $_POST = array(
+        $_POST = [
             'order' => true,
-        );
+        ];
 
-        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
+        $url = $this->run_relocate_handler('org.openpsa.sales', ['deliverable', 'process', $deliverable->guid]);
         $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED, $deliverable->state);
@@ -123,12 +123,12 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         $this->register_objects($at_entries);
         $this->assertCount(1, $at_entries);
 
-        $_POST = array(
+        $_POST = [
             'run_cycle' => true,
             'at_entry' => $at_entries[0]->guid
-        );
+        ];
 
-        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'process', $deliverable->guid));
+        $url = $this->run_relocate_handler('org.openpsa.sales', ['deliverable', 'process', $deliverable->guid]);
         $this->assertEquals($url, 'salesproject/' . self::$_salesproject->guid . '/');
         $deliverable->refresh();
 

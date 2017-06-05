@@ -17,11 +17,11 @@ class midcom_config_test
     const WARNING =  1;
     const ERROR = 2;
 
-    private $messages = array(
-        'midcom' => array(),
-        'php' => array(),
-        'external' => array()
-    );
+    private $messages = [
+        'midcom' => [],
+        'php' => [],
+        'external' => []
+    ];
 
     private $section;
 
@@ -41,10 +41,10 @@ class midcom_config_test
 
     private function add($testname, $result_code, $recommendations = '&nbsp;')
     {
-        $this->messages[$this->section][$testname] = array(
+        $this->messages[$this->section][$testname] = [
             'result' => $result_code,
             'message' => $recommendations
-        );
+        ];
         $this->status = max($this->status, $result_code);
     }
 

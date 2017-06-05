@@ -168,7 +168,7 @@ class midcom_helper_toolbar
      *
      * @var Array
      */
-    public $items = array();
+    public $items = [];
 
     /**
      * Allow our users to add arbitrary data to the toolbar.
@@ -181,7 +181,7 @@ class midcom_helper_toolbar
      *
      * @var Array
      */
-    public $customdata = array();
+    public $customdata = [];
 
     /**
      * Basic constructor, initializes the class and sets defaults for the
@@ -242,15 +242,15 @@ class midcom_helper_toolbar
         }
 
         $this->add_item(
-            array(
+            [
                 MIDCOM_TOOLBAR_URL => $uri,
                 MIDCOM_TOOLBAR_LABEL => $label,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'h',
-                MIDCOM_TOOLBAR_OPTIONS => array(
+                MIDCOM_TOOLBAR_OPTIONS => [
                     'target' => '_blank',
-                ),
-            ),
+                ],
+            ],
             $before
         );
     }
@@ -344,19 +344,19 @@ class midcom_helper_toolbar
      */
     public function clean_item($item)
     {
-        static $used_access_keys = array();
+        static $used_access_keys = [];
 
-        $defaults = array(
+        $defaults = [
             MIDCOM_TOOLBAR_URL => './',
-            MIDCOM_TOOLBAR_OPTIONS => array(),
+            MIDCOM_TOOLBAR_OPTIONS => [],
             MIDCOM_TOOLBAR_HIDDEN => false,
             MIDCOM_TOOLBAR_HELPTEXT => '',
             MIDCOM_TOOLBAR_ICON => null,
             MIDCOM_TOOLBAR_ENABLED => true,
             MIDCOM_TOOLBAR_POST => false,
-            MIDCOM_TOOLBAR_POST_HIDDENARGS => array(),
+            MIDCOM_TOOLBAR_POST_HIDDENARGS => [],
             MIDCOM_TOOLBAR_ACCESSKEY => null
-        );
+        ];
         // we can't use array_merge unfortunately, because the constants are numeric..
         foreach ($defaults as $key => $value) {
             if (!array_key_exists($key, $item)) {
@@ -429,7 +429,7 @@ class midcom_helper_toolbar
      */
     public function remove_all_items()
     {
-        $this->items = array();
+        $this->items = [];
     }
 
     /**
@@ -666,7 +666,7 @@ class midcom_helper_toolbar
 
     private function get_item_attributes(array $item)
     {
-        $attributes = ($item[MIDCOM_TOOLBAR_ENABLED]) ? $item[MIDCOM_TOOLBAR_OPTIONS] : array();
+        $attributes = ($item[MIDCOM_TOOLBAR_ENABLED]) ? $item[MIDCOM_TOOLBAR_OPTIONS] : [];
 
         if (!is_null($item[MIDCOM_TOOLBAR_HELPTEXT])) {
             $attributes['title'] = $item[MIDCOM_TOOLBAR_HELPTEXT];

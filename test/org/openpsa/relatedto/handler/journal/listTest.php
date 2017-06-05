@@ -21,13 +21,13 @@ class org_openpsa_relatedto_handler_journal_listTest extends openpsa_testcase
         self::create_user(true);
         self::$_object = self::create_class_object('org_openpsa_contacts_person_dba');
 
-        self::$_entry = self::create_class_object('org_openpsa_relatedto_journal_entry_dba', array('linkGuid' => self::$_object->guid));
+        self::$_entry = self::create_class_object('org_openpsa_relatedto_journal_entry_dba', ['linkGuid' => self::$_object->guid]);
     }
 
     public function testHandler_list()
     {
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
-        $data = $this->run_handler('org.openpsa.contacts', array('__mfa', 'org.openpsa.relatedto', 'journalentry', 'list', time()));
+        $data = $this->run_handler('org.openpsa.contacts', ['__mfa', 'org.openpsa.relatedto', 'journalentry', 'list', time()]);
         $this->assertEquals('____mfa-org.openpsa.relatedto-journal_entry_list', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -36,7 +36,7 @@ class org_openpsa_relatedto_handler_journal_listTest extends openpsa_testcase
     public function testHandler_xml()
     {
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
-        $data = $this->run_handler('org.openpsa.contacts', array('__mfa', 'org.openpsa.relatedto', 'journalentry', 'xml'));
+        $data = $this->run_handler('org.openpsa.contacts', ['__mfa', 'org.openpsa.relatedto', 'journalentry', 'xml']);
         $this->assertEquals('____mfa-org.openpsa.relatedto-journal_entry_xml', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -46,7 +46,7 @@ class org_openpsa_relatedto_handler_journal_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
 
-        $data = $this->run_handler('org.openpsa.contacts', array('__mfa', 'org.openpsa.relatedto', 'journalentry', self::$_object->guid));
+        $data = $this->run_handler('org.openpsa.contacts', ['__mfa', 'org.openpsa.relatedto', 'journalentry', self::$_object->guid]);
         $this->assertEquals('____mfa-org.openpsa.relatedto-journal_entry', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

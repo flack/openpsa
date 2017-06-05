@@ -105,11 +105,11 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
         $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $data['view_title'] = $this->_l10n->get('groups');
 
-        $data['asgard_toolbar']->add_item(array(
+        $data['asgard_toolbar']->add_item([
             MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/group/create/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-        ));
+        ]);
 
         $this->_update_breadcrumb($handler_id);
         return new midgard_admin_asgard_response($this, '_show_list');
@@ -146,7 +146,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
         $mc->add_order('official');
         $mc->add_order('name');
 
-        $groups = $mc->get_rows(array('name', 'official', 'id'));
+        $groups = $mc->get_rows(['name', 'official', 'id']);
 
         // Hide empty groups
         if (count($groups) === 0) {

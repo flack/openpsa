@@ -45,17 +45,17 @@ class midcom_core_privilegeTest extends openpsa_testcase
 
     public function providerStoreArray()
     {
-        return array(
-            1 => array(
-                'input' => array(
+        return [
+            1 => [
+                'input' => [
                     'privilegename' => 'midgard:read',
                     'value' => MIDCOM_PRIVILEGE_ALLOW,
-                ),
-                'output' => array(
+                ],
+                'output' => [
                     'stat' => true,
                     'privilegename' => 'midgard:read'
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 }

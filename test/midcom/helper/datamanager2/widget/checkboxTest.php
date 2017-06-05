@@ -22,31 +22,31 @@ class midcom_helper_datamanager2_widget_checkboxTest extends openpsa_testcase
 
         $this->assertNull($widget->get_default(), 'nullstorage test failed');
 
-        $dm2_helper->defaults = array('test_checkbox_1' => false);
+        $dm2_helper->defaults = ['test_checkbox_1' => false];
         $widget = $dm2_helper->get_widget('checkbox', 'boolean');
 
         $this->assertFalse($widget->get_default(), 'nullstorage/default test failed');
 
         $topic = new midcom_db_topic;
         $dm2_helper = new openpsa_test_dm2_helper($topic);
-        $widget = $dm2_helper->get_widget('checkbox', 'boolean', array('storage' => 'styleInherit'));
+        $widget = $dm2_helper->get_widget('checkbox', 'boolean', ['storage' => 'styleInherit']);
 
         $this->assertNull($widget->get_default(), 'create test failed');
 
-        $dm2_helper->defaults = array('test_checkbox_1' => false);
+        $dm2_helper->defaults = ['test_checkbox_1' => false];
         $widget = $dm2_helper->get_widget('checkbox', 'boolean');
 
         $this->assertFalse($widget->get_default(), 'create/default test failed');
 
         $topic = $this->create_object('midcom_db_topic');
         $dm2_helper = new openpsa_test_dm2_helper($topic);
-        $widget = $dm2_helper->get_widget('checkbox', 'boolean', array('storage' => 'styleInherit'));
+        $widget = $dm2_helper->get_widget('checkbox', 'boolean', ['storage' => 'styleInherit']);
 
         $this->assertFalse($widget->get_default(), 'simple test failed');
 
         $topic->styleInherit = true;
         $dm2_helper = new openpsa_test_dm2_helper($topic);
-        $widget = $dm2_helper->get_widget('checkbox', 'boolean', array('storage' => 'styleInherit'));
+        $widget = $dm2_helper->get_widget('checkbox', 'boolean', ['storage' => 'styleInherit']);
 
         $this->assertTrue($widget->get_default(), 'simple/storage test failed');
     }

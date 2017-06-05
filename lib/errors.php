@@ -31,8 +31,8 @@ class midcom_exception_handler
     {
         if (!defined('OPENPSA2_UNITTEST_RUN')) {
             $handler = new self;
-            set_error_handler(array($handler, 'handle_error'), E_ALL ^ (E_NOTICE | E_WARNING));
-            set_exception_handler(array($handler, 'handle_exception'));
+            set_error_handler([$handler, 'handle_error'], E_ALL ^ (E_NOTICE | E_WARNING));
+            set_exception_handler([$handler, 'handle_exception']);
         }
     }
 
@@ -129,7 +129,7 @@ class midcom_exception_handler
         $message = $e->getMessage();
         debug_print_r('Exception occurred: ' . $httpcode . ', Message: ' . $message . ', exception trace:', $trace);
 
-        if (!in_array($httpcode, array(MIDCOM_ERROK, MIDCOM_ERRNOTFOUND, MIDCOM_ERRFORBIDDEN, MIDCOM_ERRAUTH, MIDCOM_ERRCRIT))) {
+        if (!in_array($httpcode, [MIDCOM_ERROK, MIDCOM_ERRNOTFOUND, MIDCOM_ERRFORBIDDEN, MIDCOM_ERRAUTH, MIDCOM_ERRCRIT])) {
             debug_add("Unknown Errorcode {$httpcode} encountered, assuming 500");
             $httpcode = MIDCOM_ERRCRIT;
         }
@@ -328,7 +328,7 @@ class midcom_exception_handler
             $stack = array_reverse(debug_backtrace(false));
         }
 
-        $stacktrace = array();
+        $stacktrace = [];
         foreach ($stack as $number => $frame) {
             $line = $number + 1;
             if (array_key_exists('file', $frame)) {

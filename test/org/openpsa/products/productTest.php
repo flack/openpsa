@@ -17,7 +17,7 @@ class org_openpsa_products_productTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_group = self::create_class_object('org_openpsa_products_product_group_dba', array('code' => 'TEST-' . __CLASS__));
+        self::$_group = self::create_class_object('org_openpsa_products_product_group_dba', ['code' => 'TEST-' . __CLASS__]);
     }
 
     public function testCRUD()

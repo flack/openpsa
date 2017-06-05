@@ -58,26 +58,26 @@ $node = $nap->get_node($nap->get_current_node());
         echo $data['billing_data']->due . "</div>\n";
         $data['billing_data']->render_address();
     }
-    org_openpsa_widgets_contact::show_address_card($data['group'], array('visiting', 'postal'));
+    org_openpsa_widgets_contact::show_address_card($data['group'], ['visiting', 'postal']);
 
     echo '<br style="clear:left" />';
 
     $siteconfig = org_openpsa_core_siteconfig::get_instance();
 
-    $tabs = array();
+    $tabs = [];
     if (strpos($data['view']['categories'], $data['l10n']->get('client')) !== false) {
         //TODO: Check for privileges somehow
         if ($invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices')) {
-            $tabs[] = array(
+            $tabs[] = [
                 'url' => $invoices_url . "list/customer/all/{$data['group']->guid}/",
                 'title' => midcom::get()->i18n->get_string('invoices', 'org.openpsa.invoices'),
-            );
+            ];
         }
         if ($sales_url = $siteconfig->get_node_relative_url('org.openpsa.sales')) {
-            $tabs[] = array(
+            $tabs[] = [
                 'url' => $sales_url . "list/customer/{$data['group']->guid}/",
                 'title' => midcom::get()->i18n->get_string('salesprojects', 'org.openpsa.sales'),
-            );
+            ];
         }
     }
     org_openpsa_widgets_ui::render_tabs($data['group']->guid, $tabs);

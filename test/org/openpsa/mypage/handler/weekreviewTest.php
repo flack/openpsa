@@ -20,13 +20,13 @@ class org_openpsa_mypage_handler_weekreviewTest extends openpsa_testcase
 
     public function testHandler_weekreview()
     {
-        $data = $this->run_handler('org.openpsa.mypage', array('weekreview', strftime('%Y-%m-%d')));
+        $data = $this->run_handler('org.openpsa.mypage', ['weekreview', strftime('%Y-%m-%d')]);
         $this->assertEquals('weekreview', $data['handler_id']);
     }
 
     public function testHandler_weekreview_redirect()
     {
-        $url = $this->run_relocate_handler('org.openpsa.mypage', array('weekreview'));
+        $url = $this->run_relocate_handler('org.openpsa.mypage', ['weekreview']);
         $this->assertEquals('weekreview/' . strftime('%Y-%m-%d') . '/', $url);
     }
 }

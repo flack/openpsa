@@ -21,7 +21,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
     public function _handler_delete($handler_id, $args, &$data)
     {
         $page = $this->_master->load_page($args[0]);
-        $workflow = $this->get_workflow('delete', array('object' => $page));
+        $workflow = $this->get_workflow('delete', ['object' => $page]);
         return $workflow->run();
     }
 }

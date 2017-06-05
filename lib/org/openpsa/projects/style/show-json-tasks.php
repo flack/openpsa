@@ -1,10 +1,10 @@
 <?php
-$task_array = array();
+$task_array = [];
 $tasks = $data['provider']->get_rows();
 $formatter = $data['l10n']->get_formatter();
 
 foreach ($tasks as $task) {
-    $task_array[] = array(
+    $task_array[] = [
         'title' => $task['task'],
         'priority' => $task['priority'],
         'priority_title' => $data['priority_array'][$task['index_priority']],
@@ -13,7 +13,7 @@ foreach ($tasks as $task) {
         'reported_hours' => $task['reported_hours'],
         'start' => $formatter->date(strtotime($task['start'])),
         'end' => $formatter->date(strtotime($task['end'])),
-    );
+    ];
 }
 
 echo json_encode($task_array);

@@ -17,17 +17,17 @@ class openpsa_test_dm2_helper
     private $_schemadb;
     private $_controller;
 
-    public $defaults = array();
+    public $defaults = [];
 
     public function __construct($object = null)
     {
         $this->_object = $object;
-        $schemadb_raw = array(
-            'default' => array(
+        $schemadb_raw = [
+            'default' => [
                 'description' => __CLASS__ . ' testcase schema',
-                'fields' => array()
-            )
-        );
+                'fields' => []
+            ]
+        ];
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($schemadb_raw);
 
         if ($this->_object) {
@@ -53,7 +53,7 @@ class openpsa_test_dm2_helper
         }
     }
 
-    public function get_widget($widget_class, $type_class, array $config = array(), $name = null)
+    public function get_widget($widget_class, $type_class, array $config = [], $name = null)
     {
         if (null === $name) {
             $name = 'test_' . $widget_class . '_' . sizeof($this->_schemadb['default']->fields);

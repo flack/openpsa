@@ -31,7 +31,7 @@ midcom::get()->disable_limits();
 $start = microtime(true);
 
 $nap = new midcom_helper_nav();
-$nodes = array();
+$nodes = [];
 $nodeid = $nap->get_root_node();
 $loader = midcom::get()->componentloader;
 $indexer = midcom::get()->indexer;
@@ -65,9 +65,9 @@ while (!is_null($nodeid)) {
     echo "Processing node #{$nodeid}, {$node[MIDCOM_NAV_FULLURL]}: ";
     flush();
     //pass the node-id & the language
-    $post_variables = array('nodeid' => $nodeid, 'language' => $language);
+    $post_variables = ['nodeid' => $nodeid, 'language' => $language];
     $post_string = 'nodeid=' . $nodeid . '&language=' . $language;
-    $response = $http_client->post($reindex_topic_uri, $post_variables, array('User-Agent' => 'midcom-exec-midcom/reindex.php'));
+    $response = $http_client->post($reindex_topic_uri, $post_variables, ['User-Agent' => 'midcom-exec-midcom/reindex.php']);
     if ($response === false) {
         // returned with failure
         echo "failure.\n   Background processing failed, error: {$http_client->error}\n";

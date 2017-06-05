@@ -48,7 +48,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      *
      * @var Array
      */
-    var $widgets = array();
+    var $widgets = [];
 
     /**
      * This is the QuickForm generated out of the schema. This member is set during the
@@ -104,7 +104,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     private $_fieldsets = 0;
 
-    private $_defaults = array();
+    private $_defaults = [];
 
     /**
      * State of the form manager
@@ -175,9 +175,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         $this->namespace = "{$name}_";
 
         // TODO: make configurable to get URL from midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI) instead, see #1262
-        $this->form = new HTML_QuickForm($name, 'post', $_SERVER['REQUEST_URI'], '_self', array('id' => $name), true);
-        $this->_defaults = array();
-        $this->widgets = array();
+        $this->form = new HTML_QuickForm($name, 'post', $_SERVER['REQUEST_URI'], '_self', ['id' => $name], true);
+        $this->_defaults = [];
+        $this->widgets = [];
 
         // Create the default renderer specified in the configuration.
         $this->_create_default_renderer();
@@ -216,10 +216,10 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
             //Load custom QF rules, so that they can be used in widgets' add_element_to_form calls
             $rulemanager->load_type_rules($this->_schema->fields[$name]['type']);
-            $attributes = array(
+            $attributes = [
                 'helptext' => $this->_translate($config['helptext']),
                 'id' => $this->namespace . $name
-            );
+            ];
             $this->widgets[$name]->add_elements_to_form($attributes);
             if (!$this->_check_freeze_status($name, $config)) {
                 // rules make only sense if an element is not frozen, e.g. editable by the user
@@ -242,7 +242,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
         // Close the fieldsets left open
         if ($this->_fieldsets > 0) {
-            $this->_end_fieldset('', array('end_fieldset' => $this->_fieldsets));
+            $this->_end_fieldset('', ['end_fieldset' => $this->_fieldsets]);
         }
 
         $this->_add_operation_buttons();
@@ -283,7 +283,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
     private function _add_operation_buttons()
     {
-        $buttons = array();
+        $buttons = [];
         foreach ($this->_schema->operations as $operation => $button_labels) {
             foreach ((array) $button_labels as $key => $label) {
                 if ($label == '') {
@@ -301,7 +301,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                     $accesskey = 'c';
                 }
 
-                $buttons[] = $this->form->createElement('submit', $buttonname, $buttonlabel, array('class' => $class, 'accesskey' => $accesskey));
+                $buttons[] = $this->form->createElement('submit', $buttonname, $buttonlabel, ['class' => $class, 'accesskey' => $accesskey]);
             }
         }
 
@@ -336,7 +336,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 $arg = null;
             }
             $callback_object = new $config['callback']($this, $arg);
-            $callback = array(&$callback_object, 'execute');
+            $callback = [&$callback_object, 'execute'];
 
             // Compute the field list.
             if (!empty($config['fields'])) {
@@ -369,7 +369,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         }
 
         // Enable multiple fieldset starts in the same schema field
-        $fieldsets = array();
+        $fieldsets = [];
         if (isset($config['start_fieldset']['title'])) {
             $fieldsets[] = $config['start_fieldset'];
         } else {
@@ -754,14 +754,14 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     public static function get_clicked_button()
     {
-        $available_buttons = array(
+        $available_buttons = [
             'save',
             'next',
             'previous',
             'cancel',
             'preview',
             'delete'
-        );
+        ];
         foreach ($available_buttons as $button) {
             if (array_key_exists('midcom_helper_datamanager2_' . $button, $_REQUEST)) {
                 return $button;

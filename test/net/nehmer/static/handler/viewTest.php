@@ -18,15 +18,15 @@ class net_nehmer_static_handler_viewTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $topic_attributes = array(
+        $topic_attributes = [
             'component' => 'net.nehmer.static',
             'name' => __CLASS__ . time()
-        );
+        ];
         self::$_topic = self::create_class_object('midcom_db_topic', $topic_attributes);
-        $article_properties = array(
+        $article_properties = [
             'topic' => self::$_topic->id,
             'name' => 'index'
-        );
+        ];
         self::$_article = self::create_class_object('midcom_db_article', $article_properties);
     }
 
@@ -44,7 +44,7 @@ class net_nehmer_static_handler_viewTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nehmer.static');
 
-        $data = $this->run_handler(self::$_topic, array('index'));
+        $data = $this->run_handler(self::$_topic, ['index']);
         $this->assertEquals('view', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

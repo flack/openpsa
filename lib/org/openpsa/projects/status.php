@@ -50,7 +50,7 @@ class org_openpsa_projects_status extends org_openpsa_widgets_status
 
     public function get_history()
     {
-        $entries = array();
+        $entries = [];
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
         $qb->add_constraint('task', '=', $this->task->id);
         $qb->add_order('timestamp', 'DESC');
@@ -72,10 +72,10 @@ class org_openpsa_projects_status extends org_openpsa_widgets_status
                 $target_person_label = $target_person->show_inline();
             }
 
-            $entries[] = array(
+            $entries[] = [
                 'message' => sprintf($this->l10n->get($status_change->get_status_message()), $status_changer_label, $target_person_label),
                 'timestamp' => $status_change->metadata->created
-            );
+            ];
         }
         return $entries;
     }

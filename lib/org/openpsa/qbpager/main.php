@@ -89,7 +89,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     private function _get_query_string($page_var, $page_number)
     {
-        $query = array($page_var => (int) $page_number);
+        $query = [$page_var => (int) $page_number];
 
         foreach ($_GET as $key => $value) {
             if ($key != $page_var && $key != '') {
@@ -130,7 +130,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
     public function get_pages($acl_checks = false)
     {
-        $pages = array();
+        $pages = [];
         $page_count = $this->count_pages($acl_checks);
 
         if ($page_count < 1) {
@@ -144,21 +144,21 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         if ($this->_current_page > 1) {
             $previous = $this->_current_page - 1;
             if ($previous > 1) {
-                $pages[] = array(
+                $pages[] = [
                     'class' => 'first',
                     'href' => $this->_get_query_string($page_var, 1),
                     'rel' => 'prev',
                     'label' => $this->_l10n->get('first'),
                     'number' => 1
-                );
+                ];
             }
-            $pages[] = array(
+            $pages[] = [
                 'class' => 'previous',
                 'href' => $this->_get_query_string($page_var, $previous),
                 'rel' => 'prev',
                 'label' => $this->_l10n->get($this->string_previous),
                 'number' => $previous
-            );
+            ];
         }
         $page = $display_start - 1;
         while ($page++ < $display_end) {
@@ -166,33 +166,33 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             if ($page != $this->_current_page) {
                 $href = $this->_get_query_string($page_var, $page);
             }
-            $pages[] = array(
+            $pages[] = [
                 'class' => 'current',
                 'href' => $href,
                 'rel' => false,
                 'label' => $page,
                 'number' => $page
-            );
+            ];
         }
 
         if ($this->_current_page < $page_count) {
             $next = $this->_current_page + 1;
-            $pages[] = array(
+            $pages[] = [
                 'class' => 'next',
                 'href' => $this->_get_query_string($page_var, $next),
                 'rel' => 'next',
                 'label' => $this->_l10n->get($this->string_next),
                 'number' => $next
-            );
+            ];
 
             if ($next < $page_count) {
-                $pages[] = array(
+                $pages[] = [
                     'class' => 'last',
                     'href' => $this->_get_query_string($page_var, $page_count),
                     'rel' => 'next',
                     'label' => $this->_l10n->get('last'),
                     'number' => $page_count
-                );
+                ];
             }
         }
 
@@ -217,7 +217,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     public function show_pages($acl_checks = false)
     {
-        $this->show('pages', array('pages' => $this->get_pages($acl_checks)));
+        $this->show('pages', ['pages' => $this->get_pages($acl_checks)]);
     }
 
     /**
@@ -225,7 +225,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     function show_pages_as_list($acl_checks = false)
     {
-        $this->show('pages_as_list', array('pages' => $this->get_pages($acl_checks)));
+        $this->show('pages_as_list', ['pages' => $this->get_pages($acl_checks)]);
     }
 
     /**

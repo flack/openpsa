@@ -47,10 +47,10 @@ implements midcom_helper_datamanager2_interfaces_edit
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_person->get_label()));
 
         $data['controller'] = $this->get_controller('simple', $this->_person);
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $data['controller'],
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         return $workflow->run();
     }
 

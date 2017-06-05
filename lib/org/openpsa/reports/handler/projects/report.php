@@ -14,10 +14,10 @@
 class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_handler_base
 {
     private $_grouping = 'date';
-    private $_valid_groupings = array(
+    private $_valid_groupings = [
         'date' => true,
         'person' => true,
-    );
+    ];
 
     public function _on_initialize()
     {
@@ -88,10 +88,10 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
 
     private function _sort_rows()
     {
-        usort($this->_request_data['report']['rows'], array('self', '_sort_by_key'));
+        usort($this->_request_data['report']['rows'], ['self', '_sort_by_key']);
         foreach ($this->_request_data['report']['rows'] as &$group) {
             if (!empty($group['rows'])) {
-                usort($group['rows'], array('self', '_sort_by_key'));
+                usort($group['rows'], ['self', '_sort_by_key']);
             }
         }
     }
@@ -120,7 +120,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         }
         $formatter = $this->_l10n->get_formatter();
         foreach ($this->_request_data['raw_results']['hr'] as $hour) {
-            $row = array();
+            $row = [];
             try {
                 $row['person'] = org_openpsa_contacts_person_dba::get_cached($hour->person);
             } catch (midcom_error $e) {
@@ -157,12 +157,12 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             $rows[$matching]['total_hours'] += $new_row['hour']->hours;
             return true;
         } else {
-            $rows[$matching] = array(
+            $rows[$matching] = [
                 'sort' => $sort,
                 'title' => $title,
-                'rows' => array($new_row),
+                'rows' => [$new_row],
                 'total_hours' => $new_row['hour']->hours
-            );
+            ];
         }
     }
 
@@ -192,10 +192,10 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         $results_hr = $this->_get_hour_reports();
 
         //For debugging and sensible passing of data
-        $this->_request_data['raw_results'] = array('hr' => $results_hr);
+        $this->_request_data['raw_results'] = ['hr' => $results_hr];
         //TODO: Mileages, expenses
 
-        $this->_request_data['report'] = array('rows' => array(), 'total_hours' => 0);
+        $this->_request_data['report'] = ['rows' => [], 'total_hours' => 0];
 
         $this->_analyze_raw_hours();
         $this->_sort_rows();

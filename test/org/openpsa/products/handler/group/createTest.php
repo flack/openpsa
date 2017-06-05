@@ -19,7 +19,7 @@ class org_openpsa_products_handler_group_createTest extends openpsa_testcase
 
         $group = $this->create_object('org_openpsa_products_product_group_dba');
 
-        $data = $this->run_handler('org.openpsa.products', array('create', $group->id, 'default'));
+        $data = $this->run_handler('org.openpsa.products', ['create', $group->id, 'default']);
         $this->assertEquals('create_group', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

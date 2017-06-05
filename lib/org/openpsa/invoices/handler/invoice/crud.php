@@ -51,7 +51,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         // Fill VAT select
         $vat_array = explode(',', $this->_config->get('vat_percentages'));
         if (!empty($vat_array)) {
-            $vat_values = array();
+            $vat_values = [];
             foreach ($vat_array as $vat) {
                 $vat_values[$vat] = "{$vat}%";
             }
@@ -91,7 +91,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     private function _populate_schema_customers_for_contact($contact_id)
     {
         $fields =& $this->_schemadb['default']->fields;
-        $organizations = array(0 => '');
+        $organizations = [0 => ''];
 
         $qb = org_openpsa_contacts_group_dba::new_query_builder();
         $qb->get_doctrine()
@@ -114,7 +114,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     {
         $fields =& $this->_schemadb['default']->fields;
         // We know the customer company, present contact as a select widget
-        $persons_array = array();
+        $persons_array = [];
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
         $qb->get_doctrine()
             ->leftJoin('midgard_member', 'm', Join::WITH, 'm.uid = c.id')
@@ -129,7 +129,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         $fields['customerContact']['type_config']['options'] = $persons_array;
 
         // And display the organization too
-        $organization_array = array();
+        $organization_array = [];
         $organization_array[$customer->id] = $customer->official;
 
         $fields['customer']['widget'] = 'select';
@@ -202,25 +202,25 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
 
     private function _populate_read_toolbar($handler_id)
     {
-        $buttons = array();
+        $buttons = [];
         if ($this->_object->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
-            $buttons[] = $workflow->get_button("invoice/edit/{$this->_object->guid}/", array(
+            $buttons[] = $workflow->get_button("invoice/edit/{$this->_object->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
+            ]);
         }
 
         if ($this->_object->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', array('object' => $this->_object));
+            $workflow = $this->get_workflow('delete', ['object' => $this->_object]);
             $buttons[] = $workflow->get_button("invoice/delete/{$this->_object->guid}/");
         }
 
-        $buttons[] = array(
+        $buttons[] = [
             MIDCOM_TOOLBAR_URL => "invoice/items/{$this->_object->guid}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit invoice items'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
             MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-        );
+        ];
 
         if (!$this->_object->sent) {
             $buttons[] = $this->build_button('mark_sent', 'stock-icons/16x16/stock_mail-reply.png');
@@ -254,17 +254,17 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
 
     private function build_button($action, $icon)
     {
-        return array(
+        return [
             MIDCOM_TOOLBAR_URL => 'invoice/action/' . $action . '/',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
             MIDCOM_TOOLBAR_ICON => $icon,
             MIDCOM_TOOLBAR_POST => true,
-            MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
+            MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                 'id' => $this->_object->id,
                 'relocate' => true
-            ),
+            ],
             MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-        );
+        ];
     }
 
     /**

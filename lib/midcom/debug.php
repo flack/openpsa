@@ -48,13 +48,13 @@ class midcom_debug
      *
      * @var array
      */
-    private $_loglevels = array(
+    private $_loglevels = [
         MIDCOM_LOG_DEBUG => "debug",
         MIDCOM_LOG_INFO  => "info",
         MIDCOM_LOG_WARN  => "warn",
         MIDCOM_LOG_ERROR => "error",
         MIDCOM_LOG_CRIT  => "critical"
-    );
+    ];
 
     /**
      * Standard constructor

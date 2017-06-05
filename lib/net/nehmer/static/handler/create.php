@@ -40,7 +40,7 @@ implements midcom_helper_datamanager2_interfaces_create
      *
      * @var Array
      */
-    private $_defaults = array();
+    private $_defaults = [];
 
     /**
      * Loads and prepares the schema database.
@@ -119,10 +119,10 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_topic->require_do('midgard:create');
         $this->_schema = $args[0];
 
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $this->get_controller('create'),
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$this->_schema]->description));
         return $workflow->run();
     }

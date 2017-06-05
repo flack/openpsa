@@ -112,7 +112,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * @var array
      */
-    public $derived_images = array();
+    public $derived_images = [];
 
     /**
      * The maximum width/height (in this order) of the thumbnail to be auto-created.
@@ -123,7 +123,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * @var array
      */
-    public $auto_thumbnail = array();
+    public $auto_thumbnail = [];
 
     /**
      * The image title entered by the user. Stored in each attachment's title field.
@@ -556,7 +556,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             return $this->update_attachment($blob_identifier, $filename, $title, $mimetype, $tmpname, false);
         }
         if (isset($this->_attachment_map)) {
-            $this->_attachment_map[$blob_identifier] = array($this->_identifier, $identifier);
+            $this->_attachment_map[$blob_identifier] = [$this->_identifier, $identifier];
         }
         return $this->add_attachment($blob_identifier, $filename, $title, $mimetype, $tmpname, false);
     }

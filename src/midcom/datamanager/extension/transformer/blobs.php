@@ -47,7 +47,7 @@ class blobs implements DataTransformerInterface
         if (!empty($this->config['widget_config']['show_description'])) {
             $description = $attachment->get_parameter('midcom.helper.datamanager2.type.blobs', 'description');
         }
-        return array(
+        return [
             'filename' => $attachment->name,
             'description' => $description,
             'title' => $attachment->title,
@@ -65,7 +65,7 @@ class blobs implements DataTransformerInterface
             'object' => $attachment,
             'score' => $attachment->metadata->score
             //'identifier' => $identifier
-        );
+        ];
     }
 
     protected function transform_nonpersistent(array $data)
@@ -76,7 +76,7 @@ class blobs implements DataTransformerInterface
         $title = (!empty($data['title'])) ? $data['title'] : $data['file']['name'];
         $description = (array_key_exists('description', $data)) ? $data['description'] : $title;
         $stat = stat($data['file']['tmp_name']);
-        return array(
+        return [
             'filename' => $data['file']['name'],
             'description' => $description,
             'title' => $title,
@@ -93,7 +93,7 @@ class blobs implements DataTransformerInterface
             'size_line' => '',
             'object' => null,
             'identifier' => $data['identifier']
-        );
+        ];
     }
 
     public function reverseTransform($array)

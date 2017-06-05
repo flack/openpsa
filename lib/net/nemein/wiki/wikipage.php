@@ -13,9 +13,9 @@
  */
 class net_nemein_wiki_wikipage extends midcom_db_article
 {
-    public $autodelete_dependents = array(
+    public $autodelete_dependents = [
         'net_nemein_wiki_link_dba' => 'frompage'
-    );
+    ];
 
     public function _on_loaded()
     {
@@ -110,7 +110,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     {
         $topic = new midcom_db_topic($this->topic);
         // Get list of people watching this page
-        $watchers = array();
+        $watchers = [];
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->add_constraint('domain', '=', 'net.nemein.wiki:watch');
         $qb->begin_group('OR');
@@ -146,7 +146,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
 
         // Construct the message
-        $message = array();
+        $message = [];
         $user_string = midcom::get()->i18n->get_string('anonymous', 'net.nemein.wiki');
         if (midcom::get()->auth->user) {
             $user = midcom::get()->auth->user->get_storage();

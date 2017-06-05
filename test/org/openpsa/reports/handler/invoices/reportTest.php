@@ -23,9 +23,9 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $_REQUEST = array('org_openpsa_reports_query_data' => array('mimetype' => 'text/html'));
+        $_REQUEST = ['org_openpsa_reports_query_data' => ['mimetype' => 'text/html']];
 
-        $data = $this->run_handler('org.openpsa.reports', array('invoices', 'get'));
+        $data = $this->run_handler('org.openpsa.reports', ['invoices', 'get']);
         $this->assertEquals('invoices_report_get', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -37,7 +37,7 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
 
         $query = $this->create_object('org_openpsa_reports_query_dba');
 
-        $data = $this->run_handler('org.openpsa.reports', array('invoices', 'edit', $query->guid));
+        $data = $this->run_handler('org.openpsa.reports', ['invoices', 'edit', $query->guid]);
         $this->assertEquals('invoices_edit_report_guid', $data['handler_id']);
 
         $this->show_handler($data);
@@ -49,16 +49,16 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
         $query = $this->create_object('org_openpsa_reports_query_dba');
-        $statuses =  array(
+        $statuses =  [
             'open',
             'unsent',
             'scheduled'
-        );
+        ];
         $query->set_parameter('midcom.helper.datamanager2', 'invoice_status', serialize($statuses));
         $query->set_parameter('midcom.helper.datamanager2', 'date_field', 'date');
         $query->set_parameter('midcom.helper.datamanager2', 'resource', 'all');
 
-        $data = $this->run_handler('org.openpsa.reports', array('invoices', $query->guid, 'test.csv'));
+        $data = $this->run_handler('org.openpsa.reports', ['invoices', $query->guid, 'test.csv']);
         $this->assertEquals('invoices_report_guid_file', $data['handler_id']);
 
         $this->show_handler($data);
@@ -72,7 +72,7 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
         $query = $this->create_object('org_openpsa_reports_query_dba');
         $timestamp = strftime('%Y_%m_%d', $query->metadata->created);
 
-        $url = $this->run_relocate_handler('org.openpsa.reports', array('invoices', $query->guid));
+        $url = $this->run_relocate_handler('org.openpsa.reports', ['invoices', $query->guid]);
 
         $this->assertEquals('invoices/' . $query->guid . '/' . $timestamp . '_invoices.html', $url);
 
@@ -83,7 +83,7 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $data = $this->run_handler('org.openpsa.reports', array('invoices'));
+        $data = $this->run_handler('org.openpsa.reports', ['invoices']);
         $this->assertEquals('invoices_report', $data['handler_id']);
 
         $this->show_handler($data);

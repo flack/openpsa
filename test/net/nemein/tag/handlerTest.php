@@ -23,24 +23,24 @@ class net_nemein_tag_handlerTest extends openpsa_testcase
 
     public function provider_resolve_tagname()
     {
-        return array(
-            array(
+        return [
+            [
                 'context: tagname =value',
                 'tagname'
-            ),
-            array(
+            ],
+            [
                 'context:"Tag Name"',
                 '"Tag Name"'
-            ),
-            array(
+            ],
+            [
                 'tagname=val',
                 'tagname'
-            ),
-            array(
+            ],
+            [
                 'tagname',
                 'tagname'
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -53,24 +53,24 @@ class net_nemein_tag_handlerTest extends openpsa_testcase
 
     public function provider_resolve_value()
     {
-        return array(
-            array(
+        return [
+            [
                 'context:tagname=value ',
                 'value'
-            ),
-            array(
+            ],
+            [
                 'context:tagname="Tag Name"',
                 '"Tag Name"'
-            ),
-            array(
+            ],
+            [
                 'tagname= val',
                 'val'
-            ),
-            array(
+            ],
+            [
                 'tagname',
                 ''
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -83,36 +83,36 @@ class net_nemein_tag_handlerTest extends openpsa_testcase
 
     public function provider_resolve_context()
     {
-        return array(
-            array(
+        return [
+            [
                 'context :tagname=value',
                 'context'
-            ),
-            array(
+            ],
+            [
                 'context:"Tag Name"',
                 'context'
-            ),
-            array(
+            ],
+            [
                 'tagname=val',
                 ''
-            ),
-            array(
+            ],
+            [
                 'tagname',
                 ''
-            ),
-        );
+            ],
+        ];
     }
 
     public function test_get_objects_with_tags()
    {
        $person = $this->create_object('midcom_db_person');
-       $tag = $this->create_object('net_nemein_tag_tag_dba', array('tag' => uniqid('tag')));
-       $this->create_object('net_nemein_tag_link_dba', array(
+       $tag = $this->create_object('net_nemein_tag_tag_dba', ['tag' => uniqid('tag')]);
+       $this->create_object('net_nemein_tag_link_dba', [
            'tag' => $tag->id,
            'fromGuid' => $person->guid,
            'fromClass' => 'midcom_db_person'
-       ));
-       $result = net_nemein_tag_handler::get_objects_with_tags(array($tag->tag), array('midcom_db_person'));
+       ]);
+       $result = net_nemein_tag_handler::get_objects_with_tags([$tag->tag], ['midcom_db_person']);
        $this->assertCount(1, $result);
        $this->assertEquals($person->guid, $result[0]->guid);
    }

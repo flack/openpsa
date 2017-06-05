@@ -51,7 +51,7 @@ class xml_comparison extends PHPUnit_Framework_Constraint_IsEqual
 
     private function copy($nodes, DOMDocument $new_doc, DOMNode $parent = null)
     {
-        $map = array();
+        $map = [];
         foreach ($nodes as $node) {
             $map[$node->tagName] = $node;
         }

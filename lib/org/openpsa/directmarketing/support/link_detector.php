@@ -44,7 +44,7 @@ if (isset($_ENV["logger"])) {
 if (isset($_ENV["domains"])) {
     $domains = explode(",", $_ENV["domains"]);
 } else {
-    $domains = array();
+    $domains = [];
 }
 
 // Domain control
@@ -74,7 +74,7 @@ if (substr($logger, 0, strlen("file://")) == "file://") {
     }
 } elseif (preg_match('/https?:\/\//', $logger)) {
     $client = new org_openpsa_httplib();
-    $client->post($logger, array("token" => $token, "link" => $link));
+    $client->post($logger, ["token" => $token, "link" => $link]);
 } else {
     error_log("link detected: $token $link");
 }

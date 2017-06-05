@@ -30,7 +30,7 @@ class org_openpsa_directmarketing_handler_message_listTest extends openpsa_testc
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
-        $data = $this->run_handler('org.openpsa.directmarketing', array('message', 'list', 'textemail', $campaign->guid));
+        $data = $this->run_handler('org.openpsa.directmarketing', ['message', 'list', 'textemail', $campaign->guid]);
         $this->assertEquals('message_list_dynamic_type', $data['handler_id']);
         $this->show_handler($data);
 

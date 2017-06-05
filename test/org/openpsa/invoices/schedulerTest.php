@@ -40,53 +40,53 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
 
     public function providerCalculate_cycle_next()
     {
-        return array(
-            array(
+        return [
+            [
                 'd',
                 '2011-02-12 00:00:00',
                 '2011-02-13 00:00:00',
-            ),
-            array(
+            ],
+            [
                 'm',
                 '2011-02-12 00:00:00',
                 '2011-03-12 00:00:00',
-            ),
-            array(
+            ],
+            [
                 'm',
                 '2013-01-01 00:00:00',
                 '2013-02-01 00:00:00',
-            ),
-            array(
+            ],
+            [
                 'm',
                 '2012-09-01 02:00:00',
                 '2012-10-01 00:00:00',
-            ),
-            array(
+            ],
+            [
                 'm',
                 '2011-02-01 00:00:00',
                 '2011-03-01 00:00:00',
-            ),
-            array(
+            ],
+            [
                 'm',
                 '2012-10-31 02:42:52',
                 '2012-11-30 00:00:00',
-            ),
-            array(
+            ],
+            [
                 'q',
                 '2011-02-12 00:00:00',
                 '2011-05-12 00:00:00',
-            ),
-            array(
+            ],
+            [
                 'y',
                 '2011-02-12 00:00:00',
                 '2012-02-12 00:00:00',
-            ),
-            array(
+            ],
+            [
                 'x',
                 '2011-02-12 00:00:00',
                 false,
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -102,48 +102,48 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
 
     public function providerGet_cycle_identifier()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'unit' => 'd',
                     'start' => 1293840000,
                     'end' => 1325376000,
-                ),
+                ],
                 '2011-01-01',
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'unit' => 'm',
                     'start' => 1293840000,
                     'end' => 1325376000,
-                ),
+                ],
                 '2011-01',
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'unit' => 'y',
                     'start' => 1293840000,
                     'end' => 1325376000,
-                ),
+                ],
                 '2011',
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'unit' => 'q',
                     'start' => 1293840000,
                     'end' => 1325376000,
-                ),
+                ],
                 '1Q11',
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'unit' => 'hy',
                     'start' => 1293840000,
                     'end' => 1325376000,
-                ),
+                ],
                 '1/2011',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -162,62 +162,62 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
 
     public function providerCalculate_cycles()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'unit' => 'd',
                     'start' => 1293840000,
                     'end' => 1325376000,
-                ),
+                ],
                 null,
                 365,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'unit' => 'm',
                     'start' => 1293840000,
                     'end' => 1325376000,
-                ),
+                ],
                 null,
                 12,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'unit' => 'y',
                     'start' => 1293840000,
                     'end' => 1325376000,
-                ),
+                ],
                 null,
                 1,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'unit' => 'hy',
                     'start' => 1293840000,
                     'end' => 1325376000,
-                ),
+                ],
                 null,
                 2,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'unit' => 'q',
                     'start' => 1293840000,
                     'end' => 1325376000,
-                ),
+                ],
                 null,
                 4,
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'unit' => 'd',
                     'start' => 1293840000,
                     'end' => 1325376000,
-                ),
+                ],
                 1,
                 31,
-             ),
-        );
+             ],
+        ];
     }
 
     public function testCreate_task()
@@ -228,31 +228,31 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
 
         $group = $this->create_object('org_openpsa_products_product_group_dba');
 
-        $product_attributes = array(
+        $product_attributes = [
             'productGroup' => $group->id,
             'code' => 'TEST-' . __CLASS__ . time(),
-        );
+        ];
         $product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
 
-        $salesproject_attributes = array(
+        $salesproject_attributes = [
             'owner' => $manager->id,
             'customer' => $organization->id,
-        );
+        ];
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba', $salesproject_attributes);
 
-        $member_attributes = array(
+        $member_attributes = [
             'person' => $member->id,
             'objectGuid' => $salesproject->guid,
             'role' => org_openpsa_sales_salesproject_dba::ROLE_MEMBER
-        );
+        ];
         $this->create_object('org_openpsa_contacts_role_dba', $member_attributes);
 
-        $deliverable_attributes = array(
+        $deliverable_attributes = [
            'salesproject' => $salesproject->id,
            'product' => $product->id,
            'description' => 'TEST DESCRIPTION',
            'plannedUnits' => 15,
-        );
+        ];
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
 
         $start = time();
@@ -293,7 +293,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $task->priority = 4;
         $task->manager = $member->id;
         $task->update();
-        $task->add_members('resources', array($member->id));
+        $task->add_members('resources', [$member->id]);
         $task->refresh();
         $task2 = $scheduler->create_task($start, $end, $title, $task);
         $this->register_object($task2);

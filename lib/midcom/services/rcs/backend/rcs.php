@@ -114,7 +114,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function get_revision($revision)
     {
         if (empty($this->_guid)) {
-            return array();
+            return [];
         }
         $filepath = $this->_generate_rcs_filename($this->_guid);
 
@@ -211,7 +211,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function list_history()
     {
         if (empty($this->_guid)) {
-            return array();
+            return [];
         }
 
         if (is_null($this->_history)) {
@@ -227,14 +227,14 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     private function rcs_parse_history_entry($entry)
     {
         // Create the empty history array
-        $history = array(
+        $history = [
             'revision' => null,
             'date'     => null,
             'lines'    => null,
             'user'     => null,
             'ip'       => null,
             'message'  => null,
-        );
+        ];
 
         // Revision number is in format
         // revision 1.11
@@ -281,13 +281,13 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     private function rcs_gethistory($what)
     {
         $history = $this->rcs_exec('rlog', $what . ',v');
-        $revisions = array();
+        $revisions = [];
         $lines = explode("\n", $history);
         $total = count($lines);
 
         for ($i = 0; $i < $total; $i++) {
             if (substr($lines[$i], 0, 9) == "revision ") {
-                $history_entry = array($lines[$i], $lines[$i + 1], $lines[$i + 2]);
+                $history_entry = [$lines[$i], $lines[$i + 1], $lines[$i + 2]];
                 $history = $this->rcs_parse_history_entry($history_entry);
 
                 $revisions[$history['revision']] = $history;
@@ -442,35 +442,35 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $oldest = $this->get_revision($oldest_revision);
         $newest = $this->get_revision($latest_revision);
 
-        $return = array();
+        $return = [];
         $oldest = array_intersect_key($oldest, $newest);
 
-        $repl = array(
+        $repl = [
             '<del>' => "<span class=\"deleted\">",
             '</del>' => '</span>',
             '<ins>' => "<span class=\"inserted\">",
             '</ins>' => '</span>'
-        );
+        ];
         foreach ($oldest as $attribute => $oldest_value) {
             if (is_array($oldest_value)) {
                 continue;
             }
 
-            $return[$attribute] = array(
+            $return[$attribute] = [
                 'old' => $oldest_value,
                 'new' => $newest[$attribute]
-            );
+            ];
 
             if ($oldest_value != $newest[$attribute]) {
                 $lines1 = explode("\n", $oldest_value);
                 $lines2 = explode("\n", $newest[$attribute]);
 
-                $options = array();
+                $options = [];
                 $diff = new Diff($lines1, $lines2, $options);
                 if ($renderer_style == 'unified') {
                     $renderer = new Diff_Renderer_Text_Unified;
                 } else {
-                    $renderer = new midcom_services_rcs_renderer_html_sidebyside(array('old' => $oldest_revision, 'new' => $latest_revision));
+                    $renderer = new midcom_services_rcs_renderer_html_sidebyside(['old' => $oldest_revision, 'new' => $latest_revision]);
                 }
 
                 if ($lines1 != $lines2) {

@@ -50,36 +50,36 @@ implements midcom_helper_datamanager2_interfaces_view
         $this->add_breadcrumb('', $this->_group->get_label());
 
         $workflow = $this->get_workflow('datamanager2');
-        $buttons = array();
+        $buttons = [];
         if ($this->_group->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("group/edit/{$this->_group->guid}/", array(
+            $buttons[] = $workflow->get_button("group/edit/{$this->_group->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
+            ]);
         }
         if ($this->_group->can_do('midgard:delete')) {
-            $delete_workflow = $this->get_workflow('delete', array('object' => $this->_group));
+            $delete_workflow = $this->get_workflow('delete', ['object' => $this->_group]);
             $buttons[] = $delete_workflow->get_button("group/delete/{$this->_group->guid}/");
         }
 
         if ($this->_group->can_do('midgard:privileges')) {
-            $buttons[] = $workflow->get_button("group/privileges/{$this->_group->guid}/", array(
+            $buttons[] = $workflow->get_button("group/privileges/{$this->_group->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
                 MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
-            ));
+            ]);
         }
 
         if ($this->_group->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("group/notifications/{$this->_group->guid}/", array(
+            $buttons[] = $workflow->get_button("group/notifications/{$this->_group->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
-            ));
+            ]);
         }
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')) {
-            $buttons[] = $workflow->get_button("create/{$this->_group->guid}/", array(
+            $buttons[] = $workflow->get_button("create/{$this->_group->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-            ));
+            ]);
         }
         $this->_view_toolbar->add_items($buttons);
         $this->bind_view_to_object($this->_group);

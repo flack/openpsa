@@ -37,7 +37,7 @@ class photo extends images
             }
 
             $this->set_imagedata($attachment);
-            $this->map = array('archival' => $attachment);
+            $this->map = ['archival' => $attachment];
             if (!empty($this->config['type_config']['derived_images'])) {
                 foreach ($this->config['type_config']['derived_images'] as $identifier => $filter_chain) {
                     $derived = $this->get_attachment($this->value['file'], $existing, $identifier);
@@ -49,7 +49,7 @@ class photo extends images
 
             return $this->save_attachment_list();
         } elseif (!empty($this->value['delete'])) {
-            $this->map = array();
+            $this->map = [];
             return $this->save_attachment_list();
         }
         return true;

@@ -19,11 +19,11 @@ class midcom_admin_folder_handler_approvalsTest extends openpsa_testcase
 
         $node = self::get_component_node('net.nehmer.static');
 
-        $_REQUEST = array(
+        $_REQUEST = [
             'guid' => $node->guid,
             'return_to' => 'TEST'
-        );
-        $url = $this->run_relocate_handler('net.nehmer.static', array('__ais', 'folder', 'approve'));
+        ];
+        $url = $this->run_relocate_handler('net.nehmer.static', ['__ais', 'folder', 'approve']);
         $this->assertEquals('TEST', $url);
 
         midcom::get()->auth->drop_sudo();
@@ -35,11 +35,11 @@ class midcom_admin_folder_handler_approvalsTest extends openpsa_testcase
 
         $node = self::get_component_node('net.nehmer.static');
 
-        $_REQUEST = array(
+        $_REQUEST = [
             'guid' => $node->guid,
             'return_to' => 'TEST'
-        );
-        $url = $this->run_relocate_handler('net.nehmer.static', array('__ais', 'folder', 'unapprove'));
+        ];
+        $url = $this->run_relocate_handler('net.nehmer.static', ['__ais', 'folder', 'unapprove']);
         $this->assertEquals('TEST', $url);
 
         midcom::get()->auth->drop_sudo();

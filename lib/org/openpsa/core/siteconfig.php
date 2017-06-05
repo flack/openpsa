@@ -21,9 +21,9 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      *
      * @var array
      */
-    private $components = array();
+    private $components = [];
 
-    private $data = array();
+    private $data = [];
 
     /**
      * The snippet we're working with

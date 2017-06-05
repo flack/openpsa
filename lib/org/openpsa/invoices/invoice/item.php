@@ -114,7 +114,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
             $mc->add_constraint($field, '=', $value);
         }
 
-        $results = $mc->get_rows(array('units', 'pricePerUnit'));
+        $results = $mc->get_rows(['units', 'pricePerUnit']);
         foreach ($results as $result) {
             $sum += $result['units'] * $result['pricePerUnit'];
         }
@@ -124,7 +124,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
 
     public static function update_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
     {
-        $invoiced = self::get_sum(array('deliverable' => $deliverable->id));
+        $invoiced = self::get_sum(['deliverable' => $deliverable->id]);
 
         if ($invoiced != $deliverable->invoiced) {
             $deliverable->invoiced = $invoiced;
@@ -138,7 +138,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
 
     public static function update_invoice(org_openpsa_invoices_invoice_dba $invoice)
     {
-        $invoice_sum = self::get_sum(array('invoice' => $invoice->id));
+        $invoice_sum = self::get_sum(['invoice' => $invoice->id]);
         $invoice_sum = round($invoice_sum, 2);
         if ($invoice_sum != round($invoice->sum, 2)) {
             $invoice->sum = $invoice_sum;

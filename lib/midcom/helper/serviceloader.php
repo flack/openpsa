@@ -15,7 +15,7 @@
  */
 class midcom_helper_serviceloader
 {
-    private $instances = array();
+    private $instances = [];
 
     /**
      * @param string $service Service identifier to get implementation for

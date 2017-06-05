@@ -105,11 +105,11 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             $mail->body = $this->_config->get('welcome_mail_body');
 
             // Make replacements to body
-            $mail->parameters = array(
+            $mail->parameters = [
                 "USERNAME" => $username,
                 "PASSWORD" => $password,
                 "SITE_URL" => midcom::get()->config->get('midcom_site_url')
-            );
+            ];
 
             if (!$mail->send()) {
                 $this->errstr = "Unable to deliver welcome mail: " . $mail->get_error_message();
@@ -279,7 +279,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
                 $old_passwords_array = array_slice($old_passwords_array, 0, $max);
             }
         } else {
-            $old_passwords_array = array();
+            $old_passwords_array = [];
         }
         return $old_passwords_array;
     }
@@ -391,11 +391,11 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             return false;
         }
         $release_time = time() + ($timeframe_minutes * 60);
-        $args = array(
+        $args = [
             'guid' => $this->_person->guid,
             'parameter_name' => 'org_openpsa_user_blocked_account',
             'password' => 'account_password',
-        );
+        ];
 
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('argumentsstore', '=', serialize($args));
@@ -526,7 +526,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             }
         }
         if (!is_array($attempts)) {
-            $attempts = array();
+            $attempts = [];
         }
         array_unshift($attempts, time());
 

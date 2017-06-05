@@ -24,7 +24,7 @@ class org_openpsa_invoices_handler_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $data = $this->run_handler('org.openpsa.invoices', array());
+        $data = $this->run_handler('org.openpsa.invoices', []);
         $this->assertEquals('dashboard', $data['handler_id']);
 
         $this->show_handler($data);
@@ -35,7 +35,7 @@ class org_openpsa_invoices_handler_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $data = $this->run_handler('org.openpsa.invoices', array('list', 'json', 'all'));
+        $data = $this->run_handler('org.openpsa.invoices', ['list', 'json', 'all']);
         $this->assertEquals('list_json_type', $data['handler_id']);
 
         $this->show_handler($data);
@@ -46,7 +46,7 @@ class org_openpsa_invoices_handler_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $data = $this->run_handler('org.openpsa.invoices', array('list', 'customer', 'all', self::$_person->guid));
+        $data = $this->run_handler('org.openpsa.invoices', ['list', 'customer', 'all', self::$_person->guid]);
         $this->assertEquals('list_customer_all', $data['handler_id']);
 
         $this->show_handler($data);
@@ -58,16 +58,16 @@ class org_openpsa_invoices_handler_listTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', array('salesproject' => $salesproject->id));
+        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', ['salesproject' => $salesproject->id]);
 
         $invoice  = $this->create_object('org_openpsa_invoices_invoice_dba');
-        $attributes = array(
+        $attributes = [
             'invoice' => $invoice->id,
             'deliverable' => $deliverable->id
-        );
+        ];
         $item  = $this->create_object('org_openpsa_invoices_invoice_item_dba', $attributes);
 
-        $data = $this->run_handler('org.openpsa.invoices', array('list', 'deliverable', $deliverable->guid));
+        $data = $this->run_handler('org.openpsa.invoices', ['list', 'deliverable', $deliverable->guid]);
         $this->assertEquals('list_deliverable_all', $data['handler_id']);
 
         $this->show_handler($data);

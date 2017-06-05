@@ -53,25 +53,25 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         $invoice = $this->create_object('org_openpsa_invoices_invoice_dba');
 
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
-        $deliverable_attributes = array(
+        $deliverable_attributes = [
             'salesproject' => $salesproject->id,
             'pricePerUnit' => 10
-        );
+        ];
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
 
-        $task_attributes = array(
+        $task_attributes = [
             'agreement' => $deliverable->id,
             'project' => $salesproject->id
-        );
+        ];
         $task1 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
         $task2 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
 
-        $report_attributes = array(
+        $report_attributes = [
             'invoice' => $invoice->id,
             'hours' => 1,
             'invoiceable' => true,
             'task' => $task1->id
-        );
+        ];
 
         $report1 = $this->create_object('org_openpsa_projects_hour_report_dba', $report_attributes);
         $report_attributes['task'] = $task2->id;
@@ -99,12 +99,12 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         $report2->invoiceable = false;
         $report2->update();
 
-        $invoice->_recalculate_invoice_items(array($task1->id));
+        $invoice->_recalculate_invoice_items([$task1->id]);
         $invoice->refresh();
         $this->assertEquals(30, $invoice->sum);
         $this->assertEquals(2, $this->_count_invoice_items($invoice->id));
 
-        $invoice->_recalculate_invoice_items(array($task2->id));
+        $invoice->_recalculate_invoice_items([$task2->id]);
         $invoice->refresh();
         $this->assertEquals(20, $invoice->sum);
         $this->assertEquals(2, $this->_count_invoice_items($invoice->id));

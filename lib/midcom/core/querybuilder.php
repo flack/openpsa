@@ -41,7 +41,7 @@ class midcom_core_querybuilder extends midcom_core_query
         $mgdschemaclass = $this->_convert_class($classname);
 
         $this->_query = new midgard_query_builder($mgdschemaclass);
-        call_user_func_array(array($classname, '_on_prepare_new_query_builder'), array(&$this));
+        call_user_func_array([$classname, '_on_prepare_new_query_builder'], [&$this]);
     }
 
     /**
@@ -52,7 +52,7 @@ class midcom_core_querybuilder extends midcom_core_query
     private function _execute_and_check_privileges()
     {
         $result = $this->_query->execute();
-        $newresult = array();
+        $newresult = [];
 
         foreach ($result as $object) {
             $classname = $this->_real_class;
@@ -88,9 +88,9 @@ class midcom_core_querybuilder extends midcom_core_query
     {
         $this->_reset();
 
-        if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this))) {
+        if (!call_user_func_array([$this->_real_class, '_on_prepare_exec_query_builder'], [&$this])) {
             debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
-            return array();
+            return [];
         }
 
         $this->_add_visibility_checks();
@@ -103,7 +103,7 @@ class midcom_core_querybuilder extends midcom_core_query
             $newresult = $this->execute_windowed();
         }
 
-        call_user_func_array(array($this->_real_class, '_on_process_query_result'), array(&$newresult));
+        call_user_func_array([$this->_real_class, '_on_process_query_result'], [&$newresult]);
 
         $this->count = count($newresult);
 
@@ -129,7 +129,7 @@ class midcom_core_querybuilder extends midcom_core_query
      */
     private function execute_windowed()
     {
-        $newresult = array();
+        $newresult = [];
         $denied = $this->denied;
         $offset = $this->_offset;
         $limit = $this->_limit;
@@ -200,9 +200,9 @@ class midcom_core_querybuilder extends midcom_core_query
     {
         $this->_reset();
 
-        if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this))) {
+        if (!call_user_func_array([$this->_real_class, '_on_prepare_exec_query_builder'], [&$this])) {
             debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
-            return array();
+            return [];
         }
 
         // Add the limit / offsets
@@ -216,7 +216,7 @@ class midcom_core_querybuilder extends midcom_core_query
 
         $newresult = $this->_execute_and_check_privileges();
 
-        call_user_func_array(array($this->_real_class, '_on_process_query_result'), array(&$newresult));
+        call_user_func_array([$this->_real_class, '_on_process_query_result'], [&$newresult]);
 
         $this->count = count($newresult);
 

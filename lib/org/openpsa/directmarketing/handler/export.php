@@ -34,7 +34,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
     public function _load_data($handler_id, &$args, &$data)
     {
-        $rows = array();
+        $rows = [];
         $qb_members = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb_members->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
         $qb_members->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
@@ -64,19 +64,19 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             return;
         }
 
-        $row = array(
+        $row = [
             'person' => $person,
             'campaign_member' => $member
-        );
+        ];
 
         $qb_memberships = midcom_db_member::new_query_builder();
         $qb_memberships->add_constraint('uid', '=', $member->person);
 
         if ($memberships = $qb_memberships->execute_unchecked()) {
             if ($this->membership_mode == 'first') {
-                $memberships = array(reset($memberships));
+                $memberships = [reset($memberships)];
             } elseif ($this->membership_mode == 'last') {
-                $memberships = array(end($memberships));
+                $memberships = [end($memberships)];
             }
             foreach ($memberships as $membership) {
                 $row['organization_member'] = $membership;

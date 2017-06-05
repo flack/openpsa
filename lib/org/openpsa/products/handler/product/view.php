@@ -30,13 +30,13 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
         if ($this->_product->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
-            $this->_view_toolbar->add_item($workflow->get_button("product/edit/{$this->_product->guid}/", array(
+            $this->_view_toolbar->add_item($workflow->get_button("product/edit/{$this->_product->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )));
+            ]));
         }
 
         if ($this->_product->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', array('object' => $this->_product));
+            $workflow = $this->get_workflow('delete', ['object' => $this->_product]);
             $this->_view_toolbar->add_item($workflow->get_button("product/delete/{$this->_product->guid}/"));
         }
     }
@@ -86,7 +86,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                 $title = str_replace('<PRODUCTGROUP_TITLE>', $productgroup->title, $title);
                 $title = str_replace('<PRODUCTGROUP_CODE>', $productgroup->code, $title);
             } catch (midcom_error $e) {
-                $title = str_replace(array('<PRODUCTGROUP_TITLE>', '<PRODUCTGROUP_CODE>'), '', $title);
+                $title = str_replace(['<PRODUCTGROUP_TITLE>', '<PRODUCTGROUP_CODE>'], '', $title);
             }
         }
 

@@ -28,7 +28,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
      */
     public function _handler_search($handler_id, array $args, array &$data)
     {
-        $this->_request_data['results'] = array();
+        $this->_request_data['results'] = [];
         if (array_key_exists('query', $_GET)) {
             // Figure out where we are
             $nap = new midcom_helper_nav();
@@ -61,14 +61,14 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
     {
         if ($this->_request_data['directory']->can_do('midgard:create')) {
             $workflow = $this->get_workflow('datamanager2');
-            $this->_view_toolbar->add_item($workflow->get_button("document/create/", array(
+            $this->_view_toolbar->add_item($workflow->get_button("document/create/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new document'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-            )));
-            $this->_view_toolbar->add_item($workflow->get_button("create/", array(
+            ]));
+            $this->_view_toolbar->add_item($workflow->get_button("create/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new directory'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-            )));
+            ]));
         }
     }
 

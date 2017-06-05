@@ -106,23 +106,23 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     public static function resolve_path_parts($object)
     {
-        static $cache = array();
+        static $cache = [];
         if (isset($cache[$object->guid])) {
             return $cache[$object->guid];
         }
 
-        $ret = array();
-        $ret[] = array(
+        $ret = [];
+        $ret[] = [
             'object' => $object,
             'label' => parent::get($object)->get_object_label($object),
-        );
+        ];
 
         $parent = self::get_parent($object);
         while (is_object($parent)) {
-            $ret[] = array(
+            $ret[] = [
                 'object' => $parent,
                 'label' => parent::get($parent)->get_object_label($parent),
-            );
+            ];
             $parent = self::get_parent($parent);
         }
 
@@ -185,7 +185,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        $child_objects = array();
+        $child_objects = [];
         foreach ($child_classes as $schema_type) {
             $type_children = $resolver->_get_child_objects_type($schema_type, $object, $deleted);
             // PONDER: check for boolean false as result ??
@@ -221,7 +221,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        return call_user_func(array($midcom_dba_classname, 'new_query_builder'));
+        return call_user_func([$midcom_dba_classname, 'new_query_builder']);
     }
 
     /**
@@ -229,24 +229,24 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     private function _get_link_fields($schema_type, $for_object)
     {
-        static $cache = array();
+        static $cache = [];
         $cache_key = $schema_type . '-' . get_class($for_object);
         if (empty($cache[$cache_key])) {
             $ref = new midgard_reflection_property($schema_type);
 
-            $linkfields = array();
+            $linkfields = [];
             $linkfields['up'] = midgard_object_class::get_property_up($schema_type);
             $linkfields['parent'] = midgard_object_class::get_property_parent($schema_type);
             $object_baseclass = midcom_helper_reflector::resolve_baseclass(get_class($for_object));
 
             $linkfields = array_filter($linkfields);
-            $data = array();
+            $data = [];
             foreach ($linkfields as $link_type => $field) {
-                $info = array(
+                $info = [
                     'name' => $field,
                     'type' => $ref->get_midgard_type($field),
                     'target' => $ref->get_link_target($field)
-                );
+                ];
                 $linked_class = $ref->get_link_name($field);
                 if (   empty($linked_class)
                     && $info['type'] === MGD_TYPE_GUID) {
@@ -387,7 +387,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     public function get_child_classes()
     {
-        static $child_classes_all = array();
+        static $child_classes_all = [];
         if (!isset($child_classes_all[$this->mgdschema_class])) {
             $child_classes_all[$this->mgdschema_class] = $this->_resolve_child_classes();
         }
@@ -406,9 +406,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         // Safety against misconfiguration
         if (!is_array($child_class_exceptions_neverchild)) {
             debug_add("config->get('child_class_exceptions_neverchild') did not return array, invalid configuration ??", MIDCOM_LOG_ERROR);
-            $child_class_exceptions_neverchild = array();
+            $child_class_exceptions_neverchild = [];
         }
-        $child_classes = array();
+        $child_classes = [];
         $types = array_diff(midcom_connection::get_schema_types(), $child_class_exceptions_neverchild);
         foreach ($types as $schema_type) {
             $parent_property = midgard_object_class::get_property_parent($schema_type);
@@ -471,9 +471,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         // Safety against misconfiguration
         if (!is_array($root_exceptions_notroot)) {
             debug_add("config->get('root_class_exceptions_notroot') did not return array, invalid configuration ??", MIDCOM_LOG_ERROR);
-            $root_exceptions_notroot = array();
+            $root_exceptions_notroot = [];
         }
-        $root_classes = array();
+        $root_classes = [];
         $types = array_diff(midcom_connection::get_schema_types(), $root_exceptions_notroot);
         foreach ($types as $schema_type) {
             if (substr($schema_type, 0, 2) == '__') {
@@ -506,7 +506,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         // Safety against misconfiguration
         if (!is_array($root_exceptions_forceroot)) {
             debug_add("config->get('root_class_exceptions_forceroot') did not return array, invalid configuration ??", MIDCOM_LOG_ERROR);
-            $root_exceptions_forceroot = array();
+            $root_exceptions_forceroot = [];
         }
         $root_exceptions_forceroot = array_diff($root_exceptions_forceroot, $root_classes);
         foreach ($root_exceptions_forceroot as $schema_type) {
@@ -549,8 +549,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     public static function get_tree(midcom_core_dbaobject $parent)
     {
-        static $shown_guids = array();
-        $tree = array();
+        static $shown_guids = [];
+        $tree = [];
         try {
             $children = self::get_child_objects($parent);
         } catch (midcom_error $e) {
@@ -567,11 +567,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 }
                 $shown_guids[$object->guid] = true;
 
-                $leaf = array(
+                $leaf = [
                     'title' => $reflector->get_object_label($object),
                     'icon' => $reflector->get_object_icon($object),
                     'class' => $class
-                );
+                ];
                 $grandchildren = self::get_tree($object);
                 if (!empty($grandchildren)) {
                     $leaf['children'] = $grandchildren;

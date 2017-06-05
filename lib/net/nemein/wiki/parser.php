@@ -35,7 +35,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
 
     public function get_markdown($input)
     {
-        return preg_replace_callback($this->_config->get('wikilink_regexp'), array($this, 'replace_wikiwords'), $input);
+        return preg_replace_callback($this->_config->get('wikilink_regexp'), [$this, 'replace_wikiwords'], $input);
     }
 
     /**
@@ -155,16 +155,16 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     private function _run_macro_tagged($macro_content, $fulltag, $after)
     {
         $tags_exploded = explode(',', $macro_content);
-        $tags = array();
+        $tags = [];
         foreach (array_filter($tags_exploded) as $tagname) {
             $tag = net_nemein_tag_handler::resolve_tagname(trim($tagname));
             $tags[$tag] = $tag;
         }
-        $classes = array(
+        $classes = [
             'net_nemein_wiki_wikipage',
             'midcom_db_article',
             'midgard_article',
-        );
+        ];
         $pages = net_nemein_tag_handler::get_objects_with_tags($tags, $classes, 'OR');
         if (!is_array($pages)) {
             // Failure in tag library
@@ -173,7 +173,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         $nap = new midcom_helper_nav();
         $ret = "\n<ul class=\"tagged\">\n";
 
-        usort($pages, array($this, '_code_sort_by_title'));
+        usort($pages, [$this, '_code_sort_by_title']);
         foreach ($pages as $page) {
             $node = $nap->get_node($page->topic);
             if ($node[MIDCOM_NAV_COMPONENT] !== 'net.nemein.wiki') {
@@ -277,8 +277,8 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     {
         // Seek wiki page links inside page content
         // TODO: Simplify
-        $matches = array();
-        $links = array();
+        $matches = [];
+        $links = [];
         preg_match_all($this->_config->get('wikilink_regexp'), $this->_page->content, $matches);
         foreach ($matches[1] as $match_key => $match) {
             $fulltext = $match;

@@ -4,11 +4,11 @@ echo "<h2>";
 printf($data['l10n']->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($data['type']));
 echo "</h2>";
 
-$shown = array();
+$shown = [];
 
 function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = '', $enable_undelete = true)
 {
-    static $shown = array();
+    static $shown = [];
     static $url_prefix = '';
     if (!$url_prefix) {
         $url_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);

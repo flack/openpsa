@@ -22,13 +22,13 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         // These, especially the general view handler, must come last, otherwise we'll hide other
         // handlers
         if ($this->_config->get('autoindex')) {
-            $this->_request_switch['autoindex'] = array(
-                'handler' => array('net_nehmer_static_handler_autoindex', 'autoindex'),
-            );
+            $this->_request_switch['autoindex'] = [
+                'handler' => ['net_nehmer_static_handler_autoindex', 'autoindex'],
+            ];
         } else {
-            $this->_request_switch['index'] = array(
-                'handler' => array('net_nehmer_static_handler_view', 'view'),
-            );
+            $this->_request_switch['index'] = [
+                'handler' => ['net_nehmer_static_handler_view', 'view'],
+            ];
         }
     }
 
@@ -58,28 +58,28 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
      */
     private function _populate_node_toolbar()
     {
-        $buttons = array();
+        $buttons = [];
         $workflow = $this->get_workflow('datamanager2');
         if ($this->_topic->can_do('midgard:create')) {
             foreach (array_keys($this->_request_data['schemadb']) as $name) {
-                $buttons[] = $workflow->get_button("create/{$name}/", array(
+                $buttons[] = $workflow->get_button("create/{$name}/", [
                     MIDCOM_TOOLBAR_LABEL => sprintf(
                         $this->_l10n_midcom->get('create %s'),
                         $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
                     ),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                ));
+                ]);
             }
         }
 
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
-            $buttons[] = $workflow->get_button('config/', array(
+            $buttons[] = $workflow->get_button('config/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
-            ));
+            ]);
         }
         $this->_node_toolbar->add_items($buttons);
     }

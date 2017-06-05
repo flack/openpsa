@@ -18,15 +18,15 @@ class net_nemein_wiki_handler_editTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $topic_attributes = array(
+        $topic_attributes = [
             'component' => 'net.nemein.wiki',
             'name' => __CLASS__ . time()
-        );
+        ];
         self::$_topic = self::create_class_object('midcom_db_topic', $topic_attributes);
-        $article_properties = array(
+        $article_properties = [
             'topic' => self::$_topic->id,
             'title' => __CLASS__ . ' ' . time()
-        );
+        ];
         self::$_page = self::create_class_object('net_nemein_wiki_wikipage', $article_properties);
     }
 
@@ -34,7 +34,7 @@ class net_nemein_wiki_handler_editTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nemein.wiki');
 
-        $data = $this->run_handler(self::$_topic, array('edit', self::$_page->name));
+        $data = $this->run_handler(self::$_topic, ['edit', self::$_page->name]);
         $this->assertEquals('edit', $data['handler_id']);
 
         $this->show_handler($data);
@@ -47,7 +47,7 @@ class net_nemein_wiki_handler_editTest extends openpsa_testcase
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST['change_to'] = 'default';
-        $url = $this->run_relocate_handler(self::$_topic, array('change', self::$_page->name));
+        $url = $this->run_relocate_handler(self::$_topic, ['change', self::$_page->name]);
         $this->assertEquals('edit/' . self::$_page->name . '/', $url);
 
         midcom::get()->auth->drop_sudo();

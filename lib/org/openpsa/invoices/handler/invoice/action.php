@@ -27,24 +27,24 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
     private function reply($success, $message)
     {
-        $message = array(
+        $message = [
             'title' => $this->_l10n->get($this->_component),
             'type' => $success ? 'info' : 'error',
             'message' => $message
-        );
+        ];
 
         if (!empty($_POST['relocate'])) {
             midcom::get()->uimessages->add($message['title'], $message['message'], $message['type']);
             return new midcom_response_relocate('invoice/' . $this->invoice->guid . '/');
         }
 
-        $result = array(
+        $result = [
             'success' => $success,
             'action' => $this->_master->render_invoice_actions($this->invoice),
             'due' => strftime('%Y-%m-%d', $this->invoice->due),
             'new_status' => $this->invoice->get_status(),
             'message' => $message
-        );
+        ];
         return new midcom_response_json($result);
     }
 
@@ -152,19 +152,19 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $attachment = $pdf_helper->get_attachment(true);
 
         $mail = new org_openpsa_mail();
-        $mail->attachments[] = array(
+        $mail->attachments[] = [
             'name' => $attachment->name . ".pdf",
             'mimetype' => "application/pdf",
             'content' => $attachment->read()
-        );
+        ];
 
         // define replacements for subject / body
-        $mail->parameters = array(
+        $mail->parameters = [
             "INVOICE_LABEL" => $invoice_label,
             "INVOICE_DATE" => $invoice_date,
             "FIRSTNAME" => $contactDetails["firstname"],
             "LASTNAME" => $contactDetails["lastname"]
-        );
+        ];
 
         $mail->to = $contactDetails["email"];
         $mail->from = $this->_config->get('invoice_mail_from_address');

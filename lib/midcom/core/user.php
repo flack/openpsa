@@ -293,7 +293,7 @@ class midcom_core_user
         if (is_null($this->_per_class_privileges)) {
             $this->_load_privileges();
         }
-        $result = array();
+        $result = [];
         foreach ($this->_per_class_privileges as $class => $privileges) {
             if (midcom::get()->dbfactory->is_a($object, $class)) {
                 $result = array_merge($result, $privileges);
@@ -356,12 +356,12 @@ class midcom_core_user
             $this->_load_direct_groups();
         }
 
-        $this->_all_groups = array();
-        $this->_inheritance_chains = array();
+        $this->_all_groups = [];
+        $this->_inheritance_chains = [];
 
         foreach ($this->_direct_groups as $id => $group) {
             $this->_all_groups[$id] =& $this->_direct_groups[$id];
-            $inheritance_chain = array($group->id);
+            $inheritance_chain = [$group->id];
             /**
              * FIXME: Parent group members should inherit permissions from
              * the child groups, not the other way around!!!
@@ -386,7 +386,7 @@ class midcom_core_user
      */
     private function _load_privileges()
     {
-        static $cache = array();
+        static $cache = [];
 
         if (!array_key_exists($this->id, $cache)) {
             debug_add("Loading privileges for user {$this->name} ({$this->id})");
@@ -395,8 +395,8 @@ class midcom_core_user
                 $this->_load_all_groups();
             }
 
-            $this->_privileges = array();
-            $this->_per_class_privileges = array();
+            $this->_privileges = [];
+            $this->_per_class_privileges = [];
 
             foreach ($this->_inheritance_chains as $inheritance_chain) {
                 // Compute permissions based on this group line.

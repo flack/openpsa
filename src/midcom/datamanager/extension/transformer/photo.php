@@ -17,7 +17,7 @@ class photo extends blobs
         if ($input === null) {
             return;
         }
-        $result = array();
+        $result = [];
         foreach ($input as $key => $value) {
             if ($value instanceof midcom_db_attachment) {
                 //This is converting from storage
@@ -26,7 +26,7 @@ class photo extends blobs
                 //This is during validation errors
                 $result[$key] = $this->transform_persistent($value['object']);
             } elseif ($value !== null) {
-                $result[$key] = $this->transform_nonpersistent(array('file' => $value, 'identifier' => 'archival'));
+                $result[$key] = $this->transform_nonpersistent(['file' => $value, 'identifier' => 'archival']);
             }
         }
         return $result;

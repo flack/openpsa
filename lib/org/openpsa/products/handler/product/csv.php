@@ -46,7 +46,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
 
         $this->_schema_fields_to_skip = explode(',', $this->_config->get('export_skip_fields'));
 
-        return array($data['schemadb_product']);
+        return [$data['schemadb_product']];
     }
 
     function _load_data($handler_id, &$args, &$data)
@@ -79,7 +79,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
                 $qb->end_group('OR');
             }
         }
-        $products = array();
+        $products = [];
         foreach ($qb->execute() as $product) {
             if ($product->get_parameter('midcom.helper.datamanager2', 'schema_name')) {
                 $products[] = $product;

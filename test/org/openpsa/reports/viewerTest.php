@@ -32,9 +32,9 @@ class org_openpsa_reports_viewerTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $_POST = array('org_openpsa_reports_csv' => 'TEST');
+        $_POST = ['org_openpsa_reports_csv' => 'TEST'];
 
-        $data = $this->run_handler('org.openpsa.reports', array('csv', 'testfile.csv'));
+        $data = $this->run_handler('org.openpsa.reports', ['csv', 'testfile.csv']);
         $this->assertEquals('csv_export', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -46,7 +46,7 @@ class org_openpsa_reports_viewerTest extends openpsa_testcase
 
         $query = $this->create_object('org_openpsa_reports_query_dba');
 
-        $url = $this->run_relocate_handler('org.openpsa.reports', array('delete', $query->guid));
+        $url = $this->run_relocate_handler('org.openpsa.reports', ['delete', $query->guid]);
         $this->assertEquals('', $url);
 
         midcom::get()->auth->drop_sudo();

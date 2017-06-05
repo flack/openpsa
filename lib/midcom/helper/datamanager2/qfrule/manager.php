@@ -32,12 +32,12 @@ class midcom_helper_datamanager2_qfrule_manager
      *
      * @var array
      */
-    private $_loaded = array();
+    private $_loaded = [];
 
-    private $_available = array(
-        'date' => array('checkjsdate', 'checksimpledate'),
-        'select' => array('requiremultiselect')
-    );
+    private $_available = [
+        'date' => ['checkjsdate', 'checksimpledate'],
+        'select' => ['requiremultiselect']
+    ];
 
     public function __construct(HTML_QuickForm $form, midcom_services_i18n_l10n $l10n)
     {
@@ -116,7 +116,7 @@ class midcom_helper_datamanager2_qfrule_manager
             $message = $type->translate($rule['message']);
             switch ($rule['type']) {
                 case 'compare':
-                    $this->_form->addRule(array($rule['compare_with'], $type->name), $message, $rule['type'], $rule['format']);
+                    $this->_form->addRule([$rule['compare_with'], $type->name], $message, $rule['type'], $rule['format']);
                     break;
 
                 default:

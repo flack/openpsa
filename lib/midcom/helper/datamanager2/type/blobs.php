@@ -42,7 +42,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      *
      * @var Array
      */
-    public $attachments = array();
+    public $attachments = [];
 
     /**
      * This member is populated and synchronized with all known changes to the
@@ -73,7 +73,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      *
      * @var Array
      */
-    public $attachments_info = array();
+    public $attachments_info = [];
 
     /**
      * Maximum amount of blobs allowed to be stored in the same field
@@ -94,7 +94,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      *
      * @var array
      */
-    public $_sorted_list = array();
+    public $_sorted_list = [];
 
     /**
      * This function loads all known attachments from the storage object.
@@ -142,8 +142,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     {
         // Sortable attachments should be already sorted in the correct order
 
-        uasort($this->attachments, array($this, 'sort_attachments_cmp'));
-        uasort($this->attachments_info, array($this, '_sort_attachments_info_callback'));
+        uasort($this->attachments, [$this, 'sort_attachments_cmp']);
+        uasort($this->attachments_info, [$this, '_sort_attachments_info_callback']);
     }
 
     /**
@@ -210,7 +210,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         $att = $this->attachments[$identifier];
         $stats = $att->stat();
 
-        $this->attachments_info[$identifier] = array(
+        $this->attachments_info[$identifier] = [
             'filename' => $att->name,
             'description' => $att->title,
             'mimetype' => $att->mimetype,
@@ -226,7 +226,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             'size_line' => $att->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_line'),
             'object' => $att,
             'identifier' => $identifier
-        );
+        ];
     }
 
     public function convert_to_storage()
@@ -245,7 +245,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     private function _save_attachment_listing()
     {
         // Data that will be stored
-        $data = array();
+        $data = [];
         // Count of attachments, used to calculate metadata->score
         $count = count($this->attachments);
 
@@ -637,7 +637,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
     public function convert_to_csv()
     {
-        $results = array();
+        $results = [];
         foreach ($this->attachments_info as $info) {
             $results[] = $info['url'];
         }
@@ -677,11 +677,11 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function file_sanity_checks($filepath)
     {
-        static $checked_files = array();
-        $checks = array(
+        static $checked_files = [];
+        $checks = [
             'sizenotzero',
             'avscan',
-        );
+        ];
         // Do not check same file twice
         if (isset($checked_files[$filepath])) {
             return $checked_files[$filepath];
@@ -736,7 +736,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             return true;
         }
         $scan_command = escapeshellcmd(sprintf($scan_template, $filepath));
-        $scan_output = array();
+        $scan_output = [];
         exec($scan_command, $scan_output, $exit_code);
         if ($exit_code !== 0) {
             // Scan command returned error (likely infected file);

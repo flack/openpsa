@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_handler_message_composeTest extends openpsa_te
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
-        $data = $this->run_handler('org.openpsa.directmarketing', array('message', 'compose', $message->guid));
+        $data = $this->run_handler('org.openpsa.directmarketing', ['message', 'compose', $message->guid]);
         $this->assertEquals('compose', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -42,7 +42,7 @@ class org_openpsa_directmarketing_handler_message_composeTest extends openpsa_te
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
-        $data = $this->run_handler('org.openpsa.directmarketing', array('message', 'compose', $message->guid, self::$_person->guid));
+        $data = $this->run_handler('org.openpsa.directmarketing', ['message', 'compose', $message->guid, self::$_person->guid]);
         $this->assertEquals('compose4person', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

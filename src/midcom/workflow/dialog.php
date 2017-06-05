@@ -25,7 +25,7 @@ abstract class dialog
      */
     protected $state = self::INACTIVE;
 
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         $resolver = new OptionsResolver();
         $this->configure($resolver);
@@ -46,7 +46,7 @@ abstract class dialog
     public static function add_head_elements()
     {
         $head = midcom::get()->head;
-        $head->enable_jquery_ui(array('mouse', 'draggable', 'resizable', 'button', 'dialog'));
+        $head->enable_jquery_ui(['mouse', 'draggable', 'resizable', 'button', 'dialog']);
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/workflow.js');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.workflow/workflow.css');
     }
@@ -65,7 +65,7 @@ abstract class dialog
      * @param array $options
      * @return arrabutton config in midcom_helper_toolbar format
      */
-    public function get_button($url, array $options = array())
+    public function get_button($url, array $options = [])
     {
         static::add_head_elements();
 

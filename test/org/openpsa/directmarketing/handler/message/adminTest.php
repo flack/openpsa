@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_handler_message_adminTest extends openpsa_test
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
-        $data = $this->run_handler('org.openpsa.directmarketing', array('message', 'edit', $message->guid));
+        $data = $this->run_handler('org.openpsa.directmarketing', ['message', 'edit', $message->guid]);
         $this->assertEquals('message_edit', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -42,7 +42,7 @@ class org_openpsa_directmarketing_handler_message_adminTest extends openpsa_test
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
-        $data = $this->run_handler('org.openpsa.directmarketing', array('message', 'copy', $message->guid));
+        $data = $this->run_handler('org.openpsa.directmarketing', ['message', 'copy', $message->guid]);
         $this->assertEquals('message_copy', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -55,7 +55,7 @@ class org_openpsa_directmarketing_handler_message_adminTest extends openpsa_test
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
-        $data = $this->run_handler('org.openpsa.directmarketing', array('message', 'delete', $message->guid));
+        $data = $this->run_handler('org.openpsa.directmarketing', ['message', 'delete', $message->guid]);
         $this->assertEquals('message_delete', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

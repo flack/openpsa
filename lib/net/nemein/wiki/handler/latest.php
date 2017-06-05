@@ -66,11 +66,11 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         $history_date = date('Y-m-d', $entry['date']);
 
         if (!isset($this->_request_data['latest_pages'][$history_date])) {
-            $this->_request_data['latest_pages'][$history_date] = array();
+            $this->_request_data['latest_pages'][$history_date] = [];
         }
 
         if (!isset($this->_request_data['latest_pages'][$history_date][$entry['object']->guid])) {
-            $this->_request_data['latest_pages'][$history_date][$entry['object']->guid] = array();
+            $this->_request_data['latest_pages'][$history_date][$entry['object']->guid] = [];
         }
 
         $this->_updated_pages++;
@@ -85,7 +85,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
      */
     public function _handler_latest($handler_id, array $args, array &$data)
     {
-        $data['latest_pages'] = array();
+        $data['latest_pages'] = [];
         $this->_max_pages = $this->_config->get('latest_count');
 
         // Start by looking for items within last two weeks
@@ -119,7 +119,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         $data['wikiname'] = $this->_topic->extra;
         if (count($data['latest_pages']) > 0) {
             krsort($data['latest_pages']);
-            $dates_shown = array();
+            $dates_shown = [];
             midcom_show_style('view-latest-header');
             foreach ($data['latest_pages'] as $date => $objects) {
                 if (!isset($dates_shown[$date])) {

@@ -96,25 +96,25 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
     private function create_toolbar(net_nemein_rss_feed_dba $feed)
     {
         $toolbar = new midcom_helper_toolbar();
-        $buttons = array();
+        $buttons = [];
         if ($feed->can_do('midgard:update')) {
-            $buttons[] = array(
+            $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "__feeds/rss/edit/{$feed->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-            );
+            ];
         }
 
         if ($this->_topic->can_do('midgard:create')) {
-            $buttons[] = array(
+            $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "__feeds/rss/fetch/{$feed->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('refresh feed'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
-            );
+            ];
         }
 
         if ($feed->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', array('object' => $feed));
+            $workflow = $this->get_workflow('delete', ['object' => $feed]);
             $buttons[] = $workflow->get_button("__feeds/rss/delete/{$feed->guid}/");
         }
         $toolbar->add_items($buttons);

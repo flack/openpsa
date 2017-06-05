@@ -15,7 +15,7 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
 {
     private function read_node(midcom_db_topic $node)
     {
-        $node_array = array();
+        $node_array = [];
         $node_array['name'] = $node->name;
         $node_array['title'] = $node->extra;
         $node_array['component'] = $node->component;
@@ -32,10 +32,10 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
         $node_array['parameters'] = $node->list_parameters();
 
         // TODO: Implement ACL exporting
-        $node_array['acl'] = array();
+        $node_array['acl'] = [];
 
         // Recurse subnodes
-        $node_array['nodes'] = array();
+        $node_array['nodes'] = [];
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('up', '=', $node->id);
         $children = $qb->execute();
@@ -49,8 +49,8 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
     public function read_structure(midcom_db_topic $root_node, $structure_name)
     {
         // Prepare structure
-        $structure = array();
-        $structure[$structure_name] = array();
+        $structure = [];
+        $structure[$structure_name] = [];
         $structure[$structure_name]['name'] = $structure_name;
         $structure[$structure_name]['title'] = midcom::get()->config->get('midcom_site_title');
         // Read the topic data

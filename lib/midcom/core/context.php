@@ -25,7 +25,7 @@ class midcom_core_context
      *
      * @var array
      */
-    private static $_contexts = array();
+    private static $_contexts = [];
 
     /**
      * Contains the ID of the currently active context
@@ -39,7 +39,7 @@ class midcom_core_context
      *
      * @var array
      */
-    private $_data = array(
+    private $_data = [
         MIDCOM_CONTEXT_ANCHORPREFIX => '',
         MIDCOM_CONTEXT_URI => '',
         MIDCOM_CONTEXT_ROOTTOPIC => null,
@@ -50,10 +50,10 @@ class midcom_core_context
         MIDCOM_CONTEXT_PAGETITLE => "",
         MIDCOM_CONTEXT_LASTMODIFIED => null,
         MIDCOM_CONTEXT_PERMALINKGUID => null,
-        MIDCOM_CONTEXT_CUSTOMDATA => array(),
-        MIDCOM_CONTEXT_URLTOPICS => array(),
+        MIDCOM_CONTEXT_CUSTOMDATA => [],
+        MIDCOM_CONTEXT_URLTOPICS => [],
         MIDCOM_CONTEXT_SHOWCALLBACK => null
-    );
+    ];
 
     /**
      *
@@ -353,7 +353,7 @@ class midcom_core_context
 
         // Load configuration
         $config_obj = $this->_loadconfig($this->id, $object);
-        $config = ($config_obj == false) ? array() : $config_obj->get_all();
+        $config = ($config_obj == false) ? [] : $config_obj->get_all();
         if (!$component_interface->configure($config, $this->id)) {
             throw new midcom_error("Component Configuration failed: " . midcom_connection::get_error_string());
         }
@@ -370,7 +370,7 @@ class midcom_core_context
 
         $this->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $this->parser->get_current_object());
         $this->set_key(MIDCOM_CONTEXT_URLTOPICS, $this->parser->get_objects());
-        $this->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, array($component_interface, 'show_content'));
+        $this->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$component_interface, 'show_content']);
         return $component_interface;
     }
 
@@ -431,7 +431,7 @@ class midcom_core_context
      */
     private function _loadconfig($context_id, midcom_db_topic $object)
     {
-        static $configs = array();
+        static $configs = [];
         $cache_key = $context_id . '::' . $object->guid;
 
         if (!isset($configs[$cache_key])) {

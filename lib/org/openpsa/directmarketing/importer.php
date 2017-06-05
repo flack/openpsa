@@ -18,41 +18,41 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
      *
      * @var array
      */
-    private $_datamanagers = array();
+    private $_datamanagers = [];
 
     /**
      * The schema databases used for importing to various objects like persons and organizations
      *
      * @var array
      */
-    protected $_schemadbs = array();
+    protected $_schemadbs = [];
 
     /**
      * Object registry
      *
      * @var array
      */
-    private $_new_objects = array();
+    private $_new_objects = [];
 
     /**
      * Status table
      *
      * @var array
      */
-    private $_import_status = array();
+    private $_import_status = [];
 
     /**
      * Importer configuration, if any
      *
      * @var array
      */
-    protected $_settings = array();
+    protected $_settings = [];
 
     /**
      * @param array $schemadbs The datamanager schemadbs to work on
      * @param array $settings Importer configuration, if any
      */
-    public function __construct(array $schemadbs, array $settings = array())
+    public function __construct(array $schemadbs, array $settings = [])
     {
         parent::__construct();
         $this->_settings = $settings;
@@ -281,16 +281,16 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
      */
     public function import_subscribers(array $subscribers, org_openpsa_directmarketing_campaign_dba $campaign)
     {
-        $this->_import_status = array(
+        $this->_import_status = [
             'already_subscribed' => 0,
             'subscribed_new' => 0,
             'failed_create' => 0,
             'failed_add' => 0,
-        );
+        ];
 
         foreach ($subscribers as $subscriber) {
             // Submethods will register any objects they create to this array so we can clean them up as needed
-            $this->_new_objects = array();
+            $this->_new_objects = [];
 
             try {
                 $person = $this->_import_subscribers_person($subscriber);

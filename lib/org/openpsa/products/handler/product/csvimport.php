@@ -20,12 +20,12 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         midcom::get()->auth->require_admin_user();
         $this->_request_data['type'] = 'product';
 
-        $this->_request_data['import_status'] = array(
+        $this->_request_data['import_status'] = [
             'updated' => 0,
             'created' => 0,
             'failed_create' => 0,
             'failed_update' => 0,
-        );
+        ];
 
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_product']);
 
@@ -166,7 +166,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
 
     private function _get_product_group_tree($up)
     {
-        $groups = array();
+        $groups = [];
 
         $qb = org_openpsa_products_product_group_dba::new_query_builder();
         $qb->add_constraint('up', '=', $up);
@@ -189,7 +189,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
     {
         $this->_prepare_handler($args);
 
-        $data['product_groups'] = array();
+        $data['product_groups'] = [];
 
         $up = 0;
 
@@ -210,7 +210,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
 
         if (array_key_exists('org_openpsa_products_import_separator', $_POST)) {
             $data['time_start'] = time();
-            $data['rows'] = array();
+            $data['rows'] = [];
             $data['separator'] = ($_POST['org_openpsa_products_import_separator'] == ';') ? ';' : ',';
             $data['new_products_product_group'] = $_POST['org_openpsa_products_import_new_products_product_group'];
 
@@ -229,7 +229,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
 
     private function _read_file($filename, $offset = 0, $limit = 0)
     {
-        $lines = array();
+        $lines = [];
         $read_rows = 0;
         $total_columns = 0;
         $handle = fopen($filename, 'r');
@@ -296,8 +296,8 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
 
         $data['fields_to_skip'] = explode(',', $data['config']->get('import_skip_fields'));
         $data['time_start'] = time();
-        $data['rows'] = array();
-        $data['groups'] = array();
+        $data['rows'] = [];
+        $data['groups'] = [];
         $data['separator'] = $_POST['org_openpsa_products_import_separator'];
         if (!empty($_POST['org_openpsa_products_import_new_products_product_group'])) {
             $data['new_products_product_group'] = $_POST['org_openpsa_products_import_new_products_product_group'];
@@ -311,10 +311,10 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         $data['rows'] = $this->_read_file($_FILES['org_openpsa_products_import_upload']['tmp_name'], 1);
 
         foreach ($data['rows'] as $csv_line) {
-            $product = array();
+            $product = [];
             foreach ($csv_line as $field => $value) {
                 // Some basic CSV format cleanup
-                $value = str_replace(array('\\n', "\\\n"), "\n", $value);
+                $value = str_replace(['\\n', "\\\n"], "\n", $value);
 
                 // Process the row accordingly
                 if ($field_matching = $_POST['org_openpsa_products_import_csv_field'][$field]) {
@@ -341,7 +341,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
                 $data['groups'][] = $product;
             }
         }
-        array_map(array($this, '_import_product'), $data['groups']);
+        array_map([$this, '_import_product'], $data['groups']);
 
         $data['time_end'] = time();
     }

@@ -75,7 +75,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
      * @param org_openpsa_directmarketing_campaign_message_dba $message The message we're working on
      * @param array $config Configuration that gets handed to the backend
      */
-    public function __construct(org_openpsa_directmarketing_campaign_message_dba $message, array $config = array())
+    public function __construct(org_openpsa_directmarketing_campaign_message_dba $message, array $config = [])
     {
         parent::__construct();
         $this->_message = $message;
@@ -188,10 +188,10 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     public function register_send_job($batch, $url_base, $time = null)
     {
         $time = $time ?: time() + 60;
-        $args = array(
+        $args = [
             'batch' => $batch,
             'url_base' => $url_base,
-        );
+        ];
         debug_add("Registering batch #{$args['batch']} for {$args['url_base']} to start on: " . date('Y-m-d H:i:s', $time));
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
         $atstat = midcom_services_at_interface::register($time, 'org.openpsa.directmarketing', 'background_send_message', $args);
@@ -216,7 +216,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $content = $member->personalize_message($content, $this->_message->orgOpenpsaObtype, $person);
         $token = $this->_create_token();
         $subject = $member->personalize_message($subject, org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT, $person);
-        $params = array();
+        $params = [];
 
         try {
             $this->_backend->send($person, $member, $token, $subject, $content, $from);
@@ -225,11 +225,11 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         } catch (midcom_error $e) {
             $status = org_openpsa_directmarketing_campaign_messagereceipt_dba::FAILURE;
             if (!$this->test_mode) {
-                $params[] = array(
+                $params[] = [
                     'domain' => 'org.openpsa.directmarketing',
                     'name' => 'send_error_message',
                     'value' => $e->getMessage(),
-                );
+                ];
             }
             if ($this->send_output) {
                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), $e->getMessage(), 'error');
@@ -364,7 +364,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
             return $results;
         }
         //Make a map for receipt filtering
-        $results_person_map = array();
+        $results_person_map = [];
         foreach ($results as $k => $member) {
             $results_person_map[$member->person] = $k;
         }
@@ -405,7 +405,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $qb_receipts->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
         $send_receipts = $qb_receipts->count_unchecked();
 
-        return array($valid_members, $send_receipts);
+        return [$valid_members, $send_receipts];
     }
 
     /**

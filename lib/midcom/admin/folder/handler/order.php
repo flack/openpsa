@@ -133,7 +133,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             $help_toolbar->add_help_item('navigation_order', 'midcom.admin.folder', null, null, 1);
 
             // jQuery sorting
-            midcom::get()->head->enable_jquery_ui(array('mouse', 'sortable'));
+            midcom::get()->head->enable_jquery_ui(['mouse', 'sortable']);
 
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.folder/jquery-postfix.js');
 
@@ -153,12 +153,12 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         $data['navorder'] = (int) $this->_topic->get_parameter('midcom.helper.nav', 'navorder');
 
         // Navorder list for the selection
-        $data['navorder_list'] = array(
+        $data['navorder_list'] = [
             MIDCOM_NAVORDER_DEFAULT => $this->_l10n->get('default sort order'),
             MIDCOM_NAVORDER_TOPICSFIRST => $this->_l10n->get('folders first'),
             MIDCOM_NAVORDER_ARTICLESFIRST => $this->_l10n->get('pages first'),
             MIDCOM_NAVORDER_SCORE => $this->_l10n->get('by score'),
-        );
+        ];
 
         if (!isset($_GET['ajax'])) {
             midcom_show_style('midcom-admin-folder-order-start');
@@ -180,40 +180,40 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
     private function _get_navigation_data()
     {
-        $ret = array();
+        $ret = [];
         // Initialize the midcom_helper_nav or navigation access point
         $nap = new midcom_helper_nav();
 
         switch ($this->_request_data['navorder']) {
             case MIDCOM_NAVORDER_DEFAULT:
                 $nodes = $nap->list_nodes($nap->get_current_node());
-                $ret['nodes'] = array_map(array($nap, 'get_node'), $nodes);
+                $ret['nodes'] = array_map([$nap, 'get_node'], $nodes);
                 break;
 
             case MIDCOM_NAVORDER_TOPICSFIRST:
                 // Sort the array to have the nodes first
-                $ret = array(
-                    'nodes' => array(),
-                    'leaves' => array(),
-                );
+                $ret = [
+                    'nodes' => [],
+                    'leaves' => [],
+                ];
                 // Fall through
 
             case MIDCOM_NAVORDER_ARTICLESFIRST:
                 // Sort the array to have the leaves first
                 if (!isset($ret['leaves'])) {
-                    $ret = array(
-                        'leaves' => array(),
-                        'nodes' => array(),
-                    );
+                    $ret = [
+                        'leaves' => [],
+                        'nodes' => [],
+                    ];
                 }
 
                 // Get the nodes
                 $nodes = $nap->list_nodes($nap->get_current_node());
-                $ret['nodes'] = array_map(array($nap, 'get_node'), $nodes);
+                $ret['nodes'] = array_map([$nap, 'get_node'], $nodes);
 
                 // Get the leafs
                 $leaves = $nap->list_leaves($nap->get_current_node());
-                $ret['leaves'] = array_map(array($nap, 'get_leaf'), $leaves);
+                $ret['leaves'] = array_map([$nap, 'get_leaf'], $leaves);
                 break;
 
             case MIDCOM_NAVORDER_SCORE:

@@ -14,9 +14,9 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_project';
 
-    public $autodelete_dependents = array(
+    public $autodelete_dependents = [
         'org_openpsa_contacts_role_dba' => 'objectGuid'
-    );
+    ];
 
     public $contacts = null; //Shorthand access for contact members
     public $resources = null; // --''--
@@ -30,44 +30,44 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      *
      * @var array
      */
-    private $_status_map = array(
-        'rejected' => array(
+    private $_status_map = [
+        'rejected' => [
             'ongoing' => org_openpsa_projects_task_status_dba::REOPENED, // If there's an ongoing task, the project seems to have resumed
             'not_started' => org_openpsa_projects_task_status_dba::PROPOSED, // There are pending tasks, so maybe the project is back to start
             'rejected' => null, // Sanity check
             'on_hold' => org_openpsa_projects_task_status_dba::ONHOLD, //Blocker task
             'closed' => org_openpsa_projects_task_status_dba::COMPLETED //Work seems to have been finished
-        ),
-        'not_started' => array(
+        ],
+        'not_started' => [
             'ongoing' => org_openpsa_projects_task_status_dba::STARTED, //Work seems to have been started
             'on_hold' => org_openpsa_projects_task_status_dba::ONHOLD, // Or is on hold
             'not_started' => null,
             'closed' => org_openpsa_projects_task_status_dba::COMPLETED // Or is even finished already
-        ),
-        'ongoing' => array(
+        ],
+        'ongoing' => [
             'ongoing' => null, //Only do something if there are no ongoing tasks
             'on_hold' => org_openpsa_projects_task_status_dba::ONHOLD, //Blocker task
-            'not_started' => array(
+            'not_started' => [
                 'closed' => org_openpsa_projects_task_status_dba::ONHOLD, //Project is in limbo: Some tasks are finished, others didn't begin yet
                 'not_started' => org_openpsa_projects_task_status_dba::PROPOSED //Back to start: Someone withdrew acceptance
-            ),
+            ],
             'closed' => org_openpsa_projects_task_status_dba::ONHOLD //Work seems to have been finished
-        ),
-        'closed' => array(
+        ],
+        'closed' => [
             'not_started' => org_openpsa_projects_task_status_dba::REOPENED, //Something new came up, reopen
             'ongoing' => org_openpsa_projects_task_status_dba::REOPENED, //Something new came up, reopen
             'closed' => null, //Sanity check
             'on_hold' => org_openpsa_projects_task_status_dba::ONHOLD
-        ),
-        'on_hold' => array(
+        ],
+        'on_hold' => [
             'on_hold' => null, //only if no task is on hold we have to look for something else
-            'not_started' => array(
+            'not_started' => [
                 'closed' => null,
                 'not_started' => org_openpsa_projects_task_status_dba::PROPOSED // If nothing is closed, ongoing or on hold, let's try not_started
-            ),
+            ],
             'closed' => org_openpsa_projects_task_status_dba::COMPLETED // If nothing is not_started, ongoing or on hold, let's try closed
-        )
-    );
+        ]
+    ];
 
     public function __get($property)
     {
@@ -99,7 +99,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      */
     public function get_label()
     {
-        $label_elements = array($this->title);
+        $label_elements = [$this->title];
         $project = $this;
         while ($project = $project->get_parent()) {
             if (!empty($project->title)) {
@@ -126,15 +126,15 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         }
 
         if (!is_array($this->contacts)) {
-            $this->contacts = array();
+            $this->contacts = [];
         }
         if (!is_array($this->resources)) {
-            $this->resources = array();
+            $this->resources = [];
         }
 
         $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
         $mc->add_constraint('role', '<>', org_openpsa_projects_task_resource_dba::PROSPECT);
-        $ret = $mc->get_rows(array('role', 'person'));
+        $ret = $mc->get_rows(['role', 'person']);
 
         foreach ($ret as $data) {
             if ($data['role'] == org_openpsa_projects_task_resource_dba::CONTACT) {
@@ -153,13 +153,13 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      */
     public function get_task_count()
     {
-        $numbers = array(
+        $numbers = [
             'not_started' => 0,
             'ongoing' => 0,
             'on_hold' => 0,
             'closed' => 0,
             'rejected' => 0
-        );
+        ];
         $task_mc = org_openpsa_projects_task_dba::new_collector('project', $this->id);
         $statuses = $task_mc->get_values('status');
         foreach ($statuses as $status) {
@@ -176,12 +176,12 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      */
     public function get_task_hours()
     {
-        $numbers = array(
+        $numbers = [
             'plannedHours' => 0,
             'reportedHours' => 0
-        );
+        ];
         $task_mc = org_openpsa_projects_task_dba::new_collector('project', $this->id);
-        $tasks = $task_mc->get_rows(array('plannedHours', 'reportedHours'));
+        $tasks = $task_mc->get_rows(['plannedHours', 'reportedHours']);
         foreach ($tasks as $values) {
             $numbers['plannedHours'] += $values['plannedHours'];
             $numbers['reportedHours'] += $values['reportedHours'];
@@ -199,8 +199,8 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     {
         $update_required = false;
 
-        $task_statuses = array();
-        $status_types = array();
+        $task_statuses = [];
+        $status_types = [];
 
         $task_qb = org_openpsa_projects_task_dba::new_query_builder();
         $task_qb->add_constraint('project', '=', $this->id);

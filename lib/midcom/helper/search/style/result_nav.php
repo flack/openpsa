@@ -6,10 +6,10 @@ if ($data['max_pages'] > 1) {
 
 <p class="midcom_helper_search_result_nav">
 <?php
-    $query = array(
+    $query = [
         'query' => $data['query'],
         'type' => $data['type']
-    );
+    ];
     if ($data['type'] == 'advanced') {
         $query['topic'] = $data['request_topic'];
         $query['component'] = $data['component'];

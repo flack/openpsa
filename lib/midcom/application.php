@@ -191,7 +191,7 @@ class midcom_application
      * @param array $config              A key=>value array with any configuration overrides.
      * @return int                       The ID of the newly created context.
      */
-    public function dynamic_load($url, $config = array(), $pass_get = false)
+    public function dynamic_load($url, $config = [], $pass_get = false)
     {
         debug_add("Dynamic load of URL {$url}");
 

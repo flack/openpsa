@@ -79,7 +79,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      *
      * @var array
      */
-    public $selection = array();
+    public $selection = [];
 
     /**
      * This member contains the other key, in case it is set. In case of multiselects,
@@ -90,7 +90,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      *
      * @var string
      */
-    public $others = array();
+    public $others = [];
 
     /**
      * The options available to the client. You should not access this variable directly,
@@ -99,7 +99,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      * @see get_all_options()
      * @var array
      */
-    public $options = array();
+    public $options = [];
 
     /**
      * In case the options are returned by a callback, this member holds the name of the
@@ -302,8 +302,8 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      */
     public function convert_from_storage($source)
     {
-        $this->selection = array();
-        $this->others = array();
+        $this->selection = [];
+        $this->others = [];
 
         if (   $source === false
             || $source === null) {
@@ -318,7 +318,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             // plain storage), therefore we typecast here. This is easier to do than having
             // the same code below twice thus unifying allow_other handling mainly.
 
-            $source = array($source);
+            $source = [$source];
         }
 
         foreach ($source as $key) {
@@ -386,19 +386,19 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             case 'array':
                 if (   !is_array($source)
                     && empty($source)) {
-                    $source = array();
+                    $source = [];
                 }
                 return $source;
 
             case 'imploded':
                 if (!is_string($source)) {
-                    return array();
+                    return [];
                 }
                 return explode($glue, $source);
 
             case 'imploded_wrapped':
                 if (!is_string($source)) {
-                    return array();
+                    return [];
                 }
                 return explode($glue, substr($source, 1, -1));
 
@@ -450,16 +450,16 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
 
         if ($this->others) {
             if (is_string($this->others)) {
-                $this->others = array(
+                $this->others = [
                     $this->others => $this->others,
-                );
+                ];
             }
             $options = array_merge($this->selection, $this->others);
         } else {
             $options = $this->selection;
         }
 
-        $result = array();
+        $result = [];
         foreach ($options as $key) {
             if (strpos($key, $glue) !== false) {
                 debug_add("The option key '{$key}' contained the multiple separator ({$this->multiple_separator}) char, which is not allowed for imploded storage targets. ignoring silently.",
@@ -531,7 +531,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
 
     function combine_values()
     {
-        $selection = array_map(array($this, 'get_name_for_key'), $this->selection);
+        $selection = array_map([$this, 'get_name_for_key'], $this->selection);
         if ($this->others) {
             $selection = array_merge($selection, (array) $this->others);
         }
@@ -540,7 +540,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
 
     public function convert_to_html()
     {
-        $values_localized = array_map(array($this, 'translate'), $this->combine_values());
+        $values_localized = array_map([$this, 'translate'], $this->combine_values());
         return implode($values_localized, ', ');
     }
 }

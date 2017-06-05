@@ -37,10 +37,10 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      *
      * @var array
      */
-    private $_links = array(
-        'incoming' => array(),
-        'outgoing' => array()
-    );
+    private $_links = [
+        'incoming' => [],
+        'outgoing' => []
+    ];
 
     public function __construct()
     {
@@ -87,11 +87,11 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
         if ($object_url = midcom::get()->permalinks->create_permalink($this->_object->guid)) {
             $this->_view_toolbar->add_item(
-                array(
+                [
                     MIDCOM_TOOLBAR_URL => $object_url,
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-                )
+                ]
             );
             $this->add_breadcrumb($object_url, $object_label);
         }
@@ -138,14 +138,14 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
         foreach (array_keys($links) as $guid) {
             //TODO: check for duplicates ?
-            $to_arr = array(
-                'link' => array(
+            $to_arr = [
+                'link' => [
                     'guid' => $guid,
                     'component' => $mc->get_subkey($guid, $object_prefix . 'Component'),
                     'class' => $mc->get_subkey($guid, $object_prefix . 'Class'),
                     'status' => $mc->get_subkey($guid, 'status')
-                )
-            );
+                ]
+            ];
             try {
                 $to_arr['other_obj'] = midcom::get()->dbfactory->get_object_by_guid($mc->get_subkey($guid, $object_prefix . 'Guid'));
             } catch (midcom_error $e) {
@@ -195,7 +195,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $this->_request_data['direction'] = $direction;
 
         //Sort the array of links
-        uasort($this->_links[$direction], array($this, '_sort_by_time'));
+        uasort($this->_links[$direction], [$this, '_sort_by_time']);
 
         midcom_show_style('relatedto_list_top');
 

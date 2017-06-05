@@ -25,7 +25,7 @@ class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_comp
 
         ignore_user_abort();
 
-        $tried = array();
+        $tried = [];
 
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->add_constraint('domain', '=', 'org.openpsa.contacts.duplicates:possible_duplicate');

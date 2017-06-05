@@ -13,7 +13,7 @@
  */
 class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handler
 {
-    private $_controllers = array();
+    private $_controllers = [];
 
     /**
      * The salesproject to display
@@ -53,7 +53,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             $mc->add_constraint('end', '>=', time());
         $mc->end_group();
 
-        return $mc->get_rows(array('code', 'title', 'delivery', 'price', 'unit', 'productGroup'), 'id');
+        return $mc->get_rows(['code', 'title', 'delivery', 'price', 'unit', 'productGroup'], 'id');
     }
 
     /**
@@ -61,37 +61,37 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
      */
     private function _populate_toolbar()
     {
-        $buttons = array();
+        $buttons = [];
         if ($this->_salesproject->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
-            $buttons[] = $workflow->get_button("salesproject/edit/{$this->_salesproject->guid}/", array(
+            $buttons[] = $workflow->get_button("salesproject/edit/{$this->_salesproject->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
+            ]);
         }
 
         if ($this->_salesproject->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', array('object' => $this->_salesproject, 'recursive' => true));
+            $workflow = $this->get_workflow('delete', ['object' => $this->_salesproject, 'recursive' => true]);
             $buttons[] = $workflow->get_button("salesproject/delete/{$this->_salesproject->guid}/");
         }
 
         if (!empty($this->_request_data['projects_url'])) {
             $prefix = midcom_connection::get_url('self') . $this->_request_data['projects_url'];
-            $buttons[] = array(
+            $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $prefix . "project/{$this->_salesproject->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-            );
+            ];
         }
 
         if (   $this->_config->get('sales_pdfbuilder_class')
             && $this->_salesproject->can_do('midgard:update')
             && $this->is_pdf_creatable()) {
             $workflow = $this->get_workflow('datamanager2');
-            $buttons[] = $workflow->get_button("salesproject/render/{$this->_salesproject->guid}/", array(
+            $buttons[] = $workflow->get_button("salesproject/render/{$this->_salesproject->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'p',
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/32x32/PDF.png',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create_pdf'),
-            ));
+            ]);
         }
 
         $this->_view_toolbar->add_items($buttons);
@@ -176,7 +176,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $qb->add_order('state');
         $qb->add_order('metadata.created', 'DESC');
         $deliverables = $qb->execute();
-        $this->_request_data['deliverables_objects'] = array();
+        $this->_request_data['deliverables_objects'] = [];
         foreach ($deliverables as $deliverable) {
             $this->_controllers[$deliverable->id] = midcom_helper_datamanager2_controller::create('ajax');
             $this->_controllers[$deliverable->id]->schemadb =& $this->_request_data['schemadb_salesproject_deliverable'];
@@ -214,7 +214,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
     private function build_status_toolbar(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
     {
-        $toolbar = array('label' => '', 'buttons' => array());
+        $toolbar = ['label' => '', 'buttons' => []];
         $formatter = $this->_l10n->get_formatter();
         if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED) {
             //new, proposed

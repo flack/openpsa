@@ -30,10 +30,10 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
             return null;
         }
 
-        return array(
+        return [
             'username' => trim($_REQUEST['username']),
             'password' => trim($_REQUEST['password'])
-        );
+        ];
     }
 
     /**
@@ -54,7 +54,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
         if (count($_POST) > 0) {
             $data =& midcom_core_context::get()->get_custom_key('request_data');
 
-            $data['restored_form_data'] = array();
+            $data['restored_form_data'] = [];
 
             foreach ($_POST as $key => $value) {
                 if (preg_match('/(username|password|frontend_form_submit)/', $key)) {

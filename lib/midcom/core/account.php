@@ -198,9 +198,9 @@ class midcom_core_account
             $user = new midcom_core_user($this->_person);
             midcom::get()->auth->sessionmgr->_update_user_username($user, $new_username);
             if (!$history = @unserialize($this->_person->get_parameter('midcom', 'username_history'))) {
-                $history = array();
+                $history = [];
             }
-            $history[time()] = array('old' => $this->_old_username, 'new' => $new_username);
+            $history[time()] = ['old' => $this->_old_username, 'new' => $new_username];
             $this->_person->set_parameter('midcom', 'username_history', serialize($history));
         }
         return true;

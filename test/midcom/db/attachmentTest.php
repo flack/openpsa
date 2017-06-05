@@ -63,7 +63,7 @@ class midcom_db_attachmentTest extends openpsa_testcase
 
     public function test_copy_from_file()
     {
-        $attachment = $this->create_object('midcom_db_attachment', array('parentguid' => self::$_topic->guid));
+        $attachment = $this->create_object('midcom_db_attachment', ['parentguid' => self::$_topic->guid]);
 
         midcom::get()->auth->request_sudo('midcom.core');
         $stat = $attachment->copy_from_file(self::$_filepath . 'attach.png');
@@ -76,10 +76,10 @@ class midcom_db_attachmentTest extends openpsa_testcase
 
     public function test_get_cache_path()
     {
-        $properties = array(
+        $properties = [
             'parentguid' => self::$_topic->guid,
             'name' => 'attach.png'
-        );
+        ];
         $attachment = $this->_get_attachment($properties);
 
         midcom::get()->config->set('attachment_cache_enabled', false);
@@ -96,10 +96,10 @@ class midcom_db_attachmentTest extends openpsa_testcase
 
     public function test_file_to_cache()
     {
-        $properties = array(
+        $properties = [
             'parentguid' => self::$_topic->guid,
             'name' => 'attach.png'
-        );
+        ];
         $attachment = $this->_get_attachment($properties);
 
         midcom::get()->config->set('attachment_cache_enabled', true);
@@ -122,12 +122,12 @@ class midcom_db_attachmentTest extends openpsa_testcase
 
     public function provider_safe_filename()
     {
-        return array(
-            array('Minä olen huono tiedosto.foo.jpg', true, 'mina-olen-huono-tiedosto-foo.jpg'),
-            array('Minä olen huono tiedosto.foo.jpg', false, 'mina-olen-huono-tiedosto.foo.jpg'),
-            array('Minä olen huono tiedosto ilman päätettä', true, 'mina-olen-huono-tiedosto-ilman-paatetta'),
-            array('Minä olen huono tiedosto ilman päätettä', false, 'mina-olen-huono-tiedosto-ilman-paatetta'),
-            array('www.openpsa2.org - Home.htm', false, 'www-openpsa2-org-home.htm'),
-        );
+        return [
+            ['Minä olen huono tiedosto.foo.jpg', true, 'mina-olen-huono-tiedosto-foo.jpg'],
+            ['Minä olen huono tiedosto.foo.jpg', false, 'mina-olen-huono-tiedosto.foo.jpg'],
+            ['Minä olen huono tiedosto ilman päätettä', true, 'mina-olen-huono-tiedosto-ilman-paatetta'],
+            ['Minä olen huono tiedosto ilman päätettä', false, 'mina-olen-huono-tiedosto-ilman-paatetta'],
+            ['www.openpsa2.org - Home.htm', false, 'www-openpsa2-org-home.htm'],
+        ];
     }
 }

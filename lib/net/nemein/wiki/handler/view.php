@@ -61,28 +61,28 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     private function _populate_toolbar()
     {
         $workflow = $this->get_workflow('datamanager2');
-        $buttons = array(
-            array(
+        $buttons = [
+            [
                 MIDCOM_TOOLBAR_URL => "{$this->_page->name}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'v',
-            ),
-            $workflow->get_button("edit/{$this->_page->name}/", array(
+            ],
+            $workflow->get_button("edit/{$this->_page->name}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:update'),
-            ))
-        );
+            ])
+        ];
         if ($this->_page->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', array('object' => $this->_page));
+            $workflow = $this->get_workflow('delete', ['object' => $this->_page]);
             $buttons[] = $workflow->get_button("delete/{$this->_page->name}/");
         }
 
-        $buttons[] = array(
+        $buttons[] = [
             MIDCOM_TOOLBAR_URL => "whatlinks/{$this->_page->name}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('what links'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-        );
+        ];
 
         if (midcom::get()->auth->user) {
             $user = midcom::get()->auth->user->get_storage();
@@ -91,23 +91,23 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             } else {
                 $action = 'subscribe';
             }
-            $buttons[] = array(
+            $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "subscribe/{$this->_page->name}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
                 MIDCOM_TOOLBAR_POST => true,
-                MIDCOM_TOOLBAR_POST_HIDDENARGS => array($action => 1),
-            );
+                MIDCOM_TOOLBAR_POST_HIDDENARGS => [$action => 1],
+            ];
         }
 
         if ($this->_page->can_do('midgard:update')) {
             midcom::get()->head->add_link_head(
-                array(
+                [
                     'rel' => 'alternate',
                     'type' => 'application/x-wiki',
                     'title' => $this->_l10n_midcom->get('edit'),
                     'href' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "edit/{$this->_page->name}/",
-                )
+                ]
             );
         }
         $this->_view_toolbar->add_items($buttons);

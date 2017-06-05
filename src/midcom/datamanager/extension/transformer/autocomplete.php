@@ -37,7 +37,7 @@ class autocomplete implements DataTransformerInterface
                     throw new TransformationFailedException('Invalid storage mode ' . $this->config['type_config']['multiple_storagemode']);
             }
         }
-        return array('selection' => (array) $input);
+        return ['selection' => (array) $input];
     }
 
     public function reverseTransform($array)

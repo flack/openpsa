@@ -18,14 +18,14 @@ class midcom_helper_formatter
      *
      * @var array
      */
-    private static $_filters = array(
+    private static $_filters = [
         'h' => 'html',
         'H' => 'html',
         'p' => 'php',
         'u' => 'rawurlencode',
         'f' => 'nl2br',
         's' => 'unmodified',
-    );
+    ];
 
     /**
      * Register PHP function as string formatter to the Midgard formatting engine.

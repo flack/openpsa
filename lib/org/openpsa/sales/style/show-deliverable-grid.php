@@ -1,5 +1,5 @@
 <?php
-$state_options = array(
+$state_options = [
     org_openpsa_sales_salesproject_deliverable_dba::STATE_NEW => $data['l10n']->get('proposed'),
     org_openpsa_sales_salesproject_deliverable_dba::STATE_PROPOSED => $data['l10n']->get('proposed'),
     org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED => $data['l10n']->get('declined'),
@@ -7,11 +7,11 @@ $state_options = array(
     org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED => $data['l10n']->get('started'),
     org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED => $data['l10n']->get('delivered'),
     org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED => $data['l10n']->get('invoiced')
-);
-$type_options = array(
+];
+$type_options = [
     'true' => $data['l10n']->get('invoice by actual units'),
     'false' => midcom::get()->i18n->get_string('fixed price', 'org.openpsa.reports')
-);
+];
 $grid = $data['grid'];
 ?>
 <div class="org_openpsa_sales full-width crop-height">
@@ -30,14 +30,14 @@ $grid->set_column('invoiced', $data['l10n']->get('invoiced'), 'width: 50, templa
 
 $grid->set_option('loadonce', true)
     ->set_option('grouping', true)
-    ->set_option('groupingView', array(
-        'groupField' => array('state'),
-        'groupColumnShow' => array(false),
-        'groupText' => array('<strong>{0}</strong> ({1})'),
-        'groupOrder' => array('asc'),
-        'groupSummary' => array(true),
+    ->set_option('groupingView', [
+        'groupField' => ['state'],
+        'groupColumnShow' => [false],
+        'groupText' => ['<strong>{0}</strong> ({1})'],
+        'groupOrder' => ['asc'],
+        'groupSummary' => [true],
         'showSummaryOnHide' => true
-    ));
+    ]);
 
 $grid->render();
 ?>

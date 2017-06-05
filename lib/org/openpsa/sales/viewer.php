@@ -54,7 +54,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
                 $notification_entry = new midcom_services_at_entry_dba();
                 $notification_entry->create();
                 //relatedto from notifcation to deliverable
-                org_openpsa_relatedto_plugin::create($notification_entry, 'midcom.services.at', $deliverable, 'org.openpsa.sales', false, array('toExtra' => 'notify_at_entry'));
+                org_openpsa_relatedto_plugin::create($notification_entry, 'midcom.services.at', $deliverable, 'org.openpsa.sales', false, ['toExtra' => 'notify_at_entry']);
             } else {
                 //get guid of at_entry
                 foreach ($entry_keys as $key => $entry) {
@@ -74,7 +74,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
             $notification_entry->start = $formdata['notify']->value->format('U');
             $notification_entry->method = 'new_notification_message';
             $notification_entry->component = 'org.openpsa.sales';
-            $notification_entry->arguments = array('deliverable' => $deliverable->guid);
+            $notification_entry->arguments = ['deliverable' => $deliverable->guid];
             $notification_entry->update();
         } else {
             //void date - so delete existing at_entrys for this notify_date
@@ -98,7 +98,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
      */
     public static function add_breadcrumb_path($object, $handler)
     {
-        $tmp = array();
+        $tmp = [];
 
         while ($object) {
             if (midcom::get()->dbfactory->is_a($object, 'org_openpsa_sales_salesproject_deliverable_dba')) {

@@ -26,7 +26,7 @@ class org_openpsa_documents_handler_finderTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.documents');
 
-        $data = $this->run_handler('org.openpsa.documents', array());
+        $data = $this->run_handler('org.openpsa.documents', []);
         $this->assertEquals('finder-view', $data['handler_id']);
 
         $this->show_handler($data);

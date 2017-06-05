@@ -42,9 +42,9 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
         }
 
         if (!midcom_connection::login($fields["username"], $fields["current_password"])) {
-            return array(
+            return [
                 'current_password' => midcom::get()->i18n->get_string("wrong current password", "org.openpsa.user")
-            );
+            ];
         }
         return true;
     }
@@ -57,7 +57,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
      */
     public function username_exists(array $fields)
     {
-        $result = array();
+        $result = [];
         $user = midcom::get()->auth->get_user_by_name($fields["username"]);
         if (!$user) {
             $result["username"] = midcom::get()->i18n->get_string("unknown username", "org.openpsa.user");
@@ -77,7 +77,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
      */
     public function email_exists(array $fields)
     {
-        $result = array();
+        $result = [];
         $qb = new midgard_query_builder(midcom::get()->config->get('person_class'));
         $qb->add_constraint('email', '=', $fields["email"]);
         $count = $qb->count();
@@ -101,7 +101,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
      */
     public function email_and_username_exist(array $fields)
     {
-        $result = array();
+        $result = [];
         $user = midcom::get()->auth->get_user_by_name($fields["username"]);
         if (!$user) {
             $result["username"] = midcom::get()->i18n->get_string("no user found with this username and email address", "org.openpsa.user");

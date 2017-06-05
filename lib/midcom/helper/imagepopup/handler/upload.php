@@ -28,7 +28,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
 
         if (is_uploaded_file($temp['tmp_name'])) {
             // Verify file extension
-            if (!in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), array("gif", "jpg", "png"))) {
+            if (!in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), ["gif", "jpg", "png"])) {
                 throw new midcom_error('Invalid extension.');
             }
         }
@@ -58,7 +58,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         $data['location'] = $location;
 
         // Return image location as JSON
-        return new midcom_response_json(array('location' => $location));
+        return new midcom_response_json(['location' => $location]);
     }
 
     /**

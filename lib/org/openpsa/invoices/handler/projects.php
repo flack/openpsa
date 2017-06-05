@@ -18,14 +18,14 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
      *
      * @var Array
      */
-    private $_tasks = array();
+    private $_tasks = [];
 
     /**
      * The customer cache.
      *
      * @var Array
      */
-    private $_customers = array();
+    private $_customers = [];
 
     private function _generate_invoice()
     {
@@ -92,7 +92,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
             $this->_tasks[$task->id] = $task;
 
             if (!array_key_exists($task->customer, $this->_customers)) {
-                $this->_customers[$task->customer] = array();
+                $this->_customers[$task->customer] = [];
             }
 
             $this->_customers[$task->customer][$task->id] = $this->_tasks[$task->id];

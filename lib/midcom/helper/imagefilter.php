@@ -46,7 +46,7 @@ class midcom_helper_imagefilter
      *
      * @var array
      */
-    private $_tmpfiles = array();
+    private $_tmpfiles = [];
 
     public function __construct(midcom_db_attachment $input = null)
     {
@@ -128,7 +128,7 @@ class midcom_helper_imagefilter
         static $return = -1;
         if ($return === -1) {
             $convert_cmd = escapeshellcmd(midcom::get()->config->get('utility_imagemagick_base') . "convert -version");
-            $output = array();
+            $output = [];
             $ret = null;
             exec($convert_cmd, $output, $ret);
             $return = ($ret === 0 || $ret === 1);
@@ -151,7 +151,7 @@ class midcom_helper_imagefilter
             $return = true;
             if (!file_exists($cmd)) {
                 $find_cmd = escapeshellcmd('which ' . midcom::get()->config->get('utility_jpegtran'));
-                $output = array();
+                $output = [];
                 $ret = null;
                 exec($find_cmd, $output, $ret);
 
@@ -222,7 +222,7 @@ class midcom_helper_imagefilter
     public function process_chain($chain)
     {
         $filters = array_filter(explode(";", $chain));
-        array_map(array($this, 'process_command'), $filters);
+        array_map([$this, 'process_command'], $filters);
     }
 
     /**
@@ -250,8 +250,8 @@ class midcom_helper_imagefilter
         $args = explode(',', $matches[2]);
 
         debug_print_r("Have to execute {$command} with these arguments:", $args);
-        if (is_callable(array($this, $command))) {
-            call_user_func_array(array($this, $command), $args);
+        if (is_callable([$this, $command])) {
+            call_user_func_array([$this, $command], $args);
         } elseif ($command != 'none') {
             debug_add('This is no known command, we try to find a callback.');
             $this->execute_user_callback($command, $args);
@@ -419,7 +419,7 @@ class midcom_helper_imagefilter
         if (   $imagesize[2] == IMAGETYPE_JPEG
             && $this->_jpegtran_available()) {
             /* jpegtran */
-            $operations = array(
+            $operations = [
                 2 => "-flip horizontal",
                 3 => "-rotate 180",
                 4 => "-flip vertical",
@@ -427,7 +427,7 @@ class midcom_helper_imagefilter
                 6 => "-rotate 90",
                 7 => "-transverse",
                 8 => "-rotate 270"
-            );
+            ];
 
             $tmpfile = $this->_get_tempfile();
             $cmd = midcom::get()->config->get('utility_jpegtran') . " -outfile {$tmpfile} -copy all";
@@ -435,7 +435,7 @@ class midcom_helper_imagefilter
             /* Mogrify */
             debug_add("jpegtran not found, falling back to mogrify.");
 
-            $operations = array(
+            $operations = [
                 2 => "-flip",
                 3 => "-rotate 180",
                 4 => "-flip",
@@ -443,7 +443,7 @@ class midcom_helper_imagefilter
                 6 => "-rotate 90",
                 7 => "-rotate 270 -flop",
                 8 => "-rotate 270"
-            );
+            ];
 
             $cmd = midcom::get()->config->get('utility_imagemagick_base') . "mogrify {$this->_quality}";
         }

@@ -39,7 +39,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         }
         $data['date_field'] = $data['query_data']['date_field'];
 
-        $data['invoices'] = array();
+        $data['invoices'] = [];
         foreach ($data['query_data']['invoice_status'] as $status) {
             $data['invoices'] = array_merge($data['invoices'], $this->_load_invoices($status));
         }
@@ -53,7 +53,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             && $at_entry->arguments['cycle'] > 1) {
             $invoice_sum = $deliverable->invoiced / ($at_entry->arguments['cycle'] - 1);
             if ($invoice_sum == 0) {
-                return array();
+                return [];
             }
             $calculation_base = sprintf($this->_l10n->get('average of %s runs'), $at_entry->arguments['cycle'] - 1);
         } else {
@@ -61,7 +61,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             $calculation_base = $this->_l10n->get('fixed price');
         }
 
-        $invoices = array();
+        $invoices = [];
         $time = $at_entry->start;
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);
 
@@ -101,7 +101,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
     private function _get_scheduled_invoices()
     {
-        $invoices = array();
+        $invoices = [];
         $at_qb = midcom_services_at_entry_dba::new_query_builder();
         $at_qb->add_constraint('method', '=', 'new_subscription_cycle');
         $at_qb->add_constraint('component', '=', 'org.openpsa.sales');
@@ -118,20 +118,20 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             }
         }
         $invoices = array_merge($invoices, $this->_get_deliverable_invoices());
-        $invoices = array_filter($invoices, array($this, '_filter_by_date'));
+        $invoices = array_filter($invoices, [$this, '_filter_by_date']);
 
         return $invoices;
     }
 
     private function _get_deliverable_invoices()
     {
-        $invoices = array();
+        $invoices = [];
         $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
-        $states = array(
+        $states = [
             org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED,
             org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED,
             org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
-        );
+        ];
         $qb->add_constraint('state', 'IN', $states);
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_products_product_dba::DELIVERY_SINGLE);
         $qb->add_constraint('start', '<', $this->_request_data['end']);

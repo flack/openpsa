@@ -25,7 +25,7 @@ abstract class org_openpsa_core_filter
      *
      * @var array
      */
-    protected $_selection = array();
+    protected $_selection = [];
 
     /**
      * The filter label

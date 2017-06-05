@@ -78,7 +78,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_defaults()
     {
-        $defaults = array(
+        $defaults = [
             'product' => $this->_product->id,
             'units' => 1,
 
@@ -91,7 +91,7 @@ implements midcom_helper_datamanager2_interfaces_create
             'description' => $this->_product->description,
             'supplier' => $this->_product->supplier,
             'orgOpenpsaObtype' => $this->_product->delivery,
-        );
+        ];
 
         //TODO: Copy tags from product
         //$tagger = new net_nemein_tag_handler();
@@ -146,10 +146,10 @@ implements midcom_helper_datamanager2_interfaces_create
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('add offer'));
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $data['controller'],
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         return $workflow->run();
     }
 

@@ -31,7 +31,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
     private $filters;
 
-    private $events = array();
+    private $events = [];
 
     /**
      * Initialization of the handler class
@@ -52,36 +52,36 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     {
         $workflow = $this->get_workflow('datamanager2');
         midcom::get()->auth->require_valid_user();
-        $buttons = array();
+        $buttons = [];
         if ($this->_root_event->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button('#', array(
+            $buttons[] = $workflow->get_button('#', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-                MIDCOM_TOOLBAR_OPTIONS  => array(
+                MIDCOM_TOOLBAR_OPTIONS  => [
                     'id' => 'openpsa_calendar_add_event',
-                )
-            ));
+                ]
+            ]);
             if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_calendar_resource_dba')) {
-                $buttons[] = $workflow->get_button('resource/new/', array(
+                $buttons[] = $workflow->get_button('resource/new/', [
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('resource')),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-                ));
+                ]);
             }
         }
-        $buttons[] = $workflow->get_button('filters/', array(
+        $buttons[] = $workflow->get_button('filters/', [
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('choose calendars'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/preferences-desktop.png',
-        ));
+        ]);
 
-        $buttons[] = array(
+        $buttons[] = [
             MIDCOM_TOOLBAR_URL => '#',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_jump-to.png',
-            MIDCOM_TOOLBAR_OPTIONS  => array(
+            MIDCOM_TOOLBAR_OPTIONS  => [
                 'rel' => 'directlink',
                 'id' => 'date-navigation',
-            )
-        );
+            ]
+        ];
         $this->_view_toolbar->add_items($buttons);
 
         $data['calendar_options'] = $this->_master->get_calendar_options();
@@ -126,12 +126,12 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
             do {
                 if ($holiday = $util->getHoliday($country, $from, $region)) {
-                    $this->events[] = array(
+                    $this->events[] = [
                         'title' => $holiday->getName(),
                         'start' => $from->format('Y-m-d'),
-                        'className' => array(),
+                        'className' => [],
                         'rendering' => 'background'
-                    );
+                    ];
                 }
                 $from->modify('+1 day');
             } while ($from < $to);
@@ -141,7 +141,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     private function get_filters($type)
     {
         if (!$this->filters) {
-            $this->filters = array('people' => array(), 'groups' => array(), 'resources' => array());
+            $this->filters = ['people' => [], 'groups' => [], 'resources' => []];
             foreach (midcom::get()->auth->user->get_storage()->list_parameters('org.openpsa.calendar.filters') as $key => $value) {
                 $selected = @unserialize($value);
 
@@ -176,21 +176,21 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         }
         $mc->end_group();
 
-        return $mc->get_rows(array('uid', 'eid'));
+        return $mc->get_rows(['uid', 'eid']);
     }
 
     private function load_resources($from, $to)
     {
         $selected = $this->get_filters('resources');
         if (empty($selected)) {
-            return array();
+            return [];
         }
         $mc = org_openpsa_calendar_event_resource_dba::new_collector();
         // Find all events that occur during [$from, $to]
         $mc->add_constraint('event.start', '<=', $to);
         $mc->add_constraint('event.end', '>=', $from);
         $mc->add_constraint('resource', 'IN', $selected);
-        return $mc->get_rows(array('event', 'resource'));
+        return $mc->get_rows(['event', 'resource']);
     }
 
     /**
@@ -235,16 +235,16 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                 $label = $user->name;
             }
 
-            $this->events[$event->guid] = array(
+            $this->events[$event->guid] = [
                 'id' => $event->guid,
                 'title' => $label,
                 'location' => $event->location,
                 'start' => strftime('%Y-%m-%dT%T', $event->start),
                 'end' => strftime('%Y-%m-%dT%T', $event->end),
-                'className' => array(),
-                'participants' => array(),
+                'className' => [],
+                'participants' => [],
                 'allDay' => (($event->end - $event->start) > 8 * 60 * 60)
-            );
+            ];
             if ($event->orgOpenpsaAccesstype == org_openpsa_core_acl::ACCESS_PRIVATE) {
                 $this->events[$event->guid]['className'][] = 'private';
             }
@@ -268,38 +268,38 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         $this->_load_datamanager();
 
         // Add toolbar items
-        $buttons = array(
-            array(
+        $buttons = [
+            [
                 MIDCOM_TOOLBAR_URL => 'event/edit/' . $this->_request_data['event']->guid . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $data['event']->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )
-        );
+            ]
+        ];
         if ($data['event']->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', array('object' => $data['event']));
+            $workflow = $this->get_workflow('delete', ['object' => $data['event']]);
             $buttons[] = $workflow->get_button("event/delete/{$data['event']->guid}/");
         }
-        $buttons[] = array(
+        $buttons[] = [
             MIDCOM_TOOLBAR_URL => 'javascript:window.print()',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('print'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-            MIDCOM_TOOLBAR_OPTIONS  => array('rel' => 'directlink')
-        );
+            MIDCOM_TOOLBAR_OPTIONS  => ['rel' => 'directlink']
+        ];
 
         $relatedto_button_settings = null;
 
         if (midcom::get()->auth->user) {
             $user = midcom::get()->auth->user->get_storage();
             $date = $this->_l10n->get_formatter()->date();
-            $relatedto_button_settings = array(
-                'wikinote'      => array(
+            $relatedto_button_settings = [
+                'wikinote'      => [
                     'component' => 'net.nemein.wiki',
                     'node'  => false,
                     'wikiword'  => str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('wiki_title_skeleton')), $data['event']->title, $date, $user->name)),
-                ),
-            );
+                ],
+            ];
         }
         $this->_view_toolbar->add_items($buttons);
         org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $data['event'], $this->_component, $relatedto_button_settings);

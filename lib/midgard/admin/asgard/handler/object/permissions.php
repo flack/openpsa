@@ -33,11 +33,11 @@ implements midcom_helper_datamanager2_interfaces_edit
      *
      * @var Array
      */
-    private $_privileges = array(
+    private $_privileges = [
         // Midgard core level privileges
         'midgard:owner', 'midgard:read', 'midgard:update', 'midgard:delete', 'midgard:create',
         'midgard:parameters', 'midgard:attachments', 'midgard:privileges'
-    );
+    ];
 
     /**
      * Table header
@@ -51,14 +51,14 @@ implements midcom_helper_datamanager2_interfaces_edit
      *
      * @var Array
      */
-    private $_row_labels = array();
+    private $_row_labels = [];
 
     /**
      * Rendered row labels
      *
      * @var Array
      */
-    private $_rendered_row_labels = array();
+    private $_rendered_row_labels = [];
 
     private $additional_assignee;
 
@@ -151,12 +151,12 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         if (!$this->additional_assignee) {
             // Populate additional assignee selector
-            $additional_assignees = array(
+            $additional_assignees = [
                 '' => '',
                 'EVERYONE' => $this->_l10n->get('EVERYONE'),
                 'USERS' => $this->_l10n->get('USERS'),
                 'ANONYMOUS' => $this->_l10n->get('ANONYMOUS')
-            );
+            ];
 
             // List groups as potential assignees
             $qb = midcom_db_group::new_query_builder();
@@ -181,7 +181,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     private function process_assignees(array $assignees, array &$schemadb)
     {
         $header = '';
-        $header_items = array();
+        $header_items = [];
 
         foreach ($assignees as $assignee => $label) {
             foreach ($this->_privileges as $privilege) {
@@ -199,16 +199,16 @@ implements midcom_helper_datamanager2_interfaces_edit
                     $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . $this->_l10n->get($privilege_label) . "</span></th>\n";
                 }
 
-                $schemadb['privileges']->append_field(str_replace(array(':', '.'), '_', $assignee . '_' . $privilege), array(
+                $schemadb['privileges']->append_field(str_replace([':', '.'], '_', $assignee . '_' . $privilege), [
                         'title' => $privilege_label,
                         'storage' => null,
                         'type' => 'privilege',
-                        'type_config' => array(
+                        'type_config' => [
                             'privilege_name' => $privilege,
                             'assignee'       => $assignee,
-                        ),
+                        ],
                         'widget' => 'privilegeselection'
-                    )
+                    ]
                 );
             }
         }
@@ -222,12 +222,12 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     private function load_assignees()
     {
-        $assignees = array();
+        $assignees = [];
 
         // Populate all resources having existing privileges
         $existing_privileges = $this->_object->get_privileges();
         if ($this->additional_assignee) {
-            $existing_privileges[] = new midcom_core_privilege(array('assignee' => $this->additional_assignee));
+            $existing_privileges[] = new midcom_core_privilege(['assignee' => $this->additional_assignee]);
         }
         foreach ($existing_privileges as $privilege) {
             if ($privilege->is_magic_assignee()) {

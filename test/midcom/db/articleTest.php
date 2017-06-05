@@ -50,7 +50,7 @@ class midcom_db_articleTest extends openpsa_testcase
 
     public function test_get_parent()
     {
-        $attributes = array('topic' => self::$_topic->id);
+        $attributes = ['topic' => self::$_topic->id];
         $article1 = $this->create_object('midcom_db_article', $attributes);
         $attributes['up'] = $article1->id;
         $attributes['name'] = 'test2';

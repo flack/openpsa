@@ -124,10 +124,10 @@ class gallery_converter
         $orders = (array) $this->_node->get_parameter('org.routamc.gallery', 'nav_order');
 
         if (sizeof($orders) == 0) {
-            $orders = array(
+            $orders = [
                 'metadata.score reverse',
                 'photo.taken reverse',
-            );
+            ];
         }
 
         foreach ($orders as $order) {

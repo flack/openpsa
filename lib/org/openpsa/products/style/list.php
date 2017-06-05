@@ -1,21 +1,21 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-$unit_options = array();
+$unit_options = [];
 foreach ($data['config']->get('unit_options') as $key => $value) {
     $unit_options[$key] = $data['l10n']->get($value);
 }
 
-$delivery_options = array(
+$delivery_options = [
     org_openpsa_products_product_dba::DELIVERY_SINGLE       => $data['l10n']->get('single delivery'),
     org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION => $data['l10n']->get('subscription'),
-);
+];
 
-$type_options = array(
+$type_options = [
     org_openpsa_products_product_dba::TYPE_SERVICE   => $data['l10n']->get('service'),
     org_openpsa_products_product_dba::TYPE_GOODS     => $data['l10n']->get('material goods'),
     org_openpsa_products_product_dba::TYPE_SOLUTION  => $data['l10n']->get('solution'),
-);
+];
 
 $grid = $data['grid'];
 $grid->set_option('scroll', 1)

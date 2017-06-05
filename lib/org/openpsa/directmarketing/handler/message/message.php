@@ -68,44 +68,44 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
     private function _populate_toolbar()
     {
         $workflow = $this->get_workflow('datamanager2');
-        $buttons = array();
+        $buttons = [];
         if ($this->_message->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("message/edit/{$this->_message->guid}/", array(
+            $buttons[] = $workflow->get_button("message/edit/{$this->_message->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
+            ]);
         }
         if ($this->_message->can_do('midgard:delete')) {
-            $delete_workflow = $this->get_workflow('delete', array('object' => $this->_message));
+            $delete_workflow = $this->get_workflow('delete', ['object' => $this->_message]);
             $buttons[] = $delete_workflow->get_button("message/delete/{$this->_message->guid}/");
         }
         if ($this->_message->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("message/copy/{$this->_message->guid}/", array(
+            $buttons[] = $workflow->get_button("message/copy/{$this->_message->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('copy message'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcopy.png',
-            ));
+            ]);
         }
 
-        $buttons[] = array(
+        $buttons[] = [
             MIDCOM_TOOLBAR_URL => "message/compose/{$this->_message->guid}/" . midcom::get()->auth->user->guid . '/',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('preview message'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
             MIDCOM_TOOLBAR_ACCESSKEY => 'p',
-            MIDCOM_TOOLBAR_OPTIONS => array('target' => '_BLANK'),
-        );
-        $buttons[] = array(
+            MIDCOM_TOOLBAR_OPTIONS => ['target' => '_BLANK'],
+        ];
+        $buttons[] = [
             MIDCOM_TOOLBAR_URL => "message/report/{$this->_message->guid}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("message report"),
             MIDCOM_TOOLBAR_ACCESSKEY => 'r',
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-        );
+        ];
 
         $this->_campaign->get_testers();
-        $buttons[] = array(
+        $buttons[] = [
             MIDCOM_TOOLBAR_URL => "message/send_test/{$this->_message->guid}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to testers"),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-send.png',
             MIDCOM_TOOLBAR_ENABLED => (count($this->_campaign->testers) > 0),
-        );
+        ];
 
         $mc = org_openpsa_campaign_member::new_collector('campaign', $this->_campaign->id);
         $mc->set_key_property('campaign');
@@ -113,15 +113,15 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         $keys = $mc->list_keys();
 
         // Show the message send if there are recipients
-        $buttons[] = array(
+        $buttons[] = [
             MIDCOM_TOOLBAR_URL => "message/send/{$this->_message->guid}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to whole campaign"),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-send.png',
             MIDCOM_TOOLBAR_ENABLED => (count($keys) > 0 && $this->_message->can_do('midgard:update')),
-            MIDCOM_TOOLBAR_OPTIONS => array(
+            MIDCOM_TOOLBAR_OPTIONS => [
                 'onclick' => "return confirm('" . $this->_l10n->get('are you sure you wish to send this to the whole campaign') . "')",
-            )
-        );
+            ]
+        ];
         $this->_view_toolbar->add_items($buttons);
     }
 

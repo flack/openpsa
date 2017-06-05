@@ -20,15 +20,15 @@ class formextension extends AbstractTypeExtension
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'widget_config' => array(),
-            'type_config' => array(),
+        $resolver->setDefaults([
+            'widget_config' => [],
+            'type_config' => [],
             'dm2_type' => null,
             'index_method' => 'auto',
             'index_merge_with_content' => true,
             'start_fieldset' => null,
             'end_fieldset' => null
-        ));
+        ]);
     }
 
     /**

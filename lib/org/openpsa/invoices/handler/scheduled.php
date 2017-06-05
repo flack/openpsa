@@ -34,7 +34,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->set_active_leaf($this->_topic->id . ':scheduled');
     }
 
-    public function get_qb($field = null, $direction = 'ASC', array $search = array())
+    public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('method', '=', 'new_subscription_cycle');
@@ -49,11 +49,11 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function get_row(midcom_core_dbaobject $at_entry)
     {
-        $invoice = array(
+        $invoice = [
             'time' => strftime('%Y-%m-%d %H:%M:%S', $at_entry->start),
             'month' => strftime('%B %Y', $at_entry->start),
             'index_month' => strftime('%Y-%m', $at_entry->start),
-        );
+        ];
         try {
             $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($at_entry->arguments['deliverable']);
             $salesproject = org_openpsa_sales_salesproject_dba::get_cached($deliverable->salesproject);

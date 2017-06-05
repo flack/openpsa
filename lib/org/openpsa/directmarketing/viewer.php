@@ -23,11 +23,11 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
             $workflow = $this->get_workflow('datamanager2');
-            $this->_node_toolbar->add_item($workflow->get_button('config/', array(
+            $this->_node_toolbar->add_item($workflow->get_button('config/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
-            )));
+            ]));
         }
     }
 
@@ -46,12 +46,12 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      */
     public function load_schemas()
     {
-        $schemadbs = array(
+        $schemadbs = [
             'person' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person')),
             'campaign_member' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign_member')),
             'organization' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_organization')),
             'organization_member' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_organization_member')),
-        );
+        ];
 
         foreach ($schemadbs as $name => $db) {
             if (!$db) {

@@ -19,8 +19,8 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
     
     public static function setupBeforeClass()
     {
-        self::$_images = array();
-        self::$_tmp_names = array();
+        self::$_images = [];
+        self::$_tmp_names = [];
         // We need two images to run tests
         self::$_images = self::create_images(2);
     }
@@ -32,7 +32,7 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
         $_FILES['file'] = array_shift(self::$_images);
         
         // Do it goes with guid ?
-        $data = $this->run_handler('net.nehmer.static', array('__ais', 'imagepopup', 'upload', 'image', $node->guid));
+        $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'upload', 'image', $node->guid]);
         $this->assertEquals('____ais-imagepopup-upload_image', $data['handler_id']);
         
         // Do new attachment exists ? Has a location and name ?
@@ -55,7 +55,7 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
         sleep(1);
         
         // Do it goes without guid ?
-        $data = $this->run_handler('net.nehmer.static', array('__ais', 'imagepopup', 'upload', 'image'));
+        $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'upload', 'image']);
         $this->assertEquals('____ais-imagepopup-upload_image_noobject', $data['handler_id']);
         
         // Do new attachment exists ? Has a location and name ?
@@ -70,7 +70,7 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
     
     private static function create_images($how_many)
     {
-        $images = array();
+        $images = [];
         $path = sys_get_temp_dir() . "/" . md5(rand());
         self::$_tmp_folder = $path;
         if (!mkdir($path)) {
@@ -87,7 +87,7 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
             array_push(self::$_tmp_names, $filename);
             $name = "imagetools" . $i . ".jpg";
             
-            $image = array('name' => $name, 'type' => 'image/jpeg', 'tmp_name' => $filename, 'error' => 0, 'size' => 999);
+            $image = ['name' => $name, 'type' => 'image/jpeg', 'tmp_name' => $filename, 'error' => 0, 'size' => 999];
             array_push($images, $image);
         }
         

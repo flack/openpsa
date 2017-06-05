@@ -24,7 +24,7 @@ class jsdate implements DataTransformerInterface
 
     public function transform($input)
     {
-        $result = array('date' => null);
+        $result = ['date' => null];
         if ($this->config['widget_config']['show_time']) {
             $result['hours'] = null;
             $result['minutes'] = null;

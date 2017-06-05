@@ -16,16 +16,16 @@ class net_nehmer_static_handler_autoindexTest extends openpsa_testcase
     public function testHandler_autoindex()
     {
         midcom::get()->auth->request_sudo('net.nehmer.static');
-        $data = array(
+        $data = [
             'component' => 'net.nehmer.static',
             'name' => __CLASS__ . time()
-        );
+        ];
         $topic = $this->create_object('midcom_db_topic', $data);
         $topic->set_parameter('net.nehmer.static', 'autoindex', true);
-        $article_properties = array(
+        $article_properties = [
             'topic' => $topic->id,
             'name' => 'dummy'
-        );
+        ];
         $this->create_object('midcom_db_article', $article_properties);
 
         $data = $this->run_handler($topic);

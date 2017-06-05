@@ -33,7 +33,7 @@ class midcom_helper_datamanager2_storage_null extends midcom_helper_datamanager2
      *
      * @var Array
      */
-    protected $_defaults = array();
+    protected $_defaults = [];
 
     /**
      * TODO
@@ -42,7 +42,7 @@ class midcom_helper_datamanager2_storage_null extends midcom_helper_datamanager2
      * @param array $defaults The defaults to use as "artificial" storage. This can be omitted
      *     safely.
      */
-    public function __construct($schema, $defaults = array())
+    public function __construct($schema, $defaults = [])
     {
         parent::__construct($schema);
         $this->_defaults = $defaults;

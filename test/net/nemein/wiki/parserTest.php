@@ -18,10 +18,10 @@ class net_nemein_wiki_parserTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         $topic = self::get_component_node('net.nemein.wiki');
-        $attributes = array(
+        $attributes = [
             'topic' => $topic->id,
             'title' => uniqid(__CLASS__)
-        );
+        ];
         self::$_page = self::create_class_object('net_nemein_wiki_wikipage', $attributes);
     }
 
@@ -42,19 +42,19 @@ class net_nemein_wiki_parserTest extends openpsa_testcase
 
     public function provider_find_links_in_content()
     {
-        return array(
-            '1' => array(
+        return [
+            '1' => [
                 'filler [link|Link Title] filler',
-                array('link' => 'Link Title')
-            ),
-            '2' => array(
+                ['link' => 'Link Title']
+            ],
+            '2' => [
                 'filler [link] filler',
-                array('link' => 'link')
-            ),
-            '3' => array(
+                ['link' => 'link']
+            ],
+            '3' => [
                 'filler filler',
-                array()
-            ),
-        );
+                []
+            ],
+        ];
     }
 }

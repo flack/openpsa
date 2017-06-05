@@ -36,8 +36,8 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             $this->_request_data['component'] = (array_key_exists('component', $_REQUEST) ? $_REQUEST['component'] : '');
             $this->_request_data['lastmodified'] = (array_key_exists('lastmodified', $_REQUEST) ? ((integer) $_REQUEST['lastmodified']) : 0);
 
-            $this->_request_data['topics'] = array('' => $this->_l10n->get('search anywhere'));
-            $this->_request_data['components'] = array('' => $this->_l10n->get('search all content types'));
+            $this->_request_data['topics'] = ['' => $this->_l10n->get('search anywhere')];
+            $this->_request_data['components'] = ['' => $this->_l10n->get('search all content types')];
 
             $nap = new midcom_helper_nav();
             $this->search_nodes($nap->get_root_node(), $nap, '');
@@ -153,11 +153,11 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         }
 
         $this->_view_toolbar->add_item(
-            array(
+            [
                 MIDCOM_TOOLBAR_URL => $url . $this->_request_data['params'],
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($other_type . ' search'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
-            )
+            ]
         );
     }
 
@@ -169,7 +169,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             // the indexer backend though (what would I give for a decent exception
             // handling here...)
             debug_add('Got boolean false as resultset (likely broken query), casting to empty array', MIDCOM_LOG_WARN);
-            $result = array();
+            $result = [];
         }
 
         $count = count($result);
@@ -221,13 +221,13 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             }
             midcom::get()->relocate('advanced/');
         }
-        $defaults = array(
+        $defaults = [
             'type' => 'basic',
             'page' => 1,
             'component' => '',
             'topic' => '',
             'lastmodified' => 0
-        );
+        ];
 
         $_REQUEST = array_merge($defaults, $_REQUEST);
     }

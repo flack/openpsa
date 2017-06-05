@@ -32,8 +32,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $existing_tags = net_nemein_tag_handler::get_object_tags($object);
 
         // Determine operations
-        $add_tags = array();
-        $update_tags = array();
+        $add_tags = [];
+        $update_tags = [];
 
         foreach ($tags as $tagname => $url) {
             if (empty($tagname)) {
@@ -213,7 +213,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
     public static function get_tags_by_guid($guid)
     {
-        $tags = array();
+        $tags = [];
         $link_mc = net_nemein_tag_link::new_collector('fromGuid', $guid);
         $link_mc->set_key_property('tag');
         $link_mc->add_value_property('value');
@@ -228,7 +228,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
         $mc = net_nemein_tag_tag_dba::new_collector();
         $mc->add_constraint('id', 'IN', array_keys($links));
-        $results = $mc->get_rows(array('tag', 'url', 'id'));
+        $results = $mc->get_rows(['tag', 'url', 'id']);
 
         foreach ($results as $result) {
             $context = $link_mc->get_subkey($result['id'], 'context');
@@ -263,8 +263,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      */
     public static function get_tags_by_class($class, $user = null)
     {
-        $tags = array();
-        $tags_by_id = array();
+        $tags = [];
+        $tags_by_id = [];
 
         $mc = net_nemein_tag_link_dba::new_collector('fromClass', $class);
 
@@ -307,7 +307,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      */
     public static function get_object_tags_by_contexts($object)
     {
-        $tags = array();
+        $tags = [];
         $link_mc = net_nemein_tag_link::new_collector('fromGuid', $object->guid);
         $link_mc->set_key_property('tag');
         $link_mc->add_value_property('value');
@@ -323,7 +323,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
         $mc = net_nemein_tag_tag_dba::new_collector();
         $mc->add_constraint('id', 'IN', array_keys($links));
-        $results = $mc->get_rows(array('tag', 'url', 'id'));
+        $results = $mc->get_rows(['tag', 'url', 'id']);
 
         foreach ($results as $result) {
             $context = $link_mc->get_subkey($result['id'], 'context');
@@ -332,7 +332,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             }
 
             if (!array_key_exists($context, $tags)) {
-                $tags[$context] = array();
+                $tags[$context] = [];
             }
 
             $value = $link_mc->get_subkey($result['id'], 'value');
@@ -370,7 +370,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      */
     public static function get_object_machine_tags_in_context($object, $context)
     {
-        $tags = array();
+        $tags = [];
         $qb = net_nemein_tag_link_dba::new_query_builder();
         $qb->add_constraint('fromGuid', '=', $object->guid);
         $qb->add_constraint('context', '=', $context);
@@ -398,7 +398,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      */
     public static function get_tags()
     {
-        $tags = array();
+        $tags = [];
         $qb = net_nemein_tag_tag_dba::new_query_builder();
         $qb->add_constraint('metadata.navnoentry', '=', 0);
         $db_tags = $qb->execute();
@@ -420,7 +420,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      */
     public static function get_objects_with_tags(array $tags, array $classes, $match = 'OR', $order = 'ASC')
     {
-        $match = str_replace(array('ANY', 'ALL'), array('OR', 'AND'), strtoupper($match));
+        $match = str_replace(['ANY', 'ALL'], ['OR', 'AND'], strtoupper($match));
         if ($match !== 'AND' && $match !== 'OR') {
             // Invalid match rule
             return false;
@@ -434,10 +434,10 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
         $links = $qb->execute();
 
-        $link_object_map = array();
+        $link_object_map = [];
         foreach ($links as $link) {
             if (!array_key_exists($link->fromGuid, $link_object_map)) {
-                $link_object_map[$link->fromGuid] = array();
+                $link_object_map[$link->fromGuid] = [];
             }
 
             try {
@@ -460,7 +460,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                 }
             }
         }
-        $return = array();
+        $return = [];
 
         // Get the actual objects (casted to midcom DBA)
         foreach ($link_object_map as $map) {
@@ -491,7 +491,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         // Clean all whitespace sequences to single space
         $tags_string = preg_replace('/\s+/', ' ', $from_string);
         // Parse the tags string byte by byte
-        $tags = array();
+        $tags = [];
         $current_tag = '';
         $quote_open = false;
         for ($i = 0; $i < (strlen($tags_string) + 1); $i++) {

@@ -54,7 +54,7 @@ class midcom_db_parameter extends midcom_core_dbaobject
      */
     public static function get_by_objectguid($objectguid, $domain, $name)
     {
-        static $parameter_cache = array();
+        static $parameter_cache = [];
         $cache_key = $objectguid . '::' . $domain . '::' . $name;
 
         if (!array_key_exists($cache_key, $parameter_cache)) {

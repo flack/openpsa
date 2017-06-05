@@ -19,7 +19,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      *
      * @var array
      */
-    protected $_request = array();
+    protected $_request = [];
 
     /**
      * storing response data

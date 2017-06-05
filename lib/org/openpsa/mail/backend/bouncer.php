@@ -15,7 +15,7 @@
  */
 class org_openpsa_mail_backend_bouncer extends org_openpsa_mail_backend
 {
-    private $_try_backends = array('mail_smtp', 'mail_sendmail'); //Backends that properly set the ENVELOPE address from "Return-Path" header
+    private $_try_backends = ['mail_smtp', 'mail_sendmail']; //Backends that properly set the ENVELOPE address from "Return-Path" header
     private $_backend = null;
 
     public function __construct(array $params)

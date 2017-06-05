@@ -66,7 +66,7 @@ class midcom_helper__componentloader
      *
      * @var Array
      */
-    private $_loaded = array();
+    private $_loaded = [];
 
     /**
      * This array contains a list of components that were tried to be loaded.
@@ -79,7 +79,7 @@ class midcom_helper__componentloader
      *
      * @var array
      */
-    private $_tried_to_load = array();
+    private $_tried_to_load = [];
 
     /**
      * This is a part of the component cache. It stores the interface instances
@@ -87,7 +87,7 @@ class midcom_helper__componentloader
      *
      * @var midcom_baseclasses_components_interface[]
      */
-    private $_interface_classes = array();
+    private $_interface_classes = [];
 
     /**
      * This lists all available components in the systems in the form of their manifests,
@@ -98,7 +98,7 @@ class midcom_helper__componentloader
      *
      * @var midcom_core_manifest[]
      */
-    public $manifests = array();
+    public $manifests = [];
 
     /**
      * Invoke _load directly. If the loading process is unsuccessful, throw midcom_error.
@@ -357,7 +357,7 @@ class midcom_helper__componentloader
             $manifests = $this->get_manifests();
             midcom::get()->cache->memcache->put('MISC', 'midcom.componentloader.manifests', $manifests);
         }
-        array_map(array($this, '_register_manifest'), $manifests);
+        array_map([$this, '_register_manifest'], $manifests);
     }
 
     /**
@@ -371,13 +371,13 @@ class midcom_helper__componentloader
         if ($config === null) {
             $config = midcom::get()->config;
         }
-        $candidates = array();
+        $candidates = [];
         // First, we locate all manifest includes:
         // We use some find construct like find -follow -type d -name "config"
         // This does follow symlinks, which can be important when several
         // repositories are "merged" manually
-        $directories = array();
-        $manifests = array();
+        $directories = [];
+        $manifests = [];
         exec('find ' . MIDCOM_ROOT . ' '  . dirname(MIDCOM_ROOT) . '/src -follow -type d -name "config"', $directories);
         foreach ($directories as $directory) {
             $candidates[] = "{$directory}/manifest.inc";
@@ -387,7 +387,7 @@ class midcom_helper__componentloader
         }
 
         // now we look for extra components the user may have registered
-        foreach ($config->get('midcom_components', array()) as $path) {
+        foreach ($config->get('midcom_components', []) as $path) {
             if (!file_exists($path . '/config/manifest.inc')) {
                 debug_add('No manifest found in path ' . $path . ', skipping', MIDCOM_LOG_ERROR);
             } else {
@@ -430,12 +430,12 @@ class midcom_helper__componentloader
      */
     public function get_all_manifest_customdata($component, $showempty = false)
     {
-        $result = array();
+        $result = [];
         foreach ($this->manifests as $manifest) {
             if (array_key_exists($component, $manifest->customdata)) {
                 $result[$manifest->name] = $manifest->customdata[$component];
             } elseif ($showempty) {
-                $result[$manifest->name] = array();
+                $result[$manifest->name] = [];
             }
         }
         return $result;
@@ -454,7 +454,7 @@ class midcom_helper__componentloader
             return (in_array($component, $core_components));
         }
 
-        $core_components = array(
+        $core_components = [
             'fi.protie.navigation',
             'midcom.admin.folder',
             'midcom.admin.help',
@@ -479,7 +479,7 @@ class midcom_helper__componentloader
             'org.openpsa.httplib',
             'org.openpsa.mail',
             'org.openpsa.qbpager',
-        );
+        ];
 
         return (in_array($component, $core_components));
     }

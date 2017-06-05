@@ -42,17 +42,17 @@ class midcom_services_rcs_backend_null implements midcom_services_rcs_backend
 
     public function list_history_numeric()
     {
-        return array();
+        return [];
     }
 
     public function list_history()
     {
-        return array();
+        return [];
     }
 
     public function get_diff($oldest_revision, $latest_revision)
     {
-        return array();
+        return [];
     }
 
     public function get_comment($revision)

@@ -47,7 +47,7 @@ class net_nemein_wiki_resolver
             $nap = new midcom_helper_nav();
         }
 
-        $nodes = array();
+        $nodes = [];
 
         if ($prefix == '') {
             // This is the root node
@@ -85,16 +85,16 @@ class net_nemein_wiki_resolver
      */
     public function path_to_wikipage($path, $force_resolve_folder_tree = false, $force_as_root = false)
     {
-        $matches = array(
+        $matches = [
             'wikipage' => null,
             'folder' => null,
             'latest_parent' => null,
             'remaining_path' => $path,
-        );
+        ];
         $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
 
         $levels = explode('/', $path);
-        $path = implode('/', array_map(array($generator, 'from_string'), $levels));
+        $path = implode('/', array_map([$generator, 'from_string'], $levels));
 
         midcom::get()->auth->request_sudo('net.nemein.wiki');
         if (count($levels) == 1) {
@@ -128,7 +128,7 @@ class net_nemein_wiki_resolver
         /* We store the Wiki folder hierarchy in a static array
          that is populated only once, and even then only the
          first time we encounter a namespaced wikilink */
-        static $folder_tree = array();
+        static $folder_tree = [];
         if (   count($folder_tree) == 0
             || $force_resolve_folder_tree) {
             $folder_tree = $this->_resolve_folder_tree($force_as_root);

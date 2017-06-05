@@ -98,7 +98,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
      */
     public static function add_head_elements()
     {
-        midcom::get()->head->enable_jquery_ui(array('datepicker'));
+        midcom::get()->head->enable_jquery_ui(['datepicker']);
     }
 
     /**
@@ -157,19 +157,19 @@ EOT;
 
         $elements = $this->_create_elements();
 
-        $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), array(' ', '', '', '', '', ''), false);
+        $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), [' ', '', '', '', '', ''], false);
 
-        $rules = array();
+        $rules = [];
         if ($this->_field['required']) {
             $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
-            $rules = array(
-                array($errmsg, 'required'),
-                array($errmsg, 'regex', '/^[^0]/')
-            );
+            $rules = [
+                [$errmsg, 'required'],
+                [$errmsg, 'regex', '/^[^0]/']
+            ];
         }
 
-        $this->_form->addRule(array($this->name), $this->_translate('validation failed: date'), 'checkjsdate', $this->name);
-        $this->_form->addGroupRule($this->name, array($this->name . '_date' => $rules));
+        $this->_form->addRule([$this->name], $this->_translate('validation failed: date'), 'checkjsdate', $this->name);
+        $this->_form->addGroupRule($this->name, [$this->name . '_date' => $rules]);
     }
 
     /**
@@ -179,43 +179,43 @@ EOT;
      */
     private function _create_elements($frozen = false)
     {
-        $elements = array();
-        $attributes = array(
+        $elements = [];
+        $attributes = [
             'id'    => "{$this->_namespace}{$this->name}_date",
-        );
+        ];
         $elements[] = $this->_form->createElement($frozen ? 'static' : 'hidden', $this->name . '_date', '', $attributes);
-        $attributes = array(
+        $attributes = [
             'class' => 'jsdate',
             'id'    => "{$this->_namespace}{$this->name}_input",
             'size'  => 10
-        );
+        ];
         $elements[] = $this->_form->createElement('text', $this->name . '_input', '', $attributes);
 
         if ($this->show_time) {
-            $attributes = array(
+            $attributes = [
                 'class' => 'jsdate_hours',
                 'id'    => "{$this->_namespace}{$this->name}_hours",
                 'size'  => 2,
                 'maxlength'  => 2
-            );
+            ];
             $elements[] = $this->_form->createElement('text', "{$this->name}_hours", '', $attributes);
             $elements[] = $this->_form->createElement('static', "{$this->name}_hours_separator", '', ':');
-            $attributes = array(
+            $attributes = [
                 'class' => 'jsdate_minutes',
                 'id'    => "{$this->_namespace}{$this->name}_minutes",
                 'size'  => 2,
                 'maxlength'  => 2
-            );
+            ];
             $elements[] = $this->_form->createElement('text', "{$this->name}_minutes", '', $attributes);
 
             if (!$this->hide_seconds) {
                 $elements[] = $this->_form->createElement('static', "{$this->name}_minutes_separator", '', ':');
-                $attributes = array(
+                $attributes = [
                     'class' => 'jsdate_seconds',
                     'id'    => "{$this->_namespace}{$this->name}_seconds",
                     'size'  => 2,
                     'maxlength'  => 2
-                );
+                ];
                 $elements[] = $this->_form->createElement('text', "{$this->name}_seconds", '', $attributes);
             }
         }
@@ -265,7 +265,7 @@ EOT;
             return null;
         }
 
-        $defaults = array($this->name . '_date' => '0000-00-00');
+        $defaults = [$this->name . '_date' => '0000-00-00'];
         $this->format = 'Y-m-d';
 
         if ($this->show_time) {

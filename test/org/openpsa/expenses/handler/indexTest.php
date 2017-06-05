@@ -32,7 +32,7 @@ class org_openpsa_expenses_handler_indexTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
-        $data = $this->run_handler('org.openpsa.expenses', array('2011-01-26'));
+        $data = $this->run_handler('org.openpsa.expenses', ['2011-01-26']);
         $this->assertEquals('index_timestamp', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

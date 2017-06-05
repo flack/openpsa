@@ -72,7 +72,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      * @var Array
      * @see midcom_helper_datamanager2_type::$validation_error
      */
-    var $validation_errors = array();
+    var $validation_errors = [];
 
     /**
      * Reference to the form manager instance which is currently in use. Usually, it is created and referenced here by the controller
@@ -175,7 +175,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     private function _load_types()
     {
-        $this->types = array();
+        $this->types = [];
 
         if (!$this->schema) {
             debug_add("Failed to initialize the types, schema not defined.",
@@ -304,7 +304,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function validate()
     {
-        $this->validation_errors = array();
+        $this->validation_errors = [];
         $validated = true;
         foreach (array_keys($this->schema->fields) as $name) {
             if ($this->_schema_field_is_broken($name)) {
@@ -350,7 +350,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             $this->formmanager->initialize();
         }
 
-        $result = array();
+        $result = [];
         foreach ($this->schema->field_order as $name) {
             if ($this->_schema_field_is_broken($name)) {
                 continue;
@@ -374,7 +374,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function get_content_xml()
     {
-        $result = array();
+        $result = [];
         foreach ($this->schema->field_order as $name) {
             if ($this->_schema_field_is_broken($name)) {
                 continue;
@@ -400,7 +400,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function get_content_csv()
     {
-        $result = array();
+        $result = [];
         foreach ($this->schema->field_order as $name) {
             if ($this->_schema_field_is_broken($name)) {
                 continue;
@@ -418,7 +418,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function get_content_email()
     {
-        $result = array();
+        $result = [];
         foreach ($this->schema->field_order as $name) {
             if ($this->_schema_field_is_broken($name)) {
                 continue;
@@ -435,7 +435,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function get_content_raw()
     {
-        $result = array();
+        $result = [];
         foreach ($this->schema->field_order as $name) {
             if ($this->_schema_field_is_broken($name)) {
                 continue;
@@ -469,7 +469,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
 
             if (isset($config['start_fieldset'])) {
                 if (isset($config['start_fieldset']['title'])) {
-                    $fieldsets = array();
+                    $fieldsets = [];
                     $fieldsets[] = $config['start_fieldset'];
                 } else {
                     $fieldsets = $config['start_fieldset'];

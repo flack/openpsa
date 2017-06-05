@@ -30,18 +30,18 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         <?php
     }
 
-    $tabs = array(array(
+    $tabs = [[
         'url' => $data['journal_url'],
         'title' => midcom::get()->i18n->get_string('journal entries', 'org.openpsa.relatedto'),
-    ));
+    ]];
 
     if ($data['wiki_url']) {
         $nap = new midcom_helper_nav;
         $node = $nap->resolve_guid($data['wiki_guid']);
-        $tabs[] = array(
+        $tabs[] = [
             'url' => $data['wiki_url'] . "latest/",
             'title' => sprintf(midcom::get()->i18n->get_string('latest updates in %s', 'net.nemein.wiki'), $node[MIDCOM_NAV_NAME]),
-        );
+        ];
     }
     org_openpsa_widgets_ui::render_tabs(null, $tabs);
     ?>

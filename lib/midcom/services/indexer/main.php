@@ -77,7 +77,7 @@ class midcom_services_indexer implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(dbaevent::DELETE => array('handle_delete'));
+        return [dbaevent::DELETE => ['handle_delete']];
     }
 
     public function handle_delete(dbaevent $event)
@@ -116,7 +116,7 @@ class midcom_services_indexer implements EventSubscriberInterface
         }
 
         if (!is_array($documents)) {
-            $documents = array($documents);
+            $documents = [$documents];
         }
         if (count($documents) == 0) {
             // Nothing to do.
@@ -217,7 +217,7 @@ class midcom_services_indexer implements EventSubscriberInterface
      * @param array $options Options that are passed straight to the backend
      * @todo Refactor into multiple methods
      */
-    public function query($query, midcom_services_indexer_filter $filter = null, array $options = array())
+    public function query($query, midcom_services_indexer_filter $filter = null, array $options = [])
     {
         if ($this->_disabled) {
             return false;
@@ -238,7 +238,7 @@ class midcom_services_indexer implements EventSubscriberInterface
             debug_add("Failed to execute the query, aborting.", MIDCOM_LOG_INFO);
             return false;
         }
-        $result = array();
+        $result = [];
         foreach ($result_raw as $document) {
             $document->fields_to_members();
             /**

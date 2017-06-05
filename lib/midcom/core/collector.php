@@ -46,7 +46,7 @@ class midcom_core_collector extends midcom_core_query
 
         // MidCOM's collector always uses the GUID as the key for ACL purposes
         $this->_query->set_key_property('guid');
-        call_user_func_array(array($classname, '_on_prepare_new_collector'), array(&$this));
+        call_user_func_array([$classname, '_on_prepare_new_collector'], [&$this]);
     }
 
     /**
@@ -63,7 +63,7 @@ class midcom_core_collector extends midcom_core_query
      */
     public function execute()
     {
-        if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_collector'), array(&$this))) {
+        if (!call_user_func_array([$this->_real_class, '_on_prepare_exec_collector'], [&$this])) {
             debug_add('The _on_prepare_exec_collector callback returned false, so we abort now.');
             return false;
         }
@@ -100,7 +100,7 @@ class midcom_core_collector extends midcom_core_query
 
         $newresult = $this->_list_keys_and_check_privileges(false);
 
-        call_user_func_array(array($this->_real_class, '_on_process_collector_result'), array(&$newresult));
+        call_user_func_array([$this->_real_class, '_on_process_collector_result'], [&$newresult]);
 
         $this->count = count($newresult);
 
@@ -111,7 +111,7 @@ class midcom_core_collector extends midcom_core_query
     {
         $this->execute();
         $result = $this->_query->list_keys();
-        $newresult = array();
+        $newresult = [];
         $classname = $this->_real_class;
         $counter = 0;
 
@@ -136,7 +136,7 @@ class midcom_core_collector extends midcom_core_query
             // Register the GUID as loaded in this request
             midcom::get()->cache->content->register($object_guid);
 
-            $newresult[$object_guid] = array();
+            $newresult[$object_guid] = [];
         }
         return $newresult;
     }
@@ -167,14 +167,14 @@ class midcom_core_collector extends midcom_core_query
      */
     public function get_rows(array $fields, $indexed_by = 'guid')
     {
-        array_map(array($this, 'add_value_property'), $fields);
+        array_map([$this, 'add_value_property'], $fields);
 
         if ($indexed_by !== 'guid') {
             $this->add_value_property($indexed_by);
         }
 
         $this->execute();
-        $results = array();
+        $results = [];
         $keys = $this->list_keys();
         foreach ($keys as $guid => $values) {
             $values = $this->get($guid);
@@ -196,7 +196,7 @@ class midcom_core_collector extends midcom_core_query
     {
         $result = $this->_list_keys_and_check_privileges();
 
-        call_user_func_array(array($this->_real_class, '_on_process_collector_result'), array(&$result));
+        call_user_func_array([$this->_real_class, '_on_process_collector_result'], [&$result]);
 
         $this->count = count($result);
 
@@ -289,7 +289,7 @@ class midcom_core_collector extends midcom_core_query
         $guids = $this->list_keys();
 
         if (sizeof($guids) == 0) {
-            return array();
+            return [];
         }
 
         $qb->hide_invisible = $this->hide_invisible;

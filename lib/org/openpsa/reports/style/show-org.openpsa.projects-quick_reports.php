@@ -8,15 +8,15 @@ $next_month = $date->format('U');
 $date->modify('-2 months');
 $prev_month = $date->format('U');
 
-$invoiceable_this_month = $invoiceable_prev_month = array(
-    'org_openpsa_reports_query_data' => array(
+$invoiceable_this_month = $invoiceable_prev_month = [
+    'org_openpsa_reports_query_data' => [
         'style' => 'builtin:basic',
         'invoiceable_filter' => 1,
         'mimetype' => 'text/html',
         'resource' => 'all',
         'task' => 'all'
-    )
-);
+    ]
+];
 $invoiceable_this_month['org_openpsa_reports_query_data']['start'] = $this_month;
 $invoiceable_this_month['org_openpsa_reports_query_data']['end'] = $next_month;
 $invoiceable_prev_month['org_openpsa_reports_query_data']['start'] = $prev_month;

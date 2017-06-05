@@ -1,6 +1,6 @@
 <?php
 $time = $data['week_start'];
-$date_columns = array();
+$date_columns = [];
 
 $data['grid']->set_column('task', $data['l10n']->get('task'), '', 'string')
 ->set_column('person', $data['l10n']->get('person'), '', 'string');
@@ -17,14 +17,14 @@ while ($time < $data['week_end']) {
 }
 $data['grid']->set_option('footerrow', true)
     ->set_option('grouping', true)
-    ->set_option('groupingView', array(
-        'groupField' => array('task'),
-        'groupColumnShow' => array(false),
-        'groupText' => array('<strong>{0}</strong> ({1})'),
-        'groupOrder' => array('asc'),
-        'groupSummary' => array(true),
+    ->set_option('groupingView', [
+        'groupField' => ['task'],
+        'groupColumnShow' => [false],
+        'groupText' => ['<strong>{0}</strong> ({1})'],
+        'groupOrder' => ['asc'],
+        'groupSummary' => [true],
         'showSummaryOnHide' => true
-));
+]);
 ?>
 <h1>&(data['view_title']);</h1>
 <?php

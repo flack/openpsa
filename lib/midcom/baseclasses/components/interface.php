@@ -168,7 +168,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * - <i>config</i> holds the configuration for this context
      * - <i>handler</i> The class handling the request.
      */
-    public $_context_data = array();
+    public $_context_data = [];
 
     /**
      * Configures the component for usage. The configuration is merged, and,
@@ -182,10 +182,10 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     public function configure($configuration, $contextid)
     {
         // Initialize the context data
-        $this->_context_data[$contextid] = array(
+        $this->_context_data[$contextid] = [
             'config' => $this->_config,
             'handler' => null
-        );
+        ];
 
         return $this->_context_data[$contextid]['config']->store($configuration, false);
     }

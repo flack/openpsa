@@ -22,10 +22,10 @@ class toolbar extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'operations' => array(),
+        $resolver->setDefaults([
+            'operations' => [],
             'mapped' => false
-        ));
+        ]);
     }
 
     /**
@@ -39,11 +39,11 @@ class toolbar extends AbstractType
                 if ($label == '') {
                     $label = "form submit: {$operation}";
                 }
-                $attributes = array(
+                $attributes = [
                     'operation' => $operation,
                     'label' => $l10n->get($label),
-                    'attr' => array('class' => 'submit ' . $operation)
-                );
+                    'attr' => ['class' => 'submit ' . $operation]
+                ];
                 if ($operation == controller::SAVE) {
                     //@todo Move to template?
                     $attributes['attr']['accesskey'] = 's';

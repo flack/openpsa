@@ -31,8 +31,8 @@ class dba2rdfMapper extends AbstractRdfMapper
     public function orderChildren(EntityInterface $entity, CollectionInterface $node, $expectedOrder)
     {
         $children = $this->getChildren($entity->getObject(), $node);
-        $child_subjects = array();
-        $child_map = array();
+        $child_subjects = [];
+        $child_map = [];
 
         foreach ($children as $child) {
             $child_subjects[] = $this->createSubject($child);
@@ -128,7 +128,7 @@ class dba2rdfMapper extends AbstractRdfMapper
             throw new midcom_error('could not determine storage class');
         }
 
-        $qb = call_user_func(array($storage, 'new_query_builder'));
+        $qb = call_user_func([$storage, 'new_query_builder']);
 
         $qb->add_constraint($parentfield, '=', $object->id);
         // order the children by their score values

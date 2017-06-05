@@ -51,7 +51,7 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/jQuery/fancytree-2.23.0/skin-win7/ui.fancytree.min.css");
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/styling.css");
-        $head->enable_jquery_ui(array('effect-blind'));
+        $head->enable_jquery_ui(['effect-blind']);
         $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/fancytree-2.23.0/jquery.fancytree-all.min.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/functions.js");
 

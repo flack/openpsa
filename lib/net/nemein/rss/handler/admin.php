@@ -71,8 +71,8 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $this->_topic->require_do('midgard:create');
 
         // Arrays for containing data on subscribed and updated feeds
-        $data['feeds_subscribed'] = array();
-        $data['feeds_updated'] = array();
+        $data['feeds_subscribed'] = [];
+        $data['feeds_updated'] = [];
 
         // Single feed addition
         if (!empty($_POST['net_nemein_rss_manage_newfeed']['url'])) {
@@ -170,10 +170,10 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $feed = new net_nemein_rss_feed_dba($args[0]);
-        $workflow = $this->get_workflow('delete', array(
+        $workflow = $this->get_workflow('delete', [
             'object' => $feed,
             'success_url' => '__feeds/rss/list/'
-        ));
+        ]);
         return $workflow->run();
     }
 

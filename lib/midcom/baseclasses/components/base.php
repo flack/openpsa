@@ -31,7 +31,7 @@ abstract class midcom_baseclasses_components_base
      *
      * @var array
      */
-    private $_services = array();
+    private $_services = [];
 
     /**
      * Initialize all member variables, remember to set $_component before calling
@@ -73,7 +73,7 @@ abstract class midcom_baseclasses_components_base
 
     public function __isset($field)
     {
-        return (in_array($field, array('_i18n', '_l10n', '_l10n_midcom', '_config')));
+        return (in_array($field, ['_i18n', '_l10n', '_l10n_midcom', '_config']));
     }
 
     public function set_active_leaf($leaf_id)
@@ -98,7 +98,7 @@ abstract class midcom_baseclasses_components_base
      * @param array $options
      * @return \midcom\workflow\dialog
      */
-    public function get_workflow($identifier, array $options = array())
+    public function get_workflow($identifier, array $options = [])
     {
         $classname = '\\midcom\\workflow\\' . $identifier;
         return new $classname($options);

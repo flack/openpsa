@@ -17,7 +17,7 @@ class midcom_helper_datamanager2_storage_midgardTest extends openpsa_testcase
     {
         $filename = 'file:/../test/midcom/helper/datamanager2/__files/schemadb_invoice.inc';
         $schemadb = midcom_helper_datamanager2_schema::load_database($filename);
-        $invoice = $this->create_object('org_openpsa_invoices_invoice_dba', array('description' => 'TEST'));
+        $invoice = $this->create_object('org_openpsa_invoices_invoice_dba', ['description' => 'TEST']);
 
         $storage = new midcom_helper_datamanager2_storage_midgard($schemadb['default'], $invoice);
 

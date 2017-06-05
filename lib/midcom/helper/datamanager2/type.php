@@ -60,7 +60,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      * @see set_external_config()
      * @see get_external_config()
      */
-    private $_external_config = array();
+    private $_external_config = [];
 
     /**
      * The name field holds the name of the field the datatype is encapsulating.
@@ -129,7 +129,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
 
         $callback->set_type($this);
 
-        if (is_callable(array($callback, 'initialize'))) {
+        if (is_callable([$callback, 'initialize'])) {
             $callback->initialize();
         }
 

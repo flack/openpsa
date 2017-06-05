@@ -21,14 +21,14 @@ class org_openpsa_relatedto_handler_journal_entryTest extends openpsa_testcase
         self::create_user(true);
         self::$_object = self::create_class_object('org_openpsa_contacts_person_dba');
 
-        self::$_entry = self::create_class_object('org_openpsa_relatedto_journal_entry_dba', array('linkGuid' => self::$_object->guid));
+        self::$_entry = self::create_class_object('org_openpsa_relatedto_journal_entry_dba', ['linkGuid' => self::$_object->guid]);
     }
 
     public function testHandler_create()
     {
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
 
-        $data = $this->run_handler('org.openpsa.contacts', array('__mfa', 'org.openpsa.relatedto', 'journalentry', 'create', self::$_object->guid));
+        $data = $this->run_handler('org.openpsa.contacts', ['__mfa', 'org.openpsa.relatedto', 'journalentry', 'create', self::$_object->guid]);
         $this->assertEquals('____mfa-org.openpsa.relatedto-journal_entry_create', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -38,7 +38,7 @@ class org_openpsa_relatedto_handler_journal_entryTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
 
-        $data = $this->run_handler('org.openpsa.contacts', array('__mfa', 'org.openpsa.relatedto', 'journalentry', 'edit', self::$_entry->guid));
+        $data = $this->run_handler('org.openpsa.contacts', ['__mfa', 'org.openpsa.relatedto', 'journalentry', 'edit', self::$_entry->guid]);
         $this->assertEquals('____mfa-org.openpsa.relatedto-journal_entry_edit', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -46,11 +46,11 @@ class org_openpsa_relatedto_handler_journal_entryTest extends openpsa_testcase
 
     public function testHandler_delete()
     {
-        $entry = self::create_class_object('org_openpsa_relatedto_journal_entry_dba', array('linkGuid' => self::$_object->guid));
+        $entry = self::create_class_object('org_openpsa_relatedto_journal_entry_dba', ['linkGuid' => self::$_object->guid]);
 
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
 
-        $url = $this->run_relocate_handler('org.openpsa.contacts', array('__mfa', 'org.openpsa.relatedto', 'journalentry', 'delete', $entry->guid));
+        $url = $this->run_relocate_handler('org.openpsa.contacts', ['__mfa', 'org.openpsa.relatedto', 'journalentry', 'delete', $entry->guid]);
         $this->assertEquals('', $url);
 
         midcom::get()->auth->drop_sudo();

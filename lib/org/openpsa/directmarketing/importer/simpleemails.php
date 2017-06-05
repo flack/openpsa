@@ -15,7 +15,7 @@ class org_openpsa_directmarketing_importer_simpleemails extends org_openpsa_dire
 {
     public function parse($input)
     {
-        $parsed = array();
+        $parsed = [];
 
         // Make sure we only have NL linebreaks
         $contacts_raw = preg_replace("/\n\r|\r\n|\r/", "\n", $input);
@@ -23,11 +23,11 @@ class org_openpsa_directmarketing_importer_simpleemails extends org_openpsa_dire
         $contacts = array_filter(array_map('trim', $contacts));
 
         foreach ($contacts as $contact) {
-            $parsed[] = array(
-                'person' => array(
+            $parsed[] = [
+                'person' => [
                     'email' => strtolower($contact),
-                )
-            );
+                ]
+            ];
         }
         return $parsed;
     }

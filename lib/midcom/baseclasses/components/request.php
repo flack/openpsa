@@ -286,7 +286,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @var array
      */
-    public $_request_data = array();
+    public $_request_data = [];
 
     /**
      * The node toolbar for the current request context. Not available during the can_handle
@@ -316,7 +316,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @var array
      */
-    private static $_plugin_namespace_config = array();
+    private static $_plugin_namespace_config = [];
 
     /**
      * The controlling class for the active plugin, if any
@@ -334,7 +334,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @var array
      */
-    public $_request_switch = array();
+    public $_request_switch = [];
 
     /**
      * The handler which has been declared to be able to handle the
@@ -403,7 +403,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     {
         foreach ($this->_request_switch as $key => &$value) {
             if (empty($value['fixed_args'])) {
-                $value['fixed_args'] = array();
+                $value['fixed_args'] = [];
             } else {
                 $value['fixed_args'] = (array) $value['fixed_args'];
             }
@@ -413,7 +413,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             }
 
             if (is_string($value['handler'])) {
-                $this->_request_switch[$key]['handler'] = array(&$this, $value['handler']);
+                $this->_request_switch[$key]['handler'] = [&$this, $value['handler']];
             }
 
             if (   !array_key_exists('expires', $value)
@@ -851,12 +851,12 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         foreach ($handlers as $identifier => $handler_config) {
             // First, update the fixed args list (be tolerant here)
             if (!array_key_exists('fixed_args', $handler_config)) {
-                $handler_config['fixed_args'] = array($namespace, $plugin);
+                $handler_config['fixed_args'] = [$namespace, $plugin];
             } elseif (!is_array($handler_config['fixed_args'])) {
-                $handler_config['fixed_args'] = array($namespace, $plugin, $handler_config['fixed_args']);
+                $handler_config['fixed_args'] = [$namespace, $plugin, $handler_config['fixed_args']];
             } else {
                 $handler_config['fixed_args'] = array_merge(
-                    array($namespace, $plugin),
+                    [$namespace, $plugin],
                     $handler_config['fixed_args']
                 );
             }
@@ -873,28 +873,28 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     {
         $this->register_plugin_namespace(
             '__ais',
-            array(
-                'folder' => array(
+            [
+                'folder' => [
                     'class' => 'midcom_admin_folder_management',
                     'name' => 'Folder administration',
                     'config' => null,
-                ),
-                'rcs' => array(
+                ],
+                'rcs' => [
                     'class' => 'midcom_admin_rcs_plugin',
                     'name' => 'Revision control',
                     'config' => null,
-                ),
-                'imagepopup' => array(
+                ],
+                'imagepopup' => [
                     'class' => 'midcom_helper_imagepopup_viewer',
                     'name' => 'Image pop-up',
                     'config' => null,
-                ),
-                'help' => array(
+                ],
+                'help' => [
                     'class' => 'midcom_admin_help_help',
                     'name' => 'On-site help',
                     'config' => null,
-                ),
-            )
+                ],
+            ]
         );
 
         // Centralized admin panel functionalities
@@ -906,13 +906,13 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             $manifest_plugins["asgard_{$component}"] = $plugin_config;
         }
 
-        $hardcoded_plugins = array(
-            'asgard' => array(
+        $hardcoded_plugins = [
+            'asgard' => [
                 'class' => 'midgard_admin_asgard_plugin',
                 'name' => 'Asgard',
                 'config' => null,
-            ),
-        );
+            ],
+        ];
 
         $this->register_plugin_namespace(
             '__mfa',

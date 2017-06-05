@@ -81,7 +81,7 @@ class midcom_helper_metadata
      *
      * @var Array
      */
-    private $_cache = array();
+    private $_cache = [];
 
     /**
      * The schema database URL to use for this instance.
@@ -191,7 +191,7 @@ class midcom_helper_metadata
      */
     function load_datamanager()
     {
-        static $schemadbs = array();
+        static $schemadbs = [];
         if (!array_key_exists($this->_schemadb_path, $schemadbs)) {
             $schemadbs[$this->_schemadb_path] = midcom_helper_datamanager2_schema::load_database($this->_schemadb_path);
         }
@@ -286,7 +286,7 @@ class midcom_helper_metadata
 
         if ($return = $this->__object->update()) {
             // Update the corresponding cache variables
-            array_map(array($this, 'on_update'), array_keys($properties));
+            array_map([$this, 'on_update'], array_keys($properties));
         }
         return $return;
     }
@@ -385,7 +385,7 @@ class midcom_helper_metadata
         if ($key) {
             unset($this->_cache[$key]);
         } else {
-            $this->_cache = array();
+            $this->_cache = [];
         }
 
         if (!empty($this->__object->guid)) {
@@ -693,7 +693,7 @@ class midcom_helper_metadata
 
         if (   is_object($this->__object)
             && $this->__object->lock()) {
-            $this->_cache = array();
+            $this->_cache = [];
             return true;
         }
 
@@ -722,7 +722,7 @@ class midcom_helper_metadata
         if (   $this->can_unlock()
             && is_object($this->__object)
             && $this->__object->unlock()) {
-            $this->_cache = array();
+            $this->_cache = [];
             return true;
         }
 

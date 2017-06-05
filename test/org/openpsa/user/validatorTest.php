@@ -28,19 +28,19 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         $account = new midcom_core_account($person);
 
         // this should work
-        $fields = array(
+        $fields = [
             "person" => $person->guid,
             "username" => $account->get_username(),
             "current_password" => $person->extra
-        );
+        ];
         $this->assertTrue($val->validate_edit_form($fields));
 
         // try changing the username
-        $fields = array(
+        $fields = [
             "person" => $person->guid,
             "username" => $account->get_username(),
             "current_password" => "abc"
-        );
+        ];
         $result = $val->validate_edit_form($fields);
         $this->assertTrue(is_array($result));
         $this->assertTrue(array_key_exists("current_password", $result));
@@ -48,19 +48,19 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         // now, use sudo..
         midcom::get()->auth->request_sudo("midcom.core");
         // try setting another password
-        $fields = array(
+        $fields = [
             "person" => $person->guid,
             "username" => $account->get_username(),
             "current_password" => "abc"
-        );
+        ];
         $this->assertTrue($val->validate_edit_form($fields));
 
         // try using another username
-        $fields = array(
+        $fields = [
             "person" => $person->guid,
             "username" => uniqid(__FUNCTION__ . "Bob"),
             "current_password" => $account->get_password()
-        );
+        ];
         $this->assertTrue($val->validate_edit_form($fields));
         midcom::get()->auth->drop_sudo();
     }
@@ -73,10 +73,10 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         $account = new midcom_core_account($person);
 
         // try valid username
-        $this->assertTrue($val->username_exists(array("username" => $account->get_username())));
+        $this->assertTrue($val->username_exists(["username" => $account->get_username()]));
 
         // try invalid username
-        $result = $val->username_exists(array("username" => uniqid(__FUNCTION__ . "FAKE_BOB")));
+        $result = $val->username_exists(["username" => uniqid(__FUNCTION__ . "FAKE_BOB")]);
         $this->assertTrue(is_array($result));
         $this->assertTrue(array_key_exists("username", $result));
     }
@@ -88,7 +88,7 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         $person = self::create_user();
 
         // try invalid email
-        $result = $val->email_exists(array("email" => uniqid(__FUNCTION__ . "-fake-mail-") . "@nowhere.cc"));
+        $result = $val->email_exists(["email" => uniqid(__FUNCTION__ . "-fake-mail-") . "@nowhere.cc"]);
         $this->assertTrue(is_array($result));
         $this->assertTrue(array_key_exists("email", $result));
 
@@ -97,7 +97,7 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         $person->email = $email;
         $person->update();
 
-        $this->assertTrue($val->email_exists(array("email" => $email)));
+        $this->assertTrue($val->email_exists(["email" => $email]));
     }
 
     public function testEmail_and_username_exist()
@@ -108,10 +108,10 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         $account = new midcom_core_account($person);
 
         // try invalid combination
-        $fields = array(
+        $fields = [
             "username" => $account->get_username(),
             "email" => uniqid(__FUNCTION__ . "-fake-mail-") . "@nowhere.cc"
-        );
+        ];
 
         $result = $val->email_and_username_exist($fields);
         $this->assertTrue(is_array($result));
@@ -127,10 +127,10 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         $person->email = $email;
         $person->update();
 
-        $fields = array(
+        $fields = [
             "username" => $account->get_username(),
             "email" => $email
-        );
+        ];
 
         $this->assertTrue($val->email_and_username_exist($fields));
     }

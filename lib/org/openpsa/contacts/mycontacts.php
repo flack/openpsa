@@ -91,6 +91,6 @@ class org_openpsa_contacts_mycontacts
                 return $qb->execute();
             }
         }
-        return array();
+        return [];
     }
 }

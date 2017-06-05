@@ -44,7 +44,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
     }
 
-    public function get_qb($field = null, $direction = 'ASC', array $search = array())
+    public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
         $qb = org_openpsa_documents_document_dba::new_query_builder();
 
@@ -63,7 +63,7 @@ implements org_openpsa_widgets_grid_provider_client
     public function get_row(midcom_core_dbaobject $document)
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $entry = array();
+        $entry = [];
 
         $entry['id'] = $document->id;
         $entry['index_title'] = $document->title;
@@ -182,12 +182,12 @@ implements org_openpsa_widgets_grid_provider_client
     {
         if ($this->_document->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
-            $this->_view_toolbar->add_item($workflow->get_button("document/edit/{$this->_document->guid}/", array(
+            $this->_view_toolbar->add_item($workflow->get_button("document/edit/{$this->_document->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )));
+            ]));
         }
         if ($this->_document->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', array('object' => $this->_document));
+            $workflow = $this->get_workflow('delete', ['object' => $this->_document]);
             $this->_view_toolbar->add_item($workflow->get_button("document/delete/{$this->_document->guid}/"));
         }
     }
@@ -207,11 +207,11 @@ implements org_openpsa_widgets_grid_provider_client
             $qb->add_order('metadata.created', 'DESC');
             $qb->set_limit(1);
             $results = $qb->execute();
-            $this->_view_toolbar->add_item(array(
+            $this->_view_toolbar->add_item([
                 MIDCOM_TOOLBAR_URL => "document/{$results[0]->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous version'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
-            ));
+            ]);
         }
 
         if ($this->_document->nextVersion != 0) {
@@ -228,11 +228,11 @@ implements org_openpsa_widgets_grid_provider_client
             $qb->set_limit(1);
             $results = $qb->execute();
 
-            $this->_view_toolbar->add_item(array(
+            $this->_view_toolbar->add_item([
                 MIDCOM_TOOLBAR_URL => "document/{$results[0]->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next version'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
-            ));
+            ]);
 
             $current_version = org_openpsa_documents_document_dba::get_cached($this->_document->nextVersion);
             $version_date = $this->_l10n->get_formatter()->datetime($this->_document->metadata->revised);

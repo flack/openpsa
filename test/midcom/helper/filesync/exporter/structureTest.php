@@ -27,8 +27,8 @@ class midcom_helper_filesync_exporter_structureTest extends openpsa_testcase
         $topic_name = uniqid('structure_' . __CLASS__ . __FUNCTION__);
         $export_name = 'export';
 
-        $topic = $this->create_object('midcom_db_topic', array('name' => $topic_name));
-        $sub_topic = $this->create_object('midcom_db_topic', array('name' => $topic_name, 'up' => $topic->id));
+        $topic = $this->create_object('midcom_db_topic', ['name' => $topic_name]);
+        $sub_topic = $this->create_object('midcom_db_topic', ['name' => $topic_name, 'up' => $topic->id]);
 
         $exporter = new midcom_helper_filesync_exporter_structure(self::$_rootdir);
         midcom::get()->auth->request_sudo('midcom.helper.filesync');
@@ -39,33 +39,33 @@ class midcom_helper_filesync_exporter_structureTest extends openpsa_testcase
         $structure = file_get_contents(self::$_rootdir . $export_name . '.inc');
         $structure_array = eval('return array(' . $structure . ');');
 
-        $expected = array(
-            'export' => array(
+        $expected = [
+            'export' => [
                 'name' => 'export',
                 'title' => 'localhost',
-                'root' => array(
+                'root' => [
                     'name' => $topic_name,
                     'title' => '',
                     'component' => '',
                     'style' => '',
                     'style_inherit' => false,
-                    'parameters' => array(),
-                    'acl' => array(),
-                    'nodes' => array(
-                        $topic_name => array(
+                    'parameters' => [],
+                    'acl' => [],
+                    'nodes' => [
+                        $topic_name => [
                             'name' => $topic_name,
                             'title' => '',
                             'component' => 'midcom.core.nullcomponent',
                             'style' => '',
                             'style_inherit' => false,
-                            'parameters' => array(),
-                            'acl' => array(),
-                            'nodes' => array(),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                            'parameters' => [],
+                            'acl' => [],
+                            'nodes' => [],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $this->assertEquals($expected, $structure_array);
     }

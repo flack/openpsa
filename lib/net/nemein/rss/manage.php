@@ -24,7 +24,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
     public static function register_plugin(midcom_baseclasses_components_request $viewer)
     {
         try {
-            $viewer->register_plugin_namespace('__feeds', array('rss' => array('class' => __CLASS__)));
+            $viewer->register_plugin_namespace('__feeds', ['rss' => ['class' => __CLASS__]]);
         } catch (midcom_error $e) {
             $e->log();
         }
@@ -33,26 +33,26 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
     public static function add_toolbar_buttons(midcom_helper_toolbar $toolbar, $enabled = true)
     {
         $l10n = midcom::get()->i18n->get_l10n('net.nemein.rss');
-        $buttons = array(
-            array(
+        $buttons = [
+            [
                 MIDCOM_TOOLBAR_URL => '__feeds/rss/subscribe/',
                 MIDCOM_TOOLBAR_LABEL => $l10n->get('subscribe feeds'),
                 MIDCOM_TOOLBAR_ICON => 'net.nemein.rss/rss-16.png',
                 MIDCOM_TOOLBAR_ENABLED => $enabled,
-            ),
-            array(
+            ],
+            [
                 MIDCOM_TOOLBAR_URL => '__feeds/rss/list/',
                 MIDCOM_TOOLBAR_LABEL => $l10n->get('manage feeds'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
                 MIDCOM_TOOLBAR_ENABLED => $enabled,
-            ),
-            array(
+            ],
+            [
                 MIDCOM_TOOLBAR_URL => "__feeds/rss/fetch/all/",
                 MIDCOM_TOOLBAR_LABEL => $l10n->get('refresh all feeds'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
                 MIDCOM_TOOLBAR_ENABLED => $enabled,
-            )
-        );
+            ]
+        ];
         $toolbar->add_items($buttons);
     }
 }

@@ -29,10 +29,10 @@ class org_openpsa_directmarketing_handler_campaign_adminTest extends openpsa_tes
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
-        $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'edit_query', $campaign->guid));
+        $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'edit_query', $campaign->guid]);
         $this->assertEquals('edit_campaign_query', $data['handler_id']);
 
-        $_POST = array(
+        $_POST = [
             'midcom_helper_datamanager2_dummy_field_rules' => "Array
             (
                'type' => 'AND',
@@ -64,9 +64,9 @@ class org_openpsa_directmarketing_handler_campaign_adminTest extends openpsa_tes
                ),
            )",
            'midcom_helper_datamanager2_save' => true
-        );
+        ];
 
-        $url = $this->run_relocate_handler('org.openpsa.directmarketing', array('campaign', 'edit_query', $campaign->guid));
+        $url = $this->run_relocate_handler('org.openpsa.directmarketing', ['campaign', 'edit_query', $campaign->guid]);
         $this->assertEquals('campaign/' . $campaign->guid . '/', $url);
 
         midcom::get()->auth->drop_sudo();
@@ -79,7 +79,7 @@ class org_openpsa_directmarketing_handler_campaign_adminTest extends openpsa_tes
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
-        $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'edit', $campaign->guid));
+        $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'edit', $campaign->guid]);
         $this->assertEquals('edit_campaign', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -92,7 +92,7 @@ class org_openpsa_directmarketing_handler_campaign_adminTest extends openpsa_tes
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
-        $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'delete', $campaign->guid));
+        $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'delete', $campaign->guid]);
         $this->assertEquals('delete_campaign', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

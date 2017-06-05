@@ -16,9 +16,9 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_invoice';
 
-    public $autodelete_dependents = array(
+    public $autodelete_dependents = [
         'org_openpsa_invoices_invoice_item_dba' => 'invoice'
-    );
+    ];
 
     private $_billing_data;
 
@@ -110,7 +110,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
             return false;
         }
 
-        $tasks_to_update = array();
+        $tasks_to_update = [];
 
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
         $qb->add_constraint('invoice', '=', $this->id);
@@ -203,10 +203,10 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
      *
      * @param array $tasks array containing the task id's to recalculate for - if empty all tasks will be recalculated
      */
-    public function _recalculate_invoice_items($tasks = array(), $skip_invoice_update = false)
+    public function _recalculate_invoice_items($tasks = [], $skip_invoice_update = false)
     {
-        $result_items = array();
-        $result_tasks = array();
+        $result_items = [];
+        $result_tasks = [];
 
         //get hour_reports for this invoice - mc ?
         $qb_hour_reports = org_openpsa_projects_hour_report_dba::new_query_builder();
@@ -286,7 +286,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         $qb->add_order('position', 'ASC');
         $result = $qb->execute();
 
-        $items = array();
+        $items = [];
         foreach ($result as $item) {
             $items[$item->guid] = $item;
         }

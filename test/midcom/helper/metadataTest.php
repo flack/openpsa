@@ -27,23 +27,23 @@ class midcom_helper_metadataTest extends openpsa_testcase
 
     public function providerEmptyProperties()
     {
-        return array(
-            array('schedulestart'),
-            array('scheduleend'),
-            array('navnoentry'),
-            array('hide'),
-            array('keywords'),
-            array('description'),
-            array('robots'),
-            array('published'),
-            array('publisher'),
-            array('created'),
-            array('creator'),
-            array('revised'),
-            array('revisor'),
-            array('approved'),
-            array('approver'),
-        );
+        return [
+            ['schedulestart'],
+            ['scheduleend'],
+            ['navnoentry'],
+            ['hide'],
+            ['keywords'],
+            ['description'],
+            ['robots'],
+            ['published'],
+            ['publisher'],
+            ['created'],
+            ['creator'],
+            ['revised'],
+            ['revisor'],
+            ['approved'],
+            ['approver'],
+        ];
     }
 
     /**
@@ -59,13 +59,13 @@ class midcom_helper_metadataTest extends openpsa_testcase
 
     public function providerSetEmptyObjectProperties()
     {
-        return array(
-            array('schedulestart', 1329255039),
-            array('scheduleend', 0),
-            array('navnoentry', true),
-            array('hide', false),
-            array('published', time()),
-        );
+        return [
+            ['schedulestart', 1329255039],
+            ['scheduleend', 0],
+            ['navnoentry', true],
+            ['hide', false],
+            ['published', time()],
+        ];
     }
 
     /**
@@ -84,16 +84,16 @@ class midcom_helper_metadataTest extends openpsa_testcase
 
     public function providerSetDBObjectProperties()
     {
-        return array(
-            array('schedulestart', 1329255039),
-            array('scheduleend', 0),
-            array('navnoentry', true),
+        return [
+            ['schedulestart', 1329255039],
+            ['scheduleend', 0],
+            ['navnoentry', true],
             //array('hide', false),
-            array('keywords', 'test kewords'),
-            array('description', 'test description'),
-            array('robots', 'test robots'),
-            array('published', time()),
+            ['keywords', 'test kewords'],
+            ['description', 'test description'],
+            ['robots', 'test robots'],
+            ['published', time()],
             //array('publisher', $person->guid),
-        );
+        ];
     }
 }

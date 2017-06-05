@@ -35,12 +35,12 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_defaults()
     {
-        $defaults = array();
+        $defaults = [];
         if ($this->_group) {
             if ($this->_group->orgOpenpsaObtype >= org_openpsa_contacts_group_dba::ORGANIZATION) {
-                $defaults['organizations'] = array($this->_group->id);
+                $defaults['organizations'] = [$this->_group->id];
             } elseif ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
-                $defaults['groups'] = array($this->_group->id);
+                $defaults['groups'] = [$this->_group->id];
             }
         }
         return $defaults;
@@ -78,10 +78,10 @@ implements midcom_helper_datamanager2_interfaces_create
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('person')));
 
-        $workflow = $this->get_workflow('datamanager2', array(
+        $workflow = $this->get_workflow('datamanager2', [
             'controller' => $this->get_controller('create'),
-            'save_callback' => array($this, 'save_callback')
-        ));
+            'save_callback' => [$this, 'save_callback']
+        ]);
         return $workflow->run();
     }
 

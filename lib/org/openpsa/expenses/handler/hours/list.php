@@ -49,12 +49,12 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             $siteconfig = org_openpsa_core_siteconfig::get_instance();
             if ($projects_url = $siteconfig->get_node_full_url('org.openpsa.projects')) {
                 $this->_view_toolbar->add_item(
-                    array(
+                    [
                         MIDCOM_TOOLBAR_URL => $projects_url . "task/{$task->guid}/",
                         MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show task %s'), $task->title),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
                         MIDCOM_TOOLBAR_ACCESSKEY => 'g',
-                    )
+                    ]
                 );
             }
         }
@@ -83,11 +83,11 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     public function _show_list($handler_id, array &$data)
     {
         $data['grid'] = new org_openpsa_widgets_grid($data['mode'] . '_hours_grid', 'local');
-        $data['group_options'] = array(
+        $data['group_options'] = [
             'category' => $this->_l10n->get('category'),
             'task' => $this->_l10n->get('task'),
             'reporter' => $this->_l10n->get('person')
-        );
+        ];
         $data['action_options'] = $this->_prepare_batch_options();
 
         midcom_show_style('hours_grid');
@@ -101,24 +101,24 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
         $invoice_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('invoice');
 
-        return array(
-            'none' => array('label' => midcom::get()->i18n->get_string("choose action", "midgard.admin.user")),
-            'invoiceable' => array(
+        return [
+            'none' => ['label' => midcom::get()->i18n->get_string("choose action", "midgard.admin.user")],
+            'invoiceable' => [
                 'label' => $this->_l10n->get('mark_invoiceable'),
                 'value' => true
-            ),
-            'uninvoiceable' => array(
+            ],
+            'uninvoiceable' => [
                 'label' => $this->_l10n->get('mark_uninvoiceable'),
                 'value' => false
-            ),
-            'task' => array(
+            ],
+            'task' => [
                 'label' => $this->_l10n->get('change_task'),
                 'widget_config' => $task_conf
-            ),
-            'invoice' => array(
+            ],
+            'invoice' => [
                 'label' => $this->_l10n->get('change_invoice'),
                 'widget_config' => $invoice_conf
-            )
-        );
+            ]
+        ];
     }
 }

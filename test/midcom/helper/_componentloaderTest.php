@@ -84,7 +84,7 @@ class midcom_helper__componentloaderTest extends openpsa_testcase
     {
         $componentloader = new midcom_helper__componentloader();
         $componentloader->load_all_manifests();
-        $this->assertEquals(array(), $componentloader->list_loaded_components());
+        $this->assertEquals([], $componentloader->list_loaded_components());
     }
 
     public function test_load_external_component()

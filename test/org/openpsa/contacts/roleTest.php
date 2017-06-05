@@ -29,7 +29,7 @@ class org_openpsa_contacts_roleTest extends openpsa_testcase
         $this->assertTrue($stat);
         $this->register_object($member1);
         $this->assertEquals(org_openpsa_sales_salesproject_dba::ROLE_MEMBER, $member1->role);
-        $this->assertEquals(array($person1->id => true), $salesproject->contacts);
+        $this->assertEquals([$person1->id => true], $salesproject->contacts);
 
         $stat = $member1->delete();
         $this->assertTrue($stat);
@@ -47,7 +47,7 @@ class org_openpsa_contacts_roleTest extends openpsa_testcase
         $this->assertEquals($person2->id, $member2->person);
 
         $salesproject->refresh();
-        $this->assertEquals(array($person2->id => true), $salesproject->contacts);
+        $this->assertEquals([$person2->id => true], $salesproject->contacts);
 
         $stat = $member2->delete();
         $this->assertTrue($stat);

@@ -112,12 +112,12 @@ class org_openpsa_mypage_workingon
             $stat = $this->person->delete_parameter('org.openpsa.mypage', 'workingon');
         } else {
             // Mark the new task work session as started
-            $workingon = array(
+            $workingon = [
                 'task' => $task_guid,
                 'description' => $description,
                 'invoiceable' => $invoiceable,
                 'start' => gmdate('Y-m-d H:i:s', time())
-            );
+            ];
             $stat = $this->person->set_parameter('org.openpsa.mypage', 'workingon', json_encode($workingon));
         }
         midcom::get()->auth->drop_sudo();

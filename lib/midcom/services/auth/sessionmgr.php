@@ -32,7 +32,7 @@ class midcom_services_auth_sessionmgr
      *
      * @var midcom_core_login_session_db[]
      */
-    private $_loaded_sessions = array();
+    private $_loaded_sessions = [];
 
     /**
      * Once a session has been authenticated, this variable holds the ID of the current
@@ -149,10 +149,10 @@ class midcom_services_auth_sessionmgr
         }
         $this->current_session_id = $session->guid;
         $this->_loaded_sessions[$session->guid] = $session;
-        return array(
+        return [
             'session_id' => $this->current_session_id,
             'user' => $user
-        );
+        ];
     }
 
     /**
@@ -427,7 +427,7 @@ class midcom_services_auth_sessionmgr
         $mc->add_constraint('timestamp', '>=', $this->get_timeout());
         $mc->execute();
 
-        $result = array();
+        $result = [];
         $query_result = array_keys($mc->list_keys());
         foreach ($query_result as $userid) {
             if (   ($user = $this->auth->get_user($userid))

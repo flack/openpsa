@@ -18,7 +18,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
      *
      * @var array
      */
-    private $event_links = array();
+    private $event_links = [];
 
     /**
      * @var org_openpsa_calendar_event_dba

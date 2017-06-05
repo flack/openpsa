@@ -178,22 +178,22 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      */
     private static function _set_object_breadcrumb($object, $handler_id, array $data)
     {
-        $breadcrumb = array();
+        $breadcrumb = [];
         $label = $data['object_reflector']->get_object_label($object);
-        $breadcrumb[] = array(
+        $breadcrumb[] = [
             MIDCOM_NAV_URL => self::_generate_url('view', $object->guid),
             MIDCOM_NAV_NAME => $label,
-        );
+        ];
 
         $parent = $object->get_parent();
 
         if (   is_a($object, 'midcom_db_parameter')
             && !empty($parent->guid)) {
             // Add "parameters" list to breadcrumb if we're in a param
-            $breadcrumb[] = array(
+            $breadcrumb[] = [
                 MIDCOM_NAV_URL => self::_generate_url('parameters', $parent->guid),
                 MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('parameters', 'midcom'),
-            );
+            ];
         }
 
         $i = 0;
@@ -202,95 +202,95 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
             $i++;
             $parent_reflector = midcom_helper_reflector::get($parent);
             $parent_label = $parent_reflector->get_object_label($parent);
-            $breadcrumb[] = array(
+            $breadcrumb[] = [
                 MIDCOM_NAV_URL => self::_generate_url('view', $parent->guid),
                 MIDCOM_NAV_NAME => $parent_label,
-            );
+            ];
             $parent = $parent->get_parent();
         }
         $breadcrumb = array_reverse($breadcrumb);
 
         switch ($handler_id) {
             case '____mfa-asgard-object_edit':
-                $breadcrumb[] = array(
+                $breadcrumb[] = [
                     MIDCOM_NAV_URL => self::_generate_url('edit', $object->guid),
                     MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('edit', 'midcom'),
-                );
+                ];
                 break;
             case '____mfa-asgard-object_copy':
-                $breadcrumb[] = array(
+                $breadcrumb[] = [
                     MIDCOM_NAV_URL => self::_generate_url('copy', $object->guid),
                     MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('copy', 'midcom'),
-                );
+                ];
                 break;
             case '____mfa-asgard-object_copy_tree':
-                $breadcrumb[] = array(
+                $breadcrumb[] = [
                     MIDCOM_NAV_URL => self::_generate_url('copy/tree', $object->guid),
                     MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('copy', 'midcom'),
-                );
+                ];
                 break;
             case '____mfa-asgard-components_configuration_edit_folder':
-                $breadcrumb[] = array(
+                $breadcrumb[] = [
                     MIDCOM_NAV_URL => "__mfa/asgard/components/configuration/edit/{$object->component}/{$object->guid}/",
                     MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('component configuration', 'midcom'),
-                );
+                ];
                 break;
             case '____mfa-asgard-object_metadata':
-                $breadcrumb[] = array(
+                $breadcrumb[] = [
                     MIDCOM_NAV_URL => self::_generate_url('metadata', $object->guid),
                     MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('metadata', 'midcom'),
-                );
+                ];
                 break;
             case '____mfa-asgard-object_attachments':
             case '____mfa-asgard-object_attachments_edit':
-                $breadcrumb[] = array(
+                $breadcrumb[] = [
                     MIDCOM_NAV_URL => self::_generate_url('attachments', $object->guid),
                     MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('attachments', 'midgard.admin.asgard'),
-                );
+                ];
 
                 if ($handler_id == '____mfa-asgard-object_attachments_edit') {
-                    $breadcrumb[] = array(
+                    $breadcrumb[] = [
                         MIDCOM_NAV_URL => "__mfa/asgard/object/attachments/{$object->guid}/edit/",
                         MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('edit', 'midcom'),
-                    );
+                    ];
                 }
                 break;
             case '____mfa-asgard-object_parameters':
-                $breadcrumb[] = array(
+                $breadcrumb[] = [
                     MIDCOM_NAV_URL => self::_generate_url('parameters', $object->guid),
                     MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('parameters', 'midcom'),
-                );
+                ];
                 break;
             case '____mfa-asgard-object_permissions':
-                $breadcrumb[] = array(
+                $breadcrumb[] = [
                     MIDCOM_NAV_URL => self::_generate_url('permissions', $object->guid),
                     MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('privileges', 'midcom'),
-                );
+                ];
                 break;
             case '____mfa-asgard-object_create':
                 if ($data['current_type'] == 'midgard_parameter') {
                     // Add "parameters" list to breadcrumb if we're creating a param
-                    $breadcrumb[] = array(
+                    $breadcrumb[] = [
                         MIDCOM_NAV_URL => self::_generate_url('parameters', $object->guid),
                         MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('parameters', 'midcom'),
-                    );
+                    ];
                 }
-                $breadcrumb[] = array(
+                $breadcrumb[] = [
                     MIDCOM_NAV_URL => self::_generate_url('create' . $data['current_type'], $object->guid),
                     MIDCOM_NAV_NAME => sprintf(midcom::get()->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($data['current_type'])),
-                );
+                ];
                 break;
             case '____mfa-asgard-object_delete':
-                $breadcrumb[] = array(
+                $breadcrumb[] = [
                     MIDCOM_NAV_URL => self::_generate_url('delete', $object->guid),
                     MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('delete', 'midcom'),
-                );
+                ];
                 break;
             case '____mfa-asgard_midcom.helper.replicator-object':
-                $breadcrumb[] = array(
+                $breadcrumb[] = [
                     MIDCOM_NAV_URL => "__mfa/asgard_midcom.helper.replicator/object/{$object->guid}/",
                     MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('replication information', 'midcom.helper.replicator'),
-                );
+                ];
                 break;
         }
 
@@ -304,7 +304,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      */
     public static function get_preference($preference)
     {
-        static $preferences = array();
+        static $preferences = [];
 
         if (!midcom::get()->auth->user) {
             return;
@@ -326,7 +326,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      */
     public static function get_root_classes()
     {
-        static $root_classes = array();
+        static $root_classes = [];
 
         // Return cached results
         if (!empty($root_classes)) {
@@ -334,7 +334,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         }
 
         // Initialize the returnable array
-        $root_classes = array();
+        $root_classes = [];
 
         // Get the classes
         $classes = midcom_helper_reflector_tree::get_root_classes();

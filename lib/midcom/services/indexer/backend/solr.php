@@ -88,7 +88,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     public function delete(array $RIs)
     {
         $this->factory->reset();
-        array_map(array($this->factory, 'delete'), $RIs);
+        array_map([$this->factory, 'delete'], $RIs);
         return $this->post();
     }
 
@@ -132,7 +132,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     /**
      * {@inheritDoc}
      */
-    public function query($querystring, midcom_services_indexer_filter $filter = null, array $options = array())
+    public function query($querystring, midcom_services_indexer_filter $filter = null, array $options = [])
     {
         // FIXME: adapt the whole indexer system to fetching enable querying for counts and slices
         $query = array_merge(midcom::get()->config->get('indexer_config_options'), $options);
@@ -154,7 +154,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         $document = new DomDocument;
         $document->loadXML($response->getContent());
         $xquery = new DomXPath($document);
-        $result = array();
+        $result = [];
 
         $num = $xquery->query('/response/result')->item(0);
         if ($num->getAttribute('numFound') == 0) {

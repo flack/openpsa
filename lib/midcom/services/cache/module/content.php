@@ -93,7 +93,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var array
      */
-    private $_sent_headers = array();
+    private $_sent_headers = [];
 
     /**
      * The MIME content-type of the current request. It defaults to text/html, but
@@ -180,12 +180,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     /**
      * GUIDs loaded per context in this request
      */
-    private $context_guids = array();
+    private $context_guids = [];
 
     /**
      * Forced headers
      */
-    private $_force_headers = array();
+    private $_force_headers = [];
 
     /**
      * Generate a valid cache identifier for a context of the current request
@@ -193,7 +193,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     function generate_request_identifier($context, $customdata = null)
     {
         // Cache the request identifier so that it doesn't change between start and end of request
-        static $identifier_cache = array();
+        static $identifier_cache = [];
         if (isset($identifier_cache[$context])) {
             // FIXME: Use customdata here, too
             return $identifier_cache[$context];
@@ -629,14 +629,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if ($context != 0) {
             // We're in a dynamic_load, register it for that as well
             if (!isset($this->context_guids[$context])) {
-                $this->context_guids[$context] = array();
+                $this->context_guids[$context] = [];
             }
             $this->context_guids[$context][] = $guid;
         }
 
         // Register all GUIDs also to the root context
         if (!isset($this->context_guids[0])) {
-            $this->context_guids[0] = array();
+            $this->context_guids[0] = [];
         }
         $this->context_guids[0][] = $guid;
     }
@@ -799,14 +799,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $context = midcom_core_context::get()->id;
         $request_id = $this->generate_request_identifier($context);
 
-        $entries = array(
+        $entries = [
             $request_id => $content_id,
-            $content_id => array(
+            $content_id => [
                 'etag' => $etag,
                 'last_modified' => $this->_last_modified,
                 'sent_headers' => $this->_sent_headers
-            )
-        );
+            ]
+        ];
 
         $this->_meta_cache->saveMultiple($entries, $lifetime);
 
@@ -822,10 +822,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         $maps = $this->_meta_cache->fetchMultiple($this->context_guids[$context]);
-        $to_save = array();
+        $to_save = [];
         foreach ($this->context_guids[$context] as $guid) {
             // Getting old map from cache or create new, empty one
-            $guidmap = (empty($maps[$guid])) ? array() : $maps[$guid];
+            $guidmap = (empty($maps[$guid])) ? [] : $maps[$guid];
 
             if (!in_array($content_id, $guidmap)) {
                 $guidmap[] = $content_id;

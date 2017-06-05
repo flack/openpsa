@@ -27,7 +27,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     private $rules;
 
-    public function get_qb($field = null, $direction = 'ASC', array $search = array())
+    public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
         $resolver = new org_openpsa_directmarketing_campaign_ruleresolver();
         $resolver->resolve($this->rules);
@@ -49,7 +49,7 @@ implements org_openpsa_widgets_grid_provider_client
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $url = $siteconfig->get_node_full_url('org.openpsa.contacts') . 'person/';
 
-        return array(
+        return [
             'id' => $person->id,
             'index_firstname' => $person->firstname,
             'firstname' => '<a target="_blank" href="' . $url . $person->guid . '/">' . $person->firstname . '</a>',
@@ -57,7 +57,7 @@ implements org_openpsa_widgets_grid_provider_client
             'lastname' => '<a target="_blank" href="' . $url . $person->guid . '/">' . $person->lastname . '</a>',
             'index_email' => $person->email,
             'email' => '<a target="_blank" href="' . $url . $person->guid . '/">' . $person->email . '</a>'
-        );
+        ];
     }
 
     /**
@@ -125,24 +125,24 @@ implements org_openpsa_widgets_grid_provider_client
             midcom::get()->uimessages->add($this->_component, sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
         }
 
-        $buttons = array(
-            array(
+        $buttons = [
+            [
                 MIDCOM_TOOLBAR_URL => "#",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('advanced rule editor'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                MIDCOM_TOOLBAR_OPTIONS  => array(
+                MIDCOM_TOOLBAR_OPTIONS  => [
                     'id' => 'openpsa_dirmar_edit_query_advanced',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 MIDCOM_TOOLBAR_URL => "campaign/edit_query/{$this->_campaign->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit rules'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                MIDCOM_TOOLBAR_OPTIONS  => array(
+                MIDCOM_TOOLBAR_OPTIONS  => [
                     'id' => 'openpsa_dirmar_edit_query',
-                ),
-            )
-        );
+                ],
+            ]
+        ];
         $this->_view_toolbar->add_items($buttons);
 
         $provider = new org_openpsa_widgets_grid_provider($this);

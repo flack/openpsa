@@ -56,9 +56,9 @@ if ($data['list_type'] != 'paid') {
     $grid->set_column('paid', $data['l10n']->get('paid date'), 'width: 80, align: "right", formatter: "date"');
 }
 
-$footer_data = array(
+$footer_data = [
     'customer' => $data['l10n']->get('totals')
-);
+];
 
 $grid->set_footer_data($footer_data);
 ?>

@@ -52,7 +52,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $data['controller'] = $this->get_controller('nullstorage');
 
-        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
+        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
         $response = $workflow->run();
 
         if (   $workflow->get_state() == 'save'
@@ -64,9 +64,9 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     public function get_schema_defaults()
     {
-        $defaults = array(
+        $defaults = [
             'person' => $this->person->guid
-        );
+        ];
         if ($this->account->get_username()) {
             $defaults['username'] = $this->account->get_username();
         } elseif ($this->person->email) {
@@ -133,10 +133,10 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         org_openpsa_user_widget_password::jsinit('org_openpsa_user_new_password', $this->_l10n, $this->_config, true);
         $controller = $this->get_controller('nullstorage');
 
-        $workflow = $this->get_workflow('datamanager2', array('controller' => $controller));
+        $workflow = $this->get_workflow('datamanager2', ['controller' => $controller]);
 
         if ($this->person->can_do('midgard:update')) {
-            $delete = $this->get_workflow('delete', array('object' => $this->person));
+            $delete = $this->get_workflow('delete', ['object' => $this->person]);
             $workflow->add_dialog_button($delete, "account/delete/{$this->person->guid}/");
         }
 
@@ -185,7 +185,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             return new midcom_response_relocate("view/" . $this->person->guid . "/");
         }
 
-        $workflow = new delete(array('object' => $this->person));
+        $workflow = new delete(['object' => $this->person]);
         if ($workflow->get_state() == delete::CONFIRMED) {
             if (!$this->account->delete()) {
                 throw new midcom_error("Failed to delete account for {$this->person->guid}, last Midgard error was: " . midcom_connection::get_error_string());

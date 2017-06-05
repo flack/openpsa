@@ -15,7 +15,7 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
 {
     public function parse($input)
     {
-        $parsed = array();
+        $parsed = [];
 
         // Start processing the file
         $handle = fopen($input, 'r');
@@ -50,7 +50,7 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
 
     private function _read_line(array $csv_line)
     {
-        $contact = array();
+        $contact = [];
 
         foreach (array_filter($csv_line) as $field => $value) {
             // Process the row accordingly
@@ -68,7 +68,7 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
                 }
 
                 if (!array_key_exists($schemadb, $contact)) {
-                    $contact[$schemadb] = array();
+                    $contact[$schemadb] = [];
                 }
 
                 $contact[$schemadb][$schema_field] = $value;

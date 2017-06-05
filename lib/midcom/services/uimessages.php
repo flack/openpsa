@@ -61,7 +61,7 @@ class midcom_services_uimessages
      *
      * @var Array
      */
-    private $_allowed_types = array('info', 'ok', 'warning', 'error', 'debug');
+    private $_allowed_types = ['info', 'ok', 'warning', 'error', 'debug'];
 
     /**
      * DOM path of the UI message holder object
@@ -95,11 +95,11 @@ class midcom_services_uimessages
 
     public function get_class_magic_default_privileges()
     {
-        return array(
-            'EVERYONE' => array(),
-            'ANONYMOUS' => array(),
-            'USERS' => array()
-        );
+        return [
+            'EVERYONE' => [],
+            'ANONYMOUS' => [],
+            'USERS' => []
+        ];
     }
 
     /**
@@ -118,11 +118,11 @@ class midcom_services_uimessages
             return false;
         }
 
-        $msg = array(
+        $msg = [
             'title'   => $title,
             'message' => $message,
             'type'    => $type,
-        );
+        ];
         // Append to message stack
         $this->_message_stack->add($type, json_encode($msg));
         return true;
@@ -130,7 +130,7 @@ class midcom_services_uimessages
 
     public function get_messages()
     {
-        $result = array();
+        $result = [];
         foreach ($this->_message_stack->all() as $messages) {
             foreach ($messages as $message) {
                 $result[] = $message;

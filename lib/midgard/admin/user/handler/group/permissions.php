@@ -27,7 +27,7 @@ class midgard_admin_user_handler_group_permissions extends midcom_baseclasses_co
     {
         $this->add_breadcrumb("__mfa/asgard_midgard.admin.user/", $this->_l10n->get('midgard.admin.user'));
 
-        $tmp = array();
+        $tmp = [];
         $grp = $this->_group;
 
         while ($grp) {
@@ -55,12 +55,12 @@ class midgard_admin_user_handler_group_permissions extends midcom_baseclasses_co
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('assignee', '=', "group:{$this->_group->guid}");
         $privileges = $qb->execute();
-        $data['objects'] = array();
-        $data['privileges'] = array();
+        $data['objects'] = [];
+        $data['privileges'] = [];
         foreach ($privileges as $privilege) {
             $data['privileges'][$privilege->privilegename] = $this->_i18n->get_string($privilege->privilegename, 'midgard.admin.asgard');
             if (!isset($data['objects'][$privilege->objectguid])) {
-                $data['objects'][$privilege->objectguid] = array();
+                $data['objects'][$privilege->objectguid] = [];
             }
             $data['objects'][$privilege->objectguid][$privilege->privilegename] = $privilege->value;
         }

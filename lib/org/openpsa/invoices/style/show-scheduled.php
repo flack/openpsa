@@ -1,21 +1,21 @@
 <?php
 $i18n = midcom::get()->i18n;
 $grid = $data['grid'];
-$footer_data = array(
+$footer_data = [
     'customer' => $data['l10n']->get('totals'),
     'sum' => $grid->get_provider()->get_column_total('sum')
-);
+];
 
 $grid->set_option('loadonce', true)
 ->set_option('grouping', true)
-->set_option('groupingView', array(
-    'groupField' => array('month'),
-    'groupColumnShow' => array(false),
-    'groupText' => array('<strong>{0}</strong> ({1})'),
-    'groupOrder' => array('asc'),
-    'groupSummary' => array(true),
+->set_option('groupingView', [
+    'groupField' => ['month'],
+    'groupColumnShow' => [false],
+    'groupText' => ['<strong>{0}</strong> ({1})'],
+    'groupOrder' => ['asc'],
+    'groupSummary' => [true],
     'showSummaryOnHide' => true
-));
+]);
 
 $grid->set_column('time', $data['l10n_midcom']->get('date'), 'width: 80, fixed: true, align: "right", formatter: "date"')
 ->set_column('month', '', '', 'string')
