@@ -156,14 +156,8 @@ class midcom_connection
                 $salt = self::_crypt_password($password, $username);
                 $password = crypt($password, $salt);
                 break;
-            case 'SHA1':
-                $password = sha1($password);
-                break;
             case 'SHA256':
                 $password = hash('sha256', $password);
-                break;
-            case 'MD5':
-                $password = md5($password);
                 break;
             default:
                 throw new midcom_error('Unsupported authentication type attempted');
