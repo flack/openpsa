@@ -214,10 +214,6 @@ Personoitu vastine
 Postinumero
 ---STRINGEND
 
----STRING prevent repeating characters
-Estä samojen merkkien toistuminen
----STRINGEND
-
 ---STRING prevent similar characters
 Estä samanlaiset merkit
 ---STRINGEND

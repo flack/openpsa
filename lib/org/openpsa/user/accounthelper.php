@@ -191,13 +191,10 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $passwdchars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-*!:+=()/&%$<>?#@';
         $first_last_chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-        $factory = new RandomLib\Factory();
-        $generator = $factory->getMediumStrengthGenerator();
-
         //make sure password doesn't begin or end in punctuation character
-        $password = $generator->generateString(1, $first_last_chars);
-        $password .= $generator->generateString($length - 2, $passwdchars);
-        $password .= $generator->generateString(1, $first_last_chars);
+        $password = midcom_helper_misc::random_string(1, $first_last_chars);
+        $password .= midcom_helper_misc::random_string($length - 2, $passwdchars);
+        $password .= midcom_helper_misc::random_string(1, $first_last_chars);
         return $password;
     }
 

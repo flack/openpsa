@@ -218,10 +218,6 @@ Personalisiertes Äquivalent
 Postleitzahl
 ---STRINGEND
 
----STRING prevent repeating characters
-Sich wiederholende Zeichen verhindern
----STRINGEND
-
 ---STRING prevent similar characters
 Ähnliche Zeichen verhindern
 ---STRINGEND

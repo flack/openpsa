@@ -284,7 +284,6 @@ class midcom_core_collector extends midcom_core_query
 
     public function get_objects()
     {
-        $qb = new midcom_core_querybuilder($this->_real_class);
         $this->execute();
         $guids = $this->list_keys();
 
@@ -292,6 +291,7 @@ class midcom_core_collector extends midcom_core_query
             return [];
         }
 
+        $qb = new midcom_core_querybuilder($this->_real_class);
         $qb->hide_invisible = $this->hide_invisible;
         $qb->add_constraint('guid', 'IN', array_keys($guids));
         foreach ($this->_orders as $order) {

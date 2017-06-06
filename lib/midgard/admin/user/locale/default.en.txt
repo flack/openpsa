@@ -226,10 +226,6 @@ Personalized equal
 Postcode
 ---STRINGEND
 
----STRING prevent repeating characters
-Prevent repeating characters
----STRINGEND
-
 ---STRING prevent similar characters
 Prevent similar characters
 ---STRINGEND

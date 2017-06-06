@@ -202,10 +202,6 @@ Användare %s sparad
 Postnummer
 ---STRINGEND
 
----STRING prevent repeating characters
-Förhindra upprepning av tecken
----STRINGEND
-
 ---STRING prevent similar characters
 Förhindra liknande tecken
 ---STRINGEND

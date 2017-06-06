@@ -59,7 +59,6 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
             $chars = '23456789abcdefghjkmnopqrstuvwxyz';
         }
 
-        $factory = new RandomLib\Factory();
-        return $factory->getLowStrengthGenerator()->generateString($length, $chars);
+        return midcom_helper_misc::random_string($length, $chars);
     }
 }

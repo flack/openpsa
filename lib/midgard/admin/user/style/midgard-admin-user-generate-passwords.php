@@ -6,10 +6,8 @@ $max_amount = 100;
 $max_length = 16;
 
 if (isset($_GET['f_submit'])) {
-    $strong = false;
     $no_similars = false;
 } else {
-    $strong = true;
     $no_similars = true;
 }
 
@@ -23,12 +21,6 @@ if (!isset($_GET['ajax-form'])) {
             </label>
             <label for="length">
                 <span class="label"><?php echo $data['l10n']->get('password length'); ?></span> <input type="text" name="length" id="length" value="<?php echo $length; ?>" size="2" maxlength="2" /> (<?php printf($data['l10n']->get('maximum %s'), $max_length); ?>)
-            </label>
-            <label for="repeated_characters">
-                <input type="checkbox" id="repeated_characters" name="strong" value="1" <?php if ($strong) {
-        echo ' checked="checked"';
-    } ?> />
-                <span class="label"><?php echo $data['l10n']->get('prevent repeating characters'); ?></span>
             </label>
             <label for="similar_characters">
                 <input type="checkbox" id="similar_characters" name="no_similars" value="1" <?php if ($no_similars) {
@@ -60,7 +52,7 @@ if (   !is_numeric($n)
     printf($data['l10n']->get('only up to %s passwords with maximum length of %s characters'), $max_amount, $max_length);
 } else {
     for ($i = 0; $i < $n; $i++) {
-        $password = midgard_admin_user_plugin::generate_password($length, $no_similars, $strong);
+        $password = midgard_admin_user_plugin::generate_password($length, $no_similars);
 
         echo "<input type=\"text\" class=\"plain-text\" value=\"{$password}\" onclick=\"this.select();\" />\n";
     }

@@ -207,10 +207,6 @@ Użytkownik %s zapisany
 Kod pocztowy
 ---STRINGEND
 
----STRING prevent repeating characters
-Unikaj powtórzeń znaków
----STRINGEND
-
 ---STRING prevent similar characters
 Unikaj podobnych znaków
 ---STRINGEND

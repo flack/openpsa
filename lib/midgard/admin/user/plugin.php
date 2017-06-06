@@ -23,7 +23,7 @@ class midgard_admin_user_plugin extends midcom_baseclasses_components_plugin
      *
      * @param int $length
      */
-    public static function generate_password($length = 8, $no_similars = true, $strong = true)
+    public static function generate_password($length = 8, $no_similars = true)
     {
         if ($no_similars) {
             $options = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -31,13 +31,6 @@ class midgard_admin_user_plugin extends midcom_baseclasses_components_plugin
             $options = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         }
 
-        $factory = new RandomLib\Factory();
-
-        if ($strong) {
-            $generator = $factory->getMediumStrengthGenerator();
-        } else {
-            $generator = $factory->getLowStrengthGenerator();
-        }
-        return $generator->generateString($length, $options);
+        return midcom_helper_misc::random_string($length, $options);
     }
 }

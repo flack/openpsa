@@ -14,6 +14,29 @@
 class midcom_helper_misc
 {
     /**
+     *
+     * @param integer $length
+     * @param string $characters
+     * @throws InvalidArgumentException
+     * @return string
+     */
+    public static function random_string($length, $characters)
+    {
+        if ($length < 1) {
+            throw new InvalidArgumentException('invalid length');
+        }
+        $size = strlen($characters) - 1;
+        if ($size < 1) {
+            throw new InvalidArgumentException('invalid characters');
+        }
+        $return = '';
+        for ($i = 0; $i < $length; $i++) {
+            $return .= $characters[random_int(0, $size)];
+        }
+        return $return;
+    }
+
+    /**
      * Turn midcom config files into PHP arrays
      *
      * @param string $data The data to parse

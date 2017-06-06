@@ -256,10 +256,8 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
             return 'dummy';
         }
 
-        $factory = new RandomLib\Factory();
-        $generator = $factory->getLowStrengthGenerator();
-        $token = $generator->generateString(1, 'abcdefghijklmnopqrstuvwxyz');
-        $token .= $generator->generateString($this->token_size - 1, 'abcdefghijklmnopqrstuvwxyz0123456789');
+        $token = midcom_helper_misc::random_string(1, 'abcdefghijklmnopqrstuvwxyz');
+        $token .= midcom_helper_misc::random_string($this->token_size - 1, 'abcdefghijklmnopqrstuvwxyz0123456789');
 
         //If token is not free or (very, very unlikely) matches our dummy token, recurse.
         if (   $token === 'dummy'
