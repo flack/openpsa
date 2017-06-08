@@ -135,6 +135,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
         //if nothing is found, do some heuristics
         list($type, $subtype) = explode('/', $mimetype);
+        $st_orig = $subtype;
 
         switch ($type) {
             case 'image':
@@ -169,7 +170,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
          * if nothing matched so far and the subtype is alphanumeric, uppercase it on the theory
          * that it's probably a file extension
          */
-        if (   $parts[1] == $subtype
+        if (   $st_orig == $subtype
             && preg_match('/^[a-z0-9]+$/', $subtype)) {
             $subtype = strtoupper($subtype);
         }
