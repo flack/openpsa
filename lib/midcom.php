@@ -16,7 +16,7 @@ class midcom
      *
      * @var string
      */
-    private static $_version = '9.1.0+git';
+    private static $_version = '9.2.0';
 
     /**
      * Main application singleton
