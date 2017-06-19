@@ -5,13 +5,13 @@ $data = $this->data;
     <p>
         <label for="username">
             <span class="field_label"><?php echo midcom::get()->i18n->get_string('username', 'midcom'); ?></span><br />
-            <input name="username" id="username" type="text" class="input" />
+            <input name="username" id="username" type="text" class="input" required />
         </label>
     </p>
     <p>
         <label for="password">
             <span class="field_label"><?php echo midcom::get()->i18n->get_string('password', 'midcom'); ?></span><br />
-            <input name="password" id="password" type="password" class="input" />
+            <input name="password" id="password" type="password" class="input" required />
         </label>
     </p>
 <?php
@@ -54,5 +54,5 @@ if (midcom::get()->config->get('auth_openid_enable')) {
                 echo midcom::get()->i18n->get_string('login', 'midcom'); ?>" />
         </form>
     </div>
-<?php 
+<?php
         } ?>
