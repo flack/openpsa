@@ -29,10 +29,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         org_openpsa_widgets_contact::add_head_elements();
 
         $head = midcom::get()->head;
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/widgets/draggable.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/widgets/droppable.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/widgets/selectable.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/widgets/tabs.min.js');
+        $head->enable_jquery_ui(['draggable', 'droppable', 'selectable', 'tabs', 'checkboxradio', 'controlgroup']);
         $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . 'js/elfinder.min.js');
 
         $lang = midcom::get()->i18n->get_current_language();
