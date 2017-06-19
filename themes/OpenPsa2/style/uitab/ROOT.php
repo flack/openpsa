@@ -1,10 +1,3 @@
-<script type="text/javascript">
-if (typeof $ === 'undefined')
-{
-    location.href = location.href.replace(/\/uitab\//, '/');
-}
-</script>
-
 <?php
 if (!defined('MIDCOM_STATIC_URL')) {
     define('MIDCOM_STATIC_URL', '/midcom-static');
