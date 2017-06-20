@@ -65,10 +65,8 @@ function calculate_invoices_total(table)
 function process_invoice(button, action, invoice_url)
 {
     var id = button.parent().parent().attr('id');
-    $.post(invoice_url + 'invoice/action/' + action + '/', {id: id}, function(data)
-    {
-        if (data.success === false)
-        {
+    $.post(invoice_url + 'invoice/action/' + action + '/', {id: id}, function(data) {
+        if (data.success === false) {
             $.midcom_services_uimessage_add(data.message);
             return;
         }
@@ -79,26 +77,34 @@ function process_invoice(button, action, invoice_url)
         old_grid.delRowData(id);
         calculate_invoices_total(old_grid);
 
-        if (new_grid.length < 1)
-        {
+        if (new_grid.length < 1) {
             // Grid is not present yet, reload
             window.location.reload();
             return;
         }
 
-        if (new_grid.jqGrid('getGridParam', 'datatype') === 'local')
-        {
+        if (new_grid.jqGrid('getGridParam', 'datatype') === 'local') {
             row_data.action = data.action;
             row_data.due = data.due;
             jQuery('#' + data.new_status + '_invoices_grid').addRowData(row_data.id, row_data, "last");
             calculate_invoices_total(new_grid);
-        }
-        else
-        {
+        } else {
             new_grid.trigger('reloadGrid');
         }
         $(window).trigger('resize');
         $.midcom_services_uimessage_add(data.message);
+    })
+    .fail(function(response) {
+        if (response.status === 403) {
+            // most probably our login session expired. reload
+            location.href = location.href;
+        } else {
+            $.midcom_services_uimessage_add({
+                type: 'error',
+                title: response.statusText,
+                message: response.responseText
+            });
+        }
     });
 }
 
