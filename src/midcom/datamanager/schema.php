@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Email;
 use midcom;
 use midcom_core_context;
 use midcom\datamanager\extension\compat;
@@ -68,7 +69,7 @@ class schema
                 'widget_config' => $config['widget_config'],
                 'type_config' => $config['type_config'],
                 'required' => $config['required'],
-                'constraints' => $config['required'] ? [new NotBlank()] : null,
+                'constraints' => $config['validation'],
                 'dm2_type' => $config['type'],
                 'start_fieldset' => $config['start_fieldset'],
                 'end_fieldset' => $config['end_fieldset'],
@@ -143,6 +144,15 @@ class schema
                 || $value == 'downloads') {
                 return 'subform';
             }
+
+            if (   $value == 'text'
+                && !empty($options['validation'])) {
+                foreach ($options['validation'] as $constraint) {
+                    if ($constraint instanceof Email) {
+                        return 'email';
+                    }
+                }
+            }
             return $value;
         };
 
@@ -185,20 +195,17 @@ class schema
             return $value;
         };
 
-        $normalize_validation = function (Options $options, $config) {
+        $normalize_validation = function (Options $options, $value) {
             $validation = [];
-            if (array_key_exists('validation', (array) $config)) {
-                $validation = (array) $config['validation'];
-            }
 
-            foreach ($validation as $key => $rule) {
+            foreach ((array) $value as $key => $rule) {
                 if (!is_array($rule)) {
                     $rule = ['type' => $rule];
                 } elseif (!array_key_exists('type', $rule)) {
-                    throw new midcom_error("Missing validation rule type for rule {$key} on field {$config['name']}, this is a required option.");
+                    throw new midcom_error("Missing validation rule type for rule {$key} on field {$options['name']}, this is a required option.");
                 } elseif (   $rule['type'] == 'compare'
                           && !array_key_exists('compare_with', $rule)) {
-                    throw new midcom_error("Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");
+                    throw new midcom_error("Missing compare_with option for compare type rule {$key} on field {$options['name']}, this is a required option.");
                 }
 
                 $defaults = [
@@ -206,8 +213,17 @@ class schema
                     'format' => ''
                 ];
 
-                $validation[$key] = array_merge($defaults, $rule);
+                $rule = array_merge($defaults, $rule);
+                if ($rule['type'] === 'email') {
+                    $validation[] = new Email();
+                } else {
+                    throw new midcom_error($rule['type'] . ' validation not implemented yet');
+                }
             }
+            if ($options['required']) {
+                array_unshift($validation, new NotBlank());
+            }
+
             return $validation;
         };
 
