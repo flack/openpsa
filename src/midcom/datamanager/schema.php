@@ -11,9 +11,11 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Callback;
 use midcom;
 use midcom_core_context;
 use midcom\datamanager\extension\compat;
+use midcom\datamanager\validation\callback as cb_wrapper;
 
 /**
  * Experimental schema class
@@ -80,7 +82,14 @@ class schema
             $builder->add($name, compat::get_type_name($config['widget']), $options);
         }
 
-        $builder->add('form_toolbar', compat::get_type_name('toolbar'), ['operations' => $this->config['operations']]);
+        $options = ['operations' => $this->config['operations']];
+
+        if (!empty($this->config['validation'])) {
+            $cb_wrapper = new cb_wrapper($this->config['validation']);
+            $options['constraints'] = [new Callback(['callback' => [$cb_wrapper, 'validate']])];
+        }
+
+        $builder->add('form_toolbar', compat::get_type_name('toolbar'), $options);
         return $builder->getForm();
     }
 
