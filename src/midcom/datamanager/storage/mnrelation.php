@@ -59,6 +59,9 @@ class mnrelation extends delayed
      */
     public function load()
     {
+        if (!$this->get_master_foreign_key()) {
+            return [];
+        }
         return array_keys($this->load_objects());
     }
 
