@@ -1,0 +1,11 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE hu
+
+---STRING (confirm)
+(jóváhagyás)
+---STRINGEND
+
+---STRING passwords do not match
+A jelszavak nem egyeznek.
+---STRINGEND

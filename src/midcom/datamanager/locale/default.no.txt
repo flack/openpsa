@@ -1,0 +1,11 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE no
+
+---STRING (confirm)
+(bekreft)
+---STRINGEND
+
+---STRING passwords do not match
+Passordene er ikke like.
+---STRINGEND

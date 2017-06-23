@@ -2,12 +2,20 @@
 ---VERSION 2.1.0
 ---LANGUAGE pl
 
+---STRING (confirm)
+(potwierdź)
+---STRINGEND
+
 ---STRING add new file
 Dodaj plik
 ---STRINGEND
 
 ---STRING delete photo
 Usunąć
+---STRINGEND
+
+---STRING passwords do not match
+Hasła nie pasują
 ---STRINGEND
 
 ---STRING widget privilege: allow

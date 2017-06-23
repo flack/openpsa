@@ -26,7 +26,7 @@ class form extends base
         $string = '';
 
         foreach ($data['errors'] as $error) {
-            $string .= '<span class="field_error">' . $error->getMessage() . '</span>';
+            $string .= '<span class="field_error">' . $this->renderer->humanize($error->getMessage()) . '</span>';
         }
 
         return $string;
@@ -116,6 +116,18 @@ class form extends base
         return $string . '</fieldset>';
     }
 
+    public function repeated_row(FormView $view, array $data)
+    {
+        $string = '';
+        foreach ($view->children as $name => $child) {
+            if ($name === 'first' && !empty($view->vars['errors'])) {
+                $view->children['first']->vars['errors'] = $view->vars['errors'];
+            }
+            $string .= $this->form_row($child, $data);
+        }
+        return $string;
+    }
+
     public function blobs_row(FormView $view, array $data)
     {
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
@@ -156,6 +168,16 @@ class form extends base
             $string .= ' value="' . $this->escape($data['value']) . '"';
         }
         return $string . ' />';
+    }
+
+    public function password_widget(FormView $view, array $data)
+    {
+        // when we come from RepeatedType, type is missing, so we add it
+        $data['type'] = 'password';
+        if ($data['name'] === 'first') {
+            $view->parent->children['second']->vars['label'] = $this->renderer->humanize($view->vars['label']) . ' ' . $this->renderer->humanize($view->parent->children['second']->vars['label']);
+        }
+        return $this->form_widget_simple($view, $data);
     }
 
     public function button_widget(FormView $view, array $data)

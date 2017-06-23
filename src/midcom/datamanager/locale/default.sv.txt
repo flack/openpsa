@@ -2,12 +2,20 @@
 ---VERSION 2.1.0
 ---LANGUAGE sv
 
+---STRING (confirm)
+(bekräfta)
+---STRINGEND
+
 ---STRING add new file
 Lägg till ny fil
 ---STRINGEND
 
 ---STRING delete photo
 Radera
+---STRINGEND
+
+---STRING passwords do not match
+Lösenordena matchar inte.
 ---STRINGEND
 
 ---STRING widget privilege: allow

@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
+---STRING (confirm)
+(confirm)
+---STRINGEND
+
 ---STRING add new file
 Add a new file
 ---STRINGEND
@@ -12,6 +16,10 @@ File
 
 ---STRING delete photo
 Delete
+---STRINGEND
+
+---STRING passwords do not match
+The passwords do not match.
 ---STRINGEND
 
 ---STRING widget privilege: allow

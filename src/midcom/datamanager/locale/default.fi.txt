@@ -2,12 +2,20 @@
 ---VERSION 2.1.0
 ---LANGUAGE fi
 
+---STRING (confirm)
+(vahvista)
+---STRINGEND
+
 ---STRING add new file
 Lisää uusi tiedosto
 ---STRINGEND
 
 ---STRING delete photo
 Poistaa
+---STRINGEND
+
+---STRING passwords do not match
+Salasanat eivät täsmää
 ---STRINGEND
 
 ---STRING widget privilege: allow
