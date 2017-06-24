@@ -305,13 +305,13 @@ form.datamanager2 .form_toolbar
     margin-bottom: 1.5em;
 }
 
-form.datamanager2 .form_toolbar input
+form.datamanager2 .form_toolbar > *
 {
     display: inline;
     margin-right: 1.5em
 }
 
-form.datamanager2 .form_toolbar input:hover
+form.datamanager2 .form_toolbar > *:hover
 {
     cursor: pointer;
 }
@@ -327,6 +327,7 @@ input.ajax_editable:hover,
 form.datamanager2 div.input input, form.datamanager2 div.input textarea, form.datamanager2 div.input select,
 input[type="submit"],
 .form_toolbar input[type="button"],
+.form_toolbar button,
 .area_toolbar a.button
 {
     border: 1px solid #d3b199;
@@ -375,7 +376,8 @@ form.datamanager2 div.input .midcom_helper_datamanager2_widget_downloads input[t
 
 input[type="submit"],
 .form_toolbar input[type="button"],
-form.datamanager2 div.input input.submit,
+.form_toolbar button,
+form.datamanager2 div.input .submit,
 .area_toolbar a.button
 {
     background-color: #e9e9e9;
@@ -400,7 +402,7 @@ input[type="submit"]:hover,
     text-decoration: none;
 }
 
-form.datamanager2 div.form_toolbar input.submit
+form.datamanager2 div.form_toolbar .submit
 {
     background-position: 3px center;
     padding-left: 21px
