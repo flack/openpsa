@@ -6,6 +6,7 @@
 namespace midcom\datamanager;
 
 use midcom_error;
+use midcom_helper_misc;
 
 /**
  * Experimental schemadb class
@@ -13,6 +14,17 @@ use midcom_error;
 class schemadb
 {
     private $schemas = [];
+
+    public static function from_path($path)
+    {
+        $data = midcom_helper_misc::get_snippet_content($path);
+        $data = midcom_helper_misc::parse_config($data);
+        $schemadb = new static;
+        foreach ($data as $name => $config) {
+            $schemadb->add($name, new schema($config));
+        }
+        return $schemadb;
+    }
 
     public function add($name, schema $schema)
     {

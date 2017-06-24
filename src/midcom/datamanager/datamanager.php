@@ -14,7 +14,6 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Form;
 use midcom_core_dbaobject;
 use midcom_core_context;
-use midcom_helper_misc;
 use midcom;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
@@ -96,13 +95,7 @@ class datamanager
 
     public static function from_schemadb($path)
     {
-        $data = midcom_helper_misc::get_snippet_content($path);
-        $data = midcom_helper_misc::parse_config($data);
-        $schemadb = new schemadb;
-        foreach ($data as $name => $config) {
-            $schemadb->add($name, new schema($config));
-        }
-        return new static($schemadb);
+        return new static(schemadb::from_path($path));
     }
 
     /**
@@ -194,8 +187,8 @@ class datamanager
 
         if (   $this->form === null
             || $this->form->getName() != $name) {
-            $this->get_storage();
-            $builder = self::get_factory()->createNamedBuilder($name, compat::get_type_name('form'), $this->storage);
+            $builder = self::get_factory()
+                ->createNamedBuilder($name, compat::get_type_name('form'), $this->get_storage());
             $this->form = $this->schema->build_form($builder);
         }
         return $this->form;
