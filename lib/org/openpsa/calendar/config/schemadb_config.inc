@@ -55,33 +55,6 @@
             ),
             'default' => 18,
         ),
-        'day_slot_length' => array
-        (
-            'title' => 'size of week day slot (minutes)',
-            'type' => 'number',
-            'widget' => 'text',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.calendar',
-                'name' => 'day_slot_length'
-            ),
-            'default' => 60,
-        ),
-        'week_slot_length' => array
-        (
-            'title' => 'size of week view slot (minutes)',
-            'type' => 'number',
-            'widget' => 'text',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.calendar',
-                'name' => 'week_slot_length'
-            ),
-            'default' => 120,
-            'end_fieldset' => '',
-        ),
 
         /* Schema settings */
         'schemadb' => array
@@ -99,47 +72,6 @@
             (
                 'title' => 'advanced schema and data settings',
             ),
-        ),
-        'always_show_group' => array
-        (
-            'title' => 'always display group',
-            'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
-                    1 => 'yes',
-                    0 => 'no',
-                ),
-            ),
-            'widget' => 'radiocheckselect',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.calendar',
-                'name' => 'always_show_group'
-            ),
-        ),
-
-        'always_show_self' => array
-        (
-            'title' => 'always display self',
-            'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
-                    1 => 'yes',
-                    0 => 'no',
-                ),
-            ),
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.calendar',
-                'name' => 'always_show_self'
-            ),
-            'widget' => 'radiocheckselect',
         ),
 
         'event_label' => array
