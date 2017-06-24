@@ -288,7 +288,7 @@ class form extends base
         $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         foreach ($view as $child) {
             $string .= $this->renderer->widget($child);
-            $string .= $this->renderer->label($child);
+            $string .= '<label for="' . $child->vars['id'] . '">' . $this->renderer->humanize($child->vars['label']) . '</label>';
         }
         return $string . '</fieldset>';
     }
