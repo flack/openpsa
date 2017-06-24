@@ -6,11 +6,13 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+use midcom\datamanager\controller;
+
 /**
  * @package midgard.admin.user
  */
 class midgard_admin_user_handler_user_account extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_nullstorage
 {
     private $person;
 
@@ -26,23 +28,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     }
 
     /**
-     * Loads and prepares the schema database.
-     */
-    public function load_schemadb()
-    {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account'));
-    }
-
-    public function get_schema_defaults()
-    {
-        return [
-            'username' => $this->account->get_username(),
-            'person' => $this->person->guid,
-            'usertype' => $this->account->get_usertype()
-        ];
-    }
-
-    /**
      * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method
@@ -53,9 +38,15 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->person->require_do('midgard:update');
         $this->account = new midcom_core_account($this->person);
 
-        $data['controller'] = $this->get_controller('nullstorage');
+        $dm = datamanager::from_schemadb($this->_config->get('schemadb_account'));
+        $dm->set_defaults([
+            'username' => $this->account->get_username(),
+            'person' => $this->person->guid,
+            'usertype' => $this->account->get_usertype()
+        ]);
+        $data['controller'] = $dm->get_controller();
 
-        switch ($data['controller']->process_form()) {
+        switch ($data['controller']->process()) {
             case 'save':
                 $this->save_account($data['controller']);
                 // Show confirmation for the user
@@ -73,7 +64,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/account/delete/{$this->person->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete account'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                ]);
+            ]);
             $data['view_title'] = $this->_l10n->get('edit account');
         } else {
             $data['view_title'] = $this->_l10n->get('create account');
@@ -99,18 +90,17 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
     }
 
-    private function save_account(midcom_helper_datamanager2_controller $controller)
+    private function save_account(controller $controller)
     {
-        $password = $controller->formmanager->_types['password']->value;
-        $username = $controller->formmanager->_types['username']->value;
+        $data = $controller->get_form_values();
 
-        if (trim($username) !== '') {
-            $this->account->set_username($username);
+        if (trim($data['username']) !== '') {
+            $this->account->set_username($data['username']);
         }
-        if (trim($password) !== '') {
-            $this->account->set_password($password);
+        if (trim($data['password']) !== '') {
+            $this->account->set_password($data['password']);
         }
-        $this->account->set_usertype($controller->formmanager->_types['usertype']->convert_to_storage());
+        $this->account->set_usertype($data['usertype']);
         $this->account->save();
     }
 

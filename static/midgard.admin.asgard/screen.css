@@ -451,7 +451,7 @@ p
 {
     margin-top: 6px;
 }
-#content form.datamanager2 div.form_toolbar input
+#content form.datamanager2 div.form_toolbar > *
 {
     color: #204A87;
     background-color: #d3d7cf;
@@ -462,9 +462,9 @@ p
     background-position: 4px;
     cursor: pointer;
 }
-#content form.datamanager2 div.form_toolbar input.save,
-#content form.datamanager2 div.form_toolbar input.delete,
-#content form.datamanager2 div.form_toolbar input.cancel
+#content form.datamanager2 div.form_toolbar .save,
+#content form.datamanager2 div.form_toolbar .delete,
+#content form.datamanager2 div.form_toolbar .cancel
 {
     background-color: #eeeeec;
     color: #000000;

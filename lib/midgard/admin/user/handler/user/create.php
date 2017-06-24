@@ -6,46 +6,19 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Person creation class
  *
  * @package midgard.admin.user
  */
 class midgard_admin_user_handler_user_create extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_create
 {
-    private $_person = null;
-
     public function _on_initialize()
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.user/usermgmt.css');
-
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midgard.admin.user'), $this->_request_data);
-    }
-
-    /**
-     * Loads and prepares the schema database.
-     */
-    public function load_schemadb()
-    {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
-    }
-
-    /**
-     * DM2 creation callback, creates a new person and binds it to the selected group.
-     *
-     * Assumes Admin Privileges.
-     */
-    public function & dm2_create_callback(&$controller)
-    {
-        // Create a new person
-        $this->_person = new midcom_db_person();
-        if (!$this->_person->create()) {
-            debug_print_r('We operated on this object:', $this->_person);
-            throw new midcom_error('Failed to create a new person. Last Midgard error was: '. midcom_connection::get_error_string());
-        }
-
-        return $this->_person;
     }
 
     /**
@@ -55,12 +28,15 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $data['controller'] = $this->get_controller('create');
-        switch ($data['controller']->process_form()) {
+        $dm = datamanager::from_schemadb($this->_config->get('schemadb_person'));
+        $person = new midcom_db_person;
+        $dm->set_storage($person);
+        $data['controller'] = $dm->get_controller();
+        switch ($data['controller']->process()) {
             case 'save':
                 // Show confirmation for the user
-                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
-                return new midcom_response_relocate("__mfa/asgard_midgard.admin.user/edit/{$this->_person->guid}/");
+                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('person %s saved'), $person->name));
+                return new midcom_response_relocate("__mfa/asgard_midgard.admin.user/edit/{$person->guid}/");
 
             case 'cancel':
                 return new midcom_response_relocate('__mfa/asgard_midgard.admin.user/');
@@ -79,7 +55,6 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _show_create($handler_id, array &$data)
     {
-        $data['person'] = $this->_person;
         midcom_show_style('midgard-admin-user-person-create');
     }
 }
