@@ -394,3 +394,19 @@ form.datamanager2 .attachment-preview
     padding: 0 1em;
     vertical-align: middle
 }
+
+.CodeMirror .activeline
+{
+    background-color: #f5f5f5;
+}
+
+.CodeMirror-focused .activeline
+{
+    background-color: #eff5ff;
+}
+
+.element_markdown .CodeMirror,
+.element_markdown .CodeMirror-scroll
+{
+	min-height: 3em;
+}

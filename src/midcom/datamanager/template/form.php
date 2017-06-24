@@ -432,6 +432,12 @@ class form extends base
         return '<textarea' . $this->renderer->block($view, 'widget_attributes') . '>' . $data['value'] . '</textarea>';
     }
 
+    public function markdown_widget(FormView $view, array $data)
+    {
+        $string = '<textarea' . $this->renderer->block($view, 'widget_attributes') . '>' . $data['value'] . '</textarea>';
+        return $string . $this->jsinit('var simplemde = new SimpleMDE({ element: document.getElementById("' . $view->vars['id'] . '"), status: false });');
+    }
+
     public function tinymce_widget(FormView $view, array $data)
     {
         //we set required to false, because tinymce doesn't play well with html5 validation..

@@ -23,6 +23,7 @@ class schemaextension extends AbstractExtension
             new type\codemirror,
             new type\images,
             new type\jsdate,
+            new type\markdown,
             new type\photo,
             new type\radiocheckselect,
             new type\subform,
