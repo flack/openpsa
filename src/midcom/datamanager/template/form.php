@@ -177,9 +177,9 @@ class form extends base
     public function form_widget_simple(FormView $view, array $data)
     {
         $type = isset($data['type']) ? $data['type'] : 'text';
-        if (   $type == 'text'
-            || $type == 'password'
-            || $type == 'email') {
+        if (!empty($data['attr']['class'])) {
+            $view->vars['attr']['class'] = $data['attr']['class'];
+        } elseif ($type == 'text' || $type == 'password' || $type == 'email') {
             $view->vars['attr']['class'] = 'shorttext';
         }
 
@@ -350,7 +350,8 @@ class form extends base
     public function jsdate_widget(FormView $view, array $data)
     {
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
-        $string .= $this->renderer->widget($view['date']);
+        $string .= $this->renderer->widget($view['date'], ['type' => 'hidden']);
+        $string .= $this->renderer->widget($view['input'], ['attr' => ['class' => 'jsdate']]);
 
         if (isset($view['time'])) {
             $string .= ' '. $this->renderer->widget($view['time']);
