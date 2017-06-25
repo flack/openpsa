@@ -6,9 +6,10 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+use midcom\datamanager\schemadb;
+
 /**
- * Discussion forum index
- *
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_baseclasses_components_handler
@@ -28,7 +29,7 @@ implements org_openpsa_widgets_grid_provider_client
     private $memberships;
 
     /**
-     * @var midcom_helper_datamanager2_datamanager
+     * @var datamanager
      */
     private $_datamanager;
 
@@ -81,23 +82,14 @@ implements org_openpsa_widgets_grid_provider_client
     }
 
     /**
-     * Internal helper, loads the datamanager for the current campaign. Any error triggers a 500.
-     */
-    private function _load_datamanager()
-    {
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign'));
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-    }
-
-    /**
      * Looks up an campaign to display.
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
         $this->_campaign = $this->_master->load_campaign($args[0]);
 
-        $this->_load_datamanager();
-        $this->_datamanager->autoset_storage($this->_campaign);
+        $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_campaign'));
+        $this->_datamanager->set_storage($this->_campaign);
 
         $this->_request_data['campaign'] = $this->_campaign;
         $this->_request_data['datamanager'] = $this->_datamanager;
@@ -109,14 +101,14 @@ implements org_openpsa_widgets_grid_provider_client
         $data['grid'] = $provider->get_grid('list_members_' . $this->_campaign->guid);
 
         // Populate calendar events for the campaign
-        $this->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
+        $this->bind_view_to_object($this->_campaign, $this->_datamanager->get_schema()->get_name());
         midcom::get()->metadata->set_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
         midcom::get()->head->set_pagetitle($this->_campaign->title);
     }
 
     private function _populate_toolbar()
     {
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if ($this->_campaign->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("campaign/edit/{$this->_campaign->guid}/", [
@@ -153,11 +145,11 @@ implements org_openpsa_widgets_grid_provider_client
         ];
 
         if ($this->_campaign->can_do('midgard:create')) {
-            $schemadb_message = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
-            foreach ($schemadb_message as $name => $schema) {
+            $schemadb = schemadb::from_path($this->_config->get('schemadb_message'));
+            foreach ($schemadb->all() as $name => $schema) {
                 $buttons[] = $workflow->get_button("message/create/{$this->_campaign->guid}/{$name}/", [
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('new %s'), $this->_l10n->get($schema->description)),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . org_openpsa_directmarketing_viewer::get_messagetype_icon($schema->customdata['org_openpsa_directmarketing_messagetype']),
+                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('new %s'), $this->_l10n->get($schema->get('description'))),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . org_openpsa_directmarketing_viewer::get_messagetype_icon($schema->get('customdata')['org_openpsa_directmarketing_messagetype']),
                 ]);
             }
         }

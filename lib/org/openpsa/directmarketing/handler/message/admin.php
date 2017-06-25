@@ -6,6 +6,9 @@
  * @license http://www.gnu.net/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+use midcom\datamanager\controller;
+
 /**
  * directmarketing edit/delete message handler
  *
@@ -21,45 +24,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     private $_message;
 
     /**
-     * The Controller of the message used for editing
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     */
-    private $_controller;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var array
-     */
-    private $_schemadb;
-
-    /**
-     * Loads and prepares the schema database.
-     *
-     * The operations are done on all available schemas within the DB.
-     */
-    private function _load_schemadb()
-    {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
-    }
-
-    /**
-     * Internal helper, loads the controller for the current message. Any error triggers a 500.
-     */
-    private function _load_controller()
-    {
-        $this->_load_schemadb();
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_message);
-        if (!$this->_controller->initialize()) {
-            throw new midcom_error("Failed to initialize a DM2 controller instance for message {$this->_message->id}.");
-        }
-    }
-
-    /**
-     * Displays an message edit view.
+     * Displays a message edit view.
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
@@ -72,11 +37,12 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
         $data['campaign'] = $this->_master->load_campaign($this->_message->campaign);
 
-        $this->_load_controller();
+        $dm = datamanager::from_schemadb($this->_config->get('schemadb_message'));
+        $dm->set_storage($this->_message);
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit message'));
 
-        $workflow = $this->get_workflow('datamanager2', ['controller' => $this->_controller]);
+        $workflow = $this->get_workflow('datamanager', ['controller' => $dm->get_controller()]);
         return $workflow->run();
     }
 
@@ -106,28 +72,23 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     public function _handler_copy($handler_id, array $args, array &$data)
     {
         $this->_topic->require_do('midgard:create');
-        $guid = $args[0];
-        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);
+        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $this->_master->load_campaign($this->_message->campaign);
-
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message_copy'));
-        $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->initialize();
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('copy message'));
 
-        $workflow = $this->get_workflow('datamanager2', [
-            'controller' => $this->_controller,
+        $dm = datamanager::from_schemadb($this->_config->get('schemadb_message_copy'));
+        $workflow = $this->get_workflow('datamanager', [
+            'controller' => $dm->get_controller(),
             'save_callback' => [$this, 'copy_callback']
         ]);
         return $workflow->run();
     }
 
-    public function copy_callback(midcom_helper_datamanager2_controller $controller)
+    public function copy_callback(controller $controller)
     {
         $copy = new midcom_helper_reflector_copy();
-        $campaigns = $this->_controller->datamanager->types['campaign']->convert_to_storage();
+        $campaigns = unserialize($controller->get_form_values()['campaign']);
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $qb->add_constraint('guid', 'IN', $campaigns);
         $campaigns = $qb->execute();

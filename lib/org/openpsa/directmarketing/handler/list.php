@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\schemadb;
+
 /**
  * Campaign list handler
  *
@@ -68,12 +70,11 @@ implements org_openpsa_widgets_grid_provider_client
         midcom::get()->auth->require_valid_user();
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba')) {
-            $workflow = $this->get_workflow('datamanager2');
-
-            $schemadb_campaign = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign'));
-            foreach (array_keys($schemadb_campaign) as $name) {
+            $workflow = $this->get_workflow('datamanager');
+            $schemadb = schemadb::from_path($this->_config->get('schemadb_campaign'));
+            foreach ($schemadb->all() as $name => $schema) {
                 $this->_view_toolbar->add_item($workflow->get_button("campaign/create/{$name}/", [
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schemadb_campaign[$name]->description)),
+                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schema->get('description'))),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
                 ]));
             }

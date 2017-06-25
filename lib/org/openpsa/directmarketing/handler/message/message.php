@@ -6,9 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
- * Discussion forum index
- *
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_message_message extends midcom_baseclasses_components_handler
@@ -26,18 +26,9 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
     private $_campaign;
 
     /**
-     * @var midcom_helper_datamanager2_datamanager
+     * @var datamanager
      */
     private $_datamanager;
-
-    /**
-     * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
-     */
-    private function _load_datamanager()
-    {
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-    }
 
     /**
      * Looks up an message to display.
@@ -48,8 +39,8 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $this->_campaign = $this->_master->load_campaign($this->_message->campaign);
 
-        $this->_load_datamanager();
-        $this->_datamanager->autoset_storage($this->_message);
+        $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_message'));
+        $this->_datamanager->set_storage($this->_message);
 
         $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
 
@@ -59,15 +50,14 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
 
         $this->_populate_toolbar();
 
-        // Populate calendar events for the message
-        $this->bind_view_to_object($this->_message, $this->_datamanager->schema->name);
+        $this->bind_view_to_object($this->_message, $this->_datamanager->get_schema()->get_name());
         midcom::get()->metadata->set_request_metadata($this->_message->metadata->revised, $this->_message->guid);
         midcom::get()->head->set_pagetitle($this->_message->title);
     }
 
     private function _populate_toolbar()
     {
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if ($this->_message->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("message/edit/{$this->_message->guid}/", [

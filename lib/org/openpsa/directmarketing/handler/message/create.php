@@ -6,68 +6,21 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Direct marketing page handler
  *
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_message_create extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * The message which has been created
      *
      * @var org_openpsa_directmarketing_campaign_message_dba
      */
-    private $_message = null;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var array
-     */
-    private $_schemadb = null;
-
-    /**
-     * The schema to use for the new message.
-     *
-     * @var string
-     */
-    private $_schema = null;
-
-    /**
-     * Loads and prepares the schema database.
-     */
-    public function load_schemadb()
-    {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
-        if (!array_key_exists($this->_schema, $this->_schemadb)) {
-            throw new midcom_error_notfound('The type ' . $this->_schema . ' isn\'t available in the schemadb');
-        }
-        return $this->_schemadb;
-    }
-
-    public function get_schema_name()
-    {
-        return $this->_schema;
-    }
-
-    /**
-     * DM2 creation callback, binds to the current content topic.
-     */
-    public function & dm2_create_callback(&$controller)
-    {
-        $this->_message = new org_openpsa_directmarketing_campaign_message_dba();
-        $this->_message->campaign = $this->_request_data['campaign']->id;
-        $this->_message->orgOpenpsaObtype = $this->_schemadb[$this->_schema]->customdata['org_openpsa_directmarketing_messagetype'];
-
-        if (!$this->_message->create()) {
-            debug_print_r('We operated on this object:', $this->_message);
-            throw new midcom_error('Failed to create a new message. Last Midgard error was: ' . midcom_connection::get_error_string());
-        }
-
-        return $this->_message;
-    }
+    private $_message;
 
     /**
      * Displays an message create view.
@@ -81,18 +34,22 @@ implements midcom_helper_datamanager2_interfaces_create
         $data['campaign'] = $this->_master->load_campaign($args[0]);
         $data['campaign']->require_do('midgard:create');
 
-        $this->_schema = $args[1];
-        $data['controller'] = $this->get_controller('create');
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
+        $dm = datamanager::from_schemadb($this->_config->get('schemadb_message'));
+        $this->_message = new org_openpsa_directmarketing_campaign_message_dba();
+        $this->_message->campaign = $data['campaign']->id;
+        $dm->set_storage($this->_message, $args[1]);
+        $this->_message->orgOpenpsaObtype = $dm->get_schema()->get('customdata')['org_openpsa_directmarketing_messagetype'];
 
-        $workflow = $this->get_workflow('datamanager2', [
-            'controller' => $data['controller'],
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($dm->get_schema()->get('description'))));
+
+        $workflow = $this->get_workflow('datamanager', [
+            'controller' => $dm->get_controller(),
             'save_callback' => [$this, 'save_callback']
         ]);
         return $workflow->run();
     }
 
-    public function save_callback(midcom_helper_datamanager2_controller $controller)
+    public function save_callback()
     {
         return "message/{$this->_message->guid}/";
     }

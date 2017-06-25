@@ -6,23 +6,19 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
- * Discussion forum index
- *
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasses_components_handler
 {
-    private $_campaign = false;
+    private $_campaign;
 
     /**
-     * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
+     * @var datamanager
      */
-    private function _load_datamanager()
-    {
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-    }
+    private $datamanager;
 
     /**
      * Looks up an message to display.
@@ -33,7 +29,7 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
         $this->_campaign = $this->_master->load_campaign($args[1]);
 
         $data['campaign'] = $this->_campaign;
-        $this->_load_datamanager();
+        $this->datamanager = datamanager::from_schemadb($this->_config->get('schemadb_message'));
     }
 
     /**
@@ -51,9 +47,9 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
         midcom_show_style('show-message-list-header');
 
         foreach ($ret as $message) {
-            $this->_datamanager->autoset_storage($message);
+            $this->datamanager->set_storage($message);
             $data['message'] = $message;
-            $data['message_array'] = $this->_datamanager->get_content_html();
+            $data['message_array'] = $this->datamanager->get_content_html();
             $data['message_class'] = $message->get_css_class();
             midcom_show_style('show-message-list-item');
         }
