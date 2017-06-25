@@ -135,6 +135,15 @@ class datamanager
 
     /**
      *
+     * @return \midcom\datamanager\schema
+     */
+    public function get_schema()
+    {
+        return $this->schema;
+    }
+
+    /**
+     *
      * @return storage\container\container
      */
     public function get_storage()
