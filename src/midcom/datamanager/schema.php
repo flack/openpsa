@@ -134,6 +134,7 @@ class schema
             'widget_config' => [],
             'required' => false,
             'readonly' => false,
+            'hidden' => false,
             'default' => null,
             'storage' => '__UNSET__',
             'index_method' => 'auto',
