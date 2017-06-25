@@ -22,6 +22,11 @@ class autocomplete implements DataTransformerInterface
 
     public function transform($input)
     {
+        if (   $input === false
+            || $input === null) {
+            return ['selection' => []];
+        }
+
         if (   $this->config['dm2_type'] == 'select'
             && $this->config['type_config']['allow_multiple']) {
             switch ($this->config['type_config']['multiple_storagemode']) {
