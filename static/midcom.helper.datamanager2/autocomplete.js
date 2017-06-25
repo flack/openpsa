@@ -221,6 +221,10 @@ var midcom_helper_datamanager2_autocomplete = {
                     id = parseInt(id);
                 }
                 midcom_helper_datamanager2_autocomplete.add_item(identifier, id, text, 'autocomplete-saved');
+                if (input.is('[required]')) {
+                    input.prop('required', false);
+                    input.data('required', true)
+                }
             });
         }
         if (readonly) {
@@ -314,7 +318,8 @@ var midcom_helper_datamanager2_autocomplete = {
     update_selection: function(identifier, item_id, operation) {
         var selection = JSON.parse($('#' + identifier + '_selection').val()),
             new_selection = [],
-            handler_options = window[identifier + '_handler_options'];
+            handler_options = window[identifier + '_handler_options'],
+            input = $('#' + identifier + '_search_input');
 
         if (operation === 'add') {
             if (handler_options.allow_multiple !== true) {
@@ -325,12 +330,18 @@ var midcom_helper_datamanager2_autocomplete = {
                     new_selection.push(item_id);
                 }
             }
+            if (input.data('required')) {
+                input.prop('required', false);
+            }
         } else {
             $.each(selection, function(index, item) {
                 if (String(item) !== String(item_id)) {
                     new_selection.push(item);
                 }
             });
+            if (input.data('required') && new_selection.length === 0) {
+                input.prop('required', true);
+            }
         }
         $('#' + identifier + '_selection').val(JSON.stringify(new_selection));
     },
