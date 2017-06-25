@@ -96,12 +96,12 @@ class schema
     }
 
     /**
-     *
-     * @return array
+     * @param string $key
+     * @return mixed
      */
-    public function get_fields()
+    public function get($key)
     {
-        return $this->config['fields'];
+        return $this->config[$key];
     }
 
     /**
