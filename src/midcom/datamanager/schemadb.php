@@ -33,6 +33,14 @@ class schemadb
     }
 
     /**
+     * @return schema[]
+     */
+    public function all()
+    {
+        return $this->schemas;
+    }
+
+    /**
      *
      * @return schema
      */
