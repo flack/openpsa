@@ -4,7 +4,7 @@ $invoice_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('o
 $footer_data = ['hours' => 0];
 $categories = [$data['l10n']->get('uninvoiceable'), $data['l10n']->get('invoiceable'), $data['l10n']->get('invoiced')];
 $entries = [];
-$workflow = new midcom\workflow\datamanager2;
+$workflow = new midcom\workflow\datamanager;
 foreach ($data['hours'] as $report) {
     $entry = [];
 

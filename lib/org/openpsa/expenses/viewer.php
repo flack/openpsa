@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\schemadb;
+
 /**
  * This is the class that defines which URLs should be handled by this module.
  *
@@ -18,9 +20,9 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
      */
     private function _populate_view_toolbar($task)
     {
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours'));
-        $workflow = $this->get_workflow('datamanager2');
-        foreach (array_keys($schemadb) as $name) {
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_hours'));
+        $workflow = $this->get_workflow('datamanager');
+        foreach ($schemadb->all() as $name => $schema) {
             $create_url = "hours/create/{$name}/";
 
             if ($task) {
@@ -28,7 +30,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
             }
 
             $this->_view_toolbar->add_item($workflow->get_button($create_url, [
-                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schemadb[$name]->description)),
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schema->get('description'))),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
             ]));
         }

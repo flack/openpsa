@@ -111,7 +111,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      */
     private function _get_sorted_reports(midcom_core_collector $hours_mc)
     {
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $reports = [];
         $hours = $hours_mc->get_rows(['task', 'hours', 'date', 'person']);

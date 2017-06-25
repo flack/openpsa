@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Hour report CRUD handler
  *
@@ -14,74 +16,15 @@
 class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_components_handler
 {
     /**
-     * The hour report
+     * Loads datamanager
      *
-     * @var org_openpsa_projects_hour_report_dba
+     * @return \midcom\datamanager\datamanager
      */
-    private $_hour_report;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var array
-     */
-    private $_schemadb;
-
-    /**
-     * The schema to use for the new article.
-     *
-     * @var string
-     */
-    private $_schema = 'default';
-
-    /**
-     * Loads and prepares the schema database.
-     *
-     * The operations are done on all available schemas within the DB.
-     */
-    private function _load_schemadb()
+    private function load_datamanager(org_openpsa_projects_hour_report_dba $report, $defaults = [], $schema = null)
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours'));
-    }
-
-    /**
-     * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     */
-    private function _load_create_controller()
-    {
-        $defaults['task'] = $this->_request_data['task'];
-        $defaults['person'] = midcom_connection::get_user();
-        $defaults['date'] = time();
-
-        $controller = midcom_helper_datamanager2_controller::create('create');
-        $controller->schemadb =& $this->_schemadb;
-        $controller->schemaname = $this->_schema;
-        $controller->defaults = $defaults;
-        $controller->callback_object =& $this;
-        if (!$controller->initialize()) {
-            throw new midcom_error("Failed to initialize a DM2 create controller.");
-        }
-        return $controller;
-    }
-
-    /**
-     * DM2 creation callback
-     */
-    public function & dm2_create_callback(&$controller)
-    {
-        $this->_hour_report = new org_openpsa_projects_hour_report_dba();
-
-        if ($task = $controller->formmanager->get_value('task')) {
-            $this->_hour_report->task = $task;
-        } elseif ($this->_request_data['task']) {
-            $this->_hour_report->task = $this->_request_data['task'];
-        }
-        if (!$this->_hour_report->create()) {
-            debug_print_r('We operated on this object:', $this->_hour_report);
-            throw new midcom_error("Failed to create a new hour_report under task #{$this->_request_data['task']}: " . midcom_connection::get_error_string());
-        }
-
-        return $this->_hour_report;
+        return datamanager::from_schemadb($this->_config->get('schemadb_hours'))
+            ->set_defaults($defaults)
+            ->set_storage($report, $schema);
     }
 
     /**
@@ -93,26 +36,24 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_load_schemadb();
-        $data['selected_schema'] = $args[0];
-        if (!array_key_exists($data['selected_schema'], $this->_schemadb)) {
-            throw new midcom_error_notfound('The requested schema ' . $args[0] . ' was not found in the schemadb');
-        }
-        $this->_schema = $data['selected_schema'];
+        $report = new org_openpsa_projects_hour_report_dba();
+
+        $defaults = [
+            'person' => midcom_connection::get_user(),
+            'date' => time()
+        ];
 
         if (count($args) > 1) {
             $task = new org_openpsa_projects_task_dba($args[1]);
             $task->require_do('midgard:create');
-            $data['task'] = $task->id;
+            $defaults['task'] = $task->id;
         } else {
             midcom::get()->auth->require_valid_user();
-            $data['task'] = 0;
         }
+        $dm = $this->load_datamanager($report, $defaults, $args[0]);
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($dm->get_schema()->get('description'))));
 
-        $data['controller'] = $this->_load_create_controller();
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
-
-        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
+        $workflow = $this->get_workflow('datamanager', ['controller' => $dm->get_controller()]);
         return $workflow->run();
     }
 
@@ -125,25 +66,18 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
-
-        $this->_load_schemadb();
-        $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
-        $data['controller']->schemadb =& $this->_schemadb;
-        $data['controller']->set_storage($this->_hour_report);
-        if (!$data['controller']->initialize()) {
-            throw new midcom_error("Failed to initialize a DM2 controller instance for hour_report {$this->_hour_report->id}.");
-        }
+        $report = new org_openpsa_projects_hour_report_dba($args[0]);
+        $dm = $this->load_datamanager($report);
 
         midcom::get()->head->set_pagetitle($this->_l10n->get($handler_id));
 
-        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
-        if ($this->_hour_report->can_do('midgard:delete')) {
+        $workflow = $this->get_workflow('datamanager', ['controller' => $dm->get_controller()]);
+        if ($report->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', [
-                'object' => $this->_hour_report,
+                'object' => $report,
                 'label' => $this->_l10n->get('hour report')
             ]);
-            $workflow->add_dialog_button($delete, "hours/delete/{$this->_hour_report->guid}/");
+            $workflow->add_dialog_button($delete, "hours/delete/{$report->guid}/");
         }
         return $workflow->run();
     }
