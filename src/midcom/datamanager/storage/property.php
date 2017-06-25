@@ -10,11 +10,16 @@ namespace midcom\datamanager\storage;
  */
 class property extends dbanode
 {
+    private $set = false;
+
     /**
      * {@inheritdoc}
      */
     public function get_value()
     {
+        if (!$this->object->id && !$this->set && $this->config['type'] == 'number') {
+            return;
+        }
         return $this->object->{$this->config['storage']['location']};
     }
 
@@ -23,6 +28,7 @@ class property extends dbanode
      */
     public function set_value($value)
     {
+        $this->set = true;
         $this->object->{$this->config['storage']['location']} = $value;
     }
 
