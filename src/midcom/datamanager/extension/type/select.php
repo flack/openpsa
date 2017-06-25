@@ -41,6 +41,7 @@ class select extends ChoiceType
             'choices' => $map_options,
             'choices_as_values' => true,
             'multiple' => $map_multiple,
+            'placeholder' => false
         ]);
     }
 
