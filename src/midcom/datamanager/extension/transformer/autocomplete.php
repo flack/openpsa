@@ -54,8 +54,11 @@ class autocomplete implements DataTransformerInterface
             return reset($array['selection']);
         }
 
-        if (   $this->config['dm2_type'] == 'select'
-            && $this->config['type_config']['allow_multiple']) {
+        if ($this->config['dm2_type'] !== 'select') {
+            return $array['selection'];
+        }
+
+        if ($this->config['type_config']['allow_multiple']) {
             switch ($this->config['type_config']['multiple_storagemode']) {
                 case 'serialized':
                     $selection = serialize($array['selection']);

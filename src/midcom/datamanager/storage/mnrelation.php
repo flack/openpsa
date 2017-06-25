@@ -95,7 +95,7 @@ class mnrelation extends delayed
         }
 
         if (!$member->create()) {
-            throw new midcom_error("Failed to create a new member record for key {$key}: " . midcom_connection::get_error_string());
+            throw new midcom_error("Failed to create a new member record for key {$member_key}: " . midcom_connection::get_error_string());
         }
     }
 
