@@ -53,10 +53,10 @@ class autocomplete extends AbstractType
 
                 /** @var \midcom_helper_configuration $config */
                 $config = $config->get('clever_classes');
-                $value = $config[$value['clever_class']];
-                if (!$value) {
+                if (!array_key_exists($value['clever_class'], $config)) {
                     throw new midcom_error('Invalid clever class specified');
                 }
+                $value = array_merge($config[$value['clever_class']], $value);
             }
 
             return helper::resolve_options($widget_defaults, $value);
