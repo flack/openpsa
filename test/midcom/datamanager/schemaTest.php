@@ -22,7 +22,7 @@ class schemaTest extends openpsa_testcase
                 'widget' => 'text'
             ],
         ]]);
-        $fields = $schema->get_fields();
+        $fields = $schema->get('fields');
         $this->assertArrayHasKey('test', $fields);
         $this->assertArrayHasKey('storage', $fields['test']);
         $this->assertArrayHasKey('domain', $fields['test']['storage']);

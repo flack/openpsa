@@ -23,7 +23,7 @@ class nullcontainer extends container
     {
         $this->schema = $schema;
 
-        foreach ($this->schema->get_fields() as $name => $config) {
+        foreach ($this->schema->get('fields') as $name => $config) {
             if (array_key_exists($name, $defaults)) {
                 $config['default'] = $defaults[$name];
             }
