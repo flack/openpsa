@@ -29,6 +29,7 @@ class autocomplete extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setDefault('error_bubbling', false);
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
             $widget_defaults = [
                 'creation_mode_enabled' => false,
