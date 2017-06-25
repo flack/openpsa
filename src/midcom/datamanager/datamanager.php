@@ -208,7 +208,6 @@ class datamanager
         $ret = [];
 
         $view = $this->get_form()->createView();
-
         $renderer = $this->get_renderer();
         $renderer->set_template($view, new template\view($renderer));
 
@@ -219,5 +218,13 @@ class datamanager
             $ret[$name] = $renderer->widget($value);
         }
         return $ret;
+    }
+
+    public function display_view()
+    {
+        $view = $this->get_form()->createView();
+        $renderer = $this->get_renderer();
+        $renderer->set_template($view, new template\view($renderer));
+        echo $renderer->block($view, 'form');
     }
 }
