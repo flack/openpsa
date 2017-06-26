@@ -105,6 +105,17 @@ class schema
     }
 
     /**
+     * Returns reference to field config (for on the fly modification)
+     *
+     * @param string $name
+     * @return array
+     */
+    public function & get_field($name)
+    {
+        return $this->config['fields'][$name];
+    }
+
+    /**
      *
      * @return \midcom_services_i18n_l10n
      */
