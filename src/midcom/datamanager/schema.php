@@ -149,11 +149,15 @@ class schema
                 return 'subform';
             }
 
-            if (   $value == 'text'
-                && !empty($options['validation'])) {
-                foreach ($options['validation'] as $constraint) {
-                    if ($constraint instanceof Email) {
-                        return 'email';
+            if ($value == 'text') {
+                if ($options['type'] === 'number') {
+                    return 'number';
+                }
+                if (!empty($options['validation'])) {
+                    foreach ($options['validation'] as $constraint) {
+                        if ($constraint instanceof Email) {
+                            return 'email';
+                        }
                     }
                 }
             }
