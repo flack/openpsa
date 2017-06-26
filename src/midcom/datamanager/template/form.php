@@ -25,7 +25,7 @@ class form extends base
     {
         $string = '';
         foreach ($data['errors'] as $error) {
-            $string .= '<span class="field_error">' . $this->renderer->humanize($error->getMessage()) . '</span>';
+            $string .= '<div class="field_error">' . $this->renderer->humanize($error->getMessage()) . '</div>';
         }
 
         return $string;
@@ -78,8 +78,8 @@ class form extends base
 
         $string = '<div class="' . $class . '">';
         $string .= $this->renderer->label($view);
-        $string .= $this->renderer->errors($view);
         $string .= '<div class="input">';
+        $string .= $this->renderer->errors($view);
         $string .= $this->renderer->widget($view);
         return $string . '</div></div>';
     }
