@@ -6,6 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\controller;
+use midcom\datamanager\engine;
+use midcom\datamanager\renderer;
+
 /**
  * Base class for unittests, provides some helper methods
  *
@@ -186,6 +190,46 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $data = $this->run_handler($component, $args);
 
         $this->assertEquals([], $data[$controller_key]->formmanager->form->_errors, 'Form validation failed');
+
+        return $data;
+    }
+
+    public function set_dm_formdata(controller $controller, array $formdata)
+    {
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+
+        include_once 'datamanager/form.php';
+
+        $dm = $controller->get_datamanager();
+        $view = $dm->get_form()->createView();
+        $renderer = new renderer(new engine);
+        $renderer->set_template($view, new datamanager_form($renderer));
+        $data = eval('return ' . $renderer->block($view, 'form') . ';');
+        $formname = key($data);
+
+        $_POST[$formname] = array_merge($data[$formname], $formdata);
+
+        $_REQUEST = $_POST;
+    }
+
+    public function submit_dm_no_relocate_form($controller_key, array $formdata, $component, array $args = [])
+    {
+        $this->reset_server_vars();
+        $data = $this->run_handler($component, $args);
+        $this->set_dm_formdata($data[$controller_key], $formdata);
+        $data = $this->run_handler($component, $args);
+
+        $errors = $data[$controller_key]->get_datamanager()->get_form()->getErrors(true);
+
+        if ($errors->count() > 0) {
+            $message = 'Form validation failed: ';
+
+            foreach ($errors as $error) {
+                $message .= "\n". $error->getOrigin()->getName() . ': ' . $error->getMessage();
+            }
+
+            $this->fail($message);
+        }
 
         return $data;
     }

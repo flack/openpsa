@@ -51,9 +51,10 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             midcom::get()->auth->require_valid_user();
         }
         $dm = $this->load_datamanager($report, $defaults, $args[0]);
+        $data['controller'] = $dm->get_controller();
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($dm->get_schema()->get('description'))));
 
-        $workflow = $this->get_workflow('datamanager', ['controller' => $dm->get_controller()]);
+        $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
         return $workflow->run();
     }
 
