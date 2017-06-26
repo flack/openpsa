@@ -1,16 +1,13 @@
 function refresh_opener(url)
 {
-    if (url === undefined)
-    {
+    if (url === undefined) {
         url = window.parent.location.href;
     }
     var button = window.parent.$('[data-dialog="dialog"][data-refresh-opener].active');
 
-    if (button.length > 0)
-    {
+    if (button.length > 0) {
         if (   button.data('refresh-opener') === false
-            && button.closest('.ui-tabs').length === 0)
-        {
+            && button.closest('.ui-tabs').length === 0) {
             close();
             return;
         }
@@ -22,8 +19,7 @@ function refresh_opener(url)
 function close()
 {
     var dialog = window.parent.$('#midcom-dialog');
-    if (dialog.length > 0)
-    {
+    if (dialog.length > 0) {
         dialog.dialog('close');
     }
 }
@@ -66,13 +62,12 @@ $(document).ready(function()
     var title = document.title,
         buttons = [];
 
-    if (typeof window.parent.$ !== "undefined"  && window.parent.$('#midcom-dialog').length > 0 )
-    {
+    if (   typeof window.parent.$ !== "undefined"
+        && window.parent.$('#midcom-dialog').length > 0 ) {
         var dialog = window.parent.$('#midcom-dialog');
         dialog.dialog('option', 'title', title);
 
-        $('body').on('submit', '.midcom-dialog-delete-form', function(e)
-        {
+        $('body').on('submit', '.midcom-dialog-delete-form', function(e) {
             e.preventDefault();
             var form = $(this).detach().appendTo(dialog);
 
@@ -84,20 +79,17 @@ $(document).ready(function()
                 .submit();
         });
 
-        $(window).unload(function ()
-        {
+        $(window).unload(function() {
             dialog.nextAll('.ui-dialog-buttonpane').find('button')
                 .prop('disabled', true)
                 .addClass('ui-state-disdabled');
         });
 
-        if ($('.midcom-view-toolbar li').length > 0)
-        {
-            $('.midcom-view-toolbar li').each(function()
-            {
+        if ($('.midcom-view-toolbar li').length > 0) {
+            $('.midcom-view-toolbar li').each(function() {
                 var btn = $(this).find('a'),
                     options = {
-                        click: function(){
+                        click: function() {
                             btn.get(0).click();
                             btn.addClass('active');
                         }
@@ -107,19 +99,15 @@ $(document).ready(function()
             });
         }
 
-        if ($('.datamanager2 .form_toolbar > *').length > 0)
-        {
+        if ($('.datamanager2 .form_toolbar > *').length > 0) {
             $('.datamanager2 .form_toolbar > *').each(function() {
                 var btn = $(this);
                 buttons.push({
                     text: btn.val() || btn.text(),
                     click: function() {
-                        if (btn.hasClass('cancel'))
-                        {
+                        if (btn.hasClass('cancel')) {
                             dialog.dialog('close');
-                        }
-                        else
-                        {
+                        } else {
                             btn.click();
                         }
                     }
@@ -127,15 +115,12 @@ $(document).ready(function()
             });
             $('.datamanager2 .form_toolbar').hide();
         }
-        if (extra_buttons.length > 0)
-        {
+        if (extra_buttons.length > 0) {
             buttons = extra_buttons.concat(buttons);
         }
 
         dialog.dialog('option', 'buttons', buttons);
-    }
-    else
-    {
+    } else {
         $('.midcom-view-toolbar').show();
     }
 });
