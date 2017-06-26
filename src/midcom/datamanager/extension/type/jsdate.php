@@ -63,7 +63,7 @@ class jsdate extends AbstractType
     {
         $builder->addModelTransformer(new jsdatetransformer($options));
 
-        $date_options = [];
+        $date_options = ['attr' => ['size' => 10]];
         if ($options['required']) {
             $date_options['constraints'] = [new NotBlank()];
         }

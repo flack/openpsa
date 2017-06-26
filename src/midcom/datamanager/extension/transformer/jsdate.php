@@ -34,6 +34,7 @@ class jsdate implements DataTransformerInterface
         }
 
         if (   $input === null
+            || $input === 0
             || (   $input instanceof DateTime
                 && $input->format('Y-m-d H:i:s') == '0001-01-01 00:00:00')) {
             return $result;
@@ -55,11 +56,11 @@ class jsdate implements DataTransformerInterface
 
     public function reverseTransform($array)
     {
-        if (!is_array($array) ) {
+        if (!is_array($array)) {
             throw new TransformationFailedException('Expected an array.');
         }
 
-        if (empty($array['date'])
+        if (   empty($array['date'])
             || (   $array['date'] instanceof DateTime
                 && $array['date']->format('Y-m-d H:i:s') == '0001-01-01 00:00:00')) {
             return;
