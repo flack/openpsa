@@ -86,21 +86,18 @@ class autocomplete extends AbstractType
         $builder->add('search_input', compat::get_type_name('search'), ['mapped' => false]);
 
         $head = midcom::get()->head;
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
 
         $components = ['menu', 'autocomplete'];
-
         if ($options['widget_config']['sortable']) {
             $components[] = 'mouse';
             $components[] = 'sortable';
         }
-
         if ($options['widget_config']['creation_mode_enabled']) {
             $components = array_merge($components, ['mouse', 'draggable', 'resizable', 'button', 'dialog']);
         }
         $head->enable_jquery_ui($components);
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
-
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
     }
 
     /**
