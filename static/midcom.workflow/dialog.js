@@ -107,12 +107,12 @@ $(document).ready(function()
             });
         }
 
-        if ($('.datamanager2 .form_toolbar input').length > 0)
+        if ($('.datamanager2 .form_toolbar > *').length > 0)
         {
-            $('.datamanager2 .form_toolbar input').each(function() {
+            $('.datamanager2 .form_toolbar > *').each(function() {
                 var btn = $(this);
                 buttons.push({
-                    text: btn.val(),
+                    text: btn.val() || btn.text(),
                     click: function() {
                         if (btn.hasClass('cancel'))
                         {
