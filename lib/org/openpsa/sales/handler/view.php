@@ -63,7 +63,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     {
         $buttons = [];
         if ($this->_salesproject->can_do('midgard:update')) {
-            $workflow = $this->get_workflow('datamanager2');
+            $workflow = $this->get_workflow('datamanager');
             $buttons[] = $workflow->get_button("salesproject/edit/{$this->_salesproject->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]);
@@ -86,7 +86,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         if (   $this->_config->get('sales_pdfbuilder_class')
             && $this->_salesproject->can_do('midgard:update')
             && $this->is_pdf_creatable()) {
-            $workflow = $this->get_workflow('datamanager2');
+            $workflow = $this->get_workflow('datamanager');
             $buttons[] = $workflow->get_button("salesproject/render/{$this->_salesproject->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'p',
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/32x32/PDF.png',
