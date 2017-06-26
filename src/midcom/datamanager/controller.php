@@ -5,7 +5,6 @@
 
 namespace midcom\datamanager;
 
-use midcom\datamanager\storage\container\container;
 use midcom;
 use midcom_error;
 use Symfony\Component\Form\Form;
@@ -29,21 +28,14 @@ class controller
 
     /**
      *
-     * @var container
+     * @var datamanager
      */
-    private $storage;
+    private $dm;
 
-    /**
-     *
-     * @var renderer
-     */
-    private $renderer;
-
-    public function __construct(Form $form, container $storage, renderer $renderer)
+    public function __construct(datamanager $dm, $name = null)
     {
-        $this->form = $form;
-        $this->storage = $storage;
-        $this->renderer = $renderer;
+        $this->dm = $dm;
+        $this->form = $dm->get_form($name);
     }
 
     public function process()
@@ -61,7 +53,7 @@ class controller
                 return self::CANCEL;
             }
             if ($this->form->isValid()) {
-                $this->storage->save();
+                $this->dm->get_storage()->save();
                 return self::SAVE;
             }
         }
@@ -99,14 +91,13 @@ class controller
     public function display_form()
     {
         $view = $this->form->createView();
-        $this->renderer->set_template($view, new template\form($this->renderer));
-        echo $this->renderer->block($view, 'form');
+        $renderer = $this->dm->get_renderer();
+        $renderer->set_template($view, new template\form($renderer));
+        echo $renderer->block($view, 'form');
     }
 
     public function display_view()
     {
-        $view = $this->form->createView();
-        $this->renderer->set_template(new template\view($this->renderer));
-        echo $this->renderer->block($view, 'form');
+        $this->dm->display_view();
     }
 }

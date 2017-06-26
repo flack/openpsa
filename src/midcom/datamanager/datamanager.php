@@ -174,7 +174,7 @@ class datamanager
      */
     public function get_controller($name = null)
     {
-        return new controller($this->get_form($name), $this->get_storage(), $this->get_renderer());
+        return new controller($this, $name);
     }
 
     /**
