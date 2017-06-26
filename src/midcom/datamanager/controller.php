@@ -62,6 +62,14 @@ class controller
     }
 
     /**
+     * @return \midcom\datamanager\datamanager
+     */
+    public function get_datamanager()
+    {
+        return $this->dm;
+    }
+
+    /**
      *
      * @return array
      */
