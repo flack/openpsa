@@ -68,10 +68,9 @@ class datamanager_form extends base
     public function jsdate_widget(FormView $view, array $data)
     {
         $string = '["date" => ' . $this->renderer->widget($view['date']) . ',';
-        $string .= '"input" => "dummy",';
 
         if (isset($view['time'])) {
-            $string .= '["time" => ' . $this->renderer->widget($view['time']);
+            $string .= '"time" => ' . $this->renderer->widget($view['time']);
         }
         return $string . ']';
     }

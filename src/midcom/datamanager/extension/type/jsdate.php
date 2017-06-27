@@ -64,11 +64,11 @@ class jsdate extends AbstractType
         $builder->addModelTransformer(new jsdatetransformer($options));
 
         $input_options = ['attr' => ['size' => 10]];
-        if ($options['required']) {
-            $input_options['constraints'] = [new NotBlank()];
-        }
-
         $date_options = ['widget' => 'single_text'];
+        if ($options['required']) {
+            $input_options['attr']['required'] = true;
+            $date_options['constraints'] = [new NotBlank];
+        }
 
         $builder->add('date', compat::get_type_name('date'), $date_options);
         $builder->add('input', compat::get_type_name('text'), $input_options);

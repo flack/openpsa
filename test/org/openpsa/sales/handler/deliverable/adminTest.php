@@ -65,8 +65,8 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
         $formdata = [
             'next_cycle' => ['date' => ''],
             'title' => 'test',
-            'start' => ['date' => '2012-10-10', 'input' => 'dummy'],
-            'end' => ['date' => $year . '-10-10', 'input' => 'dummy'],
+            'start' => ['date' => '2012-10-10'],
+            'end' => ['date' => $year . '-10-10'],
             'plannedUnits' => '1'
         ];
 
