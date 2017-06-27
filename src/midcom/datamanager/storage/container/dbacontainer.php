@@ -33,7 +33,7 @@ class dbacontainer extends container
             $config['name'] = $name;
             $field = $this->prepare_field($config);
             if (   isset($config['default'])
-                && !$this->object->id) {
+                && (!$this->object->id || $field instanceof transientnode)) {
                 $field->set_value($config['default']);
             }
 

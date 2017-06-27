@@ -118,6 +118,17 @@ class schema
         return $this->config['fields'][$name];
     }
 
+    public function get_defaults()
+    {
+        $defaults = [];
+        foreach ($this->config['fields'] as $name => $config) {
+            if (!empty($config['default'])) {
+                $defaults[$name] = $config['default'];
+            }
+        }
+        return $defaults;
+    }
+
     /**
      *
      * @return \midcom_services_i18n_l10n

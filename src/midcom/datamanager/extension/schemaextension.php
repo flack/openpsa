@@ -28,7 +28,7 @@ class schemaextension extends AbstractExtension
             new type\radiocheckselect,
             new type\subform,
             new type\select,
-        	new type\tinymce,
+            new type\tinymce,
             new type\toolbar,
         ];
     }

@@ -123,10 +123,12 @@ class datamanager
         }
         $this->schema = ($schema) ? $this->schemadb->get($schema) : $this->schemadb->get_first();
 
+        $defaults = array_merge($this->schema->get_defaults(), $this->defaults);
+
         if ($storage === null) {
-            $this->storage = new storage\container\nullcontainer($this->schema, $this->defaults);
+            $this->storage = new storage\container\nullcontainer($this->schema, $defaults);
         } else {
-            $this->storage = new storage\container\dbacontainer($this->schema, $storage, $this->defaults);
+            $this->storage = new storage\container\dbacontainer($this->schema, $storage, $defaults);
         }
         $this->form = null;
 
