@@ -191,6 +191,9 @@ class schema
                         'name' => $name
                     ];
                 }
+                if ($options['type'] === 'tags') {
+                    return 'tags';
+                }
                 return null;
             }
             if (is_string($value)) {
