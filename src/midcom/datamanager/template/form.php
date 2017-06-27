@@ -37,7 +37,12 @@ class form extends base
         foreach ($view as $child) {
             if (    array_key_exists('start_fieldset', $child->vars)
                 && $child->vars['start_fieldset'] !== null) {
-                $string .= '<fieldset class="fieldset">';
+                if (!empty($child->vars['start_fieldset']['css_group'])) {
+                    $class = $child->vars['start_fieldset']['css_group'];
+                } else {
+                    $class = $child->vars['name'];
+                }
+                $string .= '<fieldset class="fieldset ' . $class . '">';
                 if (!empty($child->vars['start_fieldset']['title'])) {
                     $string .= '<legend>' . $this->renderer->humanize($child->vars['start_fieldset']['title']) . '</legend>';
                 }
