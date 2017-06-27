@@ -51,6 +51,8 @@ class jsdate extends AbstractType
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
             $type_defaults = [
                 'storage_type' => jsdate::ISO,
+                'min_date' => null,
+                'max_date' => null
             ];
             return helper::resolve_options($type_defaults, $value);
         });
@@ -102,11 +104,12 @@ class jsdate extends AbstractType
     {
         $init_max = new DateTime($options['widget_config']['maxyear'] . '-12-31');
         $init_min = new DateTime($options['widget_config']['minyear'] . '-01-01');
-        if (!empty($options['max_date'])) {
-            $init_max = new DateTime($options['max_date']);
+
+        if (!empty($options['type_config']['max_date'])) {
+            $init_max = new DateTime($options['type_config']['max_date']);
         }
-        if (!empty($options['min_date'])) {
-            $init_min = new DateTime($options['min_date']);
+        if (!empty($options['type_config']['min_date'])) {
+            $init_min = new DateTime($options['type_config']['min_date']);
         }
 
         //need this due to js Date begins to count the months with 0 instead of 1
