@@ -68,6 +68,9 @@ class schema
     public function build_form(FormBuilderInterface $builder)
     {
         foreach ($this->config['fields'] as $name => $config) {
+            if (!empty($config['hidden'])) {
+                continue;
+            }
             $options = [
                 'label' => $config['title'],
                 'widget_config' => $config['widget_config'],
