@@ -90,7 +90,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
             }
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba')) {
-            $workflow = $this->get_workflow('datamanager2');
+            $workflow = $this->get_workflow('datamanager');
             $this->_view_toolbar->add_item($workflow->get_button($create_url, [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create salesproject'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',

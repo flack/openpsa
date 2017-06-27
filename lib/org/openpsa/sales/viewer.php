@@ -31,13 +31,13 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
     }
 
     /**
-     * Function to process the notify date in the passed formdata of the datamanger
+     * Function to process the notify date
      * creates/edits/deletes the corresponding at_entry if needed
      *
-     * @param array $formdata The Formdata of the datamanager containing the notify_date
+     * @param integer $notify The notify date
      * @param org_openpsa_sales_salesproject_deliverable_dba $deliverable The current deliverable
      */
-    public function process_notify_date($formdata, org_openpsa_sales_salesproject_deliverable_dba $deliverable)
+    public function process_notify_date($notify, org_openpsa_sales_salesproject_deliverable_dba $deliverable)
     {
         //check if there is already an at_entry
         $mc_entry = org_openpsa_relatedto_dba::new_collector('toGuid', $deliverable->guid);
@@ -47,7 +47,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
         $entry_keys = $mc_entry->get_values('fromGuid');
 
         //check date
-        if (!$formdata['notify']->is_empty()) {
+        if ($notify) {
             $notification_entry = null;
 
             if (count($entry_keys) == 0) {
@@ -71,7 +71,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
                     }
                 }
             }
-            $notification_entry->start = $formdata['notify']->value->format('U');
+            $notification_entry->start = $notify;
             $notification_entry->method = 'new_notification_message';
             $notification_entry->component = 'org.openpsa.sales';
             $notification_entry->arguments = ['deliverable' => $deliverable->guid];

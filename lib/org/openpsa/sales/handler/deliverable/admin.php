@@ -6,6 +6,10 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\schemadb;
+use midcom\datamanager\datamanager;
+use midcom\datamanager\controller;
+
 /**
  * Projects edit/delete deliverable handler
  *
@@ -21,54 +25,13 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     private $_deliverable = null;
 
     /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
+     * @return \midcom\datamanager\controller
      */
-    private $_schemadb = null;
-
-    /**
-     * Schema to use for deliverable display
-     *
-     * @var string
-     */
-    private $_schema = null;
-
-    /**
-     * Loads and prepares the schema database.
-     *
-     * The operations are done on all available schemas within the DB.
-     */
-    private function _load_schemadb()
+    private function load_controller()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));
-    }
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_deliverable'));
 
-    /**
-     * Internal helper, loads the controller for the current deliverable. Any error triggers a 500.
-     *
-     * @return midcom_helper_datamanager2_controller
-     */
-    private function _load_controller()
-    {
-        $this->_load_schemadb();
-        $this->_modify_schema();
-        $controller = midcom_helper_datamanager2_controller::create('simple');
-        $controller->schemadb =& $this->_schemadb;
-        $controller->set_storage($this->_deliverable, $this->_schema);
-        if (!$controller->initialize()) {
-            throw new midcom_error("Failed to initialize a DM2 controller instance for deliverable {$this->_deliverable->id}.");
-        }
-        return $controller;
-    }
-
-    /**
-     * Alter the schema based on the current operation
-     */
-    private function _modify_schema()
-    {
-        $fields =& $this->_schemadb['subscription']->fields;
-
+        $schema = $schemadb->get('subscription');
         $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'midcom_services_at_entry_dba');
         $mc->add_object_order('start', 'ASC');
         $mc->set_object_limit(1);
@@ -78,16 +41,19 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             if (   (   $this->_deliverable->continuous
                     || $this->_deliverable->end > time())
                 && $this->_deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED) {
-                $fields['next_cycle']['hidden'] = false;
+                $schema->get_field('next_cycle')['hidden'] = false;
             }
-            return;
+        } else {
+            $schema->get_field('next_cycle')['hidden'] = false;
+
+            $entry = $at_entries[0];
+
+            $schema->get_field('next_cycle')['default'] = $entry->start;
+            $schema->get_field('at_entry')['default'] = $entry->id;
         }
-        $fields['next_cycle']['hidden'] = false;
-
-        $entry = $at_entries[0];
-
-        $fields['next_cycle']['default'] = ['next_cycle_date' => date('Y-m-d', $entry->start)];
-        $fields['at_entry']['default'] = $entry->id;
+        $dm = new datamanager($schemadb);
+        $dm->set_storage($this->_deliverable);
+        return $dm->get_controller();
     }
 
     /**
@@ -102,38 +68,29 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $this->_deliverable->require_do('midgard:update');
 
-        $data['controller'] = $this->_load_controller();
+        $data['controller'] = $this->load_controller();
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('deliverable')));
 
-        $workflow = $this->get_workflow('datamanager2', [
+        $workflow = $this->get_workflow('datamanager', [
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
         return $workflow->run();
     }
 
-    public function save_callback(midcom_helper_datamanager2_controller $controller)
+    public function save_callback(controller $controller)
     {
-        $formdata = $controller->datamanager->types;
-        $this->_process_at_entry($formdata);
-        $this->_master->process_notify_date($formdata, $this->_deliverable);
+        $formdata = $controller->get_form_values();
+        $this->process_at_entry((int) $formdata['at_entry'], (int) $formdata['next_cycle']);
+        $this->_master->process_notify_date((int) $formdata['notify'], $this->_deliverable);
     }
 
-    private function _process_at_entry(array $formdata)
+    private function process_at_entry($at_entry, $next_cycle)
     {
-        $entry = null;
-        $next_cycle = 0;
-        if (!empty($formdata['at_entry']->value)) {
-            $entry = new midcom_services_at_entry_dba((int) $formdata['at_entry']->value);
-        }
-        if (   isset($formdata['next_cycle'])
-            && !$formdata['next_cycle']->is_empty()) {
-            $next_cycle = (int) $formdata['next_cycle']->value->format('U');
-        }
-
-        if (null !== $entry) {
+        if (!empty($at_entry)) {
+            $entry = new midcom_services_at_entry_dba($at_entry);
             if ($next_cycle == 0) {
                 $entry->delete();
                 $this->_deliverable->end_subscription();

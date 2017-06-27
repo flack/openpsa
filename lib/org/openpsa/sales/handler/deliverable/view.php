@@ -36,7 +36,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         $this->_request_data['deliverable'] = $this->_deliverable;
 
         if ($this->_deliverable->can_do('midgard:update')) {
-            $workflow = $this->get_workflow('datamanager2');
+            $workflow = $this->get_workflow('datamanager');
             $this->_view_toolbar->add_item($workflow->get_button("deliverable/edit/{$this->_deliverable->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]));

@@ -49,6 +49,11 @@ class datamanager_form extends base
     {
     }
 
+    public function choice_widget_collapsed(FormView $view, array $data)
+    {
+        return $this->form_widget_simple($view, $data);
+    }
+
     public function form_widget_simple(FormView $view, array $data)
     {
         return '"' . $data['value'] . '"';

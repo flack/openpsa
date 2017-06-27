@@ -60,7 +60,7 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
             'title' => 'TEST ' . __CLASS__ . '_' . time(),
             'plannedUnits' => '1',
         ];
-        $this->set_dm2_formdata($data['controller'], $formdata);
+        $this->set_dm_formdata($data['controller'], $formdata);
         $this->run_handler('org.openpsa.sales', ['deliverable', 'add', $this->_salesproject->guid]);
         $url = $this->get_dialog_url();
 
@@ -87,11 +87,11 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         $formdata = [
             'title' => 'TEST ' . __CLASS__ . '_' . time(),
             'continuous' => true,
-            'start_date' => strftime('%Y-%m-%d'),
+            'start' => ['date' => strftime('%Y-%m-%d'), 'input' => 'dummy'],
             'plannedUnits' => '1'
         ];
 
-        $this->set_dm2_formdata($data['controller'], $formdata);
+        $this->set_dm_formdata($data['controller'], $formdata);
         $this->run_handler('org.openpsa.sales', ['deliverable', 'add', $this->_salesproject->guid]);
         $url = $this->get_dialog_url();
 

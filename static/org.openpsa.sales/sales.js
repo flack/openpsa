@@ -139,9 +139,9 @@ $(document).ready(function()
     {
         if (continuous.on('change', function()
         {
-            $('#end_container').toggle(!$(this).is(':checked'));
+            $('#org_openpsa_sales_end').closest('.element').toggle(!$(this).is(':checked'));
         }));
-        $('#end_container').toggle(!continuous.is(':checked'));
+        $('#org_openpsa_sales_end').closest('.element').toggle(!continuous.is(':checked'));
     }
     if (window.location.hash.substr(0, 13) === '#deliverable_')
     {

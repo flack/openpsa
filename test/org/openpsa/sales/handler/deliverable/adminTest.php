@@ -56,21 +56,21 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.sales', ['deliverable', 'edit', $deliverable->guid]);
         $this->assertEquals('deliverable_edit', $data['handler_id']);
 
-        $group = $data['controller']->formmanager->form->getElement('next_cycle');
+        $group = $data['controller']->get_datamanager()->get_form()->get('next_cycle');
 
-        $this->assertTrue($group instanceof HTML_Quickform_group, ' next cycle widget missing');
-        $elements = $group->getElements();
-        $this->assertEquals($year . '-10-15', $elements[0]->getValue());
+        $this->assertInstanceOf('Symfony\Component\Form\Form', $group, 'next cycle widget missing');
+        $unixtime = $group->getData();
+        $this->assertEquals($year . '-10-15', date('Y-m-d', $unixtime));
 
         $formdata = [
-            'next_cycle_date' => '',
+            'next_cycle' => ['date' => ''],
             'title' => 'test',
-            'start_date' => '2012-10-10',
-            'end_date' => $year . '-10-10',
+            'start' => ['date' => '2012-10-10', 'input' => 'dummy'],
+            'end' => ['date' => $year . '-10-10', 'input' => 'dummy'],
             'plannedUnits' => '1'
         ];
 
-        $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.sales', ['deliverable', 'edit', $deliverable->guid]);
+        $this->submit_dm_no_relocate_form('controller', $formdata, 'org.openpsa.sales', ['deliverable', 'edit', $deliverable->guid]);
         $this->assertEquals(0, count($deliverable->get_at_entries()));
 
         midcom::get()->auth->drop_sudo();
