@@ -6,13 +6,15 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\schemadb;
+use midcom\datamanager\datamanager;
+
 /**
  * Billing data handlers
  *
  * @package org.openpsa.invoices
  */
 class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * Contains the object the billing data is linked to
@@ -21,41 +23,34 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private $_linked_object = null;
 
-    public function load_schemadb()
+    /**
+     * @param org_openpsa_invoices_billing_data_dba $bd
+     * @return \midcom\datamanager\controller
+     */
+    private function load_controller(org_openpsa_invoices_billing_data_dba $bd)
     {
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_billing_data'));
-
-        $fields =& $schemadb[$this->get_schema_name()]->fields;
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_billing_data'));
+        $vat =& $schemadb->get('default')->get_field('vat');
+        $due =& $schemadb->get('default')->get_field('due');
         // Fill VAT select
         $vat_array = explode(',', $this->_config->get('vat_percentages'));
         if (!empty($vat_array)) {
             $vat_values = [];
-            foreach ($vat_array as $vat) {
-                $vat_values[$vat] = "{$vat}%";
+            foreach ($vat_array as $entry) {
+                $vat_values[$entry] = "{$entry}%";
             }
-            $fields['vat']['type_config']['options'] = $vat_values;
+            $vat['type_config']['options'] = $vat_values;
         }
 
         $dummy_invoice = new org_openpsa_invoices_invoice_dba();
         //set the defaults for vat & due to the schema
-        $fields['due']['default'] = $dummy_invoice->get_default('due');
-        $fields['vat']['default'] = $dummy_invoice->get_default('vat');
+        $due['default'] = $dummy_invoice->get_default('due');
+        $vat['default'] = $dummy_invoice->get_default('vat');
 
-        return $schemadb;
-    }
-
-    /**
-     * Datamanager callback
-     */
-    public function & dm2_create_callback(&$datamanager)
-    {
-        $billing_data = new org_openpsa_invoices_billing_data_dba();
-        $billing_data->linkGuid = $this->_linked_object->guid;
-        if (!$billing_data->create()) {
-            debug_print_r('We operated on this object:', $billing_data);
-            throw new midcom_error("Failed to create a new billing_data. Error: " . midcom_connection::get_error_string());
-        }
-        return $billing_data;
+        $dm = new datamanager($schemadb);
+        return $dm
+            ->set_storage($bd)
+            ->get_controller();
     }
 
     public function _handler_edit($handler_id, array $args, array &$data)
@@ -69,20 +64,23 @@ implements midcom_helper_datamanager2_interfaces_create
         $billing_data = $qb_billing_data->execute();
         if (count($billing_data) > 0) {
             $mode = 'edit';
-            $data['controller'] = $this->get_controller('simple', $billing_data[0]);
+            $bd = $billing_data[0];
         } else {
             $mode = 'create';
-            $data['controller'] = $this->get_controller('create');
+            $bd = new org_openpsa_invoices_billing_data_dba;
+            $bd->linkGuid = $this->_linked_object->guid;
         }
 
-        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
+        $data['controller'] = $this->load_controller($bd);
+
+        $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
         if (   $mode == 'edit'
-            && $billing_data[0]->can_do('midgard:delete')) {
+            && $bd->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', [
-                'object' => $billing_data[0],
+                'object' => $bd,
                 'label' => $this->_l10n->get('billing data')
             ]);
-            $workflow->add_dialog_button($delete, "billingdata/delete/{$billing_data[0]->guid}/");
+            $workflow->add_dialog_button($delete, "billingdata/delete/{$bd->guid}/");
         }
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get($mode . ' %s'), $this->_l10n->get('billing data')));
