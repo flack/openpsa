@@ -50,7 +50,7 @@
             (
                 'show_time' => false,
             ),
-            'default'       => array('start_date' => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n'), 1, date('Y')))),
+            'default'       => mktime(0, 0, 1, date('n'), 1, date('Y')),
             'start_fieldset'  => array
             (
                 'title'     => 'Timeframe',
@@ -71,7 +71,7 @@
             (
                 'show_time' => false,
             ),
-            'default'       => array('end_date' => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n') + 1, 0, date('Y')))),
+            'default'       => mktime(0, 0, 1, date('n') + 1, 0, date('Y')),
         ),
         'date_field' => array
         (
@@ -108,7 +108,6 @@
                     'scheduled'     => midcom::get()->i18n->get_string('scheduled', 'org.openpsa.invoices'),
                 ),
                 'allow_multiple' => true
-
             ),
             'widget'        => 'radiocheckselect',
             'start_fieldset'  => array

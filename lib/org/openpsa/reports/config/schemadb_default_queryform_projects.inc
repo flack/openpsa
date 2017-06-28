@@ -72,7 +72,7 @@
             (
                 'show_time' => false,
             ),
-            'default'       => array('start_date' => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n'), 1, date('Y')))),
+            'default'       => mktime(0, 0, 1, date('n'), 1, date('Y')),
             'start_fieldset'  => array
             (
                 'title'     => 'Timeframe',
@@ -93,7 +93,7 @@
             (
                 'show_time' => false,
             ),
-            'default'       => array('end_date' => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n') + 1, 0, date('Y')))),
+            'default'       => mktime(0, 0, 1, date('n') + 1, 0, date('Y')),
             'end_fieldset'    => '',
         ),
         'resource' => array
@@ -126,7 +126,7 @@
         'invoiceable_filter' => array
         (
             'title'   => 'show invoiceable',
-            'location'      => 'parameter',
+            'storage'      => 'parameter',
             'type'      => 'select',
             'type_config' => array
             (
@@ -143,7 +143,7 @@
         'approved_filter' => array
         (
             'title'   => 'show approved',
-            'location'      => 'parameter',
+            'storage'      => 'parameter',
             'type'      => 'select',
             'type_config' => array
             (
@@ -160,7 +160,7 @@
         'invoiced_filter' => array
         (
             'title'   => 'show invoiced',
-            'location'      => 'parameter',
+            'storage'      => 'parameter',
             'type'      => 'select',
             'type_config' => array
             (

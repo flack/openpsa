@@ -92,7 +92,6 @@ implements org_openpsa_widgets_grid_provider_client
     public function _on_initialize()
     {
         $this->module = 'sales';
-        $this->_initialize_datamanager();
     }
 
     /**

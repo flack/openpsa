@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Baseclass for reports handler, provides some common methods
  *
@@ -13,7 +15,6 @@
  */
 abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_components_handler
 {
-    private $_datamanagers = [];
     protected $module;
 
     /**
@@ -64,80 +65,15 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         $this->_show_generator($handler_id, $data);
     }
 
-    protected function _initialize_datamanager()
-    {
-        $this->_load_schemadb();
-
-        // Initialize the datamanager with the schema
-        $this->_datamanagers[$this->module] = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-    }
-
-    private function _load_query($identifier, $dm_key)
-    {
-        $query = new org_openpsa_reports_query_dba($identifier);
-
-        // Load the query object to datamanager
-        if (!$this->_datamanagers[$dm_key]->autoset_storage($query)) {
-            throw new midcom_error('Could not load query');
-        }
-        return $query;
-    }
-
     /**
-     * Internal helper, loads the controller for the current salesproject. Any error triggers a 500.
+     * @param org_openpsa_reports_query_dba $query
+     * @return \midcom\datamanager\datamanager
      */
-    private function _load_edit_controller()
+    private function load_datamanager(org_openpsa_reports_query_dba $query)
     {
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_request_data['query'], 'default');
-        if (!$this->_controller->initialize()) {
-            throw new midcom_error("Failed to initialize a DM2 controller instance for document {$this->_document->id}.");
-        }
-    }
-
-    /**
-     * This is what Datamanager calls to actually create a query
-     */
-    public function & dm2_create_callback(&$controller)
-    {
-        $query = new org_openpsa_reports_query_dba();
-        $query->component = $this->_component;
-
-        if (!$query->create()) {
-            debug_print_r('We operated on this object:', $query);
-            throw new midcom_error("Failed to create a new project. Error: " . midcom_connection::get_error_string());
-        }
-
-        $this->_request_data['query'] = $query;
-
-        return $query;
-    }
-
-    /**
-     * Loads and prepares the schema database.
-     *
-     * The operations are done on all available schemas within the DB.
-     */
-    private function _load_schemadb()
-    {
-        $schema_snippet = $this->_config->get('schemadb_queryform_' . $this->module);
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($schema_snippet);
-    }
-
-    /**
-     * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     */
-    private function _load_create_controller()
-    {
-        $this->_load_schemadb();
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->schemaname = 'default';
-        $this->_controller->callback_object =& $this;
-        if (!$this->_controller->initialize()) {
-            throw new midcom_error("Failed to initialize a DM2 create controller.");
-        }
+        $dm = datamanager::from_schemadb($this->_config->get('schemadb_queryform_' . $this->module));
+        $dm->set_storage($query, 'default');
+        return $dm;
     }
 
     /**
@@ -150,16 +86,17 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         midcom::get()->auth->require_valid_user();
 
         if (isset($args[0])) {
-            $data['query'] = $this->_load_query($args[0], $this->module);
+            $data['query'] = new org_openpsa_reports_query_dba($args[0]);
             $data['query']->require_do('midgard:update');
-
-            $this->_load_edit_controller();
         } else {
-            $this->_load_create_controller();
+            $data['query']= new org_openpsa_reports_query_dba();
+            $data['query']->component = $this->_component;
         }
 
+        $data['controller'] = $this->load_datamanager($data['query'])->get_controller();
+
         // Process the form
-        switch ($this->_controller->process_form()) {
+        switch ($data['controller']->process()) {
             case 'save':
                 // Relocate to report view
                 return new midcom_response_relocate($this->module . '/' . $this->_request_data['query']->guid . "/");
@@ -168,10 +105,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
                 return new midcom_response_relocate('');
         }
 
-        $this->_request_data['controller'] = $this->_controller;
-        $this->_request_data['datamanager'] = $this->_datamanagers[$this->module];
-
-        if (isset($data['query'])) {
+        if ($data['query']->id) {
             $breadcrumb_label =  sprintf($this->_l10n->get('edit report %s'), $data['query']->title);
         } else {
             $breadcrumb_label =  $this->_l10n->get('define custom report');
@@ -191,8 +125,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
 
     protected function _generator_load_redirect(&$args)
     {
-        debug_add('Loading query object ' . $args[0]);
-        $this->_request_data['query'] = $this->_load_query($args[0], $this->module);
+        $this->_request_data['query'] = new org_openpsa_reports_query_dba($args[0]);;
 
         if (empty($args[1])) {
             debug_add('Filename part not specified in URL, generating');
@@ -212,7 +145,8 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         $this->_request_data['filename'] = $args[1];
 
         //Get DM schema data to array
-        $this->_request_data['query_data'] = $this->_datamanagers[$this->module]->get_content_raw();
+        $dm = $this->load_datamanager($this->_request_data['query']);
+        $this->_request_data['query_data'] = $dm->get_content_raw();
     }
 
     public function _handler_generator_style()

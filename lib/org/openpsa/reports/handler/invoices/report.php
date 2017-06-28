@@ -19,7 +19,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
     {
         org_openpsa_widgets_contact::add_head_elements();
         $this->module = 'invoices';
-        $this->_initialize_datamanager();
     }
 
     /**
