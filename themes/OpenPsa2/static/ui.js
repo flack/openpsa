@@ -1,10 +1,10 @@
 $(document).ready(function(){
     if ($('#content form.datamanager2 .form_toolbar').length === 1) {
         var last_insert;
-        $('#content form.datamanager2 .form_toolbar input').each(function(){
+        $('#content form.datamanager2 .form_toolbar > *').each(function(){
             var btn = $(this),
                 icon = btn.css('background-image').replace(/url\(\"/, '').replace(/\"\)/, ''),
-                toolbar_entry = $('<li class="enabled"><div><button type=\submit"><img src="' + icon + '"><soan class="toolbar_label"> ' + btn.val() + '</span></button></div></li>')
+                toolbar_entry = $('<li class="enabled"><div><button type=\submit"><img src="' + icon + '"><soan class="toolbar_label"> ' + (btn.val() || btn.text()) + '</span></button></div></li>')
                          .on('click', function(){
                              btn.click();
                          });
