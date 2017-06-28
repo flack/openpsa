@@ -27,7 +27,8 @@ class formextension extends AbstractTypeExtension
             'index_method' => 'auto',
             'index_merge_with_content' => true,
             'start_fieldset' => null,
-            'end_fieldset' => null
+            'end_fieldset' => null,
+            'helptext' => null
         ]);
     }
 

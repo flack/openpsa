@@ -81,7 +81,8 @@ class schema
                 'start_fieldset' => $config['start_fieldset'],
                 'end_fieldset' => $config['end_fieldset'],
                 'index_method' => $config['index_method'],
-                'attr' => ['readonly' => $config['readonly']]
+                'attr' => ['readonly' => $config['readonly']],
+                'helptext' => $config['helptext']
             ];
 
             $builder->add($name, compat::get_type_name($config['widget']), $options);
@@ -165,7 +166,8 @@ class schema
             'index_method' => 'auto',
             'start_fieldset' => null,
             'end_fieldset' => null,
-            'validation' => []
+            'validation' => [],
+            'helptext' => null
         ]);
 
         $normalize_widget = function (Options $options, $value) {
