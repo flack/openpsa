@@ -205,6 +205,18 @@ class datamanager
         return $this->form;
     }
 
+    public function get_content_raw()
+    {
+        $ret = [];
+
+        foreach ($this->storage as $field => $value)
+        {
+            $ret[$field] = $value->get_value();
+        }
+
+        return $ret;
+    }
+
     public function get_content_html()
     {
         $ret = [];
