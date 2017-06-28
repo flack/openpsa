@@ -71,11 +71,10 @@ class parameter extends delayed
         switch ($this->get_mode()) {
             case 'serialized':
             case 'array':
-                if (   !is_array($source)
-                    && empty($source)) {
-                    $source = [];
+                if (empty($source)) {
+                    return [];
                 }
-                return $source;
+                return unserialize($source);
 
             case 'imploded':
                 if (!is_string($source)) {
@@ -109,7 +108,7 @@ class parameter extends delayed
                 if ($this->others) {
                     return array_merge($this->value, $this->others);
                 }
-                return $this->value;
+                return serialize($this->value);
 
             case 'imploded':
                 $options = $this->get_imploded_options();
