@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Feed management class.
  *
@@ -15,13 +17,9 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
 {
     private function _load_controller(array &$data)
     {
-        $data['schemadb'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_feed'));
-        $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
-        $data['controller']->schemadb =& $data['schemadb'];
-        $data['controller']->set_storage($data['feed']);
-        if (!$data['controller']->initialize()) {
-            throw new midcom_error("Failed to initialize a DM2 controller instance for feed {$data['feed']->id}.");
-        }
+        $data['controller'] = datamanager::from_schemadb($this->_config->get('schemadb_feed'))
+            ->set_storage($data['feed'])
+            ->get_controller();
     }
 
     private function _subscribe_feed($feed_url, $feed_title = null)
@@ -135,7 +133,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
 
         $this->_load_controller($data);
 
-        switch ($data['controller']->process_form()) {
+        switch ($data['controller']->process()) {
             case 'save':
                 // TODO: Fetch the feed here?
                 // *** FALL-THROUGH ***
