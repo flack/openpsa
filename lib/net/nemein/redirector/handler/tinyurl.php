@@ -6,11 +6,12 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * @package net.nemein.redirector
  */
 class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * TinyURL object
@@ -27,35 +28,13 @@ implements midcom_helper_datamanager2_interfaces_create
     private $_tinyurls = [];
 
     /**
-     * Datamanager2 instance
-     *
-     * @var midcom_helper_datamanager2_datamanager
+     * @return \midcom\datamanager\controller
      */
-    private $_datamanager = null;
-
-    public function load_schemadb()
+    private function load_controller()
     {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_tinyurl'));
-    }
-
-    public function get_schema_name()
-    {
-        return 'tinyurl';
-    }
-
-    /**
-     * DM2 creation callback, binds to the current content topic.
-     */
-    public function &dm2_create_callback(&$controller)
-    {
-        $this->_tinyurl = new net_nemein_redirector_tinyurl_dba();
-        $this->_tinyurl->node = $this->_topic->guid;
-
-        if (!$this->_tinyurl->create()) {
-            throw new midcom_error('Failed to create a new TinyURL object. Last Midgard error was: '. midcom_connection::get_error_string());
-        }
-
-        return $this->_tinyurl;
+        $dm = datamanager::from_schemadb($this->_config->get('schemadb_tinyurl'));
+        $dm->set_storage($this->_tinyurl);
+        return $dm->get_controller();
     }
 
     /**
@@ -111,12 +90,14 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_topic->require_do('midgard:create');
 
-        // Load the controller
-        $data['controller'] = $this->get_controller('create');
+        $this->_tinyurl = new net_nemein_redirector_tinyurl_dba();
+        $this->_tinyurl->node = $this->_topic->guid;
 
-        switch ($data['controller']->process_form()) {
-            case 'save':
-                return new midcom_response_relocate("edit/{$this->_tinyurl->name}");
+        // Load the controller
+        $data['controller'] = $this->load_controller();
+
+        if ($data['controller']->process() == 'save') {
+            return new midcom_response_relocate("edit/{$this->_tinyurl->name}");
         }
 
         // Set the request data
@@ -147,10 +128,10 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_tinyurl->require_do('midgard:update');
 
         // Edit controller
-        $data['controller'] = $this->get_controller('simple', $this->_tinyurl);
+        $data['controller'] = $this->load_controller();
         $data['tinyurl'] = $this->_tinyurl;
 
-        switch ($data['controller']->process_form()) {
+        switch ($data['controller']->process()) {
             case 'save':
                 midcom::get()->uimessages->add($this->_l10n->get('net.nemein.redirector'), $this->_l10n_midcom->get('saved'));
                 // Fall through
@@ -207,16 +188,15 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_tinyurls = $qb->execute();
 
         // Initialize the datamanager instance
-        $schemadb = $this->load_schemadb();
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
+        $data['datamanager'] = datamanager::from_schemadb($this->_config->get('schemadb_tinyurl'));
 
-        $data['workflow'] = $this->get_workflow('datamanager2');
+        $data['workflow'] = $this->get_workflow('datamanager');
         // Set the request data
         $this->_populate_request_data($handler_id);
     }
 
     /**
-     * Show the list of TinyURL's
+     * Show the list of TinyURLs
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
@@ -225,11 +205,9 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         midcom_show_style('tinyurl-list-start');
 
-        $data['datamanager'] = $this->_datamanager;
-
         foreach ($this->_tinyurls as $tinyurl) {
             $data['tinyurl'] = $tinyurl;
-            $data['datamanager']->autoset_storage($tinyurl);
+            $data['datamanager']->set_storage($tinyurl);
             $data['view_tinyurl'] = $data['datamanager']->get_content_html();
 
             midcom_show_style('tinyurl-list-item');
