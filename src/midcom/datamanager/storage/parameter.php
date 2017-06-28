@@ -32,7 +32,7 @@ class parameter extends delayed
     {
         $source = $this->object->get_parameter($this->config['storage']['domain'], $this->config['storage']['name']);
 
-        if (!empty($this->config['type_config']['multiple_storagemode'])) {
+        if (!empty($this->config['type_config']['allow_multiple'])) {
             $source = $this->convert_multiple_from_storage($source);
         }
 
@@ -52,18 +52,23 @@ class parameter extends delayed
         }
 
         $value = $this->value;
-        if (!empty($this->config['type_config']['multiple_storagemode'])) {
+        if (!empty($this->config['type_config']['allow_multiple'])) {
             $value = $this->convert_multiple_to_storage();
         }
 
         return $this->object->set_parameter($this->config['storage']['domain'], $this->config['storage']['name'], $value);
     }
 
+    private function get_mode()
+    {
+        return (empty($this->config['type_config']['multiple_storagemode'])) ? 'serialized' : $this->config['type_config']['multiple_storagemode'];
+    }
+
     private function convert_multiple_from_storage($source)
     {
         $glue = $this->multiple_separator;
 
-        switch ($this->config['type_config']['multiple_storagemode']) {
+        switch ($this->get_mode()) {
             case 'serialized':
             case 'array':
                 if (   !is_array($source)
@@ -85,7 +90,7 @@ class parameter extends delayed
                 return explode($glue, substr($source, 1, -1));
 
             default:
-                throw new midcom_error("The multiple_storagemode '{$this->config['type_config']['multiple_storagemode']}' is invalid, cannot continue.");
+                throw new midcom_error("The multiple_storagemode '{$this->get_mode()}' is invalid, cannot continue.");
         }
     }
 
@@ -96,7 +101,7 @@ class parameter extends delayed
      */
     private function convert_multiple_to_storage()
     {
-        switch ($this->config['type_config']['multiple_storagemode']) {
+        switch ($this->get_mode()) {
             case 'array':
                 return $this->value;
 
@@ -116,7 +121,7 @@ class parameter extends delayed
                 return "{$glue}{$options}{$glue}";
 
             default:
-                throw new midcom_error("The multiple_storagemode '{$this->config['type_config']['multiple_storagemode']}' is invalid, cannot continue.");
+                throw new midcom_error("The multiple_storagemode '{$this->get_mode()}' is invalid, cannot continue.");
         }
     }
 
