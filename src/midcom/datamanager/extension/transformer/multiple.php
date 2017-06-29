@@ -56,15 +56,16 @@ class multiple implements DataTransformerInterface
                 return unserialize($input);
 
             case 'imploded':
-                if (!is_string($source)) {
+                if (!is_string($input)) {
                     return [];
                 }
                 return explode($this->multiple_separator, $input);
 
             case 'imploded_wrapped':
-                if (!is_string($input)) {
+                if (!is_string($input) || substr($input, 1, -1) == '') {
                     return [];
                 }
+
                 return explode($this->multiple_separator, substr($input, 1, -1));
 
             default:

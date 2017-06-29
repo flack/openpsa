@@ -69,6 +69,8 @@ class autocomplete extends AbstractType
                 'allow_other' => false,
                 'allow_multiple' => ($options['dm2_type'] == 'mnrelation'),
                 'require_corresponding_option' => true,
+                'multiple_storagemode' => 'serialized',
+                'multiple_separator' => '|'
             ];
             return helper::resolve_options($type_defaults, $value);
         });
@@ -112,8 +114,8 @@ class autocomplete extends AbstractType
         $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
 
         $preset = [];
-        if (!empty($view->vars['data']['selection'])) {
-            foreach ((array) $view->vars['data']['selection'] as $identifier) {
+        if (!empty($view->children['selection']->vars['data'])) {
+            foreach ((array) $view->children['selection']->vars['data'] as $identifier) {
                 if ($options['widget_config']['id_field'] == 'id') {
                     $identifier = (int) $identifier;
                 }
