@@ -243,7 +243,7 @@ class form extends base
     {
         $string = '<input type="radio"';
         $string .= $this->renderer->block($view, 'widget_attributes');
-        if (strlen($data['value']) > 0) {
+        if (isset($data['value'])) {
             $string .= ' value="' . $data['value'] . '"';
         }
         if ($data['checked']) {
@@ -256,7 +256,7 @@ class form extends base
     {
         $string = '<input type="checkbox"';
         $string .= $this->renderer->block($view, 'widget_attributes');
-        if (strlen($data['value']) > 0) {
+        if (isset($data['value'])) {
             $string .= ' value="' . $data['value'] . '"';
         }
         if ($data['checked']) {
