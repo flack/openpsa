@@ -23,9 +23,9 @@ class parameter extends delayed
      */
     public function save()
     {
-        //workaround for weird mgd API behavior where setting falsy (i.e. deleting) a nonexistent parameter
-        //returns an error
-        if (   !$this->value
+        // workaround for weird mgd API behavior where setting empty (i.e. deleting) a
+        // nonexistent parameter returns false
+        if (   ($this->value === false || $this->value === null || $this->value === "")
             && $this->load() === null) {
             return true;
         }
