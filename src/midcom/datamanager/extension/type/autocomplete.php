@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\transformer\autocomplete as transformer;
 use midcom\datamanager\extension\transformer\json as jsontransformer;
+use midcom\datamanager\extension\transformer\multiple as multipletransformer;
 use midcom\datamanager\extension\helper;
 use midcom;
 use midcom_error;
@@ -68,8 +69,6 @@ class autocomplete extends AbstractType
                 'allow_other' => false,
                 'allow_multiple' => ($options['dm2_type'] == 'mnrelation'),
                 'require_corresponding_option' => true,
-                'multiple_storagemode' => 'serialized',
-                'multiple_separator' => '|'
             ];
             return helper::resolve_options($type_defaults, $value);
         });
@@ -83,6 +82,11 @@ class autocomplete extends AbstractType
         $builder->addModelTransformer(new transformer($options));
         $builder->add('selection', compat::get_type_name('hidden'));
         $builder->get('selection')->addViewTransformer(new jsontransformer);
+
+        if ($options['type_config']['allow_multiple'] && $options['dm2_type'] == 'select') {
+            $builder->get('selection')->addModelTransformer(new multipletransformer($options));
+        }
+
         $builder->add('search_input', compat::get_type_name('search'), ['mapped' => false]);
 
         $head = midcom::get()->head;
@@ -109,7 +113,7 @@ class autocomplete extends AbstractType
 
         $preset = [];
         if (!empty($view->vars['data']['selection'])) {
-            foreach ($view->vars['data']['selection'] as $identifier) {
+            foreach ((array) $view->vars['data']['selection'] as $identifier) {
                 if ($options['widget_config']['id_field'] == 'id') {
                     $identifier = (int) $identifier;
                 }

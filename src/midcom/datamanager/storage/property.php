@@ -5,6 +5,8 @@
 
 namespace midcom\datamanager\storage;
 
+use midgard_reflection_property;
+
 /**
  * Experimental storage class
  */
@@ -20,7 +22,14 @@ class property extends dbanode
         if (!$this->object->id && !$this->set && $this->config['type'] == 'number') {
             return;
         }
-        return $this->object->{$this->config['storage']['location']};
+        $value = $this->object->{$this->config['storage']['location']};
+        if ($value === 0) {
+            $reflector = new midgard_reflection_property($this->object->__mgdschema_class_name__);
+            if ($reflector->is_link($this->config['storage']['location'])) {
+                return;
+            }
+        }
+        return $value;
     }
 
     /**

@@ -18,6 +18,7 @@ use midcom;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
 use midcom\datamanager\extension\compat;
+use midcom\datamanager\extension\transformer\multiple;
 
 /**
  * Experimental datamanager class
@@ -212,6 +213,11 @@ class datamanager
         foreach ($this->storage as $field => $value)
         {
             $ret[$field] = $value->get_value();
+            $config = $this->schema->get_field($field);
+            if (!empty($config['type_config']['allow_multiple'])) {
+                $transformer = new multiple($config);
+                $ret[$field] = $transformer->transform($ret[$field]);
+            }
         }
 
         return $ret;

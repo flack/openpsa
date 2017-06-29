@@ -10,6 +10,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use midcom\datamanager\extension\transformer\multiple;
+use Symfony\Component\Form\FormBuilderInterface;
+use midcom\datamanager\extension\helper;
 
 /**
  * Experimental select type
@@ -43,6 +46,27 @@ class radiocheckselect extends ChoiceType
             'multiple' => $map_multiple,
             'placeholder' => false
         ]);
+
+        $resolver->setNormalizer('type_config', function (Options $options, $value) {
+            $type_defaults = [
+                'options' => [],
+                'allow_other' => false,
+                'allow_multiple' => ($options['dm2_type'] == 'mnrelation'),
+                'require_corresponding_option' => true,
+            ];
+            return helper::resolve_options($type_defaults, $value);
+        });
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        if ($options['multiple']) {
+            $builder->addModelTransformer(new multiple($options));
+        }
+        parent::buildForm($builder, $options);
     }
 
     /**
