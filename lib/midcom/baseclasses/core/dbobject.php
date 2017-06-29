@@ -807,7 +807,7 @@ class midcom_baseclasses_core_dbobject
         if (isset(self::$parameter_cache[$object->guid][$domain])) {
             // We have this domain in cache already thanks to some parameter listing
             if (!isset(self::$parameter_cache[$object->guid][$domain][$name])) {
-                return '';
+                return null;
             }
             return self::$parameter_cache[$object->guid][$domain][$name];
         }
