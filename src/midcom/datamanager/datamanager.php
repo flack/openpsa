@@ -201,7 +201,7 @@ class datamanager
             || $this->form->getName() != $name) {
             $builder = self::get_factory()
                 ->createNamedBuilder($name, compat::get_type_name('form'), $this->get_storage());
-            $this->form = $this->schema->build_form($builder);
+            $this->form = $this->schema->build_form($builder, $this->storage);
         }
         return $this->form;
     }

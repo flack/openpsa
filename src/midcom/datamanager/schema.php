@@ -16,6 +16,8 @@ use midcom;
 use midcom_core_context;
 use midcom\datamanager\extension\compat;
 use midcom\datamanager\validation\callback as cb_wrapper;
+use midcom\datamanager\storage\container\container;
+use midcom\datamanager\storage\container\dbacontainer;
 
 /**
  * Experimental schema class
@@ -63,14 +65,28 @@ class schema
     /**
      *
      * @param FormBuilderInterface $builder
+     * @param container $storage
      * @return \Symfony\Component\Form\Form
      */
-    public function build_form(FormBuilderInterface $builder)
+    public function build_form(FormBuilderInterface $builder, container $storage)
     {
         foreach ($this->config['fields'] as $name => $config) {
             if (!empty($config['hidden'])) {
                 continue;
             }
+
+            if ($config['write_privilege'] !== null) {
+                if (   array_key_exists('group', $config['write_privilege'])
+                    && !midcom::get()->auth->is_group_member($config['write_privilege']['group'])) {
+                    $config['readonly'] = true;
+                }
+                if (   array_key_exists('privilege', $config['write_privilege'])
+                    && $storage instanceof dbacontainer
+                    && !$storage->get_value()->can_do($config['write_privilege']['privilege'])) {
+                    $config['readonly'] = true;
+                }
+            }
+
             $options = [
                 'label' => $config['title'],
                 'widget_config' => $config['widget_config'],
@@ -167,7 +183,8 @@ class schema
             'start_fieldset' => null,
             'end_fieldset' => null,
             'validation' => [],
-            'helptext' => null
+            'helptext' => null,
+            'write_privilege' => null
         ]);
 
         $normalize_widget = function (Options $options, $value) {
