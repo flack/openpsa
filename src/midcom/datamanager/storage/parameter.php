@@ -15,7 +15,11 @@ class parameter extends delayed
      */
     public function load()
     {
-        return $this->object->get_parameter($this->config['storage']['domain'], $this->config['storage']['name']);
+        $value = $this->object->get_parameter($this->config['storage']['domain'], $this->config['storage']['name']);
+        if ($this->config['type'] === 'boolean') {
+            $value = !!$value;
+        }
+        return $value;
     }
 
     /**
