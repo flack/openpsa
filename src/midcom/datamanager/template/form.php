@@ -182,6 +182,10 @@ class form extends base
     public function form_widget_simple(FormView $view, array $data)
     {
         $type = isset($data['type']) ? $data['type'] : 'text';
+        if ($data['read_only'] && $type !== 'hidden') {
+            return $data['value'] . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
+        }
+
         if (!empty($data['attr']['class'])) {
             $view->vars['attr']['class'] = $data['attr']['class'];
         } elseif ($type == 'text' || $type == 'password' || $type == 'email') {
@@ -355,13 +359,27 @@ class form extends base
     public function jsdate_widget(FormView $view, array $data)
     {
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
-        $string .= $this->renderer->widget($view['date'], ['type' => 'hidden']);
-        $string .= $this->renderer->widget($view['input'], ['attr' => ['class' => 'jsdate']]);
 
-        if (isset($view['time'])) {
-            $string .= ' '. $this->renderer->widget($view['time']);
+        if ($data['read_only']) {
+            if (empty($data['value']['date'])) {
+                $date = '0000-00-00';
+                $time = '00:00:00';
+            } else {
+                $date = $data['value']['date']->format('Y-m-d');
+                $time = $data['value']['date']->format('H:i:s');
+            }
+            $string .= $date . $this->renderer->widget($view['date'], ['type' => 'hidden']);
+            if (isset($view['time'])) {
+                $string .= ' ' . $time . $this->renderer->widget($view['time'], ['type' => 'hidden']);
+            }
+        } else {
+            $string .= $this->renderer->widget($view['date'], ['type' => 'hidden']);
+            $string .= $this->renderer->widget($view['input'], ['attr' => ['class' => 'jsdate']]);
+            if (isset($view['time'])) {
+                $string .= ' '. $this->renderer->widget($view['time']);
+            }
+            $string .= $data['jsinit'];
         }
-        $string .= $data['jsinit'];
         return $string . '</fieldset>';
     }
 
