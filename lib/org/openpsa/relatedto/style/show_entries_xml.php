@@ -18,7 +18,7 @@ echo "<records>" . count($data['entries']) . "</records>";
       <cell> $closed </cell>
   </row>
 */
-$workflow = new midcom\workflow\datamanager2;
+$workflow = new midcom\workflow\datamanager;
 foreach ($data['entries'] as $entry) {
     echo "<row>";
     echo "<cell>" . $entry->id . "</cell>"; ?>

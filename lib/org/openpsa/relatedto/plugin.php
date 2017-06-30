@@ -216,7 +216,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             //Invalid buttons given
             return;
         }
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = new midcom\workflow\datamanager;
         $toolbar_buttons = [];
         foreach ($buttons as $mode => $data) {
             debug_print_r("processing button '{$mode}' with data:", $data);

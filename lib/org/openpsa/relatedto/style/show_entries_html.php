@@ -9,7 +9,7 @@
     $start = true;
     if (array_key_exists('entries', $data)) {
         $rows = [];
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = new midcom\workflow\datamanager;
         foreach ($data['entries'] as $entry) {
             $row = [
                 'id' => $entry->id,

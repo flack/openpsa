@@ -66,7 +66,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
      */
     private function _prepare_output()
     {
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         $buttons = [
             [
                 MIDCOM_TOOLBAR_URL => $this->object_url,
