@@ -6,6 +6,10 @@
 (jóváhagyás)
 ---STRINGEND
 
+---STRING archived image
+Archivált kép
+---STRINGEND
+
 ---STRING passwords do not match
 A jelszavak nem egyeznek.
 ---STRINGEND

@@ -10,6 +10,14 @@
 Lisää uusi tiedosto
 ---STRINGEND
 
+---STRING archived image
+Arkistoitu kuva
+---STRINGEND
+
+---STRING could not figure out which image to show, listing files
+Ei kyetty päättelemään mikä kuva näytetään, listataan kaikki tiedostot:
+---STRINGEND
+
 ---STRING delete photo
 Poistaa
 ---STRINGEND

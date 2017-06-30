@@ -10,6 +10,14 @@
 Dodaj plik
 ---STRINGEND
 
+---STRING archived image
+Zapisany obraz
+---STRINGEND
+
+---STRING could not figure out which image to show, listing files
+Nie wiem, który obraz pokazać - wyświetlam listę.
+---STRINGEND
+
 ---STRING delete photo
 Usunąć
 ---STRINGEND

@@ -10,6 +10,14 @@
 Add a new file
 ---STRINGEND
 
+---STRING archived image
+Archived image
+---STRINGEND
+
+---STRING could not figure out which image to show, listing files
+Could not figure out which image to show, listing files
+---STRINGEND
+
 ---STRING file
 File
 ---STRINGEND

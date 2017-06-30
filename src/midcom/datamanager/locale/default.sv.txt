@@ -10,6 +10,14 @@
 Lägg till ny fil
 ---STRINGEND
 
+---STRING archived image
+Arkiverad bild
+---STRINGEND
+
+---STRING could not figure out which image to show, listing files
+Kunde inte lista ut vilken bild att visa, listar filer.
+---STRINGEND
+
 ---STRING delete photo
 Radera
 ---STRINGEND

@@ -10,6 +10,14 @@
 Neue Datei hinzufügen
 ---STRINGEND
 
+---STRING archived image
+Archiv-Bild
+---STRINGEND
+
+---STRING could not figure out which image to show, listing files
+Konnte nicht feststellen, welches Bild gezeigt werden soll, zeige stattdessen Dateien
+---STRINGEND
+
 ---STRING file
 Datei
 ---STRINGEND

@@ -91,6 +91,58 @@ class view extends base
         return '';
     }
 
+    public function radiocheckselect_widget(FormView $view, array $data)
+    {
+        $ret = [];
+        foreach ($view->children as $child) {
+            if ($child->vars['checked']) {
+                $ret[] = $this->renderer->humanize($child->vars['label']);
+            }
+        }
+        return implode(', ', $ret);
+    }
+
+    public function photo_widget(FormView $view, array $data)
+    {
+        if (!array_key_exists('main', $data['value'])) {
+            $ret = "";
+            if (sizeof($data['value']) > 0) {
+                $ret .= $this->renderer->humanize('could not figure out which image to show, listing files') . "<ul>";
+                foreach ($data['value'] as $key => $info) {
+                    $ret .= "<li><a href='{$info['url']}'>{$info}</a></li>";
+                }
+                $ret .= "</ul>";
+            }
+            return $ret;
+        }
+
+        $identifier = 'main';
+        $linkto = false;
+        if (array_key_exists('view', $data['value'])) {
+            $identifier = 'view';
+            $linkto = 'main';
+        } elseif (array_key_exists('thumbnail', $data['value'])) {
+            $identifier = 'thumbnail';
+            $linkto = 'main';
+        } elseif (array_key_exists('archival', $data['value'])) {
+            $linkto = 'archival';
+        }
+        $img = $data['value'][$identifier];
+        $linked = $data['value'][$linkto];
+        $return = '<div class="midcom_helper_datamanager2_type_photo">';
+        $img_tag = "<img src='{$img['url']}' {$img['size_line']} class='photo {$identifier}' />";
+        if ($linkto) {
+            $return .= "<a href='{$linked['url']}' target='_blank' class='{$linkto} {$linked['mimetype']}'>{$img_tag}</a>";
+        } else {
+            $return .= $img_tag;
+        }
+        if (array_key_exists('archival', $data['value'])) {
+            $arch = $data['value']['archival'];
+            $return .= "<br/><a href='{$arch['url']}' target='_blank' class='archival {$arch['mimetype']}'>" . $this->renderer->humanize('archived image') . '</a>';
+        }
+        return $return . '</div>';
+    }
+
     public function autocomplete_widget(FormView $view, array $data)
     {
         $options = json_decode($data['handler_options'], true);

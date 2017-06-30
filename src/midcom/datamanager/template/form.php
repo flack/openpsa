@@ -445,7 +445,7 @@ class form extends base
         if (array_key_exists('title', $view->children)) {
             $string .= $this->renderer->widget($view->children['title']);
         }
-        $string .= '<label class="midcom_datamanager_photo_lable">' . $this->renderer->humanize('delete photo') . ' ' . $this->renderer->widget($data['form']['delete']) . '</label>';
+        $string .= '<label class="midcom_datamanager_photo_label">' . $this->renderer->humanize('delete photo') . ' ' . $this->renderer->widget($data['form']['delete']) . '</label>';
         $string .= '</td></tr></table></div>';
 
         return $string . $this->jsinit('init_photo_widget("' . $view->vars['id'] .'");');
