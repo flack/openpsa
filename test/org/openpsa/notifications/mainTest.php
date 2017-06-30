@@ -21,13 +21,13 @@ class org_openpsa_notifications_mainTest extends openpsa_testcase
         $this->assertTrue($stat);
     }
 
-    public function test_load_schemadb()
+    public function test_load_datamanager()
     {
         $notifications = new org_openpsa_notifications;
-        $schemadb = $notifications->load_schemadb();
-
-        $this->assertArrayHasKey('default', $schemadb);
-        $this->assertInstanceOf('midcom_helper_datamanager2_schema', $schemadb['default']);
-        $this->assertArrayHasKey('net_nehmer_comments_comment_posted', $schemadb['default']->fields);
+        $dm = $notifications->load_datamanager();
+        $this->assertInstanceOf('midcom\datamanager\datamanager', $dm);
+        $dm->set_storage(new midcom_db_person);
+        $fields = $dm->get_schema()->get('fields');
+        $this->assertArrayHasKey('net_nehmer_comments_comment_posted', $fields);
     }
 }

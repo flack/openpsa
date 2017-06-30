@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+use midcom\datamanager\schemadb;
+
 /**
  * Class for notifying users of different events. Usage is reasonably straightforward:
  *
@@ -130,15 +133,12 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         return $preference;
     }
 
-    public function load_schemadb()
+    public function load_datamanager()
     {
-        $schemadb = [
-            'default' => [
-                'description' => 'notifications',
-                'fields'      => []
-            ]
+        $schema = [
+            'description' => 'notifications',
+            'fields'      => []
         ];
-        $schemadb = midcom_helper_datamanager2_schema::load_database($schemadb);
         $notifiers = $this->_list_notifiers();
 
         // Load actions of various components
@@ -174,14 +174,10 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
                 if (++$i == $total) {
                     $field_config['end_fieldset'] = '';
                 }
-
-                $schemadb['default']->append_field(
-                    str_replace([':', '.'], '_', $action_key),
-                    $field_config
-                );
+                $schema['fields'][str_replace([':', '.'], '_', $action_key)] = $field_config;
             }
         }
-        return $schemadb;
+        return new datamanager(new schemadb(['default' => $schema]));
     }
 
     private function _list_notifiers()

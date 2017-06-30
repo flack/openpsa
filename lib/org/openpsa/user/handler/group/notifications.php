@@ -7,19 +7,12 @@
  */
 
 /**
- * org.openpsa.contacts group handler and viewer class.
+ * org.openpsa.contacts group handler class.
  *
  * @package org.openpsa.user
  */
 class org_openpsa_user_handler_group_notifications extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_edit
 {
-    public function load_schemadb()
-    {
-        $notifier = new org_openpsa_notifications;
-        return $notifier->load_schemadb();
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
@@ -34,7 +27,12 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         midcom::get()->head->set_pagetitle($this->_l10n->get("notification settings"));
 
-        $workflow = $this->get_workflow('datamanager2', ['controller' => $this->get_controller('simple', $group)]);
+        $notifier = new org_openpsa_notifications;
+        $dm = $notifier
+            ->load_datamanager()
+            ->set_storage($group);
+
+        $workflow = $this->get_workflow('datamanager', ['controller' => $dm->get_controller()]);
         return $workflow->run();
     }
 }
