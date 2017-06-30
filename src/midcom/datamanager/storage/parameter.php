@@ -19,6 +19,10 @@ class parameter extends delayed
         if ($this->config['type'] === 'boolean') {
             $value = !!$value;
         }
+        if ($value === null && isset($this->config['default'])) {
+            $value = $this->config['default'];
+        }
+
         return $value;
     }
 
