@@ -104,7 +104,10 @@ class schema
             $builder->add($name, compat::get_type_name($config['widget']), $options);
         }
 
-        $options = ['operations' => $this->config['operations']];
+        $options = [
+            'operations' => $this->config['operations'],
+            'index_method' => 'noindex'
+        ];
 
         if (!empty($this->config['validation'])) {
             $cb_wrapper = new cb_wrapper($this->config['validation']);
