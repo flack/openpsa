@@ -19,11 +19,14 @@ class schemadb
     {
         $data = midcom_helper_misc::get_snippet_content($path);
         $data = midcom_helper_misc::parse_config($data);
-        $schemadb = new static;
+        return new static($data);
+    }
+
+    public function __construct(array $data = [])
+    {
         foreach ($data as $name => $config) {
-            $schemadb->add($name, new schema($config));
+            $this->add($name, new schema($config));
         }
-        return $schemadb;
     }
 
     public function add($name, schema $schema)
