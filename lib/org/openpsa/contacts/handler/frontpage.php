@@ -23,7 +23,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
         $data['tree'] = $this->_master->get_group_tree();
 
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')) {
             $buttons[] = $workflow->get_button('person/create/', [

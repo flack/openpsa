@@ -1,6 +1,4 @@
 <?php
-use Doctrine\ORM\Query\Expr\Join;
-
 /**
  * @package org.openpsa.contacts
  * @author Nemein Oy http://www.nemein.com/
@@ -8,13 +6,16 @@ use Doctrine\ORM\Query\Expr\Join;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Doctrine\ORM\Query\Expr\Join;
+use midcom\datamanager\datamanager;
+
 /**
  * org.openpsa.contacts group handler and viewer class.
  *
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_provider_client
+implements org_openpsa_widgets_grid_provider_client
 {
     /**
      * What type of group are we dealing with, organization or group?
@@ -25,24 +26,9 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
 
     private $group;
 
-    /**
-     * Loads and prepares the schema database.
-     *
-     * The operations are done on all available schemas within the DB.
-     */
-    public function load_schemadb()
-    {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
-    }
-
-    public function get_schema_name()
-    {
-        return $this->type;
-    }
-
     private function _populate_toolbar()
     {
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if ($this->group->can_do('midgard:update')) {
             $buttons = [
@@ -137,7 +123,10 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/editable.js");
             org_openpsa_widgets_ui::enable_ui_tab();
         }
-        $data['view'] = midcom_helper_datamanager2_handler::get_view($this, $this->group);
+
+        $data['view'] = datamanager::from_schemadb($this->_config->get('schemadb_group'))
+            ->set_storage($this->group, $this->type)
+            ->get_content_html();
 
         // Add toolbar items
         $this->_populate_toolbar();

@@ -202,7 +202,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
     private function _populate_toolbar()
     {
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')) {
             $buttons[] = $workflow->get_button('person/create/', [

@@ -6,9 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * OpenPSA Contact registers/user manager
- *
  *
  * @package org.openpsa.contacts
  */
@@ -22,14 +23,14 @@ implements midcom_services_permalinks_resolver
     {
         $qb_organisations = org_openpsa_contacts_group_dba::new_query_builder();
         $qb_organisations->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
-        $organisation_schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_group'));
+        $organisation_dm = datamanager::from_schemadb($config->get('schemadb_group'));
 
         $qb_persons = org_openpsa_contacts_person_dba::new_query_builder();
-        $person_schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_person'));
+        $person_dm = datamanager::from_schemadb($config->get('schemadb_person'));
 
         $indexer = new org_openpsa_contacts_midcom_indexer($topic, $indexer);
-        $indexer->add_query('organisations', $qb_organisations, $organisation_schema);
-        $indexer->add_query('persons', $qb_persons, $person_schema);
+        $indexer->add_query('organisations', $qb_organisations, $organisation_dm);
+        $indexer->add_query('persons', $qb_persons, $person_dm);
 
         return $indexer;
     }

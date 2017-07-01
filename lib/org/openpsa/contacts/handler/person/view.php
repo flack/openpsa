@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Person display class
  *
@@ -18,7 +20,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      *
      * @var org_openpsa_contacts_person_dba
      */
-    private $_contact = null;
+    private $_contact;
 
     /**
      * The user object for the current person, if any
@@ -30,9 +32,9 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     /**
      * The Datamanager of the contact
      *
-     * @var midcom_helper_datamanager2_datamanager
+     * @var datamanager
      */
-    private $_datamanager = null;
+    private $_datamanager;
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -47,12 +49,9 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
     private function _load_datamanager()
     {
-        $schemadb_person = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
-
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb_person);
-
-        $this->_datamanager->set_schema($this->_master->get_person_schema($this->_contact));
-        $this->_datamanager->set_storage($this->_contact);
+        $schemaname = $this->_master->get_person_schema($this->_contact);
+        $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_person'))
+            ->set_storage($this->_contact, $schemaname);
     }
 
     /**
@@ -85,7 +84,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         org_openpsa_widgets_ui::enable_ui_tab();
         $this->_populate_toolbar($handler_id);
 
-        $this->bind_view_to_object($this->_contact, $this->_datamanager->schema_name);
+        $this->bind_view_to_object($this->_contact, $this->_datamanager->get_schema()->get_name());
 
         $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);
         midcom::get()->head->set_pagetitle($this->_contact->name);
@@ -98,7 +97,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     private function _populate_toolbar($handler_id)
     {
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if ($this->_contact->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("person/edit/{$this->_contact->guid}/", [

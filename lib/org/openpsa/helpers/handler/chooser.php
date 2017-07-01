@@ -120,8 +120,9 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         switch ($this->_dbaclass) {
             case 'org_openpsa_contacts_person_dba':
-                $indexer = new org_openpsa_contacts_midcom_indexer($this->_node[MIDCOM_NAV_OBJECT]);
-                $indexer->index($this->_controller->datamanager);
+                // @todo Re-enable when this class is converted to new dm
+                //$indexer = new org_openpsa_contacts_midcom_indexer($this->_node[MIDCOM_NAV_OBJECT]);
+                //$indexer->index($this->_controller->datamanager);
                 break;
             case 'org_openpsa_products_product_group_dba':
                 break;
