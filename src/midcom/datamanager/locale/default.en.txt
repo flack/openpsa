@@ -30,6 +30,10 @@ Delete
 The passwords do not match.
 ---STRINGEND
 
+---STRING type select: no selection
+No selection
+---STRINGEND
+
 ---STRING widget privilege: allow
 Allow
 ---STRINGEND

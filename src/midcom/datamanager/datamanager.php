@@ -240,11 +240,11 @@ class datamanager
         return $ret;
     }
 
-    public function display_view()
+    public function display_view($skip_empty = false)
     {
         $view = $this->get_form()->createView();
         $renderer = $this->get_renderer();
-        $renderer->set_template($view, new template\view($renderer));
+        $renderer->set_template($view, new template\view($renderer, $skip_empty));
         echo $renderer->block($view, 'form');
     }
 }

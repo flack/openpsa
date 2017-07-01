@@ -26,6 +26,10 @@ Usunąć
 Hasła nie pasują
 ---STRINGEND
 
+---STRING type select: no selection
+Brak wyboru
+---STRINGEND
+
 ---STRING widget privilege: allow
 Zezwalaj
 ---STRINGEND

@@ -5,6 +5,14 @@ use Symfony\Component\Form\FormView;
 
 class view extends base
 {
+    private $skip_empty = false;
+
+    public function __construct($renderer, $skip_empty = false)
+    {
+        parent::__construct($renderer);
+        $this->skip_empty = $skip_empty;
+    }
+
     public function form_start(FormView $view, array $data)
     {
         return "<div class=\"midcom_helper_datamanager2_view\">";
@@ -31,7 +39,10 @@ class view extends base
                     $string .= '<h2>' . $child->vars['start_fieldset']['title'] . '</h2>';
                 }
             }
-            $string .= $this->renderer->row($child);
+            if (   !$this->skip_empty
+                 || ($child->vars['data'] !== '' && $child->vars['data'] !== null && $child->vars['data'] !== [])) {
+                $string .= $this->renderer->row($child);
+            }
             if (    array_key_exists('end_fieldset', $child->vars)
                 && $child->vars['end_fieldset'] !== null) {
                 $end_fieldsets = max(1, (int) $child->vars['end_fieldset']);
@@ -41,6 +52,11 @@ class view extends base
             }
         }
         return $string;
+    }
+
+    public function form_rest(FormView $view, array $data)
+    {
+        return '';
     }
 
     public function hidden_row(FormView $view, array $data)
@@ -146,7 +162,13 @@ class view extends base
     public function autocomplete_widget(FormView $view, array $data)
     {
         $options = json_decode($data['handler_options'], true);
-        return implode(', ', $options['preset']);
+        $string = implode(', ', $options['preset']);
+
+        if ($string == '') {
+            $string = $this->renderer->humanize('type select: no selection');
+        }
+
+        return $string;
     }
 
     public function choice_widget_collapsed(FormView $view, array $data)

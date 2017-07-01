@@ -26,6 +26,10 @@ Poistaa
 Salasanat eivät täsmää
 ---STRINGEND
 
+---STRING type select: no selection
+Ei valintaa
+---STRINGEND
+
 ---STRING widget privilege: allow
 Salli
 ---STRINGEND

@@ -17,3 +17,7 @@ Kan ikke finne ut hvilket bilde å vise, viser en liste.
 ---STRING passwords do not match
 Passordene er ikke like.
 ---STRINGEND
+
+---STRING type select: no selection
+Ikke valgt
+---STRINGEND

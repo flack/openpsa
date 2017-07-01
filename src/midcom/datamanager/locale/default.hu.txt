@@ -13,3 +13,7 @@ Archivált kép
 ---STRING passwords do not match
 A jelszavak nem egyeznek.
 ---STRINGEND
+
+---STRING type select: no selection
+Nincs kijelölve
+---STRINGEND

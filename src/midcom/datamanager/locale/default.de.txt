@@ -30,6 +30,10 @@ Löschen
 Die Passwörter stimmen nicht überein.
 ---STRINGEND
 
+---STRING type select: no selection
+Keine Auswahl
+---STRINGEND
+
 ---STRING widget privilege: allow
 Erlauben
 ---STRINGEND
