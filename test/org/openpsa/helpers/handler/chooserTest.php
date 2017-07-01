@@ -32,11 +32,11 @@ class org_openpsa_helpers_handler_chooserTest extends openpsa_testcase
         $this->assertEquals('____mfa-org.openpsa.helpers-chooser_create', $data['handler_id']);
 
         $formdata = [
-            'salutation' => 'mr',
+            'salutation' => '0',
             'lastname' => 'test',
             'email' => 'test@openpsa2.org'
         ];
-        $this->set_dm2_formdata($data['controller'], $formdata);
+        $this->set_dm_formdata($data['controller'], $formdata);
 
         $data = $this->run_handler('org.openpsa.sales', $handler_args);
         $output = $this->show_handler($data);

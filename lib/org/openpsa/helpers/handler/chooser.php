@@ -1,4 +1,7 @@
 <?php
+use midcom\datamanager\datamanager;
+use midcom\datamanager\controller;
+
 /**
  * @package org.openpsa.helpers
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
@@ -12,21 +15,20 @@
  * @package org.openpsa.helpers
  */
 class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * The DBA class of the new object.
      *
      * @var string
      */
-    private $_dbaclass = '';
+    private $_dbaclass;
 
     /**
      * The NAP node for the component the DBA class is from.
      *
      * @var array
      */
-    private $_node = null;
+    private $_node;
 
     /**
      * The current action
@@ -38,16 +40,16 @@ implements midcom_helper_datamanager2_interfaces_create
     /**
      * The Controller of the document used for creating
      *
-     * @var midcom_helper_datamanager2_controller_simple
+     * @var controller
      */
-    private $_controller = null;
+    private $_controller;
 
     /**
      * The object we're working on, if any
      *
      * @param midcom_core_dbaobject
      */
-    private $_object = null;
+    private $_object;
 
     public function _on_initialize()
     {
@@ -63,12 +65,13 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_dbaclass = $args[0];
         midcom::get()->auth->require_user_do('midgard:create', null, $this->_dbaclass);
+        $this->_object = new $this->_dbaclass();
 
         $this->_load_component_node();
 
-        $this->_controller = $this->get_controller('create');
+        $this->_controller = $this->load_controller();
 
-        switch ($this->_controller->process_form()) {
+        switch ($this->_controller->process()) {
             case 'save':
                 $this->_post_create_actions();
                 //TODO: indexing
@@ -85,32 +88,14 @@ implements midcom_helper_datamanager2_interfaces_create
         midcom::get()->skip_page_style = true;
     }
 
-    public function get_schema_defaults()
+    private function load_controller()
     {
-        if (empty($_GET['defaults'])) {
-            return [];
-        }
-        return $_GET['defaults'];
-    }
+        $defaults = empty($_GET['defaults']) ? [] : $_GET['defaults'];
 
-    public function load_schemadb()
-    {
-        return midcom_helper_datamanager2_schema::load_database($this->_get_schemadb_snippet());
-    }
-
-    /**
-     * This is what Datamanager calls to actually create an invoice
-     */
-    public function & dm2_create_callback(&$datamanager)
-    {
-        $this->_object = new $this->_dbaclass();
-
-        if (!$this->_object->create()) {
-            debug_print_r('We operated on this object:', $this->_object);
-            throw new midcom_error("Failed to create a new object. Error: " . midcom_connection::get_error_string());
-        }
-
-        return $this->_object;
+        return datamanager::from_schemadb($this->_get_schemadb_snippet())
+            ->set_defaults($defaults)
+            ->set_storage($this->_object)
+            ->get_controller();
     }
 
     /**
@@ -120,9 +105,8 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         switch ($this->_dbaclass) {
             case 'org_openpsa_contacts_person_dba':
-                // @todo Re-enable when this class is converted to new dm
-                //$indexer = new org_openpsa_contacts_midcom_indexer($this->_node[MIDCOM_NAV_OBJECT]);
-                //$indexer->index($this->_controller->datamanager);
+                $indexer = new org_openpsa_contacts_midcom_indexer($this->_node[MIDCOM_NAV_OBJECT]);
+                $indexer->index($this->_controller->get_datamanager());
                 break;
             case 'org_openpsa_products_product_group_dba':
                 break;

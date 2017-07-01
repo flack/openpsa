@@ -7,7 +7,7 @@ class datamanager_form extends base
 {
     public function form_start(FormView $view, array $data)
     {
-        return '[ "' . $data['name'] . '" => [';
+        return '["' . $data['name'] . '" => [';
     }
 
     public function form_end(FormView $view, array $data)
@@ -37,8 +37,7 @@ class datamanager_form extends base
 
     public function form_row(FormView $view, array $data)
     {
-        $string = '"' . $data['name'] . '" => ' . $this->renderer->widget($view);
-        return $string . ',';
+        return '"' . $data['name'] . '" => ' . $this->renderer->widget($view) . ',';
     }
 
     public function button_row(FormView $view, array $data)
@@ -57,6 +56,21 @@ class datamanager_form extends base
     public function form_widget_simple(FormView $view, array $data)
     {
         return '"' . $data['value'] . '"';
+    }
+
+    public function photo_widget(FormView $view, array $data)
+    {
+        return '[]';
+    }
+
+    public function radiocheckselect_widget(FormView $view, array $data)
+    {
+        foreach ($view->children as $child) {
+            if ($child->vars['checked']) {
+                return '"' . $child->vars['value']. '"';
+            }
+        }
+        return '';
     }
 
     public function autocomplete_widget(FormView $view, array $data)
