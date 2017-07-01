@@ -288,7 +288,7 @@ class midcom_services_indexer implements EventSubscriberInterface
      *
      * The checking sequence is like this right now:
      *
-     * 1. If a datamanager instance is passed, it is transformed into a midcom_helper_datamanager2_indexer_document.
+     * 1. If a datamanager instance is passed, it is transformed into a datamanager document.
      * 2. If a Metadata object is passed, it is transformed into a midcom_services_indexer_document_midcom.
      * 3. Next, the method tries to retrieve a MidCOM Metadata object using the parameter directly. If successful,
      *    again, a midcom_services_indexer_document_midcom is returned.
@@ -306,6 +306,10 @@ class midcom_services_indexer implements EventSubscriberInterface
     function new_document($object)
     {
         // Scan for datamanager instances.
+        if (is_a($object, 'midcom\datamanager\datamanager')) {
+            debug_add('This is a datamanager document');
+            return new midcom\datamanager\indexer\document($object);
+        }
         if (is_a($object, 'midcom_helper_datamanager2_datamanager')) {
             debug_add('This is a datamanager2 document');
             return new midcom_helper_datamanager2_indexer_document($object);
