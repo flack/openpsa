@@ -29,7 +29,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         $this->_request_data['product'] = $this->_product;
 
         if ($this->_product->can_do('midgard:update')) {
-            $workflow = $this->get_workflow('datamanager2');
+            $workflow = $this->get_workflow('datamanager');
             $this->_view_toolbar->add_item($workflow->get_button("product/edit/{$this->_product->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]));

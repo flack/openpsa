@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+use midcom\datamanager\controller;
+
 /**
  * Product editing class
  *
@@ -31,28 +34,25 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
     {
         $this->_group = new org_openpsa_products_product_group_dba($args[0]);
 
-        $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
-        $data['controller']->schemadb =& $this->_request_data['schemadb_group'];
-        $data['controller']->set_storage($this->_group);
-        if (!$data['controller']->initialize()) {
-            throw new midcom_error("Failed to initialize a DM2 controller instance for product {$this->_group->id}.");
-        }
+        $data['controller'] = datamanager::from_schemadb($this->_config->get('schemadb_group'))
+            ->set_storage($this->_group)
+            ->get_controller();
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->title));
 
-        $workflow = $this->get_workflow('datamanager2', [
+        $workflow = $this->get_workflow('datamanager', [
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
         return $workflow->run();
     }
 
-    public function save_callback(midcom_helper_datamanager2_controller $controller)
+    public function save_callback(controller $controller)
     {
         if ($this->_config->get('index_groups')) {
             // Index the group
             $indexer = midcom::get()->indexer;
-            org_openpsa_products_viewer::index($controller->datamanager, $indexer, $this->_topic);
+            org_openpsa_products_viewer::index($controller->get_datamanager(), $indexer, $this->_topic);
         }
         midcom::get()->cache->invalidate($this->_topic->guid);
         return "{$this->_group->guid}/";

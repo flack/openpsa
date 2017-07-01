@@ -100,7 +100,7 @@
 // Handle /product/edit/<product guid>
 'edit_product' => Array
 (
-    'handler' => Array('org_openpsa_products_handler_product_crud', 'update'),
+    'handler' => Array('org_openpsa_products_handler_product_admin', 'update'),
     'fixed_args' => Array('product', 'edit'),
     'variable_args' => 1,
 ),
@@ -108,7 +108,7 @@
 // Handle /product/delete/<product guid>
 'delete_product' => Array
 (
-    'handler' => Array('org_openpsa_products_handler_product_crud', 'delete'),
+    'handler' => Array('org_openpsa_products_handler_product_admin', 'delete'),
     'fixed_args' => Array('product', 'delete'),
     'variable_args' => 1,
 ),

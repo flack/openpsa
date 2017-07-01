@@ -167,7 +167,7 @@ implements org_openpsa_widgets_grid_provider_client
         $allow_create_product = midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
 
         if (!empty($this->_request_data['group'])) {
-            $workflow = $this->get_workflow('datamanager2');
+            $workflow = $this->get_workflow('datamanager');
             $this->_view_toolbar->add_item($workflow->get_button("edit/{$this->_request_data['group']->guid}/", [
                 MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -187,7 +187,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     private function _add_schema_buttons($schemadb_name, $default_icon, $prefix, $allowed)
     {
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         foreach (array_keys($this->_request_data[$schemadb_name]) as $name) {
             $config = [
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . $default_icon . '.png',

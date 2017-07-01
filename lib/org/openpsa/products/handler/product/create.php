@@ -6,79 +6,47 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\controller;
+use midcom\datamanager\schemadb;
+use midcom\datamanager\datamanager;
+
 /**
  * Product database create product handler
  *
  * @package org.openpsa.products
  */
 class org_openpsa_products_handler_product_create extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_create
 {
     /**
-     * The article which has been created
+     * The product we're working on
      *
      * @var org_openpsa_products_product_dba
      */
     private $_product = null;
 
     /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
-     */
-    private $_schemadb = null;
-
-    /**
-     * The schema to use for the new article.
-     *
-     * @var string
-     */
-    private $_schema = 'default';
-
-    /**
-     *
      * @var org_openpsa_products_product_group_dba
      */
     private $parent;
 
-    /**
-     * Loads and prepares the schema database.
-     *
-     * The operations are done on all available schemas within the DB.
-     */
-    public function load_schemadb()
+    private function load_controller($schema)
     {
-        $this->_schemadb =& $this->_request_data['schemadb_product'];
-        return $this->_schemadb;
-    }
-
-    public function get_schema_name()
-    {
-        return $this->_schema;
-    }
-
-    public function get_schema_defaults()
-    {
-        if (!$this->parent) {
-            return [];
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_product'));
+        if (!$schemadb->has($schema)) {
+            throw new midcom_error_notfound('Schema ' . $schema . ' was not found in schemadb');
         }
-        return ['productGroup' => $this->parent->id];
-    }
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schemadb->get($schema)->get('description'))));
 
-    /**
-     * DM2 creation callback, binds to the current content topic.
-     */
-    public function & dm2_create_callback(&$controller)
-    {
-        $this->_product = new org_openpsa_products_product_dba();
-        $this->_product->productGroup = $controller->formmanager->get_value('productGroup');
-
-        if (!$this->_product->create()) {
-            debug_print_r('We operated on this object:', $this->_product);
-            throw new midcom_error("Failed to create a new product under product group #{$this->_product->productGroup}. Error: " . midcom_connection::get_error_string());
+        $defaults = [];
+        if ($this->parent) {
+            $defaults['productGroup'] = $this->parent->id;
         }
 
-        return $this->_product;
+        $dm = new datamanager($schemadb);
+        return $dm
+            ->set_defaults($defaults)
+            ->set_storage($this->_product, $schema)
+            ->get_controller();
     }
 
     /**
@@ -91,21 +59,16 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_create($handler_id, array $args, array &$data)
     {
         $this->find_parent($args);
-
+        $this->_product = new org_openpsa_products_product_dba();
         if ($handler_id == 'create_product') {
-            $this->_schema = $args[0];
+            $schema = $args[0];
         } else {
-            $this->_schema = $args[1];
+            $schema = $args[1];
         }
 
-        if (!array_key_exists($this->_schema, $data['schemadb_product'])) {
-            throw new midcom_error_notfound('Schema ' . $this->_schema . ' was not found in schemadb');
-        }
+        $data['controller'] = $this->load_controller($schema);
 
-        $data['controller'] = $this->get_controller('create');
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
-
-        $workflow = $this->get_workflow('datamanager2', [
+        $workflow = $this->get_workflow('datamanager', [
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
@@ -144,12 +107,12 @@ implements midcom_helper_datamanager2_interfaces_create
         }
     }
 
-    public function save_callback(midcom_helper_datamanager2_controller $controller)
+    public function save_callback(controller $controller)
     {
         if ($this->_config->get('index_products')) {
             // Index the product
             $indexer = midcom::get()->indexer;
-            org_openpsa_products_viewer::index($controller->datamanager, $indexer, $this->_topic);
+            org_openpsa_products_viewer::index($controller->get_datamanager(), $indexer, $this->_topic);
         }
 
         midcom::get()->cache->invalidate($this->_product->guid);

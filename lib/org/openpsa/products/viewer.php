@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * This is the class that defines which URLs should be handled by this module.
  *
@@ -16,17 +18,17 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     /**
      * Indexes a product
      *
-     * @param midcom_helper_datamanager2_datamanager $dm The Datamanager encapsulating the event.
+     * @param datamanager $dm The Datamanager encapsulating the object.
      * @param midcom_services_indexer $indexer The indexer instance to use.
      * @param midcom_db_topic|midcom_core_dbaproxy The topic which we are bound to. If this is not an object, the code
      *     tries to load a new topic instance from the database identified by this parameter.
      */
-    public static function index($dm, $indexer, $topic, $config = null)
+    public static function index(datamanager $dm, $indexer, $topic, $config = null)
     {
         if ($config == null) {
             $config = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config');
         }
-        $object = $dm->storage->object;
+        $object = $dm->get_storage()->get_value();
 
         $document = $indexer->new_document($dm);
         if (   $config->get('enable_scheduling')
@@ -48,7 +50,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         $node = $nav->get_node($topic->id);
         $document->topic_url = $node[MIDCOM_NAV_FULLURL];
         $document->read_metadata_from_object($object);
-        $document->content = "{$dm->schema->name} {$dm->schema->description} {$document->content}";
+        $document->content = "{$dm->get_schema()->get_name()} {$dm->get_schema()->get('description')} {$document->content}";
         $indexer->index($document);
     }
 
@@ -74,7 +76,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                 ];
             }
             if ($this->_topic->can_do('midcom:component_config')) {
-                $workflow = $this->get_workflow('datamanager2');
+                $workflow = $this->get_workflow('datamanager');
                 $buttons[] = $workflow->get_button('config/', [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),

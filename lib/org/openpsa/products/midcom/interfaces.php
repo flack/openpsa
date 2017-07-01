@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * @package org.openpsa.products
  */
@@ -55,13 +57,10 @@ implements midcom_services_permalinks_resolver
             debug_add("No indexing to groups and products, skipping", MIDCOM_LOG_WARN);
             return true;
         }
-        $dms = [];
-        $schemadb_group = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_group'));
-        $dms['group'] = new midcom_helper_datamanager2_datamanager($schemadb_group);
-
-        $schemadb_product = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_product'));
-        $dms['product'] = new midcom_helper_datamanager2_datamanager($schemadb_product);
-
+        $dms = [
+            'group' => datamanager::from_schemadb($config->get('schemadb_group')),
+            'product' => datamanager::from_schemadb($config->get('schemadb_product'))
+        ];
         $qb = org_openpsa_products_product_group_dba::new_query_builder();
         $topic_root_group_guid = $topic->get_parameter('org.openpsa.products', 'root_group');
         if (!mgd_is_guid($topic_root_group_guid)) {
@@ -80,25 +79,26 @@ implements midcom_services_permalinks_resolver
 
     public function _on_reindex_tree_iterator(&$indexer, array $dms, $topic, $group, $config)
     {
-        if ($dms['group']->autoset_storage($group)) {
-            if ($config->get('index_groups')) {
+        if ($config->get('index_groups')) {
+            try {
+                $dms['group']->set_storage($group);
                 org_openpsa_products_viewer::index($dms['group'], $indexer, $topic, $config);
+            } catch (midcom_error $e) {
+                $e->log(MIDCOM_LOG_WARN);
             }
-        } else {
-            debug_add("Warning, failed to initialize datamanager for product group {$group->id}. Skipping it.", MIDCOM_LOG_WARN);
         }
-
         if ($config->get('index_products')) {
             $qb_products = org_openpsa_products_product_dba::new_query_builder();
             $qb_products->add_constraint('productGroup', '=', $group->id);
             $products = $qb_products->execute();
 
             foreach ($products as $product) {
-                if (!$dms['product']->autoset_storage($product)) {
-                    debug_add("Warning, failed to initialize datamanager for product {$product->id}. Skipping it.", MIDCOM_LOG_WARN);
-                    continue;
+                try {
+                    $dms['product']->set_storage($product);
+                    org_openpsa_products_viewer::index($dms['product'], $indexer, $topic, $config);
+                } catch (midcom_error $e) {
+                    $e->log(MIDCOM_LOG_WARN);
                 }
-                org_openpsa_products_viewer::index($dms['product'], $indexer, $topic, $config);
             }
         }
 

@@ -37,7 +37,7 @@ class org_openpsa_products_handler_product_createTest extends openpsa_testcase
             ],
         ];
 
-        $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.products', ['product', 'create', 'default']);
+        $this->submit_dm_no_relocate_form('controller', $formdata, 'org.openpsa.products', ['product', 'create', 'default']);
         $url = $this->get_dialog_url();
         $qb = org_openpsa_products_product_dba::new_query_builder();
         $qb->add_constraint('productGroup', '=', self::$_group->id);
