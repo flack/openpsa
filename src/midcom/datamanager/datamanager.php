@@ -122,6 +122,11 @@ class datamanager
             && !empty($storage->id)) {
             $schema = $storage->get_parameter('midcom.helper.datamanager2', 'schema_name');
         }
+
+        if ($schema && !$this->schemadb->has($schema)) {
+            debug_add("Given schema name {$schema} was not found, reverting to default.", MIDCOM_LOG_INFO);
+            $schema = null;
+        }
         $this->schema = ($schema) ? $this->schemadb->get($schema) : $this->schemadb->get_first();
 
         $defaults = array_merge($this->schema->get_defaults(), $this->defaults);

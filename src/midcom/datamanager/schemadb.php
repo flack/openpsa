@@ -55,8 +55,12 @@ class schemadb
         return reset($this->schemas);
     }
 
+    public function has($name)
+    {
+        return array_key_exists($name, $this->schemas);
+    }
+
     /**
-     *
      * @param string $name
      * @return schema
      */
