@@ -73,9 +73,9 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
             foreach ($vat_array as $vat) {
                 $vat_values[$vat] = "{$vat}%";
             }
+            $vat_field =& $schemadb->get('default')->get_field('vat');
+            $vat_field['type_config']['options'] = $vat_values;
         }
-        $vat_field =& $schemadb->get('default')->get_field('vat');
-        $vat_field['type_config']['options'] = $vat_values;
 
         if ($this->_config->get('invoice_pdfbuilder_class')) {
             $pdf_field =& $schemadb->get('default')->get_field('pdf_file');
