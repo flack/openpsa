@@ -188,6 +188,7 @@ class schema
             'default' => null,
             'storage' => '__UNSET__',
             'index_method' => 'auto',
+            'index_merge_with_content' => true,
             'start_fieldset' => null,
             'end_fieldset' => null,
             'validation' => [],
