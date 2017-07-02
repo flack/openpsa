@@ -86,6 +86,14 @@ class view extends base
         return $string . '</div></div>';
     }
 
+    public function blobs_row(FormView $view, array $data)
+    {
+        if (empty($data['value']['url'])) {
+            return '';
+        }
+        return '<a href="' . $data['value']['url'] . '">' . $data['value']['title'] . '</a>';
+    }
+
     public function form_label(FormView $view, array $data)
     {
         if ($data['label'] === false) {
