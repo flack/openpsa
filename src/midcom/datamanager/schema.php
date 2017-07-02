@@ -127,6 +127,11 @@ class schema
         return $this->config[$key];
     }
 
+    public function set($key, $value)
+    {
+        $this->config[$key] = $value;
+    }
+
     /**
      * Returns reference to field config (for on the fly modification)
      *
