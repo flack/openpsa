@@ -2,6 +2,7 @@
 namespace midcom\datamanager\template;
 
 use Symfony\Component\Form\FormView;
+use midcom;
 
 class view extends base
 {
@@ -183,6 +184,14 @@ class view extends base
         return '';
     }
 
+    public function checkbox_widget(FormView $view, $data)
+    {
+        if ($data['value']) {
+            return '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/ok.png" alt="selected" />';
+        }
+        return '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/cancel.png" alt="not selected" />';
+    }
+
     public function codemirror_widget(FormView $view, array $data)
     {
         $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes') . '>';
@@ -202,11 +211,14 @@ class view extends base
 
     public function jsdate_widget(FormView $view, array $data)
     {
-        $string = $this->renderer->widget($view['date']);
-
-        if (isset($view['time'])) {
-            $string .= ' '. $this->renderer->widget($view['time']);
+        if (empty($data['value']['date'])) {
+            return '';
         }
-        return $string;
+
+        $time_format = 'none';
+        if (isset($view['time'])) {
+            $time_format = (isset($data['value']['seconds'])) ? 'medium' : 'short';
+        }
+        return midcom::get()->i18n->get_l10n()->get_formatter()->date($data['value']['date'], 'medium', $time_format);
     }
 }
