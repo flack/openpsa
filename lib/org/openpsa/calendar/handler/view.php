@@ -7,6 +7,8 @@
  */
 
 use Doctrine\ORM\Query\Expr\Join;
+use midcom\datamanager\schemadb;
+use midcom\datamanager\datamanager;
 
 /**
  * org.openpsa.calendar site interface class.
@@ -18,9 +20,9 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     /**
      * Datamanager2 instance
      *
-     * @var midcom_helper_datamanager2_datamanager
+     * @var datamanager
      */
-    private $_datamanager;
+    private $datamanager;
 
     /**
      * The calendar root event
@@ -50,7 +52,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      */
     public function _handler_calendar($handler_id, array $args, array &$data)
     {
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         midcom::get()->auth->require_valid_user();
         $buttons = [];
         if ($this->_root_event->can_do('midgard:create')) {
@@ -265,7 +267,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
         midcom::get()->skip_page_style = ($handler_id == 'event_view_raw');
 
-        $this->_load_datamanager();
+        $this->load_datamanager();
 
         // Add toolbar items
         $buttons = [
@@ -308,21 +310,16 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         return $this->get_workflow('viewer')->run();
     }
 
-    private function _load_datamanager()
+    private function load_datamanager()
     {
         // Load schema database
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-
+        $schemadb = schemadb::from_path($this->_config->get('schemadb'));
+        $schema = null;
         if (!$this->_request_data['event']->can_do('org.openpsa.calendar:read')) {
-            $stat =    $this->_datamanager->set_schema('private')
-                    && $this->_datamanager->set_storage($this->_request_data['event']);
-        } else {
-            $stat = $this->_datamanager->autoset_storage($this->_request_data['event']);
+            $schema = 'private';
         }
-        if (!$stat) {
-            throw new midcom_error('Failed to load the event in datamanager');
-        }
+        $this->datamanager = new datamanager($schemadb);
+        $this->datamanager->set_storage($this->_request_data['event']);
     }
 
     /**
@@ -338,7 +335,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
             $data['title'] = sprintf($this->_l10n->get('event %s'), $data['event']->title);
 
             // Show popup
-            $data['event_dm'] = $this->_datamanager;
+            $data['event_dm'] = $this->datamanager;
             midcom_show_style('show-event');
         } else {
             midcom_show_style('show-event-raw');

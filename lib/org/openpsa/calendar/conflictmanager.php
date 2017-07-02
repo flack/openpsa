@@ -34,9 +34,10 @@ class org_openpsa_calendar_conflictmanager
      */
     private $_event;
 
-    public function __construct(org_openpsa_calendar_event_dba $event)
+    public function __construct(org_openpsa_calendar_event_dba $event, midcom_services_i18n_l10n $l10n = null)
     {
         $this->_event = $event;
+        $this->l10n = $l10n;
     }
 
     /**
@@ -47,21 +48,15 @@ class org_openpsa_calendar_conflictmanager
      */
     public function validate_form(array $input)
     {
-        if (array_key_exists('busy', $input)) {
-            $this->_event->busy = $input['busy'];
-        }
-        if (array_key_exists('participants', $input)) {
-            $this->_event->participants = array_fill_keys(json_decode($input['participants']['selection']), true);
-        }
-        if (array_key_exists('start_date', $input)) {
-            $this->_event->start = strtotime($input['start_date'] . ' ' . $input['start_hours'] . ':' . $input['start_minutes'] . ':01');
-        }
-        if (array_key_exists('end_date', $input)) {
-            $this->_event->end = strtotime($input['end_date'] . ' ' . $input['end_hours'] . ':' . $input['end_minutes'] . ':00');
-        }
+        $this->_event->busy = $input['busy'];
+        $this->_event->participants = array_flip($input['participants']);
+        $this->_event->start = $input['start'] + 1;
+        $this->_event->end = $input['end'];
 
         if (!$this->run($this->_event->rob_tentative)) {
-            return ['participants' => ''];
+            return [
+                'participants' => $this->l10n->get('event conflict') . "\n" . $this->get_message($this->l10n->get_formatter())
+            ];
         }
 
         return true;

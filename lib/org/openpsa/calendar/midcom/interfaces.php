@@ -6,9 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * OpenPSA group calendar
- *
  *
  * @package org.openpsa.calendar
  */
@@ -26,7 +27,8 @@ implements midcom_services_permalinks_resolver
         $event->title = '__org_openpsa_calendar';
         //Fill in dummy dates to get around date range error
         $event->start = time();
-        $event->end = time() + 1;
+        $event->end = time() + 3600;
+
         $ret = $event->create();
         midcom::get()->auth->drop_sudo();
         if (!$ret) {
@@ -98,10 +100,10 @@ implements midcom_services_permalinks_resolver
 
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
         $qb->add_constraint('up', '=',  $root_event->id);
-        $schemadb = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
+        $dm = datamanager::from_schemadb($config->get('schemadb'));
 
         $indexer = new org_openpsa_calendar_midcom_indexer($topic, $indexer);
-        $indexer->add_query('events', $qb, $schemadb);
+        $indexer->add_query('events', $qb, $dm);
 
         return $indexer;
     }
@@ -115,7 +117,7 @@ implements midcom_services_permalinks_resolver
             throw new midcom_error('given node is not valid');
         }
 
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = new midcom\workflow\datamanager;
         return $workflow->get_button($node[MIDCOM_NAV_ABSOLUTEURL] . "event/new/" . $url, [
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create event', 'org.openpsa.calendar'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',

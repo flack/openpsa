@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\schemadb;
+use midcom\datamanager\datamanager;
+
 /**
  * org.openpsa.calendar site interface class.
  *
@@ -38,31 +41,26 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         $this->_event = new org_openpsa_calendar_event_dba($args[0]);
         $this->_event->require_do('midgard:update');
 
-        // Load schema database
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-
-        // Load the controller
-        $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
-        $data['controller']->schemadb = $schemadb;
-        $data['controller']->set_storage($this->_event);
-        if (!$data['controller']->initialize()) {
-            throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
+        $conflictmanager = new org_openpsa_calendar_conflictmanager($this->_event, $this->_l10n);
+        $schemadb = schemadb::from_path($this->_config->get('schemadb'));
+        foreach ($schemadb->all() as $schema) {
+            $schema->set('validation', [['callback' => [$conflictmanager, 'validate_form']]]);
         }
+        $dm = new datamanager($schemadb);
+        $data['controller'] = $dm
+            ->set_storage($this->_event)
+            ->get_controller();
+
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('edit %s'), $this->_event->title));
 
-        $conflictmanager = new org_openpsa_calendar_conflictmanager($this->_event);
-        $data['controller']->formmanager->form->addFormRule([$conflictmanager, 'validate_form']);
-
-        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
+        $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
 
         $response = $workflow->run();
         if ($workflow->get_state() == 'save') {
             $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
-            $indexer->index($data['controller']->datamanager);
+            $indexer->index($data['controller']->get_datamanager());
             midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh();');
-        } elseif (!empty($conflictmanager->busy_members)) {
-            midcom::get()->uimessages->add($this->_l10n->get('event conflict'), $conflictmanager->get_message($this->_l10n->get_formatter()), 'warning');
         }
         return $response;
     }

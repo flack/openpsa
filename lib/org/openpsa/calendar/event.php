@@ -167,7 +167,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             $this->externalGuid = $this->old_externalGuid;
         }
 
-        return true;
+        return $this->_check_timerange();
     }
 
     private function _check_timerange()
@@ -186,12 +186,12 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
          * Force start and end seconds to 1 and 0 respectively
          * (to avoid stupid one second overlaps)
          */
-        $this->start = mktime(  date('G', $this->start),
-                                date('i', $this->start),
-                                1,
-                                date('n', $this->start),
-                                date('j', $this->start),
-                                date('Y', $this->start));
+        $this->start = mktime(date('G', $this->start),
+                              date('i', $this->start),
+                              1,
+                              date('n', $this->start),
+                              date('j', $this->start),
+                              date('Y', $this->start));
         $this->end = mktime(date('G', $this->end),
                             date('i', $this->end),
                             0,
@@ -303,11 +303,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     public function _on_updating()
     {
         //TODO: Handle repeats
-        if (!$this->_prepare_save()) {
-            return false;
-        }
-
-        return $this->_check_timerange();
+        return $this->_prepare_save();
     }
 
     public function _on_updated()

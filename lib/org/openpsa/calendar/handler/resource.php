@@ -6,36 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_handler_resource extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_create
 {
-    /**
-     * @var org_openpsa_calendar_resource_dba
-     */
-    private $resource;
-
-    public function load_schemadb()
-    {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_resource'));
-    }
-
-    /**
-     * DM2 creation callback, binds to the current content topic.
-     */
-    public function & dm2_create_callback(&$controller)
-    {
-        $this->resource= new org_openpsa_calendar_resource_dba();
-        if (!$this->resource->create()) {
-            debug_print_r('We operated on this object:', $this->resource);
-            throw new midcom_error('Failed to create a new resource. Last Midgard error was: ' . midcom_connection::get_error_string());
-        }
-
-        return $this->resource;
-    }
-
     /**
      * Handle the creation phase
      *
@@ -46,11 +23,14 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_create($handler_id, array $args, array &$data)
     {
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('resource')));
+        $resource = new org_openpsa_calendar_resource_dba();
 
         // Load the controller instance
-        $data['controller'] = $this->get_controller('create');
+        $data['controller'] = datamanager::from_schemadb($this->_config->get('schemadb_resource'))
+            ->set_storage($resource)
+            ->get_controller();
 
-        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
+        $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
         return $workflow->run();
     }
 }

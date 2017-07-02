@@ -23,11 +23,6 @@ class midcom_helper_datamanager2_widget_jsdateTest extends openpsa_testcase
             'test_jsdate_1_hours' => "00",
             'test_jsdate_1_minutes' => "00"
         ];
-        $empty_values = [
-            'test_jsdate_0_date' => "0000-00-00",
-            'test_jsdate_0_hours' => "00",
-            'test_jsdate_0_minutes' => "00"
-        ];
 
         $dm2_helper = new openpsa_test_dm2_helper;
         $widget = $dm2_helper->get_widget('jsdate', 'date');
@@ -50,12 +45,10 @@ class midcom_helper_datamanager2_widget_jsdateTest extends openpsa_testcase
 
         $this->assertEquals($default_values, $widget->get_default(), 'create/default test failed');
 
-        $event = $this->create_object('org_openpsa_calendar_event_dba');
-        $dm2_helper = new openpsa_test_dm2_helper($event);
-        $widget = $dm2_helper->get_widget('jsdate', 'date', ['storage' => 'start']);
-
-        $this->assertEquals($empty_values, $widget->get_default(), 'simple test failed');
-        $event->start = $timestamp;
+        $event = $this->create_object('org_openpsa_calendar_event_dba', [
+            'start' => $timestamp,
+            'end' => $timestamp + 60 * 60
+        ]);
 
         $dm2_helper = new openpsa_test_dm2_helper($event);
         //Lazy workaround to reuse the default array from above

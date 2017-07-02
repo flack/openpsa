@@ -55,7 +55,10 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 
         $this->assertEquals($default_values, $widget->get_default(), 'create/default test failed');
 
-        $event = $this->create_object('org_openpsa_calendar_event_dba');
+        $event = $this->create_object('org_openpsa_calendar_event_dba', [
+            'start' => time() - 60 * 60,
+            'end' => time() + 60 * 60
+        ]);
         $dm2_helper = new openpsa_test_dm2_helper($event);
         $widget = $dm2_helper->get_widget('radiocheckselect', 'select', $config);
 
@@ -113,7 +116,10 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 
         $this->assertEquals($default_values, $widget->get_default(), 'create/default test failed');
 
-        $event = $this->create_object('org_openpsa_calendar_event_dba');
+        $event = $this->create_object('org_openpsa_calendar_event_dba', [
+            'start' => time() - 60 * 60,
+            'end' => time() + 60 * 60
+        ]);
         $dm2_helper = new openpsa_test_dm2_helper($event);
         $widget = $dm2_helper->get_widget('radiocheckselect', 'select', $config);
 

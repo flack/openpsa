@@ -18,20 +18,25 @@ class org_openpsa_calendar_handler_adminTest extends openpsa_testcase
         $this->create_user(true);
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
-        $event = $this->create_object('org_openpsa_calendar_event_dba');
+        $event = $this->create_object('org_openpsa_calendar_event_dba', [
+            'start' => time() - 60 * 60,
+            'end' => time() + 60 * 60
+        ]);
 
         $data = $this->run_handler('org.openpsa.calendar', ['event', 'edit', $event->guid]);
         $this->assertEquals('event_edit', $data['handler_id']);
 
         $formdata = [
-            'start_date' => '2009-10-11',
-            'start_hours' => '10',
-            'start_minutes' => '15',
-            'end_date' => '2009-10-11',
-            'end_hours' => '14',
-            'end_minutes' => '15'
+            'start' => [
+                'date' => '2009-10-11',
+                'time' => '10:15'
+            ],
+            'end' => [
+                'date' => '2009-10-11',
+                'time' => '14:15',
+            ]
         ];
-        $this->set_dm2_formdata($data['controller'], $formdata);
+        $this->set_dm_formdata($data['controller'], $formdata);
         $data = $this->run_handler('org.openpsa.calendar', ['event', 'edit', $event->guid]);
         $event->refresh();
 
@@ -46,7 +51,10 @@ class org_openpsa_calendar_handler_adminTest extends openpsa_testcase
         $this->create_user(true);
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
-        $event = $this->create_object('org_openpsa_calendar_event_dba');
+        $event = $this->create_object('org_openpsa_calendar_event_dba', [
+            'start' => time() - 60 * 60,
+            'end' => time() + 60 * 60
+        ]);
 
         $data = $this->run_handler('org.openpsa.calendar', ['event', 'delete', $event->guid]);
         $this->assertEquals('event_delete', $data['handler_id']);

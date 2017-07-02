@@ -35,7 +35,10 @@ class org_openpsa_contacts_duplicates_mergeTest extends openpsa_testcase
     {
         $person1 = $this->create_object('midcom_db_person');
         $person2 = $this->create_object('midcom_db_person');
-        $event = $this->create_object('org_openpsa_calendar_event_dba');
+        $event = $this->create_object('org_openpsa_calendar_event_dba', [
+            'start' => time() - 60 * 60,
+            'end' => time() + 60 * 60
+        ]);
         $this->create_object('org_openpsa_calendar_event_member_dba', ['uid' => $person1->id, 'eid' => $event->id]);
         $this->create_object('org_openpsa_calendar_event_member_dba', ['uid' => $person2->id, 'eid' => $event->id]);
         $config = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config');

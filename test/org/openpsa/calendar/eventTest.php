@@ -22,29 +22,29 @@ class org_openpsa_calendar_eventTest extends openpsa_testcase
         $event->_use_rcs = false;
 
         $stat = $event->create();
-        $this->assertTrue($stat);
+        $this->assertFalse($stat);
         $this->register_object($event);
 
         $root_event = org_openpsa_calendar_interface::find_root_event();
         $this->assertEquals($root_event->id, $event->up);
 
-        $stat = $event->update();
-        $this->assertFalse($stat);
-
         $start = $this->_mktime(time() - (60 * 60));
         $event->start = $start;
 
-        $stat = $event->update();
+        $stat = $event->create();
         $this->assertFalse($stat);
 
         $end = $this->_mktime(time() + (60 * 60));
         $event->end = $end;
 
-        $stat = $event->update();
+        $stat = $event->create();
         $this->assertTrue($stat);
 
         $this->assertEquals($start + 1, $event->start);
         $this->assertEquals($end, $event->end);
+
+        $stat = $event->update();
+        $this->assertTrue($stat);
 
         $stat = $event->delete();
         $this->assertTrue($stat, midcom_connection::get_error_string());

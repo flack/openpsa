@@ -6,70 +6,51 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+use midcom\datamanager\schemadb;
+
 /**
- * org.openpsa.calendar site interface class.
+ * Calendar create handler.
+ *
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_create
 {
-    /**
-     * The requested start time
-     *
-     * @var int
-     */
-    private $_requested_start;
-
-    /**
-     * The requested end time
-     *
-     * @var int
-     */
-    private $_requested_end;
-
-    /**
-     * @var string
-     */
-    private $resource;
-
-    public function load_schemadb()
+    private function load_controller(org_openpsa_calendar_conflictmanager $conflictmanager, array $args)
     {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-    }
+        $resource = (isset($args[0])) ? $args[0] : midcom::get()->auth->user->guid;
+        $event = new org_openpsa_calendar_event_dba();
+        $event->up = $this->_root_event->id;
 
-    public function get_schema_defaults()
-    {
         $defaults = ['participants' => []];
-        if ($person = midcom::get()->auth->get_user($this->resource)) {
+        if ($person = midcom::get()->auth->get_user($resource)) {
             $person = $person->get_storage();
-            $defaults['participants'][$person->id] = $person;
-        } elseif ($group = midcom::get()->auth->get_group($this->resource)) {
+            $defaults['participants'][] = $person->id;
+        } elseif ($group = midcom::get()->auth->get_group($resource)) {
             foreach ($group->list_members() as $member) {
                 $person = $member->get_storage();
-                $defaults['participants'][$person->id] = $person;
+                $defaults['participants'][] = $person->id;
+            }
+        }
+        if (!empty($_GET['start'])) {
+            $defaults['start'] = strtotime($_GET['start']);
+            if (!empty($_GET['end'])) {
+                $defaults['end']= strtotime($_GET['end']);
+            } else {
+                $defaults['end'] = $defaults['start'] + 3600;
             }
         }
 
-        if (!is_null($this->_requested_start)) {
-            $defaults['start'] = $this->_requested_start;
-            $defaults['end'] = $this->_requested_end;
-        }
-        return $defaults;
-    }
-
-    /**
-     * DM2 creation callback, binds to the current content topic.
-     */
-    public function & dm2_create_callback(&$controller)
-    {
-        $this->_event = new org_openpsa_calendar_event_dba();
-        $this->_event->up = $this->_root_event->id;
-        if (!$this->_event->create()) {
-            debug_print_r('We operated on this object:', $this->_event);
-            throw new midcom_error('Failed to create a new event. Last Midgard error was: ' . midcom_connection::get_error_string());
+        $schemadb = schemadb::from_path($this->_config->get('schemadb'));
+        foreach ($schemadb->all() as $schema) {
+            $schema->set('validation', [['callback' => [$conflictmanager, 'validate_form']]]);
         }
 
-        return $this->_event;
+        $dm = new datamanager($schemadb);
+        return $dm
+            ->set_defaults($defaults)
+            ->set_storage($event)
+            ->get_controller();
     }
 
     /**
@@ -84,33 +65,19 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_root_event = org_openpsa_calendar_interface::find_root_event();
         $this->_root_event->require_do('midgard:create');
 
-        $this->resource = (isset($args[0])) ? $args[0] : midcom::get()->auth->user->guid;
-
-        if (!empty($_GET['start'])) {
-            $this->_requested_start = strtotime($_GET['start']);
-            if (!empty($_GET['end'])) {
-                $this->_requested_end = strtotime($_GET['end']);
-            } else {
-                $this->_requested_end = $this->_requested_start + 3600;
-            }
-        }
-
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
         midcom::get()->head->set_pagetitle($this->_l10n->get('create event'));
 
-        $conflictmanager = new org_openpsa_calendar_conflictmanager(new org_openpsa_calendar_event_dba);
+        $conflictmanager = new org_openpsa_calendar_conflictmanager(new org_openpsa_calendar_event_dba, $this->_l10n);
         // Load the controller instance
-        $data['controller'] = $this->get_controller('create');
-        $data['controller']->formmanager->form->addFormRule([$conflictmanager, 'validate_form']);
+        $data['controller'] = $this->load_controller($conflictmanager, $args);
 
-        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
+        $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
         $response = $workflow->run();
         if ($workflow->get_state() == 'save') {
             $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
-            $indexer->index($data['controller']->datamanager);
+            $indexer->index($data['controller']->get_datamanager());
             midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh();');
-        } elseif (!empty($conflictmanager->busy_members)) {
-            midcom::get()->uimessages->add($this->_l10n->get('event conflict'), $conflictmanager->get_message($this->_l10n->get_formatter()), 'warning');
         }
         return $response;
     }
