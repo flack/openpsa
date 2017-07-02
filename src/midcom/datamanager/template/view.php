@@ -37,7 +37,7 @@ class view extends base
                 && $child->vars['start_fieldset'] !== null) {
                 $string .= '<div class="fieldset">';
                 if (!empty($child->vars['start_fieldset']['title'])) {
-                    $string .= '<h2>' . $child->vars['start_fieldset']['title'] . '</h2>';
+                    $string .= '<h2>' . $this->renderer->humanize($child->vars['start_fieldset']['title']) . '</h2>';
                 }
             }
             if (   !$this->skip_empty
