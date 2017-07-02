@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use midcom\datamanager\extension\compat;
+use midcom\datamanager\validation\laterthan;
 
 /**
  * Experimental jsdate type
@@ -52,9 +53,16 @@ class jsdate extends AbstractType
             $type_defaults = [
                 'storage_type' => jsdate::ISO,
                 'min_date' => null,
-                'max_date' => null
+                'max_date' => null,
+                'later_than' => null
             ];
             return helper::resolve_options($type_defaults, $value);
+        });
+        $resolver->setNormalizer('constraints', function (Options $options, $value) {
+            if ($options['type_config']['later_than']) {
+                return [new laterthan($options['type_config']['later_than'])];
+            }
+            return [];
         });
     }
 

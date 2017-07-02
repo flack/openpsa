@@ -25,7 +25,14 @@ class form extends base
     {
         $string = '';
         foreach ($data['errors'] as $error) {
-            $string .= '<div class="field_error">' . $this->renderer->humanize($error->getMessage()) . '</div>';
+            $params = $error->getMessageParameters();
+            $message = $error->getMessage();
+            foreach ($params as $param) {
+                if (strpos($message, $param)) {
+                    $message = str_replace($param, $this->renderer->humanize($param), $message);
+                }
+            }
+            $string .= '<div class="field_error">' . $this->renderer->humanize($message) . '</div>';
         }
 
         return $string;

@@ -10,6 +10,9 @@ namespace midcom\datamanager\storage;
  */
 interface node
 {
+    /**
+     * @return mixed
+     */
     public function get_value();
 
     /**
