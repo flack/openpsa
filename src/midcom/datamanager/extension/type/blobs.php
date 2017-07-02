@@ -21,7 +21,7 @@ class blobs extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('title', compat::get_type_name('text'));
-        $builder->add('file', compat::get_type_name('file'));
+        $builder->add('file', compat::get_type_name('file'), ['required' => false]);
         $builder->add('identifier', compat::get_type_name('hidden'));
         $builder->addViewTransformer(new transformer($options));
     }
