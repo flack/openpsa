@@ -6,63 +6,41 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\controller;
+use midcom\datamanager\datamanager;
+
 /**
- * org.openpsa.documents document handler and viewer class.
+ * Document handler class.
  *
  * @package org.openpsa.documents
  */
 class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_components_handler
- implements midcom_helper_datamanager2_interfaces_create
 {
     /**
-     * The document we're working with (if any).
+     * The document we're working with
      *
      * @var org_openpsa_documents_document_dba
      */
-    private $_document = null;
+    private $_document;
 
     /**
      * The Controller of the document used for creating or editing
      *
-     * @var midcom_helper_datamanager2_controller
+     * @var controller
      */
-    private $_controller = null;
+    private $_controller;
 
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
     }
 
-    public function load_schemadb()
+    private function load_controller(array $defaults = [])
     {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
-    }
-
-    public function get_schema_defaults()
-    {
-        return [
-            'topic' => $this->_topic->id,
-            'author' => midcom_connection::get_user(),
-            'orgOpenpsaAccesstype' => $this->_topic->get_parameter('org.openpsa.core', 'orgOpenpsaAccesstype'),
-            'orgOpenpsaOwnerWg' => $this->_topic->get_parameter('org.openpsa.core', 'orgOpenpsaOwnerWg'),
-        ];
-    }
-
-    /**
-     * This is what Datamanager calls to actually create a document
-     */
-    public function & dm2_create_callback(&$datamanager)
-    {
-        $this->_document = new org_openpsa_documents_document_dba();
-        $this->_document->topic = $this->_request_data['directory']->id;
-        $this->_document->orgOpenpsaAccesstype = org_openpsa_core_acl::ACCESS_WGPRIVATE;
-
-        if (!$this->_document->create()) {
-            debug_print_r('We operated on this object:', $this->_document);
-            throw new midcom_error("Failed to create a new document. Error: " . midcom_connection::get_error_string());
-        }
-
-        return $this->_document;
+        return datamanager::from_schemadb($this->_config->get('schemadb_document'))
+            ->set_defaults($defaults)
+            ->set_storage($this->_document)
+            ->get_controller();
     }
 
     /**
@@ -74,7 +52,16 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     {
         $data['directory']->require_do('midgard:create');
 
-        $this->_controller = $this->get_controller('create');
+        $this->_document = new org_openpsa_documents_document_dba();
+        $this->_document->orgOpenpsaAccesstype = org_openpsa_core_acl::ACCESS_WGPRIVATE;
+
+        $defaults = [
+            'topic' => $this->_topic->id,
+            'author' => midcom_connection::get_user(),
+            'orgOpenpsaAccesstype' => $this->_topic->get_parameter('org.openpsa.core', 'orgOpenpsaAccesstype'),
+            'orgOpenpsaOwnerWg' => $this->_topic->get_parameter('org.openpsa.core', 'orgOpenpsaOwnerWg'),
+        ];
+        $this->_controller = $this->load_controller($defaults);
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('create document'));
         return $this->run_workflow();
@@ -82,7 +69,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
     private function run_workflow()
     {
-        $workflow = $this->get_workflow('datamanager2', [
+        $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->_controller,
             'save_callback' => [$this, 'save_callback']
         ]);
@@ -112,7 +99,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         $this->_document = $this->_load_document($args[0]);
         $this->_document->require_do('midgard:update');
 
-        $this->_controller = $this->get_controller('simple', $this->_document);
+        $this->_controller = $this->load_controller();
 
         if (   $data['enable_versioning']
             && !empty($_POST)) {
@@ -122,7 +109,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         return $this->run_workflow();
     }
 
-    public function save_callback(midcom_helper_datamanager2_controller $controller)
+    public function save_callback(controller $controller)
     {
         if (empty($this->_document->title)) {
             $attachments = org_openpsa_helpers::get_dm2_attachments($this->_document, 'document');
@@ -135,7 +122,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
         // Update the index
         $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
-        $indexer->index($this->_controller->datamanager);
+        $indexer->index($controller->get_datamanager());
 
         $prefix = '';
         if ($this->_document->topic != $this->_topic->id) {
@@ -150,29 +137,14 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     /**
      * Handle versioning of the attachment
      *
-     * @todo Move this to the DBA wrapper class when DM datatype_blob behaves better
+     * @todo Move this to the DBA class (using wrapped midcom_db_attachment for change detection)
      */
     private function _backup_attachment()
     {
-        // First, look at post data (from in-form replace/delete buttons)
-        if (!empty($_POST['document'])) {
-            foreach (array_keys($_POST['document']) as $key) {
-                if (    strpos($key, '_delete')
-                    || (    strpos($key, '_upload')
-                        && !strpos($key, 'new_upload'))) {
-                    $this->_document->backup_version();
-                    return;
-                }
-            }
-        }
-
-        // If nothing is found, try looking in quickform (regular form submission)
-        $group = $this->_controller->formmanager->form->getElement('document');
-        foreach ($group->getElements() as $element) {
-            if (   preg_match('/e_exist_.+?_file$/', $element->getName())
-                && $element->isUploadedFile()) {
+        if (!empty($_FILES['org_openpsa_documents']['tmp_name']['document'])) {
+            $tmp = reset($_FILES['org_openpsa_documents']['tmp_name']['document']);
+            if (!empty($tmp['file'])) {
                 $this->_document->backup_version();
-                return;
             }
         }
     }

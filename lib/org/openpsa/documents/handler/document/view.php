@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * org.openpsa.documents document handler and viewer class.
  *
@@ -22,13 +24,9 @@ implements org_openpsa_widgets_grid_provider_client
     private $_document = null;
 
     /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
+     * @var datamanager
      */
-    private $_schemadb = null;
-
-    private $_datamanager = null;
+    private $_datamanager;
 
     /**
      * The grid provider for document versions
@@ -40,8 +38,7 @@ implements org_openpsa_widgets_grid_provider_client
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
+        $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_document'));
     }
 
     public function get_qb($field = null, $direction = 'ASC', array $search = [])
@@ -111,12 +108,7 @@ implements org_openpsa_widgets_grid_provider_client
             throw new midcom_error_notfound("The document '{$guid}' could not be found in this folder.");
         }
 
-        // Load the document to datamanager
-        if (!$this->_datamanager->autoset_storage($document)) {
-            debug_print_r('Object to be used was:', $document);
-            throw new midcom_error('Failed to initialize the datamanager, see debug level log for more information.');
-        }
-
+        $this->_datamanager->set_storage($document);
         return $document;
     }
 
@@ -175,13 +167,13 @@ implements org_openpsa_widgets_grid_provider_client
 
         $this->_add_version_navigation();
 
-        $this->bind_view_to_object($this->_document, $this->_datamanager->schema->name);
+        $this->bind_view_to_object($this->_document, $this->_datamanager->get_schema()->get_name());
     }
 
     private function _populate_toolbar()
     {
         if ($this->_document->can_do('midgard:update')) {
-            $workflow = $this->get_workflow('datamanager2');
+            $workflow = $this->get_workflow('datamanager');
             $this->_view_toolbar->add_item($workflow->get_button("document/edit/{$this->_document->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]));

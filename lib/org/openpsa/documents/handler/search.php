@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * org.openpsa.documents search handler and viewer class.
  *
@@ -13,12 +15,14 @@
  */
 class org_openpsa_documents_handler_search extends midcom_baseclasses_components_handler
 {
-    private $_datamanagers;
+    /**
+     * @var datamanager
+     */
+    private $datamanager;
 
     public function _on_initialize()
     {
-        $schema = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
-        $this->_datamanagers['document'] = new midcom_helper_datamanager2_datamanager($schema);
+        $this->datamanager = datamanager::from_schemadb($this->_config->get('schemadb_document'));
     }
 
     /**
@@ -60,7 +64,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
     private function _populate_toolbar()
     {
         if ($this->_request_data['directory']->can_do('midgard:create')) {
-            $workflow = $this->get_workflow('datamanager2');
+            $workflow = $this->get_workflow('datamanager');
             $this->_view_toolbar->add_item($workflow->get_button("document/create/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new document'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
@@ -88,13 +92,13 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
                     // $obj->RI will contain either document or attachment GUID depending on match,
                     // ->source will always contain the document GUID
                     $data['document'] = new org_openpsa_documents_document_dba($document->source);
-                    $this->_datamanagers['document']->autoset_storage($data['document']);
+                    $this->datamanager->set_storage($data['document']);
                 } catch (Exception $e) {
                     $e->log();
                     continue;
                 }
-                $data['document_dm'] = $this->_datamanagers['document']->get_content_raw();
-                $data['document_attachment'] = array_shift($this->_datamanagers['document']->types['document']->attachments_info);
+                $data['document_dm'] = $this->datamanager->get_content_raw();
+                $data['document_attachment'] = array_shift($data['document_dm']['document']);
                 $data['document_search'] = $document;
                 midcom_show_style('show-search-results-item');
                 $displayed++;

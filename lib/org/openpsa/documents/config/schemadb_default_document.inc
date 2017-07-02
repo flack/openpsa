@@ -22,7 +22,6 @@
             'type'    => 'text',
             'widget' => 'textarea',
             'storage'    => 'abstract',
-            'widget_text_inputstyle' => 'longtext',
         ),
         'document' => array
         (

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * OpenPSA document management system
  *
@@ -23,16 +25,16 @@ implements midcom_services_permalinks_resolver
         $qb_documents->add_constraint('topic', '=', $topic->id);
         $qb_documents->add_constraint('nextVersion', '=', 0);
         $qb_documents->add_constraint('orgOpenpsaObtype', '=', org_openpsa_documents_document_dba::OBTYPE_DOCUMENT);
-        $schemadb_documents = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_document'));
+        $dm_documents = datamanager::from_schemadb($config->get('schemadb_document'));
 
         $qb_directories = org_openpsa_documents_directory::new_query_builder();
         $qb_directories->add_constraint('up', '=', $topic->id);
         $qb_directories->add_constraint('component', '=', $this->_component);
-        $schemadb_directories = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_directory'));
+        $dm_directories = datamanager::from_schemadb($config->get('schemadb_directory'));
 
         $indexer = new org_openpsa_documents_midcom_indexer($topic, $indexer);
-        $indexer->add_query('documents', $qb_documents, $schemadb_documents);
-        $indexer->add_query('directories', $qb_directories, $schemadb_directories);
+        $indexer->add_query('documents', $qb_documents, $dm_documents);
+        $indexer->add_query('directories', $qb_directories, $dm_directories);
 
         return $indexer;
     }
