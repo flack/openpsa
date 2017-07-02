@@ -179,7 +179,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
-            $workflow = $this->get_workflow('datamanager2');
+            $workflow = $this->get_workflow('datamanager');
             $this->_node_toolbar->add_item($workflow->get_button('config/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
@@ -296,7 +296,7 @@ implements org_openpsa_widgets_grid_provider_client
         $data['customer'] = $this->_customer;
         $buttons = [];
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {
-            $workflow = $this->get_workflow('datamanager2');
+            $workflow = $this->get_workflow('datamanager');
             $buttons[] = $workflow->get_button("invoice/new/{$this->_customer->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',

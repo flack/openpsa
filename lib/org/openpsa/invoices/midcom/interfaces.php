@@ -1,4 +1,6 @@
 <?php
+use midcom\datamanager\datamanager;
+
 /**
  * @package org.openpsa.invoices
  * @author The Midgard Project, http://www.midgard-project.org
@@ -48,10 +50,10 @@ implements midcom_services_permalinks_resolver
     public function _on_reindex($topic, $config, &$indexer)
     {
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
-        $schemadb = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
+        $dm = datamanager::from_schemadb($config->get('schemadb'));
 
         $indexer = new org_openpsa_invoices_midcom_indexer($topic, $indexer);
-        $indexer->add_query('invoices', $qb, $schemadb);
+        $indexer->add_query('invoices', $qb, $dm);
 
         return $indexer;
     }

@@ -137,7 +137,7 @@
 // Match /invoice/<guid>
 'invoice' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_invoice_crud', 'read'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_view', 'read'),
     'fixed_args' => array('invoice'),
     'variable_args' => 1,
 ),
