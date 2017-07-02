@@ -319,7 +319,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
             $schema = 'private';
         }
         $this->datamanager = new datamanager($schemadb);
-        $this->datamanager->set_storage($this->_request_data['event']);
+        $this->datamanager->set_storage($this->_request_data['event'], $schema);
     }
 
     /**
