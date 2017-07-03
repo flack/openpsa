@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 use midcom\datamanager\extension\compat;
+use midcom\datamanager\extension\transformer\multiple;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Experimental select type
@@ -43,6 +45,18 @@ class select extends ChoiceType
             'multiple' => $map_multiple,
             'placeholder' => false
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        if ($options['type_config']['allow_multiple'] && $options['dm2_type'] == 'select') {
+            $builder->addModelTransformer(new multiple($options));
+        }
+
+        parent::buildForm($builder, $options);
     }
 
     /**
