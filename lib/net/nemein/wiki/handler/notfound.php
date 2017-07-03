@@ -40,7 +40,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
 
         // Populate toolbar for actions available
         $data['wiki_tools'] = new midcom_helper_toolbar();
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if ($this->_topic->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button('create/?wikiword=' . rawurlencode($data['wikiword']), [

@@ -3,19 +3,15 @@ div.net_nemein_wiki_wikipage a.edit img
     border: none;
 }
 
-#preview_container #preview_label
-{
-    display: none;
-}
-
 div.wiki_preview
 {
     background-color: #e0e0e0;
     padding: 1em;
     background-image: url('../midcom.helper.datamanager2/previewbg.gif');
+    margin-bottom: .75em;
 }
 
-form.datamanager2 #content_container > label
+form.datamanager2 label[for=net_nemein_wiki_content]
 {
     display: none;
 }

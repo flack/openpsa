@@ -60,7 +60,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
     private function _populate_toolbar()
     {
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         $buttons = [
             [
                 MIDCOM_TOOLBAR_URL => "{$this->_page->name}/",

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Wiki MidCOM interface class.
  *
@@ -23,12 +25,13 @@ implements midcom_services_permalinks_resolver
         $qb->add_constraint('topic', '=', $topic->id);
 
         if ($result = $qb->execute()) {
-            $schemadb = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
-            $datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
+            $datamanager = datamanager::from_schemadb($config->get('schemadb'));
 
             foreach ($result as $wikipage) {
-                if (!$datamanager->autoset_storage($wikipage)) {
-                    debug_add("Warning, failed to initialize datamanager for Wiki page {$wikipage->id}. Skipping it.", MIDCOM_LOG_WARN);
+                try {
+                    $datamanager->set_storage($wikipage);
+                } catch (midcom_error $e) {
+                    $e->log(MIDCOM_LOG_WARN);
                     continue;
                 }
 

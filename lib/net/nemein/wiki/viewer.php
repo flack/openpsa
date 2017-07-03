@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Wiki Site interface class.
  *
@@ -75,12 +77,12 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
     /**
      * Indexes a wiki page.
      *
-     * @param midcom_helper_datamanager2_datamanager $dm The Datamanager encapsulating the event.
+     * @param datamanager $dm The Datamanager encapsulating the event.
      * @param midcom_services_indexer $indexer The indexer instance to use.
      * @param midcom_db_topic|midcom_core_dbaproxy The topic which we are bound to. If this is not an object, the code
      *     tries to load a new topic instance from the database identified by this parameter.
      */
-    public static function index($dm, $indexer, $topic)
+    public static function index(datamanager $dm, $indexer, $topic)
     {
         $nav = new midcom_helper_nav();
         $node = $nav->get_node($topic->id);
@@ -88,7 +90,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $document = $indexer->new_document($dm);
         $document->topic_guid = $topic->guid;
         $document->topic_url = $node[MIDCOM_NAV_FULLURL];
-        $document->read_metadata_from_object($dm->storage->object);
+        $document->read_metadata_from_object($dm->get_storage()->get_value());
         $document->component = $topic->component;
         $indexer->index($document);
     }

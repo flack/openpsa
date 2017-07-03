@@ -6,13 +6,16 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\schemadb;
+use midcom\datamanager\datamanager;
+use midcom\datamanager\controller;
+
 /**
  * Wikipage creation handler
  *
  * @package net.nemein.wiki
  */
 class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * Wiki word we're creating page for
@@ -26,52 +29,9 @@ implements midcom_helper_datamanager2_interfaces_create
      *
      * @var net_nemein_wiki_wikipage
      */
-    private $_page = null;
+    private $_page;
 
-    /**
-     * The schema to use for the new page.
-     *
-     * @var string
-     */
-    private $_schema = 'default';
-
-    public function load_schemadb()
-    {
-        return $this->_request_data['schemadb'];
-    }
-
-    public function get_schema_name()
-    {
-        return $this->_schema;
-    }
-
-    public function get_schema_defaults()
-    {
-        return ['title' => $this->_wikiword];
-    }
-
-    /**
-     * DM2 creation callback, binds to the current content topic.
-     */
-    public function & dm2_create_callback(&$controller)
-    {
-        $this->_page = new net_nemein_wiki_wikipage();
-        $this->_page->topic = $this->_topic->id;
-        $this->_page->title = $this->_wikiword;
-        $this->_page->author = midcom_connection::get_user();
-
-        // We can clear the session now
-        $this->_request_data['session']->remove('wikiword');
-
-        if (!$this->_page->create()) {
-            debug_print_r('We operated on this object:', $this->_page);
-            throw new midcom_error('Failed to create a new page. Last Midgard error was: '. midcom_connection::get_error_string());
-        }
-
-        return $this->_page;
-    }
-
-    private function _check_unique_wikiword($wikiword)
+    private function check_unique_wikiword($wikiword, $schema)
     {
         $resolver = new net_nemein_wiki_resolver($this->_topic->id);
         $resolved = $resolver->path_to_wikipage($wikiword, true, true);
@@ -121,7 +81,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 }
             }
             // We have created a new topic, now recurse to create the rest of the path.
-            return $this->_check_unique_wikiword($wikiword);
+            return $this->check_unique_wikiword($wikiword, $schema);
         }
         if (is_object($resolved['wikipage'])) {
             // Page exists
@@ -131,7 +91,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if ($to_node[MIDCOM_NAV_ID] != $this->_topic->id) {
             // Last parent is not this topic, redirect there
             $wikiword_url = rawurlencode($resolved['remaining_path']);
-            midcom::get()->relocate($to_node[MIDCOM_NAV_ABSOLUTEURL] . "create/{$this->_schema}?wikiword={$wikiword_url}");
+            midcom::get()->relocate($to_node[MIDCOM_NAV_ABSOLUTEURL] . "create/{$schema}?wikiword={$wikiword_url}");
             // This will exit()
         }
         return true;
@@ -160,32 +120,40 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_topic->require_do('midgard:create');
 
         if ($handler_id == 'create_by_word_schema') {
-            $this->_schema = $args[0];
+            $schema = $args[0];
         } else {
-            $this->_schema = $this->_config->get('default_schema');
+            $schema = $this->_config->get('default_schema');
         }
 
-        if (!array_key_exists($this->_schema, $data['schemadb'])) {
-            throw new midcom_error_notfound('Schema ' . $this->_schema . ' not found in schemadb');
+        $schemadb = schemadb::from_path($this->_config->get('schemadb'));
+        if (!$schemadb->has($schema)) {
+            throw new midcom_error_notfound('Schema ' . $schema . ' not found in schemadb');
         }
+        $this->check_unique_wikiword($this->_wikiword, $schema);
 
-        $this->_check_unique_wikiword($this->_wikiword);
+        $this->_page = new net_nemein_wiki_wikipage();
+        $this->_page->topic = $this->_topic->id;
+        $this->_page->title = $this->_wikiword;
+        $this->_page->author = midcom_connection::get_user();
 
-        $data['controller'] = $this->get_controller('create');
+        $dm = new datamanager($schemadb);
+        $data['controller'] = $dm
+            ->set_storage($this->_page)
+            ->get_controller();
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('create wikipage %s'), $this->_wikiword));
 
-        $workflow = $this->get_workflow('datamanager2', [
+        $workflow = $this->get_workflow('datamanager', [
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
         return $workflow->run();
     }
 
-    public function save_callback(midcom_helper_datamanager2_controller $controller)
+    public function save_callback(controller $controller)
     {
         $indexer = midcom::get()->indexer;
-        net_nemein_wiki_viewer::index($controller->datamanager, $indexer, $this->_topic);
+        net_nemein_wiki_viewer::index($controller->get_datamanager(), $indexer, $this->_topic);
 
         midcom::get()->uimessages->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page %s added'), $this->_wikiword));
 
