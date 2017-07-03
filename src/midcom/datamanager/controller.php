@@ -20,6 +20,8 @@ class controller
 
     const CANCEL = 'cancel';
 
+    const PREVIEW = 'preview';
+
     /**
      *
      * @var Form
@@ -47,10 +49,13 @@ class controller
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.datamanager/default.css");
 
         if ($this->form->isSubmitted()) {
-            $button = $this->form->getClickedButton();
-            if (   $button
-                && $button->getConfig()->getOption('operation') == self::CANCEL) {
-                return self::CANCEL;
+            if ($button = $this->form->getClickedButton()) {
+                if ($button->getConfig()->getOption('operation') == self::CANCEL) {
+                    return self::CANCEL;
+                }
+                if ($button->getConfig()->getOption('operation') == self::PREVIEW) {
+                    return self::PREVIEW;
+                }
             }
             if ($this->form->isValid()) {
                 $this->dm->get_storage()->save();
