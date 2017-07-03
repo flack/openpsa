@@ -74,7 +74,9 @@ class photo extends images
             $attachment->mimetype = $data['type'];
             return $attachment;
         }
-        return $this->create_attachment($filename, $data['name'], $data['type']);
+        $attachment = new \midcom_db_attachment();
+        $this->prepare_attachment($attachment, $filename, $data['name'], $data['type']);
+        return $attachment;
     }
 
     /**

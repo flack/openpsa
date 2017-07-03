@@ -134,7 +134,7 @@ class view extends base
             if (sizeof($data['value']) > 0) {
                 $ret .= $this->renderer->humanize('could not figure out which image to show, listing files') . "<ul>";
                 foreach ($data['value'] as $key => $info) {
-                    $ret .= "<li><a href='{$info['url']}'>{$info}</a></li>";
+                    $ret .= "<li><a href='{$info['url']}'>{$info['filename']}</a></li>";
                 }
                 $ret .= "</ul>";
             }

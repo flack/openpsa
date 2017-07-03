@@ -392,10 +392,13 @@ class form extends base
 
     public function images_widget(FormView $view, array $data)
     {
-        $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        $string = '<div' . $this->renderer->block($view, 'widget_container_attributes', ['attr' => ['class' => 'image-container']]) . '>';
         $string .= '<table><tr><td>';
 
         if (!empty($data['value'])) {
+            if (empty($view->vars['value']['url'])) {
+                $view->vars['value']['url'] = \midcom_db_attachment::get_url($data['value']['object']);
+            }
             $string .= '<a href="' . $view->vars['value']['url'] . '" target="_new"><img src="' . $view->vars['value']['url'] . '" class="preview-image">';
 
             if (   $data['value']['size_x']
@@ -410,7 +413,11 @@ class form extends base
         $string .= '</td><td>';
 
         foreach ($view->children as $child) {
-            $string .= $this->renderer->row($child);
+            $options = [];
+            if ($child->vars['name'] == 'title') {
+                $options = ['value' => $data['value']['title']];
+            }
+            $string .= $this->renderer->row($child, $options);
         }
 
         return $string . '</td></tr></table></div>';

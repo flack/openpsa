@@ -91,7 +91,7 @@ class blobs implements DataTransformerInterface
             'size_x' => '',
             'size_y' => '',
             'size_line' => '',
-            'object' => null,
+            'object' => $data['object'],
             'identifier' => $data['identifier']
         ];
     }
@@ -101,10 +101,9 @@ class blobs implements DataTransformerInterface
         if (!is_array($array) ) {
             throw new TransformationFailedException('Expected an array.');
         }
-
         if (!empty($array)) {
+            $array['object'] = new \midcom_db_attachment();
             return $array;
         }
-        //@todo return $array; ?
     }
 }

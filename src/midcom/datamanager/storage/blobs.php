@@ -56,14 +56,14 @@ class blobs extends delayed
         if (!empty($this->value)) {
             $guesser = new FileBinaryMimeTypeGuesser;
             foreach ($this->value as $identifier => &$data) {
-                $attachment = (array_key_exists($identifier, $existing)) ? $existing[$identifier] : null;
+                $attachment = (array_key_exists($identifier, $existing)) ? $existing[$identifier] : $data['object'];
                 $title = (array_key_exists('title', $data)) ? $data['title'] : null;
                 if (!empty($data['file'])) {
                     $filename = midcom_db_attachment::safe_filename($data['file']['name'], true);
                     $title = $title ?: $data['file']['name'];
                     $mimetype = $guesser->guess($data['file']['tmp_name']);
-                    if (!$attachment) {
-                        $attachment = $this->create_attachment($filename, $title, $mimetype);
+                    if (!$attachment->id) {
+                        $this->prepare_attachment($attachment, $filename, $title, $mimetype);
                         if (is_integer($identifier)) {
                             $identifier = md5(time() . $data['file']['name'] . $data['file']['tmp_name']);
                         }
@@ -176,19 +176,21 @@ class blobs extends delayed
 
     /**
      *
+     * @param midcom_db_attachment
      * @param string $filename
      * @param string $title
      * @param string $mimetype
      * @throws midcom_error
-     * @return midcom_db_attachment
      */
-    protected function create_attachment($filename, $title, $mimetype)
+    protected function prepare_attachment($attachment, $filename, $title, $mimetype)
     {
-        $filename = $this->generate_unique_name($filename);
-        $attachment = $this->object->create_attachment($filename, $title, $mimetype);
-        if ($attachment === false) {
+        $attachment->name = $this->generate_unique_name($filename);
+        $attachment->title = $title;
+        $attachment->mimetype = $mimetype;
+        $attachment->parentguid = $this->object->guid;
+
+        if (!$attachment->create()) {
             throw new midcom_error('Failed to create attachment: ' . \midcom_connection::get_error_string());
         }
-        return $attachment;
     }
 }
