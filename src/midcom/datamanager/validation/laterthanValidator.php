@@ -14,7 +14,7 @@ class laterthanValidator extends ConstraintValidator
     {
         $element = $this->context->getRoot()->get($constraint->value);
         $compare = $element->getData();
-        if ($value <= $compare) {
+        if ($value < $compare) {
             $label = $element->getConfig()->getOption('label');
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ compared_value }}', $label)
