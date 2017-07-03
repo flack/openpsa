@@ -487,7 +487,7 @@ class form extends base
 
     public function markdown_widget(FormView $view, array $data)
     {
-        $string = '<textarea' . $this->renderer->block($view, 'widget_attributes') . '>' . $data['value'] . '</textarea>';
+        $string = '<textarea' . $this->renderer->block($view, 'widget_attributes', ['required' => false]) . '>' . $data['value'] . '</textarea>';
         return $string . $this->jsinit('var simplemde = new SimpleMDE({ element: document.getElementById("' . $view->vars['id'] . '"), status: false });');
     }
 
