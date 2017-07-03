@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\Options;
 use midcom\datamanager\extension\compat;
 use midcom\datamanager\extension\transformer\multiple;
 use Symfony\Component\Form\FormBuilderInterface;
+use midcom\datamanager\extension\helper;
 
 /**
  * Experimental select type
@@ -45,6 +46,18 @@ class select extends ChoiceType
             'multiple' => $map_multiple,
             'placeholder' => false
         ]);
+
+        $resolver->setNormalizer('type_config', function (Options $options, $value) {
+            $type_defaults = [
+                'options' => [],
+                'allow_other' => false,
+                'allow_multiple' => ($options['dm2_type'] == 'mnrelation'),
+                'require_corresponding_option' => true,
+                'multiple_storagemode' => 'serialized',
+                'multiple_separator' => '|'
+            ];
+            return helper::resolve_options($type_defaults, $value);
+        });
     }
 
     /**
