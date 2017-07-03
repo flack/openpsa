@@ -78,7 +78,7 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
             ]
         ];
 
-        $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.projects', ['task', 'edit', self::$_task->guid]);
+        $this->submit_dm_no_relocate_form('controller', $formdata, 'org.openpsa.projects', ['task', 'edit', self::$_task->guid]);
 
         self::$_task->refresh();
         $this->assertEquals(org_openpsa_projects_task_status_dba::ACCEPTED, self::$_task->status);

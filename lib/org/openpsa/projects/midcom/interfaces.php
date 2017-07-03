@@ -1,4 +1,6 @@
 <?php
+use midcom\datamanager\datamanager;
+
 /**
  * @package org.openpsa.projects
  * @author Nemein Oy http://www.nemein.com/
@@ -136,14 +138,14 @@ implements midcom_services_permalinks_resolver
     public function _on_reindex($topic, $config, &$indexer)
     {
         $qb_tasks = org_openpsa_projects_task_dba::new_query_builder();
-        $schemadb_tasks = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_task'));
+        $dm_tasks = datamanager::from_schemadb($config->get('schemadb_task'));
 
         $qb_projects = org_openpsa_projects_project::new_query_builder();
-        $schemadb_projects = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_project'));
+        $dm_projects = datamanager::from_schemadb($config->get('schemadb_project'));
 
         $indexer = new org_openpsa_projects_midcom_indexer($topic, $indexer);
-        $indexer->add_query('tasks', $qb_tasks, $schemadb_tasks);
-        $indexer->add_query('projects', $qb_projects, $schemadb_projects);
+        $indexer->add_query('tasks', $qb_tasks, $dm_tasks);
+        $indexer->add_query('projects', $qb_projects, $dm_projects);
 
         return $indexer;
     }

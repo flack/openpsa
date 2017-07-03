@@ -14,7 +14,7 @@
 // Match /project/<GUID>
 'project' => array
 (
-    'handler' => array('org_openpsa_projects_handler_project_crud', 'read'),
+    'handler' => array('org_openpsa_projects_handler_project_view', 'read'),
     'fixed_args' => 'project',
     'variable_args' => 1,
 ),
@@ -100,7 +100,7 @@
 // Match /task/<GUID>
 'task_view' => array
 (
-    'handler' => array('org_openpsa_projects_handler_task_crud', 'read'),
+    'handler' => array('org_openpsa_projects_handler_task_view', 'read'),
     'fixed_args' => 'task',
     'variable_args' => 1,
 ),

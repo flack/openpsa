@@ -467,7 +467,7 @@ implements org_openpsa_widgets_grid_provider_client
         if ($this->_request_data['view_identifier'] == 'agreement') {
             return;
         }
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project')) {
             $this->_view_toolbar->add_item($workflow->get_button('project/new/', [

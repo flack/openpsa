@@ -72,12 +72,11 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         ?>
     </div>
     <?php
-        if (   array_key_exists('priority', $data['datamanager']->types)
-            && array_key_exists($task->priority, $data['datamanager']->types['priority']->options)) {
+        if (array_key_exists('priority', $view_task)) {
             ?>
         <div class="field priority">
             <?php echo '<div class="title">' . $data['l10n']->get('priority') . ': </div>';
-            echo '<div class="value">' . $data['l10n']->get($data['datamanager']->types['priority']->options[$task->priority]) . '</div>'; ?>
+            echo '<div class="value">' . $view_task['priority'] . '</div>'; ?>
         </div>
             <?php
 

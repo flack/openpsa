@@ -29,7 +29,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $this->_request_data['task'] = $this->_task;
 
         if ($this->_task->can_do('midgard:update')) {
-            $workflow = $this->get_workflow('datamanager2');
+            $workflow = $this->get_workflow('datamanager');
             $this->_view_toolbar->add_item($workflow->get_button("task/edit/{$this->_task->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]));
