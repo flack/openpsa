@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * This handler shows the attachments attached to object $object.
  *
@@ -13,13 +15,6 @@
  */
 class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_components_handler
 {
-    /**
-     * The datamanager controller
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     */
-    private $_controller = null;
-
     /**
      * Search results
      */
@@ -69,7 +64,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         midcom::get()->head->set_pagetitle($data['list_title']);
 
         if ($data['list_type'] != 'unified') {
-            $this->_create_controller($data);
+            $data['form'] = $this->load_controller($data);
         } elseif ($data['query'] != '') {
             $this->_run_search($data);
         }
@@ -81,24 +76,20 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         midcom::get()->style->prepend_component_styledir('midcom.helper.imagepopup');
     }
 
-    private function _create_controller(array $data)
+    private function load_controller(array $data)
     {
-        // Run datamanager for handling the images
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb = $this->_load_schema();
-        $this->_controller->schemaname = 'default';
-
+        $dm = datamanager::from_schemadb($this->_config->get('schemadb'));
         if ($data['list_type'] == 'page') {
-            $this->_controller->set_storage($data['object']);
+            $dm->set_storage($data['object'], 'default');
         } else {
-            $this->_controller->set_storage($data['folder']);
+            $dm->set_storage($data['folder'], 'default');
         }
+        $controller = $dm->get_controller();
 
-        $this->_controller->initialize();
-        $this->_request_data['form'] = $this->_controller;
-        if ($this->_controller->process_form() == 'cancel') {
+        if ($controller->process() == 'cancel') {
             midcom::get()->head->add_jsonload("top.tinymce.activeEditor.windowManager.close();");
         }
+        return $controller;
     }
 
     private function _run_search(array $data)
@@ -144,13 +135,5 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         }
 
         midcom_show_style('midcom_helper_imagepopup_search_result_end');
-    }
-
-    /**
-     * Loads the schema.
-     */
-    private function _load_schema()
-    {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
     }
 }

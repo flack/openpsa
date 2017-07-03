@@ -71,41 +71,77 @@ ul
     font-weight: bold;
     display: block;
 }
-table.midcom_helper_datamanager2_widget_downloads
+.image-container table
 {
     border-collapse: collapse;
     width: 100%
 }
-table.midcom_helper_datamanager2_widget_downloads tr
+.image-container table tr
 {
     vertical-align: top;
 }
 
-table.midcom_helper_datamanager2_widget_downloads th {
-	border-bottom:solid 1px #D7DBD1;
-}
-
-table.midcom_helper_datamanager2_widget_downloads td
+.image-container table td
 {
     padding: 5px;
 }
 
-#files table .new {
-	margin-top:7px;
+form.datamanager2 .element_subform fieldset
+{
+    border: 1px solid #ddd;
+    border-radius: .3em;
+    margin-bottom: 0.5em;
+    padding: 0.3em;
 }
 
-#files table td.filename
+form.datamanager2 .element_subform fieldset legend
 {
-    text-align: left;
-    font-size: smaller;
-    width: 50px;
-    overflow: hidden;
-    padding-left:10px;
+    font-weight: normal
 }
-#files table td.filename a
+
+.image-container table td:first-child
+{
+    width: 125px;
+}
+
+.attachment-container .attachment-preview
+{
+    width: 109px;
+}
+
+.image-container table td .element,
+.attachment-container .attachment-input .element
+{
+    display: flex
+}
+
+.image-container table td .element label,
+.attachment-container .attachment-input label
+{
+    width: 8em;
+}
+
+.image-container table a
 {
     text-decoration: none;
     color: #204a87;
+    font-size: smaller;
+}
+
+form.datamanager2 .input .attachment-container
+{
+    display: block;
+}
+
+.image-container table .input,
+.image-container table .input .shorttext,
+.attachment-container .attachment-input .input .shorttext
+{
+    width: 100%;
+}
+
+#files table .new {
+	margin-top:7px;
 }
 
 #files table th

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @author lukasz chalat
  * @package midcom.helper.imagepopup
