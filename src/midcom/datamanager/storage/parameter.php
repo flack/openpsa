@@ -16,14 +16,12 @@ class parameter extends delayed
     public function load()
     {
         $value = $this->object->get_parameter($this->config['storage']['domain'], $this->config['storage']['name']);
-        if ($this->config['type'] === 'boolean') {
-            $value = !!$value;
-        }
+
         if ($value === null && isset($this->config['default'])) {
             $value = $this->config['default'];
         }
 
-        return $value;
+        return $this->cast($value);
     }
 
     /**

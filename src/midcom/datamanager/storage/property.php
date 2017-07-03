@@ -29,10 +29,8 @@ class property extends dbanode
                 return;
             }
         }
-        if ($this->config['type'] == 'number' && is_string($value)) {
-            $value = (float) $value;
-        }
-        return $value;
+
+        return $this->cast($value);
     }
 
     /**

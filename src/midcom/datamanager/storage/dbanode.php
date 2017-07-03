@@ -29,4 +29,14 @@ abstract class dbanode implements node
         $this->object = $object;
         $this->config = $config;
     }
+
+    protected function cast($value) {
+        if ($this->config['type'] == 'number' && !is_numeric($value)) {
+            $value = (float) $value;
+        }
+        if ($this->config['type'] == 'boolean' && !is_bool($value)) {
+            $value = (boolean) $value;
+        }
+        return $value;
+    }
 }
