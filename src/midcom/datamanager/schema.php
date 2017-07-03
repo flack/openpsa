@@ -132,6 +132,11 @@ class schema
         $this->config[$key] = $value;
     }
 
+    public function has_field($name)
+    {
+        return array_key_exists($name, $this->config['fields']);
+    }
+
     /**
      * Returns reference to field config (for on the fly modification)
      *
@@ -140,7 +145,7 @@ class schema
      */
     public function & get_field($name)
     {
-        if (!array_key_exists($name, $this->config['fields'])) {
+        if (!$this->has_field($name)) {
             throw new \midcom_error('Field ' . $name . ' is not available in this schema');
         }
         return $this->config['fields'][$name];
