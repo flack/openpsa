@@ -6,105 +6,42 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+use midcom\datamanager\schemadb;
+use midcom\datamanager\controller;
+
 /**
  * n.n.static create page handler
  *
  * @package net.nehmer.static
  */
 class net_nehmer_static_handler_create extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * The article which has been created
      *
      * @var midcom_db_article
      */
-    private $_article = null;
+    private $article;
 
     /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
+     * @param string $schemaname
+     * @param array $defaults
+     * @return \midcom\datamanager\controller
      */
-    private $_schemadb = null;
-
-    /**
-     * The schema to use for the new article.
-     *
-     * @var string
-     */
-    private $_schema = null;
-
-    /**
-     * The defaults to use for the new article.
-     *
-     * @var Array
-     */
-    private $_defaults = [];
-
-    /**
-     * Loads and prepares the schema database.
-     *
-     * Special treatment is done for the name field, which is set hidden
-     * if the simple_name_handling config option (auto-generated urlname
-     * based on the title) is set.
-     *
-     * The operations are done on all available schemas within the DB.
-     */
-    public function load_schemadb()
+    private function load_controller($schemaname, array $defaults)
     {
-        $this->_schemadb = $this->_request_data['schemadb'];
+        $schemadb = schemadb::from_path($this->_config->get('schemadb'));
         if ($this->_config->get('simple_name_handling')) {
-            foreach (array_keys($this->_schemadb) as $name) {
-                $this->_schemadb[$name]->fields['name']['hidden'] = true;
-            }
+            $field =& $schemadb->get($schemaname)->get_field('name');
+            $field['hidden'] = true;
         }
-        return $this->_schemadb;
-    }
+        $dm = new datamanager($schemadb);
 
-    public function get_schema_name()
-    {
-        return $this->_schema;
-    }
-
-    public function get_schema_defaults()
-    {
-        if ($this->_request_data['handler_id'] == 'createindex') {
-            $this->_defaults['name'] = 'index';
-        }
-        return $this->_defaults;
-    }
-
-    /**
-     * DM2 creation callback, binds to the current content topic.
-     */
-    public function &dm2_create_callback(&$controller)
-    {
-        $this->_article = new midcom_db_article();
-        $this->_article->topic = $this->_topic->id;
-
-        if (   array_key_exists('name', $this->_defaults)
-            && $this->_defaults['name'] == 'index') {
-            // Store this to article directly in case name field is not editable in schema
-            $this->_article->name = 'index';
-        }
-
-        if (!$this->_article->create()) {
-            debug_print_r('We operated on this object:', $this->_article);
-            throw new midcom_error('Failed to create a new article. Last Midgard error was: '. midcom_connection::get_error_string());
-        }
-
-        // Callback possibility
-        if ($this->_config->get('callback_function')) {
-            if ($this->_config->get('callback_snippet')) {
-                midcom_helper_misc::include_snippet_php($this->_config->get('callback_snippet'));
-            }
-
-            $callback = $this->_config->get('callback_function');
-            $callback($this->_article, $this->_topic);
-        }
-
-        return $this->_article;
+        return $dm
+            ->set_defaults($defaults)
+            ->set_storage($this->article, $schemaname)
+            ->get_controller();
     }
 
     /**
@@ -117,24 +54,43 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_create($handler_id, array $args, array &$data)
     {
         $this->_topic->require_do('midgard:create');
-        $this->_schema = $args[0];
+        $this->article = new midcom_db_article();
+        $this->article->topic = $this->_topic->id;
 
-        $workflow = $this->get_workflow('datamanager2', [
-            'controller' => $this->get_controller('create'),
+        $defaults = [];
+        if ($handler_id == 'createindex') {
+            $defaults['name'] = 'index';
+        }
+        $controller = $this->load_controller($args[0], $defaults);
+
+        $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($controller->get_datamanager()->get_schema()->get('description')));
+        midcom::get()->head->set_pagetitle($title);
+
+        $workflow = $this->get_workflow('datamanager', [
+            'controller' => $controller,
             'save_callback' => [$this, 'save_callback']
         ]);
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$this->_schema]->description));
         return $workflow->run();
     }
 
-    public function save_callback(midcom_helper_datamanager2_controller $controller)
+    public function save_callback(controller $controller)
     {
         // Reindex the article
         $indexer = midcom::get()->indexer;
-        net_nehmer_static_viewer::index($controller->datamanager, $indexer, $this->_topic);
-        if ($this->_article->name == 'index') {
+        net_nehmer_static_viewer::index($controller->get_datamanager(), $indexer, $this->_topic);
+
+        if ($this->_config->get('callback_function')) {
+            if ($this->_config->get('callback_snippet')) {
+                midcom_helper_misc::include_snippet_php($this->_config->get('callback_snippet'));
+            }
+
+            $callback = $this->_config->get('callback_function');
+            $callback($this->article, $this->_topic);
+        }
+
+        if ($this->article->name == 'index') {
             return '';
         }
-        return $this->_article->name . '/';
+        return $this->article->name . '/';
     }
 }

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * n.n.static site interface class
  *
@@ -35,12 +37,12 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
     /**
      * Indexes an article.
      *
-     * @param midcom_helper_datamanager2_datamanager $dm The Datamanager encapsulating the event.
+     * @param datamanager $dm The Datamanager encapsulating the event.
      * @param midcom_services_indexer $indexer The indexer instance to use.
      * @param midcom_db_topic|midcom_core_dbaproxy $topic The topic which we are bound to. If this is not an object, the code
      *     tries to load a new topic instance from the database identified by this parameter.
      */
-    public static function index($dm, $indexer, $topic)
+    public static function index(datamanager $dm, $indexer, $topic)
     {
         $nav = new midcom_helper_nav();
         $node = $nav->get_node($topic->id);
@@ -48,7 +50,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         $document = $indexer->new_document($dm);
         $document->topic_guid = $topic->guid;
         $document->topic_url = $node[MIDCOM_NAV_FULLURL];
-        $document->read_metadata_from_object($dm->storage->object);
+        $document->read_metadata_from_object($dm->get_storage()->get_value());
         $document->component = $topic->component;
         $indexer->index($document);
     }
@@ -59,7 +61,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
     private function _populate_node_toolbar()
     {
         $buttons = [];
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         if ($this->_topic->can_do('midgard:create')) {
             foreach (array_keys($this->_request_data['schemadb']) as $name) {
                 $buttons[] = $workflow->get_button("create/{$name}/", [
