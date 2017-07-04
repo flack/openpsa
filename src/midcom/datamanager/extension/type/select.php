@@ -71,20 +71,4 @@ class select extends ChoiceType
 
         parent::buildForm($builder, $options);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'select';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return compat::get_type_name('choice');
-    }
 }
