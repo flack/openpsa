@@ -33,11 +33,9 @@ class photo extends images
             $this->set_imagedata($attachment);
             $this->map = ['archival' => $attachment];
 
-            $this->convert_to_web_type($this->value['file']);
+            $attachment = $this->create_main_image($this->value['file'], $existing);
 
-            $to_process = array_merge(['main' => $this->config['type_config']['filter_chain']], $this->config['type_config']['derived_images']);
-
-            foreach ($to_process as $identifier => $filter_chain) {
+            foreach ($this->config['type_config']['derived_images'] as $identifier => $filter_chain) {
                 $derived = $this->get_attachment($this->value['file'], $existing, $identifier);
                 $this->apply_filter($attachment, $filter_chain, $derived);
                 $this->set_imagedata($derived);
@@ -50,6 +48,18 @@ class photo extends images
             return $this->save_attachment_list();
         }
         return true;
+    }
+
+    private function create_main_image(array &$data, array $existing)
+    {
+        $this->convert_to_web_type($data);
+        $attachment = $this->get_attachment($this->value['file'], $existing, 'archival');
+        if (!$attachment->copy_from_file($this->value['file']['tmp_name'])) {
+            throw new midcom_error('Failed to copy attachment');
+        }
+        $this->set_imagedata($attachment);
+        $this->map['main'] = $attachment;
+        return $attachment;
     }
 
     /**
@@ -118,5 +128,6 @@ class photo extends images
             // Make sure there is only one extension on the file ??
             $data['name'] = midcom_db_attachment::safe_filename($data['name'] . ".{$conversion}", true);
         }
+        $data['tmp_name'] = $filter->get_file();
     }
 }
