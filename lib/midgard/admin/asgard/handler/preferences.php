@@ -6,13 +6,14 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Preferences interface
  *
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
      * User for the preferences page
@@ -20,14 +21,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @var midcom_db_person
      */
     private $_person;
-
-    /**
-     * Get the user preferences schema
-     */
-    public function load_schemadb()
-    {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_preferences'));
-    }
 
     /**
      * Process the UI information
@@ -63,14 +56,16 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         // Load the controller instance
-        $data['controller'] = $this->get_controller('simple', $this->_person);
+        $data['controller'] = datamanager::from_schemadb($this->_config->get('schemadb_preferences'))
+            ->set_storage($this->_person)
+            ->get_controller();
 
         $return_page = '__mfa/asgard/';
         if (isset($_GET['return_uri'])) {
             $return_page = $_GET['return_uri'];
         }
         // Process the requested form
-        switch ($data['controller']->process_form()) {
+        switch ($data['controller']->process()) {
             case 'save':
                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('preferences saved'));
                 return new midcom_response_relocate($return_page);
@@ -131,8 +126,6 @@ implements midcom_helper_datamanager2_interfaces_edit
     public function _handler_ajax($handler_id, array $args, array &$data)
     {
         $this->_person = new midcom_db_person(midcom_connection::get_user());
-
-        // Check for the ACL's
         $this->_person->require_do('midgard:update');
 
         // Patch for Midgard ACL problem of setting person's own parameters
