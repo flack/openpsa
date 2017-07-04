@@ -24,11 +24,13 @@ class formextension extends AbstractTypeExtension
             'widget_config' => [],
             'type_config' => [],
             'dm2_type' => null,
+            'dm2_storage' => null,
             'index_method' => 'auto',
             'index_merge_with_content' => true,
             'start_fieldset' => null,
             'end_fieldset' => null,
-            'helptext' => null
+            'helptext' => null,
+            'storage' => null
         ]);
     }
 

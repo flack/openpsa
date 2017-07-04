@@ -34,6 +34,17 @@ The passwords do not match.
 No selection
 ---STRINGEND
 
+---STRING type urlname: name is already taken, try "%s"
+Given name is already taken, try '%s'
+---STRINGEND
+
+---STRING type urlname: name is not "URL-safe", try "%s"
+Given name is not "URL-safe", try "%s"'
+---STRINGEND
+
+---STRING type urlname: name is not "clean", try "%s"
+Given name is not "clean", try '%s'
+
 ---STRING widget privilege: allow
 Allow
 ---STRINGEND

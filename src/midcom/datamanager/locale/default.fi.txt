@@ -30,6 +30,18 @@ Salasanat eivät täsmää
 Ei valintaa
 ---STRINGEND
 
+---STRING type urlname: name is already taken, try "%s"
+Annettu nimi on varattu, kokeile nimeä '%s'
+---STRINGEND
+
+---STRING type urlname: name is not "URL-safe", try "%s"
+Annettu nimi ei ole "URL-safe", kokeile nimeä '%s'
+---STRINGEND
+
+---STRING type urlname: name is not "clean", try "%s"
+Annettu nimi ei ole "siisti", kokeile nimellä '%s'
+---STRINGEND
+
 ---STRING widget privilege: allow
 Salli
 ---STRINGEND

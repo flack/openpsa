@@ -34,6 +34,18 @@ Die Passwörter stimmen nicht überein.
 Keine Auswahl
 ---STRINGEND
 
+---STRING type urlname: name is already taken, try "%s"
+Der Name ist bereits vergeben, versuchen sie "%s"
+---STRINGEND
+
+---STRING type urlname: name is not "URL-safe", try "%s"
+Der Name ist nicht "URL-sicher", versuchen sie "%s"
+---STRINGEND
+
+---STRING type urlname: name is not "clean", try "%s"
+Der Name ist "unsauber", versuchen sie "%s"
+---STRINGEND
+
 ---STRING widget privilege: allow
 Erlauben
 ---STRINGEND

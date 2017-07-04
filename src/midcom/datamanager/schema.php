@@ -94,11 +94,13 @@ class schema
                 'required' => $config['required'],
                 'constraints' => $config['validation'],
                 'dm2_type' => $config['type'],
+                'dm2_storage' => $config['storage'],
                 'start_fieldset' => $config['start_fieldset'],
                 'end_fieldset' => $config['end_fieldset'],
                 'index_method' => $config['index_method'],
                 'attr' => ['readonly' => $config['readonly']],
-                'helptext' => $config['helptext']
+                'helptext' => $config['helptext'],
+                'storage' => $storage
             ];
 
             $builder->add($name, compat::get_type_name($config['widget']), $options);
@@ -213,6 +215,9 @@ class schema
             if ($value == 'text') {
                 if ($options['type'] === 'number') {
                     return 'number';
+                }
+                if ($options['type'] === 'urlname') {
+                    return 'urlname';
                 }
                 if (!empty($options['validation'])) {
                     foreach ($options['validation'] as $constraint) {

@@ -30,6 +30,18 @@ Hasła nie pasują
 Brak wyboru
 ---STRINGEND
 
+---STRING type urlname: name is already taken, try "%s"
+Nazwa już zajęta, spróbuj '%s'
+---STRINGEND
+
+---STRING type urlname: name is not "URL-safe", try "%s"
+Nazwa nie jest bezpieczna dla URLi, spróbuj '%s'
+---STRINGEND
+
+---STRING type urlname: name is not "clean", try "%s"
+Nazwa nie jest "czysta", spróbuj '%s'
+---STRINGEND
+
 ---STRING widget privilege: allow
 Zezwalaj
 ---STRINGEND
