@@ -23,7 +23,10 @@ class urlname extends TextType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefault('constraints', []);
+        $resolver->setDefaults([
+            'constraints' => [],
+            'write_privilege' => ['privilege' => 'midcom:urlname']
+        ]);
 
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
             $type_defaults = [
