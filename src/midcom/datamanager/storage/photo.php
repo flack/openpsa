@@ -26,25 +26,22 @@ class photo extends images
 
         $existing = $this->load();
         if (!empty($this->value['file'])) {
-            $this->convert_to_web_type($this->value['file']);
             $attachment = $this->get_attachment($this->value['file'], $existing, 'archival');
             if (!$attachment->copy_from_file($this->value['file']['tmp_name'])) {
                 throw new midcom_error('Failed to copy attachment');
             }
-
-            if (!empty($this->config['type_config']['filter_chain'])) {
-                $this->apply_filter($attachment, $this->config['type_config']['filter_chain']);
-            }
-
             $this->set_imagedata($attachment);
             $this->map = ['archival' => $attachment];
-            if (!empty($this->config['type_config']['derived_images'])) {
-                foreach ($this->config['type_config']['derived_images'] as $identifier => $filter_chain) {
-                    $derived = $this->get_attachment($this->value['file'], $existing, $identifier);
-                    $this->apply_filter($attachment, $filter_chain, $derived);
-                    $this->set_imagedata($derived);
-                    $this->map[$identifier] = $derived;
-                }
+
+            $this->convert_to_web_type($this->value['file']);
+
+            $to_process = array_merge(['main' => $this->config['type_config']['filter_chain']], $this->config['type_config']['derived_images']);
+
+            foreach ($to_process as $identifier => $filter_chain) {
+                $derived = $this->get_attachment($this->value['file'], $existing, $identifier);
+                $this->apply_filter($attachment, $filter_chain, $derived);
+                $this->set_imagedata($derived);
+                $this->map[$identifier] = $derived;
             }
 
             return $this->save_attachment_list();
@@ -119,7 +116,7 @@ class photo extends images
         // Prevent double .jpg.jpg
         if (!preg_match("/\.{$conversion}$/", $data['tmp_name'])) {
             // Make sure there is only one extension on the file ??
-            $data['name'] = midcom_db_attachment::safe_filename($data['tmp_name'] . ".{$conversion}", true);
+            $data['name'] = midcom_db_attachment::safe_filename($data['name'] . ".{$conversion}", true);
         }
     }
 }

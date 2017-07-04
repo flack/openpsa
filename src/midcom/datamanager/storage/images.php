@@ -58,8 +58,9 @@ class images extends blobs
             $target = $source;
         }
         $filter = new midcom_helper_imagefilter($source);
-        $filter->process_chain($filterchain);
-
+        if (!empty($filterchain)) {
+            $filter->process_chain($filterchain);
+        }
         if (!$filter->write($target)) {
             throw new midcom_error("Failed to update image '{$target->guid}'");
         }

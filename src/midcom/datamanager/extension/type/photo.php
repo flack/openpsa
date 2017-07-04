@@ -35,6 +35,14 @@ class photo extends AbstractType
             ];
             return helper::resolve_options($widget_defaults, $value);
         });
+        $resolver->setNormalizer('type_config', function (Options $options, $value) {
+            $type_defaults = [
+                'do_not_save_archival' => false,
+                'derived_images' => [],
+                'filter_chain' => null
+            ];
+            return helper::resolve_options($type_defaults, $value);
+        });
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
             if ($options['required']) {
                 return [new constraint()];
