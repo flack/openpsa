@@ -258,7 +258,7 @@ class form extends base
             $string .= ' value="' . $data['value'] . '"';
         }
         if ($data['checked']) {
-            $string .= 'checked="checked"';
+            $string .= ' checked="checked"';
         }
         return $string . ' />';
     }
@@ -271,7 +271,7 @@ class form extends base
             $string .= ' value="' . $data['value'] . '"';
         }
         if ($data['checked']) {
-            $string .= 'checked="checked"';
+            $string .= ' checked="checked"';
         }
         return $string . ' />';
     }
@@ -315,7 +315,7 @@ class form extends base
         if (!empty($data['form']->vars['type'])) {
             $obj = $data['form'];
             $obj = $data['form']->vars['type']->search_for_object($obj);
-            $new_label = $data['form']->vars['type']->render_choices($data['form']->vars['type_conf'],$obj);
+            $new_label = $data['form']->vars['type']->render_choices($data['form']->vars['type_conf'], $obj);
             $view->children[2]->vars['label'] = $new_label;
         }
         return $this->choice_widget_expanded($view, $data);

@@ -14,6 +14,7 @@ use midcom_core_user;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use midcom\datamanager\storage\container\dbacontainer;
+use midcom\datamanager\extension\helper;
 
 /**
  * Experimental privilege type
@@ -40,6 +41,16 @@ class privilege extends RadioType
             'choices_as_values' => true,
             'expanded' => true,
         ]);
+
+        $resolver->setNormalizer('type_config', function (Options $options, $value) {
+            $type_defaults = [
+                'classname' => '',
+                'assignee' => null,
+                'privilege_name' => null,
+                'privilege' => null
+            ];
+            return helper::resolve_options($type_defaults, $value);
+        });
     }
 
     /**
