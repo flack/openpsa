@@ -8,7 +8,6 @@ namespace midcom\datamanager\extension\type;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
-use midcom\datamanager\extension\compat;
 use midcom\datamanager\extension\transformer\multiple;
 use Symfony\Component\Form\FormBuilderInterface;
 use midcom\datamanager\extension\helper;
