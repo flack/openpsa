@@ -30,6 +30,10 @@ Löschen
 Die Passwörter stimmen nicht überein.
 ---STRINGEND
 
+---STRING type php: parse error in line %s
+Parse Error in Zeile %s
+---STRINGEND
+
 ---STRING type select: no selection
 Keine Auswahl
 ---STRINGEND

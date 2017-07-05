@@ -26,6 +26,10 @@ Usunąć
 Hasła nie pasują
 ---STRINGEND
 
+---STRING type php: parse error in line %s
+Błąd składni w linii %s
+---STRINGEND
+
 ---STRING type select: no selection
 Brak wyboru
 ---STRINGEND

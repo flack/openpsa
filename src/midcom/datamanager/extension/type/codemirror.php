@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\helper;
 use midcom\datamanager\extension\compat;
+use midcom\datamanager\validation\php;
 
 /**
  * Experimental select type
@@ -23,7 +24,7 @@ class codemirror extends TextareaType
     /**
      * Widget version
      */
-    public $version = '4.3';
+    public $version = '5.7.0';
 
     /**
      * {@inheritdoc}
@@ -63,6 +64,12 @@ class codemirror extends TextareaType
                 'modes' => ['xml', 'javascript', 'css', 'clike', 'php'],
             ];
             return helper::resolve_options($type_defaults, $value);
+        });
+        $resolver->setNormalizer('constraints', function (Options $options, $value) {
+            if ($options['dm2_type'] == 'php') {
+                $value[] = new php;
+            }
+            return $value;
         });
     }
 

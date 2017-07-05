@@ -26,6 +26,10 @@ Poistaa
 Salasanat eivät täsmää
 ---STRINGEND
 
+---STRING type php: parse error in line %s
+Jäsennysvirhe rivillä %s
+---STRINGEND
+
 ---STRING type select: no selection
 Ei valintaa
 ---STRINGEND

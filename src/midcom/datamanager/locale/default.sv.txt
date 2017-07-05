@@ -26,6 +26,10 @@ Radera
 Lösenordena matchar inte.
 ---STRINGEND
 
+---STRING type php: parse error in line %s
+Tolkningsfel på rad %s
+---STRINGEND
+
 ---STRING type select: no selection
 Inga val
 ---STRINGEND
