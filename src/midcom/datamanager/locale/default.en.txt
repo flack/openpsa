@@ -60,3 +60,7 @@ Not set (inherited)
 ---STRING widget privilege: inherit %s
 Inherited (%s)
 ---STRINGEND
+
+---STRING widget select: other value
+Other
+---STRINGEND

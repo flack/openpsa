@@ -21,3 +21,7 @@ Passordene er ikke like.
 ---STRING type select: no selection
 Ikke valgt
 ---STRINGEND
+
+---STRING widget select: other value
+Annen
+---STRINGEND

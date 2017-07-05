@@ -57,3 +57,7 @@ Nie ustawione (dziedziczone)
 ---STRING widget privilege: inherit %s
 Dziedziczone (%s)
 ---STRINGEND
+
+---STRING widget select: other value
+Inne
+---STRINGEND

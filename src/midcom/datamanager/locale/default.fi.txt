@@ -57,3 +57,7 @@ Ei asetettu (peritty)
 ---STRING widget privilege: inherit %s
 Peritty (%s)
 ---STRINGEND
+
+---STRING widget select: other value
+Muu
+---STRINGEND

@@ -61,3 +61,8 @@ Nicht gesetzt (vererbt)
 ---STRING widget privilege: inherit %s
 Vererbt (%s)
 ---STRINGEND
+
+---STRING widget select: other value
+Andere Eingabe
+---STRINGEND
+

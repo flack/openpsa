@@ -17,3 +17,7 @@ A jelszavak nem egyeznek.
 ---STRING type select: no selection
 Nincs kijelölve
 ---STRINGEND
+
+---STRING widget select: other value
+Más
+---STRINGEND

@@ -12,6 +12,8 @@ use midcom\datamanager\extension\compat;
 use midcom\datamanager\extension\transformer\multiple;
 use Symfony\Component\Form\FormBuilderInterface;
 use midcom\datamanager\extension\helper;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * Experimental select type
@@ -58,6 +60,12 @@ class select extends ChoiceType
             ];
             return helper::resolve_options($type_defaults, $value);
         });
+        $resolver->setNormalizer('widget_config', function (Options $options, $value) {
+            $widget_defaults = [
+                'height' => 6,
+            ];
+            return helper::resolve_options($widget_defaults, $value);
+        });
     }
 
     /**
@@ -70,5 +78,16 @@ class select extends ChoiceType
         }
 
         parent::buildForm($builder, $options);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        parent::buildView($view, $form, $options);
+        if ($options['type_config']['allow_multiple']) {
+            $view->vars['attr']['size'] = max(1, $options['widget_config']['height']);
+        }
     }
 }

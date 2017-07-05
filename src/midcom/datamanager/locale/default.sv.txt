@@ -45,3 +45,7 @@ Inte satt (ärvd)
 ---STRING widget privilege: inherit %s
 Ärvd (%s)
 ---STRINGEND
+
+---STRING widget select: other value
+Annat
+---STRINGEND

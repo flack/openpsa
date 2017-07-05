@@ -285,12 +285,12 @@ class form extends base
             && $data['multiple'] === false) {
             $data['required'] = false;
         }
-        $string .= $this->renderer->block($view, 'widget_attributes', ['required' => $data['required']]);
 
         if ($data['multiple']) {
             $string .= ' multiple="multiple"';
         }
-        $string .= '>';
+
+        $string .= $this->renderer->block($view, 'widget_attributes', ['required' => $data['required']]) . '>';
         if (null !== $data['empty_value']) {
             $string .= '<option value=""';
             if (   $data['required']
@@ -348,6 +348,14 @@ class form extends base
             }
         }
         return $string;
+    }
+
+    public function other_widget(FormView $view, array $data)
+    {
+        $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        $string .= $this->renderer->widget($view->children['select']);
+        $string .= $this->renderer->humanize($view->children['other']->vars['label']) . ': ' . $this->renderer->widget($view->children['other'], ['attr' => ['class' => 'other']]);
+        return $string . '</fieldset>';
     }
 
     public function codemirror_widget(FormView $view, array $data)

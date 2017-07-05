@@ -227,6 +227,9 @@ class schema
                     }
                 }
             }
+            if ($value == 'select' && !empty($options['type_config']['allow_other'])) {
+                return 'other';
+            }
             return $value;
         };
 
