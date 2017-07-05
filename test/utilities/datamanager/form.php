@@ -50,6 +50,13 @@ class datamanager_form extends base
 
     public function choice_widget_collapsed(FormView $view, array $data)
     {
+        if (is_array($data['value'])) {
+            $ret = '[';
+            foreach ($data['value'] as $val) {
+                $ret .= '"' . $val . '",';
+            }
+            return $ret . ']';
+        }
         return $this->form_widget_simple($view, $data);
     }
 
@@ -78,6 +85,11 @@ class datamanager_form extends base
         return '["selection" => ' . $this->renderer->widget($view['selection']) . ']';
     }
 
+    public function other_widget(FormView $view, array $data)
+    {
+        $string = '["select" => ' . $this->renderer->widget($view['select']) . ', ';
+        return $string . '"other" => ' . $this->renderer->widget($view['other']) . ']';
+    }
 
     public function jsdate_widget(FormView $view, array $data)
     {
