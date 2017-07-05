@@ -26,14 +26,14 @@ class org_openpsa_user_handler_person_editTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.user', ['edit', self::$_user->guid]);
         $this->assertEquals('user_edit', $data['handler_id']);
-        $this->assertEquals('person', $data['controller']->schemadb['default']->description);
+        $this->assertEquals('person', $data['controller']->get_datamanager()->get_schema()->get('description'));
 
         $formdata = [
             'email' => 'test@test.info',
             'lastname' => 'TEST'
         ];
 
-        $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.user', ['edit', self::$_user->guid]);
+        $this->submit_dm_no_relocate_form('controller', $formdata, 'org.openpsa.user', ['edit', self::$_user->guid]);
         self::$_user->refresh();
 
         $this->assertEquals('test@test.info', self::$_user->email);

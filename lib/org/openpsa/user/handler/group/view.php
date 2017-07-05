@@ -49,7 +49,7 @@ implements midcom_helper_datamanager2_interfaces_view
         $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
         $this->add_breadcrumb('', $this->_group->get_label());
 
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if ($this->_group->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("group/edit/{$this->_group->guid}/", [

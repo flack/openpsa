@@ -6,37 +6,31 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+use midcom\datamanager\schemadb;
+
 /**
  * org.openpsa.user group handler and viewer class.
  *
  * @package org.openpsa.user
  */
 class org_openpsa_user_handler_group_privileges extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_edit
 {
-    /**
-     * The group we're working with, if any
-     *
-     * @var midcom_db_group
-     */
-    private $_group = null;
-
-    /**
-     * Loads and prepares the schema database.
-     *
-     * The operations are done on all available schemas within the DB.
-     */
-    public function load_schemadb()
+    private function load_controller(midcom_db_group $group)
     {
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_acl'));
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_acl'));
 
         // Get the calendar root event
         if ($root_event = org_openpsa_calendar_interface::find_root_event()) {
-            $schemadb['default']->fields['calendar']['type_config']['privilege_object'] = $root_event;
-            $schemadb['default']->fields['calendar']['type_config']['assignee'] = 'group:' . $this->_group->guid;
+            $field =& $schemadb->get('default')->get_field('calendar');
+            $field['type_config']['privilege_object'] = $root_event;
+            $field['type_config']['assignee'] = 'group:' . $group->guid;
         }
 
-        return $schemadb;
+        $dm = new datamanager($schemadb);
+        return $dm
+            ->set_storage($group)
+            ->get_controller();
     }
 
     /**
@@ -49,12 +43,12 @@ implements midcom_helper_datamanager2_interfaces_edit
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
 
         // Check if we get the group
-        $this->_group = new midcom_db_group($args[0]);
-        $this->_group->require_do('midgard:privileges');
+        $group = new midcom_db_group($args[0]);
+        $group->require_do('midgard:privileges');
 
         midcom::get()->head->set_pagetitle($this->_l10n->get("permissions"));
 
-        $workflow = $this->get_workflow('datamanager2', ['controller' => $this->get_controller('simple', $this->_group)]);
+        $workflow = $this->get_workflow('datamanager', ['controller' => $this->load_controller($group)]);
         return $workflow->run();
     }
 }

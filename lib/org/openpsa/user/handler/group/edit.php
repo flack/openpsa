@@ -6,30 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Edit group class for user management
  *
  * @package org.openpsa.user
  */
 class org_openpsa_user_handler_group_edit extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
      * The person we're working on
      *
      * @var midcom_db_group
      */
-    private $_group;
-
-    /**
-     * Loads and prepares the schema database.
-     *
-     * The operations are done on all available schemas within the DB.
-     */
-    public function load_schemadb()
-    {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
-    }
+    private $group;
 
     /**
      * @param mixed $handler_id The ID of the handler.
@@ -39,19 +30,23 @@ implements midcom_helper_datamanager2_interfaces_edit
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
-        $this->_group = new midcom_db_group($args[0]);
+        $this->group = new midcom_db_group($args[0]);
 
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->get_label()));
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->group->get_label()));
 
-        $workflow = $this->get_workflow('datamanager2', [
-            'controller' => $this->get_controller('simple', $this->_group),
+        $controller = datamanager::from_schemadb($this->_config->get('schemadb_group'))
+            ->set_storage($this->group)
+            ->get_controller();
+
+        $workflow = $this->get_workflow('datamanager', [
+            'controller' => $controller,
             'save_callback' => [$this, 'save_callback']
         ]);
         return $workflow->run();
     }
 
-    public function save_callback(midcom_helper_datamanager2_controller $controller)
+    public function save_callback()
     {
-        midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->get_label()));
+        midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('group %s saved'), $this->group->get_label()));
     }
 }
