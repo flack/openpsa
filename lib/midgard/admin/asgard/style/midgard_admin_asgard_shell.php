@@ -1,5 +1,5 @@
 <?php
-$identifier = $data['controller']->formmanager->namespace . 'code';
+$identifier = $data['controller']->get_datamanager()->get_form()->getName() . '_code';
 ?>
 <script type="text/javascript">
 var midgard_admin_asgard_shell_identifier = '&(identifier);';
