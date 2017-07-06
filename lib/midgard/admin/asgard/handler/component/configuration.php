@@ -6,17 +6,17 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\schemadb;
+use midcom\datamanager\datamanager;
+
 /**
  * Component configuration handler
  *
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_handler_component_configuration extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_nullstorage
 {
     private $_controller;
-
-    private $_schema_name = 'default';
 
     public function _on_initialize()
     {
@@ -86,60 +86,59 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         return $config;
     }
 
-    public function load_schemadb()
+    /**
+     * @return \midcom\datamanager\controller
+     */
+    private function load_controller()
     {
         // Load SchemaDb
         $schemadb_config_path = midcom::get()->componentloader->path_to_snippetpath($this->_request_data['name']) . '/config/config_schemadb.inc';
-        $schema = 'default';
+        $schemaname = 'default';
 
         if (file_exists($schemadb_config_path)) {
-            // Check that the schema is valid DM2 schema
-            $schema_array = midcom_baseclasses_components_configuration::read_array_from_file($schemadb_config_path);
-            if (isset($schema_array['config'])) {
-                $schema = 'config';
+            $schemadb = schemadb::from_path('file:/' . str_replace('.', '/', $this->_request_data['name']) . '/config/config_schemadb.inc');
+            if ($schemadb->has('config')) {
+                $schemaname = 'config';
             }
-
-            $schemadb = midcom_helper_datamanager2_schema::load_database($schema_array);
             // TODO: Log error on deprecated config schema?
         } else {
             // Create dummy schema. Naughty component would not provide config schema.
-            $schemadb = midcom_helper_datamanager2_schema::load_database("file:/midgard/admin/asgard/config/schemadb_libconfig.inc");
+            $schemadb = schemadb::from_path("file:/midgard/admin/asgard/config/schemadb_libconfig.inc");
         }
-        $schemadb[$schema]->l10n_schema = $this->_i18n->get_l10n($this->_request_data['name']);
+        $schema = $schemadb->get($schemaname);
+        $schema->set('l10n_db', $this->_request_data['name']);
+        $fields = $schema->get('fields');
 
         foreach ($this->_request_data['config']->_global as $key => $value) {
             // try to sniff what fields are missing in schema
-            if (!array_key_exists($key, $schemadb[$schema]->fields)) {
-                $schemadb[$schema]->append_field($key, $this->_detect_schema($key, $value));
-                $schemadb[$schema]->fields[$key]['title'] = $schemadb[$schema]->l10n_schema->get($schemadb[$schema]->fields[$key]['title']);
+            if (!array_key_exists($key, $fields)) {
+                $fields[$key] = $this->_detect_schema($key, $value);
             }
 
             if (   !isset($this->_request_data['config']->_local[$key])
                 || $this->_request_data['config']->_local[$key] == $this->_request_data['config']->_global[$key]) {
                 // No local configuration setting, note to user that this is the global value
-                $schemadb[$schema]->fields[$key]['title'] = $schemadb[$schema]->l10n_schema->get($schemadb[$schema]->fields[$key]['title']);
-                $schemadb[$schema]->fields[$key]['title'] .= " <span class=\"global\">(" . $this->_l10n->get('global value') .")</span>";
+                $fields[$key]['title'] = $schema->get_l10n()->get($fields[$key]['title']);
+                $fields[$key]['title'] .= " <span class=\"global\">(" . $this->_l10n->get('global value') .")</span>";
             }
         }
 
         // Prepare defaults
-        $config = array_intersect_key($this->_request_data['config']->get_all(), $schemadb[$schema]->fields);
+        $config = array_intersect_key($this->_request_data['config']->get_all(), $fields);
         foreach ($config as $key => $value) {
             if (is_array($value)) {
-                $schemadb[$schema]->fields[$key]['default'] = var_export($value, true);
+                $fields[$key]['default'] = var_export($value, true);
             } else {
-                $schemadb[$schema]->fields[$key]['default'] = $value;
+                if ($fields[$key]['widget'] == 'checkbox') {
+                    $value = (boolean) $value;
+                }
+                $fields[$key]['default'] = $value;
             }
         }
+        $schema->set('fields', $fields);
 
-        $this->_schema_name = $schema;
-
-        return $schemadb;
-    }
-
-    public function get_schema_name()
-    {
-        return $this->_schema_name;
+        $dm = new datamanager($schemadb);
+        return $dm->get_controller();
     }
 
     /**
@@ -285,17 +284,18 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     /**
      * Save configuration values to a topic as parameters
      */
-    private function _save_topic($topic, $config)
+    private function _save_topic(midcom_db_topic $topic, $config)
     {
-        foreach (array_keys($this->_request_data['config']->_global) as $global_key) {
-            if (isset($config[$global_key])) {
+        foreach ($this->_request_data['config']->_global as $global_key => $global_value) {
+            if (   isset($config[$global_key])
+                && $config[$global_key] != $global_value) {
                 continue;
                 // Skip the ones we will set next
             }
 
             // Clear unset params
             if ($topic->get_parameter($this->_request_data['name'], $global_key)) {
-                $topic->set_parameter($this->_request_data['name'], $global_key, '');
+                $topic->delete_parameter($this->_request_data['name'], $global_key);
             }
         }
 
@@ -308,26 +308,26 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                  */
                  continue;
             }
+
+            if ($value === false) {
+                $value = '0';
+            }
             $topic->set_parameter($this->_request_data['name'], $key, $value);
         }
     }
 
     private function _get_config_from_controller()
     {
-        $post = $this->_controller->formmanager->form->getSubmitValues();
+        $post = $this->_controller->get_datamanager()->get_content_raw();
         $config_array = [];
-        foreach ($this->_request_data['config']->_global as $key => $val) {
+        foreach ($this->_request_data['config']->get_all() as $key => $val) {
             if (isset($post[$key])) {
                 $newval = $post[$key];
+            } else {
+                continue;
             }
 
-            if (   is_a($this->_controller->datamanager->types[$key], 'midcom_helper_datamanager2_type_select')
-                || is_a($this->_controller->datamanager->types[$key], 'midcom_helper_datamanager2_type_boolean')) {
-                // We want the actual values regardless of widget
-                $newval = $this->_controller->datamanager->types[$key]->convert_to_storage();
-            }
-
-            if (!isset($newval)) {
+            if ($newval === '') {
                 continue;
             }
 
@@ -369,9 +369,9 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $data['config'] = $this->_load_configs($data['name']);
         }
 
-        $this->_controller = $this->get_controller('nullstorage');
+        $this->_controller = $this->load_controller();
 
-        switch ($this->_controller->process_form()) {
+        switch ($this->_controller->process()) {
             case 'save':
                 $this->_save_configuration($data);
                 // *** FALL-THROUGH ***
