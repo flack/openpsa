@@ -9,7 +9,7 @@
 /**
  * Interface for identifying DBA entities which can have both person & organization links
  *
- * @package org.openpsa.invoice
+ * @package org.openpsa.invoices
  */
 interface org_openpsa_invoices_interfaces_customer
 {
