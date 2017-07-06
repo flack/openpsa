@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Discussion forum index
  *
@@ -18,23 +20,22 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
      *
      * @var org_openpsa_directmarketing_campaign_message_dba
      */
-    private $_message = null;
+    private $_message;
 
     /**
-     * MidCOM helper Datamanager2 class
+     * Datamanager instance
      *
-     * @var midcom_helper_datamanager2_datamanager
+     * @var datamanager
      */
-    private $_datamanager = false;
+    private $_datamanager;
 
     /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
      */
     private function _load_datamanager()
     {
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-        $this->_datamanager->autoset_storage($this->_message);
+        $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_message'));
+        $this->_datamanager->set_storage($this->_message);
     }
 
     /**

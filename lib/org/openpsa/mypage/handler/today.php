@@ -66,7 +66,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 
         //needed js/css-files for journal entries
         org_openpsa_widgets_grid::add_head_elements();
-        midcom\workflow\datamanager2::add_head_elements();
+        midcom\workflow\datamanager::add_head_elements();
         org_openpsa_widgets_calendar::add_head_elements();
         org_openpsa_widgets_ui::enable_ui_tab();
     }

@@ -7,6 +7,7 @@
  */
 
 use Doctrine\ORM\Query\Expr\Join;
+use midcom\datamanager\schemadb;
 
 /**
  * Task list handler
@@ -444,9 +445,9 @@ implements org_openpsa_widgets_grid_provider_client
      */
     private function _get_priorities()
     {
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_task'));
-        if (array_key_exists('priority', $schemadb['default']->fields)) {
-            $this->_request_data['priority_array'] = $schemadb['default']->fields['priority']['type_config']['options'];
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_task'));
+        if ($schemadb->get('default')->has_field('priority')) {
+            $this->_request_data['priority_array'] = $schemadb->get('default')->get_field('priority')['type_config']['options'];
             $this->_request_data['priority_array'][0] = $this->_l10n->get("none");
             foreach ($this->_request_data['priority_array'] as &$title) {
                 $title = $this->_l10n->get($title);

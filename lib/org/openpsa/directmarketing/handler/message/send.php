@@ -7,8 +7,6 @@
  */
 
 /**
- * Discussion forum index
- *
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasses_components_handler

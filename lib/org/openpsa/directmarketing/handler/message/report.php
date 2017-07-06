@@ -6,15 +6,15 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
- * Discussion forum index
- *
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_message_report extends midcom_baseclasses_components_handler
 {
     /**
-     * The message which has been created
+     * The message we're working on
      *
      * @var org_openpsa_directmarketing_campaign_message_dba
      */
@@ -26,20 +26,6 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      * @var org_openpsa_directmarketing_campaign_dba
      */
     private $_campaign;
-
-    /**
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager;
-
-    /**
-     * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
-     */
-    private function _load_datamanager()
-    {
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-    }
 
     /**
      * Builds the message report array
@@ -328,9 +314,9 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $data['message'] = $this->_message;
 
-        $this->_load_datamanager();
-        $this->_datamanager->autoset_storage($this->_message);
-        $data['message_array'] = $this->_datamanager->get_content_raw();
+        $data['message_array'] = datamanager::from_schemadb($this->_config->get('schemadb_message'))
+            ->set_storage($this->_message)
+            ->get_content_raw();
 
         $this->_campaign = $this->_master->load_campaign($this->_message->campaign);
         $data['campaign'] = $this->_campaign;
