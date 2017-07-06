@@ -39,9 +39,7 @@ class schema
     public function __construct(array $config)
     {
         $this->config = array_merge($this->defaults, $config);
-        foreach ($this->config['fields'] as $name => &$config) {
-            $config = $this->resolve_field_options($config, $name);
-        }
+        $this->complete_fields();
     }
 
     /**
@@ -132,6 +130,9 @@ class schema
     public function set($key, $value)
     {
         $this->config[$key] = $value;
+        if ($key === 'fields') {
+            $this->complete_fields();
+        }
     }
 
     public function has_field($name)
@@ -180,6 +181,13 @@ class schema
             $l10n_name = 'midcom';
         }
         return midcom::get()->i18n->get_l10n($l10n_name);
+    }
+
+    private function complete_fields()
+    {
+        foreach ($this->config['fields'] as $name => &$config) {
+            $config = $this->resolve_field_options($config, $name);
+        }
     }
 
     private function resolve_field_options(array $config, $name)
