@@ -62,6 +62,12 @@ class datamanager_form extends base
 
     public function form_widget_simple(FormView $view, array $data)
     {
+        if (   version_compare(PHP_VERSION, '5.5', '<')
+            && $data['value'] === 'NaN') {
+            // workaround for a strange problem observed on one php54 machine
+            // (happens only if the entires test suite runs)
+            $data['value'] = 0;
+        }
         return '"' . $data['value'] . '"';
     }
 
