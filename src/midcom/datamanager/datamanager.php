@@ -17,8 +17,9 @@ use midcom_core_context;
 use midcom;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
-use midcom\datamanager\extension\compat;
 use midcom\datamanager\extension\transformer\multiple;
+use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 /**
  * Experimental datamanager class
@@ -76,17 +77,25 @@ class datamanager
     {
         if (static::$factory === null) {
             $fb = new FormFactoryBuilder();
-            $fb->addExtension(new schemaextension());
-            $fb->addExtension(new CoreExtension());
 
-            $vb = Validation::createValidatorBuilder();
             $lang = midcom::get()->i18n->get_current_language();
             $translator = new Translator($lang);
             $translator->addLoader('xlf', new XliffFileLoader);
+
+            $vb = Validation::createValidatorBuilder();
             $rc = new \ReflectionClass($vb);
             $path = dirname($rc->getFileName());
             $translator->addResource('xlf', $path . '/Resources/translations/validators.' . $lang . '.xlf', $lang);
+            $rc = new \ReflectionClass($fb);
+            $path = dirname($rc->getFileName());
+            $translator->addResource('xlf', $path . '/Resources/translations/validators.' . $lang . '.xlf', $lang);
+
             $vb->setTranslator($translator);
+
+            $fb->addExtension(new schemaextension())
+                ->addExtension(new CoreExtension())
+                ->addExtension(new CsrfExtension(new CsrfTokenManager, $translator));
+
             $fb->addExtension(new ValidatorExtension($vb->getValidator()));
 
             self::$factory = $fb->getFormFactory();
@@ -200,16 +209,15 @@ class datamanager
             // Replace the dots in the component name with underscores
             $name = midcom::get()->componentloader->path_to_prefix($name);
         }
-        if (! $name) {
+        if (!$name) {
             // Fallback for componentless operation
             $name = 'midcom_helper_datamanager2';
         }
 
         if (   $this->form === null
             || $this->form->getName() != $name) {
-            $builder = self::get_factory()
-                ->createNamedBuilder($name, compat::get_type_name('form'), $this->get_storage());
-            $this->form = $this->schema->build_form($builder, $this->storage);
+            $this->get_storage();
+            $this->form = $this->schema->build_form(self::get_factory(), $this->storage, $name);
         }
         return $this->form;
     }

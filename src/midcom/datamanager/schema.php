@@ -6,7 +6,6 @@
 namespace midcom\datamanager;
 
 use midcom_error;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -18,6 +17,7 @@ use midcom\datamanager\extension\compat;
 use midcom\datamanager\validation\callback as cb_wrapper;
 use midcom\datamanager\storage\container\container;
 use midcom\datamanager\storage\container\dbacontainer;
+use Symfony\Component\Form\FormFactoryInterface;
 
 /**
  * Experimental schema class
@@ -62,17 +62,26 @@ class schema
 
     /**
      *
-     * @param FormBuilderInterface $builder
+     * @param FormFactoryInterface $factory
      * @param container $storage
+     * @param string $name
      * @return \Symfony\Component\Form\Form
      */
-    public function build_form(FormBuilderInterface $builder, container $storage)
+    public function build_form(FormFactoryInterface $factory, container $storage, $name)
     {
-        foreach ($this->config['fields'] as $name => $config) {
-            if (!empty($config['hidden'])) {
-                continue;
-            }
+        $csrf = false;
+        $fields = [];
 
+        foreach ($this->config['fields'] as $field => $config) {
+            if ($config['type'] === 'csrf') {
+                $csrf = true;
+            } elseif (empty($config['hidden'])) {
+                $fields[$field] = $config;
+            }
+        }
+
+        $builder = $factory->createNamedBuilder($name, compat::get_type_name('form'), $storage, ['csrf_protection' => $csrf]);
+        foreach ($fields as $field => $config) {
             if ($config['write_privilege'] !== null) {
                 if (   array_key_exists('group', $config['write_privilege'])
                     && !midcom::get()->auth->is_group_member($config['write_privilege']['group'])) {
@@ -101,7 +110,7 @@ class schema
                 'storage' => $storage
             ];
 
-            $builder->add($name, compat::get_type_name($config['widget']), $options);
+            $builder->add($field, compat::get_type_name($config['widget']), $options);
         }
 
         $options = [
