@@ -142,11 +142,14 @@ class datamanager
     }
 
     /**
-     *
+     * @param string $name
      * @return \midcom\datamanager\schema
      */
-    public function get_schema()
+    public function get_schema($name = null)
     {
+        if ($name) {
+            return $this->schemadb->get($name);
+        }
         return $this->schema;
     }
 
