@@ -2,7 +2,7 @@
     width: 100%;
 }
 
-.midcom_datamanager_table_photo .preview-image.delete{
+.delete > .midcom_datamanager_table_photo{
     opacity: 0.5;
 }
 
@@ -10,6 +10,6 @@
     float:right;
 }
 
-.midcom_datamanager_photo_lable{
+.midcom_datamanager_photo_label{
     float: right;
 }

@@ -71,7 +71,7 @@ class datamanager_form extends base
         return '"' . $data['value'] . '"';
     }
 
-    public function photo_widget(FormView $view, array $data)
+    public function image_widget(FormView $view, array $data)
     {
         return '[]';
     }

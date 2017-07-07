@@ -127,7 +127,7 @@ class view extends base
         return implode(', ', $ret);
     }
 
-    public function photo_widget(FormView $view, array $data)
+    public function image_widget(FormView $view, array $data)
     {
         if (!array_key_exists('main', $data['value'])) {
             $ret = "";

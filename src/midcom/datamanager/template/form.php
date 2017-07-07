@@ -431,7 +431,7 @@ class form extends base
         return $string . '</td></tr></table></div>';
     }
 
-    public function photo_widget(FormView $view, array $data)
+    public function image_widget(FormView $view, array $data)
     {
         $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<table class="midcom_datamanager_table_photo"><tr><td>';
@@ -450,11 +450,12 @@ class form extends base
         $string .= '</td><td>';
 
         if (!empty($values)) {
+            $string .= '<label class="midcom_datamanager_photo_label">' . $this->renderer->humanize('delete photo') . ' ' . $this->renderer->widget($data['form']['delete']) . '</label>';
             $string .= '<ul>';
             foreach ($values as $identifier => $info) {
                 if (   $info['size_x']
                     && $info['size_y']) {
-                    $size = "{$info['size_x']}x{$info['size_y']}";
+                    $size = "{$info['size_x']}&times;{$info['size_y']}";
                 } else {
                     $size = 'unknown';
                 }
@@ -465,12 +466,12 @@ class form extends base
         }
         $string .= $this->renderer->widget($data['form']['file']);
         if (array_key_exists('title', $view->children)) {
+            $view->children['title']->vars['attr']['placeholder'] = $this->renderer->humanize('title');
             $string .= $this->renderer->widget($view->children['title']);
         }
-        $string .= '<label class="midcom_datamanager_photo_label">' . $this->renderer->humanize('delete photo') . ' ' . $this->renderer->widget($data['form']['delete']) . '</label>';
         $string .= '</td></tr></table></div>';
 
-        return $string . $this->jsinit('init_photo_widget("' . $view->vars['id'] .'");');
+        return $string . $this->jsinit('init_image_widget("' . $view->vars['id'] .'");');
     }
 
     public function subform_widget(FormView $view, array $data)
