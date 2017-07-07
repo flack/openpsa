@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Blog Index handler page handler
  *
@@ -24,22 +26,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
     private $_articles = null;
 
     /**
-     * The datamanager for the currently displayed article.
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager = null;
-
-    /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['datamanager'] = $this->_datamanager;
-    }
-
-    /**
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified
      * dates.
      *
@@ -53,7 +39,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
             midcom::get()->skip_page_style = true;
         }
 
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($data['schemadb']);
+        $data['datamanager'] = datamanager::from_schemadb($this->_config->get('schemadb'));
         $qb = new org_openpsa_qbpager('midcom_db_article', 'net_nehmer_blog_index');
         $data['qb'] = $qb;
         $this->_master->article_qb_constraints($qb, $handler_id);
@@ -83,7 +69,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         $this->_articles = $qb->execute();
 
-        $this->_prepare_request_data();
         midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic), $this->_topic->guid);
 
         if ($qb->get_current_page() > 1) {
@@ -118,14 +103,12 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         // Add RSS feed to headers
         if ($this->_config->get('rss_enable')) {
-            midcom::get()->head->add_link_head(
-                [
-                    'rel'   => 'alternate',
-                    'type'  => 'application/rss+xml',
-                    'title' => $this->_l10n->get('rss 2.0 feed') . ": {$this->_request_data['category']}",
-                    'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "feeds/category/{$this->_request_data['category']}/",
-                ]
-            );
+            midcom::get()->head->add_link_head([
+                'rel'   => 'alternate',
+                'type'  => 'application/rss+xml',
+                'title' => $this->_l10n->get('rss 2.0 feed') . ": {$this->_request_data['category']}",
+                'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "feeds/category/{$this->_request_data['category']}/",
+            ]);
         }
         return true;
     }
@@ -156,9 +139,10 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
             $total_count = count($this->_articles);
             $data['article_count'] = $total_count;
             foreach ($this->_articles as $article_counter => $article) {
-                if (!$this->_datamanager->autoset_storage($article)) {
-                    debug_add("The datamanager for article {$article->id} could not be initialized, skipping it.");
-                    debug_print_r('Object was:', $article);
+                try {
+                    $data['datamanager']->set_storage($article);
+                } catch (midcom_error $e) {
+                    $e->log();
                     continue;
                 }
 

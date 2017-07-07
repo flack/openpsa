@@ -37,7 +37,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         $this->_request_data['datamanager'] = $this->_datamanager;
 
         $buttons = [];
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         if ($this->_article->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("edit/{$this->_article->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',

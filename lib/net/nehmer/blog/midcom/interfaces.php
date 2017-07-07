@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Blog MidCOM interface class.
  *
@@ -26,16 +28,16 @@ implements midcom_services_permalinks_resolver
             $qb->add_constraint('topic', '=', $topic->id);
             $result = $qb->execute();
 
-            $schemadb = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
-            $datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
+            $dm = datamanager::from_schemadb($config->get('schemadb'));
 
             foreach ($result as $article) {
-                if (!$datamanager->autoset_storage($article)) {
-                    debug_add("Warning, failed to initialize datamanager for Article {$article->id}. Skipping it.", MIDCOM_LOG_WARN);
+                try {
+                    $dm->set_storage($article);
+                } catch (midcom_error $e) {
+                    $e->log(MIDCOM_LOG_WARN);
                     continue;
                 }
-
-                net_nehmer_blog_viewer::index($datamanager, $indexer, $topic);
+                net_nehmer_blog_viewer::index($dm, $indexer, $topic);
             }
         }
 

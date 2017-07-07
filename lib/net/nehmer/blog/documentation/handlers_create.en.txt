@@ -1,2 +1,2 @@
 
-Provides create form for post using __{$args[0]}__ schema database. Argument is [Datamanager 2](../../midcom.helper.datamanager2/) schema.
+Provides create form for post using __{$args[0]}__ schema database. Argument is [Datamanager](../../midcom.datamanager/) schema.

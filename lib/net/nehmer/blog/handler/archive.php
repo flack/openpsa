@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Blog Archive pages handler
  *
@@ -21,13 +23,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @var array
      */
     private $_articles = null;
-
-    /**
-     * The datamanager for the currently displayed article.
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager = null;
 
     /**
      * The start date of the Archive listing.
@@ -49,7 +44,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['datamanager'] = $this->_datamanager;
         $this->_request_data['start'] = $this->_start;
         $this->_request_data['end'] = $this->_end;
     }
@@ -270,6 +264,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
+        $data['datamanager'] = datamanager::from_schemadb($this->_config->get('schemadb'));
         // Get Articles, distinguish by handler.
         $qb = midcom_db_article::new_query_builder();
         $this->_master->article_qb_constraints($qb, $handler_id);
@@ -278,9 +273,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         switch ($handler_id) {
             case 'archive-year-category':
                 $data['category'] = trim(strip_tags($args[1]));
-                if (   isset($data['schemadb']['default']->fields['categories'])
-                    && array_key_exists('allow_multiple', $data['schemadb']['default']->fields['categories']['type_config'])
-                    && !$data['schemadb']['default']->fields['categories']['type_config']['allow_multiple']) {
+                if (   $data['datamanager']->get_schema('default')->has_field('categories')
+                    && !$data['datamanager']->get_schema('default')->get_field('categories')['type_config']['allow_multiple']) {
                     $qb->add_constraint('extra1', '=', (string) $data['category']);
                 } else {
                     $qb->add_constraint('extra1', 'LIKE', "%|{$this->_request_data['category']}|%");
@@ -307,8 +301,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $qb->add_constraint('metadata.published', '<', $this->_end->format('Y-m-d H:i:s'));
         $qb->add_order('metadata.published', $this->_config->get('archive_item_order'));
         $this->_articles = $qb->execute();
-
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
 
         // Move end date one day backwards for display purposes.
         $now = new DateTime();
@@ -415,9 +407,10 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
             foreach ($this->_articles as $article_counter => $article) {
-                if (!$this->_datamanager->autoset_storage($article)) {
-                    debug_add("The datamanager for article {$article->id} could not be initialized, skipping it.");
-                    debug_print_r('Object was:', $article);
+                try {
+                    $data['datamanager']->set_storage($article);
+                } catch (midcom_error $e) {
+                    $e->log();
                     continue;
                 }
 

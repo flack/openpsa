@@ -1,4 +1,5 @@
 <?php
+$view = $data['datamanager']->get_content_html();
 $item = new FeedItem();
 $item->descriptionHtmlSyndicated = true;
 $authors = explode('|', substr($data['article']->metadata->authors, 1, -1));
@@ -33,16 +34,16 @@ $item->date = (int) $data['article']->metadata->published;
 $item->description = '';
 
 if ($data['article']->abstract != '') {
-    $item->description .= '<div class="abstract">' .  $data['datamanager']->types['abstract']->convert_to_html() . '</div>';
+    $item->description .= '<div class="abstract">' .  $view['abstract']. '</div>';
 }
 
-if (   array_key_exists('image', $data['datamanager']->types)
+if (   array_key_exists('image', $view)
     && $data['config']->get('rss_use_image')) {
-    $item->description .= "\n<div class=\"image\">" . $data['datamanager']->types['image']->convert_to_html() .'</div>';
+    $item->description .= "\n<div class=\"image\">" . $view['image'] .'</div>';
 }
 
 if ($data['config']->get('rss_use_content')) {
-    $item->description .= "\n" . $data['datamanager']->types['content']->convert_to_html();
+    $item->description .= "\n" . $view['content'];
 }
 
 // Replace links

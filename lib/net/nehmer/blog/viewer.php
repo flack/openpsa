@@ -95,7 +95,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     private function _populate_node_toolbar()
     {
         $buttons = [];
-        $workflow = $this->get_workflow('datamanager2');
+        $workflow = $this->get_workflow('datamanager');
         if ($this->_topic->can_do('midgard:create')) {
             foreach (array_keys($this->_request_data['schemadb']) as $name) {
                 $buttons[] = $workflow->get_button("create/{$name}/", [

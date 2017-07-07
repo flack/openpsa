@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Blog Feed handler
  *
@@ -13,7 +15,6 @@
  *
  * @package net.nehmer.blog
  */
-
 class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
 {
     /**
@@ -22,13 +23,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * @var Array
      */
     private $_articles = null;
-
-    /**
-     * The datamanager for the currently displayed article.
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager = null;
 
     /**
      * The feedcreator instance used.
@@ -53,7 +47,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         midcom::get()->skip_page_style = true;
 
         // Prepare control structures
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
+        $data['datamanager'] = datamanager::from_schemadb($this->_config->get('schemadb'));
 
         // Get the articles,
         $qb = midcom_db_article::new_query_builder();
@@ -142,9 +136,8 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         // Add each article now.
         if ($this->_articles) {
             foreach ($this->_articles as $article) {
-                $this->_datamanager->autoset_storage($article);
+                $data['datamanager']->set_storage($article);
                 $data['article'] = $article;
-                $data['datamanager'] = $this->_datamanager;
                 midcom_show_style('feeds-item');
             }
         }
