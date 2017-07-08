@@ -78,7 +78,6 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         $this->invoice->require_do('midgard:update');
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('invoice')));
-        $data['controller'] = $this->_controller;
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->load_controller(),
             'save_callback' => [$this, 'save_callback']
