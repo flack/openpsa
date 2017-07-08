@@ -7,16 +7,13 @@
  */
 
 /**
- * component configuration screen.
- *
- * This class extends the standard configdm mechanism as we need a few hooks for
- * the schemadb list.
+ * Component configuration screen.
  *
  * @package org.openpsa.products
  */
-class org_openpsa_products_handler_configuration extends midcom_baseclasses_components_handler_configuration
+class org_openpsa_products_handler_configuration extends midcom_baseclasses_components_handler_configuration_recreate
 {
-    function _load_datamanagers()
+    public function _load_datamanagers()
     {
         return [
             'org_openpsa_products_product_group_dba' => new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_group']),
@@ -42,7 +39,7 @@ class org_openpsa_products_handler_configuration extends midcom_baseclasses_comp
         return $objects;
     }
 
-    function _load_objects()
+    public function _load_objects()
     {
         return $this->_load_objects_group($this->_request_data['root_group']);
     }

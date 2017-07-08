@@ -9,21 +9,18 @@
 /**
  * n.n.blog component configuration screen.
  *
- * This class extends the standard configdm2 mechanism as we need a few hooks for the
- * thumbnail regeneration.
- *
  * @package net.nehmer.blog
  */
-class net_nehmer_blog_handler_configuration extends midcom_baseclasses_components_handler_configuration
+class net_nehmer_blog_handler_configuration extends midcom_baseclasses_components_handler_configuration_recreate
 {
-    function _load_datamanagers()
+    public function _load_datamanagers()
     {
         return [
             'midcom_db_article' => new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb'])
         ];
     }
 
-    function _load_objects()
+    public function _load_objects()
     {
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_request_data['topic']->id);
