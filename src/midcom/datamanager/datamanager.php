@@ -239,6 +239,24 @@ class datamanager
         return $ret;
     }
 
+    public function get_content_csv()
+    {
+        $ret = [];
+
+        $view = $this->get_form()->createView();
+        $renderer = $this->get_renderer();
+        $renderer->set_template($view, new template\csv($renderer));
+
+        foreach ($view->children as $name => $value) {
+            if ($name == 'form_toolbar') {
+                continue;
+            }
+            $ret[$name] = $renderer->widget($value);
+        }
+
+        return $ret;
+    }
+
     public function get_content_html()
     {
         $ret = [];
