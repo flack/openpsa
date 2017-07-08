@@ -25,9 +25,9 @@ class org_openpsa_user_handler_lostpasswordTest extends openpsa_testcase
             'username' => $account->get_username()
         ];
 
-        $this->set_dm2_formdata($data['controller'], $formdata);
+        $this->set_dm_formdata($data['controller'], $formdata);
         $data = $this->run_handler('org.openpsa.user', ['lostpassword']);
-        $this->assertEquals([], $data['controller']->formmanager->form->_errors);
+        $this->assertEquals([], $data['controller']->get_errors());
 
         $user->refresh();
         $account = new midcom_core_account($user);

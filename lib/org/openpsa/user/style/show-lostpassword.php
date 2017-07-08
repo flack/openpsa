@@ -2,10 +2,10 @@
 
 <p><?php $data['l10n']->show('lost password helptext'); ?></p>
 
-<?php if ($data['processing_msg']) {
+<?php if (array_key_exists('processing_msg', $data)) {
     ?>
     <p>&(data['processing_msg']);</p>
-<?php 
+<?php
 } ?>
 
 <?php $data['controller']->display_form(); ?>
