@@ -42,42 +42,9 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     private $_totals = [];
 
-    /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    public function _prepare_request_data()
-    {
-        $this->_request_data['datamanagers'] =& $this->_datamanagers;
-        $this->_request_data['rows'] =& $this->_rows;
-    }
+    abstract public function _load_schemadbs($handler_id, &$args, &$data);
 
-    /**
-     * Internal helper, loads the datamanagers for the given types. Any error triggers a 500.
-     */
-    public function _load_datamanagers(array $schemadbs)
-    {
-        if (empty($this->_schema)) {
-            throw new midcom_error('Export schema ($this->_schema) must be defined, hint: do it in "_load_schemadb"');
-        }
-        foreach ($schemadbs as $type => $schemadb) {
-            $this->_datamanagers[$type] = new midcom_helper_datamanager2_datamanager($schemadb);
-
-            if (array_key_exists($this->_schema, $schemadb)) {
-                $schema_name = $this->_schema;
-            } else {
-                $schema_name = key($schemadb);
-            }
-
-            if (!$this->_datamanagers[$type]->set_schema($schema_name)) {
-                throw new midcom_error("Failed to create a DM2 instance for schemadb schema '{$schema_name}'.");
-            }
-        }
-    }
-
-    abstract function _load_schemadbs($handler_id, &$args, &$data);
-
-    abstract function _load_data($handler_id, &$args, &$data);
+    abstract public function _load_data($handler_id, &$args, &$data);
 
     public function _handler_csv($handler_id, array $args, array &$data)
     {
@@ -133,7 +100,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         foreach ($this->_datamanagers as $type => $datamanager) {
             foreach ($datamanager->schema->field_order as $name) {
                 $title =& $datamanager->schema->fields[$name]['title'];
-                $fieldtype =& $datamanager->schema->fields[$name]['type'];
+                $fieldtype = $datamanager->schema->fields[$name]['type'];
                 if (   $this->include_totals
                     && $fieldtype == 'number') {
                     $this->_totals[$type . '-' . $name] = 0;
@@ -153,7 +120,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             $row = [];
             foreach ($this->_datamanagers as $type => $datamanager) {
                 foreach ($datamanager->schema->field_order as $name) {
-                    $fieldtype =& $datamanager->schema->fields[$name]['type'];
+                    $fieldtype = $datamanager->schema->fields[$name]['type'];
                     $value = "";
                     if ($fieldtype == 'number') {
                         $value = $this->_totals[$type . '-' . $name];
@@ -165,6 +132,29 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
         // restart ob to keep MidCOM happy
         ob_start();
+    }
+
+    /**
+     * Internal helper, loads the datamanagers for the given types. Any error triggers a 500.
+     */
+    private function _load_datamanagers(array $schemadbs)
+    {
+        if (empty($this->_schema)) {
+            throw new midcom_error('Export schema ($this->_schema) must be defined');
+        }
+        foreach ($schemadbs as $type => $schemadb) {
+            $this->_datamanagers[$type] = new midcom_helper_datamanager2_datamanager($schemadb);
+
+            if (array_key_exists($this->_schema, $schemadb)) {
+                $schema_name = $this->_schema;
+            } else {
+                $schema_name = key($schemadb);
+            }
+
+            if (!$this->_datamanagers[$type]->set_schema($schema_name)) {
+                throw new midcom_error("Failed to create a DM2 instance for schemadb schema '{$schema_name}'.");
+            }
+        }
     }
 
     private function _dump_rows()
@@ -240,7 +230,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         $this->csv['mimetype'] = $this->_config->get('csv_export_content_type') ?: 'appplication/csv';
     }
 
-    public function encode_csv($data)
+    private function encode_csv($data)
     {
         /* START: Quick'n'Dirty on-the-fly charset conversion */
         if ($this->csv['charset'] !== 'UTF-8') {

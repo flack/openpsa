@@ -89,7 +89,7 @@ class image extends images
      * @param string $identifier
      * @return midcom_db_attachment
      */
-    protected function get_attachment(array $data, $existing, $identifier)
+    protected function get_attachment(array $data, array $existing, $identifier)
     {
         $filename = midcom_db_attachment::safe_filename($identifier . '_' . $data['name'], true);
         if (!empty($existing[$identifier])) {
