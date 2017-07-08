@@ -69,7 +69,7 @@ abstract class midcom_services_indexer_client
     }
 
     /**
-     * Index a single object from DM2
+     * Index a single object from DM
      *
      * @param mixed $object The object instance to use
      */
@@ -97,6 +97,10 @@ abstract class midcom_services_indexer_client
         }
     }
 
+    /**
+     * @param mixed $object
+     * @return midcom_services_indexer_document
+     */
     public function new_document($object)
     {
         $document = $this->create_document($object);

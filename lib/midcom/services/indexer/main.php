@@ -123,12 +123,7 @@ class midcom_services_indexer implements EventSubscriberInterface
             return true;
         }
 
-        foreach ($documents as &$value) {
-            // We don't have a document. Try auto-cast to a suitable document.
-            if (!is_a($value, 'midcom_services_indexer_document')) {
-                $this->_index_cast_to_document($value);
-            }
-
+        foreach ($documents as $value) {
             $value->members_to_fields();
         }
 
@@ -138,21 +133,6 @@ class midcom_services_indexer implements EventSubscriberInterface
             debug_add("Indexing error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
             return false;
         }
-    }
-
-    /**
-     * Automatic helper which transforms a reference-passed object into an indexable document.
-     * Where necessary (f.x. with the DM instances) automatic indexing of subclasses is done.
-     *
-     * Note, that this is conceptually different from the public new_document operation: It might
-     * already trigger indexing of dependent objects: A datamanager instance for example will
-     * automatically reindex all BLOBs defined in the schema.
-     *
-     * @param midcom_helper_datamanager2_datamanager &$object A reference to the DM2 object
-     */
-    protected function _index_cast_to_document(midcom_helper_datamanager2_datamanager &$object)
-    {
-        $object = $this->new_document($object);
     }
 
     /**
