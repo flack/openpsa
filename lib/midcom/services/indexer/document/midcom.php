@@ -79,8 +79,8 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
     private function _process_metadata()
     {
         $this->read_metadata_from_object($this->_metadata->__object);
-        $datamanager = $this->_metadata->get_datamanager();
-        foreach ($datamanager->types as $key => $instance) {
+        $metadata = $this->_metadata->get_datamanager()->get_content_html();
+        foreach ($metadata as $key => $value) {
             switch ($key) {
                 /**
                  * @see parent::read_metadata_from_object()
@@ -93,10 +93,10 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
 
                 case 'keywords':
                 case 'tags':
-                    $this->content .= $instance->convert_to_html() . "\n";
+                    $this->content .= $value . "\n";
                     // Fall-through intentional
                 default:
-                    $this->add_text("META_{$key}", $instance->convert_to_html());
+                    $this->add_text("META_{$key}", $value);
                     break;
             }
         }

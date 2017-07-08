@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\schemadb;
+use midcom\datamanager\datamanager;
+
 /**
  * This class is an interface to the metadata of MidCOM objects.
  *
@@ -88,14 +91,14 @@ class midcom_helper_metadata
      *
      * @var string
      */
-    private $_schemadb_path = null;
+    private $_schemadb_path;
 
     /**
      * Datamanager instance for the given object.
      *
-     * @var midcom_helper_datamanager2_datamanager
+     * @var datamanager
      */
-    private $_datamanager = null;
+    private $_datamanager;
 
     /**
      * This will construct a new metadata object for an existing content object.
@@ -168,20 +171,19 @@ class midcom_helper_metadata
     /**
      * Return a Datamanager instance for the current object.
      *
-     * This is returned by reference, which must be honored, as usual.
-     *
      * Also, whenever the containing datamanager stores its data, you
      * <b>must</b> call the on_update() method of this class. This is
      * very important or backwards compatibility will be broken.
      *
-     * @return midcom_helper_datamanager2 A initialized Datamanager instance for the selected object.
+     * @return datamanager A initialized Datamanager instance for the selected object.
      * @see midcom_helper_metadata::on_update()
      */
-    function & get_datamanager()
+    public function get_datamanager()
     {
         if (is_null($this->_datamanager)) {
             $this->load_datamanager();
         }
+
         return $this->_datamanager;
     }
 
@@ -189,37 +191,33 @@ class midcom_helper_metadata
      * Loads the datamanager for this instance. This will patch the schema in case we
      * are dealing with an article.
      */
-    function load_datamanager()
+    private function load_datamanager()
     {
         static $schemadbs = [];
         if (!array_key_exists($this->_schemadb_path, $schemadbs)) {
-            $schemadbs[$this->_schemadb_path] = midcom_helper_datamanager2_schema::load_database($this->_schemadb_path);
+            $schemadbs[$this->_schemadb_path] = schemadb::from_path($this->_schemadb_path);
         }
         $this->_schemadb = $schemadbs[$this->_schemadb_path];
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
+        $this->_datamanager = new datamanager($this->_schemadb);
 
-        $object_schema = self::find_schemaname($this->_schemadb, $this->__object);
-        $this->_datamanager->set_schema($object_schema);
-        if (!$this->_datamanager->set_storage($this->__object)) {
-            throw new midcom_error('Failed to initialize the metadata datamanager instance, see the Debug Log for details.');
-        }
+        $object_schema = $this->find_schemaname($this->_schemadb, $this->__object);
+        $this->_datamanager->set_storage($this->__object, $object_schema);
     }
 
     /**
      * Determine the schema to use for a particular object
      *
-     * @param array $schemadb The schema DB
+     * @param schemadb $schemadb The schema DB
      * @param midcom_core_dbaobject $object the object to work on
      * @return string The schema name
      */
-    public static function find_schemaname(array $schemadb, midcom_core_dbaobject $object)
+    private function find_schemaname(schemadb $schemadb, midcom_core_dbaobject $object)
     {
         // Check if we have metadata schema defined in the schemadb specific for the object's schema or component
         $object_schema = $object->get_parameter('midcom.helper.datamanager2', 'schema_name');
-        $component_schema = str_replace('.', '_', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
-        if (   $object_schema == ''
-            || !isset($schemadb[$object_schema])) {
-            if (isset($schemadb[$component_schema])) {
+        if ($object_schema == '' || !$schemadb->has($object_schema)) {
+            $component_schema = str_replace('.', '_', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
+            if ($schemadb->has($component_schema)) {
                 // No specific metadata schema for object, fall back to component-specific metadata schema
                 $object_schema = $component_schema;
             } else {
@@ -230,7 +228,7 @@ class midcom_helper_metadata
         return $object_schema;
     }
 
-    function release_datamanager()
+    public function release_datamanager()
     {
         if (!is_null($this->_datamanager)) {
             $this->_datamanager = null;
@@ -477,11 +475,12 @@ class midcom_helper_metadata
             // Fall-back for non-core properties
             default:
                 $dm = $this->get_datamanager();
-                if (!isset($dm->types[$key])) {
+                if (!$dm->get_schema()->has_field($key)) {
                     // Fall back to the parameter reader for non-core MidCOM metadata params
                     $value = $this->__object->get_parameter('midcom.helper.metadata', $key);
                 } else {
-                    $value = $dm->types[$key]->convert_to_csv();
+                    $content = $dm->get_content_csv();
+                    $value = $content[$key];
                 }
 
                 break;
