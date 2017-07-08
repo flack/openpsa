@@ -22,6 +22,13 @@ class engine extends AbstractRendererEngine
         return $resource->$blockName($view, $data);
     }
 
+    public function setTheme(FormView $view, $themes)
+    {
+        $this->themes = [];
+        $this->resources = [];
+        parent::setTheme($view, $themes);
+    }
+
     /**
      * {@inheritdoc}
      */
