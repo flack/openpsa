@@ -6,13 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * View group class for user management
  *
  * @package org.openpsa.user
  */
 class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_view
 {
     /**
      * The group we're working on
@@ -26,9 +27,12 @@ implements midcom_helper_datamanager2_interfaces_view
      *
      * The operations are done on all available schemas within the DB.
      */
-    public function load_schemadb()
+    private function load_datamanager()
     {
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
+        $dm = datamanager::from_schemadb($this->_config->get('schemadb_group'));
+        $persons =& $dm->get_schema('default')->get_field('persons');
+        $persons['hidden'] = true;
+        return $dm->set_storage($this->_group);
     }
 
     /**
@@ -42,7 +46,8 @@ implements midcom_helper_datamanager2_interfaces_view
 
         $this->_group = new midcom_db_group($args[0]);
         $data['group'] = $this->_group;
-        $data['view'] = midcom_helper_datamanager2_handler::get_view_controller($this, $this->_group);
+
+        $data['view'] = $this->load_datamanager();
         org_openpsa_widgets_tree::add_head_elements();
         org_openpsa_widgets_grid::add_head_elements();
 

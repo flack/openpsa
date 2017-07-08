@@ -6,8 +6,6 @@ midcom_show_style('group-sidebar');
 
 <div class="main">
 <?php
-//quick way to remove members field
-array_pop($data['view']->schema->field_order);
 $data['view']->display_view();
 ?>
 </div>
