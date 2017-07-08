@@ -90,14 +90,13 @@
  *         $qb->add_constraint('topic', '=', $topic->id);
  *         $articles = $qb->execute();
  *
- *         $datamanager = new midcom_helper_datamanager2_datamanager($config->get('schemadb'));
+ *         $datamanager = datamanager::from_schemadb($config->get('schemadb'));
  *
- *         foreach ($articles as $article)
- *         {
- *             if (!$datamanager->autoset_storage($article))
- *             {
- *                 debug_add("Warning, failed to initialize datamanager2 for Article {$article->guid}. See Debug Log for details.", MIDCOM_LOG_WARN);
- *                 debug_print_r('Article dump:', $article);
+ *         foreach ($articles as $article) {
+ *             try {
+ *                 $datamanager->set_storage($article);
+ *             } catch (midcom_error $e) {
+ *                 $e->log();
  *                 continue;
  *             }
  *
