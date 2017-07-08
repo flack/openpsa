@@ -7,9 +7,7 @@
  */
 
 /**
- * Metadata editor.
- *
- * This handler uses midcom.helper.datamanager2 to edit object move properties
+ * Move handler.
  *
  * @package midcom.admin.folder
  */
