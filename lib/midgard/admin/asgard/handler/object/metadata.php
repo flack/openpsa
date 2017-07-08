@@ -6,29 +6,29 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\schemadb;
+use midcom\datamanager\datamanager;
+
 /**
  * Metadata editor.
- *
- * This handler uses midcom.helper.datamanager2 to edit object metadata properties
  *
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
      * Object requested for metadata editing
      *
-     * @var midcom_core_dbaobject Object for metadata editing
+     * @var midcom_core_dbaobject
      */
-    private $_object = null;
+    private $_object;
 
     /**
-     * Edit controller instance for Datamanager 2
+     * Edit controller instance for Datamanager
      *
-     * @var midcom_helper_datamanager2_controller
+     * @var controller
      */
-    private $_controller = null;
+    private $_controller;
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -40,35 +40,31 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_request_data['controller'] = $this->_controller;
     }
 
-    public function get_schema_name()
+    private function load_controller()
     {
-        return 'metadata';
-    }
-
-    public function load_schemadb()
-    {
-        $schemadb = midcom_helper_datamanager2_schema::load_database(midcom::get()->config->get('metadata_schema'));
+        $schemadb = schemadb::from_path(midcom::get()->config->get('metadata_schema'));
 
         if (   $this->_config->get('enable_review_dates')
             && !isset($schemadb['metadata']->fields['review_date'])) {
-            $schemadb['metadata']->append_field(
-                'review_date',
-                [
-                    'title' => $this->_l10n->get('review date'),
-                    'type' => 'date',
-                    'type_config' => [
-                        'storage_type' => 'UNIXTIME',
-                    ],
-                    'storage' => [
-                        'location' => 'parameter',
-                        'domain' => 'midcom.helper.metadata',
-                        'name' => 'review_date',
-                    ],
-                    'widget' => 'jsdate',
-                ]
-            );
+            $fields = $schemadb->get('metadata')->get('fields');
+            $fields['review_date'] = [
+                'title' => $this->_l10n->get('review date'),
+                'type' => 'date',
+                'type_config' => [
+                    'storage_type' => 'UNIXTIME',
+                ],
+                'storage' => [
+                    'location' => 'parameter',
+                    'domain' => 'midcom.helper.metadata',
+                    'name' => 'review_date',
+                ],
+                'widget' => 'jsdate',
+            ];
         }
-        return $schemadb;
+        $dm = new datamanager($schemadb);
+        return $dm
+            ->set_storage($this->_object, 'metadata')
+            ->get_controller();
     }
 
     /**
@@ -91,8 +87,8 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         // Load the DM2 controller instance
-        $this->_controller = $this->get_controller('simple', $this->_object);
-        switch ($this->_controller->process_form()) {
+        $this->_controller = $this->load_controller();
+        switch ($this->_controller->process()) {
             case 'save':
                 // Reindex the object
                 //$indexer = midcom::get()->indexer;
