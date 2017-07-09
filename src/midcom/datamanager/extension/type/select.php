@@ -62,6 +62,7 @@ class select extends ChoiceType
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
             $widget_defaults = [
                 'height' => 6,
+                'jsevents' => []
             ];
             return helper::resolve_options($widget_defaults, $value);
         });
@@ -88,5 +89,6 @@ class select extends ChoiceType
         if ($options['type_config']['allow_multiple']) {
             $view->vars['attr']['size'] = max(1, $options['widget_config']['height']);
         }
+        $view->vars['attr'] = array_merge($view->vars['attr'], $options['widget_config']['jsevents']);
     }
 }
