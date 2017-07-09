@@ -321,6 +321,12 @@ class form extends base
         return $this->choice_widget_expanded($view, $data);
     }
 
+    public function privilegeselection_widget(FormView $view, array $data)
+    {
+        $string = '<div class="holder">' . $this->choice_widget_collapsed($view, $data) . '</div>';
+        return $string . $this->jsinit($view->vars['jsinit']);
+    }
+
     public function choice_widget_expanded(FormView $view, array $data)
     {
         $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';

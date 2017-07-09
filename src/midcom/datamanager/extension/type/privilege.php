@@ -21,7 +21,7 @@ use midcom\datamanager\extension\helper;
  */
 class privilege extends RadioType
 {
-    private $defaultChoices = [
+    protected $defaultChoices = [
         'widget privilege: allow' => MIDCOM_PRIVILEGE_ALLOW,
         'widget privilege: deny' => MIDCOM_PRIVILEGE_DENY,
         'widget privilege: inherit' => MIDCOM_PRIVILEGE_INHERIT,
