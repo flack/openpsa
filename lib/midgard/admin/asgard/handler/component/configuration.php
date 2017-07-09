@@ -228,13 +228,18 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     {
         $tmpfile = tempnam(midcom::get()->config->get('midcom_tempdir'), 'midgard_admin_asgard_handler_component_configuration_');
         file_put_contents($tmpfile, "<?php\n\$data = array({$config}\n);\n?>");
-        $parse_results = `php -l {$tmpfile}`;
-        debug_add("'php -l {$tmpfile}' returned: \n===\n{$parse_results}\n===\n");
+
+        exec("php -l {$tmpfile} 2>&1", $parse_results, $retval);
+        debug_print_r("'php -l {$tmpfile}' returned:", $parse_results);
         unlink($tmpfile);
 
-        if (strstr($parse_results, 'Parse error')) {
-            $line = preg_replace('/\n.+?on line (\d+?)\n.*\n/', '\1', $parse_results);
-            throw new midcom_error(sprintf($this->_i18n->get_string('type php: parse error in line %s', 'midcom.helper.datamanager2'), $line));
+        if ($retval !== 0) {
+            $parse_results = array_shift($parse_results);
+
+            if (strstr($parse_results, 'Parse error')) {
+                $line = preg_replace('/^.+?on line (\d+?)$/', '\1', $parse_results);
+                return sprintf($this->_i18n->get_string('type php: parse error in line %s', 'midcom.datamanager'), $line);
+            }
         }
     }
 
@@ -320,6 +325,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     {
         $post = $this->_controller->get_datamanager()->get_content_raw();
         $config_array = [];
+
         foreach ($this->_request_data['config']->get_all() as $key => $val) {
             if (isset($post[$key])) {
                 $newval = $post[$key];
@@ -403,12 +409,10 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
         $config = $this->_draw_array($config_array);
 
-        try {
-            $this->_check_config($config);
-        } catch (Exception $e) {
+        if ($error = $this->_check_config($config)) {
             midcom::get()->uimessages->add(
                 $this->_l10n_midcom->get('component configuration'),
-                sprintf($this->_l10n->get('configuration save failed: %s'), $e->getMessage()),
+                sprintf($this->_l10n->get('configuration save failed: %s'), $error),
                 'error'
             );
             return;
@@ -486,6 +490,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         $data = var_export($array, true);
         // Remove opening and closing array( ) lines, because that's the way midcom likes it
         $data = preg_replace('/^.*?\n/', '', $data);
-        return preg_replace('/\n.*?$/', '', $data);
+        return preg_replace('/(\n.*?|\))$/', '', $data);
     }
 }
