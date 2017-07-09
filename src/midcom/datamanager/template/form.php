@@ -344,6 +344,9 @@ class form extends base
                 if ($data['is_selected']($choice->value, $data['value'])) {
                     $string .= ' selected="selected"';
                 }
+                if (!empty($choice->attr)) {
+                    $string .= ' ' . $this->attributes($choice->attr);
+                }
                 $string .= '>' . $this->renderer->humanize($choice->label) . '</option>';
             }
         }

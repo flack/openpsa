@@ -182,9 +182,9 @@ class view extends base
 
     public function choice_widget_collapsed(FormView $view, array $data)
     {
-        if (!empty($data['value'])) {
+        if (!empty($data['data'])) {
             foreach ($data['choices'] as $choice) {
-                if ($choice->value === $data['value']) {
+                if ($data['is_selected']($choice->value, (string) $data['data'])) {
                     return $this->renderer->humanize($choice->label);
                 }
             }
@@ -194,7 +194,7 @@ class view extends base
 
     public function checkbox_widget(FormView $view, $data)
     {
-        if ($data['value']) {
+        if ($data['checked']) {
             return '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/ok.png" alt="selected" />';
         }
         return '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/cancel.png" alt="not selected" />';
