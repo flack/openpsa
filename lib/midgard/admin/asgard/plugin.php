@@ -112,17 +112,15 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 break;
             case '____mfa-asgard-object_permissions':
                 // Figure out label for the object's class
-                switch (get_class($object)) {
-                    case 'midcom_db_topic':
-                        $type = midcom::get()->i18n->get_string('folder', 'midgard.admin.asgard');
-                        break;
-                    default:
-                        $type = $data['object_reflector']->get_class_label();
+                if ($object instanceof midcom_db_topic) {
+                    $type = midcom::get()->i18n->get_string('folder', 'midgard.admin.asgard');
+                } else {
+                    $type = $data['object_reflector']->get_class_label();
                 }
-                $title_string = sprintf(midcom::get()->i18n->get_string('permissions for %s %s', 'midgard.admin.asgard'), $type, midgard_admin_asgard_handler_object_permissions::resolve_object_title($object));
+                $title_string = sprintf(midcom::get()->i18n->get_string('permissions for %s %s', 'midgard.admin.asgard'), $type, $data['object_reflector']->get_object_label($object));
                 break;
             case '____mfa-asgard-object_create':
-                $title_string = sprintf(midcom::get()->i18n->get_string('create %s under %s', 'midgard.admin.asgard'), midgard_admin_asgard_plugin::get_type_label($data['current_type']), '%s %s');
+                $title_string = sprintf(midcom::get()->i18n->get_string('create %s under %s', 'midgard.admin.asgard'), self::get_type_label($data['current_type']), '%s %s');
                 break;
             case '____mfa-asgard-object_delete':
                 $title_string = midcom::get()->i18n->get_string('delete %s %s', 'midgard.admin.asgard');
@@ -133,7 +131,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         }
 
         $label = $data['object_reflector']->get_object_label($object);
-        $type_label = midgard_admin_asgard_plugin::get_type_label(get_class($object));
+        $type_label = self::get_type_label(get_class($object));
         $data['view_title'] = sprintf($title_string, $type_label, $label);
     }
 
@@ -148,10 +146,10 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         }
         $data['default_mode'] = 'view';
 
-        if (   !midgard_admin_asgard_plugin::get_preference('edit_mode')
+        if (   !self::get_preference('edit_mode')
             && midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config')->get('edit_mode') == 1) {
             $data['default_mode'] = 'edit';
-        } elseif (midgard_admin_asgard_plugin::get_preference('edit_mode') == 1) {
+        } elseif (self::get_preference('edit_mode') == 1) {
             $data['default_mode'] = 'edit';
         }
 
@@ -277,7 +275,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 }
                 $breadcrumb[] = [
                     MIDCOM_NAV_URL => self::_generate_url('create' . $data['current_type'], $object->guid),
-                    MIDCOM_NAV_NAME => sprintf(midcom::get()->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($data['current_type'])),
+                    MIDCOM_NAV_NAME => sprintf(midcom::get()->i18n->get_string('create %s', 'midcom'), self::get_type_label($data['current_type'])),
                 ];
                 break;
             case '____mfa-asgard-object_delete':

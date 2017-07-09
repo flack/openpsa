@@ -130,14 +130,6 @@ implements midcom_helper_datamanager2_interfaces_edit
     }
 
     /**
-     * Static helper
-     */
-    public static function resolve_object_title($object)
-    {
-        return midcom_helper_reflector::get($object)->get_object_label($object);
-    }
-
-    /**
      * Generates, loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.
