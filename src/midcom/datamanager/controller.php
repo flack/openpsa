@@ -48,18 +48,19 @@ class controller
         // we add the stylesheet regardless of processing result, since save does not automatically mean relocate...
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.datamanager/default.css");
 
-        if ($this->form->isSubmitted()) {
-            if ($button = $this->form->getClickedButton()) {
-                if ($button->getConfig()->getOption('operation') == self::CANCEL) {
-                    return self::CANCEL;
-                }
-                if ($button->getConfig()->getOption('operation') == self::PREVIEW) {
-                    return self::PREVIEW;
-                }
+        if (    $this->form->isSubmitted()
+             && $button = $this->form->getClickedButton()) {
+            if ($button->getConfig()->getOption('operation') == self::CANCEL) {
+                return self::CANCEL;
             }
-            if ($this->form->isValid()) {
-                $this->dm->get_storage()->save();
-                return self::SAVE;
+            if ($button->getConfig()->getOption('operation') == self::PREVIEW) {
+                return self::PREVIEW;
+            }
+            if ($button->getConfig()->getOption('operation') == self::SAVE) {
+                if ($this->form->isValid()) {
+                    $this->dm->get_storage()->save();
+                    return self::SAVE;
+                }
             }
         }
 

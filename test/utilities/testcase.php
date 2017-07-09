@@ -206,6 +206,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $renderer->set_template($view, new datamanager_form($renderer));
         $data = eval('return ' . $renderer->block($view, 'form') . ';');
         $formname = key($data);
+        $data[$formname]['form_toolbar']['save0'] = '';
 
         $_POST = [
             $formname => array_merge($data[$formname], $formdata)
