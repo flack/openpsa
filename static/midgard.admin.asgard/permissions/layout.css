@@ -4,6 +4,11 @@
     padding: 5px;
     width: 900px;
 }
+form.datamanager2 .maa_permissions_assignees label
+{
+	display: inline;
+	font-weight: normal
+}
 
 .maa_permissions_items
 {
@@ -49,6 +54,11 @@
     line-height: 20px;
     text-align: center;
     width: 7%
+}
+.maa_permissions_items th,
+.maa_permissions_items td
+{
+    vertical-align: middle;
 }
 
 .maa_permissions_rows_header th

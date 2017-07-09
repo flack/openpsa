@@ -6,27 +6,31 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\schemadb;
+use midcom\datamanager\datamanager;
+use midcom\datamanager\controller;
+use midcom\datamanager\template\form;
+
 /**
  * Permissions interface
  *
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
      * The object whose permissions we handle
      *
      * @var midcom_core_dbaobject
      */
-    private $_object = null;
+    private $_object;
 
     /**
      * The Controller of the object used for editing
      *
-     * @var midcom_helper_datamanager2_controller_simple
+     * @var controller
      */
-    private $_controller = null;
+    private $_controller;
 
     /**
      * Privileges we're managing here
@@ -52,13 +56,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @var Array
      */
     private $_row_labels = [];
-
-    /**
-     * Rendered row labels
-     *
-     * @var Array
-     */
-    private $_rendered_row_labels = [];
 
     private $additional_assignee;
 
@@ -132,14 +129,15 @@ implements midcom_helper_datamanager2_interfaces_edit
     /**
      * Generates, loads and prepares the schema database.
      *
-     * The operations are done on all available schemas within the DB.
+     * @return controller
      */
-    public function load_schemadb()
+    private function load_controller()
     {
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_permissions'));
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_permissions'));
 
         $assignees = $this->load_assignees();
         $this->process_assignees($assignees, $schemadb);
+        $assignee_field =& $schemadb->get('privileges')->get_field('add_assignee');
 
         if (!$this->additional_assignee) {
             // Populate additional assignee selector
@@ -161,19 +159,23 @@ implements midcom_helper_datamanager2_interfaces_edit
             asort($additional_assignees);
 
             // Add the 'Add assignees' choices to schema
-            $schemadb['privileges']->fields['add_assignee']['type_config']['options'] = $additional_assignees;
+            $assignee_field['type_config']['options'] = $additional_assignees;
         } else {
-            $schemadb['privileges']->fields['add_assignee']['type'] = 'text';
-            $schemadb['privileges']->fields['add_assignee']['widget'] = 'hidden';
+            $assignee_field['type'] = 'text';
+            $assignee_field['widget'] = 'hidden';
         }
+        $dm = new datamanager($schemadb);
 
-        return $schemadb;
+        return $dm
+            ->set_storage($this->_object)
+            ->get_controller();
     }
 
-    private function process_assignees(array $assignees, array &$schemadb)
+    private function process_assignees(array $assignees, schemadb $schemadb)
     {
         $header = '';
         $header_items = [];
+        $fields = $schemadb->get('privileges')->get('fields');
 
         foreach ($assignees as $assignee => $label) {
             foreach ($this->_privileges as $privilege) {
@@ -191,19 +193,19 @@ implements midcom_helper_datamanager2_interfaces_edit
                     $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . $this->_l10n->get($privilege_label) . "</span></th>\n";
                 }
 
-                $schemadb['privileges']->append_field(str_replace([':', '.'], '_', $assignee . '_' . $privilege), [
-                        'title' => $privilege_label,
-                        'storage' => null,
-                        'type' => 'privilege',
-                        'type_config' => [
-                            'privilege_name' => $privilege,
-                            'assignee'       => $assignee,
-                        ],
-                        'widget' => 'privilegeselection'
-                    ]
-                );
+                $fields[str_replace([':', '.'], '_', $assignee . '_' . $privilege)] = [
+                    'title' => $privilege_label,
+                    'storage' => null,
+                    'type' => 'privilege',
+                    'type_config' => [
+                        'privilege_name' => $privilege,
+                        'assignee'       => $assignee,
+                    ],
+                    'widget' => 'privilegeselection'
+                ];
             }
         }
+        $schemadb->get('privileges')->set('fields', $fields);
 
         $header .= "        <th scope=\"col\" class=\"assignee_name\"><span>&nbsp;</span></th>\n";
         $header .= implode('', $header_items);
@@ -267,14 +269,15 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Load possible additional component privileges
         $this->_load_component_privileges();
 
-        if (!empty($_POST['add_assignee'])) {
-            $this->additional_assignee = $_POST['add_assignee'];
+        if (!empty($_POST)) {
+            $formdata = reset($_POST);
+            $this->additional_assignee = $formdata['add_assignee'];
         }
 
         // Load the datamanager controller
-        $this->_controller = $this->get_controller('simple', $this->_object);
+        $this->_controller = $this->load_controller();
 
-        switch ($this->_controller->process_form()) {
+        switch ($this->_controller->process()) {
             case 'save':
                 //Fall-through
             case 'cancel':
@@ -295,136 +298,13 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _show_edit($handler_id, array &$data)
     {
-        $this->_generate_editor($data);
+        $data['editor_header_titles'] = $this->_header;
+        $data['row_labels'] = $this->_row_labels;
+
+        $data['form'] = $this->_controller->get_datamanager()->get_form()->createView();
+        $data['renderer'] = $this->_controller->get_datamanager()->get_renderer();
+        $data['renderer']->set_template($data['form'], new form($data['renderer']));
 
         midcom_show_style('midgard_admin_asgard_object_permissions');
-    }
-
-    private function _generate_editor(&$data)
-    {
-        $qf = $this->_controller->formmanager->form;
-
-        $data['editor_header_form_start'] = "<form " . $qf->getAttributes(true) . ">\n";
-        $data['editor_header_titles'] = $this->_header;
-        $data['editor_rows'] = '';
-        $data['editor_header_form_end'] = "</form>\n";
-
-        $priv_item_cnt = count($this->_privileges);
-        $s = 0;
-        foreach ($qf->_elements as $row) {
-            if (is_a($row, 'HTML_QuickForm_hidden')) {
-                $data['editor_header_form_start'] .= $row->toHtml();
-            }
-            if (is_a($row, 'HTML_QuickForm_select')) {
-                $html = "  <div class=\"assignees\">\n";
-                $html .= "    <label for=\"{$row->getAttribute('id')}\">\n<span class=\"field_text\">{$row->getLabel()}</span>\n";
-                $html .= $this->_render_select($row);
-                $html .= "    </label>\n";
-                $html .= "  </div>\n";
-
-                $data['editor_header_assignees'] = $html;
-            }
-
-            if (is_a($row, 'HTML_QuickForm_group')) {
-                if ($row->getName() == 'form_toolbar') {
-                    $form_toolbar_html = "  <div class=\"actions\">\n";
-                    foreach ($row->getElements() as $element) {
-                        if (is_a($element, 'HTML_QuickForm_submit')) {
-                            $form_toolbar_html .= $element->toHtml();
-                        }
-                    }
-                    $form_toolbar_html .= "  </div>\n";
-                    continue;
-                }
-
-                $html = $this->_render_row_label($row->getName());
-
-                foreach ($row->getElements() as $element) {
-                    if (is_a($element, 'HTML_QuickForm_select')) {
-                        $html .= $this->_render_select($element);
-                    }
-                    if (is_a($element, 'HTML_QuickForm_static')) {
-                        if (strpos($element->getName(), 'holder_start') !== false) {
-                            $priv_class = $this->_get_col_value_class($row->getName());
-                            $html .= "      <td class=\"row_value {$priv_class}\">\n";
-                        }
-
-                        $html .= $element->toHtml();
-                        if (strpos($element->getName(), 'initscripts') !== false) {
-                            $html .= "      </td>\n";
-                        }
-                    }
-                }
-
-                $s++;
-
-                if ($s == $priv_item_cnt) {
-                    $s = 0;
-                    $html .= $this->_render_row_actions($row->getName());
-                    $html .= "    </tr>\n";
-                }
-
-                $data['editor_rows'] .= $html;
-            }
-        }
-
-        $footer = "  <input type=\"hidden\" name=\"\" value=\"\" id=\"submit_action\"/>\n";
-        $footer .= $form_toolbar_html;
-
-        $data['editor_footer'] = $footer;
-    }
-
-    private function _render_select(HTML_QuickForm_select $object)
-    {
-        $element_name = $object->getName();
-        if (isset($this->_controller->formmanager->form->_defaultValues[$element_name])) {
-            $object->setValue($this->_controller->formmanager->form->_defaultValues[$element_name]);
-        }
-
-        return $object->toHtml();
-    }
-
-    private function _render_row_label($row_name)
-    {
-        foreach ($this->_row_labels as $key => $label) {
-            if (   strpos($row_name, $key) !== false
-                && !isset($this->_rendered_row_labels[$key])) {
-                $this->_rendered_row_labels[$key] = true;
-
-                $html = "    <tr id=\"privilege_row_{$key}\" class=\"maa_permissions_rows_row\">\n";
-                $html .= "      <th class=\"row_value assignee_name\"><span>{$label}</span></th>\n";
-                return $html;
-            }
-        }
-
-        return '';
-    }
-
-    private function _render_row_actions($row_name)
-    {
-        foreach (array_keys($this->_row_labels) as $key) {
-            if (strpos($row_name, $key) !== false) {
-                $actions = "<div class=\"actions\" id=\"privilege_row_actions_{$key}\"></div>";
-                return "      <td class=\"row_value row_actions\">{$actions}</td>\n";
-            }
-        }
-
-        return '';
-    }
-
-    private function _get_col_value_class($row_name)
-    {
-        foreach (array_keys($this->_row_labels) as $key) {
-            if (strpos($row_name, $key) !== false) {
-                $tmp_priv = str_replace($key . '_', '', $row_name);
-                $tmp_priv_arr = explode('_', $tmp_priv);
-                $priv_class = "{$tmp_priv_arr[1]}";
-                if (count($tmp_priv_arr) > 2) {
-                    $priv_class = "{$tmp_priv_arr[1]}_{$tmp_priv_arr[2]}";
-                }
-                return $priv_class;
-            }
-        }
-        return '';
     }
 }
