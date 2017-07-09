@@ -6,6 +6,10 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+use midcom\datamanager\schemadb;
+use midcom\datamanager\controller;
+
 /**
  * Handle the folder editing requests
  *
@@ -16,7 +20,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     /**
      * DM2 controller instance
      *
-     * @var midcom_helper_datamanager2_controller
+     * @var controller
      */
     private $_controller;
 
@@ -27,11 +31,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
     private $old_name;
 
-    private $_new_topic;
+    private $edit_topic;
 
-    /**
-     * Load either a create controller or an edit (simple) controller or trigger an error message
-     */
     private function _load_controller()
     {
         // Get the configured schemas
@@ -48,63 +49,32 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             throw new midcom_error('Configuration error. No ' . $schemadb . ' schema for topic has been defined!');
         }
 
-        // Create the schema instance
-        $schemadb = midcom_helper_datamanager2_schema::load_database($schemadbs[$schemadb]);
+        $schemadb = schemadb::from_path($schemadbs[$schemadb]);
 
-        foreach ($schemadb as $schema) {
-            if (isset($schema->fields['name'])) {
-                $schema->fields['name']['required'] = ($this->_handler_id === 'edit');
+        foreach ($schemadb->all() as $schema) {
+            if ($schema->has_field('name')) {
+                $field =& $schema->get_field('name');
+                $field['required'] = ($this->_handler_id === 'edit');
             }
         }
-        switch ($this->_handler_id) {
-            case 'edit':
-                $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-                $this->_controller->schemadb = $schemadb;
-                $this->_controller->set_storage($this->_topic);
-                break;
+        $defaults = [];
+        if ($this->_handler_id == 'create') {
+            // Suggest to create the same type of a folder as the parent is
+            $component_suggestion = $this->_topic->component;
 
-            case 'create':
-                $this->_controller = midcom_helper_datamanager2_controller::create('create');
-                $this->_controller->schemadb = $schemadb;
-                $this->_controller->schemaname = 'default';
-                $this->_controller->callback_object =& $this;
+            //Unless config told us otherwise
+            if ($this->_config->get('default_component')) {
+                $component_suggestion = $this->_config->get('default_component');
+            }
 
-                // Suggest to create the same type of a folder as the parent is
-                $component_suggestion = $this->_topic->component;
-
-                //Unless config told us otherwise
-                if ($this->_config->get('default_component')) {
-                    $component_suggestion = $this->_config->get('default_component');
-                }
-
-                $this->_controller->defaults = [
-                    'component' => $component_suggestion,
-                ];
-                break;
-
-            default:
-                throw new midcom_error('Unable to process the request, unknown handler id');
+            $defaults['component'] = $component_suggestion;
         }
 
-        if (!$this->_controller->initialize()) {
-            throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_event->id}.");
-        }
-    }
-
-    /**
-     * DM2 creation callback, binds to the current content topic.
-     */
-    public function & dm2_create_callback(&$controller)
-    {
-        $this->_new_topic = new midcom_db_topic();
-        $this->_new_topic->up = $this->_topic->id;
-
-        if (!$this->_new_topic->create()) {
-            debug_print_r('We operated on this object:', $this->_new_topic);
-            throw new midcom_error('Failed to create a new topic, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
-        }
-
-        return $this->_new_topic;
+        $dm = new datamanager($schemadb);
+        $this->_controller = $dm
+            ->set_defaults($defaults)
+            ->set_storage($this->edit_topic)
+            ->get_controller();
     }
 
     /**
@@ -123,13 +93,15 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         if ($this->_handler_id == 'edit') {
             $this->_topic->require_do('midgard:update');
             $title = sprintf($this->_l10n->get('edit folder %s'), $this->_topic->get_label());
+            $this->edit_topic = $this->_topic;
         } else {
             $this->_topic->require_do('midgard:create');
             $title = $this->_l10n->get('create folder');
+            $this->edit_topic = new midcom_db_topic();
+            $this->edit_topic->up = $this->_topic->id;
         }
         midcom::get()->head->set_pagetitle($title);
 
-        // Load the DM2 controller
         $this->_load_controller();
 
         // Store the old name before editing
@@ -138,14 +110,14 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
         midcom::get()->head->set_pagetitle($title);
 
-        $workflow = $this->get_workflow('datamanager2', [
+        $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->_controller,
             'save_callback' => [$this, 'save_callback']
         ]);
         return $workflow->run();
     }
 
-    public function save_callback(midcom_helper_datamanager2_controller $controller)
+    public function save_callback()
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         if ($this->_handler_id === 'edit') {
@@ -156,17 +128,17 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
     private function _update_topic($prefix, $old_name)
     {
-        if ($_REQUEST['style'] === '__create') {
-            $this->_topic->style = $this->_create_style($this->_topic->name);
+        if ($this->_controller->get_form_values()['style'] == '__create') {
+            $this->edit_topic->style = $this->_create_style($this->edit_topic->name);
 
             // Failed to create the new style template
-            if ($this->_topic->style === '') {
+            if ($this->edit_topic->style === '') {
                 return false;
             }
 
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('new style created'));
 
-            if (!$this->_topic->update()) {
+            if (!$this->edit_topic->update()) {
                 midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()));
                 return false;
             }
@@ -175,7 +147,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder saved'));
 
         // Get the relocation url
-        return preg_replace("/{$old_name}\/\$/", "{$this->_topic->name}/", $prefix);
+        return preg_replace("/{$old_name}\/\$/", "{$this->edit_topic->name}/", $prefix);
     }
 
     private function _create_topic($prefix)
@@ -183,14 +155,14 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder created'));
 
         // Generate name if it is missing
-        if (!$this->_new_topic->name) {
+        if (!$this->edit_topic->name) {
             $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
-            $this->_new_topic->name = $generator->from_string($this->_new_topic->extra);
-            $this->_new_topic->update();
+            $this->edit_topic->name = $generator->from_string($this->edit_topic->extra);
+            $this->edit_topic->update();
         }
 
         // Get the relocation url
-        return "{$prefix}{$this->_new_topic->name}/";
+        return "{$prefix}{$this->edit_topic->name}/";
     }
 
     /**

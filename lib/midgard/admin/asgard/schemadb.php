@@ -6,8 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\schemadb;
+
 /**
- * Helper class to create a DM2 schema from an object via reflection
+ * Helper class to create a DM schema from an object via reflection
  *
  * @package midgard.admin.asgard
  */
@@ -28,11 +30,11 @@ class midgard_admin_asgard_schemadb
     private $_config;
 
     /**
-     * The schema database in use, available only while a datamanager is loaded.
+     * The schema in use
      *
      * @var array
      */
-    private $_schemadb;
+    private $schema;
 
     /**
      * Midgard reflection property instance for the current object's class.
@@ -55,6 +57,7 @@ class midgard_admin_asgard_schemadb
         } else {
             $this->_object = $object;
         }
+
         if (!midcom::get()->dbclassloader->is_midcom_db_object($this->_object)) {
             $this->_object = midcom::get()->dbfactory->convert_midgard_to_midcom($this->_object);
         }
@@ -73,15 +76,14 @@ class midgard_admin_asgard_schemadb
         $type = get_class($this->_object);
         $type_fields = $this->_object->get_properties();
 
-        //This is an ugly little workaround for unittesting
-        $template = midcom_helper_datamanager2_schema::load_database('file:/midgard/admin/asgard/config/schemadb_default.inc');
-        $empty_db = clone $template['object'];
-
-        $this->_schemadb = ['object' => $empty_db];
-        //workaround end
+        $this->schema = [
+            'description' => 'object schema',
+            'l10n_db'     => 'midgard.admin.asgard',
+            'fields'      => []
+        ];
 
         if ($component = midcom::get()->dbclassloader->get_component_for_class($type)) {
-            $this->_schemadb['object']->l10n_schema = midcom::get()->i18n->get_l10n($component);
+            $this->schema['l10n_db'] = $component;
         }
 
         if (!empty($include_fields)) {
@@ -116,37 +118,28 @@ class midgard_admin_asgard_schemadb
                     $this->_add_int_field($key);
                     break;
                 case MGD_TYPE_FLOAT:
-                    $this->_schemadb['object']->append_field(
-                        $key,
-                        [
-                            'title'       => $key,
-                            'storage'     => $key,
-                            'type'        => 'number',
-                            'widget'      => 'text',
-                        ]
-                    );
+                    $this->schema['fields'][$key] = [
+                        'title'       => $key,
+                        'storage'     => $key,
+                        'type'        => 'number',
+                        'widget'      => 'text',
+                    ];
                     break;
                 case MGD_TYPE_BOOLEAN:
-                    $this->_schemadb['object']->append_field(
-                        $key,
-                        [
-                            'title'       => $key,
-                            'storage'     => $key,
-                            'type'        => 'boolean',
-                            'widget'      => 'checkbox',
-                        ]
-                    );
+                    $this->schema['fields'][$key] = [
+                        'title'       => $key,
+                        'storage'     => $key,
+                        'type'        => 'boolean',
+                        'widget'      => 'checkbox',
+                    ];
                     break;
                 case MGD_TYPE_TIMESTAMP:
-                    $this->_schemadb['object']->append_field(
-                        $key,
-                        [
-                            'title'       => $key,
-                            'storage'     => $key,
-                            'type' => 'date',
-                            'widget' => 'jsdate',
-                        ]
-                    );
+                    $this->schema['fields'][$key] = [
+                        'title'       => $key,
+                        'storage'     => $key,
+                        'type' => 'date',
+                        'widget' => 'jsdate',
+                    ];
                     break;
             }
         }
@@ -157,7 +150,7 @@ class midgard_admin_asgard_schemadb
             $this->_add_copy_fields();
         }
 
-        return $this->_schemadb;
+        return new schemadb(['object' => $this->schema]);
     }
 
     private function _filter_schema_fields($key)
@@ -190,33 +183,27 @@ class midgard_admin_asgard_schemadb
             return;
         }
 
-        $this->_schemadb['object']->append_field(
-            $key,
-            [
-                'title'       => $key,
-                'storage'     => $key,
-                'type'        => 'text',
-                'widget'      => 'text',
-            ]
-        );
+        $this->schema['fields'][$key] = [
+            'title'       => $key,
+            'storage'     => $key,
+            'type'        => 'text',
+            'widget'      => 'text',
+        ];
     }
 
     private function _add_rcs_field()
     {
-        $this->_schemadb['object']->append_field(
-            '_rcs_message',
-            [
-                'title'       => $this->_l10n->get('revision comment'),
-                'storage'     => null,
-                'type'        => 'rcsmessage',
-                'widget'      => 'text',
-                'start_fieldset' => [
-                    'title' => $this->_l10n->get('revision'),
-                    'css_group' => 'rcs',
-                ],
-                'end_fieldset' => '',
-            ]
-        );
+        $this->schema['fields']['_rcs_message'] = [
+            'title'       => $this->_l10n->get('revision comment'),
+            'storage'     => null,
+            'type'        => 'rcsmessage',
+            'widget'      => 'text',
+            'start_fieldset' => [
+                'title' => $this->_l10n->get('revision'),
+                'css_group' => 'rcs',
+            ],
+            'end_fieldset' => '',
+        ];
     }
 
     private function _add_int_field($key)
@@ -226,28 +213,22 @@ class midgard_admin_asgard_schemadb
             || $key == 'added'
             || $key == 'date') {
             // We can safely assume that INT fields called start and end store unixtimes
-            $this->_schemadb['object']->append_field(
-                $key,
-                [
-                    'title'       => $key,
-                    'storage'     => $key,
-                    'type' => 'date',
-                    'type_config' => [
-                        'storage_type' => 'UNIXTIME'
-                        ],
-                    'widget' => 'jsdate',
-                ]
-            );
+            $this->schema['fields'][$key] = [
+                'title'       => $key,
+                'storage'     => $key,
+                'type' => 'date',
+                'type_config' => [
+                    'storage_type' => 'UNIXTIME'
+                    ],
+                'widget' => 'jsdate',
+            ];
         } else {
-            $this->_schemadb['object']->append_field(
-                $key,
-                [
-                    'title'       => $key,
-                    'storage'     => $key,
-                    'type'        => 'number',
-                    'widget'      => 'text',
-                ]
-            );
+            $this->schema['fields'][$key] = [
+                'title'       => $key,
+                'storage'     => $key,
+                'type'        => 'number',
+                'widget'      => 'text',
+            ];
         }
     }
 
@@ -295,22 +276,19 @@ class midgard_admin_asgard_schemadb
                 break;
         }
 
-        $this->_schemadb['object']->append_field(
-            $key,
-            [
-                'title'       => $key,
-                'storage'     => $key,
-                'type'        => $dm_type,
-                'type_config' => [
-                    'output_mode' => $output_mode,
-                ],
-                'widget'      => $widget,
-                'widget_config' => [
-                    'height' => $height,
-                    'width' => '100%',
-                ],
-            ]
-        );
+        $this->schema['fields'][$key] = [
+            'title'       => $key,
+            'storage'     => $key,
+            'type'        => $dm_type,
+            'type_config' => [
+                'output_mode' => $output_mode,
+            ],
+            'widget'      => $widget,
+            'widget_config' => [
+                'height' => $height,
+                'width' => '100%',
+            ],
+        ];
     }
 
     private function _add_name_field($key, $name_obj)
@@ -327,16 +305,13 @@ class midgard_admin_asgard_schemadb
         // Enable generating the name from the title property
         $type_urlname_config['title_field'] = midcom_helper_reflector::get_title_property($name_obj);
 
-        $this->_schemadb['object']->append_field(
-            $key,
-            [
-                'title'       => $key,
-                'storage'     => $key,
-                'type'        => 'urlname',
-                'type_config' => $type_urlname_config,
-                'widget'      => 'text',
-                ]
-        );
+        $this->schema['fields'][$key] = [
+            'title'       => $key,
+            'storage'     => $key,
+            'type'        => 'urlname',
+            'type_config' => $type_urlname_config,
+            'widget'      => 'text',
+        ];
     }
 
     private function _add_component_dropdown($key)
@@ -352,18 +327,15 @@ class midgard_admin_asgard_schemadb
         }
         asort($components);
 
-        $this->_schemadb['object']->append_field(
-            $key,
-            [
-                'title'       => $key,
-                'storage'     => $key,
-                'type'        => 'select',
-                'type_config' => [
-                    'options' => $components,
-                ],
-                'widget'      => 'midcom_admin_folder_selectcomponent',
-            ]
-        );
+        $this->schema['fields'][$key] = [
+            'title'       => $key,
+            'storage'     => $key,
+            'type'        => 'select',
+            'type_config' => [
+                'options' => $components,
+            ],
+            'widget'      => 'midcom_admin_folder_selectcomponent',
+        ];
     }
 
     private function _add_linked_field($key)
@@ -400,35 +372,33 @@ class midgard_admin_asgard_schemadb
                 $component = midcom::get()->dbclassloader->get_component_for_class($linked_type);
                 $searchfields = $linked_type_reflector->get_search_properties();
                 $searchfields[] = 'guid';
-                $this->_schemadb['object']->append_field(
-                    $key,
-                    [
-                        'title'       => $field_label,
-                        'storage'     => $key,
-                        'type'        => 'select',
-                        'type_config' => [
-                            'require_corresponding_option' => false,
-                            'options' => [],
-                            'allow_other' => true,
-                            'allow_multiple' => false,
-                        ],
-                        'widget' => 'autocomplete',
-                        'widget_config' => [
-                            'class' => $class,
-                            'component' => $component,
-                            'titlefield' => $linked_type_reflector->get_label_property(),
-                            'id_field' => $this->_reflector->get_link_target($key),
-                            'searchfields' => $searchfields,
-                            'result_headers' => $this->_get_result_headers($linked_type_reflector),
-                            'orders' => [],
-                            'creation_mode_enabled' => true,
-                            'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/",
-                            'creation_default_key' => $linked_type_reflector->get_title_property(new $linked_type),
-                            'categorize_by_parent_label' => true,
-                            'get_label_for' => $linked_type_reflector->get_label_property(),
-                        ],
-                    ]
-                );
+                $this->schema['fields'][$key] = [
+                    'title'       => $field_label,
+                    'storage'     => $key,
+                    'type'        => 'select',
+                    'type_config' => [
+                        'require_corresponding_option' => false,
+                        'options' => [],
+                        'allow_other' => true,
+                        'allow_multiple' => false,
+                    ],
+                    'widget' => 'autocomplete',
+                    'widget_config' => [
+                        'class' => $class,
+                        'component' => $component,
+                        'titlefield' => $linked_type_reflector->get_label_property(),
+                        'id_field' => $this->_reflector->get_link_target($key),
+                        'searchfields' => $searchfields,
+                        'result_headers' => $this->_get_result_headers($linked_type_reflector),
+                        'orders' => [],
+                        'creation_mode_enabled' => true,
+                        'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/",
+                        'creation_default_key' => $linked_type_reflector->get_title_property(new $linked_type),
+                        'categorize_by_parent_label' => true,
+                        'get_label_for' => $linked_type_reflector->get_label_property(),
+                    ],
+                    'required' => (midgard_object_class::get_property_parent($this->_object->__mgdschema_class_name__) == $key)
+                ];
                 break;
         }
     }
@@ -455,52 +425,40 @@ class midgard_admin_asgard_schemadb
     private function _add_copy_fields()
     {
         // Add switch for copying parameters
-        $this->_schemadb['object']->append_field(
-            'parameters',
-            [
-                'title'       => $this->_l10n->get('copy parameters'),
-                'storage'     => null,
-                'type'        => 'boolean',
-                'widget'      => 'checkbox',
-                'default'     => 1,
-            ]
-        );
+        $this->schema['fields']['parameters'] = [
+            'title'       => $this->_l10n->get('copy parameters'),
+            'storage'     => null,
+            'type'        => 'boolean',
+            'widget'      => 'checkbox',
+            'default'     => true,
+        ];
 
         // Add switch for copying metadata
-        $this->_schemadb['object']->append_field(
-            'metadata',
-            [
-                'title'       => $this->_l10n->get('copy metadata'),
-                'storage'     => null,
-                'type'        => 'boolean',
-                'widget'      => 'checkbox',
-                'default'     => 1,
-            ]
-        );
+        $this->schema['fields']['metadata'] = [
+            'title'       => $this->_l10n->get('copy metadata'),
+            'storage'     => null,
+            'type'        => 'boolean',
+            'widget'      => 'checkbox',
+            'default'     => true,
+        ];
 
         // Add switch for copying attachments
-        $this->_schemadb['object']->append_field(
-            'attachments',
-            [
-                'title'       => $this->_l10n->get('copy attachments'),
-                'storage'     => null,
-                'type'        => 'boolean',
-                'widget'      => 'checkbox',
-                'default'     => 1,
-            ]
-        );
+        $this->schema['fields']['attachments'] = [
+            'title'       => $this->_l10n->get('copy attachments'),
+            'storage'     => null,
+            'type'        => 'boolean',
+            'widget'      => 'checkbox',
+            'default'     => true,
+        ];
 
         // Add switch for copying privileges
-        $this->_schemadb['object']->append_field(
-            'privileges',
-            [
-                'title'       => $this->_l10n->get('copy privileges'),
-                'storage'     => null,
-                'type'        => 'boolean',
-                'widget'      => 'checkbox',
-                'default'     => 1,
-            ]
-        );
+        $this->schema['fields']['privileges'] = [
+            'title'       => $this->_l10n->get('copy privileges'),
+            'storage'     => null,
+            'type'        => 'boolean',
+            'widget'      => 'checkbox',
+            'default'     => true,
+        ];
     }
 
     private function _get_score($field)

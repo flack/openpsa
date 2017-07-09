@@ -214,6 +214,26 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $_REQUEST = $_POST;
     }
 
+    public function submit_dm_form($controller_key, array $formdata, $component, array $args = [])
+    {
+        $this->reset_server_vars();
+        $data = $this->run_handler($component, $args);
+        $this->set_dm_formdata($data[$controller_key], $formdata);
+
+        try {
+            $data = $this->run_handler($component, $args);
+            if (array_key_exists($controller_key, $data)) {
+                $this->assertEquals([], $data[$controller_key]->get_errors(), 'Form validation failed');
+            }
+            $this->assertTrue($data['__openpsa_testcase_response'] instanceof midcom_response_relocate, 'Form did not relocate');
+            return $data['__openpsa_testcase_response']->url;
+        } catch (openpsa_test_relocate $e) {
+            $url = $e->getMessage();
+            $url = preg_replace('/^\//', '', $url);
+            return $url;
+        }
+    }
+
     public function submit_dm_no_relocate_form($controller_key, array $formdata, $component, array $args = [])
     {
         $this->reset_server_vars();
