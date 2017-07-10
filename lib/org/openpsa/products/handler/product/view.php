@@ -56,18 +56,9 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
         $this->_load_product($handler_id, $args);
 
-        if (midcom::get()->config->get('enable_ajax_editing')) {
-            $data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
-            $data['controller']->schemadb =& $data['schemadb_product'];
-            $data['controller']->set_storage($this->_product);
-            $data['controller']->process_ajax();
-            $data['datamanager'] = $data['controller']->datamanager;
-        } else {
-            $data['controller'] = null;
-            $data['datamanager'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
-            if (!$data['datamanager']->autoset_storage($this->_product)) {
-                throw new midcom_error("Failed to create a DM2 instance for product {$this->_product->guid}.");
-            }
+        $data['datamanager'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
+        if (!$data['datamanager']->autoset_storage($this->_product)) {
+            throw new midcom_error("Failed to create a DM2 instance for product {$this->_product->guid}.");
         }
 
         $this->_prepare_request_data();
@@ -128,12 +119,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
      */
     public function _show_view($handler_id, array &$data)
     {
-        if ($data['controller']) {
-            // For AJAX handling it is the controller that renders everything
-            $data['view_product'] = $data['controller']->get_content_html();
-        } else {
-            $data['view_product'] = $data['datamanager']->get_content_html();
-        }
+        $data['view_product'] = $data['datamanager']->get_content_html();
         midcom_show_style('product_view');
     }
 }

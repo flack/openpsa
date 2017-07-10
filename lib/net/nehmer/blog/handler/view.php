@@ -93,13 +93,6 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
 
         $this->_load_datamanager();
 
-        if ($this->_config->get('enable_ajax_editing')) {
-            $this->_request_data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
-            $this->_request_data['controller']->schemadb =& $this->_request_data['schemadb'];
-            $this->_request_data['controller']->set_storage($this->_article);
-            $this->_request_data['controller']->process_ajax();
-        }
-
         if ($this->_config->get('comments_enable')) {
             if ($comments_node = $this->_seek_comments()) {
                 $this->_request_data['comments_url'] = $comments_node[MIDCOM_NAV_RELATIVEURL] . "comment/{$this->_article->guid}";
@@ -169,13 +162,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      */
     public function _show_view($handler_id, array &$data)
     {
-        if ($this->_config->get('enable_ajax_editing')) {
-            // For AJAX handling it is the controller that renders everything
-            $this->_request_data['view_article'] = $this->_request_data['controller']->get_content_html();
-        } else {
-            $this->_request_data['view_article'] = $this->_datamanager->get_content_html();
-        }
-
+        $this->_request_data['view_article'] = $this->_datamanager->get_content_html();
         midcom_show_style('view');
     }
 }

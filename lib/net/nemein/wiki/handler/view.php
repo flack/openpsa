@@ -21,13 +21,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     private $_page = null;
 
     /**
-     * The Datamanager 2 controller of the article to display
-     *
-     * @var midcom_helper_datamanager2_controller
-     */
-    private $_controller = null;
-
-    /**
      * The Datamanager 2 for article to display
      *
      * @var midcom_helper_datamanager2_datamanager
@@ -44,17 +37,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     private function _load_datamanager()
     {
-        if (midcom::get()->config->get('enable_ajax_editing')) {
-            $this->_controller = midcom_helper_datamanager2_controller::create('ajax');
-            $this->_controller->schemadb =& $this->_request_data['schemadb'];
-            $this->_controller->set_storage($this->_page);
-            $this->_controller->process_ajax();
-            $this->_datamanager = $this->_controller->datamanager;
-        } else {
-            $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
-            if (!$this->_datamanager->autoset_storage($this->_page)) {
-                throw new midcom_error("Failed to create a DM2 instance for wiki page {$this->_page->guid}.");
-            }
+        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
+        if (!$this->_datamanager->autoset_storage($this->_page)) {
+            throw new midcom_error("Failed to create a DM2 instance for wiki page {$this->_page->guid}.");
         }
     }
 
@@ -226,11 +211,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _show_view($handler_id, array &$data)
     {
-        if ($this->_controller) {
-            $data['wikipage_view'] = $this->_controller->get_content_html();
-        } else {
-            $data['wikipage_view'] = $this->_datamanager->get_content_html();
-        }
+        $data['wikipage_view'] = $this->_datamanager->get_content_html();
         $data['wikipage'] = $this->_page;
         $data['display_related_to'] = $this->_config->get('display_related_to');
 
@@ -324,11 +305,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _show_raw($handler_id, array &$data)
     {
-        if ($this->_controller) {
-            $data['wikipage_view'] = $this->_controller->get_content_html();
-        } else {
-            $data['wikipage_view'] = $this->_datamanager->get_content_html();
-        }
+        $data['wikipage_view'] = $this->_datamanager->get_content_html();
         $data['autogenerate_toc'] = $this->_config->get('autogenerate_toc');
         $data['display_related_to'] = $this->_config->get('display_related_to');
 
@@ -418,11 +395,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _show_whatlinks($handler_id, array &$data)
     {
-        if ($this->_controller) {
-            $data['wikipage_view'] = $this->_controller->get_content_html();
-        } else {
-            $data['wikipage_view'] = $this->_datamanager->get_content_html();
-        }
+        $data['wikipage_view'] = $this->_datamanager->get_content_html();
 
         // Replace wikiwords
         $parser = new net_nemein_wiki_parser($this->_page);

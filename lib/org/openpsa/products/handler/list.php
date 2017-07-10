@@ -24,11 +24,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     private $datamanager;
 
-    /**
-     * @var midcom_helper_datamanager2_controller_ajax
-     */
-    private $controller;
-
     public function _on_initialize()
     {
         $this->provider = new org_openpsa_widgets_grid_provider($this);
@@ -122,17 +117,8 @@ implements org_openpsa_widgets_grid_provider_client
             $data['data_url'] .= $data['group']->guid . '/';
 
             $this->datamanager = new midcom_helper_datamanager2_datamanager($data['schemadb_group']);
-            if (midcom::get()->config->get('enable_ajax_editing')) {
-                $this->controller = midcom_helper_datamanager2_controller::create('ajax');
-                $this->controller->schemadb =& $data['schemadb_group'];
-                $this->controller->set_storage($data['group']);
-                $this->controller->process_ajax();
-                $this->datamanager = $this->controller->datamanager;
-            } else {
-                $this->controller = null;
-                if (!$this->datamanager->autoset_storage($data['group'])) {
-                    throw new midcom_error("Failed to create a DM2 instance for product group {$data['group']->guid}.");
-                }
+            if (!$this->datamanager->autoset_storage($data['group'])) {
+                throw new midcom_error("Failed to create a DM2 instance for product group {$data['group']->guid}.");
             }
             $tmp = $this->_master->update_breadcrumb_line($this->_request_data['group']);
             midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
@@ -152,9 +138,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _show_list($handler_id, array &$data)
     {
-        if ($this->controller) {
-            $data['view_group'] = $this->controller->get_content_html();
-        } elseif ($this->datamanager) {
+        if ($this->datamanager) {
             $data['view_group'] = $this->datamanager->get_content_html();
         }
 
