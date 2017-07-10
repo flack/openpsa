@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Salesproject display class
  *
@@ -13,8 +15,6 @@
  */
 class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handler
 {
-    private $_controllers = [];
-
     /**
      * The salesproject to display
      *
@@ -117,17 +117,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         return false;
     }
 
-    private function _load_controller()
-    {
-        $this->_request_data['schemadb_salesproject'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_salesproject'));
-        $this->_request_data['schemadb_salesproject_deliverable'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));
-
-        $this->_request_data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
-        $this->_request_data['controller']->schemadb =& $this->_request_data['schemadb_salesproject'];
-        $this->_request_data['controller']->set_storage($this->_salesproject);
-        $this->_request_data['controller']->process_ajax();
-    }
-
     /**
      * Looks up a salesproject to display.
      *
@@ -139,7 +128,9 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
 
-        $this->_load_controller();
+        $data['view_salesproject'] = datamanager::from_schemadb($this->_config->get('schemadb_salesproject'))
+            ->set_storage($this->_salesproject)
+            ->get_content_html();
         $this->_list_deliverables();
         $this->_prepare_request_data();
         $this->_populate_toolbar();
@@ -178,10 +169,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $deliverables = $qb->execute();
         $this->_request_data['deliverables_objects'] = [];
         foreach ($deliverables as $deliverable) {
-            $this->_controllers[$deliverable->id] = midcom_helper_datamanager2_controller::create('ajax');
-            $this->_controllers[$deliverable->id]->schemadb =& $this->_request_data['schemadb_salesproject_deliverable'];
-            $this->_controllers[$deliverable->id]->set_storage($deliverable);
-            $this->_controllers[$deliverable->id]->process_ajax();
             $this->_request_data['deliverables_objects'][$deliverable->guid] = $deliverable;
         }
     }
@@ -194,13 +181,13 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
      */
     public function _show_view($handler_id, array &$data)
     {
-        // For AJAX handling it is the controller that renders everything
-        $data['view_salesproject'] = $data['controller']->get_content_html();
         midcom_show_style('show-salesproject');
         midcom_show_style('show-salesproject-deliverables-header');
 
+        $dm = datamanager::from_schemadb($this->_config->get('schemadb_deliverable'));
         foreach ($data['deliverables_objects'] as $deliverable) {
-            $data['deliverable'] = $this->_controllers[$deliverable->id]->get_content_html();
+            $dm->set_storage($deliverable);
+            $data['deliverable'] = $dm->get_content_html();
             $data['deliverable_object'] = $deliverable;
             $data['deliverable_toolbar'] = $this->build_status_toolbar($deliverable);
             if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {

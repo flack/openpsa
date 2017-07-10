@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Deliverable display class
  *
@@ -56,11 +58,6 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         }
     }
 
-    private function _load_schema()
-    {
-        $this->_request_data['schemadb_salesproject_deliverable'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));
-    }
-
     /**
      * Looks up a deliverable to display.
      *
@@ -73,12 +70,9 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
 
-        $this->_load_schema();
-
-        $this->_request_data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
-        $this->_request_data['controller']->schemadb =& $this->_request_data['schemadb_salesproject_deliverable'];
-        $this->_request_data['controller']->set_storage($this->_deliverable);
-        $this->_request_data['controller']->process_ajax();
+        $data['view_deliverable'] = datamanager::from_schemadb($this->_config->get('schemadb_deliverable'))
+            ->set_storage($this->_deliverable)
+            ->get_content_html();
 
         org_openpsa_sales_viewer::add_breadcrumb_path($this->_deliverable, $this);
 
@@ -100,9 +94,6 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
      */
     public function _show_view($handler_id, array &$data)
     {
-        // For AJAX handling it is the controller that renders everything
-        $this->_request_data['view_deliverable'] = $this->_request_data['controller']->get_content_html();
-
         if ($this->_deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
             midcom_show_style('show-deliverable-subscription');
         } else {
