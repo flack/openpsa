@@ -17,7 +17,6 @@
         'author' => array
         (
             'title' => 'author',
-            'description' => '',
             'helptext' => '',
 
             'storage' => 'author',
@@ -28,7 +27,6 @@
         'title' => array
         (
             'title' => 'title',
-            'description' => '',
             'helptext' => '',
 
             'storage' => 'title',
@@ -39,7 +37,6 @@
         'content' => array
         (
             'title' => 'content',
-            'description' => '',
             'helptext' => '',
 
             'required' => 'true',

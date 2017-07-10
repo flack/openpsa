@@ -6,6 +6,10 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\schemadb;
+use midcom\datamanager\datamanager;
+use midcom\datamanager\controller;
+
 /**
  * Comments view handler.
  *
@@ -21,49 +25,47 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     /**
      * The schema database to use.
      *
-     * @var Array
+     * @var schemadb
      */
-    private $_schemadb = null;
+    private $_schemadb;
 
     /**
      * List of comments we are currently working with.
      *
      * @var Array
      */
-    private $_comments = null;
+    private $_comments = [];
 
     /**
      * A new comment just created for posting.
      *
      * @var net_nehmer_comments_comment
      */
-    private $_new_comment = null;
+    private $_new_comment;
 
     /**
      * The GUID of the object we're bound to.
      *
      * @var string GUID
      */
-    private $_objectguid = null;
+    private $_objectguid;
 
     /**
      * The controller used to post a new comment. Only set if we have a valid user.
      *
-     * This is a Creation Mode DM2 controller.
-     *
-     * @var midcom_helper_datamanager2_controller_create
+     * @var controller
      */
-    private $_post_controller = null;
+    private $_post_controller;
 
     /**
      * This datamanager instance is used to display an existing comment. only set
      * if there are actually comments to display.
      *
-     * @var midcom_helper_datamanager2_datamanager
+     * @var datamanager
      */
-    private $_display_datamanager = null;
+    private $_display_datamanager;
 
-    private $custom_view = null;
+    private $custom_view;
 
     /**
      * Prepares the request data
@@ -83,7 +85,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     private function _init_display_datamanager()
     {
         $this->_load_schemadb();
-        $this->_display_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
+        $this->_display_datamanager = new datamanager($this->_schemadb);
     }
 
     /**
@@ -92,32 +94,32 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     private function _load_schemadb()
     {
         if (!$this->_schemadb) {
-            $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
+            $this->_schemadb = schemadb::from_path($this->_config->get('schemadb'));
 
             if (   $this->_config->get('use_captcha')
                 || (   !midcom::get()->auth->user
                     && $this->_config->get('use_captcha_if_anonymous'))) {
-                $this->_schemadb['comment']->append_field(
-                    'captcha',
-                    [
-                        'title' => $this->_l10n_midcom->get('captcha field title'),
-                        'storage' => null,
-                        'type' => 'captcha',
-                        'widget' => 'captcha',
-                        'widget_config' => $this->_config->get('captcha_config'),
-                    ]
-                );
+                $fields = $this->_schemadb->get('comment')->get('fields');
+                $fields['captcha'] = [
+                    'title' => $this->_l10n_midcom->get('captcha field title'),
+                    'storage' => null,
+                    'type' => 'captcha',
+                    'widget' => 'captcha',
+                    'widget_config' => $this->_config->get('captcha_config'),
+                ];
+                $this->_schemadb->get('comment')->set('fields', $fields);
             }
 
             if (   $this->_config->get('ratings_enable')
-                && array_key_exists('rating', $this->_schemadb['comment']->fields)) {
-                $this->_schemadb['comment']->fields['rating']['hidden'] = false;
+                && $this->_schemadb->get('comment')->has_field('rating')) {
+                $field =& $this->_schemadb->get('comment')->get_field();
+                $field['hidden'] = false;
             }
         }
     }
 
     /**
-     * Initializes a DM2 for posting.
+     * Initializes a DM for posting.
      */
     private function _init_post_controller()
     {
@@ -128,22 +130,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             $defaults['author'] = midcom::get()->auth->user->name;
         }
 
-        $this->_post_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_post_controller->schemadb =& $this->_schemadb;
-        $this->_post_controller->schema = 'comment';
-        $this->_post_controller->defaults = $defaults;
-        $this->_post_controller->callback_object =& $this;
-
-        if (!$this->_post_controller->initialize()) {
-            throw new midcom_error('Failed to initialize a DM2 create controller.');
-        }
-    }
-
-    /**
-     * DM2 creation callback, binds the new object directly to the _objectguid.
-     */
-    public function & dm2_create_callback(&$controller)
-    {
         $this->_new_comment = new net_nehmer_comments_comment();
         $this->_new_comment->objectguid = $this->_objectguid;
         //Proxy check
@@ -164,29 +150,11 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             $this->_new_comment->_send_notification = true;
         }
 
-        if (!$this->_new_comment->create()) {
-            debug_print_r('We operated on this object:', $this->_new_comment);
-            throw new midcom_error('Failed to create a new comment, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
-        }
-
-        if (   isset($_POST['subscribe'])
-            && midcom::get()->auth->user) {
-            // User wants to subscribe to receive notifications about this comments thread
-
-            // Get the object we're commenting
-            $parent = midcom::get()->dbfactory->get_object_by_guid($this->_objectguid);
-
-            // Sudo so we can update the parent object
-            if (midcom::get()->auth->request_sudo('net.nehmer.comments')) {
-                // Save the subscription
-                $parent->set_parameter('net.nehmer.comments:subscription', midcom::get()->auth->user->guid, time());
-
-                // Return back from the sudo state
-                midcom::get()->auth->drop_sudo();
-            }
-        }
-
-        return $this->_new_comment;
+        $dm = new datamanager($this->_schemadb);
+        $this->_post_controller = $dm
+            ->set_defaults($defaults)
+            ->set_storage($this->_new_comment)
+            ->get_controller();
     }
 
     /**
@@ -262,10 +230,27 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             throw new midcom_error('We were anonymous but could not acquire SUDO privileges, aborting');
         }
 
-        switch ($this->_post_controller->process_form()) {
+        switch ($this->_post_controller->process()) {
             case 'save':
                 // Check against comment spam
                 $this->_new_comment->check_spam($this->_config);
+                $formdata = $this->_post_controller->get_form_values();
+                if (   $formdata['subscribe']
+                    && midcom::get()->auth->user) {
+                    // User wants to subscribe to receive notifications about this comments thread
+
+                    // Get the object we're commenting
+                    $parent = midcom::get()->dbfactory->get_object_by_guid($this->_objectguid);
+
+                    // Sudo so we can update the parent object
+                    if (midcom::get()->auth->request_sudo($this->_component)) {
+                        // Save the subscription
+                        $parent->set_parameter('net.nehmer.comments:subscription', midcom::get()->auth->user->guid, time());
+
+                        // Return back from the sudo state
+                        midcom::get()->auth->drop_sudo();
+                    }
+                }
 
                 midcom::get()->cache->invalidate($this->_objectguid);
                 // Fall-through intentional
@@ -314,7 +299,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         if ($this->_comments) {
             midcom_show_style('comments-start');
             foreach ($this->_comments as $comment) {
-                $this->_display_datamanager->autoset_storage($comment);
+                $this->_display_datamanager->set_storage($comment);
                 $data['comment'] = $comment;
                 $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($comment);
                 midcom_show_style('comments-item');

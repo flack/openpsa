@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Comments welcome page handler
  *
@@ -17,9 +19,9 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      * This datamanager instance is used to display an existing comment. only set
      * if there are actually comments to display.
      *
-     * @var midcom_helper_datamanager2_datamanager
+     * @var datamanager
      */
-    private $_display_datamanager = null;
+    private $_display_datamanager;
 
     public function _on_initialize()
     {
@@ -32,8 +34,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     private function _init_display_datamanager()
     {
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-        $this->_display_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
+        $this->_display_datamanager = datamanager::from_schemadb($this->_config->get('schemadb'));
         $this->_request_data['display_datamanager'] = $this->_display_datamanager;
     }
 
@@ -154,7 +155,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     public function _show_moderate_ajax($handler_id, array &$data)
     {
         if (!empty($data['comment'])) {
-            $this->_display_datamanager->autoset_storage($data['comment']);
+            $this->_display_datamanager->set_storage($data['comment']);
             $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($data['comment'], $data['handler']);
             midcom_show_style('admin-comments-item');
         }
