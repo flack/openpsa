@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use midcom\datamanager\schemadb;
 
 /**
  * @package midgard.admin.user
@@ -115,9 +116,13 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
         $this->person->require_do('midgard:update');
         $this->account = new midcom_core_account($this->person);
 
-        $data['controller'] = midcom_helper_datamanager2_handler::get_delete_controller();
+        $schemadb = new schemadb(['default' => [
+            'operations' => ['delete' => '', 'cancel' => '']
+        ]]);
+        $dm = new datamanager($schemadb);
+        $data['controller'] = $dm->get_controller();
 
-        switch ($data['controller']->process_form()) {
+        switch ($data['controller']->process()) {
             case 'delete':
                 $this->account->delete();
                 // Show confirmation for the user
