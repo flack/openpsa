@@ -14,6 +14,19 @@ Lägg till ny fil
 Arkiverad bild
 ---STRINGEND
 
+---STRING captcha image alt text
+Detta är en captcha (http://sv.wikipedia.org/wiki/Captcha), du behöver en grafisk webläsare för att visa den.
+---STRINGEND
+
+---STRING captcha message
+Det här är en <a target='_new' href="http://sv.wikipedia.org/wiki/Captcha">Captcha.</a>
+Du måste skriva in tecknen som visas i bilden.
+---STRINGEND
+
+---STRING captcha validation failed
+Dom inmatade tecknen matchar inte bilden.
+---STRINGEND
+
 ---STRING could not figure out which image to show, listing files
 Kunde inte lista ut vilken bild att visa, listar filer.
 ---STRINGEND

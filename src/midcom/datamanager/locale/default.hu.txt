@@ -10,6 +10,18 @@
 Archivált kép
 ---STRINGEND
 
+---STRING captcha image alt text
+Ez egy Captcha (http://en.wikipedia.org/wiki/Captcha), a megjelenítéséhez szükséges egy grafikus webböngésző.
+---STRINGEND
+
+---STRING captcha message
+Ez egy <a target='_new' href="http://en.wikipedia.org/wiki/Captcha">Captcha.</a> A megjelenítéséhez gépelje be a képen látható karaktereket.
+---STRINGEND
+
+---STRING captcha validation failed
+A begépelt karakterek nem egyeznek meg a képen láthatóval.
+---STRINGEND
+
 ---STRING passwords do not match
 A jelszavak nem egyeznek.
 ---STRINGEND

@@ -367,6 +367,18 @@ class form extends base
         return $string . '</fieldset>';
     }
 
+    public function captcha_widget(FormView $view, array $data)
+    {
+        $alt = $this->renderer->humanize('captcha image alt text');
+        $string = '<fieldset class="captcha">';
+        $string .= "<img src='{$view->vars['captcha_url']}' alt='{$alt}' text='{$alt}' class='captcha'><br>";
+        $string .= $this->renderer->humanize('captcha message');
+        $data['attr']['class'] = 'captcha';
+        $data['value'] = '';
+        $string .= $this->form_widget_simple($view, $data);
+        return $string . '</fieldset>';
+    }
+
     public function codemirror_widget(FormView $view, array $data)
     {
         //we set required to false, because codemirror doesn't play well with html5 validation..

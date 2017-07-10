@@ -10,6 +10,18 @@
 Arkivert bilde.
 ---STRINGEND
 
+---STRING captcha image alt text
+Dette er en Captcha (http://en.wikipedia.org/wiki/Captcha), du  må se bildet.
+---STRINGEND
+
+---STRING captcha message
+Dette er en <a target='_new' href="http://en.wikipedia.org/wiki/Captcha">Captcha.</a> Du må må skrive inn bokstavene i bildet inn i feltet. Husk å skill mellom store o små bokstaver.
+---STRINGEND
+
+---STRING captcha validation failed
+Bokstavene du skrev inn stemmer ikke med bildet.
+---STRINGEND
+
 ---STRING could not figure out which image to show, listing files
 Kan ikke finne ut hvilket bilde å vise, viser en liste.
 ---STRINGEND
