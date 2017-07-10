@@ -73,7 +73,7 @@ class schema
         $fields = [];
 
         foreach ($this->config['fields'] as $field => $config) {
-            if ($config['type'] === 'csrf') {
+            if ($config['widget'] === 'csrf') {
                 $csrf = true;
             } elseif (empty($config['hidden'])) {
                 $fields[$field] = $config;
@@ -297,6 +297,10 @@ class schema
 
             foreach ((array) $value as $key => $rule) {
                 if (!is_array($rule)) {
+                    if (is_object($rule)) {
+                        $validation[] = $rule;
+                        continue;
+                    }
                     $rule = ['type' => $rule];
                 } elseif (!array_key_exists('type', $rule)) {
                     throw new midcom_error("Missing validation rule type for rule {$key} on field {$options['name']}, this is a required option.");
