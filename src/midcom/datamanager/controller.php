@@ -20,6 +20,8 @@ class controller
 
     const CANCEL = 'cancel';
 
+    const DELETE = 'delete';
+
     const PREVIEW = 'preview';
 
     /**
@@ -50,13 +52,11 @@ class controller
 
         if (    $this->form->isSubmitted()
              && $button = $this->form->getClickedButton()) {
-            if ($button->getConfig()->getOption('operation') == self::CANCEL) {
-                return self::CANCEL;
+            $operation = $button->getConfig()->getOption('operation');
+            if (in_array($operation, [self::CANCEL, self::DELETE, self::PREVIEW])) {
+                return $operation;
             }
-            if ($button->getConfig()->getOption('operation') == self::PREVIEW) {
-                return self::PREVIEW;
-            }
-            if ($button->getConfig()->getOption('operation') == self::SAVE) {
+            if ($operation == self::SAVE) {
                 if ($this->form->isValid()) {
                     $this->dm->get_storage()->save();
                     return self::SAVE;
