@@ -79,7 +79,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
         $mail->subject = $subject;
 
         $mail->from = $from;
-        if (isset($this->_config['reply-to'])) {
+        if (!empty($this->_config['reply-to'])) {
             $mail->headers['Reply-To'] = $this->_config['reply-to'];
         }
         if (!empty($this->_config['bounce_detector_address'])) {
