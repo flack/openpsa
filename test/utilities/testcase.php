@@ -429,6 +429,8 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         self::_process_delete_queue('class', self::$_class_objects);
         self::$_class_objects = [];
         midcom::get()->auth->logout();
+        // logout calls session_destroy, so we need to make sure that nothing else tries to start it again
+        @session_start();
     }
 
     private static function _process_delete_queue($queue_name, $queue)
