@@ -83,7 +83,9 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     public function save_callback(controller $controller)
     {
         $formdata = $controller->get_form_values();
-        $this->process_at_entry((int) $formdata['at_entry'], (int) $formdata['next_cycle']);
+        if (isset($formdata['at_entry'])) {
+            $this->process_at_entry((int) $formdata['at_entry'], (int) $formdata['next_cycle']);
+        }
         $this->_master->process_notify_date((int) $formdata['notify'], $this->_deliverable);
     }
 
