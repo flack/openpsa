@@ -25,7 +25,8 @@ use Symfony\Component\Form\FormFactoryInterface;
 class schema
 {
     private $defaults = [
-        'operations' => ['save' => '', 'cancel' => '']
+        'operations' => ['save' => '', 'cancel' => ''],
+        'fields' => []
     ];
 
     private $config = [];
