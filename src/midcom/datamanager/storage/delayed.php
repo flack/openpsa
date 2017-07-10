@@ -16,8 +16,10 @@ abstract class delayed extends dbanode
 
     public function set_value($value)
     {
-        $this->initialized = true;
-        $this->value = $value;
+        if (empty($this->config['hidden'])) {
+            $this->initialized = true;
+            $this->value = $value;
+        }
     }
 
     public function get_value()

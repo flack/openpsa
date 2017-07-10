@@ -27,9 +27,6 @@ class dbacontainer extends container
         $this->schema = $schema;
 
         foreach ($this->schema->get('fields') as $name => $config) {
-            if ($config['hidden']) {
-                continue;
-            }
             if (array_key_exists($name, $defaults)) {
                 $config['default'] = $defaults[$name];
             }

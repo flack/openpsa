@@ -23,7 +23,9 @@ class rcsmessage extends dbanode
      */
     public function set_value($value)
     {
-        $this->object->set_rcs_message($value);
+        if (empty($this->config['hidden'])) {
+            $this->object->set_rcs_message($value);
+        }
     }
 
     public function save()

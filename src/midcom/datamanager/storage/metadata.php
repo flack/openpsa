@@ -23,6 +23,8 @@ class metadata extends property
      */
     public function set_value($value)
     {
-        $this->object->metadata->{$this->config['name']} = $value;
+        if (empty($this->config['hidden'])) {
+            $this->object->metadata->{$this->config['name']} = $value;
+        }
     }
 }

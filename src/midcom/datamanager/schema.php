@@ -76,7 +76,7 @@ class schema
         foreach ($this->config['fields'] as $field => $config) {
             if ($config['widget'] === 'csrf') {
                 $csrf = true;
-            } elseif (empty($config['hidden'])) {
+            } else {
                 $fields[$field] = $config;
             }
         }
@@ -108,7 +108,8 @@ class schema
                 'index_method' => $config['index_method'],
                 'attr' => ['readonly' => $config['readonly']],
                 'helptext' => $config['helptext'],
-                'storage' => $storage
+                'storage' => $storage,
+                'hidden' => $config['hidden']
             ];
 
             $builder->add($field, compat::get_type_name($config['widget']), $options);

@@ -30,7 +30,8 @@ class formextension extends AbstractTypeExtension
             'start_fieldset' => null,
             'end_fieldset' => null,
             'helptext' => null,
-            'storage' => null
+            'storage' => null,
+            'hidden' => false
         ]);
     }
 
@@ -43,6 +44,7 @@ class formextension extends AbstractTypeExtension
         $view->vars['end_fieldset'] = $options['end_fieldset'];
         $view->vars['index_method'] = $options['index_method'];
         $view->vars['index_merge_with_content'] = $options['index_merge_with_content'];
+        $view->vars['hidden'] = $options['hidden'];
     }
 
     public function getExtendedType()

@@ -42,6 +42,10 @@ class form extends base
     {
         $string = '';
         foreach ($view as $child) {
+            if ($child->vars['hidden']) {
+                $child->setRendered();
+                continue;
+            }
             if (    array_key_exists('start_fieldset', $child->vars)
                 && $child->vars['start_fieldset'] !== null) {
                 if (!empty($child->vars['start_fieldset']['css_group'])) {
