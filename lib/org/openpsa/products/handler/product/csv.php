@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\schemadb;
+
 /**
  * @package org.openpsa.products
  */
 class org_openpsa_products_handler_product_csv extends midcom_baseclasses_components_handler_dataexport
 {
-    public function _load_schemadbs($handler_id, &$args, &$data)
+    public function _load_schemadbs($handler_id, array &$args, array &$data)
     {
         $data['session'] = new midcom_services_session('org_openpsa_products_csvexport');
         if (!empty($_POST)) {
@@ -39,17 +41,17 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
         }
 
         $this->_schema = $this->_config->get('csv_export_schema');
-
-        if (isset($data['schemadb_product'][$data['schemadb_to_use']])) {
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_product'));
+        if ($schemadb->has($data['schemadb_to_use'])) {
             $this->_schema = $data['schemadb_to_use'];
         }
 
         $this->_schema_fields_to_skip = explode(',', $this->_config->get('export_skip_fields'));
 
-        return [$data['schemadb_product']];
+        return [$schemadb];
     }
 
-    public function _load_data($handler_id, &$args, &$data)
+    public function _load_data($handler_id, array &$args, array &$data)
     {
         if (   empty($_POST)
             && $data['session']->exists('POST_data')) {

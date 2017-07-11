@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\schemadb;
+
 /**
  * @package org.openpsa.expenses
  */
@@ -15,17 +17,17 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
     public $include_totals = true;
     public $_schema = 'hour_report';
 
-    public function _load_schemadbs($handler_id, &$args, &$data)
+    public function _load_schemadbs($handler_id, array &$args, array &$data)
     {
         if (   isset($_GET['filename'])
             && is_string($_GET['filename'])
             && strpos($_GET['filename'], '.csv')) {
             $data['filename'] = $_GET['filename'];
         }
-        return [midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours'))];
+        return [schemadb::from_path($this->_config->get('schemadb_hours'))];
     }
 
-    public function _load_data($handler_id, &$args, &$data)
+    public function _load_data($handler_id, array &$args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
         if (   empty($_POST['guids'])

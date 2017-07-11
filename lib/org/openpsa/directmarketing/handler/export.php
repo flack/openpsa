@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\schemadb;
+
 /**
  * org.openpsa.directmarketing campaign handler class.
  *
@@ -22,17 +24,22 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
     protected $_schema = 'export';
 
-    public function _load_schemadbs($handler_id, &$args, &$data)
+    public function _load_schemadbs($handler_id, array &$args, array &$data)
     {
         // Try to load the correct campaign
         $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);
 
         $data['filename'] = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_request_data['campaign']->title)) . '_' . date('Y-m-d') . '.csv';
 
-        return $this->_master->load_schemas();
+        return [
+            'person' => schemadb::from_path($this->_config->get('schemadb_person')),
+            'campaign_member' => schemadb::from_path($this->_config->get('schemadb_campaign_member')),
+            'organization' => schemadb::from_path($this->_config->get('schemadb_organization')),
+            'organization_member' => schemadb::from_path($this->_config->get('schemadb_organization_member')),
+        ];
     }
 
-    public function _load_data($handler_id, &$args, &$data)
+    public function _load_data($handler_id, array &$args, array &$data)
     {
         $rows = [];
         $qb_members = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
