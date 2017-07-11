@@ -32,15 +32,15 @@ class org_openpsa_user_handler_person_createTest extends openpsa_testcase
             'firstname' => __CLASS__ . '::' . __FUNCTION__,
             'lastname' => __CLASS__ . '::' . __FUNCTION__,
             'email' => __FUNCTION__ . '@openpsa2.org',
-            'org_openpsa_user_person_account_password_switch' => '1',
             'username' => $username,
             'password' => [
-                'password_input' => 'p@ssword123'
+                'switch' => '1',
+                'password' => 'p@ssword123'
             ],
             'send_welcome_mail' => '1'
         ];
 
-        $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.user', ['create']);
+        $this->submit_dm_no_relocate_form('controller', $formdata, 'org.openpsa.user', ['create']);
         $url = $this->get_dialog_url();
 
         $tokens = explode('/', trim($url, '/'));

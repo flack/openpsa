@@ -86,6 +86,12 @@ class datamanager_form extends base
         return '';
     }
 
+    public function org_openpsa_user_widget_password_widget(FormView $view, array $data)
+    {
+        $string = '["password" => ' . $this->renderer->widget($view['password']) . ',';
+        return $string . '"switch" => ' . $this->renderer->widget($view['switch']) . ']';
+    }
+
     public function autocomplete_widget(FormView $view, array $data)
     {
         return '["selection" => ' . $this->renderer->widget($view['selection']) . ']';

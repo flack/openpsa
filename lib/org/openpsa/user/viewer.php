@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\storage\container\container;
+
 /**
  * Request class for user management
  *
@@ -17,32 +19,32 @@ class org_openpsa_user_viewer extends midcom_baseclasses_components_request
      * Create account based on data from DM2
      *
      * @param midcom_db_person $person The person we're working on
-     * @param midcom_helper_datamanager2_formmanager $formmanager The formmanager instance to use
+     * @param container $formdata The form data
      */
-    public function create_account(midcom_db_person $person, midcom_helper_datamanager2_formmanager $formmanager)
+    public function create_account(midcom_db_person $person, container $formdata)
     {
-        if (empty($formmanager->_types['username'])) {
+        if (empty($formdata['username'])) {
             return;
         }
         $account_helper = new org_openpsa_user_accounthelper();
-        $formdata = $formmanager->get_submit_values();
         $password = "";
 
         //take user password?
-        if ((int) $formdata['org_openpsa_user_person_account_password_switch'] > 0) {
-            $password = $formmanager->_types['password']->value;
+        if ((int) $formdata['password']['switch'] > 0) {
+            $password = $formdata['password']['password'];
         }
 
         $stat = $account_helper->create_account(
             $person->guid,
-            $formmanager->_types["username"]->value,
+            $formdata['username'],
             $person->email,
             $password,
-            $formmanager->_types["send_welcome_mail"]->value
+            $formdata['send_welcome_mail']
         );
         if (!$stat) {
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), $account_helper->errstr, 'error');
         }
+
         return $stat;
     }
 

@@ -7,6 +7,8 @@
  */
 
 use midcom\workflow\delete;
+use midcom\datamanager\datamanager;
+use midcom\datamanager\controller;
 
 /**
  * Account management class.
@@ -14,7 +16,6 @@ use midcom\workflow\delete;
  * @package org.openpsa.user
  */
 class org_openpsa_user_handler_person_account extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_nullstorage
 {
     /**
      * The person we're working on
@@ -50,20 +51,22 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('create account'));
 
-        $data['controller'] = $this->get_controller('nullstorage');
+        $data['controller'] = $this->load_controller();
 
-        $workflow = $this->get_workflow('datamanager2', ['controller' => $data['controller']]);
+        $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
         $response = $workflow->run();
 
         if (   $workflow->get_state() == 'save'
-            && $this->_master->create_account($this->person, $data["controller"]->formmanager)) {
+            && $this->_master->create_account($this->person, $data["controller"]->get_form_values())) {
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->person->name));
         }
+
         return $response;
     }
 
-    public function get_schema_defaults()
+    private function load_controller()
     {
+        $schemadb = ($this->_request_data["handler_id"] == "account_edit") ? 'schemadb_account_edit' : 'schemadb_account';
         $defaults = [
             'person' => $this->person->guid
         ];
@@ -77,13 +80,9 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
             $defaults['username'] = $generator->from_string($this->person->firstname) . '.' . $generator->from_string($this->person->lastname);
         }
-        return $defaults;
-    }
-
-    public function load_schemadb()
-    {
-        $schemadb = ($this->_request_data["handler_id"] == "account_edit") ? 'schemadb_account_edit' : 'schemadb_account';
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get($schemadb));
+        return datamanager::from_schemadb($this->_config->get($schemadb))
+            ->set_defaults($defaults)
+            ->get_controller();
     }
 
     /**
@@ -129,11 +128,10 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit account'));
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.user/password.js');
-        org_openpsa_user_widget_password::jsinit('org_openpsa_user_new_password', $this->_l10n, $this->_config, true);
-        $controller = $this->get_controller('nullstorage');
 
-        $workflow = $this->get_workflow('datamanager2', ['controller' => $controller]);
+        $controller = $this->load_controller();
+
+        $workflow = $this->get_workflow('datamanager', ['controller' => $controller]);
 
         if ($this->person->can_do('midgard:update')) {
             $delete = $this->get_workflow('delete', ['object' => $this->person]);
@@ -141,20 +139,19 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         $response = $workflow->run();
-
         if ($workflow->get_state() == 'save') {
-            $this->update_account($controller->formmanager);
+            $this->update_account($controller);
         }
         return $response;
     }
 
-    private function update_account(midcom_helper_datamanager2_formmanager $formmanager)
+    private function update_account(controller $controller)
     {
-        $password = $formmanager->get_value("new_password") ?: null;
+        $password = $controller->get_form_values()["new_password"] ?: null;
         $accounthelper = new org_openpsa_user_accounthelper($this->person);
 
         // Update account
-        if (   !$accounthelper->set_account($formmanager->get_value("username"), $password)
+        if (   !$accounthelper->set_account($controller->get_form_values()["username"], $password)
             && midcom_connection::get_error() != MGD_ERR_OK) {
             // Failure, give a message
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to update the user account, reason") . ': ' . midcom_connection::get_error_string(), 'error');

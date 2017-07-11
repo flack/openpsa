@@ -6,42 +6,38 @@
  * @package org.openpsa.user
  */
 
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use midcom\datamanager\extension\compat;
+
 /**
  * OpenPSA password widget
  *
  * @package org.openpsa.user
  */
-class org_openpsa_user_widget_password extends midcom_helper_datamanager2_widget
+class org_openpsa_user_widget_password extends AbstractType
 {
-    public function __construct($renderer)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        parent::__construct($renderer);
+        $resolver->setDefault('compound', true);
+    }
+
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('switch', compat::get_type_name('radiocheckselect'), [
+            'type_config' => ['options' => ['generate_password', 'own_password']],
+            'data' => 0,
+            'label_attr' => ['style' => 'display: none']
+        ]);
+        $builder->add('password', 'Symfony\Component\Form\Extension\Core\Type\PasswordType', [
+            'label_attr' => ['style' => 'display: none']
+        ]);
+
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.user/password.js');
-    }
 
-    /**
-     * Adds the input elements to the form.
-     */
-    public function add_elements_to_form($attributes)
-    {
-        $elements = [];
-        $attributes = array_merge($attributes, ['class' => 'shorttext', 'id' => $this->name . '_input']);
-
-        $menu ='<label><input type="radio" name="org_openpsa_user_person_account_password_switch" value="0" checked="checked"/> ' . $this->_l10n->get("generate_password") . '
-            </label>
-            <label>
-                <input type="radio" name="org_openpsa_user_person_account_password_switch" value="1"/> ' . $this->_l10n->get("own_password") . '
-            </label>';
-
-        self::jsinit($this->name . '_input', $this->_l10n, $this->_config, false);
-        $elements[] = $this->_form->createElement('static', $this->name . '_menu', '', $menu);
-        $title = $this->_translate($this->_field['title']);
-        $elements[] = $this->_form->createElement('password', $this->name . '_input', $title, $attributes);
-        $this->_form->addGroup($elements, $this->name, $title);
-    }
-
-    public static function jsinit($name, midcom_services_i18n_l10n $l10n, midcom_helper_configuration $config, $userid_required)
-    {
+        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.user');
+        $config = midcom_baseclasses_components_configuration::get('org.openpsa.user', 'config');
         $conf = [
             'strings' => [
                 'shortPass' => $l10n->get("password too short"),
@@ -53,16 +49,9 @@ class org_openpsa_user_widget_password extends midcom_helper_datamanager2_widget
             'password_rules' => $config->get('password_score_rules'),
             'min_length' => $config->get('min_password_length'),
             'min_score' => $config->get('min_password_score'),
-            'userid_required' => $userid_required
+            'userid_required' => false
         ];
         $conf = json_encode($conf);
-        midcom::get()->head->add_jquery_state_script('$("#' . $name . '").password_widget(' . $conf . ');');
-    }
-
-    public function sync_type_with_widget($results)
-    {
-        if ($results[$this->name] !== null) {
-            $this->_type->value = $results[$this->name][$this->name . '_input'];
-        }
+        midcom::get()->head->add_jquery_state_script('$(\'input[type="password"]\').password_widget(' . $conf . ');');
     }
 }
