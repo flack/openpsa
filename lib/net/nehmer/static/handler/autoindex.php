@@ -1,14 +1,14 @@
 <?php
-use midcom\datamanager\datamanager;
-use midcom\datamanager\storage;
-use midcom\datamanager\extension\transformer\blobs;
-
 /**
  * @package net.nehmer.static
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
+
+use midcom\datamanager\datamanager;
+use midcom\datamanager\storage;
+use midcom\datamanager\extension\transformer\blobs;
 
 /**
  * n.n.static Autoindex page handler
@@ -104,7 +104,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     private function _load_autoindex_data()
     {
         $view = [];
-        $datamanager = datamanager::from_schemadb($this->_config->get('schemadb'));
+        $datamanager = new datamanager($this->_request_data['schemadb']);
         $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
         $qb->add_order('title');
         $qb->add_order('name');

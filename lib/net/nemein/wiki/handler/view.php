@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Wikipage view handler
  *
@@ -18,14 +20,14 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      *
      * @var net_nemein_wiki_wikipage
      */
-    private $_page = null;
+    private $_page;
 
     /**
-     * The Datamanager 2 for article to display
+     * The Datamanager for article to display
      *
-     * @var midcom_helper_datamanager2_datamanager
+     * @var datamanager
      */
-    private $_datamanager = null;
+    private $_datamanager;
 
     public function __construct()
     {
@@ -37,10 +39,8 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     private function _load_datamanager()
     {
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
-        if (!$this->_datamanager->autoset_storage($this->_page)) {
-            throw new midcom_error("Failed to create a DM2 instance for wiki page {$this->_page->guid}.");
-        }
+        $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb'))
+            ->set_storage($this->_page);
     }
 
     private function _populate_toolbar()
@@ -98,7 +98,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $this->_view_toolbar->add_items($buttons);
         org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_page->guid);
 
-        $this->bind_view_to_object($this->_page, $this->_datamanager->schema->name);
+        $this->bind_view_to_object($this->_page, $this->_datamanager->get_schema()->get_name());
     }
 
     private function _load_page($wikiword)
@@ -176,7 +176,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     {
         $this->_load_datamanager();
 
-        if ($this->_datamanager->schema->name == 'redirect') {
+        if ($this->_datamanager->get_schema()->get_name() == 'redirect') {
             $qb = net_nemein_wiki_wikipage::new_query_builder();
             $qb->add_constraint('topic.component', '=', 'net.nemein.wiki');
             $qb->add_constraint('name', '=', $this->_page->url);

@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
 
@@ -29,15 +28,14 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      */
     private function load_controller()
     {
-        $schemadb = schemadb::from_path($this->_config->get('schemadb'));
         if (    $this->_config->get('simple_name_handling')
              && !midcom::get()->auth->admin) {
-            foreach ($schemadb->all() as $schema) {
+            foreach ($this->_request_data['schemadb']->all() as $schema) {
                 $field =& $schema->get_field('name');
                 $field['readonly'] = true;
             }
         }
-        $dm = new datamanager($schemadb);
+        $dm = new datamanager($this->_request_data['schemadb']);
 
         return $dm
             ->set_storage($this->article)

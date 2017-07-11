@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Product display class
  *
@@ -18,7 +20,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
      *
      * @var org_openpsa_products_product_dba
      */
-    private $_product = null;
+    private $_product;
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -56,13 +58,11 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
         $this->_load_product($handler_id, $args);
 
-        $data['datamanager'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
-        if (!$data['datamanager']->autoset_storage($this->_product)) {
-            throw new midcom_error("Failed to create a DM2 instance for product {$this->_product->guid}.");
-        }
+        $data['datamanager'] = datamanager::from_schemadb($this->_config->get('schemadb_product'))
+            ->set_storage($this->_product);
 
         $this->_prepare_request_data();
-        $this->bind_view_to_object($this->_product, $data['datamanager']->schema->name);
+        $this->bind_view_to_object($this->_product, $data['datamanager']->get_schema()->get_name());
 
         $breadcrumb = $this->_master->update_breadcrumb_line($this->_product);
         midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);

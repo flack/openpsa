@@ -1,4 +1,6 @@
 <?php
+use midcom\datamanager\datamanager;
+
 /**
  * @package net.nehmer.blog
  * @author The Midgard Project, http://www.midgard-project.org
@@ -18,14 +20,14 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      *
      * @var midcom_db_article
      */
-    private $_article = null;
+    private $_article;
 
     /**
      * The Datamanager of the article to display.
      *
-     * @var midcom_helper_datamanager2_datamanager
+     * @var datamanager
      */
-    private $_datamanager = null;
+    private $_datamanager;
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -91,7 +93,8 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
             midcom::get()->skip_page_style = true;
         }
 
-        $this->_load_datamanager();
+        $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb'))
+            ->set_storage($this->_article);
 
         if ($this->_config->get('comments_enable')) {
             if ($comments_node = $this->_seek_comments()) {
@@ -108,21 +111,9 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
 
         $this->_prepare_request_data();
 
-        $this->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
+        $this->bind_view_to_object($this->_article, $this->_datamanager->get_schema()->get_name());
         midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
-    }
-
-    /**
-     * Internal helper, loads the datamanager for the current article. Any error triggers a 500.
-     */
-    private function _load_datamanager()
-    {
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
-
-        if (!$this->_datamanager->autoset_storage($this->_article)) {
-            throw new midcom_error("Failed to create a DM2 instance for article {$this->_article->id}.");
-        }
     }
 
     /**

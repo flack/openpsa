@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * @package org.openpsa.products
  */
@@ -20,7 +22,7 @@ implements org_openpsa_widgets_grid_provider_client
     private $provider;
 
     /**
-     * @var midcom_helper_datamanager2_datamanager
+     * @var datamanager
      */
     private $datamanager;
 
@@ -116,10 +118,8 @@ implements org_openpsa_widgets_grid_provider_client
             $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
             $data['data_url'] .= $data['group']->guid . '/';
 
-            $this->datamanager = new midcom_helper_datamanager2_datamanager($data['schemadb_group']);
-            if (!$this->datamanager->autoset_storage($data['group'])) {
-                throw new midcom_error("Failed to create a DM2 instance for product group {$data['group']->guid}.");
-            }
+            $this->datamanager = datamanager::from_schemadb($this->_config->get('schemadb_group'))
+                ->set_storage($data['group']);
             $tmp = $this->_master->update_breadcrumb_line($this->_request_data['group']);
             midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
         }
@@ -165,7 +165,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_add_schema_buttons('schemadb_product', 'new-text', 'product/', $allow_create_product);
 
         if (!empty($this->_request_data['group'])) {
-            $this->bind_view_to_object($this->_request_data['group'], $this->datamanager->schema->name);
+            $this->bind_view_to_object($this->_request_data['group'], $this->datamanager->get_schema()->get_name());
         }
     }
 

@@ -7,10 +7,9 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
- * The midcom_baseclasses_components_handler class defines a bunch of helper vars
- *
- * @see midcom_baseclasses_components_handler
  * @package org.openpsa.products
  */
 class org_openpsa_products_handler_product_latest extends midcom_baseclasses_components_handler
@@ -73,7 +72,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         $this->_list_products($show_products, $product_group);
 
         // Prepare datamanager
-        $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
+        $data['datamanager_product'] = datamanager::from_schemadb($this->_config->get('schemadb_product'));
     }
 
     /**
@@ -90,9 +89,10 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
 
             foreach ($data['products'] as $product) {
                 $data['product'] = $product;
-                if (!$data['datamanager_product']->autoset_storage($product)) {
-                    debug_add("The datamanager for product #{$product->id} could not be initialized, skipping it.");
-                    debug_print_r('Object was:', $product);
+                try {
+                    $data['datamanager_product']->set_storage($product);
+                } catch (midcom_error $e) {
+                    $e->log();
                     continue;
                 }
                 $data['view_product'] = $data['datamanager_product']->get_content_html();
@@ -126,7 +126,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         }
 
         // Prepare datamanager
-        $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
+        $data['datamanager_product'] = datamanager::from_schemadb($this->_config->get('schemadb_product'));
     }
 
     /**
@@ -148,9 +148,10 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         if (count($data['products']) > 0) {
             foreach ($data['products'] as $product) {
                 $data['product'] = $product;
-                if (!$data['datamanager_product']->autoset_storage($product)) {
-                    debug_add("The datamanager for product #{$product->id} could not be initialized, skipping it.");
-                    debug_print_r('Object was:', $product);
+                try {
+                    $data['datamanager_product']->set_storage($product);
+                } catch (midcom_error $e) {
+                    $e->log();
                     continue;
                 }
                 $data['view_product'] = $data['datamanager_product']->get_content_html();

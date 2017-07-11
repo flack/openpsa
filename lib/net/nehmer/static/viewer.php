@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use midcom\datamanager\schemadb;
 
 /**
  * n.n.static site interface class
@@ -63,11 +64,11 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         $buttons = [];
         $workflow = $this->get_workflow('datamanager');
         if ($this->_topic->can_do('midgard:create')) {
-            foreach (array_keys($this->_request_data['schemadb']) as $name) {
+            foreach ($this->_request_data['schemadb']->all() as $name => $schema) {
                 $buttons[] = $workflow->get_button("create/{$name}/", [
                     MIDCOM_TOOLBAR_LABEL => sprintf(
                         $this->_l10n_midcom->get('create %s'),
-                        $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
+                        $this->_l10n->get($schema->get('description'))
                     ),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'n',
@@ -91,7 +92,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
      */
     public function _on_handle($handler, array $args)
     {
-        $this->_request_data['schemadb'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
+        $this->_request_data['schemadb'] = schemadb::from_path($this->_config->get('schemadb'));
 
         $this->_populate_node_toolbar();
     }
