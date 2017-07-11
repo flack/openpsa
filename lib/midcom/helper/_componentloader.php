@@ -132,7 +132,7 @@ class midcom_helper__componentloader
      * Common example:
      *
      * <code>
-     * midcom::get()->componentloader->load_library('midcom.helper.datamanager2');
+     * midcom::get()->componentloader->load_library('org.openpsa.httplib');
      * </code>
      *
      * @param string $path    The name of the code library to load.

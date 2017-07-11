@@ -45,8 +45,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         $this->bind_view_to_object($this->_request_data['campaign']);
 
         $this->_schemadbs = $this->_master->load_schemas();
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.datamanager/default.css");
 
         midcom::get()->disable_limits();
     }

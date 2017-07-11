@@ -36,7 +36,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     public function _on_initialize()
     {
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/legacy.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/default.css');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/attachments/layout.css');
     }
 

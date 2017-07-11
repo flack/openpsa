@@ -31,7 +31,7 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
         $buttons = $this->get_approval_controls($object);
 
         if ($object->can_do('midgard:update')) {
-            $workflow = new midcom\workflow\datamanager2;
+            $workflow = new midcom\workflow\datamanager;
             $buttons[] = $workflow->get_button("__ais/folder/metadata/{$object->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit metadata', 'midcom.admin.folder'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',

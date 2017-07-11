@@ -36,7 +36,7 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
             $urltopic = $this->topic;
         }
         $buttons = [];
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = new midcom\workflow\datamanager;
         if (   $this->topic->can_do('midgard:update')
             && $this->topic->can_do('midcom.admin.folder:topic_management')) {
             $buttons[] = $workflow->get_button("__ais/folder/edit/", [
