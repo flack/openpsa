@@ -6,23 +6,22 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasses_components_handler
 {
     /**
-     * @var midcom_helper_datamanager2_datamanager
+     * @var datamanager
      */
     private $_datamanager;
 
-    /**
-     * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
-     */
-    private function _load_datamanager()
+    private function load_datamanager(org_openpsa_directmarketing_campaign_message_dba $message)
     {
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
+        $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_message'))
+            ->set_storage($message);
     }
 
     /**
@@ -41,8 +40,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         // TODO: Check that campaign is in this topic
 
-        $this->_load_datamanager();
-        $this->_datamanager->autoset_storage($data['message']);
+        $this->load_datamanager($data['message']);
 
         $data['batch_number'] = $args[1];
         midcom_services_at_entry_dba::get_cached($args[2]);
@@ -113,7 +111,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     private function _get_sender(array &$data)
     {
         $data['message_array'] = $this->_datamanager->get_content_raw();
-        $data['message_array']['dm_types'] =& $this->_datamanager->types;
+        $data['message_array']['dm_storage'] = $this->_datamanager->get_storage();
         if (!array_key_exists('content', $data['message_array'])) {
             throw new midcom_error('"content" not defined in schema');
         }
@@ -152,8 +150,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $this->add_breadcrumb("message/{$data['message']->guid}/", $data['message']->title);
         $this->add_breadcrumb("send_test/{$data['message']->guid}/", $this->_l10n->get('send'));
 
-        $this->_load_datamanager();
-        $this->_datamanager->autoset_storage($data['message']);
+        $this->load_datamanager($data['message']);
 
         $this->_request_data['send_start'] = time();
 

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\storage\blobs;
+
 /**
  * Campaign message sender backend for email
  *
@@ -134,23 +136,16 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
     private function _get_attachments()
     {
         $attachments = [];
-        foreach ($this->_config['dm_types'] as $field => $typedata) {
-            if (empty($typedata->attachments_info)) {
+        foreach ($this->_config['dm_storage'] as $field => $typedata) {
+            if (!$typedata instanceof blobs) {
                 continue;
             }
-
-            // If you don't want to add the image as an attachment to the field, add show_attachment customdata-definition to
-            // schema and set it to false
-            if (   isset($typedata->storage->_schema->fields[$field]['customdata']['show_attachment'])
-                && $typedata->storage->_schema->fields[$field]['customdata']['show_attachment'] === false) {
-                continue;
-            }
-
-            foreach ($typedata->attachments_info as $attachment_data) {
-                $att = [];
-                $att['name'] = $attachment_data['filename'];
-                $att['mimetype'] = $attachment_data['mimetype'];
-                $fp = $attachment_data['object']->open('r');
+            foreach ((array) $typedata->get_value() as $attachment) {
+                $att = [
+                    'name' => $attachment->name,
+                    'mimetype' => $attachment->mimetype
+                ];
+                $fp = $attachment->open('r');
                 if (!$fp) {
                     //Failed to open attachment for reading, skip the file
                     continue;
@@ -159,10 +154,11 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
                  We would save some file opens at the expense of keeping the contents in memory (potentially very expensive) */
                 $att['content'] = stream_get_contents($fp);
                 fclose($fp);
-                debug_add("adding attachment '{$att['name']}' from field '{$field}' to attachments array");
+                debug_add("adding attachment '{$attachment->name}' from field '{$field}' to attachments array");
                 $attachments[] = $att;
             }
         }
+
         return $attachments;
     }
 
