@@ -53,26 +53,6 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
     }
 
     /**
-     * Make XML out of an object loaded into datamanager
-     *
-     * @param midcom_helper_datamanager2_datamanager $datamanager
-     * @return string
-     */
-    public function dm2data($datamanager, $fallback_label = 'default', $additional_data = [])
-    {
-        $content = $datamanager->get_content_xml();
-        $content['guid'] = $datamanager->storage->object->guid;
-        $label = $datamanager->schema->name;
-        if ($label == 'default') {
-            $label = $fallback_label;
-        }
-
-        $content = array_merge($content, $additional_data);
-
-        return $this->array2data($content, $label);
-    }
-
-    /**
      * Make XML out of an array.
      *
      * @param array $array
