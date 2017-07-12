@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\schemadb;
+use midcom\datamanager\datamanager;
+
 /**
  * Helper class for constructing simple formmailers for embedding directly into a page.
  *
@@ -25,7 +28,7 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
     /**
      * The schemadb we're working with
      *
-     * @var array
+     * @var schemadb
      */
     private $_schemadb;
 
@@ -57,11 +60,11 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
      */
     public $subject;
 
-    public function __construct($schemadb = null)
+    public function __construct(schemadb $schemadb = null)
     {
         parent::__construct();
         if (null === $schemadb) {
-            $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_formmailer'));
+            $this->_schemadb = schemadb::from_path($this->_config->get('schemadb_formmailer'));
         } else {
             $this->_schemadb = $schemadb;
         }
@@ -69,16 +72,12 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
 
     public function process()
     {
-        $controller = midcom_helper_datamanager2_controller::create('nullstorage');
-        $controller->schemadb = $this->_schemadb;
-        $controller->schemaname = 'default';
-        if (!$controller->initialize()) {
-            throw new midcom_error('Failed to initialize a DM2 nullstorage controller.');
-        }
+        $dm = new datamanager($this->_schemadb);
+        $controller = $dm->get_controller();
 
-        switch ($controller->process_form()) {
+        switch ($controller->process()) {
             case 'save':
-                $this->_send_form($controller->datamanager->get_content_email());
+                $this->_send_form($controller->get_datamanager()->get_content_csv());
                 break;
             case 'cancel':
                 //Clear form
