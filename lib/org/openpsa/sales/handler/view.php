@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use midcom\datamanager\helper\autocomplete;
 
 /**
  * Salesproject display class
@@ -143,7 +144,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         midcom::get()->metadata->set_request_metadata($this->_salesproject->metadata->revised, $this->_salesproject->guid);
         midcom::get()->head->set_pagetitle($this->_salesproject->title);
 
-        midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
+        autocomplete::add_head_elements();
         org_openpsa_invoices_viewer::add_head_elements_for_invoice_grid();
 
         midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/widgets/button.min.js');

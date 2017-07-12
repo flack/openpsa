@@ -37,7 +37,7 @@ class captcha extends TextType
         $session_key = md5($builder->getForm()->getName() . '_session_key');
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($session_key) {
             $value = $event->getForm()->getData();
-            $session = new midcom_services_session('midcom_helper_datamanager2_widget_captcha');
+            $session = new midcom_services_session('midcom_datamanager_captcha');
             $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
 
             if (   !$session->exists($session_key)
@@ -53,7 +53,7 @@ class captcha extends TextType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $session_key = md5($form->getName() . '_session_key');
-        $view->vars['captcha_url'] = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/captcha.php/' . $session_key;
+        $view->vars['captcha_url'] = midcom_connection::get_url('self') . 'midcom-exec-midcom.datamanager/captcha.php/' . $session_key;
     }
 
     /**

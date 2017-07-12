@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\helper\autocomplete;
+
 /**
  * This is a URL handler class for org.openpsa.expenses
  *
@@ -67,7 +69,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $data['mode'] = $mode;
 
         org_openpsa_widgets_grid::add_head_elements();
-        midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
+        autocomplete::add_head_elements();
         org_openpsa_widgets_contact::add_head_elements();
 
         midcom::get()->head->set_pagetitle($data['view_title']);
@@ -98,8 +100,8 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      */
     private function _prepare_batch_options()
     {
-        $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
-        $invoice_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('invoice');
+        $task_conf = autocomplete::get_widget_config('task');
+        $invoice_conf = autocomplete::get_widget_config('invoice');
 
         return [
             'none' => ['label' => midcom::get()->i18n->get_string("choose action", "midgard.admin.user")],

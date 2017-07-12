@@ -13,6 +13,7 @@ use midcom\datamanager\extension\transformer\autocomplete as transformer;
 use midcom\datamanager\extension\transformer\json as jsontransformer;
 use midcom\datamanager\extension\transformer\multiple as multipletransformer;
 use midcom\datamanager\extension\helper;
+use midcom\datamanager\helper\autocomplete as autocomplete_helper;
 use midcom;
 use midcom_error;
 use midcom_connection;
@@ -111,7 +112,7 @@ class autocomplete extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-        $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
+        $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.datamanager/autocomplete.php';
 
         $preset = [];
         if (!empty($view->children['selection']->vars['data'])) {
@@ -121,7 +122,7 @@ class autocomplete extends AbstractType
                 }
                 try {
                     $object = new $options['widget_config']['class']($identifier);
-                    $preset[$identifier] = \midcom_helper_datamanager2_widget_autocomplete::create_item_label($object, $options['widget_config']['result_headers'], $options['widget_config']['get_label_for']);
+                    $preset[$identifier] = autocomplete_helper::create_item_label($object, $options['widget_config']['result_headers'], $options['widget_config']['get_label_for']);
                 } catch (midcom_error $e) {
                     $e->log();
                 }

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\helper\autocomplete;
+
 /**
  * My Contacts handler
  *
@@ -56,7 +58,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
     {
         midcom::get()->skip_page_style = true;
 
-        $data['widget_config'] = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('contact');
+        $data['widget_config'] = autocomplete::get_widget_config('contact');
         $data['widget_config']['id_field'] = 'guid';
 
         $mycontacts = new org_openpsa_contacts_mycontacts;

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\helper\autocomplete;
+
 /**
  * Mypage "now working on"
  *
@@ -27,7 +29,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
 
         midcom::get()->skip_page_style = true;
 
-        $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
+        $task_conf = autocomplete::get_widget_config('task');
         $task_conf['id_field'] = 'guid';
 
         $task_conf['constraints'][] = [

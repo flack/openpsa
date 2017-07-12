@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\helper\autocomplete;
+
 /**
  * Helper class to load parts of the ui
  *
@@ -56,7 +58,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         $providers = self::get_search_providers();
         foreach ($providers as $config) {
             if ($config['autocomplete'] === true) {
-                midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
+                autocomplete::add_head_elements();
             }
         }
 

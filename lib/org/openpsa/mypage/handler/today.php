@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\helper\autocomplete;
+
 /**
  * My page today handler
  *
@@ -58,7 +60,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 
         // Add the JS file for workingon widget
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.mypage/jquery.epiclock.min.js");
-        midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
+        autocomplete::add_head_elements();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.js");
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.css");

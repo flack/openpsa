@@ -1,5 +1,4 @@
 'name' => 'midcom.datamanager',
-'icon' => 'midcom.datamanager2/datamanager.png',
 'version' => '9.0.0-rc.3+git',
 'state' => 'stable',
 'purecode' => true,
