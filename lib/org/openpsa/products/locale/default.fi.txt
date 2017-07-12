@@ -22,14 +22,6 @@
 Koodi
 ---STRINGEND
 
----STRING component
-Komponentti
----STRINGEND
-
----STRING component group
-Komponenttiryhmä
----STRINGEND
-
 ---STRING cost
 Kulu
 ---STRINGEND
@@ -46,18 +38,6 @@ päivä
 Toimitustapa
 ---STRINGEND
 
----STRING fields available for matching are defined in schema
-Käytettävissä olevat kentät on määritelty tietokantakuvauksessa
----STRINGEND
-
----STRING file to import
-Tuotava tiedosto
----STRINGEND
-
----STRING first row is headers
-Ensimmäinen rivi on otsikkotiedoille
----STRINGEND
-
 ---STRING groups
 Tuoteryhmät
 ---STRINGEND
@@ -68,14 +48,6 @@ puolet
 
 ---STRING hour
 tunti
----STRINGEND
-
----STRING import
-Tuo kantaan
----STRINGEND
-
----STRING iso-latin-1 encoding
-ISO-Latin1 -merkistö
 ---STRINGEND
 
 ---STRING list group products
@@ -186,10 +158,6 @@ Päivitetyt tuotteet
 vuosi
 ---STRINGEND
 
----STRING you can import csv files here
-Voit tuoda CSV-tiedostoja kantaan täällä
----STRINGEND
-
 ---STRING display settings
 Näytä asetukset
 ---STRINGEND
@@ -204,10 +172,6 @@ Kenttäerotin
 
 ---STRING if we have subgroups and products in group, what shall we show
 Jos tuoteryhmällä on alaryhmiä ja tuotteita, mitä näytetään?
----STRINGEND
-
----STRING import products
-Tuo tuotteita kantaan
 ---STRINGEND
 
 ---STRING index order for products when browsing groups

@@ -33,18 +33,9 @@
 // default schema to use when exporting products
 'csv_export_schema' => 'default',
 
-// default schema to use when importing products
-'csv_import_schema' => 'default',
-
 // Use custom rss feeds
 'custom_rss_feeds' => false, // array('title' => 'http://example.com')
 
-'import_csv_data_percentage' => 0,
-
 'export_skip_fields' => '',
-'import_skip_fields' => 'productGroup', // comma separated, note that not skipping productGroup is asking for trouble
-// These are used to detect charset of imported data and convert to local
-'mb_detect_encoding_list' => 'ASCII,JIS,UTF-8,ISO-8859-1,EUC-JP,SJIS',
-'iconv_append_target' => '//TRANSLIT', //Transliterate by default (other valid options '//IGNORE' or null)
 
 'product_page_title' => '<TOPIC_TITLE>: <PRODUCT_TITLE>',

@@ -22,14 +22,6 @@
 Code
 ---STRINGEND
 
----STRING component
-Component
----STRINGEND
-
----STRING component group
-Component group
----STRINGEND
-
 ---STRING cost
 Cost
 ---STRINGEND
@@ -58,18 +50,6 @@ Export products
 Field separator
 ---STRINGEND
 
----STRING fields available for matching are defined in schema
-Fields available for matching are defined in schema
----STRINGEND
-
----STRING file to import
-File to import
----STRINGEND
-
----STRING first row is headers
-First row is headers
----STRINGEND
-
 ---STRING groups
 Product groups
 ---STRINGEND
@@ -90,20 +70,8 @@ hour
 If we have subgroups and products in a group, what shall we show?
 ---STRINGEND
 
----STRING import
-Import
----STRINGEND
-
----STRING import products
-Import products
----STRINGEND
-
 ---STRING index order for products when browsing groups
 Index order for products when browsing groups
----STRINGEND
-
----STRING iso-latin-1 encoding
-ISO-Latin-1 encoding
 ---STRINGEND
 
 ---STRING list group products
@@ -240,8 +208,4 @@ Updated products
 
 ---STRING year
 year
----STRINGEND
-
----STRING you can import csv files here
-You can import csv files here
 ---STRINGEND

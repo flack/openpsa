@@ -22,14 +22,6 @@
 Code
 ---STRINGEND
 
----STRING component
-Komponente
----STRINGEND
-
----STRING component group
-Komponenten-Gruppe
----STRINGEND
-
 ---STRING cost
 Kosten
 ---STRINGEND
@@ -58,18 +50,6 @@ Produkte exportieren
 Feldtrenner
 ---STRINGEND
 
----STRING fields available for matching are defined in schema
-Verfügbare Vergleichs-Felder sind im Schema definiert
----STRINGEND
-
----STRING file to import
-Zu importierende Datei
----STRINGEND
-
----STRING first row is headers
-Die erste Zeile enthält Überschriften
----STRINGEND
-
 ---STRING groups
 Produktgruppen
 ---STRINGEND
@@ -90,20 +70,8 @@ Stunde
 Was soll angezeigt werden, wenn in einer Gruppe Produkte und Untergruppen enthalten sind?
 ---STRINGEND
 
----STRING import
-Import
----STRINGEND
-
----STRING import products
-Produkte importieren
----STRINGEND
-
 ---STRING index order for products when browsing groups
 Sortierreihenfolge für Produkte beim Browsen von Gruppen
----STRINGEND
-
----STRING iso-latin-1 encoding
-ISO-Latin-1-Kodierung
 ---STRINGEND
 
 ---STRING list group products
@@ -240,8 +208,4 @@ Aktualisierte Produkte
 
 ---STRING year
 Jahr
----STRINGEND
-
----STRING you can import csv files here
-Hier können Sie CSV-Dateien importieren
 ---STRINGEND

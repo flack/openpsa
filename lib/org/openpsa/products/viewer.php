@@ -68,12 +68,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('export products'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editshred.png',
                 ];
-                $buttons[] = [
-                    MIDCOM_TOOLBAR_URL => 'import/product/csv/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import products'),
-                    MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('import products from csv-file'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editshred.png',
-                ];
             }
             if ($this->_topic->can_do('midcom:component_config')) {
                 $workflow = $this->get_workflow('datamanager');

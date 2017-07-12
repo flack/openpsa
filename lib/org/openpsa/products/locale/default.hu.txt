@@ -10,14 +10,6 @@
 Kód
 ---STRINGEND
 
----STRING component
-Összetevő
----STRINGEND
-
----STRING component group
-Összetevő csoportja
----STRINGEND
-
 ---STRING cost
 Költség
 ---STRINGEND

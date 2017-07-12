@@ -53,20 +53,6 @@
     'variable_args' => 2,
 ),
 
-// Handle /import/group/csv
-'import_group_csv' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_group_csvimport', 'csv_select'),
-    'fixed_args' => Array('import', 'group', 'csv'),
-),
-
-// Handle /import/group/csv2
-'import_group' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_group_csvimport', 'csv'),
-    'fixed_args' => Array('import', 'group', 'csv2'),
-),
-
 // Handle /product/create/<schema name>
 'create_product' => Array
 (
@@ -81,20 +67,6 @@
     'handler' => Array('org_openpsa_products_handler_product_create', 'create'),
     'fixed_args' => Array('product', 'create'),
     'variable_args' => 2,
-),
-
-// Handle /import/product/csv
-'import_product_csv' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_csvimport', 'csv_select'),
-    'fixed_args' => Array('import', 'product', 'csv'),
-),
-
-// Handle /import/group/csv2
-'import_product' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_csvimport', 'csv'),
-    'fixed_args' => Array('import', 'product', 'csv2'),
 ),
 
 // Handle /product/edit/<product guid>
