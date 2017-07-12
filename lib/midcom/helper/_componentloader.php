@@ -461,7 +461,7 @@ class midcom_helper__componentloader
             'midcom.admin.rcs',
             'midcom',
             'midcom.core.nullcomponent',
-            'midcom.helper.datamanager2',
+            'midcom.datamanager',
             'midcom.helper.imagepopup',
             'midcom.helper.reflector',
             'midcom.helper.replicator',
