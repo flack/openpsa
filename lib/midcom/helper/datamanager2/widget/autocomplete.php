@@ -489,15 +489,4 @@ EOT;
 
         return $label;
     }
-
-    public static function sort_items($a, $b)
-    {
-        if (isset($a['category'])) {
-            $cmp = strcmp($a['category'], $b['category']);
-            if ($cmp != 0) {
-                return $cmp;
-            }
-        }
-        return strcmp($a['label'], $b['label']);
-    }
 }

@@ -207,10 +207,20 @@ class midcom_helper_datamanager2_ajax_autocomplete
 
             $items[] = $item;
         }
-
-        usort($items, ['midcom_helper_datamanager2_widget_autocomplete', 'sort_items']);
+        usort($items, ['self', 'sort_items']);
 
         return $items;
+    }
+
+    public static function sort_items($a, $b)
+    {
+        if (isset($a['category'])) {
+            $cmp = strnatcasecmp($a['category'], $b['category']);
+            if ($cmp != 0) {
+                return $cmp;
+            }
+        }
+        return strnatcasecmp($a['label'], $b['label']);
     }
 
     public static function get_property_string($object, $item_name)

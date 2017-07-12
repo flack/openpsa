@@ -195,7 +195,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 'url' => $prefix . 'group/' . $group->guid . '/'
             ];
         }
-        usort($data, ['midcom_helper_datamanager2_widget_autocomplete', 'sort_items']);
+        usort($data, ['midcom_helper_datamanager2_ajax_autocomplete', 'sort_items']);
 
         return new midcom_response_json($data);
     }
