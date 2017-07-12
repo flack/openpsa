@@ -66,7 +66,7 @@ class org_openpsa_core_filter_timeframe extends org_openpsa_core_filter
 
     public function add_head_elements()
     {
-        midcom_helper_datamanager2_widget_jsdate::add_head_elements();
+        midcom::get()->head->enable_jquery_ui(['datepicker']);
     }
 
     /**

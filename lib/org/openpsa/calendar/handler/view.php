@@ -88,7 +88,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
         $data['calendar_options'] = $this->_master->get_calendar_options();
         org_openpsa_widgets_calendar::add_head_elements();
-        midcom_helper_datamanager2_widget_jsdate::add_head_elements();
+        midcom::get()->head->enable_jquery_ui(['datepicker']);
     }
 
     /**
