@@ -38,8 +38,8 @@ class privilegeselection extends privilege
 
         $head = midcom::get()->head;
         $head->enable_jquery();
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/privilege/jquery.privilege.css');
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/privilege/jquery.privilege.js');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/privilege/jquery.privilege.css');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/privilege/jquery.privilege.js');
     }
 
     /**

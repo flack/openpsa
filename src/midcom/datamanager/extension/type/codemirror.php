@@ -81,7 +81,7 @@ class codemirror extends TextareaType
         parent::buildForm($builder, $options);
 
         if ($options['widget_config']['enabled']) {
-            $prefix = MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/codemirror-' . $this->version;
+            $prefix = MIDCOM_STATIC_URL . '/midcom.datamanager/codemirror-' . $this->version;
             midcom::get()->head->enable_jquery();
             midcom::get()->head->add_stylesheet($prefix . '/lib/codemirror.css');
             midcom::get()->head->add_stylesheet($prefix . '/theme/eclipse.css');

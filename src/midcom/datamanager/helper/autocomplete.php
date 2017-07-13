@@ -221,7 +221,7 @@ class autocomplete
     {
         $head = midcom::get()->head;
 
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.css');
 
         $components = ['menu', 'autocomplete'];
         if ($sortable) {
@@ -231,7 +231,7 @@ class autocomplete
             $components = array_merge($components, ['mouse', 'draggable', 'resizable', 'button', 'dialog']);
         }
         $head->enable_jquery_ui($components);
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.js');
     }
 
     public static function get_widget_config($type)
