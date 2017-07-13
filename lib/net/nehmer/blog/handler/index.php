@@ -39,7 +39,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
             midcom::get()->skip_page_style = true;
         }
 
-        $data['datamanager'] = datamanager::from_schemadb($this->_config->get('schemadb'));
+        $data['datamanager'] = new datamanager($data['schemadb']);
         $qb = new org_openpsa_qbpager('midcom_db_article', 'net_nehmer_blog_index');
         $data['qb'] = $qb;
         $this->_master->article_qb_constraints($qb, $handler_id);

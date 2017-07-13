@@ -47,7 +47,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         midcom::get()->skip_page_style = true;
 
         // Prepare control structures
-        $data['datamanager'] = datamanager::from_schemadb($this->_config->get('schemadb'));
+        $data['datamanager'] = new datamanager($data['schemadb']);
 
         // Get the articles,
         $qb = midcom_db_article::new_query_builder();

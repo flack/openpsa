@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
 
@@ -48,7 +47,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
 
         $this->article->require_do('midgard:update');
 
-        $schemadb = schemadb::from_path($this->_config->get('schemadb'));
+        $schemadb = $data['schemadb'];
         if (   $this->_config->get('simple_name_handling')
             && !midcom::get()->auth->can_user_do('midcom:urlname')) {
             foreach ($schemadb->all() as $schema) {

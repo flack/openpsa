@@ -264,7 +264,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        $data['datamanager'] = datamanager::from_schemadb($this->_config->get('schemadb'));
+        $data['datamanager'] = new datamanager($data['schemadb']);
         // Get Articles, distinguish by handler.
         $qb = midcom_db_article::new_query_builder();
         $this->_master->article_qb_constraints($qb, $handler_id);

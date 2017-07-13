@@ -18,7 +18,7 @@ class net_nehmer_blog_handler_configuration extends midcom_baseclasses_component
     public function _load_datamanagers()
     {
         return [
-            'midcom_db_article' => datamanager::from_schemadb($this->_config->get('schemadb'))
+            'midcom_db_article' => new datamanager($this->_request_data['schemadb'])
         ];
     }
 

@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use midcom\datamanager\schemadb;
 
 /**
  * Blog site interface class
@@ -97,11 +98,11 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         $buttons = [];
         $workflow = $this->get_workflow('datamanager');
         if ($this->_topic->can_do('midgard:create')) {
-            foreach (array_keys($this->_request_data['schemadb']) as $name) {
+            foreach ($this->_request_data['schemadb']->all() as $name => $schema) {
                 $buttons[] = $workflow->get_button("create/{$name}/", [
                     MIDCOM_TOOLBAR_LABEL => sprintf(
                         $this->_l10n_midcom->get('create %s'),
-                        $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
+                        $this->_l10n->get($schema->get('description'))
                     ),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'n',
@@ -126,8 +127,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
     public function _on_handle($handler, array $args)
     {
-        $this->_request_data['schemadb'] =
-            midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
+        $this->_request_data['schemadb'] = schemadb::from_path($this->_config->get('schemadb'));
 
         $this->_add_categories();
 
@@ -148,12 +148,13 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         $this->_request_data['categories'] = explode(',', $this->_config->get('categories'));
 
-        foreach ($this->_request_data['schemadb'] as $name => $schema) {
-            if (   array_key_exists('categories', $schema->fields)
-                && $schema->fields['categories']['type'] == 'select') {
+        foreach ($this->_request_data['schemadb']->all() as $name => $schema) {
+            if (   $schema->has_field('catgories')
+                && $schema->get_field('categories')['type'] == 'select') {
                 // TODO: Merge schema local and component config categories?
                 $options = array_combine($this->_request_data['categories'], $this->_request_data['categories']);
-                $schema->fields['categories']['type_config']['options'] = $options;
+                $field =& $schema->get_field('categories');
+                $field['categories']['type_config']['options'] = $options;
             }
         }
     }
@@ -268,8 +269,8 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
             // TODO: check schema storage to get fieldname
             $multiple_categories = true;
-            if (!empty($this->_request_data['schemadb']['default']->fields['list_from_folders_categories']['type_config'])) {
-                $multiple_categories = $this->_request_data['schemadb']['default']->fields['list_from_folders_categories']['type_config']['allow_multiple'];
+            if ($this->_request_data['schemadb']->get('default')->has_field('list_from_folders_categories')) {
+                $multiple_categories = $this->_request_data['schemadb']->get('default')->get_field('list_from_folders_categories')['type_config']['allow_multiple'];
             }
             debug_add("multiple_categories={$multiple_categories}");
 

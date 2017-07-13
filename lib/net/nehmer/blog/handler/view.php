@@ -93,8 +93,8 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
             midcom::get()->skip_page_style = true;
         }
 
-        $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb'))
-            ->set_storage($this->_article);
+        $this->_datamanager = new datamanager($data['schemadb']);
+        $this->_datamanager->set_storage($this->_article);
 
         if ($this->_config->get('comments_enable')) {
             if ($comments_node = $this->_seek_comments()) {

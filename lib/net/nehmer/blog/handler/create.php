@@ -38,7 +38,7 @@ class net_nehmer_blog_handler_create extends midcom_baseclasses_components_handl
         $this->_topic->require_do('midgard:create');
 
         $schema_name = $args[0];
-        $schemadb = schemadb::from_path($this->_config->get('schemadb'));
+        $schemadb = $data['schemadb'];
         if (   $this->_config->get('simple_name_handling')
             && !midcom::get()->auth->can_user_do('midcom:urlname')) {
             foreach ($schemadb->all() as $schema) {
