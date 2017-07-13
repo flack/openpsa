@@ -52,7 +52,7 @@ class autocomplete extends AbstractType
             ];
 
             if (!empty($value['clever_class'])) {
-                $config = \midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config');
+                $config = \midcom_baseclasses_components_configuration::get('midcom.datamanager', 'config');
 
                 /** @var \midcom_helper_configuration $config */
                 $config = $config->get('clever_classes');

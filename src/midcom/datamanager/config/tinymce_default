@@ -1,0 +1,9 @@
+// note:: this is javascript!
+theme: "modern",
+plugins: ["table save hr link preview media searchreplace print contextmenu fullscreen image paste code imagetools"],
+toolbar1: "cut copy paste | undo redo | searchreplace | alignleft alignjustify alignright | outdent indent | code fullscreen",
+toolbar2: "formatselect | bold italic strikethrough sub sup | bullist numlist | link unlink image media | removeformat",
+resize: 'both',
+image_advtab: true,
+extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+entity_encoding : "raw",

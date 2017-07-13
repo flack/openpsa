@@ -44,7 +44,7 @@ class tinymce extends TextareaType
         };
 
         $get_config = function (Options $options, $value) {
-            return \midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config');
+            return \midcom_baseclasses_components_configuration::get('midcom.datamanager', 'config');
         };
 
         $resolver->setDefaults([
