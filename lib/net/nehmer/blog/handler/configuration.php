@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * n.n.blog component configuration screen.
  *
@@ -16,7 +18,7 @@ class net_nehmer_blog_handler_configuration extends midcom_baseclasses_component
     public function _load_datamanagers()
     {
         return [
-            'midcom_db_article' => new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb'])
+            'midcom_db_article' => datamanager::from_schemadb($this->_config->get('schemadb'))
         ];
     }
 

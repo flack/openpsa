@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * Component configuration screen.
  *
@@ -16,8 +18,8 @@ class org_openpsa_products_handler_configuration extends midcom_baseclasses_comp
     public function _load_datamanagers()
     {
         return [
-            'org_openpsa_products_product_group_dba' => new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_group']),
-            'org_openpsa_products_product_dba' => new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_product'])
+            'org_openpsa_products_product_group_dba' => datamanager::from_schemadb($this->_config->get('schemadb_group')),
+            'org_openpsa_products_product_dba' => datamanager::from_schemadb($this->_config->get('schemadb_product'))
         ];
     }
 

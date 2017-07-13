@@ -17,7 +17,7 @@ abstract class midcom_baseclasses_components_handler_configuration_recreate exte
      * Must return an array of midcom_helper_datamanager2_datamanager objects indexed by
      * DBA class name.
      *
-     * @return midcom_helper_datamanager2_datamanager[]
+     * @return datamanager[]
      */
     abstract public function _load_datamanagers();
 

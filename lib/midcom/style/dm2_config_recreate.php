@@ -16,7 +16,7 @@ foreach ($this->data['objects'] as $object) {
     }
 
     printf(midcom::get()->i18n->get_string('recreating object %s %s', 'midcom'), $type, $object->guid) . ': ';
-    $this->data['datamanagers'][$type]->autoset_storage($object);
+    $this->data['datamanagers'][$type]->set_storage($object);
     if (!$this->data['datamanagers'][$type]->recreate()) {
         echo "SKIPPED\n";
     } else {
