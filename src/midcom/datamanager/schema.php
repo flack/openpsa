@@ -26,7 +26,8 @@ class schema
 {
     private $defaults = [
         'operations' => ['save' => '', 'cancel' => ''],
-        'fields' => []
+        'fields' => [],
+        'customdata' => []
     ];
 
     private $config = [];
