@@ -7,7 +7,6 @@
  */
 
 use midcom\datamanager\controller;
-use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 
 /**
@@ -31,7 +30,7 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
 
     private function load_controller($schema)
     {
-        $schemadb = schemadb::from_path($this->_config->get('schemadb_product'));
+        $schemadb = $this->_request_data['schemadb_product'];
         if (!$schemadb->has($schema)) {
             throw new midcom_error_notfound('Schema ' . $schema . ' was not found in schemadb');
         }

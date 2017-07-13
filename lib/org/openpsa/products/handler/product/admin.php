@@ -33,7 +33,8 @@ class org_openpsa_products_handler_product_admin extends midcom_baseclasses_comp
         $this->product = new org_openpsa_products_product_dba($args[0]);
         $this->product->require_do('midgard:update');
 
-        $data['controller'] = datamanager::from_schemadb($this->_config->get('schemadb_product'))
+        $dm = new datamanager($data['schemadb_product']);
+        $data['controller'] = $dm
             ->set_storage($this->product)
             ->get_controller();
 

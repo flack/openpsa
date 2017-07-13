@@ -58,8 +58,8 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
         $this->_load_product($handler_id, $args);
 
-        $data['datamanager'] = datamanager::from_schemadb($this->_config->get('schemadb_product'))
-            ->set_storage($this->_product);
+        $data['datamanager'] = new datamanager($data['schemadb_product']);
+        $data['datamanager']->set_storage($this->_product);
 
         $this->_prepare_request_data();
         $this->bind_view_to_object($this->_product, $data['datamanager']->get_schema()->get_name());

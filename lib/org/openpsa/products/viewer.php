@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use midcom\datamanager\schemadb;
 
 /**
  * This is the class that defines which URLs should be handled by this module.
@@ -112,8 +113,8 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
      */
     public function _on_handle($handler, array $args)
     {
-        $this->_request_data['schemadb_group'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
-        $this->_request_data['schemadb_product'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_product'));
+        $this->_request_data['schemadb_group'] = schemadb::from_path($this->_config->get('schemadb_group'));
+        $this->_request_data['schemadb_product'] = schemadb::from_path($this->_config->get('schemadb_product'));
 
         $this->_populate_node_toolbar();
 

@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\datamanager\schemadb;
-
 /**
  * @package org.openpsa.products
  */
@@ -41,7 +39,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
         }
 
         $this->_schema = $this->_config->get('csv_export_schema');
-        $schemadb = schemadb::from_path($this->_config->get('schemadb_product'));
+        $schemadb = $this->_request_data['schemadb_product'];
         if ($schemadb->has($data['schemadb_to_use'])) {
             $this->_schema = $data['schemadb_to_use'];
         }

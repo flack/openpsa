@@ -118,8 +118,8 @@ implements org_openpsa_widgets_grid_provider_client
             $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
             $data['data_url'] .= $data['group']->guid . '/';
 
-            $this->datamanager = datamanager::from_schemadb($this->_config->get('schemadb_group'))
-                ->set_storage($data['group']);
+            $this->datamanager = new datamanager($data['schemadb_group']);
+            $this->datamanager->set_storage($data['group']);
             $tmp = $this->_master->update_breadcrumb_line($this->_request_data['group']);
             midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
         }
@@ -172,17 +172,17 @@ implements org_openpsa_widgets_grid_provider_client
     private function _add_schema_buttons($schemadb_name, $default_icon, $prefix, $allowed)
     {
         $workflow = $this->get_workflow('datamanager');
-        foreach (array_keys($this->_request_data[$schemadb_name]) as $name) {
+        foreach ($this->_request_data[$schemadb_name]->all() as $name => $schema) {
             $config = [
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . $default_icon . '.png',
                 MIDCOM_TOOLBAR_ENABLED => $allowed,
                 MIDCOM_TOOLBAR_LABEL => sprintf(
                     $this->_l10n_midcom->get('create %s'),
-                    $this->_l10n->get($this->_request_data[$schemadb_name][$name]->description)
+                    $this->_l10n->get($schema->get('description'))
                 ),
             ];
-            if (isset($this->_request_data[$schemadb_name][$name]->customdata['icon'])) {
-                $config[MIDCOM_TOOLBAR_ICON] = $this->_request_data[$schemadb_name][$name]->customdata['icon'];
+            if (isset($schema->get('customdata')['icon'])) {
+                $config[MIDCOM_TOOLBAR_ICON] = $schema->get('customdata')['icon'];
             }
             $create_url = 'create/0/' . $name . '/';
             $this->_view_toolbar->add_item($workflow->get_button($prefix . $create_url, $config));

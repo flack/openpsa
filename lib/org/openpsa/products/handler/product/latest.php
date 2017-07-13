@@ -72,7 +72,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         $this->_list_products($show_products, $product_group);
 
         // Prepare datamanager
-        $data['datamanager_product'] = datamanager::from_schemadb($this->_config->get('schemadb_product'));
+        $data['datamanager_product'] = new datamanager($data['schemadb_product']);
     }
 
     /**
@@ -126,7 +126,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         }
 
         // Prepare datamanager
-        $data['datamanager_product'] = datamanager::from_schemadb($this->_config->get('schemadb_product'));
+        $data['datamanager_product'] = new datamanager($data['schemadb_product']);
     }
 
     /**

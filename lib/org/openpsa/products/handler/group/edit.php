@@ -34,7 +34,8 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
     {
         $this->_group = new org_openpsa_products_product_group_dba($args[0]);
 
-        $data['controller'] = datamanager::from_schemadb($this->_config->get('schemadb_group'))
+        $dm = new datamanager($data['schemadb_group']);
+        $data['controller'] = $dm
             ->set_storage($this->_group)
             ->get_controller();
 

@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
 
@@ -32,7 +31,7 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
      */
     private function load_controller($schema, $up)
     {
-        $schemadb = schemadb::from_path($this->_config->get('schemadb_group'));
+        $schemadb = $this->_request_data['schemadb_group'];
         if (!$schemadb->has($schema)) {
             throw new midcom_error_notfound('Schema ' . $schema . ' was not found it schemadb');
         }
