@@ -34,28 +34,30 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             <tbody>
                 <?php
                 foreach ($data['rows'][0] as $key => $cell) {
+                    $val = (!empty($data['rows'][1][$key])) ? $data['rows'][1][$key] : '';
                     echo "<tr>\n";
                     echo "    <td><label for=\"org_openpsa_directmarketing_import_csv_field_{$key}\">{$cell}</label></td>\n";
-                    echo "    <td>{$data['rows'][1][$key]}</td>\n";
+                    echo "    <td>{$val}</td>\n";
                     echo "    <td>\n";
                     echo "        <select name=\"org_openpsa_directmarketing_import_csv_field[{$key}]\" id=\"org_openpsa_directmarketing_import_csv_field_{$key}\">\n";
                     echo "            <option></option>\n";
 
                     // Show fields from "default" schemas as selectors
                     foreach ($data['schemadbs'] as $schemadb_id => $schemadb) {
-                        if (!array_key_exists('default', $schemadb)) {
+                        if (!$schemadb->has('default')) {
                             // No default schema in this schemadb, skip
                             continue;
                         }
-
-                        foreach ($schemadb['default']->fields as $field_id => $field) {
+                        $schema = $schemadb->get('default');
+                        $l10n = $schema->get_l10n();
+                        foreach ($schema->get('fields') as $field_id => $field) {
                             if (!empty($field['hidden'])) {
                                 // Hidden field, skip
                                 // TODO: We may want to use some customdata field for this instead
                                 continue;
                             }
 
-                            $field_label = $schemadb['default']->translate_schema_string($schemadb['default']->description) . ': ' . $schemadb['default']->translate_schema_string($field['title']);
+                            $field_label = $l10n->get($schema->get('description')) . ': ' . $l10n->get($field['title']);
                             echo "            <option value=\"{$schemadb_id}:{$field_id}\">{$field_label}</option>\n";
                         }
                     }

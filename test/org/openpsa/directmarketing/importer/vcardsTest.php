@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\schemadb;
+
 /**
  * OpenPSA testcase
  *
@@ -16,10 +18,10 @@ class org_openpsa_directmarketing_importer_vcardsTest extends openpsa_testcase
     public function testHandler_index()
     {
         $schemadbs = [
-            'person' => midcom_helper_datamanager2_schema::load_database('file:/org/openpsa/contacts/config/schemadb_default_person.inc'),
-            'campaign_member' => midcom_helper_datamanager2_schema::load_database('file:/org/openpsa/directmarketing/config/schemadb_default_campaign_member.inc'),
-            'organization' => midcom_helper_datamanager2_schema::load_database('file:/org/openpsa/contacts/config/schemadb_default_organization.inc'),
-            'organization_member' => midcom_helper_datamanager2_schema::load_database('file:/org/openpsa/contacts/config/schemadb_default_member.inc'),
+            'person' => schemadb::from_path('file:/org/openpsa/contacts/config/schemadb_default_person.inc'),
+            'campaign_member' => schemadb::from_path('file:/org/openpsa/directmarketing/config/schemadb_default_campaign_member.inc'),
+            'organization' => schemadb::from_path('file:/org/openpsa/contacts/config/schemadb_default_organization.inc'),
+            'organization_member' => schemadb::from_path('file:/org/openpsa/contacts/config/schemadb_default_member.inc'),
         ];
 
         $importer = new org_openpsa_directmarketing_importer_vcards($schemadbs);

@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+use midcom\datamanager\schemadb;
+
 /**
  * Importer for subscribers
  *
@@ -16,14 +19,14 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
     /**
      * Datamanagers used for saving various objects like persons and organizations
      *
-     * @var array
+     * @var datamanager[]
      */
     private $_datamanagers = [];
 
     /**
      * The schema databases used for importing to various objects like persons and organizations
      *
-     * @var array
+     * @var schemadb[]
      */
     protected $_schemadbs = [];
 
@@ -57,10 +60,10 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
         parent::__construct();
         $this->_settings = $settings;
         $this->_schemadbs = $schemadbs;
-        $this->_datamanagers['campaign_member'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['campaign_member']);
-        $this->_datamanagers['person'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['person']);
-        $this->_datamanagers['organization_member'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['organization_member']);
-        $this->_datamanagers['organization'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['organization']);
+        $this->_datamanagers['campaign_member'] = new datamanager($this->_schemadbs['campaign_member']);
+        $this->_datamanagers['person'] = new datamanager($this->_schemadbs['person']);
+        $this->_datamanagers['organization_member'] = new datamanager($this->_schemadbs['organization_member']);
+        $this->_datamanagers['organization'] = new datamanager($this->_schemadbs['organization']);
     }
 
     /**
@@ -74,7 +77,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
     /**
      * Process the datamanager
      *
-     * @param String $type        Subscription type
+     * @param string $type        Subscription type
      * @param array $subscriber
      * @param midcom_core_dbaobject $object
      */
@@ -85,22 +88,12 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
             return;
         }
 
-        // Load datamanager2 for the object
-        if (!$this->_datamanagers[$type]->autoset_storage($object)) {
-            throw new midcom_error('Failed to set DM2 storage');
-        }
+        $this->_datamanagers[$type]
+            ->set_storage($object)
+            ->get_form()
+            ->submit($subscriber[$type]);
 
-        // Set all given values into DM2
-        foreach ($subscriber[$type] as $key => $value) {
-            if (array_key_exists($key, $this->_datamanagers[$type]->types)) {
-                $this->_datamanagers[$type]->types[$key]->value = $value;
-            }
-        }
-
-        // Save the object
-        if (!$this->_datamanagers[$type]->save()) {
-            throw new midcom_error('DM2 save returned false');
-        }
+        $this->_datamanagers[$type]->get_storage()->save();
     }
 
     /**
@@ -203,7 +196,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
             $this->_import_status['subscribed_new']++;
         }
 
-        $this->_datamanager_process('campaign_member', $subscriber, $person);
+        $this->_datamanager_process('campaign_member', $subscriber, $member);
     }
 
     private function _import_subscribers_organization(array $subscriber)
@@ -273,7 +266,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
     }
 
     /**
-     * Takes an array of new subscribers and processes each of them using datamanager2.
+     * Takes an array of new subscribers and processes each of them using datamanager.
      *
      * @param array $subscribers The subscribers to import
      * @param org_openpsa_directmarketing_campaign_dba $campaign The campaign to import into

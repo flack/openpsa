@@ -41,26 +41,6 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         $this->_populate_node_toolbar();
     }
 
-    /**
-     * Prepare the schemadb
-     */
-    public function load_schemas()
-    {
-        $schemadbs = [
-            'person' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person')),
-            'campaign_member' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign_member')),
-            'organization' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_organization')),
-            'organization_member' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_organization_member')),
-        ];
-
-        foreach ($schemadbs as $name => $db) {
-            if (!$db) {
-                throw new midcom_error('Could not load ' . $name . ' schema database.');
-            }
-        }
-        return $schemadbs;
-    }
-
     public static function get_messagetype_icon($type)
     {
         $icon = 'stock_mail.png';

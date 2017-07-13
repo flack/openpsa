@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\schemadb;
+
 /**
  * org.openpsa.directmarketing campaign handler and viewer class.
  *
@@ -16,7 +18,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * The schema databases used for importing to various objects like persons and organizations
      *
-     * @var array
+     * @var schemadb[]
      */
     private $_schemadbs = [];
 
@@ -34,17 +36,20 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         // Try to load the correct campaign
         $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);
 
-        $this->_view_toolbar->add_item(
-            [
-                MIDCOM_TOOLBAR_URL => "campaign/{$this->_request_data['campaign']->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-            ]
-        );
+        $this->_view_toolbar->add_item([
+            MIDCOM_TOOLBAR_URL => "campaign/{$this->_request_data['campaign']->guid}/",
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
+        ]);
 
         $this->bind_view_to_object($this->_request_data['campaign']);
 
-        $this->_schemadbs = $this->_master->load_schemas();
+        $this->_schemadbs = [
+            'person' => schemadb::from_path($this->_config->get('schemadb_person')),
+            'campaign_member' => schemadb::from_path($this->_config->get('schemadb_campaign_member')),
+            'organization' => schemadb::from_path($this->_config->get('schemadb_organization')),
+            'organization_member' => schemadb::from_path($this->_config->get('schemadb_organization_member')),
+        ];;
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.datamanager/default.css");
 
         midcom::get()->disable_limits();
@@ -243,7 +248,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
                 // Read cell headers from the file
                 $read_rows = 0;
-                $handle = fopen($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'], 'r');
+                $handle = fopen($data['tmp_file'], 'r');
                 $total_columns = 0;
                 while (   $read_rows < 2
                        && $csv_line = fgetcsv($handle, 1000, $data['separator'])) {
