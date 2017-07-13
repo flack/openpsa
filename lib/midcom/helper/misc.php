@@ -75,6 +75,10 @@ class midcom_helper_misc
         if (substr($path, 0, 5) == 'file:') {
             $filename = MIDCOM_ROOT . substr($path, 5);
             if (!file_exists($filename)) {
+                // try in src
+                $filename = preg_replace('/\/lib\/?$/', '/src', MIDCOM_ROOT) . substr($path, 5);
+            }
+            if (!file_exists($filename)) {
                 //If we can't find the file in-tree, we look for out-of-tree components before giving up
                 $found = false;
                 $filename = substr($path, 6);
