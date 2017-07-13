@@ -37,6 +37,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         if ($this->_config->get('rss_subscription_enable')) {
             net_nemein_rss_manage::register_plugin($this);
         }
+        $this->_request_data['schemadb'] = schemadb::from_path($this->_config->get('schemadb'));
     }
 
     public function get_url(midcom_db_article $article, $allow_external = false)
@@ -127,8 +128,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
     public function _on_handle($handler, array $args)
     {
-        $this->_request_data['schemadb'] = schemadb::from_path($this->_config->get('schemadb'));
-
         $this->_add_categories();
 
         $this->_add_link_head();
