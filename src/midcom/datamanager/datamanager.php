@@ -20,6 +20,7 @@ use Symfony\Component\Translation\Loader\XliffFileLoader;
 use midcom\datamanager\extension\transformer\multiple;
 use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use midcom\datamanager\storage\recreateable;
 
 /**
  * Experimental datamanager class
@@ -280,5 +281,17 @@ class datamanager
         $renderer = $this->get_renderer();
         $renderer->set_template($view, new template\view($renderer, $skip_empty));
         echo $renderer->block($view, 'form');
+    }
+
+    public function recreate()
+    {
+        $ret = true;
+        foreach ($this->storage as $field) {
+            if (   $field instanceof recreateable
+                && !$field->recreate()) {
+                $ret = false;
+            }
+        }
+        return $ret;
     }
 }

@@ -5,16 +5,28 @@
 
 namespace midcom\datamanager\storage;
 
-use midgard_blob;
 use midcom_error;
 use midcom_db_attachment;
 use midcom_helper_imagefilter;
+use midgard\portable\api\blob;
 
 /**
  * Experimental storage class
  */
-class images extends blobs
+class images extends blobs implements recreateable
 {
+    public function recreate()
+    {
+        $attachments = $this->load();
+        foreach ($attachments as $attachment) {
+            if (!empty($this->config['type_config']['filter_chain'])) {
+                $this->apply_filter($attachment, $this->config['type_config']['filter_chain']);
+            }
+            $this->set_imagedata($attachment);
+        }
+        return true;
+    }
+
     public function save()
     {
         if (!parent::save()) {
@@ -35,7 +47,7 @@ class images extends blobs
 
     protected function set_imagedata(midcom_db_attachment $attachment)
     {
-        $blob = new midgard_blob($attachment->__object);
+        $blob = new blob($attachment->__object);
         $path = $blob->get_path();
 
         if ($data = @getimagesize($path)) {

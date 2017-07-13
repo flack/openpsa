@@ -8,7 +8,7 @@ namespace midcom\datamanager\storage;
 use midcom_db_attachment;
 use midcom_helper_imagefilter;
 use midcom_error;
-use midcom;
+use midgard\portable\api\blob;
 
 /**
  * Experimental storage class
@@ -16,6 +16,45 @@ use midcom;
 class image extends images
 {
     protected $save_archival = false;
+
+    public function recreate()
+    {
+        $this->map = [];
+
+        $existing = $this->load();
+        if (array_key_exists('archival', $existing)) {
+            $this->map['archival'] = $existing['archival'];
+            $blob = new blob($existing['archival']->__object);
+            $path = $blob->get_path();
+            $this->value['file'] = [
+                'tmp_name' => $path,
+                'type' => $this->map['archival']->mimetype,
+                'name' => $this->map['archival']->name
+            ];
+
+            $attachment = $this->create_main_image($this->value['file'], $existing);
+        } elseif (array_key_exists('main', $existing)) {
+            $this->map['main'] = $existing['main'];
+            $attachment = $existing['main'];
+            $blob = new blob($attachment->__object);
+            $path = $blob->get_path();
+            $this->value['file'] = [
+                'tmp_name' => $path,
+                'type' => $attachment->mimetype,
+                'name' => $attachment->name
+            ];
+        }
+        if (!empty($attachment)) {
+            foreach ($this->get_derived_images() as $identifier => $filter_chain) {
+                $derived = $this->get_attachment($this->value['file'], $existing, $identifier);
+                $this->apply_filter($attachment, $filter_chain, $derived);
+                $this->set_imagedata($derived);
+                $this->map[$identifier] = $derived;
+            }
+            return $this->save_attachment_list();
+        }
+        return true;
+    }
 
     /**
      * {@inheritdoc}

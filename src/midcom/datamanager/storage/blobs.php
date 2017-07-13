@@ -10,7 +10,6 @@ use midcom_db_attachment;
 use midcom_helper_reflector_nameresolver;
 use midcom_error;
 use midcom_connection;
-use midcom;
 
 /**
  * Experimental storage class
