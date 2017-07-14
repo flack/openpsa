@@ -43,11 +43,17 @@ class dbacontainer extends container
 
     public function lock()
     {
+        if (!$this->object->id) {
+            return true;
+        }
         return $this->object->metadata->lock();
     }
 
     public function unlock()
     {
+        if (!$this->object->id) {
+            return true;
+        }
         if (!$this->object->metadata->can_unlock()) {
             throw new \midcom_error_forbidden('Permission denied');
         }
