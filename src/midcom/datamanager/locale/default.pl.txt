@@ -34,6 +34,22 @@ Nie wiem, który obraz pokazać - wyświetlam listę.
 Usunąć
 ---STRINGEND
 
+---STRING form submit: cancel
+Anuluj
+---STRINGEND
+
+---STRING form submit: next
+Dalej
+---STRINGEND
+
+---STRING form submit: previous
+Wstecz
+---STRINGEND
+
+---STRING form submit: save
+Zapisz
+---STRINGEND
+
 ---STRING passwords do not match
 Hasła nie pasują
 ---STRINGEND

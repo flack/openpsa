@@ -34,6 +34,22 @@ Ei kyetty päättelemään mikä kuva näytetään, listataan kaikki tiedostot:
 Poistaa
 ---STRINGEND
 
+---STRING form submit: cancel
+Peruuta
+---STRINGEND
+
+---STRING form submit: next
+Seuraava
+---STRINGEND
+
+---STRING form submit: previous
+Edellinen
+---STRINGEND
+
+---STRING form submit: save
+Tallenna
+---STRINGEND
+
 ---STRING passwords do not match
 Salasanat eivät täsmää
 ---STRINGEND

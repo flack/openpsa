@@ -35,6 +35,22 @@ Kunde inte lista ut vilken bild att visa, listar filer.
 Radera
 ---STRINGEND
 
+---STRING form submit: cancel
+Avbryt
+---STRINGEND
+
+---STRING form submit: next
+Nästa
+---STRINGEND
+
+---STRING form submit: previous
+Föregående
+---STRINGEND
+
+---STRING form submit: save
+Spara
+---STRINGEND
+
 ---STRING passwords do not match
 Lösenordena matchar inte.
 ---STRINGEND

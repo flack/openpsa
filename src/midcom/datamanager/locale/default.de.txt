@@ -35,6 +35,26 @@ Konnte nicht feststellen, welches Bild gezeigt werden soll, zeige stattdessen Da
 Datei
 ---STRINGEND
 
+---STRING form submit: cancel
+Abbrechen
+---STRINGEND
+
+---STRING form submit: delete
+Löschen
+---STRINGEND
+
+---STRING form submit: next
+Weiter
+---STRINGEND
+
+---STRING form submit: previous
+Zurück
+---STRINGEND
+
+---STRING form submit: save
+Speichern
+---STRINGEND
+
 ---STRING delete photo
 Löschen
 ---STRINGEND

@@ -26,6 +26,22 @@ Bokstavene du skrev inn stemmer ikke med bildet.
 Kan ikke finne ut hvilket bilde å vise, viser en liste.
 ---STRINGEND
 
+---STRING form submit: cancel
+Avslutt
+---STRINGEND
+
+---STRING form submit: next
+Neste
+---STRINGEND
+
+---STRING form submit: previous
+Forrige
+---STRINGEND
+
+---STRING form submit: save
+Lagre
+---STRINGEND
+
 ---STRING passwords do not match
 Passordene er ikke like.
 ---STRINGEND

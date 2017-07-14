@@ -22,6 +22,22 @@ Ez egy <a target='_new' href="http://en.wikipedia.org/wiki/Captcha">Captcha.</a>
 A begépelt karakterek nem egyeznek meg a képen láthatóval.
 ---STRINGEND
 
+---STRING form submit: cancel
+Mégsem
+---STRINGEND
+
+---STRING form submit: next
+Következő
+---STRINGEND
+
+---STRING form submit: previous
+Elöző
+---STRINGEND
+
+---STRING form submit: save
+Mentés
+---STRINGEND
+
 ---STRING passwords do not match
 A jelszavak nem egyeznek.
 ---STRINGEND

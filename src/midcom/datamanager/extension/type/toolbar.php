@@ -33,7 +33,7 @@ class toolbar extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $l10n = midcom::get()->i18n->get_l10n('midcom.helper.datamanager2');
+        $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
         foreach ($options['operations'] as $operation => $button_labels) {
             foreach ((array) $button_labels as $key => $label) {
                 if ($label == '') {

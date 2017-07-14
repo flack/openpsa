@@ -35,6 +35,26 @@ Could not figure out which image to show, listing files
 File
 ---STRINGEND
 
+---STRING form submit: cancel
+Cancel
+---STRINGEND
+
+---STRING form submit: delete
+Delete
+---STRINGEND
+
+---STRING form submit: next
+Next
+---STRINGEND
+
+---STRING form submit: previous
+Previous
+---STRINGEND
+
+---STRING form submit: save
+Save
+---STRINGEND
+
 ---STRING delete photo
 Delete
 ---STRINGEND
