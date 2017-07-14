@@ -35,6 +35,21 @@ class nullcontainer extends container
         }
     }
 
+    public function lock()
+    {
+        return true;
+    }
+
+    public function unlock()
+    {
+        return true;
+    }
+
+    public function is_locked()
+    {
+        return false;
+    }
+
     public function set_value($value)
     {
         $this->value = $value;

@@ -25,6 +25,12 @@ abstract class container implements node, \ArrayAccess, \Iterator
      */
     protected $schema;
 
+    abstract public function lock();
+
+    abstract public function unlock();
+
+    abstract public function is_locked();
+
     public function __get($name)
     {
         return $this->fields[$name]->get_value();

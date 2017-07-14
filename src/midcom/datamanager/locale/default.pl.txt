@@ -14,6 +14,10 @@ Dodaj plik
 Zapisany obraz
 ---STRINGEND
 
+---STRING break the lock
+Usuń blokadę edycji
+---STRINGEND
+
 ---STRING captcha image alt text
 To jest Captcha (http://en.wikipedia.org/wiki/Captcha), musisz mieć przeglądarkę wyświetlającą grafikę.
 ---STRINGEND
@@ -34,6 +38,10 @@ Nie wiem, który obraz pokazać - wyświetlam listę.
 Usunąć
 ---STRINGEND
 
+---STRING failed to unlock, reason %s
+Odblokowanie obiektu nieudane (%s).
+---STRINGEND
+
 ---STRING form submit: cancel
 Anuluj
 ---STRINGEND
@@ -50,8 +58,20 @@ Wstecz
 Zapisz
 ---STRINGEND
 
+---STRING lock will expire on %s
+Blokada wygaśnie %s
+---STRINGEND
+
+---STRING object locked
+Obiekt zablokowany
+---STRINGEND
+
 ---STRING passwords do not match
 Hasła nie pasują
+---STRINGEND
+
+---STRING this object was locked by %s
+Obiekt zablokowany przez %s
 ---STRINGEND
 
 ---STRING type php: parse error in line %s

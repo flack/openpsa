@@ -6,8 +6,10 @@
 namespace midcom\datamanager;
 
 use midcom;
+use midcom_connection;
 use midcom_error;
 use Symfony\Component\Form\Form;
+use midcom\datamanager\storage\container\dbacontainer;
 
 /**
  * Experimental controller class
@@ -44,24 +46,41 @@ class controller
 
     public function process()
     {
-        if (!$this->form->isSubmitted()) {
-            $this->form->handleRequest();
-        }
         // we add the stylesheet regardless of processing result, since save does not automatically mean relocate...
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.datamanager/default.css");
+        $operation = self::EDIT;
 
-        if (    $this->form->isSubmitted()
-             && $button = $this->form->getClickedButton()) {
-            $operation = $button->getConfig()->getOption('operation');
-            if (in_array($operation, [self::CANCEL, self::DELETE, self::PREVIEW])) {
-                return $operation;
+        $storage = $this->dm->get_storage();
+        if (!empty($_REQUEST['midcom_datamanager_unlock'])) {
+            if (!$storage->unlock()) {
+                $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
+                midcom::get()->uimessages->add($l10n->get('midcom.datamanager'), sprintf($l10n->get('failed to unlock, reason %s'), midcom_connection::get_error_string()), 'error');
             }
+        } elseif (!$this->form->isSubmitted()) {
+            $this->form->handleRequest();
+            if (   $this->form->isSubmitted()
+                && $button = $this->form->getClickedButton()) {
+                $operation = $button->getConfig()->getOption('operation');
+            }
+        }
+
+        if (   $operation == self::SAVE
+            && !$this->form->isValid()) {
+            $operation = self::EDIT;
+        }
+
+        if (in_array($operation, [self::CANCEL, self::SAVE])) {
+            $storage->unlock();
             if ($operation == self::SAVE) {
-                if ($this->form->isValid()) {
-                    $this->dm->get_storage()->save();
-                    return self::SAVE;
-                }
+                $storage->save();
             }
+            return $operation;
+        } else {
+            $storage->lock();
+        }
+
+        if (in_array($operation, [self::DELETE, self::PREVIEW])) {
+            return $operation;
         }
 
         return self::EDIT;
@@ -104,10 +123,16 @@ class controller
 
     public function display_form()
     {
-        $view = $this->form->createView();
-        $renderer = $this->dm->get_renderer();
-        $renderer->set_template($view, new template\form($renderer));
-        echo $renderer->block($view, 'form');
+        $storage = $this->dm->get_storage();
+        if ($storage->is_locked()) {
+            midcom::get()->style->data['handler'] = $this;
+            midcom::get()->style->show_midcom('midcom_datamanager_unlock');
+        } else {
+            $view = $this->form->createView();
+            $renderer = $this->dm->get_renderer();
+            $renderer->set_template($view, new template\form($renderer));
+            echo $renderer->block($view, 'form');
+        }
     }
 
     public function display_view()

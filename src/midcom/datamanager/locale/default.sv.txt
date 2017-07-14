@@ -14,6 +14,10 @@ Lägg till ny fil
 Arkiverad bild
 ---STRINGEND
 
+---STRING break the lock
+Upphäv låsning.
+---STRINGEND
+
 ---STRING captcha image alt text
 Detta är en captcha (http://sv.wikipedia.org/wiki/Captcha), du behöver en grafisk webläsare för att visa den.
 ---STRINGEND
@@ -51,8 +55,20 @@ Föregående
 Spara
 ---STRINGEND
 
+---STRING lock will expire on %s
+Låset på %s går ut den %s
+---STRINGEND
+
+---STRING object locked
+Objektet är låst
+---STRINGEND
+
 ---STRING passwords do not match
 Lösenordena matchar inte.
+---STRINGEND
+
+---STRING this object was locked by %s
+Ojektet är låst av %s
 ---STRINGEND
 
 ---STRING type php: parse error in line %s

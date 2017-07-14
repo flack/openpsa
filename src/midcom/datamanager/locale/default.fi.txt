@@ -6,6 +6,10 @@
 (vahvista)
 ---STRINGEND
 
+---STRING break the lock
+Murra lukko
+---STRINGEND
+
 ---STRING add new file
 Lisää uusi tiedosto
 ---STRINGEND
@@ -34,6 +38,10 @@ Ei kyetty päättelemään mikä kuva näytetään, listataan kaikki tiedostot:
 Poistaa
 ---STRINGEND
 
+---STRING failed to unlock, reason %s
+Kohteen vapauttaminen epäonnistui, syy %s.
+---STRINGEND
+
 ---STRING form submit: cancel
 Peruuta
 ---STRINGEND
@@ -50,8 +58,20 @@ Edellinen
 Tallenna
 ---STRINGEND
 
+---STRING lock will expire on %s
+Lukko avautuu ajalla %s
+---STRINGEND
+
+---STRING object locked
+Kohde lukittu
+---STRINGEND
+
 ---STRING passwords do not match
 Salasanat eivät täsmää
+---STRINGEND
+
+---STRING this object was locked by %s
+Tämän kohteen lukitsi %s
 ---STRINGEND
 
 ---STRING type php: parse error in line %s

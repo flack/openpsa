@@ -41,6 +41,24 @@ class dbacontainer extends container
         }
     }
 
+    public function lock()
+    {
+        return $this->object->metadata->lock();
+    }
+
+    public function unlock()
+    {
+        if (!$this->object->metadata->can_unlock()) {
+            throw new \midcom_error_forbidden('Permission denied');
+        }
+        return $this->object->metadata->unlock();
+    }
+
+    public function is_locked()
+    {
+        return $this->object->metadata->is_locked();
+    }
+
     /**
      * {@inheritdoc}
      */
