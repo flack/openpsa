@@ -3,6 +3,8 @@ namespace midcom\datamanager\template;
 
 use Symfony\Component\Form\FormView;
 use midcom;
+use midcom_helper_formatter;
+use Michelf\MarkdownExtra;
 
 class view extends base
 {
@@ -114,6 +116,42 @@ class view extends base
             return $this->escape($data['value']);
         }
         return '';
+    }
+
+    public function text_widget(FormView $view, array $data)
+    {
+        if (empty($view->vars['output_mode'])) {
+            $view->vars['output_mode'] = 'html';
+        }
+        switch ($view->vars['output_mode']) {
+            case 'code':
+                return '<pre style="overflow:auto">' . htmlspecialchars($data['value'], $this->specialchars_quotes, $this->specialchars_charset) . '</pre>';
+
+            case 'pre':
+                return '<pre style="white-space: pre-wrap">' . htmlspecialchars($data['value'], $this->specialchars_quotes, $this->specialchars_charset) . '</pre>';
+
+            case 'specialchars':
+                return htmlspecialchars($data['value'], $this->specialchars_quotes, $this->specialchars_charset);
+
+            case 'nl2br':
+                return nl2br(htmlentities($data['value'], $this->specialchars_quotes, $this->specialchars_charset));
+
+            case 'midgard_f':
+                return midcom_helper_formatter::format($data['value'], 'f');
+
+            case 'midgard_F':
+                return midcom_helper_formatter::format($data['value'], 'F');
+
+            case 'markdown':
+                return MarkdownExtra::defaultTransform($data['value']);
+
+            case (substr($view->vars['output_mode'], 0, 1) == 'x'):
+                // Run the contents through a custom formatter registered via mgd_register_filter
+                return midcom_helper_formatter::format($data['value'], $view->vars['output_mode']);
+
+            case 'html':
+                return $data['value'];
+        }
     }
 
     public function radiocheckselect_widget(FormView $view, array $data)

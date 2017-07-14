@@ -11,6 +11,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use midcom;
 use midcom\datamanager\extension\compat;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
+use midcom\datamanager\extension\helper;
 
 /**
  * Experimental markdown type
@@ -37,6 +40,15 @@ class markdown extends TextareaType
         $resolver->setDefaults([
             'attr' => $map_attr,
         ]);
+
+        $resolver->setNormalizer('type_config', function (Options $options, $value) {
+            $type_defaults = [
+                'output_mode' => 'html',
+                'specialchars_quotes' => ENT_QUOTES,
+                'specialchars_charset' => 'UTF-8'
+            ];
+            return helper::resolve_options($type_defaults, $value);
+        });
     }
 
     /**
@@ -51,6 +63,11 @@ class markdown extends TextareaType
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/simplemde/simplemde.min.css');
         $head->enable_jquery();
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/simplemde/simplemde.min.js');
+    }
+
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->vars['output_mode'] = $options['type_config']['output_mode'];
     }
 
     /**
