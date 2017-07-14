@@ -118,6 +118,14 @@ class view extends base
         return '';
     }
 
+    public function email_widget(FormView $view, array $data)
+    {
+        if (!empty($data['value'])) {
+            return '<a href="mailto:' . $data['value'] . '">' . $this->escape($data['value']) . '</a>';
+        }
+        return '';
+    }
+
     public function text_widget(FormView $view, array $data)
     {
         if (empty($view->vars['output_mode'])) {
