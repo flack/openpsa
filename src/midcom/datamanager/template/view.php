@@ -147,9 +147,6 @@ class view extends base
             case 'midgard_f':
                 return midcom_helper_formatter::format($data['value'], 'f');
 
-            case 'midgard_F':
-                return midcom_helper_formatter::format($data['value'], 'F');
-
             case 'markdown':
                 return MarkdownExtra::defaultTransform($data['value']);
 
