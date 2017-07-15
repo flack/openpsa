@@ -27,17 +27,6 @@ class net_nehmer_blog_handler_viewTest extends openpsa_testcase
         self::$_article = self::create_class_object('midcom_db_article', $article_properties);
     }
 
-    public function testHandler_index()
-    {
-        midcom::get()->auth->request_sudo('net.nehmer.blog');
-
-        $data = $this->run_handler(self::$_topic);
-        $this->assertEquals('index', $data['handler_id']);
-
-        $this->show_handler($data);
-        midcom::get()->auth->drop_sudo();
-    }
-
     public function testHandler_view()
     {
         midcom::get()->auth->request_sudo('net.nehmer.blog');
