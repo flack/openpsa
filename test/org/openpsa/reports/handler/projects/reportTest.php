@@ -13,12 +13,14 @@
  */
 class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
 {
+    private static $project;
+
     public static function setUpBeforeClass()
     {
         self::create_user(true);
-        $project = self::create_class_object('org_openpsa_projects_project');
-        self::create_class_object('org_openpsa_projects_task_dba', ['project' => $project->id]);
-        self::create_class_object('org_openpsa_projects_hour_report_dba', ['task' => $project->id]);
+        self::$project = self::create_class_object('org_openpsa_projects_project');
+        $task = self::create_class_object('org_openpsa_projects_task_dba', ['project' => self::$project->id]);
+        self::create_class_object('org_openpsa_projects_hour_report_dba', ['task' => $task->id]);
     }
 
     public function test_handler_generator_get()
@@ -30,7 +32,7 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
             'end' => time() + 10000,
             'start' => time() - 10000,
             'resource' => 'all',
-            'task' => 'all'
+            'task' => self::$project->guid
         ]];
 
         $data = $this->run_handler('org.openpsa.reports', ['projects', 'get']);
