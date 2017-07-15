@@ -16,17 +16,27 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::create_user(true);
+        $project = self::create_class_object('org_openpsa_projects_project');
+        self::create_class_object('org_openpsa_projects_task_dba', ['project' => $project->id]);
+        self::create_class_object('org_openpsa_projects_hour_report_dba', ['task' => $project->id]);
     }
 
     public function test_handler_generator_get()
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $_REQUEST = ['org_openpsa_reports_query_data' => ['mimetype' => 'text/html']];
+        $_REQUEST = ['org_openpsa_reports_query_data' => [
+            'mimetype' => 'text/html',
+            'end' => time() + 10000,
+            'start' => time() - 10000,
+            'resource' => 'all',
+            'task' => 'all'
+        ]];
 
         $data = $this->run_handler('org.openpsa.reports', ['projects', 'get']);
         $this->assertEquals('projects_report_get', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -77,6 +87,7 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.reports', ['projects']);
         $this->assertEquals('projects_report', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }
