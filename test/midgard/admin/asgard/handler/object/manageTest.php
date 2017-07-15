@@ -40,6 +40,7 @@ class midgard_admin_asgard_handler_object_manageTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'edit', self::$_object->guid]);
         $this->assertEquals('____mfa-asgard-object_edit', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -67,6 +68,7 @@ class midgard_admin_asgard_handler_object_manageTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'copy', 'tree', self::$_object->guid]);
         $this->assertEquals('____mfa-asgard-object_copy_tree', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -78,6 +80,7 @@ class midgard_admin_asgard_handler_object_manageTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'create', 'chooser', 'midgard_article']);
         $this->assertEquals('____mfa-asgard-object_create_chooser', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -89,6 +92,7 @@ class midgard_admin_asgard_handler_object_manageTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'create', 'midgard_article', self::$_object->guid]);
         $this->assertEquals('____mfa-asgard-object_create', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -100,6 +104,7 @@ class midgard_admin_asgard_handler_object_manageTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'create', 'midgard_topic']);
         $this->assertEquals('____mfa-asgard-object_create_toplevel', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -111,6 +116,7 @@ class midgard_admin_asgard_handler_object_manageTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'delete', self::$_object->guid]);
         $this->assertEquals('____mfa-asgard-object_delete', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

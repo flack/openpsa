@@ -28,6 +28,7 @@ class midgard_admin_asgard_handler_object_parametersTest extends openpsa_testcas
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'parameters', self::$_object->guid]);
         $this->assertEquals('____mfa-asgard-object_parameters', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }
