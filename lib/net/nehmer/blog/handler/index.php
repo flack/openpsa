@@ -52,9 +52,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
             || $handler_id == 'latest-category') {
             $data['category'] = trim(strip_tags($args[0]));
 
-            if (!$this->_process_category_constraint($qb)) {
-                throw new midcom_error('Failed to process category constraint');
-            }
+            $this->_process_category_constraint($qb);
         }
 
         $qb->add_order('metadata.published', 'DESC');
@@ -82,9 +80,8 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
     private function _process_category_constraint($qb)
     {
         if (!in_array($this->_request_data['category'], $this->_request_data['categories'])) {
-            // This is not a predefined category from configuration, check if site maintainer allows us to show it
             if (!$this->_config->get('categories_custom_enable')) {
-                return false;
+                throw new midcom_error('Custom categories are not allowed');
             }
             // TODO: Check here if there are actually items in this cat?
         }
@@ -110,7 +107,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
                 'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "feeds/category/{$this->_request_data['category']}/",
             ]);
         }
-        return true;
     }
 
     /**
