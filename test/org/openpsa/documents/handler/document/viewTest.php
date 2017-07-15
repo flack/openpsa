@@ -22,6 +22,7 @@ class org_openpsa_documents_handler_document_viewTest extends openpsa_testcase
 
         $topic = self::get_component_node('org.openpsa.documents');
         self::$_document = self::create_class_object('org_openpsa_documents_document_dba', ['topic' => $topic->id]);
+        self::$_document->backup_version();
     }
 
     public function testHandler_versions()
