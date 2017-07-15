@@ -20,6 +20,7 @@ class midcom_admin_folder_handler_orderTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'folder', 'order']);
         $this->assertEquals('____ais-folder-order', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

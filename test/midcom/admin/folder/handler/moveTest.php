@@ -21,6 +21,7 @@ class midcom_admin_folder_handler_moveTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'folder', 'move', $topic->guid]);
         $this->assertEquals('____ais-folder-move', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }
