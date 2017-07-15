@@ -22,56 +22,6 @@ class org_openpsa_directmarketing_handler_campaign_adminTest extends openpsa_tes
         self::$_person = self::create_user(true);
     }
 
-    public function testHandler_edit_query()
-    {
-        $helper = new openpsa_test_campaign_helper($this);
-        $campaign = $helper->get_campaign(org_openpsa_directmarketing_campaign_dba::TYPE_SMART);
-
-        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
-
-        $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'edit_query', $campaign->guid]);
-        $this->assertEquals('edit_campaign_query', $data['handler_id']);
-
-        $_POST = [
-            'midcom_helper_datamanager2_dummy_field_rules' => "Array
-            (
-               'type' => 'AND',
-               'groups' => 'AND',
-               'classes' => Array
-               (
-                   0 => Array
-                   (
-                       'type' => 'AND',
-                       'groups' => 'AND',
-                       'classes' => Array
-                       (
-                           3 => Array
-                           (
-                               'type' => 'AND',
-                               'class' => 'org_openpsa_contacts_person_dba',
-                               'rules' => Array
-                               (
-                                   0 => Array
-                                   (
-                                       'property' => 'email',
-                                       'match' => 'LIKE',
-                                       'value' => '%.test%',
-                                   )
-                               )
-                           ),
-                       ),
-                   ),
-               ),
-           )",
-           'midcom_helper_datamanager2_save' => true
-        ];
-
-        $url = $this->run_relocate_handler('org.openpsa.directmarketing', ['campaign', 'edit_query', $campaign->guid]);
-        $this->assertEquals('campaign/' . $campaign->guid . '/', $url);
-
-        midcom::get()->auth->drop_sudo();
-    }
-
     public function testHandler_edit()
     {
         $helper = new openpsa_test_campaign_helper($this);

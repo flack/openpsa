@@ -32,6 +32,7 @@ class org_openpsa_directmarketing_handler_campaign_campaignTest extends openpsa_
         $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', $campaign->guid]);
         $this->assertEquals('view_campaign', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }
