@@ -45,6 +45,17 @@ class org_openpsa_sales_handler_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.sales', ['list', 'invoiced']);
         $this->assertEquals('list_state', $data['handler_id']);
 
+        $this->show_handler($data);
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testHandler_list_customer()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
+
+        $data = $this->run_handler('org.openpsa.sales', ['list', 'customer', self::$_person->guid]);
+        $this->assertEquals('list_customer', $data['handler_id']);
+
         midcom::get()->auth->drop_sudo();
     }
 }

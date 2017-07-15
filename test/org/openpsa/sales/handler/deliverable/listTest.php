@@ -34,6 +34,7 @@ class org_openpsa_sales_salesproject_deliverable_listTest extends openpsa_testca
         $data = $this->run_handler('org.openpsa.sales', ['deliverable', 'list', 'product', $product->guid]);
         $this->assertEquals('deliverable_list_product', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }
