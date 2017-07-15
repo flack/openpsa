@@ -21,17 +21,34 @@ class net_nehmer_comments_handler_adminTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.comments');
         $this->assertEquals('admin-welcome', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
-    public function testHandler_moderate()
+    /**
+     * @dataProvider provider_moderate
+     */
+    public function testHandler_moderate($status)
     {
         $this->create_user(true);
         midcom::get()->auth->request_sudo('net.nehmer.comments');
 
-        $data = $this->run_handler('net.nehmer.comments', ['moderate', 'reported_abuse']);
+        $data = $this->run_handler('net.nehmer.comments', ['moderate', $status]);
         $this->assertEquals('moderate', $data['handler_id']);
 
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
+    }
+
+    public function provider_moderate()
+    {
+        return [
+            ['abuse'],
+            ['reported_abuse'],
+            ['junk'],
+            ['latest'],
+            ['latest_new'],
+            ['latest_approved'],
+        ];
     }
 }
