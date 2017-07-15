@@ -32,4 +32,30 @@ class midgard_admin_user_handler_listTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_batch()
+    {
+        midcom::get()->auth->request_sudo('midgard.admin.user');
+        $person = $this->create_user();
+        $_POST = [
+            'midgard_admin_user' => [$person->guid]
+        ];
+        $url = $this->run_relocate_handler('net.nehmer.static', ['__mfa', 'asgard_midgard.admin.user', 'batch', 'removeaccount']);
+        $this->assertEquals('__mfa/asgard_midgard.admin.user/', $url);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testHandler_batch_passwords()
+    {
+        midcom::get()->auth->request_sudo('midgard.admin.user');
+        $person = $this->create_user();
+        $_POST = [
+            'midgard_admin_user' => [$person->guid]
+        ];
+        $url = $this->run_relocate_handler('net.nehmer.static', ['__mfa', 'asgard_midgard.admin.user', 'batch', 'groupadd']);
+        $this->assertEquals('__mfa/asgard_midgard.admin.user/', $url);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }
