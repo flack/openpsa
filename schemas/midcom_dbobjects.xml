@@ -52,19 +52,4 @@
         </property>
     </type>
 
-    <type name="midcom_core_temporary_object_db" table="midcom_core_temporary_object_db">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="timestamp" type="integer" />
-
-        <property name="name" type="text" />
-        <property name="text1" type="text" />
-        <property name="text2" type="text" />
-        <property name="text3" type="text" />
-        <property name="integer1" type="integer" />
-        <property name="integer2" type="integer" />
-        <property name="integer3" type="integer" />
-        <property name="integer4" type="integer" />
-    </type>
 </Schema>

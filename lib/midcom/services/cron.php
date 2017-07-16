@@ -105,10 +105,6 @@ class midcom_services_cron
      */
     private $_midcom_jobs = [
         [
-            'handler' => 'midcom_cron_tmpservice',
-            'recurrence' => MIDCOM_CRON_HOUR,
-        ],
-        [
             'handler' => 'midcom_cron_loginservice',
             'recurrence' => MIDCOM_CRON_HOUR,
         ],

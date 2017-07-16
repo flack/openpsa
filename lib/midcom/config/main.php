@@ -200,9 +200,6 @@
  *   for relocations.
  * - <b>string midcom_tempdir:</b> A temporary directory that can be used when components
  *   need to write out files. Defaults to '/tmp'.
- * - <b>int midcom_temporary_resource_timeout:</b> Temporary resources will be deleted
- *   after the amount of seconds set in this options. It defaults to 86400 = 1 day.
- *   The corresponding cron-job is run on hourly.
  * - <b>mixed midcom_max_memory:</b> The maximum memory limit to use doing resource-intensive tasks
  *   like when reindexing the entire site, which can require quite some amount of memory, as the complete NAP
  *   cache has to be loaded and binary indexing can take some memory, too. Defaults to -1.
@@ -364,7 +361,6 @@ class midcom_config implements arrayaccess
         'midcom_site_url' => '/',
         'midcom_site_title' => '',
         'midcom_tempdir' => '/tmp',
-        'midcom_temporary_resource_timeout' => 86400,
         'midcom_max_memory' => -1,
         'midcom_max_execution_time' => 0,
         'midcom_components' => [],

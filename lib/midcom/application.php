@@ -18,7 +18,6 @@
  * @property midcom_helper__styleloader $style
  * @property midcom_services_auth $auth
  * @property midcom_services_permalinks $permalinks
- * @property midcom_services_tmp $tmp
  * @property midcom_services_toolbars $toolbars
  * @property midcom_services_uimessages $uimessages
  * @property midcom_services_metadata $metadata

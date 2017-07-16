@@ -56,7 +56,6 @@ class midcom
         'serviceloader' => 'midcom_helper_serviceloader',
         'session' => 'midcom_services__sessioning',
         'style' => 'midcom_helper__styleloader',
-        'tmp' => 'midcom_services_tmp',
         'toolbars' => 'midcom_services_toolbars',
         'uimessages' => 'midcom_services_uimessages',
     ];
