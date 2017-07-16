@@ -84,11 +84,6 @@ abstract class midcom_core_dbaobject
         if (is_object($id)) {
             $this->__object = midcom::get()->dbfactory->convert_midcom_to_midgard($id);
         } else {
-            if (   is_string($id)
-                && strlen($id) == 1) {
-                debug_add('Constructing ' . $this->__mgdschema_class_name__ . ' object ' . $id . ' with ID typecast to string. Changing typecast.', MIDCOM_LOG_INFO);
-                $id = (int) $id;
-            }
             if (   is_int($id)
                 && $id < 1) {
                 throw new midcom_error($id . ' is not a valid database ID');
