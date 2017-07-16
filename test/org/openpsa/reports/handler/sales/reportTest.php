@@ -40,8 +40,7 @@ class org_openpsa_reports_handler_sales_reportTest extends openpsa_testcase
         $query = $this->create_object('org_openpsa_reports_query_dba', [
             'end' => time() + 1000
         ]);
-        // causes probles on travis for some reason:
-        //$query->set_parameter('midcom.helper.datamanager2', 'resource', 'user:' . self::$person->guid);
+        $query->set_parameter('midcom.helper.datamanager2', 'resource', 'all');
 
         $sp = $this->create_object('org_openpsa_sales_salesproject_dba', [
             'owner' => self::$person->id,
