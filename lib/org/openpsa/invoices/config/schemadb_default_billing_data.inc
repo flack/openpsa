@@ -57,7 +57,7 @@
             'storage'  => 'email',
             'type'     => 'text',
             'widget'   => 'text',
-            'validation' => 'email'
+            'validation' => 'email',
             'end_fieldset' => '',
         ),
         'account_number' => array
