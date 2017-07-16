@@ -31,10 +31,9 @@ implements org_openpsa_widgets_grid_provider_client
                 'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED,
                 's_state' => org_openpsa_sales_salesproject_dba::STATE_LOST]
             );
-
         if ($this->_request_data['query_data']['resource'] != 'all') {
             $qb->get_doctrine()
-                ->andWhere('s.owner IN(:resource)')
+                ->andWhere('s.manager IN(:resource)')
                 ->setParameter('resource', $this->_expand_resource($this->_request_data['query_data']['resource']));
         }
 
