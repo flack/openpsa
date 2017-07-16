@@ -37,6 +37,28 @@ class org_openpsa_products_handler_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.products', [self::$_group->guid]);
         $this->assertEquals('list_group', $data['handler_id']);
 
+        $this->show_handler($data);
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testHandler_json()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.products');
+
+        $data = $this->run_handler('org.openpsa.products', ['json']);
+        $this->assertEquals('list_json', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testHandler_json_group()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.products');
+
+        $data = $this->run_handler('org.openpsa.products', ['json', self::$_group->guid]);
+        $this->assertEquals('list_json_group', $data['handler_id']);
+
+        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }
