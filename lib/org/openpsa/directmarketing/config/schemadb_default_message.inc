@@ -55,6 +55,7 @@
             'type'     => 'text',
             'widget'   => 'text',
             'storage'  => 'parameter',
+            'validation' => 'email'
         ),
         'content' => array
         (
@@ -138,6 +139,7 @@
             'type'     => 'text',
             'widget'   => 'text',
             'storage'  => 'parameter',
+            'validation' => 'email'
         ),
         'content' => array
         (
@@ -233,6 +235,7 @@
             'type'     => 'text',
             'widget'   => 'text',
             'storage'  => 'parameter',
+            'validation' => 'email'
         ),
         'content' => array
         (

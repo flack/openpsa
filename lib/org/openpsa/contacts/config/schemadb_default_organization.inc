@@ -135,6 +135,7 @@
             'storage'  => 'email',
             'type'     => 'text',
             'widget'   => 'text',
+            'validation' => 'email'
         ),
         'phone' => array
         (
