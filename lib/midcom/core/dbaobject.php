@@ -120,8 +120,7 @@ abstract class midcom_core_dbaobject
             }
         }
 
-        if (   $this->__object->guid
-            && mgd_is_guid($this->__object->guid)) {
+        if ($this->__object->guid) {
             midcom_baseclasses_core_dbobject::post_db_load_checks($this);
         }
     }
