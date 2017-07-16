@@ -50,7 +50,7 @@
             'title'    => 'homepage',
             'storage'  => 'homepage',
             'type'     => 'text',
-            'widget'   => 'text',
+            'widget'   => 'url',
         ),
         'email' => array
         (

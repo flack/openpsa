@@ -30,11 +30,11 @@ $node = $nap->get_node($nap->get_current_node());
             case 'homepage':
                 echo "<h2>" . $data['l10n']->get('contact information') . "</h2>\n";
                 echo "<div><strong>" . $data['l10n']->get($fieldname) . ": </strong>";
-                echo '<a href="' .$fielddata . '">' . $fielddata . "</a></div>";
+                echo $fielddata . "</div>";
                 break;
             case 'email':
                 echo "<div><strong>" . $data['l10n']->get($fieldname) . ": </strong>";
-                echo '<a href="mailto:' . $fielddata . '">' . $fielddata . "</a></div>";
+                echo $fielddata . "</div>";
                 break;
             case 'notes':
                 echo "<h2>" . $data['l10n']->get('notes') . "</h2>\n";

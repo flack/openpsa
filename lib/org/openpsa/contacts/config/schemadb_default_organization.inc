@@ -122,7 +122,7 @@
             'title'    => 'homepage',
             'storage'  => 'homepage',
             'type'     => 'text',
-            'widget'   => 'text',
+            'widget'   => 'url',
             'start_fieldset' => array
             (
                 'title' => 'contact information',
