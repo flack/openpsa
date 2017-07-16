@@ -248,25 +248,6 @@ class midcom_services_indexer_document
     public $type = '';
 
     /**
-     * Security mechanism used to determine the availability of a search result.
-     * Can be one of:
-     *
-     * - 'default': Use only built-in processing (topic and metadata visibility checks), this is, as you might have guessed, the default.
-     * - 'component': Invoke the _on_check_document_visible component interface method of the component after doing default checks.
-     *   This security class absolutely requires the document to contain a valid topic GUID, otherwise access control will fail anyway.
-     * - 'function:$function_name': Invoke the globally available function $function_name, its signature is <i>boolean $function_name ($document, $topic)</i>,
-     *   if you don't change the document during the check, you don't need to pass by-reference, so this is up to you. The topic passed is the
-     *   Return true if the document is visible, false otherwise.
-     * - 'class:$class_name': Like above, but using a class instead. The class must provide a statically callable <i>get_instance()</i> method, which
-     *   returns a usable instance of the class (mostly, this should be a singleton, for performance reasons). The instance returned is assigned
-     *   by-reference. On that object, the method check_document_permissions, whose signature must be identical to the function callback.
-     *
-     * @var string
-     * @see midcom_baseclasses_components_interface::_on_check_document_permissions()
-     */
-    public $security = 'default';
-
-    /**
      * This is have support for #651 without rewriting all components' index methods
      *
      * If set to false the indexer backend will silently skip this document.
@@ -487,7 +468,6 @@ class midcom_services_indexer_document
         $this->add_text('author', $this->author);
         $this->add_text('abstract', $this->abstract);
         $this->add_text('__TYPE', $this->type);
-        $this->add_unindexed('__SECURITY', $this->security);
     }
 
     /**
@@ -519,7 +499,6 @@ class midcom_services_indexer_document
         $this->author = $this->get_field('author');
         $this->abstract = $this->get_field('abstract');
         $this->type = $this->get_field('__TYPE');
-        $this->security = $this->get_field('__SECURITY');
     }
 
     /**

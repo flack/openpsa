@@ -320,21 +320,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     }
 
     /**
-     * Verify an indexer document's permissions.
-     *
-     * It will call the corresponding event handler reading the topic configuration beforehand.
-     *
-     * @param midcom_services_indexer_document &$document The document to check. This object is passed by
-     *     reference and may therefore be modified to match the current security policy.
-     * @param midcom_db_topic $topic The topic this document is assigned to.
-     * @return boolean True if the object may be shown, false otherwise.
-     */
-    public function check_document_permissions(&$document, $topic)
-    {
-        return $this->_on_check_document_permissions($document, $this->get_config_for_topic($topic), $topic);
-    }
-
-    /**
      * Get the full configuration set active for a given topic.
      * If no topic is passed, the system wide default configuration is returned.
      *
@@ -491,29 +476,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @return boolean Indicating success.
      */
     public function _on_reindex($topic, $config, &$indexer)
-    {
-        return true;
-    }
-
-    /**
-     * Verify an indexer document's permissions. This is used for custom, advanced access control
-     * within a component's domain.
-     *
-     * The topic and configuration objects are passed for ease of use and performance, as they have already
-     * been prepared by the framework.
-     *
-     * Usually, you want to limit the visibility of a document in the search result. You can do this
-     * by returning false in this function, the indexer will then skip this object before returning
-     * the resultset to the callee. You may modify the document that has been passed, to limit the
-     * information available to the client, though this <i>should</i> be avoided if possible.
-     *
-     * @param midcom_services_indexer_document &$document The document to check. This object is passed by
-     *     reference and may therefore be modified to match the current security policy.
-     * @param midcom_helper_configuration $config The configuration associated with the topic.
-     * @param MidgardTopic $topic The topic this document is assigned to.
-     * @return boolean True if the object may be shown, false otherwise.
-     */
-    public function _on_check_document_permissions(&$document, $config, $topic)
     {
         return true;
     }

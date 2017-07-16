@@ -238,7 +238,6 @@
    <field name="author" type="text" indexed="true" stored="true" />
    <field name="abstract" type="text" indexed="true" stored="true" />
    <field name="__TYPE" type="string" indexed="false" stored="true" />
-   <field name="__SECURITY" type="text" indexed="false" stored="true" />
    <field name="mimetype" type="textTight" indexed="true" stored="true" />
    <field name="filename" type="textTight" indexed="true" stored="true" />
 
