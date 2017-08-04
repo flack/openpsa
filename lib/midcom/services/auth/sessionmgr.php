@@ -165,13 +165,12 @@ class midcom_services_auth_sessionmgr
      * user.
      *
      * @param string $sessionid The Session ID to check for.
-     * @param midcom_core_user The user for which we should look up the login session.
      * @param string $clientip The client IP to check against, this defaults to the
      *     client IP reported by Apache.
      * @return string The token you can use for authentication or false, in case there
      *     is no valid session.
      */
-    public function load_login_session($sessionid, $user, $clientip = null)
+    public function load_login_session($sessionid, $clientip = null)
     {
         try {
             $session = new midcom_core_login_session_db($sessionid);
