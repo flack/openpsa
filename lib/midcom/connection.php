@@ -156,7 +156,7 @@ class midcom_connection
         return $password === $hash;
     }
 
-    public static function prepare_password($password, $username = null)
+    public static function prepare_password($password)
     {
         if (midcom::get()->config->get('auth_type') == 'Legacy') {
             return password_hash($password, PASSWORD_DEFAULT);
