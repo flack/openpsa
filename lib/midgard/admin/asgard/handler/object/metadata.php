@@ -45,7 +45,7 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
         $schemadb = schemadb::from_path(midcom::get()->config->get('metadata_schema'));
 
         if (   $this->_config->get('enable_review_dates')
-            && !isset($schemadb['metadata']->fields['review_date'])) {
+            && !$schemadb->get('metadata')->has_field('review_date')) {
             $fields = $schemadb->get('metadata')->get('fields');
             $fields['review_date'] = [
                 'title' => $this->_l10n->get('review date'),
@@ -60,6 +60,7 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
                 ],
                 'widget' => 'jsdate',
             ];
+            $schemadb->get('metadata')->set('fields', $fields);
         }
         $dm = new datamanager($schemadb);
         return $dm
