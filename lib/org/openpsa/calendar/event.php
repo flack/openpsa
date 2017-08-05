@@ -427,8 +427,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $str .= sprintf($l10n->get('location: %s') . $nl, $this->location);
         $str .= sprintf($l10n->get('time: %s') . $nl, $l10n->get_formatter()->timeframe($this->start, $this->end));
         $str .= sprintf($l10n->get('participants: %s') . $nl, $this->implode_members($this->participants));
-        //Not supported yet
-        //$str .= sprintf($l10n->get('resources: %s') . $nl, $this->implode_members($this->resources));
+        $str .= sprintf($l10n->get('resources: %s') . $nl, $this->implode_members($this->resources));
         //TODO: Tentative, overlaps, public
         $str .= sprintf($l10n->get('description: %s') . $nl, $this->description);
         return $str;
