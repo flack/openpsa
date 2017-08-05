@@ -44,10 +44,11 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
             $defaults['owner'] = $this->_parent_group->id;
             if ($this->_type == 'organization') {
                 // Set the default type to "department"
-                $defaults['object_type'] = org_openpsa_contacts_group_dba::DEPARTMENT;
+                $defaults['organization_type'] = org_openpsa_contacts_group_dba::DEPARTMENT;
             }
         }
         return datamanager::from_schemadb($this->_config->get('schemadb_group'))
+            ->set_defaults($defaults)
             ->set_storage($this->_group, $this->_type)
             ->get_controller();
     }
