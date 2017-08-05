@@ -199,11 +199,7 @@ class midcom_services_i18n
      */
     public function set_charset($charset)
     {
-        $charset = strtolower($charset);
-        $this->_current_charset = $charset;
-        foreach ($this->_obj_l10n as $object) {
-            $object->set_charset($charset);
-        }
+        $this->_current_charset = strtolower($charset);
     }
 
     /**
@@ -385,7 +381,6 @@ class midcom_services_i18n
         $obj = new midcom_services_i18n_l10n($component, $database);
 
         $obj->set_language($this->_current_language);
-        $obj->set_charset($this->_current_charset);
         $obj->set_fallback_language($this->_fallback_language);
         $this->_obj_l10n[$cacheid] = $obj;
     }

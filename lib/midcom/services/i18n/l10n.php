@@ -89,13 +89,6 @@ class midcom_services_i18n_l10n
     private $_fallback_language;
 
     /**
-     * Current character set
-     *
-     * @var string
-     */
-    private $_charset;
-
-    /**
      * Current language.
      *
      * @var string
@@ -152,7 +145,6 @@ class midcom_services_i18n_l10n
         $this->_stringdb =& self::$_localedb[$this->_library];
 
         $this->set_language(midcom::get()->i18n->get_current_language());
-        $this->set_charset(midcom::get()->i18n->get_current_charset());
     }
 
     /**
@@ -303,28 +295,11 @@ class midcom_services_i18n_l10n
     }
 
     /**
-     * Set output character set.
-     *
-     * This is usually set through midcom_services_i18n.
-     *
-     * @param string $charset    Charset name.
-     * @see midcom_services_i18n::set_charset()
-     */
-    public function set_charset($charset)
-    {
-        $this->_charset = strtolower($charset);
-    }
-
-    /**
      * Set output language.
      *
      * This will set the character encoding to the language's default
      * encoding and will also set the system locale to the one
      * specified in the language database.
-     *
-     * If you want another character encoding as the default one, you
-     * have to override it manually using midcom_services_i18n_l10n::set_charset()
-     * after calling this method.
      *
      * This is usually set through midcom_services_i18n.
      *
@@ -339,7 +314,6 @@ class midcom_services_i18n_l10n
         }
 
         $this->_language = $lang;
-        $this->_charset = $this->_language_db[$lang]["encoding"];
     }
 
     /**
