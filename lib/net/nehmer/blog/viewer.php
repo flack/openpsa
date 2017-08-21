@@ -265,19 +265,10 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     public function apply_category_constraint($qb, $category)
     {
         if ($category = trim($category)) {
-
-            // TODO: check schema storage to get fieldname
-            $multiple_categories = true;
-            if ($this->_request_data['schemadb']->get('default')->has_field('list_from_folders_categories')) {
-                $multiple_categories = $this->_request_data['schemadb']->get('default')->get_field('list_from_folders_categories')['type_config']['allow_multiple'];
-            }
-            debug_add("multiple_categories={$multiple_categories}");
-
-            if ($multiple_categories) {
+            $qb->begin_group('OR');
                 $qb->add_constraint('extra1', 'LIKE', "%|{$category}|%");
-            } else {
                 $qb->add_constraint('extra1', '=', $category);
-            }
+            $qb->end_group();
         }
     }
 }
