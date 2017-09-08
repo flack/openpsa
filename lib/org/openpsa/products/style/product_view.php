@@ -7,7 +7,6 @@ $view = $data['view_product'];
 </div>
 <div class="main">
 <?php
-$data['datamanager']->schema->remove_field('id');
 $data['datamanager']->display_view();
 
 $tabs = [];

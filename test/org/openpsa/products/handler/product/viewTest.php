@@ -28,6 +28,7 @@ class org_openpsa_products_handler_product_viewTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.products', ['product', self::$_product->guid]);
         $this->assertEquals('view_product', $data['handler_id']);
+        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }
