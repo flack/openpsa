@@ -44,6 +44,10 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
 
         org_openpsa_widgets_contact::add_head_elements();
         $data['calendar_node'] = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
+
+        $qb = org_openpsa_projects_task_dba::new_query_builder();
+        $qb->add_constraint('up', '=', $this->task->id);
+        $data['has_subtasks'] = $qb->count() > 0;
     }
 
     /**
@@ -64,6 +68,13 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
             && $this->task->can_do('midgard:delete')) {
             $delete_workflow = $this->get_workflow('delete', ['object' => $this->task]);
             $buttons[] = $delete_workflow->get_button("task/delete/{$this->task->guid}/");
+        }
+
+        if ($this->task->can_do('midgard:create')) {
+            $buttons[] = $workflow->get_button("task/new/task/{$this->task->guid}/", [
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
+            ]);
         }
 
         if ($this->task->status == org_openpsa_projects_task_status_dba::CLOSED) {

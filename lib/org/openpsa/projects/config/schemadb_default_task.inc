@@ -37,6 +37,39 @@
                 ),
             ),
         ),
+        'up' => array
+        (
+            'title'   => 'task',
+            'storage' => 'up',
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'require_corresponding_option' => false,
+            ),
+            'widget' => 'autocomplete',
+            'widget_config' => array
+            (
+                'class'       => 'org_openpsa_projects_task_dba',
+                'titlefield'  => 'title',
+                'id_field'     => 'id',
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'title',
+                        'name' => 'title',
+                    ),
+                ),
+                'searchfields'  => array
+                (
+                    'title'
+                ),
+                'orders'        => array
+                (
+                    array('title'    => 'ASC')
+                ),
+            ),
+        ),
         'title' => array
         (
             'title'    => 'title',

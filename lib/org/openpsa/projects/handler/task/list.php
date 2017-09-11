@@ -78,6 +78,13 @@ implements org_openpsa_widgets_grid_provider_client
                 $this->_handler_list_project($args);
                 break;
 
+            case 'task':
+                $this->_prepare_output();
+                org_openpsa_widgets_grid::add_head_elements();
+                $this->_provider = new org_openpsa_widgets_grid_provider($this, 'local');
+                $this->_handler_list_task($args);
+                break;
+
             case 'json':
                 $this->_provider = new org_openpsa_widgets_grid_provider($this, 'json');
                 $this->_handler_list_project($args);
@@ -239,7 +246,8 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['index_task'] = $task->title;
         $entry['task'] = '<a href="' . $task_url . '"><img class="status-icon" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/' . $task->get_icon() . '" /> ' . $task->title . '</a>';
         if (   $this->_request_data['view_identifier'] == 'my_tasks'
-            || $this->_request_data['view_identifier'] == 'project_tasks') {
+            || $this->_request_data['view_identifier'] == 'project_tasks'
+            || $this->_request_data['view_identifier'] == 'subtasks') {
             $entry['status_control'] = org_openpsa_projects_workflow::render_status_control($task);
             $status_type = $this->_get_status_type($task);
             $entry['index_status'] = $this->_status_order[$status_type];
@@ -285,6 +293,26 @@ implements org_openpsa_widgets_grid_provider_client
         //don't filter for json
         if ($args[0] != 'json') {
             $this->_add_filters('project');
+        } else {
+            $this->_qb->add_order('status');
+            $this->_qb->add_order('end', 'DESC');
+            $this->_qb->add_order('start');
+        }
+    }
+
+    private function _handler_list_task(&$args)
+    {
+        $this->_request_data['task'] = new org_openpsa_projects_task_dba($args[1]);
+
+        // Query tasks of a project
+        $this->_request_data['view'] = 'grid';
+        $this->_request_data['view_identifier'] = 'subtasks';
+
+        $this->_qb->add_constraint('up', '=', $this->_request_data['task']->id);
+
+        //don't filter for json
+        if ($args[0] != 'json') {
+            $this->_add_filters('task');
         } else {
             $this->_qb->add_order('status');
             $this->_qb->add_order('end', 'DESC');
@@ -388,6 +416,7 @@ implements org_openpsa_widgets_grid_provider_client
             midcom_show_style('show-json-tasks');
         } else {
             if (   $data['view_identifier'] != 'my_tasks'
+                && $data['view_identifier'] != 'subtasks'
                 && $data['view_identifier'] != 'agreement') {
                 midcom_show_style('show-priority-filter');
             }
@@ -465,7 +494,8 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_request_data['sales_url'] = $siteconfig->get_node_full_url('org.openpsa.sales');
         $this->_request_data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-        if ($this->_request_data['view_identifier'] == 'agreement') {
+        if (   $this->_request_data['view_identifier'] == 'agreement'
+            || $this->_request_data['view_identifier'] == 'subtasks') {
             return;
         }
         $workflow = $this->get_workflow('datamanager');

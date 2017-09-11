@@ -1,13 +1,14 @@
 <?php
-use midcom\datamanager\controller;
-use midcom\datamanager\datamanager;
-
 /**
  * @package org.openpsa.projects
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
+
+use midcom\datamanager\controller;
+use midcom\datamanager\datamanager;
+use midcom\datamanager\schemadb;
 
 /**
  * Projects create/update/delete task handler
@@ -21,6 +22,8 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     private $task;
 
+    private $mode;
+
     /**
      * Generates an object creation view.
      *
@@ -31,14 +34,21 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     public function _handler_create($handler_id, array $args, array &$data)
     {
         $this->mode = 'create';
+        $this->task = new org_openpsa_projects_task_dba;
         $defaults = [
             'manager' => midcom_connection::get_user()
         ];
-        if (count($args) > 0 && $args[0] == 'project') {
-            $parent = new org_openpsa_projects_project($args[1]);
+        if (count($args) > 0) {
+            if ($args[0] == 'project') {
+                $parent = new org_openpsa_projects_project($args[1]);
+                $defaults['project'] = $parent->id;
+            } elseif ($args[0] == 'task') {
+                $parent = new org_openpsa_projects_task_dba($args[1]);
+                $defaults['project'] = $parent->project;
+                $defaults['up'] = $parent->id;
+            }
             $parent->require_do('midgard:create');
 
-            $defaults['project'] = $parent->id;
             $defaults['orgOpenpsaAccesstype'] = $parent->orgOpenpsaAccesstype;
             $defaults['orgOpenpsaOwnerWg'] = $parent->orgOpenpsaOwnerWg;
 
@@ -49,7 +59,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         } else {
             midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_projects_task_dba');
         }
-        $this->task = new org_openpsa_projects_task_dba;
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('create task'));
         $workflow = $this->get_workflow('datamanager', [
@@ -96,8 +105,23 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
 
     private function load_controller(array $defaults = [])
     {
-        return datamanager::from_schemadb($this->_config->get('schemadb_task'))
-            ->set_defaults($defaults)
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_task'));
+
+        $fields = $schemadb->get('default')->get('fields');
+        if (!empty($defaults['up']) || !empty($this->task->up)) {
+            $fields['project']['widget'] = 'hidden';
+            $fields['up']['widget_config']['constraints'] = [
+                'field' => 'project',
+                'op' => '=',
+                'value' => $this->task->project || $defaults['project']
+            ];
+        } else {
+            $fields['up']['widget'] = 'hidden';
+        }
+        $schemadb->get('default')->set('fields', $fields);
+
+        $dm = new datamanager($schemadb);
+        return $dm->set_defaults($defaults)
             ->set_storage($this->task)
             ->get_controller();
     }
