@@ -262,16 +262,16 @@ class schema
             if ($value === '__UNSET__') {
                 return $default;
             }
+            if ($options['type'] === 'privilege') {
+                return [
+                    'location' => 'privilege',
+                    'name' => $name
+                ];
+            }
+            if ($options['type'] === 'tags') {
+                return 'tags';
+            }
             if ($value === null) {
-                if ($options['type'] === 'privilege') {
-                    return [
-                        'location' => 'privilege',
-                        'name' => $name
-                    ];
-                }
-                if ($options['type'] === 'tags') {
-                    return 'tags';
-                }
                 return null;
             }
             if (is_string($value)) {
