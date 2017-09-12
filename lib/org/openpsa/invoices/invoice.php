@@ -211,13 +211,12 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         //get hour_reports for this invoice - mc ?
         $qb_hour_reports = org_openpsa_projects_hour_report_dba::new_query_builder();
         $qb_hour_reports->add_constraint('invoice', '=', $this->id);
+        $qb_hour_reports->add_constraint('invoiceable', '=', true);
         if (!empty($tasks)) {
             $qb_hour_reports->add_constraint('task', 'IN', $tasks);
             //if there is a task passed it must be calculated even
             //if it doesn't have associated hour_reports
-            foreach ($tasks as $task_id) {
-                $result_tasks[$task_id] = 0;
-            }
+            $result_tasks = array_fill_keys($tasks, 0);
         }
         $hour_reports = $qb_hour_reports->execute();
 
@@ -226,46 +225,30 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
             if (!array_key_exists($hour_report->task, $result_tasks)) {
                 $result_tasks[$hour_report->task] = 0;
             }
-
-            //only add invoiceable hour_reports
-            if ($hour_report->invoiceable) {
-                $result_tasks[$hour_report->task] += $hour_report->hours;
-            }
+            $result_tasks[$hour_report->task] += $hour_report->hours;
         }
 
         foreach ($result_tasks as $task_id => $hours) {
             $invoice_item = $this->_probe_invoice_item_for_task($task_id);
 
-            //get deliverable for this task
-            $mc_task_agreement = new midgard_collector('org_openpsa_task', 'id', $task_id);
-            $mc_task_agreement->set_key_property('id');
-            $mc_task_agreement->add_value_property('title');
-            $mc_task_agreement->add_value_property('agreement');
-            $mc_task_agreement->add_constraint('agreement', '<>', 0);
-            $mc_task_agreement->execute();
-
-            $mc_task_key = $mc_task_agreement->list_keys();
-            $deliverable = null;
-            foreach (array_keys($mc_task_key) as $key) {
-                try {
-                    $deliverable = new org_openpsa_sales_salesproject_deliverable_dba((int)$mc_task_agreement->get_subkey($key, 'agreement'));
-                    $invoice_item->pricePerUnit = $deliverable->pricePerUnit;
-                    $invoice_item->deliverable = $deliverable->id;
-                    //calculate price
-                    if (   $deliverable->invoiceByActualUnits
-                        || $deliverable->plannedUnits == 0) {
-                        $invoice_item->units = $hours;
-                    } else {
-                        $invoice_item->units = $deliverable->plannedUnits;
-                    }
-                } catch (midcom_error $e) {
-                    $e->log();
+            $task = new org_openpsa_projects_task_dba($task_id);
+            if ($agreement = $task->get_agreement()) {
+                $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($agreement);
+                $invoice_item->pricePerUnit = $deliverable->pricePerUnit;
+                $invoice_item->deliverable = $deliverable->id;
+                //calculate price
+                if (   $deliverable->invoiceByActualUnits
+                    || $deliverable->plannedUnits == 0) {
                     $invoice_item->units = $hours;
+                } else {
+                    $invoice_item->units = $deliverable->plannedUnits;
                 }
+            } else {
+                $invoice_item->units = $hours;
             }
 
             if ($invoice_item->description == '') {
-                $invoice_item->description = $mc_task_agreement->get_subkey($task_id, 'title');
+                $invoice_item->description = $task->title;
             }
 
             $invoice_item->skip_invoice_update = $skip_invoice_update;

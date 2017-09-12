@@ -49,7 +49,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
             $item = new org_openpsa_invoices_invoice_item_dba();
             $item->task = $task_id;
             try {
-                $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->agreement);
+                $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->get_agreement());
                 $item->deliverable = $deliverable->id;
             } catch (midcom_error $e) {
                 $e->log();
@@ -147,7 +147,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
                 $data['class'] = $class;
                 $data['reported_hours'] = $task->reportedHours;
                 try {
-                    $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($task->agreement);
+                    $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($task->get_agreement());
                     $deliverable->calculate_price(false);
                     $data['default_price'] = $deliverable->pricePerUnit;
 

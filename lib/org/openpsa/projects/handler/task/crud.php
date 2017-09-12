@@ -115,6 +115,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 'op' => '=',
                 'value' => $this->task->project || $defaults['project']
             ];
+            $fields['agreement']['widget'] = 'hidden';
         } else {
             $fields['up']['widget'] = 'hidden';
         }

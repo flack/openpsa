@@ -231,10 +231,10 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             $this->orgOpenpsaWgtype = self::WGTYPE_NONE;
         }
 
-        if ($this->agreement) {
+        if ($agreement = $this->get_agreement()) {
             // Get customer company into cache from agreement's sales project
             try {
-                $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($this->agreement);
+                $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($agreement);
                 $this->hoursInvoiceableDefault = true;
                 if (!$this->customer) {
                     $salesproject = org_openpsa_sales_salesproject_dba::get_cached($agreement->salesproject);
@@ -251,6 +251,17 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $this->update_cache(false);
 
         return true;
+    }
+
+    public function get_agreement()
+    {
+        if ($this->up) {
+            do {
+                $parent = $this->get_parent();
+            } while ($parent->up);
+            return $parent->agreement;
+        }
+        return $this->agreement;
     }
 
     /**
@@ -273,7 +284,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $this->invoiceableHours = $hours['invoiceable'];
 
         try {
-            $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->agreement);
+            $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->get_agreement());
             $agreement->update_units($this->id, $hours);
         } catch (midcom_error $e) {
         }
@@ -300,7 +311,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
         // Check agreement for invoiceability rules
         try {
-            $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->agreement);
+            $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->get_agreement());
             $invoice_approved_only = $agreement->invoiceApprovedOnly;
         } catch (midcom_error $e) {
             $invoice_approved_only = false;
