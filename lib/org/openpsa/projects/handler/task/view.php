@@ -101,9 +101,9 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
             ];
         }
 
-        if ($this->task->agreement) {
+        if ($agreement = $this->task->get_agreement()) {
             try {
-                $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($this->task->agreement);
+                $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($agreement);
                 $siteconfig = org_openpsa_core_siteconfig::get_instance();
                 if ($sales_url = $siteconfig->get_node_full_url('org.openpsa.sales')) {
                     $buttons[] = [
