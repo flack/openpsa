@@ -40,7 +40,7 @@ class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmark
         ];
 
         if ($card->FN) {
-            $name_parts = explode(' ', $card->FN->value, 2);
+            $name_parts = explode(' ', $card->FN->getValue(), 2);
             if (sizeof($name_parts) > 1) {
                 $contact['person']['lastname'] = $name_parts[1];
                 $contact['person']['firstname'] = $name_parts[0];
@@ -52,34 +52,34 @@ class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmark
             foreach ($card->TEL as $tel) {
                 switch ($tel['TYPE']) {
                     case 'CELL':
-                        $contact['person']['handphone'] = $tel->value;
+                        $contact['person']['handphone'] = $tel->getValue();
                         break;
                     case 'HOME':
-                        $contact['person']['homephone'] = $tel->value;
+                        $contact['person']['homephone'] = $tel->getValue();
                         break;
                     case 'WORK':
-                        $contact['person']['workphone'] = $tel->value;
+                        $contact['person']['workphone'] = $tel->getValue();
                         break;
                 }
             }
         }
 
         if ($card->ORG) {
-            $contact['organization']['official'] = $card->ORG->value;
+            $contact['organization']['official'] = $card->ORG->getValue();
         }
         if ($card->TITLE) {
-            $contact['organization_member']['title'] = $card->TITLE->value;
+            $contact['organization_member']['title'] = $card->TITLE->getValue();
         }
         if ($card->EMAIL) {
-            $contact['person']['email'] = $card->EMAIL->value;
+            $contact['person']['email'] = $card->EMAIL->getValue();
         }
         if ($card->{'X-SKYPE-USERNAME'}) {
-            $contact['person']['skype'] = $card->{'X-SKYPE-USERNAME'}->value;
+            $contact['person']['skype'] = $card->{'X-SKYPE-USERNAME'}->getValue();
         }
         if ($card->UID) {
-            $contact['person']['external-uid'] = $card->UID->value;
+            $contact['person']['external-uid'] = $card->UID->getValue();
         } elseif ($card->{'X-ABUID'}) {
-            $contact['person']['external-uid'] = $card->{'X-ABUID'}->value;
+            $contact['person']['external-uid'] = $card->{'X-ABUID'}->getValue();
         }
         return $contact;
     }

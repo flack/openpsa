@@ -6,9 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use Sabre\VObject\Component;
-use Sabre\VObject\Property\DateTime as VDateTime;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Component\VCalendar;
 
 /**
  * vCalendar helper class
@@ -20,7 +19,7 @@ class org_openpsa_calendar_vcal
     /**
      * The calendar object
      *
-     * @var Sabre\VObject\Component
+     * @var Sabre\VObject\Component\VCalendar
      */
     private $_calendar;
 
@@ -31,11 +30,10 @@ class org_openpsa_calendar_vcal
     {
         $method = strtoupper($method);
 
-        $this->_calendar = Component::create('VCALENDAR');
+        $this->_calendar = new VCalendar;
         $this->_calendar->VERSION = '2.0';
         $this->_calendar->PRODID = "-//OpenPSA//Calendar " . org_openpsa_core_version::get_version_number() . "//" . strtoupper(midcom::get()->i18n->get_current_language());
         $this->_calendar->METHOD = $method;
-        //TODO: Determine server timezone and output correct header (we still send all times as UTC)
     }
 
     /**
@@ -46,7 +44,7 @@ class org_openpsa_calendar_vcal
      */
     public function add_event(org_openpsa_calendar_event_dba $event)
     {
-        $vevent = Component::create('VEVENT');
+        $vevent = $this->_calendar->createComponent('VEVENT');
 
         // TODO: handle UID smarter
         $vevent->UID = "{$event->guid}-midgardGuid";
@@ -97,28 +95,27 @@ class org_openpsa_calendar_vcal
 
     private function _add_date_fields(VEvent $vevent, org_openpsa_calendar_event_dba $event)
     {
+        $tz = new DateTimeZone('UTC');
         $revised = new DateTime('@' . $event->metadata->revised);
+        $revised->setTimezone($tz);
         $created = new DateTime('@' . $event->metadata->created);
+        $created->setTimezone($tz);
         $start = new DateTime('@' . $event->start);
+        $start->setTimezone($tz);
         $end = new DateTime('@' . $event->end);
+        $end->setTimezone($tz);
 
-        $vevent->add(new VDateTime('CREATED'));
-        $vevent->add(new VDateTime('LAST-MODIFIED'));
-        $vevent->add(new VDateTime('DTSTAMP'));
-        $vevent->add(new VDateTime('DTSTART'));
-        $vevent->add(new VDateTime('DTEND'));
-
-        $vevent->CREATED->setDateTime($created, VDateTime::UTC);
+        $vevent->CREATED = $created;
         /**
          * The real meaning of the DTSTAMP is fuzzy at best
          * http://www.kanzaki.com/docs/ical/dtstamp.html is less than helpful
          * http://lists.osafoundation.org/pipermail/ietf-calsify/2007-July/001750.html
          * seems to suggest that using the revision would be best
          */
-        $vevent->DTSTAMP->setDateTime($revised, VDateTime::UTC);
-        $vevent->{'LAST-MODIFIED'}->setDateTime($revised, VDateTime::UTC);
-        $vevent->DTSTART->setDateTime($start, VDateTime::UTC);
-        $vevent->DTEND->setDateTime($end, VDateTime::UTC);
+        $vevent->DTSTAMP = $revised;
+        $vevent->{'LAST-MODIFIED'} = $revised;
+        $vevent->DTSTART = $start;
+        $vevent->DTEND = $end;
     }
 
     public function __toString()
