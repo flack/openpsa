@@ -145,8 +145,9 @@ class midcom_core_account
             $qb->leftJoin('midgard_user', 'u', Join::WITH, 'u.person = c.guid');
             $query->join_added = true;
         }
-        $query->get_current_group()->add('u.login ' . $operator . ' :value');
+        $query->get_current_group()->add('u.login ' . $operator . ' :value AND u.authtype = :authtype');
         $qb->setParameter('value', $value);
+        $qb->setParameter('authtype', midcom::get()->config->get('auth_type'));
     }
 
     /**
