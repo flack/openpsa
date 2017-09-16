@@ -268,10 +268,10 @@ class midcom_application
      *
      * If expires is set to -1, no expires header gets sent.
      *
-     * @param MidgardAttachment $attachment    The attachment to be delivered.
+     * @param midcom_db_attachment $attachment    The attachment to be delivered.
      * @param int $expires HTTP-Expires timeout in seconds, set this to 0 for uncacheable pages, or to -1 for no Expire header.
      */
-    public function serve_attachment($attachment, $expires = -1)
+    public function serve_attachment(midcom_db_attachment $attachment, $expires = -1)
     {
         if ($this->config->get('attachment_cache_enabled')) {
             $path = '/' . substr($attachment->guid, 0, 1) . "/{$attachment->guid}_{$attachment->name}";
