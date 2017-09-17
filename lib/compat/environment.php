@@ -7,13 +7,23 @@
  */
 
 /**
- * Interface for interactions with environment (PHP SAPI, framework, Midgard version, etc)
+ * Support for interactions with environment
  *
  * @package midcom.compat
  */
-abstract class midcom_compat_environment
+class midcom_compat_environment
 {
+    private static $_headers = [];
+
     private static $_implementation;
+
+    public function __construct()
+    {
+        if (   php_sapi_name() != 'cli'
+            || !empty($_SERVER['REMOTE_ADDR'])) {
+            $this->_httpd_setup();
+        }
+    }
 
     public static function get()
     {
@@ -22,35 +32,7 @@ abstract class midcom_compat_environment
 
     public static function initialize()
     {
-        if (defined('OPENPSA2_UNITTEST_RUN')) {
-            self::$_implementation = new midcom_compat_unittest();
-        } else {
-            self::$_implementation = new midcom_compat_default();
-        }
-    }
-
-    abstract public function header($string, $replace = true, $http_response_code = null);
-
-    abstract public function stop_request($message = '');
-
-    abstract public function headers_sent();
-
-    abstract public function setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false);
-}
-
-/**
- * Default environment support
- *
- * @package midcom.compat
- */
-class midcom_compat_default extends midcom_compat_environment
-{
-    public function __construct()
-    {
-        if (   php_sapi_name() != 'cli'
-            || !empty($_SERVER['REMOTE_ADDR'])) {
-            $this->_httpd_setup();
-        }
+        self::$_implementation = new static;
     }
 
     private function _httpd_setup()
@@ -82,60 +64,39 @@ class midcom_compat_default extends midcom_compat_environment
 
     public function header($string, $replace = true, $http_response_code = null)
     {
-        header($string, $replace, $http_response_code);
-    }
-
-    public function stop_request($message = '')
-    {
-        exit($message);
-    }
-
-    public function headers_sent()
-    {
-        return headers_sent();
-    }
-
-    public function setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false)
-    {
-        return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
-    }
-}
-
-/**
- * Support for running under PHPunit
- *
- * @package midcom.compat
- */
-class midcom_compat_unittest extends midcom_compat_environment
-{
-    private static $_headers = [];
-
-    public function __construct()
-    {
-    }
-
-    public function header($string, $replace = true, $http_response_code = null)
-    {
-        if (preg_match('/^Location: (.*?)$/', $string, $matches)) {
-            throw new openpsa_test_relocate($matches[1], $http_response_code);
+        if (!defined('OPENPSA2_UNITTEST_RUN')) {
+            header($string, $replace, $http_response_code);
+        } else {
+            if (preg_match('/^Location: (.*?)$/', $string, $matches)) {
+                throw new openpsa_test_relocate($matches[1], $http_response_code);
+            }
+            self::$_headers[] = [
+                'value' => $string,
+                'replace' => $replace,
+                'http_response_code' => $http_response_code
+            ];
         }
-        self::$_headers[] = [
-            'value' => $string,
-            'replace' => $replace,
-            'http_response_code' => $http_response_code
-        ];
     }
 
     public function stop_request($message = '')
     {
+        if (!defined('OPENPSA2_UNITTEST_RUN')) {
+            exit($message);
+        }
     }
 
     public function headers_sent()
     {
+        if (!defined('OPENPSA2_UNITTEST_RUN')) {
+            return headers_sent();
+        }
     }
 
     public function setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false)
     {
+        if (!defined('OPENPSA2_UNITTEST_RUN')) {
+            return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
+        }
     }
 
     public static function flush_registered_headers()
