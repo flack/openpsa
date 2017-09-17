@@ -8,7 +8,7 @@
 
 /**
  * RSS and Atom feed fetching class. Caches the fetched items as articles
- * in net.nehmer.blog or events in net.nemein.calendar
+ * in net.nehmer.blog
  *
  * @package net.nemein.rss
  */
@@ -159,24 +159,10 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      */
     public function import_item(net_nemein_rss_parser_item $item)
     {
-        switch ($this->_node->component) {
-            case 'net.nehmer.blog':
+        if ($this->_node->component === 'net.nehmer.blog') {
                 return $this->import_article($item);
-
-            case 'net.nemein.calendar':
-                //return $this->import_event($item);
-                throw new midcom_error('Event importing has to be re-implemented with SimplePie API');
-
-            default:
-                /**
-                 * This will totally break cron if someone made something stupid (like changed folder component)
-                 * on folder that had subscriptions
-                 *
-                throw new midcom_error("RSS fetching for component {$this->_node->component} is unsupported");
-                 */
-                debug_add("RSS fetching for component {$this->_node->component} is unsupported", MIDCOM_LOG_ERROR);
-                return false;
         }
+        throw new midcom_error("RSS fetching for component {$this->_node->component} is unsupported");
     }
 
     /**
