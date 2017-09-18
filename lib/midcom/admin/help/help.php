@@ -46,44 +46,22 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         midcom::get()->style->prepend_component_styledir('midcom.admin.help');
     }
 
-    static function check_component($component)
-    {
-        if (   !midcom::get()->componentloader->is_installed($component)
-            && $component != 'midcom') {
-            throw new midcom_error("Failed to generate documentation path for component {$component} as it is not installed.");
-        }
-    }
-
     /**
      * Get component's documentation directory path
      *
      * @param string $component Component name
      * @return string Component documentation directory path
      */
-    static function get_documentation_dir($component)
+    private static function get_documentation_dir($component)
     {
         if ($component == 'midcom') {
             return MIDCOM_ROOT . "/midcom/documentation/";
         }
-        self::check_component($component);
+        if (!midcom::get()->componentloader->is_installed($component)) {
+            throw new midcom_error("Failed to generate documentation path for component {$component} as it is not installed.");
+        }
         $component_dir = str_replace('.', '/', $component);
         return MIDCOM_ROOT . "/{$component_dir}/documentation/";
-    }
-
-    /**
-     * Check if help file exists
-     *
-     * @param string $help_id Help name ID
-     * @param string $component Component name
-     * @return bool True of false
-     */
-    static function help_exists($help_id, $component)
-    {
-        if ($file = self::generate_file_path($help_id, $component)) {
-            return (file_exists($file));
-        }
-
-        return false;
     }
 
     public static function generate_file_path($help_id, $component, $language = null)
@@ -104,7 +82,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $file;
     }
 
-    static function get_help_title($help_id, $component)
+    private function get_help_title($help_id, $component)
     {
         if ($path = self::generate_file_path($help_id, $component)) {
             $file_contents = file($path);
@@ -247,7 +225,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
             $files[$filename_parts[0]] = [
                 'path' => $path,
-                'subject' => self::get_help_title($filename_parts[0], $component),
+                'subject' => $this->get_help_title($filename_parts[0], $component),
                 'lang' => $filename_parts[1],
             ];
         }
@@ -296,7 +274,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                 $data[$request_handler_id]['action'] = $request_data['handler'][1];
             }
 
-            if (self::help_exists('handlers_' . $request_handler_id, $component)) {
+            if (self::generate_file_path('handlers_' . $request_handler_id, $component)) {
                 $data[$request_handler_id]['info'] = self::get_help_contents('handlers_' . $request_handler_id, $component);
                 $data[$request_handler_id]['handler_help_url'] = 'handlers_' . $request_handler_id;
             }
@@ -331,7 +309,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $data[$file]['url'] = '/midcom-exec-' . $component . '/' . $file;
             $data[$file]['description'] = self::get_help_contents($info_id, $component);
 
-            if (self::help_exists($info_id, $component)) {
+            if (self::generate_file_path($info_id, $component)) {
                 $data[$file]['handler_help_url'] = $info_id;
             }
         }
@@ -446,7 +424,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             } else {
                 $this->add_breadcrumb(
                     "__ais/help/{$this->_request_data['component']}/{$this->_request_data['help_id']}",
-                    self::get_help_title($this->_request_data['help_id'], $this->_request_data['component'])
+                    $this->get_help_title($this->_request_data['help_id'], $this->_request_data['component'])
                 );
             }
         }
@@ -568,7 +546,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         // Table of contents navi
         $data['view_title'] = sprintf(
             $this->_l10n->get('help for %s in %s'),
-            self::get_help_title($data['help_id'], $data['component']),
+            $this->get_help_title($data['help_id'], $data['component']),
             $this->_i18n->get_string($data['component'], $data['component'])
         );
         midcom::get()->head->set_pagetitle($data['view_title']);
