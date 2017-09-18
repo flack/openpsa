@@ -786,7 +786,7 @@ class midcom_helper_toolbar
     /**
      * Binds this toolbar instance to a DBA content object using the MidCOM toolbar service.
      *
-     * @param DBAObject $object The DBA class instance to bind to.
+     * @param midcom_core_dbaobject $object The DBA class instance to bind to.
      * @see midcom_services_toolbars
      */
     public function bind_to($object)

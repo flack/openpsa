@@ -7,7 +7,6 @@
  */
 
 use midcom\datamanager\datamanager;
-use midcom\datamanager\schemadb;
 use midcom\datamanager\controller;
 
 /**

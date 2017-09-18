@@ -26,7 +26,7 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
     /**
      * Edit controller instance for Datamanager
      *
-     * @var controller
+     * @var midcom\datamanager\controller
      */
     private $_controller;
 

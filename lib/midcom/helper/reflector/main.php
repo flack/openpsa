@@ -756,7 +756,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * even if it's just the guid
      *
      * @see midcom_helper_reflector::get_object_title()
-     * @param $object the object to get the title property for
+     * @param object $object the object to get the title property for
      * @return string name of property or boolean false on failure
      */
     public function get_title_property_nonstatic($object)

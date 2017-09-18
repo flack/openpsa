@@ -137,7 +137,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * Check if a revision exists
      *
      * @param string  version
-     * @return booleann true if exists
+     * @return boolean true if exists
      */
     public function version_exists($version)
     {
@@ -361,7 +361,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * Make xml out of an object.
      *
      * @param midcom_core_dbaobject $object
-     * @return xmldata
+     * @return string xmldata
      */
     private function rcs_object2data(midcom_core_dbaobject $object)
     {

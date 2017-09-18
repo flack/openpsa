@@ -130,7 +130,7 @@ class midcom_helper_metadata
      * You will not get the data from the datamanager using this calls, but the only
      * slightly post-processed metadata values. See _retrieve_value for post processing.
      *
-     * @see midcom_helper_metdata::_retrieve_value()
+     * @see midcom_helper_metadata::_retrieve_value()
      * @param string $key The key to retrieve
      * @return mixed The key's value.
      */

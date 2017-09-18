@@ -247,7 +247,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
      * letter to avoid problems with special processing being triggered
      * by special characters in the token string.
      *
-     * @return random token string
+     * @return string random token string
      */
     private function _create_token()
     {

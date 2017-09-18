@@ -140,7 +140,7 @@ class midcom_services_metadata
      * - unapproved: approvals are enabled for the site but the object is not translated
      * - hidden: object is hidden via metadata settings or scheduling
      *
-     * @param DBAobject $object The DBA class instance to get CSS classes for
+     * @param midcom_core_dbaobject $object The DBA class instance to get CSS classes for
      * @param string Existing CSS classes to append to
      * @return string CSS classes for that object
      */
@@ -176,7 +176,7 @@ class midcom_services_metadata
     /**
      * Binds view metadata to a DBA content object
      *
-     * @param DBAObject $object The DBA class instance to bind to.
+     * @param midcom_core_dbaobject $object The DBA class instance to bind to.
      */
     public function bind_to($object)
     {

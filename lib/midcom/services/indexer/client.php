@@ -53,7 +53,7 @@ abstract class midcom_services_indexer_client
      * Constructor
      *
      * @param midcom_db_topic $topic The current topic
-     * @param midcom_service_indexer $indexer The indexer service
+     * @param midcom_services_indexer $indexer The indexer service
      */
     public function __construct($topic, midcom_services_indexer $indexer = null)
     {

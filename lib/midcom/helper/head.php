@@ -374,10 +374,10 @@ class midcom_helper_head
      * the HTTP onload attribute returned by print_jsonload SHOULD be included in the
      * BODY tag. Note that these suggestions are not enforced
      *
-     * @see add_link_head
-     * @see add_object_head
-     * @see add_style_head
-     * @see add_meta_head
+     * @see add_link_head()
+     * @see add_object_head()
+     * @see add_style_head()
+     * @see add_meta_head()
      * @see add_jsfile()
      * @see add_jscript()
      */
@@ -496,8 +496,8 @@ class midcom_helper_head
      *
      * This method is called from print_head_elements method.
      *
-     * @see add_jquery_state_script
-     * @see print_head_elements
+     * @see add_jquery_state_script()
+     * @see print_head_elements()
      */
     public function print_jquery_statuses()
     {
