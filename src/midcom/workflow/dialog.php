@@ -63,7 +63,7 @@ abstract class dialog
      *
      * @param string $url
      * @param array $options
-     * @return arrabutton config in midcom_helper_toolbar format
+     * @return array button config in midcom_helper_toolbar format
      */
     public function get_button($url, array $options = [])
     {

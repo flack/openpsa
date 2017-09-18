@@ -11,7 +11,6 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
 use midcom\datamanager\extension\transformer\blobs as transformer;
-use midcom;
 use midcom\datamanager\extension\compat;
 
 /**

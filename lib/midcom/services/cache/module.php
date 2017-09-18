@@ -7,7 +7,6 @@
  */
 
 use Doctrine\Common\Cache;
-use Doctrine\Common\Cache\CacheProvider;
 
 /**
  * This is the base class for the MidCOM cache modules. It provides a basic infrastructure

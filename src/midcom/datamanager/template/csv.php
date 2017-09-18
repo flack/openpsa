@@ -2,7 +2,6 @@
 namespace midcom\datamanager\template;
 
 use Symfony\Component\Form\FormView;
-use midcom;
 
 class csv extends base
 {

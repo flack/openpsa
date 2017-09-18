@@ -5,7 +5,6 @@
 
 namespace midcom\datamanager\extension\type;
 
-use Symfony\Component\OptionsResolver\Options;
 use midcom;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;

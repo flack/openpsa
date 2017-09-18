@@ -36,7 +36,7 @@ class dispatcher extends EventDispatcher
      * Compat function for ragnaroek-style events.
      *
      * @param int $operation_id One of the MIDCOM_OPERATION_DBA_ constants
-     * @param midcom_core_dbaobject $object The current object
+     * @param \midcom_core_dbaobject $object The current object
      */
     public function trigger_watch($operation_id, $object)
     {

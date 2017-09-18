@@ -12,7 +12,6 @@ use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\transformer\other as transformer;
 use midcom\datamanager\extension\transformer\multiple;
 use midcom\datamanager\extension\helper;
-use midcom;
 use midcom\datamanager\extension\compat;
 
 /**
