@@ -16,7 +16,6 @@ if (count($data['mgdschemas']) > 0) {
         echo "                <th>" . $data['l10n']->get('description') . "</th>\n";
         echo "            </tr>\n";
 
-        $i = 1;
         foreach ($properties as $propname => $val) {
             $proplink = "";
             $description = preg_replace('/ *\n */', "\n", $val['value']);
@@ -27,12 +26,9 @@ if (count($data['mgdschemas']) > 0) {
                 $description .= "\n\n**This property links to {$classname}:{$val['link_target']}**";
             }
 
-            $mod = ($i % 2 == 0) ? " even":" odd";
-            $i++;
-
             echo "            <tr>\n";
-            echo "                <td class='property{$mod}'><span class='mgdtype'>{$val['midgard_type']}</span> {$propname}<br/>{$proplink}</td>\n";
-            echo "                <td class='{$mod}'>" . MarkdownExtra::defaultTransform($description) . "</td>\n";
+            echo "                <td class='property'><span class='mgdtype'>{$val['midgard_type']}</span> {$propname}<br/>{$proplink}</td>\n";
+            echo "                <td>" . MarkdownExtra::defaultTransform($description) . "</td>\n";
             echo "            </tr>\n";
         }
         echo "        </tbody>\n";

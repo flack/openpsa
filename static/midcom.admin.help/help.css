@@ -67,11 +67,11 @@ dd th
     background: #ddd;
     padding: 3px;
 }
-dd td.even
+dd tr:nth-child(odd) td
 {
     background: #dee;
 }
-dd td.odd
+dd tr:nth-child(even) td
 {
     background: #eed;
 }
