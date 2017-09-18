@@ -24,7 +24,7 @@ class codemirror extends TextareaType
     /**
      * Widget version
      */
-    public $version = '5.7.0';
+    public $version = '5.29.0';
 
     /**
      * {@inheritdoc}
