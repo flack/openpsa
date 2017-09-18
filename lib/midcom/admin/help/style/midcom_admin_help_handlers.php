@@ -11,22 +11,22 @@ if (count($data['request_switch_info']) > 0) {
         echo "    <table>\n";
         echo "        <tbody>\n";
         echo "            <tr>\n";
-        echo "                <td class='property odd'>" . $data['l10n']->get('handler_id') . "</th>\n";
-        echo "                <td class='even'>{$request_id}</td>\n";
+        echo "                <td class='property'>" . $data['l10n']->get('handler_id') . "</th>\n";
+        echo "                <td>{$request_id}</td>\n";
         echo "            </tr>\n";
 
         if (isset($request_info['controller'])) {
             // TODO: Link to class documentation
             echo "            <tr>\n";
-            echo "                <td class='property odd'>" . $data['l10n']->get('controller') . "</th>\n";
-            echo "                <td class='even'>{$request_info['controller']}</td>\n";
+            echo "                <td class='property'>" . $data['l10n']->get('controller') . "</th>\n";
+            echo "                <td>{$request_info['controller']}</td>\n";
             echo "            </tr>\n";
         }
 
         if (isset($request_info['action'])) {
             echo "            <tr>\n";
-            echo "                <td class='property odd'>" . $data['l10n']->get('action') . "</th>\n";
-            echo "                <td class='even'>{$request_info['action']}</td>\n";
+            echo "                <td class='property'>" . $data['l10n']->get('action') . "</th>\n";
+            echo "                <td>{$request_info['action']}</td>\n";
             echo "            </tr>\n";
         }
         echo "        </tbody>\n";
