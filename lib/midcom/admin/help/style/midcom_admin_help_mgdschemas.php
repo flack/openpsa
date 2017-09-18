@@ -38,66 +38,6 @@ if (count($data['mgdschemas']) > 0) {
         echo "        </tbody>\n";
         echo "    </table>\n";
         echo "</dd>\n";
-
-        // Reflect the methods too
-        $reflectionclass = new ReflectionClass($schema);
-        if ($reflectionmethods = $reflectionclass->getMethods()) {
-            echo "<dd>\n";
-            echo "    <table>\n";
-            echo "        <tbody>\n";
-            echo "            <tr>\n";
-            echo "                <th class='property'>" . $data['l10n']->get('signature') . "</th>\n";
-            echo "                <th>" . $data['l10n']->get('description') . "</th>\n";
-            echo "            </tr>\n";
-
-            foreach ($reflectionmethods as $reflectionmethod) {
-                // Generate method signature
-                $signature  = '';
-                $signature .= '<span class="method_modifiers">' . implode(' ', Reflection::getModifierNames($reflectionmethod->getModifiers())) . '</span> ';
-                if ($reflectionmethod->returnsReference()) {
-                    $signature .= ' & ';
-                }
-
-                $signature .= '<span class="method_name">' . $reflectionmethod->getName() . '</span>';
-
-                $signature .= '(';
-                $parametersdata = [];
-                $parameters = $reflectionmethod->getParameters();
-                foreach ($parameters as $reflectionparameter) {
-                    $parametersignature = '';
-
-                    if ($reflectionparameter->isPassedByReference()) {
-                        $parametersignature .= ' &';
-                    }
-
-                    $parametersignature .= '$' . str_replace(' ', '_', $reflectionparameter->getName());
-
-                    if ($reflectionparameter->isDefaultValueAvailable()) {
-                        $default = $reflectionparameter->getDefaultValue();
-                        if (is_array($default)) {
-                            $default = 'array(' . implode(', ', $default) . ')';
-                        }
-                        $parametersignature .= ' = ' . $default;
-                    }
-
-                    if ($reflectionparameter->isOptional()) {
-                        $parametersignature = "[{$parametersignature}]";
-                    }
-
-                    $parametersdata[] = $parametersignature;
-                }
-                $signature .= implode(', ', $parametersdata) . ')';
-
-                echo "            <tr>\n";
-                echo "                <td>{$signature}</td>\n";
-                echo "                <td>" . $reflectionmethod->getDocComment() . "</td>\n";
-                echo "            </tr>\n";
-            }
-
-            echo "        </tbody>\n";
-            echo "    </table>\n";
-            echo "</dd>\n";
-        }
     }
     echo "</dl>\n";
 } else {
