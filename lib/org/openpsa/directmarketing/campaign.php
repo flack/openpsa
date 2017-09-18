@@ -77,15 +77,11 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
      */
     private function _unserialize_rules()
     {
-        $unserRet = @unserialize($this->rulesSerialized);
+        $unserRet = @json_decode($this->rulesSerialized, true);
         if ($unserRet === false) {
-            //Unserialize failed (probably newline/encoding issue), try to fix the serialized string and unserialize again
-            $unserRet = @unserialize(midcom_helper_misc::fix_serialization($this->rulesSerialized));
-            if ($unserRet === false) {
-                debug_add('Failed to unserialize rulesSerialized', MIDCOM_LOG_WARN);
-                $this->rules = [];
-                return;
-            }
+            debug_add('Failed to unserialize rulesSerialized', MIDCOM_LOG_WARN);
+            $this->rules = [];
+            return;
         }
         $this->rules = $unserRet;
     }
@@ -95,7 +91,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
      */
     private function _serialize_rules()
     {
-        $this->rulesSerialized = serialize($this->rules);
+        $this->rulesSerialized = json_encode($this->rules);
     }
 
     /**

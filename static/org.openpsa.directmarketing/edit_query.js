@@ -401,12 +401,11 @@ function init(selector, rules)
 function get_rules_array(parent_id)
 {
     var type = $("#" + parent_id + "_select").val(),
-    ruleset = "Array \n ( \n";
-    ruleset += "'type' => '" + type + "',\n 'classes' => Array \n ( \n";
-
-    ruleset += get_rules_groups(parent_id, 0);
-    ruleset += "\n ), ) \n";
-    $("#midcom_helper_datamanager2_dummy_field_rules").val(ruleset);
+        ruleset = {
+            type: type,
+            classes: get_rules_groups(parent_id, 0)
+        };
+    $("#midcom_helper_datamanager2_dummy_field_rules").val(JSON.stringify(ruleset));
 
     return true;
 }
@@ -415,29 +414,26 @@ function get_rules_array(parent_id)
  * function to gather rules for group
  *   parent_id - id to check for childs
  */
-function get_rules_groups(parent_id, group_start)
+function get_rules_groups(parent_id)
 {
-    var i_group = group_start,
-    array_key, ruleset = '',
-    index, type,
-    i_rule,
-    object,
-    property,
-    domain, name, match, value;
+    var array_key, ruleset = [],
+        index, type,
+        object,
+        property,
+        domain, name, match, value;
 
     for (array_key in groups[parent_id].child_groups) {
         index = groups[parent_id].child_groups[array_key];
         type = $("#" + index + "_select").val();
 
         if (type !== undefined) {
-            ruleset += i_group + " => Array \n ( \n";
-            i_group = i_group  + 1;
-            ruleset += "'type' => '" + type + "',\n 'groups' => '" + type + "',\n 'classes' => Array \n ( \n";
-            ruleset += get_rules_groups(index, i_group + 1);
-            ruleset += "\n ), \n ), \n";
+            ruleset.push({
+                type: type,
+                groups: type,
+                classes: get_rules_groups(index)
+            });
         }
     }
-    i_rule = i_group + 1;
 
     for (array_key in groups[parent_id].child_rules) {
         index = groups[parent_id].child_rules[array_key];
@@ -456,28 +452,30 @@ function get_rules_groups(parent_id, group_start)
                 domain  = $("#" + index + "_parameter_domain").val();
                 name = $("#" + index + "_parameter_name").val();
 
-                ruleset += i_rule + " => Array \n ( \n 'type' => 'AND', \n";
-                ruleset += "'class' => '" + org_openpsa_directmarketing_class_map[object] + "',\n";
-                ruleset += "'rules' => Array \n ( \n";
-                ruleset += " 0 => " + generate_rule('domain', '=', domain);
-                ruleset += " 1 => " + generate_rule('name', '=', name);
-                ruleset += " 2 => " + generate_rule('value', match, value);
-                ruleset += "\n )";
-                ruleset += "\n ), \n";
+                ruleset.push({
+                    type: 'AND',
+                    'class': org_openpsa_directmarketing_class_map[object],
+                    rules: [
+                        generate_rule('domain', '=', domain),
+                        generate_rule('name', '=', name),
+                        generate_rule('value', match, value)
+                    ]
+                });
             } else {
                 property  = $("#" + index + "_property").val();
 
                 //only write if property is chosen
                 if (   property !== ""
                     && match !== "") {
-                    ruleset += i_rule + " => Array \n ( \n 'type' => 'AND', \n";
-                    ruleset += "'class' => '" + org_openpsa_directmarketing_class_map[object] + "',\n";
-                    ruleset += "'rules' => Array \n ( \n 0 => ";
-                    ruleset += generate_rule(property, match, value);
-                    ruleset += ")\n ), \n";
+                    ruleset.push({
+                        type: 'AND',
+                        'class': org_openpsa_directmarketing_class_map[object],
+                        rules: [
+                            generate_rule(property, match, value)
+                        ]
+                    });
                 }
             }
-            i_rule++;
         }
     }
     return ruleset;
@@ -485,11 +483,11 @@ function get_rules_groups(parent_id, group_start)
 
 function generate_rule(property, match, value)
 {
-    var rule = "Array \n ( \n";
-    rule += "'property' => '" + property + "',\n";
-    rule += "'match' => '" + match + "',\n";
-    rule += "'value' => '" + value + "',\n ), \n";
-    return rule;
+    return {
+        property: property,
+        match: match,
+        value: value
+    };
 }
 
 /**

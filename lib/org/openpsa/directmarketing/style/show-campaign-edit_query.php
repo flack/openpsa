@@ -61,7 +61,7 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title u
     <form name="org_openpsa_directmarketing_rules_editor" id="org_openpsa_directmarketing_rules_editor" enctype="multipart/form-data" method="post" action="" onsubmit="return get_rules_array(zero_group_id);" class="datamanager2 org_openpsa_directmarketing_edit_query">
 
 <textarea class="longtext" cols="50" rows="25" name="midcom_helper_datamanager2_dummy_field_rules" id="midcom_helper_datamanager2_dummy_field_rules"><?php
-        var_export($data['campaign']->rules);
+        echo $data['campaign']->rulesSerialized;
 ?></textarea>
 
     <div id="dirmar_rules_editor_container">
@@ -74,7 +74,7 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title u
         <script type="text/javascript">
         jQuery(document).ready(function()
         {
-            init("dirmar_rules_editor_container", <?php echo json_encode($current_rules);?>);
+            init("dirmar_rules_editor_container", <?php echo $data['campaign']->rulesSerialized; ?>);
         });
         </script>
     </form>

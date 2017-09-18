@@ -17,7 +17,7 @@ implements org_openpsa_widgets_grid_provider_client
     /**
      * The campaign to operate on
      *
-     * @var org_openpsa_directmarketing_campaign
+     * @var org_openpsa_directmarketing_campaign_dba
      */
     private $_campaign;
 
