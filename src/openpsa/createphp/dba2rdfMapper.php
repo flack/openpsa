@@ -152,7 +152,7 @@ class dba2rdfMapper extends AbstractRdfMapper
         } else {
             $fieldname = $config['dba_name'];
         }
-        if (!midcom::get()->dbfactory->property_exists($object, $fieldname)) {
+        if (!midcom_helper_reflector::get($object)->property_exists($fieldname)) {
             throw new midcom_error('Could not find property mapping for ' . $fieldname);
         }
         return $fieldname;
