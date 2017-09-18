@@ -39,20 +39,10 @@ if (count($data['items']) == 0) {
 
         if (!$item->get_local_guid()) {
             echo "    <td>" . $data['l10n']->get('not in local database') . "</td>\n";
-        } else {
-            switch (midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT)) {
-                case 'net.nehmer.blog':
-                    $local_article = new midcom_db_article($item->get_local_guid());
-                    $local_link = midcom::get()->permalinks->create_permalink($item->get_local_guid());
-                    echo "    <td><a href=\"{$local_link}\">{$local_article->title}</a></td>\n";
-                    break;
-
-                case 'net.nemein.calendar':
-                    $local_event = new net_nemein_calendar_event($item->get_local_guid());
-                    $local_link = midcom::get()->permalinks->create_permalink($item->get_local_guid());
-                    echo "    <td><a href=\"{$local_link}\">{$local_event->title}</a></td>\n";
-                    break;
-            }
+        } elseif (midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT) === 'net.nehmer.blog') {
+            $local_article = new midcom_db_article($item->get_local_guid());
+            $local_link = midcom::get()->permalinks->create_permalink($item->get_local_guid());
+            echo "    <td><a href=\"{$local_link}\">{$local_article->title}</a></td>\n";
         }
 
         echo "</tr>\n";
