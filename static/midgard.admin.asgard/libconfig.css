@@ -8,7 +8,8 @@ table.midcom_admin_libconfig
   border-right: solid 1px #555;
 }
 
-table.midcom_admin_libconfig tr td
+table.midcom_admin_libconfig tbody tr td,
+table.midcom_admin_libconfig tbody tr th
 {
     padding: 4px;
     text-align: left;
@@ -17,18 +18,18 @@ table.midcom_admin_libconfig tr td
     border-radius: 3px;
 }
 
-table.midcom_admin_libconfig tr.odd td
+table.midcom_admin_libconfig tbody tr th
 {
      background: #cccccc;
      border: solid 1px #555;
 }
 
-table.midcom_admin_libconfig tr.even td
+table.midcom_admin_libconfig tbody tr td
 {
      background: #d3d7cf;
 }
 
-table.midcom_admin_libconfig tr.header th
+table.midcom_admin_libconfig thead th
 {
   background-color: #dddddf;
   border-bottom: solid 1px #555;
@@ -96,4 +97,3 @@ div.global
     padding: 4px;
     color: red;
 }
-
