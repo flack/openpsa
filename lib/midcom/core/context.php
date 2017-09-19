@@ -79,9 +79,9 @@ class midcom_core_context
      * Create and prepare a new component context.
      *
      * @param int $id Explicitly specify the ID for context creation (used during construction), this parameter is usually omitted.
-     * @param MidgardObject $node Root node of the context
+     * @param midcom_db_topic $node Root node of the context
      */
-    public function __construct($id = null, $node = null)
+    public function __construct($id = null, midcom_db_topic $node = null)
     {
         if (isset($_SERVER['REQUEST_URI'])) {
             $this->_data[MIDCOM_CONTEXT_URI] = $_SERVER['REQUEST_URI'];
