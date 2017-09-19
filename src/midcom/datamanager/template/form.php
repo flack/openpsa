@@ -42,7 +42,7 @@ class form extends base
     {
         $string = '';
         foreach ($view as $child) {
-            if ($child->vars['hidden']) {
+            if (!empty($child->vars['hidden'])) {
                 $child->setRendered();
                 continue;
             }
