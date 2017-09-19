@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\portable\api\error\exception as mgd_exception;
+
 /**
  * System user, basically encapsulates a MidgardPerson. It does not provide a way to
  * manipulate accounts, instead, this is an abstraction used in the ACL system.
@@ -180,7 +182,7 @@ class midcom_core_user
             }
             try {
                 $this->_storage = new $person_class($id);
-            } catch (midgard_error_exception $e) {
+            } catch (mgd_exception $e) {
                 debug_add("Failed to retrieve the person ID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
                 throw new midcom_error_midgard($e, $id);
             }
@@ -228,7 +230,7 @@ class midcom_core_user
         if (mgd_is_guid($id)) {
             try {
                 return new $person_class($id);
-            } catch (midgard_error_exception $e) {
+            } catch (mgd_exception $e) {
                 debug_add("Failed to retrieve the person GUID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
                 throw new midcom_error_midgard($e, $id);
             }

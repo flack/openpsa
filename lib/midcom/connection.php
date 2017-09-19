@@ -7,6 +7,7 @@
  */
 
 use midgard\portable\storage\connection;
+use midgard\portable\api\error\exception as mgd_exception;
 
 /**
  * Wrapper for Midgard-related functionality
@@ -131,7 +132,7 @@ class midcom_connection
 
         try {
             $user = new midgard_user($login_tokens);
-        } catch (midgard_error_exception $e) {
+        } catch (mgd_exception $e) {
             return false;
         }
         if (!$trusted && !self::verify_password($password, $user->password)) {

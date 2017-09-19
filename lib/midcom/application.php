@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\portable\api\blob;
+
 /**
  * Main controlling instance of the MidCOM Framework
  *
@@ -336,7 +338,7 @@ class midcom_application
 
         $send_att_body = true;
         if ($this->config->get('attachment_xsendfile_enable')) {
-            $blob = new midgard_blob($attachment->__object);
+            $blob = new blob($attachment->__object);
             $att_local_path = $blob->get_path();
             debug_add("Checking is_readable({$att_local_path})");
             if (is_readable($att_local_path)) {

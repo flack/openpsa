@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\portable\api\error\exception as mgd_exception;
+
 /**
  * midcom_exception_handler
  *
@@ -421,7 +423,7 @@ class midcom_error_forbidden extends midcom_error
  */
 class midcom_error_midgard extends midcom_error
 {
-    public function __construct(midgard_error_exception $e, $id = null)
+    public function __construct(mgd_exception $e, $id = null)
     {
         //catch last error which might be from dbaobject
         $last_error = midcom_connection::get_error();

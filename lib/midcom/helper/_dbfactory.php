@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\portable\api\error\exception as mgd_exception;
+
 /**
  * This class contains various factory methods to retrieve objects from the database.
  * The only instance of this class you should ever use is available through
@@ -42,7 +44,7 @@ class midcom_helper__dbfactory
     {
         try {
             $tmp = midgard_object_class::get_object_by_guid($guid);
-        } catch (midgard_error_exception $e) {
+        } catch (mgd_exception $e) {
             debug_add('Loading object by GUID ' . $guid . ' failed, reason: ' . $e->getMessage(), MIDCOM_LOG_INFO);
 
             throw new midcom_error_midgard($e, $guid);

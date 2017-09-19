@@ -7,6 +7,7 @@
  */
 
 use midcom\events\dbaevent;
+use midgard\portable\api\error\exception as mgd_exception;
 
 /**
  * MidCOM DBA baseclass for MgdSchema object decorators.
@@ -92,7 +93,7 @@ abstract class midcom_core_dbaobject
             try {
                 $mgdschemaclass = $this->__mgdschema_class_name__;
                 $this->__object = new $mgdschemaclass($id);
-            } catch (midgard_error_exception $e) {
+            } catch (mgd_exception $e) {
                 debug_add('Constructing ' . $this->__mgdschema_class_name__ . ' object ' . $id . ' failed, reason: ' . $e->getMessage(), MIDCOM_LOG_WARN);
                 throw new midcom_error_midgard($e, $id);
             }
