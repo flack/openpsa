@@ -522,25 +522,22 @@ class midcom_helper__styleloader
     }
 
     /**
-     * Gets the component styledir associated with the topics
-     * component.
+     * Gets the component styledir associated with the topic's component.
      *
-     * @param MidgardTopic $topic the current component topic.
-     * @return mixed the path to the components style directory.
+     * @return mixed the path to the component's style directory.
      */
-    private function _get_component_snippetdir($topic)
+    private function _get_component_snippetdir()
     {
         // get component's snippetdir (for default styles)
         $loader = midcom::get()->componentloader;
-        if (   !$topic
-            || !$topic->guid) {
+        if (empty($this->_topic->guid)) {
             return null;
         }
-        if (!empty($loader->manifests[$topic->component]->extends)) {
-            $this->append_component_styledir($loader->manifests[$topic->component]->extends);
+        if (!empty($loader->manifests[$this->_topic->component]->extends)) {
+            $this->append_component_styledir($loader->manifests[$this->_topic->component]->extends);
         }
 
-        return $loader->path_to_snippetpath($topic->component) . "/style";
+        return $loader->path_to_snippetpath($this->_topic->component) . "/style";
     }
 
     /**
@@ -692,7 +689,7 @@ class midcom_helper__styleloader
             array_unshift($this->_scope, $_st);
         }
 
-        $this->_snippetdir = $this->_get_component_snippetdir($this->_topic);
+        $this->_snippetdir = $this->_get_component_snippetdir();
 
         $this->_merge_styledirs($this->_snippetdir);
         return true;
@@ -716,7 +713,7 @@ class midcom_helper__styleloader
         $previous_context = (empty($this->_context)) ? 0 : $this->_context[0];
         $this->_topic = midcom_core_context::get($previous_context)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
-        $this->_snippetdir = $this->_get_component_snippetdir($this->_topic);
+        $this->_snippetdir = $this->_get_component_snippetdir();
         return true;
     }
 
