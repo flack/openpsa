@@ -18,7 +18,7 @@ class org_openpsa_user_handler_person_view extends midcom_baseclasses_components
     /**
      * The person we're working on
      *
-     * @var midcom_db_person
+     * @var org_openpsa_contacts_person_dba
      */
     private $_person;
 
