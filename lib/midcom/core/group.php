@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * MidCOM group implementation supporting Midgard Groups.
  *
@@ -131,19 +133,15 @@ class midcom_core_group
             return $return;
         }
 
-        $qb = new midgard_query_builder('midgard_member');
-        $qb->add_constraint('gid', '=', $this->_storage->id);
-        $result = $qb->execute();
+        $qb = new midgard_query_builder(midcom::get()->config->get('person_class'));
+        $qb->get_doctrine()
+            ->leftJoin('midgard_member', 'm', Join::WITH, 'm.uid = c.id')
+            ->where('m.gid = :id')
+            ->setParameter('id', $this->_storage->id);
 
-        foreach ($result as $member) {
-            try {
-                $user = new midcom_core_user($member->uid);
-                $return[$user->id] = $user;
-            } catch (midcom_error $e) {
-                debug_add("The membership record {$member->id} is invalid, the user {$member->uid} failed to load.", MIDCOM_LOG_ERROR);
-                debug_add('Last Midgard error was: ' . $e->getMessage());
-                debug_print_r('Membership record was:', $member);
-            }
+        foreach ($qb->execute() as $person) {
+            $user = new midcom_core_user($person);
+            $return[$user->id] = $user;
         }
 
         return $return;
@@ -152,28 +150,21 @@ class midcom_core_group
     /**
      * Return a list of all groups in which the MidCOM user passed is a member.
      *
-     * @param midcom_core_user $user The user that should be looked-up.
+     * @param midcom_core_user $user The user that should be looked up.
      * @return midcom_core_group[] Member groups, indexed by their ID.
      */
-    public static function list_memberships($user)
+    public static function list_memberships(midcom_core_user $user)
     {
-        $mc = new midgard_collector('midgard_member', 'uid.guid', $user->guid);
-        $mc->set_key_property('gid');
-        $mc->execute();
-        $result = $mc->list_keys();
-        if (empty($result)) {
-            return [];
-        }
+        $qb = new midgard_query_builder('midgard_group');
+        $qb->get_doctrine()
+            ->leftJoin('midgard_member', 'm', Join::WITH, 'm.gid = c.id')
+            ->leftJoin('midgard_person', 'p', Join::WITH, 'm.uid = p.id')
+            ->where('p.guid = :guid')
+            ->setParameter('guid', $user->guid);
 
         $return = [];
-        foreach (array_keys($result) as $gid) {
-            try {
-                $group = new midcom_core_group($gid);
-                $return[$group->id] = $group;
-            } catch (midcom_error $e) {
-                debug_add("The group {$gid} is unknown, skipping the membership record.", MIDCOM_LOG_ERROR);
-                debug_add('Last Midgard error was: ' . midcom_connection::get_error_string());
-            }
+        foreach ($qb->execute() as $group) {
+            $return['group:' . $group->guid] = new static($group);
         }
 
         return $return;
