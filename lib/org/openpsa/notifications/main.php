@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * Class for notifying users of different events. Usage is reasonably straightforward:
@@ -107,23 +108,21 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         }
 
         // Seek possible preferences for this action from user's groups
-        $member_mc = midcom_db_member::new_collector('uid', $recipient->id);
-        if ($gids = $member_mc->get_values('gid')) {
-            $qb = new midgard_query_builder('midgard_parameter');
-            $qb->add_constraint('domain', '=', 'org.openpsa.notifications');
-            $qb->add_constraint('name', '=', "{$component}:{$action}");
+        $qb = new midgard_query_builder('midgard_parameter');
+        $qb->get_doctrine()
+            ->leftJoin('midgard_group', 'g', Join::WITH, 'g.guid = c.parentguid')
+            ->leftJoin('midgard_member', 'm', Join::WITH, 'm.gid = g.id')
+            ->where('m.uid = :uid')
+            ->setParameter('uid', $recipient->id);
 
-            $group_mc = midcom_db_group::new_collector();
-            $group_mc->add_constraint('id', 'IN', $gids);
-            $group_guids = $group_mc->list_keys();
+        $qb->add_constraint('domain', '=', 'org.openpsa.notifications');
+        $qb->add_constraint('name', '=', "{$component}:{$action}");
+        $group_preferences = $qb->execute();
 
-            $qb->add_constraint('parentguid', 'IN', array_keys($group_guids));
-            $group_preferences = $qb->execute();
-
-            if (count($group_preferences) > 0) {
-                return $group_preferences[0]->value;
-            }
+        if (count($group_preferences) > 0) {
+            return $group_preferences[0]->value;
         }
+
         // Fall back to component defaults
         $customdata = midcom::get()->componentloader->get_all_manifest_customdata('org.openpsa.notifications');
         if (!empty($customdata[$component][$action]['default'])) {

@@ -62,7 +62,6 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
             $mc->add_constraint('status', '=', $this->status);
         }
         $mc->set_limit(1);
-        $mc->execute();
         $ret = $mc->list_keys();
         if (!empty($ret)) {
             return key($ret);

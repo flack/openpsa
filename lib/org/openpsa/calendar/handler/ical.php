@@ -7,6 +7,7 @@
  */
 
 use Sabre\VObject\Reader;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * Calendar ical handler
@@ -30,13 +31,15 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     {
         $root_event = org_openpsa_calendar_interface::find_root_event();
 
-        $mc = org_openpsa_calendar_event_member_dba::new_collector('uid', $this->_request_data['person']->id);
-        $mc->add_constraint('eid.up', '=', $root_event->id);
-        // Display events two weeks back
-        $mc->add_constraint('eid.start', '>', mktime(0, 0, 0, date('n'), date('j') - 14, date('Y')));
-
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
-        $qb->add_constraint('id', 'IN', $mc->get_values('eid'));
+        $qb->get_doctrine()
+            ->leftJoin('org_openpsa_eventmember', 'm', Join::WITH, 'm.eid = c.id')
+            ->where('m.uid = :uid')
+            ->setParameter('uid', $this->_request_data['person']->id);
+
+        $qb->add_constraint('up', '=', $root_event->id);
+        // Display events two weeks back
+        $qb->add_constraint('start', '>', mktime(0, 0, 0, date('n'), date('j') - 14, date('Y')));
         $qb->add_order('start', 'ASC');
         $this->_request_data['events'] = $qb->execute();
     }

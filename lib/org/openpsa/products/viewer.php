@@ -99,10 +99,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             $mc->add_constraint('name', '=', $argv[0]);
             $mc->execute();
             $keys = $mc->list_keys();
-            if (count($keys) > 0) {
-                // the values are dummy...
-                return false;
-            }
+            return count($keys) == 0;
         }
 
         return true;

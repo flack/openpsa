@@ -76,7 +76,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
     /**
      * Set request data for hour reports
      *
-     * @param $array The array returned by collector
+     * @param array $array The array returned by collector
      */
     private function _add_hour_data(array $array)
     {
