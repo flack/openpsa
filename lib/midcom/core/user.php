@@ -581,7 +581,7 @@ class midcom_core_user
     public function delete()
     {
         $person = $this->get_storage();
-        $account = new midom_core_account($person);
+        $account = new midcom_core_account($person);
 
         if (!$account->delete()) {
             debug_add('Failed to delete the account, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
