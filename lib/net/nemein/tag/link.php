@@ -73,83 +73,9 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         return $this->_sanity_check();
     }
 
-    public function _on_created()
-    {
-        if ($this->context == 'geo') {
-            $this->_geotag();
-        }
-    }
-
     public function _on_updating()
     {
         return $this->_sanity_check();
-    }
-
-    public function _on_updated()
-    {
-        if ($this->context == 'geo') {
-            $this->_geotag();
-        }
-    }
-
-    /**
-     * Handle storing Flickr-style geo tags to org.routamc.positioning
-     * storage should be to org_routamc_positioning_location_dba object
-     * with relation org_routamc_positioning_location_dba::RELATION_IN
-     *
-     * @return boolean
-     */
-    private function _geotag()
-    {
-        if (!midcom::get()->componentloader->is_installed('org.routamc.positioning')) {
-            return false;
-        }
-
-        // Get all "geo" tags of the object
-        $object = midcom::get()->dbfactory->get_object_by_guid($this->fromGuid);
-        $geotags = net_nemein_tag_handler::get_object_machine_tags_in_context($object, 'geo');
-
-        $position = [
-            'longitude' => null,
-            'latitude'  => null,
-            'altitude'  => null,
-        ];
-
-        foreach ($geotags as $key => $value) {
-            switch ($key) {
-                case 'lon':
-                case 'lng':
-                case 'long':
-                    $position['longitude'] = $value;
-                    break;
-
-                case 'lat':
-                    $position['latitude'] = $value;
-                    break;
-
-                case 'alt':
-                    $position['altitude'] = $value;
-                    break;
-            }
-        }
-
-        if (   is_null($position['longitude'])
-            || is_null($position['latitude'])) {
-            // Not enough information for positioning, we need both lon and lat
-            return false;
-        }
-
-        $object_location = new org_routamc_positioning_location_dba();
-        $object_location->relation = org_routamc_positioning_location_dba::RELATION_IN;
-        $object_location->parent = $this->fromGuid;
-        $object_location->parentclass = $this->fromClass;
-        $object_location->parentcomponent = $this->fromComponent;
-        $object_location->date = $this->metadata->published;
-        $object_location->longitude = $position['longitude'];
-        $object_location->latitude = $position['latitude'];
-        $object_location->altitude = $position['altitude'];
-
-        return $object_location->create();
     }
 
     /**
