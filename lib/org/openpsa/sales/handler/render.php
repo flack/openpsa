@@ -31,7 +31,7 @@ class org_openpsa_sales_handler_render extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler._config
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return PDF Document
+     * @return midcom_response
      */
     public function _handler_create_pdf($handler_id, array $args, array &$data)
     {

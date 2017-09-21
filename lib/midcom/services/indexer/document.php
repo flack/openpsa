@@ -242,7 +242,7 @@ class midcom_services_indexer_document
      * using the $this->_set_type call <i>after</i> initializing the base class.
      *
      * @see is_a()
-     * @see _set_type
+     * @see _set_type()
      * @var string
      */
     public $type = '';
@@ -637,7 +637,7 @@ class midcom_services_indexer_document
      * Heuristics to determine how to convert given timestamp to local unixtime
      *
      * @param string $stamp ISO or unix datetime
-     * @return unixtime
+     * @return int unixtime
      */
     private function read_unixtime($stamp)
     {

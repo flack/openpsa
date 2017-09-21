@@ -111,11 +111,11 @@ class org_openpsa_projects_projectbroker
      * Does the person in question have slots of time available, what
      * are the previous and next events etc
      *
-     * @param $person person object (alternatively ID, full person will then be loaded from DB)
-     * @param $task the task object to search for
+     * @param org_openpsa_contacts_person_dba $person person object (alternatively ID, full person will then be loaded from DB)
+     * @param org_openpsa_projects_task_dba $task the task object to search for
      * @return array of slots
      */
-    public function resolve_person_timeslots($person, $task)
+    public function resolve_person_timeslots(org_openpsa_contacts_person_dba $person, org_openpsa_projects_task_dba $task)
     {
         $minimum_time_slot = $task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');
         if (empty($minimum_time_slot)) {

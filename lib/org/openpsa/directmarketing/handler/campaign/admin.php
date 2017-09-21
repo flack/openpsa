@@ -18,7 +18,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     /**
      * The campaign to operate on
      *
-     * @var org_openpsa_directmarketing_campaign
+     * @var org_openpsa_directmarketing_campaign_dba
      */
     private $_campaign;
 
