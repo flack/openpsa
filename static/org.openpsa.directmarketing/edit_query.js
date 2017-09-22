@@ -340,7 +340,7 @@ function group(parent, number)
         delete groups[String(this.id)];
     };
 
-    this.child_groups = [];
+    this.child_groups = {};
     this.child_rules = [];
 }
 
@@ -503,70 +503,70 @@ function get_child_rules(parent, rules_array)
     parameters, group_id;
 
     $.each(rules_array, function (key, value) {
-        if (value['class'] !== undefined) {
+        //old-parameter-case
+        if (value.groups && value.rules) {
             //if class is not supported -> error-msg
             if (org_openpsa_directmarketing_class_map[value['class']] === undefined) {
                 throw 'unsupported class';
             }
-            //old-parameter-case
-            if (value.groups && value.rules) {
-                map_class = org_openpsa_directmarketing_class_map[value['class']];
-                rule_domain = value.groups[0].rules[0].property;
-                rule_parameter_name = value.groups[0].rules[1].property;
-                rule_match = value.groups[0].rules[2].match;
-                rule_value = value.groups[0].rules[2].value;
-                rule_id = groups[parent].add_rule(map_class);
-                if (rule_value.substr(0, 1) === '%')
-                {
+            map_class = org_openpsa_directmarketing_class_map[value['class']];
+            rule_domain = value.groups[0].rules[0].property;
+            rule_parameter_name = value.groups[0].rules[1].property;
+            rule_match = value.groups[0].rules[2].match;
+            rule_value = value.groups[0].rules[2].value;
+            rule_id = groups[parent].add_rule(map_class);
+            if (rule_value.substr(0, 1) === '%') {
+                rule_value = rule_value.substr(1);
+            }
+            if (rule_value.substr(rule_value.length - 1, 1) === '%') {
+                rule_value = rule_value.substr(0, rule_value.length -1);
+            }
+            rules[rule_id].render_parameters_div(rule_domain, rule_parameter_name, rule_match, rule_value);
+        } else if (value.groups) {
+            //normal group-case
+            group_id = groups[parent].add_group(value.type);
+            get_child_rules(group_id, value.classes);
+        } else if (value.rules) {
+            //normal rule-case
+            if (org_openpsa_directmarketing_class_map[value['class']] === undefined) {
+                throw 'unsupported class';
+            }
+
+            map_class = org_openpsa_directmarketing_class_map[value['class']];
+            rule_match = value.rules[0].match;
+            rule_value = value.rules[0].value;
+            rule_property = value.rules[0].property;
+            rule_id = groups[parent].add_rule(map_class);
+            properties = false;
+            parameters = false;
+            $.each(org_openpsa_directmarketing_edit_query_property_map, function(key, value) {
+                if (key == map_class) {
+                    properties = value.properties;
+                    parameters = value.parameters;
+                }
+            });
+            if (properties) {
+                // get rid of the % in front & at the end of strings
+                if (rule_value.substr(0,1) === '%') {
                     rule_value = rule_value.substr(1);
                 }
-                if (rule_value.substr(rule_value.length - 1, 1) === '%')
-                {
-                    rule_value = rule_value.substr(0, rule_value.length -1);
+                if (rule_value.substr(rule_value.length - 1, 1) === '%') {
+                    rule_value = rule_value.substr(0, rule_value.length - 1);
+                }
+                rules[rule_id].render_properties_select(properties, rule_property);
+                rules[rule_id].render_match_selectinput(rule_match, rule_value);
+            } else if (parameters) {
+                rule_match = value.rules[2].match;
+                rule_value = value.rules[2].value;
+                rule_domain = value.rules[0].value;
+                rule_parameter_name = value.rules[1].value;
+                if (rule_value.substr(0,1) === '%') {
+                    rule_value = rule_value.substr(1);
+                }
+                if (rule_value.substr(rule_value.length - 1,1) === '%') {
+                    rule_value = rule_value.substr(0, rule_value.length - 1);
                 }
                 rules[rule_id].render_parameters_div(rule_domain, rule_parameter_name, rule_match, rule_value);
-            } else if (value.groups) {
-                //normal group-case
-                group_id = groups[parent].add_group(value.type);
-                get_child_rules(group_id, value.classes);
-            } else if (value.rules) {
-                //normal rule-case
-                map_class = org_openpsa_directmarketing_class_map[value['class']];
-                rule_match = value.rules[0].match;
-                rule_value = value.rules[0].value;
-                rule_property = value.rules[0].property;
-                rule_id = groups[parent].add_rule(map_class);
-                properties = false;
-                parameters = false;
-                $.each(org_openpsa_directmarketing_edit_query_property_map, function(key, value) {
-                    if (key == map_class) {
-                        properties = value.properties;
-                        parameters = value.parameters;
-                    }
-                });
-                if (properties) {
-                    // get rid of the % in front & at the end of strings
-                    if (rule_value.substr(0,1) === '%') {
-                        rule_value = rule_value.substr(1);
-                    }
-                    if (rule_value.substr(rule_value.length - 1, 1) === '%') {
-                        rule_value = rule_value.substr(0, rule_value.length - 1);
-                    }
-                    rules[rule_id].render_properties_select(properties, rule_property);
-                    rules[rule_id].render_match_selectinput(rule_match, rule_value);
-                } else if (parameters) {
-                    rule_match = value.rules[2].match;
-                    rule_value = value.rules[2].value;
-                    rule_domain = value.rules[0].value;
-                    rule_parameter_name = value.rules[1].value;
-                    if (rule_value.substr(0,1) === '%') {
-                        rule_value = rule_value.substr(1);
-                    }
-                    if (rule_value.substr(rule_value.length - 1,1) === '%') {
-                        rule_value = rule_value.substr(0, rule_value.length - 1);
-                    }
-                    rules[rule_id].render_parameters_div(rule_domain, rule_parameter_name, rule_match, rule_value);
-                }
             }
         }
     });
