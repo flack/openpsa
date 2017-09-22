@@ -9,7 +9,6 @@ use midcom;
 use midcom_connection;
 use midcom_error;
 use Symfony\Component\Form\Form;
-use midcom\datamanager\storage\container\dbacontainer;
 
 /**
  * Experimental controller class
