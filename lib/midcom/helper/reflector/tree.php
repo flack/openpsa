@@ -216,11 +216,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        if (!midcom::get()->dbclassloader->load_component_for_class($midcom_dba_classname)) {
-            debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         return call_user_func([$midcom_dba_classname, 'new_query_builder']);
     }
 

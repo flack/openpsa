@@ -232,26 +232,6 @@ class midcom_services_dbclassloader
     }
 
     /**
-     * Load a component associated with a class name to get its DBA classes defined
-     *
-     * @param string $classname Class name to load a component for
-     * @return boolean true if a component was found for the class, false otherwise
-     */
-    public function load_component_for_class($classname)
-    {
-        $component = $this->get_component_for_class($classname);
-        if (!$component) {
-            return false;
-        }
-
-        if (midcom::get()->componentloader->is_loaded($component)) {
-            return true;
-        }
-
-        return midcom::get()->componentloader->load_graceful($component);
-    }
-
-    /**
      * Get a MidCOM DB class name for a MgdSchema Object.
      *
      * @param string|object $object The object (or classname) to check
