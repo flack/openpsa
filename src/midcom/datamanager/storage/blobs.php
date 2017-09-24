@@ -175,7 +175,7 @@ class blobs extends delayed
 
     /**
      *
-     * @param midcom_db_attachment
+     * @param midcom_db_attachment $attachment
      * @param string $filename
      * @param string $title
      * @param string $mimetype
