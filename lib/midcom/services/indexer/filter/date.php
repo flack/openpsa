@@ -7,10 +7,7 @@
  */
 
 /**
- * This class provides an abstract base class for all indexer query filters.
- *
- * The date filter restricts the query to documents where the filtered field
- * falls within the given timespan (which can be open at any one end).
+ * This class provides a date query filter
  *
  * @package midcom.services
  * @see midcom_services_indexer
@@ -34,7 +31,7 @@ class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
     /**
      * Create a new date filter.
      *
-     * Only one of the filter bounds may be 0, indicating a no limit in that
+     * Only one of the filter bounds may be 0, indicating no limit in that
      * direction.
      *
      * @param string $field The name of the field that should be filtered.
@@ -46,31 +43,11 @@ class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
         parent::__construct($field);
 
         if ($start == 0 && $end == 0) {
-            throw new midcom_error('Both start and end of a datefilter must not be 0.');
+            throw new midcom_error('Either start or end must not be 0.');
         }
 
         $this->_start = $start;
         $this->_end = $end;
-    }
-
-    /**
-     * Returns the start of the filter range, may be 0.
-     *
-     * @return int Timestamp or 0 for no filter.
-     */
-    function get_start()
-    {
-        return $this->_start;
-    }
-
-    /**
-     * Returns the end of the filter range, may be 0.
-     *
-     * @return int Timestamp or 0 for no filter.
-     */
-    function get_end()
-    {
-        return $this->_end;
     }
 
     public function get_query_string()
