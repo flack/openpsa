@@ -203,11 +203,12 @@ class view extends base
         } elseif (array_key_exists('archival', $data['value'])) {
             $linkto = 'archival';
         }
+
         $img = $data['value'][$identifier];
-        $linked = $data['value'][$linkto];
         $return = '<div class="midcom_helper_datamanager2_type_photo">';
         $img_tag = "<img src='{$img['url']}' {$img['size_line']} class='photo {$identifier}' />";
         if ($linkto) {
+            $linked = $data['value'][$linkto];
             $return .= "<a href='{$linked['url']}' target='_blank' class='{$linkto} {$linked['mimetype']}'>{$img_tag}</a>";
         } else {
             $return .= $img_tag;
