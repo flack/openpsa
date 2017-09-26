@@ -149,14 +149,6 @@ class midcom_services_session
     }
 
     /**
-     * Compatibility wrapper with other PHP sessioning setups
-     */
-    function del($key)
-    {
-        return $this->remove($key);
-    }
-
-    /**
      * Get all the session data
      *
      * @return Array containing session data
