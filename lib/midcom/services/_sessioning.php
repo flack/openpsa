@@ -60,34 +60,35 @@ class midcom_services__sessioning
      */
     private $ns_separator = '/';
 
-    private function _initialize($unconditional_start = false)
+    private function _initialize($disable_cache = false)
     {
         static $initialized = false;
-        if ($initialized) {
-            return true;
+        static $no_cache = false;
+
+        if (!$initialized) {
+            if (   !midcom::get()->config->get('sessioning_service_enable')
+                && !(   midcom::get()->config->get('sessioning_service_always_enable_for_users')
+                     && midcom_connection::get_user())) {
+                return false;
+            }
+
+            $this->session = new Session(null, new NamespacedAttributeBag('midcom_session_data', $this->ns_separator));
+
+            try {
+                $this->session->start();
+            } catch (RuntimeException $e) {
+                debug_add($e->getMessage(), MIDCOM_LOG_ERROR);
+                return false;
+            }
+
+            $initialized = true;
         }
 
-        if (   !midcom::get()->config->get('sessioning_service_enable')
-            && !(   midcom::get()->config->get('sessioning_service_always_enable_for_users')
-                 && midcom_connection::get_user())) {
-            return false;
+        if (!$no_cache && $disable_cache) {
+            midcom::get()->cache->content->no_cache();
+            $no_cache = true;
         }
 
-        $this->session = new Session(null, new NamespacedAttributeBag('midcom_session_data', $this->ns_separator));
-        // Try to start session only if the client sends the id OR we need to set data
-        if (   !isset($_REQUEST[$this->session->getName()])
-            && !$unconditional_start) {
-            return false;
-        }
-
-        try {
-            $this->session->start();
-        } catch (RuntimeException $e) {
-            debug_add($e->getMessage(), MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $initialized = true;
         return true;
     }
 
@@ -102,7 +103,7 @@ class midcom_services__sessioning
      */
     public function exists($domain, $key)
     {
-        if (!$this->_initialize(true)) {
+        if (!$this->_initialize()) {
             return false;
         }
         return $this->session->has($domain . $this->ns_separator . $key);
@@ -119,18 +120,11 @@ class midcom_services__sessioning
      * @param string $domain    The domain in which to search for the key.
      * @param mixed $key        The key to query.
      * @return mixed            The session key's data value, or null on failure.
-     * @see midcom_services__sessioning::exists()
      */
     public function get($domain, $key)
     {
-        static $no_cache = false;
-        if (!$this->exists($domain, $key)) {
-            debug_add("Request for the key '{$key}' in the domain '{$domain}' failed, because the key doesn't exist.");
+        if (!$this->_initialize(true)) {
             return null;
-        }
-        if (!$no_cache) {
-            midcom::get()->cache->content->no_cache();
-            $no_cache = true;
         }
         return $this->session->get($domain . $this->ns_separator . $key);
     }
@@ -144,24 +138,17 @@ class midcom_services__sessioning
      * @param string $domain    The domain in which to search for the key.
      * @param mixed $key        The key to remove.
      * @return mixed            The session key's data value, or null on failure.
-     * @see midcom_services__sessioning::exists()
      */
     public function remove($domain, $key)
     {
-        if (!$this->exists($domain, $key)) {
-            return null;
+        if (!$this->_initialize()) {
+            return false;
         }
-        $data = $this->session->get($domain . $this->ns_separator . $key);
-        $this->session->remove($domain . $this->ns_separator . $key);
-        return $data;
+        return $this->session->remove($domain . $this->ns_separator . $key);
     }
 
     /**
      * This will store the value to the specified key.
-     *
-     * Note, that a _copy_ is stored,
-     * the actual object is not referenced in the session data. You will have to update
-     * it manually in case of changes.
      *
      * @param string $domain    The domain in which to search for the key.
      * @param mixed    $key        Session value identifier.
@@ -171,11 +158,6 @@ class midcom_services__sessioning
     {
         if (!$this->_initialize(true)) {
             return false;
-        }
-        static $no_cache = false;
-        if (!$no_cache) {
-            midcom::get()->cache->content->no_cache();
-            $no_cache = true;
         }
         $this->session->set($domain . $this->ns_separator . $key, $value);
     }
@@ -188,11 +170,10 @@ class midcom_services__sessioning
      */
     public function get_session_data($domain)
     {
-        if (!$this->session->exists($domain)) {
+        if (!$this->_initialize()) {
             return false;
         }
-
-        return $this->session->get($domain);
+        return $this->session->get($domain, false);
     }
 
     /**
@@ -202,7 +183,7 @@ class midcom_services__sessioning
      */
     public function get_session()
     {
-        $this->_initialize(true);
+        $this->_initialize();
         return $this->session;
     }
 }
