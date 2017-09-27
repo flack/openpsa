@@ -35,7 +35,6 @@
  * cached. See there for details.
  *
  * @see midcom_services_permalinks_resolver
- * @see midcom_baseclasses_components_interface::_on_resolve_permalink()
  * @package midcom.services
  */
 class midcom_services_permalinks
@@ -144,18 +143,9 @@ class midcom_services_permalinks
         }
         $interface = midcom::get()->componentloader->get_interface_class($component);
         if ($interface === null) {
-            debug_add("Failed to load the interface class for the component {$component} of the topic #{$topic->id}, cannot attempt to resolve the permalink here.",
+            debug_add("Failed to load the interface class for the component {$component} of the topic #{$topic->id}, cannot resolve the permalink here.",
                 MIDCOM_LOG_WARN);
             debug_print_r('Passed topic was:', $topic);
-            return null;
-        }
-
-        if ($interface instanceof midcom_services_permalinks_resolver) {
-            $result = $interface->resolve_object_link($topic, $object);
-        } else {
-            $result = $interface->_on_resolve_permalink($topic, $interface->get_config_for_topic($topic), $object->guid);
-        }
-        if ($result === null) {
             return null;
         }
 
@@ -163,9 +153,24 @@ class midcom_services_permalinks
         $node = $nav->get_node($topic->id);
 
         if (!$node) {
-            debug_add("Failed to load the NAP information of the topic #{$topic->id}, cannot attempt to resolve the permalink here.",
-                MIDCOM_LOG_WARN);
+            debug_add("Failed to load the NAP information of the topic #{$topic->id}, cannot resolve the permalink here.", MIDCOM_LOG_WARN);
             debug_print_r('Passed topic was:', $topic);
+            return null;
+        }
+
+        if ($interface instanceof midcom_services_permalinks_resolver) {
+            $result = $interface->resolve_object_link($topic, $object);
+        } else {
+            $result = null;
+            foreach ($nav->list_leaves($topic->id) as $leafid) {
+                $leaf = $nav->get_leaf($leafid);
+                if ($leaf[MIDCOM_NAV_GUID] == $guid) {
+                    $result = $leaf[MIDCOM_NAV_URL];
+                    break;
+                }
+            }
+        }
+        if ($result === null) {
             return null;
         }
 

@@ -480,47 +480,5 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
         return true;
     }
 
-    /**
-     * This interface function is used to check whether a component can handle a given GUID
-     * or not. A topic is provided which limits the "scope" of the search
-     * accordingly. It can be safely assumed that the topic given is a valid topic in the
-     * MidCOM content tree (it is checked through NAP).
-     *
-     * If the guid could be successfully resolved, a URL local to the given topic without a
-     * leading slash must be returned (f.x. 'article/'), empty strings ('') are allowed
-     * indicating root page access. If the GUID is invalid, null will be returned.
-     *
-     * <b>Important Note:</b>
-     *
-     * Be aware that this is the only event handler at this time which has a real default
-     * implementation: If you do not override the base class implementation, it will iterate
-     * through all NAP leaves applicable to the node associated with the topic. If a match
-     * is found, its local URL will be returned. This will not be terribly efficient, so
-     * you are strongly encouraged to have some more efficient solution instead. Obviously,
-     * if you override the function, you shouldn't call the base class implementation unless
-     * you really need it.
-     *
-     * @param midcom_db_topic $topic the Topic to look up.
-     * @param midcom_helper_configuration $config The configuration used for the given topic.
-     * @param string $guid The permalink GUID that should be looked up.
-     * @return string The local URL (without leading slashes) or null on failure.
-     * @deprecated Implement the midcom_services_permalinks_resolver interface instead
-     */
-    public function _on_resolve_permalink($topic, $config, $guid)
-    {
-        $nav = new midcom_helper_nav();
-        $leaves = $nav->list_leaves($topic->id);
-        if (empty($leaves)) {
-            return null;
-        }
-        foreach ($leaves as $leafid) {
-            $leaf = $nav->get_leaf($leafid);
-            if ($leaf[MIDCOM_NAV_GUID] == $guid) {
-                return $leaf[MIDCOM_NAV_URL];
-            }
-        }
-        return null;
-    }
-
     // END OF THE EVENT HANDLERS
 }
