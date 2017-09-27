@@ -131,13 +131,13 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
     /**
      * Add the necessary JS/CSS to HTML head
      */
-    static function add_header_files()
+    public static function add_header_files()
     {
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.js");
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.css");
     }
 
-    static function add_button(midcom_helper_toolbar $toolbar, $guid, $mode = 'both')
+    public static function add_button(midcom_helper_toolbar $toolbar, $guid, $mode = 'both')
     {
         $toolbar->add_item(
             [
@@ -148,7 +148,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         );
     }
 
-    static function common_node_toolbar_buttons_sanitycheck(array &$data, $button_component, $bind_object, $calling_component)
+    private static function common_node_toolbar_buttons_sanitycheck(array &$data, $button_component, $bind_object, $calling_component)
     {
         if (!midcom::get()->componentloader->load_graceful($button_component)) {
             //For some reason the component is and can not (be) loaded
@@ -183,7 +183,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         return $related_to;
     }
 
-    static function common_toolbar_buttons_defaults()
+    public static function common_toolbar_buttons_defaults()
     {
         return [
             'event' => [
@@ -206,7 +206,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         ];
     }
 
-    static function common_node_toolbar_buttons(midcom_helper_toolbar $toolbar, $bind_object, $calling_component, $buttons = 'default')
+    public static function common_node_toolbar_buttons(midcom_helper_toolbar $toolbar, $bind_object, $calling_component, $buttons = 'default')
     {
         self::add_header_files();
         if ($buttons == 'default') {
@@ -288,14 +288,12 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
     /**
      * function to add the button for journal_entry to the toolbar
      */
-    static function add_journal_entry_button(midcom_helper_toolbar $toolbar, $guid)
+    public static function add_journal_entry_button(midcom_helper_toolbar $toolbar, $guid)
     {
-        $toolbar->add_item(
-            [
-                MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/journalentry/{$guid}/",
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view journal entries', 'org.openpsa.relatedto'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-            ]
-        );
+        $toolbar->add_item([
+            MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/journalentry/{$guid}/",
+            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view journal entries', 'org.openpsa.relatedto'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
+        ]);
     }
 }
