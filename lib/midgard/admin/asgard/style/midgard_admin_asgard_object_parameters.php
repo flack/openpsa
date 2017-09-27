@@ -1,12 +1,10 @@
 <?php
 $parameter_toolbar = new midcom_helper_toolbar();
-$parameter_toolbar->add_item(
-    [
-        MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/create/midgard_parameter/{$data['object']->guid}/",
-        MIDCOM_TOOLBAR_LABEL => $data['l10n']->get('add parameter'),
-        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-    ]
-);
+$parameter_toolbar->add_item([
+    MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/create/midgard_parameter/{$data['object']->guid}/",
+    MIDCOM_TOOLBAR_LABEL => $data['l10n']->get('add parameter'),
+    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
+]);
 echo $parameter_toolbar->render();
 
 if (count($data['parameters']) > 0) {

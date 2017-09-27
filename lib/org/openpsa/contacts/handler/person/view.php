@@ -70,14 +70,12 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $data['person_rss_url'] = $this->_contact->get_parameter('net.nemein.rss', 'url');
         if ($data['person_rss_url']) {
             // We've autoprobed that this contact has a RSS feed available, link it
-            midcom::get()->head->add_link_head(
-                [
-                    'rel'   => 'alternate',
-                    'type'  => 'application/rss+xml',
-                    'title' => sprintf($this->_l10n->get('rss feed of person %s'), $this->_contact->name),
-                    'href'  => $data['person_rss_url'],
-                ]
-            );
+            midcom::get()->head->add_link_head([
+                'rel'   => 'alternate',
+                'type'  => 'application/rss+xml',
+                'title' => sprintf($this->_l10n->get('rss feed of person %s'), $this->_contact->name),
+                'href'  => $data['person_rss_url'],
+            ]);
         }
         $this->_prepare_request_data();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/editable.js");

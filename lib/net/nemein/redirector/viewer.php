@@ -39,14 +39,12 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
     {
         if ($this->_topic->can_do('midgard:create')) {
             // Add the creation link to toolbar
-            $this->_node_toolbar->add_item(
-                [
-                    MIDCOM_TOOLBAR_URL => "create/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('tinyurl')),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_event.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                ]
-            );
+            $this->_node_toolbar->add_item([
+                MIDCOM_TOOLBAR_URL => "create/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('tinyurl')),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_event.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'n',
+            ]);
         }
     }
 
@@ -116,12 +114,10 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
         $data['redirection_url'] = $data['url'];
         $data['redirection_speed'] = $this->_config->get('redirection_metatag_speed');
 
-        midcom::get()->head->add_meta_head(
-            [
-                'http-equiv' => 'refresh',
-                'content' => "{$data['redirection_speed']};url={$data['url']}",
-            ]
-        );
+        midcom::get()->head->add_meta_head([
+            'http-equiv' => 'refresh',
+            'content' => "{$data['redirection_speed']};url={$data['url']}",
+        ]);
     }
 
     /**

@@ -139,13 +139,11 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
 
     public static function add_button(midcom_helper_toolbar $toolbar, $guid, $mode = 'both')
     {
-        $toolbar->add_item(
-            [
-                MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/render/{$guid}/{$mode}/",
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view related information', 'org.openpsa.relatedto'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-            ]
-        );
+        $toolbar->add_item([
+            MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/render/{$guid}/{$mode}/",
+            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view related information', 'org.openpsa.relatedto'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
+        ]);
     }
 
     private static function common_node_toolbar_buttons_sanitycheck(array &$data, $button_component, $bind_object, $calling_component)

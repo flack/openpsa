@@ -355,13 +355,11 @@ implements org_openpsa_widgets_grid_provider_client
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         if ($sales_url = $siteconfig->get_node_full_url('org.openpsa.sales')) {
-            $this->_view_toolbar->add_item(
-                [
-                    MIDCOM_TOOLBAR_URL => $sales_url . "deliverable/{$this->_deliverable->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to deliverable'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-                ]
-            );
+            $this->_view_toolbar->add_item([
+                MIDCOM_TOOLBAR_URL => $sales_url . "deliverable/{$this->_deliverable->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to deliverable'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+            ]);
         }
 
         $title = sprintf($this->_l10n->get('all invoices for deliverable %s'), $this->_deliverable->title);

@@ -86,14 +86,12 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         }
 
         if ($this->_page->can_do('midgard:update')) {
-            midcom::get()->head->add_link_head(
-                [
-                    'rel' => 'alternate',
-                    'type' => 'application/x-wiki',
-                    'title' => $this->_l10n_midcom->get('edit'),
-                    'href' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "edit/{$this->_page->name}/",
-                ]
-            );
+            midcom::get()->head->add_link_head([
+                'rel' => 'alternate',
+                'type' => 'application/x-wiki',
+                'title' => $this->_l10n_midcom->get('edit'),
+                'href' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "edit/{$this->_page->name}/",
+            ]);
         }
         $this->_view_toolbar->add_items($buttons);
         org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_page->guid);

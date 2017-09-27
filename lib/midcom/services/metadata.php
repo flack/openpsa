@@ -62,6 +62,7 @@ class midcom_services_metadata
      *
      * @param int $context_id The context to retrieve the view metadata for, this
      *     defaults to the current context.
+     * @return midcom_helper_metadata
      */
     function & get_view_metadata($context_id = null)
     {
@@ -213,21 +214,17 @@ class midcom_services_metadata
         $request_metadata = $this->get_request_metadata();
 
         // HTML generator information
-        midcom::get()->head->add_meta_head(
-            [
-                'name' => 'generator',
-                'content' => 'Midgard/' . mgd_version() . ' MidCOM/' . midcom::get_version() . ' PHP/' . phpversion()
-            ]
-        );
+        midcom::get()->head->add_meta_head([
+            'name' => 'generator',
+            'content' => 'Midgard/' . mgd_version() . ' MidCOM/' . midcom::get_version() . ' PHP/' . phpversion()
+        ]);
 
         // Last revision time for the entire page
         if ($request_metadata['lastmodified']) {
-            midcom::get()->head->add_meta_head(
-                [
-                    'name' => 'lastupdated',
-                    'content' => @gmdate('Y-m-d H:i:s\Z', $request_metadata['lastmodified'])
-                ]
-            );
+            midcom::get()->head->add_meta_head([
+                'name' => 'lastupdated',
+                'content' => @gmdate('Y-m-d H:i:s\Z', $request_metadata['lastmodified'])
+            ]);
         }
 
         // If an object has been bound we have more information available
@@ -245,12 +242,10 @@ class midcom_services_metadata
                             break;
                     }
 
-                    midcom::get()->head->add_meta_head(
-                        [
-                            'name' => $metatag,
-                            'content' => $content,
-                        ]
-                    );
+                    midcom::get()->head->add_meta_head([
+                        'name' => $metatag,
+                        'content' => $content,
+                    ]);
                 }
             }
             // TODO: Add support for tags here
@@ -274,39 +269,29 @@ class midcom_services_metadata
             && $opengraph_type != 'none') {
             $request_metadata = $this->get_request_metadata();
 
-            midcom::get()->head->add_meta_head(
-                [
-                    'property' => 'og:type',
-                    'content' => $opengraph_type,
-                ]
-            );
-            midcom::get()->head->add_meta_head(
-                [
-                    'property' => 'og:title',
-                    'content' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE),
-                ]
-            );
-            midcom::get()->head->add_meta_head(
-                [
-                    'property' => 'og:url',
-                    'content' => $request_metadata['permalink'],
-                ]
-            );
+            midcom::get()->head->add_meta_head([
+                'property' => 'og:type',
+                'content' => $opengraph_type,
+            ]);
+            midcom::get()->head->add_meta_head([
+                'property' => 'og:title',
+                'content' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE),
+            ]);
+            midcom::get()->head->add_meta_head([
+                'property' => 'og:url',
+                'content' => $request_metadata['permalink'],
+            ]);
             $opengraph_image = $view_metadata->object->get_parameter('midcom.helper.metadata', 'opengraph_image');
             if (mgd_is_guid($opengraph_image)) {
-                midcom::get()->head->add_meta_head(
-                    [
-                        'property' => 'og:image',
-                        'content' => midcom_db_attachment::get_url($opengraph_image),
-                    ]
-                );
+                midcom::get()->head->add_meta_head([
+                    'property' => 'og:image',
+                    'content' => midcom_db_attachment::get_url($opengraph_image),
+                ]);
             }
-            midcom::get()->head->add_meta_head(
-                [
-                    'property' => 'og:description',
-                    'content' => $view_metadata->get('description'),
-                ]
-            );
+            midcom::get()->head->add_meta_head([
+                'property' => 'og:description',
+                'content' => $view_metadata->get('description'),
+            ]);
         }
     }
 

@@ -61,33 +61,27 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     private function _add_link_head()
     {
         if ($this->_config->get('rss_enable')) {
-            midcom::get()->head->add_link_head(
-                [
-                    'rel'   => 'alternate',
-                    'type'  => 'application/rss+xml',
-                    'title' => $this->_l10n->get('rss 2.0 feed'),
-                    'href'  => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
-                ]
-            );
-            midcom::get()->head->add_link_head(
-                [
-                    'rel'   => 'alternate',
-                    'type'  => 'application/atom+xml',
-                    'title' => $this->_l10n->get('atom feed'),
-                    'href'  => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'atom.xml',
-                ]
-            );
+            midcom::get()->head->add_link_head([
+                'rel'   => 'alternate',
+                'type'  => 'application/rss+xml',
+                'title' => $this->_l10n->get('rss 2.0 feed'),
+                'href'  => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
+            ]);
+            midcom::get()->head->add_link_head([
+                'rel'   => 'alternate',
+                'type'  => 'application/atom+xml',
+                'title' => $this->_l10n->get('atom feed'),
+                'href'  => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'atom.xml',
+            ]);
         }
 
         // RSD (Really Simple Discoverability) autodetection
-        midcom::get()->head->add_link_head(
-            [
-                'rel' => 'EditURI',
-                'type' => 'application/rsd+xml',
-                'title' => 'RSD',
-                'href' => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rsd.xml',
-            ]
-        );
+        midcom::get()->head->add_link_head([
+            'rel' => 'EditURI',
+            'type' => 'application/rsd+xml',
+            'title' => 'RSD',
+            'href' => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rsd.xml',
+        ]);
     }
 
     /**

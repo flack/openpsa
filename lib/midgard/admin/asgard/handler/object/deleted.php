@@ -52,29 +52,25 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
 
         $this->_request_data['object'] = $qb->get_result(0);
 
-        $this->_request_data['asgard_toolbar']->add_item(
-            [
-                MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/' . $type . '/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('undelete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
-                MIDCOM_TOOLBAR_POST => true,
-                MIDCOM_TOOLBAR_POST_HIDDENARGS => [
-                    'undelete[]' => $this->_request_data['guid']
-                ]
+        $this->_request_data['asgard_toolbar']->add_item([
+            MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/' . $type . '/',
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('undelete'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
+            MIDCOM_TOOLBAR_POST => true,
+            MIDCOM_TOOLBAR_POST_HIDDENARGS => [
+                'undelete[]' => $this->_request_data['guid']
             ]
-        );
-        $this->_request_data['asgard_toolbar']->add_item(
-            [
-                MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/' . $type . '/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('purge'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_POST => true,
-                MIDCOM_TOOLBAR_POST_HIDDENARGS => [
-                    'undelete[]' => $this->_request_data['guid'],
-                    'purge' => true
-                ]
+        ]);
+        $this->_request_data['asgard_toolbar']->add_item([
+            MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/' . $type . '/',
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('purge'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+            MIDCOM_TOOLBAR_POST => true,
+            MIDCOM_TOOLBAR_POST_HIDDENARGS => [
+                'undelete[]' => $this->_request_data['guid'],
+                'purge' => true
             ]
-        );
+        ]);
         $this->add_breadcrumb('__mfa/asgard/trash/', $this->_l10n->get('trash'));
         $this->add_breadcrumb('__mfa/asgard/trash/' . $type . '/', midgard_admin_asgard_plugin::get_type_label($dba_type));
         $label = midcom_helper_reflector::get($this->_request_data['object'])->get_object_label($this->_request_data['object']);

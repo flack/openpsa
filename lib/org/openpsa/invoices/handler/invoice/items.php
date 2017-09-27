@@ -33,7 +33,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
 
         $invoice_sum = 0;
         foreach ($this->_object->get_invoice_items() as $item) {
-            $entry =  [];
+            $entry = [];
             $entry['id'] = $item->id;
             try {
                 $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($item->deliverable);
@@ -74,14 +74,12 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $this->_l10n->get('edit invoice items') . ': ' . $title);
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit invoice items') . ': ' . $title);
-        $this->_view_toolbar->add_item(
-            [
-                MIDCOM_TOOLBAR_URL => "invoice/recalculation/{$this->_object->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('recalculate_by_reports'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-            ]
-        );
+        $this->_view_toolbar->add_item([
+            MIDCOM_TOOLBAR_URL => "invoice/recalculation/{$this->_object->guid}/",
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('recalculate_by_reports'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+            MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
+        ]);
 
         $this->_master->add_next_previous($this->_object, $this->_view_toolbar, 'invoice/items/');
 

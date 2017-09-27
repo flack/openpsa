@@ -152,13 +152,11 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             $url = 'advanced/';
         }
 
-        $this->_view_toolbar->add_item(
-            [
-                MIDCOM_TOOLBAR_URL => $url . $this->_request_data['params'],
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($other_type . ' search'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
-            ]
-        );
+        $this->_view_toolbar->add_item([
+            MIDCOM_TOOLBAR_URL => $url . $this->_request_data['params'],
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($other_type . ' search'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
+        ]);
     }
 
     private function process_results($result)

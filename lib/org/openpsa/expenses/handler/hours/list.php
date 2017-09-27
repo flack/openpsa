@@ -50,14 +50,12 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 
             $siteconfig = org_openpsa_core_siteconfig::get_instance();
             if ($projects_url = $siteconfig->get_node_full_url('org.openpsa.projects')) {
-                $this->_view_toolbar->add_item(
-                    [
-                        MIDCOM_TOOLBAR_URL => $projects_url . "task/{$task->guid}/",
-                        MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show task %s'), $task->title),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-                        MIDCOM_TOOLBAR_ACCESSKEY => 'g',
-                    ]
-                );
+                $this->_view_toolbar->add_item([
+                    MIDCOM_TOOLBAR_URL => $projects_url . "task/{$task->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show task %s'), $task->title),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'g',
+                ]);
             }
         }
         if ($mode !== 'simple') {

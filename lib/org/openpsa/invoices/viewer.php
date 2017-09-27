@@ -61,13 +61,11 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
     public function prepare_toolbar($mode)
     {
         if ($mode !== 'dashboard') {
-            $this->_view_toolbar->add_item(
-                [
-                    MIDCOM_TOOLBAR_URL => '',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('dashboard'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-                ]
-            );
+            $this->_view_toolbar->add_item([
+                MIDCOM_TOOLBAR_URL => '',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('dashboard'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
+            ]);
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {
             $workflow = $this->get_workflow('datamanager');
@@ -88,14 +86,12 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
             $results = $mc->list_keys();
 
             if (sizeof($results) == 1) {
-                $toolbar->add_item(
-                    [
-                        MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
-                        MIDCOM_TOOLBAR_ACCESSKEY => 'p',
-                    ]
-                );
+                $toolbar->add_item([
+                    MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'p',
+                ]);
             }
         }
 
@@ -107,14 +103,12 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
             $results = $mc->list_keys();
 
             if (sizeof($results) == 1) {
-                $toolbar->add_item(
-                    [
-                        MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
-                        MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                    ]
-                );
+                $toolbar->add_item([
+                    MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'n',
+                ]);
             }
         }
     }
