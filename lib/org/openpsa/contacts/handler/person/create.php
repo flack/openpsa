@@ -48,9 +48,9 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('person')));
         $this->_person = new org_openpsa_contacts_person_dba();
 
-        $dm = datamanager::from_schemadb($this->_config->get('schemadb_person'));
-        $dm->set_storage($this->_person);
-        $dm->set_defaults($defaults);
+        $dm = datamanager::from_schemadb($this->_config->get('schemadb_person'))
+            ->set_defaults($defaults)
+            ->set_storage($this->_person);
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $dm->get_controller(),
             'save_callback' => [$this, 'save_callback']
