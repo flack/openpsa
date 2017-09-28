@@ -334,7 +334,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             switch ($arg) {
                 case "midcom-cache-invalidate":
                 case "midcom-cache-nocache":
-                case "midcom-cache-stats":
                     // Don't cache these.
                     debug_add("X-MidCOM-cache: " . $arg . " uncached");
                     return;
