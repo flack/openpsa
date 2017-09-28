@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * This is the Output Caching Engine of MidCOM. It will intercept page output,
  * map it using the currently used URL and use the cached output on subsequent
@@ -557,20 +559,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             // We do this only if there is actually content in the output buffer. If not, we won't
             // send anything, so that you can still send HTTP Headers after enabling the live mode.
             // Check is for nonzero and non-false
-            if (ob_get_length()) {
-                while (@ob_end_flush());
-            } else {
-                $this->disable_ob();
-            }
+            Response::closeOutputBuffers(0, ob_get_length() > 0);
             $this->_obrunning = false;
         }
     }
 
     public function disable_ob()
     {
-        while (@ob_end_clean())
-            // Empty Loop
-        ;
+        Response::closeOutputBuffers(0, false);
         $this->_obrunning = false;
     }
 

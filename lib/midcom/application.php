@@ -7,6 +7,7 @@
  */
 
 use midgard\portable\api\blob;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -305,7 +306,7 @@ class midcom_application
                 $this->header('HTTP/1.0 304 Not Modified', 304);
                 $this->header("ETag: {$etag}");
             }
-            while (@ob_end_flush());
+            Response::closeOutputBuffers(0, true);
             debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
             _midcom_stop_request();
         }
@@ -349,7 +350,7 @@ class midcom_application
         // Store metadata in cache so _check_hit() can help us
         $this->cache->content->write_meta_cache('A-' . $etag, $etag);
 
-        while (@ob_end_flush());
+        Response::closeOutputBuffers(0, true);
 
         if (!$send_att_body) {
             debug_add('NOT sending file (X-Sendfile will take care of that, _midcom_stop_request()ing so nothing has a chance the mess things up anymore');
