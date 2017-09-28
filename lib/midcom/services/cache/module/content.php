@@ -192,7 +192,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     /**
      * Generate a valid cache identifier for a context of the current request
      */
-    function generate_request_identifier($context, $customdata = null)
+    private function generate_request_identifier($context, $customdata = null)
     {
         // Cache the request identifier so that it doesn't change between start and end of request
         static $identifier_cache = [];
