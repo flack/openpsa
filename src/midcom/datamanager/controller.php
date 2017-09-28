@@ -127,10 +127,8 @@ class controller
             midcom::get()->style->data['handler'] = $this;
             midcom::get()->style->show_midcom('midcom_datamanager_unlock');
         } else {
-            $view = $this->form->createView();
-            $renderer = $this->dm->get_renderer();
-            $renderer->set_template($view, new template\form($renderer));
-            echo $renderer->block($view, 'form');
+            $renderer = $this->dm->get_renderer('form');
+            echo $renderer->block($renderer->get_view(), 'form');
         }
     }
 

@@ -1,3 +1,9 @@
+'templates' => [
+    'view' => '\midcom\datamanager\template\view',
+    'form' => '\midcom\datamanager\template\form',
+    'csv' => '\midcom\datamanager\template\csv',
+],
+
 // TinyMCE Defaults
 // The Theme is only used if the config snippet is not set (an invalid snippet name
 // will be silently ignored).

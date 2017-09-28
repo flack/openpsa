@@ -179,11 +179,23 @@ class datamanager
      *
      * @return renderer
      */
-    public function get_renderer()
+    public function get_renderer($template = null, $skip_empty = false)
     {
         if ($this->renderer === null) {
             $this->renderer = new renderer(new engine);
             $this->renderer->set_l10n($this->schema->get_l10n());
+        }
+        if ($template) {
+            if (is_string($template)) {
+                $config = \midcom_baseclasses_components_configuration::get('midcom.datamanager', 'config');
+                $templates = $config->get('templates');
+                if (!array_key_exists($template, $templates)) {
+                    throw new \midcom_error('Template ' . $template . ' not found in config');
+                }
+                $template = new $templates[$template]($this->renderer, $skip_empty);
+            }
+            $view = $this->get_form()->createView();
+            $this->renderer->set_template($view, $template);
         }
         return $this->renderer;
     }
@@ -244,11 +256,8 @@ class datamanager
     {
         $ret = [];
 
-        $view = $this->get_form()->createView();
-        $renderer = $this->get_renderer();
-        $renderer->set_template($view, new template\csv($renderer));
-
-        foreach ($view->children as $name => $value) {
+        $renderer = $this->get_renderer('csv');
+        foreach ($renderer->get_view()->children as $name => $value) {
             if ($name == 'form_toolbar') {
                 continue;
             }
@@ -262,11 +271,8 @@ class datamanager
     {
         $ret = [];
 
-        $view = $this->get_form()->createView();
-        $renderer = $this->get_renderer();
-        $renderer->set_template($view, new template\view($renderer));
-
-        foreach ($view->children as $name => $value) {
+        $renderer = $this->get_renderer('view');
+        foreach ($renderer->get_view()->children as $name => $value) {
             if ($name == 'form_toolbar') {
                 continue;
             }
@@ -277,10 +283,8 @@ class datamanager
 
     public function display_view($skip_empty = false)
     {
-        $view = $this->get_form()->createView();
-        $renderer = $this->get_renderer();
-        $renderer->set_template($view, new template\view($renderer, $skip_empty));
-        echo $renderer->block($view, 'form');
+        $renderer = $this->get_renderer('view', $skip_empty);
+        echo $renderer->block($renderer->get_view(), 'form');
     }
 
     public function recreate()

@@ -301,9 +301,8 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         $data['editor_header_titles'] = $this->_header;
         $data['row_labels'] = $this->_row_labels;
 
-        $data['form'] = $this->_controller->get_datamanager()->get_form()->createView();
-        $data['renderer'] = $this->_controller->get_datamanager()->get_renderer();
-        $data['renderer']->set_template($data['form'], new form($data['renderer']));
+        $data['renderer'] = $this->_controller->get_datamanager()->get_renderer('form');
+        $data['form'] = $data['renderer']->get_view();
 
         midcom_show_style('midgard_admin_asgard_object_permissions');
     }

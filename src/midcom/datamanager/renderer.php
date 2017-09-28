@@ -20,14 +20,28 @@ class renderer extends FormRenderer
      */
     protected $l10n;
 
+    /**
+     * @var FormView
+     */
+    private $view;
+
     public function set_l10n(midcom_services_i18n_l10n $l10n)
     {
         $this->l10n = $l10n;
     }
 
+    /**
+     * @return \Symfony\Component\Form\FormView
+     */
+    public function get_view()
+    {
+        return $this->view;
+    }
+
     public function set_template(FormView $view, template\base $template)
     {
         $this->getEngine()->setTheme($view, $template);
+        $this->view = $view;
     }
 
     public function start(FormView $view, array $attributes = [])

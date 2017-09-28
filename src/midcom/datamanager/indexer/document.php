@@ -9,7 +9,6 @@ namespace midcom\datamanager\indexer;
 
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\datamanager;
-use midcom\datamanager\template\view;
 use midcom_services_indexer_document_midcom;
 use midcom_error;
 
@@ -148,10 +147,8 @@ class document extends midcom_services_indexer_document_midcom
      */
     private function process_datamanager()
     {
-        $view = $this->datamanager->get_form()->createView();
-        $renderer = $this->datamanager->get_renderer();
-        $renderer->set_template($view, new view($renderer));
-        foreach ($view as $name => $field) {
+        $renderer = $this->datamanager->get_renderer('view');
+        foreach ($renderer->get_view() as $name => $field) {
             $method = $field->vars['index_method'];
             if ($method == 'auto') {
                 $method = $this->resolve_auto_method($field->vars['name']);
