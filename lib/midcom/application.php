@@ -317,7 +317,6 @@ class midcom_application
 
         $this->header("ETag: {$etag}");
         $this->cache->content->content_type($attachment->mimetype);
-        $this->cache->content->register_sent_header("Content-Type: {$attachment->mimetype}");
         $this->header("Last-Modified: " . gmdate("D, d M Y H:i:s", $last_modified) . ' GMT');
         $this->header("Content-Length: " . $stats[7]);
         $this->header("Content-Description: {$attachment->title}");
