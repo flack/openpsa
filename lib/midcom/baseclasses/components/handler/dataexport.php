@@ -111,7 +111,6 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     {
         // Make real sure we're dumping data live
         midcom::get()->cache->content->enable_live_mode();
-        while (@ob_end_flush());
 
         // Dump headers
         reset($this->_datamanagers);

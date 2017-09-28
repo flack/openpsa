@@ -12,9 +12,7 @@
 midcom::get()->auth->require_admin_user();
 
 midcom::get()->disable_limits();
-while (@ob_end_flush());
 echo "<pre>\n";
-flush();
 
 $qb = org_openpsa_relatedto_dba::new_query_builder();
 $results = $qb->execute();
@@ -22,7 +20,6 @@ $results = $qb->execute();
 $total = sizeof($results);
 
 echo "Checking " . $total . " relatedto links. \n";
-flush();
 
 $i = 0;
 foreach ($results as $result) {
@@ -32,11 +29,9 @@ foreach ($results as $result) {
         midcom::get()->dbfactory->get_object_by_guid($result->toGuid);
     } catch (midcom_error $e) {
         echo $i . "/" . $total . ": Deleting relatedto #" . $result->id . "\n";
-        flush();
         $result->delete();
     }
 }
 
 echo "\nDone.";
 echo "</pre>";
-ob_start();

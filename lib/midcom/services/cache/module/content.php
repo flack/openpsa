@@ -393,10 +393,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
             echo $content;
         } else {
-            if ($this->_obrunning) {
-                // Drop the output buffer, if any.
-                ob_end_clean();
-            }
+            // Drop the output buffer, if any.
+            $this->disable_ob();
 
             // Emit the 304 header, then exit.
             _midcom_header('HTTP/1.0 304 Not Modified');
@@ -561,9 +559,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             // send anything, so that you can still send HTTP Headers after enabling the live mode.
             // Check is for nonzero and non-false
             if (ob_get_length()) {
-                @ob_end_flush();
+                while (@ob_end_flush());
             } else {
-                @ob_end_clean();
+                $this->disable_ob();
             }
             $this->_obrunning = false;
         }
