@@ -14,4 +14,4 @@ phpunit.xml
 *.*~
 /var
 /vendor
-/web
+/web/midcom-static
