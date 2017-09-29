@@ -56,12 +56,6 @@ class midcom_core_context
     ];
 
     /**
-     *
-     * @var midcom_response
-     */
-    private $response;
-
-    /**
      * The context's ID
      *
      * @var int
@@ -381,27 +375,19 @@ class midcom_core_context
      * If the handler hook returns false (i.e. handling failed), it will produce an error page.
      *
      * @param midcom_baseclasses_components_interface $handler The component's main handler class
+     * @return midcom_response
      */
     public function run(midcom_baseclasses_components_interface $handler)
     {
-        $this->response = $handler->handle();
+        $response = $handler->handle();
 
-        if (false === $this->response) {
+        if (false === $response) {
             throw new midcom_error("Component " . $this->get_key(MIDCOM_CONTEXT_COMPONENT) . " failed to handle the request");
         }
-        if (!is_object($this->response)) {
-            $this->response = new midcom_response_styled($this);
+        if (!is_object($response)) {
+            $response = new midcom_response_styled($this);
         }
-    }
-
-    public function send($include_template)
-    {
-        $backup = midcom::get()->skip_page_style;
-        midcom::get()->skip_page_style = !$include_template;
-
-        $this->response->send();
-
-        midcom::get()->skip_page_style = $backup;
+        return $response;
     }
 
     public function show()

@@ -140,18 +140,8 @@ class midcom_application
         $context->parser = $this->serviceloader->load('midcom_core_service_urlparser');
         $context->parser->parse(midcom_connection::get_url('argv'));
 
-        $this->_process($context);
-    }
-
-    /**
-     * Display the output of the component
-     *
-     * This function must be called in the content area of the
-     * Style template, usually <(content)>.
-     */
-    public function content()
-    {
-        $this->_output(midcom_core_context::get(0), !$this->skip_page_style);
+        $response = $this->_process($context);
+        $this->_output($context, !$this->skip_page_style, $response);
     }
 
     /**
@@ -224,7 +214,8 @@ class midcom_application
         $argv = $context->parser->tokenize($url);
         $context->parser->parse($argv);
 
-        if ($this->_process($context) === false) {
+        $response = $this->_process($context);
+        if ($response === false) {
             debug_add("Dynamic load _process() phase ended up with 404 Error. Aborting...", MIDCOM_LOG_ERROR);
 
             // Leave Context
@@ -236,7 +227,7 @@ class midcom_application
         // Start another buffer for caching DL results
         ob_start();
 
-        $this->_output($context, false);
+        $this->_output($context, false, $response);
 
         $dl_cache_data = ob_get_contents();
         ob_end_flush();
@@ -402,11 +393,16 @@ class midcom_application
      *
      * If the parsing process doesn't find any component that declares to be able to
      * handle the request, an HTTP 404 - Not Found error is triggered.
+     *
+     * @param midcom_core_context $context
+     * @return boolean|midcom_response
      */
     private function _process(midcom_core_context $context)
     {
         $urlmethods = new midcom_core_urlmethods($context);
-        $urlmethods->process();
+        if ($response = $urlmethods->process()) {
+            return $response;
+        }
 
         $handler = $context->get_component();
 
@@ -425,8 +421,7 @@ class midcom_application
 
             return false;
         }
-        $context->run($handler);
-        return true;
+        return $context->run($handler);
     }
 
     /**
@@ -438,7 +433,7 @@ class midcom_application
      * It executes the content_handler that has been determined during the handle
      * phase. It fetches the content_handler from the Component Loader class cache.
      */
-    private function _output(midcom_core_context $context, $include_template = true)
+    private function _output(midcom_core_context $context, $include_template, midcom_response $response)
     {
         // Enter Context
         $oldcontext = midcom_core_context::get();
@@ -447,7 +442,10 @@ class midcom_application
             $context->set_current();
         }
 
-        $context->send($include_template);
+        $backup = $this->skip_page_style;
+        $this->skip_page_style = !$include_template;
+        $response->send();
+        $this->skip_page_style = $backup;
 
         // Leave Context
         if ($oldcontext->id != $context->id) {

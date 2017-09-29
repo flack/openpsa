@@ -91,7 +91,7 @@ class midcom_core_urlmethods
                         debug_add("Unknown URL method: {$key} => {$value}", MIDCOM_LOG_WARN);
                         throw new midcom_error_notfound("This URL method is unknown.");
                     }
-                    $this->$method_name($value);
+                    return $this->$method_name($value);
                 }
             }
         }
@@ -119,8 +119,7 @@ class midcom_core_urlmethods
         }
 
         // We use "302 Found" here so that search engines and others will keep using the PermaLink instead of the temporary
-        $response = new midcom_response_relocate($destination, 302);
-        $response->send();
+        return new midcom_response_relocate($destination, 302);
     }
 
     private function _process_cache($value)
@@ -136,9 +135,9 @@ class midcom_core_urlmethods
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('MidCOM', 'midcom'), midcom::get()->i18n->get_string("cache invalidation successful", 'midcom'), 'info');
 
             $url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : midcom_connection::get('self');
-            $response = new midcom_response_relocate($url);
-            $response->send();
-        } elseif ($value == 'nocache') {
+            return new midcom_response_relocate($url);
+        }
+        if ($value == 'nocache') {
             midcom::get()->cache->content->no_cache();
         } else {
             throw new midcom_error_notfound("Invalid cache request URL.");
@@ -152,8 +151,7 @@ class midcom_core_urlmethods
 
         midcom::get()->cache->content->no_cache();
         midcom::get()->auth->logout();
-        $response = new midcom_response_relocate($redirect_to);
-        $response->send();
+        return new midcom_response_relocate($redirect_to);
     }
 
     private function _process_login($value)
@@ -162,12 +160,10 @@ class midcom_core_urlmethods
         $redirect_to = $this->_get_remaining_url($value);
 
         if (midcom::get()->auth->is_valid_user()) {
-            $response = new midcom_response_relocate($redirect_to);
-            $response->send();
-            // This will exit
+            return new midcom_response_relocate($redirect_to);
         }
         midcom::get()->auth->show_login_page();
-        // This will exit too
+        // This will exit
     }
 
     private function _get_remaining_url($value)

@@ -34,5 +34,4 @@ if (file_exists(dirname(__DIR__) . '/themes/' . $GLOBALS['midcom_config_local'][
 // Start request processing
 $midcom = midcom::get();
 $midcom->codeinit();
-$midcom->content();
 $midcom->finish();
