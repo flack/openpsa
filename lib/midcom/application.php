@@ -203,9 +203,9 @@ class midcom_application
         $context->set_key(MIDCOM_CONTEXT_URI, $uri);
 
         $context->set_current();
-        /* "content-cache" for DLs, check_hit */
-        if ($this->cache->content->check_dl_hit($context->id, $config)) {
-            // The check_hit method serves cached content on hit
+        $cached = $this->cache->content->check_dl_hit($context->id, $config);
+        if ($cached !== false) {
+            echo $cached;
             return $context->id;
         }
 
@@ -220,7 +220,6 @@ class midcom_application
 
             // Leave Context
             $oldcontext->set_current();
-
             return;
         }
 

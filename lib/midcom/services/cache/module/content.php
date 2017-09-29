@@ -555,7 +555,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         if ($this->_obrunning) {
             // Flush any remaining output buffer.
-            // Ignore errors in case _obrunning is wrong, we are in the right state then anyway.
             // We do this only if there is actually content in the output buffer. If not, we won't
             // send anything, so that you can still send HTTP Headers after enabling the live mode.
             // Check is for nonzero and non-false
@@ -710,7 +709,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        if ($this->_no_cache || $this->_live_mode) {
+        if ($this->_no_cache) {
             if ($this->_obrunning) {
                 if (ob_get_contents()) {
                     ob_end_flush();
@@ -837,8 +836,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
     public function check_dl_hit($context, $dl_config)
     {
-        if (   $this->_no_cache
-            || $this->_live_mode) {
+        if ($this->_no_cache) {
             return false;
         }
         $dl_request_id = 'DL' . $this->generate_request_identifier($context, $dl_config);
@@ -847,19 +845,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return false;
         }
 
-        $content = $this->_data_cache->fetch($dl_content_id);
-        if ($content === false) {
-            // Ghost read, we have everything but the actual content in cache
-            return false;
-        }
-        echo $content;
-        return true;
+        return $this->_data_cache->fetch($dl_content_id);
     }
 
     public function store_dl_content($context, $dl_config, $dl_cache_data)
     {
         if (   $this->_no_cache
-            || $this->_live_mode
             || $this->_uncached) {
             return;
         }
