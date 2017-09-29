@@ -8,8 +8,8 @@
          ?>
     </head>
     <body>
+        <(content)>
         <?php
-        midcom::get()->content();
         midcom::get()->uimessages->show();
         midcom::get()->toolbars->show();
         ?>
