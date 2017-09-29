@@ -7,8 +7,7 @@
  */
 
 /**
- * This class is responsible for all style management and replaces
- * the old <[...]> syntax. It is instantiated by the MidCOM framework
+ * This class is responsible for all style management. It is instantiated by the MidCOM framework
  * and accessible through the midcom::get()->style object.
  *
  * The method <code>show($style)</code> returns the style element $style for the current
@@ -19,20 +18,18 @@
  * - If there is a user defined style path, the element named $style in
  *   this path is returned,
  * - otherwise the element "$style" is taken from the default style of the
- *   current component (/path/to/component/_style/$path).
+ *   current component (/path/to/component/style/$path).
  *
  * (The default fallback is always the default style, e.g. if $style
  * is not in the user defined style path)
  *
  * To enable cross-style referencing and provide the opportunity to access
- * any style element (not only the style that is set
- * in the current page), "show" can be called with a full qualified style
+ * any style element, "show" can be called with a full qualified style
  * path (like "/mystyle/element1", while the current page's style may be set
  * to "/yourstyle").
  *
  * Note: To make sure sub-styles and elements included in styles are handled
- * correctly, the old style tag <[...]> should not be used anymore,
- * but should be replaced by something like this:
+ * correctly, use:
  *
  * <code>
  * <?php midcom_show_style ("elementname"); ?>
@@ -44,8 +41,8 @@
  * 1. Topic style -> if the current topic has a style set
  * 2. Inherited topic style -> if the topic inherits a style from another topic.
  * 3. Site-wide per-component default style -> if defined in MidCOM configuration key styleengine_default_styles
- * 4. Midgard style -> the style of the MidCOM component.
- * 5. The file style. This is usually the elements found in the components style directory.
+ * 4. Theme style -> the style of the MidCOM component.
+ * 5. The file style. This is usually the elements found in the component's style directory.
  *
  * Regarding nr. 4:
  * It is possible to add extra file styles if so is needed for example by a portal component.
