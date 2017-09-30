@@ -105,6 +105,14 @@ class midcom_application
      */
     public function initialize()
     {
+        $this->debug->log("Start of MidCOM run" . (isset($_SERVER['REQUEST_URI']) ? ": {$_SERVER['REQUEST_URI']}" : ''));
+        $this->auth->check_for_login_session();
+
+        /* Load and start up the cache system, this might already end the request
+         * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
+         */
+        $this->cache->content->start_caching();
+
         // Start-up some of the services
         $this->dbclassloader->load_classes('midcom', 'legacy_classes.inc');
         $this->dbclassloader->load_classes('midcom', 'core_classes.inc');

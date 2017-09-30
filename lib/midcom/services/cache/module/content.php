@@ -299,11 +299,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
                 throw new midcom_error($message);
         }
-
-        // Init complete, now check for a cache hit and start up caching.
-        // Note, that check_hit might _midcom_stop_request().
-        $this->_check_hit();
-        $this->_start_caching();
     }
 
     /**
@@ -410,8 +405,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * Start the output cache. Call this before any output
      * is made. MidCOM's startup sequence will automatically do this.
      */
-    private function _start_caching()
+    public function start_caching()
     {
+        // Note, that check_hit might _midcom_stop_request().
+        $this->_check_hit();
+
         ob_implicit_flush(false);
         ob_start();
         $this->_obrunning = true;

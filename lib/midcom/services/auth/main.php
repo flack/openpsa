@@ -141,24 +141,19 @@ class midcom_services_auth
 
         $this->_initialize_user_from_midgard();
         $this->_prepare_authentication_drivers();
-
-        if (!$this->_check_for_new_login_session()) {
-            // No new login detected, so we check if there is a running session.
-            $this->_check_for_active_login_session();
-        }
     }
 
     /**
-     * Internal startup helper, checks if the current authentication fronted has new credentials
-     * ready. If yes, it processes the login accordingly.
-     *
-     * @return boolean Returns true, if a new login session was created, false if no credentials were found.
+     * Checks if the current authentication fronted has new credentials
+     * ready. If yes, it processes the login accordingly. Otherwise look for existing session
      */
-    private function _check_for_new_login_session()
+    public function check_for_login_session()
     {
         $credentials = $this->_auth_frontend->read_authentication_data();
         if (!$credentials) {
-            return false;
+            // No new login detected, so we check if there is a running session.
+            $this->_check_for_active_login_session();
+            return;
         }
 
         $this->auth_credentials_found = true;
@@ -174,8 +169,7 @@ class midcom_services_auth
                 // Calling the failure function with the username as a parameter. No password sended to the user function for security reasons
                 call_user_func(midcom::get()->config->get('auth_failure_callback'), $credentials['username']);
             }
-
-            return false;
+            return;
         }
 
         debug_add('Authentication was successful, we have a new login session now. Updating timestamps');
@@ -216,7 +210,6 @@ class midcom_services_auth
             midcom::get()->relocate($_REQUEST['midcom_services_auth_login_success_url']);
             // This will exit.
         }
-        return true;
     }
 
     /**
