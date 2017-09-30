@@ -58,8 +58,6 @@ class midcom_compat_environment
             echo "301: new location <a href='{$redirect_test_uri_clean}/'>{$redirect_test_uri_clean}/</a>";
             $this->stop_request();
         }
-        // Advertise the fact that this is a Midgard server
-        $this->header('X-Powered-By: Midgard/' . mgd_version());
     }
 
     public function header($string, $replace = true, $http_response_code = null)
