@@ -432,30 +432,35 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @see uncached()
      */
-    public function no_cache()
+    public function no_cache($return = false)
     {
-        if ($this->_no_cache) {
-            return;
-        }
-
-        $this->_no_cache = true;
-
-        if (_midcom_headers_sent()) {
-            // Whatever is wrong here, we return.
-            debug_add('Warning, we should move to no_cache but headers have already been sent, skipping header transmission.', MIDCOM_LOG_ERROR);
-            return;
-        }
-
-        _midcom_header('Cache-Control: no-store, no-cache, must-revalidate');
-        _midcom_header('Cache-Control: post-check=0, pre-check=0', false);
+        $headers = [
+            'Cache-Control' => ['no-store', 'no-cache', 'must-revalidate', 'post-check=0', 'pre-check=0'],
+        ];
 
         //Suppress "Pragma: no-cache" header, because otherwise file downloads don't work in IE < 9 with https.
         if (   !isset($_SERVER['HTTPS'])
             || !isset($_SERVER['HTTP_USER_AGENT'])
             || !preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) {
-            _midcom_header('Pragma: no-cache');
+            $headers['Pragma'] = 'no-cache';
         }
-        // PONDER: Send expires header (set to long time in past) as well ??
+
+        if (!$this->_no_cache) {
+            $this->_no_cache = true;
+
+            if (!$return) {
+                if (_midcom_headers_sent()) {
+                    // Whatever is wrong here, we return.
+                    debug_add('Warning, we should move to no_cache but headers have already been sent, skipping header transmission.', MIDCOM_LOG_ERROR);
+                    return;
+                }
+                $this->process_headers($headers, true);
+                // PONDER: Send expires header (set to long time in past) as well ??
+            }
+        }
+        if ($return) {
+            return $headers;
+        }
     }
 
     /**
@@ -661,7 +666,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $if_modified_since = false;
         $if_none_match = false;
         if (array_key_exists('HTTP_IF_NONE_MATCH', $_SERVER)) {
-            if ($_SERVER['HTTP_IF_NONE_MATCH'] != $etag) {
+            if (trim($_SERVER['HTTP_IF_NONE_MATCH'], '"') != $etag) {
                 // The E-Tag is different, so we cannot 304 here.
                 debug_add("The HTTP supplied E-Tag requirement does not match: {$_SERVER['HTTP_IF_NONE_MATCH']} (!= {$etag})");
                 return false;
@@ -942,7 +947,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $this->_last_modified = $time;
         }
 
-        $this->cache_control_headers();
+        $this->process_headers($this->cache_control_headers());
 
         if (   is_array($this->_force_headers)
             && !empty($this->_force_headers)) {
@@ -950,6 +955,22 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $header_string = "{$header}: {$value}";
                 _midcom_header($header_string, true);
                 $this->_replace_sent_header($header, $header_string);
+            }
+        }
+    }
+
+    private function process_headers(array $headers, $skip_registration = false)
+    {
+        foreach ($headers as $header => $value) {
+            if (is_array($value)) {
+                $header_string = $header . ': ' . implode(', ', $value);
+            } else {
+                $header_string = "{$header}: {$value}";
+            }
+            if ($skip_registration) {
+                _midcom_header($header_string);
+            } else {
+                midcom::get()->header($header_string);
             }
         }
     }
@@ -977,15 +998,17 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
     }
 
+    /**
+     * @return array
+     */
     public function cache_control_headers()
     {
         // Just to be sure not to mess the headers sent by no_cache in case it was called
         if ($this->_no_cache) {
-            return;
+            return $this->no_cache(true);
         }
         // Add Expiration and Cache Control headers
-        $cache_control = false;
-        $pragma = false;
+        $headers = [];
         $expires = false;
         $strategy = $this->_headers_strategy;
         $default_lifetime = $this->_default_lifetime;
@@ -997,18 +1020,19 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         switch ($strategy) {
             // included in case _headers_strategy_authenticated sets this
             case 'no-cache':
-                $this->no_cache();
-                return;
+                return $this->no_cache(true);
             case 'revalidate':
                 // Currently, we *force* a cache client to revalidate the copy every time.
                 // I hope that this fixes most of the problems outlined in #297 for the time being.
                 // The timeout of a content cache entry is not affected by this.
-                $cache_control = 'max-age=0 must-revalidate';
+                $headers['Cache-Control'] = ['max-age=0', 'must-revalidate'];
                 $expires = time();
                 break;
             case 'private':
                 // Fall-strough intentional
             case 'public':
+                $headers['Cache-Control'] = [$strategy];
+                $headers['Pragma'] = $strategy;
                 if (!is_null($this->_expires)) {
                     $expires = $this->_expires;
                     $max_age = $this->_expires - time();
@@ -1016,17 +1040,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                     $expires = time() + $default_lifetime;
                     $max_age = $default_lifetime;
                 }
-                $cache_control = "{$strategy} max-age={$max_age}";
+                $headers['Cache-Control'][] = 'max-age=' . $max_age;
                 if ($max_age == 0) {
-                    $cache_control .= ' must-revalidate';
+                    $headers['Cache-Control'][] = 'must-revalidate';
                 }
-                $pragma = $strategy;
                 break;
         }
-        midcom::get()->header("Cache-Control: {$cache_control}");
-        if ($pragma !== false) {
-            midcom::get()->header("Pragma: {$pragma}");
-        }
-        midcom::get()->header("Expires: " . gmdate("D, d M Y H:i:s", $expires) . " GMT");
+
+        $headers['Expires'] = gmdate("D, d M Y H:i:s", $expires) . " GMT";
+        return $headers;
     }
 }

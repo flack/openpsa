@@ -7,7 +7,8 @@
  */
 
 use midgard\portable\api\blob;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -282,73 +283,52 @@ class midcom_application
 
         // Doublecheck that this is registered
         $this->cache->content->register($attachment->guid);
-        $stats = $attachment->stat();
-        $last_modified = $stats[9];
 
+        $request = Request::createFromGlobals();
+        $blob = new blob($attachment->__object);
+        $response = new BinaryFileResponse($blob->get_path());
+        $last_modified = (int) $response->getLastModified()->format('U');
         $etag = md5("{$last_modified}{$attachment->name}{$attachment->mimetype}{$attachment->guid}");
+        $response->setEtag($etag);
 
-        // Check etag and return 304 if necessary
-        if (   $expires <> 0
-            && $this->cache->content->_check_not_modified($last_modified, $etag)) {
-            if (!_midcom_headers_sent()) {
-                $this->cache->content->cache_control_headers();
-                // Doublemakesure these are present
-                $this->header('HTTP/1.0 304 Not Modified', 304);
-                $this->header("ETag: {$etag}");
+        if ($expires == 0 || !$response->isNotModified($request)) {
+            $response->prepare($request);
+
+            if ($expires > 0) {
+                // If custom expiry now+expires is set use that
+                $this->cache->content->expires(time() + $expires);
             }
-            Response::closeOutputBuffers(0, true);
-            debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
-            _midcom_stop_request();
+
+            if ($this->config->get('attachment_xsendfile_enable')) {
+                BinaryFileResponse::trustXSendfileTypeHeader();
+                $response->headers->set('X-Sendfile-Type', 'X-Sendfile');
+            }
         }
-
-        $f = $attachment->open('r');
-        if (!$f) {
-            throw new midcom_error('Failed to open attachment for reading: ' . midcom_connection::get_error_string());
-        }
-
-        $this->header("ETag: {$etag}");
-        $this->cache->content->content_type($attachment->mimetype);
-        $this->header("Last-Modified: " . gmdate("D, d M Y H:i:s", $last_modified) . ' GMT');
-        $this->header("Content-Length: " . $stats[7]);
-        $this->header("Content-Description: {$attachment->title}");
-
-        // PONDER: Support ranges ("continue download") somehow ?
-        $this->header("Accept-Ranges: none");
-
-        if ($expires > 0) {
-            // If custom expiry now+expires is set use that
-            $this->cache->content->expires(time() + $expires);
-        } elseif ($expires == 0) {
+        if ($expires == 0) {
             // expires set to 0 means disable cache, so we shall
-            $this->cache->content->no_cache();
+            $headers = $this->cache->content->no_cache(true);
+        } else {
+            $headers = $this->cache->content->cache_control_headers();
+            // Store metadata in cache so _check_hit() can help us
+            $this->cache->content->write_meta_cache('A-' . $etag, $etag);
         }
-        // TODO: Check metadata service for the real expiry timestamp ?
-
-        $this->cache->content->cache_control_headers();
-
-        $send_att_body = true;
-        if ($this->config->get('attachment_xsendfile_enable')) {
-            $blob = new blob($attachment->__object);
-            $att_local_path = $blob->get_path();
-            debug_add("Checking is_readable({$att_local_path})");
-            if (is_readable($att_local_path)) {
-                $this->header("X-Sendfile: {$att_local_path}");
-                $send_att_body = false;
+        foreach ($headers as $name => $value) {
+            if (is_array($value)) {
+                $options = [];
+                foreach ($value as $val) {
+                    $parts = explode('=', $val);
+                    if (count($parts) == 2) {
+                        $response->headers->addCacheControlDirective($parts[0], $parts[1]);
+                    } else {
+                        $response->headers->addCacheControlDirective($val);
+                    }
+                }
+            } else {
+                $response->headers->set($name, $value);
             }
         }
+        $response->send();
 
-        // Store metadata in cache so _check_hit() can help us
-        $this->cache->content->write_meta_cache('A-' . $etag, $etag);
-
-        Response::closeOutputBuffers(0, true);
-
-        if (!$send_att_body) {
-            debug_add('NOT sending file (X-Sendfile will take care of that, _midcom_stop_request()ing so nothing has a chance the mess things up anymore');
-            _midcom_stop_request();
-        }
-
-        fpassthru($f);
-        $attachment->close();
         debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
         _midcom_stop_request();
     }
