@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * This is the Output Caching Engine of MidCOM. It will intercept page output,
@@ -233,11 +234,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 break;
         }
 
-        if (midcom::get()) {
-            $identifier_source .= ';URL=' . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI);
-        } else {
-            $identifier_source .= ';URL=' . $_SERVER['REQUEST_URI'];
-        }
+        $identifier_source .= ';URL=' . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI);
         // check_dl_hit needs to take config changes into account...
         if (!is_null($customdata)) {
             $identifier_source .= ';' . serialize($customdata);
@@ -315,7 +312,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * Note, that HTTP GET is <b>not</b> checked this way, as GET requests can be
      * safely distinguished by their URL.
      */
-    private function _check_hit()
+    private function _check_hit(Request $request)
     {
         foreach (midcom_connection::get_url('argv') as $arg) {
             switch ($arg) {
@@ -327,9 +324,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             }
         }
 
-        // Check for POST variables, if any is found, go for no_cache.
-        if (count($_POST) > 0) {
-            debug_add('POST variables have been found, setting no_cache and not checking for a hit.');
+        if (!$request->isMethodCacheable()) {
+            debug_add('Request method is not cacheable, setting no_cache');
             $this->no_cache();
             return;
         }
@@ -365,29 +361,22 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         debug_add("X-MidCOM-meta-cache: HIT {$content_id}");
 
-        // Check If-Modified-Since and If-None-Match, do content output only if
-        // we have a not modified match.
-        if (!$this->_check_not_modified($data['last_modified'], $data['etag'])) {
+        $response = new Response;
+        foreach ($data['sent_headers'] as $header_string) {
+            $parts = explode(': ', $header_string, 2);
+            $response->headers->set($parts[0], $parts[1]);
+        }
+        $response->setEtag($data['etag']);
+        $response->setLastModified(DateTime::createFromFormat('U', $data['last_modified']));
+        if (!$response->isNotModified($request)) {
             $content = $this->_data_cache->fetch($content_id);
             if ($content === false) {
                 debug_add("Current page is in not in the data cache, possible ghost read.", MIDCOM_LOG_WARN);
                 return;
             }
-            debug_add("HIT {$content_id}");
-
-            array_map('_midcom_header', $data['sent_headers']);
-
-            echo $content;
-        } else {
-            // Drop the output buffer, if any.
-            $this->disable_ob();
-
-            // Emit the 304 header, then exit.
-            _midcom_header('HTTP/1.0 304 Not Modified');
-            _midcom_header("ETag: {$data['etag']}");
-            array_map('_midcom_header', $data['sent_headers']);
+            $response->setContent($content);
         }
-
+        $response->send();
         _midcom_stop_request();
     }
 
@@ -395,10 +384,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * Start the output cache. Call this before any output
      * is made. MidCOM's startup sequence will automatically do this.
      */
-    public function start_caching()
+    public function start_caching(Request $request)
     {
         // Note, that check_hit might _midcom_stop_request().
-        $this->_check_hit();
+        $this->_check_hit($request);
 
         ob_implicit_flush(false);
         ob_start();
@@ -420,35 +409,23 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @see uncached()
      */
-    public function no_cache($return = false)
+    public function no_cache(Response $response = null)
     {
-        $headers = [
-            'Cache-Control' => ['no-store', 'no-cache', 'must-revalidate', 'post-check=0', 'pre-check=0'],
-        ];
+        $settings = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0';
+        // PONDER: Send expires header (set to long time in past) as well ??
 
-        //Suppress "Pragma: no-cache" header, because otherwise file downloads don't work in IE < 9 with https.
-        if (   !isset($_SERVER['HTTPS'])
-            || !isset($_SERVER['HTTP_USER_AGENT'])
-            || !preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) {
-            $headers['Pragma'] = 'no-cache';
-        }
-
-        if (!$this->_no_cache) {
-            $this->_no_cache = true;
-
-            if (!$return) {
-                if (_midcom_headers_sent()) {
-                    // Whatever is wrong here, we return.
-                    debug_add('Warning, we should move to no_cache but headers have already been sent, skipping header transmission.', MIDCOM_LOG_ERROR);
-                    return;
-                }
-                $this->process_headers($headers, true);
-                // PONDER: Send expires header (set to long time in past) as well ??
+        if ($response) {
+            $response->header->set('Cache-Control', $settings);
+        } else if (!$this->_no_cache) {
+            if (_midcom_headers_sent()) {
+                // Whatever is wrong here, we return.
+                debug_add('Warning, we should move to no_cache but headers have already been sent, skipping header transmission.', MIDCOM_LOG_ERROR);
+                return;
             }
+
+            _midcom_header('Cache-Control: ' . $settings);
         }
-        if ($return) {
-            return $headers;
-        }
+        $this->_no_cache = true;
     }
 
     /**
@@ -627,60 +604,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     }
 
     /**
-     * Checks whether the browser supplied if-modified-since or if-none-match headers
-     * match the passed etag/last modified timestamp. If yes, true is returned. Otherwise
-     * the function will return false
-     *
-     * If the headers have already been sent, something is definitely wrong, so we
-     * ignore the request silently returning false.
-     *
-     * Note, that if both If-Modified-Since and If-None-Match are present, both must
-     * actually match.
-     *
-     * @param int $last_modified The last modified timestamp of the current document. This timestamp
-     *     is assumed to be in <i>local time</i>, and will be implicitly converted to a GMT time for
-     *     correct HTTP header comparisons.
-     * @param string $etag The etag header associated with the current document.
-     * @return boolean Indicating match
-     */
-    function _check_not_modified($last_modified, $etag)
-    {
-        if (_midcom_headers_sent()) {
-            debug_add("The headers have already been sent, cannot do a not modified check.", MIDCOM_LOG_INFO);
-            return false;
-        }
-
-        // These variables are set to true if the corresponding header indicates a 304 is possible.
-        $if_modified_since = false;
-        $if_none_match = false;
-        if (array_key_exists('HTTP_IF_NONE_MATCH', $_SERVER)) {
-            if (trim($_SERVER['HTTP_IF_NONE_MATCH'], '"') != $etag) {
-                // The E-Tag is different, so we cannot 304 here.
-                debug_add("The HTTP supplied E-Tag requirement does not match: {$_SERVER['HTTP_IF_NONE_MATCH']} (!= {$etag})");
-                return false;
-            }
-            $if_none_match = true;
-        }
-        if (array_key_exists('HTTP_IF_MODIFIED_SINCE', $_SERVER)) {
-            $tmp = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-            if (strpos($tmp, 'GMT') === false) {
-                $tmp .= ' GMT';
-            }
-            $modified_since = strtotime($tmp);
-            if ($modified_since < $last_modified) {
-                // Last Modified does not match, so we cannot 304 here.
-                debug_add("The supplied HTTP Last Modified requirement does not match: {$_SERVER['HTTP_IF_MODIFIED_SINCE']}.");
-                debug_add("If-Modified-Since: ({$modified_since}) " . gmdate("D, d M Y H:i:s", $modified_since) . ' GMT');
-                debug_add("Last-Modified: ({$last_modified}) " . gmdate("D, d M Y H:i:s", $last_modified) . ' GMT');
-                return false;
-            }
-            $if_modified_since = true;
-        }
-
-        return ($if_modified_since || $if_none_match);
-    }
-
-    /**
      * This completes the output caching, post-processes it and updates the cache databases accordingly.
      *
      * The first step is to check against _no_cache pages, which will be delivered immediately
@@ -692,7 +615,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * has been called, the cache file will not be written, but the header stuff will be added like
      * usual to allow for browser-side caching.
      */
-    public function finish_caching()
+    public function finish_caching(Request $request)
     {
         // make it safe to call this multiple times
         // done this way since it's slightly less hacky than mucking about with the cache->_modules etc
@@ -728,24 +651,22 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $etag = md5($cache_data);
         }
 
-        midcom::get()->header("ETag: {$etag}");
+        $response = new Response;
+        $response->setEtag($etag);
 
         // Register additional Headers around the current output request
         // It has been sent already during calls to content_type
         $header = "Content-type: " . $this->_content_type;
         $this->register_sent_header($header);
-        $this->_complete_sent_headers();
-        //we need to run this after complete_sent_headers, since it's used for content-length calculation
+        $this->apply_sent_headers($response);
+        //we need to run this after apply_sent_headers, since it's used for content-length calculation
         ob_end_clean();
 
-        // If-Modified-Since / If-None-Match checks, if no match, flush the output.
-        if (!$this->_check_not_modified($this->_last_modified, $etag)) {
-            echo $cache_data;
-        } else {
-            _midcom_header('HTTP/1.0 304 Not Modified');
-            _midcom_header("ETag: {$etag}");
-            array_map('_midcom_header', $this->_sent_headers);
+        if (!$response->isNotModified($request)) {
+            $response->setContent($cache_data);
         }
+        $response->prepare($request);
+        $response->send();
 
         /**
          * WARNING:
@@ -870,50 +791,35 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * To force browsers to revalidate the page on every request (login changes would
      * go unnoticed otherwise), the Cache-Control header max-age=0 is added automatically.
      */
-    private function _complete_sent_headers()
+    private function apply_sent_headers(Response $response)
     {
+        foreach ($this->_sent_headers as $header_string) {
+            $parts = explode(': ', $header_string, 2);
+            $response->headers->set($parts[0], $parts[1]);
+        }
+
         // Detected headers flags
-        $ranges = false;
-        $size = false;
+        $size = $response->headers->has('Content-Length');
         $lastmod = false;
 
-        foreach ($this->_sent_headers as $header) {
-            if (strncasecmp($header, 'Accept-Ranges', 13) == 0) {
-                $ranges = true;
-            } elseif (strncasecmp($header, 'Content-Length', 14) == 0) {
-                $size = true;
-            } elseif (strncasecmp($header, 'Last-Modified', 13) == 0) {
-                $lastmod = true;
-                // Populate last modified timestamp (force GMT):
-                $tmp = substr($header, 15);
-                if (strpos($tmp, 'GMT') === false) {
-                    $tmp .= ' GMT';
-                }
-                $this->_last_modified = strtotime($tmp);
-                if ($this->_last_modified == -1) {
-                    debug_add("Failed to extract the timecode from the last modified header '{$header}', defaulting to the current time.", MIDCOM_LOG_WARN);
-                    $this->_last_modified = time();
-                }
+        if ($date = $response->getLastModified()) {
+            $lastmod = true;
+            $this->_last_modified = (int) $date->format('U');
+            if ($this->_last_modified == -1) {
+                debug_add("Failed to extract the timecode from the last modified header, defaulting to the current time.", MIDCOM_LOG_WARN);
+                $this->_last_modified = time();
             }
         }
 
-        if (!$ranges) {
-            midcom::get()->header("Accept-Ranges: none");
-        }
         if (!$size) {
-            /* TODO: Doublecheck the way this is handled, it seems it's one byte too short
-               which causes issues with Squid for example (could be that we output extra
-               whitespace somewhere or something), now we just don't send it if headers_strategy
-               implies caching */
-            switch ($this->_headers_strategy) {
-                case 'public':
-                case 'private':
-                    break;
-                default:
-                    midcom::get()->header("Content-Length: " . ob_get_length());
-                    break;
+            /* TODO: Doublecheck the way this is handled, now we just don't send it
+             * if headers_strategy implies caching */
+            if (!in_array($this->_headers_strategy, ['public', 'private'])) {
+                $response->headers->set("Content-Length", ob_get_length());
+                $this->register_sent_header('Content-Length: ' . $response->headers->get('Content-Length'));
             }
         }
+
         if (!$lastmod) {
             /* Determine Last-Modified using MidCOM's component context,
              * Fallback to time() if this fails.
@@ -929,35 +835,22 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 || !is_numeric($time)) {
                 $time = time();
             }
-
-            midcom::get()->header("Last-Modified: " . gmdate('D, d M Y H:i:s', $time) . ' GMT');
+            $response->setLastModified(DateTime::createFromFormat('U', $time));
+            $this->register_sent_header('Last-Modified: ' . $response->headers->get('Last-Modified'));
             $this->_last_modified = $time;
         }
 
-        $this->process_headers($this->cache_control_headers());
-
+        $this->cache_control_headers($response);
+        $this->register_sent_header('Cache-Control: ' . $response->headers->get('Cache-Control'));
+        if ($response->getExpires()) {
+            $this->register_sent_header('Expires: ' . $response->headers->get('Expires'));
+        }
         if (   is_array($this->_force_headers)
             && !empty($this->_force_headers)) {
             foreach ($this->_force_headers as $header => $value) {
+                $response->headers->set($key, $value);
                 $header_string = "{$header}: {$value}";
-                _midcom_header($header_string, true);
                 $this->_replace_sent_header($header, $header_string);
-            }
-        }
-    }
-
-    private function process_headers(array $headers, $skip_registration = false)
-    {
-        foreach ($headers as $header => $value) {
-            if (is_array($value)) {
-                $header_string = $header . ': ' . implode(', ', $value);
-            } else {
-                $header_string = "{$header}: {$value}";
-            }
-            if ($skip_registration) {
-                _midcom_header($header_string);
-            } else {
-                midcom::get()->header($header_string);
             }
         }
     }
@@ -988,15 +881,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     /**
      * @return array
      */
-    public function cache_control_headers()
+    public function cache_control_headers(Response $response)
     {
-        // Just to be sure not to mess the headers sent by no_cache in case it was called
-        if ($this->_no_cache) {
-            return $this->no_cache(true);
-        }
         // Add Expiration and Cache Control headers
-        $headers = [];
-        $expires = false;
         $strategy = $this->_headers_strategy;
         $default_lifetime = $this->_default_lifetime;
         if (   midcom::get()->auth->is_valid_user()
@@ -1004,37 +891,36 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $strategy = $this->_headers_strategy_authenticated;
             $default_lifetime = $this->_default_lifetime_authenticated;
         }
-        switch ($strategy) {
-            // included in case _headers_strategy_authenticated sets this
-            case 'no-cache':
-                return $this->no_cache(true);
-            case 'revalidate':
-                // Currently, we *force* a cache client to revalidate the copy every time.
-                // I hope that this fixes most of the problems outlined in #297 for the time being.
-                // The timeout of a content cache entry is not affected by this.
-                $headers['Cache-Control'] = ['max-age=0', 'must-revalidate'];
-                $expires = time();
-                break;
-            case 'private':
-                // Fall-strough intentional
-            case 'public':
-                $headers['Cache-Control'] = [$strategy];
-                $headers['Pragma'] = $strategy;
-                if (!is_null($this->_expires)) {
-                    $expires = $this->_expires;
-                    $max_age = $this->_expires - time();
-                } else {
-                    $expires = time() + $default_lifetime;
-                    $max_age = $default_lifetime;
-                }
-                $headers['Cache-Control'][] = 'max-age=' . $max_age;
-                if ($max_age == 0) {
-                    $headers['Cache-Control'][] = 'must-revalidate';
-                }
-                break;
-        }
 
-        $headers['Expires'] = gmdate("D, d M Y H:i:s", $expires) . " GMT";
-        return $headers;
+        // Just to be sure not to mess the headers sent by no_cache in case it was called
+        if ($this->_no_cache || $strategy == 'no-cache') {
+            $this->no_cache($response);
+        } elseif ($strategy == 'revalidate') {
+            // Currently, we *force* a cache client to revalidate the copy every time.
+            // I hope that this fixes most of the problems outlined in #297 for the time being.
+            // The timeout of a content cache entry is not affected by this.
+            $response->setMaxAge(0);
+            $response->headers->addCacheControlDirective('must-revalidate');
+            $response->setExpires(new DateTime);
+        } else {
+            if ($strategy == 'private') {
+                $response->setPrivate();
+            } else {
+                $response->setPublic();
+            }
+            if (!is_null($this->_expires)) {
+                $expires = $this->_expires;
+                $max_age = $this->_expires - time();
+            } else {
+                $expires = time() + $default_lifetime;
+                $max_age = $default_lifetime;
+            }
+            $response
+                ->setExpires(DateTime::createFromFormat('U', $expires))
+                ->setMaxAge($max_age);
+            if ($max_age == 0) {
+                $response->headers->addCacheControlDirective('must-revalidate');
+            }
+        }
     }
 }

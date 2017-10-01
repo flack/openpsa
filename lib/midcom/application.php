@@ -53,12 +53,9 @@ class midcom_application
     private $_cached_page_prefix = '';
 
     /**
-     * Host name cache to avoid computing it each time.
-     *
-     * @var string
-     * @see get_host_name()
+     * @var Request
      */
-    private $_cached_host_name = '';
+    private $request;
 
     /**
      * Set this variable to true during the handle phase of your component to
@@ -105,13 +102,14 @@ class midcom_application
      */
     public function initialize()
     {
-        $this->debug->log("Start of MidCOM run" . (isset($_SERVER['REQUEST_URI']) ? ": {$_SERVER['REQUEST_URI']}" : ''));
+        $this->request = Request::createFromGlobals();
+        $this->debug->log("Start of MidCOM run" . $this->request->server->get('REQUEST_URI', ''));
         $this->auth->check_for_login_session();
 
         /* Load and start up the cache system, this might already end the request
          * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
          */
-        $this->cache->content->start_caching();
+        $this->cache->content->start_caching($this->request);
 
         // Start-up some of the services
         $this->dbclassloader->load_classes('midcom', 'legacy_classes.inc');
@@ -207,7 +205,7 @@ class midcom_application
         $uri = midcom_connection::get_url('self') . $url;
         if ($pass_get) {
             // Include GET parameters into cache URL
-            $uri .= '?GET=' . serialize($_GET);
+            $uri .= '?GET=' . serialize($this->request->query->all());
         }
         $context->set_key(MIDCOM_CONTEXT_URI, $uri);
 
@@ -292,15 +290,14 @@ class midcom_application
         // Doublecheck that this is registered
         $this->cache->content->register($attachment->guid);
 
-        $request = Request::createFromGlobals();
         $blob = new blob($attachment->__object);
         $response = new BinaryFileResponse($blob->get_path());
         $last_modified = (int) $response->getLastModified()->format('U');
         $etag = md5("{$last_modified}{$attachment->name}{$attachment->mimetype}{$attachment->guid}");
         $response->setEtag($etag);
 
-        if ($expires == 0 || !$response->isNotModified($request)) {
-            $response->prepare($request);
+        if ($expires == 0 || !$response->isNotModified($this->request)) {
+            $response->prepare($this->request);
 
             if ($expires > 0) {
                 // If custom expiry now+expires is set use that
@@ -314,30 +311,15 @@ class midcom_application
         }
         if ($expires == 0) {
             // expires set to 0 means disable cache, so we shall
-            $headers = $this->cache->content->no_cache(true);
+            $this->cache->content->no_cache($response);
         } else {
-            $headers = $this->cache->content->cache_control_headers();
+            $this->cache->content->cache_control_headers($response);
             // Store metadata in cache so _check_hit() can help us
             $this->cache->content->write_meta_cache('A-' . $etag, $etag);
         }
-        foreach ($headers as $name => $value) {
-            if (is_array($value)) {
-                $options = [];
-                foreach ($value as $val) {
-                    $parts = explode('=', $val);
-                    if (count($parts) == 2) {
-                        $response->headers->addCacheControlDirective($parts[0], $parts[1]);
-                    } else {
-                        $response->headers->addCacheControlDirective($val);
-                    }
-                }
-            } else {
-                $response->headers->set($name, $value);
-            }
-        }
         $response->send();
 
-        debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
+        debug_add("End of MidCOM run: " . $this->request->server->get('REQUEST_URI'));
         _midcom_stop_request();
     }
 
@@ -345,21 +327,19 @@ class midcom_application
      * Exit from the framework, execute after all output has been made.
      *
      * Does all necessary clean-up work. Must be called after output is completed as
-     * the last call of any MidCOM Page. Best Practice: call it at the end of the ROOT
-     * style element.
+     * the last call of any MidCOM Page.
      *
      * <b>WARNING:</b> Anything done after calling this method will be lost.
      */
     public function finish()
     {
-        // Shutdown content-cache (ie flush content to user :) before possibly slow DBA watches
-        // done this way since it's slightly less hacky than calling shutdown and then mucking about with the cache->_modules etc
-        $this->cache->content->finish_caching();
+        // Shutdown content-cache (ie flush content to user :)
+        $this->cache->content->finish_caching($this->request);
 
         // Shutdown rest of the caches
         $this->cache->shutdown();
 
-        debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
+        debug_add("End of MidCOM run: " . $this->request->server->get('REQUEST_URI'));
         _midcom_stop_request();
     }
 
@@ -453,28 +433,7 @@ class midcom_application
      */
     function get_host_name()
     {
-        if (!$this->_cached_host_name) {
-            if (   array_key_exists("SSL_PROTOCOL", $_SERVER)
-                || (   array_key_exists('HTTPS', $_SERVER)
-                    && $_SERVER['HTTPS'] == 'on')
-                || $_SERVER["SERVER_PORT"] == 443) {
-                $protocol = "https";
-            } else {
-                $protocol = "http";
-            }
-
-            $port = "";
-            if (strpos($_SERVER['SERVER_NAME'], ':') === false) {
-                if (   ($protocol == "http" && $_SERVER["SERVER_PORT"] != 80)
-                    || ($protocol == "https" && $_SERVER["SERVER_PORT"] != 443)) {
-                    $port = ":" . $_SERVER["SERVER_PORT"];
-                }
-            }
-
-            $this->_cached_host_name = "{$protocol}://{$_SERVER['SERVER_NAME']}{$port}";
-        }
-
-        return $this->_cached_host_name;
+        return $this->request->getSchemeAndHttpHost();
     }
 
     /**
