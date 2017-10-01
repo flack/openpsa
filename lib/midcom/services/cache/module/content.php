@@ -848,7 +848,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if (   is_array($this->_force_headers)
             && !empty($this->_force_headers)) {
             foreach ($this->_force_headers as $header => $value) {
-                $response->headers->set($key, $value);
+                $response->headers->set($header, $value);
                 $header_string = "{$header}: {$value}";
                 $this->_replace_sent_header($header, $header_string);
             }
