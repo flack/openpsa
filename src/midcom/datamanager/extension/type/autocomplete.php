@@ -116,7 +116,7 @@ class autocomplete extends AbstractType
 
         $preset = [];
         if (!empty($view->children['selection']->vars['data'])) {
-            foreach ((array) $view->children['selection']->vars['data'] as $identifier) {
+            foreach (array_filter((array) $view->children['selection']->vars['data']) as $identifier) {
                 if ($options['widget_config']['id_field'] == 'id') {
                     $identifier = (int) $identifier;
                 }
