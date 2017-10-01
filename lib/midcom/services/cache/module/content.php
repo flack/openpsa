@@ -39,9 +39,8 @@ use Symfony\Component\HttpFoundation\Request;
  * changes like this (of course, this is true if and only if you are not using a
  * MidCOM to change permissions).
  *
- * Special care is taken when HTTP POST request data is present. In that case, the
- * caching engine will automatically and transparently go into no_cache mode for
- * that request only, allowing your application to process form data. This feature
+ * When the HTTP request is not cacheable, the caching engine will automatically and
+ * transparently go into no_cache mode for that request only. This feature
  * does neither invalidate the cache or drop the page that would have been delivered
  * normally from the cache. If you change the content, you need to do that yourself.
  *
@@ -53,7 +52,7 @@ use Symfony\Component\HttpFoundation\Request;
  * This module's startup code will exit with _midcom_stop_request() in case of
  * a cache hit, and it will enclose the entire request using PHP's output buffering.
  *
- * <b>Module configuration (see also midcom/config/main.php)</b>
+ * <b>Module configuration (see also midcom_config)</b>
  *
  * - <i>string cache_module_content_name</i>: The name of the cache database to use. This should usually be tied to the actual
  *   MidCOM site to have exactly one cache per site. This is mandatory (and populated by a sensible default
@@ -274,27 +273,25 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_data_cache = $this->_create_backend('content_data', $backend_config);
 
         $this->_uncached = midcom::get()->config->get('cache_module_content_uncached');
-        $this->_headers_strategy = strtolower(midcom::get()->config->get('cache_module_content_headers_strategy'));
-        $this->_headers_strategy_authenticated = strtolower(midcom::get()->config->get('cache_module_content_headers_strategy_authenticated'));
+        $this->_headers_strategy = $this->get_strategy('cache_module_content_headers_strategy');
+        $this->_headers_strategy_authenticated = $this->get_strategy('cache_module_content_headers_strategy_authenticated');
         $this->_default_lifetime = (int)midcom::get()->config->get('cache_module_content_default_lifetime');
         $this->_default_lifetime_authenticated = (int)midcom::get()->config->get('cache_module_content_default_lifetime_authenticated');
         $this->_force_headers = midcom::get()->config->get('cache_module_content_headers_force');
 
-        switch ($this->_headers_strategy) {
-            case 'no-cache':
-                $this->no_cache();
-                break;
-            case 'revalidate':
-            case 'public':
-            case 'private':
-                break;
-            default:
-                $message = "Cache headers strategy '{$this->_headers_strategy}' is not valid, try 'no-cache', 'revalidate', 'public' or 'private'";
-                debug_add($message, MIDCOM_LOG_ERROR);
-                $this->no_cache();
-
-                throw new midcom_error($message);
+        if ($this->_headers_strategy == 'no-cache') {
+            $this->no_cache();
         }
+    }
+
+    private function get_strategy($name)
+    {
+        $strategy = strtolower(midcom::get()->config->get($name));
+        $allowed = ['no-cache', 'revalidate', 'public', 'private'];
+        if (!in_array($strategy, $allowed)) {
+            throw new midcom_error($name . ' is not valid, try ' . implode(', ', $allowed));
+        }
+        return $strategy;
     }
 
     /**
@@ -783,7 +780,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     }
 
     /**
-     * This little helper ensures that the headers Accept-Ranges, Content-Length
+     * This little helper ensures that the headers Content-Length
      * and Last-Modified are present. The lastmod timestamp is taken out of the
      * component context information if it is populated correctly there; if not, the
      * system time is used instead.
@@ -879,7 +876,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     }
 
     /**
-     * @return array
+     * @param Response $response
      */
     public function cache_control_headers(Response $response)
     {
@@ -893,7 +890,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         // Just to be sure not to mess the headers sent by no_cache in case it was called
-        if ($this->_no_cache || $strategy == 'no-cache') {
+        if ($this->_no_cache) {
             $this->no_cache($response);
         } elseif ($strategy == 'revalidate') {
             // Currently, we *force* a cache client to revalidate the copy every time.
