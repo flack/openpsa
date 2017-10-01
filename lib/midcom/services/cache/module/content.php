@@ -49,8 +49,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * <b>Internal notes</b>
  *
- * This module is the first cache module which is initialized, and it will be the
- * last one in the shutdown sequence. Its startup code will exit with _midcom_stop_request() in case of
+ * This module's startup code will exit with _midcom_stop_request() in case of
  * a cache hit, and it will enclose the entire request using PHP's output buffering.
  *
  * <b>Module configuration (see also midcom/config/main.php)</b>
@@ -299,15 +298,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
                 throw new midcom_error($message);
         }
-    }
-
-    /**
-     * The shutdown event handler will finish the caching sequence by storing the cached data,
-     * if required.
-     */
-    public function _on_shutdown()
-    {
-        $this->_finish_caching();
     }
 
     /**
@@ -691,8 +681,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     }
 
     /**
-     * This helper will be called during module shutdown, it completes the output caching,
-     * post-processes it and updates the cache databases accordingly.
+     * This completes the output caching, post-processes it and updates the cache databases accordingly.
      *
      * The first step is to check against _no_cache pages, which will be delivered immediately
      * without any further post processing. Afterwards, the system will complete the sent
@@ -703,7 +692,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * has been called, the cache file will not be written, but the header stuff will be added like
      * usual to allow for browser-side caching.
      */
-    function _finish_caching($etag = null)
+    public function finish_caching()
     {
         // make it safe to call this multiple times
         // done this way since it's slightly less hacky than mucking about with the cache->_modules etc
@@ -774,7 +763,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
     /**
      * Writes meta-cache entry from context data using given content id
-     * Used to be part of _finish_caching, but needed by serve-attachment method in midcom_application as well
+     * Used to be part of finish_caching, but needed by serve-attachment method in midcom_application as well
      */
     public function write_meta_cache($content_id, $etag)
     {

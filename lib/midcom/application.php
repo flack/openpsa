@@ -354,7 +354,7 @@ class midcom_application
     {
         // Shutdown content-cache (ie flush content to user :) before possibly slow DBA watches
         // done this way since it's slightly less hacky than calling shutdown and then mucking about with the cache->_modules etc
-        $this->cache->content->_finish_caching();
+        $this->cache->content->finish_caching();
 
         // Shutdown rest of the caches
         $this->cache->shutdown();
