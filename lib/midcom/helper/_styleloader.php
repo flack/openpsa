@@ -49,8 +49,7 @@
  * This is done either using the append/prepend component_style functions or by setting it
  * to another directory by calling (append|prepend)_styledir directly.
  *
- * NB: This cannot happen after the midcom::get()->content() stage in midcom is called,
- * i.e. you cannot change this in another style element or in a _show() function in a component.
+ * NB: You cannot change this in another style element or in a _show() function in a component.
  *
  * @todo Document Style Inheritance
  *

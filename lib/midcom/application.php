@@ -127,7 +127,6 @@ class midcom_application
     /* *************************************************************************
      * Control framework:
      * codeinit      - Handle the current request
-     * content        - Show the current pages output
      * dynamic_load   - Dynamically load and execute a URL
      * finish         - Cleanup Work
      */
