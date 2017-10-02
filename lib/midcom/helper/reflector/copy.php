@@ -135,8 +135,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      */
     public function get_parent_property($object)
     {
-        $properties = self::get_target_properties($object);
-        return $properties['parent'];
+        return self::get_target_properties($object)['parent'];
     }
 
     /**

@@ -173,8 +173,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 }
 
                 // Redirect to first node
-                $node = $nap->get_node($nodes[0]);
-                return $node[MIDCOM_NAV_FULLURL];
+                return $nap->get_node($nodes[0])[MIDCOM_NAV_FULLURL];
 
             case 'permalink':
                 if ($url = midcom::get()->permalinks->resolve_permalink($data['config']->get('redirection_guid'))) {

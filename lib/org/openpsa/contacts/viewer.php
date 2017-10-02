@@ -30,20 +30,17 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
     public function get_group_tree()
     {
         $root_group = org_openpsa_contacts_interface::find_root_group();
+        $nap = new midcom_helper_nav;
+        $prefix = $nap->get_node($this->_topic->id)[MIDCOM_NAV_ABSOLUTEURL];
 
         $tree = new org_openpsa_widgets_tree('org_openpsa_contacts_group_dba', 'owner');
-        $tree->link_callback = [$this, 'get_group_link'];
+        $tree->link_callback = function ($guid) use ($prefix) {
+            return $prefix . 'group/' . $guid . '/';
+        };
         $tree->constraints[] = ['orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::MYCONTACTS];
         $tree->root_node = $root_group->id;
         $tree->title_fields = ['official', 'name'];
         return $tree;
-    }
-
-    public function get_group_link($guid)
-    {
-        $nap = new midcom_helper_nav;
-        $node = $nap->get_node($this->_topic->id);
-        return $node[MIDCOM_NAV_ABSOLUTEURL] . 'group/' . $guid . '/';
     }
 
     /**
