@@ -170,12 +170,6 @@ class midcom_helper__dbfactory
             throw new midcom_error("Cannot cast the object to an MgdSchema type, it is not a MidCOM DBA object");
         }
 
-        if (   !isset($object->__object)
-            || !is_object($object->__object)) {
-            debug_print_r("Object dump:", $object);
-            throw new midcom_error("Cannot cast the object to an MgdSchema type, as it doesn't contain it");
-        }
-
         return $object->__object;
     }
 
