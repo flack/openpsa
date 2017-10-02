@@ -176,7 +176,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @param mixed $configuration A configuration data list, suitable for merging with a
      *     midcom_helper_configuration object.
      * @param int $contextid The ID of the context we are associated with.
-     * @return boolean Indication success.
      */
     public function configure($configuration, $contextid)
     {
@@ -186,7 +185,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
             'handler' => null
         ];
 
-        return $this->_context_data[$contextid]['config']->store($configuration, false);
+        $this->_context_data[$contextid]['config']->store($configuration, false);
     }
 
     /**

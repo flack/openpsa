@@ -181,7 +181,6 @@ class midcom_helper_configuration
      *
      * @param array    $params        The new local parameters
      * @param boolean    $reset        If set to true, the current local configuration will be discarded first.
-     * @return boolean                Indicating success.
      * @see midcom_helper_configuration::reset_local()
      */
     public function store(array $params, $reset = true)
@@ -197,7 +196,6 @@ class midcom_helper_configuration
         }
         $this->_local = array_merge($this->_local, $params);
         $this->_update_cache();
-        return true;
     }
 
     /**
@@ -211,14 +209,12 @@ class midcom_helper_configuration
      * @param MidgardObject $object    The object from which to import data.
      * @param string $path    The parameter domain to query.
      * @param boolean $merge Should the existing local config be overridden or merged
-     * @return boolean            Indicating success
      */
     public function store_from_object($object, $path, $merge = false)
     {
         $this->_object = $object;
         $this->_path = $path;
         $this->_store_from_object(false, $merge);
-        return true;
     }
 
     /**
