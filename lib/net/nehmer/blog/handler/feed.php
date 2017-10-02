@@ -42,8 +42,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     public function _handler_feed($handler_id, array $args, array &$data)
     {
         midcom::get()->cache->content->content_type("text/xml; charset=UTF-8");
-        midcom::get()->header("Content-type: text/xml; charset=UTF-8");
-
         midcom::get()->skip_page_style = true;
 
         // Prepare control structures

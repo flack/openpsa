@@ -116,7 +116,6 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
     public function _handler_feed($handler_id, array $args, array &$data)
     {
         midcom::get()->cache->content->content_type("text/xml; charset=UTF-8");
-        midcom::get()->header("Content-type: text/xml; charset=UTF-8");
         midcom::get()->skip_page_style = true;
 
         if ($handler_id == 'updated_products_feed_intree') {
