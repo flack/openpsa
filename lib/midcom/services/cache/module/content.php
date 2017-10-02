@@ -359,10 +359,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         debug_add("X-MidCOM-meta-cache: HIT {$content_id}");
 
         $response = new Response;
-        foreach ($data['sent_headers'] as $header_string) {
-            $parts = explode(': ', $header_string, 2);
-            $response->headers->set($parts[0], $parts[1]);
-        }
+        $this->apply_headers($response, $data['sent_headers']);
         $response->setEtag($data['etag']);
         $response->setLastModified(DateTime::createFromFormat('U', $data['last_modified']));
         if (!$response->isNotModified($request)) {
@@ -543,10 +540,16 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * the PHP header function.
      *
      * @param string $header The header that was sent.
+     * @param string $value
      */
-    public function register_sent_header($header)
+    public function register_sent_header($header, $value = null)
     {
-        $this->_sent_headers[] = $header;
+        if ($value === null && strpos($header, ': ') !== false) {
+            $parts = explode(': ', $header, 2);
+            $header = $parts[0];
+            $value = $parts[1];
+        }
+        $this->_sent_headers[$header] = $value;
     }
 
     /**
@@ -653,10 +656,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         // Register additional Headers around the current output request
         // It has been sent already during calls to content_type
-        $header = "Content-type: " . $this->_content_type;
-        $this->register_sent_header($header);
-        $this->apply_sent_headers($response);
-        //we need to run this after apply_sent_headers, since it's used for content-length calculation
+        $this->register_sent_header('Content-Type', $this->_content_type);
+        $this->complete_sent_headers();
+        //we need to run this after complete_sent_headers, since it's used for content-length calculation
         ob_end_clean();
 
         if (!$response->isNotModified($request)) {
@@ -779,6 +781,18 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->store_context_guid_map($context, $dl_content_id, $dl_request_id);
     }
 
+    private function apply_headers(Response $response, array $headers)
+    {
+        foreach ($headers as $header => $value) {
+            if ($value === null) {
+                // compat for old-style midcom status setting
+                _midcom_header($header);
+            } else {
+                $response->headers->set($header, $value);
+            }
+        }
+    }
+
     /**
      * This little helper ensures that the headers Content-Length
      * and Last-Modified are present. The lastmod timestamp is taken out of the
@@ -788,12 +802,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * To force browsers to revalidate the page on every request (login changes would
      * go unnoticed otherwise), the Cache-Control header max-age=0 is added automatically.
      */
-    private function apply_sent_headers(Response $response)
+    private function complete_sent_headers(Response $response)
     {
-        foreach ($this->_sent_headers as $header_string) {
-            $parts = explode(': ', $header_string, 2);
-            $response->headers->set($parts[0], $parts[1]);
-        }
+        $this->apply_headers($response, $this->_sent_headers);
 
         // Detected headers flags
         $size = $response->headers->has('Content-Length');
@@ -813,7 +824,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
              * if headers_strategy implies caching */
             if (!in_array($this->_headers_strategy, ['public', 'private'])) {
                 $response->headers->set("Content-Length", ob_get_length());
-                $this->register_sent_header('Content-Length: ' . $response->headers->get('Content-Length'));
+                $this->register_sent_header('Content-Length', $response->headers->get('Content-Length'));
             }
         }
 
@@ -833,45 +844,21 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $time = time();
             }
             $response->setLastModified(DateTime::createFromFormat('U', $time));
-            $this->register_sent_header('Last-Modified: ' . $response->headers->get('Last-Modified'));
+            $this->register_sent_header('Last-Modified', $response->headers->get('Last-Modified'));
             $this->_last_modified = $time;
         }
 
         $this->cache_control_headers($response);
-        $this->register_sent_header('Cache-Control: ' . $response->headers->get('Cache-Control'));
+        $this->register_sent_header('Cache-Control', $response->headers->get('Cache-Control'));
         if ($response->getExpires()) {
-            $this->register_sent_header('Expires: ' . $response->headers->get('Expires'));
+            $this->register_sent_header('Expires', $response->headers->get('Expires'));
         }
         if (   is_array($this->_force_headers)
             && !empty($this->_force_headers)) {
             foreach ($this->_force_headers as $header => $value) {
                 $response->headers->set($header, $value);
-                $header_string = "{$header}: {$value}";
-                $this->_replace_sent_header($header, $header_string);
+                $this->register_sent_header($header, $value);
             }
-        }
-    }
-
-    /**
-     * Scans the _sent_headers array for similar header and replaces with new value,
-     * if header is not found adds it to the array
-     *
-     * @param string $header name of the header, for example "Cache-Control"
-     * @param string $header_string full header string with value, for example "Cache-Control: no-cache"
-     */
-    private function _replace_sent_header($header, $header_string)
-    {
-        $matched = false;
-        foreach ($this->_sent_headers as &$value) {
-            if (!preg_match("%^{$header}:%", $value)) {
-                continue;
-            }
-            $value = $header_string;
-            $matched = true;
-            break;
-        }
-        if (!$matched) {
-            $this->_sent_headers[] = $header_string;
         }
     }
 
