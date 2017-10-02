@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 /**
  * Support for interactions with environment
  *
@@ -52,10 +54,8 @@ class midcom_compat_environment
         }
         if (   !preg_match('%\?|/$|midcom-.+-|/.*\.[^/]+$%', $redirect_test_uri)
             && (empty($_POST))) {
-            $this->header('HTTP/1.0 301 Moved Permanently');
-            $this->header("Location: {$redirect_test_uri}/");
-            $redirect_test_uri_clean = htmlentities($redirect_test_uri);
-            echo "301: new location <a href='{$redirect_test_uri_clean}/'>{$redirect_test_uri_clean}/</a>";
+            $response = new RedirectResponse($redirect_test_uri . '/', 301);
+            $response->send();
             $this->stop_request();
         }
     }
