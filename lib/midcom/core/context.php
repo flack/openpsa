@@ -339,11 +339,6 @@ class midcom_core_context
 
         // Get component interface class
         $component_interface = midcom::get()->componentloader->get_interface_class($path);
-        if ($component_interface === null) {
-            $path = 'midcom.core.nullcomponent';
-            $this->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
-            $component_interface = midcom::get()->componentloader->get_interface_class($path);
-        }
 
         // Load configuration
         $config_obj = $this->_loadconfig($this->id, $object);
