@@ -657,7 +657,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // Register additional Headers around the current output request
         // It has been sent already during calls to content_type
         $this->register_sent_header('Content-Type', $this->_content_type);
-        $this->complete_sent_headers();
+        $this->complete_sent_headers($response);
         //we need to run this after complete_sent_headers, since it's used for content-length calculation
         ob_end_clean();
 
