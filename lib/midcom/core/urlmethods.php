@@ -125,8 +125,7 @@ class midcom_core_urlmethods
     private function _process_cache($value)
     {
         if ($value == 'invalidate') {
-            if (   !is_array(midcom::get()->config->get('indexer_reindex_allowed_ips'))
-                || !in_array($_SERVER['REMOTE_ADDR'], midcom::get()->config->get('indexer_reindex_allowed_ips'))) {
+            if (!in_array($_SERVER['REMOTE_ADDR'], midcom::get()->config->get('indexer_reindex_allowed_ips', []))) {
                 midcom::get()->auth->require_valid_user('basic');
                 midcom::get()->auth->require_admin_user();
             }

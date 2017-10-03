@@ -97,13 +97,11 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         foreach (self::get_component_list() as $component => $details) {
             if (   $component !== $parent_component
                 && !$all) {
-                if (   is_array(midcom::get()->config->get('component_listing_allowed'))
-                    && !in_array($component, midcom::get()->config->get('component_listing_allowed'))) {
+                if (!in_array($component, midcom::get()->config->get('component_listing_allowed', []))) {
                     continue;
                 }
 
-                if (   is_array(midcom::get()->config->get('component_listing_excluded'))
-                    && in_array($component, midcom::get()->config->get('component_listing_excluded'))) {
+                if (in_array($component, midcom::get()->config->get('component_listing_excluded', []))) {
                     continue;
                 }
             }

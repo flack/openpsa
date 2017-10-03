@@ -442,8 +442,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     public function can_handle($argc, $argv)
     {
         // Call the general can_handle event handler
-        $result = $this->_on_can_handle($argc, $argv);
-        if (!$result) {
+        if (!$this->_on_can_handle($argc, $argv)) {
             return false;
         }
 

@@ -60,7 +60,7 @@ class midcom_helper_nav_leaf extends midcom_helper_nav_item
             $this->data[MIDCOM_NAV_OBJECT] = null;
 
             // Get the pseudo leaf score from the topic
-            if (($score = $topic->get_parameter('midcom.helper.nav.score', "{$topic->id}-{$this->leafid}"))) {
+            if ($score = $topic->get_parameter('midcom.helper.nav.score', "{$topic->id}-{$this->leafid}")) {
                 $this->data[MIDCOM_NAV_SCORE] = (int) $score;
             }
         }
