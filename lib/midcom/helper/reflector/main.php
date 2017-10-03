@@ -141,22 +141,12 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return $this->_l10n;
         }
 
-        $component = midcom::get()->dbclassloader->get_component_for_class($midcom_dba_classname);
-        if (!$component) {
-            debug_add("Could not resolve component for DBA class {$midcom_dba_classname}, using our own l10n", MIDCOM_LOG_INFO);
-            self::$_cache['l10n'][$this->mgdschema_class] = $this->_l10n;
-            return $this->_l10n;
-        }
-        // Got component, try to load the l10n helper for it
-        $component_l10n = $this->_i18n->get_l10n($component);
-        if (!empty($component_l10n)) {
-            self::$_cache['l10n'][$this->mgdschema_class] = $component_l10n;
-            return $component_l10n;
+        if ($component = midcom::get()->dbclassloader->get_component_for_class($midcom_dba_classname)) {
+            self::$_cache['l10n'][$this->mgdschema_class] = $this->_i18n->get_l10n($component);
+            return self::$_cache['l10n'][$this->mgdschema_class];
         }
 
-        // Could not get anything else, use our own l10n
-        debug_add("Everything else failed, using our own l10n for type {$this->mgdschema_class}", MIDCOM_LOG_WARN);
-
+        debug_add("Could not resolve component for DBA class {$midcom_dba_classname}, using our own l10n", MIDCOM_LOG_INFO);
         self::$_cache['l10n'][$this->mgdschema_class] = $this->_l10n;
         return $this->_l10n;
     }
