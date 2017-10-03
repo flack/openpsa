@@ -365,14 +365,13 @@ class midcom_helper_toolbar
         if (   !empty($item[MIDCOM_TOOLBAR_ACCESSKEY])
             && !array_key_exists($item[MIDCOM_TOOLBAR_ACCESSKEY], $used_access_keys)) {
             // We have valid access key, add it to help text
+            $prefix = 'Alt-';
             if (   isset($_SERVER['HTTP_USER_AGENT'])
                 && strstr($_SERVER['HTTP_USER_AGENT'], 'Macintosh')) {
                 // Mac users
-                $hotkey = 'Ctrl-' . strtoupper($item[MIDCOM_TOOLBAR_ACCESSKEY]);
-            } else {
-                // Windows and Linux clients
-                $hotkey = 'Alt-' . strtoupper($item[MIDCOM_TOOLBAR_ACCESSKEY]);
+                $prefix = 'Ctrl-Alt-';
             }
+            $hotkey = $prefix . strtoupper($item[MIDCOM_TOOLBAR_ACCESSKEY]);
 
             if ($item[MIDCOM_TOOLBAR_HELPTEXT] == '') {
                 $item[MIDCOM_TOOLBAR_HELPTEXT] = $hotkey;
