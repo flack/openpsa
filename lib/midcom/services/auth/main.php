@@ -620,8 +620,8 @@ class midcom_services_auth
      */
     public function require_valid_user($method = 'form')
     {
-        debug_print_function_stack("require_valid_user called at this level");
         if (!$this->is_valid_user()) {
+            debug_print_function_stack("require_valid_user called at this level");
             if ($method == 'basic') {
                 $this->_http_basic_auth();
             } else {
