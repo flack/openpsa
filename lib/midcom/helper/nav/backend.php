@@ -326,12 +326,7 @@ class midcom_helper_nav_backend
 
         // Set the current leaf, this does *not* load the leaves from the DB, this is done during get_leaf.
         if ($node->id === $this->_current) {
-            $interface = $this->_loader->get_interface_class($node->component);
-            if (!$interface) {
-                throw new midcom_error('Failed to load interface class for ' . $node->component);
-            }
-
-            $currentleaf = $interface->get_current_leaf();
+            $currentleaf = $this->_loader->get_interface_class($node->component)->get_current_leaf();
             if ($currentleaf !== false) {
                 $this->_currentleaf = "{$node->id}-{$currentleaf}";
             }

@@ -142,13 +142,6 @@ class midcom_services_permalinks
             return null;
         }
         $interface = midcom::get()->componentloader->get_interface_class($component);
-        if ($interface === null) {
-            debug_add("Failed to load the interface class for the component {$component} of the topic #{$topic->id}, cannot resolve the permalink here.",
-                MIDCOM_LOG_WARN);
-            debug_print_r('Passed topic was:', $topic);
-            return null;
-        }
-
         $nav = new midcom_helper_nav();
         $node = $nav->get_node($topic->id);
 

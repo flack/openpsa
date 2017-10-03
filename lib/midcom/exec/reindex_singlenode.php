@@ -47,12 +47,6 @@ echo "Processing node {$node[MIDCOM_NAV_FULLURL]}\n";
 debug_print_r("Processing node id {$nodeid}", $node);
 
 $interface = $loader->get_interface_class($node[MIDCOM_NAV_COMPONENT]);
-if (is_null($interface)) {
-    $msg = "Failed to retrieve an interface class for the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.";
-    debug_add($msg, MIDCOM_LOG_ERROR);
-    debug_print_r('NAP record was:', $node);
-    throw new midcom_error($msg);
-}
 
 echo "Dropping existing documents in node... ";
 

@@ -1386,12 +1386,6 @@ class midcom_baseclasses_core_dbobject
      */
     public static function is_object_visible_onsite(midcom_core_dbaobject $object)
     {
-        if (!$object->metadata) {
-            debug_add("Failed to load the metadata for the " . get_class($object) . " {$object->guid}, assuming invisible object.",
-                MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         return $object->metadata->is_object_visible_onsite();
     }
 

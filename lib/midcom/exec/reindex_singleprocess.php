@@ -44,13 +44,8 @@ while (!is_null($nodeid)) {
     echo "Processing Node {$node[MIDCOM_NAV_FULLURL]}...\n";
     debug_print_r("Processing node id {$nodeid}", $node);
     $interface = $loader->get_interface_class($node[MIDCOM_NAV_COMPONENT]);
-    if (!is_null($interface)) {
-        if (!$interface->reindex($node[MIDCOM_NAV_OBJECT])) {
-            debug_add("Failed to reindex the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.", MIDCOM_LOG_WARN);
-            debug_print_r('NAP record was:', $node);
-        }
-    } else {
-        debug_add("Failed to retrieve an interface class for the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.", MIDCOM_LOG_WARN);
+    if (!$interface->reindex($node[MIDCOM_NAV_OBJECT])) {
+        debug_add("Failed to reindex the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.", MIDCOM_LOG_WARN);
         debug_print_r('NAP record was:', $node);
     }
 

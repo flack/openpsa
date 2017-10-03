@@ -216,10 +216,6 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
     private function get_component_interface($topic)
     {
         $interface = midcom::get()->componentloader->get_interface_class($topic->component);
-        if (!$interface) {
-            debug_add("Could not get interface class of '{$topic->component}'", MIDCOM_LOG_ERROR);
-            return null;
-        }
         if (!$interface->set_object($topic)) {
             debug_add("Could not set the NAP instance of '{$topic->component}' to the topic {$topic->id}.", MIDCOM_LOG_ERROR);
             return null;

@@ -270,9 +270,6 @@ abstract class midcom_core_dbaobject
      */
     public function purge()
     {
-        if (!$this->__object) {
-            return false;
-        }
         return $this->__object->purge();
     }
 
