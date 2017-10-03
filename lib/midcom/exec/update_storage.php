@@ -1,12 +1,11 @@
 <?php
 $ip_sudo = midcom::get()->auth->require_admin_or_ip('midcom.services.indexer');
-
+ob_implicit_flush(true);
 midcom::get()->disable_limits();
 
 echo "<pre>\n";
 
 echo "<h1>Update Class Storage</h1>\n";
-flush();
 
 midgard_storage::create_base_storage();
 echo "  Created base storage\n";
@@ -26,7 +25,6 @@ foreach ($types as $type) {
         midgard_storage::create_class_storage($type);
         echo "  Created storage for {$type}\n";
     }
-    flush();
 }
 echo "Processed " . count($types) . " schema types in " . round(microtime(true) - $start, 2) . "s";
 echo "\n\nDone.";

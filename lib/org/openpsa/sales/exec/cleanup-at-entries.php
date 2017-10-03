@@ -1,7 +1,7 @@
 <?php
 midcom::get()->auth->require_admin_user();
 midcom::get()->disable_limits();
-
+ob_implicit_flush(true);
 echo "<h1>Cleanup deliverable AT entries:</h1>\n";
 
 $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
@@ -10,7 +10,6 @@ $qb->add_constraint('state', '>=', org_openpsa_sales_salesproject_deliverable_db
 $deliverables = $qb->execute();
 
 echo "<pre>\n";
-flush();
 foreach ($deliverables as $deliverable) {
     $mc = new org_openpsa_relatedto_collector($deliverable->guid, 'midcom_services_at_entry_dba');
     $mc->add_object_order('start', 'DESC');
@@ -21,20 +20,17 @@ foreach ($deliverables as $deliverable) {
     }
 
     echo "Removing duplicate AT entries for deliverable #{$deliverable->id} " . $deliverable->title . "\n";
-    flush();
 
     $first = true;
     foreach ($at_entries as $entry) {
         if ($first) {
             $first = false;
             echo "Keeping entry for " . strftime('%x %X', $entry->start) . "\n";
-            flush();
             continue;
         }
 
         echo "Deleting entry for " . strftime('%x %X', $entry->start) . "\n";
         $entry->delete();
-        flush();
     }
 }
 ?>

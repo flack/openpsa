@@ -26,7 +26,7 @@ if (isset($_REQUEST['language'])) {
 
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
-
+ob_implicit_flush(true);
 midcom::get()->disable_limits();
 $start = microtime(true);
 
@@ -63,7 +63,6 @@ while (!is_null($nodeid)) {
     // Reindex the node...
     $node = $nap->get_node($nodeid);
     echo "Processing node #{$nodeid}, {$node[MIDCOM_NAV_FULLURL]}: ";
-    flush();
     //pass the node-id & the language
     $post_variables = ['nodeid' => $nodeid, 'language' => $language];
     $post_string = 'nodeid=' . $nodeid . '&language=' . $language;
@@ -80,7 +79,6 @@ while (!is_null($nodeid)) {
         // Background reindex ok
         echo "OK.\n";
     }
-    flush();
 
     debug_dump_mem("Mem usage after {$node[MIDCOM_NAV_RELATIVEURL]}; {$node[MIDCOM_NAV_COMPONENT]}");
 

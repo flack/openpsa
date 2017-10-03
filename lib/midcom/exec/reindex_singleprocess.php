@@ -23,7 +23,7 @@ if (midcom::get()->config->get('indexer_backend') === false) {
 <?php
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
-
+ob_implicit_flush(true);
 midcom::get()->disable_limits();
 
 $nap = new midcom_helper_nav();
@@ -53,7 +53,6 @@ while (!is_null($nodeid)) {
         debug_add("Failed to retrieve an interface class for the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.", MIDCOM_LOG_WARN);
         debug_print_r('NAP record was:', $node);
     }
-    flush();
 
     debug_dump_mem("Mem usage after {$node[MIDCOM_NAV_RELATIVEURL]}; {$node[MIDCOM_NAV_COMPONENT]}");
 

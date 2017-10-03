@@ -27,7 +27,7 @@ if (isset($_REQUEST['language'])) {
 
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
-
+ob_implicit_flush(true);
 midcom::get()->disable_limits();
 
 $loader = midcom::get()->componentloader;
@@ -55,7 +55,6 @@ if (is_null($interface)) {
 }
 
 echo "Dropping existing documents in node... ";
-flush();
 
 if (!$indexer->delete_all("__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}")) {
     debug_add("Failed to remove documents from index", MIDCOM_LOG_WARN);
@@ -63,7 +62,6 @@ if (!$indexer->delete_all("__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}")) {
     debug_add("Removed documents from index", MIDCOM_LOG_INFO);
 }
 echo "Done\n";
-flush();
 
 $stat = $interface->reindex($node[MIDCOM_NAV_OBJECT]);
 if (is_a($stat, 'midcom_services_indexer_client')) {
@@ -74,7 +72,6 @@ if (is_a($stat, 'midcom_services_indexer_client')) {
     debug_print_r('NAP record was:', $node);
     throw new midcom_error($msg);
 }
-flush();
 
 debug_dump_mem("Mem usage after {$node[MIDCOM_NAV_RELATIVEURL]}; {$node[MIDCOM_NAV_COMPONENT]}");
 
@@ -86,4 +83,3 @@ if ($ip_sudo) {
 }
 
 echo "Reindex complete for node {$node[MIDCOM_NAV_FULLURL]}\n</pre>";
-flush();
