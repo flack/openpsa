@@ -232,21 +232,21 @@ class document extends midcom_services_indexer_document_midcom
      */
     private function add_as_date_field(FormView $field)
     {
-        if ($field->vars['dm2_type'] == 'date') {
+        if (is_array($field->vars['value']) && array_key_exists('date', $field->vars['value'])) {
             $timestamp = 0;
-            if (!$this->datamanager->types[$name]->is_empty()) {
-                $timestamp = $this->datamanager->types[$name]->value->format('U');
+            if (!empty($field->vars['value']['date'])) {
+                $timestamp = $field->vars['value']['date']->format('U');
             }
-            $this->add_date_pair($name, $timestamp);
+            $this->add_date_pair($field->vars['name'], $timestamp);
         } else {
-            $string = $this->datamanager->types[$name]->convert_to_html();
+            $string = (string) $field->vars['value'];
             $timestamp = strtotime($string);
             if ($timestamp === -1) {
-                debug_add("The string representation of the field {$name} could not be parsed into a timestamp; treating as 0.", MIDCOM_LOG_INFO);
+                debug_add("The string representation of the field {$field->vars['name']} could not be parsed into a timestamp; treating as 0.", MIDCOM_LOG_INFO);
                 debug_print_r('String representation was:', $string);
                 $timestamp = 0;
             }
-            $this->add_date_pair($name, $timestamp);
+            $this->add_date_pair($field->vars['name'], $timestamp);
         }
     }
 
