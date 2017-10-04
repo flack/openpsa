@@ -63,17 +63,6 @@ class midcom_services_dbclassloader
     private $_midgard_classes = [];
 
     /**
-     * A mapping storing which component handles which class.
-     *
-     * This is used to ensure that all MidCOM DBA main classes are loaded when
-     * casting  MgdSchema objects to DBA objects. Especially important for the
-     * generic by-GUID object getter.
-     *
-     * @var Array
-     */
-    private $_mgdschema_class_handler = [];
-
-    /**
      * This is the main class loader function. It takes a component/filename pair as
      * arguments, the first specifying the place to look for the latter.
      *
@@ -151,8 +140,6 @@ class midcom_services_dbclassloader
         $this->_validate_class_definition_list($definitions);
 
         foreach ($definitions as $mgdschema_class => $midcom_class) {
-            $this->_mgdschema_class_handler[$midcom_class] = $component;
-
             if (   substr($mgdschema_class, 0, 8) == 'midgard_'
                 || substr($mgdschema_class, 0, 12) == 'midcom_core_'
                 || $mgdschema_class == midcom::get()->config->get('person_class')) {
