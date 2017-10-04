@@ -93,10 +93,6 @@ class midcom_services_dbclassloader
             if (!class_exists($mgdschema_class)) {
                 throw new midcom_error("Validation failed: Key {$midcom_class} had an invalid mgdschema_class_name element: {$mgdschema_class}. Probably the required MgdSchema is not loaded.");
             }
-
-            if (preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $midcom_class) == 0) {
-                throw new midcom_error("Validation failed: Key {$mgdschema_class} had an invalid mgdschema_class_name element.");
-            }
         }
     }
 
