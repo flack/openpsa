@@ -28,8 +28,7 @@ class midcom_services_indexer_filter_string extends midcom_services_indexer_filt
      * direction.
      *
      * @param string $field The name of the field that should be filtered.
-     * @param string $start Start of filter range (or 0 for no start filter)
-     * @param string $end End of filter range (or 0 for no end filter)
+     * @param string $value The string we're looking for
      */
     public function __construct($field, $value)
     {

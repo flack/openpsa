@@ -31,7 +31,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
      *
      * @param  Resource $fp      file pointer
      * @param  string   $dst     destination folder hash
-     * @param  string   $src     file name
+     * @param  string   $name     file name
      * @param  string   $tmpname file tmp name - required to detect mime type
      * @return array|false
      * @author Dmitry (dio) Levashov

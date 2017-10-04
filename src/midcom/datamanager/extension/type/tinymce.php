@@ -119,7 +119,7 @@ class tinymce extends TextareaType
 
     /**
      *
-     * @param string $name
+     * @param array $options
      */
     private function get_configuration(array $options)
     {

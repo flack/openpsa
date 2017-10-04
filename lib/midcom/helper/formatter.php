@@ -70,8 +70,7 @@ class midcom_helper_formatter
     /**
      * Compile string to php code for the specified filter
      *
-     * @param mixed $content The content to modify
-     * @param string $name Filter name
+     * @param string $variable The content to modify
      * @return string The compiled php code
      */
     public static function convert_to_php($variable)

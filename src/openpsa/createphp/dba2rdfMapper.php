@@ -105,7 +105,7 @@ class dba2rdfMapper extends AbstractRdfMapper
     /**
      *
      * @param mixed $object
-     * @param CollectionInterface $config
+     * @param CollectionInterface $collection
      * @return array
      */
     public function getChildren($object, CollectionInterface $collection)

@@ -76,7 +76,7 @@ class datamanager
      */
     private static function get_factory()
     {
-        if (static::$factory === null) {
+        if (self::$factory === null) {
             $fb = new FormFactoryBuilder();
 
             $lang = midcom::get()->i18n->get_current_language();

@@ -25,7 +25,7 @@ class org_openpsa_projects_status extends org_openpsa_widgets_status
 
     /**
      *
-     * @param org_openpsa_projects_task_dba $invoice
+     * @param org_openpsa_projects_task_dba $task
      */
     public function __construct(org_openpsa_projects_task_dba $task)
     {

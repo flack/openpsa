@@ -166,7 +166,7 @@ class document extends midcom_services_indexer_document_midcom
                     break;
 
                 case 'date':
-                    $this->add_as_date_field($name);
+                    $this->add_as_date_field($field);
                     break;
 
                 case 'attachment':
@@ -217,7 +217,7 @@ class document extends midcom_services_indexer_document_midcom
     }
 
     /**
-     * This function tries to convert the field $name into a date
+     * This function tries to convert the $field into a date
      * representation. Unixdate fields are used directly (localtime is used,
      * not GMT), other fields will be parsed with strtodate.
      *
@@ -228,8 +228,7 @@ class document extends midcom_services_indexer_document_midcom
      * UNIX timestamp. For all other cases you should use an ISO 8601 representation,
      * which should work as well with Lucene range queries.
      *
-     * @todo Refactor this to use DateTime
-     * @param string $name The name of the field that should be stored
+     * @param FormView $field The field that should be stored
      */
     private function add_as_date_field(FormView $field)
     {

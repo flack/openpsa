@@ -157,7 +157,7 @@ class midcom_services_permalinks
             $result = null;
             foreach ($nav->list_leaves($topic->id) as $leafid) {
                 $leaf = $nav->get_leaf($leafid);
-                if ($leaf[MIDCOM_NAV_GUID] == $guid) {
+                if ($leaf[MIDCOM_NAV_GUID] == $object->guid) {
                     $result = $leaf[MIDCOM_NAV_URL];
                     break;
                 }

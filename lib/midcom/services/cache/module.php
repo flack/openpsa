@@ -39,8 +39,6 @@ abstract class midcom_services_cache_module
     /**
      * Initialize the module. This will initialize the class configuration
      * and call the corresponding event handler.
-     *
-     * @param array $config Configuration to use.
      */
     public function initialize()
     {
