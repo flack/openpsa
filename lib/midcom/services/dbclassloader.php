@@ -77,21 +77,15 @@ class midcom_services_dbclassloader
             $definition_list = $this->_read_class_definition_file($component, $filename);
         }
 
-        $this->_register_loaded_classes($definition_list, $component);
-    }
-
-    /**
-     * Validate a class definition list for correctness.
-     *
-     * Where possible, missing elements are completed with sensible defaults.
-     *
-     * @param array $definition_list The definition list to verify.
-     */
-    private function _validate_class_definition_list(array $definition_list)
-    {
         foreach ($definition_list as $mgdschema_class => $midcom_class) {
             if (!class_exists($mgdschema_class)) {
                 throw new midcom_error("Validation failed: Key {$midcom_class} had an invalid mgdschema_class_name element: {$mgdschema_class}. Probably the required MgdSchema is not loaded.");
+            }
+
+            if (   substr($mgdschema_class, 0, 8) == 'midgard_'
+                || substr($mgdschema_class, 0, 12) == 'midcom_core_'
+                || $mgdschema_class == midcom::get()->config->get('person_class')) {
+                $this->_midgard_classes[$mgdschema_class] = $midcom_class;
             }
         }
     }
@@ -119,29 +113,6 @@ class midcom_services_dbclassloader
 
         $contents = file_get_contents($filename);
         return midcom_helper_misc::parse_config($contents);
-    }
-
-    /**
-     * Simple helper that adds a list of classes to the loaded classes listing.
-     *
-     * This creates a mapping of which class is handled by which component.
-     * The generic by-GUID loader and the class conversion tools in the dbfactory
-     * require this information to be able to load the required components on-demand.
-     *
-     * @param array $definitions The list of classes which have been loaded along with the meta information.
-     * @param string $component The component name of the classes to add
-     */
-    private function _register_loaded_classes(array $definitions, $component)
-    {
-        $this->_validate_class_definition_list($definitions);
-
-        foreach ($definitions as $mgdschema_class => $midcom_class) {
-            if (   substr($mgdschema_class, 0, 8) == 'midgard_'
-                || substr($mgdschema_class, 0, 12) == 'midcom_core_'
-                || $mgdschema_class == midcom::get()->config->get('person_class')) {
-                $this->_midgard_classes[$mgdschema_class] = $midcom_class;
-            }
-        }
     }
 
     /**
