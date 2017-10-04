@@ -41,10 +41,9 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
     /**
      * Create a new attachment document
      *
-     * @param MidgardAttachment $attachment The Attachment to index.
-     * @param MidgardObject $object The source object to which the attachment is bound.
+     * @param midcom_db_attachment $attachment The Attachment to index.
      */
-    public function __construct($attachment, $object)
+    public function __construct(midcom_db_attachment $attachment)
     {
         //before doing anything else, verify that the attachment is readable, otherwise we might get stuck in endless loops later on
         if (!$attachment->open('r')) {
@@ -61,7 +60,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
 
         debug_print_r("Processing this attachment:", $attachment);
 
-        $this->source = $object->guid;
+        $this->source = $attachment->parentguid;
         $this->RI = $attachment->guid;
         $this->document_url = midcom::get()->permalinks->create_attachment_link($this->RI, $attachment->name);
 
