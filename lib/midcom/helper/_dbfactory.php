@@ -135,10 +135,6 @@ class midcom_helper__dbfactory
         }
         $classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);
 
-        if (!midcom::get()->dbclassloader->load_mgdschema_class_handler($classname)) {
-            throw new midcom_error("Failed to load the handling component for {$classname}, cannot convert.");
-        }
-
         if (!class_exists($classname)) {
             throw new midcom_error("Got non-existing DBA class {$classname} for object of type " . get_class($object) . ", cannot convert.");
         }

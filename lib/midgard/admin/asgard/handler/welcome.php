@@ -38,10 +38,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
         // List all revised objects
         foreach ($classes as $class) {
-            if (!midcom::get()->dbclassloader->load_mgdschema_class_handler($class)) {
-                // Failed to load handling component, skip
-                continue;
-            }
             $qb_callback = [$class, 'new_query_builder'];
             $qb = call_user_func($qb_callback);
 

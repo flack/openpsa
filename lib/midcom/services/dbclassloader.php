@@ -311,55 +311,6 @@ class midcom_services_dbclassloader
     }
 
     /**
-     * This function is required by the DBA interface layer and should normally not be used
-     * outside of it.
-     *
-     * Its purpose is to ensure that the component providing a certain DBA class instance is
-     * actually loaded. This is necessary, as the class descriptions are loaded during system
-     * startup now, but the full-blown DBA class is not available at that point (for performance
-     * reasons). It will load the components in question when requested by any operation in the
-     * system that might have to convert to a yet unloaded class, mainly this covers the type
-     * conversion of arbitrary objects retrieved by the GUID object getter.
-     *
-     * @param string $classname The name of the MidCOM DBA class that must be available.
-     * @return boolean Indicating success. False is returned only if you are requesting unknown
-     *        classes and the like. Component loading failure will result in an HTTP 500, as
-     *     always.
-     */
-    public function load_mgdschema_class_handler($classname)
-    {
-        if (!is_string($classname)) {
-            debug_add("Requested to load the classhandler for class name which is not a string.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        if (!array_key_exists($classname, $this->_mgdschema_class_handler)) {
-            $component = $this->get_component_for_class($classname);
-            midcom::get()->componentloader->load($component);
-            if (!array_key_exists($classname, $this->_mgdschema_class_handler)) {
-                debug_add("Requested to load the classhandler for {$classname} which is not known.", MIDCOM_LOG_ERROR);
-                return false;
-            }
-        }
-        $component = $this->_mgdschema_class_handler[$classname];
-
-        if ($component == 'midcom') {
-            // This is always loaded.
-            return true;
-        }
-
-        if (midcom::get()->componentloader->is_loaded($component)) {
-            // Already loaded, so we're fine too.
-            return true;
-        }
-
-        // This throws midcom_error on any problems.
-        midcom::get()->componentloader->load($component);
-
-        return true;
-    }
-
-    /**
      * Simple helper to check whether we are dealing with a MidCOM Database object
      * or a subclass thereof.
      *
