@@ -34,17 +34,10 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
 
             // Check file type
             $filename_parts = explode('.', $entry);
-            if (count($filename_parts) < 2) {
+            if (count($filename_parts) < 2 || end($filename_parts) != 'php') {
                 continue;
             }
             $element_name = $filename_parts[0];
-            $field = false;
-            if ($filename_parts[count($filename_parts) - 1] == 'php') {
-                $field = 'value';
-            } else {
-                continue;
-            }
-
             $filenames[] = $element_name;
             $file_contents = $this->read_file("{$path}/{$entry}");
 
@@ -55,7 +48,7 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
                 $element = new midcom_db_element();
                 $element->style = $style->id;
                 $element->name = $element_name;
-                $element->$field = $file_contents;
+                $element->value = $file_contents;
                 $element->create();
                 continue;
             }
@@ -63,8 +56,8 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
             $element = $qb->get_result(0);
 
             // Update existing elements only if they have actually changed
-            if ($element->$field != $file_contents) {
-                $element->$field = $file_contents;
+            if ($element->value != $file_contents) {
+                $element->value = $file_contents;
                 $element->update();
             }
         }
