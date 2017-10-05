@@ -256,13 +256,11 @@ class midcom_helper_metadata
 
     public function __set($key, $value)
     {
-        switch ($key) {
-            case '_schemadb':
-                $this->_schemadb = $value;
-                return true;
-            default:
-                return $this->set($key, $value);
+        if ($key == '_schemadb') {
+            $this->_schemadb = $value;
+            return true;
         }
+        return $this->set($key, $value);
     }
 
     /**

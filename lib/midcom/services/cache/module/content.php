@@ -312,12 +312,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private function _check_hit(Request $request)
     {
         foreach (midcom_connection::get_url('argv') as $arg) {
-            switch ($arg) {
-                case "midcom-cache-invalidate":
-                case "midcom-cache-nocache":
-                    // Don't cache these.
-                    debug_add("X-MidCOM-cache: " . $arg . " uncached");
-                    return;
+            if (in_array($arg, ["midcom-cache-invalidate", "midcom-cache-nocache"])) {
+                // Don't cache these.
+                debug_add("X-MidCOM-cache: " . $arg . " uncached");
+                return;
             }
         }
 

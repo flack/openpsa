@@ -119,17 +119,13 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             $data['query'] .= '*';
         }
 
-        switch ($data['type']) {
-            case 'basic':
-                $indexer = midcom::get()->indexer;
-                $final_query = $data['query'];
-                debug_add("Final query: {$final_query}");
-                $result = $indexer->query($final_query);
-                break;
-
-            case 'advanced':
-                $result = $this->do_advanced_query($data);
-                break;
+        if ($data['type'] == 'basic') {
+            $indexer = midcom::get()->indexer;
+            $final_query = $data['query'];
+            debug_add("Final query: {$final_query}");
+            $result = $indexer->query($final_query);
+        } elseif ($data['type'] == 'advanced') {
+            $result = $this->do_advanced_query($data);
         }
 
         $this->process_results($result);

@@ -173,14 +173,8 @@ class midcom_services_cron
         if (!class_exists($job['handler'])) {
             throw new midcom_error("Handler class {$job['handler']} is not available.");
         }
-        switch ($job['recurrence']) {
-            case MIDCOM_CRON_MINUTE:
-            case MIDCOM_CRON_HOUR:
-            case MIDCOM_CRON_DAY:
-                break;
-
-            default:
-                throw new midcom_error("Invalid recurrence.");
+        if (!in_array($job['recurrence'], [MIDCOM_CRON_MINUTE, MIDCOM_CRON_HOUR, MIDCOM_CRON_DAY])) {
+            throw new midcom_error("Invalid recurrence.");
         }
 
         return $job['recurrence'] == $this->_recurrence;

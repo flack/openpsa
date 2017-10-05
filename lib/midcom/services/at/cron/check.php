@@ -38,7 +38,6 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
             midcom::get()->auth->request_sudo('midcom.services.at');
             $entry->update();
             midcom::get()->auth->drop_sudo();
-            midcom::get()->componentloader->load($entry->component);
             $args = $entry->arguments;
             $args['midcom_services_at_entry_object'] = $entry;
             $interface = midcom::get()->componentloader->get_interface_class($entry->component);

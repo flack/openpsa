@@ -13,14 +13,11 @@ foreach (array_filter($view_types) as $type) {
         $class = $class[count($class) - 1];
 
         $onclick = '';
-        switch ($class) {
-            case "calendar":
-                $url = "#";
-                $onclick = " onclick=\"javascript:window.open('{$document->document_url}', 'event', 'toolbar=0,location=0,status=0,height=600,width=300,resizable=1');\"";
-                break;
-            default:
-                $url = $document->document_url;
-                break;
+        if ($class == 'calendar') {
+            $url = "#";
+            $onclick = " onclick=\"javascript:window.open('{$document->document_url}', 'event', 'toolbar=0,location=0,status=0,height=600,width=300,resizable=1');\"";
+        } else {
+            $url = $document->document_url;
         }
 
         try {

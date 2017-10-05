@@ -23,9 +23,8 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
         $node_array['style_inherit'] = $node->styleInherit;
 
         // Per-component specialties
-        switch ($node->component) {
-            case 'net.nehmer.static':
-                $node_array['create_index'] = true;
+        if ($node->component == 'net.nehmer.static') {
+            $node_array['create_index'] = true;
         }
 
         // Get parameters

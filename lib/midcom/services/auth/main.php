@@ -662,25 +662,17 @@ class midcom_services_auth
      */
     public function get_assignee($id)
     {
-        $result = null;
-
         $parts = explode(':', $id);
 
-        switch ($parts[0]) {
-            case 'user':
-                $result = $this->get_user($id);
-                break;
-
-            case 'group':
-                $result = $this->get_group($id);
-                break;
-
-            default:
-                debug_add("The identifier {$id} cannot be resolved into an assignee, it cannot be mapped to a type.", MIDCOM_LOG_WARN);
-                break;
+        if ($parts[0] == 'user') {
+            return $this->get_user($id);
         }
+        if ($parts[0] == 'group') {
+            return $this->get_group($id);
+        }
+        debug_add("The identifier {$id} cannot be resolved into an assignee, it cannot be mapped to a type.", MIDCOM_LOG_WARN);
 
-        return $result;
+        return null;
     }
 
     /**

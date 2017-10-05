@@ -8,14 +8,10 @@ midcom::get()->header('Content-Type: text/plain');
 // Determine recurrence
 $recurrence = MIDCOM_CRON_MINUTE;
 if (isset($_GET['type'])) {
-    switch ($_GET['type']) {
-        case 'hour':
-            $recurrence = MIDCOM_CRON_HOUR;
-            break;
-
-        case 'day':
-            $recurrence = MIDCOM_CRON_DAY;
-            break;
+    if ($_GET['type'] == 'hour') {
+        $recurrence = MIDCOM_CRON_HOUR;
+    } elseif ($_GET['type'] == 'day') {
+        $recurrence = MIDCOM_CRON_DAY;
     }
 }
 

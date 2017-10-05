@@ -533,13 +533,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         $data['help_files'] = $this->list_files($data['component']);
 
-        switch ($data['help_id']) {
-            case 'mgdschemas':
-                $this->read_schema_properties();
-                // Fall through
-            default:
-                $data['html'] = $this->get_help_contents($data['help_id'], $data['component']);
+        if ($data['help_id'] == 'mgdschemas') {
+            $this->read_schema_properties();
         }
+        $data['html'] = $this->get_help_contents($data['help_id'], $data['component']);
 
         // Table of contents navi
         $data['view_title'] = sprintf(

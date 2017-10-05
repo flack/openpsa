@@ -936,17 +936,6 @@ class midcom_services_auth_acl
      */
     private function _can_do_internal_sudo($privilege)
     {
-        switch ($privilege) {
-            case 'midgard:create':
-            case 'midgard:update':
-            case 'midgard:delete':
-            case 'midgard:privileges':
-                // We do not allow this, for security reasons.
-                return false;
-
-            default:
-                // allow everything else.
-                return true;
-        }
+        return !in_array($privilege, ['midgard:create', 'midgard:update', 'midgard:delete', 'midgard:privileges']);
     }
 }
