@@ -242,11 +242,6 @@ class midcom_helper_configuration
      */
     public function get($key)
     {
-        if (   !$this->_object_stored
-            && $this->_object) {
-            $this->_store_from_object();
-        }
-
         if ($this->exists($key)) {
             return $this->_merged[$key];
         }
