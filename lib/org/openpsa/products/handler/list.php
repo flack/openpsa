@@ -54,7 +54,7 @@ implements org_openpsa_widgets_grid_provider_client
                     // Reflection is needed here for safety
                     $field_type = $reflector->get_midgard_type($constraint_members[0]);
                     switch ($field_type) {
-                        case 4:
+                        case MGD_TYPE_NONE:
                             throw new midcom_error("Invalid constraint: '{$constraint_members[0]}' is not a Midgard property");
                         case MGD_TYPE_INT:
                             $constraint_members[2] = (int) $constraint_members[2];

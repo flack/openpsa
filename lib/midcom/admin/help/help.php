@@ -21,11 +21,11 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         MGD_TYPE_INT => "integer",
         MGD_TYPE_UINT => "unsigned integer",
         MGD_TYPE_FLOAT => "float",
-        //MGD_TYPE_DOUBLE => "double",
         MGD_TYPE_BOOLEAN => "boolean",
         MGD_TYPE_TIMESTAMP => "datetime",
         MGD_TYPE_LONGTEXT => "longtext",
         MGD_TYPE_GUID => "guid",
+        MGD_TYPE_NONE => 'none'
     ];
 
     public function __construct()
@@ -34,9 +34,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.help/style-editor.css');
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.help/twisty.js');
-        if (defined('MGD_TYPE_NONE')) {
-            $this->mgdtypes[MGD_TYPE_NONE] = 'none';
-        }
     }
 
     public function _on_initialize()
