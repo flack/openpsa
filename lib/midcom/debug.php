@@ -144,12 +144,7 @@ class midcom_debug
     private function _get_caller()
     {
         $return = '';
-        $options = false;
-        if (defined('DEBUG_BACKTRACE_IGNORE_ARGS')) {
-            $options = DEBUG_BACKTRACE_IGNORE_ARGS;
-        }
-
-        $bt = debug_backtrace($options);
+        $bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
         while ($bt) {
             $caller = array_shift($bt);
