@@ -28,7 +28,7 @@
         </property>
     </type>
 
-    <type name="midcom_core_login_session_db" table="midcom_core_login_session">
+    <type name="midcom_core_login_session_db" table="midcom_core_login_session" metadata="false">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
