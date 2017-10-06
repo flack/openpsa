@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
 
-    <type name="midcom_core_privilege_db" table="midcom_core_privilege">
+    <type name="midcom_core_privilege_db" table="midcom_core_privilege" metadata="false">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>

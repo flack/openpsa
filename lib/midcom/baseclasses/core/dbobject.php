@@ -780,7 +780,7 @@ class midcom_baseclasses_core_dbobject
         $result = $qb->execute();
 
         foreach ($result as $dbpriv) {
-            if (!$dbpriv->delete()) {
+            if (!$dbpriv->purge()) {
                 return false;
             }
         }

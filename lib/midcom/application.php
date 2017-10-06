@@ -113,7 +113,6 @@ class midcom_application
 
         // Start-up some of the services
         $this->dbclassloader->load_classes('midcom', 'legacy_classes.inc');
-        $this->dbclassloader->load_classes('midcom', 'core_classes.inc');
 
         $this->componentloader->load_all_manifests();
 

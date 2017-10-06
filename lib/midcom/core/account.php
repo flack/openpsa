@@ -85,7 +85,7 @@ class midcom_core_account
         $qb->add_constraint('assignee', '=', $user->id);
         foreach ($qb->execute() as $entry) {
             debug_add("Deleting privilege {$entry->privilegename} ID {$entry->id} on {$entry->objectguid}");
-            $entry->delete();
+            $entry->purge();
         }
 
         return true;

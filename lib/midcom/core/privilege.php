@@ -465,7 +465,7 @@ class midcom_core_privilege
             midcom::get()->auth->request_sudo('midcom.core');
             while (count($result) > 1) {
                 $privilege = array_pop($result);
-                $privilege->delete();
+                $privilege->purge();
             }
             midcom::get()->auth->drop_sudo();
         }

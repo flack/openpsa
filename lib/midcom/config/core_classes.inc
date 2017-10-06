@@ -1,1 +1,0 @@
-'midcom_core_privilege_db' => 'midcom_db_privilege',
