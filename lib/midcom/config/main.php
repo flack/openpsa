@@ -280,7 +280,7 @@ class midcom_config implements arrayaccess
         // Authentication configuration
         'auth_type' => 'Legacy',
         'auth_backend' => 'simple',
-        'auth_backend_simple_cookie_id' => '',
+        'auth_backend_simple_cookie_id' => 1,
         'auth_login_session_timeout' => 3600,
         'auth_login_session_update_interval' => 300,
         'auth_frontend' => 'form',
@@ -493,8 +493,6 @@ class midcom_config implements arrayaccess
 
     private function _complete_defaults()
     {
-        $this->_default_config['auth_backend_simple_cookie_id'] = midcom_connection::get('config', 'auth_cookie_id');
-
         if (class_exists('Memcache')) {
             $this->_default_config['cache_module_content_backend'] = ['driver' => 'memcached'];
             $this->_default_config['cache_module_memcache_backend'] = 'memcached';

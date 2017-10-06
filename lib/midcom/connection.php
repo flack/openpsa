@@ -21,14 +21,7 @@ class midcom_connection
      *
      * @var array
      */
-    private static $_data = [
-        'config' => [
-            'auth_cookie_id' => 1,
-        ],
-
-        'schema' => [
-        ],
-    ];
+    private static $_data = [];
 
     /**
      * DB connection setup routine
@@ -201,10 +194,9 @@ class midcom_connection
      * Getter for various environment-related variables.
      *
      * @param string $key The key to look up
-     * @param string $subkey The subkey, if any
      * @return mixed The found value or null
      */
-    public static function get($key, $subkey = null)
+    public static function get($key)
     {
         switch ($key) {
             case 'uri':
@@ -219,15 +211,10 @@ class midcom_connection
         }
     }
 
-    public static function _get($key, $subkey = null)
+    public static function _get($key)
     {
-        if (   null === $subkey
-            && isset(self::$_data[$key])) {
+        if (isset(self::$_data[$key])) {
             return self::$_data[$key];
-        }
-        if (   null !== $subkey
-            && isset(self::$_data[$key][$subkey])) {
-            return self::$_data[$key][$subkey];
         }
 
         return null;
@@ -312,10 +299,10 @@ class midcom_connection
 
     public static function get_unique_host_name()
     {
-        if (null === self::_get('config', 'unique_host_name')) {
-            self::$_data['config']['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', self::get_url('prefix'));
+        if (null === self::_get('unique_host_name')) {
+            self::$_data['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', self::get_url('prefix'));
         }
 
-        return self::$_data['config']['unique_host_name'];
+        return self::$_data['unique_host_name'];
     }
 }
