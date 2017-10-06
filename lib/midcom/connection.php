@@ -260,8 +260,6 @@ class midcom_connection
     {
         static $parsed = false;
         if (!$parsed) {
-            // This has the side effect to ensure that $_data is properly initialized
-            self::_get($key);
             $url_components = parse_url("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
             if (OPENPSA2_PREFIX !== '/') {
                 $url_components['path'] = preg_replace('|^' . OPENPSA2_PREFIX . '|', '/', $url_components['path']);
