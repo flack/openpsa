@@ -21,22 +21,8 @@ class midcom_connection
      *
      * @var array
      */
-    private static $_data;
-
-    private static $_defaults = [
-        'user' => 0,
-        'admin' => false,
-        'root' => false,
-
-        'auth' => false,
-        'cookieauth' => false,
-
-        // General host setup
-        'debug' => false,
-
-        'author' => 0,
+    private static $_data = [
         'config' => [
-            'prefix' => '',
             'auth_cookie_id' => 1,
         ],
 
@@ -228,14 +214,6 @@ class midcom_connection
             case 'argv':
             case 'argc':
                 return self::get_url($key);
-            case 'schema':
-                if ($subkey == 'types') {
-                    return self::get_schema_types();
-                }
-            case 'config':
-                if ($subkey == 'unique_host_name') {
-                    return self::get_unique_host_name();
-                }
             default:
                 return self::_get($key, $subkey);
         }
@@ -243,10 +221,6 @@ class midcom_connection
 
     public static function _get($key, $subkey = null)
     {
-        if (null === self::$_data) {
-            self::$_data = self::$_defaults;
-        }
-
         if (   null === $subkey
             && isset(self::$_data[$key])) {
             return self::$_data[$key];

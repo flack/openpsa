@@ -221,7 +221,7 @@ class midcom_services_auth
         $this->user =& $this->_auth_backend->user;
         // This check is a bit fuzzy but will work as long as MidgardAuth is in sync with
         // MidCOM auth.
-        $this->admin = (midcom_connection::is_admin() || midcom_connection::get('root'));
+        $this->admin = midcom_connection::is_admin();
     }
 
     /**
@@ -251,8 +251,7 @@ class midcom_services_auth
         if (   midcom_connection::get_user()
             && $user = $this->get_user(midcom_connection::get_user())) {
             $this->user = $user;
-            if (   midcom_connection::is_admin()
-                || midcom_connection::get('root')) {
+            if (midcom_connection::is_admin()) {
                 $this->admin = true;
             }
         }
