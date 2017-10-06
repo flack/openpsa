@@ -382,12 +382,8 @@ class midcom_services_auth_sessionmgr
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('userid', '=', $user->id);
         $qb->add_constraint('timestamp', '>=', $this->get_timeout());
-        $result = $qb->execute();
 
-        if (!$result) {
-            return 'offline';
-        }
-        return 'online';
+        return $qb->count() > 0 ? 'online' : 'offline';
     }
 
     /**

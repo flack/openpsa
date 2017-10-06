@@ -165,13 +165,10 @@ class midcom_connection
      */
     public static function get_user()
     {
-        $user = midgard_connection::get_instance()->get_user();
-
-        if (!$user) {
-            return 0;
+        if ($user = midgard_connection::get_instance()->get_user()) {
+            return $user->get_person()->id;
         }
-
-        return $user->get_person()->id;
+        return 0;
     }
 
     /**
@@ -181,13 +178,10 @@ class midcom_connection
      */
     public static function is_admin()
     {
-        $user = midgard_connection::get_instance()->get_user();
-
-        if (!$user) {
-            return false;
+        if ($user = midgard_connection::get_instance()->get_user()) {
+            return $user->is_admin();
         }
-
-        return $user->is_admin();
+        return false;
     }
 
     /**

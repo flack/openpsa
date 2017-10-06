@@ -251,9 +251,7 @@ class midcom_services_auth
         if (   midcom_connection::get_user()
             && $user = $this->get_user(midcom_connection::get_user())) {
             $this->user = $user;
-            if (midcom_connection::is_admin()) {
-                $this->admin = true;
-            }
+            $this->admin = midcom_connection::is_admin();
         }
     }
 
