@@ -216,7 +216,7 @@ class midcom_services_metadata
         // HTML generator information
         midcom::get()->head->add_meta_head([
             'name' => 'generator',
-            'content' => 'Midgard/' . mgd_version() . ' MidCOM/' . midcom::get_version() . ' PHP/' . phpversion()
+            'content' => 'MidCOM ' . midcom::get_version()
         ]);
 
         // Last revision time for the entire page
