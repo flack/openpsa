@@ -12,7 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\transformer\other as transformer;
 use midcom\datamanager\extension\transformer\multiple;
 use midcom\datamanager\extension\helper;
-use midcom\datamanager\extension\compat;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Experimental other type
@@ -47,11 +47,11 @@ class other extends AbstractType
         if (!empty($options['type_config']['allow_multiple'])) {
             $builder->addModelTransformer(new multiple($options));
         }
-        $builder->add('select', compat::get_type_name('select'), [
+        $builder->add('select', select::class, [
             'type_config' => $options['type_config'],
             'widget_config' => $options['widget_config'],
         ]);
-        $builder->add('other', compat::get_type_name('text'), ['label' => 'widget select: other value']);
+        $builder->add('other', TextType::class, ['label' => 'widget select: other value']);
     }
 
 

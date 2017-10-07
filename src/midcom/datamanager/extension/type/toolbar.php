@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use midcom;
 use midcom\datamanager\controller;
-use midcom\datamanager\extension\compat;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
  * Experimental autocomplete type
@@ -54,7 +54,7 @@ class toolbar extends AbstractType
                     $attributes['attr']['formnovalidate'] = true;
                 }
 
-                $builder->add($operation . $key, compat::get_type_name('submit'), $attributes);
+                $builder->add($operation . $key, SubmitType::class, $attributes);
             }
         }
     }

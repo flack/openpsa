@@ -18,6 +18,8 @@ use midcom\datamanager\validation\callback as cb_wrapper;
 use midcom\datamanager\storage\container\container;
 use midcom\datamanager\storage\container\dbacontainer;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use midcom\datamanager\extension\type\toolbar;
 
 /**
  * Experimental schema class
@@ -82,7 +84,7 @@ class schema
             }
         }
 
-        $builder = $factory->createNamedBuilder($name, compat::get_type_name('form'), $storage, ['csrf_protection' => $csrf]);
+        $builder = $factory->createNamedBuilder($name, FormType::class, $storage, ['csrf_protection' => $csrf]);
         foreach ($fields as $field => $config) {
             if ($config['write_privilege'] !== null) {
                 if (   array_key_exists('group', $config['write_privilege'])
@@ -126,7 +128,7 @@ class schema
             $options['constraints'] = [new Callback(['callback' => [$cb_wrapper, 'validate']])];
         }
 
-        $builder->add('form_toolbar', compat::get_type_name('toolbar'), $options);
+        $builder->add('form_toolbar', toolbar::class, $options);
         return $builder->getForm();
     }
 

@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\EventListener\ResizeFormListener;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Validator\Constraints\Count;
 use midcom\datamanager\extension\compat;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 /**
  * Experimental images type
@@ -114,6 +115,6 @@ class subform extends CollectionType
      */
     public function getParent()
     {
-        return compat::get_type_name('form');
+        return FormType::class;
     }
 }

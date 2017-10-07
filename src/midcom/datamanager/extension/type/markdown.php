@@ -10,7 +10,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use midcom;
-use midcom\datamanager\extension\compat;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use midcom\datamanager\extension\helper;
@@ -83,6 +82,6 @@ class markdown extends TextareaType
      */
     public function getParent()
     {
-        return compat::get_type_name('textarea');
+        return TextareaType::class;
     }
 }

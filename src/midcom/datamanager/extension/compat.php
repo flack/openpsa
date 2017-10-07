@@ -6,9 +6,7 @@
 namespace midcom\datamanager\extension;
 
 /**
- * Typename converter
- *
- * (on PHP 5.5+, this could be replaced by use statements & CLASS constants in the caller)
+ * Typename converter for short type names from old DM2 style schemas
  */
 class compat
 {

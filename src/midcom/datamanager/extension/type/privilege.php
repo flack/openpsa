@@ -7,7 +7,6 @@ namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use midcom\datamanager\extension\compat;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use midcom;
 use midcom_core_user;
@@ -125,6 +124,6 @@ class privilege extends RadioType
      */
     public function getParent()
     {
-        return compat::get_type_name('radiocheckselect');
+        return radiocheckselect::class;
     }
 }

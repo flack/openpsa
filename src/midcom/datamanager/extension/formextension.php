@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 /**
  * Experimental extension class
@@ -49,6 +50,6 @@ class formextension extends AbstractTypeExtension
 
     public function getExtendedType()
     {
-        return compat::get_type_name('form');
+        return FormType::class;
     }
 }

@@ -11,7 +11,9 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
 use midcom\datamanager\extension\transformer\blobs as transformer;
-use midcom\datamanager\extension\compat;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Experimental image type
@@ -39,16 +41,16 @@ class images extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('file', compat::get_type_name('file'));
+        $builder->add('file', FileType::class);
         if ($options['widget_config']['show_title']) {
-            $builder->add('title', compat::get_type_name('text'));
+            $builder->add('title', TextType::class);
         }
         if ($options['widget_config']['show_description']) {
-            $builder->add('description', compat::get_type_name('text'));
+            $builder->add('description', TextType::class);
         }
-        $builder->add('identifier', compat::get_type_name('hidden'), ['data' => 'file']);
+        $builder->add('identifier', HiddenType::class, ['data' => 'file']);
         if ($options['widget_config']['sortable']) {
-            $builder->add('score', compat::get_type_name('hidden'));
+            $builder->add('score', HiddenType::class);
         }
         $builder->addViewTransformer(new transformer($options));
     }

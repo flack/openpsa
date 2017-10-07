@@ -7,6 +7,7 @@ namespace midcom\datamanager\extension;
 
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 
 /**
  * Experimental extension class
@@ -25,6 +26,6 @@ class buttonextension extends AbstractTypeExtension
 
     public function getExtendedType()
     {
-        return compat::get_type_name('button');
+        return ButtonType::class;
     }
 }
