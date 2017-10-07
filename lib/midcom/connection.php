@@ -201,7 +201,7 @@ class midcom_connection
             case 'argc':
                 return self::get_url($key);
             default:
-                return self::_get($key, $subkey);
+                return self::_get($key);
         }
     }
 
