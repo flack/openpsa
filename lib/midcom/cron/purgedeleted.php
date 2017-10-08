@@ -39,7 +39,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         return $classes;
     }
 
-    public function _on_execute()
+    public function execute()
     {
         $cut_off = $this->get_cutoff();
         debug_add('Purging entries deleted before ' . gmdate('Y-m-d H:i:s', $cut_off) . "\n");

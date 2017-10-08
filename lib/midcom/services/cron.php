@@ -50,7 +50,7 @@
  *         return true;
  *     }
  *
- *     function _on_execute()
+ *     function execute()
  *     {
  *         $this->print_error("Executing...");
  *         $this->print_error(strftime('%x %X'));

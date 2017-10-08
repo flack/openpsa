@@ -15,7 +15,7 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
     /**
      * Fetches subscribed feeds and imports them
      */
-    public function _on_execute()
+    public function execute()
     {
         if (!midcom::get()->auth->request_sudo('net.nemein.rss')) {
             $this->print_error("Could not get sudo, aborting operation, see error log for details");

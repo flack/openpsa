@@ -11,7 +11,7 @@
  */
 class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handler
 {
-    public function _on_execute()
+    public function execute()
     {
         if (midcom::get()->config->get('auth_login_session_timeout')) {
             $qb = new midgard_query_builder('midcom_core_login_session_db');

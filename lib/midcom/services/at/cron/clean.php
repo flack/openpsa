@@ -16,7 +16,7 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
     /**
      * Loads all entries that need to be processed and processes them.
      */
-    public function _on_execute()
+    public function execute()
     {
         $qb = midcom_services_at_entry_dba::new_query_builder();
         // (to be) start(ed) AND last touched over two days ago

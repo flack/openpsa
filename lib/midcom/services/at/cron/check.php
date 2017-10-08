@@ -20,7 +20,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
      *
      * @todo: refactor to use more modern MidCOM interfaces and better sanity-checking
      */
-    public function _on_execute()
+    public function execute()
     {
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('start', '<=', time());

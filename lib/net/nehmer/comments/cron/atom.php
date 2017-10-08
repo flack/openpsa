@@ -13,7 +13,7 @@
  */
 class net_nehmer_comments_cron_atom extends midcom_baseclasses_components_cron_handler
 {
-    public function _on_execute()
+    public function execute()
     {
         if (!$this->_config->get('atom_comments_import_enable')) {
             debug_add('Import of Atom comment feeds disabled, aborting', MIDCOM_LOG_INFO);

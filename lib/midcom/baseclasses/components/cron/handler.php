@@ -48,20 +48,12 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
     }
 
     /**
-     * Execute the handler, this calls the corresponding event handler.
-     */
-    public function execute()
-    {
-        $this->_on_execute();
-    }
-
-    /**
      * This is the actual handler operation, it is called only after successful operation.
      * You should use the print_error() helper of this class in case you need to notify
      * the user of any errors. As long as everything goes fine, you should not print anything
-     * to avoid needles cron mailings.
+     * to avoid needless cron mailings.
      */
-    abstract public function _on_execute();
+    abstract public function execute();
 
     /**
      * Echo the error message to the client, automatically appending

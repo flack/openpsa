@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_co
     /**
      * Find all old send tokens and clear them.
      */
-    public function _on_execute()
+    public function execute()
     {
         //Disable limits, TODO: think if this could be done in smaller chunks to save memory.
         midcom::get()->disable_limits();

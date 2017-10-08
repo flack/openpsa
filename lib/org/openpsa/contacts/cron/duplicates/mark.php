@@ -15,7 +15,7 @@ class org_openpsa_contacts_cron_duplicates_mark extends midcom_baseclasses_compo
     /**
      * Find possible duplicates and mark them
      */
-    public function _on_execute()
+    public function execute()
     {
         if (!$this->_config->get('enable_duplicate_search')) {
             debug_add('Duplicate search disabled, aborting', MIDCOM_LOG_INFO);
