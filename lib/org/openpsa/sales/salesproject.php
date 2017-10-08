@@ -55,12 +55,11 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
         $value = 0;
         $cost = 0;
 
-        $deliverable_qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
-        $deliverable_qb->add_constraint('salesproject', '=', $this->id);
-        $deliverable_qb->add_constraint('up', '=', 0);
-        $deliverable_qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
-        $deliverables = $deliverable_qb->execute();
-        foreach ($deliverables as $deliverable) {
+        $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
+        $qb->add_constraint('salesproject', '=', $this->id);
+        $qb->add_constraint('up', '=', 0);
+        $qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
+        foreach ($qb->execute() as $deliverable) {
             if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
                 $scheduler = new org_openpsa_invoices_scheduler($deliverable);
                 if ($deliverable->end == 0) {

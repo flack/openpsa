@@ -360,9 +360,7 @@ class org_openpsa_projects_workflow
             $e->log();
         }
 
-        $reports = $qb->execute();
-
-        foreach ($reports as $report) {
+        foreach ($qb->execute() as $report) {
             $report->invoice = $invoice->id;
             $report->_skip_parent_refresh = true;
             if ($report->update()) {

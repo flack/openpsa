@@ -26,11 +26,10 @@ implements midcom_services_permalinks_resolver
         } else {
             $qb = midcom::get()->dbfactory->new_query_builder('midcom_db_article');
             $qb->add_constraint('topic', '=', $topic->id);
-            $result = $qb->execute();
 
             $dm = datamanager::from_schemadb($config->get('schemadb'));
 
-            foreach ($result as $article) {
+            foreach ($qb->execute() as $article) {
                 try {
                     $dm->set_storage($article);
                 } catch (midcom_error $e) {

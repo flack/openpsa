@@ -85,11 +85,10 @@ abstract class midcom_services_indexer_client
 
     public function reindex()
     {
-        foreach ($this->_queries as $name => $data) {
-            $qb = $data[0];
+        foreach ($this->_queries as $name => list($qb, $schemadb)) {
             $results = $qb->execute();
             if (!empty($results)) {
-                $documents = $this->process_results($name, $results, $data[1]);
+                $documents = $this->process_results($name, $results, $schemadb);
                 if (!empty($documents)) {
                     $this->_indexer->index($documents);
                 }

@@ -67,9 +67,8 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         // Find all events that occur during [$from, $to]
         $qb->add_constraint('start', '<=', $to);
         $qb->add_constraint('end', '>=', $from);
-        $events = $qb->execute();
 
-        foreach ($events as $event) {
+        foreach ($qb->execute() as $event) {
             $this->_add_to($data_array, $event, $event->start);
         }
     }
@@ -81,9 +80,8 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $qb->add_constraint('date', '>=', $from);
         $qb->add_constraint('date', '<=', $to);
         $qb->add_constraint('person', '=', $person);
-        $hour_reports = $qb->execute();
 
-        foreach ($hour_reports as $hour_report) {
+        foreach ($qb->execute() as $hour_report) {
             $time = mktime(date('H', $hour_report->metadata->created), date('i', $hour_report->metadata->created), date('s', $hour_report->metadata->created), date('m', $hour_report->date), date('d', $hour_report->date), date('Y', $hour_report->date));
             $this->_add_to($data_array, $hour_report, $time);
         }
@@ -99,9 +97,8 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $qb->add_constraint('targetPerson', '=', $person->id);
         $qb->add_constraint('metadata.creator', '=', $person->guid);
         $qb->end_group();
-        $task_statuses = $qb->execute();
 
-        foreach ($task_statuses as $task_status) {
+        foreach ($qb->execute() as $task_status) {
             $this->_add_to($data_array, $task_status, $task_status->timestamp);
         }
     }
@@ -117,9 +114,8 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $qb->add_constraint('date', '>=', $from);
         $qb->add_constraint('date', '<=', $to);
         $qb->add_constraint('person', '=', $person);
-        $positions = $qb->execute();
 
-        foreach ($positions as $position) {
+        foreach ($qb->execute() as $position) {
             $this->_add_to($data_array, $position, $position->date);
         }
     }

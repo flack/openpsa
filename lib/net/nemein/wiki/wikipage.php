@@ -82,10 +82,9 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
         $qb = net_nemein_wiki_link_dba::new_query_builder();
         $qb->add_constraint('frompage', '=', $this->id);
-        $links_in_db = $qb->execute();
 
         // Check links in DB versus links in content to see what needs to be removed
-        foreach ($links_in_db as $link) {
+        foreach ($qb->execute() as $link) {
             if (!array_key_exists($link->topage, $links_in_content)) {
                 // This link is not any more in content, remove
                 $link->delete();
@@ -119,9 +118,8 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             // List people watching this particular page
             $qb->add_constraint('parentguid', '=', $this->guid);
         $qb->end_group();
-        $watcher_params = $qb->execute();
 
-        foreach ($watcher_params as $parameter) {
+        foreach ($qb->execute() as $parameter) {
             if (in_array($parameter->name, $watchers)) {
                 // We found this one already, skip
                 continue;

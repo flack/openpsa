@@ -125,9 +125,8 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
 
         $qb = midcom_db_style::new_query_builder();
         $qb->add_constraint('up', '=', $up);
-        $styles = $qb->execute();
 
-        foreach ($styles as $style) {
+        foreach ($qb->execute() as $style) {
             $style_string = "{$prefix}{$style->name}";
 
             // Hide common unwanted material with heuristics

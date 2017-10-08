@@ -851,8 +851,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if ($response->getExpires()) {
             $this->register_sent_header('Expires', $response->headers->get('Expires'));
         }
-        if (   is_array($this->_force_headers)
-            && !empty($this->_force_headers)) {
+        if (is_array($this->_force_headers)) {
             foreach ($this->_force_headers as $header => $value) {
                 $response->headers->set($header, $value);
                 $this->register_sent_header($header, $value);

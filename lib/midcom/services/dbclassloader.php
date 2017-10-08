@@ -169,7 +169,7 @@ class midcom_services_dbclassloader
         ];
 
         foreach ($class_parts as $part) {
-            if (empty($component)) {
+            if ($component == '') {
                 $component = $part;
             } else {
                 $component .= ".{$part}";

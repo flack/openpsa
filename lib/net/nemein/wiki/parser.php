@@ -132,7 +132,6 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         $qb->add_constraint('topic', '=', $this->_page->topic);
         $qb->add_constraint('name', '<>', $this->_page->name);
         $qb->add_order('title', 'ASC');
-        $pages = $qb->execute();
 
         $ret = '';
         if (!empty($text)) {
@@ -141,7 +140,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($this->_page->topic);
         $ret .= "\n<ul class=\"node-toc\">\n";
-        foreach ($pages as $page) {
+        foreach ($qb->execute() as $page) {
             $url = $node[MIDCOM_NAV_ABSOLUTEURL] . "{$page->name}/";
             $ret .= "    <li class=\"page\"><a href=\"{$url}\">{$page->title}</a></li>\n";
         }

@@ -80,13 +80,11 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
      */
     public function get_person_options()
     {
-        $qb_persons = midcom_db_person::new_query_builder();
-        midcom_core_account::add_username_constraint($qb_persons, '<>', '');
+        $qb = midcom_db_person::new_query_builder();
+        midcom_core_account::add_username_constraint($qb, '<>', '');
 
         $person_array = [];
-
-        $persons = $qb_persons->execute();
-        foreach ($persons as $person) {
+        foreach ($qb->execute() as $person) {
             $person_array[$person->id] = $person->get_label();
         }
         return $person_array;

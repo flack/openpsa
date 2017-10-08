@@ -109,9 +109,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
         $qb->add_order('title');
         $qb->add_order('name');
 
-        $result = $qb->execute();
-
-        foreach ($result as $article) {
+        foreach ($qb->execute() as $article) {
             try {
                 $datamanager->set_storage($article);
             } catch (midcom_error $e) {

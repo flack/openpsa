@@ -6,10 +6,9 @@ echo "<h1>Invalidating deliverable caches:</h1>\n";
 
 $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
 $qb->add_constraint('state', '>=', org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED);
-$deliverables = $qb->execute();
 
 echo "<pre>\n";
-foreach ($deliverables as $deliverable) {
+foreach ($qb->execute() as $deliverable) {
     $start = microtime(true);
     echo "Update caches for deliverable #{$deliverable->id} " . $deliverable->title . "\n";
     echo "units: {$deliverable->units} uninvoiceable: {$deliverable->uninvoiceableUnits} price: {$deliverable->price} cost: {$deliverable->cost} invoiced: {$deliverable->invoiced}\n";

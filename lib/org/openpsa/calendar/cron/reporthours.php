@@ -58,9 +58,8 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         $qb->add_constraint('eid.start', '>', time() - 24 * 3600 * 7);
         // Must not have hours reported already
         $qb->add_constraint('hoursReported', '=', 0);
-        $eventmembers = $qb->execute();
 
-        foreach ($eventmembers as $member) {
+        foreach ($qb->execute() as $member) {
             // Bulletproofing: prevent duplicating hour reports
             $member->hoursReported = time();
             $member->notify_person = false;

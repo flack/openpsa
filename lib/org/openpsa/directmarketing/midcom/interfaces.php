@@ -27,8 +27,7 @@ implements midcom_services_permalinks_resolver
         }
 
         midcom::get()->auth->request_sudo($this->_component);
-        $memberships = $qb->execute();
-        foreach ($memberships as $membership) {
+        foreach ($qb->execute() as $membership) {
             $membership->delete();
         }
         midcom::get()->auth->drop_sudo();

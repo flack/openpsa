@@ -69,8 +69,7 @@ implements midcom_services_permalinks_resolver
             $root_group = new org_openpsa_products_product_group_dba($topic_root_group_guid);
             $qb->add_constraint('id', '=', $root_group->id);
         }
-        $root_groups = $qb->execute();
-        foreach ($root_groups as $group) {
+        foreach ($qb->execute() as $group) {
             $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $group, $config);
         }
 
@@ -90,9 +89,8 @@ implements midcom_services_permalinks_resolver
         if ($config->get('index_products')) {
             $qb_products = org_openpsa_products_product_dba::new_query_builder();
             $qb_products->add_constraint('productGroup', '=', $group->id);
-            $products = $qb_products->execute();
 
-            foreach ($products as $product) {
+            foreach ($qb->execute() as $product) {
                 try {
                     $dms['product']->set_storage($product);
                     org_openpsa_products_viewer::index($dms['product'], $indexer, $topic, $config);
@@ -104,9 +102,8 @@ implements midcom_services_permalinks_resolver
 
         $qb_groups = org_openpsa_products_product_group_dba::new_query_builder();
         $qb_groups->add_constraint('up', '=', $group->id);
-        $subgroups = $qb_groups->execute();
 
-        foreach ($subgroups as $subgroup) {
+        foreach ($qb_groups->execute() as $subgroup) {
             $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $subgroup, $config);
         }
 

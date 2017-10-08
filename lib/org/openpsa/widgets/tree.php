@@ -115,8 +115,8 @@ JSINIT;
 
         $value_properties = ['id'];
         $mc = midcom::get()->dbfactory->new_collector($this->_object_class, $this->_parent_field, (int) $id);
-        foreach ($this->constraints as $constraint) {
-            $mc->add_constraint($constraint[0], $constraint[1], $constraint[2]);
+        foreach ($this->constraints as list($field, $operator, $value)) {
+            $mc->add_constraint($field, $operator, $value);
         }
         foreach ($this->title_fields as $field) {
             $value_properties[] = $field;

@@ -37,8 +37,7 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
         $node_array['nodes'] = [];
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('up', '=', $node->id);
-        $children = $qb->execute();
-        foreach ($children as $child) {
+        foreach ($qb->execute() as $child) {
             $node_array['nodes'][$child->name] = $this->read_node($child);
         }
 

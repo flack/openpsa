@@ -115,8 +115,7 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         $qb = $this->get_node_qb($parent_id);
         $qb->add_constraint('name', 'NOT IN', $foldernames);
 
-        $folders = $qb->execute();
-        foreach ($folders as $folder) {
+        foreach ($qb->execute() as $folder) {
             $folder->delete();
         }
     }
@@ -126,8 +125,7 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         $qb = $this->get_leaf_qb($parent_id);
         $qb->add_constraint('name', 'NOT IN', $filenames);
 
-        $files = $qb->execute();
-        foreach ($files as $file) {
+        foreach ($qb->execute() as $file) {
             $file->delete();
         }
     }

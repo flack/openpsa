@@ -21,10 +21,7 @@ class net_nemein_redirector_navigation extends midcom_baseclasses_components_nav
         $qb->add_order('metadata.score', 'DESC');
         $qb->add_order('title');
 
-        // Get the results
-        $results = $qb->execute();
-
-        foreach ($results as $tinyurl) {
+        foreach ($qb->execute() as $tinyurl) {
             $leaves[$tinyurl->id] = [
                 MIDCOM_NAV_URL => "{$tinyurl->name}/",
                 MIDCOM_NAV_NAME => $tinyurl->title,

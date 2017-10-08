@@ -25,17 +25,15 @@ class midcom_helper_filesync_exporter_style extends midcom_helper_filesync_expor
 
         $element_qb = midcom_db_element::new_query_builder();
         $element_qb->add_constraint('style', '=', $style->id);
-        $elements = $element_qb->execute();
 
-        foreach ($elements as $element) {
+        foreach ($element_qb->execute() as $element) {
             file_put_contents("{$style_path}/{$element->name}.php", $element->value);
             $filenames[] = "{$element->name}.php";
         }
 
         $style_qb = midcom_db_style::new_query_builder();
         $style_qb->add_constraint('up', '=', $style->id);
-        $styles = $style_qb->execute();
-        foreach ($styles as $style) {
+        foreach ($style_qb->execute() as $style) {
             $this->read_style($style, "{$style_path}/");
             $foldernames[] = $style->name;
         }

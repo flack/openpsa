@@ -103,7 +103,7 @@ abstract class midcom_services_cache_module
         $memcache_operational = false;
         switch ($config['driver']) {
             case 'apc':
-                $backend = new Cache\ApcCache();
+                $backend = new Cache\ApcuCache();
                 break;
             case 'memcached':
                 $host = !empty($config['host']) ? $config['host'] : 'localhost';

@@ -47,9 +47,8 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
             ->addOrderBy('o.official');
         $project_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
         $project_qb->add_order('end');
-        $projects = $project_qb->execute();
 
-        foreach ($projects as $project) {
+        foreach ($project_qb->execute() as $project) {
             if (!isset($data['customers'][$project->customer])) {
                 $data['customers'][$project->customer] = [];
             }

@@ -122,9 +122,8 @@ class org_openpsa_contacts_duplicates_merge
             $qb->add_constraint('metadata.approver', '=', $person2->guid);
             $qb->add_constraint('metadata.owner', '=', $person2->guid);
             $qb->end_group();
-            $objects = $qb->execute();
 
-            foreach ($objects as $object) {
+            foreach ($qb->execute() as $object) {
                 if ($object->metadata->approver == $person2->guid) {
                     debug_add("Transferred approver to person #{$person1->id} on {$class} #{$object->id}");
                     $object->metadata->approver = $person1->guid;
@@ -196,8 +195,7 @@ class org_openpsa_contacts_duplicates_merge
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->add_constraint('domain', 'LIKE', 'org.openpsa.contacts.duplicates:%');
         $qb->add_constraint('name', '=', $obj2->guid);
-        $results = $qb->execute();
-        foreach ($results as $param) {
+        foreach ($qb->execute() as $param) {
             if (!$param->delete()) {
                 debug_add("Failed to delete parameter {$param->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }

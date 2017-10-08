@@ -7,10 +7,9 @@ echo "<h1>Cleanup deliverable AT entries:</h1>\n";
 $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
 $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION);
 $qb->add_constraint('state', '>=', org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED);
-$deliverables = $qb->execute();
 
 echo "<pre>\n";
-foreach ($deliverables as $deliverable) {
+foreach ($qb->execute() as $deliverable) {
     $mc = new org_openpsa_relatedto_collector($deliverable->guid, 'midcom_services_at_entry_dba');
     $mc->add_object_order('start', 'DESC');
     $at_entries = $mc->get_related_objects();

@@ -348,11 +348,9 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     private function rcs_readfile($guid)
     {
-        if (!empty($guid)) {
-            $filename = $this->_generate_rcs_filename($guid);
-            if (file_exists($filename)) {
-                return file_get_contents($filename);
-            }
+        $filename = $this->_generate_rcs_filename($guid);
+        if (file_exists($filename)) {
+            return file_get_contents($filename);
         }
         return '';
     }

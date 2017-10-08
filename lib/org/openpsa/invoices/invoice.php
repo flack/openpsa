@@ -114,8 +114,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
         $qb->add_constraint('invoice', '=', $this->id);
-        $hours = $qb->execute();
-        foreach ($hours as $hour) {
+        foreach ($qb->execute() as $hour) {
             $hour->invoice = 0;
             $hour->_skip_parent_refresh = true;
             $tasks_to_update[] = $hour->task;
@@ -134,8 +133,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
         $qb = self::new_query_builder();
         $qb->add_constraint('cancelationInvoice', '=', $this->id);
-        $result = $qb->execute();
-        foreach ($result as $canceled) {
+        foreach ($qb->execute() as $canceled) {
             $canceled->cancelationInvoice = 0;
             if (!$canceled->update()) {
                 debug_add("Failed to remove cancelation reference from invoice #{$canceled->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
@@ -209,19 +207,18 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         $result_tasks = [];
 
         //get hour_reports for this invoice - mc ?
-        $qb_hour_reports = org_openpsa_projects_hour_report_dba::new_query_builder();
-        $qb_hour_reports->add_constraint('invoice', '=', $this->id);
-        $qb_hour_reports->add_constraint('invoiceable', '=', true);
+        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+        $qb->add_constraint('invoice', '=', $this->id);
+        $qb->add_constraint('invoiceable', '=', true);
         if (!empty($tasks)) {
-            $qb_hour_reports->add_constraint('task', 'IN', $tasks);
+            $qb->add_constraint('task', 'IN', $tasks);
             //if there is a task passed it must be calculated even
             //if it doesn't have associated hour_reports
             $result_tasks = array_fill_keys($tasks, 0);
         }
-        $hour_reports = $qb_hour_reports->execute();
 
         // sums up the hours of hour_reports for each task
-        foreach ($hour_reports as $hour_report) {
+        foreach ($qb->execute() as $hour_report) {
             if (!array_key_exists($hour_report->task, $result_tasks)) {
                 $result_tasks[$hour_report->task] = 0;
             }
@@ -267,10 +264,9 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
         $qb->add_constraint('invoice', '=', $this->id);
         $qb->add_order('position', 'ASC');
-        $result = $qb->execute();
 
         $items = [];
-        foreach ($result as $item) {
+        foreach ($qb->execute() as $item) {
             $items[$item->guid] = $item;
         }
         return $items;

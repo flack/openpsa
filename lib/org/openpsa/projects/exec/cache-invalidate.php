@@ -5,9 +5,8 @@ ob_implicit_flush(true);
 echo "<h1>Invalidating task caches:</h1>\n";
 
 $qb = org_openpsa_projects_task_dba::new_query_builder();
-$tasks = $qb->execute();
 
-foreach ($tasks as $task) {
+foreach ($qb->execute() as $task) {
     $start = microtime(true);
     echo "Invalidating cache for task #{$task->id} {$task->title}... \n";
     if ($task->update_cache()) {

@@ -118,9 +118,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $qb->add_constraint('context', '=', self::resolve_context($tagname));
         $qb->add_constraint('value', '=', self::resolve_value($tagname));
         $qb->add_constraint('fromGuid', '=', $object_guid);
-        $links = $qb->execute();
 
-        foreach ($links as $link) {
+        foreach ($qb->execute() as $link) {
             if (!$link->delete()) {
                 debug_add("Failed to delete tag_link \"{$tagname}\" for object {$object_guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
@@ -371,9 +370,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $qb->add_constraint('fromGuid', '=', $object->guid);
         $qb->add_constraint('context', '=', $context);
         $qb->add_constraint('value', '<>', '');
-        $links = $qb->execute();
 
-        foreach ($links as $link) {
+        foreach ($qb->execute() as $link) {
             try {
                 $tag = new net_nemein_tag_tag_dba($link->tag);
                 $key = $tag->tag;
@@ -397,9 +395,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $tags = [];
         $qb = net_nemein_tag_tag_dba::new_query_builder();
         $qb->add_constraint('metadata.navnoentry', '=', 0);
-        $db_tags = $qb->execute();
 
-        foreach ($db_tags as $tag) {
+        foreach ($qb->execute() as $tag) {
             $tags[$tag->tag] = $tag->url;
         }
         return $tags;
@@ -428,10 +425,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
         $qb->add_order('metadata.created', $order);
 
-        $links = $qb->execute();
-
         $link_object_map = [];
-        foreach ($links as $link) {
+        foreach ($qb->execute() as $link) {
             if (!array_key_exists($link->fromGuid, $link_object_map)) {
                 $link_object_map[$link->fromGuid] = [];
             }
@@ -558,8 +553,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
         $qb = net_nemein_tag_link_dba::new_query_builder();
         $qb->add_constraint('tag', '=', $from_tag->id);
-        $tag_links = $qb->execute();
-        foreach ($tag_links as $tag_link) {
+        foreach ($qb->execute() as $tag_link) {
             $tag_link->tag = $to_tag->id;
             $tag_link->update();
         }

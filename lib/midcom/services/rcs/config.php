@@ -48,10 +48,7 @@ class midcom_services_rcs_config
     public function get_rcs_root()
     {
         if (empty($this->config['midcom_services_rcs_root'])) {
-            $basedir = "/var/lib/midgard";
-            if (midgard_connection::get_instance()) {
-                $basedir = dirname(midgard_connection::get_instance()->config->sharedir);
-            }
+            $basedir = dirname(midgard_connection::get_instance()->config->sharedir);
             $this->config['midcom_services_rcs_root'] = $basedir . '/rcs';
         }
 

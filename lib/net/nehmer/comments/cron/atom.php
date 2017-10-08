@@ -30,9 +30,8 @@ class net_nehmer_comments_cron_atom extends midcom_baseclasses_components_cron_h
         $qb->add_constraint('topic.guid', '=', $this->_config->get('atom_comments_topic'));
         $qb->add_order('metadata.published', 'DESC');
         $qb->set_limit(50);
-        $articles = $qb->execute();
 
-        foreach ($articles as $article) {
+        foreach ($qb->execute() as $article) {
             $replies_url = $article->get_parameter('net.nemein.rss', 'replies_url');
 
             if (empty($replies_url)) {

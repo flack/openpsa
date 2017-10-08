@@ -324,8 +324,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $report_mc->add_value_property('metadata.isapproved');
         $report_mc->execute();
 
-        $reports = $report_mc->list_keys();
-        foreach ($reports as $guid => $empty) {
+        foreach ($report_mc->list_keys() as $guid => $empty) {
             $report_data = $report_mc->get($guid);
             $report_hours = $report_data['hours'];
 

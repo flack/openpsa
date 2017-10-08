@@ -132,8 +132,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         $qb_unwanted->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::NORMAL);
         $qb_unwanted->add_constraint('person', 'NOT IN', array_keys($rule_persons));
 
-        $uwret = $qb_unwanted->execute();
-        foreach ($uwret as $member) {
+        foreach ($qb_unwanted->execute() as $member) {
             debug_add("Deleting unwanted member #{$member->id} (linked to person #{$member->person}) in campaign #{$this->id}");
             if (!$member->delete()) {
                 debug_add("Failed to delete unwanted member #{$member->id} (linked to person #{$member->person}) in campaign #{$this->id}, reason: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);

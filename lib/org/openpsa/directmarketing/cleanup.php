@@ -113,8 +113,7 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
     private function delete_entries(midcom_core_querybuilder $qb)
     {
         $qb->set_limit($this->_config->get('delete_older_per_run'));
-        $objects = $qb->execute();
-        foreach ($objects as $object) {
+        foreach ($qb->execute() as $object) {
             $object->delete();
         }
     }

@@ -130,9 +130,8 @@ class midgard_admin_asgard_stylehelper
         // Get topics directly using the style
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('style', '=', $style);
-        $nodes = $qb->execute();
 
-        foreach ($nodes as $node) {
+        foreach ($qb->execute() as $node) {
             $style_nodes[] = $node;
 
             if ($node->styleInherit) {
@@ -147,12 +146,11 @@ class midgard_admin_asgard_stylehelper
     private function _get_nodes_inheriting_style($node)
     {
         $nodes = [];
-        $child_qb = midcom_db_topic::new_query_builder();
-        $child_qb->add_constraint('up', '=', $node->id);
-        $child_qb->add_constraint('style', '=', '');
-        $children = $child_qb->execute();
+        $qb = midcom_db_topic::new_query_builder();
+        $qb->add_constraint('up', '=', $node->id);
+        $qb->add_constraint('style', '=', '');
 
-        foreach ($children as $child_node) {
+        foreach ($qb->execute() as $child_node) {
             $nodes[] = $child_node;
             $subnodes = $this->_get_nodes_inheriting_style($child_node);
             $nodes = array_merge($nodes, $subnodes);

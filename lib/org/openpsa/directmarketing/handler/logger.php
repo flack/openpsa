@@ -47,9 +47,8 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             //PONDER: or should be just mark the person bounced in ALL campaigns while we're at it ?
             $qb2->add_constraint('campaign', '=', $campaign->id);
             $qb2->add_constraint('person', '=', $receipt->person);
-            $ret2 = $qb2->execute();
 
-            foreach ($ret2 as $member) {
+            foreach ($qb2->execute() as $member) {
                 debug_add("Found member #{$member->id}, marking bounced");
                 $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::BOUNCED;
                 $this->_request_data['update_status']['members'][$member->guid] = $member->update();

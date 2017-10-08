@@ -45,9 +45,8 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
         $qb->add_constraint('topic', 'INTREE', $this->_topic->id);
         $qb->add_order('metadata.revised', 'DESC');
         $qb->set_limit($this->_config->get('rss_count'));
-        $result = $qb->execute();
 
-        foreach ($result as $wikipage) {
+        foreach ($qb->execute() as $wikipage) {
             if ($wikipage->topic == $this->_topic->id) {
                 $node = $data['node'];
             } else {

@@ -59,9 +59,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         $qb->add_order('metadata.published', 'DESC');
         $qb->set_limit((int) $this->_config->get('index_entries'));
 
-        $results = $qb->execute();
-
-        foreach ($results as $article) {
+        foreach ($qb->execute() as $article) {
             $leaves[$article->id] = [
                 MIDCOM_NAV_URL => $this->_get_url($article),
                 MIDCOM_NAV_NAME => $article->title ?: $article->name,

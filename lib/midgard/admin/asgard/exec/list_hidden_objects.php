@@ -31,9 +31,8 @@ $qb->begin_group('OR');
     $qb->add_constraint('metadata.navnoentry', '=', 1);
 $qb->end_group();
 $qb->add_order('name');
-$topics = $qb->execute();
 echo "<h2>Topics</h2>\n";
-foreach ($topics as $topic) {
+foreach ($qb->execute() as $topic) {
     $node = $nap->get_node($topic->id);
     $crumbs = $nap->get_breadcrumb_data($node[MIDCOM_NAV_ID]);
     render_breadcrumb($crumbs);
@@ -48,8 +47,7 @@ $qb->begin_group('OR');
     $qb->add_constraint('metadata.navnoentry', '=', 1);
 $qb->end_group();
 $qb->add_order('name');
-$articles = $qb->execute();
-foreach ($articles as $article) {
+foreach ($qb->execute() as $article) {
     $node = $nap->get_node($article->topic);
     $node_crumbs = $nap->get_breadcrumb_data($node[MIDCOM_NAV_ID]);
     foreach ($node_crumbs as $crumb) {

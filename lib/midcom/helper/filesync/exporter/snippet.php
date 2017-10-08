@@ -25,8 +25,7 @@ class midcom_helper_filesync_exporter_snippet extends midcom_helper_filesync_exp
 
         $snippet_qb = midcom_db_snippet::new_query_builder();
         $snippet_qb->add_constraint('snippetdir', '=', $snippetdir->id);
-        $snippets = $snippet_qb->execute();
-        foreach ($snippets as $snippet) {
+        foreach ($snippet_qb->execute() as $snippet) {
             file_put_contents("{$snippetdir_path}/{$snippet->name}.php", $snippet->code);
             $filenames[] = "{$snippet->name}.php";
 
@@ -38,8 +37,7 @@ class midcom_helper_filesync_exporter_snippet extends midcom_helper_filesync_exp
 
         $dir_qb = midcom_db_snippetdir::new_query_builder();
         $dir_qb->add_constraint('up', '=', $snippetdir->id);
-        $dirs = $dir_qb->execute();
-        foreach ($dirs as $dir) {
+        foreach ($dir_qb->execute() as $dir) {
             $this->read_snippetdir($dir, "{$snippetdir_path}/");
             $foldernames[] = $dir->name;
         }
@@ -68,8 +66,7 @@ class midcom_helper_filesync_exporter_snippet extends midcom_helper_filesync_exp
     {
         $qb = midcom_db_snippetdir::new_query_builder();
         $qb->add_constraint('up', '=', 0);
-        $rootdirs = $qb->execute();
-        foreach ($rootdirs as $rootdir) {
+        foreach ($qb->execute() as $rootdir) {
             if ($rootdir->can_do('midgard:update')) {
                 $this->read_snippetdir($rootdir, $this->root_dir);
             }

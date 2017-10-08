@@ -63,8 +63,7 @@ class org_openpsa_contacts_list_dba extends midcom_core_dbaobject
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $this->id);
         $qb->add_constraint('uid.guid', '=', $guid);
-        $results = $qb->execute();
-        foreach ($results as $result) {
+        foreach ($qb->execute() as $result) {
             if (!$result->delete()) {
                 throw new midcom_error('Failed to remove member: ' . midcom_connection::get_error_string());
             }

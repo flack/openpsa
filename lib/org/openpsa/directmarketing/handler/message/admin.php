@@ -91,11 +91,10 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $campaigns = unserialize($controller->get_form_values()['campaign']);
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $qb->add_constraint('guid', 'IN', $campaigns);
-        $campaigns = $qb->execute();
         $original = $this->_message;
         $copy_data = [];
 
-        foreach ($campaigns as $campaign) {
+        foreach ($qb->execute() as $campaign) {
             $new_object = $copy->copy_object($original, $campaign, ['sendStarted' => 0, 'sendCompleted' => 0]);
 
             // Store for later use

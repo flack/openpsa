@@ -79,9 +79,7 @@ implements midcom_services_permalinks_resolver
         $qb->add_constraint('guid', 'IN', $guids);
         $qb->end_group();
 
-        $qbret = $qb->execute();
-
-        foreach ($qbret as $salesproject) {
+        foreach ($qb->execute() as $salesproject) {
             $to_array = ['other_obj' => false, 'link' => false];
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $salesproject);

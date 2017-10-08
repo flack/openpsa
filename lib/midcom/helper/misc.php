@@ -272,7 +272,7 @@ class midcom_helper_misc
      * @param string $data The data to fix.
      * @return string $data with serializations fixed.
      */
-    public static function fix_serialization($data = null)
+    public static function fix_serialization($data)
     {
         //Skip on empty data
         if (empty($data)) {

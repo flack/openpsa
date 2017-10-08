@@ -63,12 +63,11 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             // Close previous task(s)
             $last_task = null;
 
-            $task_qb = org_openpsa_projects_task_dba::new_query_builder();
-            $task_qb->add_constraint('agreement', '=', $this->_deliverable->id);
-            $task_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
-            $tasks = $task_qb->execute();
+            $qb = org_openpsa_projects_task_dba::new_query_builder();
+            $qb->add_constraint('agreement', '=', $this->_deliverable->id);
+            $qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
 
-            foreach ($tasks as $task) {
+            foreach ($qb->execute() as $task) {
                 if (org_openpsa_projects_workflow::complete($task, sprintf($this->_i18n->get_string('completed by subscription %s', 'org.openpsa.sales'), $cycle_number))) {
                     $tasks_completed[] = $task;
                 } else {

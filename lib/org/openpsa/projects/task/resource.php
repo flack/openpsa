@@ -101,9 +101,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         $qb->add_constraint('orgOpenpsaObtype', '=', $this->orgOpenpsaObtype);
         $qb->add_constraint('task', '=', $parent->id);
 
-        $results = $qb->execute();
-
-        foreach ($results as $result) {
+        foreach ($qb->execute() as $result) {
             $result->delete();
         }
     }

@@ -51,13 +51,12 @@ class midcom_core_querybuilder extends midcom_core_query
      */
     private function _execute_and_check_privileges()
     {
-        $result = $this->_query->execute();
-        $newresult = [];
+        $result = [];
 
-        foreach ($result as $object) {
+        foreach ($this->_query->execute() as $object) {
             $classname = $this->_real_class;
             try {
-                $newresult[] = new $classname($object);
+                $result[] = new $classname($object);
             } catch (midcom_error $e) {
                 if ($e->getCode() == MIDCOM_ERRFORBIDDEN) {
                     $this->denied++;
@@ -66,7 +65,7 @@ class midcom_core_querybuilder extends midcom_core_query
             }
         }
 
-        return $newresult;
+        return $result;
     }
 
     /**

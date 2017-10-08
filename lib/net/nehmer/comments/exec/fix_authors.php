@@ -8,8 +8,7 @@ $qb->begin_group('OR');
     $qb->add_constraint('author', '=', '');
 $qb->end_group();
 
-$comments = $qb->execute();
-foreach ($comments as $comment) {
+foreach ($qb->execute() as $comment) {
     $author = midcom::get()->auth->get_user($comment->metadata->creator);
     if (!$author->guid) {
         continue;

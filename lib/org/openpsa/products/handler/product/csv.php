@@ -70,10 +70,9 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
             } else {
                 $qb_groups = org_openpsa_products_product_group_dba::new_query_builder();
                 $qb_groups->add_constraint('up', 'INTREE', $root_group->id);
-                $groups = $qb_groups->execute();
                 $qb->begin_group('OR');
                 $qb->add_constraint('productGroup', '=', $root_group->id);
-                foreach ($groups as $group) {
+                foreach ($qb_groups->execute() as $group) {
                     $qb->add_constraint('productGroup', '=', $group->id);
                 }
                 $qb->end_group('OR');

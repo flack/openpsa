@@ -31,11 +31,10 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         $qb->add_constraint('metadata.revised', '<=', date('Y-m-d H:i:s', $to));
         $qb->add_constraint('metadata.revised', '>=', date('Y-m-d H:i:s', $from));
         $qb->add_order('metadata.revised', 'DESC');
-        $result = $qb->execute();
 
         $rcs = midcom::get()->rcs;
 
-        foreach ($result as $page) {
+        foreach ($qb->execute() as $page) {
             $rcs_handler = $rcs->load_handler($page);
             if (!$rcs_handler) {
                 // Skip this one

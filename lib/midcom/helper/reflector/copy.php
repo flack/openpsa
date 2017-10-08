@@ -467,9 +467,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         $qb = midcom_core_privilege_db::new_query_builder();
         $qb->add_constraint('objectguid', '=', $source->guid);
 
-        $results = $qb->execute();
-
-        foreach ($results as $privilege) {
+        foreach ($qb->execute() as $privilege) {
             $new = new midcom_core_privilege_db();
             $new->objectguid = $target->guid;
 

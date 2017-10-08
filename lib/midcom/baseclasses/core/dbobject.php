@@ -497,8 +497,7 @@ class midcom_baseclasses_core_dbobject
         $qb->include_deleted();
         $qb->add_constraint('parentguid', '=', $guid);
         $qb->add_constraint('metadata.deleted', '=', true);
-        $params = $qb->execute();
-        foreach ($params as $param) {
+        foreach ($qb->execute() as $param) {
             if ($param->undelete($param->guid)) {
                 $undeleted_size += $param->metadata->size;
             }
@@ -522,8 +521,7 @@ class midcom_baseclasses_core_dbobject
         $qb->include_deleted();
         $qb->add_constraint('parentguid', '=', $guid);
         $qb->add_constraint('metadata.deleted', '=', true);
-        $atts = $qb->execute();
-        foreach ($atts as $att) {
+        foreach ($qb->execute() as $att) {
             if ($att->undelete($att->guid)) {
                 midcom::get()->uimessages->add(midcom::get()->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get()->i18n->get_string('attachment %s undeleted', 'midgard.admin.asgard'), $att->name, midcom_connection::get_error_string()));
                 $undeleted_size += $att->metadata->size;
@@ -599,8 +597,7 @@ class midcom_baseclasses_core_dbobject
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->include_deleted();
         $qb->add_constraint('parentguid', '=', $guid);
-        $params = $qb->execute();
-        foreach ($params as $param) {
+        foreach ($qb->execute() as $param) {
             if ($param->purge()) {
                 $purged_size += $param->metadata->size;
             } else {
@@ -628,8 +625,7 @@ class midcom_baseclasses_core_dbobject
         $qb = new midgard_query_builder('midgard_attachment');
         $qb->include_deleted();
         $qb->add_constraint('parentguid', '=', $guid);
-        $atts = $qb->execute();
-        foreach ($atts as $att) {
+        foreach ($qb->execute() as $att) {
             if ($att->purge()) {
                 $purged_size += $att->metadata->size;
                 self::purge_parameters($att->guid);
@@ -777,9 +773,8 @@ class midcom_baseclasses_core_dbobject
     {
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('objectguid', '=', $object->guid);
-        $result = $qb->execute();
 
-        foreach ($result as $dbpriv) {
+        foreach ($qb->execute() as $dbpriv) {
             if (!$dbpriv->purge()) {
                 return false;
             }
@@ -905,9 +900,8 @@ class midcom_baseclasses_core_dbobject
         $mc->add_value_property('value');
         $mc->add_constraint('domain', '=', $domain);
         $mc->execute();
-        $parameters = $mc->list_keys();
 
-        foreach ($parameters as $name => $values) {
+        foreach ($mc->list_keys() as $name => $values) {
             self::$parameter_cache[$object->guid][$domain][$name] = $mc->get_subkey($name, 'value');
         }
 
@@ -936,9 +930,8 @@ class midcom_baseclasses_core_dbobject
             $mc->add_value_property('name');
             $mc->add_value_property('value');
             $mc->execute();
-            $parameters = $mc->list_keys();
 
-            foreach ($parameters as $guid => $values) {
+            foreach ($mc->list_keys() as $guid => $values) {
                 $name = $mc->get_subkey($guid, 'name');
                 $domain = $mc->get_subkey($guid, 'domain');
 

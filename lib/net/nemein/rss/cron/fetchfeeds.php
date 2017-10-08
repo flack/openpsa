@@ -25,8 +25,7 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
         midcom::get()->disable_limits();
 
         $qb = net_nemein_rss_feed_dba::new_query_builder();
-        $feeds = $qb->execute();
-        foreach ($feeds as $feed) {
+        foreach ($qb->execute() as $feed) {
             try {
                 midcom_db_topic::get_cached($feed->node);
             } catch (midcom_error $e) {

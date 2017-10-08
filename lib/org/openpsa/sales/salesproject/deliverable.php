@@ -339,11 +339,10 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         if ($update_deliveries) {
             if ($product->orgOpenpsaObtype === org_openpsa_products_product_dba::TYPE_SERVICE) {
                 // Change status of tasks connected to the deliverable
-                $task_qb = org_openpsa_projects_task_dba::new_query_builder();
-                $task_qb->add_constraint('agreement', '=', $this->id);
-                $task_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
-                $tasks = $task_qb->execute();
-                foreach ($tasks as $task) {
+                $qb = org_openpsa_projects_task_dba::new_query_builder();
+                $qb->add_constraint('agreement', '=', $this->id);
+                $qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
+                foreach ($qb->execute() as $task) {
                     org_openpsa_projects_workflow::close($task, sprintf(midcom::get()->i18n->get_string('completed from deliverable %s', 'org.openpsa.sales'), $this->title));
                 }
             }

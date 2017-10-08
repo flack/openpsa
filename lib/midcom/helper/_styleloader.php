@@ -235,9 +235,8 @@ class midcom_helper__styleloader
         $element_mc->add_value_property('value');
         $element_mc->add_constraint('name', '=', $name);
         $element_mc->execute();
-        $elements = $element_mc->list_keys();
 
-        foreach ($elements as $element_guid => $value) {
+        foreach ($element_mc->list_keys() as $element_guid => $value) {
             $value = $element_mc->get_subkey($element_guid, 'value');
             midcom::get()->cache->content->register($element_guid);
             $cached[$cache_key] = $value;
@@ -249,9 +248,8 @@ class midcom_helper__styleloader
         $style_mc->set_key_property('guid');
         $style_mc->add_value_property('up');
         $style_mc->execute();
-        $styles = $style_mc->list_keys();
 
-        foreach ($styles as $style_guid => $value) {
+        foreach ($style_mc->list_keys() as $style_guid => $value) {
             midcom::get()->cache->content->register($style_guid);
 
             if ($up = $style_mc->get_subkey($style_guid, 'up')) {

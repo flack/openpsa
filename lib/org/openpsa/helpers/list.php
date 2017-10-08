@@ -94,9 +94,8 @@ class org_openpsa_helpers_list
 
             $qb = org_openpsa_projects_project::new_query_builder();
             $qb->add_order('title');
-            $ret = $qb->execute();
 
-            foreach ($ret as $task) {
+            foreach ($qb->execute() as $task) {
                 $cache[$task->guid] = $task->title;
             }
         }

@@ -562,8 +562,7 @@ abstract class midcom_core_dbaobject
         foreach ($this->autodelete_dependents as $classname => $link_property) {
             $qb = midcom::get()->dbfactory->new_query_builder($classname);
             $qb->add_constraint($link_property, '=', $this->id);
-            $results = $qb->execute();
-            foreach ($results as $result) {
+            foreach ($qb->execute() as $result) {
                 if (!$result->delete()) {
                     debug_add('Could not delete dependent ' . $classname . ' #' . $result->id . ', aborting', MIDCOM_LOG_WARN);
                     return false;

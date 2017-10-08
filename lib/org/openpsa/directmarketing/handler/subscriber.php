@@ -78,10 +78,9 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('person', '=', $data['person']->id);
         $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
-        $memberships = $qb->execute();
 
         $campaign_membership_map = [];
-        foreach ($memberships as $membership) {
+        foreach ($qb->execute() as $membership) {
             try {
                 $campaigns[$membership->campaign] = new org_openpsa_directmarketing_campaign_dba($membership->campaign);
                 $campaign_membership_map[$membership->campaign] = $membership;
@@ -95,10 +94,9 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $qb_all->add_constraint('archived', '=', 0);
         $qb_all->add_constraint('id', 'NOT IN', array_keys($campaigns));
         $qb_all->add_order('metadata.created', $this->_config->get('campaign_list_order'));
-        $campaigns_all = $qb_all->execute();
 
         $data['campaigns_all'] = [];
-        foreach ($campaigns_all as $campaign) {
+        foreach ($qb_all->execute() as $campaign) {
             if ($campaign->can_do('midgard:create')) {
                 $data['campaigns_all'][] = $campaign;
             }
@@ -199,9 +197,8 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         // FIXME: Use NOT IN
         $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
         $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
-        $memberships = $qb->execute();
 
-        foreach ($memberships as $member) {
+        foreach ($qb->execute() as $member) {
             $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
             if (!$member->update()) {
                 //TODO: How to report failures of single rows when other succeed sensibly ??

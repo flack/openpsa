@@ -51,9 +51,8 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             }
 
             $qb->add_order('metadata.revision', 'DESC');
-            $objects = $qb->execute();
 
-            foreach ($objects as $object) {
+            foreach ($qb->execute() as $object) {
                 if (!is_null($review_by)) {
                     $object_review_by = (int) $object->get_parameter('midcom.helper.metadata', 'review_date');
                     if ($object_review_by > $review_by) {

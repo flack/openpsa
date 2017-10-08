@@ -128,8 +128,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
                 $qb = new midgard_query_builder($this->type);
                 $qb->add_constraint('guid', '=', $guid);
                 $qb->include_deleted();
-                $results = $qb->execute();
-                foreach ($results as $object) {
+                foreach ($qb->execute() as $object) {
                     if ($object->purge()) {
                         $purged_size += $object->metadata->size;
                     }
@@ -153,8 +152,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
                 $qb = new midgard_query_builder($this->type);
                 $qb->add_constraint('guid', '=', $guid);
                 $qb->include_deleted();
-                $results = $qb->execute();
-                foreach ($results as $object) {
+                foreach ($qb->execute() as $object) {
                     $object->undelete();
                 }
             }

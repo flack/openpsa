@@ -44,9 +44,7 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
         // Sort items with the same primary sort key by title.
         $qb->add_order('title');
 
-        $articles = $qb->execute();
-
-        foreach ($articles as $article) {
+        foreach ($qb->execute() as $article) {
             $article_url = ($article->name == 'index') ? '' : "{$article->name}/";
             $leaves[$article->id] = [
                 MIDCOM_NAV_URL => $article_url,

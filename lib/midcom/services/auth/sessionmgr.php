@@ -343,9 +343,8 @@ class midcom_services_auth_sessionmgr
         }
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('userid', '=', $user->id);
-        $result = $qb->execute();
 
-        foreach ($result as $session) {
+        foreach ($qb->execute() as $session) {
             $session->username = $new;
             $session->update();
         }
@@ -423,8 +422,7 @@ class midcom_services_auth_sessionmgr
         $mc->execute();
 
         $result = [];
-        $query_result = array_keys($mc->list_keys());
-        foreach ($query_result as $userid) {
+        foreach (array_keys($mc->list_keys()) as $userid) {
             if (   ($user = $this->auth->get_user($userid))
                 && $user->is_online()) {
                 $result[$user->guid] = $user;

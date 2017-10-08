@@ -51,8 +51,7 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
             return;
         }
         midcom::get()->auth->request_sudo($this->_component);
-        $links = $qb->execute();
-        foreach ($links as $link) {
+        foreach ($qb->execute() as $link) {
             $link->delete();
         }
         midcom::get()->auth->drop_sudo();

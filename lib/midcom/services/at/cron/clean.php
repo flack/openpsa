@@ -25,9 +25,7 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
         $qb->add_constraint('status', '>=', midcom_services_at_entry_dba::RUNNING);
 
         midcom::get()->auth->request_sudo('midcom.services.at');
-        $qbret = $qb->execute();
-
-        foreach ($qbret as $entry) {
+        foreach ($qb->execute() as $entry) {
             debug_add("Deleting dangling entry #{$entry->id}\n", MIDCOM_LOG_INFO);
             debug_print_r("Entry #{$entry->id} dump: ", $entry);
             $entry->delete();

@@ -108,9 +108,8 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('up', '=', $folder->id);
         $qb->add_constraint('component', '<>', '');
-        $children = $qb->execute();
 
-        foreach ($children as $child) {
+        foreach ($qb->execute() as $child) {
             $this->show_tree($child, $tree_disabled);
         }
         echo "</li>\n";

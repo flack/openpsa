@@ -31,9 +31,8 @@ class net_nemein_wiki_handler_orphan extends midcom_baseclasses_components_handl
         $qb->add_constraint('topic', '=', $this->_topic->id);
         $qb->add_constraint('name', '<>', 'index');
         $qb->add_order('name');
-        $wikipages = $qb->execute();
 
-        foreach ($wikipages as $wikipage) {
+        foreach ($qb->execute() as $wikipage) {
             $link_qb = net_nemein_wiki_link_dba::new_query_builder();
             $link_qb->add_constraint('topage', '=', $wikipage->title);
             $links = $link_qb->count_unchecked();

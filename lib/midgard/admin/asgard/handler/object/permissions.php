@@ -150,8 +150,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
             // List groups as potential assignees
             $qb = midcom_db_group::new_query_builder();
-            $groups = $qb->execute();
-            foreach ($groups as $group) {
+            foreach ($qb->execute() as $group) {
                 if (!array_key_exists("group:{$group->guid}", $assignees)) {
                     $additional_assignees["group:{$group->guid}"] = $group->get_label();
                 }

@@ -36,10 +36,9 @@ class org_openpsa_invoices_handler_rest_invoice extends midcom_baseclasses_compo
 
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_constraint("customerContact", "=", $person->id);
-        $invoices = $qb->execute();
 
         $data = [];
-        foreach ($invoices as $invoice) {
+        foreach ($qb->execute() as $invoice) {
             $date = $invoice->date ? $invoice->date : $invoice->metadata->created;
             $data[] = [
                 "guid" => $invoice->guid,

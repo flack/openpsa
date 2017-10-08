@@ -35,9 +35,8 @@ use Doctrine\ORM\Query\Expr\Join;
         ->where('m.uid = :person')
         ->setParameter('person', $data['person']->id);
 
-    $memberships = $qb->execute();
     $groups = [];
-    foreach ($memberships as $group) {
+    foreach ($qb->execute() as $group) {
         $value = $group->get_label();
         if ($group->can_do('midgard:update')) {
             $value = "<a href=\"{$prefix}__mfa/asgard_midgard.admin.user/group/edit/{$group->guid}/\">{$value}</a>";

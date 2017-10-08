@@ -101,11 +101,10 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
     private function _get_scheduled_invoices()
     {
         $invoices = [];
-        $at_qb = midcom_services_at_entry_dba::new_query_builder();
-        $at_qb->add_constraint('method', '=', 'new_subscription_cycle');
-        $at_qb->add_constraint('component', '=', 'org.openpsa.sales');
-        $at_entries = $at_qb->execute();
-        foreach ($at_entries as $at_entry) {
+        $qb = midcom_services_at_entry_dba::new_query_builder();
+        $qb->add_constraint('method', '=', 'new_subscription_cycle');
+        $qb->add_constraint('component', '=', 'org.openpsa.sales');
+        foreach ($qb->execute() as $at_entry) {
             try {
                 $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($at_entry->arguments['deliverable']);
                 if (   $deliverable->continuous
@@ -136,11 +135,10 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $qb->add_constraint('start', '<', $this->_request_data['end']);
         $qb->add_constraint('end', '>', $this->_request_data['start']);
 
-        $deliverables = $qb->execute();
         $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
         $client = new $client_class();
         $calculation_base = midcom::get()->i18n->get_string('estimated delivery', 'org.openpsa.sales') . ': ';
-        foreach ($deliverables as $deliverable) {
+        foreach ($qb->execute() as $deliverable) {
             $client->run($deliverable);
             if ($client->get_price()) {
                 $invoices[] = $this->get_invoice_for_deliverable($deliverable, $client->get_price(), $deliverable->end, $calculation_base . strftime('%x', $deliverable->end));
