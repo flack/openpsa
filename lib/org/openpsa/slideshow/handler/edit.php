@@ -58,8 +58,9 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $qb = org_openpsa_slideshow_image_dba::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
         $qb->add_order('position');
+        $images = $qb->execute();
         $failed = 0;
-        foreach ($qb->execute() as $image) {
+        foreach ($images as $image) {
             if (   !$image->generate_image('thumbnail', $this->_config->get('thumbnail_filter'))
                 || !$image->generate_image('image', $this->_config->get('image_filter'))) {
                 $failed++;

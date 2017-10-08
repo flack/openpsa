@@ -87,8 +87,8 @@ implements midcom_services_permalinks_resolver
             }
         }
         if ($config->get('index_products')) {
-            $qb_products = org_openpsa_products_product_dba::new_query_builder();
-            $qb_products->add_constraint('productGroup', '=', $group->id);
+            $qb = org_openpsa_products_product_dba::new_query_builder();
+            $qb->add_constraint('productGroup', '=', $group->id);
 
             foreach ($qb->execute() as $product) {
                 try {
