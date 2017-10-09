@@ -9,6 +9,17 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 <script type="text/javascript">
     $(document).ready(function() {
+
+        function resize()
+        {
+            if ($('#elfinder').height() !== $('#elfinder').parent().parent().height() - 2) {
+                $('#elfinder')
+                    .css('width', 'auto')
+                    .height($('#elfinder').parent().parent().height() - 2)
+                    .trigger('resize');
+            }
+        }
+
         $('#elfinder').elfinder({
             url : '&(prefix);connector/',
             defaultView: 'list',
@@ -39,14 +50,8 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 ]
             },
             handlers:  {
-                resize: function(event, elfinder) {
-                    if ($('#elfinder').height() !== $('#elfinder').parent().parent().height() - 2) {
-                        $('#elfinder')
-                            .css('width', 'auto')
-                            .height($('#elfinder').parent().parent().height() - 2)
-                            .trigger('resize');
-                    }
-                }
+                resize: resize,
+                load: resize
             },
             sortRules : {
                 owner : function(file1, file2) {
