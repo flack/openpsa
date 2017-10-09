@@ -30,7 +30,7 @@
         "michelf/php-markdown": "~1.3",
         "midgard/midgardmvc-helper-urlize": "^1.1.1",
         "openpsa/installer": "^1.0",
-        "openpsa/midgard-portable": "^1.1.0",
+        "openpsa/midgard-portable": "^1.2.0",
         "openpsa/ranger": ">=0.3.0",
         "openpsa/universalfeedcreator": "^1.8.2",
         "paragonie/random_compat": "^2.0",
