@@ -12,8 +12,6 @@ if (strpos($_SERVER['REQUEST_URI'], $prefix) !== 0) {
 $prefix = '/';
 define('OPENPSA2_PREFIX', $prefix);
 
-header('Content-Type: text/html; charset=utf-8');
-
 $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 
 if (file_exists(dirname(__DIR__) . '/config.inc.php')) {
