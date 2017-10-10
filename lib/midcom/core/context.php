@@ -23,7 +23,7 @@ class midcom_core_context
      * inner one indexed by context keys. Only valid of the system has left
      * the code-init phase.
      *
-     * @var array
+     * @var midcom_core_context[]
      */
     private static $_contexts = [];
 
@@ -132,7 +132,7 @@ class midcom_core_context
      * Returns the complete context data array
      *
      * @todo This should be removed and places using this rewritten
-     * @return array The data of all contexts
+     * @return midcom_core_context[] All contexts
      */
     public static function get_all()
     {
