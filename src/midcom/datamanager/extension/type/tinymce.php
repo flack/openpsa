@@ -21,11 +21,6 @@ use midcom\datamanager\extension\helper;
 class tinymce extends TextareaType
 {
     /**
-     * Widget version
-     */
-    public $version = '4.3';
-
-    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
