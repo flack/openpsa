@@ -193,7 +193,7 @@ class midcom_debug
         $varstring = ob_get_contents();
         ob_end_clean();
 
-        $this->log(trim($message) . $varstring, $loglevel);
+        $this->log(trim($message) . ' ' . $varstring, $loglevel);
     }
 
     /**
