@@ -8,6 +8,9 @@
 
 use midcom\events\dbaevent;
 use midgard\portable\api\error\exception as mgd_exception;
+use midcom\dba\parameters;
+use midcom\dba\attachments;
+use midcom\dba\privileges;
 
 /**
  * MidCOM DBA baseclass for MgdSchema object decorators.
@@ -17,6 +20,8 @@ use midgard\portable\api\error\exception as mgd_exception;
  */
 abstract class midcom_core_dbaobject
 {
+    use parameters, attachments, privileges;
+
     /**
      * MgdSchema object
      *
@@ -217,33 +222,6 @@ abstract class midcom_core_dbaobject
     }
 
     /**
-     * API for creating an attachment for the object
-     *
-     * @param string $name      Machine-readable name of the attachment
-     * @param string $title     Human-readable title of the attachment
-     * @param string $mimetype  MIME-type of the attachment
-     * @return midcom_db_attachment The created attachment or false on failure.
-     */
-    public function create_attachment($name, $title, $mimetype)
-    {
-        return midcom_baseclasses_core_dbobject::create_attachment($this, $name, $title, $mimetype);
-    }
-
-    /**
-     * Create new privilege for the object.
-     *
-     * @param string $privilege  Privilege name
-     * @param mixed $assignee    ID or GUID of the assignee
-     * @param int $value         Privilege level
-     * @param string $classname  An optional class name to which a SELF privilege gets restricted to. Only valid for SELF privileges.
-     * @return midcom_core_privilege The newly created privilege record or false on failure.
-     */
-    public function create_new_privilege_object($privilege, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
-    {
-        return midcom_baseclasses_core_dbobject::create_new_privilege_object($this, $privilege, $assignee, $value, $classname);
-    }
-
-    /**
      * Delete the current object
      *
      * @return boolean Indicating success
@@ -274,29 +252,6 @@ abstract class midcom_core_dbaobject
     }
 
     /**
-     * Delete an attachment of the this object
-     *
-     * @param string $name     Name of the attachment
-     * @return boolean Indicating success
-     */
-    public function delete_attachment($name)
-    {
-        return midcom_baseclasses_core_dbobject::delete_attachment($this, $name);
-    }
-
-    /**
-     * Delete a parameter
-     *
-     * @param string $domain    Parameter domain
-     * @param string $name      Parameter name
-     * @return boolean Indicating success
-     */
-    public function delete_parameter($domain, $name)
-    {
-        return midcom_baseclasses_core_dbobject::delete_parameter($this, $domain, $name);
-    }
-
-    /**
      * Delete the current object tree, starting from this object
      *
      * @return boolean Indicating success
@@ -304,25 +259,6 @@ abstract class midcom_core_dbaobject
     public function delete_tree()
     {
         return midcom_baseclasses_core_dbobject::delete_tree($this);
-    }
-
-    /**
-     * Get the requested attachment object
-     *
-     * @param string $name    Attachment URL name
-     * @return midcom_db_attachment The attachment found, or false on failure.
-     */
-    public function get_attachment($name)
-    {
-        return midcom_baseclasses_core_dbobject::get_attachment($this, $name);
-    }
-
-    /**
-     * @return midcom_core_querybuilder The initialized instance of the query builder or false on failure.
-     */
-    public function get_attachment_qb()
-    {
-        return midcom_baseclasses_core_dbobject::get_attachment_qb($this);
     }
 
     /**
@@ -363,21 +299,9 @@ abstract class midcom_core_dbaobject
     {
         return midcom_helper_metadata::retrieve($this);
     }
-    public function get_parameter($domain, $name)
-    {
-        return midcom_baseclasses_core_dbobject::get_parameter($this, $domain, $name);
-    }
     public function get_parent()
     {
         return midcom::get()->dbfactory->get_parent($this);
-    }
-    public function get_privilege($privilege, $assignee, $classname = '')
-    {
-        return midcom_baseclasses_core_dbobject::get_privilege($this, $privilege, $assignee, $classname);
-    }
-    public function get_privileges()
-    {
-        return midcom_baseclasses_core_dbobject::get_privileges($this);
     }
     public function is_in_parent_tree($root, $id)
     {
@@ -408,10 +332,6 @@ abstract class midcom_core_dbaobject
     {
         return $this->__object->has_attachments();
     }
-    public function list_attachments()
-    {
-        return midcom_baseclasses_core_dbobject::list_attachments($this);
-    }
     public function find_attachments($constraints)
     {
         return $this->__object->find_attachments($constraints);
@@ -432,10 +352,6 @@ abstract class midcom_core_dbaobject
     {
         return $this->__object->has_parameters();
     }
-    public function list_parameters($domain = null)
-    {
-        return midcom_baseclasses_core_dbobject::list_parameters($this, $domain);
-    }
     public function find_parameters($constraints)
     {
         return $this->__object->find_parameters($constraints);
@@ -451,22 +367,6 @@ abstract class midcom_core_dbaobject
     public function refresh()
     {
         return midcom_baseclasses_core_dbobject::refresh($this);
-    }
-    public function set_parameter($domain, $name, $value)
-    {
-        return midcom_baseclasses_core_dbobject::set_parameter($this, $domain, $name, $value);
-    }
-    public function set_privilege($privilege, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
-    {
-        return midcom_baseclasses_core_dbobject::set_privilege($this, $privilege, $assignee, $value, $classname);
-    }
-    public function unset_privilege($privilege, $assignee = null, $classname = '')
-    {
-        return midcom_baseclasses_core_dbobject::unset_privilege($this, $privilege, $assignee, $classname);
-    }
-    public function unset_all_privileges()
-    {
-        return midcom_baseclasses_core_dbobject::unset_all_privileges($this);
     }
     public function update()
     {
