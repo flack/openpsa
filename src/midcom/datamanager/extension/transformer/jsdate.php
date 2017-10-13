@@ -33,8 +33,7 @@ class jsdate implements DataTransformerInterface
             }
         }
 
-        if (   $input === null
-            || $input === 0
+        if (   empty($input)
             || (   $input instanceof DateTime
                 && $input->format('Y-m-d H:i:s') == '0001-01-01 00:00:00')) {
             return $result;
