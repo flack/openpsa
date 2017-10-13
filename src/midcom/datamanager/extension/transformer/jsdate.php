@@ -42,7 +42,7 @@ class jsdate implements DataTransformerInterface
 
         $date = new \DateTime;
         if ($this->config['type_config']['storage_type'] === datetype::UNIXTIME) {
-            $date->setTimestamp($input);
+            $date->setTimestamp((int) $input);
         } elseif ($this->config['type_config']['storage_type'] === datetype::ISO) {
             $date->modify($input);
         }
