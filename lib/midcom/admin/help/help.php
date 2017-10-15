@@ -369,6 +369,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $this->_request_data['core_components']['midcom'] = $this->_load_component_data('midcom');
 
         foreach (midcom::get()->componentloader->manifests as $name => $manifest) {
+            if ($name == 'midcom') {
+                continue;
+            }
             $type = ($manifest->purecode) ? 'libraries' : 'components';
 
             if (midcom::get()->componentloader->is_core_component($name)) {

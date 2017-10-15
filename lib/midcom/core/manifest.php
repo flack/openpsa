@@ -333,7 +333,10 @@ class midcom_core_manifest
     {
         $processed = [];
         foreach ($this->privileges as $name => $defaults) {
-            $processed["{$this->name}:{$name}"] = $defaults;
+            if ($this->name !== 'midcom') {
+                $name = "{$this->name}:{$name}";
+            }
+            $processed[$name] = $defaults;
         }
         $this->privileges = $processed;
     }

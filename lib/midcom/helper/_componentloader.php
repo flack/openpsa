@@ -196,8 +196,6 @@ class midcom_helper__componentloader
         }
         $this->_interface_classes[$path] = new $classname();
 
-        midcom::get()->dbclassloader->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_mapping);
-
         if ($this->_interface_classes[$path]->initialize($path) == false) {
             debug_add("Initialize of Component {$path} failed.", MIDCOM_LOG_CRIT);
             return false;
@@ -346,7 +344,7 @@ class midcom_helper__componentloader
         if ($config === null) {
             $config = midcom::get()->config;
         }
-        $candidates = [];
+        $candidates = [MIDCOM_ROOT . 'midcom'];
         // First, we locate all manifest includes:
         // We use some find construct like find -follow -type d -name "config"
         // This does follow symlinks, which can be important when several

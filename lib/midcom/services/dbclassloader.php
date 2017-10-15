@@ -53,65 +53,6 @@
 class midcom_services_dbclassloader
 {
     /**
-     * List of all midgard classes which have been loaded.
-     *
-     * This list only contains the class definitions that have been used to
-     * construct  the actual helper classes.
-     *
-     * @var Array
-     */
-    private $_midgard_classes = [];
-
-    /**
-     * This is the main class loader function. It takes a component/filename pair as
-     * arguments, the first specifying the place to look for the latter.
-     *
-     * For example, if you call load_classes('net.nehmer.static', 'my_classes.inc'), it will
-     * look in the directory MIDCOM_ROOT/net/nehmer/static/config/my_classes.inc. The magic
-     * component 'midcom' goes for the MIDCOM_ROOT/midcom/config directory and is reserved
-     * for MidCOM core classes and compatibility classes.
-     */
-    public function load_classes($component, $filename, $definition_list = null)
-    {
-        if (is_null($definition_list)) {
-            $definition_list = $this->_read_class_definition_file($component, $filename);
-        }
-
-        foreach ($definition_list as $mgdschema_class => $midcom_class) {
-            if (!class_exists($mgdschema_class)) {
-                throw new midcom_error("Validation failed: Key {$midcom_class} had an invalid mgdschema_class_name element: {$mgdschema_class}. Probably the required MgdSchema is not loaded.");
-            }
-
-            if (   substr($mgdschema_class, 0, 8) == 'midgard_'
-                || substr($mgdschema_class, 0, 12) == 'midcom_core_'
-                || $mgdschema_class == midcom::get()->config->get('person_class')) {
-                $this->_midgard_classes[$mgdschema_class] = $midcom_class;
-            }
-        }
-    }
-
-    /**
-     * Loads a class definition file from the disk and returns its contents.
-     *
-     * It will translate component and filename into a full path and delivers
-     * the contents as an array.
-     *
-     * @param string $component The name of the component for which the class file has to be loaded. The path must
-     *     resolve with the component loader unless you use 'midcom' to load MidCOM core class definition files.
-     * @return array The contents of the file.
-     */
-    private function _read_class_definition_file($component, $filename)
-    {
-        $filename = midcom::get()->componentloader->path_to_snippetpath($component) . "/config/{$filename}";
-        if (!file_exists($filename)) {
-            throw new midcom_error("Failed to access the file {$filename}: File does not exist.");
-        }
-
-        $contents = file_get_contents($filename);
-        return midcom_helper_misc::parse_config($contents);
-    }
-
-    /**
      * Simple helper to check whether we are dealing with a MgdSchema or MidCOM DBA
      * object or a subclass thereof.
      *
@@ -212,7 +153,7 @@ class midcom_services_dbclassloader
         }
 
         if ($classname == midcom::get()->config->get('person_class')) {
-            $definitions = $this->get_midgard_classes();
+            $component = 'midcom';
         } else {
             $component = $this->get_component_for_class($classname);
             if (!$component) {
@@ -220,8 +161,8 @@ class midcom_services_dbclassloader
                 $dba_classes_by_mgdschema[$classname] = false;
                 return false;
             }
-            $definitions = $this->get_component_classes($component);
         }
+        $definitions = $this->get_component_classes($component);
 
         //TODO: This allows components to override midcom classes fx. Do we want that?
         $dba_classes_by_mgdschema = array_merge($dba_classes_by_mgdschema, $definitions);
@@ -281,15 +222,6 @@ class midcom_services_dbclassloader
 
     public function get_component_classes($component)
     {
-        if ($component == 'midcom') {
-            return $this->get_midgard_classes();
-        }
-
         return midcom::get()->componentloader->manifests[$component]->class_mapping;
-    }
-
-    public function get_midgard_classes()
-    {
-        return $this->_midgard_classes;
     }
 }

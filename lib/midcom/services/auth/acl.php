@@ -331,38 +331,6 @@ class midcom_services_auth_acl
     public function __construct(midcom_services_auth $auth)
     {
         $this->auth = $auth;
-        $this->_register_core_privileges();
-    }
-
-    /**
-     * This internal helper will initialize the default privileges array with all core
-     * privileges currently defined.
-     *
-     * @see $_default_privileges
-     */
-    private function _register_core_privileges()
-    {
-        $this->register_default_privileges([
-            // Midgard core level privileges
-            'midgard:update' => [MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW],
-            'midgard:delete' => [MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW],
-            'midgard:create' => [MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW],
-            'midgard:read' => [MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW],
-            'midgard:parameters' => [MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW],
-            'midgard:attachments' => [MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW],
-            'midgard:autoserve_attachment' => MIDCOM_PRIVILEGE_ALLOW,
-            'midgard:privileges' => [MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW],
-            'midgard:owner' => MIDCOM_PRIVILEGE_DENY,
-
-            // MidCOM core level privileges
-            'midcom:approve' => MIDCOM_PRIVILEGE_DENY,
-            'midcom:component_config' => [MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW],
-            'midcom:urlname' => MIDCOM_PRIVILEGE_DENY,
-            'midcom:isonline' => [MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW],
-            'midcom:ajax' => MIDCOM_PRIVILEGE_DENY,
-            'midcom:centralized_toolbar' => MIDCOM_PRIVILEGE_DENY,
-            'midcom:unlock' => MIDCOM_PRIVILEGE_DENY,
-        ]);
     }
 
     /**
