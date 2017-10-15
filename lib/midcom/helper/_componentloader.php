@@ -189,11 +189,6 @@ class midcom_helper__componentloader
             return false;
         }
 
-        // Validate and translate url
-        if (!$this->validate_url($path)) {
-            return false;
-        }
-
         $classname = $this->path_to_prefix($path) . '_interface';
         if (!class_exists($classname)) {
             debug_add("Class {$classname} does not exist.", MIDCOM_LOG_CRIT);
@@ -307,26 +302,6 @@ class midcom_helper__componentloader
     public function path_to_prefix($path)
     {
         return strtr($path, ".", "_");
-    }
-
-    /**
-     * Will validate the given MidCOM Path $path for syntactical
-     * correctness. Currently this is a RegEx check that checks for
-     * invalid characters in $path, so validate_url does explicitly
-     * <i>not</i> check whether the referenced component does exist and
-     * whether it is structurally valid.
-     *
-     * @param string $path    The path to be checked.
-     * @return boolean         True if valid, false otherwise.
-     */
-    public function validate_url($path)
-    {
-        if (!preg_match("/^[a-z][a-z0-9\.]*[a-z0-9]$/", $path)) {
-            debug_add("Invalid URL: " . $path, MIDCOM_LOG_CRIT);
-            return false;
-        }
-
-        return true;
     }
 
     /**
