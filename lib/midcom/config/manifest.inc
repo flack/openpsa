@@ -37,3 +37,15 @@
     'midgard_topic' => 'midcom_db_topic',
 ],
 'description' => 'MidCOM framework',
+'customdata' => [
+    'midcom.services.cron' => [
+        [
+            'handler' => 'midcom_cron_loginservice',
+            'recurrence' => MIDCOM_CRON_HOUR,
+        ],
+        [
+            'handler' => 'midcom_cron_purgedeleted',
+            'recurrence' => MIDCOM_CRON_DAY,
+        ],
+    ],
+],

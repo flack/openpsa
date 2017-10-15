@@ -97,24 +97,6 @@ class midcom_services_cron
     private $_recurrence = MIDCOM_CRON_MINUTE;
 
     /**
-     * Jobs specific to the MidCOM core not covered by any component. (Services
-     * use this facility for example.)
-     *
-     * @var Array
-     * @todo Factor this out into its own configuration file.
-     */
-    private $_midcom_jobs = [
-        [
-            'handler' => 'midcom_cron_loginservice',
-            'recurrence' => MIDCOM_CRON_HOUR,
-        ],
-        [
-            'handler' => 'midcom_cron_purgedeleted',
-            'recurrence' => MIDCOM_CRON_DAY,
-        ],
-    ];
-
-    /**
      * Constructor.
      */
     public function __construct($recurrence = MIDCOM_CRON_MINUTE)
@@ -187,7 +169,6 @@ class midcom_services_cron
     {
         if (empty($this->_jobs)) {
             $data = midcom::get()->componentloader->get_all_manifest_customdata('midcom.services.cron');
-            $data['midcom'] = $this->_midcom_jobs;
             $this->load_jobs($data);
         }
         array_map([$this, '_execute_job'], $this->_jobs);
