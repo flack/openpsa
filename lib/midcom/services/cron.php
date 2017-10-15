@@ -113,15 +113,6 @@ class midcom_services_cron
     public function load_jobs(array $data)
     {
         foreach ($data as $component => $jobs) {
-            // First, verify the component is loaded
-            if (   $component != 'midcom'
-                && !midcom::get()->componentloader->load_graceful($component)) {
-                $msg = "Failed to load the component {$component}. See the debug level log for further information, skipping this component.";
-                debug_add($msg, MIDCOM_LOG_ERROR);
-                echo "ERROR: {$msg}\n";
-                continue;
-            }
-
             foreach ($jobs as $job) {
                 try {
                     if ($this->_validate_job($job)) {
