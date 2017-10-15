@@ -51,14 +51,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      */
     private static function get_documentation_dir($component)
     {
-        if ($component == 'midcom') {
-            return MIDCOM_ROOT . "/midcom/documentation/";
-        }
         if (!midcom::get()->componentloader->is_installed($component)) {
             throw new midcom_error("Failed to generate documentation path for component {$component} as it is not installed.");
         }
-        $component_dir = str_replace('.', '/', $component);
-        return MIDCOM_ROOT . "/{$component_dir}/documentation/";
+        return midcom::get()->componentloader->path_to_snippetpath($component) . '/documentation/';
     }
 
     public static function generate_file_path($help_id, $component, $language = null)
@@ -282,13 +278,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     {
         $data = [];
 
-        if ($component == 'midcom') {
-            $exec_path = MIDCOM_ROOT . '/midcom/exec';
-        } else {
-            $component_path = str_replace('.', '/', $component);
-            $exec_path = MIDCOM_ROOT . '/' . $component_path . '/exec';
-        }
-
+        $exec_path = midcom::get()->componentloader->path_to_snippetpath($component) . '/exec/';
         if (   !is_dir($exec_path)
             || !is_readable($exec_path)) {
             // Directory not accessible, skip loading it

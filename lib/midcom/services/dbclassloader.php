@@ -102,11 +102,7 @@ class midcom_services_dbclassloader
      */
     private function _read_class_definition_file($component, $filename)
     {
-        if ($component == 'midcom') {
-            $filename = MIDCOM_ROOT . "/midcom/config/{$filename}";
-        } else {
-            $filename = midcom::get()->componentloader->path_to_snippetpath($component) . "/config/{$filename}";
-        }
+        $filename = midcom::get()->componentloader->path_to_snippetpath($component) . "/config/{$filename}";
         if (!file_exists($filename)) {
             throw new midcom_error("Failed to access the file {$filename}: File does not exist.");
         }
