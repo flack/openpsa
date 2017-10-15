@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once __DIR__ . '/../__files/xml_constraint.php';
-
 /**
  * OpenPSA testcase
  *

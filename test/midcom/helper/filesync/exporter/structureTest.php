@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once OPENPSA_TEST_ROOT . 'midcom/helper/filesync/__files/fs_setup.php';
-
 /**
  * OpenPSA testcase
  *

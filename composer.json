@@ -80,5 +80,8 @@
             "midcom": "src/"
         },
         "files": ["lib/constants.php", "lib/compat/ragnaroek.php"]
+    },
+    "autoload-dev": {
+        "classmap": ["test"]
     }
 }

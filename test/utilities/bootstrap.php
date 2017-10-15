@@ -93,9 +93,6 @@ $_SERVER = [
     'SCRIPT_NAME' => 'unittest-run'
 ];
 
-// Include the MidCOM environment for running OpenPSA
-require MIDCOM_ROOT . '/midcom.php';
-
 //Clean up residue cache entries from previous runs
 midcom::get()->cache->invalidate_all();
 //disable output buffering

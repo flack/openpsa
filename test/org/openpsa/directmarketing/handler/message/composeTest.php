@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once OPENPSA_TEST_ROOT . 'org/openpsa/directmarketing/__helper/campaign.php';
-
 /**
  * OpenPSA testcase
  *
