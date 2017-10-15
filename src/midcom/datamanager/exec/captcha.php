@@ -9,7 +9,7 @@
  */
 use Gregwar\Captcha\CaptchaBuilder;
 
-global $argc, $argv;
+global $argv;
 
 if (!isset($argv[0])) {
     throw new midcom_error_notfound("Missing CAPTCHA session key.");
