@@ -99,7 +99,7 @@ class midcom_core_urlmethods
 
     private function _process_serveattachmentguid($value)
     {
-        if ($this->_context->parser->argc > 1) {
+        if (count($this->_context->parser->argv) > 1) {
             debug_add('Too many arguments remaining for serve_attachment.', MIDCOM_LOG_ERROR);
         }
 
@@ -189,7 +189,7 @@ class midcom_core_urlmethods
      * The script file is executed in the cache's live mode to allow for long running
      * scripts (just produce any output regularly, or Apache will kill you after ~ 2 mins.).
      *
-     * The remaining arguments will be placed into the globals $argc/argv.
+     * The remaining arguments will be placed into the global $argv.
      *
      * @param string $component The component to look in ("midcom" uses core scripts)
      * @see midcom_services_cache_module_content::enable_live_mode()
@@ -197,8 +197,8 @@ class midcom_core_urlmethods
     private function _process_exec($component)
     {
         // Sanity checks
-        if ($this->_context->parser->argc < 1) {
-            throw new midcom_error_notfound("Script exec path invalid, need exactly one argument.");
+        if (count($this->_context->parser->argv) < 1) {
+            throw new midcom_error_notfound("Script exec path invalid, need at least one argument.");
         }
 
         // Build the path
@@ -220,7 +220,6 @@ class midcom_core_urlmethods
         }
 
         // collect remaining arguments and put them to global vars.
-        $GLOBALS['argc'] = $this->_context->parser->argc--;
         $GLOBALS['argv'] = $this->_context->parser->argv;
         array_shift($GLOBALS['argv']);
 

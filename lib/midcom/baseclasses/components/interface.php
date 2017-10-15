@@ -194,12 +194,11 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * to MidCOM.
      *
      * @param midcom_db_topic $current_object The topic in question.
-     * @param int $argc The count of the remaining URL arguments.
      * @param array $argv The argument listing
      * @param int $contextid The id of the context we are operating in.
      * @return boolean True, if the component can handle the request, false otherwise.
      */
-    public function can_handle($current_object, $argc, $argv, $contextid)
+    public function can_handle($current_object, array $argv, $contextid)
     {
         $data =& $this->_context_data[$contextid];
         $loader = midcom::get()->componentloader;
@@ -208,7 +207,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
         if (is_a($data['handler'], 'midcom_baseclasses_components_request')) {
             $data['handler']->initialize($this->_component);
         }
-        return $data['handler']->can_handle($argc, $argv);
+        return $data['handler']->can_handle($argv);
     }
 
     /**

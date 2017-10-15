@@ -346,7 +346,7 @@ class midcom_core_context
         $component_interface->configure($config, $this->id);
 
         // Make can_handle check
-        if (!$component_interface->can_handle($object, $this->parser->argc, $this->parser->argv, $this->id)) {
+        if (!$component_interface->can_handle($object, $this->parser->argv, $this->id)) {
             debug_add("Component {$path} in {$object->name} declared unable to handle request.", MIDCOM_LOG_INFO);
             return false;
         }

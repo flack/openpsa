@@ -13,7 +13,6 @@
  */
 class midcom_core_service_implementation_urlparsertopic implements midcom_core_service_urlparser
 {
-    public $argc = 0;
     public $argv = [];
     private $argv_original = [];
 
@@ -63,7 +62,6 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
      */
     public function parse($argv)
     {
-        $this->argc = count($argv);
         $this->argv = $argv;
         $this->argv_original = $argv;
         $this->current_object = null;
@@ -89,7 +87,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
      */
     public function get_object()
     {
-        if ($this->argc == 0) {
+        if (count($this->argv) == 0) {
             // No arguments left
             return false;
         }
@@ -101,7 +99,6 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         }
         if (array_key_exists($object_url, $this->objects)) {
             // Remove this component from path
-            $this->argc -= 1;
             array_shift($this->argv);
 
             // Set as current object
@@ -130,7 +127,6 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
             }
 
             // Remove this component from path
-            $this->argc -= 1;
             array_shift($this->argv);
 
             // Set as current object
@@ -148,7 +144,6 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         $this->check_style_inheritance($this->current_object);
 
         // Remove this component from path
-        $this->argc -= 1;
         array_shift($this->argv);
 
         $this->url .= $this->objects[$object_url]->name . '/';
@@ -163,8 +158,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
      * [a-zA-Z0-9]* and value must not contain a "/".
      *
      * On success it returns an associative array containing the
-     * key and value which hold that have been parsed. $this->argv[0] will be dropped
-     * and $this->argc will be reduced by one.
+     * key and value which hold that have been parsed. $this->argv[0] will be dropped.
      *
      * On failure it returns false.
      *
@@ -173,7 +167,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
      */
     public function get_variable($namespace)
     {
-        if ($this->argc == 0) {
+        if (count($this->argv) == 0) {
             return false;
         }
 
@@ -189,7 +183,6 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         // Remove this component from path
         array_shift($this->argv);
         array_shift($this->argv_original);
-        $this->argc -= 1;
 
         return [
             $key => $value,

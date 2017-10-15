@@ -198,7 +198,6 @@ class midcom_connection
             case 'prefix':
             case 'page_style':
             case 'argv':
-            case 'argc':
                 return self::get_url($key);
             default:
                 return self::_get($key);
@@ -286,7 +285,6 @@ class midcom_connection
 
         self::$_data['page_style'] = $page_style;
         self::$_data['uri'] = $path;
-        self::$_data['argc'] = count(self::$_data['argv']);
         self::$_data['self'] = $self;
         self::$_data['prefix'] = $prefix;
     }

@@ -22,7 +22,7 @@
  */
 
 // Get the configuration arguments
-if ($argc != 3) {
+if (count($argv) != 3) {
     error_log("usage: php bounce_detector.php BOUNCE_ADDRESS BOUNCE_LOGGER");
     exit(1);
 }

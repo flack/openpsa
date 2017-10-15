@@ -85,7 +85,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     /**
      * The handle callback populates root group information
      */
-    public function _on_can_handle($argc, array $argv)
+    public function _on_can_handle(array $argv)
     {
         if ($this->_config->get('root_group') === 0) {
             $this->_request_data['root_group'] = 0;
@@ -94,7 +94,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             $this->_request_data['root_group'] = $root_group->id;
         }
 
-        if ($argc >= 1) {
+        if (count($argv) >= 1) {
             $mc = midcom_db_topic::new_collector('up', $this->_topic->id);
             $mc->add_constraint('name', '=', $argv[0]);
             $mc->execute();

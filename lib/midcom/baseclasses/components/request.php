@@ -435,19 +435,18 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * If available, the function calls the _can_handle callback of the event handlers
      * which potentially match the argument declaration.
      *
-     * @param int $argc The argument count
      * @param array $argv The argument list
      * @return boolean Indicating whether the request can be handled by the class, or not.
      */
-    public function can_handle($argc, $argv)
+    public function can_handle(array $argv)
     {
         // Call the general can_handle event handler
-        if (!$this->_on_can_handle($argc, $argv)) {
+        if (!$this->_on_can_handle($argv)) {
             return false;
         }
 
         // Check if we need to start up a plugin.
-        if (   $argc > 1
+        if (   count($argv) > 1
             && array_key_exists($argv[0], self::$_plugin_namespace_config)
             && array_key_exists($argv[1], self::$_plugin_namespace_config[$argv[0]])) {
             $namespace = $argv[0];
@@ -459,7 +458,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $this->_prepare_request_switch();
 
         foreach ($this->_request_switch as $key => $request) {
-            if (!$this->_validate_route($request, $argc, $argv)) {
+            if (!$this->_validate_route($request, $argv)) {
                 continue;
             }
             $fixed_args_count = count($request['fixed_args']);
@@ -486,14 +485,14 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         return false;
     }
 
-    private function _validate_route(array $request, $argc, array $argv)
+    private function _validate_route(array $request, array $argv)
     {
         $fixed_args_count = count($request['fixed_args']);
         $variable_args_count = $request['variable_args'];
         $total_args_count = $fixed_args_count + $variable_args_count;
 
-        if (   ($argc != $total_args_count && ($variable_args_count >= 0))
-            || $fixed_args_count > $argc) {
+        if (   (count($argv) != $total_args_count && ($variable_args_count >= 0))
+            || $fixed_args_count > count($argv)) {
             return false;
         }
 
@@ -700,11 +699,10 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * The remainder of the can_handle phase is skipped then, returning the URL processing back
      * to MidCOM.
      *
-     * @param int $argc The argument count as passed by the Core.
      * @param array $argv The argument list.
      * @return boolean Return false to abort the handle phase, true to continue normally.
      */
-    public function _on_can_handle($argc, array $argv)
+    public function _on_can_handle(array $argv)
     {
         return true;
     }

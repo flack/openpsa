@@ -7,7 +7,7 @@
  * in future extra variables (like for auth or something) may be added
  */
 // Get the configuration arguments
-if ($argc != 2) {
+if (count($argv) != 2) {
     error_log("Usage: php bounce_detector.php HANDLER_URL");
     exit(0);
 }
