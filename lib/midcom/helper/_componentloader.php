@@ -235,10 +235,7 @@ class midcom_helper__componentloader
         if (empty($this->manifests)) {
             $this->load_all_manifests();
         }
-        if (!isset($this->manifests[$path])) {
-            return ($path == 'midcom');
-        }
-        return true;
+        return array_key_exists($path, $this->manifests);
     }
 
     public function register_component($name, $path)
@@ -283,9 +280,6 @@ class midcom_helper__componentloader
     {
         if (array_key_exists($component_name, $this->manifests)) {
             return dirname(dirname($this->manifests[$component_name]->filename));
-        }
-        if ($component_name == 'midcom') {
-            return MIDCOM_ROOT . '/midcom';
         }
         debug_add("Component {$component_name} is not registered", MIDCOM_LOG_CRIT);
         return false;
@@ -459,10 +453,6 @@ class midcom_helper__componentloader
 
     public function get_component_icon($component, $provide_fallback = true)
     {
-        if ($component == 'midcom') {
-            return 'stock-icons/logos/midgard-16x16.png';
-        }
-
         if (!$this->is_installed($component)) {
             return null;
         }

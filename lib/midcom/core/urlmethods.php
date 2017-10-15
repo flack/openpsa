@@ -202,17 +202,15 @@ class midcom_core_urlmethods
         }
 
         // Build the path
-        if ($component == 'midcom') {
-            $path = MIDCOM_ROOT . '/midcom/exec/';
-        } else {
-            $componentloader = midcom::get()->componentloader;
-            if (!$componentloader->is_installed($component)) {
-                throw new midcom_error_notfound('The requested component is not installed');
-            }
+        $componentloader = midcom::get()->componentloader;
+        if (!$componentloader->is_installed($component)) {
+            throw new midcom_error_notfound('The requested component is not installed');
+        }
+        if ($component !== 'midcom') {
             $componentloader->load_graceful($component);
             $this->_context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
-            $path = $componentloader->path_to_snippetpath($component) . '/exec/';
         }
+        $path = $componentloader->path_to_snippetpath($component) . '/exec/';
         $path .= $this->_context->parser->argv[0];
 
         if (!is_file($path)) {
