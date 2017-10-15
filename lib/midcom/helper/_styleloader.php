@@ -658,7 +658,6 @@ class midcom_helper__styleloader
      *
      * @todo check documentation
      * @param int $context    The context to enter
-     * @return boolean            True on success, false on failure.
      */
     public function enter_context($context)
     {
@@ -686,7 +685,6 @@ class midcom_helper__styleloader
         $this->_snippetdir = $this->_get_component_snippetdir();
 
         $this->_merge_styledirs($this->_snippetdir);
-        return true;
     }
 
     /**
@@ -694,7 +692,6 @@ class midcom_helper__styleloader
      * and $_snippetdir are adjusted.
      *
      * @todo check documentation
-     * @return boolean            True on success, false on failure.
      */
     public function leave_context()
     {
@@ -708,7 +705,6 @@ class midcom_helper__styleloader
         $this->_topic = midcom_core_context::get($previous_context)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
         $this->_snippetdir = $this->_get_component_snippetdir();
-        return true;
     }
 
     /**
