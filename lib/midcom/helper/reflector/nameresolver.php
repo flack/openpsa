@@ -444,7 +444,7 @@ class midcom_helper_reflector_nameresolver
             $sibling = $siblings[0];
             $sibling_name = $sibling->{$child_name_property};
 
-            list($sibling_i, $sibling_name) = $this->_parse_filename($sibling_name, $extension);
+            $sibling_i = $this->_parse_filename($sibling_name, $extension)[0];
             if ($sibling_i >= $i) {
                 $i = $sibling_i + 1;
             }
