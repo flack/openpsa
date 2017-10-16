@@ -109,6 +109,17 @@ class view extends base
         return '<div' . $this->attributes($label_attr) . '>' . $this->renderer->humanize($data['label']) . '</div>';
     }
 
+    public function subform_widget(FormView $view, array $data)
+    {
+        if (empty($view->vars['data'])) {
+            return '';
+        }
+        $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        $string .= $this->renderer->block($view, 'form_rows');
+        $string .= $this->renderer->rest($view);
+        return $string . '</div>';
+    }
+
     public function form_widget_simple(FormView $view, array $data)
     {
         if (   !empty($data['value'])
