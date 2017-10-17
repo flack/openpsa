@@ -92,61 +92,46 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
             return false;
         }
 
-        if (empty($this->url)) {
-            $object_url = "{$this->argv[0]}/";
-        } else {
-            $object_url = "{$this->url}/{$this->argv[0]}/";
+        $object_url = $this->argv[0] . '/';
+        if (!empty($this->url)) {
+            $object_url = $this->url . $object_url;
         }
-        if (array_key_exists($object_url, $this->objects)) {
-            // Remove this component from path
-            array_shift($this->argv);
+        if (!array_key_exists($object_url, $this->objects)) {
+            $qb = midcom_db_topic::new_query_builder();
+            $qb->add_constraint('name', '=', $this->argv[0]);
+            $qb->add_constraint('up', '=', $this->get_current_object()->id);
 
-            // Set as current object
-            $this->url = $object_url;
-            $this->current_object = $this->objects[$object_url];
-            return $this->objects[$object_url];
-        }
+            if ($qb->count() > 0) {
+                // Set to current topic
+                $this->objects[$object_url] = $qb->get_result(0);
 
-        $qb = midcom_db_topic::new_query_builder();
-        $qb->add_constraint('name', '=', $this->argv[0]);
-        $qb->add_constraint('up', '=', $this->get_current_object()->id);
+                // TODO: Remove
+                $this->check_style_inheritance($this->objects[$object_url]);
+            } else {
+                //last load returned ACCESS DENIED, no sense to dig deeper
+                if ($qb->denied > 0) {
+                    midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
+                    return false;
+                }
+                // No topics matching path, check for attachments
+                $att_qb =  midcom_db_attachment::new_query_builder();
+                $att_qb->add_constraint('name', '=', $this->argv[0]);
+                $att_qb->add_constraint('parentguid', '=', $this->get_current_object()->guid);
+                if ($att_qb->count() == 0) {
+                    // allow for handler switches to work
+                    return false;
+                }
 
-        if ($qb->count() == 0) {
-            //last load returned ACCESS DENIED, no sense to dig deeper
-            if ($qb->denied > 0) {
-                midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
-                return false;
+                // Set as current object
+                $this->objects[$object_url] = $att_qb->get_result(0);
             }
-            // No topics matching path, check for attachments
-            $att_qb =  midcom_db_attachment::new_query_builder();
-            $att_qb->add_constraint('name', '=', $this->argv[0]);
-            $att_qb->add_constraint('parentguid', '=', $this->get_current_object()->guid);
-            if ($att_qb->count() == 0) {
-                // allow for handler switches to work
-                return false;
-            }
-
-            // Remove this component from path
-            array_shift($this->argv);
-
-            // Set as current object
-            $this->url = $object_url;
-            $this->current_object = $att_qb->get_result(0);
-            $this->objects[$object_url] = $this->current_object;
-            return $this->objects[$object_url];
         }
-
-        // Set to current topic
-        $this->current_object = $qb->get_result(0);
-        $this->objects[$object_url] = $this->current_object;
-
-        // TODO: Remove
-        $this->check_style_inheritance($this->current_object);
-
         // Remove this component from path
         array_shift($this->argv);
 
-        $this->url .= $this->objects[$object_url]->name . '/';
+        // Set as current object
+        $this->url = $object_url;
+        $this->current_object = $this->objects[$object_url];
         return $this->objects[$object_url];
     }
 
