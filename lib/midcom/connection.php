@@ -204,7 +204,7 @@ class midcom_connection
         }
     }
 
-    public static function _get($key)
+    private static function _get($key)
     {
         if (isset(self::$_data[$key])) {
             return self::$_data[$key];
