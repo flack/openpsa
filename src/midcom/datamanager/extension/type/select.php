@@ -13,7 +13,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use midcom\datamanager\extension\helper;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-use midcom_error;
 
 /**
  * Experimental select type

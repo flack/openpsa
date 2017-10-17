@@ -27,13 +27,20 @@ class radiocheckselect extends ChoiceType
         parent::configureOptions($resolver);
         $map_options = function (Options $options) {
             $return_options = [];
-            if (isset($options['type_config']['options'])) {
+            if (!empty($options['type_config']['options'])) {
                 foreach ($options['type_config']['options'] as $key => $value) {
                     //symfony expects only strings
-                    $return_options[$value] = (string)$key;
+                    $return_options[(string)$value] = (string)$key;
                 }
-                return $return_options;
+            } elseif (isset($options['type_config']['option_callback'])) {
+                $classname = $options['type_config']['option_callback'];
+                $callback = new $classname($options['type_config']['option_callback_arg']);
+                foreach ($callback->list_all() as $key => $value) {
+                    //symfony expects only strings
+                    $return_options[(string)$value] = (string)$key;
+                }
             }
+            return $return_options;
         };
         $map_multiple = function (Options $options) {
             return !empty($options['type_config']['allow_multiple']);
@@ -50,6 +57,8 @@ class radiocheckselect extends ChoiceType
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
             $type_defaults = [
                 'options' => [],
+                'option_callback' => null,
+                'option_callback_arg' => null,
                 'allow_other' => false,
                 'allow_multiple' => ($options['dm2_type'] == 'mnrelation'),
                 'require_corresponding_option' => true,
