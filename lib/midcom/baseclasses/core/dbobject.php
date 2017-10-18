@@ -496,9 +496,7 @@ class midcom_baseclasses_core_dbobject
             foreach ($children_types as $type => $children) {
                 $child_guids = [];
                 foreach ($children as $child) {
-                    if ($child->metadata->deleted) {
-                        $child_guids[] = $child->guid;
-                    }
+                    $child_guids[] = $child->guid;
                 }
                 $undeleted_size += self::undelete($child_guids, $type);
             }
@@ -578,9 +576,6 @@ class midcom_baseclasses_core_dbobject
                 foreach ($children_types as $child_type => $children) {
                     $child_guids = [];
                     foreach ($children as $child) {
-                        if (!$child->metadata->deleted) {
-                            $child->delete();
-                        }
                         $child_guids[] = $child->guid;
                     }
                     self::purge($child_guids, $child_type);
