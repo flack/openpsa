@@ -292,15 +292,6 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
         ];
     }
 
-    public function testGet_object()
-    {
-        $object = $this->create_object('midcom_db_person');
-        $object->delete();
-        $object2 = midcom_helper_reflector::get_object($object->guid, 'midgard_person');
-        $this->assertEquals($object->guid, $object2->guid);
-    }
-
-
     /**
      * @dataProvider providerResolve_baseclass
      */

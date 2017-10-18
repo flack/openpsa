@@ -572,30 +572,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Get an object, deleted or not
-     *
-     * @param string $guid    GUID of the object
-     * @param string $type    MgdSchema type
-     * @return mixed          MgdSchema object
-     */
-    public static function get_object($guid, $type)
-    {
-        static $objects = [];
-
-        if (!isset($objects[$guid])) {
-            $qb = new midgard_query_builder($type);
-            $qb->add_constraint('guid', '=', $guid);
-            // We know we want/need only one result
-            $qb->set_limit(1);
-            $qb->include_deleted();
-            $results = $qb->execute();
-            $objects[$guid] = (empty($results)) ? null : $results[0];
-        }
-
-        return $objects[$guid];
-    }
-
-    /**
      * Get the MgdSchema classname for given class
      *
      * @param mixed $classname either string (class name) or object

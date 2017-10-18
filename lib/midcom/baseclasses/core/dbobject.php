@@ -438,6 +438,23 @@ class midcom_baseclasses_core_dbobject
         }
     }
 
+   /**
+    * Get objects, deleted or not
+    *
+    * @param array $guids GUID of the object
+    * @param string $type MgdSchema type
+    * @return midgard_object[] MgdSchema object
+    */
+    private static function get_objects(array $guids, $type)
+    {
+        $qb = new midgard_query_builder($type);
+        $qb->add_constraint('guid', 'IN', $guids);
+        // We know we want/need only one result
+        $qb->set_limit(1);
+        $qb->include_deleted();
+        return $qb->execute();
+    }
+
     /**
      * Undelete objects
      *
@@ -449,16 +466,8 @@ class midcom_baseclasses_core_dbobject
     public static function undelete($guids, $type)
     {
         $undeleted_size = 0;
-        $guids = (array) $guids;
 
-        foreach ($guids as $guid) {
-            $object = midcom_helper_reflector::get_object($guid, $type);
-            if (is_null($object)) {
-                // Purged, skip
-                debug_add("Object identified with GUID {$guid} is purged, cannot undelete", MIDCOM_LOG_INFO);
-                continue;
-            }
-
+        foreach (self::get_objects((array) $guids, $type) as $object) {
             if ($object->undelete($guid)) {
                 // refresh
                 $object = midcom::get()->dbfactory->get_object_by_guid($guid);
@@ -557,18 +566,11 @@ class midcom_baseclasses_core_dbobject
      * @param string $type
      * @return integer Size of purged objects
      */
-    public static function purge($guids, $type)
+    public static function purge(array $guids, $type)
     {
         $purged_size = 0;
 
-        foreach ($guids as $guid) {
-            $object = midcom_helper_reflector::get_object($guid, $type);
-            if (is_null($object)) {
-                debug_add("Failed to get object {$type} {$guid}", MIDCOM_LOG_ERROR);
-                // Something wrong
-                continue;
-            }
-
+        foreach (self::get_objects($guids, $type) as $object) {
             // first kill your children
             $children_types = midcom_helper_reflector_tree::get_child_objects($object, true);
 
