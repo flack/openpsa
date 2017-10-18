@@ -47,4 +47,9 @@ interface midcom_core_service_urlparser
      * Return parsed objects
      */
     public function get_objects();
+
+    /**
+     * Returns inherited style (if any)
+     */
+    public function get_inherited_style();
 }

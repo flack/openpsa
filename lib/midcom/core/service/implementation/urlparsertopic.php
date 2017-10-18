@@ -46,18 +46,6 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
     }
 
     /**
-     * Check topic style inheritance rules for style loader
-     *
-     * @todo refactor style loader so this isn't needed
-     */
-    private function check_style_inheritance($topic)
-    {
-        if ($topic->styleInherit && $topic->style) {
-            $GLOBALS['midcom_style_inherited'] = $topic->style;
-        }
-    }
-
-    /**
      * Set the URL path to be parsed
      */
     public function parse($argv)
@@ -75,11 +63,20 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
     {
         if (!$this->current_object) {
             $this->current_object = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
-
-            // TODO: Remove
-            $this->check_style_inheritance($this->current_object);
         }
         return $this->current_object;
+    }
+
+    public function get_inherited_style()
+    {
+        $to_check = array_reverse($this->objects);
+        $to_check[] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
+        foreach ($to_check as $object) {
+            if ($object instanceof midcom_db_topic && $object->styleInherit && $object->style) {
+                return $object->style;
+            }
+        }
+        return false;
     }
 
     /**
@@ -104,9 +101,6 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
             if ($qb->count() > 0) {
                 // Set to current topic
                 $this->objects[$object_url] = $qb->get_result(0);
-
-                // TODO: Remove
-                $this->check_style_inheritance($this->objects[$object_url]);
             } else {
                 //last load returned ACCESS DENIED, no sense to dig deeper
                 if ($qb->denied > 0) {

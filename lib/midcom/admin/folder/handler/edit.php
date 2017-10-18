@@ -87,7 +87,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_topic->require_do('midcom.admin.folder:topic_management');
-
         $this->_handler_id = str_replace('____ais-folder-', '', $handler_id);
 
         if ($this->_handler_id == 'edit') {
@@ -176,9 +175,9 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $style = new midcom_db_style();
         $style->name = $style_name;
 
-        if (isset($GLOBALS['midcom_style_inherited'])) {
-            $style->up = midcom::get()->style->get_style_id_from_path($GLOBALS['midcom_style_inherited']);
-            debug_add("Style inherited from {$GLOBALS['midcom_style_inherited']}");
+        if ($inherited = midcom_core_context::get()->parser->get_inherited_style()) {
+            $style->up = midcom::get()->style->get_style_id_from_path($inherited);
+            debug_add("Style inherited from {$inherited}");
         }
 
         if (!$style->create()) {
