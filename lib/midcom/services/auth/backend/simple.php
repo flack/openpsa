@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * The simple auth backend uses cookies to store a session identifier which
  * consists of the midgard person GUID.
@@ -61,41 +63,23 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         parent::__construct($auth);
     }
 
-    public function read_login_session()
+    public function read_login_session(Request $request)
     {
-        $reset_cookie = false;
-        if (!array_key_exists($this->_cookie_id, $_COOKIE)) {
-            if (array_key_exists($this->_cookie_id, $_GET)) {
-                /**
-                 * Loginbroker passed us the session data via GET (browsers can be very finicky about
-                 * cross-host cookies these days), make it available via $_COOKIE as well
-                 *
-                 * @todo checksumming ? (though hijacking this is only slightly simpler than hijacking cookies)
-                 */
-                debug_add('Found cookie-id in _GET but not in _COOKIE, referencing', MIDCOM_LOG_INFO);
-                $_COOKIE[$this->_cookie_id] =& $_GET[$this->_cookie_id];
-                $reset_cookie = true;
-            } else {
-                return false;
-            }
+        if (!$request->hasPreviousSession()) {
+            return false;
         }
-
-        $data = explode('-', $_COOKIE[$this->_cookie_id]);
-        if (count($data) != 2) {
-            debug_add("The cookie data could not be parsed, assuming tampered session.", MIDCOM_LOG_ERROR);
-            debug_add('Killing the cookie...', MIDCOM_LOG_INFO);
-            $this->_delete_cookie();
+        $session = new midcom_services_session($this->_cookie_id);
+        $user_id = $session->get('user_id');
+        $session_id = $session->get('session_id');
+        if (empty($user_id) || empty($session_id)) {
             return false;
         }
 
-        $session_id = $data[0];
-        $user_id = $data[1];
         $this->user = $this->auth->get_user($user_id);
         if (!$this->user) {
             debug_add("The user ID {$user_id} is invalid, could not load the user from the database, assuming tampered session.",
                 MIDCOM_LOG_ERROR);
-            debug_add('Killing the cookie...');
-            $this->_delete_cookie();
+            $this->_on_login_session_deleted();
             return false;
         }
 
@@ -103,64 +87,22 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
 
         if (!$this->session_id) {
             debug_add("The session {$session_id} is invalid (usually this means an expired session).", MIDCOM_LOG_ERROR);
-            debug_add('Killing the cookie...');
-            $this->_delete_cookie();
+            $this->_on_login_session_deleted();
             return false;
-        }
-
-        if ($reset_cookie) {
-            debug_add('Re-Setting of session cookie requested, doing it', MIDCOM_LOG_INFO);
-            $this->_set_cookie();
         }
 
         return true;
     }
 
-    /**
-     * Sets the cookie according to the session configuration as outlined in the
-     * class introduction.
-     */
-    private function _set_cookie()
-    {
-        $stat = _midcom_setcookie(
-            $this->_cookie_id,
-            "{$this->session_id}-{$this->user->id}",
-            0,
-            $this->_cookie_path,
-            midcom::get()->config->get('auth_backend_simple_cookie_domain'),
-            $this->_secure_cookie
-        );
-        if (!$stat) {
-            debug_add('Failed to set auth cookie, it seems that output has already started', MIDCOM_LOG_WARN);
-        }
-    }
-
-    /**
-     * Deletes the cookie according to the session configuration as outlined in the
-     * class introduction.
-     */
-    private function _delete_cookie()
-    {
-        $stat = _midcom_setcookie(
-            $this->_cookie_id,
-            false,
-            time() - 3600,
-            $this->_cookie_path,
-            midcom::get()->config->get('auth_backend_simple_cookie_domain'),
-            $this->_secure_cookie
-        );
-        if (!$stat) {
-            debug_add('Failed to delete auth cookie, it seems that output has already started', MIDCOM_LOG_WARN);
-        }
-    }
-
     public function _on_login_session_created()
     {
-        $this->_set_cookie();
+        $session = new midcom_services_session($this->_cookie_id);
+        $session->set('user_id', $this->user->id);
+        $session->set('session_id', $this->session_id);
     }
 
     public function _on_login_session_deleted()
     {
-        $this->_delete_cookie();
+        midcom::get()->session->clear();
     }
 }

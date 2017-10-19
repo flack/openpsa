@@ -102,7 +102,7 @@ class midcom_services_session
      */
     public function get($key)
     {
-        return $this->_sessioning->get($this->_domain, $key);
+        return $this->_sessioning->get($this->_domain . '/' . $key);
     }
 
     /**
@@ -117,7 +117,7 @@ class midcom_services_session
      */
     public function set($key, $value)
     {
-        $this->_sessioning->set($this->_domain, $key, $value);
+        $this->_sessioning->set($this->_domain . '/' . $key, $value);
     }
 
     /**
@@ -130,7 +130,7 @@ class midcom_services_session
      */
     public function exists($key)
     {
-        return $this->_sessioning->exists($this->_domain, $key);
+        return $this->_sessioning->has($this->_domain . '/' . $key);
     }
 
     /**
@@ -145,7 +145,7 @@ class midcom_services_session
      */
     public function remove($key)
     {
-        return $this->_sessioning->remove($this->_domain, $key);
+        return $this->_sessioning->remove($this->_domain . '/' . $key);
     }
 
     /**
@@ -155,6 +155,6 @@ class midcom_services_session
      */
     public function get_session_data()
     {
-        return $this->_sessioning->get_session_data($this->_domain);
+        return $this->_sessioning->get($this->_domain, false);
     }
 }

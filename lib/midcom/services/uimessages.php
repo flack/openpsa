@@ -72,7 +72,7 @@ class midcom_services_uimessages
 
     public function __construct()
     {
-        $this->_message_stack = midcom::get()->session->get_session()->getFlashBag();
+        $this->_message_stack = midcom::get()->session->getFlashBag();
     }
 
     /**

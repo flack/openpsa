@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Authentication backend, responsible for validating user/password pairs and
  * mapping them to a given user as well as the "sessioning" part, e.g. the transition
@@ -59,7 +61,7 @@ abstract class midcom_services_auth_backend
      * @return boolean Return true if the login session was successfully loaded, false
      *     otherwise.
      */
-    abstract public function read_login_session();
+    abstract public function read_login_session(Request $request);
 
     /**
      * Stores a login session using the given credentials through the

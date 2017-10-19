@@ -104,8 +104,9 @@ class midcom_application
     {
         $this->request = Request::createFromGlobals();
         $this->debug->log("Start of MidCOM run" . $this->request->server->get('REQUEST_URI', ''));
+        $this->request->setSession($this->session);
         $this->componentloader->load_all_manifests();
-        $this->auth->check_for_login_session();
+        $this->auth->check_for_login_session($this->request);
 
         /* Load and start up the cache system, this might already end the request
          * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.

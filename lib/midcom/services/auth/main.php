@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Main Authentication/Authorization service class, it provides means to authenticate
  * users and to check for permissions.
@@ -147,12 +149,12 @@ class midcom_services_auth
      * Checks if the current authentication fronted has new credentials
      * ready. If yes, it processes the login accordingly. Otherwise look for existing session
      */
-    public function check_for_login_session()
+    public function check_for_login_session(Request $request)
     {
         $credentials = $this->_auth_frontend->read_authentication_data();
         if (!$credentials) {
             // No new login detected, so we check if there is a running session.
-            $this->_check_for_active_login_session();
+            $this->_check_for_active_login_session($request);
             return;
         }
 
@@ -228,9 +230,9 @@ class midcom_services_auth
      * Internal startup helper, checks the currently running authentication backend for
      * a running login session.
      */
-    private function _check_for_active_login_session()
+    private function _check_for_active_login_session(Request $request)
     {
-        if (!$this->_auth_backend->read_login_session()) {
+        if (!$this->_auth_backend->read_login_session($request)) {
             return;
         }
 
