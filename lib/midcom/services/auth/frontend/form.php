@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Form-based authentication frontend. This one is rather simple, it just renders a
  * two-field (username/password) form which is targeted at the current URL.
@@ -22,17 +24,17 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      *     'password' holding the information read by the driver or null if no
      *     information could be read.
      */
-    public function read_authentication_data()
+    public function read_authentication_data(Request $request)
     {
-        if (   !array_key_exists('midcom_services_auth_frontend_form_submit', $_REQUEST)
-            || !array_key_exists('username', $_REQUEST)
-            || !array_key_exists('password', $_REQUEST)) {
+        if (   !$request->request->has('midcom_services_auth_frontend_form_submit')
+            || !$request->request->has('username')
+            || !$request->request->has('password')) {
             return null;
         }
 
         return [
-            'username' => trim($_REQUEST['username']),
-            'password' => trim($_REQUEST['password'])
+            'username' => trim($request->request->get('username')),
+            'password' => trim($request->request->get('password'))
         ];
     }
 

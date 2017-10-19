@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Authentication frontend, responsible for rendering the login screen, reading
  * the credentials and displaying access denied information.
@@ -26,11 +28,12 @@ interface midcom_services_auth_frontend
      * the username / password pair that should be tried to authentication
      * or null for anonymous access.
      *
+     * @param Request $request The request we're reading from
      * @return Array A simple associative array with the two indexes 'username' and
      *     'password' holding the information read by the driver or null if no
      *     information could be read.
      */
-    public function read_authentication_data();
+    public function read_authentication_data(Request $request);
 
     /**
      * This call should show the authentication form (or whatever means of input

@@ -151,7 +151,7 @@ class midcom_services_auth
      */
     public function check_for_login_session(Request $request)
     {
-        $credentials = $this->_auth_frontend->read_authentication_data();
+        $credentials = $this->_auth_frontend->read_authentication_data($request);
         if (!$credentials) {
             // No new login detected, so we check if there is a running session.
             $this->_check_for_active_login_session($request);
