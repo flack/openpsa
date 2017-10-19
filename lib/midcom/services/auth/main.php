@@ -236,7 +236,7 @@ class midcom_services_auth
             return;
         }
 
-        if (!$this->sessionmgr->authenticate_session($this->_auth_backend->session_id)) {
+        if (!$this->sessionmgr->authenticate_session($this->_auth_backend->session)) {
             debug_add('Failed to re-authenticate a previous login session, not changing credentials.');
             return;
         }

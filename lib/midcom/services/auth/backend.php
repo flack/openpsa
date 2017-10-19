@@ -30,12 +30,11 @@ abstract class midcom_services_auth_backend
     var $user;
 
     /**
-     * The ID of the session we are currently using, usable as an authentication token
-     * in the login session manager.
+     * The session we are currently using
      *
-     * @var string
+     * @var midcom_core_login_session_db
      */
-    var $session_id;
+    var $session;
 
     /**
      * @var midcom_services_auth
@@ -89,7 +88,7 @@ abstract class midcom_services_auth_backend
             return false;
         }
 
-        $this->session_id = $result['session_id'];
+        $this->session = $result['session'];
         $this->user = $result['user'];
 
         $this->_on_login_session_created();
@@ -121,7 +120,7 @@ abstract class midcom_services_auth_backend
             return false;
         }
 
-        $this->session_id = $result['session_id'];
+        $this->session = $result['session'];
         $this->user = $result['user'];
 
         $this->_on_login_session_created();
@@ -143,18 +142,18 @@ abstract class midcom_services_auth_backend
      */
     public function logout()
     {
-        if (!$this->session_id) {
+        if (!$this->session) {
             debug_add('You were not logged in, so we do nothing.', MIDCOM_LOG_INFO);
             return;
         }
 
-        if (!$this->auth->sessionmgr->delete_session($this->session_id)) {
+        if (!$this->auth->sessionmgr->delete_session($this->session)) {
             throw new midcom_error('The system could not log you out, check the log file for details.');
         }
 
         $this->_on_login_session_deleted();
 
-        $this->session_id = null;
+        $this->session = null;
     }
 
     /**

@@ -47,27 +47,27 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
             return false;
         }
         $session = new midcom_services_session($this->_cookie_id);
-        $user_id = $session->get('user_id');
         $session_id = $session->get('session_id');
-        if (empty($user_id) || empty($session_id)) {
+        if (empty($session_id)) {
             return false;
         }
 
-        $this->user = $this->auth->get_user($user_id);
+        $this->session = $this->auth->sessionmgr->load_login_session($session_id);
+
+        if (!$this->session) {
+            debug_add("The session {$session_id} is invalid (usually this means an expired session).", MIDCOM_LOG_ERROR);
+            $this->_on_login_session_deleted();
+            return false;
+        }
+
+        $this->user = $this->auth->get_user($this->session->userid);
         if (!$this->user) {
-            debug_add("The user ID {$user_id} is invalid, could not load the user from the database, assuming tampered session.",
+            debug_add("The user ID {$this->session->userid} is invalid, could not load the user from the database, assuming tampered session.",
                 MIDCOM_LOG_ERROR);
             $this->_on_login_session_deleted();
             return false;
         }
 
-        $this->session_id = $this->auth->sessionmgr->load_login_session($session_id);
-
-        if (!$this->session_id) {
-            debug_add("The session {$session_id} is invalid (usually this means an expired session).", MIDCOM_LOG_ERROR);
-            $this->_on_login_session_deleted();
-            return false;
-        }
 
         return true;
     }
@@ -75,8 +75,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
     public function _on_login_session_created()
     {
         $session = new midcom_services_session($this->_cookie_id);
-        $session->set('user_id', $this->user->id);
-        $session->set('session_id', $this->session_id);
+        $session->set('session_id', $this->session->guid);
     }
 
     public function _on_login_session_deleted()

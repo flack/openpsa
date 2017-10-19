@@ -27,14 +27,6 @@
 class midcom_services_auth_sessionmgr
 {
     /**
-     * A list of loaded login sessions, indexed by their session identifier.
-     * This is used for authentication purposes.
-     *
-     * @var midcom_core_login_session_db[]
-     */
-    private $_loaded_sessions = [];
-
-    /**
      * Once a session has been authenticated, this variable holds the ID of the current
      * login session.
      *
@@ -124,7 +116,7 @@ class midcom_services_auth_sessionmgr
      *
      * @param string $username
      * @param string $clientip
-     * @return Array An array holding the session identifier in the 'session_id' key and
+     * @return Array An array holding the session in the 'session' key and
      *     the associated user in the 'user' key. Failure returns false.
      */
     private function create_session($username, $clientip)
@@ -148,9 +140,8 @@ class midcom_services_auth_sessionmgr
             return false;
         }
         $this->current_session_id = $session->guid;
-        $this->_loaded_sessions[$session->guid] = $session;
         return [
-            'session_id' => $this->current_session_id,
+            'session' => $session,
             'user' => $user
         ];
     }
@@ -167,7 +158,7 @@ class midcom_services_auth_sessionmgr
      * @param string $sessionid The Session ID to check for.
      * @param string $clientip The client IP to check against, this defaults to the
      *     client IP reported by Apache.
-     * @return string The token you can use for authentication or false, in case there
+     * @return midcom_core_login_session_db The loaded session or false, in case there
      *     is no valid session.
      */
     public function load_login_session($sessionid, $clientip = null)
@@ -180,7 +171,7 @@ class midcom_services_auth_sessionmgr
         }
 
         if ($session->timestamp < $this->get_timeout()) {
-            $session->delete();
+            $session->purge();
             debug_add("The session {$session->guid} (#{$session->id}) has timed out.", MIDCOM_LOG_INFO);
             return false;
         }
@@ -204,8 +195,7 @@ class midcom_services_auth_sessionmgr
             }
         }
 
-        $this->_loaded_sessions[$sessionid] = $session;
-        return $sessionid;
+        return $session;
     }
 
     private function get_timeout()
@@ -280,24 +270,19 @@ class midcom_services_auth_sessionmgr
      * If authentication fails, an invalid session is assumed, which will be
      * invalidated and deleted immediately.
      *
-     * @param string $sessionid The session identifier to authenticate against.
+     * @param midcom_core_login_session_db $session The session identifier to authenticate against.
      * @return boolean Indicating success.
      */
-    public function authenticate_session($sessionid)
+    public function authenticate_session(midcom_core_login_session_db $session)
     {
-        if (!array_key_exists($sessionid, $this->_loaded_sessions)) {
-            debug_add("The session {$sessionid} has not been loaded yet, cannot authenticate to it.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $username = $this->_loaded_sessions[$sessionid]->username;
+        $username = $session->username;
 
         if (!$this->_do_trusted_midgard_auth($username)) {
-            $this->delete_session($sessionid);
+            $this->delete_session($session);
             return false;
         }
 
-        $this->current_session_id = $sessionid;
+        $this->current_session_id = $session->guid;
 
         return true;
     }
@@ -306,24 +291,15 @@ class midcom_services_auth_sessionmgr
      * Drop a session which has been previously loaded successfully.
      * Usually, you will use this during logouts.
      *
-     * @param string $sessionid The id of the session to invalidate.
+     * @param midcom_core_login_session_db $session The session to invalidate.
      * @return boolean Indicating success.
      */
-    function delete_session($sessionid)
+    public function delete_session(midcom_core_login_session_db $session)
     {
-        if (!array_key_exists($sessionid, $this->_loaded_sessions)) {
-            debug_add('Only sessions which have been previously loaded can be deleted.', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $session = $this->_loaded_sessions[$sessionid];
-
         if (!$session->purge()) {
             debug_add("Failed to delete the delete session {$session->guid} (#{$session->id}): " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
         }
-
-        unset($this->_loaded_sessions[$sessionid]);
         return true;
     }
 
