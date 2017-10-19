@@ -30,16 +30,6 @@ function _midcom_headers_sent()
 }
 
 /**
- * MidCOM Ragnaroek compatibility functions
- *
- * @package midcom.compat
- */
-function _midcom_setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false)
-{
-    return midcom_compat_environment::get()->setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
-}
-
-/**
  * Global shortcut.
  *
  * @see midcom_helper__styleloader::show()

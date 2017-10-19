@@ -90,13 +90,6 @@ class midcom_compat_environment
         }
     }
 
-    public function setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false)
-    {
-        if (!defined('OPENPSA2_UNITTEST_RUN')) {
-            return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
-        }
-    }
-
     public static function flush_registered_headers()
     {
         $headers = self::$_headers;

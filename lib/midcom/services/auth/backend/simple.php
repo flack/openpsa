@@ -33,33 +33,11 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
     private $_cookie_id = 'midcom_services_auth_backend_simple-';
 
     /**
-     * Whether or not the cookie should be marked as secure
-     */
-    private $_secure_cookie = false;
-
-    /**
-     * The path for which the cookie should be set
-     */
-    protected $_cookie_path;
-
-    /**
      * Read the configuration
      */
     public function __construct($auth)
     {
         $this->_cookie_id .= midcom::get()->config->get('auth_backend_simple_cookie_id');
-
-        $this->_cookie_path = midcom::get()->config->get('auth_backend_simple_cookie_path');
-        if ($this->_cookie_path == 'auto') {
-            $this->_cookie_path = midcom_connection::get_url('self');
-        }
-
-        if (   !empty($_SERVER['HTTPS'])
-            && $_SERVER['HTTPS'] !== 'off'
-            && midcom::get()->config->get('auth_backend_simple_cookie_secure')) {
-            $this->_secure_cookie = true;
-        }
-
         parent::__construct($auth);
     }
 
