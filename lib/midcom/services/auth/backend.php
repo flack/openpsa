@@ -55,7 +55,7 @@ abstract class midcom_services_auth_backend
      * This function, always called first in the order of execution, should check
      * whether we have a usable login session. It has to use the login session management
      * system to load a login session. At the end of the successful execution of this
-     * function, you have to populate the $session_id and $user members accordingly.
+     * function, you have to populate the $session and $user members accordingly.
      *
      * @return boolean Return true if the login session was successfully loaded, false
      *     otherwise.
@@ -67,7 +67,7 @@ abstract class midcom_services_auth_backend
      * session service. It assumes that no login has concluded earlier. The login
      * session management system is used for authentication. If the login session
      * was created successfully, the _on_login_session_created() handler is called
-     * with the $user and $session_id members populated.
+     * with the $user and $session members populated.
      *
      * @param string $username The name of the user to authenticate.
      * @param string $password The password of the user to authenticate.

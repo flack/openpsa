@@ -42,12 +42,10 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      * This call renders a simple form without any formatting (that is to be
      * done by the callee) that asks the user for his username and password.
      *
-     * The default should be quite useable through its CSS.
-     *
      * If you want to replace the form by some custom style, you can define
-     * the style- or page-element <i>midcom_services_auth_frontend_form</i>. If this
-     * element is present, it will be shown instead of the default style
-     * included in this function. In that case you should look into the source
+     * the style element <i>midcom_services_auth_frontend_form</i>. If this
+     * element is present, it will be shown instead of the default style.
+     * In that case you should look into the source
      * of it to see exactly what is required.
      */
     public function show_authentication_form()

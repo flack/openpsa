@@ -68,7 +68,6 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
             return false;
         }
 
-
         return true;
     }
 
