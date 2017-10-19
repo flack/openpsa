@@ -35,12 +35,6 @@
         <property name="userid" type="string" index="yes">
             <description>User identifier for the authenticated session</description>
         </property>
-        <property name="username" type="string" index="yes">
-            <description>Authenticated user's username</description>
-        </property>
-        <property name="password" type="string">
-            <description>Authenticated user's password</description>
-        </property>
         <property name="clientip" type="string">
             <description>IP address user is authenticated from</description>
         </property>

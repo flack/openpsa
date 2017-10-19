@@ -27,17 +27,6 @@
 class midcom_services_auth_sessionmgr
 {
     /**
-     * Once a session has been authenticated, this variable holds the ID of the current
-     * login session.
-     *
-     * Care should be taken when using this variable, as quite sensitive information can
-     * be obtained with this session id.
-     *
-     * @var string
-     */
-    private $current_session_id;
-
-    /**
      * @var midcom_services_auth
      */
     private $auth;
@@ -86,7 +75,7 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        return $this->create_session($username, $clientip);
+        return $this->create_session($clientip);
     }
 
     /**
@@ -108,21 +97,20 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        return $this->create_session($username, $clientip);
+        return $this->create_session($clientip);
     }
 
     /**
      * Creates the session object
      *
-     * @param string $username
      * @param string $clientip
      * @return Array An array holding the session in the 'session' key and
      *     the associated user in the 'user' key. Failure returns false.
      */
-    private function create_session($username, $clientip)
+    private function create_session($clientip)
     {
         if (!$user = $this->auth->get_user($this->person)) {
-            debug_add("Failed to create a new login session: User ID {$username} is invalid.", MIDCOM_LOG_ERROR);
+            debug_add("Failed to create a new login session: No user found for person ID {$this->person->id}.", MIDCOM_LOG_ERROR);
             return false;
         }
 
@@ -132,14 +120,12 @@ class midcom_services_auth_sessionmgr
 
         $session = new midcom_core_login_session_db;
         $session->userid = $user->id;
-        $session->username = $user->username;
         $session->clientip = $clientip;
         $session->timestamp = time();
         if (!$session->create()) {
             debug_add('Failed to create a new login session: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }
-        $this->current_session_id = $session->guid;
         return [
             'session' => $session,
             'user' => $user
@@ -270,19 +256,16 @@ class midcom_services_auth_sessionmgr
      * If authentication fails, an invalid session is assumed, which will be
      * invalidated and deleted immediately.
      *
-     * @param midcom_core_login_session_db $session The session identifier to authenticate against.
+     * @param midcom_core_login_session_db $session The session to authenticate against.
      * @return boolean Indicating success.
      */
     public function authenticate_session(midcom_core_login_session_db $session)
     {
-        $username = $session->username;
-
-        if (!$this->_do_trusted_midgard_auth($username)) {
+        $user = $this->auth->get_user($session->userid);
+        if (!$this->_do_trusted_midgard_auth($user->username)) {
             $this->delete_session($session);
             return false;
         }
-
-        $this->current_session_id = $session->guid;
 
         return true;
     }
@@ -303,36 +286,13 @@ class midcom_services_auth_sessionmgr
         return true;
     }
 
-    /**
-     * This function is called by the framework whenever a user's username is updated. It will
-     * synchronize all active login sessions of that user to the new username.
-     *
-     * Access to this function is restricted to midcom_core_account.
-     *
-     * @param midcom_core_user $user The user object which has been updated.
-     * @param string $new The new username.
-     */
-    function _update_user_username($user, $new)
-    {
-        if (empty($new)) {
-            return;
-        }
-        $qb = new midgard_query_builder('midcom_core_login_session_db');
-        $qb->add_constraint('userid', '=', $user->id);
-
-        foreach ($qb->execute() as $session) {
-            $session->username = $new;
-            $session->update();
-        }
-    }
-
     public function _delete_user_sessions(midcom_core_user $user)
     {
         // Delete login sessions
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('userid', '=', $user->id);
         foreach ($qb->execute() as $entry) {
-            debug_add("Deleting login session ID {$entry->id} for user {$entry->username} with timestamp {$entry->timestamp}");
+            debug_add("Deleting login session ID {$entry->id} for user {$entry->userid} with timestamp {$entry->timestamp}");
             $entry->delete();
         }
     }

@@ -196,8 +196,6 @@ class midcom_core_account
 
         if (   !empty($this->_old_username)
             && $this->_old_username !== $new_username) {
-            $user = new midcom_core_user($this->_person);
-            midcom::get()->auth->sessionmgr->_update_user_username($user, $new_username);
             if (!$history = @unserialize($this->_person->get_parameter('midcom', 'username_history'))) {
                 $history = [];
             }
