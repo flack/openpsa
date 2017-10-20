@@ -32,20 +32,6 @@ class midcom_services_auth_sessionmgr
     private $auth;
 
     /**
-     * Currently authenticated midgard_user object
-     *
-     * @var midgard_user
-     */
-    private $user;
-
-    /**
-     * Currently authenticated midgard_person object
-     *
-     * @var midgard_person
-     */
-    private $person;
-
-    /**
      * Simple, currently empty default constructor.
      *
      * @param midcom_services_auth $auth Main authentication instance
@@ -70,12 +56,11 @@ class midcom_services_auth_sessionmgr
      */
     public function create_login_session($username, $password, $clientip = null)
     {
-        if (!$this->_do_midgard_auth($username, $password)) {
-            debug_add('Failed to create a new login session: Authentication Failure', MIDCOM_LOG_ERROR);
-            return false;
+        if ($user = $this->authenticate($username, $password)) {
+            return $this->create_session($clientip, $user);
         }
-
-        return $this->create_session($clientip);
+        debug_add('Failed to create a new login session: Authentication Failure', MIDCOM_LOG_ERROR);
+        return false;
     }
 
     /**
@@ -92,25 +77,25 @@ class midcom_services_auth_sessionmgr
      */
     public function create_trusted_login_session($username, $clientip = null)
     {
-        if (!$this->_do_trusted_midgard_auth($username)) {
-            debug_add('Failed to create a new login session: Authentication Failure', MIDCOM_LOG_ERROR);
-            return false;
+        if ($user = $this->authenticate($username, '', true)) {
+            return $this->create_session($clientip, $user);
         }
-
-        return $this->create_session($clientip);
+        debug_add('Failed to create a new login session: Authentication Failure', MIDCOM_LOG_ERROR);
+        return false;
     }
 
     /**
      * Creates the session object
      *
      * @param string $clientip
+     * @param midgard_user $mgd_user
      * @return Array An array holding the session in the 'session' key and
      *     the associated user in the 'user' key. Failure returns false.
      */
-    private function create_session($clientip)
+    private function create_session($clientip, midgard_user $mgd_user)
     {
-        if (!$user = $this->auth->get_user($this->person)) {
-            debug_add("Failed to create a new login session: No user found for person ID {$this->person->id}.", MIDCOM_LOG_ERROR);
+        if (!$user = $this->auth->get_user($mgd_user->person)) {
+            debug_add("Failed to create a new login session: No user found for person {$mgd_user->person}.", MIDCOM_LOG_ERROR);
             return false;
         }
 
@@ -188,57 +173,31 @@ class midcom_services_auth_sessionmgr
     }
 
     /**
-     * Internal helper, which does the actual Midgard authentication.
-     *
-     * @param string $username The name of the user to authenticate.
-     * @param string $password The password of the user to authenticate.
-     * @return boolean Indicating success.
+     * @param string $username
+     * @param string $password
+     * @param boolean $trusted
+     * @return boolean|midgard_user
      */
-    private function _do_midgard_auth($username, $password)
+    private function authenticate($username, $password, $trusted = false)
     {
-        if ($username == '' || $password == '') {
-            debug_add("Failed to authenticate: Username or password is empty.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        $this->user = midcom_connection::login($username, $password);
-
-        return $this->_load_person();
-    }
-
-    /**
-     * Internal helper, which does the actual trusted Midgard authentication.
-     *
-     * @param string $username The name of the user to authenticate.
-     * @return boolean Indicating success.
-     */
-    private function _do_trusted_midgard_auth($username)
-    {
-        if ($username == '') {
+        if (empty($username)) {
             debug_add("Failed to authenticate: Username is empty.", MIDCOM_LOG_ERROR);
             return false;
         }
+        if (!$trusted && empty($password)) {
+            debug_add("Failed to authenticate: Password is empty.", MIDCOM_LOG_ERROR);
+            return false;
+        }
 
-        $this->user = midcom_connection::login($username, '', true);
+        $user = midcom_connection::login($username, $password, $trusted);
 
-        return $this->_load_person();
-    }
-
-    private function _load_person()
-    {
-        if (!$this->user) {
+        if (!$user) {
             debug_add("Failed to authenticate the given user: ". midcom_connection::get_error_string(),
             MIDCOM_LOG_INFO);
             return false;
         }
 
-        $this->person = $this->user->get_person();
-        $person_class = midcom::get()->config->get('person_class');
-        if (get_class($this->person) != $person_class) {
-            // Cast the person object to correct person class
-            $this->person = new $person_class($this->person->guid);
-        }
-
-        return true;
+        return $user;
     }
 
     /**
@@ -257,7 +216,7 @@ class midcom_services_auth_sessionmgr
     public function authenticate_session(midcom_core_login_session_db $session)
     {
         $user = $this->auth->get_user($session->userid);
-        if (!$this->_do_trusted_midgard_auth($user->username)) {
+        if (!$this->authenticate($user->username, '', true)) {
             $this->delete_session($session);
             return false;
         }
@@ -288,7 +247,7 @@ class midcom_services_auth_sessionmgr
         $qb->add_constraint('userid', '=', $user->id);
         foreach ($qb->execute() as $entry) {
             debug_add("Deleting login session ID {$entry->id} for user {$entry->userid} with timestamp {$entry->timestamp}");
-            $entry->delete();
+            $entry->purge();
         }
     }
 
