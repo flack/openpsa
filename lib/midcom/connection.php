@@ -100,7 +100,7 @@ class midcom_connection
      * @param string $username The username as entered
      * @param string $password The password as entered
      * @param boolean $trusted Use trusted auth
-     * @return mixed The appropriate object or false
+     * @return boolean|midgard_user The appropriate object or false
      */
     public static function login($username, $password, $trusted = false)
     {
@@ -182,6 +182,16 @@ class midcom_connection
             return $user->is_admin();
         }
         return false;
+    }
+
+    /**
+     * Logout the current user, if any
+     */
+    public static function logout()
+    {
+        if ($user = midgard_connection::get_instance()->get_user()) {
+            $user->logout();
+        }
     }
 
     /**

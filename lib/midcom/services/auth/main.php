@@ -828,6 +828,7 @@ class midcom_services_auth
         $this->drop_login_session();
         $this->admin = false;
         $this->user = null;
+        midcom_connection::logout();
     }
 
     /**
