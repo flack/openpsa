@@ -185,14 +185,6 @@ class midcom_services_auth
             $person->set_parameter('midcom', 'first_login', time());
         }
 
-        // There was form data sent before authentication was re-required
-        if ($request->request->has('restore_form_data')) {
-            foreach ($request->request->get('restored_form_data', []) as $key => $string) {
-                $value = @unserialize(base64_decode($string));
-                $request->request->set($key, $value);
-            }
-            $request->overrideGlobals();
-        }
         // Now we check whether there is a success-relocate URL given somewhere.
         if ($request->query->has('midcom_services_auth_login_success_url')) {
             midcom::get()->relocate($request->query->get('midcom_services_auth_login_success_url'));
