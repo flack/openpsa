@@ -173,8 +173,10 @@ class midcom_services_auth_sessionmgr
     }
 
     /**
-     * @param string $username
-     * @param string $password
+     * Internal helper, which does the actual Midgard authentication.
+     *
+     * @param string $username The name of the user to authenticate.
+     * @param string $password The password of the user to authenticate.
      * @param boolean $trusted
      * @return boolean|midgard_user
      */
