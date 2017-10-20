@@ -64,10 +64,6 @@
  *   either 403 (403 Forbidden) or 200 (200 OK), defaulting to 403.
  * - <b>boolean auth_openid_enable:</b> Whether to enable OpenID authentication handled with
  *   the net.nemein.openid library
- * - <b>auth_failure_callback:</b> value acceptable by call_user_func() (array or string), callback
- *   function/method to be called on failed login, it must take exactly one argument which is the username as string.
- * - <b>auth_success_callback:</b> value acceptable by call_user_func() (array or string), callback
- *   function/method to be called on successful login, no values are passed.
  *
  * <b>Authentication Backend configuration: "simple"</b>
  *
@@ -289,8 +285,6 @@ class midcom_config implements arrayaccess
         'auth_login_form_httpcode' => 403,
         'auth_openid_enable' => false,
         'auth_save_prev_login' => false,
-        'auth_success_callback' => null,
-        'auth_failure_callback' => null,
         'auth_allow_trusted' => false,
         'person_class' => 'openpsa_person',
 

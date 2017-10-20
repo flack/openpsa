@@ -165,12 +165,6 @@ class midcom_services_auth
             debug_add('The login information passed to the system was invalid.', MIDCOM_LOG_ERROR);
             debug_add("Username was {$credentials['username']}");
             // No password logging for security reasons.
-
-            if (is_callable(midcom::get()->config->get('auth_failure_callback'))) {
-                debug_print_r('Calling auth failure callback: ', midcom::get()->config->get('auth_failure_callback'));
-                // Calling the failure function with the username as a parameter. No password sended to the user function for security reasons
-                call_user_func(midcom::get()->config->get('auth_failure_callback'), $credentials['username']);
-            }
             return;
         }
 
@@ -189,12 +183,6 @@ class midcom_services_auth
 
         if (!$person->get_parameter('midcom', 'first_login')) {
             $person->set_parameter('midcom', 'first_login', time());
-        }
-
-        if (is_callable(midcom::get()->config->get('auth_success_callback'))) {
-            debug_print_r('Calling auth success callback:', midcom::get()->config->get('auth_success_callback'));
-            // Calling the success function. No parameters, because authenticated user is stored in midcom_connection
-            call_user_func(midcom::get()->config->get('auth_success_callback'));
         }
 
         // There was form data sent before authentication was re-required
