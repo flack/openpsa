@@ -161,7 +161,7 @@ class midcom_services_auth
         $this->auth_credentials_found = true;
 
         // Try to start up a new session, this will authenticate as well.
-        if (!$this->_auth_backend->create_login_session($credentials['username'], $credentials['password'])) {
+        if (!$this->_auth_backend->create_login_session($credentials['username'], $credentials['password'], $request->getClientIp())) {
             debug_add('The login information passed to the system was invalid.', MIDCOM_LOG_ERROR);
             debug_add("Username was {$credentials['username']}");
             // No password logging for security reasons.
@@ -198,18 +198,16 @@ class midcom_services_auth
         }
 
         // There was form data sent before authentication was re-required
-        if (   isset($_POST['restore_form_data'])
-            && isset($_POST['restored_form_data'])) {
-            foreach ($_POST['restored_form_data'] as $key => $string) {
+        if ($request->request->has('restore_form_data')) {
+            foreach ($request->request->get('restored_form_data', []) as $key => $string) {
                 $value = @unserialize(base64_decode($string));
-                $_POST[$key] = $value;
-                $_REQUEST[$key] = $value;
+                $request->request->set($key, $value);
             }
+            $request->overrideGlobals();
         }
-
         // Now we check whether there is a success-relocate URL given somewhere.
-        if (array_key_exists('midcom_services_auth_login_success_url', $_REQUEST)) {
-            midcom::get()->relocate($_REQUEST['midcom_services_auth_login_success_url']);
+        if ($request->query->has('midcom_services_auth_login_success_url')) {
+            midcom::get()->relocate($request->query->get('midcom_services_auth_login_success_url'));
             // This will exit.
         }
     }

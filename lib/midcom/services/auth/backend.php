@@ -77,10 +77,6 @@ abstract class midcom_services_auth_backend
      */
     public function create_login_session($username, $password, $clientip = null)
     {
-        if ($clientip === null) {
-            $clientip = $_SERVER['REMOTE_ADDR'];
-        }
-
         $result = $this->auth->sessionmgr->create_login_session($username, $password, $clientip);
 
         if (!$result) {
@@ -109,10 +105,6 @@ abstract class midcom_services_auth_backend
      */
     public function create_trusted_login_session($username, $clientip = null)
     {
-        if ($clientip === null) {
-            $clientip = $_SERVER['REMOTE_ADDR'];
-        }
-
         $result = $this->auth->sessionmgr->create_trusted_login_session($username, $clientip);
 
         if (!$result) {

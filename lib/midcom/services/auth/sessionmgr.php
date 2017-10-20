@@ -142,12 +142,11 @@ class midcom_services_auth_sessionmgr
      * user.
      *
      * @param string $sessionid The Session ID to check for.
-     * @param string $clientip The client IP to check against, this defaults to the
-     *     client IP reported by Apache.
+     * @param string $clientip The client IP to check against
      * @return midcom_core_login_session_db The loaded session or false, in case there
      *     is no valid session.
      */
-    public function load_login_session($sessionid, $clientip = null)
+    public function load_login_session($sessionid, $clientip)
     {
         try {
             $session = new midcom_core_login_session_db($sessionid);
@@ -160,10 +159,6 @@ class midcom_services_auth_sessionmgr
             $session->purge();
             debug_add("The session {$session->guid} (#{$session->id}) has timed out.", MIDCOM_LOG_INFO);
             return false;
-        }
-
-        if ($clientip === null) {
-            $clientip = $_SERVER['REMOTE_ADDR'];
         }
 
         if (   midcom::get()->config->get('auth_check_client_ip')

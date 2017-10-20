@@ -52,7 +52,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
             return false;
         }
 
-        $this->session = $this->auth->sessionmgr->load_login_session($session_id);
+        $this->session = $this->auth->sessionmgr->load_login_session($session_id, $request->getClientIp());
 
         if (!$this->session) {
             debug_add("The session {$session_id} is invalid (usually this means an expired session).", MIDCOM_LOG_ERROR);
