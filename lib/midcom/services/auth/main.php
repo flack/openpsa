@@ -743,51 +743,28 @@ class midcom_services_auth
      */
     public function get_group($id)
     {
-        if (is_a($id, 'midcom_db_group') || is_a($id, 'midgard_group')) {
-            $object = $id;
-            $id = "group:{$object->guid}";
-            if (!array_key_exists($id, $this->_group_cache)) {
-                $this->_group_cache[$id] = new midcom_core_group($object->id);
-            }
-        } elseif (is_string($id)) {
-            if (!array_key_exists($id, $this->_group_cache)) {
-                $id_parts = explode(':', $id);
-                if (count($id_parts) == 2) {
-                    // This is a (v)group:... identifier
-                    if ($id_parts[0] == 'group') {
-                        $id = $this->_load_group($id_parts[1]);
-                    } else {
-                        $this->_group_cache[$id] = false;
-                        debug_add("The group type identifier {$id_parts[0]} is unknown, no group was loaded.", MIDCOM_LOG_WARN);
-                    }
-                } else {
-                    // This must be a group ID, lets hope that the group constructor
-                    // can take it.
-                    $id = $this->_load_group($id);
+        $param = $id;
+
+        if (isset($param->id)) {
+            $id = $param->id;
+        } elseif (!is_string($id) && !is_integer($id)) {
+            debug_print_type('The group identifier is of an unsupported type:', $param, MIDCOM_LOG_WARN);
+            debug_print_r('Complete dump:', $param);
+            return false;
+        }
+
+        if (!array_key_exists($id, $this->_group_cache)) {
+            try {
+                if (is_a($param, 'midcom_core_dbaobject')) {
+                    $param = $param->__object;
                 }
+                $this->_group_cache[$id] = new midcom_core_group($param);
+            } catch (midcom_error $e) {
+                debug_add("Group with identifier {$id} could not be loaded: " . $e->getMessage(), MIDCOM_LOG_WARN);
+                $this->_group_cache[$id] = false;
             }
-        } elseif (is_int($id)) {
-            // Looks like an object ID, again we try the group constructor.
-            $id = $this->_load_group($id);
-        } else {
-            $this->_group_cache[$id] = false;
-            debug_add("The group type identifier {$id} is of an invalid type, no group was loaded.", MIDCOM_LOG_WARN);
         }
-
         return $this->_group_cache[$id];
-    }
-
-    private function _load_group($id)
-    {
-        try {
-            $tmp = new midcom_core_group($id);
-            $id = $tmp->id;
-            $this->_group_cache[$id] = $tmp;
-        } catch (midcom_error $e) {
-            $this->_group_cache[$id] = false;
-            debug_add("Group with identifier {$id} could not be loaded: " . $e->getMessage(), MIDCOM_LOG_WARN);
-        }
-        return $id;
     }
 
     /**

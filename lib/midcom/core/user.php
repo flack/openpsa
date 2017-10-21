@@ -215,11 +215,7 @@ class midcom_core_user
     private function _load_from_string($id, $person_class)
     {
         // Don't even try with the magic assignees
-        if (   'ANONYMOUS' === $id
-            || 'EVERYONE' === $id
-            || 'USERS' === $id
-            || 'OWNER' === $id
-            || 'SELF' === $id) {
+        if (in_array($id, ['ANONYMOUS', 'EVERYONE', 'USERS', 'OWNER', 'SELF'])) {
             throw new midcom_error('Cannot instantiate magic assignees');
         }
 
