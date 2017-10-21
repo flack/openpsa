@@ -42,57 +42,13 @@ class midcom_services_auth_sessionmgr
     }
 
     /**
-     * Creates a login session using the given arguments. Returns a session identifier.
-     * The call will validate the passed credentials and thus authenticate for the given
-     * user at the same time, so there is no need to call authenticate_session() after
-     * creating it. A failed password check will of course not create a login session.
-     *
-     * @param string $username The name of the user to store with the session.
-     * @param string $password The clear text password to store with the session.
-     * @param string $clientip The client IP to which this session is assigned to. This
-     *     defaults to the client IP reported by the web server.
-     * @return Array An array holding the session identifier in the 'session_id' key and
-     *     the associated user in the 'user' key. Failure returns false.
-     */
-    public function create_login_session($username, $password, $clientip = null)
-    {
-        if ($user = $this->authenticate($username, $password)) {
-            return $this->create_session($clientip, $user);
-        }
-        debug_add('Failed to create a new login session: Authentication Failure', MIDCOM_LOG_ERROR);
-        return false;
-    }
-
-    /**
-     * Creates a trusted login session using the given arguments. Returns a session identifier.
-     * The call will validate the passed credentials and thus authenticate for the given
-     * user at the same time, so there is no need to call authenticate_session() after
-     * creating it.
-     *
-     * @param string $username The name of the user to store with the session.
-     * @param string $clientip The client IP to which this session is assigned to. This
-     *     defaults to the client IP reported by the web server.
-     * @return Array An array holding the session identifier in the 'session_id' key and
-     *     the associated user in the 'user' key. Failure returns false.
-     */
-    public function create_trusted_login_session($username, $clientip = null)
-    {
-        if ($user = $this->authenticate($username, '', true)) {
-            return $this->create_session($clientip, $user);
-        }
-        debug_add('Failed to create a new login session: Authentication Failure', MIDCOM_LOG_ERROR);
-        return false;
-    }
-
-    /**
      * Creates the session object
      *
      * @param string $clientip
      * @param midgard_user $mgd_user
-     * @return Array An array holding the session in the 'session' key and
-     *     the associated user in the 'user' key. Failure returns false.
+     * @return midcom_core_login_session_db|false
      */
-    private function create_session($clientip, midgard_user $mgd_user)
+    public function create_session($clientip, midgard_user $mgd_user)
     {
         if (!$user = $this->auth->get_user($mgd_user->person)) {
             debug_add("Failed to create a new login session: No user found for person {$mgd_user->person}.", MIDCOM_LOG_ERROR);
@@ -111,10 +67,7 @@ class midcom_services_auth_sessionmgr
             debug_add('Failed to create a new login session: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }
-        return [
-            'session' => $session,
-            'user' => $user
-        ];
+        return $session;
     }
 
     /**
@@ -170,60 +123,6 @@ class midcom_services_auth_sessionmgr
             return 0;
         }
         return time() - midcom::get()->config->get('auth_login_session_timeout');
-    }
-
-    /**
-     * Internal helper, which does the actual Midgard authentication.
-     *
-     * @param string $username The name of the user to authenticate.
-     * @param string $password The password of the user to authenticate.
-     * @param boolean $trusted
-     * @return boolean|midgard_user
-     */
-    private function authenticate($username, $password, $trusted = false)
-    {
-        if (empty($username)) {
-            debug_add("Failed to authenticate: Username is empty.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        if (!$trusted && empty($password)) {
-            debug_add("Failed to authenticate: Password is empty.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $user = midcom_connection::login($username, $password, $trusted);
-
-        if (!$user) {
-            debug_add("Failed to authenticate the given user: ". midcom_connection::get_error_string(),
-            MIDCOM_LOG_INFO);
-            return false;
-        }
-
-        return $user;
-    }
-
-    /**
-     * Authenticate a given session, which must have been loaded
-     * previously with load_login_session (this is mandatory).
-     *
-     * On success, the Auth service main object will automatically be resynced to
-     * the authenticated user.
-     *
-     * If authentication fails, an invalid session is assumed, which will be
-     * invalidated and deleted immediately.
-     *
-     * @param midcom_core_login_session_db $session The session to authenticate against.
-     * @return boolean Indicating success.
-     */
-    public function authenticate_session(midcom_core_login_session_db $session)
-    {
-        $user = $this->auth->get_user($session->userid);
-        if (!$this->authenticate($user->username, '', true)) {
-            $this->delete_session($session);
-            return false;
-        }
-
-        return true;
     }
 
     /**

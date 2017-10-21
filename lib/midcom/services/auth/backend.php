@@ -63,6 +63,56 @@ abstract class midcom_services_auth_backend
     abstract public function read_login_session(Request $request);
 
     /**
+     * Checks for a running login session.
+     *
+     * @param Request $request
+     * @return boolean
+     */
+    public function check_for_active_login_session(Request $request)
+    {
+        if (!$this->read_login_session($request)) {
+            return false;
+        }
+
+        $user = $this->auth->get_user($this->session->userid);
+        if (!$this->authenticate($user->username, '', true)) {
+            $this->auth->sessionmgr->delete_session($this->session);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Does the actual Midgard authentication.
+     *
+     * @param string $username The name of the user to authenticate.
+     * @param string $password The password of the user to authenticate.
+     * @param boolean $trusted
+     * @return boolean|midgard_user
+     */
+    public function authenticate($username, $password, $trusted = false)
+    {
+        if (empty($username)) {
+            debug_add("Failed to authenticate: Username is empty.", MIDCOM_LOG_ERROR);
+            return false;
+        }
+        if (!$trusted && empty($password)) {
+            debug_add("Failed to authenticate: Password is empty.", MIDCOM_LOG_ERROR);
+            return false;
+        }
+
+        $user = midcom_connection::login($username, $password, $trusted);
+
+        if (!$user) {
+            debug_add("Failed to authenticate the given user: ". midcom_connection::get_error_string(),
+                    MIDCOM_LOG_INFO);
+            return false;
+        }
+
+        return $user;
+    }
+
+    /**
      * Stores a login session using the given credentials through the
      * session service. It assumes that no login has concluded earlier. The login
      * session management system is used for authentication. If the login session
@@ -77,15 +127,16 @@ abstract class midcom_services_auth_backend
      */
     public function create_login_session($username, $password, $clientip = null)
     {
-        $result = $this->auth->sessionmgr->create_login_session($username, $password, $clientip);
-
-        if (!$result) {
+        $user = $this->authenticate($username, $password);
+        if (!$user) {
+            return false;
+        }
+        $this->session = $this->auth->sessionmgr->create_session($clientip, $user);
+        if (!$this->session) {
             // The callee will log errors at this point.
             return false;
         }
-
-        $this->session = $result['session'];
-        $this->user = $result['user'];
+        $this->user = $this->auth->get_user($user->person);
 
         $this->_on_login_session_created();
         return true;
@@ -105,15 +156,16 @@ abstract class midcom_services_auth_backend
      */
     public function create_trusted_login_session($username, $clientip = null)
     {
-        $result = $this->auth->sessionmgr->create_trusted_login_session($username, $clientip);
-
-        if (!$result) {
+        $user = $this->authenticate($username, '', true);
+        if (!$user) {
+            return false;
+        }
+        $this->session = $this->auth->sessionmgr->create_session($clientip, $user);
+        if (!$this->session) {
             // The callee will log errors at this point.
             return false;
         }
-
-        $this->session = $result['session'];
-        $this->user = $result['user'];
+        $this->user = $this->auth->get_user($user->person);
 
         $this->_on_login_session_created();
         return true;

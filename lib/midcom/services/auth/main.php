@@ -154,7 +154,9 @@ class midcom_services_auth
         $credentials = $this->_auth_frontend->read_authentication_data($request);
         if (!$credentials) {
             // No new login detected, so we check if there is a running session.
-            $this->_check_for_active_login_session($request);
+            if ($this->_auth_backend->check_for_active_login_session($request)) {
+                $this->_sync_user_with_backend();
+            }
             return;
         }
 
@@ -202,24 +204,6 @@ class midcom_services_auth
         // This check is a bit fuzzy but will work as long as MidgardAuth is in sync with
         // MidCOM auth.
         $this->admin = midcom_connection::is_admin();
-    }
-
-    /**
-     * Internal startup helper, checks the currently running authentication backend for
-     * a running login session.
-     */
-    private function _check_for_active_login_session(Request $request)
-    {
-        if (!$this->_auth_backend->read_login_session($request)) {
-            return;
-        }
-
-        if (!$this->sessionmgr->authenticate_session($this->_auth_backend->session)) {
-            debug_add('Failed to re-authenticate a previous login session, not changing credentials.');
-            return;
-        }
-
-        $this->_sync_user_with_backend();
     }
 
     /**
@@ -620,7 +604,7 @@ class midcom_services_auth
             echo "<h1>Authorization required</h1>\n";
             midcom::get()->finish();
         } else {
-            if (!$this->sessionmgr->create_login_session($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+            if (!$this->_auth_backend->authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
                 // Wrong password: Recurse until auth ok or user gives up
                 unset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
                 $this->_http_basic_auth();
