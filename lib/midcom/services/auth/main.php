@@ -439,11 +439,7 @@ class midcom_services_auth
     public function require_do($privilege, $content_object, $message = null)
     {
         if (!$this->can_do($privilege, $content_object)) {
-            if (is_null($message)) {
-                $string = midcom::get()->i18n->get_string('access denied: privilege %s not granted', 'midcom');
-                $message = sprintf($string, $privilege);
-            }
-            throw new midcom_error_forbidden($message);
+            throw $this->access_denied($message, 'privilege %s not granted', $privilege);
         }
     }
 
@@ -468,11 +464,7 @@ class midcom_services_auth
     public function require_user_do($privilege, $message = null, $class = null)
     {
         if (!$this->can_user_do($privilege, null, $class)) {
-            if (is_null($message)) {
-                $string = midcom::get()->i18n->get_string('access denied: privilege %s not granted', 'midcom');
-                $message = sprintf($string, $privilege);
-            }
-            throw new midcom_error_forbidden($message);
+            throw $this->access_denied($message, 'privilege %s not granted', $privilege);
         }
     }
 
@@ -492,16 +484,10 @@ class midcom_services_auth
     function require_group_member($group, $message = null)
     {
         if (!$this->is_group_member($group)) {
-            if (is_null($message)) {
-                $string = midcom::get()->i18n->get_string('access denied: user is not member of the group %s', 'midcom');
-                if (is_object($group)) {
-                    $message = sprintf($string, $group->name);
-                } else {
-                    $message = sprintf($string, $group);
-                }
+            if (is_object($group)) {
+                $group = $group->name;
             }
-
-            throw new midcom_error_forbidden($message);
+            throw $this->access_denied($message, 'user is not member of the group %s', $group);
         }
     }
 
@@ -515,14 +501,21 @@ class midcom_services_auth
      */
     public function require_admin_user($message = null)
     {
-        if (   !$this->admin
-            && !$this->_component_sudo) {
-            if ($message === null) {
-                $message = midcom::get()->i18n->get_string('access denied: admin level privileges required', 'midcom');
-            }
-
-            throw new midcom_error_forbidden($message);
+        if (!$this->admin && !$this->_component_sudo) {
+            throw $this->access_denied($message, 'admin level privileges required');
         }
+    }
+
+    private function access_denied($message, $fallback, $data = null)
+    {
+        if ($message === null) {
+            $message = midcom::get()->i18n->get_string('access denied: ' . $fallback, 'midcom');
+            if ($data !== null) {
+                $message = sprintf($message, $data);
+            }
+        }
+
+        return new midcom_error_forbidden($message);
     }
 
     /**

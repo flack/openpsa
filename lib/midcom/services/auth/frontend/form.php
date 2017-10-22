@@ -99,10 +99,10 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      * done by the callee) that asks the user for his username and password.
      *
      * If you want to replace the form by some custom style, you can define
-     * the style element <i>midcom_services_auth_frontend_form</i>. If this
-     * element is present, it will be shown instead of the default style.
-     * In that case you should look into the source
-     * of it to see exactly what is required.
+     * the style element <i>midcom_services_auth_frontend_form</i>.
+     * In that case you should look into the source of it to see exactly what is required.
+     * The output from the frontend is surrounded by a div tag whose CSS ID is set to
+     * 'midcom_login_form'.
      */
     public function show_login_form()
     {
