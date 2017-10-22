@@ -111,16 +111,6 @@ class midcom_services_auth
     private $_auth_frontend = null;
 
     /**
-     * Flag, which is set to true if the system encountered any new login credentials
-     * during startup. If this is true, but no user is authenticated, login did fail.
-     *
-     * The variable is to be considered read-only.
-     *
-     * @var boolean
-     */
-    public $auth_credentials_found = false;
-
-    /**
      * Initialize the service:
      *
      * - Start up the login session service
@@ -143,7 +133,7 @@ class midcom_services_auth
      */
     public function check_for_login_session(Request $request)
     {
-        $credentials = $this->_auth_frontend->read_authentication_data($request);
+        $credentials = $this->_auth_frontend->read_login_data($request);
         if (!$credentials) {
             // No new login detected, so we check if there is a running session.
             if ($this->_auth_backend->check_for_active_login_session($request)) {
@@ -151,8 +141,6 @@ class midcom_services_auth
             }
             return;
         }
-
-        $this->auth_credentials_found = true;
 
         // Try to start up a new session, this will authenticate as well.
         if (!$this->_auth_backend->login($credentials['username'], $credentials['password'], $request->getClientIp())) {
@@ -797,15 +785,6 @@ class midcom_services_auth
         session_destroy();
     }
 
-    private function _generate_http_response()
-    {
-        if (midcom::get()->config->get('auth_login_form_httpcode') == 200) {
-            _midcom_header('HTTP/1.0 200 OK');
-            return;
-        }
-        _midcom_header('HTTP/1.0 403 Forbidden');
-    }
-
     /**
      * Render the main login form.
      * This only includes the form, no heading or whatsoever.
@@ -814,14 +793,11 @@ class midcom_services_auth
      * is usually given thanks to MidCOMs output buffering).
      *
      * What gets rendered depends on the authentication frontend, but will usually be some kind
-     * of form. The output from the frontend is surrounded by a div tag whose CSS ID is set to
-     * 'midcom_login_form'.
+     * of form.
      */
     public function show_login_form()
     {
-        echo "<div id='midcom_login_form'>\n";
-        $this->_auth_frontend->show_authentication_form();
-        echo "</div>\n";
+        $this->_auth_frontend->show_login_form();
     }
 
     /**
@@ -835,28 +811,6 @@ class midcom_services_auth
      */
     public function show_login_page()
     {
-        // Drop any output buffer first
-        midcom::get()->cache->content->disable_ob();
-
-        $this->_generate_http_response();
-
-        midcom::get()->cache->content->no_cache();
-
-        $title = midcom::get()->i18n->get_string('login', 'midcom');
-
-        // Determine login warning so that wrong user/pass is shown.
-        $login_warning = '';
-        if (   $this->auth_credentials_found
-            && is_null($this->user)) {
-            $login_warning = midcom::get()->i18n->get_string('login message - user or password wrong', 'midcom');
-        }
-
-        // Pass our local but very useful variables on to the style element
-        midcom::get()->style->data['midcom_services_auth_show_login_page_title'] = $title;
-        midcom::get()->style->data['midcom_services_auth_show_login_page_login_warning'] = $login_warning;
-
-        midcom::get()->style->show_midcom('midcom_services_auth_login_page');
-
-        midcom::get()->finish();
+        $this->_auth_frontend->show_login_page();
     }
 }

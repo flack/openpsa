@@ -17,6 +17,14 @@ use Symfony\Component\HttpFoundation\Request;
 class midcom_services_auth_frontend_form implements midcom_services_auth_frontend
 {
     /**
+     * Flag, which is set to true if the system encountered any new login credentials
+     * during startup. If this is true, but no user is authenticated, login did fail.
+     *
+     * @var boolean
+     */
+    private $auth_credentials_found = false;
+
+    /**
      * This call checks whether the two form fields we have created are present, if yes
      * it reads and returns their values.
      *
@@ -24,13 +32,14 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      *     'password' holding the information read by the driver or null if no
      *     information could be read.
      */
-    public function read_authentication_data(Request $request)
+    public function read_login_data(Request $request)
     {
         if (   !$request->request->has('midcom_services_auth_frontend_form_submit')
             || !$request->request->has('username')
             || !$request->request->has('password')) {
             return null;
         }
+        $this->auth_credentials_found = true;
 
         // There was form data sent before authentication was re-required
         if ($request->request->has('restore_form_data')) {
@@ -48,6 +57,44 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
     }
 
     /**
+     * If the current style has an element called <i>midcom_services_auth_login_page</i>
+     * it will be shown instead. The local scope will contain the two variables
+     * $title and $login_warning. $title is the localized string 'login' from the main
+     * MidCOM L10n DB, login_warning is empty unless there was a failed authentication
+     * attempt, in which case it will have a localized warning message enclosed in a
+     * paragraph with the ID 'login_warning'.
+     */
+    public function show_login_page()
+    {
+        // Drop any output buffer first
+        midcom::get()->cache->content->disable_ob();
+
+        if (midcom::get()->config->get('auth_login_form_httpcode') == 200) {
+            _midcom_header('HTTP/1.0 200 OK');
+        } else {
+            _midcom_header('HTTP/1.0 403 Forbidden');
+        }
+
+        midcom::get()->cache->content->no_cache();
+
+        $title = midcom::get()->i18n->get_string('login', 'midcom');
+
+        // Determine login warning so that wrong user/pass is shown.
+        $login_warning = '';
+        if ($this->auth_credentials_found) {
+            $login_warning = midcom::get()->i18n->get_string('login message - user or password wrong', 'midcom');
+        }
+
+        // Pass our local but very useful variables on to the style element
+        midcom::get()->style->data['midcom_services_auth_show_login_page_title'] = $title;
+        midcom::get()->style->data['midcom_services_auth_show_login_page_login_warning'] = $login_warning;
+
+        midcom::get()->style->show_midcom('midcom_services_auth_login_page');
+
+        midcom::get()->finish();
+    }
+
+    /**
      * This call renders a simple form without any formatting (that is to be
      * done by the callee) that asks the user for his username and password.
      *
@@ -57,7 +104,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      * In that case you should look into the source
      * of it to see exactly what is required.
      */
-    public function show_authentication_form()
+    public function show_login_form()
     {
         // Store the submitted form if the session expired, but user wants to save the data
         if (count($_POST) > 0) {
@@ -75,6 +122,8 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
             midcom::get()->style->data = array_merge(midcom::get()->style->data, $data);
         }
 
+        echo "<div id='midcom_login_form'>\n";
         midcom::get()->style->show_midcom('midcom_services_auth_frontend_form');
+        echo "</div>\n";
     }
 }

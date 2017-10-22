@@ -30,7 +30,12 @@ interface midcom_services_auth_frontend
      *     'password' holding the information read by the driver or null if no
      *     information could be read.
      */
-    public function read_authentication_data(Request $request);
+    public function read_login_data(Request $request);
+
+    /**
+     * Show a complete login page unconditionally and exit afterwards.
+     */
+    public function show_login_page();
 
     /**
      * This call should show the authentication form (or whatever means of input
@@ -42,5 +47,5 @@ interface midcom_services_auth_frontend
      * execution immediately afterwards. (2DO: How to treat sent content (it is
      * in the output buffer) at this point?)
      */
-    public function show_authentication_form();
+    public function show_login_form();
 }
