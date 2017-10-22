@@ -30,13 +30,6 @@ abstract class midcom_services_auth_backend
     var $user;
 
     /**
-     * The session we are currently using
-     *
-     * @var midcom_core_login_session_db
-     */
-    var $session;
-
-    /**
      * @var midcom_services_auth
      */
     protected $auth = null;
@@ -57,10 +50,35 @@ abstract class midcom_services_auth_backend
      * system to load a login session. At the end of the successful execution of this
      * function, you have to populate the $session and $user members accordingly.
      *
-     * @return boolean Return true if the login session was successfully loaded, false
+     * @return boolean|array Return clientip, userid and timeout if the login session was successfully loaded, false
      *     otherwise.
      */
-    abstract public function read_login_session(Request $request);
+    abstract public function read_session(Request $request);
+
+    /**
+     * This is called immediately after a new login
+     * The authentication driver has to ensure that the login identifier stays
+     * available during subsequent requests.
+     *
+     * @param string $clientip
+     * @param midcom_core_user $user
+     * @return boolean Indicating success
+     */
+    abstract public function create_session($clientip, midcom_core_user $user);
+
+    /**
+     * This should delete the currently active login session,
+     * which has been loaded by a previous call to read_session or created during
+     * create_session.
+     *
+     * You should throw midcom_error if anything goes wrong here.
+     */
+    abstract public function delete_session();
+
+    /**
+     * Refresh the session's timestamp here
+     */
+    abstract public function update_session();
 
     /**
      * Checks for a running login session.
@@ -70,14 +88,47 @@ abstract class midcom_services_auth_backend
      */
     public function check_for_active_login_session(Request $request)
     {
-        if (!$this->read_login_session($request)) {
+        $data = $this->read_session($request);
+        if (!$data) {
             return false;
         }
 
-        $user = $this->auth->get_user($this->session->userid);
-        if (!$this->authenticate($user->username, '', true)) {
-            $this->auth->sessionmgr->delete_session($this->session);
+        if (   midcom::get()->config->get('auth_check_client_ip')
+            && $data['clientip'] != $request->getClientIp()) {
+            debug_add("The session had mismatching client IP.", MIDCOM_LOG_INFO);
+            debug_add("Expected {$data['clientip']}, got {$request->getClientIp()}.");
             return false;
+        }
+
+        $this->user = $this->auth->get_user($data['userid']);
+        if (!$this->user) {
+            debug_add("The user ID {$data['userid']} is invalid, could not load the user from the database, assuming tampered session.",
+            MIDCOM_LOG_ERROR);
+            $this->delete_session();
+            return false;
+        }
+
+        if (   !$this->check_timestamp($data['timestamp'], $this->user)
+            || !$this->authenticate($this->user->username, '', true)) {
+            $this->logout();
+            return false;
+        }
+        return true;
+    }
+
+    private function check_timestamp($timestamp, midcom_core_user $user)
+    {
+        $timeout = midcom::get()->config->get('auth_login_session_timeout', 0);
+        if ($timeout > 0 && time() - $timeout > $timestamp) {
+            debug_add("The session has timed out.", MIDCOM_LOG_INFO);
+            return false;
+        }
+
+        if ($timestamp < time() - midcom::get()->config->get('auth_login_session_update_interval')) {
+            // Update the timestamp if previous timestamp is older than specified interval
+            $this->update_session();
+            $person = $user->get_storage();
+            $person->set_parameter('midcom', 'online', time());
         }
         return true;
     }
@@ -88,7 +139,7 @@ abstract class midcom_services_auth_backend
      * @param string $username The name of the user to authenticate.
      * @param string $password The password of the user to authenticate.
      * @param boolean $trusted
-     * @return boolean|midgard_user
+     * @return boolean|midcom_core_user
      */
     public function authenticate($username, $password, $trusted = false)
     {
@@ -109,101 +160,43 @@ abstract class midcom_services_auth_backend
             return false;
         }
 
-        return $user;
+        return $this->auth->get_user($user->person);
     }
 
     /**
-     * Stores a login session using the given credentials through the
-     * session service. It assumes that no login has concluded earlier. The login
-     * session management system is used for authentication. If the login session
-     * was created successfully, the _on_login_session_created() handler is called
-     * with the $user and $session members populated.
+     * Creates a login session using the given credentials. It assumes that
+     * no login has concluded earlier
      *
      * @param string $username The name of the user to authenticate.
      * @param string $password The password of the user to authenticate.
      * @param string $clientip The client IP to which this session is assigned to. This
-     *     defaults to the client IP reported by Apache.
+     *     defaults to the client IP reported by the web server
+     * @param boolean $trusted Do a trusted login
      * @return boolean Indicating success.
      */
-    public function create_login_session($username, $password, $clientip = null)
+    public function login($username, $password, $clientip = null, $trusted = false)
     {
-        $user = $this->authenticate($username, $password);
-        if (!$user) {
+        $this->user = $this->authenticate($username, $password, $trusted);
+        if (!$this->user) {
             return false;
         }
-        $this->session = $this->auth->sessionmgr->create_session($clientip, $user);
-        if (!$this->session) {
-            // The callee will log errors at this point.
-            return false;
-        }
-        $this->user = $this->auth->get_user($user->person);
 
-        $this->_on_login_session_created();
-        return true;
+        if ($this->create_session($clientip, $this->user)) {
+            $person = $this->user->get_storage();
+            $person->set_parameter('midcom', 'online', time());
+            return true;
+        }
+        return false;
     }
 
     /**
-     * Stores a trusted login session using the given credentials through the
-     * session service. It assumes that no login has concluded earlier. The login
-     * session management system is used for authentication. If the login session
-     * was created successfully, the _on_login_session_created() handler is called
-     * with the $user and $session_id members populated.
-     *
-     * @param string $username The name of the user to authenticate.
-     * @param string $clientip The client IP to which this session is assigned to. This
-     *     defaults to the client IP reported by Apache.
-     * @return boolean Indicating success.
-     */
-    public function create_trusted_login_session($username, $clientip = null)
-    {
-        $user = $this->authenticate($username, '', true);
-        if (!$user) {
-            return false;
-        }
-        $this->session = $this->auth->sessionmgr->create_session($clientip, $user);
-        if (!$this->session) {
-            // The callee will log errors at this point.
-            return false;
-        }
-        $this->user = $this->auth->get_user($user->person);
-
-        $this->_on_login_session_created();
-        return true;
-    }
-
-    /**
-     * This event handler is called immediately after the successful creation of a new login
-     * session. The authentication driver has to ensure that the login identifier stays
-     * available during subsequent requests.
-     */
-    abstract function _on_login_session_created();
-
-    /**
-     * The logout function should delete the currently active login session,
-     * which has been loaded by a previous call to read_login_session.
-     *
-     * You should throw midcom_error if anything goes wrong here.
+     * Deletes login information and session
      */
     public function logout()
     {
-        if (!$this->session) {
-            debug_add('You were not logged in, so we do nothing.', MIDCOM_LOG_INFO);
-            return;
+        if ($person = $this->user->get_storage()) {
+            $person->delete_parameter('midcom', 'online');
         }
-
-        if (!$this->auth->sessionmgr->delete_session($this->session)) {
-            throw new midcom_error('The system could not log you out, check the log file for details.');
-        }
-
-        $this->_on_login_session_deleted();
-
-        $this->session = null;
+        $this->delete_session();
     }
-
-    /**
-     * This event handler is called immediately after the successful deletion of a login
-     * session. Use this to drop any session identifier store you might have created during
-     * _on_login_session_created.
-     */
-    abstract function _on_login_session_deleted();
 }

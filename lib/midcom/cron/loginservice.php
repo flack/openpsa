@@ -14,8 +14,10 @@ class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handle
     public function execute()
     {
         if (midcom::get()->config->get('auth_login_session_timeout')) {
-            $qb = new midgard_query_builder('midcom_core_login_session_db');
-            $qb->add_constraint('timestamp', '<', time() - midcom::get()->config->get('auth_login_session_timeout'));
+            $qb = new midgard_query_builder('midgard_parameter');
+            $qb->add_constraint('domain', '=', 'midcom');
+            $qb->add_constraint('name', '=', 'online');
+            $qb->add_constraint('value', '<', time() - midcom::get()->config->get('auth_login_session_timeout'));
             foreach ($qb->iterate() as $tmp) {
                 if (!$tmp->purge()) {
                     $msg = "Failed to purge login session {$tmp->id}, last Midgard error was: " . midcom_connection::get_error_string();

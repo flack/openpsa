@@ -64,7 +64,7 @@ class midcom_core_account
      * Deletes the current user account.
      *
      * This will cleanup all information associated with
-     * the user that is managed by the core (like login sessions and privilege records).
+     * the user that is managed by the core (like privilege records).
      *
      * This call requires the delete privilege on the person object, this is enforced using
      * require_do.
@@ -78,7 +78,6 @@ class midcom_core_account
             return false;
         }
         $user = new midcom_core_user($this->_person);
-        midcom::get()->auth->sessionmgr->_delete_user_sessions($user);
 
         // Delete all ACL records which have the user as assignee
         $qb = new midgard_query_builder('midcom_core_privilege_db');

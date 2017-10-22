@@ -59,7 +59,6 @@
     'org_openpsa_relatedto_journal_entry',
     'org_openpsa_billing_data',
     /* These we just don't anybody mucking about with */
-    'midcom_core_login_session_db',
     'midcom_core_temporary_object_db',
     'midcom_core_privilege_db',
     'midcom_services_at_entry_db',

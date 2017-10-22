@@ -33,6 +33,11 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
     private $_cookie_id = 'midcom_services_auth_backend_simple-';
 
     /**
+     * @var midcom_services_session
+     */
+    private $session;
+
+    /**
      * Read the configuration
      */
     public function __construct($auth)
@@ -41,44 +46,43 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         parent::__construct($auth);
     }
 
-    public function read_login_session(Request $request)
+    public function read_session(Request $request)
     {
         if (!$request->hasPreviousSession()) {
             return false;
         }
-        $session = new midcom_services_session($this->_cookie_id);
-        $session_id = $session->get('session_id');
-        if (empty($session_id)) {
+        $this->session = new midcom_services_session($this->_cookie_id);
+        $userid = $this->session->get('userid');
+        if (empty($userid)) {
             return false;
         }
+        return [
+            'userid' => $userid,
+            'clientip' => $this->session->get('clientip'),
+            'timestamp' => $this->session->get('timestamp')
+        ];
+    }
 
-        $this->session = $this->auth->sessionmgr->load_login_session($session_id, $request->getClientIp());
-
-        if (!$this->session) {
-            debug_add("The session {$session_id} is invalid (usually this means an expired session).", MIDCOM_LOG_ERROR);
-            $this->_on_login_session_deleted();
-            return false;
+    public function create_session($clientip, midcom_core_user $user)
+    {
+        if (empty($clientip)) {
+            $clientip = $_SERVER['REMOTE_ADDR'];
         }
 
-        $this->user = $this->auth->get_user($this->session->userid);
-        if (!$this->user) {
-            debug_add("The user ID {$this->session->userid} is invalid, could not load the user from the database, assuming tampered session.",
-                MIDCOM_LOG_ERROR);
-            $this->_on_login_session_deleted();
-            return false;
-        }
-
+        $this->session = new midcom_services_session($this->_cookie_id);
+        $this->session->set('userid', $user->id);
+        $this->session->set('clientip', $clientip);
+        $this->session->set('timestamp', time());
         return true;
     }
 
-    public function _on_login_session_created()
+    public function update_session()
     {
-        $session = new midcom_services_session($this->_cookie_id);
-        $session->set('session_id', $this->session->guid);
+        $this->session->set('timestamp', time());
     }
 
-    public function _on_login_session_deleted()
+    public function delete_session()
     {
-        midcom::get()->session->clear();
+        midcom::get()->session->remove($this->_cookie_id);
     }
 }

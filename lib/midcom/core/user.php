@@ -514,8 +514,6 @@ class midcom_core_user
     }
 
     /**
-     * This is a shortcut for the method midcom_services_auth_sessionmgr::is_user_online().
-     * The documentation at that function takes priority over the copy here.
      *
      * Checks the online state of the user. You require the privilege midcom:isonline
      * for the storage object you are going to check. The privilege is not granted by default,
@@ -525,11 +523,21 @@ class midcom_core_user
      *
      * @return string One of 'online', 'offline' or 'unknown', indicating the current online
      *     state.
-     * @see midcom_services_auth_sessionmgr::is_user_online()
      */
     public function is_online()
     {
-        return midcom::get()->auth->sessionmgr->is_user_online($this);
+        $person = $this->get_storage();
+        if (!$person->can_do('midcom:isonline')) {
+            return 'unknown';
+        }
+
+        $timeout = midcom::get()->config->get('auth_login_session_timeout', 0);
+        $last_seen = $person->get_parameter('midcom', 'online');
+        if (   !$last_seen
+            || ($timeout > 0 && time() - $timeout > $last_seen)) {
+            return 'offline';
+        }
+        return 'online';
     }
 
     /**

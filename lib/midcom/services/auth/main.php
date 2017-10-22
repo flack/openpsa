@@ -56,13 +56,6 @@ class midcom_services_auth
     public $admin = false;
 
     /**
-     * The login session management system.
-     *
-     * @var midcom_services_auth_sessionmgr
-     */
-    public $sessionmgr;
-
-    /**
      * The ACL management system.
      *
      * @var midcom_services_auth_acl
@@ -138,7 +131,6 @@ class midcom_services_auth
      */
     public function __construct()
     {
-        $this->sessionmgr = new midcom_services_auth_sessionmgr($this);
         $this->acl = new midcom_services_auth_acl($this);
 
         $this->_initialize_user_from_midgard();
@@ -163,7 +155,7 @@ class midcom_services_auth
         $this->auth_credentials_found = true;
 
         // Try to start up a new session, this will authenticate as well.
-        if (!$this->_auth_backend->create_login_session($credentials['username'], $credentials['password'], $request->getClientIp())) {
+        if (!$this->_auth_backend->login($credentials['username'], $credentials['password'], $request->getClientIp())) {
             debug_add('The login information passed to the system was invalid.', MIDCOM_LOG_ERROR);
             debug_add("Username was {$credentials['username']}");
             // No password logging for security reasons.
@@ -756,7 +748,7 @@ class midcom_services_auth
      */
     public function login($username, $password)
     {
-        if ($this->_auth_backend->create_login_session($username, $password)) {
+        if ($this->_auth_backend->login($username, $password)) {
             $this->_sync_user_with_backend();
             return true;
         }
@@ -770,7 +762,7 @@ class midcom_services_auth
             return false;
         }
 
-        return $this->_auth_backend->create_trusted_login_session($username);
+        return $this->_auth_backend->login($username, '', null, true);
     }
 
     /**

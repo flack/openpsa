@@ -28,22 +28,4 @@
         </property>
     </type>
 
-    <type name="midcom_core_login_session_db" table="midcom_core_login_session" metadata="false">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="userid" type="string" index="yes">
-            <description>User identifier for the authenticated session</description>
-        </property>
-        <property name="clientip" type="string">
-            <description>IP address user is authenticated from</description>
-        </property>
-        <property name="timestamp" type="integer">
-            <description>Login time as Unix timestamp</description>
-        </property>
-        <property name="trusted" type="boolean">
-            <description>Session uses trusted authentication</description>
-        </property>
-    </type>
-
 </Schema>
