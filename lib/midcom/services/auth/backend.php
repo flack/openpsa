@@ -22,14 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class midcom_services_auth_backend
 {
     /**
-     * This variable holds the user that has been successfully authenticated by the class,
-     * it is considered to be read-only.
-     *
-     * @var midcom_core_user
-     */
-    var $user;
-
-    /**
      * @var midcom_services_auth
      */
     protected $auth = null;
@@ -84,12 +76,11 @@ abstract class midcom_services_auth_backend
      * Checks for a running login session.
      *
      * @param Request $request
-     * @return boolean
+     * @return boolean|midcom_core_user
      */
     public function check_for_active_login_session(Request $request)
     {
-        $data = $this->read_session($request);
-        if (!$data) {
+        if (!$data = $this->read_session($request)) {
             return false;
         }
 
@@ -100,20 +91,19 @@ abstract class midcom_services_auth_backend
             return false;
         }
 
-        $this->user = $this->auth->get_user($data['userid']);
-        if (!$this->user) {
+        if (!$user = $this->auth->get_user($data['userid'])) {
             debug_add("The user ID {$data['userid']} is invalid, could not load the user from the database, assuming tampered session.",
             MIDCOM_LOG_ERROR);
             $this->delete_session();
             return false;
         }
 
-        if (   !$this->check_timestamp($data['timestamp'], $this->user)
-            || !$this->authenticate($this->user->username, '', true)) {
-            $this->logout();
+        if (   !$this->check_timestamp($data['timestamp'], $user)
+            || !$this->authenticate($user->username, '', true)) {
+            $this->logout($user);
             return false;
         }
-        return true;
+        return $user;
     }
 
     private function check_timestamp($timestamp, midcom_core_user $user)
@@ -172,19 +162,19 @@ abstract class midcom_services_auth_backend
      * @param string $clientip The client IP to which this session is assigned to. This
      *     defaults to the client IP reported by the web server
      * @param boolean $trusted Do a trusted login
-     * @return boolean Indicating success.
+     * @return boolean|midcom_core_user
      */
     public function login($username, $password, $clientip = null, $trusted = false)
     {
-        $this->user = $this->authenticate($username, $password, $trusted);
-        if (!$this->user) {
+        $user = $this->authenticate($username, $password, $trusted);
+        if (!$user) {
             return false;
         }
 
-        if ($this->create_session($clientip, $this->user)) {
-            $person = $this->user->get_storage();
+        if ($this->create_session($clientip, $user)) {
+            $person = $user->get_storage();
             $person->set_parameter('midcom', 'online', time());
-            return true;
+            return $user;
         }
         return false;
     }
@@ -192,9 +182,9 @@ abstract class midcom_services_auth_backend
     /**
      * Deletes login information and session
      */
-    public function logout()
+    public function logout(midcom_core_user $user)
     {
-        if ($person = $this->user->get_storage()) {
+        if ($person = $user->get_storage()) {
             $person->delete_parameter('midcom', 'online');
         }
         $this->delete_session();

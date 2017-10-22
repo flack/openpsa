@@ -123,7 +123,12 @@ class midcom_services_auth
     {
         $this->acl = new midcom_services_auth_acl($this);
 
-        $this->_initialize_user_from_midgard();
+        // Initialize from midgard
+        if (   midcom_connection::get_user()
+            && $user = $this->get_user(midcom_connection::get_user())) {
+            $this->set_user($user);
+        }
+
         $this->_prepare_authentication_drivers();
     }
 
@@ -136,14 +141,14 @@ class midcom_services_auth
         $credentials = $this->_auth_frontend->read_login_data($request);
         if (!$credentials) {
             // No new login detected, so we check if there is a running session.
-            if ($this->_auth_backend->check_for_active_login_session($request)) {
-                $this->_sync_user_with_backend();
+            if ($user = $this->_auth_backend->check_for_active_login_session($request)) {
+                $this->set_user($user);
             }
             return;
         }
 
         // Try to start up a new session, this will authenticate as well.
-        if (!$this->_auth_backend->login($credentials['username'], $credentials['password'], $request->getClientIp())) {
+        if (!$user = $this->_auth_backend->login($credentials['username'], $credentials['password'], $request->getClientIp())) {
             debug_add('The login information passed to the system was invalid.', MIDCOM_LOG_ERROR);
             debug_add("Username was {$credentials['username']}");
             // No password logging for security reasons.
@@ -151,8 +156,7 @@ class midcom_services_auth
         }
 
         debug_add('Authentication was successful, we have a new login session now. Updating timestamps');
-
-        $this->_sync_user_with_backend();
+        $this->set_user($user);
 
         $person_class = midcom::get()->config->get('person_class');
         $person = new $person_class($this->user->guid);
@@ -175,28 +179,12 @@ class midcom_services_auth
     }
 
     /**
-     * Internal helper, synchronizes the main service class with the authentication state
-     * of the authentication backend.
+     * @param midcom_core_user $user
      */
-    private function _sync_user_with_backend()
+    private function set_user(midcom_core_user $user)
     {
-        $this->user =& $this->_auth_backend->user;
-        // This check is a bit fuzzy but will work as long as MidgardAuth is in sync with
-        // MidCOM auth.
-        $this->admin = midcom_connection::is_admin();
-    }
-
-    /**
-     * Internal startup helper, synchronizes the authenticated user with the Midgard Authentication
-     * for startup. This will be overridden by MidCOM Auth, but is there for compatibility reasons.
-     */
-    private function _initialize_user_from_midgard()
-    {
-        if (   midcom_connection::get_user()
-            && $user = $this->get_user(midcom_connection::get_user())) {
-            $this->user = $user;
-            $this->admin = midcom_connection::is_admin();
-        }
+        $this->user = $user;
+        $this->admin = $user->is_admin();
     }
 
     /**
@@ -566,14 +554,12 @@ class midcom_services_auth
             // TODO: more fancy 401 output ?
             echo "<h1>Authorization required</h1>\n";
             midcom::get()->finish();
+        } elseif ($user = $this->_auth_backend->authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+            $this->set_user($user);
         } else {
-            if (!$this->_auth_backend->authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
-                // Wrong password: Recurse until auth ok or user gives up
-                unset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
-                $this->_http_basic_auth();
-            }
-            // Figure out how to update midcom auth status
-            $this->_initialize_user_from_midgard();
+            // Wrong password: Recurse until auth ok or user gives up
+            unset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+            $this->_http_basic_auth();
         }
     }
 
@@ -719,8 +705,8 @@ class midcom_services_auth
      */
     public function login($username, $password)
     {
-        if ($this->_auth_backend->login($username, $password)) {
-            $this->_sync_user_with_backend();
+        if ($user = $this->_auth_backend->login($username, $password)) {
+            $this->set_user($user);
             return true;
         }
         return false;
@@ -733,7 +719,11 @@ class midcom_services_auth
             return false;
         }
 
-        return $this->_auth_backend->login($username, '', null, true);
+        if ($user = $this->_auth_backend->login($username, '', null, true)) {
+            $this->set_user($user);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -756,10 +746,10 @@ class midcom_services_auth
      */
     function drop_login_session()
     {
-        if (is_null($this->_auth_backend->user)) {
+        if (is_null($this->user)) {
             debug_add('The backend has no authenticated user set, so we should be fine, doing the relocate nevertheless though.');
         } else {
-            $this->_auth_backend->logout();
+            $this->_auth_backend->logout($this->user);
         }
 
         // Kill the session forcibly:
