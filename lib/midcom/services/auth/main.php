@@ -724,31 +724,13 @@ class midcom_services_auth
      */
     public function logout()
     {
-        $this->drop_login_session();
-        $this->admin = false;
-        $this->user = null;
-        midcom_connection::logout();
-    }
-
-    /**
-     * This is a limited version of logout: It will just drop the current login session, but keep
-     * the current request authenticated.
-     *
-     * Note, that this call will also drop any information in the PHP Session (if exists). This will
-     * leave the request in a clean state after calling this function.
-     */
-    function drop_login_session()
-    {
         if (is_null($this->user)) {
-            debug_add('The backend has no authenticated user set, so we should be fine, doing the relocate nevertheless though.');
+            debug_add('The backend has no authenticated user set, so we should be fine');
         } else {
             $this->_auth_backend->logout($this->user);
+            $this->user = null;
         }
-
-        // Kill the session forcibly:
-        @session_start();
-        $_SESSION = [];
-        session_destroy();
+        $this->admin = false;
     }
 
     /**

@@ -188,5 +188,6 @@ abstract class midcom_services_auth_backend
             $person->delete_parameter('midcom', 'online');
         }
         $this->delete_session();
+        midcom_connection::logout();
     }
 }
