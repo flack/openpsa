@@ -294,16 +294,6 @@ class midcom_services_auth
             $user = null;
         }
 
-        if (!is_null($user)) {
-            if (is_object($class)) {
-                $classname = get_class($class);
-            } else {
-                $classname = $class;
-            }
-
-            debug_add("Querying privilege {$privilege} for user {$user->id} to class {$classname}");
-        }
-
         return $this->acl->can_do_byclass($privilege, $user, $class);
     }
 
