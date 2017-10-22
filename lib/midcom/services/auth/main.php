@@ -138,43 +138,35 @@ class midcom_services_auth
      */
     public function check_for_login_session(Request $request)
     {
-        $credentials = $this->_auth_frontend->read_login_data($request);
-        if (!$credentials) {
-            // No new login detected, so we check if there is a running session.
-            if ($user = $this->_auth_backend->check_for_active_login_session($request)) {
-                $this->set_user($user);
-            }
-            return;
-        }
-
         // Try to start up a new session, this will authenticate as well.
-        if (!$user = $this->_auth_backend->login($credentials['username'], $credentials['password'], $request->getClientIp())) {
-            debug_add('The login information passed to the system was invalid.', MIDCOM_LOG_ERROR);
-            debug_add("Username was {$credentials['username']}");
-            // No password logging for security reasons.
-            return;
+        if ($credentials = $this->_auth_frontend->read_login_data($request)) {
+            if (!$this->login($credentials['username'], $credentials['password'], $request->getClientIp())) {
+                return;
+            }
+            debug_add('Authentication was successful, we have a new login session now. Updating timestamps');
+
+            $person_class = midcom::get()->config->get('person_class');
+            $person = new $person_class($this->user->guid);
+            if (   midcom::get()->config->get('auth_save_prev_login')
+                && $person->get_parameter('midcom', 'last_login')) {
+                $person->set_parameter('midcom', 'prev_login', $person->get_parameter('midcom', 'last_login'));
+            }
+
+            $person->set_parameter('midcom', 'last_login', time());
+
+            if (!$person->get_parameter('midcom', 'first_login')) {
+                $person->set_parameter('midcom', 'first_login', time());
+            }
+
+            // Now we check whether there is a success-relocate URL given somewhere.
+            if ($request->query->has('midcom_services_auth_login_success_url')) {
+                midcom::get()->relocate($request->query->get('midcom_services_auth_login_success_url'));
+                // This will exit.
+            }
         }
-
-        debug_add('Authentication was successful, we have a new login session now. Updating timestamps');
-        $this->set_user($user);
-
-        $person_class = midcom::get()->config->get('person_class');
-        $person = new $person_class($this->user->guid);
-        if (   midcom::get()->config->get('auth_save_prev_login')
-            && $person->get_parameter('midcom', 'last_login')) {
-            $person->set_parameter('midcom', 'prev_login', $person->get_parameter('midcom', 'last_login'));
-        }
-
-        $person->set_parameter('midcom', 'last_login', time());
-
-        if (!$person->get_parameter('midcom', 'first_login')) {
-            $person->set_parameter('midcom', 'first_login', time());
-        }
-
-        // Now we check whether there is a success-relocate URL given somewhere.
-        if ($request->query->has('midcom_services_auth_login_success_url')) {
-            midcom::get()->relocate($request->query->get('midcom_services_auth_login_success_url'));
-            // This will exit.
+        // No new login detected, so we check if there is a running session.
+        elseif ($user = $this->_auth_backend->check_for_active_login_session($request)) {
+            $this->set_user($user);
         }
     }
 
@@ -703,12 +695,13 @@ class midcom_services_auth
     /**
      * This call tells the backend to log in.
      */
-    public function login($username, $password)
+    public function login($username, $password, $clientip = null)
     {
-        if ($user = $this->_auth_backend->login($username, $password)) {
+        if ($user = $this->_auth_backend->login($username, $password, $clientip)) {
             $this->set_user($user);
             return true;
         }
+        debug_add('The login information for ' . $username . ' was invalid.', MIDCOM_LOG_WARN);
         return false;
     }
 
