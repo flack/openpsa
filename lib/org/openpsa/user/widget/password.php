@@ -34,10 +34,14 @@ class org_openpsa_user_widget_password extends AbstractType
             'label_attr' => ['style' => 'display: none']
         ]);
 
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.user/password.js');
-
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.user');
         $config = midcom_baseclasses_components_configuration::get('org.openpsa.user', 'config');
+        self::jsinit('input[type="password"]', $l10n, $config, false);
+    }
+
+    public static function jsinit($name, midcom_services_i18n_l10n $l10n, midcom_helper_configuration $config, $userid_required)
+    {
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.user/password.js');
         $conf = [
             'strings' => [
                 'shortPass' => $l10n->get("password too short"),
@@ -49,9 +53,9 @@ class org_openpsa_user_widget_password extends AbstractType
             'password_rules' => $config->get('password_score_rules'),
             'min_length' => $config->get('min_password_length'),
             'min_score' => $config->get('min_password_score'),
-            'userid_required' => false
+            'userid_required' => $userid_required
         ];
         $conf = json_encode($conf);
-        midcom::get()->head->add_jquery_state_script('$(\'input[type="password"]\').password_widget(' . $conf . ');');
+        midcom::get()->head->add_jquery_state_script("$('" . $name . "').password_widget(" . $conf . ");");
     }
 }

@@ -128,9 +128,8 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         }
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit account'));
-
+        org_openpsa_user_widget_password::jsinit('input[name="org_openpsa_user[new_password][first]"]', $this->_l10n, $this->_config, true);
         $controller = $this->load_controller();
-
         $workflow = $this->get_workflow('datamanager', ['controller' => $controller]);
 
         if ($this->person->can_do('midgard:update')) {
