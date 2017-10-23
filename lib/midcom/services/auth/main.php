@@ -101,14 +101,14 @@ class midcom_services_auth
      *
      * @var midcom_services_auth_backend
      */
-    private $_auth_backend = null;
+    private $backend = null;
 
     /**
      * The authentication frontend we should use by default.
      *
      * @var midcom_services_auth_frontend
      */
-    private $_auth_frontend = null;
+    private $frontend = null;
 
     /**
      * Initialize the service:
@@ -139,7 +139,7 @@ class midcom_services_auth
     public function check_for_login_session(Request $request)
     {
         // Try to start up a new session, this will authenticate as well.
-        if ($credentials = $this->_auth_frontend->read_login_data($request)) {
+        if ($credentials = $this->frontend->read_login_data($request)) {
             if (!$this->login($credentials['username'], $credentials['password'], $request->getClientIp())) {
                 return;
             }
@@ -165,7 +165,7 @@ class midcom_services_auth
             }
         }
         // No new login detected, so we check if there is a running session.
-        elseif ($user = $this->_auth_backend->check_for_active_login_session($request)) {
+        elseif ($user = $this->backend->check_for_active_login_session($request)) {
             $this->set_user($user);
         }
     }
@@ -188,13 +188,13 @@ class midcom_services_auth
         if (strpos($classname, "_") === false) {
             $classname = 'midcom_services_auth_backend_' . $classname;
         }
-        $this->_auth_backend = new $classname($this);
+        $this->backend = new $classname($this);
 
         $classname = midcom::get()->config->get('auth_frontend');
         if (strpos($classname, "_") === false) {
             $classname = 'midcom_services_auth_frontend_' . $classname;
         }
-        $this->_auth_frontend = new $classname();
+        $this->frontend = new $classname();
     }
 
     /**
@@ -546,7 +546,7 @@ class midcom_services_auth
             // TODO: more fancy 401 output ?
             echo "<h1>Authorization required</h1>\n";
             midcom::get()->finish();
-        } elseif ($user = $this->_auth_backend->authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+        } elseif ($user = $this->backend->authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
             $this->set_user($user);
         } else {
             // Wrong password: Recurse until auth ok or user gives up
@@ -697,7 +697,7 @@ class midcom_services_auth
      */
     public function login($username, $password, $clientip = null)
     {
-        if ($user = $this->_auth_backend->login($username, $password, $clientip)) {
+        if ($user = $this->backend->login($username, $password, $clientip)) {
             $this->set_user($user);
             return true;
         }
@@ -712,7 +712,7 @@ class midcom_services_auth
             return false;
         }
 
-        if ($user = $this->_auth_backend->login($username, '', null, true)) {
+        if ($user = $this->backend->login($username, '', null, true)) {
             $this->set_user($user);
             return true;
         }
@@ -727,7 +727,7 @@ class midcom_services_auth
         if (is_null($this->user)) {
             debug_add('The backend has no authenticated user set, so we should be fine');
         } else {
-            $this->_auth_backend->logout($this->user);
+            $this->backend->logout($this->user);
             $this->user = null;
         }
         $this->admin = false;
@@ -745,7 +745,7 @@ class midcom_services_auth
      */
     public function show_login_form()
     {
-        $this->_auth_frontend->show_login_form();
+        $this->frontend->show_login_form();
     }
 
     /**
@@ -759,6 +759,6 @@ class midcom_services_auth
      */
     public function show_login_page()
     {
-        $this->_auth_frontend->show_login_page();
+        $this->frontend->show_login_page();
     }
 }
