@@ -20,6 +20,7 @@ use midcom\datamanager\storage\container\dbacontainer;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use midcom\datamanager\extension\type\toolbar;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 /**
  * Experimental schema class
@@ -235,6 +236,9 @@ class schema
             }
 
             if ($value == 'text') {
+                if (!empty($options['widget_config']['hideinput'])) {
+                    return PasswordType::class;
+                }
                 if ($options['type'] === 'number') {
                     return 'number';
                 }
