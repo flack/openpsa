@@ -32,7 +32,7 @@
             .trigger('change');
 
         $(opts.userid).bind('keyup', function() {
-            $.fn.setButtonStatus(opts);
+            setButtonStatus(opts);
         });
         //run the check function once at start
         setButtonStatus(opts);
@@ -113,24 +113,17 @@
         var check_password = true;
 
         //on edit form, only check the password strength if the field is not empty (second condition)
-        if (   (opts.password_switch_id != "")
-            || (opts.password_switch_id == "" && $(opts.passwordid).val() != "")) {
+        if (opts.password_switch_id != "" || $(opts.passwordid).val() != "") {
             //check password strength
             //if its empty, this will fail
             var strength = teststrength($(opts.passwordid).val(), opts);
 
-            check_password = (check_password && !(strength == $.fn.goodPass || strength == $.fn.strongPass));
-        }
-
-        //on edit from with no password given
-        if (opts.password_switch_id == "" && $(opts.passwordid).val() == "")
-        {
-            check_password = false;
+            check_password = !(strength == $.fn.goodPass || strength == $.fn.strongPass);
         }
 
         //check if username is given and password check is ok
         //determine wheter the submit button should be disabled
-        var disabled = ($(opts.userid).val() != "" && check_password);
+        var disabled = ($(opts.userid).val() != "" && !check_password);
 
         //set or remove disabled attribute of the submit button accordingly
         $(opts.submit_button).prop("disabled", disabled);
