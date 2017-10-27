@@ -407,7 +407,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // PONDER: Send expires header (set to long time in past) as well ??
 
         if ($response) {
-            $response->header->set('Cache-Control', $settings);
+            $response->headers->set('Cache-Control', $settings);
         } else if (!$this->_no_cache) {
             if (_midcom_headers_sent()) {
                 // Whatever is wrong here, we return.
