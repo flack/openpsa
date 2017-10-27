@@ -8,6 +8,7 @@
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use midcom\events\dbaevent;
+use midgard\portable\storage\connection;
 
 /**
  * This class is the central access point for all registered caching services. Currently
@@ -159,6 +160,7 @@ class midcom_services_cache implements EventSubscriberInterface
             debug_add("Invalidating the cache module {$name} completely.");
             $this->_modules[$name]->invalidate_all();
         }
+        connection::invalidate_cache();
     }
 
     /**
