@@ -583,8 +583,8 @@ class midcom_baseclasses_core_dbobject
             }
 
             // then shoot your dogs
-            $purged_size += self::purge_parameters($guid);
-            $purged_size += self::purge_attachments($guid);
+            $purged_size += self::purge_parameters($object->guid);
+            $purged_size += self::purge_attachments($object->guid);
 
             // now shoot yourself
             if (!$object->purge()) {
