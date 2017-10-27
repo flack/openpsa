@@ -327,7 +327,6 @@ class midcom_config implements arrayaccess
         'cron_hour_minutes' => 30,
 
         // I18n Subsystem configuration
-        'i18n_language_db_path' => 'file:/midcom/config/language_db.inc',
         'i18n_available_languages' => null,
         'i18n_fallback_language' => 'en',
 

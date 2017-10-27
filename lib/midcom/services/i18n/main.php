@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\Intl\Intl;
+
 /**
  * This is a basic MidCOM Service which provides an interfaces to the
  * various I18n facilities of MidCOM.
@@ -14,9 +16,6 @@
  * around internationalization and localization. It provides auto-detection
  * of language data using HTTP Content-Negotiation along with a cookie-based
  * fallback.
- *
- * A good deal of major languages are predefined, see the snippet
- * /lib/midcom/config/language_db.inc for details.
  *
  * This class is able to run independently from midcom_application
  * due to the fact that it is used in the cache_hit code.
@@ -31,13 +30,6 @@
  */
 class midcom_services_i18n
 {
-    /**
-     * The language database, loaded from /lib/midcom/config/language_db.inc
-     *
-     * @var Array
-     */
-    private $_language_db;
-
     /**
      * Fallback language, in case the selected language is not available.
      *
@@ -64,15 +56,13 @@ class midcom_services_i18n
      *
      * @var string
      */
-    private $_current_charset;
+    private $_current_charset = 'utf-8';
 
     /**
      * Initialize the available i18n framework by determining the desired language
      * from these different sources: HTTP Content Negotiation, Client side language cookie.
      *
-     * It uses the MidCOM Language database now located at
-     * /lib/midcom/config/language_db.inc for any decisions. Its two
-     * parameters set the default language in case that none is supplied
+     * Its two parameters set the default language in case that none is supplied
      * via HTTP Content Negotiation or through Cookies.
      *
      * The default language set on startup is currently hardcoded to 'en',
@@ -84,10 +74,6 @@ class midcom_services_i18n
      */
     public function __construct()
     {
-        $path = midcom::get()->config->get('i18n_language_db_path');
-        $data = midcom_helper_misc::get_snippet_content($path);
-        $this->_language_db = midcom_helper_misc::parse_config($data);
-
         $this->_fallback_language = midcom::get()->config->get('i18n_fallback_language');
         $this->set_language($this->_fallback_language);
 
@@ -108,8 +94,7 @@ class midcom_services_i18n
 
         if ($http_langs = $this->_read_http_negotiation()) {
             foreach (array_keys($http_langs) as $name) {
-                if (array_key_exists($name, $this->_language_db)) {
-                    $this->set_language($name);
+                if ($this->set_language($name)) {
                     break;
                 }
             }
@@ -217,23 +202,19 @@ class midcom_services_i18n
      */
     public function set_language($lang)
     {
-        if (!array_key_exists($lang, $this->_language_db)) {
-            debug_add("Language {$lang} not found in the language database.", MIDCOM_LOG_ERROR);
+        if (Intl::getLocaleBundle()->getLocaleName($lang) === null) {
+            debug_add("Language {$lang} not found.", MIDCOM_LOG_ERROR);
             return false;
         }
 
         $this->_current_language = $lang;
-        $this->_current_charset = strtolower($this->_language_db[$lang]['encoding']);
 
-        /**
-         * NOTE: setlocale can take an array of locales as value, it will use
-         * the first name valid for the system
-         */
-        setlocale(LC_ALL, $this->_language_db[$lang]['locale']);
+        setlocale(LC_ALL, $lang);
 
         foreach ($this->_obj_l10n as $object) {
             $object->set_language($lang);
         }
+        return true;
     }
 
     /**
@@ -247,16 +228,6 @@ class midcom_services_i18n
         foreach ($this->_obj_l10n as $object) {
             $object->set_fallback_language($lang);
         }
-    }
-
-    /**
-     * Returns the language database.
-     *
-     * @return Array
-     */
-    public function get_language_db()
-    {
-        return $this->_language_db;
     }
 
     /**
@@ -392,12 +363,11 @@ class midcom_services_i18n
      */
     public function list_languages()
     {
-        $languages = [];
-        foreach ($this->_language_db as $identifier => $language) {
-            if ($language['enname'] != $language['localname']) {
-                $languages[$identifier] = "{$language['enname']} ({$language['localname']})";
-            } else {
-                $languages[$identifier] = $language['enname'];
+        $languages = Intl::getLanguageBundle()->getLanguageNames('en');
+        foreach ($languages as $identifier => &$language) {
+            $localname = Intl::getLanguageBundle()->getLanguageName($identifier, null, $identifier);
+            if ($localname != $language) {
+                $language = $language . ' (' . $localname . ')';
             }
         }
         return $languages;

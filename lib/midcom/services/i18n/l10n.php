@@ -75,13 +75,6 @@ class midcom_services_i18n_l10n
     private $_component_name;
 
     /**
-     * A copy of the language DB from i18n.
-     *
-     * @var Array
-     */
-    private $_language_db;
-
-    /**
      * Fallback language, in case the selected language is not available.
      *
      * @var string
@@ -135,7 +128,6 @@ class midcom_services_i18n_l10n
         $this->_library = $library . $database;
         $this->_component_name = $library;
 
-        $this->_language_db = midcom::get()->i18n->get_language_db();
         $this->_fallback_language = midcom::get()->i18n->get_fallback_language();
 
         if (!isset(self::$_localedb[$this->_library])) {
@@ -297,10 +289,6 @@ class midcom_services_i18n_l10n
     /**
      * Set output language.
      *
-     * This will set the character encoding to the language's default
-     * encoding and will also set the system locale to the one
-     * specified in the language database.
-     *
      * This is usually set through midcom_services_i18n.
      *
      * @param string $lang    Language code.
@@ -308,11 +296,6 @@ class midcom_services_i18n_l10n
      */
     public function set_language($lang)
     {
-        if (!array_key_exists($lang, $this->_language_db)) {
-            debug_add("Language {$lang} not found in the language database.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         $this->_language = $lang;
     }
 
@@ -433,15 +416,5 @@ class midcom_services_i18n_l10n
             return [];
         }
         return $this->_stringdb[$language];
-    }
-
-    public function get_language_name($lang)
-    {
-        return $this->_language_db[$lang]['enname'];
-    }
-
-    public function get_languages()
-    {
-        return $this->_language_db;
     }
 }
