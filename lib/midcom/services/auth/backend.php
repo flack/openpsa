@@ -117,7 +117,7 @@ abstract class midcom_services_auth_backend
         if ($timestamp < time() - midcom::get()->config->get('auth_login_session_update_interval')) {
             // Update the timestamp if previous timestamp is older than specified interval
             $this->update_session();
-            $person = $user->get_storage();
+            $person = $user->get_storage()->__object;
             $person->set_parameter('midcom', 'online', time());
         }
         return true;
@@ -172,7 +172,7 @@ abstract class midcom_services_auth_backend
         }
 
         if ($this->create_session($clientip, $user)) {
-            $person = $user->get_storage();
+            $person = $user->get_storage()->__object;
             $person->set_parameter('midcom', 'online', time());
             return $user;
         }
@@ -185,7 +185,7 @@ abstract class midcom_services_auth_backend
     public function logout(midcom_core_user $user)
     {
         if ($person = $user->get_storage()) {
-            $person->delete_parameter('midcom', 'online');
+            $person->__object->delete_parameters(['domain' => 'midcom', 'name' => 'online']);
         }
         $this->delete_session();
         midcom_connection::logout();
