@@ -1,6 +1,7 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');
+$formatter = $l10n->get_formatter();
 
 $status_options = [
     'scheduled' => $l10n->get('scheduled'),
@@ -62,7 +63,7 @@ foreach ($data['invoices'] as $invoice) {
     if ($invoice->{$data['date_field']} > 0) {
         $entry['date'] = strftime('%Y-%m-%d', $invoice->{$data['date_field']});
         $entry['year'] = strftime('%Y', $invoice->{$data['date_field']});
-        $entry['month'] = strftime('%B %Y', $invoice->{$data['date_field']});
+        $entry['month'] = $formatter->customdate($invoice->{$data['date_field']}, 'MMMM y');
         $entry['index_month'] = strftime('%Y%m', $invoice->{$data['date_field']});
     }
     try {

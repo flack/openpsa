@@ -9,7 +9,7 @@ $formatter = $data['l10n']->get_formatter();
 $i = 6;
 while ($time < $data['week_end']) {
     $date_identifier = date('Y-m-d', $time);
-    $data['grid']->set_column($date_identifier, strftime('%a', $time), 'fixed: true, headerTitle: "' . $formatter->date($time) . '" , width: 40, summaryType: calculate_subtotal, align: "right"', 'float');
+    $data['grid']->set_column($date_identifier, $formatter->customdate($time, 'E'), 'fixed: true, headerTitle: "' . $formatter->date($time) . '" , width: 40, summaryType: calculate_subtotal, align: "right"', 'float');
     // Hop to next day
     $date_columns[] = $date_identifier;
     $time = $time + 3600 * 24;

@@ -70,6 +70,13 @@ class midcom_services_i18n_formatter
         return $this->date($value, $dateformat, $timeformat);
     }
 
+    public function customdate($value, $pattern)
+    {
+        $formatter = new IntlDateFormatter($this->get_locale(), IntlDateFormatter::FULL, IntlDateFormatter::FULL);
+        $formatter->setPattern($pattern);
+        return $formatter->format($value);
+    }
+
     public function timeframe($start, $end, $mode = 'both', $range_separator = null, $fulldate = false)
     {
         $ranger = new Ranger($this->get_locale());

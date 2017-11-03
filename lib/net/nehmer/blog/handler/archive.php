@@ -200,9 +200,10 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     private function _get_month_names()
     {
         $names = [];
+        $formatter = $this->_l10n->get_formatter();
         for ($i = 1; $i < 13; $i++) {
             $timestamp = mktime(0, 0, 0, $i, 1, 2011);
-            $names[$i] = strftime('%B', $timestamp);
+            $names[$i] = $formatter->customdate($timestamp, 'MMMM');
         }
         return $names;
     }

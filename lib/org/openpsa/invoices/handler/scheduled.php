@@ -51,7 +51,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $invoice = [
             'time' => strftime('%Y-%m-%d %H:%M:%S', $at_entry->start),
-            'month' => strftime('%B %Y', $at_entry->start),
+            'month' => $this->_l10n->get_formatter()->customdate($at_entry->start, 'MMMM y'),
             'index_month' => strftime('%Y-%m', $at_entry->start),
         ];
         try {
