@@ -20,6 +20,7 @@ class mnrelation extends delayed
         parent::__construct($object, $config);
         $defaults = [
             'sortable' => false,
+            'allow_multiple' => true,
             'mapping_class_name' => null,
             'master_fieldname' => null,
             'member_fieldname' => null,
@@ -62,7 +63,10 @@ class mnrelation extends delayed
         if (!$this->get_master_foreign_key()) {
             return [];
         }
-        return array_keys($this->load_objects());
+        if ($this->config['type_config']['allow_multiple']) {
+            return array_keys($this->load_objects());
+        }
+        return key($this->load_objects());
     }
 
     private function create_relation($member_key)
