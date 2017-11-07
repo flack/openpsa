@@ -484,7 +484,7 @@ class midcom_services_auth
                 $message = sprintf($message, $data);
             }
         }
-
+        debug_print_function_stack("access_denied was called from here:");
         return new midcom_error_forbidden($message);
     }
 
@@ -760,5 +760,10 @@ class midcom_services_auth
     public function show_login_page()
     {
         $this->frontend->show_login_page();
+    }
+
+    public function show_access_denied($message)
+    {
+        $this->frontend->show_access_denied($message);
     }
 }

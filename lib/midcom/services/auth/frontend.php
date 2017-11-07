@@ -38,6 +38,13 @@ interface midcom_services_auth_frontend
     public function show_login_page();
 
     /**
+     * This is called by throw new midcom_error_forbidden(...)
+     *
+     * @param string $message The message to show to the user.
+     */
+    public function show_access_denied($message);
+
+    /**
      * This call should show the authentication form (or whatever means of input
      * you use).
      *

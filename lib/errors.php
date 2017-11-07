@@ -38,86 +38,6 @@ class midcom_exception_handler
         }
     }
 
-    private function _generate_http_response()
-    {
-        if (midcom::get()->config->get('auth_login_form_httpcode') == 200) {
-            _midcom_header('HTTP/1.0 200 OK');
-            return;
-        }
-        _midcom_header('HTTP/1.0 403 Forbidden');
-    }
-
-    /**
-     * This is called by throw new midcom_error_forbidden(...) if and only if
-     * the headers have not yet been sent. It will display the error message and appends the
-     * login form below it.
-     *
-     * The function will clear any existing output buffer, and the sent page will have the
-     * 403 - Forbidden HTTP Status. The login will relocate to the same URL, so it should
-     * be mostly transparent.
-     *
-     * The login message shown depends on the current state:
-     * - If an authentication attempt was done but failed, an appropriated wrong user/password
-     *   message is shown.
-     * - If the user is authenticated, a note that he might have to switch to a user with more
-     *   privileges is shown.
-     * - Otherwise, no message is shown.
-     *
-     * This function will exit() unconditionally.
-     *
-     * If the style element <i>midcom_services_auth_access_denied</i> is defined, it will be shown
-     * instead of the default error page. The following variables will be available in the local
-     * scope:
-     *
-     * $title contains the localized title of the page, based on the 'access denied' string ID of
-     * the main MidCOM L10n DB. $message will contain the notification what went wrong and
-     * $login_warning will notify the user of a failed login. The latter will either be empty
-     * or enclosed in a paragraph with the CSS ID 'login_warning'.
-     *
-     * @param string $message The message to show to the user.
-     */
-    private function access_denied($message)
-    {
-        debug_print_function_stack("access_denied was called from here:");
-
-        // Determine login message
-        $login_warning = '';
-        if (!is_null(midcom::get()->auth->user)) {
-            // The user has insufficient privileges
-            $login_warning = midcom::get()->i18n->get_string('login message - insufficient privileges', 'midcom');
-        } elseif (midcom::get()->auth->auth_credentials_found) {
-            $login_warning = midcom::get()->i18n->get_string('login message - user or password wrong', 'midcom');
-        }
-
-        $title = midcom::get()->i18n->get_string('access denied', 'midcom');
-
-        // Emergency check, if headers have been sent, kill MidCOM instantly, we cannot output
-        // an error page at this point (dynamic_load from site style? Code in Site Style, something
-        // like that)
-        if (_midcom_headers_sent()) {
-            debug_add('Cannot render an access denied page, page output has already started. Aborting directly.', MIDCOM_LOG_INFO);
-            echo "<br />{$title}: {$login_warning}";
-            debug_add("Emergency Error Message output finished, exiting now");
-            midcom::get()->finish();
-        }
-
-        // Drop any output buffer first.
-        midcom::get()->cache->content->disable_ob();
-
-        $this->_generate_http_response();
-
-        midcom::get()->cache->content->no_cache();
-
-        midcom::get()->style->data['midcom_services_auth_access_denied_message'] = $message;
-        midcom::get()->style->data['midcom_services_auth_access_denied_title'] = $title;
-        midcom::get()->style->data['midcom_services_auth_access_denied_login_warning'] = $login_warning;
-
-        midcom::get()->style->show_midcom('midcom_services_auth_access_denied');
-
-        debug_add("Error Page output finished, exiting now");
-        midcom::get()->finish();
-    }
-
     /**
      * Catch an Exception and show it as a HTTP error
      *
@@ -201,11 +121,8 @@ class midcom_exception_handler
                 break;
 
             case MIDCOM_ERRFORBIDDEN:
-                // show access denied
-                $this->access_denied($message);
-
-                $header = "HTTP/1.0 403 Forbidden";
-                $title = "Forbidden";
+                midcom::get()->auth->show_access_denied($message);
+                // this will exit
                 break;
 
             case MIDCOM_ERRAUTH:
