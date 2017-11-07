@@ -226,7 +226,8 @@ class schema
             'end_fieldset' => null,
             'validation' => [],
             'helptext' => null,
-            'write_privilege' => null
+            'write_privilege' => null,
+            'customdata' => []
         ]);
 
         $normalize_widget = function (Options $options, $value) {
