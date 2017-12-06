@@ -62,6 +62,8 @@ class radiocheckselect extends ChoiceType
                 'allow_other' => false,
                 'allow_multiple' => ($options['dm2_type'] == 'mnrelation'),
                 'require_corresponding_option' => true,
+                'multiple_storagemode' => 'serialized',
+                'multiple_separator' => '|'
             ];
             return helper::resolve_options($type_defaults, $value);
         });
