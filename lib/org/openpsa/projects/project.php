@@ -18,8 +18,8 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         'org_openpsa_contacts_role_dba' => 'objectGuid'
     ];
 
-    public $contacts = null; //Shorthand access for contact members
-    public $resources = null; // --''--
+    public $contacts = []; //Shorthand access for contact members
+    public $resources = []; // --''--
 
     /**
      * Map that defines project status changes based on what types of tasks are available
@@ -123,13 +123,6 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     {
         if (!$this->guid) {
             return false;
-        }
-
-        if (!is_array($this->contacts)) {
-            $this->contacts = [];
-        }
-        if (!is_array($this->resources)) {
-            $this->resources = [];
         }
 
         $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);

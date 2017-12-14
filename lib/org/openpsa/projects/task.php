@@ -26,8 +26,8 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         'org_openpsa_projects_task_resource_dba' => 'task',
     ];
 
-    public $contacts = null; //Shorthand access for contact members
-    public $resources = null; // --''--
+    public $contacts = []; //Shorthand access for contact members
+    public $resources = []; // --''--
     public $_skip_acl_refresh = false;
     public $_skip_parent_refresh = false;
     private $_status = null;
@@ -65,8 +65,8 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     public function refresh()
     {
-        $this->contacts = null;
-        $this->resources = null;
+        $this->contacts = [];
+        $this->resources = [];
         $this->_status = null;
         return parent::refresh();
     }
@@ -154,13 +154,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     {
         if (!$this->id) {
             return false;
-        }
-
-        if (!is_array($this->contacts)) {
-            $this->contacts = [];
-        }
-        if (!is_array($this->resources)) {
-            $this->resources = [];
         }
 
         $mc = org_openpsa_projects_task_resource_dba::new_collector('task', $this->id);
