@@ -73,6 +73,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         $this->session->set('userid', $user->id);
         $this->session->set('clientip', $clientip);
         $this->session->set('timestamp', time());
+        midcom::get()->session->migrate();
         return true;
     }
 
