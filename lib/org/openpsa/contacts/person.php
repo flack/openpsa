@@ -76,7 +76,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     public function _on_deleting()
     {
         // FIXME: Call duplicate checker's dependency handling methods
-        return true;
+        return parent::_on_deleting();
     }
 
     public function get_label_property()

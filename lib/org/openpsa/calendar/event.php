@@ -394,7 +394,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         //Remove event parameters
         midcom::get()->auth->drop_sudo();
 
-        return true;
+        return parent::_on_deleting();
     }
 
     /**
