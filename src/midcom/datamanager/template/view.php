@@ -245,7 +245,7 @@ class view extends base
 
     public function choice_widget_collapsed(FormView $view, array $data)
     {
-        if (!empty($data['data'])) {
+        if (isset($data['data'])) {
             foreach ($data['choices'] as $choice) {
                 if ($data['is_selected']($choice->value, (string) $data['data'])) {
                     return $this->renderer->humanize($choice->label);
