@@ -10,6 +10,20 @@ class view extends base
 {
     private $skip_empty = false;
 
+    /**
+     * Define the quotes behavior when htmlspecialchars() is called
+     *
+     * @see http://www.php.net/htmlspecialchars
+     */
+    private $specialchars_quotes = ENT_QUOTES;
+
+    /**
+     * Define the charset to use when htmlspecialchars() is called
+     *
+     * @see http://www.php.net/htmlspecialchars
+     */
+    private $specialchars_charset = 'UTF-8';
+
     public function __construct($renderer, $skip_empty = false)
     {
         parent::__construct($renderer);
