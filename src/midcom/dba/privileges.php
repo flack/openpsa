@@ -8,7 +8,6 @@
 
 namespace midcom\dba;
 
-use midgard_query_builder;
 use midcom;
 use midcom_error;
 use midcom_core_privilege;

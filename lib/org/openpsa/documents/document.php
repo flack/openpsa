@@ -162,8 +162,6 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
                 $subtype = preg_replace('/^x-/', '', $subtype);
 
                 break;
-            default:
-                break;
         }
 
         /*

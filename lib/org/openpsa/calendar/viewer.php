@@ -50,17 +50,13 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
     {
         midcom::get()->auth->require_valid_user();
         $selected_time = time();
-        switch ($this->_config->get('start_view')) {
-            case 'day':
-                return new midcom_response_relocate('agendaDay/' . date('Y-m-d', $selected_time) . '/');
-
-            case 'month':
-                return new midcom_response_relocate('month/' . date('Y-m-d', $selected_time) . '/');
-
-            default:
-            case 'week':
-                return new midcom_response_relocate('agendaWeek/' . date('Y-m-d', $selected_time) . '/');
+        $view = $this->_config->get('start_view');
+        if ($view == 'day') {
+            $view = 'agendaDay';
+        } elseif ($view != 'month') {
+            $view = 'agendaWeek';
         }
+        return new midcom_response_relocate($view . '/' . date('Y-m-d', $selected_time) . '/');
     }
 
     /**
