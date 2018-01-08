@@ -285,7 +285,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         // Allow setting defaults from query string, useful for things like "create event for today" and chooser
         if (   isset($_GET['defaults'])
             && is_array($_GET['defaults'])) {
-            $get_defaults = array_intersect_key($_GET['defaults'], $this->schemadb->get('object')->get_fields());
+            $get_defaults = array_intersect_key($_GET['defaults'], $this->schemadb->get('object')->get('fields'));
             $defaults = array_merge($defaults, array_map('trim', $get_defaults));
         }
         return $defaults;
