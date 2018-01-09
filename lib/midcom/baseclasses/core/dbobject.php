@@ -7,6 +7,7 @@
  */
 
 use midcom\events\dbaevent;
+use midgard\portable\api\mgdobject;
 
 /**
  * This class only contains static functions which are there to hook into
@@ -438,47 +439,29 @@ class midcom_baseclasses_core_dbobject
         }
     }
 
-   /**
-    * Get objects, deleted or not
-    *
-    * @param array $guids GUID of the object
-    * @param string $type MgdSchema type
-    * @return midgard_object[] MgdSchema object
-    */
-    private static function get_objects(array $guids, $type)
-    {
-        $qb = new midgard_query_builder($type);
-        $qb->add_constraint('guid', 'IN', $guids);
-        // We know we want/need only one result
-        $qb->set_limit(1);
-        $qb->include_deleted();
-        return $qb->execute();
-    }
-
     /**
      * Undelete objects
      *
      * @param array $guids
-     * @param string $type
      * @return integer Size of undeleted objects
      * @todo We should only undelete parameters & attachments deleted inside some small window of the main objects delete
      */
-    public static function undelete($guids, $type)
+    public static function undelete($guids)
     {
         $undeleted_size = 0;
 
-        foreach (self::get_objects((array) $guids, $type) as $object) {
-            if ($object->undelete($guid)) {
-                // refresh
-                $object = midcom::get()->dbfactory->get_object_by_guid($guid);
-                $undeleted_size += $object->metadata->size;
-                $parent = $object->get_parent();
-                if (!empty($parent->guid)) {
-                    // Invalidate parent from cache so content caches have chance to react
-                    midcom::get()->cache->invalidate($parent->guid);
-                }
-            } else {
+        foreach ((array) $guids as $guid) {
+            if (!mgdobject::undelete($guid)) {
                 debug_add("Failed to undelete object with GUID {$guid} errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                continue;
+            }
+            // refresh
+            $object = midcom::get()->dbfactory->get_object_by_guid($guid);
+            $undeleted_size += $object->metadata->size;
+            $parent = $object->get_parent();
+            if (!empty($parent->guid)) {
+                // Invalidate parent from cache so content caches have chance to react
+                midcom::get()->cache->invalidate($parent->guid);
             }
 
             // FIXME: We should only undelete parameters & attachments deleted inside some small window of the main objects delete
@@ -493,12 +476,12 @@ class midcom_baseclasses_core_dbobject
                 continue;
             }
 
-            foreach ($children_types as $type => $children) {
+            foreach ($children_types as $children) {
                 $child_guids = [];
                 foreach ($children as $child) {
                     $child_guids[] = $child->guid;
                 }
-                $undeleted_size += self::undelete($child_guids, $type);
+                $undeleted_size += self::undelete($child_guids);
             }
         }
 
@@ -567,8 +550,11 @@ class midcom_baseclasses_core_dbobject
     public static function purge(array $guids, $type)
     {
         $purged_size = 0;
+        $qb = new midgard_query_builder($type);
+        $qb->add_constraint('guid', 'IN', $guids);
+        $qb->include_deleted();
 
-        foreach (self::get_objects($guids, $type) as $object) {
+        foreach ($qb->execute() as $object) {
             // first kill your children
             $children_types = midcom_helper_reflector_tree::get_child_objects($object, true);
 

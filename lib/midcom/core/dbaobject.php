@@ -238,7 +238,7 @@ abstract class midcom_core_dbaobject
      */
     public static function undelete($guid)
     {
-        return midcom_baseclasses_core_dbobject::undelete([$guid], get_called_class());
+        return midcom_baseclasses_core_dbobject::undelete([$guid]);
     }
 
     /**

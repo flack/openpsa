@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\portable\api\mgdobject;
+
 /**
  * Undelete/purge interface
  *
@@ -146,22 +148,10 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
     private function _undelete()
     {
-        if (!$this->_request_data['midcom_dba_classname']) {
-            // No DBA class for the type, use plain Midgard undelete API
-            foreach ($_POST['undelete'] as $guid) {
-                $qb = new midgard_query_builder($this->type);
-                $qb->add_constraint('guid', '=', $guid);
-                $qb->include_deleted();
-                foreach ($qb->execute() as $object) {
-                    $object->undelete();
-                }
-            }
-        } else {
-            // Delegate undeletion to DBA
-            $undeleted_size = midcom_baseclasses_core_dbobject::undelete($_POST['undelete'], $this->type);
-            if ($undeleted_size > 0) {
-                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s undeleted'), midcom_helper_misc::filesize_to_string($undeleted_size)), 'info');
-            }
+        // Delegate undeletion to DBA
+        $undeleted_size = midcom_baseclasses_core_dbobject::undelete($_POST['undelete']);
+        if ($undeleted_size > 0) {
+            midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s undeleted'), midcom_helper_misc::filesize_to_string($undeleted_size)), 'info');
         }
     }
 
