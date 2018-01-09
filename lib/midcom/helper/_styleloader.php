@@ -701,26 +701,4 @@ class midcom_helper__styleloader
 
         $this->_snippetdir = $this->_get_component_snippetdir();
     }
-
-    /**
-     * Include all text/css attachments of current style to MidCOM headers
-     */
-    function add_database_head_elements()
-    {
-        static $called = false;
-        if ($called) {
-            return;
-        }
-        $style = $this->get_style();
-        $mc = midcom_db_attachment::new_collector('parentguid', $style->guid);
-        $mc->add_constraint('mimetype', '=', 'text/css');
-        $attachments = $mc->get_values('name');
-
-        foreach ($attachments as $guid => $filename) {
-            // TODO: Support media types
-            midcom::get()->head->add_stylesheet(midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$guid}/{$filename}");
-        }
-
-        $called = true;
-    }
 }
