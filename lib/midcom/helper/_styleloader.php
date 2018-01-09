@@ -563,7 +563,7 @@ class midcom_helper__styleloader
     /**
      * Append the styledir of a component to the queue of styledirs.
      *
-     * @param string componentname
+     * @param string $component Component name
      * @throws midcom exception if directory does not exist.
      */
     function append_component_styledir($component)
@@ -634,7 +634,7 @@ class midcom_helper__styleloader
      * enter_context function is called.
      * You cannot change the style call stack after that (unless you call enter_context again of course).
      *
-     * @param string component style
+     * @param string $component_style
      */
     private function _merge_styledirs($component_style)
     {
