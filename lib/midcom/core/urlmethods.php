@@ -170,7 +170,7 @@ class midcom_core_urlmethods
         $redirect_to = '';
         if (   !empty($value)
             || !empty($this->_context->parser->argv)) {
-            $redirect_to = "{$value}/" . implode($this->_context->parser->argv, '/');
+            $redirect_to = "{$value}/" . implode('/', $this->_context->parser->argv);
             $redirect_to = preg_replace('%^(.*?):/([^/])%', '\\1://\\2', $redirect_to);
         }
 
