@@ -112,7 +112,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 
             if (   $this->_config->get('ratings_enable')
                 && $this->_schemadb->get('comment')->has_field('rating')) {
-                $field =& $this->_schemadb->get('comment')->get_field();
+                $field =& $this->_schemadb->get('comment')->get_field('rating');
                 $field['hidden'] = false;
             }
         }

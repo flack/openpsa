@@ -83,7 +83,7 @@ class org_openpsa_core_queryfilter
                 && !$user->delete_parameter("org_openpsa_core_filter", $filter_id)) {
                 $message_content = sprintf(
                     $l10n->get('the handed filter for %s could not be set as parameter'),
-                    $l10n->get_string($filtername)
+                    $l10n->get($filtername)
                 );
                 midcom::get()->uimessages->add($l10n->get('filter error'), $message_content, 'error');
             }
