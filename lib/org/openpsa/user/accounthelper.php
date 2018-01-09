@@ -215,7 +215,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     /**
      * Function to check if passed password was already used
      *
-     * @param string password to check
+     * @param string $password Password to check
      * @return bool returns if password was already used - true indicates passed password wasn't used
      */
     function check_password_reuse($password)

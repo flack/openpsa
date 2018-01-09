@@ -304,8 +304,8 @@ class midcom_helper_misc
      * Returns the first instance of a given component on the site.
      *
      * @param string $component The component name
-     * @param integer Node ID of parent topic
-     * @param midcom_helper_nav $nap $use_cache Should the in-memory cache be used
+     * @param integer $node_id Node ID of parent topic
+     * @param midcom_helper_nav $nap
      * @return array NAP array of the first component instance found
      */
     public static function find_node_by_component($component, $node_id = null, midcom_helper_nav $nap = null)

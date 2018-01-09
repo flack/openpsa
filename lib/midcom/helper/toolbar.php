@@ -312,8 +312,8 @@ class midcom_helper_toolbar
      * Add an item to another item by either adding the item to the MIDCOM_TOOLBAR_SUBMENU
      * or creating a new subtoolbar and adding the item there.
      *
-     * @param array item
-     * @param int toolbar itemindex.
+     * @param array $item
+     * @param int $index toolbar item index.
      * @return boolean false if insert failed.
      */
     public function add_item_to_index($item, $index)
@@ -337,7 +337,7 @@ class midcom_helper_toolbar
      * Clean up an item that is added, making sure that the item has all the
      * needed options and indexes.
      *
-     * @param array the item to be cleaned
+     * @param array $item the item to be cleaned
      * @return array the cleaned item.
      */
     public function clean_item($item)

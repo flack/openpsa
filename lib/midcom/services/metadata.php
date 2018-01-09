@@ -142,7 +142,7 @@ class midcom_services_metadata
      * - hidden: object is hidden via metadata settings or scheduling
      *
      * @param midcom_core_dbaobject $object The DBA class instance to get CSS classes for
-     * @param string Existing CSS classes to append to
+     * @param string $existing_classes Existing CSS classes to append to
      * @return string CSS classes for that object
      */
     public function get_object_classes($object, $existing_classes = null)

@@ -71,8 +71,8 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * Should be called just before $object->update(), if the type parameter is omitted
      * the function will use GUID to determine the type, this makes an extra DB query.
      *
-     * @param string root of rcs directory.
-     * @param object object to be updated.
+     * @param object $object to be updated.
+     * @param string $message
      * @return int :
      *      0 on success
      *      3 on missing object->guid
@@ -108,7 +108,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
    /**
     * Get the object of a revision
     *
-    * @param string revision identifier of revision wanted
+    * @param string $revision identifier of revision wanted
     * @return array array representation of the object
     */
     public function get_revision($revision)
@@ -136,7 +136,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     /**
      * Check if a revision exists
      *
-     * @param string  version
+     * @param string $version
      * @return boolean true if exists
      */
     public function version_exists($version)
@@ -148,7 +148,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     /**
      * Get the previous versionID
      *
-     * @param string version
+     * @param string $version
      * @return string versionid before this one or empty string.
      */
     public function get_prev_version($version)
@@ -176,7 +176,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     /**
      * Get the next versionID
      *
-     * @param string version
+     * @param string $version
      * @return string versionid before this one or empty string.
      */
     public function get_next_version($version)
@@ -275,7 +275,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     /**
      * Get a list of the object's history
      *
-     * @param string objectid (usually the guid)
+     * @param string $what objectid (usually the guid)
      * @return array list of revisions and revision comment.
      */
     private function rcs_gethistory($what)
@@ -343,7 +343,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     /**
      * Reads data from file $guid and returns it.
      *
-     * @param string guid
+     * @param string $guid
      * @return string xml representation of guid
      */
     private function rcs_readfile($guid)
@@ -431,8 +431,8 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     /**
      * Get a html diff between two versions.
      *
-     * @param string latest_revision id of the latest revision
-     * @param string oldest_revision id of the oldest revision
+     * @param string $oldest_revision id of the oldest revision
+     * @param string $latest_revision id of the latest revision
      * @return array array with the original value, the new value and a diff -u
      */
     public function get_diff($oldest_revision, $latest_revision, $renderer_style = 'inline')
@@ -492,7 +492,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     /**
      * Get the comment of one revision.
      *
-     * @param string revison id
+     * @param string $revision id
      * @return string comment
      */
     public function get_comment($revision)
@@ -504,7 +504,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     /**
      * Restore an object to a certain revision.
      *
-     * @param string id of revision to restore object to.
+     * @param string $revision of revision to restore object to.
      * @return boolean true on success.
      */
     public function restore_to_revision($revision)

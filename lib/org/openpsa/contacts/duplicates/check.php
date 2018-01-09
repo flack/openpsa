@@ -104,8 +104,8 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Calculates P for the given two persons being duplicates
      *
-     * @param array person1
-     * @param array person2
+     * @param array $person1
+     * @param array $person2
      * @return array with overall P and matched checks
      */
     function p_duplicate_person(array $person1, array $person2)
@@ -259,8 +259,8 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Calculates P for the given two persons being duplicates
      *
-     * @param array group1
-     * @param array group2
+     * @param array $group1
+     * @param array $group2
      * @return array with overall P and matched checks
      */
     function p_duplicate_group(array $group1, array $group2)

@@ -177,7 +177,7 @@ class midcom_helper_imagefilter
      *
      * @todo Use ImageMagick Identify to check for a valid image.
      *
-     * @param string filename The file to be edited.
+     * @param string $filename The file to be edited.
      * @return boolean true, if the file is valid, false otherwise.
      */
     public function set_file($filename)
@@ -217,7 +217,7 @@ class midcom_helper_imagefilter
      *
      * Processing stops as soon as one filter command fails.
      *
-     * @param string chain The filter chain to be processed (filter1();filter2();...)
+     * @param string $chain The filter chain to be processed (filter1();filter2();...)
      */
     public function process_chain($chain)
     {
@@ -238,7 +238,7 @@ class midcom_helper_imagefilter
      * All filters will use defaults for missing arguments (which can
      * result in a null operation) and will ignore excessive arguments.
      *
-     * @param string cmd The command to be executed.
+     * @param string $cmd The command to be executed.
      */
     function process_command($cmd)
     {
