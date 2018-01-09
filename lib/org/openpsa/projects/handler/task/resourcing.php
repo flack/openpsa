@@ -134,7 +134,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $qb->begin_group('OR');
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::PROSPECT);
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::RESOURCE);
-        $qb->end_group('OR');
+        $qb->end_group();
         $qb->add_order('orgOpenpsaObtype');
         $data['prospects'] = $qb->execute();
 

@@ -85,7 +85,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
                     $qb->add_constraint($field, 'LIKE', "{$_REQUEST['midgard_admin_user_search']}%");
                 }
             }
-            $qb->end_group('OR');
+            $qb->end_group();
 
             $this->_persons = $qb->execute();
         }

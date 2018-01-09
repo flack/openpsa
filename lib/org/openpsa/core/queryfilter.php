@@ -116,7 +116,7 @@ class org_openpsa_core_queryfilter
 
         foreach ($this->_filters as $filter) {
             echo '<div class="org_openpsa_filter_widget" id="' . $this->_identifier . '_' . $filter->name . '">';
-            $filter->render($url);
+            $filter->render();
             echo "</div>\n";
         }
         echo "\n</form>\n";
