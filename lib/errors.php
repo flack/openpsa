@@ -244,7 +244,7 @@ class midcom_exception_handler
         } elseif (function_exists('xdebug_get_function_stack')) {
             $stack = xdebug_get_function_stack();
         } else {
-            $stack = array_reverse(debug_backtrace(false));
+            $stack = array_reverse(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
         }
 
         $stacktrace = [];
