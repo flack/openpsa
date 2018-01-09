@@ -266,7 +266,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             }
 
             if (self::generate_file_path('handlers_' . $request_handler_id, $component)) {
-                $data[$request_handler_id]['info'] = self::get_help_contents('handlers_' . $request_handler_id, $component);
+                $data[$request_handler_id]['info'] = $this->get_help_contents('handlers_' . $request_handler_id, $component);
                 $data[$request_handler_id]['handler_help_url'] = 'handlers_' . $request_handler_id;
             }
         }
@@ -292,7 +292,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $info_id = "urlmethod_" . str_replace('.php', '', $file);
 
             $data[$file]['url'] = '/midcom-exec-' . $component . '/' . $file;
-            $data[$file]['description'] = self::get_help_contents($info_id, $component);
+            $data[$file]['description'] = $this->get_help_contents($info_id, $component);
 
             if (self::generate_file_path($info_id, $component)) {
                 $data[$file]['handler_help_url'] = $info_id;
