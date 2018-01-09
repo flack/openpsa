@@ -93,7 +93,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
                     // ->source will always contain the document GUID
                     $data['document'] = new org_openpsa_documents_document_dba($document->source);
                     $this->datamanager->set_storage($data['document']);
-                } catch (Exception $e) {
+                } catch (midcom_error $e) {
                     $e->log();
                     continue;
                 }
