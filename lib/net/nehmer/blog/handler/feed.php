@@ -92,7 +92,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         $this->_feed->language = $this->_config->get('rss_language');
         $this->_feed->editor = $this->_config->get('rss_webmaster');
         $this->_feed->link = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $this->_feed->cssStyleSheet = false;
 
         switch ($handler_id) {
             case 'feed-rss2':

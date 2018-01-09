@@ -142,7 +142,6 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         $data['rss_creator']->title = $this->_topic->extra;
         $data['rss_creator']->link = $prefix;
         $data['rss_creator']->syndicationURL = "{$prefix}rss.xml";
-        $data['rss_creator']->cssStyleSheet = false;
 
         if (count($data['products']) > 0) {
             foreach ($data['products'] as $product) {

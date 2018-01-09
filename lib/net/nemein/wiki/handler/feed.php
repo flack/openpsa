@@ -30,7 +30,6 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
         $data['rss_creator']->title = $data['node'][MIDCOM_NAV_NAME];
         $data['rss_creator']->link = $data['node'][MIDCOM_NAV_FULLURL];
         $data['rss_creator']->syndicationURL = "{$data['node'][MIDCOM_NAV_FULLURL]}rss.xml";
-        $data['rss_creator']->cssStyleSheet = false;
     }
 
     /**
