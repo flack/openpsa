@@ -152,7 +152,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
                 $filename = "{$article->name}/{$attachment->name}";
                 $view[$filename] = $this->_get_attachment_data($filename, $attachment);
             } elseif ($value instanceof storage\blobs) {
-                foreach ($content[$field] as $data) {
+                foreach ($content[$field] as $attachment) {
                     $filename = "{$article->name}/{$attachment->name}";
                     $view[$filename] = $this->_get_attachment_data($filename, $attachment);
                 }
