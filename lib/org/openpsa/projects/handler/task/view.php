@@ -88,7 +88,7 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
                     'org_openpsa_projects_workflow_action_redirect' => "task/{$this->task->guid}/"
                 ],
             ];
-        } elseif ($this->task->status_type == 'ongoing') {
+        } elseif ($this->task->status < org_openpsa_projects_task_status_dba::COMPLETED) {
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "workflow/{$this->task->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark completed'),
@@ -112,7 +112,6 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
                     ];
                 }
-
             } catch (midcom_error $e) {
             }
         }
