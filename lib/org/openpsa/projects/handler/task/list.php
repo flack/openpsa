@@ -353,6 +353,7 @@ implements org_openpsa_widgets_grid_provider_client
             case 'open':
                 $this->set_active_leaf($this->_topic->id . ':tasks_open');
                 $this->_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
+                $this->_qb->add_constraint('status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
                 $this->_provider->add_order('end');
                 break;
             case 'closed':
