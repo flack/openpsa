@@ -84,8 +84,6 @@ class midcom_services_dbclassloader
         $component = '';
         // Fix for incorrectly named classes
         $component_map = [
-            'midcom.db' => 'midcom',
-            'midcom.core' => 'midcom',
             'midgard' => 'midcom',
             'org.openpsa.campaign' => 'org.openpsa.directmarketing',
             'org.openpsa.link' => 'org.openpsa.directmarketing',
@@ -105,12 +103,8 @@ class midcom_services_dbclassloader
             'org.openpsa.hour' => 'org.openpsa.projects'
         ];
 
-        foreach ($class_parts as $part) {
-            if ($component == '') {
-                $component = $part;
-            } else {
-                $component .= ".{$part}";
-            }
+        while (count($class_parts) > 0) {
+            $component = implode('.', $class_parts);
             if (array_key_exists($component, $component_map)) {
                 $component = $component_map[$component];
             }
@@ -118,7 +112,9 @@ class midcom_services_dbclassloader
             if (midcom::get()->componentloader->is_installed($component)) {
                 return $component;
             }
+            array_pop($class_parts);
         }
+
         return false;
     }
 
