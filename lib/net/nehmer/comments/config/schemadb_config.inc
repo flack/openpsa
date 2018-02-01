@@ -45,7 +45,7 @@
                 ),
             ),
             'widget' => 'select',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'ratings',
             )
@@ -106,7 +106,7 @@
                 ),
             ),
             'widget' => 'select',
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
 
         'comment_count_cache_to_object' => array
