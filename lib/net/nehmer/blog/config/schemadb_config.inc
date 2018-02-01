@@ -240,7 +240,7 @@
                 'type' => 'select',
                 'type_config' => array
                 (
-                    'options' => midcom_baseclasses_components_configuration::get('net.nehmer.blog', 'config')->get('schemadbs'),
+                    'options' => array_merge(['' => 'default setting'], midcom_baseclasses_components_configuration::get('net.nehmer.blog', 'config')->get('schemadbs')),
                 ),
                 'widget' => 'select',
                 'start_fieldset' => array
