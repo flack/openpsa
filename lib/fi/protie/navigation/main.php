@@ -133,46 +133,11 @@ class fi_protie_navigation
     public $css_list_style = 'fi_protie_navigation';
 
     /**
-     * Add URL name to list item class name
-     *
-     * @var boolean
-     */
-    public $url_name_to_class = false;
-
-    /**
      * Add component name to list item ul class name
      *
      * @var boolean
      */
     public $component_name_to_class = false;
-
-    /**
-     * Add first and last-class names to list item ul class name
-     *
-     * @var boolean
-     */
-    public $first_and_last_to_class = false;
-
-    /**
-     * CSS class for first
-     *
-     * @var string
-     */
-    public $css_first = 'first';
-
-    /**
-     * CSS class for last
-     *
-     * @var string
-     */
-    public $css_last = 'last';
-
-    /**
-     * CSS class for first and last together
-     *
-     * @var string
-     */
-    public $css_first_last = 'first_last';
 
     /**
      * Check if item has children and if so, add children-class to list item ul class name
@@ -356,21 +321,6 @@ class fi_protie_navigation
             if ($item[MIDCOM_NAV_ID] === $this->_nap->get_current_leaf()) {
                 $classes[] = $this->css_active;
                 $classes[] = $this->css_selected;
-            }
-        }
-
-        // Check if the URL name is supposed to be drawn
-        if ($this->url_name_to_class) {
-            $classes[] = str_replace('/', '', $item[MIDCOM_NAV_URL]);
-        }
-
-        if ($this->first_and_last_to_class) {
-            if ($item_count == 1) {
-                $classes[] = $this->css_first_last;
-            } elseif ($item_counter == 1) {
-                $classes[] = $this->css_first;
-            } elseif ($item_counter == $item_count) {
-                $classes[] = $this->css_last;
             }
         }
 
