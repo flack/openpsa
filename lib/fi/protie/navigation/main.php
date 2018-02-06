@@ -105,13 +105,6 @@ class fi_protie_navigation
     public $show_only_current = false;
 
     /**
-     * Should the CSS class be in the link as well
-     *
-     * @var boolean
-     */
-    public $class_to_link = false;
-
-    /**
      * Restrict the amount of levels listed.
      *
      * @var integer
@@ -181,6 +174,13 @@ class fi_protie_navigation
      * @var string
      */
     public $css_active = 'active';
+
+    /**
+     * CSS class for links
+     *
+     * @var string
+     */
+    public $css_link = 'link';
 
     /**
      * Here we initialize the classes and variables needed through the class.
@@ -346,7 +346,7 @@ class fi_protie_navigation
     {
         // Finalize the class naming
         $class = ($css_classes !== '') ? ' class="' . $css_classes . '"' : '';
-        $link_class = ($this->class_to_link) ? $class : '';
+        $link_class = ($this->css_link) ? ' class="' . $this->css_link . '"' : '';
 
         echo "<li{$class}>";
         echo "<a href=\"{$item[MIDCOM_NAV_ABSOLUTEURL]}\"{$link_class}>{$item[MIDCOM_NAV_NAME]}</a>";
