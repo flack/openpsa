@@ -140,7 +140,7 @@ class fi_protie_navigation
     public $component_name_to_class = false;
 
     /**
-     * Check if item has children and if so, add children-class to list item ul class name
+     * Check if item has children and if so, add node/leaf class to list item
      *
      * @var boolean
      */
@@ -153,13 +153,6 @@ class fi_protie_navigation
      * @var boolean
      */
     public $object_status_to_class = false;
-
-    /**
-     * CSS class for has children
-     *
-     * @var string
-     */
-    public $css_has_children = 'children';
 
     /**
      * CSS class for nodes
@@ -327,11 +320,15 @@ class fi_protie_navigation
         if ($this->has_children_to_class) {
             if (!$this->list_leaves) {
                 $children = $this->_nap->list_nodes($child[MIDCOM_NAV_ID]);
-            } else {
+            } elseif ($child[MIDCOM_NAV_TYPE] == 'node') {
                 $children = $this->_nap->list_child_elements($child[MIDCOM_NAV_ID]);
+            } else {
+                $children = false;
             }
             if (!empty($children)) {
-                $classes[] = $this->css_has_children;
+                $classes[] = $this->css_node;
+            } else {
+                $classes[] = $this->css_leaf;
             }
         }
 
