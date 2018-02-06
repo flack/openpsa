@@ -4,7 +4,7 @@
     "description": "Content-oriented Model-View-Controller framework for PHP",
     "keywords": ["mvc", "midgard", "framework"],
     "homepage": "http://midgard-project.org/midcom/",
-    "license": "LGPL",
+    "license": "LGPL-2.1-or-later",
     "authors": [
         {
             "name": "Andreas Flack",
