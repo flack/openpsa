@@ -35,7 +35,7 @@ if (   $data['product']
 
             foreach ($at_entries as $entry) {
                 echo "        <tr>\n";
-                echo "            <td>" . strftime('%x %X', $entry->start) . "</td>\n";
+                echo "            <td>" . $formatter->datetime($entry->start) . "</td>\n";
 
                 echo "            <td>";
                 switch ($entry->status) {
