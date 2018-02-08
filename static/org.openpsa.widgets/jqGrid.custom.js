@@ -22,7 +22,6 @@ $.jgrid.defaults = $.extend($.jgrid.defaults, org_openpsa_jqgrid_presets);
 
 var org_openpsa_grid_resize = {
     timer: false,
-    col_resize: false,
     containment: '#content-text',
     firstrun: true,
     add_header_controls: function() {
@@ -33,27 +32,10 @@ var org_openpsa_grid_resize = {
 
         org_openpsa_grid_resize.attach_maximizer($('.ui-jqgrid-titlebar'));
     },
-    /**
-     * Workaorund for a problem in IE8 standards mode, where mousedown on the column
-     * resizer triggers three window.resize events for whatever reason...
-     */
-    ie8_workaround: function() {
-        $('table.ui-jqgrid-htable .ui-jqgrid-resize').on('mousedown', function() {
-            org_openpsa_grid_resize.col_resize = true;
-        });
-        $('table.ui-jqgrid-btable').jqGrid('setGridParam', {resizeStop: function() {
-            org_openpsa_grid_resize.col_resize = false;
-        }});
-    },
     event_handler: function(resizing) {
-        if (org_openpsa_grid_resize.col_resize) {
-            return;
-        }
-
         if (org_openpsa_grid_resize.firstrun) {
             org_openpsa_grid_resize.firstrun = false;
             org_openpsa_grid_resize.add_header_controls();
-            org_openpsa_grid_resize.ie8_workaround();
         }
 
         if (resizing) {
