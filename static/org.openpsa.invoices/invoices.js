@@ -1,40 +1,31 @@
 /* function to parse the input and exchanges , with .
 */
-function parse_input(string)
-{
+function parse_input(string) {
     return parseFloat(string.replace(',' , '.'));
 }
 
-function format_number(input)
-{
-    if ($.fn.fmatter)
-    {
+function format_number(input) {
+    if ($.fn.fmatter) {
         return $.fn.fmatter.number(input, $.jgrid.locales[$.jgrid.defaults.locale].formatter);
     }
     return input.toFixed(2);
 }
 
-function calculate_row(id)
-{
+function calculate_row(id) {
     var price_unit = parse_input($("#price_per_unit_" + id).val()),
-    units = parse_input($("#units_" + id).val()),
-    sum = 0;
+        units = parse_input($("#units_" + id).val()),
+        sum = 0;
     //check if they are numbers
-    if (   !isNaN(price_unit)
-        && !isNaN(units))
-    {
+    if (!isNaN(price_unit) && !isNaN(units)) {
         sum = price_unit * units;
     }
     $('#row_sum_' + id).html(format_number(sum));
 }
 
-function calculate_total(table)
-{
+function calculate_total(table) {
     var total = 0;
-    table.find('tbody tr').each(function()
-    {
-        if ($(this).find('input[type="checkbox"]').is(':checked'))
-        {
+    table.find('tbody tr').each(function() {
+        if ($(this).find('input[type="checkbox"]').is(':checked')) {
             total += parse_input($(this).find('.units').val()) * parse_input($(this).find('.price_per_unit').val());
         }
     });
@@ -42,17 +33,14 @@ function calculate_total(table)
     table.find('tfoot .totals').text(format_number(total));
 }
 
-function calculate_invoices_total(table)
-{
+function calculate_invoices_total(table) {
     var total = 0,
-    row_sum,
-    totals_field = table.closest('.ui-jqgrid-view').find('.ui-jqgrid-ftable .sum');
+        row_sum,
+        totals_field = table.closest('.ui-jqgrid-view').find('.ui-jqgrid-ftable .sum');
 
-    table.find('tbody tr').not('.jqgfirstrow').each(function()
-    {
+    table.find('tbody tr').not('.jqgfirstrow').each(function() {
         row_sum = parseFloat($(this).find('.sum').prev().text());
-        if (isNaN(row_sum))
-        {
+        if (isNaN(row_sum)) {
             return;
         }
 
@@ -62,8 +50,7 @@ function calculate_invoices_total(table)
     totals_field.text(format_number(total));
 }
 
-function process_invoice(button, action, invoice_url)
-{
+function process_invoice(button, action, invoice_url) {
     var id = button.parent().parent().attr('id');
     $.post(invoice_url + 'invoice/action/' + action + '/', {id: id}, function(data) {
         if (data.success === false) {
@@ -71,8 +58,8 @@ function process_invoice(button, action, invoice_url)
             return;
         }
         var old_grid = button.closest('.ui-jqgrid-btable'),
-        row_data = old_grid.getRowData(id),
-        new_grid = jQuery('#' + data.new_status + '_invoices_grid');
+            row_data = old_grid.getRowData(id),
+            new_grid = jQuery('#' + data.new_status + '_invoices_grid');
 
         old_grid.delRowData(id);
         calculate_invoices_total(old_grid);
@@ -113,68 +100,52 @@ function bind_invoice_actions(classes, invoice_url)
     classes = classes.replace(/ /g, '.');
 
     $('.org_openpsa_invoices.' + classes + ' .ui-jqgrid-btable')
-        .delegate('button.mark_sent', 'click', function()
-        {
+        .delegate('button.mark_sent', 'click', function() {
             process_invoice($(this), 'mark_sent', invoice_url);
         })
-        .delegate('button.send_by_mail', 'click', function()
-        {
+        .delegate('button.send_by_mail', 'click', function() {
             process_invoice($(this), 'send_by_mail', invoice_url);
         })
-        .delegate('button.mark_paid', 'click', function()
-        {
+        .delegate('button.mark_paid', 'click', function() {
             process_invoice($(this), 'mark_paid', invoice_url);
         });
 }
 
-function hide_invoice_address()
-{
-    if ($('#org_openpsa_invoices_use_contact_address').is(':checked'))
-    {
+function hide_invoice_address() {
+    if ($('#org_openpsa_invoices_use_contact_address').is(':checked')) {
         $(".invoice_adress").hide();
-    }
-    else
-    {
+    } else {
         $(".invoice_adress").show();
     }
 }
 
-$(document).ready(function()
-{
-    if ($('#org_openpsa_invoices_use_contact_address').length > 0)
-    {
+$(document).ready(function() {
+    if ($('#org_openpsa_invoices_use_contact_address').length > 0) {
         hide_invoice_address();
-        $('#org_openpsa_invoices_use_contact_address').change(function()
-        {
+        $('#org_openpsa_invoices_use_contact_address').change(function() {
             hide_invoice_address();
         });
     }
 
     $('.projects table')
-        .delegate('input[type="text"]', 'change', function()
-        {
+        .delegate('input[type="text"]', 'change', function() {
             var task_id = $(this).closest('tr').attr('id').replace('task_', '');
             calculate_row(task_id);
             calculate_total($(this).closest('table'));
         })
-        .delegate('input[type="checkbox"]', 'change', function()
-        {
+        .delegate('input[type="checkbox"]', 'change', function() {
             calculate_total($(this).closest('table'));
         })
-        .each(function()
-        {
+        .each(function() {
             calculate_total($(this));
         })
-        .parent().on('submit', function()
-        {
-            $(this).find('.numeric input').each(function()
-            {
+        .parent().on('submit', function() {
+            $(this).find('.numeric input').each(function() {
                 $(this).val(parse_input($(this).val()));
             });
         });
 
-    $('#add-journal-entry').on('click', function()
-    {
+    $('#add-journal-entry').on('click', function() {
         var button = $(this),
             dialog,
             options = {
@@ -200,19 +171,16 @@ $(document).ready(function()
             .appendTo($('body'))
             .dialog(options);
 
-        form.on('submit', function(e)
-        {
+        form.on('submit', function(e) {
             e.preventDefault();
-            $.post(form.attr('action'),
-                   {
-                       linkGuid: button.data('guid'),
-                       title: text.val()
-                   },
-                   function ()
-                   {
-                       dialog.dialog("close");
-                       window.location.reload();
-                   });
+            $.post(form.attr('action'), {
+                linkGuid: button.data('guid'),
+                title: text.val()
+            },
+            function () {
+                dialog.dialog("close");
+                window.location.reload();
+            });
         });
     });
 });

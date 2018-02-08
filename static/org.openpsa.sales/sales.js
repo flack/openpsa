@@ -11,7 +11,7 @@
         },
         _createAutocomplete: function() {
             var selected = this.element.children( ":selected" ),
-            value = selected.val() ? selected.text() : "";
+                value = selected.val() ? selected.text() : "";
             this.input = $( "<input>" )
                 .appendTo( this.wrapper )
                 .val( value )
@@ -44,7 +44,7 @@
         },
         _createShowAllButton: function() {
             var input = this.input,
-            wasOpen = false;
+                wasOpen = false;
             $( "<a>" )
                 .attr( "tabIndex", -1 )
                 .attr( "title", "Show All Items" )
@@ -72,17 +72,18 @@
         },
         _source: function( request, response ) {
             var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
-            response( this.element.children( "option" ).map(function() {
+            response(this.element.children("option").map(function() {
                 var text = $( this ).text(),
-                desc = $( this ).data('description');
-                if ( this.value && ( !request.term || matcher.test(text) || matcher.test(desc) ) )
+                    desc = $( this ).data('description');
+                if (this.value && (!request.term || matcher.test(text) || matcher.test(desc))) {
                     return {
                         label: text,
                         description: desc,
                         value: text,
                         option: this
                     };
-            }) );
+                }
+            }));
         },
         _removeIfInvalid: function( event, ui ) {
             // Selected an item, nothing to do
@@ -93,7 +94,7 @@
             var value = this.input.val(),
             valueLowerCase = value.toLowerCase(),
             valid = false;
-            this.element.children( "option" ).each(function() {
+            this.element.children("option").each(function() {
                 if ( $( this ).text().toLowerCase() === valueLowerCase ) {
                     this.selected = valid = true;
                     return false;
@@ -115,16 +116,14 @@
             this.element.show();
         }
     });
-})( jQuery );
+})(jQuery);
 
 $(function() {
     $( "#org_openpsa_sales_salesproject_deliverable_add" )
         .productselect()
         .closest('form')
-            .on('submit', function(e)
-            {
-                if (!$("#org_openpsa_sales_salesproject_deliverable_add").val())
-                {
+            .on('submit', function(e) {
+                if (!$("#org_openpsa_sales_salesproject_deliverable_add").val()) {
                     e.preventDefault();
                     return;
                 }
@@ -132,19 +131,15 @@ $(function() {
             });
 });
 
-$(document).ready(function()
-{
+$(document).ready(function() {
     var continuous = $('form.datamanager2 #org_openpsa_sales_continuous');
-    if (continuous.length > 0)
-    {
-        if (continuous.on('change', function()
-        {
+    if (continuous.length > 0) {
+        if (continuous.on('change', function() {
             $('#org_openpsa_sales_end').closest('.element').toggle(!$(this).is(':checked'));
         }));
         $('#org_openpsa_sales_end').closest('.element').toggle(!continuous.is(':checked'));
     }
-    if (window.location.hash.substr(0, 13) === '#deliverable_')
-    {
+    if (window.location.hash.substr(0, 13) === '#deliverable_') {
         $(window.location.hash + ' > .icon').click();
     }
 });

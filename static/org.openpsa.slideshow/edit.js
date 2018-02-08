@@ -1,29 +1,21 @@
-$(document).ready(function()
-{
-    $('#reverse').bind('click', function()
-    {
-        $('#item_container > div').not('.entry-template').each(function(index, element)
-        {
+$(document).ready(function() {
+    $('#reverse').bind('click', function() {
+        $('#item_container > div').not('.entry-template').each(function(index, element) {
             $('#item_container').prepend(element);
         });
     });
-    $('.existing-entry').each(function(index, item)
-    {
-        $(item).data('saved_values',
-        {
+    $('.existing-entry').each(function(index, item) {
+        $(item).data('saved_values', {
             position: index,
             title: $(item).find('.title input').val(),
             description: $(item).find('.description textarea').val()
         });
     });
-    $('#upload_field').bind('change', function()
-    {
+    $('#upload_field').bind('change', function() {
         var image, entry, reader,
         entry_template = $('#item_container .entry-template')[0];
-        $.each(this.files, function(index, file)
-        {
-            if (!file.type.match(/image.*/))
-            {
+        $.each(this.files, function(index, file) {
+            if (!file.type.match(/image.*/)) {
                 // this file is not an image. TODO: Report an error?
                 return;
             }
@@ -45,40 +37,30 @@ $(document).ready(function()
         });
     });
     $('#item_container')
-        .delegate('.image-delete', 'click', function()
-        {
+        .delegate('.image-delete', 'click', function() {
             var entry = $(this).closest('.entry');
-            if (entry.hasClass('new-entry'))
-            {
+            if (entry.hasClass('new-entry')) {
                 entry.remove();
-            }
-            else
-            {
+            } else {
                 entry.addClass('entry-deleted');
             }
         })
-        .delegate('.image-cancel-delete', 'click', function()
-        {
+        .delegate('.image-cancel-delete', 'click', function() {
             $(this).closest('.entry').removeClass('entry-deleted');
         })
-        .delegate('.entry', 'click', function()
-        {
+        .delegate('.entry', 'click', function() {
             var viewer = $('#entry-viewer');
 
-            if ($(this).find('.thumbnail img').data('originalUrl'))
-            {
+            if ($(this).find('.thumbnail img').data('originalUrl')) {
                 viewer.find('.image').html('<img src="' + $(this).find('.thumbnail img').data('originalUrl') + '" />');
-            }
-            else
-            {
+            } else {
                 viewer.find('.image').html($(this).find('.thumbnail img').clone());
             }
             viewer.find('.title input')
                 .val($(this).find('.title input').val());
             viewer.find('.description textarea').val($(this).find('.description textarea').val());
             viewer.find('.filename').text($(this).find('.filename').text());
-            if (!viewer.hasClass('active'))
-            {
+            if (!viewer.hasClass('active')) {
                 viewer.addClass('active');
             }
             viewer.data('active', $(this).attr('id'));
@@ -87,26 +69,23 @@ $(document).ready(function()
         })
         .sortable();
 
-    $('#entry-viewer').delegate('.title input, .description textarea', 'blur', function()
-    {
+    $('#entry-viewer').delegate('.title input, .description textarea', 'blur', function() {
         var viewer = $('#entry-viewer'),
         active = viewer.data('active');
-        if (active !== undefined)
-        {
+        if (active !== undefined) {
             $('#' + active).find('.title input').val(viewer.find('.title input').val());
             $('#' + active).find('.description textarea').val(viewer.find('.description textarea').val());
         }
     });
 
-    $('#save_all').bind('click', function()
-    {
+    $('#save_all').bind('click', function() {
         var delete_guids = [],
-        update_items = [],
-        fd, xhr,
-        label = $('#progress_bar .progress-label'),
-        progressbar = $('#progress_bar'),
-        progress_dialog = $('#progress_dialog'),
-        pending_requests = [];
+            update_items = [],
+            fd, xhr,
+            label = $('#progress_bar .progress-label'),
+            progressbar = $('#progress_bar'),
+            progress_dialog = $('#progress_dialog'),
+            pending_requests = [];
 
         $('#progress_total').text('0');
         $('#progress_completed').text('0');
@@ -117,25 +96,20 @@ $(document).ready(function()
             .data('filesize', 0)
             .data('total', 0);
 
-        function close_dialog()
-        {
-            if (progressbar.data('pending') < 1)
-            {
+        function close_dialog() {
+            if (progressbar.data('pending') < 1) {
                 progress_dialog.dialog('close');
             }
         }
 
-        function create_entry(index, item)
-        {
+        function create_entry(index, item) {
             var file =  $(item).find('.thumbnail img')[0].file,
-            xhr = new XMLHttpRequest(),
-            fd = new FormData();
+                xhr = new XMLHttpRequest(),
+                fd = new FormData();
 
             // todo: This has to be supported by server side
-            xhr.upload.addEventListener("progress", function(e)
-            {
-                if (e.lengthComputable)
-                {
+            xhr.upload.addEventListener("progress", function(e) {
+                if (e.lengthComputable) {
                     var delta = e.loaded - $(item).data('completed'),
                     completed = $('#progress_bar').data('filesize_completed') + delta;
                 }
@@ -147,34 +121,25 @@ $(document).ready(function()
             fd.append("position", index);
             fd.append("operation", 'create');
 
-            xhr.onreadystatechange = function()
-            {
-                if (xhr.readyState === 4)
-                {
-                    try
-                    {
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    try {
                         var reply = $.parseJSON(xhr.responseText);
-                        if (!reply.success)
-                        {
+                        if (!reply.success) {
                             $.midcom_services_uimessage_add({type: 'error', message: reply.error, title: reply.title});
-                        }
-                        else
-                        {
+                        } else {
                             $(item)
                                 .removeClass('new-entry')
                                 .addClass('existing-entry')
                                 .attr('id', 'image-' + reply.guid)
-                                .data('saved_values',
-                                {
+                                .data('saved_values', {
                                     position: reply.position,
                                     title: $(item).find('.title input').val(),
                                     description: $(item).find('.description textarea').val()
                                 })
                                 .find('.filename').text(reply.filename);
                         }
-                    }
-                    catch (e)
-                    {
+                    } catch (e) {
                         $.midcom_services_uimessage_add({type: 'error', message: e.message, title: e.name});
                     }
                     remove_pending_request();
@@ -183,13 +148,11 @@ $(document).ready(function()
             add_pending_request(xhr, fd);
             $('#progress_bar').data('filesize', $('#progress_bar').data('filesize') + file.size);
 
-            function format_filesize(size)
-            {
+            function format_filesize(size) {
                 var i = 0,
-                units = ['B', 'KB', 'MB', 'GB'];
+                    units = ['B', 'KB', 'MB', 'GB'];
 
-                while (size > 1024)
-                {
+                while (size > 1024) {
                     size = size / 1024;
                     i++;
                 }
@@ -200,17 +163,15 @@ $(document).ready(function()
             $('#progress_filesize_total').text(format_filesize($('#progress_bar').data('filesize')));
         }
 
-        function update_entry(index, item)
-        {
+        function update_entry(index, item) {
             var entry = {},
-            title = $(item).find('.title input').val(),
-            description = $(item).find('.description textarea').val(),
-            saved_values = $(item).data('saved_values');
+                title = $(item).find('.title input').val(),
+                description = $(item).find('.description textarea').val(),
+                saved_values = $(item).data('saved_values');
 
-            if (  title === saved_values.title
-               && description === saved_values.description
-               && index === saved_values.position)
-            {
+            if (   title === saved_values.title
+                && description === saved_values.description
+                && index === saved_values.position) {
                 return;
             }
 
@@ -222,11 +183,10 @@ $(document).ready(function()
             update_items.push(entry);
         }
 
-        function add_pending_request(xhr, fd)
-        {
+        function add_pending_request(xhr, fd) {
             var pending = $('#progress_bar').data('pending') + 1,
-            total = $('#progress_bar').data('total') + 1,
-            completed = total - pending;
+                total = $('#progress_bar').data('total') + 1,
+                completed = total - pending;
 
             $('#progress_bar')
                 .data('pending', pending)
@@ -237,8 +197,7 @@ $(document).ready(function()
             pending_requests.push({xhr: xhr, fd: fd});
         }
 
-        function remove_pending_request()
-        {
+        function remove_pending_request() {
             var pending = $('#progress_bar').data('pending') - 1,
             total = $('#progress_bar').data('total'),
             completed = total - pending;
@@ -249,31 +208,24 @@ $(document).ready(function()
             $('#progress_completed').text(completed);
         }
 
-        function process_pending_requests()
-        {
-            $.each(pending_requests, function(index, request)
-            {
+        function process_pending_requests() {
+            $.each(pending_requests, function(index, request) {
                 request.xhr.send(request.fd);
             });
         }
 
-        function process_update_request()
-        {
+        function process_update_request() {
             var xhr = new XMLHttpRequest(),
-            fd = new FormData();
+                fd = new FormData();
 
             fd.append("items", JSON.stringify(update_items));
             fd.append("operation", 'batch_update');
 
-            xhr.onreadystatechange = function()
-            {
-                if (xhr.readyState === 4)
-                {
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
                     remove_pending_request();
-                    $.each(update_items, function(i, item)
-                    {
-                        $('#image-' + item.guid).data('saved_values',
-                        {
+                    $.each(update_items, function(i, item) {
+                        $('#image-' + item.guid).data('saved_values', {
                             position: item.position,
                             title: item.title,
                             description: item.description
@@ -286,27 +238,22 @@ $(document).ready(function()
             add_pending_request(xhr, fd);
         }
 
-        $('#item_container .entry-deleted').each(function(index, item)
-        {
-            if ($(item).hasClass('new-entry'))
-            {
+        $('#item_container .entry-deleted').each(function(index, item) {
+            if ($(item).hasClass('new-entry')) {
                 $(item).remove();
                 return;
             }
             delete_guids.push($(item).attr('id').slice(6));
         });
 
-        if (delete_guids.length > 0)
-        {
+        if (delete_guids.length > 0) {
             fd = new FormData();
             xhr = new XMLHttpRequest();
 
             fd.append("guids", delete_guids.join('|'));
             fd.append("operation", 'delete');
-            xhr.onreadystatechange = function()
-            {
-                if (xhr.readyState === 4)
-                {
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
                     $('#item_container .entry-deleted').remove();
                     remove_pending_request();
                 }
@@ -314,47 +261,36 @@ $(document).ready(function()
             add_pending_request(xhr, fd);
         }
 
-        $('#item_container .entry:not(.entry-template):not(.entry-deleted)').each(function(index, item)
-        {
-            if ($(item).hasClass('new-entry'))
-            {
+        $('#item_container .entry:not(.entry-template):not(.entry-deleted)').each(function(index, item) {
+            if ($(item).hasClass('new-entry')) {
                 create_entry(index, item);
-            }
-            else
-            {
+            } else {
                 update_entry(index, item);
             }
         });
-        if (update_items.length > 0)
-        {
+        if (update_items.length > 0) {
             process_update_request();
         }
 
         progressbar
             .progressbar({
                 value: false,
-                change: function()
-                {
-                    if (progressbar.progressbar('value') !== false)
-                    {
+                change: function() {
+                    if (progressbar.progressbar('value') !== false) {
                         label.text(progressbar.progressbar('value') + '%');
                     }
                 },
-                complete: function()
-                {
+                complete: function() {
                     window.setTimeout(close_dialog, 1000);
                 }
             });
-        progress_dialog.dialog(
-        {
+        progress_dialog.dialog({
             autoOpen: true,
             modal: true,
-            open: function()
-            {
+            open: function() {
                 process_pending_requests();
             },
-            close: function()
-            {
+            close: function() {
                 progressbar.progressbar('value', false);
                 label.text('');
             }

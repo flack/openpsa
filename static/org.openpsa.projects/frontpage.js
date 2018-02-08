@@ -1,5 +1,4 @@
-function get_tasks_json(object, url)
-{
+function get_tasks_json(object, url) {
     var wait_html = "<tr id='child_" + $(object).attr('id') +"'><td colspan ='3' style='text-align:center'><img class='loading' src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif' alt='loading' /></td></tr>",
         row = $(object).parent().parent();
     row.after(wait_html);
@@ -7,44 +6,34 @@ function get_tasks_json(object, url)
         type: "GET",
         url: url,
         dataType: "json",
-        success: function(json)
-        {
+        success: function(json) {
             $("#child_" + $(object).attr('id')).remove();
-            if (json.length > 0)
-            {
+            if (json.length > 0) {
                 var max_rows = json.length,
-                html = "",
-                tr_class = $(object).parent().parent().attr('class'),
-                indent_class = 'expand-icon';
+                    html = "",
+                    tr_class = $(object).parent().parent().attr('class'),
+                    indent_class = 'expand-icon';
 
                 if (   (!$(object).parent().parent().next())
-                    || $(object).parent().parent().next().children('th')[0])
-                {
+                    || $(object).parent().parent().next().children('th')[0]) {
                     indent_class = 'hidden-icon';
                 }
 
                 //iterate through tasks
-                $.each(json, function(index, task)
-                {
+                $.each(json, function(index, task) {
                     // new row
-                    if (tr_class == 'even')
-                    {
+                    if (tr_class == 'even') {
                         tr_class = 'odd';
-                    }
-                    else
-                    {
+                    } else {
                         tr_class = 'even';
                     }
                     html += "<tr class='" + tr_class + " child_" + $(object).attr('id') + "'>\n";
                     //icons
                     html += "<td class='multivalue'>";
                     html += "<img class='" + indent_class + "' src='" + MIDCOM_STATIC_URL + "/stock-icons/16x16/line.png' /> ";
-                    if (index == (max_rows - 1))
-                    {
+                    if (index == (max_rows - 1)) {
                         html += "<img class='expand-icon' src='" + MIDCOM_STATIC_URL + "/stock-icons/16x16/branchbottom.png' /> ";
-                    }
-                    else
-                    {
+                    } else {
                         html += "<img class='expand-icon' src='" + MIDCOM_STATIC_URL + "/stock-icons/16x16/branch.png' /> ";
                     }
                     //title & link
@@ -64,8 +53,7 @@ function get_tasks_json(object, url)
                     //workinghours
                     html += "<td class='numeric' >";
                     html += "<span >" + task.reported_hours + "</span> ";
-                    if (task.planned_hours > 0)
-                    {
+                    if (task.planned_hours > 0) {
                         html += "/ <span>" + task.planned_hours + "</span>";
                     }
                     html += "</td>\n";
@@ -73,35 +61,28 @@ function get_tasks_json(object, url)
                 row.after(html);
             }
         },
-        error: function(data)
-        {
+        error: function(data) {
             //html = "<tr class='child_" + $(object).attr('id') +"'><td colspan='6'>No Tasks</td></tr>";
             //$(row).after(html);
         }
     });
 }
 
-function show_tasks_for_project(object, url)
-{
+function show_tasks_for_project(object, url) {
     var position = '';
-    if ($(".child_" + $(object).attr('id')).length == 0)
-    {
+    if ($(".child_" + $(object).attr('id')).length == 0) {
         $(".child_" + $(object).attr('id')).remove();
         if (   (!$(object).parent().parent().next())
-            || $(object).parent().parent().next().children('th')[0])
-        {
+            || $(object).parent().parent().next().children('th')[0]) {
             position = 'bottom';
         }
 
         $(object).attr('src', MIDCOM_STATIC_URL + "/stock-icons/16x16/minus" + position + ".png");
         get_tasks_json(object, url);
-    }
-    else
-    {
+    } else {
         $(".child_" + $(object).attr('id')).remove();
-        if ((!$(object).parent().parent().next())
-            || $(object).parent().parent().next().children('th')[0])
-        {
+        if (   !$(object).parent().parent().next()
+            || $(object).parent().parent().next().children('th')[0]) {
             position = 'bottom';
         }
         $(object).attr('src', MIDCOM_STATIC_URL + "/stock-icons/16x16/plus" + position + ".png");

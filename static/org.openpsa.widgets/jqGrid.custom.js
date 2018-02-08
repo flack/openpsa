@@ -283,7 +283,7 @@ var org_openpsa_grid_editable = {
     },
     toggle: function(id, edit_mode) {
         $("#" + id).find(".row_edit, .row_delete").toggleClass('hidden', edit_mode);
-	$("#" + id).find(".row_save, .row_cancel").toggleClass('hidden', !edit_mode);
+        $("#" + id).find(".row_save, .row_cancel").toggleClass('hidden', !edit_mode);
         $('#' + id).toggleClass('jqgrid-editing', edit_mode);
 
         this.toggle_mouselistener();
@@ -392,9 +392,9 @@ var org_openpsa_grid_editable = {
         for (i = 0; i < rowids.length; i++) {
             current_rowid = rowids[i];
             var be = "<input class='row_button row_edit' id='edit_button_" + current_rowid + "' type='button' value='E' />",
-            bs = "<input class='row_button row_save hidden' id='save_button_" + current_rowid + "' type='button' value='S' />",
-            bc = "<input class='row_button row_cancel hidden' id='cancel_button_" + current_rowid + "' type='button' value='C' />",
-            bd = "<input class='row_button row_delete' id='delete_button_" + current_rowid + "' type='button' value='D' />";
+                bs = "<input class='row_button row_save hidden' id='save_button_" + current_rowid + "' type='button' value='S' />",
+                bc = "<input class='row_button row_cancel hidden' id='cancel_button_" + current_rowid + "' type='button' value='C' />",
+                bd = "<input class='row_button row_delete' id='delete_button_" + current_rowid + "' type='button' value='D' />";
             $("#" + this.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
         }
 
@@ -497,7 +497,7 @@ var org_openpsa_grid_helper = {
 
                     //only allow one maximized
                     if (keys.maximized && org_openpsa_grid_helper.maximized_grid == '') {
-                    	org_openpsa_grid_helper.maximized_grid = grid_id;
+                        org_openpsa_grid_helper.maximized_grid = grid_id;
                     } else {
                         keys.maximized = false;
                     }

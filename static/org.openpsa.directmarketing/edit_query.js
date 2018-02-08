@@ -1,24 +1,22 @@
 //setting needed variables
 //Arrays containing groups & rules, indexed by their id
 var groups = {},
-rules = {},
-//contains id of the group root group
-zero_group_id = "";
+    rules = {},
+    //contains id of the group root group
+    zero_group_id = "";
 
 function count(array) {
     var c = 0,
-    i;
+        i;
     for (i in array) { // in returns key, not object
-        if (   array[i] !== undefined
-            && array[i] !== null) {
+        if (array[i] !== undefined && array[i] !== null) {
             c++;
         }
     }
     return c;
 }
 
-function set_postdata()
-{
+function set_postdata() {
     if (!$('#preview_persons').data('initialized')) {
         $('#preview_persons').data('initialized', true);
         return;
@@ -36,8 +34,7 @@ function set_postdata()
     grid.setGridParam({'postData': {midcom_helper_datamanager2_dummy_field_rules: rules_array}});
 }
 
-function build_select(id, name, cssclass, options, selected, add_empty)
-{
+function build_select(id, name, cssclass, options, selected, add_empty) {
     var select = $('<select class="' + cssclass + '" name="' + name + '" id="' + id + '"/>'),
         option;
 
@@ -60,13 +57,11 @@ function build_select(id, name, cssclass, options, selected, add_empty)
 }
 
 //new object rule
-function rule(parent, id)
-{
+function rule(parent, id) {
     this.id = parent  + "_rule_" +  id;
     this.parent = parent;
 
-    this.render = function (selected)
-    {
+    this.render = function (selected) {
         var rule_object = rules[this.id],
             rule = $('<div id="' + this.id + '" class="rule" />'),
             parent_field = $('<input type="hidden" name="' + this.id + '[parent]" value="' + this.parent + '"/>'),
@@ -92,8 +87,7 @@ function rule(parent, id)
         $("#" + this.parent + "_add_group").before(rule);
     };
 
-    this.object_select_onchange = function ()
-    {
+    this.object_select_onchange = function () {
         /* Render next inputs based on value */
         var selected = $("#" + this.id + "_object").val(),
         properties = false,
@@ -120,8 +114,7 @@ function rule(parent, id)
         }
     };
 
-    this.render_properties_select = function (properties, selected)
-    {
+    this.render_properties_select = function (properties, selected) {
         var select = build_select(this.id + '_property', this.id + '[property]', 'select', properties, selected, true),
             rule = rules[this.id];
 
@@ -135,8 +128,7 @@ function rule(parent, id)
         $("#" + this.id + "_object").after(select);
     };
 
-    this.render_parameters_div = function (domain, parameter_name, match, value)
-    {
+    this.render_parameters_div = function (domain, parameter_name, match, value) {
         var div_id = this.id + '_parameters',
             html = '<div id="' + div_id + '" style="display: inline">',
             input_id = this.id + '_parameter_domain',
@@ -163,8 +155,7 @@ function rule(parent, id)
         this.render_match_selectinput(match, value);
     };
 
-    this.render_match_selectinput = function(match, value)
-    {
+    this.render_match_selectinput = function(match, value) {
         if ($("#" + this.id + '_match').length > 0) {
             return;
         }
@@ -183,10 +174,9 @@ function rule(parent, id)
         holder.after(select);
     };
 
-    this.remove = function ()
-    {
+    this.remove = function() {
         var count_child_rules = count(groups[this.parent].child_rules),
-        count_child_groups = count(groups[this.parent].child_groups);
+            count_child_groups = count(groups[this.parent].child_groups);
 
         if ($("#" + this.id).children(".add_row").length > 0) {
             this.append_add_button($("#" + this.id).prevAll(".rule:first"));
@@ -210,8 +200,7 @@ function rule(parent, id)
         return false;
     };
 
-    this.append_add_button = function (rule)
-    {
+    this.append_add_button = function(rule) {
         $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/list-add.png"  class="button add_row" />')
             .on('click', function(e) {
                 e.preventDefault();
@@ -223,15 +212,13 @@ function rule(parent, id)
 }
 
 // group-"class"
-function group(parent, number)
-{
+function group(parent, number) {
     this.id = parent + "_group_" + number;
     this.parent = parent;
     this.count_rules = 0;
     this.count_groups = 0;
 
-    this.render = function (selected)
-    {
+    this.render = function (selected) {
         var group = this,
             content_group = $('<div id="' + this.id + '" class="group"/>'),
             group_select = build_select(this.id + '_select', this.id + '[group]', 'groupselect', org_openpsa_directmarketing_group_select_map, selected, false),
@@ -266,8 +253,7 @@ function group(parent, number)
      * adds rule
      * @param selected - the selected OBJECT
      */
-    this.add_rule = function add_rule(selected)
-    {
+    this.add_rule = function add_rule(selected) {
         this.count_rules = this.count_rules + 1;
         var index = String(this.id + "_rule_" + this.count_rules);
         rules[index] = new rule(this.id, this.count_rules);
@@ -292,8 +278,7 @@ function group(parent, number)
      * adds group
      * @param selected - the selected relational operator
      */
-    this.add_group = function (selected)
-    {
+    this.add_group = function(selected) {
         this.count_groups = this.count_groups  + 1;
         var index = String(this.id + "_group_" + this.count_groups);
         groups[index] = new group(this.id, this.count_groups);
@@ -306,10 +291,9 @@ function group(parent, number)
         return index;
     };
 
-    this.remove = function ()
-    {
+    this.remove = function() {
         var rule_key,
-        group_key;
+            group_key;
         //first remove childs
 
         for (rule_key in this.child_rules) {
@@ -344,8 +328,7 @@ function group(parent, number)
     this.child_rules = [];
 }
 
-function init(selector, rules)
-{
+function init(selector, rules) {
     var type = rules.type || false;
 
     zero_group_id = selector + "_group_0";
@@ -398,8 +381,7 @@ function init(selector, rules)
 }
 
 // function to gather the rules from the form & write them into midcom_helper_datamanager2_dummy_field_rules
-function get_rules_array(parent_id)
-{
+function get_rules_array(parent_id) {
     var type = $("#" + parent_id + "_select").val(),
         ruleset = {
             type: type,
@@ -414,8 +396,7 @@ function get_rules_array(parent_id)
  * function to gather rules for group
  *   parent_id - id to check for childs
  */
-function get_rules_groups(parent_id)
-{
+function get_rules_groups(parent_id) {
     var array_key, ruleset = [],
         index, type,
         object,
@@ -481,8 +462,7 @@ function get_rules_groups(parent_id)
     return ruleset;
 }
 
-function generate_rule(property, match, value)
-{
+function generate_rule(property, match, value) {
     return {
         property: property,
         match: match,
@@ -495,12 +475,11 @@ function generate_rule(property, match, value)
  * @param parent - parent where the rules should be added
  * @param rules_array - array containing the rules
  */
-function get_child_rules(parent, rules_array)
-{
+function get_child_rules(parent, rules_array) {
     var map_class,
-    rule_match, rule_value, rule_domain, rule_parameter_name, rule_property, rule_id,
-    properties,
-    parameters, group_id;
+        rule_match, rule_value, rule_domain, rule_parameter_name, rule_property, rule_id,
+        properties,
+        parameters, group_id;
 
     $.each(rules_array, function (key, value) {
         //old-parameter-case

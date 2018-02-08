@@ -1,7 +1,5 @@
-$(document).ready(function()
-{
-    $('body').on('click', '[data-dialog="delete"]', function(event)
-    {
+$(document).ready(function() {
+    $('body').on('click', '[data-dialog="delete"]', function(event) {
         event.preventDefault();
         var button = $(this),
             dialog = $('<div class="midcom-delete-dialog">'),
@@ -30,43 +28,35 @@ $(document).ready(function()
                 }]
             };
 
-        if ($('.midcom-delete-dialog').length > 0)
-        {
+        if ($('.midcom-delete-dialog').length > 0) {
             $('.midcom-delete-dialog').remove();
         }
 
-        if (button.data('recursive'))
-        {
+        if (button.data('recursive')) {
             dialog.addClass('loading');
             options.buttons[0].disabled = true;
             $.getJSON(MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom.helper.reflector/list-children.php',
                       {guid: button.data('guid')},
-                      function (data){
-                          function render(items)
-                          {
+                      function (data) {
+                          function render(items) {
                               var output = '';
-                              $.each(items, function(i, item){
+                              $.each(items, function(i, item) {
                                   output += '<li class="leaf ' + item['class'] + '">' + item.icon + ' ' + item.title;
-                                  if (item.children)
-                                  {
+                                  if (item.children) {
                                       output += '<ul class="folder_list">';
                                       output += render(item.children);
                                       output += '</ul>';
                                   }
                                   output += '</li>';
-
                               });
                               return output;
                           }
 
-                          if (data.length > 0)
-                          {
+                          if (data.length > 0) {
                               $('<ul class="folder_list">')
                                   .append($(render(data)))
                                   .appendTo($('#delete-child-list'));
-                          }
-                          else
-                          {
+                          } else {
                               dialog.find('p.warning').hide();
                           }
                           options.buttons[0].disabled = false;
@@ -85,57 +75,51 @@ $(document).ready(function()
             .dialog(options);
     });
 
-    $('body').on('click', '[data-dialog="dialog"]', function(event)
-    {
+    $('body').on('click', '[data-dialog="dialog"]', function(event) {
         event.preventDefault();
-        if (!$(this).hasClass('active'))
-        {
+        if (!$(this).hasClass('active')) {
             create_dialog($(this), $(this).find('.toolbar_label').text() || $(this).attr('title') || '', $(this).attr('href'));
         }
     });
 
-    $('body').on('click', '[data-dialog="confirm"]', function(event)
-    {
+    $('body').on('click', '[data-dialog="confirm"]', function(event) {
         event.preventDefault();
         var button = $(this),
-        dialog = $('<div class="midcom-confirm-dialog">'),
-        options = {
-            title:  button.data('dialog-heading'),
-            modal: true,
-            width: 'auto',
-            maxHeight: $(window).height(),
-            buttons: [{
-                text: button.data('dialog-confirm-label'),
-                click: function() {
-                    button.closest('form').submit();
-                }
-            },
-            {
-                text: button.data('dialog-cancel-label'),
-                click: function() {
-                    $(this).dialog("close");
-                }
-            }]
-        };
+            dialog = $('<div class="midcom-confirm-dialog">'),
+            options = {
+                title:  button.data('dialog-heading'),
+                modal: true,
+                width: 'auto',
+                maxHeight: $(window).height(),
+                buttons: [{
+                    text: button.data('dialog-confirm-label'),
+                    click: function() {
+                        button.closest('form').submit();
+                    }
+                },
+                {
+                    text: button.data('dialog-cancel-label'),
+                    click: function() {
+                        $(this).dialog("close");
+                    }
+                }]
+            };
 
-    if ($('.midcom-confirm-dialog').length > 0)
-    {
-        $('.midcom-confirm-dialog').remove();
-    }
+        if ($('.midcom-confirm-dialog').length > 0) {
+            $('.midcom-confirm-dialog').remove();
+        }
 
-    dialog
-        .css('min-width', '300px') // This should be handled by dialog's minWidth option, but that doesn't work with width: "auto"
-                                   // Should be fixed in https://github.com/jquery/jquery-ui/commit/643b80c6070e2eba700a09a5b7b9717ea7551005
-        .append($('<p>' + button.data('dialog-text') + '</p>'))
-        .appendTo($('body'))
-        .dialog(options);
+        dialog
+            .css('min-width', '300px') // This should be handled by dialog's minWidth option, but that doesn't work with width: "auto"
+                                       // Should be fixed in https://github.com/jquery/jquery-ui/commit/643b80c6070e2eba700a09a5b7b9717ea7551005
+            .append($('<p>' + button.data('dialog-text') + '</p>'))
+            .appendTo($('body'))
+            .dialog(options);
     });
 });
 
-function create_dialog(control, title, url)
-{
-    if ($('.midcom-workflow-dialog').length > 0)
-    {
+function create_dialog(control, title, url) {
+    if ($('.midcom-workflow-dialog').length > 0) {
         $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
     }
 
@@ -149,8 +133,7 @@ function create_dialog(control, title, url)
             close: function() {
                 control.removeClass('active');
                 iframe.css('visibility', 'hidden');
-                if (iframe[0].contentWindow)
-                {
+                if (iframe[0].contentWindow) {
                     iframe[0].contentWindow.stop();
                 }
             },
@@ -158,8 +141,7 @@ function create_dialog(control, title, url)
                 dialog.closest('.ui-dialog').focus();
             }};
 
-    if (control.data('dialog-cancel-label'))
-    {
+    if (control.data('dialog-cancel-label')) {
         config.buttons.push({
             text: control.data('dialog-cancel-label'),
             click: function() {
@@ -168,20 +150,16 @@ function create_dialog(control, title, url)
         });
     }
 
-    if ($('#midcom-dialog').length > 0)
-    {
+    if ($('#midcom-dialog').length > 0) {
         dialog = $('#midcom-dialog');
         iframe = dialog.find('> iframe');
         config.height = dialog.dialog('option', 'height');
         config.width = dialog.dialog('option', 'width');
         if (   config.width > window.innerWidth
-            || config.height > window.innerHeight)
-        {
+            || config.height > window.innerHeight) {
             config.position = { my: "center", at: "center", of: window, collision: 'flipfit' };
         }
-    }
-    else
-    {
+    } else {
         iframe = $('<iframe name="datamanager-dialog"'
                    + ' frameborder="0"'
                    + ' marginwidth="0"'
@@ -189,8 +167,7 @@ function create_dialog(control, title, url)
                    + ' width="100%"'
                    + ' height="100%"'
                    + ' scrolling="auto" />')
-            .on('load', function()
-            {
+            .on('load', function() {
                 $(this).css('visibility', 'visible');
             });
 
@@ -202,15 +179,13 @@ function create_dialog(control, title, url)
     config.height = Math.min(config.height, window.innerHeight);
     config.width = Math.min(config.width, window.innerHeight);
 
-    if (url)
-    {
+    if (url) {
         iframe.attr('src', url);
     }
 
     control.addClass('active');
     if (   control.parent().attr('role') === 'gridcell'
-        && control.closest('.jqgrow').hasClass('ui-state-highlight') === false)
-    {
+        && control.closest('.jqgrow').hasClass('ui-state-highlight') === false) {
         //todo: find out why the click doesn't bubble automatically
         control.parent().trigger('click');
     }
