@@ -13,7 +13,8 @@ $(document).ready(function() {
     });
     $('#upload_field').on('change', function() {
         var image, entry, reader,
-        entry_template = $('#item_container .entry-template')[0];
+            entry_template = $('#item_container .entry-template')[0];
+
         $.each(this.files, function(index, file) {
             if (!file.type.match(/image.*/)) {
                 // this file is not an image. TODO: Report an error?
@@ -209,7 +210,7 @@ $(document).ready(function() {
         }
 
         function process_pending_requests() {
-            $.each(pending_requests, function(index, request) {
+            pending_requests.forEach(function(request) {
                 request.xhr.send(request.fd);
             });
         }
@@ -224,7 +225,7 @@ $(document).ready(function() {
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
                     remove_pending_request();
-                    $.each(update_items, function(i, item) {
+                    update_items.forEach(function(item) {
                         $('#image-' + item.guid).data('saved_values', {
                             position: item.position,
                             title: item.title,

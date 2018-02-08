@@ -39,7 +39,7 @@ var org_openpsa_resizers = {
         if (typeof resizing === 'undefined') {
             resizing = false;
         }
-        $.each(org_openpsa_resizers.queue, function(index, callback) {
+        org_openpsa_resizers.queue.forEach(function(callback) {
             callback(resizing);
         });
     }

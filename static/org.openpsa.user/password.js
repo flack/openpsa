@@ -83,7 +83,7 @@
         score += (checkRepetition(3, password).length - password.length) * 1;
         score += (checkRepetition(4, password).length - password.length) * 1;
 
-        $.each(option.password_rules, function(i, rule) {
+        option.password_rules.forEach(function(rule) {
             var regex = rule.match.replace(/^\//, '').replace(/\/$/, '');
 
             if (password.match(regex)) {

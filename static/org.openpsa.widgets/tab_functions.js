@@ -97,7 +97,7 @@ var org_openpsa_widgets_tabs = {
         var head_elements = $.parseJSON(RegExp.$1);
         data = data.substr((RegExp.$1.length + 31));
 
-        $.each(head_elements.head_js, function(index, jscall) {
+        head_elements.head_js.forEach(function(jscall) {
             if (   typeof jscall.url !== 'undefined'
                 && $('script[src="' + jscall.url + '"]').length === 0
                 && $.inArray(jscall.url, org_openpsa_widgets_tabs.loaded_scripts) === -1) {
@@ -111,7 +111,7 @@ var org_openpsa_widgets_tabs = {
         });
 
         var insertion_point = $('link[rel="stylesheet"]:first');
-        $.each(head_elements.head_css, function(index, data) {
+        head_elements.head_css.forEach(function(index, data) {
             if (   typeof data.type === 'undefined'
                 || typeof data.href === 'undefined'
                 || data.type !== 'text/css') {

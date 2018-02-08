@@ -20,7 +20,7 @@ function get_tasks_json(object, url) {
                 }
 
                 //iterate through tasks
-                $.each(json, function(index, task) {
+                json.forEach(function(task, index) {
                     // new row
                     if (tr_class == 'even') {
                         tr_class = 'odd';

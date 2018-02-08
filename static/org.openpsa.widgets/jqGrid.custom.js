@@ -212,7 +212,7 @@ var org_openpsa_grid_resize = {
             return;
         }
 
-        if (   available_space > grids_content_height && mode !== 'fill') {
+        if (available_space > grids_content_height && mode !== 'fill') {
             $.each(grid_heights, function(grid_id, content_height) {
                 set_param(grid_id, content_height);
             });
@@ -534,7 +534,7 @@ var org_openpsa_grid_helper = {
     },
     save_grid_data: function() {
         var grid_maximized = false;
-        $.each(org_openpsa_grid_helper.active_grids, function(index, grid_id) {
+        org_openpsa_grid_helper.active_grids.forEach(function(grid_id) {
             if (typeof $('#' + grid_id).jqGrid === 'undefined') {
                 return;
             }
@@ -631,7 +631,7 @@ var org_openpsa_batch_processing = {
         action_select += '</select><input type="submit" name="send" /></div>';
         $(action_select).appendTo($('#form_' + config.id));
 
-        $.each(widgets_to_add, function(index, widget_conf) {
+        widgets_to_add.forEach(function(widget_conf) {
             midcom_helper_datamanager2_autocomplete.create_widget(widget_conf);
         });
 
