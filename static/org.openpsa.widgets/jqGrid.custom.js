@@ -85,7 +85,7 @@ var org_openpsa_grid_resize = {
 
                     if (container.hasClass('ui-jqgrid-maximized')) {
                         var jqgrid_id = container.find('table.ui-jqgrid-btable').attr('id'),
-                        placeholder = $('#maximized_placeholder');
+                            placeholder = $('#maximized_placeholder');
 
                         try {
                             $("#" + jqgrid_id).jqGrid().setGridHeight(placeholder.data('orig_height'));
@@ -238,8 +238,7 @@ var org_openpsa_grid_resize = {
             if ($("#" + grid_id).parent().parent().height() !== value) {
                 try {
                     $("#" + grid_id).jqGrid().setGridHeight(value);
-                }
-                catch(e){}
+                } catch(e){}
                 if ($("#" + grid_id).data('vScroll')) {
                     $("#" + grid_id).closest(".ui-jqgrid-bdiv").scrollTop($("#" + grid_id).data('vScroll'));
                     $("#" + grid_id).removeData('vScroll');
@@ -269,7 +268,23 @@ var org_openpsa_grid_editable = {
         afterrestorefunc: function(id) {
             org_openpsa_grid_editable.toggle(id, false);
         },
-        aftersavefunc: function(id) {
+        aftersavefunc: function(id, response) {
+            //if saved row was new_... then refresh tr-id
+            if (response.responseText !== undefined) {
+                var return_values = $.parseJSON(response.responseText),
+                    oldId = return_values.oldid;
+                if (oldId.substring(0, 4) === 'new_') {
+                    var pos = $('#' + org_openpsa_grid_editable.grid_id + ' tr[id="' + oldId + '"]').prevAll().length,
+                        newrow = $('#' + oldId);
+                    id = return_values.id;
+
+                    org_openpsa_grid_editable.saveSingleItemPosition(id, pos);
+
+                    newrow.attr('id', id);
+                    newrow.find('.row_edit, .row_save, .row_cancel, .row_delete').data('row-id', id);
+                }
+            }
+
             org_openpsa_grid_editable.toggle(id, false);
         },
         oneditfunc: function(id) {
@@ -305,6 +320,7 @@ var org_openpsa_grid_editable = {
                 }
             }
         });
+
         self.add_inline_controls();
         var create_button_parameters = {
             caption: "",
@@ -312,25 +328,35 @@ var org_openpsa_grid_editable = {
             onClickButton: function() {
                 var new_id = 'new_' + self.last_added_row++,
                     params = {};
+
                 if (self.options.enable_sorting) {
-                    params.position = getNextPosition();
+                    params.position = $('#' + grid_id + ' td[aria-describedby="invoice_items_position"]').length + 1;
                 }
                 //create new row; now with a position-value
                 $('#' + self.grid_id).jqGrid('addRowData', new_id, params, 'last');
 
                 //Add (edit,...,delete)-Button to the new row (like in add_inline_controls)
-                current_rowid = new_id;
-                var be = "<input class='row_button row_edit' id='edit_button_" + current_rowid + "' type='button' value='E' />",
-                bs = "<input class='row_button row_save hidden' id='save_button_" + current_rowid + "' type='button' value='S' />",
-                bc = "<input class='row_button row_cancel hidden' id='cancel_button_" + current_rowid + "' type='button' value='C' />",
-                bd = "<input class='row_button row_delete' id='delete_button_" + current_rowid + "' type='button' value='D' />";
+                var current_rowid = new_id,
+                    be = "<input class='row_button row_edit' data-row-id='" + current_rowid + "' type='button' value='E' />",
+                    bs = "<input class='row_button row_save hidden' data-row-id='" + current_rowid + "' type='button' value='S' />",
+                    bc = "<input class='row_button row_cancel hidden' data-row-id='" + current_rowid + "' type='button' value='C' />",
+                    bd = "<input class='row_button row_delete' data-row-id='" + current_rowid + "' type='button' value='D' />";
                 $('#' + self.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
             }
         };
         $('#' + grid_id)
-            .jqGrid('navGrid', "#p_" + grid_id, {add: false, del:false, refresh: false, edit: false, search: false})
+            .jqGrid('navGrid', "#p_" + grid_id, {add: false, del: false, refresh: false, edit: false, search: false})
             .jqGrid('navButtonAdd', "#p_" + grid_id, create_button_parameters);
 
+        if (self.options.enable_sorting) {
+            $('#' + grid_id)
+                .on("sortstop", function() {
+                    self.refreshItemPositions();
+                    //Refresh the rows alternately with the style from the class even
+                    $(this).find("tbody tr.jqgrow").removeClass('even');
+                    $(this).find("tbody tr.jqgrow:visible:odd").addClass('even');
+                });
+        }
     },
     /**
      * This function works only if enable_sorting is set true
@@ -340,11 +366,11 @@ var org_openpsa_grid_editable = {
             var isEdit = $('#' + this.grid_id + ' tr.jqgrid-editing').length > 0;
 
             if (isEdit) {
-                $( '#' + this.grid_id).sortable("disable");
-                $( '#' + this.grid_id + ' tbody > .jqgrow').enableSelection();
+                $('#' + this.grid_id).sortable("disable");
+                $('#' + this.grid_id + ' tbody > .jqgrow').enableSelection();
             } else {
-                $( '#' + this.grid_id).sortable("enable");
-                $( '#' + this.grid_id + ' tbody > .jqgrow').disableSelection();
+                $('#' + this.grid_id).sortable("enable");
+                $('#' + this.grid_id + ' tbody > .jqgrow').disableSelection();
             }
         }
     },
@@ -367,7 +393,10 @@ var org_openpsa_grid_editable = {
                 $('#' + self.grid_id).jqGrid('delRowData', id);
                 if (   typeof self.options.aftersavefunc !== 'undefined'
                     && $.isFunction(self.options.aftersavefunc)) {
-                    self.options.aftersavefunc(0, []);
+                    self.options.afterdeletefunc();
+                }
+                if (self.options.enable_sorting) {
+                    self.refreshItemPositions();
                 }
             };
         rowdata.oper = 'del';
@@ -379,10 +408,30 @@ var org_openpsa_grid_editable = {
                 callAfterSave();
             });
         }
+    },
+    refreshItemPositions: function() {
+        var self = this;
+        $('#' + this.grid_id + ' td[aria-describedby="invoice_items_position"]').each(function(index) {
+            var idx = index + 1,
+                oldPos = parseInt($(this).text()),
+                trId = $(this).parent().attr('id');
 
-        if (this.options.enable_sorting) {
-            refreshItemPositions();
-        }
+            if (idx !== oldPos) {
+                // Set new Position-Number in this td
+                $(this).html(idx);
+
+                if (trId.substring(0, 4) !== 'new_') {
+                    self.saveSingleItemPosition(trId, idx);
+                }
+            }
+        });
+    },
+    saveSingleItemPosition: function(id, pos) {
+        $.ajax({
+            type: 'POST',
+            url: this.options.position_url,
+            data: {id: id, position: pos}
+        });
     },
     add_inline_controls: function() {
         var rowids = $("#" + this.grid_id).jqGrid('getDataIDs'),
@@ -391,31 +440,27 @@ var org_openpsa_grid_editable = {
 
         for (i = 0; i < rowids.length; i++) {
             current_rowid = rowids[i];
-            var be = "<input class='row_button row_edit' id='edit_button_" + current_rowid + "' type='button' value='E' />",
-                bs = "<input class='row_button row_save hidden' id='save_button_" + current_rowid + "' type='button' value='S' />",
-                bc = "<input class='row_button row_cancel hidden' id='cancel_button_" + current_rowid + "' type='button' value='C' />",
-                bd = "<input class='row_button row_delete' id='delete_button_" + current_rowid + "' type='button' value='D' />";
+            var be = "<input class='row_button row_edit' data-row-id='" + current_rowid + "' type='button' value='E' />",
+                bs = "<input class='row_button row_save hidden' data-row-id='" + current_rowid + "' type='button' value='S' />",
+                bc = "<input class='row_button row_cancel hidden' data-row-id='" + current_rowid + "' type='button' value='C' />",
+                bd = "<input class='row_button row_delete' data-row-id='" + current_rowid + "' type='button' value='D' />";
             $("#" + this.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
         }
 
         $("#" + this.grid_id).on('click', ".row_edit", function() {
-            var id = $(this).attr('id').replace(/^edit_button_/, '');
-            self.editRow(id);
+            self.editRow($(this).data('row-id'));
         });
         $("#" + this.grid_id).on('click', ".row_delete", function(e) {
             e.stopPropagation();
-            var id = $(this).attr('id').replace(/^delete_button_/, '');
-            self.deleteRow(id);
+            self.deleteRow($(this).data('row-id'));
         });
         $("#" + this.grid_id).on('click', ".row_save", function(e) {
             e.stopPropagation();
-            var id = $(this).attr('id').replace(/^save_button_/, '');
-            self.saveRow(id);
+            self.saveRow($(this).data('row-id'));
         });
         $("#" + this.grid_id).on('click', ".row_cancel", function(e) {
             e.stopPropagation();
-            var id = $(this).attr('id').replace(/^cancel_button_/, '');
-            self.restoreRow(id);
+            self.restoreRow($(this).data('row-id'));
         });
     }
 };

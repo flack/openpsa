@@ -12,9 +12,9 @@ $grid->set_column('description', $data['l10n_midcom']->get('description'), 'edit
 $grid->set_column('price', $data['l10n']->get('price'), 'align: "right", width: 40, formatter: "number", sortable: false, editable: true');
 $grid->set_column('quantity', $data['l10n']->get('quantity'), 'align: "right", width: 30, formatter: "number", sortable: false, editable: true');
 $grid->set_column('sum', $data['l10n']->get('sum'), 'align: "right", width: 60, formatter: "number", sortable: false, summaryType: "sum"');
-
 $grid->set_column('actions', '',  'width: 65, fixed: true, sortable: false, title: false');
 
+$grid_id = $grid->get_identifier();
 ?>
 
 <div class="full-width">
@@ -22,97 +22,36 @@ $grid->set_column('actions', '',  'width: 65, fixed: true, sortable: false, titl
 </div>
 
 <script type="text/javascript">
-    function getNextPosition()
-    {
-        return $('#<?php echo $grid->get_identifier(); ?> td[aria-describedby="invoice_items_position"]').length + 1;
-    }
-
     //trigger the drag&drop-sortability of this (current) grid
-    jQuery("#<?php echo $grid->get_identifier(); ?>").jqGrid("sortableRows", {helper: "clone"});
+    jQuery("#<?= $grid_id ?>").jqGrid("sortableRows", {helper: "clone"});
 
-    //Event that is triggered after Drop
-    jQuery( "#<?php echo $grid->get_identifier(); ?>" ).bind("sortstop",
-        function(event, ui)
-        {
-            refreshItemPositions();
-            //Refresh the rows alternately with the style from the class even
-            $(this).find("tbody tr.jqgrow").removeClass('even');
-            $(this).find("tbody tr.jqgrow:visible:odd").addClass('even');
-        });
-
-    function saveSingleItemPosition(id, pos)
-    {
-        $.ajax(
-        {
-            type: 'POST',
-            url: '&(prefix);invoice/itemposition/',
-            data: {id:id, position:pos}
-        });
-    }
-
-    function refreshItemPositions()
-    {
-        //foreach position-cell (or position td)
-        $('#<?php echo $grid->get_identifier(); ?> td[aria-describedby="invoice_items_position"]').each(
-            function(index)
-            {
-                var idx = index + 1,
-                    oldPos = parseInt($(this).html()),
-                    //Get the id of the tr in witch this(=td) is
-                    trId = $(this).parent().attr('id');
-
-                if (idx !== oldPos) {
-                    // Set new Position-Number in this td
-                    $(this).html(idx);
-
-                    if (trId.substring(0,4) !== 'new_') {
-                        saveSingleItemPosition(trId, idx);
-                    }
-                }
-            });
-    }
-
-    org_openpsa_grid_editable.enable_inline("<?php echo $grid->get_identifier(); ?>",
-    {
-        aftersavefunc: function (rowid, response)
-        {
-            var grid = jQuery("#<?php echo $grid->get_identifier(); ?>"),
+    jQuery("#<?= $grid_id ?>")
+        .on("keyup", '[aria-describedby="<?= $grid_id ?>_price"] input, [aria-describedby="<?= $grid_id ?>_quantity"] input', function() {
+            var rowid = $(this).closest('tr').attr('id'),
+                grid = jQuery("#<?= $grid_id ?>"),
                 price = grid.jqGrid('getCell', rowid, 5),
-                quantity = grid.jqGrid('getCell', rowid, 6),
-                rows = grid.jqGrid('getRowData'),
-                total = 0,
-                i = 0;
+                quantity = grid.jqGrid('getCell', rowid, 6);
 
             grid.jqGrid('setRowData', rowid, {sum: parseFloat(price) * parseFloat(quantity)});
+            update_totals();
+        });
 
-            //if saved row was new_... then refresh tr-id
-            if (response.responseText !== undefined) {
-                var return_values = $.parseJSON(response.responseText),
-                oldId = return_values.oldid;
-                if (oldId.substring(0,4) === 'new_') {
-                    var pos = $("#<?php echo $grid->get_identifier(); ?> tr[id='" + oldId + "']").prevAll().length;
-                    rowid = return_values.id;
+    function update_totals() {
+        var grid = jQuery("#<?= $grid_id ?>"),
+            rows = grid.jqGrid('getRowData'),
+            total = 0,
+            i = 0;
 
-                    saveSingleItemPosition(rowid, pos);
+        for (i = 0; i < rows.length; i++) {
+            total += parseFloat(rows[i].sum) || 0;
+        }
 
-                    $('#'+oldId).attr('id', rowid);
-                    $('#edit_button_' + oldId).attr('id', 'edit_button_' + rowid);
-                    $('#save_button_' + oldId).attr('id', 'save_button_' + rowid);
-                    $('#cancel_button_' + oldId).attr('id', 'cancel_button_' + rowid);
-                    $('#delete_button_' + oldId).attr('id', 'delete_button_' + rowid);
-                }
-            }
+        grid.jqGrid("footerData", "set", {sum: total});
+    }
 
-            for (i = 0; i < rows.length; i++) {
-                total += parseFloat(grid.jqGrid('getCell', rows[i].id, 7));
-            }
-
-            grid.jqGrid("footerData", "set", {sum: total});
-            org_openpsa_grid_editable.toggle(rowid, false);
-
-            //Specially for the case that a row was deleted
-            refreshItemPositions();
-        },
-        enable_sorting: true
+    org_openpsa_grid_editable.enable_inline("<?= $grid_id ?>", {
+        afterdeletefunc: update_totals,
+        enable_sorting: true,
+        position_url: '&(prefix);invoice/itemposition/'
     });
 </script>
