@@ -22,9 +22,6 @@ $grid_id = $grid->get_identifier();
 </div>
 
 <script type="text/javascript">
-    //trigger the drag&drop-sortability of this (current) grid
-    jQuery("#<?= $grid_id ?>").jqGrid("sortableRows", {helper: "clone"});
-
     jQuery("#<?= $grid_id ?>")
         .on("keyup", '[aria-describedby="<?= $grid_id ?>_price"] input, [aria-describedby="<?= $grid_id ?>_quantity"] input', function() {
             var rowid = $(this).closest('tr').attr('id'),

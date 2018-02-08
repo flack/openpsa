@@ -355,7 +355,8 @@ var org_openpsa_grid_editable = {
                     //Refresh the rows alternately with the style from the class even
                     $(this).find("tbody tr.jqgrow").removeClass('even');
                     $(this).find("tbody tr.jqgrow:visible:odd").addClass('even');
-                });
+                })
+                .jqGrid("sortableRows", {helper: "clone"});
         }
     },
     /**
