@@ -100,13 +100,13 @@ function bind_invoice_actions(classes, invoice_url)
     classes = classes.replace(/ /g, '.');
 
     $('.org_openpsa_invoices.' + classes + ' .ui-jqgrid-btable')
-        .delegate('button.mark_sent', 'click', function() {
+        .on('click', 'button.mark_sent', function() {
             process_invoice($(this), 'mark_sent', invoice_url);
         })
-        .delegate('button.send_by_mail', 'click', function() {
+        .on('click', 'button.send_by_mail', function() {
             process_invoice($(this), 'send_by_mail', invoice_url);
         })
-        .delegate('button.mark_paid', 'click', function() {
+        .on('click', 'button.mark_paid', function() {
             process_invoice($(this), 'mark_paid', invoice_url);
         });
 }
@@ -128,12 +128,12 @@ $(document).ready(function() {
     }
 
     $('.projects table')
-        .delegate('input[type="text"]', 'change', function() {
+        .on('change', 'input[type="text"]', function() {
             var task_id = $(this).closest('tr').attr('id').replace('task_', '');
             calculate_row(task_id);
             calculate_total($(this).closest('table'));
         })
-        .delegate('input[type="checkbox"]', 'change', function() {
+        .on('change', 'input[type="checkbox"]', function() {
             calculate_total($(this).closest('table'));
         })
         .each(function() {

@@ -55,24 +55,24 @@ var org_openpsa_widgets_tabs = {
     },
     bind_events: function(uiprefix) {
         $('#tabs')
-            .delegate('.ui-state-active a', 'mousedown', function(event) {
+            .on('mousedown', '.ui-state-active a', function(event) {
                 if (event.which !== 1) {
                     return;
                 }
                 var url = $(this).attr('href').replace(new RegExp('/' + uiprefix + '/'), '/');
                 location.href = url;
             })
-            .delegate('.ui-tabs-panel a', 'click', function(event){org_openpsa_widgets_tabs.intercept_clicks(event);})
+            .on('click', '.ui-tabs-panel a', function(event){org_openpsa_widgets_tabs.intercept_clicks(event);})
 
             //bind click functions so the request can pass if it should saved or cancelled
-            .delegate('input[type=submit]:not(.tab_escape)', 'click', function(event) {
+            .on('click', 'input[type=submit]:not(.tab_escape)', function(event) {
                 org_openpsa_widgets_tabs.form_append = "&" + $(event.currentTarget).attr('name') + "=" + $(event.currentTarget).val();
                 return true;
             })
 
             //since this is loaded in a tab - change the submit-function of
             // an occurring form - so the result will be loaded in the tab also
-            .delegate('form:not(.tab_escape)', "submit", function(event) {
+            .on("submit", 'form:not(.tab_escape)', function(event) {
                 if ($(event.currentTarget).attr('onsubmit')) {
                     return;
                 }
