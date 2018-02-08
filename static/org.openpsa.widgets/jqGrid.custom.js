@@ -335,13 +335,7 @@ var org_openpsa_grid_editable = {
                 //create new row; now with a position-value
                 $('#' + self.grid_id).jqGrid('addRowData', new_id, params, 'last');
 
-                //Add (edit,...,delete)-Button to the new row (like in add_inline_controls)
-                var current_rowid = new_id,
-                    be = "<input class='row_button row_edit' data-row-id='" + current_rowid + "' type='button' value='E' />",
-                    bs = "<input class='row_button row_save hidden' data-row-id='" + current_rowid + "' type='button' value='S' />",
-                    bc = "<input class='row_button row_cancel hidden' data-row-id='" + current_rowid + "' type='button' value='C' />",
-                    bd = "<input class='row_button row_delete' data-row-id='" + current_rowid + "' type='button' value='D' />";
-                $('#' + self.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
+                self.render_buttons(new_id);
             }
         };
         $('#' + grid_id)
@@ -434,18 +428,20 @@ var org_openpsa_grid_editable = {
             data: {id: id, position: pos}
         });
     },
+    render_buttons: function(rowid) {
+        var be = "<input class='row_button row_edit' data-row-id='" + rowid + "' type='button' value='E' />",
+            bs = "<input class='row_button row_save hidden' data-row-id='" + rowid + "' type='button' value='S' />",
+            bc = "<input class='row_button row_cancel hidden' data-row-id='" + rowid + "' type='button' value='C' />",
+            bd = "<input class='row_button row_delete' data-row-id='" + rowid + "' type='button' value='D' />";
+        $("#" + this.grid_id).jqGrid('setRowData', rowid, {actions: be + bs + bc + bd});
+    },
     add_inline_controls: function() {
         var rowids = $("#" + this.grid_id).jqGrid('getDataIDs'),
             self = this,
-            i, current_rowid;
+            i;
 
         for (i = 0; i < rowids.length; i++) {
-            current_rowid = rowids[i];
-            var be = "<input class='row_button row_edit' data-row-id='" + current_rowid + "' type='button' value='E' />",
-                bs = "<input class='row_button row_save hidden' data-row-id='" + current_rowid + "' type='button' value='S' />",
-                bc = "<input class='row_button row_cancel hidden' data-row-id='" + current_rowid + "' type='button' value='C' />",
-                bd = "<input class='row_button row_delete' data-row-id='" + current_rowid + "' type='button' value='D' />";
-            $("#" + this.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
+            this.render_buttons(rowids[i]);
         }
 
         $("#" + this.grid_id).on('click', ".row_edit", function() {
