@@ -14,7 +14,7 @@ var openpsa_calendar_widget =
             var date = $(selector).fullCalendar('getDate');
             $(this).attr('href', prefix + 'event/new/?start=' + date.add(1, 's').format('YYYY-MM-DD HH:mm:ss'));
         });
-        $("#date-navigation").parent().bind("click", function(event)
+        $("#date-navigation").parent().on("click", function(event)
         {
             if (   $(event.target).parent().attr('id') !== 'date-navigation'
                 && $(event.target).attr('id') !== 'date-navigation')

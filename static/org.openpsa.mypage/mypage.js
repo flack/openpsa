@@ -36,13 +36,13 @@ var org_openpsa_workingon =
         $('#org_openpsa_mypage_workingon_loading').hide();
         $('#org_openpsa_mypage_workingon_start')
             .prop("disabled", true)
-            .bind('click', function()
+            .on('click', function()
             {
                 send_working_on('start');
             });
 
         $('#org_openpsa_mypage_workingon_stop')
-            .bind('click', function()
+            .on('click', function()
             {
                 send_working_on('stop');
             });

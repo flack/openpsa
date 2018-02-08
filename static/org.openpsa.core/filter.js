@@ -2,7 +2,7 @@ $(document).ready(function() {
     $('form.org_openpsa_queryfilter .filter_input').each(function(index, item) {
         $(item).data('original_value', $(item).val());
     });
-    $('form.org_openpsa_queryfilter .filter_apply').bind('click', function() {
+    $('form.org_openpsa_queryfilter .filter_apply').on('click', function() {
         var filter_values = {};
         $('form.org_openpsa_queryfilter input[type="text"]').each(function(index, element) {
             filter_values[$(element).attr('name')] = $(element).val();
@@ -24,19 +24,19 @@ $(document).ready(function() {
         }
         $(this).closest('form').submit();
     });
-    $('form.org_openpsa_queryfilter .filter_unset').bind('click', function() {
+    $('form.org_openpsa_queryfilter .filter_unset').on('click', function() {
         var form = $(this).closest('form'),
             container = $(this).closest('.org_openpsa_filter_widget');
         form
             .append('<input type="hidden" name="unset_filter" value="' + container.attr('id') + '" />')
             .submit();
     });
-    $('form.org_openpsa_queryfilter input').bind('keypress', function(e) {
+    $('form.org_openpsa_queryfilter input').on('keypress', function(e) {
         if (e.which == 13) {
             $(this).closest('form').submit();
         }
     });
-    $('form.org_openpsa_queryfilter .filter_input').bind('change', function() {
+    $('form.org_openpsa_queryfilter .filter_input').on('change', function() {
         if ($(this).data('original_value') !== $(this).val()) {
             $(this).closest('.org_openpsa_filter_widget').addClass('filter-changed');
         } else {

@@ -21,7 +21,7 @@
         opts.submit_button = 'button.save';
 
         $('input[name="org_openpsa_user[password][switch]"]')
-            .bind('change', function() {
+            .on('change', function() {
                 if ($('input[name="org_openpsa_user[password][switch]"]:checked').val() == 0) {
                     password_field.hide();
                 }
@@ -31,7 +31,7 @@
             })
             .trigger('change');
 
-        $(opts.userid).bind('keyup', function() {
+        $(opts.userid).on('keyup', function() {
             setButtonStatus(opts);
         });
         //run the check function once at start
@@ -39,7 +39,7 @@
 
         return this.each(function() {
             //bind check on password field
-            $(this).bind('keyup', function() {
+            $(this).on('keyup', function() {
                 setButtonStatus(opts);
 
                 var results = teststrength($(this).val(), opts);

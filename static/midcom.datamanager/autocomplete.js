@@ -116,7 +116,7 @@ var midcom_helper_datamanager2_autocomplete = {
                 },
                 text: false
             })
-            .bind('click', function() {
+            .on('click', function() {
                 var url = creation_url + '?chooser_widget_id=' + identifier;
                 if (   $('#' + identifier + '_search_input').val() !== ''
                     && handler_options.creation_default_key !== undefined) {

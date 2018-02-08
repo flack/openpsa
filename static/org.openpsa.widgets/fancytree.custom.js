@@ -45,7 +45,7 @@ var org_openpsa_tree =
 
         options = $.extend({}, default_options, options || {});
 
-        $(window).bind('resize', function()
+        $(window).on('resize', function()
         {
             org_openpsa_tree.crop_height($('#' + identifier));
         });

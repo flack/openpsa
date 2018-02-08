@@ -33,7 +33,7 @@ function init_subform(id, sortable) {
     if (sortable === true) {
         container
             .sortable({items: '> fieldset'})
-            .bind('sortupdate', function() {
+            .on('sortupdate', function() {
                 $($(this).find('> .ui-sortable-handle').get().reverse()).each(function(index, element) {
                     $('#' + $(element).attr('id') + '_score').val(index);
                 });

@@ -38,7 +38,7 @@ var org_openpsa_grid_resize = {
      * resizer triggers three window.resize events for whatever reason...
      */
     ie8_workaround: function() {
-        $('table.ui-jqgrid-htable .ui-jqgrid-resize').bind('mousedown', function() {
+        $('table.ui-jqgrid-htable .ui-jqgrid-resize').on('mousedown', function() {
             org_openpsa_grid_resize.col_resize = true;
         });
         $('table.ui-jqgrid-btable').jqGrid('setGridParam', {resizeStop: function() {
@@ -80,7 +80,7 @@ var org_openpsa_grid_resize = {
     attach_maximizer: function(items) {
         $(items).each(function() {
             $('<a role="link" class="ui-jqgrid-titlebar-maximize"><span class="ui-icon ui-icon-circle-zoomin"></a></a>')
-                .bind('click', function() {
+                .on('click', function() {
                     var container = $(this).closest('.ui-jqgrid').parent();
 
                     if (container.hasClass('ui-jqgrid-maximized')) {
@@ -454,7 +454,7 @@ var org_openpsa_grid_helper = {
 
         $("#chgrouping_" + grid_id)
             .val((active) ? group_conf.groupField[0] : 'clear')
-            .bind('change', function() {
+            .on('change', function() {
                 var selection = $(this).val(),
                     previous = group_conf.groupField[0];
 
@@ -516,7 +516,7 @@ var org_openpsa_grid_helper = {
                 }
             }
             if (org_openpsa_grid_helper.event_handler_added === false) {
-                $(window).bind('unload', org_openpsa_grid_helper.save_grid_data);
+                $(window).on('unload', org_openpsa_grid_helper.save_grid_data);
                 org_openpsa_grid_helper.event_handler_added = true;
             }
         }
@@ -579,7 +579,7 @@ var org_openpsa_export_csv = {
     add: function (config) {
         this.configs[config.id] = config;
 
-        $('#' + config.id + '_export input[type="submit"]').bind('click', function() {
+        $('#' + config.id + '_export input[type="submit"]').on('click', function() {
             var id = $(this).parent().attr('id').replace(/_export$/, '');
             org_openpsa_export_csv.prepare_data(id);
         });
@@ -635,7 +635,7 @@ var org_openpsa_batch_processing = {
             midcom_helper_datamanager2_autocomplete.create_widget(widget_conf);
         });
 
-        $('#' + config.id + '_batch_select').bind('change', function(event) {
+        $('#' + config.id + '_batch_select').on('change', function(event) {
             var selected_option = $(event.target).val();
             $('.batch_widget').hide();
             $('#' + config.id + '_batch').css('display', 'inline');
@@ -663,7 +663,7 @@ var org_openpsa_batch_processing = {
         });
 
         // We use regular post instead of ajax to get browser's busy indicator
-        $("#form_" + config.id).bind('submit', function() {
+        $("#form_" + config.id).on('submit', function() {
             function add_array(field, data) {
                 for (var i = 0; i < data.length; i++) {
                     $('<input type="hidden" name="' + field + '[]" value="' + data[i] + '" />')

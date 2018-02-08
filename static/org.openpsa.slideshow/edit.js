@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#reverse').bind('click', function() {
+    $('#reverse').on('click', function() {
         $('#item_container > div').not('.entry-template').each(function(index, element) {
             $('#item_container').prepend(element);
         });
@@ -11,7 +11,7 @@ $(document).ready(function() {
             description: $(item).find('.description textarea').val()
         });
     });
-    $('#upload_field').bind('change', function() {
+    $('#upload_field').on('change', function() {
         var image, entry, reader,
         entry_template = $('#item_container .entry-template')[0];
         $.each(this.files, function(index, file) {
@@ -78,7 +78,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#save_all').bind('click', function() {
+    $('#save_all').on('click', function() {
         var delete_guids = [],
             update_items = [],
             fd, xhr,

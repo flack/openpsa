@@ -260,10 +260,10 @@ var org_openpsa_layout = {
             .insertBefore(field);
 
         field.show()
-        .bind('focus', function() {
+        .on('focus', function() {
             field.addClass('focused');
         })
-        .bind('blur', function() {
+        .on('blur', function() {
             field.removeClass('focused');
         });
     }
