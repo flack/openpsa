@@ -394,7 +394,7 @@ ul#org_openpsa_search_providers li
     font-size: 1em
 }
 
-ul#org_openpsa_search_providers li.hover
+ul#org_openpsa_search_providers li:hover
 {
     background-color: #3364A3;
     color: white;
@@ -458,7 +458,7 @@ input#org_openpsa_search_query
     opacity: .7
 }
 
-#org_openpsa_search_query.focused,
+#org_openpsa_search_query:focus,
 #org_openpsa_search_trigger.focused
 {
     filter: alpha(opacity=100);

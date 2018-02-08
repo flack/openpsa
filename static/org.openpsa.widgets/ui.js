@@ -4,10 +4,9 @@ var org_openpsa_jsqueue = {
         this.actions.push(action);
     },
     execute: function() {
-        var i;
-        for (i = 0; i < this.actions.length; i++) {
-            this.actions[i]();
-        }
+        this.actions.forEach(function(action) {
+            action();
+        });
         this.actions = [];
     }
 };
@@ -16,18 +15,16 @@ var org_openpsa_resizers = {
     handlers: {},
     queue: [],
     append_handler: function(identifier, callback) {
-        if (typeof org_openpsa_resizers.handlers[identifier] !== 'undefined') {
-            return;
+        if (!org_openpsa_resizers.handlers.hasOwnProperty(identifier)) {
+            org_openpsa_resizers.handlers[identifier] = true;
+            org_openpsa_resizers.queue.push(callback);
         }
-        org_openpsa_resizers.handlers[identifier] = true;
-        org_openpsa_resizers.queue.push(callback);
     },
     prepend_handler: function(identifier, callback) {
-        if (typeof org_openpsa_resizers.handlers[identifier] !== 'undefined') {
-            return;
+        if (!org_openpsa_resizers.handlers.hasOwnProperty(identifier)) {
+            org_openpsa_resizers.handlers[identifier] = true;
+            org_openpsa_resizers.queue.unshift(callback);
         }
-        org_openpsa_resizers.handlers[identifier] = true;
-        org_openpsa_resizers.queue.unshift(callback);
     },
     bind_events: function() {
         $(window).resize(function() {
@@ -73,10 +70,11 @@ var org_openpsa_layout = {
             })
             .css('display', 'none')
             .appendTo('#org_openpsa_toolbar > ul.view_toolbar'),
-        dropdown = container.find('ul.midcom_toolbar'),
-        toolbarWidth = $('#org_openpsa_toolbar').width(),
-        lastchild = $('#org_openpsa_toolbar .view_toolbar li:last-child'),
-        over = false;
+
+            dropdown = container.find('ul.midcom_toolbar'),
+            toolbarWidth = $('#org_openpsa_toolbar').width(),
+            lastchild = $('#org_openpsa_toolbar .view_toolbar li:last-child'),
+            over = false;
 
         $('#org_openpsa_toolbar > .view_toolbar > li:not(#toolbar_dropdown)').each(function() {
             if (!over && ($(this).position().left + $(this).width() + container.width()) > toolbarWidth) {
@@ -96,7 +94,8 @@ var org_openpsa_layout = {
                     .clone()
                     .css('visibility', 'hidden')
                     .insertBefore(container),
-                positionLast = $('#org_openpsa_toolbar .view_toolbar li:last-child').position().left + $('#org_openpsa_toolbar .view_toolbar li:last-child').width();
+
+                    positionLast = $('#org_openpsa_toolbar .view_toolbar li:last-child').position().left + $('#org_openpsa_toolbar .view_toolbar li:last-child').width();
 
                 if (positionLast < toolbarWidth) {
                     $(this).remove();
@@ -166,26 +165,27 @@ var org_openpsa_layout = {
         }
 
         var field = $('#org_openpsa_search_query'),
-            current_provider,
             selector = $('<ul id="org_openpsa_search_providers"></ul>'),
-            li_class = '',
-            i;
+            li_class = '';
 
         if (typeof current !== 'string' || current === '') {
             current = providers[0].identifier;
         }
 
-        var enable_autocomplete = function (provider) {
+        function enable_provider(provider) {
+            field
+                .attr('placeholder', provider.placeholder || '')
+                .focus();
+            $('#org_openpsa_search_form').attr('action', provider.url);
+
             if (provider.autocomplete) {
-                $('#org_openpsa_search_query').category_complete({
+                field.category_complete({
                     source: function (request, response) {
                         $.ajax({
                             url: provider.url + '/autocomplete/',
                             dataType: 'json',
-                            data: { query: request.term},
-                            success: function (data) {
-                                response(data);
-                            }
+                            data: {query: request.term},
+                            success: response
                         });
                     },
                     select: function (event, ui) {
@@ -198,53 +198,34 @@ var org_openpsa_layout = {
             }
         };
 
-        for (i = 0; i < providers.length; i++) {
+        providers.forEach(function(provider) {
             li_class = 'provider';
-            if (current === providers[i].identifier) {
-                current_provider = providers[i];
+            if (current === provider.identifier) {
                 li_class += ' current';
+                enable_provider(provider);
             }
 
-            $('<li class="' + li_class + '">' + providers[i].placeholder + '</li>')
-                .data('provider', providers[i])
+            $('<li class="' + li_class + '">' + provider.placeholder + '</li>')
+                .data('provider', provider)
                 .click(function(event) {
-                    var target = $(event.target),
-                        old_item = $('#org_openpsa_search_providers .current'),
+                    var old_item = $('#org_openpsa_search_providers .current'),
                         query = $('#org_openpsa_search_query');
 
                     if (old_item.data('provider').autocomplete) {
                         query.category_complete('destroy');
                     }
-                    field.attr('placeholder', target.data('provider').placeholder || '');
 
                     old_item.removeClass('current');
-                    target.addClass('current');
+                    $(this).addClass('current');
 
-                    enable_autocomplete(target.data('provider'));
+                    enable_provider(provider);
 
-                    $('#org_openpsa_search_form').attr('action', target.data('provider').url);
                     $('#org_openpsa_search_trigger').click();
 
-                    $.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {openpsa2_search_provider: target.data('provider').identifier});
+                    $.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {openpsa2_search_provider: provider.identifier});
                 })
                 .appendTo(selector);
-
-            if (current === providers[i].identifier) {
-                field.attr('placeholder', providers[i].placeholder || '');
-                if (providers[i].autocomplete === true) {
-                    enable_autocomplete(providers[i]);
-                }
-            }
-        }
-        selector
-            .on('mouseover', 'li.provider', function() {
-                $(this).addClass('hover');
-            })
-            .on('mouseout', 'li.provider', function() {
-                $(this).removeClass('hover');
-            });
-
-        $('#org_openpsa_search_form').attr('action', current_provider.url);
+        });
 
         var search = location.search.replace(/^.*?[\?|&]query=([^&]*).*/, '$1');
         if (search !== '' && search !== location.search) {
@@ -252,6 +233,7 @@ var org_openpsa_layout = {
         }
 
         selector.insertBefore(field);
+
         $('<div id="org_openpsa_search_trigger"></div>')
             .click(function() {
                 $('#org_openpsa_search_providers').toggle();
@@ -259,12 +241,6 @@ var org_openpsa_layout = {
             })
             .insertBefore(field);
 
-        field.show()
-        .on('focus', function() {
-            field.addClass('focused');
-        })
-        .on('blur', function() {
-            field.removeClass('focused');
-        });
+        field.show();
     }
 };
