@@ -7,33 +7,24 @@ $navi->draw();
 ?>
 
 <script type="text/javascript">
-    $('#nav').fancytree(
-    {
+    $('#nav').fancytree({
         minExpandLevel: 1,
         extensions: ['persist'],
-        persist:
-        {
-            cookie: {path: MIDCOM_PAGE_PREFIX},
-            types: 'expanded'
-        },
         clickFolderMode: 3,
         autoCollapse: false,
         debugLevel: -1,
 
-        click: function(event, data)
-        {
+        click: function(event, data) {
             if (   event.ctrlKey === false
                 && data.targetType !== undefined
                 && data.targetType !== 'expander'
                 && data.node.data.href !== undefined
                 && event.originalEvent !== undefined
-                && window.location.pathname !== data.node.data.href)
-            {
+                && window.location.pathname !== data.node.data.href) {
                 window.location.href = data.node.data.href;
             }
         },
-        renderTitle: function(event, data)
-        {
+        renderTitle: function(event, data) {
             return '<a href="' + data.node.data.href + '" class="fancytree-label">' + data.node.title + '</a>';
         }
     });
