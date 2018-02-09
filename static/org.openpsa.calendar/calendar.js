@@ -1,51 +1,37 @@
-var openpsa_calendar_widget =
-{
-    refresh: function()
-    {
-        if (window.opener.openpsa_calendar_instance)
-        {
+var openpsa_calendar_widget = {
+    refresh: function() {
+        if (window.opener.openpsa_calendar_instance) {
             window.opener.openpsa_calendar_instance.fullCalendar('refetchEvents');
         }
     },
-    prepare_toolbar_buttons: function(selector, prefix)
-    {
-        $('#openpsa_calendar_add_event').on('click', function()
-        {
+    prepare_toolbar_buttons: function(selector, prefix) {
+        $('#openpsa_calendar_add_event').on('click', function() {
             var date = $(selector).fullCalendar('getDate');
             $(this).attr('href', prefix + 'event/new/?start=' + date.add(1, 's').format('YYYY-MM-DD HH:mm:ss'));
         });
-        $("#date-navigation").parent().on("click", function(event)
-        {
+        $("#date-navigation").parent().on("click", function(event) {
             if (   $(event.target).parent().attr('id') !== 'date-navigation'
-                && $(event.target).attr('id') !== 'date-navigation')
-            {
+                && $(event.target).attr('id') !== 'date-navigation') {
                 //don't fire on datepicker navigation clicks
                 return;
             }
-            if ($(this).hasClass("active"))
-            {
+            if ($(this).hasClass("active")) {
                 $(this).removeClass("active");
                 $("#date-navigation-widget").hide();
-            }
-            else if ($(this).hasClass("initialized"))
-            {
+            } else if ($(this).hasClass("initialized")) {
                 $("#date-navigation-widget").show();
                 $(this).addClass("active");
-            }
-            else
-            {
+            } else {
                 $("#date-navigation").append("<div id=\"date-navigation-widget\"></div>");
                 $("#date-navigation-widget").css("position", "absolute");
                 $("#date-navigation-widget").css("z-index", "1000");
                 var default_date = $(selector).fullCalendar('getDate').toDate();
-                $("#date-navigation-widget").datepicker(
-                {
+                $("#date-navigation-widget").datepicker({
                     dateFormat: "yy-mm-dd",
                     defaultDate: default_date,
                     prevText: "",
                     nextText: "",
-                    onSelect: function(dateText)
-                    {
+                    onSelect: function(dateText) {
                         var date = $.fullCalendar.moment(dateText);
                         $(selector).fullCalendar('gotoDate', date);
 
@@ -58,14 +44,11 @@ var openpsa_calendar_widget =
             }
         });
     },
-    parse_url: function(prefix)
-    {
+    parse_url: function(prefix) {
         var args = location.pathname.substr(prefix.length).split('/'),
         settings = {};
-        if (args[0] !== undefined)
-        {
-            switch (args[0])
-            {
+        if (args[0] !== undefined) {
+            switch (args[0]) {
                 case 'month':
                 case 'basicDay':
                 case 'basicWeek':
@@ -75,41 +58,34 @@ var openpsa_calendar_widget =
                     break;
             }
         }
-        if (args[1] !== undefined)
-        {
+        if (args[1] !== undefined) {
             settings.defaultDate = args[1];
         }
         return settings;
     },
-    update_url: function(selector, prefix)
-    {
+    update_url: function(selector, prefix) {
         var last_state = History.getState(),
-        view = $(selector).fullCalendar('getView'),
-        state_data =
-        {
-            date: $.fullCalendar.moment($(selector).fullCalendar('getDate')).format('YYYY-MM-DD'),
-            view: view.name
-        },
-        new_url = prefix + view.name + '/' + state_data.date + '/';
+            view = $(selector).fullCalendar('getView'),
+            state_data = {
+                date: $.fullCalendar.moment($(selector).fullCalendar('getDate')).format('YYYY-MM-DD'),
+                view: view.name
+            },
+            new_url = prefix + view.name + '/' + state_data.date + '/';
         // skip if the last state was same than current
-        if (last_state.url === new_url)
-        {
+        if (last_state.url === new_url) {
             return;
         }
 
         History.pushState(state_data, view.title + ' ' + $('body').data('title'), new_url);
     },
-    set_height: function(selector)
-    {
+    set_height: function(selector) {
         var new_height = $('#content-text').height();
 
-        if (new_height !== $(selector).height())
-        {
+        if (new_height !== $(selector).height()) {
             $(selector).fullCalendar('option', 'height', new_height);
         }
     },
-    initialize: function(selector, prefix, settings, embedded)
-    {
+    initialize: function(selector, prefix, settings, embedded) {
         function save_event(event, delta, revertFunc) {
             var params = {
                 start: event.start.add(1, 's').format('YYYY-MM-DD HH:mm:ss')
@@ -119,14 +95,13 @@ var openpsa_calendar_widget =
                 params.end = event.end.format('YYYY-MM-DD HH:mm:ss');
             }
             $.post(prefix + 'event/move/' + event.id + '/', params)
-                .fail(function(){
+                .fail(function() {
                     revertFunc();
                 });
         }
         $('body').data('title', document.title);
 
-        var defaults =
-        {
+        var defaults = {
             theme: true,
             defaultView: "month",
             weekNumbers: true,
@@ -136,8 +111,7 @@ var openpsa_calendar_widget =
             nowIndicator: true,
             editable: true,
             navLinks: true,
-            header:
-            {
+            header: {
                 left: 'month,agendaWeek,agendaDay',
                 center: 'title',
                 right: 'today prev,next'
@@ -155,16 +129,13 @@ var openpsa_calendar_widget =
                     }
                 });
             },
-            viewRender: function ()
-            {
-                if (!embedded)
-                {
+            viewRender: function() {
+                if (!embedded) {
                     openpsa_calendar_widget.update_url(selector, prefix);
                 }
             },
             eventRender: function (event, element) {
-                if (event.participants)
-                {
+                if (event.participants) {
                     element.find('.fc-content, .fc-list-item-title a').append('<span class="participants">(' + event.participants.join(', ') + ')</span>');
                 }
             },
@@ -187,19 +158,17 @@ var openpsa_calendar_widget =
         window.openpsa_calendar_instance = $(selector).fullCalendar(settings);
         openpsa_calendar_widget.prepare_toolbar_buttons(selector, prefix);
 
-        if (!embedded)
-        {
+        if (!embedded) {
             // Prepare History.js
             if (History.enabled ) {
-                History.Adapter.bind(window, 'statechange', function(){
+                History.Adapter.bind(window, 'statechange', function() {
                     var State = History.getState();
                     $(selector).fullCalendar('gotoDate', $.fullCalendar.moment(State.data.date));
                     $(selector).fullCalendar('changeView', State.data.view);
                 });
             }
 
-            org_openpsa_resizers.append_handler('calendar', function()
-            {
+            org_openpsa_resizers.append_handler('calendar', function() {
                 openpsa_calendar_widget.set_height(selector);
             });
         }
