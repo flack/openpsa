@@ -36,7 +36,6 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
         $head->add_stylesheet(MIDCOM_STATIC_URL . $prefix . 'fullcalendar.print.min.css', 'print');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.css');
 
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/history.js-1.8.0/jquery.history.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
     }
 }

@@ -1,10 +1,11 @@
 var org_openpsa_widgets_tabs = {
     loaded_scripts: [],
+    popstate: false,
     form_append: "&midcom_helper_datamanager2_cancel=Cancel",
     initialize: function(uiprefix) {
         org_openpsa_widgets_tabs.bind_events(uiprefix);
 
-        $('#tabs').tabs({
+        var tabs = $('#tabs').tabs({
             beforeLoad: function(event, ui) {
                 if (ui.tab.data("loaded")) {
                     event.preventDefault();
@@ -22,35 +23,33 @@ var org_openpsa_widgets_tabs = {
             activate: function(event, ui) {
                 $(window).trigger('resize');
 
-                var last_state = History.getState(),
-                    data = {tab_id: ui.newPanel.attr('id')};
+                var last_state = history.state,
+                    data = {tab_id: tabs.tabs('option', 'active')};
 
                 // skip if the last state was same than current
-                if (last_state.tab_id !== data.tab_id) {
-                    History.pushState(data, $('body').data('title'), '?' + data.tab_id);
+                if (!org_openpsa_widgets_tabs.popstate && (!last_state || last_state.tab_id !== data.tab_id)) {
+                    history.pushState(data, $('body').data('title'), '?tab-' + data.tab_id);
                 }
             },
             create: function() {
-                // Prepare History.js
-                if (History.enabled) {
-                    History.Adapter.bind(window, 'statechange', function() {
-                        org_openpsa_widgets_tabs.history_loader();
-                    });
+                if (window.hasOwnProperty('history')) {
+                    window.onpopstate = org_openpsa_widgets_tabs.history_loader;
                 }
             }
         });
     },
     history_loader: function() {
-        var tab_id = 0,
-            state = History.getState(),
-            hash = state.data.tab_id;
+        var state = history.state,
+            tab_id = 0;
 
-        if (hash !== '') {
-            tab_id = parseInt(hash.replace(/ui-tabs-/, '')) - 1;
+        if (state) {
+            tab_id = state.tab_id;
         }
-
+        
         if ($('#tabs').tabs('option', 'active') != tab_id) {
+            org_openpsa_widgets_tabs.popstate = true;
             $('#tabs').tabs('option', 'active', tab_id);
+            org_openpsa_widgets_tabs.popstate = false;
         }
     },
     bind_events: function(uiprefix) {
@@ -121,8 +120,7 @@ var org_openpsa_widgets_tabs = {
                 insertion_point = $('link[href="' + data.href + '"]');
             } else {
                 var tag = '<link';
-                $.each(data, function(key, value)
-                {
+                $.each(data, function(key, value) {
                     tag += ' ' + key + '="' + value + '"';
                 });
                 tag += ' />';
