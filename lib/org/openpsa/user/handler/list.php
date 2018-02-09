@@ -1,12 +1,12 @@
 <?php
-use Doctrine\ORM\Query\Expr\Join;
-
 /**
  * @package org.openpsa.user
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
+
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * Request class for user management

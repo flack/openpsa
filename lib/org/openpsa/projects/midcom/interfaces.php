@@ -1,12 +1,12 @@
 <?php
-use midcom\datamanager\datamanager;
-
 /**
  * @package org.openpsa.projects
  * @author Nemein Oy http://www.nemein.com/
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
+
+use midcom\datamanager\datamanager;
 
 /**
  * OpenPSA group projects
