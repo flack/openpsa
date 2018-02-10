@@ -128,6 +128,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         $this->_populate_toolbar();
         midcom::get()->head->set_pagetitle($data['view_title']);
+        org_openpsa_widgets_tree::add_head_elements();
     }
 
     /**
