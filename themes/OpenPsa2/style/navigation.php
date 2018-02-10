@@ -10,6 +10,9 @@ $navi->draw();
     $('#nav').fancytree({
         minExpandLevel: 1,
         extensions: ['persist'],
+        persist: {
+            types: 'expanded'
+        },
         clickFolderMode: 3,
         autoCollapse: false,
         debugLevel: -1,
