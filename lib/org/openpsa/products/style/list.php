@@ -32,28 +32,27 @@ $grid->set_column('code', $data['l10n']->get('code'), 'width: 80, fixed: true', 
     ->set_column('price', $data['l10n']->get('price'), 'width: 70, fixed: true, template: "number"')
     ->set_select_column('unit', $data['l10n']->get('unit'), 'width: 70, fixed: true', $unit_options);
 ?>
-<div class="sidebar">
-<?php
-midcom_show_style('group-tree');
-?>
-</div>
-<div class="main">
-<?php
-if (array_key_exists('view_group', $data)) {
-    $view = $data['view_group']; ?>
-    <h1>&(view['code']:h); &(view['title']:h);</h1>
+<div class="content-with-sidebar">
+    <div class="main">
+        <?php
+        if (array_key_exists('view_group', $data)) {
+            $view = $data['view_group']; ?>
+            <h1>&(view['code']:h); &(view['title']:h);</h1>
 
-    &(view['description']:h);
-    <?php
-
-} else {
-    echo "<h1>{$data['view_title']}</h1>\n";
-}
-?>
-<div class="org_openpsa_user full-width fill-height">
-<?php $grid->render(); ?>
-<script type="text/javascript">
-$('#<?php echo $grid->get_identifier(); ?>').jqGrid('filterToolbar');
-</script>
-</div>
+            &(view['description']:h);
+            <?php
+        } else {
+            echo "<h1>{$data['view_title']}</h1>\n";
+        }
+        ?>
+        <div class="org_openpsa_user full-width fill-height">
+        	<?php $grid->render(); ?>
+            <script type="text/javascript">
+            $('#<?php echo $grid->get_identifier(); ?>').jqGrid('filterToolbar');
+            </script>
+        </div>
+    </div>
+    <aside>
+    	<?php midcom_show_style('group-tree'); ?>
+    </aside>
 </div>

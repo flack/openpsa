@@ -2,26 +2,7 @@
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
 ?>
-<div class="sidebar">
-    <?php
-    if ($data['parent_group']) {
-        ?>
-        <div class="area parent">
-          <h2><?php printf($data['l10n']->get('%s of'), $data['l10n']->get($data['view']['organization_type'])); ?></h2>
-            <dl>
-                <dt><?php echo "<a href=\"{$node[MIDCOM_NAV_ABSOLUTEURL]}group/{$data['parent_group']->guid}/\">{$data['parent_group']->official}</a>"; ?></dt>
-            </dl>
-        </div>
-        <?php
-
-    }
-
-    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/members/" . $data['group']->guid . "/");
-    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/subgroups/" . $data['group']->guid . "/"); ?>
-
-    <!-- TODO: Projects list, Add project button -->
-</div>
-
+<div class="content-with-sidebar">
 <div class="main">
     <?php
     // Display the group information
@@ -82,4 +63,25 @@ $node = $nap->get_node($nap->get_current_node());
     }
     org_openpsa_widgets_ui::render_tabs($data['group']->guid, $tabs);
     ?>
+</div>
+
+<aside>
+    <?php
+    if ($data['parent_group']) {
+        ?>
+        <div class="area parent">
+          <h2><?php printf($data['l10n']->get('%s of'), $data['l10n']->get($data['view']['organization_type'])); ?></h2>
+            <dl>
+                <dt><?php echo "<a href=\"{$node[MIDCOM_NAV_ABSOLUTEURL]}group/{$data['parent_group']->guid}/\">{$data['parent_group']->official}</a>"; ?></dt>
+            </dl>
+        </div>
+        <?php
+
+    }
+
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/members/" . $data['group']->guid . "/");
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/subgroups/" . $data['group']->guid . "/"); ?>
+
+    <!-- TODO: Projects list, Add project button -->
+</aside>
 </div>

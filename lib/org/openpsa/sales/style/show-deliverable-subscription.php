@@ -9,57 +9,7 @@ if (   $data['product']
 }
 ?>
 <div class="org_openpsa_sales_salesproject_deliverable &(state);">
-    <div class="sidebar">
-        <?php if ($data['product']) {
-                ?>
-        <div class="products area">
-            <?php
-            echo "<h2>" . $data['l10n']->get('product') . "</h2>\n";
-            echo $data['product']->render_link() . "\n"; ?>
-        </div>
-        <?php
-            } ?>
-
-        <div class="at area">
-        <?php
-        if ($at_entries = $data['deliverable']->get_at_entries()) {
-            echo "<h2>" . $data['l10n']->get('next run') . "</h2>\n";
-            echo "<table>\n";
-            echo "    <thead>\n";
-            echo "        <tr>\n";
-            echo "            <th>" . midcom::get()->i18n->get_string('time', 'midcom.services.at') . "</th>\n";
-            echo "            <th>" . midcom::get()->i18n->get_string('status', 'midcom.services.at') . "</th>\n";
-            echo "        </tr>\n";
-            echo "    </thead>\n";
-            echo "    <tbody>\n";
-
-            foreach ($at_entries as $entry) {
-                echo "        <tr>\n";
-                echo "            <td>" . $formatter->datetime($entry->start) . "</td>\n";
-
-                echo "            <td>";
-                switch ($entry->status) {
-                    case midcom_services_at_entry_dba::SCHEDULED:
-                        echo midcom::get()->i18n->get_string('scheduled', 'midcom.services.at');
-                        break;
-                    case midcom_services_at_entry_dba::RUNNING:
-                        echo midcom::get()->i18n->get_string('running', 'midcom.services.at');
-                        break;
-                    case midcom_services_at_entry_dba::FAILED:
-                        echo midcom::get()->i18n->get_string('failed', 'midcom.services.at');
-                        break;
-                }
-                echo "</td>\n";
-
-                echo "        </tr>\n";
-            }
-            echo "    </tbody>\n";
-            echo "</table>\n";
-        }
-        ?>
-        </div>
-    </div>
-
+<div class="content-with-sidebar">
     <div class="main">
         <div class="tags">&(view['tags']:h);</div>
         <?php
@@ -178,6 +128,57 @@ if (   $data['product']
         </div>
     </div>
 
+    <aside>
+        <?php if ($data['product']) {
+                ?>
+        <div class="products area">
+            <?php
+            echo "<h2>" . $data['l10n']->get('product') . "</h2>\n";
+            echo $data['product']->render_link() . "\n"; ?>
+        </div>
+        <?php
+            } ?>
+
+        <div class="at area">
+        <?php
+        if ($at_entries = $data['deliverable']->get_at_entries()) {
+            echo "<h2>" . $data['l10n']->get('next run') . "</h2>\n";
+            echo "<table>\n";
+            echo "    <thead>\n";
+            echo "        <tr>\n";
+            echo "            <th>" . midcom::get()->i18n->get_string('time', 'midcom.services.at') . "</th>\n";
+            echo "            <th>" . midcom::get()->i18n->get_string('status', 'midcom.services.at') . "</th>\n";
+            echo "        </tr>\n";
+            echo "    </thead>\n";
+            echo "    <tbody>\n";
+
+            foreach ($at_entries as $entry) {
+                echo "        <tr>\n";
+                echo "            <td>" . $formatter->datetime($entry->start) . "</td>\n";
+
+                echo "            <td>";
+                switch ($entry->status) {
+                    case midcom_services_at_entry_dba::SCHEDULED:
+                        echo midcom::get()->i18n->get_string('scheduled', 'midcom.services.at');
+                        break;
+                    case midcom_services_at_entry_dba::RUNNING:
+                        echo midcom::get()->i18n->get_string('running', 'midcom.services.at');
+                        break;
+                    case midcom_services_at_entry_dba::FAILED:
+                        echo midcom::get()->i18n->get_string('failed', 'midcom.services.at');
+                        break;
+                }
+                echo "</td>\n";
+
+                echo "        </tr>\n";
+            }
+            echo "    </tbody>\n";
+            echo "</table>\n";
+        }
+        ?>
+        </div>
+    </aside>
+	</div>
     <div class="wide">
     <?php
     $tabs = [];

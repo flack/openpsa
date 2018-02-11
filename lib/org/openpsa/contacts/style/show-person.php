@@ -2,17 +2,7 @@
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
 ?>
-<div class="sidebar">
-    <?php
-    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "person/memberships/{$data['person']->guid}/");
-
-    // Try to find campaigns component
-    if ($campaigns_node = midcom_helper_misc::find_node_by_component('org.openpsa.directmarketing')) {
-        midcom::get()->dynamic_load($campaigns_node[MIDCOM_NAV_RELATIVEURL] . "campaign/list/{$data['person']->guid}/");
-    }
-    ?>
-</div>
-
+<div class="content-with-sidebar">
 <div class="main">
 <?php
     $data['datamanager']->display_view(true);
@@ -43,4 +33,15 @@ $node = $nap->get_node($nap->get_current_node());
     }
     org_openpsa_widgets_ui::render_tabs($data['person']->guid, $tabs);
 ?>
+</div>
+<aside>
+    <?php
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "person/memberships/{$data['person']->guid}/");
+
+    // Try to find campaigns component
+    if ($campaigns_node = midcom_helper_misc::find_node_by_component('org.openpsa.directmarketing')) {
+        midcom::get()->dynamic_load($campaigns_node[MIDCOM_NAV_RELATIVEURL] . "campaign/list/{$data['person']->guid}/");
+    }
+    ?>
+</aside>
 </div>

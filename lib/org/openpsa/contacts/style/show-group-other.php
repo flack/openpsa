@@ -14,15 +14,7 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'width: 80, classe
     ->set_column('email', $data['l10n']->get('email'), 'width: 100, classes: "ui-ellipsis"');
 
 ?>
-<div class="sidebar">
-    <div class="area org_openpsa_helper_box">
-        <h3>
-            <?php echo $data['l10n']->get('groups'); ?>
-        </h3>
-        <?php $data['group_tree']->render(); ?>
-    </div>
-</div>
-
+<div class="content-with-sidebar">
 <div class="main">
     <?php
     // Display the group information
@@ -47,4 +39,13 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'width: 80, classe
     <div class="org_openpsa_contacts_members full-width fill-height">
         <?php $grid->render(); ?>
     </div>
+</div>
+<aside>
+    <div class="area org_openpsa_helper_box">
+        <h3>
+            <?php echo $data['l10n']->get('groups'); ?>
+        </h3>
+        <?php $data['group_tree']->render(); ?>
+    </div>
+</aside>
 </div>

@@ -3,20 +3,23 @@ body
     font-family: 'Lucida Grande', 'Segoe UI', 'Lucida Sans', 'Arial', sans-serif
 }
 
-#content-text div.main,
-#content-text > div.main
+.content-with-sidebar
 {
-    margin-right: 30%;
-    padding-right: 1em
+    display: flex;
+    align-items: flex-start
 }
 
-#content-text div.sidebar
+.content-with-sidebar > div.main
 {
-    float: right;
+    padding-right: 1em;
+    width: 70%;
+}
+.content-with-sidebar > aside
+{
     width: 30%;
 }
 
-#content-text div.sidebar div.vcard
+#content-text aside div.vcard
 {
     float: none;
     display: inline-block;
@@ -56,12 +59,12 @@ body
   font-size: 100%;
 }
 
-.sidebar .area
+aside .area
 {
     margin-bottom: 1.5em;
 }
 
-.sidebar .org_openpsa_helper_box
+aside .org_openpsa_helper_box
 {
     font-size: 90%;
     padding: 0;
@@ -74,7 +77,7 @@ body
     padding-bottom: .3em;
 }
 
-.sidebar .org_openpsa_helper_box h3
+aside .org_openpsa_helper_box h3
 {
     color: #24436e;
     background-color: #e9ede4;

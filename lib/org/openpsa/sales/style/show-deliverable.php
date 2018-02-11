@@ -9,18 +9,7 @@ if (   $data['product']
 }
 ?>
 <div class="org_openpsa_sales_salesproject_deliverable &(state);">
-    <div class="sidebar">
-        <?php if ($data['product']) {
-                ?>
-        <div class="products area">
-            <?php
-            echo "<h2>" . $data['l10n']->get('product') . "</h2>\n";
-                echo $data['product']->render_link() . "\n"; ?>
-        </div>
-        <?php
-            } ?>
-    </div>
-
+<div class="content-with-sidebar">
     <div class="main">
         <div class="tags">&(view['tags']:h);</div>
         <?php
@@ -126,6 +115,18 @@ if (   $data['product']
 	    </div>
     </div>
 
+    <aside>
+        <?php if ($data['product']) {
+                ?>
+        <div class="products area">
+            <?php
+            echo "<h2>" . $data['l10n']->get('product') . "</h2>\n";
+                echo $data['product']->render_link() . "\n"; ?>
+        </div>
+        <?php
+            } ?>
+    </aside>
+	</div>
     <div class="wide">
     <?php
     $tabs = [];

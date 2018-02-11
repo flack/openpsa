@@ -23,23 +23,7 @@ if ($invoice->cancelationInvoice) {
     $cancelation_invoice_link = "<a href=\"" . $cancelation_invoice_link . "\">" . $data['l10n']->get('invoice') . " " . $cancelation_invoice->get_label() . "</a>";
 }
 ?>
-    <div class="sidebar">
-        <?php
-        if ($invoice->customerContact) {
-            echo '<div class="area">';
-            echo "<h2>" . $data['l10n']->get('customer contact') . "</h2>\n";
-            $contact = org_openpsa_widgets_contact::get($invoice->customerContact);
-            echo $contact->show();
-            echo '</div>';
-        }
-        if ($billing_data = $invoice->get_billing_data()) {
-            echo '<div class="area">';
-            $billing_data->render_address();
-            echo '</div>';
-        }
-        echo $status_helper->render();
-        ?>
-    </div>
+<div class="content-with-sidebar">
 <div class="main org_openpsa_invoices_invoice">
   <div class="midcom_helper_datamanager2_view">
     <?php if ($customer) {
@@ -266,4 +250,22 @@ jQuery("#&(grid_id);").jqGrid({
     echo "</form>\n";
 }
 ?>
+</div>
+<aside>
+    <?php
+    if ($invoice->customerContact) {
+        echo '<div class="area">';
+        echo "<h2>" . $data['l10n']->get('customer contact') . "</h2>\n";
+        $contact = org_openpsa_widgets_contact::get($invoice->customerContact);
+        echo $contact->show();
+        echo '</div>';
+    }
+    if ($billing_data = $invoice->get_billing_data()) {
+        echo '<div class="area">';
+        $billing_data->render_address();
+        echo '</div>';
+    }
+    echo $status_helper->render();
+    ?>
+</aside>
 </div>

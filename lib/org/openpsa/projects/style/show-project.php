@@ -6,7 +6,37 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
 ?>
-<div class="sidebar">
+<div class="content-with-sidebar">
+<div class="main org_openpsa_projects_project">
+    <h1><?php echo $data['l10n']->get('project'); ?>: &(view['title']:h);</h1>
+
+  <div class="midcom_helper_datamanager2_view">
+    <div class="field status <?php echo $project->status_type; ?>">
+        <?php echo '<div class="title">' . $data['l10n']->get('project status') . ': </div>';
+        echo '<div class="value">' . $data['l10n']->get($project->status_type) . '</div>';
+        ?>
+    </div>
+    <div class="field">
+        <?php
+        echo '<div class="title">' . $data['l10n']->get('timeframe') . ': </div>';
+        echo '<div class="value">' . $data['l10n']->get_formatter()->timeframe($project->start, $project->end, 'date') . '</div>';
+        ?>
+    </div>
+    <div class="field">
+        <?php echo '<div class="title">' . $data['l10n']->get('description') . ': </div>';
+        echo '<div class="value">' . $view['description'] . '</div>';
+        ?>
+    </div>
+  </div>
+
+    <?php
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "task/list/project/{$project->guid}/");
+
+    // TODO: Show help message otherwise?
+    ?>
+</div>
+
+<aside>
     <?php
     try {
         $customer = org_openpsa_contacts_group_dba::get_cached($project->customer);
@@ -43,33 +73,5 @@ $node = $nap->get_node($nap->get_current_node());
         }
     }
     ?>
-</div>
-
-<div class="main org_openpsa_projects_project">
-    <h1><?php echo $data['l10n']->get('project'); ?>: &(view['title']:h);</h1>
-
-  <div class="midcom_helper_datamanager2_view">
-    <div class="field status <?php echo $project->status_type; ?>">
-        <?php echo '<div class="title">' . $data['l10n']->get('project status') . ': </div>';
-        echo '<div class="value">' . $data['l10n']->get($project->status_type) . '</div>';
-        ?>
-    </div>
-    <div class="field">
-        <?php
-        echo '<div class="title">' . $data['l10n']->get('timeframe') . ': </div>';
-        echo '<div class="value">' . $data['l10n']->get_formatter()->timeframe($project->start, $project->end, 'date') . '</div>';
-        ?>
-    </div>
-    <div class="field">
-        <?php echo '<div class="title">' . $data['l10n']->get('description') . ': </div>';
-        echo '<div class="value">' . $view['description'] . '</div>';
-        ?>
-    </div>
-  </div>
-
-    <?php
-    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "task/list/project/{$project->guid}/");
-
-    // TODO: Show help message otherwise?
-    ?>
+</aside>
 </div>
