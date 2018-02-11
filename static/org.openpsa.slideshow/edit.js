@@ -186,8 +186,7 @@ $(document).ready(function() {
 
         function add_pending_request(xhr, fd) {
             var pending = $('#progress_bar').data('pending') + 1,
-                total = $('#progress_bar').data('total') + 1,
-                completed = total - pending;
+                total = $('#progress_bar').data('total') + 1;
 
             $('#progress_bar')
                 .data('pending', pending)
@@ -200,8 +199,8 @@ $(document).ready(function() {
 
         function remove_pending_request() {
             var pending = $('#progress_bar').data('pending') - 1,
-            total = $('#progress_bar').data('total'),
-            completed = total - pending;
+                total = $('#progress_bar').data('total'),
+                completed = total - pending;
 
             $('#progress_bar')
                 .data('pending', pending)

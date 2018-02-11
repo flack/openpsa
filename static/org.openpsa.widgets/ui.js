@@ -73,7 +73,6 @@ var org_openpsa_layout = {
 
             dropdown = container.find('ul.midcom_toolbar'),
             toolbarWidth = $('#org_openpsa_toolbar').width(),
-            lastchild = $('#org_openpsa_toolbar .view_toolbar li:last-child'),
             over = false;
 
         $('#org_openpsa_toolbar > .view_toolbar > li:not(#toolbar_dropdown)').each(function() {
@@ -207,7 +206,7 @@ var org_openpsa_layout = {
 
             $('<li class="' + li_class + '">' + provider.placeholder + '</li>')
                 .data('provider', provider)
-                .click(function(event) {
+                .click(function() {
                     var old_item = $('#org_openpsa_search_providers .current'),
                         query = $('#org_openpsa_search_query');
 

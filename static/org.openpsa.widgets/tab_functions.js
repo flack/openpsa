@@ -20,7 +20,7 @@ var org_openpsa_widgets_tabs = {
             load: function() {
                 $(window).trigger('resize');
             },
-            activate: function(event, ui) {
+            activate: function() {
                 $(window).trigger('resize');
 
                 var last_state = history.state,
@@ -45,7 +45,7 @@ var org_openpsa_widgets_tabs = {
         if (state) {
             tab_id = state.tab_id;
         }
-        
+
         if ($('#tabs').tabs('option', 'active') != tab_id) {
             org_openpsa_widgets_tabs.popstate = true;
             $('#tabs').tabs('option', 'active', tab_id);

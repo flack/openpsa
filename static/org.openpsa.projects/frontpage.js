@@ -60,10 +60,6 @@ function get_tasks_json(object, url) {
                 });
                 row.after(html);
             }
-        },
-        error: function(data) {
-            //html = "<tr class='child_" + $(object).attr('id') +"'><td colspan='6'>No Tasks</td></tr>";
-            //$(row).after(html);
         }
     });
 }
