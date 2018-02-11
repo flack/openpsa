@@ -83,14 +83,16 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     public function invalidate($guid, $object = null)
     {
         if ($this->_cache !== null) {
+            $keys = [];
             foreach ($this->_data_groups as $group) {
                 if ($group == 'ACL') {
-                    $this->_cache->delete("{$group}-SELF::{$guid}");
-                    $this->_cache->delete("{$group}-CONTENT::{$guid}");
+                    $keys[] = "{$group}-SELF::{$guid}";
+                    $keys[] = "{$group}-CONTENT::{$guid}";
                 } else {
-                    $this->_cache->delete("{$group}-{$guid}");
+                    $keys[] = "{$group}-{$guid}";
                 }
             }
+            $this->_cache->deleteMultiple($keys);
         }
     }
 

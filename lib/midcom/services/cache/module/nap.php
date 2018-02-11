@@ -111,11 +111,11 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             }
         }
 
-        $leaves_key = "{$cached_node_id}-leaves";
-
-        $this->_cache->delete("{$this->_prefix}-{$cached_node_id}");
-        $this->_cache->delete($this->_prefix . '-' . $napobject[MIDCOM_NAV_GUID]);
-        $this->_cache->delete("{$this->_prefix}-{$leaves_key}");
+        $this->_cache->deleteMultiple([
+            $this->_prefix . '-' . $cached_node_id,
+            $this->_prefix . '-' . $napobject[MIDCOM_NAV_GUID],
+            $this->_prefix . '-' . $cached_node_id . '-leaves',
+        ]);
     }
 
     private function _load_from_guid($guid, $object = null)
