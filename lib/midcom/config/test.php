@@ -109,11 +109,9 @@ class midcom_config_test
         }
 
         if (ini_get("opcache.enable") == "1") {
-            $this->add("Bytecode cache", self::OK, "OPCache is enabled");
-        } elseif (ini_get("apc.enabled") == "1") {
-            $this->add("Bytecode cache", self::OK, "APC is enabled");
+            $this->add("OPCache", self::OK, "OPCache is enabled");
         } else {
-            $this->add("Bytecode cache", self::WARNING, "A PHP bytecode cache is recommended for efficient MidCOM operation");
+            $this->add("OPCache", self::WARNING, "OPCache is recommended for efficient MidCOM operation");
         }
 
         if (!class_exists('Memcached')) {
