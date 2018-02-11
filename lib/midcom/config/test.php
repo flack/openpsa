@@ -116,14 +116,14 @@ class midcom_config_test
             $this->add("Bytecode cache", self::WARNING, "A PHP bytecode cache is recommended for efficient MidCOM operation");
         }
 
-        if (!class_exists('Memcache')) {
-            $this->add('Memcache', self::WARNING, 'The PHP Memcache module is recommended for efficient MidCOM operation.');
+        if (!class_exists('Memcached')) {
+            $this->add('Memcache', self::WARNING, 'The PHP memcached module is recommended for efficient MidCOM operation.');
         } elseif (!midcom::get()->config->get('cache_module_memcache_backend')) {
-            $this->add('Memcache', self::WARNING, 'The PHP Memcache module is recommended for efficient MidCOM operation. It is available but is not set to be in use.');
+            $this->add('Memcache', self::WARNING, 'The PHP memcached module is recommended for efficient MidCOM operation. It is available but is not set to be in use.');
         } elseif (midcom::get()->cache->memcache->is_operational()) {
             $this->add('Memcache', self::OK);
         } else {
-            $this->add('Memcache', self::ERROR, "The PHP Memcache module is available and set to be in use, but it cannot be connected to.");
+            $this->add('Memcache', self::ERROR, "The PHP memcached module is available and set to be in use, but it cannot be connected to.");
         }
 
         if (!function_exists('exif_read_data')) {

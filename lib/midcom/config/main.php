@@ -121,7 +121,7 @@
  *   the backends.
  * - <b>string cache_module_memcache_backend:</b> The cache backend to use for the memcache caching
  *   module. The default is null, which disables the module entirely. This is the default. If you
- *   have both memcached and the memcache PHP extension installed, set this to 'memcached', to enable
+ *   have both memcached and the memcached PHP extension installed, set this to 'memcached', to enable
  *   the cache.
  * - <b>Array cache_module_memcache_backend_config:</b> The backend configuration to use if a backend
  *   was specified. See the individual backend documentations for more information about the allowed
@@ -486,7 +486,7 @@ class midcom_config implements arrayaccess
 
     private function _complete_defaults()
     {
-        if (class_exists('Memcache')) {
+        if (class_exists('Memcached')) {
             $this->_default_config['cache_module_content_backend'] = ['driver' => 'memcached'];
             $this->_default_config['cache_module_memcache_backend'] = 'memcached';
         }

@@ -108,10 +108,10 @@ abstract class midcom_services_cache_module
             case 'memcached':
                 $host = !empty($config['host']) ? $config['host'] : 'localhost';
                 $port = !empty($config['port']) ? $config['port'] : 11211;
-                $memcache = new Memcache;
-                if (@$memcache->pconnect($host, $port)) {
-                    $backend = new Cache\MemcacheCache();
-                    $backend->setMemcache($memcache);
+                $memcached = new Memcached;
+                if (@$memcached->addServer($host, $port)) {
+                    $backend = new Cache\MemcachedCache();
+                    $backend->setMemcached($memcached);
                     $memcache_operational = true;
                     break;
                 } else {
