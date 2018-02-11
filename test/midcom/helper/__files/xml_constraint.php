@@ -74,9 +74,4 @@ class xml_comparison extends PHPUnit_Framework_Constraint_IsEqual
 
         return parent::evaluate($this->_normalize_string($other));
     }
-
-    public function toString()
-    {
-        return 'XML outputs match';
-    }
 }
