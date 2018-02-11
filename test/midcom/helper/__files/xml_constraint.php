@@ -19,7 +19,7 @@ class xml_comparison extends PHPUnit_Framework_Constraint_IsEqual
         if (!is_string($value)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
-        $this->value = $this->_normalize_string($value, 2);
+        parent::__construct($this->_normalize_string($value, 2), $delta, $maxDepth, $canonicalize, $ignoreCase);
     }
 
     private function _normalize_string($string, $argument = 1)
@@ -72,6 +72,6 @@ class xml_comparison extends PHPUnit_Framework_Constraint_IsEqual
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        return parent::evaluate($this->_normalize_string($other));
+        return parent::evaluate($this->_normalize_string($other), $description, $returnResult);
     }
 }
