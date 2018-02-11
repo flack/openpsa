@@ -62,26 +62,49 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     private function rcs_toolbar($current = null, $diff_view = false)
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.services.rcs/rcs.css");
-
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $this->url_prefix;
 
-        $keys = array_keys($this->backend->list_history());
-
-        if (isset($keys[0])) {
-            $first = end($keys);
-            $last = $keys[0];
-        }
-
         $this->_request_data['rcs_toolbar'] = new midcom_helper_toolbar();
-        $buttons = [];
-        if (isset($first)) {
+
+        $last = $this->build_rcs_toolbar($this->_request_data['rcs_toolbar'], $current, $diff_view);
+
+        // RCS functional toolbar
+        $this->_request_data['rcs_toolbar_2'] = new midcom_helper_toolbar();
+        $buttons = [
+            [
+                MIDCOM_TOOLBAR_URL => "{$prefix}{$this->object->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show history'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
+            ]
+        ];
+
+        if (!empty($current)) {
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$first}",
-                MIDCOM_TOOLBAR_LABEL => $first,
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/start.png',
-                MIDCOM_TOOLBAR_ENABLED => ($current !== $first || $diff_view),
+                MIDCOM_TOOLBAR_URL => "{$prefix}restore/{$this->object->guid}/{$current}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore version %s'), $current),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+                MIDCOM_TOOLBAR_ENABLED => ($current !== $last),
             ];
         }
+        $this->_request_data['rcs_toolbar_2']->add_items($buttons);
+    }
+
+    private function build_rcs_toolbar(midcom_helper_toolbar $toolbar, $current, $diff_view)
+    {
+        $keys = array_keys($this->backend->list_history());
+        if (!isset($keys[0])) {
+            return;
+        }
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $this->url_prefix;
+        $first = end($keys);
+        $last = $keys[0];
+
+        $buttons = [[
+            MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$first}",
+            MIDCOM_TOOLBAR_LABEL => $first,
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/start.png',
+            MIDCOM_TOOLBAR_ENABLED => ($current !== $first || $diff_view),
+        ]];
 
         if (!empty($current)) {
             $previous = $this->backend->get_prev_version($current);
@@ -130,35 +153,15 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
             ];
         }
 
-        if (isset($last)) {
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$last}",
-                MIDCOM_TOOLBAR_LABEL => $last,
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/finish.png',
-                MIDCOM_TOOLBAR_ENABLED => ($current !== $last || $diff_view),
-            ];
-        }
-        $this->_request_data['rcs_toolbar']->add_items($buttons);
-
-        // RCS functional toolbar
-        $this->_request_data['rcs_toolbar_2'] = new midcom_helper_toolbar();
-        $buttons = [
-            [
-                MIDCOM_TOOLBAR_URL => "{$prefix}{$this->object->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show history'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
-            ]
+        $buttons[] = [
+            MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$last}",
+            MIDCOM_TOOLBAR_LABEL => $last,
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/finish.png',
+            MIDCOM_TOOLBAR_ENABLED => ($current !== $last || $diff_view),
         ];
 
-        if (!empty($current)) {
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "{$prefix}restore/{$this->object->guid}/{$current}/",
-                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore version %s'), $current),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                MIDCOM_TOOLBAR_ENABLED => ($current !== $last),
-            ];
-        }
-        $this->_request_data['rcs_toolbar_2']->add_items($buttons);
+        $toolbar->add_items($buttons);
+        return $last;
     }
 
     private function prepare_request_data($view_title)
