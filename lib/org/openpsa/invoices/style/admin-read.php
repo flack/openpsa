@@ -5,6 +5,9 @@ $status_helper = new org_openpsa_invoices_status($invoice);
 $formatter = $data['l10n']->get_formatter();
 try {
     $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
+    if ($customer->orgOpenpsaObtype <= org_openpsa_contacts_group_dba::MYCONTACTS) {
+        $customer = false;
+    }
 } catch (midcom_error $e) {
     $customer = false;
 }
