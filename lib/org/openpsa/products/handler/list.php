@@ -185,7 +185,7 @@ implements org_openpsa_widgets_grid_provider_client
             if (isset($schema->get('customdata')['icon'])) {
                 $config[MIDCOM_TOOLBAR_ICON] = $schema->get('customdata')['icon'];
             }
-            $create_url = 'create/0/' . $name . '/';
+            $create_url = 'create/' . (!empty($this->_request_data['group']) ? $this->_request_data['group']->id : '0') . '/' . $name . '/';
             $this->_view_toolbar->add_item($workflow->get_button($prefix . $create_url, $config));
         }
     }
