@@ -5,7 +5,7 @@ $grid = $data['grid'];
 $grid->set_option('editurl', $prefix . 'invoice/itemedit/' . $data['invoice']->guid . '/');
 $grid->set_option('pager', '#p_' . $grid->get_identifier());
 
-$grid->set_column('position', $data['l10n']->get('position'),  'align: "right", width: 40, formatter: "integer", sortable: false');
+$grid->set_column('position', $data['l10n']->get('position'),  'hidden: true');
 $grid->set_column('deliverable', midcom::get()->i18n->get_string('agreement', 'org.openpsa.projects'), 'width: 80, sortable: false');
 $grid->set_column('task', midcom::get()->i18n->get_string('task', 'org.openpsa.projects'), 'width: 80, sortable: false');
 $grid->set_column('description', $data['l10n_midcom']->get('description'), 'editable: true, edittype: "textarea", sortable: false');
