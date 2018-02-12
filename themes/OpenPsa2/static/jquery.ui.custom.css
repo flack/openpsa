@@ -1566,6 +1566,10 @@ a.ui-button:active,
     color: transparent
 }
 
+.ui-jqgrid .ui-jqgrid-btable .row_button:hover
+{
+    opacity: 1
+}
 .ui-jqgrid .ui-jqgrid-btable .row_edit
 {
     background-image: url(../stock-icons/16x16/edit.png);
