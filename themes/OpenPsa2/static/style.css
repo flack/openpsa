@@ -263,7 +263,6 @@ a:hover
   background: #ededeb; /* Old browsers */
   background: -ms-linear-gradient(top, #ededeb 0%,#e8e8e5 60%,#e5e5de 100%); /* IE10+ */
   background: linear-gradient(to bottom, #ededeb 0%,#e8e8e5 60%,#e5e5de 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededeb', endColorstr='#e5e5de',GradientType=0 ); /* IE6-9 */
 
   padding: 0.5em 1em 2em 1em;
   font-weight: bold;
@@ -419,7 +418,6 @@ ul#org_openpsa_search_providers li.current
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
-    filter: alpha(opacity=50);
     opacity: .5;
 }
 
@@ -442,7 +440,6 @@ input#org_openpsa_search_query
         0 1px 1px #C3C3C1 inset,
         -1px 0 1px #fAfEfd inset,
         0 -1px 1px #FaFEFd inset;
-    filter: alpha(opacity=50);
     opacity: .5
 }
 
@@ -454,14 +451,12 @@ input#org_openpsa_search_query
 #org_openpsa_search_query:hover,
 #org_openpsa_search_trigger:hover
 {
-    filter: alpha(opacity=70);
     opacity: .7
 }
 
 #org_openpsa_search_query:focus,
 #org_openpsa_search_trigger.focused
 {
-    filter: alpha(opacity=100);
     opacity: 1
 }
 
@@ -477,7 +472,6 @@ input#org_openpsa_search_query
 {
     background: #cccec9;
     background: linear-gradient(to bottom, #cccec9 0%, #bcbfbb 76%, #b1b5b4 93%, #b3b7b6 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#CCCEC9', endColorstr='#B3B7B6',GradientType=0 ); /* ie */
     box-shadow: 0 -2px 7px rgba(0, 0, 0, 0.1) inset;
 }
 
@@ -554,7 +548,6 @@ input#org_openpsa_search_query
 {
     background: #fcfcfc;
     background: linear-gradient(to bottom, #fcfcfc 0%, #efefef 14%, #ededed 30%, #ffffff 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FCFCFC', endColorstr='#FFFFFF',GradientType=0 ); /* ie */
 }
 
 .org_openpsa_toolbar ul.midcom_toolbar li > a img,

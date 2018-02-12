@@ -245,7 +245,6 @@ form.datamanager2 .form fieldset.fieldset
     border-radius: 5px;
     background: #FFFFFF;
     background: linear-gradient(to bottom, #FFFFFF 0%, #F9F9F9 32%, #F9F9F8 96%, #FCFCFC 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FCFCFC',GradientType=0 ); /* ie */
 }
 
 form.datamanager2 .form fieldset.fieldset:hover
@@ -479,7 +478,6 @@ dl.campaigns dt.unsubscribed {
     border-radius: 6px;
     background: #FFFFFF;
     background: linear-gradient(to bottom, #ffffff 0%, #fbfbfb 72%, #f7f7f7 73%, #fcfcfc 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FCFCFC',GradientType=0 );
     box-shadow: inset -1px -1px 3px rgba(255, 255, 255, 0.7);
     padding: 4px;
     margin: 4px;

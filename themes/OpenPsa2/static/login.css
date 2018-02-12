@@ -42,7 +42,6 @@ div.login-header h1 {
     margin-bottom: .4em;
     background: white;
     background: linear-gradient(to bottom, #FFFFFF 0%, #F9F9F9 32%, #F9F9F8 96%, #FCFCFC 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FCFCFC',GradientType=0 ); /* ie */
 }
 
 .login-form-container:hover

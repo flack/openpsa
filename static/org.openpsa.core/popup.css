@@ -40,8 +40,7 @@ header
 #org_openpsa_toolbar
 {
     background-color: #e0e2dd;
-    background: linear-gradient(to bottom,  #e1e3de 0%,#d8dbd4 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e1e3de', endColorstr='#d8dbd4',GradientType=0 ); /* IE6-9 */
+    background: linear-gradient(to bottom,  #e1e3de 0%,#d8dbd4 100%);
     border-bottom: 1px solid #dee1db;
     line-height: 16px;
     margin-bottom: 4px;

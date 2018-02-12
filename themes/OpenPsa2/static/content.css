@@ -83,7 +83,6 @@ aside .org_openpsa_helper_box h3
     background-color: #e9ede4;
     background: -ms-linear-gradient(top, #f4f4ef 0%,#e7e6e0 76%,#e7e6e0 100%); /* IE10+ */
     background: linear-gradient(to bottom, #f4f4ef 0%,#e7e6e0 76%,#e7e6e0 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4f4ef', endColorstr='#e7e6e0',GradientType=0 ); /* IE6-9 */
 
     padding: .2em 0.5em;
     margin: 0;
