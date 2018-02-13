@@ -306,4 +306,26 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    /**
+     * @dataProvider providerCycle_start
+     */
+    public function testCycle_start($input, $expected)
+    {
+        midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->set('subscription_invoice_day_of_month', 1);
+
+        $scheduler = new org_openpsa_invoices_scheduler(new org_openpsa_sales_salesproject_deliverable_dba);
+        $cycle_start = $scheduler->get_cycle_start(1, $input);
+        $actual = date("Y-m-d", $cycle_start);
+        $this->assertEquals($expected, $actual, "Cycle start doesn't match");
+    }
+
+    public function providerCycle_start()
+    {
+        return [
+            [gmmktime(0, 0, 0, 4, 21, 2012), '2012-05-01'],
+            [gmmktime(0, 0, 0, 5, 1, 2012), '2012-06-01'],
+            [gmmktime(0, 0, 0, 12, 12, 2012), '2013-01-01'],
+        ];
+    }
 }

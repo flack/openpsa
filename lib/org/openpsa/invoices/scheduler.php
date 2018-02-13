@@ -18,12 +18,20 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      *
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
-    private $_deliverable = null;
+    private $_deliverable;
+
+    /**
+     * The day of month on which subscriptions are invoiced (if none is set, they are invoiced continously)
+     *
+     * @var int
+     */
+    private $subscription_day;
 
     public function __construct(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
     {
         parent::__construct();
         $this->_deliverable = $deliverable;
+        $this->subscription_day = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('subscription_invoice_day_of_month');
     }
 
     /**
@@ -42,8 +50,12 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         debug_add('Running cycle ' . $cycle_number . ' for deliverable "' . $this->_deliverable->title . '"');
 
         $this_cycle_start = $this->get_cycle_start($cycle_number, time());
-        $next_cycle_start = $this->calculate_cycle_next($this_cycle_start);
-
+        if ($this->subscription_day && $cycle_number == 1) {
+            // If there's a fixed day for invoicing, get_cycle_start already picked a future date for cycle 1
+            $next_cycle_start = $this_cycle_start + 2; // +2 so we don't get overlaps in task
+        } else {
+            $next_cycle_start = $this->calculate_cycle_next($this_cycle_start);
+        }
         $product = org_openpsa_products_product_dba::get_cached($this->_deliverable->product);
 
         if ($this->_deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED) {
@@ -343,9 +355,8 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
     public function get_cycle_start($cycle_number, $time)
     {
         if ($cycle_number == 1) {
-            $day_of_month = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('subscription_invoice_day_of_month');
-            if ($day_of_month) {
-                return gmmktime(0, 0, 0, date('n', $time) + 1, $day_of_month, date('Y', $time));
+            if ($this->subscription_day) {
+                return gmmktime(0, 0, 0, date('n', $time) + 1, $this->subscription_day, date('Y', $time));
             }
 
             // no explicit day of month set for invoicing, use the deliverable start date
