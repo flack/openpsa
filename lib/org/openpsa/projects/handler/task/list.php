@@ -96,12 +96,10 @@ implements org_openpsa_widgets_grid_provider_client
         $this->qb = org_openpsa_projects_task_dba::new_query_builder();
         switch ($args[0]) {
             case 'open':
-                $this->set_active_leaf($this->_topic->id . ':tasks_open');
                 $this->qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
                 $this->provider->add_order('end');
                 break;
             case 'closed':
-                $this->set_active_leaf($this->_topic->id . ':tasks_closed');
                 $this->qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::CLOSED);
                 $this->provider->add_order('end', 'DESC');
                 break;
@@ -115,18 +113,17 @@ implements org_openpsa_widgets_grid_provider_client
                 $this->provider->add_order('end');
                 break;
             case 'invoiceable':
-                $this->set_active_leaf($this->_topic->id . ':tasks_invoiceable');
                 $this->qb->add_constraint('invoiceableHours', '>', 0);
                 $this->provider->add_order('end');
                 break;
             case 'invoiced':
-                $this->set_active_leaf($this->_topic->id . ':tasks_invoiced');
                 $this->qb->add_constraint('invoicedHours', '>', 0);
                 $this->provider->add_order('end', 'DESC');
                 break;
             default:
                 throw new midcom_error("Filter {$args[0]} not recognized");
         }
+        $this->set_active_leaf($this->_topic->id . ':tasks_' . $args[0]);
         $this->add_filters($args[0]);
         $this->_request_data['table-heading'] = $args[0] . ' tasks';
     }

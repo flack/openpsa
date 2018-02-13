@@ -19,6 +19,10 @@ class org_openpsa_projects_navigation extends midcom_baseclasses_components_navi
     public function get_leaves()
     {
         return [
+            "{$this->_topic->id}:tasks_current" => [
+                MIDCOM_NAV_URL => "task/list/current/",
+                MIDCOM_NAV_NAME => $this->_l10n->get('current tasks'),
+            ],
             "{$this->_topic->id}:tasks_open" => [
                 MIDCOM_NAV_URL => "task/list/open/",
                 MIDCOM_NAV_NAME => $this->_l10n->get('open tasks'),
