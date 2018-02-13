@@ -43,7 +43,7 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.projects');
 
         $data = $this->run_handler('org.openpsa.projects', ['task', 'list', 'project', self::$_project->guid]);
-        $this->assertEquals('task-list-2', $data['handler_id']);
+        $this->assertEquals('task-list-project', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
@@ -54,18 +54,18 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.projects');
 
         $data = $this->run_handler('org.openpsa.projects', ['task', 'list', 'json', self::$_project->guid]);
-        $this->assertEquals('task-list-2', $data['handler_id']);
+        $this->assertEquals('task-list-json', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
-    public function testHandler_list_all()
+    public function testHandler_list()
     {
         midcom::get()->auth->request_sudo('org.openpsa.projects');
 
-        $data = $this->run_handler('org.openpsa.projects', ['task', 'list', 'all', 'open']);
-        $this->assertEquals('task-list-2', $data['handler_id']);
+        $data = $this->run_handler('org.openpsa.projects', ['task', 'list', 'open']);
+        $this->assertEquals('task-list', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
@@ -78,8 +78,8 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', ['salesproject' => $salesproject->id]);
 
-        $data = $this->run_handler('org.openpsa.projects', ['task', 'list', 'all', 'agreement', $deliverable->id]);
-        $this->assertEquals('task-list-3', $data['handler_id']);
+        $data = $this->run_handler('org.openpsa.projects', ['task', 'list', 'agreement', $deliverable->id]);
+        $this->assertEquals('task-list-agreement', $data['handler_id']);
         $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();

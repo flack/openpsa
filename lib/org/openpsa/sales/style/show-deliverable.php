@@ -143,7 +143,7 @@ if (   $data['product']
         && $data['product']
         && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE) {
         $tabs[] = [
-            'url' => $data['projects_url'] . "task/list/all/agreement/{$data['deliverable']->id}/",
+            'url' => $data['projects_url'] . "task/list/agreement/{$data['deliverable']->id}/",
             'title' => midcom::get()->i18n->get_string('tasks', 'org.openpsa.projects'),
         ];
     }

@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Doctrine\ORM\Query\Expr\Join;
 use midcom\datamanager\schemadb;
 
 /**
@@ -17,7 +16,7 @@ use midcom\datamanager\schemadb;
 class org_openpsa_projects_handler_task_list extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client
 {
-    private $_status_order = [
+    private $status_order = [
         'proposed' => 0,
         'current' => 1,
         'pending_accept' => 2,
@@ -32,19 +31,56 @@ implements org_openpsa_widgets_grid_provider_client
      *
      * @var org_openpsa_widgets_grid_provider
      */
-    private $_provider;
+    protected $provider;
 
     /**
      * Grid QB
      *
      * @var midcom_core_querybuilder
      */
-    private $_qb;
+    protected $qb;
+
+    /**
+     * Whether to render the status controls
+     *
+     * @var boolean
+     */
+    protected $show_status_controls = false;
+
+    /**
+     * Whether to render the customer
+     *
+     * @var boolean
+     */
+    protected $show_customer = true;
+
+    /**
+     * Do all the tasks belong to the same project
+     *
+     * @var boolean
+     */
+    protected $is_single_project = false;
 
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
         org_openpsa_widgets_contact::add_head_elements();
+        $this->get_priorities();
+    }
+
+    /**
+     * Get priorities from default schema
+     */
+    private function get_priorities()
+    {
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_task'));
+        if ($schemadb->get('default')->has_field('priority')) {
+            $this->_request_data['priority_array'] = $schemadb->get('default')->get_field('priority')['type_config']['options'];
+            $this->_request_data['priority_array'][0] = $this->_l10n->get("none");
+            foreach ($this->_request_data['priority_array'] as &$title) {
+                $title = $this->_l10n->get($title);
+            }
+        }
     }
 
     /**
@@ -54,53 +90,59 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        if (isset($args[1])) {
-            $this->_request_data['view_identifier'] = $args[1];
-        } else {
-            $this->_request_data['view_identifier'] = $handler_id;
-        }
-        //get possible priorities from schema
-        $this->_get_priorities();
-        $this->_qb = org_openpsa_projects_task_dba::new_query_builder();
+        $this->prepare_request_data($args[0]);
+        $this->prepare_toolbar();
 
+        $this->qb = org_openpsa_projects_task_dba::new_query_builder();
         switch ($args[0]) {
-            case 'all':
-                $this->_prepare_output();
-                org_openpsa_widgets_grid::add_head_elements();
-                $this->_provider = new org_openpsa_widgets_grid_provider($this, 'local');
-                $this->_handler_list_all($args);
+            case 'open':
+                $this->set_active_leaf($this->_topic->id . ':tasks_open');
+                $this->qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
+                $this->provider->add_order('end');
                 break;
-
-            case 'project':
-                $this->_prepare_output();
-                org_openpsa_widgets_grid::add_head_elements();
-                $this->_provider = new org_openpsa_widgets_grid_provider($this, 'local');
-                $this->_handler_list_project($args);
+            case 'closed':
+                $this->set_active_leaf($this->_topic->id . ':tasks_closed');
+                $this->qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::CLOSED);
+                $this->provider->add_order('end', 'DESC');
                 break;
-
-            case 'task':
-                $this->_prepare_output();
-                org_openpsa_widgets_grid::add_head_elements();
-                $this->_provider = new org_openpsa_widgets_grid_provider($this, 'local');
-                $this->_handler_list_task($args);
+            case 'current':
+                $this->qb->add_constraint('status', 'IN', [
+                    org_openpsa_projects_task_status_dba::ACCEPTED,
+                    org_openpsa_projects_task_status_dba::STARTED,
+                    org_openpsa_projects_task_status_dba::REJECTED,
+                    org_openpsa_projects_task_status_dba::REOPENED
+                ]);
+                $this->provider->add_order('end');
                 break;
-
-            case 'json':
-                $this->_provider = new org_openpsa_widgets_grid_provider($this, 'json');
-                $this->_handler_list_project($args);
-                //form of tasks has to be changed for json
-                midcom::get()->skip_page_style = true;
-                $this->_request_data['view'] = 'json';
-                $siteconfig = org_openpsa_core_siteconfig::get_instance();
-                $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
+            case 'invoiceable':
+                $this->set_active_leaf($this->_topic->id . ':tasks_invoiceable');
+                $this->qb->add_constraint('invoiceableHours', '>', 0);
+                $this->provider->add_order('end');
                 break;
-
+            case 'invoiced':
+                $this->set_active_leaf($this->_topic->id . ':tasks_invoiced');
+                $this->qb->add_constraint('invoicedHours', '>', 0);
+                $this->provider->add_order('end', 'DESC');
+                break;
             default:
-                throw new midcom_error('Invalid argument ' . $args[0]);
+                throw new midcom_error("Filter {$args[0]} not recognized");
         }
+        $this->add_filters($args[0]);
+        $this->_request_data['table-heading'] = $args[0] . ' tasks';
     }
 
-    private function _get_status_type(org_openpsa_projects_task_dba $task)
+    /**
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_list($handler_id, array &$data)
+    {
+        midcom_show_style('show-priority-filter');
+        midcom_show_style('show-task-grid');
+    }
+
+    private function get_status_type(org_openpsa_projects_task_dba $task)
     {
         $type = 'closed';
         $is_manager = $task->manager == midcom_connection::get_user();
@@ -124,11 +166,11 @@ implements org_openpsa_widgets_grid_provider_client
         return $type;
     }
 
-    private function _render_workflow_controls(org_openpsa_projects_task_dba $task)
+    private function render_workflow_controls(org_openpsa_projects_task_dba $task)
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-        switch ($this->_get_status_type($task)) {
+        switch ($this->get_status_type($task)) {
             case 'proposed':
                 $html = $this->render_status($task->manager, "from %s");
                 $task->get_members();
@@ -186,53 +228,16 @@ implements org_openpsa_widgets_grid_provider_client
         return sprintf($this->_l10n->get($message), $person_string);
     }
 
-    public function _handler_list_user($handler_id, array $args, array &$data)
-    {
-        $this->_request_data['view'] = 'grid';
-        $this->_request_data['view_identifier'] = 'my_tasks';
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
-
-        //get possible priorities from schema
-        $this->_get_priorities();
-        $this->_provider = new org_openpsa_widgets_grid_provider($this, 'local');
-
-        $this->_qb = org_openpsa_projects_task_dba::new_query_builder();
-
-        $this->_qb->get_doctrine()
-            ->leftJoin('org_openpsa_task_resource', 'r', Join::WITH, 'c.id = r.task')
-            ->where('(r.orgOpenpsaObtype = :rtype AND r.person = :user AND c.status IN(:r_statuses)) OR (c.manager = :user AND c.status IN(:m_statuses))')
-            ->setParameters([
-                'rtype' => org_openpsa_projects_task_resource_dba::RESOURCE,
-                'user' => midcom_connection::get_user(),
-                'r_statuses' => [
-                    org_openpsa_projects_task_status_dba::PROPOSED,
-                    org_openpsa_projects_task_status_dba::ACCEPTED,
-                    org_openpsa_projects_task_status_dba::STARTED,
-                    org_openpsa_projects_task_status_dba::REOPENED,
-                    org_openpsa_projects_task_status_dba::COMPLETED
-                ],
-                'm_statuses' => [
-                    org_openpsa_projects_task_status_dba::PROPOSED,
-                    org_openpsa_projects_task_status_dba::DECLINED,
-                    org_openpsa_projects_task_status_dba::COMPLETED,
-                    org_openpsa_projects_task_status_dba::ONHOLD
-                ]
-            ]);
-
-        org_openpsa_widgets_grid::add_head_elements();
-    }
-
     public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
         if (!is_null($field)) {
-            $this->_qb->add_order($field, $direction);
+            $this->qb->add_order($field, $direction);
         }
-        $this->_qb->add_order('priority', 'ASC');
-        $this->_qb->add_order('customer');
-        $this->_qb->add_order('project');
-        $this->_qb->add_order('title');
-        return $this->_qb;
+        $this->qb->add_order('priority', 'ASC');
+        $this->qb->add_order('customer');
+        $this->qb->add_order('project');
+        $this->qb->add_order('title');
+        return $this->qb;
     }
 
     public function get_row(midcom_core_dbaobject $task)
@@ -245,14 +250,12 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['id'] = $task->id;
         $entry['index_task'] = $task->title;
         $entry['task'] = '<a href="' . $task_url . '"><img class="status-icon" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/' . $task->get_icon() . '" /> ' . $task->title . '</a>';
-        if (   $this->_request_data['view_identifier'] == 'my_tasks'
-            || $this->_request_data['view_identifier'] == 'project_tasks'
-            || $this->_request_data['view_identifier'] == 'subtasks') {
+        if ($this->show_status_controls) {
             $entry['status_control'] = org_openpsa_projects_workflow::render_status_control($task);
-            $status_type = $this->_get_status_type($task);
-            $entry['index_status'] = $this->_status_order[$status_type];
+            $status_type = $this->get_status_type($task);
+            $entry['index_status'] = $this->status_order[$status_type];
             $entry['status'] = $this->_l10n->get($status_type . ' tasks');
-            if ($controls = $this->_render_workflow_controls($task)) {
+            if ($controls = $this->render_workflow_controls($task)) {
                 $entry['task'] = '<div class="title">' . $entry['task'] . '</div><div class="details">' . $controls . '</div>';
             }
         }
@@ -271,7 +274,7 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['end'] = strftime('%Y-%m-%d', $task->end);
 
         $entry['planned_hours'] = $task->plannedHours;
-        if ($this->_request_data['view_identifier'] == 'project_tasks') {
+        if ($this->is_single_project) {
             $entry['invoiced_hours'] = $task->invoicedHours;
         }
         $entry['approved_hours'] = $task->approvedHours;
@@ -280,118 +283,7 @@ implements org_openpsa_widgets_grid_provider_client
         return $entry;
     }
 
-    private function _handler_list_project(&$args)
-    {
-        $this->_request_data['project'] = new org_openpsa_projects_project($args[1]);
-
-        // Query tasks of a project
-        $this->_request_data['view'] = 'grid';
-        $this->_request_data['view_identifier'] = 'project_tasks';
-
-        $this->_qb->add_constraint('project', '=', $this->_request_data['project']->id);
-
-        //don't filter for json
-        if ($args[0] != 'json') {
-            $this->_add_filters('project');
-        } else {
-            $this->_qb->add_order('status');
-            $this->_qb->add_order('end', 'DESC');
-            $this->_qb->add_order('start');
-        }
-    }
-
-    private function _handler_list_task(&$args)
-    {
-        $this->_request_data['task'] = new org_openpsa_projects_task_dba($args[1]);
-
-        // Query tasks of a project
-        $this->_request_data['view'] = 'grid';
-        $this->_request_data['view_identifier'] = 'subtasks';
-
-        $this->_qb->add_constraint('up', '=', $this->_request_data['task']->id);
-
-        //don't filter for json
-        if ($args[0] != 'json') {
-            $this->_add_filters('task');
-        } else {
-            $this->_qb->add_order('status');
-            $this->_qb->add_order('end', 'DESC');
-            $this->_qb->add_order('start');
-        }
-    }
-
-    /**
-     * List all tasks, optionally filtered by status
-     */
-    private function _handler_list_all($args)
-    {
-        // Default to open tasks list if none specified
-        if (empty($args[1])) {
-            $this->_request_data['view_identifier'] = 'open';
-            $args[1] = 'open';
-        }
-
-        switch ($args[1]) {
-            case 'agreement':
-                if (!$args[2]) {
-                    throw new midcom_error('Invalid arguments for agreement filter');
-                }
-                $agreement_id = (int) $args[2];
-                $this->_request_data['agreement'] = $agreement_id;
-
-                $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($agreement_id);
-                $title = sprintf($this->_l10n->get('tasks for agreement %s'), $deliverable->title);
-                midcom::get()->head->set_pagetitle($title);
-                $this->add_breadcrumb("", $title);
-
-                $this->_qb->add_constraint('agreement', '=', $deliverable->id);
-                $this->_provider->add_order('end', 'DESC');
-                break;
-            case 'all':
-                $this->_provider->add_order('end', 'DESC');
-                break;
-            case 'open':
-                $this->set_active_leaf($this->_topic->id . ':tasks_open');
-                $this->_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
-                $this->_provider->add_order('end');
-                break;
-            case 'closed':
-                $this->set_active_leaf($this->_topic->id . ':tasks_closed');
-                $this->_qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::CLOSED);
-                $this->_provider->add_order('end', 'DESC');
-                break;
-            case 'current':
-                $this->_qb->add_constraint(
-                    'status',
-                    'IN',
-                    [
-                        org_openpsa_projects_task_status_dba::ACCEPTED,
-                        org_openpsa_projects_task_status_dba::STARTED,
-                        org_openpsa_projects_task_status_dba::REJECTED,
-                        org_openpsa_projects_task_status_dba::REOPENED
-                    ]
-                );
-                $this->_provider->add_order('end');
-                break;
-            case 'invoiceable':
-                $this->set_active_leaf($this->_topic->id . ':tasks_invoiceable');
-                $this->_qb->add_constraint('invoiceableHours', '>', 0);
-                $this->_provider->add_order('end');
-                break;
-            case 'invoiced':
-                $this->set_active_leaf($this->_topic->id . ':tasks_invoiced');
-                $this->_qb->add_constraint('invoicedHours', '>', 0);
-                $this->_provider->add_order('end', 'DESC');
-                break;
-            default:
-                throw new midcom_error("Filter {$args[1]} not recognized");
-        }
-        $this->_add_filters($args[1]);
-        $this->_request_data['table-heading'] = $args[1] . ' tasks';
-        $this->_request_data['view'] = 'grid';
-    }
-
-    private function _add_filters($identifier)
+    protected function add_filters($identifier)
     {
         $qf = new org_openpsa_core_queryfilter('org_openpsa_task_list_' . $identifier);
         $p_filter = new org_openpsa_core_filter_select('priority', '<=', $this->_request_data['priority_array']);
@@ -400,38 +292,8 @@ implements org_openpsa_widgets_grid_provider_client
         $date_filter = new org_openpsa_core_filter_timeframe('timeframe', 'start', 'end');
         $date_filter->set_label($this->_l10n->get("timeframe"));
         $qf->add_filter($date_filter);
-        $qf->apply_filters($this->_qb);
+        $qf->apply_filters($this->qb);
         $this->_request_data["qf"] = $qf;
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_list($handler_id, array &$data)
-    {
-        $data['provider'] = $this->_provider;
-        if ($data['view'] == 'json') {
-            midcom_show_style('show-json-tasks');
-        } else {
-            if (   $data['view_identifier'] != 'my_tasks'
-                && $data['view_identifier'] != 'subtasks'
-                && $data['view_identifier'] != 'agreement') {
-                midcom_show_style('show-priority-filter');
-            }
-            midcom_show_style('show-task-grid');
-        }
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_list_user($handler_id, array &$data)
-    {
-        $this->_show_list($handler_id, $data);
     }
 
     /**
@@ -453,8 +315,7 @@ implements org_openpsa_widgets_grid_provider_client
             $e->log();
         }
 
-        if (   $this->_request_data['view_identifier'] != 'agreement'
-            && $this->_request_data['view_identifier'] != 'project_tasks') {
+        if ($this->show_customer) {
             try {
                 $customer = org_openpsa_contacts_group_dba::get_cached($task->customer);
                 $customer_url = "{$this->_request_data['contacts_url']}group/{$customer->guid}/";
@@ -469,35 +330,8 @@ implements org_openpsa_widgets_grid_provider_client
         return $ret;
     }
 
-    /**
-     * Get priorities from default schema
-     */
-    private function _get_priorities()
+    protected function prepare_toolbar()
     {
-        $schemadb = schemadb::from_path($this->_config->get('schemadb_task'));
-        if ($schemadb->get('default')->has_field('priority')) {
-            $this->_request_data['priority_array'] = $schemadb->get('default')->get_field('priority')['type_config']['options'];
-            $this->_request_data['priority_array'][0] = $this->_l10n->get("none");
-            foreach ($this->_request_data['priority_array'] as &$title) {
-                $title = $this->_l10n->get($title);
-            }
-        }
-    }
-
-    /**
-     * Prepare non-JSON output
-     */
-    private function _prepare_output()
-    {
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
-        $this->_request_data['sales_url'] = $siteconfig->get_node_full_url('org.openpsa.sales');
-        $this->_request_data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
-        if (   $this->_request_data['view_identifier'] == 'agreement'
-            || $this->_request_data['view_identifier'] == 'subtasks') {
-            return;
-        }
         $workflow = $this->get_workflow('datamanager');
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project')) {
@@ -512,5 +346,27 @@ implements org_openpsa_widgets_grid_provider_client
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
             ]));
         }
+    }
+
+    /**
+     * @param string $identifier
+     * @param string $datatype
+     */
+    protected function prepare_request_data($identifier, $datatype = 'local')
+    {
+        $this->_request_data['view_identifier'] = $identifier;
+        $this->_request_data['show_status_controls'] = $this->show_status_controls;
+        $this->_request_data['show_customer'] = $this->show_customer;
+        $this->_request_data['is_single_project'] = $this->is_single_project;
+
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
+        $this->_request_data['sales_url'] = $siteconfig->get_node_full_url('org.openpsa.sales');
+        $this->_request_data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+
+        $this->provider = new org_openpsa_widgets_grid_provider($this, 'local');
+        $this->_request_data['provider'] = $this->provider;
+
+        org_openpsa_widgets_grid::add_head_elements();
     }
 }

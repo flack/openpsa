@@ -19,22 +19,36 @@
     'variable_args' => 1,
 ),
 
-// Match /task/list/<mode>/<param>/<param2>
-'task-list-3' => array
+// Match /task/list/agreement/<id>
+'task-list-agreement' => array
 (
-    'handler' => array('org_openpsa_projects_handler_task_list', 'list'),
-    'fixed_args' => array('task', 'list'),
-    'variable_args' => 3,
+    'handler' => array('org_openpsa_projects_handler_task_list_agreement', 'list'),
+    'fixed_args' => array('task', 'list', 'agreement'),
+    'variable_args' => 1,
 ),
-// Match /task/list/<mode>/<param>
-'task-list-2' => array
+// Match /task/list/json/<guid>
+'task-list-json' => array
 (
-    'handler' => array('org_openpsa_projects_handler_task_list', 'list'),
-    'fixed_args' => array('task', 'list'),
-    'variable_args' => 2,
+    'handler' => array('org_openpsa_projects_handler_task_list_project', 'json'),
+    'fixed_args' => array('task', 'list', 'json'),
+    'variable_args' => 1,
 ),
-// Match /task/list/<mode>
-'task-list-1' => array
+// Match /task/list/project/<guid>
+'task-list-project' => array
+(
+    'handler' => array('org_openpsa_projects_handler_task_list_project', 'list'),
+    'fixed_args' => array('task', 'list', 'project'),
+    'variable_args' => 1,
+),
+// Match /task/list/task/<guid>
+'task-list-subtask' => array
+(
+    'handler' => array('org_openpsa_projects_handler_task_list_task', 'list'),
+    'fixed_args' => array('task', 'list', 'task'),
+    'variable_args' => 1,
+),
+// Match /task/list/<status>
+'task-list' => array
 (
     'handler' => array('org_openpsa_projects_handler_task_list', 'list'),
     'fixed_args' => array('task', 'list'),
@@ -43,7 +57,7 @@
 // Match /task/list/
 'task-list-user' => array
 (
-    'handler' => array('org_openpsa_projects_handler_task_list', 'list_user'),
+    'handler' => array('org_openpsa_projects_handler_task_list_user', 'list'),
     'fixed_args' => array('task', 'list'),
 ),
 
