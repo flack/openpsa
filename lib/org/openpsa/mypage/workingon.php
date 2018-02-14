@@ -131,7 +131,7 @@ class org_openpsa_mypage_workingon
      */
     private function _report_hours($description, $invoiceable = false)
     {
-        $hour_report = new org_openpsa_projects_hour_report_dba();
+        $hour_report = new org_openpsa_expenses_hour_report_dba();
         $hour_report->invoiceable = $invoiceable;
         $hour_report->date = $this->start;
         $hour_report->person = $this->person->id;

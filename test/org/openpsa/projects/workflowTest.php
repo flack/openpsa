@@ -193,7 +193,7 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
             'invoiceable' => true,
             'hours' => 15
         ];
-        $report = $this->create_object('org_openpsa_projects_hour_report_dba', $report_attributes);
+        $report = $this->create_object('org_openpsa_expenses_hour_report_dba', $report_attributes);
 
         $invoice = $this->create_object('org_openpsa_invoices_invoice_dba');
         $result = org_openpsa_projects_workflow::mark_invoiced(self::$_task, $invoice);

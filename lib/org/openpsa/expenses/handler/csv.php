@@ -35,7 +35,7 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
             throw new midcom_error("No GUIDs found, aborting.");
         }
 
-        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $qb->add_constraint('guid', 'IN', $_POST['guids']);
         if (   isset($_POST['order'])
             && is_array($_POST['order'])) {

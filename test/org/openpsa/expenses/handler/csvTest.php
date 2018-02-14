@@ -19,7 +19,7 @@ class org_openpsa_expenses_handler_csvTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.expenses');
         $project = $this->create_object('org_openpsa_projects_project');
         $task = $this->create_object('org_openpsa_projects_task_dba', ['project' => $project->id]);
-        $report = $this->create_object('org_openpsa_projects_hour_report_dba', ['task' => $task->id]);
+        $report = $this->create_object('org_openpsa_expenses_hour_report_dba', ['task' => $task->id]);
 
         $_POST['guids'] = [$report->guid];
 

@@ -171,37 +171,6 @@
         <property name="comment" type="text" />
     </type>
 
-    <type name="org_openpsa_hour_report" table="org_openpsa_hour_report" parent="org_openpsa_task">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="task" link="org_openpsa_task:id" type="unsigned integer" parentfield="task"/>
-        <property name="person" link="midgard_person:id" type="unsigned integer"/>
-
-        <property name="invoice" link="org_openpsa_invoice:id" type="unsigned integer" upfield="invoice"/>
-
-        <property name="hours" type="float" />
-        <property name="description" type="text"/>
-
-        <property name="date" type="integer" index="yes"/>
-
-        <property name="reportType" type="string"/>
-        <property name="invoiceable" type="boolean" index="yes"/>
-
-        <!-- Caches for various values that other would have to be queried/calculated runtime -->
-        <property name="costCache" type="float"/>
-        <property name="priceCache" type="float"/>
-
-        <!-- Common OpenPSA properties -->
-        <property name="orgOpenpsaObtype" type="integer">
-            <description>
-                Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
-            </description>
-        </property>
-        <!-- /Common OpenPSA properties -->
-
-    </type>
-
     <type name="org_openpsa_task_resource" table="org_openpsa_task_resource" parent="org_openpsa_task">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>

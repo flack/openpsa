@@ -63,7 +63,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
             'total_uninvoiceable' => 0,
         ];
 
-        $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('person', midcom_connection::get_user());
+        $hours_mc = org_openpsa_expenses_hour_report_dba::new_collector('person', midcom_connection::get_user());
         $hours_mc->add_constraint('date', '>=', $this->_request_data['week_start']);
         $hours_mc->add_constraint('date', '<=', $this->_request_data['week_end']);
 

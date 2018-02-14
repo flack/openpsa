@@ -33,7 +33,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         $this->invoice = new org_openpsa_invoices_invoice_dba($args[0]);
         $dm = $this->load_datamanager();
 
-        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $qb->add_constraint('invoice', '=', $this->invoice->id);
 
         $data['reports'] = $qb->execute();

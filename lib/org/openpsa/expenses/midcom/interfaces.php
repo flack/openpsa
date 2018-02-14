@@ -19,7 +19,7 @@ implements midcom_services_permalinks_resolver
      */
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        if ($object instanceof org_openpsa_projects_hour_report_dba) {
+        if ($object instanceof org_openpsa_expenses_hour_report_dba) {
             return "hours/edit/{$object->guid}/";
         }
         return null;

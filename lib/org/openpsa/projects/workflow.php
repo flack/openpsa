@@ -344,7 +344,7 @@ class org_openpsa_projects_workflow
 
         // Mark the hour reports invoiced
         $hours_marked = 0;
-        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $qb->add_constraint('task', '=', $task->id);
         $qb->add_constraint('invoice', '=', 0);
         $qb->add_constraint('invoiceable', '=', true);

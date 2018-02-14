@@ -76,7 +76,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     private function _list_hour_reports_between(&$data_array, $person, $from, $to)
     {
         // List user's hour reports
-        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $qb->add_constraint('date', '>=', $from);
         $qb->add_constraint('date', '<=', $to);
         $qb->add_constraint('person', '=', $person);
@@ -236,7 +236,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
                         case 'org_openpsa_calendar_event_dba':
                             midcom_show_style('weekreview-day-item-event');
                             break;
-                        case 'org_openpsa_projects_hour_report_dba':
+                        case 'org_openpsa_expenses_hour_report_dba':
                             midcom_show_style('weekreview-day-item-hour-report');
 
                             if ($object->invoiceable) {

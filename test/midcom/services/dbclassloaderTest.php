@@ -28,7 +28,6 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
             [
                 'org.openpsa.projects',
                 [
-                    'org_openpsa_hour_report' => 'org_openpsa_projects_hour_report_dba',
                     'org_openpsa_project' => 'org_openpsa_projects_project',
                     'org_openpsa_task' => 'org_openpsa_projects_task_dba',
                     'org_openpsa_task_resource' => 'org_openpsa_projects_task_resource_dba',

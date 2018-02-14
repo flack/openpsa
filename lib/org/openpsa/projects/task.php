@@ -310,7 +310,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             $invoice_approved_only = false;
         }
 
-        $report_mc = org_openpsa_projects_hour_report_dba::new_collector('task', $this->id);
+        $report_mc = org_openpsa_expenses_hour_report_dba::new_collector('task', $this->id);
         $report_mc->add_value_property('hours');
         $report_mc->add_value_property('invoice');
         $report_mc->add_value_property('invoiceable');

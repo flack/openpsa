@@ -112,7 +112,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
         $tasks_to_update = [];
 
-        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $qb->add_constraint('invoice', '=', $this->id);
         foreach ($qb->execute() as $hour) {
             $hour->invoice = 0;
@@ -207,7 +207,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         $result_tasks = [];
 
         //get hour_reports for this invoice - mc ?
-        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $qb->add_constraint('invoice', '=', $this->id);
         $qb->add_constraint('invoiceable', '=', true);
         if (!empty($tasks)) {

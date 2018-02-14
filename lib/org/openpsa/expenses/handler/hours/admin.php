@@ -20,7 +20,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      *
      * @return \midcom\datamanager\datamanager
      */
-    private function load_datamanager(org_openpsa_projects_hour_report_dba $report, $defaults = [], $schema = null)
+    private function load_datamanager(org_openpsa_expenses_hour_report_dba $report, $defaults = [], $schema = null)
     {
         return datamanager::from_schemadb($this->_config->get('schemadb_hours'))
             ->set_defaults($defaults)
@@ -36,7 +36,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $report = new org_openpsa_projects_hour_report_dba();
+        $report = new org_openpsa_expenses_hour_report_dba();
 
         $defaults = [
             'person' => midcom_connection::get_user(),
@@ -67,7 +67,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $report = new org_openpsa_projects_hour_report_dba($args[0]);
+        $report = new org_openpsa_expenses_hour_report_dba($args[0]);
         $dm = $this->load_datamanager($report);
 
         midcom::get()->head->set_pagetitle($this->_l10n->get($handler_id));
@@ -92,7 +92,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
+        $hour_report = new org_openpsa_expenses_hour_report_dba($args[0]);
         $options = ['object' => $hour_report];
 
         try {
@@ -114,7 +114,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     public function _handler_batch($handler_id, array $args, array &$data)
     {
         if (!empty($_POST['entries'])) {
-            $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+            $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
             $qb->add_constraint('id', 'IN', $_POST['entries']);
 
             $_POST['action'] = str_replace('uninvoiceable', 'invoiceable', $_POST['action']);

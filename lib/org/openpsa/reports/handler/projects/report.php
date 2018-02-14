@@ -40,7 +40,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
      */
     private function _get_hour_reports()
     {
-        $qb_hr = org_openpsa_projects_hour_report_dba::new_query_builder();
+        $qb_hr = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $qb_hr->add_constraint('date', '<=', (int) $this->_request_data['query_data']['end']);
         $qb_hr->add_constraint('date', '>=', (int) $this->_request_data['query_data']['start']);
         if (   array_key_exists('invoiceable_filter', $this->_request_data['query_data'])

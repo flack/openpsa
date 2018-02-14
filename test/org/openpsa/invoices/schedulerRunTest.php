@@ -71,7 +71,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         ];
         $this->_task = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
 
-        $this->_hour_report = $this->create_object('org_openpsa_projects_hour_report_dba', ['task' => $this->_task->id]);
+        $this->_hour_report = $this->create_object('org_openpsa_expenses_hour_report_dba', ['task' => $this->_task->id]);
     }
 
     private function _apply_input($input)

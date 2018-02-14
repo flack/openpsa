@@ -11,7 +11,7 @@
  *
  * @package openpsa.test
  */
-class org_openpsa_projects_hour_reportTest extends openpsa_testcase
+class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
 {
     protected static $_task;
     protected static $_project;
@@ -25,7 +25,7 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
     public function testCRUD()
     {
         midcom::get()->auth->request_sudo('org.openpsa.projects');
-        $report = new org_openpsa_projects_hour_report_dba();
+        $report = new org_openpsa_expenses_hour_report_dba();
         $report->_use_activitystream = false;
         $report->_use_rcs = false;
 
@@ -66,13 +66,13 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
 
     public function test_get_parent()
     {
-        $report = $this->create_object('org_openpsa_projects_hour_report_dba', ['task' => self::$_task->id]);
+        $report = $this->create_object('org_openpsa_expenses_hour_report_dba', ['task' => self::$_task->id]);
         $parent = $report->get_parent();
         $this->assertEquals(self::$_task->guid, $parent->guid);
     }
 
     public function tearDown()
     {
-        self::delete_linked_objects('org_openpsa_projects_hour_report_dba', 'task', self::$_task->id);
+        self::delete_linked_objects('org_openpsa_expenses_hour_report_dba', 'task', self::$_task->id);
     }
 }

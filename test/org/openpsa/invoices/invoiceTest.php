@@ -73,9 +73,9 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
             'task' => $task1->id
         ];
 
-        $report1 = $this->create_object('org_openpsa_projects_hour_report_dba', $report_attributes);
+        $report1 = $this->create_object('org_openpsa_expenses_hour_report_dba', $report_attributes);
         $report_attributes['task'] = $task2->id;
-        $report2 = $this->create_object('org_openpsa_projects_hour_report_dba', $report_attributes);
+        $report2 = $this->create_object('org_openpsa_expenses_hour_report_dba', $report_attributes);
 
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $invoice->_recalculate_invoice_items();

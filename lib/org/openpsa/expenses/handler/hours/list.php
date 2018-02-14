@@ -30,7 +30,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         midcom::get()->auth->require_valid_user();
 
         // List hours
-        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
 
         $mode = 'full';
 

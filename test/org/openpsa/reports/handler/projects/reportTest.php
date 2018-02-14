@@ -20,7 +20,7 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
         self::create_user(true);
         self::$project = self::create_class_object('org_openpsa_projects_project');
         $task = self::create_class_object('org_openpsa_projects_task_dba', ['project' => self::$project->id]);
-        self::create_class_object('org_openpsa_projects_hour_report_dba', ['task' => $task->id]);
+        self::create_class_object('org_openpsa_expenses_hour_report_dba', ['task' => $task->id]);
     }
 
     public function test_handler_generator_get()

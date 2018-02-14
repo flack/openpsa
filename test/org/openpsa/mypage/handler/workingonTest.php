@@ -24,7 +24,7 @@ class org_openpsa_mypage_handler_workingonTest extends openpsa_testcase
 
     public function testHandler_workingon()
     {
-        $this->create_object('org_openpsa_projects_hour_report_dba', ['task' => self::$task->id]);
+        $this->create_object('org_openpsa_expenses_hour_report_dba', ['task' => self::$task->id]);
         $data = $this->run_handler('org.openpsa.mypage', ['workingon']);
         $this->assertEquals('workingon', $data['handler_id']);
     }

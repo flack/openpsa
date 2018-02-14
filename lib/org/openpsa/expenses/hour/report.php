@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org.openpsa.projects
+ * @package org.openpsa.expenses
  * @author Nemein Oy http://www.nemein.com/
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
@@ -9,9 +9,9 @@
 /**
  * MidCOM wrapped access to the MgdSchema class, keep logic here
  *
- * @package org.openpsa.projects
+ * @package org.openpsa.expenses
  */
-class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
+class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_hour_report';

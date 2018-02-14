@@ -117,7 +117,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
     private function create_hour_report(org_openpsa_projects_task_dba $task, $person_id, org_openpsa_calendar_event_dba $event)
     {
         //TODO: this should probably have privileges like midgard:owner set to $person_id
-        $hr = new org_openpsa_projects_hour_report_dba();
+        $hr = new org_openpsa_expenses_hour_report_dba();
         $hr->task = $task->id;
         $hr->person = $person_id;
         $hr->invoiceable = $task->hoursInvoiceableDefault;

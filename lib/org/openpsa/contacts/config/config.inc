@@ -95,7 +95,7 @@
             'target' => 'id',
         )
     ),
-    'org_openpsa_projects_hour_report_dba' => array
+    'org_openpsa_expenses_hour_report_dba' => array
     (
         'person' => array
         (

@@ -20,7 +20,7 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
     {
         $project = self::create_class_object('org_openpsa_projects_project');
         self::$_task = self::create_class_object('org_openpsa_projects_task_dba', ['project' => $project->id]);
-        self::$_report = self::create_class_object('org_openpsa_projects_hour_report_dba', ['task' => self::$_task->id]);
+        self::$_report = self::create_class_object('org_openpsa_expenses_hour_report_dba', ['task' => self::$_task->id]);
         self::create_user(true);
     }
 
@@ -65,7 +65,7 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
         ];
 
         $this->submit_dm_no_relocate_form('controller', $formdata, 'org.openpsa.expenses', ['hours', 'create', 'hour_report']);
-        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $qb->add_constraint('task', '=', self::$_task->id);
         $qb->add_constraint('description', '=', __CLASS__ . '::' . __FUNCTION__);
         $results = $qb->execute();
