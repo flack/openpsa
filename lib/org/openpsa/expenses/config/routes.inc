@@ -8,7 +8,7 @@
 // Handle /hours/task/<guid>
 'list_hours_task' => array
 (
-    'handler' => array('org_openpsa_expenses_handler_hours_list', 'list'),
+    'handler' => array('org_openpsa_expenses_handler_hours_list', 'task'),
     'fixed_args' => array('hours', 'task'),
     'variable_args' => 1,
 ),

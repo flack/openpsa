@@ -1,5 +1,6 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$action_target_url = $prefix . "hours/task/batch/";
 $invoice_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
 $footer_data = ['hours' => 0];
 $categories = [$data['l10n']->get('uninvoiceable'), $data['l10n']->get('invoiceable'), $data['l10n']->get('invoiced')];
@@ -97,7 +98,7 @@ $data['grid']->render($entries);
 $grid_id = $data['grid']->get_identifier();
 ?>
 
-<form id="form_&(grid_id);" method="post" action="<?php echo $data['action_target_url']; ?>">
+<form id="form_&(grid_id);" method="post" action="<?php echo $action_target_url; ?>">
 <input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 </form>
 </div>
