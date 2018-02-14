@@ -50,6 +50,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
 
             $this->_populate_view_toolbar($task);
         }
+        midcom::get()->auth->require_admin_user();
     }
 
     /**

@@ -61,8 +61,6 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      */
     public function _handler_index($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_valid_user();
-
         $hours_mc = org_openpsa_expenses_hour_report_dba::new_collector();
         $this->_master->add_list_filter($hours_mc);
         $hours_mc->add_constraint('date', '>=', $data['week_start']);

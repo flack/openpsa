@@ -11,9 +11,6 @@ use midcom\datamanager\helper\autocomplete;
 /**
  * This is a URL handler class for org.openpsa.expenses
  *
- * The midcom_baseclasses_components_handler class defines a bunch of helper vars
- *
- * @see midcom_baseclasses_components_handler
  * @package org.openpsa.expenses
  */
 class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_components_handler
@@ -27,24 +24,18 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_valid_user();
-
-        // List hours
         $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
 
-        $mode = 'full';
-
-        //url for batch_handler
-        $this->_request_data['action_target_url'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "hours/task/batch/";
-
         if ($handler_id == 'list_hours') {
+            $data['mode'] = 'full';
             $data['view_title'] = $data['l10n']->get('hour reports');
             $data['breadcrumb_title'] = $data['view_title'];
+            $this->_master->add_list_filter($qb, true);
         } else {
             $task = new org_openpsa_projects_task_dba($args[0]);
             $qb->add_constraint('task', '=', $task->id);
 
-            $mode = 'simple';
+            $data['mode'] = 'simple';
             $data['view_title'] = sprintf($data['l10n']->get("list_hours_task %s"), $task->title);
             $data['breadcrumb_title'] = $task->get_label();
 
@@ -58,13 +49,11 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 ]);
             }
         }
-        if ($mode !== 'simple') {
-            $this->_master->add_list_filter($qb, true);
-        }
         $qb->add_order('date', 'DESC');
         $data['hours'] = $qb->execute();
 
-        $data['mode'] = $mode;
+        //url for batch_handler
+        $data['action_target_url'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "hours/task/batch/";
 
         org_openpsa_widgets_grid::add_head_elements();
         autocomplete::add_head_elements();

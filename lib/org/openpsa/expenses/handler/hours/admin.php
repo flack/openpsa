@@ -47,8 +47,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             $task = new org_openpsa_projects_task_dba($args[1]);
             $task->require_do('midgard:create');
             $defaults['task'] = $task->id;
-        } else {
-            midcom::get()->auth->require_valid_user();
         }
         $dm = $this->load_datamanager($report, $defaults, $args[0]);
         $data['controller'] = $dm->get_controller();

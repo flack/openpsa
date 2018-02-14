@@ -29,7 +29,6 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
 
     public function _load_data($handler_id, array &$args, array &$data)
     {
-        midcom::get()->auth->require_valid_user();
         if (   empty($_POST['guids'])
             || !is_array($_POST['guids'])) {
             throw new midcom_error("No GUIDs found, aborting.");
