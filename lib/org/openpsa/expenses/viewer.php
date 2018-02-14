@@ -44,8 +44,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
         if (   strpos($handler, 'index') !== false
             || strpos($handler, 'list') !== false) {
             $task = false;
-            if (   $handler == 'list_hours_task'
-                || $handler == 'list_hours_task_all') {
+            if ($handler == 'list_hours_task') {
                 $task = $args[0];
             }
 

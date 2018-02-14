@@ -13,14 +13,6 @@
     'variable_args' => 1,
 ),
 
-// Handle /hours/task/all/<guid>
-'list_hours_task_all' => array
-(
-    'handler' => array('org_openpsa_expenses_handler_hours_list', 'list'),
-    'fixed_args' => array('hours', 'task', 'all'),
-    'variable_args' => 1,
-),
-
 // Handle /hours/
 'list_hours' => array
 (

@@ -88,7 +88,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
     </div>
     <?php
         $tabs = [[
-            'url' => $expenses_url . "hours/task/all/" . $task->guid . "/",
+            'url' => $expenses_url . "hours/task/" . $task->guid . "/",
             'title' => $data['l10n']->get('hour reports'),
         ]];
         if ($data['has_subtasks']) {

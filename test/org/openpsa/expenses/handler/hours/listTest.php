@@ -32,16 +32,6 @@ class org_openpsa_expenses_handler_hours_listTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    public function testHandler_list_hours_task_all()
-    {
-        midcom::get()->auth->request_sudo('org.openpsa.expenses');
-
-        $data = $this->run_handler('org.openpsa.expenses', ['hours', 'task', 'all', self::$_task->guid]);
-        $this->assertEquals('list_hours_task_all', $data['handler_id']);
-
-        midcom::get()->auth->drop_sudo();
-    }
-
     public function testHandler_list_hours()
     {
         midcom::get()->auth->request_sudo('org.openpsa.expenses');
