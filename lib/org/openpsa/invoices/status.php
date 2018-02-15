@@ -12,19 +12,16 @@
 class org_openpsa_invoices_status extends org_openpsa_widgets_status
 {
     /**
-     *
      * @var org_openpsa_invoices_invoice_dba
      */
     private $invoice;
 
     /**
-     *
      * @var midcom_services_i18n_l10n
      */
     private $l10n;
 
     /**
-     *
      * @var midcom_services_i18n_l10n
      */
     private $l10n_midcom;

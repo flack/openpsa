@@ -17,11 +17,11 @@ abstract class org_openpsa_widgets_status
 
         echo "<h2 class=\"current-status {$this->get_status_class()}\">";
         echo $l10n->get('status') . ': ' . $this->get_current_status();
-        echo $this->get_button();
         echo '</h2>';
 
         echo '<div class="area org_openpsa_helper_box history status">';
         echo "<h3>" . $l10n->get('status history');
+        echo $this->get_button();
         echo "</h3>\n";
 
         echo "<ul>\n";
