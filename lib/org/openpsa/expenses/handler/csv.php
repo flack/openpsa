@@ -29,13 +29,13 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
 
     public function _load_data($handler_id, array &$args, array &$data)
     {
-        if (   empty($_POST['guids'])
-            || !is_array($_POST['guids'])) {
-            throw new midcom_error("No GUIDs found, aborting.");
+        if (   empty($_POST['ids'])
+            || !is_array($_POST['ids'])) {
+            throw new midcom_error("No IDs found, aborting.");
         }
 
         $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
-        $qb->add_constraint('guid', 'IN', $_POST['guids']);
+        $qb->add_constraint('id', 'IN', $_POST['ids']);
         if (   isset($_POST['order'])
             && is_array($_POST['order'])) {
             foreach ($_POST['order'] as $field => $order) {

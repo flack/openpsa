@@ -43,10 +43,14 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             'date' => time()
         ];
 
-        if (count($args) > 1) {
+        if ($handler_id == 'hours_create_task') {
             $task = new org_openpsa_projects_task_dba($args[1]);
             $task->require_do('midgard:create');
             $defaults['task'] = $task->id;
+        } elseif ($handler_id == 'hours_create_invoice') {
+            $invoice = new org_openpsa_invoices_invoice_dba($args[1]);
+            $invoice->require_do('midgard:create');
+            $defaults['invoice'] = $invoice->id;
         }
         $dm = $this->load_datamanager($report, $defaults, $args[0]);
         $data['controller'] = $dm->get_controller();

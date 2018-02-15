@@ -79,8 +79,19 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
-        $data = $this->run_handler('org.openpsa.expenses', ['hours', 'create', 'hour_report', self::$_task->guid]);
+        $data = $this->run_handler('org.openpsa.expenses', ['hours', 'create', 'task', 'hour_report', self::$_task->guid]);
         $this->assertEquals('hours_create_task', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testHandler_hours_create_invoice()
+    {
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);
+        midcom::get()->auth->request_sudo('org.openpsa.expenses');
+
+        $data = $this->run_handler('org.openpsa.expenses', ['hours', 'create', 'invoice', 'hour_report', $invoice->guid]);
+        $this->assertEquals('hours_create_invoice', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }

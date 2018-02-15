@@ -641,9 +641,11 @@ var org_openpsa_export_csv = {
 
 var org_openpsa_batch_processing = {
     initialize: function(config) {
+        $('#form_' + config.id).hide();
+
         var widgets_to_add = [],
             //build action form and associated widgets
-            action_select = '<div class="action_select_div" id="' + config.id + '_batch" style="display: none;">';
+            action_select = '<div class="action_select_div" id="' + config.id + '_batch">';
         action_select += '<select id="' + config.id + '_batch_select" class="action_select" name="action" size="1">';
 
         $.each(config.options, function(key, value) {
@@ -671,17 +673,17 @@ var org_openpsa_batch_processing = {
         $('#' + config.id).jqGrid('setGridParam', {
             onSelectRow: function(id) {
                 if ($('#' + config.id).jqGrid('getGridParam', 'selarrrow').length === 0) {
-                    $('#' + config.id + '_batch').hide();
+                    $('#' + config.id + '_batch').parent().hide();
                 } else {
-                    $('#' + config.id + '_batch').show();
+                    $('#' + config.id + '_batch').parent().show();
                 }
                 $(window).trigger('resize');
             },
             onSelectAll: function(rowids, status) {
                 if (!status) {
-                    $('#' + config.id + '_batch').hide();
+                    $('#' + config.id + '_batch').parent().hide();
                 } else {
-                    $('#' + config.id + '_batch').show();
+                    $('#' + config.id + '_batch').parent().show();
                 }
                 $(window).trigger('resize');
             }

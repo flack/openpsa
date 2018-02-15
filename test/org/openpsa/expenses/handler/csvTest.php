@@ -21,7 +21,7 @@ class org_openpsa_expenses_handler_csvTest extends openpsa_testcase
         $task = $this->create_object('org_openpsa_projects_task_dba', ['project' => $project->id]);
         $report = $this->create_object('org_openpsa_expenses_hour_report_dba', ['task' => $task->id]);
 
-        $_POST['guids'] = [$report->guid];
+        $_POST['ids'] = [$report->id];
 
         $data = $this->run_handler('org.openpsa.expenses', ['csv', 'hours']);
         $this->assertEquals('csv', $data['handler_id']);

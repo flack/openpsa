@@ -33,10 +33,6 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         $this->invoice = new org_openpsa_invoices_invoice_dba($args[0]);
         $dm = $this->load_datamanager();
 
-        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
-        $qb->add_constraint('invoice', '=', $this->invoice->id);
-
-        $data['reports'] = $qb->execute();
         $data['object'] = $this->invoice;
         $data['object_view'] = $dm->get_content_html();
         $data['invoice_items'] = $this->invoice->get_invoice_items();
@@ -49,6 +45,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         midcom::get()->head->set_pagetitle($this->_l10n->get('invoice') . ' ' . $this->invoice->get_label());
 
         org_openpsa_widgets_grid::add_head_elements();
+        org_openpsa_widgets_ui::enable_ui_tab();
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/" . $this->_component . "/invoices.js");
     }
@@ -133,8 +130,6 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         }
 
         $this->_view_toolbar->add_items($buttons);
-        org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->invoice->guid);
-
         $this->_master->add_next_previous($this->invoice, $this->_view_toolbar, 'invoice/');
     }
 

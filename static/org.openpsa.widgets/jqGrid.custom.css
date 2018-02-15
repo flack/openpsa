@@ -60,3 +60,9 @@ a.ui-jqgrid-titlebar-maximize {
 {
     display: inline
 }
+
+.batch-processing > form
+{
+	display: inline-block;
+	margin-right: 2em
+}

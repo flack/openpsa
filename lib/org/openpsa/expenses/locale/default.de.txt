@@ -66,6 +66,10 @@ Listenansicht
 Stundenberichte für Aufgabe "%s"
 ---STRINGEND
 
+---STRING list_hours_invoice %s
+Stundenberichte zu Rechnung %s
+---STRINGEND
+
 ---STRING next week
 Folgewoche
 ---STRINGEND
@@ -84,6 +88,10 @@ vorherige Woche
 
 ---STRING report hours
 Arbeitsstunden melden
+---STRINGEND
+
+---STRING show invoice %s
+Rechnung %s anzeigen
 ---STRINGEND
 
 ---STRING show task %s

@@ -82,6 +82,8 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
 
     private function _populate_toolbar($previous_week, $next_week)
     {
+        $this->_master->populate_view_toolbar();
+
         $week_start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
         $week_end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
         $buttons = [

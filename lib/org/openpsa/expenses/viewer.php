@@ -18,17 +18,12 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
     /**
      * Populates the node toolbar depending on the user's rights.
      */
-    private function _populate_view_toolbar($task)
+    public function populate_view_toolbar($prefix = '', $suffix = '')
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb_hours'));
         $workflow = $this->get_workflow('datamanager');
         foreach ($schemadb->all() as $name => $schema) {
-            $create_url = "hours/create/{$name}/";
-
-            if ($task) {
-                $create_url .= $task . "/";
-            }
-
+            $create_url = "hours/create/{$prefix}{$name}/{$suffix}";
             $this->_view_toolbar->add_item($workflow->get_button($create_url, [
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schema->get('description'))),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
@@ -36,20 +31,8 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
         }
     }
 
-    /**
-     * The handle callback populates the toolbars.
-     */
     public function _on_handle($handler, array $args)
     {
-        if (   strpos($handler, 'index') !== false
-            || strpos($handler, 'list') !== false) {
-            $task = false;
-            if ($handler == 'list_hours_task') {
-                $task = $args[0];
-            }
-
-            $this->_populate_view_toolbar($task);
-        }
         midcom::get()->auth->require_admin_user();
     }
 

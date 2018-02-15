@@ -86,6 +86,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $data['view_title'] = sprintf($data['l10n']->get("list_hours_task %s"), $task->title);
         $this->breadcrumb_title = $task->get_label();
 
+        $this->prepare_request_data('task/', $task->guid . '/');
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         if ($projects_url = $siteconfig->get_node_full_url('org.openpsa.projects')) {
             $this->_view_toolbar->add_item([
@@ -95,7 +96,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 MIDCOM_TOOLBAR_ACCESSKEY => 'g',
             ]);
         }
-        $this->prepare_request_data();
     }
 
     /**
@@ -107,12 +107,52 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $this->_show_list($handler_id, $data);
     }
 
-    private function prepare_request_data()
+    /**
+     * The handler for the invoice list view
+     *
+     * @param mixed $handler_id the array key from the request array
+     * @param array $args the arguments given to the handler
+     * @param array &$data The local request data.
+     */
+    public function _handler_invoice($handler_id, array $args, array &$data)
+    {
+        $invoice = new org_openpsa_invoices_invoice_dba($args[0]);
+        $this->qb->add_constraint('invoice', '=', $invoice->id);
+
+        $data['mode'] = 'invoice';
+        $data['view_title'] = sprintf($data['l10n']->get("list_hours_invoice %s"), $invoice->get_label());
+        $this->breadcrumb_title = $data['view_title'];
+
+        $this->prepare_request_data('invoice/', $invoice->guid . '/');
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        if ($invoices_url = $siteconfig->get_node_full_url('org.openpsa.invoices')) {
+            $this->_view_toolbar->add_item([
+                MIDCOM_TOOLBAR_URL => $invoices_url . "invoice/{$invoice->guid}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show invoice %s'), $invoice->get_label()),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'g',
+            ]);
+        }
+    }
+
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_invoice($handler_id, array &$data)
+    {
+        $this->_show_list($handler_id, $data);
+    }
+
+
+    private function prepare_request_data($prefix = '', $suffix = '')
     {
         $this->_request_data['hours'] = $this->qb->execute();
 
         midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
         $this->add_breadcrumb('', $this->breadcrumb_title);
+
+        $this->_master->populate_view_toolbar($prefix, $suffix);
     }
 
     /**

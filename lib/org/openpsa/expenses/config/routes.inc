@@ -13,6 +13,14 @@
     'variable_args' => 1,
 ),
 
+// Handle /hours/invoice/<guid>
+'list_hours_invoice' => array
+(
+    'handler' => array('org_openpsa_expenses_handler_hours_list', 'invoice'),
+    'fixed_args' => array('hours', 'invoice'),
+    'variable_args' => 1,
+),
+
 // Handle /hours/
 'list_hours' => array
 (
@@ -44,11 +52,19 @@
     'variable_args' => 1,
 ),
 
-// Handle /hours/create/<schema>/<task>
+// Handle /hours/create/task/<schema>/<guid>
 'hours_create_task' => array
 (
     'handler' => array('org_openpsa_expenses_handler_hours_admin', 'create'),
-    'fixed_args' => array('hours', 'create'),
+    'fixed_args' => array('hours', 'create', 'task'),
+    'variable_args' => 2,
+),
+
+// Handle /hours/create/invoice/<schema>/<guid>
+'hours_create_invoice' => array
+(
+    'handler' => array('org_openpsa_expenses_handler_hours_admin', 'create'),
+    'fixed_args' => array('hours', 'create', 'invoice'),
     'variable_args' => 2,
 ),
 

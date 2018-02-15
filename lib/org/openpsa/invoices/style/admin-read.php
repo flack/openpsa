@@ -14,8 +14,7 @@ try {
 
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
-$projects_url = $siteconfig->get_node_full_url('org.openpsa.projects');
-$expenses_url = $siteconfig->get_node_full_url('org.openpsa.expenses');
+$expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
 $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
 $cancelation_invoice_link = false;
@@ -149,109 +148,19 @@ if ($invoice->cancelationInvoice) {
         <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'pdf_file');
     }
 
-// Display invoiced hours and tasks
-if (!empty($data['reports'])) {
-    $grid_id = 'invoice_' . $invoice->number . '_hours_grid';
-
-    $guids = [];
-    $rows = [];
-
-    foreach ($data['reports'] as $report) {
-        $row = [];
-
-        $guids[] = $report->guid;
-
-        try {
-            $reporter = org_openpsa_contacts_person_dba::get_cached($report->person);
-            $reporter_card = org_openpsa_widgets_contact::get($report->person);
-            $row['index_reporter'] = $reporter->rname;
-            $row['reporter'] = $reporter_card->show_inline();
-            $task = org_openpsa_projects_task_dba::get_cached($report->task);
-            $row['task'] = "<a href=\"{$projects_url}task/{$task->guid}/\">{$task->title}</a>";
-        } catch (midcom_error $e) {
-            $e->log();
+    $tabs = [];
+    if ($expenses_url) {
+        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
+        $qb->add_constraint('invoice', '=', $invoice->id);
+        $qb->set_limit(1);
+        if ($qb->count() > 0) {
+            $tabs[] = [
+                'url' => $expenses_url . "hours/invoice/{$invoice->guid}/",
+                'title' => midcom::get()->i18n->get_string('hour reports', 'org.openpsa.projects'),
+            ];
         }
-
-        $approved_img_src = MIDCOM_STATIC_URL . '/stock-icons/16x16/';
-        if ($report->is_approved()) {
-            $approved_text = $data['l10n']->get('approved');
-            $approved_img_src .= 'page-approved.png';
-        } else {
-            $approved_text = $data['l10n']->get('not approved');
-            $approved_img_src .= 'page-notapproved.png';
-        }
-        $approved_img =  "<img src='{$approved_img_src}' alt='{$approved_text}' title='{$approved_text}' />";
-
-        $row['id'] = $report->id;
-        $row['index_date'] = $report->date;
-        $row['date'] = $formatter->date($report->date);
-        $row['hours'] = $report->hours;
-        $row['description'] = $report->get_description();
-        $row['approved'] = $approved_img;
-
-        $rows[] = $row;
-    } ?>
-<script type="text/javascript">//<![CDATA[
-     var &(grid_id);_entries = <?php echo json_encode($rows); ?>
-//]]></script>
-
-<div class="hours full-width">
-
-<table id="&(grid_id);"></table>
-<div id="p_&(grid_id);"></div>
-
-</div>
-
-<script type="text/javascript">
-jQuery("#&(grid_id);").jqGrid({
-      datatype: "local",
-      data: &(grid_id);_entries,
-      colNames: ['id', <?php
-                 echo '"index_date", "' .  midcom::get()->i18n->get_string('date', 'org.openpsa.projects') . '",';
-
-    echo '"index_reporter", "' .  midcom::get()->i18n->get_string('reporter', 'org.openpsa.projects') . '",';
-    echo '"' . midcom::get()->i18n->get_string('hours', 'org.openpsa.projects') . '",';
-    echo '"' . midcom::get()->i18n->get_string('description', 'org.openpsa.projects') . '",';
-    echo '"' . midcom::get()->i18n->get_string('approved', 'org.openpsa.projects') . '",';
-    echo '"' . midcom::get()->i18n->get_string('task', 'org.openpsa.projects') . '"'; ?>],
-      colModel:[
-          {name:'id', index:'id', hidden:true, key:true},
-          {name:'index_date',index:'index_date', sorttype: "integer", hidden:true},
-          {name:'date', index: 'index_date', width: 70, align: 'center', fixed: true},
-          {name:'index_reporter', index:'index_reporter', hidden:true},
-          {name:'reporter', index: 'index_reporter', width: 60,},
-          {name:'hours', index: 'hours', width: 25, align: 'right', formatter: 'number', sorttype: 'float', summaryType:'sum'},
-          {name:'description', index: 'description', width: 150},
-          {name:'approved', index: 'approved', width: 20, align: 'center', fixed: true},
-          {name:'task', index: 'task'}
-      ],
-      loadonce: true,
-      rowNum: <?php echo sizeof($rows); ?>,
-      scroll: 1,
-      caption: '<?php echo $data['l10n']->get('invoiced hour reports'); ?>',
-      sortname: 'date',
-      grouping: true,
-      groupingView: {
-          groupField: ['task'],
-          groupColumnShow: [false],
-          groupText : ['<strong>{0}</strong> ({1})'],
-          groupOrder: ['asc'],
-          groupSummary : [true],
-          showSummaryOnHide: true
-       }
-    });
-</script>
-
-<?php
-    echo "<form method=\"post\" action=\"" . $expenses_url . "csv/hour_report/?filename=hours_invoice_" . $invoice->number . ".csv\">\n";
-    echo "    <input type=\"hidden\" id=\"csvdata\" name=\"org_openpsa_core_csvexport\" value=\"\" />";
-    foreach (array_filter($guids) as $guid) {
-        echo "    <input type=\"hidden\" name=\"guids[]\" value=\"" . $guid . "\" />\n";
     }
-    echo "    <input type=\"hidden\" name=\"order[date]\" value=\"ASC\" />\n";
-    echo "    <input class=\"button\" type=\"submit\" value=\"" . midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core') . "\" />\n";
-    echo "</form>\n";
-}
+    org_openpsa_widgets_ui::render_tabs($invoice->guid, $tabs);
 ?>
 </div>
 <aside>

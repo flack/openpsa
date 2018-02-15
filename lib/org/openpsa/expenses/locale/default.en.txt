@@ -67,7 +67,11 @@ List view
 ---STRINGEND
 
 ---STRING list_hours_task %s
-Hour reports for Task %s
+Hour reports for Task "%s"
+---STRINGEND
+
+---STRING list_hours_invoice %s
+Hour reports for Invoice %s
 ---STRINGEND
 
 ---STRING next week
@@ -88,6 +92,10 @@ previous week
 
 ---STRING report hours
 Report hours
+---STRINGEND
+
+---STRING show invoice %s
+Show task %s
 ---STRINGEND
 
 ---STRING show task %s
