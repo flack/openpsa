@@ -15,11 +15,11 @@ class org_openpsa_helpers_listTest extends openpsa_testcase
 {
     public function test_task_groups()
     {
-        $org = $this->create_object('org_openpsa_contacts_group_dba');
+        $org = $this->create_object(org_openpsa_contacts_group_dba::class);
         $org->refresh();
-        $person = $this->create_object('midcom_db_person');
-        $this->create_object('midcom_db_member', ['uid' => $person->id, 'gid' => $org->id]);
-        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba', ['customerContact' => $person->id]);
+        $person = $this->create_object(midcom_db_person::class);
+        $this->create_object(midcom_db_member::class, ['uid' => $person->id, 'gid' => $org->id]);
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class, ['customerContact' => $person->id]);
 
         midcom::get()->auth->request_sudo('org.openpsa.helpers');
 

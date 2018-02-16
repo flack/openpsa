@@ -17,8 +17,8 @@ class org_openpsa_products_handler_product_editTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $group = self::create_class_object('org_openpsa_products_product_group_dba', ['code' => 'TEST_' . __CLASS__ . time()]);
-        self::$_product = self::create_class_object('org_openpsa_products_product_dba', ['productGroup' => $group->id]);
+        $group = self::create_class_object(org_openpsa_products_product_group_dba::class, ['code' => 'TEST_' . __CLASS__ . time()]);
+        self::$_product = self::create_class_object(org_openpsa_products_product_dba::class, ['productGroup' => $group->id]);
     }
 
     public function testHandler_edit()

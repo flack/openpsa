@@ -50,21 +50,21 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
      */
     public function testRecalculate_invoice_items()
     {
-        $invoice = $this->create_object('org_openpsa_invoices_invoice_dba');
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);
 
-        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
         $deliverable_attributes = [
             'salesproject' => $salesproject->id,
             'pricePerUnit' => 10
         ];
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
 
         $task_attributes = [
             'agreement' => $deliverable->id,
             'project' => $salesproject->id
         ];
-        $task1 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
-        $task2 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
+        $task1 = $this->create_object(org_openpsa_projects_task_dba::class, $task_attributes);
+        $task2 = $this->create_object(org_openpsa_projects_task_dba::class, $task_attributes);
 
         $report_attributes = [
             'invoice' => $invoice->id,
@@ -73,9 +73,9 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
             'task' => $task1->id
         ];
 
-        $report1 = $this->create_object('org_openpsa_expenses_hour_report_dba', $report_attributes);
+        $report1 = $this->create_object(org_openpsa_expenses_hour_report_dba::class, $report_attributes);
         $report_attributes['task'] = $task2->id;
-        $report2 = $this->create_object('org_openpsa_expenses_hour_report_dba', $report_attributes);
+        $report2 = $this->create_object(org_openpsa_expenses_hour_report_dba::class, $report_attributes);
 
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $invoice->_recalculate_invoice_items();

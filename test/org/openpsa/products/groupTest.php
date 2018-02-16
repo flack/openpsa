@@ -40,8 +40,8 @@ class org_openpsa_products_groupTest extends openpsa_testcase
 
     public function test_get_parent()
     {
-        $parentgroup = $this->create_object('org_openpsa_products_product_group_dba');
-        $group = $this->create_object('org_openpsa_products_product_group_dba', ['up' => $parentgroup->id]);
+        $parentgroup = $this->create_object(org_openpsa_products_product_group_dba::class);
+        $group = $this->create_object(org_openpsa_products_product_group_dba::class, ['up' => $parentgroup->id]);
 
         $parent = $group->get_parent();
         $this->assertEquals($parentgroup->guid, $parent->guid);

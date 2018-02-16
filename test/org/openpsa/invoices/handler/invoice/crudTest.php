@@ -19,7 +19,7 @@ class org_openpsa_invoices_handler_invoice_crudTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
-        self::$_invoice = self::create_class_object('org_openpsa_invoices_invoice_dba');
+        self::$_invoice = self::create_class_object(org_openpsa_invoices_invoice_dba::class);
     }
 
     public function testHandler_create()

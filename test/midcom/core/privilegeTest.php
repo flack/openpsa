@@ -20,8 +20,8 @@ class midcom_core_privilegeTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.core');
 
-        $person = $this->create_object('midcom_db_person');
-        $project = $this->create_object('org_openpsa_projects_project');
+        $person = $this->create_object(midcom_db_person::class);
+        $project = $this->create_object(org_openpsa_projects_project::class);
         $input['assignee'] = 'user:' . $person->guid;
         $input['objectguid'] = $project->guid;
 

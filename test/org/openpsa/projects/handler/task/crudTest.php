@@ -20,8 +20,8 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
     {
         self::create_user(true);
 
-        self::$_project = self::create_class_object('org_openpsa_projects_project');
-        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', ['project' => self::$_project->id]);
+        self::$_project = self::create_class_object(org_openpsa_projects_project::class);
+        self::$_task = self::create_class_object(org_openpsa_projects_task_dba::class, ['project' => self::$_project->id]);
     }
 
     public function testHandler_create()

@@ -20,7 +20,7 @@ class org_openpsa_invoices_invoice_billing_dataTest extends openpsa_testcase
         $attributes = [
            'street' => 'TEST STREET'
         ];
-        self::$_contact = self::create_class_object('org_openpsa_contacts_person_dba');
+        self::$_contact = self::create_class_object(org_openpsa_contacts_person_dba::class);
     }
 
     public function testCRUD()

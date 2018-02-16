@@ -73,7 +73,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                 'component' => $component,
                 'name' => 'handler_' . get_called_class() . time()
             ];
-            $topic = self::create_class_object('midcom_db_topic', $topic_attributes);
+            $topic = self::create_class_object(midcom_db_topic::class, $topic_attributes);
         }
         midcom::get()->auth->drop_sudo();
         return $topic;
@@ -277,7 +277,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             if (!array_key_exists('__openpsa_testcase_response', $data)) {
                 $data['__openpsa_testcase_response'] = null;
             }
-            $this->assertInstanceOf('midcom_response_relocate', $data['__openpsa_testcase_response'], 'handler did not relocate');
+            $this->assertInstanceOf(midcom_response_relocate::class, $data['__openpsa_testcase_response'], 'handler did not relocate');
             $url = $data['__openpsa_testcase_response']->url;
         } catch (openpsa_test_relocate $e) {
             $url = $e->getMessage();

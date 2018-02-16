@@ -25,8 +25,8 @@ class midcom_helper_filesync_exporter_structureTest extends openpsa_testcase
         $topic_name = uniqid('structure_' . __CLASS__ . __FUNCTION__);
         $export_name = 'export';
 
-        $topic = $this->create_object('midcom_db_topic', ['name' => $topic_name]);
-        $sub_topic = $this->create_object('midcom_db_topic', ['name' => $topic_name, 'up' => $topic->id]);
+        $topic = $this->create_object(midcom_db_topic::class, ['name' => $topic_name]);
+        $sub_topic = $this->create_object(midcom_db_topic::class, ['name' => $topic_name, 'up' => $topic->id]);
 
         $exporter = new midcom_helper_filesync_exporter_structure(self::$_rootdir);
         midcom::get()->auth->request_sudo('midcom.helper.filesync');

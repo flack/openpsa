@@ -19,7 +19,7 @@ class org_openpsa_projects_handler_project_crudTest extends openpsa_testcase
     {
         self::create_user(true);
 
-        self::$_project = self::create_class_object('org_openpsa_projects_project');
+        self::$_project = self::create_class_object(org_openpsa_projects_project::class);
     }
 
     public function testHandler_create()

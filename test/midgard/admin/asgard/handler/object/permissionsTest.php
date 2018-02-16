@@ -17,7 +17,7 @@ class midgard_admin_asgard_handler_object_permissionsTest extends openpsa_testca
 
     public static function setUpBeforeClass()
     {
-        self::$_object = self::create_class_object('midcom_db_topic', ['component' => 'org.openpsa.mypage']);
+        self::$_object = self::create_class_object(midcom_db_topic::class, ['component' => 'org.openpsa.mypage']);
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
         self::$_object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_ALLOW);
         midcom::get()->auth->drop_sudo();

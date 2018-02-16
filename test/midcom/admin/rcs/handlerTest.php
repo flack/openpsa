@@ -18,7 +18,7 @@ class midcom_admin_rcs_handlerTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::create_user(true);
-        self::$_object = self::create_class_object('midcom_db_person', ['_use_rcs' => true]);
+        self::$_object = self::create_class_object(midcom_db_person::class, ['_use_rcs' => true]);
         self::$_object->update();
         self::$_object->lastname = 'test';
         self::$_object->update();
@@ -26,7 +26,7 @@ class midcom_admin_rcs_handlerTest extends openpsa_testcase
 
     public function testHandler_history()
     {
-        $object_without_history = self::create_class_object('midcom_db_topic', ['_use_rcs' => false]);
+        $object_without_history = self::create_class_object(midcom_db_topic::class, ['_use_rcs' => false]);
 
         midcom::get()->auth->request_sudo('midcom.admin.rcs');
 

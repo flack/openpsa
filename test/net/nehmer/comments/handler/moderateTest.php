@@ -16,9 +16,9 @@ class net_nehmer_comments_handler_moderateTest extends openpsa_testcase
     public function testHandler_abuse()
     {
         $this->create_user(true);
-        $topic = $this->create_object('midcom_db_topic');
+        $topic = $this->create_object(midcom_db_topic::class);
         $attributes = ['objectguid' => $topic->guid];
-        $comment = $this->create_object('net_nehmer_comments_comment', $attributes);
+        $comment = $this->create_object(net_nehmer_comments_comment::class, $attributes);
 
         midcom::get()->auth->request_sudo('net.nehmer.comments');
 

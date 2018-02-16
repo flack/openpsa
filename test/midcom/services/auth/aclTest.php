@@ -15,11 +15,11 @@ class midcom_services_auth_aclTest extends openpsa_testcase
 {
     public function test_can_do_parent_object_privilege()
     {
-        $topic = $this->create_object('midcom_db_topic');
-        $article = $this->create_object('midcom_db_article', ['topic' => $topic->id]);
+        $topic = $this->create_object(midcom_db_topic::class);
+        $article = $this->create_object(midcom_db_article::class, ['topic' => $topic->id]);
 
-        $topic_denied = $this->create_object('midcom_db_topic');
-        $article_denied = $this->create_object('midcom_db_article', ['topic' => $topic_denied->id]);
+        $topic_denied = $this->create_object(midcom_db_topic::class);
+        $article_denied = $this->create_object(midcom_db_article::class, ['topic' => $topic_denied->id]);
         $person = $this->create_user();
 
         midcom::get()->auth->request_sudo('midcom.core');
@@ -50,10 +50,10 @@ class midcom_services_auth_aclTest extends openpsa_testcase
 
     public function test_can_do_group_privilege()
     {
-        $topic = $this->create_object('midcom_db_topic');
+        $topic = $this->create_object(midcom_db_topic::class);
         $person = $this->create_user();
-        $group = $this->create_object('midcom_db_group');
-        $this->create_object('midcom_db_member', ['gid' => $group->id, 'uid' => $person->id]);
+        $group = $this->create_object(midcom_db_group::class);
+        $this->create_object(midcom_db_member::class, ['gid' => $group->id, 'uid' => $person->id]);
 
         midcom::get()->auth->request_sudo('midcom.core');
         $topic->set_privilege('midgard:read', 'group:' . $group->guid, MIDCOM_PRIVILEGE_DENY);

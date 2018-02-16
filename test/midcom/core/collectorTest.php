@@ -17,7 +17,7 @@ class midcom_core_collectorTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_topic = self::create_class_object('midcom_db_topic', ['name' => __CLASS__ . time()]);
+        self::$_topic = self::create_class_object(midcom_db_topic::class, ['name' => __CLASS__ . time()]);
     }
 
     /**

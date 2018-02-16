@@ -36,12 +36,12 @@ class midcom_db_personTest extends openpsa_testcase
         $this->assertEquals('Firstname Lastname', $person->name);
         $this->assertEquals('Lastname, Firstname', $person->rname);
 
-        $group = $this->create_object('midcom_db_group');
+        $group = $this->create_object(midcom_db_group::class);
         $attributes = [
             'gid' => $group->id,
             'uid' => $person->id
         ];
-        $member = $this->create_object('midcom_db_member', $attributes);
+        $member = $this->create_object(midcom_db_member::class, $attributes);
 
         $stat = $person->delete();
         $this->assertTrue($stat);

@@ -35,7 +35,7 @@ class org_openpsa_contacts_handler_mycontactsTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
-        $person = $this->create_object('org_openpsa_contacts_person_dba');
+        $person = $this->create_object(org_openpsa_contacts_person_dba::class);
 
         $url = $this->run_relocate_handler('org.openpsa.contacts', ['mycontacts', 'add', $person->guid]);
         $this->assertEquals('person/' . $person->guid . '/', $url);
@@ -60,7 +60,7 @@ class org_openpsa_contacts_handler_mycontactsTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
-        $person = $this->create_object('org_openpsa_contacts_person_dba');
+        $person = $this->create_object(org_openpsa_contacts_person_dba::class);
 
         $url = $this->run_relocate_handler('org.openpsa.contacts', ['mycontacts', 'add', $person->guid]);
         $this->assertEquals('person/' . $person->guid . '/', $url);

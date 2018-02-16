@@ -26,13 +26,13 @@ class org_openpsa_calendar_handler_icalTest extends openpsa_testcase
             'description' => "Event \nDescription",
             'location' => 'Event Location',
         ];
-        $event = $this->create_object('org_openpsa_calendar_event_dba', $attributes);
+        $event = $this->create_object(org_openpsa_calendar_event_dba::class, $attributes);
 
         $attributes = [
             'uid' => $user->id,
             'eid' => $event->id
         ];
-        $eventmember = $this->create_object('org_openpsa_calendar_event_member_dba', $attributes);
+        $eventmember = $this->create_object(org_openpsa_calendar_event_member_dba::class, $attributes);
 
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
         $user->firstname = 'Firstname';

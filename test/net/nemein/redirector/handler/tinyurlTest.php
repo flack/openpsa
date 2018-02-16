@@ -21,7 +21,7 @@ class net_nemein_redirector_handler_tinyurlTest extends openpsa_testcase
             'component' => 'net.nemein.redirector',
             'name' => __CLASS__ . time()
         ];
-        self::$_topic = self::create_class_object('midcom_db_topic', $topic_attributes);
+        self::$_topic = self::create_class_object(midcom_db_topic::class, $topic_attributes);
     }
 
     public function testHandler_create()
@@ -42,7 +42,7 @@ class net_nemein_redirector_handler_tinyurlTest extends openpsa_testcase
             'node' => self::$_topic->guid,
             'name' => net_nemein_redirector_tinyurl_dba::generate()
         ];
-        $tinyurl = $this->create_object('net_nemein_redirector_tinyurl_dba', $attributes);
+        $tinyurl = $this->create_object(net_nemein_redirector_tinyurl_dba::class, $attributes);
 
         $data = $this->run_handler(self::$_topic, ['edit', $tinyurl->name]);
         $this->assertEquals('edit', $data['handler_id']);

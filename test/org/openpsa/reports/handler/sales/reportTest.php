@@ -24,7 +24,7 @@ class org_openpsa_reports_handler_sales_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object('org_openpsa_reports_query_dba');
+        $query = $this->create_object(org_openpsa_reports_query_dba::class);
 
         $data = $this->run_handler('org.openpsa.reports', ['sales', 'edit', $query->guid]);
         $this->assertEquals('sales_edit_report_guid', $data['handler_id']);
@@ -37,24 +37,24 @@ class org_openpsa_reports_handler_sales_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object('org_openpsa_reports_query_dba', [
+        $query = $this->create_object(org_openpsa_reports_query_dba::class, [
             'end' => time() + 1000
         ]);
         $query->set_parameter('midcom.helper.datamanager2', 'resource', 'all');
 
-        $sp = $this->create_object('org_openpsa_sales_salesproject_dba', [
+        $sp = $this->create_object(org_openpsa_sales_salesproject_dba::class, [
             'owner' => self::$person->id,
             'state' => org_openpsa_sales_salesproject_dba::STATE_WON
 
         ]);
-        $del = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', [
+        $del = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, [
             'salesproject' => $sp->id,
             'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
         ]);
-        $invoice = $this->create_object('org_openpsa_invoices_invoice_dba', [
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class, [
             'sent' => time()
         ]);
-        $this->create_object('org_openpsa_invoices_invoice_item_dba', [
+        $this->create_object(org_openpsa_invoices_invoice_item_dba::class, [
             'invoice' => $invoice->id,
             'deliverable' => $del->id
         ]);
@@ -70,7 +70,7 @@ class org_openpsa_reports_handler_sales_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object('org_openpsa_reports_query_dba');
+        $query = $this->create_object(org_openpsa_reports_query_dba::class);
         $timestamp = strftime('%Y_%m_%d', $query->metadata->created);
 
         $url = $this->run_relocate_handler('org.openpsa.reports', ['sales', $query->guid]);
@@ -84,7 +84,7 @@ class org_openpsa_reports_handler_sales_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object('org_openpsa_reports_query_dba');
+        $query = $this->create_object(org_openpsa_reports_query_dba::class);
 
         $data = $this->run_handler('org.openpsa.reports', ['sales']);
         $this->assertEquals('sales_report', $data['handler_id']);

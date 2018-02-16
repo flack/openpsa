@@ -26,7 +26,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
         $helper = new org_openpsa_user_accounthelper;
         // test error cases
-        $person = self::create_class_object('midcom_db_person', []);
+        $person = self::create_class_object(midcom_db_person::class, []);
         // no person guid
         $this->assertFalse($helper->create_account("", "", ""));
         // no username
@@ -35,14 +35,14 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $this->assertFalse($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Bob"), "", "", true));
 
         // test with no password given
-        $person = self::create_class_object('midcom_db_person', []);
+        $person = self::create_class_object(midcom_db_person::class, []);
         $this->assertTrue($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Alice"), "", "", false, false), $helper->errstr);
 
         // this should work, so creating an account again should fail
         $this->assertFalse($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Alice"), ""));
 
         // test with password given
-        $person = self::create_class_object('midcom_db_person', []);
+        $person = self::create_class_object(midcom_db_person::class, []);
         $helper = new org_openpsa_user_accounthelper();
         $password = $helper->generate_safe_password();
 

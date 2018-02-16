@@ -35,7 +35,7 @@ class org_openpsa_contacts_handler_person_createTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
-        $group = $this->create_object('org_openpsa_contacts_group_dba');
+        $group = $this->create_object(org_openpsa_contacts_group_dba::class);
 
         $data = $this->run_handler('org.openpsa.contacts', ['person', 'create', $group->guid]);
         $this->assertEquals('person_new_group', $data['handler_id']);

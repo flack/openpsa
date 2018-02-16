@@ -23,7 +23,7 @@ class net_nehmer_blog_handler_archiveTest extends openpsa_testcase
             'topic' => self::$_topic->id,
             'name' => __CLASS__ . time()
         ];
-        self::$_article = self::create_class_object('midcom_db_article', $article_properties);
+        self::$_article = self::create_class_object(midcom_db_article::class, $article_properties);
     }
 
     public function testHandler_welcome()

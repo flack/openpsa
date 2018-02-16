@@ -20,13 +20,13 @@ class net_nehmer_static_handler_autoindexTest extends openpsa_testcase
             'component' => 'net.nehmer.static',
             'name' => __CLASS__ . time()
         ];
-        $topic = $this->create_object('midcom_db_topic', $data);
+        $topic = $this->create_object(midcom_db_topic::class, $data);
         $topic->set_parameter('net.nehmer.static', 'autoindex', true);
         $article_properties = [
             'topic' => $topic->id,
             'name' => 'dummy'
         ];
-        $this->create_object('midcom_db_article', $article_properties);
+        $this->create_object(midcom_db_article::class, $article_properties);
 
         $data = $this->run_handler($topic);
         $this->assertEquals('autoindex', $data['handler_id']);

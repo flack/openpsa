@@ -18,7 +18,7 @@ class org_openpsa_calendar_handler_adminTest extends openpsa_testcase
         $this->create_user(true);
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
-        $event = $this->create_object('org_openpsa_calendar_event_dba', [
+        $event = $this->create_object(org_openpsa_calendar_event_dba::class, [
             'start' => time() - 60 * 60,
             'end' => time() + 60 * 60
         ]);
@@ -51,7 +51,7 @@ class org_openpsa_calendar_handler_adminTest extends openpsa_testcase
         $this->create_user(true);
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
-        $event = $this->create_object('org_openpsa_calendar_event_dba', [
+        $event = $this->create_object(org_openpsa_calendar_event_dba::class, [
             'start' => time() - 60 * 60,
             'end' => time() + 60 * 60
         ]);

@@ -34,7 +34,7 @@ class org_openpsa_slideshow_handler_editTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.slideshow');
 
         $topic = $this->get_component_node('org.openpsa.slideshow');
-        $image = $this->create_object('org_openpsa_slideshow_image_dba', ['topic' => $topic->id]);
+        $image = $this->create_object(org_openpsa_slideshow_image_dba::class, ['topic' => $topic->id]);
 
         $_POST = [
             'operation' => 'delete',

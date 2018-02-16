@@ -47,7 +47,7 @@ class org_openpsa_calendar_handler_viewTest extends openpsa_testcase
     public function testHandler_view_raw()
     {
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
-        $event = $this->create_object('org_openpsa_calendar_event_dba', [
+        $event = $this->create_object(org_openpsa_calendar_event_dba::class, [
             'start' => time() - 60 * 60,
             'end' => time() + 60 * 60
         ]);
@@ -62,7 +62,7 @@ class org_openpsa_calendar_handler_viewTest extends openpsa_testcase
     public function testHandler_view()
     {
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
-        $event = $this->create_object('org_openpsa_calendar_event_dba', [
+        $event = $this->create_object(org_openpsa_calendar_event_dba::class, [
             'start' => time() - 60 * 60,
             'end' => time() + 60 * 60
         ]);

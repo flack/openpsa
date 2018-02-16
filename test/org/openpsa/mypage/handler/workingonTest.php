@@ -18,13 +18,13 @@ class org_openpsa_mypage_handler_workingonTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::create_user(true);
-        $project = self::create_class_object('org_openpsa_projects_project');
-        self::$task = self::create_class_object('org_openpsa_projects_task_dba', ['project' => $project->id]);
+        $project = self::create_class_object(org_openpsa_projects_project::class);
+        self::$task = self::create_class_object(org_openpsa_projects_task_dba::class, ['project' => $project->id]);
     }
 
     public function testHandler_workingon()
     {
-        $this->create_object('org_openpsa_expenses_hour_report_dba', ['task' => self::$task->id]);
+        $this->create_object(org_openpsa_expenses_hour_report_dba::class, ['task' => self::$task->id]);
         $data = $this->run_handler('org.openpsa.mypage', ['workingon']);
         $this->assertEquals('workingon', $data['handler_id']);
     }

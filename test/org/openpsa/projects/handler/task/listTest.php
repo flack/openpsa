@@ -19,12 +19,12 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
     {
         $user = self::create_user(true);
 
-        self::$_project = self::create_class_object('org_openpsa_projects_project');
+        self::$_project = self::create_class_object(org_openpsa_projects_project::class);
         $attributes = [
             'manager' => $user->id,
             'project' => self::$_project->id
         ];
-        self::create_class_object('org_openpsa_projects_task_dba', $attributes);
+        self::create_class_object(org_openpsa_projects_task_dba::class, $attributes);
     }
 
     public function testHandler_list_user()
@@ -75,8 +75,8 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.projects');
 
-        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', ['salesproject' => $salesproject->id]);
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, ['salesproject' => $salesproject->id]);
 
         $data = $this->run_handler('org.openpsa.projects', ['task', 'list', 'agreement', $deliverable->id]);
         $this->assertEquals('task-list-agreement', $data['handler_id']);

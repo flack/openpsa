@@ -35,22 +35,22 @@ class org_openpsa_invoices_handler_projectsTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $customer = $this->create_object('org_openpsa_contacts_group_dba');
-        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
+        $customer = $this->create_object(org_openpsa_contacts_group_dba::class);
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
         $deliverable_attributes = [
             'salesproject' => $salesproject->id,
             'price' => 100,
             'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED,
             'invoiceByActualUnits' => false
         ];
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
         $task_attributes = [
             'project' => $salesproject->id,
             'agreement' => $deliverable->id,
             'status' => org_openpsa_projects_task_status_dba::COMPLETED,
             'invoiceableHours' => true
         ];
-        $task = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
+        $task = $this->create_object(org_openpsa_projects_task_dba::class, $task_attributes);
 
         $_POST = [
             'org_openpsa_invoices_invoice' => true,

@@ -44,7 +44,7 @@ class org_openpsa_reports_viewerTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object('org_openpsa_reports_query_dba');
+        $query = $this->create_object(org_openpsa_reports_query_dba::class);
 
         $url = $this->run_relocate_handler('org.openpsa.reports', ['delete', $query->guid]);
         $this->assertEquals('', $url);

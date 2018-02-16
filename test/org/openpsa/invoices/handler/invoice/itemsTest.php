@@ -19,8 +19,8 @@ class org_openpsa_invoices_handler_invoice_itemsTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
-        self::$_invoice = self::create_class_object('org_openpsa_invoices_invoice_dba');
-        self::create_class_object('org_openpsa_invoices_invoice_item_dba', ['invoice' => self::$_invoice->id]);
+        self::$_invoice = self::create_class_object(org_openpsa_invoices_invoice_dba::class);
+        self::create_class_object(org_openpsa_invoices_invoice_item_dba::class, ['invoice' => self::$_invoice->id]);
     }
 
     public function testHandler_items()
@@ -47,7 +47,7 @@ class org_openpsa_invoices_handler_invoice_itemsTest extends openpsa_testcase
     public function testHandler_itemedit()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
-        $item = $this->create_object('org_openpsa_invoices_invoice_item_dba', ['invoice' => self::$_invoice->id]);
+        $item = $this->create_object(org_openpsa_invoices_invoice_item_dba::class, ['invoice' => self::$_invoice->id]);
 
         $_POST = [
             'oper' => 'edit',

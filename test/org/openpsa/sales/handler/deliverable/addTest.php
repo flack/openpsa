@@ -25,14 +25,14 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
 
     public function setUp()
     {
-        $this->_salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
-        $product_group = $this->create_object('org_openpsa_products_product_group_dba');
+        $this->_salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
+        $product_group = $this->create_object(org_openpsa_products_product_group_dba::class);
         $product_attributes = [
             'productGroup' => $product_group->id,
             'code' => 'TEST_' . __CLASS__ . '_' . time(),
             'unit' => 'm'
         ];
-        $this->_product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
+        $this->_product = $this->create_object(org_openpsa_products_product_dba::class, $product_attributes);
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
 

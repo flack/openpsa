@@ -18,8 +18,8 @@ class org_openpsa_projects_handler_workflowTest extends openpsa_testcase
         $this->create_user(true);
         midcom::get()->auth->request_sudo('org.openpsa.projects');
 
-        $project = $this->create_object('org_openpsa_projects_project');
-        $task = $this->create_object('org_openpsa_projects_task_dba', ['project' => $project->id]);
+        $project = $this->create_object(org_openpsa_projects_project::class);
+        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => $project->id]);
 
         $_POST = [
             'org_openpsa_projects_workflow_action' => ['accept' => true],

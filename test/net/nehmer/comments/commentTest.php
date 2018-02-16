@@ -15,7 +15,7 @@ class net_nehmer_commments_commentTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        $topic = $this->create_object('midcom_db_topic');
+        $topic = $this->create_object(midcom_db_topic::class);
         midcom::get()->auth->request_sudo('net.nehmer.comments');
         $comment = new net_nehmer_comments_comment;
         $comment->objectguid = $topic->guid;

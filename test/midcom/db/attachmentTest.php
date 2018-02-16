@@ -18,7 +18,7 @@ class midcom_db_attachmentTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_topic = self::create_class_object('midcom_db_topic');
+        self::$_topic = self::create_class_object(midcom_db_topic::class);
         self::$_filepath = dirname(__FILE__) . '/__files/';
     }
 
@@ -53,7 +53,7 @@ class midcom_db_attachmentTest extends openpsa_testcase
 
     private function _get_attachment(array $attributes)
     {
-        $attachment = $this->create_object('midcom_db_attachment', $attributes);
+        $attachment = $this->create_object(midcom_db_attachment::class, $attributes);
 
         midcom::get()->auth->request_sudo('midcom.core');
         $this->assertTrue($attachment->copy_from_file(self::$_filepath . 'attach.png'));
@@ -63,7 +63,7 @@ class midcom_db_attachmentTest extends openpsa_testcase
 
     public function test_copy_from_file()
     {
-        $attachment = $this->create_object('midcom_db_attachment', ['parentguid' => self::$_topic->guid]);
+        $attachment = $this->create_object(midcom_db_attachment::class, ['parentguid' => self::$_topic->guid]);
 
         midcom::get()->auth->request_sudo('midcom.core');
         $stat = $attachment->copy_from_file(self::$_filepath . 'attach.png');

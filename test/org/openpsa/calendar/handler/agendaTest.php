@@ -22,7 +22,7 @@ class org_openpsa_calendar_handler_agendaTest extends openpsa_testcase
             'start' => 1144056938,
             'end' => 1144066938
         ];
-        $event = $this->create_object('org_openpsa_calendar_event_dba', $attributes);
+        $event = $this->create_object(org_openpsa_calendar_event_dba::class, $attributes);
 
         $data = $this->run_handler('org.openpsa.calendar', ['agenda', 'day', '2006-04-03']);
         $this->assertEquals('agenda_day', $data['handler_id']);

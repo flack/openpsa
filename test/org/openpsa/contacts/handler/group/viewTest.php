@@ -19,7 +19,7 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
-        self::$_group = self::create_class_object('org_openpsa_contacts_group_dba');
+        self::$_group = self::create_class_object(org_openpsa_contacts_group_dba::class);
     }
 
     public function testHandler_view_group()
@@ -40,7 +40,7 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
         $attributes = [
             'orgOpenpsaObtype' => org_openpsa_contacts_group_dba::ORGANIZATION
         ];
-        $organization = $this->create_object('org_openpsa_contacts_group_dba', $attributes);
+        $organization = $this->create_object(org_openpsa_contacts_group_dba::class, $attributes);
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
         $data = $this->run_handler('org.openpsa.contacts', ['group', $organization->guid]);

@@ -26,31 +26,31 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
 
     public function setUp()
     {
-        $this->_organization = $this->create_object('org_openpsa_contacts_group_dba');
-        $this->_manager = $this->create_object('midcom_db_person');
-        $this->_member = $this->create_object('midcom_db_person');
+        $this->_organization = $this->create_object(org_openpsa_contacts_group_dba::class);
+        $this->_manager = $this->create_object(midcom_db_person::class);
+        $this->_member = $this->create_object(midcom_db_person::class);
 
-        $this->_group = $this->create_object('org_openpsa_products_product_group_dba');
+        $this->_group = $this->create_object(org_openpsa_products_product_group_dba::class);
 
         $product_attributes = [
             'productGroup' => $this->_group->id,
             'code' => 'TEST-' . __CLASS__ . time(),
             'delivery' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
         ];
-        $this->_product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
+        $this->_product = $this->create_object(org_openpsa_products_product_dba::class, $product_attributes);
 
         $salesproject_attributes = [
             'owner' => $this->_manager->id,
             'customer' => $this->_organization->id,
         ];
-        $this->_salesproject = $this->create_object('org_openpsa_sales_salesproject_dba', $salesproject_attributes);
+        $this->_salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class, $salesproject_attributes);
 
         $member_attributes = [
             'person' => $this->_member->id,
             'objectGuid' => $this->_salesproject->guid,
             'role' => org_openpsa_sales_salesproject_dba::ROLE_MEMBER
         ];
-        $this->create_object('org_openpsa_contacts_role_dba', $member_attributes);
+        $this->create_object(org_openpsa_contacts_role_dba::class, $member_attributes);
 
         $deliverable_attributes = [
             'salesproject' => $this->_salesproject->id,
@@ -60,7 +60,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
             'orgOpenpsaObtype' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION,
             'unit' => 'm'
         ];
-        $this->_deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+        $this->_deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
 
         $this->_project = $this->_salesproject->get_project();
 
@@ -69,9 +69,9 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
            'agreement' => $this->_deliverable->id,
            'title' => 'TEST TITLE',
         ];
-        $this->_task = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
+        $this->_task = $this->create_object(org_openpsa_projects_task_dba::class, $task_attributes);
 
-        $this->_hour_report = $this->create_object('org_openpsa_expenses_hour_report_dba', ['task' => $this->_task->id]);
+        $this->_hour_report = $this->create_object(org_openpsa_expenses_hour_report_dba::class, ['task' => $this->_task->id]);
     }
 
     private function _apply_input($input)
@@ -100,7 +100,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $invoice_data = [
             'sent' => time()
         ];
-        $invoice = $this->create_object('org_openpsa_invoices_invoice_dba', $invoice_data);
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class, $invoice_data);
         $item_data = [
             'deliverable' => $this->_deliverable->id,
             'invoice' => $invoice->id,
@@ -108,7 +108,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
             'pricePerUnit' => $value
         ];
 
-        $this->create_object('org_openpsa_invoices_invoice_item_dba', $item_data);
+        $this->create_object(org_openpsa_invoices_invoice_item_dba::class, $item_data);
         $this->_deliverable->refresh();
     }
 
@@ -302,8 +302,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $beginning_mar = gmmktime(0, 0, 0, 3, 1, 2011);
 
         //@todo These two aren't properly cleaned up after the test
-        $customer = $this->create_object('org_openpsa_contacts_group_dba');
-        $customer_contact = $this->create_object('org_openpsa_contacts_person_dba');
+        $customer = $this->create_object(org_openpsa_contacts_group_dba::class);
+        $customer_contact = $this->create_object(org_openpsa_contacts_person_dba::class);
 
         return [
             //SET 0: Deliverable not yet started
@@ -541,7 +541,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
            'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED,
            'start' => strtotime('2010-02-02 00:00:00')
         ];
-        $deliverable2 = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+        $deliverable2 = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
 
         $task_attributes = [
            'project' => $this->_project->id,
@@ -549,7 +549,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
            'title' => 'TEST TITLE 2',
            'reportedHours' => 10
         ];
-        $task2 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
+        $task2 = $this->create_object(org_openpsa_projects_task_dba::class, $task_attributes);
 
         $this->_product->delivery = org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION;
         $this->_product->update();

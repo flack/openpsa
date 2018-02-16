@@ -21,7 +21,7 @@ class org_openpsa_documents_handler_document_adminTest extends openpsa_testcase
         self::$_person = self::create_user(true);
 
         $topic = self::get_component_node('org.openpsa.documents');
-        self::$_document = self::create_class_object('org_openpsa_documents_document_dba', ['topic' => $topic->id]);
+        self::$_document = self::create_class_object(org_openpsa_documents_document_dba::class, ['topic' => $topic->id]);
     }
 
     public function testHandler_create()

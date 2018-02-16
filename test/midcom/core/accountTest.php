@@ -17,7 +17,7 @@ class midcom_core_accountTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_person = self::create_class_object('midcom_db_person');
+        self::$_person = self::create_class_object(midcom_db_person::class);
     }
 
     public function testCRUD()
@@ -89,7 +89,7 @@ class midcom_core_accountTest extends openpsa_testcase
 
         $this->assertEquals($username, $account1->get_username());
 
-        $person = $this->create_object('midcom_db_person');
+        $person = $this->create_object(midcom_db_person::class);
         $account2 = new midcom_core_account($person);
 
         $password = 'password_' . time();

@@ -15,9 +15,9 @@ class org_openpsa_contacts_roleTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
-        $person1 = $this->create_object('midcom_db_person');
-        $person2 = $this->create_object('midcom_db_person');
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
+        $person1 = $this->create_object(midcom_db_person::class);
+        $person2 = $this->create_object(midcom_db_person::class);
 
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
 

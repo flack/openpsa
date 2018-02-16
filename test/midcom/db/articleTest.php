@@ -17,7 +17,7 @@ class midcom_db_articleTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_topic = self::create_class_object('midcom_db_topic');
+        self::$_topic = self::create_class_object(midcom_db_topic::class);
     }
 
     public function testCRUD()
@@ -51,10 +51,10 @@ class midcom_db_articleTest extends openpsa_testcase
     public function test_get_parent()
     {
         $attributes = ['topic' => self::$_topic->id];
-        $article1 = $this->create_object('midcom_db_article', $attributes);
+        $article1 = $this->create_object(midcom_db_article::class, $attributes);
         $attributes['up'] = $article1->id;
         $attributes['name'] = 'test2';
-        $article2 = $this->create_object('midcom_db_article', $attributes);
+        $article2 = $this->create_object(midcom_db_article::class, $attributes);
         $parent2 = $article2->get_parent();
         $this->assertEquals($parent2->guid, $article1->guid);
         $parent1 = $article1->get_parent();

@@ -19,7 +19,7 @@ class midcom_services_auth_loginTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_person = self::create_class_object('midcom_db_person');
+        self::$_person = self::create_class_object(midcom_db_person::class);
         self::$_password = substr('p_' . time(), 0, 11);
         self::$_username = __CLASS__ . ' user ' . time();
 

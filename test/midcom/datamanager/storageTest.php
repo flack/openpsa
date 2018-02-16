@@ -11,6 +11,7 @@ use openpsa_testcase;
 use midcom;
 use midcom\datamanager\storage;
 use midcom\datamanager\schema;
+use midcom\datamanager\storage\blobs;
 
 class storageTest extends openpsa_testcase
 {
@@ -47,7 +48,7 @@ class storageTest extends openpsa_testcase
     public function test_update_parameter()
     {
         midcom::get()->auth->request_sudo('dm.test');
-        $topic = $this->create_object('midcom_db_topic');
+        $topic = $this->create_object(\midcom_db_topic::class);
 
         $config = [
             'fields' => [
@@ -92,6 +93,6 @@ class storageTest extends openpsa_testcase
 
         $this->assertArrayHasKey('test', $storage);
         $node = $storage->current();
-        $this->assertInstanceOf('\midcom\datamanager\storage\blobs', $node);
+        $this->assertInstanceOf(blobs::class, $node);
     }
 }

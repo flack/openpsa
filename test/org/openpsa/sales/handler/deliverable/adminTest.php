@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\Form\Form;
+
 /**
  * OpenPSA testcase
  *
@@ -20,9 +22,9 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
-        self::$_salesproject = self::create_class_object('org_openpsa_sales_salesproject_dba');
-        $product_group = self::create_class_object('org_openpsa_products_product_group_dba');
-        self::$_product = self::create_class_object('org_openpsa_products_product_dba', ['productGroup' => $product_group->id]);
+        self::$_salesproject = self::create_class_object(org_openpsa_sales_salesproject_dba::class);
+        $product_group = self::create_class_object(org_openpsa_products_product_group_dba::class);
+        self::$_product = self::create_class_object(org_openpsa_products_product_dba::class, ['productGroup' => $product_group->id]);
     }
 
     public function testHandler_edit()
@@ -34,7 +36,7 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
             'product' => self::$_product->id,
         ];
 
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
         $deliverable->set_parameter('midcom.helper.datamanager2', 'schema_name', 'subscription');
 
         $year = date('Y') + 1;
@@ -50,7 +52,7 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
             'method' => 'new_subscription_cycle'
         ];
 
-        $at_entry = $this->create_object('midcom_services_at_entry_dba', $at_parameters);
+        $at_entry = $this->create_object(midcom_services_at_entry_dba::class, $at_parameters);
         org_openpsa_relatedto_plugin::create($at_entry, 'midcom.services.at', $deliverable, 'org.openpsa.sales');
 
         $data = $this->run_handler('org.openpsa.sales', ['deliverable', 'edit', $deliverable->guid]);
@@ -58,7 +60,7 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
 
         $group = $data['controller']->get_datamanager()->get_form()->get('next_cycle');
 
-        $this->assertInstanceOf('Symfony\Component\Form\Form', $group, 'next cycle widget missing');
+        $this->assertInstanceOf(Form::class, $group, 'next cycle widget missing');
         $unixtime = $group->getData();
         $this->assertEquals($year . '-10-15', date('Y-m-d', $unixtime));
 

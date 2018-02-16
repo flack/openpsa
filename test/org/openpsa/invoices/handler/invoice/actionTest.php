@@ -19,8 +19,8 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
-        self::$_invoice = self::create_class_object('org_openpsa_invoices_invoice_dba');
-        self::create_class_object('org_openpsa_invoices_invoice_item_dba', ['invoice' => self::$_invoice->id]);
+        self::$_invoice = self::create_class_object(org_openpsa_invoices_invoice_dba::class);
+        self::create_class_object(org_openpsa_invoices_invoice_item_dba::class, ['invoice' => self::$_invoice->id]);
     }
 
     public function testHandler_create_cancelation()
@@ -33,7 +33,7 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
             'date' => gmmktime(0, 0, 0, date('n'), date('j'), date('Y')),
             'vat' => 19,
         ];
-        $invoice = $this->create_object('org_openpsa_invoices_invoice_dba', $data);
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class, $data);
 
         // we got a fresh invoice, it should be cancelable
         $this->assertTrue($invoice->is_cancelable());
@@ -79,7 +79,7 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $topic = $this->create_object('midcom_db_topic', ['component' => 'org.openpsa.invoices']);
+        $topic = $this->create_object(midcom_db_topic::class, ['component' => 'org.openpsa.invoices']);
         $topic->set_parameter('org.openpsa.invoices', 'invoice_pdfbuilder_class', 'nonexistent');
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST = [

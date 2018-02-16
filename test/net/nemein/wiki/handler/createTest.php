@@ -21,7 +21,7 @@ class net_nemein_wiki_handler_createTest extends openpsa_testcase
             'component' => 'net.nemein.wiki',
             'name' => __CLASS__ . time()
         ];
-        self::$_topic = self::create_class_object('midcom_db_topic', $topic_attributes);
+        self::$_topic = self::create_class_object(midcom_db_topic::class, $topic_attributes);
     }
 
     public function testHandler_create()

@@ -15,7 +15,7 @@ class midcom_services_auth_mainTest extends openpsa_testcase
 {
     public function test_can_do()
     {
-        $topic = $this->create_object('midcom_db_topic');
+        $topic = $this->create_object(midcom_db_topic::class);
         $person = $this->create_user();
         $user = new midcom_core_user($person);
 
@@ -37,7 +37,7 @@ class midcom_services_auth_mainTest extends openpsa_testcase
 
         $person2 = $this->create_user();
         $user2 = new midcom_core_user($person2);
-        $topic2 = $this->create_object('midcom_db_topic');
+        $topic2 = $this->create_object(midcom_db_topic::class);
         midcom::get()->auth->request_sudo('midcom.core');
         $topic2->set_privilege('midgard:delete', $user2->id, MIDCOM_PRIVILEGE_ALLOW);
         midcom::get()->auth->drop_sudo();
@@ -81,7 +81,7 @@ class midcom_services_auth_mainTest extends openpsa_testcase
     {
         $person = $this->create_user();
         $user = new midcom_core_user($person);
-        $topic = $this->create_object('midcom_db_topic');
+        $topic = $this->create_object(midcom_db_topic::class);
 
         $auth = new midcom_services_auth;
 

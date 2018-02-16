@@ -19,14 +19,14 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_topic = self::create_class_object('midcom_db_topic');
+        self::$_topic = self::create_class_object(midcom_db_topic::class);
         self::$_filepath = dirname(__FILE__) . '/__files/';
         self::$_filename = self::$_filepath . 'midgard-16x16.png';
     }
 
     public function testConstruct()
     {
-        $attachment = $this->create_object('midcom_db_attachment', ['parentguid' => self::$_topic->guid]);
+        $attachment = $this->create_object(midcom_db_attachment::class, ['parentguid' => self::$_topic->guid]);
 
         midcom::get()->auth->request_sudo('midcom.core');
         $stat = $attachment->copy_from_file(self::$_filename);
@@ -60,7 +60,7 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
         $this->assertEquals(filesize(self::$_filename), filesize($tmpname));
 
         // now write the file into an attachment
-        $attachment = $this->create_object('midcom_db_attachment', ['parentguid' => self::$_topic->guid, 'title'=>'someImg']);
+        $attachment = $this->create_object(midcom_db_attachment::class, ['parentguid' => self::$_topic->guid, 'title'=>'someImg']);
         $filter->set_file($tmpname);
         $filter->write($attachment);
 

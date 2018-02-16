@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\datamanager;
+
 /**
  * OpenPSA testcase
  *
@@ -15,7 +17,7 @@ class org_openpsa_notifications_mainTest extends openpsa_testcase
 {
     public function test_notify()
     {
-        $person = $this->create_object('midcom_db_person', ['email' => 'noreply@openpsa2.org']);
+        $person = $this->create_object(midcom_db_person::class, ['email' => 'noreply@openpsa2.org']);
         $person->set_parameter('org.openpsa.notifications', 'net.nehmer.comments:comment_posted', 'email');
         $stat = org_openpsa_notifications::notify('net.nehmer.comments:comment_posted', $person->guid, []);
         $this->assertTrue($stat);
@@ -25,7 +27,7 @@ class org_openpsa_notifications_mainTest extends openpsa_testcase
     {
         $notifications = new org_openpsa_notifications;
         $dm = $notifications->load_datamanager();
-        $this->assertInstanceOf('midcom\datamanager\datamanager', $dm);
+        $this->assertInstanceOf(datamanager::class, $dm);
         $dm->set_storage(new midcom_db_person);
         $fields = $dm->get_schema()->get('fields');
         $this->assertArrayHasKey('net_nehmer_comments_comment_posted', $fields);

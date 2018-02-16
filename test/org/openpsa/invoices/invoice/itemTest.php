@@ -19,12 +19,12 @@ class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_invoice = self::create_class_object('org_openpsa_invoices_invoice_dba');
-        self::$_salesproject = self::create_class_object('org_openpsa_sales_salesproject_dba');
+        self::$_invoice = self::create_class_object(org_openpsa_invoices_invoice_dba::class);
+        self::$_salesproject = self::create_class_object(org_openpsa_sales_salesproject_dba::class);
         $attributes = [
             'salesproject' => self::$_salesproject->id
         ];
-        self::$_deliverable = self::create_class_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
+        self::$_deliverable = self::create_class_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
     }
 
     public function testCRUD()

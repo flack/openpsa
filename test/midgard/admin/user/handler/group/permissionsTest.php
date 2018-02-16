@@ -17,7 +17,7 @@ class midgard_admin_user_handler_group_permissionsTest extends openpsa_testcase
 
     public static function setupBeforeClass()
     {
-        self::$_group = self::create_class_object('midcom_db_group');
+        self::$_group = self::create_class_object(midcom_db_group::class);
     }
 
     public function testHandler_folders()

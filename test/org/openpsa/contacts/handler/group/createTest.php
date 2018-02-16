@@ -45,7 +45,7 @@ class org_openpsa_contacts_handler_group_createTest extends openpsa_testcase
     public function testHandler_create_subgroup()
     {
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
-        $group = $this->create_object('org_openpsa_contacts_group_dba');
+        $group = $this->create_object(org_openpsa_contacts_group_dba::class);
 
         $data = $this->run_handler('org.openpsa.contacts', ['group', 'create', 'organization', $group->guid]);
         $this->assertEquals('group_new_subgroup', $data['handler_id']);

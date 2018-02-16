@@ -20,13 +20,13 @@ class midgard_admin_asgard_handler_object_attachmentsTest extends openpsa_testca
 
     public static function setUpBeforeClass()
     {
-        self::$_object = self::create_class_object('midcom_db_topic');
+        self::$_object = self::create_class_object(midcom_db_topic::class);
         $parameters = [
             'parentguid' => self::$_object->guid,
             'name' => self::$_filename
         ];
 
-        self::$_attachment = self::create_class_object('midcom_db_attachment', $parameters);
+        self::$_attachment = self::create_class_object(midcom_db_attachment::class, $parameters);
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
         self::$_attachment->copy_from_file(dirname(dirname(dirname(__FILE__))) . '/__files/' . self::$_filename);
         midcom::get()->auth->drop_sudo();

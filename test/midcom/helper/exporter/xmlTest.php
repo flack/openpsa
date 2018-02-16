@@ -28,7 +28,7 @@ class midcom_helper_exporter_xmlTest extends openpsa_testcase
         $mapper = new midcom_helper_exporter_xml();
         $object = new org_openpsa_projects_task_dba;
         $object = $mapper->data2object($data, $object);
-        $this->assertInstanceOf('org_openpsa_projects_task_dba', $object);
+        $this->assertInstanceOf(org_openpsa_projects_task_dba::class, $object);
         $this->assertEquals("test\n\nÜmläüt", $object->description);
         $this->assertEquals(32, $object->project);
     }

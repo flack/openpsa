@@ -15,7 +15,7 @@ class midcom_helper_backendTest extends openpsa_testcase
 {
     public function test_singlenode()
     {
-        $root_topic = $this->create_object('midcom_db_topic');
+        $root_topic = $this->create_object(midcom_db_topic::class);
         $context = new midcom_core_context(null, $root_topic);
         $backend = new midcom_helper_nav_backend($context->id);
         $this->assertEquals($backend->get_root_node(), $root_topic->id);
@@ -29,18 +29,18 @@ class midcom_helper_backendTest extends openpsa_testcase
         $root_topic_name = uniqid('root');
         $child_topic_name = uniqid('child');
         $article_name = uniqid('article');
-        $root_topic = $this->create_object('midcom_db_topic', ['name' => $root_topic_name]);
+        $root_topic = $this->create_object(midcom_db_topic::class, ['name' => $root_topic_name]);
         $child_attributes = [
             'name' => $child_topic_name,
             'up' => $root_topic->id,
             'component' => 'net.nehmer.static'
         ];
-        $child_topic = $this->create_object('midcom_db_topic', $child_attributes);
+        $child_topic = $this->create_object(midcom_db_topic::class, $child_attributes);
         $article_attributes = [
             'name' => $article_name,
             'topic' => $child_topic->id,
         ];
-        $article = $this->create_object('midcom_db_article', $article_attributes);
+        $article = $this->create_object(midcom_db_article::class, $article_attributes);
         $leaf_id = $child_topic->id . '-' . $article->id;
         midcom_baseclasses_components_configuration::set($child_topic->component, 'active_leaf', $article->id);
 

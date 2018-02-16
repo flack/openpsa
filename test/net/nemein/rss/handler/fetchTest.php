@@ -22,7 +22,7 @@ class net_nemein_rss_handler_fetchTest extends openpsa_testcase
             'component' => 'net.nehmer.blog',
             'name' => __CLASS__ . time()
         ];
-        self::$topic = self::create_class_object('midcom_db_topic', $data);
+        self::$topic = self::create_class_object(midcom_db_topic::class, $data);
         self::$topic->set_parameter('net.nehmer.blog', 'rss_subscription_enable', true);
     }
 

@@ -21,7 +21,7 @@ class midcom_admin_folder_handler_deleteTest extends openpsa_testcase
             'component' => 'net.nehmer.static',
             'parent' => $parent->id
         ];
-        $topic = $this->create_object('midcom_db_topic', $attributes);
+        $topic = $this->create_object(midcom_db_topic::class, $attributes);
 
         $data = $this->run_handler($topic, ['__ais', 'folder', 'delete']);
         $this->assertEquals('____ais-folder-delete', $data['handler_id']);

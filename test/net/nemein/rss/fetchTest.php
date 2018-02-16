@@ -24,12 +24,12 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
 
     public function test_import_article()
     {
-        $topic = $this->create_object('midcom_db_topic', ['component' => 'net.nehmer.blog']);
+        $topic = $this->create_object(midcom_db_topic::class, ['component' => 'net.nehmer.blog']);
         $attributes = [
             'node' => $topic->id,
             'url' => 'http://openpsa2.org/'
         ];
-        $feed = $this->create_object('net_nemein_rss_feed_dba', $attributes);
+        $feed = $this->create_object(net_nemein_rss_feed_dba::class, $attributes);
         $fetcher = new net_nemein_rss_fetch($feed);
 
         $items = $this->_get_items(__DIR__ . '/__files/article.xml');
@@ -88,15 +88,15 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $item->data['child']['']['author'][0]['data'] = $user->username;
 
         $author = $fetcher->match_item_author($item);
-        $this->assertInstanceOf('midcom_db_person', $author);
+        $this->assertInstanceOf(midcom_db_person::class, $author);
         $this->assertEquals($person->guid, $author->guid);
 
         $email = uniqid() . '@openpsa2.org';
-        $person = $this->create_object('midcom_db_person', ['email' => $email]);
+        $person = $this->create_object(midcom_db_person::class, ['email' => $email]);
 
         $item->data['child']['']['author'][0]['data'] = 'test <' . $email . '>';
         $author = $fetcher->match_item_author($item);
-        $this->assertInstanceOf('midcom_db_person', $author);
+        $this->assertInstanceOf(midcom_db_person::class, $author);
         $this->assertEquals($person->guid, $author->guid);
 
         $attributes = [
@@ -104,12 +104,12 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
             'lastname' => uniqid('lastname')
         ];
 
-        $person = $this->create_object('midcom_db_person', $attributes);
+        $person = $this->create_object(midcom_db_person::class, $attributes);
 
         $item->data['child']['']['author'][0]['data'] = $attributes['firstname'] . ' ' . $attributes['lastname'];
 
         $author = $fetcher->match_item_author($item);
-        $this->assertInstanceOf('midcom_db_person', $author);
+        $this->assertInstanceOf(midcom_db_person::class, $author);
         $this->assertEquals($person->guid, $author->guid);
     }
 

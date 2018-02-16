@@ -18,7 +18,7 @@ class org_openpsa_documents_documentTest extends openpsa_testcase
         $user = $this->create_user(true);
 
         midcom::get()->auth->request_sudo('org.openpsa.documents');
-        $topic = $this->create_object('org_openpsa_documents_directory', ['name' => 'TEST_' . __CLASS__ . time()]);
+        $topic = $this->create_object(org_openpsa_documents_directory::class, ['name' => 'TEST_' . __CLASS__ . time()]);
 
         $document = new org_openpsa_documents_document_dba();
         $document->_use_activitystream = false;

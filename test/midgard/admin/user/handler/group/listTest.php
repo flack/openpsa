@@ -17,7 +17,7 @@ class midgard_admin_user_handler_group_listTest extends openpsa_testcase
 
     public static function setupBeforeClass()
     {
-        self::$_group = self::create_class_object('midcom_db_group');
+        self::$_group = self::create_class_object(midcom_db_group::class);
     }
 
     public function testHandler_list()
@@ -42,11 +42,11 @@ class midgard_admin_user_handler_group_listTest extends openpsa_testcase
 
     public function test_belongs_to()
     {
-        $root = $this->create_object('midcom_db_group');
-        $child = $this->create_object('midcom_db_group', ['owner' => $root->id]);
-        $grandchild = $this->create_object('midcom_db_group', ['owner' => $child->id]);
+        $root = $this->create_object(midcom_db_group::class);
+        $child = $this->create_object(midcom_db_group::class, ['owner' => $root->id]);
+        $grandchild = $this->create_object(midcom_db_group::class, ['owner' => $child->id]);
 
-        $other = $this->create_object('midcom_db_group');
+        $other = $this->create_object(midcom_db_group::class);
 
         $this->assertTrue(midgard_admin_user_handler_group_list::belongs_to($root->id, $root->id));
         $this->assertTrue(midgard_admin_user_handler_group_list::belongs_to($child->id, $root->id));

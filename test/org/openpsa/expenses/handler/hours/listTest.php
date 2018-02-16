@@ -17,8 +17,8 @@ class org_openpsa_expenses_handler_hours_listTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $project = self::create_class_object('org_openpsa_projects_project');
-        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', ['project' => $project->id]);
+        $project = self::create_class_object(org_openpsa_projects_project::class);
+        self::$_task = self::create_class_object(org_openpsa_projects_task_dba::class, ['project' => $project->id]);
         self::create_user(true);
     }
 

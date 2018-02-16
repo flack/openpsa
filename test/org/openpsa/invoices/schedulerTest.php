@@ -222,30 +222,30 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
 
     public function testCreate_task()
     {
-        $organization = $this->create_object('org_openpsa_contacts_group_dba');
-        $manager = $this->create_object('midcom_db_person');
-        $member = $this->create_object('midcom_db_person');
+        $organization = $this->create_object(org_openpsa_contacts_group_dba::class);
+        $manager = $this->create_object(midcom_db_person::class);
+        $member = $this->create_object(midcom_db_person::class);
 
-        $group = $this->create_object('org_openpsa_products_product_group_dba');
+        $group = $this->create_object(org_openpsa_products_product_group_dba::class);
 
         $product_attributes = [
             'productGroup' => $group->id,
             'code' => 'TEST-' . __CLASS__ . time(),
         ];
-        $product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
+        $product = $this->create_object(org_openpsa_products_product_dba::class, $product_attributes);
 
         $salesproject_attributes = [
             'owner' => $manager->id,
             'customer' => $organization->id,
         ];
-        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba', $salesproject_attributes);
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class, $salesproject_attributes);
 
         $member_attributes = [
             'person' => $member->id,
             'objectGuid' => $salesproject->guid,
             'role' => org_openpsa_sales_salesproject_dba::ROLE_MEMBER
         ];
-        $this->create_object('org_openpsa_contacts_role_dba', $member_attributes);
+        $this->create_object(org_openpsa_contacts_role_dba::class, $member_attributes);
 
         $deliverable_attributes = [
            'salesproject' => $salesproject->id,
@@ -253,7 +253,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
            'description' => 'TEST DESCRIPTION',
            'plannedUnits' => 15,
         ];
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
 
         $start = time();
         $end = $start + (30 *24 * 60 * 60);

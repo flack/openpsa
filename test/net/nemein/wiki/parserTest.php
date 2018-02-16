@@ -22,7 +22,7 @@ class net_nemein_wiki_parserTest extends openpsa_testcase
             'topic' => $topic->id,
             'title' => uniqid(__CLASS__)
         ];
-        self::$_page = self::create_class_object('net_nemein_wiki_wikipage', $attributes);
+        self::$_page = self::create_class_object(net_nemein_wiki_wikipage::class, $attributes);
     }
 
     /**

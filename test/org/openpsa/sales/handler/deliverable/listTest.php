@@ -24,12 +24,12 @@ class org_openpsa_sales_salesproject_deliverable_listTest extends openpsa_testca
     public function testHandler_list()
     {
         midcom::get()->auth->request_sudo('org.openpsa.sales');
-        $product_group = self::create_class_object('org_openpsa_products_product_group_dba');
+        $product_group = self::create_class_object(org_openpsa_products_product_group_dba::class);
         $product_attributes = [
             'productGroup' => $product_group->id,
             'name' => 'TEST_' . __CLASS__ . '_' . time(),
         ];
-        $product = self::create_class_object('org_openpsa_products_product_dba', $product_attributes);
+        $product = self::create_class_object(org_openpsa_products_product_dba::class, $product_attributes);
 
         $data = $this->run_handler('org.openpsa.sales', ['deliverable', 'list', 'product', $product->guid]);
         $this->assertEquals('deliverable_list_product', $data['handler_id']);

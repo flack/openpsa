@@ -26,8 +26,8 @@ class midcom_helper_reflector_nameresolverTest extends openpsa_testcase
     {
         $name1 = uniqid('name1');
         $name2 = uniqid('name2');
-        $topic1 = $this->create_object('midcom_db_topic', ['name' => $name1]);
-        $topic2 = $this->create_object('midcom_db_topic', ['name' => $name2, 'up' => $topic1->id]);
+        $topic1 = $this->create_object(midcom_db_topic::class, ['name' => $name1]);
+        $topic2 = $this->create_object(midcom_db_topic::class, ['name' => $name2, 'up' => $topic1->id]);
 
         $resolver = new midcom_helper_reflector_nameresolver($topic2);
         $this->assertTrue($resolver->name_is_unique());

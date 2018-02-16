@@ -23,8 +23,8 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         self::$_user = self::create_user(true);
         self::$_other_user = self::create_user();
 
-        self::$_project = self::create_class_object('org_openpsa_projects_project');
-        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', ['project' => self::$_project->id]);
+        self::$_project = self::create_class_object(org_openpsa_projects_project::class);
+        self::$_task = self::create_class_object(org_openpsa_projects_task_dba::class, ['project' => self::$_project->id]);
     }
 
     public function testProposeToOther()
@@ -167,16 +167,16 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
 
     public function test_mark_invoiced()
     {
-        $group = $this->create_object('org_openpsa_products_product_group_dba');
+        $group = $this->create_object(org_openpsa_products_product_group_dba::class);
 
         $product_attributes = [
             'productGroup' => $group->id,
             'code' => 'TEST-' . __CLASS__ . time(),
             'delivery' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
         ];
-        $product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
+        $product = $this->create_object(org_openpsa_products_product_dba::class, $product_attributes);
 
-        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
 
         $deliverable_attributes = [
            'salesproject' => $salesproject->id,
@@ -184,7 +184,7 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
            'description' => 'TEST DESCRIPTION',
            'plannedUnits' => 15,
         ];
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
         self::$_task->agreement = $deliverable->id;
         self::$_task->update();
 
@@ -193,9 +193,9 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
             'invoiceable' => true,
             'hours' => 15
         ];
-        $report = $this->create_object('org_openpsa_expenses_hour_report_dba', $report_attributes);
+        $report = $this->create_object(org_openpsa_expenses_hour_report_dba::class, $report_attributes);
 
-        $invoice = $this->create_object('org_openpsa_invoices_invoice_dba');
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);
         $result = org_openpsa_projects_workflow::mark_invoiced(self::$_task, $invoice);
 
         $this->assertEquals(15, $result);

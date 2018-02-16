@@ -33,7 +33,7 @@ class openpsa_test_campaign_helper
                 'node' => $topic->id,
                 'orgOpenpsaObtype' => $type
             ];
-            $this->_campaign = $this->_testcase->create_object('org_openpsa_directmarketing_campaign_dba', $attributes);
+            $this->_campaign = $this->_testcase->create_object(org_openpsa_directmarketing_campaign_dba::class, $attributes);
         }
 
         return $this->_campaign;
@@ -47,7 +47,7 @@ class openpsa_test_campaign_helper
                 'campaign' => $campaign->id,
                 'person' => $person->id
             ];
-            $this->_member = $this->_testcase->create_object('org_openpsa_directmarketing_campaign_member_dba', $parameters);
+            $this->_member = $this->_testcase->create_object(org_openpsa_directmarketing_campaign_member_dba::class, $parameters);
         }
         return $this->_member;
     }
@@ -61,7 +61,7 @@ class openpsa_test_campaign_helper
             'token' => __CLASS__ . __FUNCTION__,
             'target' => 'http://openpsa2.org'
         ];
-        return $this->_testcase->create_object('org_openpsa_directmarketing_link_log_dba', $parameters);
+        return $this->_testcase->create_object(org_openpsa_directmarketing_link_log_dba::class, $parameters);
     }
 
     public function get_receipt(org_openpsa_directmarketing_campaign_message_dba $message, midcom_db_person $person)
@@ -73,7 +73,7 @@ class openpsa_test_campaign_helper
             'token' => __CLASS__ . __FUNCTION__,
             'orgOpenpsaObtype' => org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT
         ];
-        return $this->_testcase->create_object('org_openpsa_directmarketing_campaign_messagereceipt_dba', $parameters);
+        return $this->_testcase->create_object(org_openpsa_directmarketing_campaign_messagereceipt_dba::class, $parameters);
     }
 
     public function get_message()
@@ -83,7 +83,7 @@ class openpsa_test_campaign_helper
             $parameters = [
                 'campaign' => $campaign->id,
             ];
-            $this->_message = $this->_testcase->create_object('org_openpsa_directmarketing_campaign_message_dba', $parameters);
+            $this->_message = $this->_testcase->create_object(org_openpsa_directmarketing_campaign_message_dba::class, $parameters);
         }
         return $this->_message;
     }

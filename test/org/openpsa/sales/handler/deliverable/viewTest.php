@@ -19,7 +19,7 @@ class org_openpsa_sales_salesproject_deliverable_viewTest extends openpsa_testca
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
-        self::$_salesproject = self::create_class_object('org_openpsa_sales_salesproject_dba');
+        self::$_salesproject = self::create_class_object(org_openpsa_sales_salesproject_dba::class);
     }
 
     public function testHandler_process()
@@ -30,7 +30,7 @@ class org_openpsa_sales_salesproject_deliverable_viewTest extends openpsa_testca
             'salesproject' => self::$_salesproject->id,
         ];
 
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
 
         $data = $this->run_handler('org.openpsa.sales', ['deliverable', $deliverable->guid]);
         $this->assertEquals('deliverable_view', $data['handler_id']);

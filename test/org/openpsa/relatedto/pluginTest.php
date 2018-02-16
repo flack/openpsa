@@ -16,8 +16,8 @@ class org_openpsa_relatedto_pluginTest extends openpsa_testcase
     public function testCreate()
     {
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
-        $invoice = $this->create_object('org_openpsa_invoices_invoice_dba');
-        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
         $relatedto = org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $salesproject, 'org.openpsa.sales');
 
         $this->assertTrue(is_a($relatedto, 'org_openpsa_relatedto_dba'));
@@ -52,8 +52,8 @@ class org_openpsa_relatedto_pluginTest extends openpsa_testcase
     public function test_relatedto2get()
     {
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
-        $invoice = $this->create_object('org_openpsa_invoices_invoice_dba');
-        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
         $relatedto = org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $salesproject, 'org.openpsa.sales');
         midcom::get()->auth->drop_sudo();
         $this->register_object($relatedto);

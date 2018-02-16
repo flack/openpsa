@@ -18,8 +18,8 @@ class org_openpsa_products_handler_product_viewTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_group = self::create_class_object('org_openpsa_products_product_group_dba', ['code' => 'TEST_' . __CLASS__ . time()]);
-        self::$_product = self::create_class_object('org_openpsa_products_product_dba', ['productGroup' => self::$_group->id]);
+        self::$_group = self::create_class_object(org_openpsa_products_product_group_dba::class, ['code' => 'TEST_' . __CLASS__ . time()]);
+        self::$_product = self::create_class_object(org_openpsa_products_product_dba::class, ['productGroup' => self::$_group->id]);
     }
 
     public function testHandler_view()

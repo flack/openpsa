@@ -17,7 +17,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public function setUp()
     {
-        $this->_salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
+        $this->_salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
     }
 
     public function testCRUD()
@@ -62,7 +62,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public function testGet_parent()
     {
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', ['salesproject' => $this->_salesproject->id]);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, ['salesproject' => $this->_salesproject->id]);
         $parent = $deliverable->get_parent();
         $this->assertEquals($parent->guid, $this->_salesproject->guid);
     }
@@ -73,15 +73,15 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
      */
     public function testOrder($attributes, $retval, $results)
     {
-        $productgroup = $this->create_object('org_openpsa_products_product_group_dba');
+        $productgroup = $this->create_object(org_openpsa_products_product_group_dba::class);
         $attributes['product']['productGroup'] = $productgroup->id;
         $attributes['product']['name'] = __CLASS__ . __FUNCTION__ . time();
-        $product = $this->create_object('org_openpsa_products_product_dba', $attributes['product']);
+        $product = $this->create_object(org_openpsa_products_product_dba::class, $attributes['product']);
 
         $attributes['deliverable']['product'] = $product->id;
         $attributes['deliverable']['salesproject'] = $this->_salesproject->id;
 
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes['deliverable']);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes['deliverable']);
 
         midcom::get()->auth->request_sudo('org.openpsa.sales');
         $stat = $deliverable->order();
@@ -173,7 +173,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
             'salesproject' => $this->_salesproject->id
         ];
 
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
 
         midcom::get()->auth->request_sudo('org.openpsa.sales');
         $stat = $deliverable->decline();
@@ -184,8 +184,8 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_LOST, $this->_salesproject->state);
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED, $deliverable->state);
 
-        $deliverable2 = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
-        $deliverable3 = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
+        $deliverable2 = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
+        $deliverable3 = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
         $this->_salesproject->state = org_openpsa_sales_salesproject_dba::STATE_ACTIVE;
         $this->_salesproject->update();
 
@@ -207,10 +207,10 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
      */
     public function testCalculate_price($attributes, $results)
     {
-        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
         $attributes['salesproject'] = $salesproject->id;
 
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
         foreach ($results as $key => $value) {
             $this->assertEquals($value, $deliverable->$key, $key . ' test failed');
         }

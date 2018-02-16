@@ -18,9 +18,9 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::create_user(true);
-        self::$project = self::create_class_object('org_openpsa_projects_project');
-        $task = self::create_class_object('org_openpsa_projects_task_dba', ['project' => self::$project->id]);
-        self::create_class_object('org_openpsa_expenses_hour_report_dba', ['task' => $task->id]);
+        self::$project = self::create_class_object(org_openpsa_projects_project::class);
+        $task = self::create_class_object(org_openpsa_projects_task_dba::class, ['project' => self::$project->id]);
+        self::create_class_object(org_openpsa_expenses_hour_report_dba::class, ['task' => $task->id]);
     }
 
     public function test_handler_generator_get()
@@ -46,7 +46,7 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object('org_openpsa_reports_query_dba');
+        $query = $this->create_object(org_openpsa_reports_query_dba::class);
 
         $data = $this->run_handler('org.openpsa.reports', ['projects', 'edit', $query->guid]);
         $this->assertEquals('projects_edit_report_guid', $data['handler_id']);
@@ -58,7 +58,7 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object('org_openpsa_reports_query_dba');
+        $query = $this->create_object(org_openpsa_reports_query_dba::class);
 
         $data = $this->run_handler('org.openpsa.reports', ['projects', $query->guid, 'test.csv']);
         $this->assertEquals('projects_report_guid_file', $data['handler_id']);
@@ -70,7 +70,7 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object('org_openpsa_reports_query_dba');
+        $query = $this->create_object(org_openpsa_reports_query_dba::class);
         $timestamp = strftime('%Y_%m_%d', $query->metadata->created);
 
         $url = $this->run_relocate_handler('org.openpsa.reports', ['projects', $query->guid]);
@@ -84,7 +84,7 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object('org_openpsa_reports_query_dba');
+        $query = $this->create_object(org_openpsa_reports_query_dba::class);
 
         $data = $this->run_handler('org.openpsa.reports', ['projects']);
         $this->assertEquals('projects_report', $data['handler_id']);

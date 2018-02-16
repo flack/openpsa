@@ -19,9 +19,9 @@ class org_openpsa_relatedto_handler_journal_listTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::create_user(true);
-        self::$_object = self::create_class_object('org_openpsa_contacts_person_dba');
+        self::$_object = self::create_class_object(org_openpsa_contacts_person_dba::class);
 
-        self::$_entry = self::create_class_object('org_openpsa_relatedto_journal_entry_dba', ['linkGuid' => self::$_object->guid]);
+        self::$_entry = self::create_class_object(org_openpsa_relatedto_journal_entry_dba::class, ['linkGuid' => self::$_object->guid]);
     }
 
     public function testHandler_list()

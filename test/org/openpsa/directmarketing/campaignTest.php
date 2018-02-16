@@ -22,7 +22,7 @@ class org_openpsa_directmarketing_campaignTest extends openpsa_testcase
         $stat = $campaign->create();
         $this->assertFalse($stat);
 
-        $topic = $this->create_object('midcom_db_topic', ['component' => 'org.openpsa.directmarketing']);
+        $topic = $this->create_object(midcom_db_topic::class, ['component' => 'org.openpsa.directmarketing']);
 
         $campaign = new org_openpsa_directmarketing_campaign_dba();
         $campaign->node = $topic->id;

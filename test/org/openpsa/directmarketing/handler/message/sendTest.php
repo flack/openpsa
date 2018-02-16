@@ -40,7 +40,7 @@ class org_openpsa_directmarketing_handler_message_sendTest extends openpsa_testc
     {
         $helper = new openpsa_test_campaign_helper($this);
         $message = $helper->get_message();
-        $at = $this->create_object('midcom_services_at_entry_dba');
+        $at = $this->create_object(midcom_services_at_entry_dba::class);
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 

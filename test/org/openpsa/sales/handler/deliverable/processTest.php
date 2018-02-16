@@ -20,13 +20,13 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
-        self::$_salesproject = self::create_class_object('org_openpsa_sales_salesproject_dba', ['customerContact' => self::$_person->id]);
-        $product_group = self::create_class_object('org_openpsa_products_product_group_dba');
+        self::$_salesproject = self::create_class_object(org_openpsa_sales_salesproject_dba::class, ['customerContact' => self::$_person->id]);
+        $product_group = self::create_class_object(org_openpsa_products_product_group_dba::class);
         $product_attributes = [
             'productGroup' => $product_group->id,
             'name' => 'TEST_' . __CLASS__ . '_' . time(),
         ];
-        self::$_product = self::create_class_object('org_openpsa_products_product_dba', $product_attributes);
+        self::$_product = self::create_class_object(org_openpsa_products_product_dba::class, $product_attributes);
     }
 
     public function testHandler_process_single()
@@ -45,7 +45,7 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
             'pricePerUnit' => 5
         ];
 
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
@@ -102,7 +102,7 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
             'orgOpenpsaObtype' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION,
         ];
 
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
         $deliverable->update();
 
         $_SERVER['REQUEST_METHOD'] = 'POST';

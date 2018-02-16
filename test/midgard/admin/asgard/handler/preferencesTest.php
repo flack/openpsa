@@ -41,7 +41,7 @@ class midgard_admin_asgard_handler_preferencesTest extends openpsa_testcase
         $this->create_user(true);
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
-        $person = $this->create_object('midcom_db_person');
+        $person = $this->create_object(midcom_db_person::class);
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'preferences', $person->guid]);
         $this->assertEquals('____mfa-asgard-preferences_guid', $data['handler_id']);

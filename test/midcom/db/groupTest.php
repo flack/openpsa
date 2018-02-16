@@ -45,8 +45,8 @@ class midcom_db_groupTest extends openpsa_testcase
      */
     public function testMembershipManagement()
     {
-        $person = $this->create_object('midcom_db_person');
-        $group = $this->create_object('midcom_db_group');
+        $person = $this->create_object(midcom_db_person::class);
+        $group = $this->create_object(midcom_db_group::class);
 
         midcom::get()->auth->request_sudo('midcom.core');
         $stat = $group->add_member($person);

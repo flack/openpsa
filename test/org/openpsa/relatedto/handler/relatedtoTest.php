@@ -19,8 +19,8 @@ class org_openpsa_relatedto_handler_relatedtoTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_object_from = self::create_class_object('org_openpsa_invoices_invoice_dba');
-        self::$_object_to = self::create_class_object('org_openpsa_sales_salesproject_dba');
+        self::$_object_from = self::create_class_object(org_openpsa_invoices_invoice_dba::class);
+        self::$_object_to = self::create_class_object(org_openpsa_sales_salesproject_dba::class);
 
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
         self::$_relation = org_openpsa_relatedto_plugin::create(self::$_object_from, 'org.openpsa.invoices', self::$_object_to, 'org.openpsa.sales');

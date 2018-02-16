@@ -19,7 +19,7 @@ class org_openpsa_contacts_handler_group_editTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
-        self::$_group = self::create_class_object('org_openpsa_contacts_group_dba');
+        self::$_group = self::create_class_object(org_openpsa_contacts_group_dba::class);
     }
 
     public function testHandler_edit()

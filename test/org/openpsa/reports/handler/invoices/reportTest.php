@@ -16,7 +16,7 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::create_user(true);
-        self::create_class_object('org_openpsa_invoices_invoice_dba');
+        self::create_class_object(org_openpsa_invoices_invoice_dba::class);
     }
 
     public function test_handler_generator_get()
@@ -35,7 +35,7 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object('org_openpsa_reports_query_dba');
+        $query = $this->create_object(org_openpsa_reports_query_dba::class);
 
         $data = $this->run_handler('org.openpsa.reports', ['invoices', 'edit', $query->guid]);
         $this->assertEquals('invoices_edit_report_guid', $data['handler_id']);
@@ -48,7 +48,7 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object('org_openpsa_reports_query_dba');
+        $query = $this->create_object(org_openpsa_reports_query_dba::class);
         $statuses =  [
             'open',
             'unsent',
@@ -69,7 +69,7 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object('org_openpsa_reports_query_dba');
+        $query = $this->create_object(org_openpsa_reports_query_dba::class);
         $timestamp = strftime('%Y_%m_%d', $query->metadata->created);
 
         $url = $this->run_relocate_handler('org.openpsa.reports', ['invoices', $query->guid]);

@@ -24,7 +24,7 @@ class org_openpsa_user_handler_group_editTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.user');
 
-        $group = $this->create_object('midcom_db_group');
+        $group = $this->create_object(midcom_db_group::class);
 
         $data = $this->run_handler('org.openpsa.user', ['group', 'edit', $group->guid]);
         $this->assertEquals('group_edit', $data['handler_id']);

@@ -17,9 +17,9 @@ class org_openpsa_directmarketing_campaign_messagereceiptTest extends openpsa_te
     {
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
-        $topic = $this->create_object('midcom_db_topic', ['component' => 'org.openpsa.directmarketing']);
-        $campaign = $this->create_object('org_openpsa_directmarketing_campaign_dba', ['node' => $topic->id]);
-        $message = $this->create_object('org_openpsa_directmarketing_campaign_message_dba', ['campaign' => $campaign->id]);
+        $topic = $this->create_object(midcom_db_topic::class, ['component' => 'org.openpsa.directmarketing']);
+        $campaign = $this->create_object(org_openpsa_directmarketing_campaign_dba::class, ['node' => $topic->id]);
+        $message = $this->create_object(org_openpsa_directmarketing_campaign_message_dba::class, ['campaign' => $campaign->id]);
         $receipt = new org_openpsa_directmarketing_campaign_messagereceipt_dba();
 
         $stat = $receipt->create();

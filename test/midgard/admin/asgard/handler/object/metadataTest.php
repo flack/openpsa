@@ -17,7 +17,7 @@ class midgard_admin_asgard_handler_object_metadataTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_object = self::create_class_object('midcom_db_topic');
+        self::$_object = self::create_class_object(midcom_db_topic::class);
     }
 
     public function testHandler_edit()
