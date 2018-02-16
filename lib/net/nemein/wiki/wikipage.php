@@ -14,14 +14,14 @@
 class net_nemein_wiki_wikipage extends midcom_db_article
 {
     public $autodelete_dependents = [
-        'net_nemein_wiki_link_dba' => 'frompage'
+        net_nemein_wiki_link_dba::class => 'frompage'
     ];
 
     public function _on_loaded()
     {
         // Backwards compatibility
         if ($this->name == '') {
-            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+            $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
             $this->name = $generator->from_string($this->title);
             $this->update();
         }
@@ -46,7 +46,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
         // Generate URL-clean name
         if ($this->name != 'index') {
-            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+            $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
             $this->name = $generator->from_string($this->title);
         }
         return true;

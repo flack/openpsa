@@ -94,7 +94,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
             if (midcom::get()->dbclassloader->is_midcom_db_object($object)) {
                 $classname = $object->__mgdschema_class_name__;
-            } elseif (is_a($object, 'midcom_helper_metadata')) {
+            } elseif (is_a($object, midcom_helper_metadata::class)) {
                 $metadata = true;
                 $classname = $object->__object->__mgdschema_class_name__;
             }
@@ -205,7 +205,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (method_exists($obj, 'get_label_property')) {
             return $obj->get_label_property();
         }
-        if (midcom::get()->dbfactory->is_a($obj, 'midcom_db_person')) {
+        if (midcom::get()->dbfactory->is_a($obj, midcom_db_person::class)) {
             return ['rname', 'id'];
         }
         if ($this->get_title_property_nonstatic($obj) !== false) {

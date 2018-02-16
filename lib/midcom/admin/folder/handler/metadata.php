@@ -33,7 +33,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         $this->object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         $this->object->require_do('midgard:update');
 
-        if (is_a($this->object, 'midcom_db_topic')) {
+        if (is_a($this->object, midcom_db_topic::class)) {
             $this->object->require_do('midcom.admin.folder:topic_management');
         }
 

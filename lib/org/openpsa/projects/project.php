@@ -15,7 +15,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     public $__mgdschema_class_name__ = 'org_openpsa_project';
 
     public $autodelete_dependents = [
-        'org_openpsa_contacts_role_dba' => 'objectGuid'
+        org_openpsa_contacts_role_dba::class => 'objectGuid'
     ];
 
     public $contacts = []; //Shorthand access for contact members

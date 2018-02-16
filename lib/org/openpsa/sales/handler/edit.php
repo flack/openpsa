@@ -52,7 +52,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      */
     public function _handler_new($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba');
+        midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_sales_salesproject_dba::class);
 
         $this->_salesproject = new org_openpsa_sales_salesproject_dba;
 

@@ -288,7 +288,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
         if (   is_object($this->_object)
             && (   $object->guid == $this->_object->guid
-                || (   is_a($this->_object, 'midcom_db_parameter')
+                || (   is_a($this->_object, midcom_db_parameter::class)
                     && $object->guid == $this->_object->parentguid))) {
             $css_class .= ' current';
         }

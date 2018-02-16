@@ -71,7 +71,7 @@ class org_openpsa_user_handler_person_create extends midcom_baseclasses_componen
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 
         if (count($args) > 0) {
             // Get the organization

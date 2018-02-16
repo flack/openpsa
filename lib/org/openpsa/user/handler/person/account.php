@@ -38,7 +38,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 
         // Check if we get the person
         $this->person = new midcom_db_person($args[0]);
@@ -77,7 +77,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
             $defaults['username'] = preg_replace('/@.*/', '', $this->person->email);
         } else {
             // Otherwise use cleaned up firstname.lastname
-            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+            $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
             $defaults['username'] = $generator->from_string($this->person->firstname) . '.' . $generator->from_string($this->person->lastname);
         }
         return datamanager::from_schemadb($this->_config->get($schemadb))
@@ -162,7 +162,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         $this->person = new midcom_db_person($identifier);
         $this->person->require_do('midgard:update');
         if ($this->person->id != midcom_connection::get_user()) {
-            midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+            midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
         }
 
         $this->account = new midcom_core_account($this->person);

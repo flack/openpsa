@@ -377,8 +377,8 @@ class midcom_config implements arrayaccess
         'toolbars_enable_centralized' => true,
 
         // Service implementation defaults
-        'service_midcom_core_service_urlparser' => 'midcom_core_service_implementation_urlparsertopic',
-        'service_midcom_core_service_urlgenerator' => 'midcom_core_service_implementation_urlgeneratori18n',
+        'service_midcom_core_service_urlparser' => midcom_core_service_implementation_urlparsertopic::class,
+        'service_midcom_core_service_urlgenerator' => midcom_core_service_implementation_urlgeneratori18n::class,
 
         // Public attachment caching directives
         'attachment_cache_enabled' => false,

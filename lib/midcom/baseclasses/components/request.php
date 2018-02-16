@@ -573,7 +573,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             return false;
         }
 
-        if (is_a($handler, 'midcom_baseclasses_components_handler')) {
+        if (is_a($handler, midcom_baseclasses_components_handler::class)) {
             $handler->populate_breadcrumb_line();
         }
 
@@ -603,7 +603,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             }
 
             $this->_handler['handler'][0] = new $classname();
-            if (!is_a($this->_handler['handler'][0], 'midcom_baseclasses_components_handler')) {
+            if (!is_a($this->_handler['handler'][0], midcom_baseclasses_components_handler::class)) {
                 throw new midcom_error("Failed to create a class instance of the type {$classname}, it is no subclass of midcom_baseclasses_components_handler.");
             }
 
@@ -872,22 +872,22 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             '__ais',
             [
                 'folder' => [
-                    'class' => 'midcom_admin_folder_management',
+                    'class' => midcom_admin_folder_management::class,
                     'name' => 'Folder administration',
                     'config' => null,
                 ],
                 'rcs' => [
-                    'class' => 'midcom_admin_rcs_plugin',
+                    'class' => midcom_admin_rcs_plugin::class,
                     'name' => 'Revision control',
                     'config' => null,
                 ],
                 'imagepopup' => [
-                    'class' => 'midcom_helper_imagepopup_viewer',
+                    'class' => midcom_helper_imagepopup_viewer::class,
                     'name' => 'Image pop-up',
                     'config' => null,
                 ],
                 'help' => [
-                    'class' => 'midcom_admin_help_help',
+                    'class' => midcom_admin_help_help::class,
                     'name' => 'On-site help',
                     'config' => null,
                 ],
@@ -905,7 +905,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         $hardcoded_plugins = [
             'asgard' => [
-                'class' => 'midgard_admin_asgard_plugin',
+                'class' => midgard_admin_asgard_plugin::class,
                 'name' => 'Asgard',
                 'config' => null,
             ],

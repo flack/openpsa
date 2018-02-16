@@ -212,7 +212,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
                 return $this->reply(false, sprintf($this->_l10n->get('could not mark invoice %s paid'), $this->invoice->get_label()));
             }
 
-            $mc = new org_openpsa_relatedto_collector($this->invoice->guid, 'org_openpsa_projects_task_dba');
+            $mc = new org_openpsa_relatedto_collector($this->invoice->guid, org_openpsa_projects_task_dba::class);
             $tasks = $mc->get_related_objects();
 
             // Close "Send invoice" task

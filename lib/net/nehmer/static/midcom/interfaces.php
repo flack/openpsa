@@ -21,7 +21,7 @@ implements midcom_services_permalinks_resolver
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        $qb = midcom::get()->dbfactory->new_query_builder('midcom_db_article');
+        $qb = midcom::get()->dbfactory->new_query_builder(midcom_db_article::class);
         $qb->add_constraint('topic', '=', $topic->id);
 
         $datamanager = datamanager::from_schemadb($config->get('schemadb'));

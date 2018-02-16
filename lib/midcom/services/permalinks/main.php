@@ -81,7 +81,7 @@ class midcom_services_permalinks
             return null;
         }
 
-        if (is_a($object, 'midcom_db_topic')) {
+        if (is_a($object, midcom_db_topic::class)) {
             $napobj = $nav->get_node($object->id);
             if (!$napobj) {
                 debug_add("Failed to retrieve the NAP object for topic {$object->id}.", MIDCOM_LOG_INFO);
@@ -90,10 +90,10 @@ class midcom_services_permalinks
             return $napobj[MIDCOM_NAV_FULLURL];
         }
 
-        if (is_a($object, 'midcom_db_attachment')) {
+        if (is_a($object, midcom_db_attachment::class)) {
             // Faster linking to attachments
             $parent = $object->get_parent();
-            if (   is_a($parent, 'midcom_db_topic')
+            if (   is_a($parent, midcom_db_topic::class)
                 && $nav->is_node_in_tree($parent->id, $nav->get_root_node())) {
                 $napobj = $nav->get_node($parent->id);
                 return $napobj[MIDCOM_NAV_FULLURL] . $object->name;
@@ -106,7 +106,7 @@ class midcom_services_permalinks
         $parent = $object->get_parent();
 
         while ($parent) {
-            if (is_a($parent, 'midcom_db_topic')) {
+            if (is_a($parent, midcom_db_topic::class)) {
                 // Verify that this topic is within the current sites tree, if it is not,
                 // we ignore it.
                 if ($nav->is_node_in_tree($parent->id, $nav->get_root_node())) {

@@ -32,7 +32,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $schemadb = schemadb::from_path($this->_config->get('schemadb_deliverable'));
 
         $schema = $schemadb->get('subscription');
-        $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'midcom_services_at_entry_dba');
+        $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, midcom_services_at_entry_dba::class);
         $mc->add_object_order('start', 'ASC');
         $mc->set_object_limit(1);
         $at_entries = $mc->get_related_objects();

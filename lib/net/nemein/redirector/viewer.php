@@ -23,7 +23,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
             || (   $this->_topic->can_do('net.nemein.redirector:noredirect')
                 && !$this->_config->get('admin_redirection'))) {
             $this->_request_switch['redirect'] = [
-                'handler' => ['net_nemein_redirector_handler_tinyurl', 'list'],
+                'handler' => [net_nemein_redirector_handler_tinyurl::class, 'list'],
             ];
         } else {
             $this->_request_switch['redirect'] = [

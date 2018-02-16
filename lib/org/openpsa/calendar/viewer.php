@@ -20,7 +20,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
     {
         if (!$this->_config->get('calendar_root_event')) {
             $stat = false;
-            if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_calendar_event_dba')) {
+            if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_calendar_event_dba::class)) {
                 $stat = org_openpsa_calendar_interface::find_root_event();
             }
 

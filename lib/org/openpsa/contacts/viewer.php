@@ -33,7 +33,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
         $nap = new midcom_helper_nav;
         $prefix = $nap->get_node($this->_topic->id)[MIDCOM_NAV_ABSOLUTEURL];
 
-        $tree = new org_openpsa_widgets_tree('org_openpsa_contacts_group_dba', 'owner');
+        $tree = new org_openpsa_widgets_tree(org_openpsa_contacts_group_dba::class, 'owner');
         $tree->link_callback = function ($guid) use ($prefix) {
             return $prefix . 'group/' . $guid . '/';
         };

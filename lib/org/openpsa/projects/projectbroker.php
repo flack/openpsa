@@ -24,8 +24,8 @@ class org_openpsa_projects_projectbroker
         $return = [];
         $classes = [
             'midgard_person',
-            'midcom_db_person',
-            'org_openpsa_contacts_person_dba',
+            midcom_db_person::class,
+            org_openpsa_contacts_person_dba::class,
         ];
         $tag_map = net_nemein_tag_handler::get_object_tags($task);
 

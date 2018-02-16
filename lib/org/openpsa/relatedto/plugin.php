@@ -106,7 +106,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
     {
         $ret = ['org_openpsa_relatedto' => []];
         foreach ($array as $rel) {
-            if (!midcom::get()->dbfactory->is_a($rel, 'org_openpsa_relatedto_dba')) { //Matches also 'org_openpsa_relatedto'
+            if (!midcom::get()->dbfactory->is_a($rel, org_openpsa_relatedto_dba::class)) { //Matches also 'org_openpsa_relatedto'
                 //Wrong type of object found in array, cruelly abort the whole procedure
                 return false;
             }
@@ -235,7 +235,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     $toolbar_buttons[] = org_openpsa_calendar_interface::get_create_button($data['node'], '?' . self::relatedto2get([$related_to]));
                     break;
                 case 'task':
-                    if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba')) {
+                    if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_projects_task_dba::class)) {
                         $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}task/new/?" . self::relatedto2get([$related_to]), [
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create task', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',

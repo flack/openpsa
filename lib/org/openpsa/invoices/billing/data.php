@@ -40,9 +40,9 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
      */
     public static function get_by_object(org_openpsa_invoices_interfaces_customer $object)
     {
-        if (   !($bd = self::get_billing_data('org_openpsa_contacts_group_dba', $object->customer))
+        if (   !($bd = self::get_billing_data(org_openpsa_contacts_group_dba::class, $object->customer))
                // check if the customerContact is set and has invoice_data
-            && !($bd = self::get_billing_data('org_openpsa_contacts_person_dba', $object->customerContact))) {
+            && !($bd = self::get_billing_data(org_openpsa_contacts_person_dba::class, $object->customerContact))) {
             $bd = new org_openpsa_invoices_billing_data_dba();
             $due = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('default_due_days');
             $vat = explode(',', midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('vat_percentages'));
@@ -140,9 +140,9 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     {
         if ($this->useContactAddress && !empty($this->linkGuid)) {
             $contact = $this->get_contact();
-            if (is_a($contact, 'org_openpsa_contacts_person_dba')) {
+            if (is_a($contact, org_openpsa_contacts_person_dba::class)) {
                 $this->recipient = $contact->firstname . " " . $contact->lastname;
-            } elseif (is_a($contact, 'org_openpsa_contacts_group_dba')) {
+            } elseif (is_a($contact, org_openpsa_contacts_group_dba::class)) {
                 $this->recipient = $contact->official;
             }
             $this->street = $contact->street;

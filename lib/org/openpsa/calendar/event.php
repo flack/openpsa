@@ -251,7 +251,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         // Do no seek if we already have confirmed links
-        $mc = new org_openpsa_relatedto_collector($this->guid, 'org_openpsa_projects_task_dba', 'outgoing');
+        $mc = new org_openpsa_relatedto_collector($this->guid, org_openpsa_projects_task_dba::class, 'outgoing');
         $mc->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
 
         $links = $mc->get_related_guids();
@@ -279,7 +279,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     private function get_suspected_sales_links()
     {
         // Do no seek if we already have confirmed links
-        $mc = new org_openpsa_relatedto_collector($this->guid, ['org_openpsa_salesproject_dba', 'org_openpsa_salesproject_deliverable_dba']);
+        $mc = new org_openpsa_relatedto_collector($this->guid, [org_openpsa_sales_salesproject_dba::class, org_openpsa_sales_salesproject_deliverable_dba::class]);
         $mc->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
 
         $links = $mc->get_related_guids();

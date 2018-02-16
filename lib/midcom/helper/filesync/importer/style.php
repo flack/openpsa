@@ -15,7 +15,7 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
 {
     private function read_style($path, $parent_id)
     {
-        $style = $this->_get_node('midcom_db_style', $parent_id, $path);
+        $style = $this->_get_node(midcom_db_style::class, $parent_id, $path);
 
         $directory = dir($path);
         $foldernames = [];

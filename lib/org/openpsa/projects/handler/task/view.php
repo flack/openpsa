@@ -140,7 +140,7 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
             'confirmed' => [],
             'suspected' => [],
         ];
-        $mc = new org_openpsa_relatedto_collector($this->task->guid, 'org_openpsa_calendar_event_dba');
+        $mc = new org_openpsa_relatedto_collector($this->task->guid, org_openpsa_calendar_event_dba::class);
         $mc->add_object_order('start', 'ASC');
         $events = $mc->get_related_objects_grouped_by('status');
 

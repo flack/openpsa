@@ -167,7 +167,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
         // Try to get the parent property for determining, which property should be
         // used to point the parent of the new object. Attachments are a special case.
-        if (!midcom::get()->dbfactory->is_a($object, 'midcom_db_attachment')) {
+        if (!midcom::get()->dbfactory->is_a($object, midcom_db_attachment::class)) {
             $parent_property = midgard_object_class::get_property_parent($mgdschema_object);
         } else {
             $parent_property = 'parentobject';

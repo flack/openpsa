@@ -169,9 +169,9 @@ class midcom_helper_misc
     public static function preparse($code)
     {
         // Get style elements
-        $code = preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", ['midcom_helper_misc', 'include_element'], $code);
+        $code = preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", [midcom_helper_misc::class, 'include_element'], $code);
         // Echo variables
-        return preg_replace_callback("%&\(([^)]*)\);%i", ['midcom_helper_formatter', 'convert_to_php'], $code);
+        return preg_replace_callback("%&\(([^)]*)\);%i", [midcom_helper_formatter::class, 'convert_to_php'], $code);
     }
 
     /**
@@ -202,7 +202,7 @@ class midcom_helper_misc
                     }
                     return '';
                 }
-                return preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", ['midcom_helper_misc', 'include_element'], $value);
+                return preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", [midcom_helper_misc::class, 'include_element'], $value);
         }
     }
 

@@ -63,7 +63,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                     'id' => 'openpsa_calendar_add_event',
                 ]
             ]);
-            if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_calendar_resource_dba')) {
+            if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_calendar_resource_dba::class)) {
                 $buttons[] = $workflow->get_button('resource/new/', [
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('resource')),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',

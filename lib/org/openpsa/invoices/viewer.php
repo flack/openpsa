@@ -67,7 +67,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             ]);
         }
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)) {
             $workflow = $this->get_workflow('datamanager');
             $this->_view_toolbar->add_item($workflow->get_button('invoice/new/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),

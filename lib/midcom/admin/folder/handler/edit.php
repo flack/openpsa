@@ -155,7 +155,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
         // Generate name if it is missing
         if (!$this->edit_topic->name) {
-            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+            $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
             $this->edit_topic->name = $generator->from_string($this->edit_topic->extra);
             $this->edit_topic->update();
         }

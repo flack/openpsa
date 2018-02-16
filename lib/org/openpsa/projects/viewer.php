@@ -31,7 +31,7 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
     {
         $tmp = [];
         while ($task) {
-            if (is_a($task, 'org_openpsa_projects_project')) {
+            if (is_a($task, org_openpsa_projects_project::class)) {
                 $tmp["project/{$task->guid}/"] = $task->title;
             } else {
                 $tmp["task/{$task->guid}/"] = $task->title;

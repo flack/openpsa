@@ -37,7 +37,7 @@ class org_openpsa_user_handler_person_view extends midcom_baseclasses_components
 
         $auth = midcom::get()->auth;
         if (   $this->_person->id == midcom_connection::get_user()
-            || $auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface')) {
+            || $auth->can_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class)) {
             $buttons = [];
             $workflow = $this->get_workflow('datamanager');
             if ($this->_person->can_do('midgard:update')) {

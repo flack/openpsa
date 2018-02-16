@@ -18,7 +18,7 @@ class org_openpsa_documents_midcom_indexer extends client
 {
     public function prepare_document(midcom_services_indexer_document &$document, datamanager $dm)
     {
-        if (is_a($dm->get_storage()->get_value(), 'midcom_db_topic')) {
+        if (is_a($dm->get_storage()->get_value(), midcom_db_topic::class)) {
             $document->title = $dm->get_storage()->get_value()->extra;
         }
     }

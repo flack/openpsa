@@ -329,7 +329,7 @@ class midcom_baseclasses_core_dbobject
 
         // Delete all extensions:
         // Attachments can't have attachments so no need to query those
-        if (!is_a($object, 'midcom_db_attachment')) {
+        if (!is_a($object, midcom_db_attachment::class)) {
             $list = $object->list_attachments();
             foreach ($list as $attachment) {
                 if (!$attachment->delete()) {

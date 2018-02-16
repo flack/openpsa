@@ -84,7 +84,7 @@ class midcom_core_group
             throw new midcom_error('The class midcom_core_group is not default constructible.');
         }
 
-        if (is_a($id, 'midcom_db_group') || is_a($id, 'midgard_group')) {
+        if (is_a($id, midcom_db_group::class) || is_a($id, 'midgard_group')) {
             $this->_storage = $id;
         } else {
             if (is_string($id)) {

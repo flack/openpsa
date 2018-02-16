@@ -85,7 +85,7 @@ class org_openpsa_invoices_invoice_pdf
         }
         // renders the pdf and attaches it to the invoice
         $pdf_builder = new $client_class($this->invoice);
-        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+        $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
         $filename = $generator->from_string($this->invoice->get_label()) . '.pdf';
 
         // tmp filename

@@ -59,7 +59,7 @@ class midcom_helper_reflector_nameresolver
             // empty name is not "clean"
             return false;
         }
-        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+        $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
         return ($name_copy === $generator->from_string($name_copy));
     }
 
@@ -287,7 +287,7 @@ class midcom_helper_reflector_nameresolver
                 debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} has empty name and title, aborting", MIDCOM_LOG_WARN);
                 return false;
             }
-            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+            $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
             $current_name = $generator->from_string($title_copy);
             unset($title_copy);
         }

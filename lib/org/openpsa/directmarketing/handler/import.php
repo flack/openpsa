@@ -31,7 +31,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     private function _prepare_handler(array $args)
     {
-        midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');
+        midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class);
 
         // Try to load the correct campaign
         $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);

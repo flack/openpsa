@@ -207,7 +207,7 @@ class midcom_services_dbclassloader
     public function is_midcom_db_object($object)
     {
         if (is_object($object)) {
-            return (is_a($object, 'midcom_core_dbaobject') || is_a($object, 'midcom_core_dbaproxy'));
+            return (is_a($object, midcom_core_dbaobject::class) || is_a($object, midcom_core_dbaproxy::class));
         }
         if (is_string($object) && class_exists($object)) {
             return $this->is_midcom_db_object(new $object);

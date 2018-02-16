@@ -300,7 +300,7 @@ class midcom_helper_nav
             debug_add("Could not load GUID {$guid}, trying to continue anyway. Last error was: " . $e->getMessage(), MIDCOM_LOG_WARN);
         }
         if (!empty($object)) {
-            if (is_a($object, 'midcom_db_topic')) {
+            if (is_a($object, midcom_db_topic::class)) {
                 // Ok. This topic should be within the content tree,
                 // we check this and return the node if everything is ok.
                 if (!$this->is_node_in_tree($object->id, $this->get_root_node())) {
@@ -311,7 +311,7 @@ class midcom_helper_nav
                 return $this->get_node($object->id);
             }
 
-            if (is_a($object, 'midcom_db_article')) {
+            if (is_a($object, midcom_db_article::class)) {
                 // Ok, let's try to find the article using the topic in the tree.
                 if (!$this->is_node_in_tree($object->topic, $this->get_root_node())) {
                     debug_add("The GUID {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
@@ -378,7 +378,7 @@ class midcom_helper_nav
         }
         debug_add('Looking for a topic to use via get_parent()');
         while ($parent = $object->get_parent()) {
-            if (is_a($parent, 'midcom_db_topic')) {
+            if (is_a($parent, midcom_db_topic::class)) {
                 // Verify that this topic is within the current sites tree, if it is not,
                 // we ignore it.
                 if ($this->is_node_in_tree($parent->id, $this->get_root_node())) {

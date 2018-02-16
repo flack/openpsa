@@ -139,7 +139,7 @@ class midcom_application
         $context = midcom_core_context::get();
 
         // Parse the URL
-        $context->parser = $this->serviceloader->load('midcom_core_service_urlparser');
+        $context->parser = $this->serviceloader->load(midcom_core_service_urlparser::class);
         $context->parser->parse(midcom_connection::get_url('argv'));
 
         $response = $this->_process($context);
@@ -212,7 +212,7 @@ class midcom_application
         }
 
         // Parser Init: Generate arguments and instantiate it.
-        $context->parser = $this->serviceloader->load('midcom_core_service_urlparser');
+        $context->parser = $this->serviceloader->load(midcom_core_service_urlparser::class);
         $argv = $context->parser->tokenize($url);
         $context->parser->parse($argv);
 

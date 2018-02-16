@@ -24,7 +24,7 @@ implements midcom_services_permalinks_resolver
         if (!$config->get('disable_indexing')) {
             debug_add("The topic {$topic->id} is not to be indexed, skipping indexing.");
         } else {
-            $qb = midcom::get()->dbfactory->new_query_builder('midcom_db_article');
+            $qb = midcom::get()->dbfactory->new_query_builder(midcom_db_article::class);
             $qb->add_constraint('topic', '=', $topic->id);
 
             $dm = datamanager::from_schemadb($config->get('schemadb'));

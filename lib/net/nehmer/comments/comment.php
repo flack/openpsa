@@ -124,7 +124,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     private static function _prepare_query($guid, $status, $paging = false, $limit = false)
     {
         if ($paging !== false) {
-            $qb = new org_openpsa_qbpager('net_nehmer_comments_comment', 'net_nehmer_comments_comment');
+            $qb = new org_openpsa_qbpager(net_nehmer_comments_comment::class, 'net_nehmer_comments_comment');
             $qb->results_per_page = $paging;
         } else {
             $qb = net_nehmer_comments_comment::new_query_builder();

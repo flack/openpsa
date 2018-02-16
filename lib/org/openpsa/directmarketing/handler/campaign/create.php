@@ -31,7 +31,7 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba');
+        midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_directmarketing_campaign_dba::class);
 
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba();
         $this->_campaign->node = $this->_topic->id;

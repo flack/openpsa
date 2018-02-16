@@ -185,7 +185,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 
         $parent = $object->get_parent();
 
-        if (   is_a($object, 'midcom_db_parameter')
+        if (   is_a($object, midcom_db_parameter::class)
             && !empty($parent->guid)) {
             // Add "parameters" list to breadcrumb if we're in a param
             $breadcrumb[] = [

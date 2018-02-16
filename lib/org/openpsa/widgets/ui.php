@@ -41,7 +41,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
             $node_url = $siteconfig->get_node_full_url($component);
             if (   $node_url
                 && (   !$user_id
-                    || midcom::get()->auth->acl->can_do_byguid('midgard:read', $siteconfig->get_node_guid($component), 'midcom_db_topic', $user_id))) {
+                    || midcom::get()->auth->acl->can_do_byguid('midgard:read', $siteconfig->get_node_guid($component), midcom_db_topic::class, $user_id))) {
                 $providers[] = [
                     'placeholder' => midcom::get()->i18n->get_string('search title', $component),
                     'url' => $node_url . $config['route'],

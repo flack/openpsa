@@ -27,14 +27,14 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
 
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')) {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class)) {
             $buttons[] = $workflow->get_button('person/create/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
             ]);
         }
 
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba')) {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_group_dba::class)) {
             $buttons[] = $workflow->get_button("group/create/organization/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
@@ -51,7 +51,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
                 MIDCOM_TOOLBAR_URL => 'duplicates/person/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('merge persons'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:update', null, 'org_openpsa_contacts_person_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:update', null, org_openpsa_contacts_person_dba::class),
             ];
         }
         $this->_view_toolbar->add_items($buttons);

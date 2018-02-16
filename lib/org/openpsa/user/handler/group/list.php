@@ -22,15 +22,15 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface');
+        midcom::get()->auth->require_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class);
 
-        $tree = new org_openpsa_widgets_tree('midcom_db_group', 'owner');
+        $tree = new org_openpsa_widgets_tree(midcom_db_group::class, 'owner');
         $tree->title_fields = ['official', 'name'];
         $tree->link_callback = [__CLASS__, 'render_link'];
         $data['tree'] = $tree;
 
         $this->add_breadcrumb("", $this->_l10n->get('groups'));
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'midcom_db_group')) {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, midcom_db_group::class)) {
             $workflow = $this->get_workflow('datamanager');
             $this->_view_toolbar->add_item($workflow->get_button("group/create/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),

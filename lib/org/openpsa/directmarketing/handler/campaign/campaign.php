@@ -135,7 +135,7 @@ implements org_openpsa_widgets_grid_provider_client
                 MIDCOM_TOOLBAR_URL => "campaign/import/{$this->_campaign->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import subscribers'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class),
             ];
         }
         $buttons[] = [

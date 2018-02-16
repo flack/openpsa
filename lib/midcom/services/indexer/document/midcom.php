@@ -54,7 +54,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
 
         $this->_set_type('midcom');
 
-        if (is_a($object, 'midcom_helper_metadata')) {
+        if (is_a($object, midcom_helper_metadata::class)) {
             $this->_metadata = $object;
         } else {
             $this->_metadata = midcom_helper_metadata::retrieve($object);

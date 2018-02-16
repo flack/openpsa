@@ -10,7 +10,7 @@ $qb->add_constraint('state', '>=', org_openpsa_sales_salesproject_deliverable_db
 
 echo "<pre>\n";
 foreach ($qb->execute() as $deliverable) {
-    $mc = new org_openpsa_relatedto_collector($deliverable->guid, 'midcom_services_at_entry_dba');
+    $mc = new org_openpsa_relatedto_collector($deliverable->guid, midcom_services_at_entry_dba::class);
     $mc->add_object_order('start', 'DESC');
     $at_entries = $mc->get_related_objects();
 

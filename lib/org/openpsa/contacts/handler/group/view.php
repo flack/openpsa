@@ -46,7 +46,7 @@ implements org_openpsa_widgets_grid_provider_client
             ];
         }
 
-        if (   midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
+        if (   midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class)
             && $this->group->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button("person/create/{$this->group->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
@@ -57,7 +57,7 @@ implements org_openpsa_widgets_grid_provider_client
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $user_url = $siteconfig->get_node_full_url('org.openpsa.user');
         if (   $user_url
-            && midcom::get()->auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface')) {
+            && midcom::get()->auth->can_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class)) {
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $user_url . "group/{$this->group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('user management', 'org.openpsa.user'),

@@ -36,7 +36,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
      */
     public function verify_existing_password(array $fields)
     {
-        if (midcom::get()->auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface')) {
+        if (midcom::get()->auth->can_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class)) {
             //User has the necessary rights, so we're good
             return true;
         }

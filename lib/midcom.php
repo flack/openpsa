@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\events\dispatcher;
+
 /**
  * @package midcom
  */
@@ -39,25 +41,25 @@ class midcom
      * Mapping of service names to classes implementing the service
      */
     private static $_service_classes = [
-        'auth' => 'midcom_services_auth',
-        'componentloader' => 'midcom_helper__componentloader',
-        'cache' => 'midcom_services_cache',
-        'config' => 'midcom_config',
-        'dbclassloader' => 'midcom_services_dbclassloader',
-        'dbfactory' => 'midcom_helper__dbfactory',
-        'dispatcher' => '\\midcom\\events\\dispatcher',
-        'debug' => 'midcom_debug',
-        'head' => 'midcom_helper_head',
-        'i18n' => 'midcom_services_i18n',
-        'indexer' => 'midcom_services_indexer',
-        'metadata' => 'midcom_services_metadata',
-        'permalinks' => 'midcom_services_permalinks',
-        'rcs' => 'midcom_services_rcs',
-        'serviceloader' => 'midcom_helper_serviceloader',
-        'session' => 'midcom_services__sessioning',
-        'style' => 'midcom_helper__styleloader',
-        'toolbars' => 'midcom_services_toolbars',
-        'uimessages' => 'midcom_services_uimessages',
+        'auth' => midcom_services_auth::class,
+        'componentloader' => midcom_helper__componentloader::class,
+        'cache' => midcom_services_cache::class,
+        'config' => midcom_config::class,
+        'dbclassloader' => midcom_services_dbclassloader::class,
+        'dbfactory' => midcom_helper__dbfactory::class,
+        'dispatcher' => dispatcher::class,
+        'debug' => midcom_debug::class,
+        'head' => midcom_helper_head::class,
+        'i18n' => midcom_services_i18n::class,
+        'indexer' => midcom_services_indexer::class,
+        'metadata' => midcom_services_metadata::class,
+        'permalinks' => midcom_services_permalinks::class,
+        'rcs' => midcom_services_rcs::class,
+        'serviceloader' => midcom_helper_serviceloader::class,
+        'session' => midcom_services__sessioning::class,
+        'style' => midcom_helper__styleloader::class,
+        'toolbars' => midcom_services_toolbars::class,
+        'uimessages' => midcom_services_uimessages::class,
     ];
 
     public static function init()

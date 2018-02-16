@@ -191,7 +191,7 @@ implements midcom_services_permalinks_resolver
                     $location->longitude = $longitude;
                     $location->relation = org_routamc_positioning_location_dba::RELATION_LOCATED;
                     $location->parent = $group->guid;
-                    $location->parentclass = 'org_openpsa_contacts_group_dba';
+                    $location->parentclass = org_openpsa_contacts_group_dba::class;
                     $location->parentcomponent = 'org.openpsa.contacts';
                     $location->create();
                 }

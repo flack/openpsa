@@ -15,7 +15,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     public $__mgdschema_class_name__ = 'org_openpsa_organization';
 
     public $autodelete_dependents = [
-        'org_openpsa_contacts_member_dba' => 'gid'
+        org_openpsa_contacts_member_dba::class => 'gid'
     ];
 
     const OTHERGROUP = 0;

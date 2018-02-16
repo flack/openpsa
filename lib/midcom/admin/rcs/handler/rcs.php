@@ -17,7 +17,7 @@ class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
     protected function get_breadcrumbs()
     {
         $items = [];
-        if (!is_a($this->object, 'midcom_db_topic')) {
+        if (!is_a($this->object, midcom_db_topic::class)) {
             $items[] = [
                 MIDCOM_NAV_URL => $this->get_object_url(),
                 MIDCOM_NAV_NAME => $this->resolve_object_title()

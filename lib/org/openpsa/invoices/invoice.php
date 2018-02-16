@@ -17,7 +17,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
     public $__mgdschema_class_name__ = 'org_openpsa_invoice';
 
     public $autodelete_dependents = [
-        'org_openpsa_invoices_invoice_item_dba' => 'invoice'
+        org_openpsa_invoices_invoice_item_dba::class => 'invoice'
     ];
 
     private $_billing_data;

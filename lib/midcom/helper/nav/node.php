@@ -31,7 +31,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
     public function is_readable_by($user_id)
     {
         return (   !$user_id
-                || midcom::get()->auth->acl->can_do_byguid('midgard:read', $this->guid, 'midcom_db_topic', $user_id));
+                || midcom::get()->auth->acl->can_do_byguid('midgard:read', $this->guid, midcom_db_topic::class, $user_id));
     }
 
     public function get_subnodes()
@@ -141,7 +141,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
 
     private function load_data()
     {
-        $topic = new midcom_core_dbaproxy($this->topic_id, 'midcom_db_topic');
+        $topic = new midcom_core_dbaproxy($this->topic_id, midcom_db_topic::class);
         if (!$topic->guid) {
             debug_add("Could not load Topic #{$this->topic_id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return null;

@@ -42,7 +42,7 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface');
+        midcom::get()->auth->require_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class);
 
         $this->_group = new midcom_db_group($args[0]);
         $data['group'] = $this->_group;
@@ -80,7 +80,7 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
             ]);
         }
 
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')) {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class)) {
             $buttons[] = $workflow->get_button("create/{$this->_group->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',

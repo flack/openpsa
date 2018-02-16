@@ -161,8 +161,8 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     private function _get_object_links_sort_time($obj)
     {
         switch (true) {
-            case midcom::get()->dbfactory->is_a($obj, 'org_openpsa_calendar_event_dba'):
-            case midcom::get()->dbfactory->is_a($obj, 'org_openpsa_projects_task_dba'):
+            case midcom::get()->dbfactory->is_a($obj, org_openpsa_calendar_event_dba::class):
+            case midcom::get()->dbfactory->is_a($obj, org_openpsa_projects_task_dba::class):
                 return $obj->start;
             default:
                 return $obj->metadata->created;
@@ -237,23 +237,23 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         }
 
         switch ($link['class']) {
-            case 'net_nemein_wiki_wikipage':
+            case net_nemein_wiki_wikipage::class:
                 $this->_render_line_wikipage($other_obj);
                 break;
-            case 'org_openpsa_calendar_event_dba':
+            case org_openpsa_calendar_event_dba::class:
                 $this->_render_line_event($other_obj);
                 break;
-            case 'org_openpsa_projects_task_dba':
-            case 'org_openpsa_projects_project':
+            case org_openpsa_projects_task_dba::class:
+            case org_openpsa_projects_project::class:
                 $this->_render_line_task($other_obj);
                 break;
-            case 'org_openpsa_documents_document_dba':
+            case org_openpsa_documents_document_dba::class:
                 $this->_render_line_document($other_obj);
                 break;
-            case 'org_openpsa_sales_salesproject_dba':
+            case org_openpsa_sales_salesproject_dba::class:
                 $this->_render_line_salesproject($other_obj);
                 break;
-            case 'org_openpsa_invoices_invoice_dba':
+            case org_openpsa_invoices_invoice_dba::class:
                 $this->_render_line_invoice($other_obj);
                 break;
             default:

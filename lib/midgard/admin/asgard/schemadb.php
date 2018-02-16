@@ -166,7 +166,7 @@ class midgard_admin_asgard_schemadb
     private function _add_string_field($key, $type)
     {
         if (   $key == 'component'
-            && $type == 'midcom_db_topic') {
+            && $type == midcom_db_topic::class) {
             $this->_add_component_dropdown($key);
             return;
         }
@@ -334,7 +334,7 @@ class midgard_admin_asgard_schemadb
             'type_config' => [
                 'options' => $components,
             ],
-            'widget'      => 'midcom_admin_folder_selectcomponent',
+            'widget'      => midcom_admin_folder_selectcomponent::class,
         ];
     }
 

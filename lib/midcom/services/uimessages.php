@@ -81,7 +81,7 @@ class midcom_services_uimessages
      */
     public function initialize()
     {
-        if (midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages')) {
+        if (midcom::get()->auth->can_user_do('midcom:ajax', null, midcom_services_uimessages::class)) {
             midcom::get()->head->enable_jquery();
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
             midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/effect.min.js');
@@ -147,7 +147,7 @@ class midcom_services_uimessages
     public function show($show_simple = false)
     {
         if (   $show_simple
-            || !midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages')) {
+            || !midcom::get()->auth->can_user_do('midcom:ajax', null, midcom_services_uimessages::class)) {
             $this->show_simple();
             return;
         }
@@ -178,7 +178,7 @@ class midcom_services_uimessages
     public function show_simple($prefer_fancy = false)
     {
         if (   $prefer_fancy
-            && midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages')) {
+            && midcom::get()->auth->can_user_do('midcom:ajax', null, midcom_services_uimessages::class)) {
             return $this->show();
         }
 

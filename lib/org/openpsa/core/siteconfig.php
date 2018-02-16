@@ -175,7 +175,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         if (!midcom::get()->auth->admin) {
             $user_id = midcom::get()->auth->acl->get_user_id();
             if (   !$this->data[$type . '_guid']
-                || !midcom::get()->auth->acl->can_do_byguid('midgard:read', $this->data[$type . '_guid'], 'midcom_db_topic', $user_id)) {
+                || !midcom::get()->auth->acl->can_do_byguid('midgard:read', $this->data[$type . '_guid'], midcom_db_topic::class, $user_id)) {
                 return null;
             }
         }

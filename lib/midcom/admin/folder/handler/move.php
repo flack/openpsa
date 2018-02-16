@@ -32,8 +32,8 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
     {
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
 
-        if (   !is_a($this->_object, 'midcom_db_topic')
-            && !is_a($this->_object, 'midcom_db_article')) {
+        if (   !is_a($this->_object, midcom_db_topic::class)
+            && !is_a($this->_object, midcom_db_article::class)) {
             throw new midcom_error_notfound("Moving only topics and articles is supported.");
         }
 
@@ -51,7 +51,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
 
         $object_label = midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);
 
-        if (is_a($this->_object, 'midcom_db_topic')) {
+        if (is_a($this->_object, midcom_db_topic::class)) {
             // This is a topic
             $this->_object->require_do('midcom.admin.folder:topic_management');
             $data['current_folder'] = new midcom_db_topic($this->_object->up);
@@ -73,7 +73,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             $folder = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
         }
 
-        if (   is_a($this->_object, 'midcom_db_topic')
+        if (   is_a($this->_object, midcom_db_topic::class)
             && $folder->up == $this->_object->id) {
             $tree_disabled = true;
         }
@@ -86,7 +86,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             $selected = ' checked="checked"';
         }
 
-        if (   !is_a($this->_object, 'midcom_db_topic')
+        if (   !is_a($this->_object, midcom_db_topic::class)
             && $folder->component !== $this->_request_data['current_folder']->component) {
             // Non-topic objects may only be moved under folders of same component
             $class = 'wrong_component';
@@ -120,7 +120,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
     {
         $target->require_do('midgard:create');
 
-        if (is_a($this->_object, 'midcom_db_topic')) {
+        if (is_a($this->_object, midcom_db_topic::class)) {
             $name = $this->_object->name;
             $this->_object->name = ''; // Prevents problematic location to break the site, we set this back below...
             $this->_object->up = $target->id;

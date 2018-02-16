@@ -97,7 +97,7 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['index_number'] = $number;
         $entry['number'] = $link_html;
 
-        if (!is_a($this->_customer, 'org_openpsa_contacts_group_dba')) {
+        if (!is_a($this->_customer, org_openpsa_contacts_group_dba::class)) {
             try {
                 $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
                 $entry['customer'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$customer->guid}/\">" . $customer->get_label() . "</a>";
@@ -108,7 +108,7 @@ implements org_openpsa_widgets_grid_provider_client
             }
         }
 
-        if (!is_a($this->_customer, 'org_openpsa_contacts_person_dba')) {
+        if (!is_a($this->_customer, org_openpsa_contacts_person_dba::class)) {
             try {
                 $contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact);
                 $entry['contact'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$contact->guid}/\">" . $contact->get_label() . "</a>";
@@ -236,7 +236,7 @@ implements org_openpsa_widgets_grid_provider_client
                 ->setParameter('deliverable', $this->_deliverable->id);
             $qb->get_current_group()->add('i.deliverable = :deliverable');
         } elseif ($this->_customer) {
-            if (is_a($this->_customer, 'org_openpsa_contacts_group_dba')) {
+            if (is_a($this->_customer, org_openpsa_contacts_group_dba::class)) {
                 $qb->add_constraint('customer', '=', $this->_customer->id);
             } else {
                 $qb->add_constraint('customerContact', '=', $this->_customer->id);
@@ -295,7 +295,7 @@ implements org_openpsa_widgets_grid_provider_client
         }
         $data['customer'] = $this->_customer;
         $buttons = [];
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)) {
             $workflow = $this->get_workflow('datamanager');
             $buttons[] = $workflow->get_button("invoice/new/{$this->_customer->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
@@ -312,7 +312,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         if ($this->_request_data['contacts_url']) {
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => $this->_request_data['contacts_url'] . (is_a($this->_customer, 'org_openpsa_contacts_group_dba') ? 'group' : 'person') . "/{$this->_customer->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->_request_data['contacts_url'] . (is_a($this->_customer, org_openpsa_contacts_group_dba::class) ? 'group' : 'person') . "/{$this->_customer->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
             ];

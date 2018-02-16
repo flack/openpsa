@@ -107,7 +107,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             $qb2->add_constraint('fromGuid', '=', $guid);
             $qb2->add_constraint('fromComponent', '=', 'org.openpsa.calendar');
             $qb2->add_constraint('toComponent', '=', 'org.openpsa.projects');
-            $qb2->add_constraint('toClass', '=', 'org_openpsa_projects_task_dba');
+            $qb2->add_constraint('toClass', '=', org_openpsa_projects_task_dba::class);
             $qb2->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
             $this->event_links[$guid] = $qb2->execute();
         }

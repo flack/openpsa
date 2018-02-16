@@ -15,7 +15,7 @@ class org_openpsa_documents_directory extends midcom_db_topic
 {
     public function _on_creating()
     {
-        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+        $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
         $this->name = $generator->from_string($this->extra);
         return parent::_on_creating();
     }

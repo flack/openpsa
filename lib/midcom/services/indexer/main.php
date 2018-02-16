@@ -296,7 +296,7 @@ class midcom_services_indexer implements EventSubscriberInterface
         }
 
         // Maybe we have a metadata object...
-        if (is_a($object, 'midcom_helper_metadata')) {
+        if (is_a($object, midcom_helper_metadata::class)) {
             debug_add('This is a metadata document, built from a metadata object.');
             return new midcom_services_indexer_document_midcom($object);
         }

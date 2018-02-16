@@ -75,7 +75,7 @@ implements org_openpsa_widgets_grid_provider_client
         $invoice['index_deliverable'] = $deliverable->title;
         $invoice['type'] = $type;
 
-        $this->_render_contact_field($salesproject->customer, 'customer', $invoice, 'org_openpsa_contacts_group_dba');
+        $this->_render_contact_field($salesproject->customer, 'customer', $invoice, org_openpsa_contacts_group_dba::class);
         $this->_render_contact_field($salesproject->customerContact, 'customerContact', $invoice);
         $this->_render_contact_field($salesproject->owner, 'owner', $invoice);
 
@@ -86,7 +86,7 @@ implements org_openpsa_widgets_grid_provider_client
         return $invoice;
     }
 
-    private function _render_contact_field($id, $fieldname, array &$invoice, $classname = 'org_openpsa_contacts_person_dba')
+    private function _render_contact_field($id, $fieldname, array &$invoice, $classname = org_openpsa_contacts_person_dba::class)
     {
         $invoice[$fieldname] = '';
         $invoice['index_' . $fieldname] = '';

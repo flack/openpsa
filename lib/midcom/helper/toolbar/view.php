@@ -42,7 +42,7 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
                 $viewer->get_button("__ais/folder/move/{$object->guid}/", [
                     MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
-                    MIDCOM_TOOLBAR_ENABLED => is_a($object, 'midcom_db_article')
+                    MIDCOM_TOOLBAR_ENABLED => is_a($object, midcom_db_article::class)
                 ]),
                 [
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$object->guid}/",

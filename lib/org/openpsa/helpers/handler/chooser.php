@@ -104,11 +104,11 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
     private function _post_create_actions()
     {
         switch ($this->_dbaclass) {
-            case 'org_openpsa_contacts_person_dba':
+            case org_openpsa_contacts_person_dba::class:
                 $indexer = new org_openpsa_contacts_midcom_indexer($this->_node[MIDCOM_NAV_OBJECT]);
                 $indexer->index($this->_controller->get_datamanager());
                 break;
-            case 'org_openpsa_products_product_group_dba':
+            case org_openpsa_products_product_group_dba::class:
                 break;
             default:
                 throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
@@ -142,10 +142,10 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         $config_key = 'schemadb';
 
         switch ($this->_dbaclass) {
-            case 'org_openpsa_contacts_person_dba':
+            case org_openpsa_contacts_person_dba::class:
                 $config_key .= '_person';
                 break;
-            case 'org_openpsa_products_product_group_dba':
+            case org_openpsa_products_product_group_dba::class:
                 $config_key .= '_group';
                 break;
             default:
@@ -163,10 +163,10 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
     public function _show_create($handler_id, array &$data)
     {
         switch ($this->_dbaclass) {
-            case 'org_openpsa_contacts_person_dba':
+            case org_openpsa_contacts_person_dba::class:
                 $title = 'person';
                 break;
-            case 'org_openpsa_products_product_group_dba':
+            case org_openpsa_products_product_group_dba::class:
                 $title = 'product group';
                 break;
             default:
@@ -195,13 +195,13 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         ];
 
         switch ($this->_dbaclass) {
-            case 'org_openpsa_contacts_person_dba':
+            case org_openpsa_contacts_person_dba::class:
                 //We need to reload the object so that name is constructed properly
                 $this->_object = new org_openpsa_contacts_person_dba($this->_object->id);
                 $jsdata['name'] = $this->_object->name;
                 $jsdata['email'] = $this->_object->email;
                 break;
-            case 'org_openpsa_products_product_group_dba':
+            case org_openpsa_products_product_group_dba::class:
                 $this->_object = new org_openpsa_products_product_group_dba($this->_object->id);
                 $jsdata['title'] = $this->_object->title;
                 break;

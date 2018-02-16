@@ -204,7 +204,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
         $loader = midcom::get()->componentloader;
         $class = $loader->path_to_prefix($this->_component) . '_' . $this->_site_class_suffix;
         $data['handler'] = new $class($current_object, $data['config']);
-        if (is_a($data['handler'], 'midcom_baseclasses_components_request')) {
+        if (is_a($data['handler'], midcom_baseclasses_components_request::class)) {
             $data['handler']->initialize($this->_component);
         }
         return $data['handler']->can_handle($argv);
@@ -252,7 +252,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
             $loader = midcom::get()->componentloader;
             $class = $loader->path_to_prefix($this->_component) . "_{$this->_nap_class_suffix}";
             $this->_nap_instance = new $class();
-            if (is_a($this->_nap_instance, 'midcom_baseclasses_components_navigation')) {
+            if (is_a($this->_nap_instance, midcom_baseclasses_components_navigation::class)) {
                 $this->_nap_instance->initialize($this->_component);
             }
         }

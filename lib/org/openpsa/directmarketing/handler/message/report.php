@@ -157,7 +157,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                     $segmentrule = [
                         'comment' => $this->_l10n->get('segment limits'),
                         'type' => 'AND',
-                        'class' => 'org_openpsa_contacts_person_dba',
+                        'class' => org_openpsa_contacts_person_dba::class,
                         'rules' => [
                             [
                                 'property' => 'parameter.domain',
@@ -205,7 +205,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 [
                     'comment' => $this->_l10n->get('link and message limits'),
                     'type' => 'AND',
-                    'class' => 'org_openpsa_directmarketing_link_log_dba',
+                    'class' => org_openpsa_directmarketing_link_log_dba::class,
                     'rules' => [
                         [
                             'property' => 'target',
@@ -224,7 +224,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 [
                     'comment' => $this->_l10n->get('not-unsubscribed -limits'),
                     'type' => 'AND',
-                    'class' => 'org_openpsa_directmarketing_campaign_member_dba',
+                    'class' => org_openpsa_directmarketing_campaign_member_dba::class,
                     'rules' => [
                         [
                             'property' => 'orgOpenpsaObtype',

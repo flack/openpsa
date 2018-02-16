@@ -69,10 +69,10 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         $this->_set_direction($direction);
 
         if (is_string($guids)) {
-            parent::__construct('org_openpsa_relatedto_dba', $this->_object_prefix . 'Guid', $guids);
+            parent::__construct(org_openpsa_relatedto_dba::class, $this->_object_prefix . 'Guid', $guids);
             $this->add_constraint($this->_other_prefix . 'Class', 'IN', (array) $classes);
         } elseif (is_string($classes)) {
-            parent::__construct('org_openpsa_relatedto_dba', $this->_other_prefix . 'Class', $classes);
+            parent::__construct(org_openpsa_relatedto_dba::class, $this->_other_prefix . 'Class', $classes);
             $this->add_constraint($this->_object_prefix . 'Guid', 'IN', (array) $guids);
         } else {
             throw new midcom_error('None of the arguments was passed as a string');

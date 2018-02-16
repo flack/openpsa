@@ -233,10 +233,10 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
                     $data['time'] = $time;
                     $data['object'] = $object;
                     switch (get_class($object)) {
-                        case 'org_openpsa_calendar_event_dba':
+                        case org_openpsa_calendar_event_dba::class:
                             midcom_show_style('weekreview-day-item-event');
                             break;
-                        case 'org_openpsa_expenses_hour_report_dba':
+                        case org_openpsa_expenses_hour_report_dba::class:
                             midcom_show_style('weekreview-day-item-hour-report');
 
                             if ($object->invoiceable) {
@@ -245,10 +245,10 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
                             $day_hours_total += $object->hours;
 
                             break;
-                        case 'org_openpsa_projects_task_status_dba':
+                        case org_openpsa_projects_task_status_dba::class:
                             midcom_show_style('weekreview-day-item-task-status');
                             break;
-                        case 'org_routamc_positioning_log_dba':
+                        case org_routamc_positioning_log_dba::class:
                             midcom_show_style('weekreview-day-item-position');
                             break;
                     }

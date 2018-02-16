@@ -331,13 +331,13 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $workflow = $this->get_workflow('datamanager');
 
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project')) {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_projects_project::class)) {
             $this->_view_toolbar->add_item($workflow->get_button('project/new/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create project"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
             ]));
         }
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba')) {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_projects_task_dba::class)) {
             $this->_view_toolbar->add_item($workflow->get_button('task/new/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',

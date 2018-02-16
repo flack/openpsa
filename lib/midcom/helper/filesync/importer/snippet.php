@@ -15,7 +15,7 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
 {
     private function read_snippetdir($path, $parent_id)
     {
-        $snippetdir = $this->_get_node('midcom_db_snippetdir', $parent_id, $path);
+        $snippetdir = $this->_get_node(midcom_db_snippetdir::class, $parent_id, $path);
 
         $directory = dir($path);
         $foldernames = [];

@@ -86,10 +86,10 @@ class midcom_services_rcs_config
     {
         if ($this->use_rcs()) {
             $this->test_rcs_config();
-            return 'midcom_services_rcs_backend_rcs';
+            return midcom_services_rcs_backend_rcs::class;
         }
 
-        return 'midcom_services_rcs_backend_null';
+        return midcom_services_rcs_backend_null::class;
     }
 
     /**

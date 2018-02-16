@@ -17,7 +17,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
     public $__mgdschema_class_name__ = 'org_openpsa_salesproject';
 
     public $autodelete_dependents = [
-        'org_openpsa_contacts_role_dba' => 'objectGuid'
+        org_openpsa_contacts_role_dba::class => 'objectGuid'
     ];
 
     //org.openpsa.sales salesproject states

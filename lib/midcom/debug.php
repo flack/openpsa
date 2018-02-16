@@ -149,7 +149,7 @@ class midcom_debug
         while ($bt) {
             $caller = array_shift($bt);
             if (   array_key_exists('class', $caller)
-                && $caller['class'] == 'midcom_debug') {
+                && $caller['class'] == midcom_debug::class) {
                 continue;
             }
 

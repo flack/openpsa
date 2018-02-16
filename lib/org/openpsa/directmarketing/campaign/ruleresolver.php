@@ -271,7 +271,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                 continue;
             }
             switch (true) {
-                case (is_a($parent, 'midcom_db_person')):
+                case (is_a($parent, midcom_db_person::class)):
                     $person_rule = ['property' => 'id', 'match' => '=', 'value' => $parent->id];
                     return $this->add_person_rule($person_rule);
 

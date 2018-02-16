@@ -83,7 +83,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
             $child_types = $data['tree_reflector']->get_child_classes();
             foreach ($child_types as $type) {
                 $display_button = true;
-                if (is_a($object, 'midcom_db_topic')) {
+                if (is_a($object, midcom_db_topic::class)) {
                     // With topics we should check for component before populating create buttons as so many types can be children of topics
                     switch ($type) {
                         case 'midgard_topic':
@@ -102,7 +102,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
                             }
                             break;
                     }
-                } elseif (is_a($object, 'midcom_db_article')) {
+                } elseif (is_a($object, midcom_db_article::class)) {
                     try {
                         $topic = new midcom_db_topic($object->topic);
                         // With articles we should check for topic component before populating create buttons as so many types can be children of topics
@@ -205,7 +205,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
     private function get_toolbar_update_items($object)
     {
         $buttons = [];
-        if (   is_a($object, 'midcom_db_topic')
+        if (   is_a($object, midcom_db_topic::class)
             && $object->component
             && $object->can_do('midcom:component_config')) {
             $buttons[] = [

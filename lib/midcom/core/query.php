@@ -104,7 +104,7 @@ abstract class midcom_core_query
 
         $this->_real_class = $classname;
         if (!array_key_exists($classname, $_class_mapping_cache)) {
-            if (!is_subclass_of($classname, 'midcom_core_dbaobject')) {
+            if (!is_subclass_of($classname, midcom_core_dbaobject::class)) {
                 throw new midcom_error(
                     "Cannot create a midcom_core_query instance for the type {$classname}: Does not seem to be a DBA class name."
                 );

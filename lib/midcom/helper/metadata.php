@@ -706,7 +706,7 @@ class midcom_helper_metadata
     public function can_unlock()
     {
         return (   $this->__object->can_do('midcom:unlock')
-                || midcom::get()->auth->can_user_do('midcom:unlock', null, 'midcom_services_auth'));
+                || midcom::get()->auth->can_user_do('midcom:unlock', null, midcom_services_auth::class));
     }
 
     /**

@@ -160,8 +160,8 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
             $tags[$tag] = $tag;
         }
         $classes = [
-            'net_nemein_wiki_wikipage',
-            'midcom_db_article',
+            net_nemein_wiki_wikipage::class,
+            midcom_db_article::class,
             'midgard_article',
         ];
         $pages = net_nemein_tag_handler::get_objects_with_tags($tags, $classes, 'OR');

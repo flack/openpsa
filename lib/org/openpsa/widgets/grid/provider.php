@@ -93,7 +93,7 @@ class org_openpsa_widgets_grid_provider
     public function __construct($source, $datatype = 'json')
     {
         $this->_datatype = $datatype;
-        if (is_a($source, 'org_openpsa_widgets_grid_provider_client')) {
+        if (is_a($source, org_openpsa_widgets_grid_provider_client::class)) {
             $this->_client = $source;
         } elseif (is_array($source)) {
             $this->set_rows($source);

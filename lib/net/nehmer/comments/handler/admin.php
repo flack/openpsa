@@ -100,7 +100,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
                 break;
         }
 
-        $qb = new org_openpsa_qbpager('net_nehmer_comments_comment', 'net_nehmer_comments_comments');
+        $qb = new org_openpsa_qbpager(net_nehmer_comments_comment::class, 'net_nehmer_comments_comments');
         $qb->results_per_page = $this->_config->get('items_to_show');
         $qb->display_pages = $this->_config->get('paging');
         $qb->add_constraint('status', 'IN', $view_status);

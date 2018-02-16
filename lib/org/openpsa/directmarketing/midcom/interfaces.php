@@ -17,10 +17,10 @@ implements midcom_services_permalinks_resolver
     public function _on_watched_dba_delete($object)
     {
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        if (   is_a($object, 'midcom_db_person')
-            || is_a($object, 'org_openpsa_contacts_person_dba')) {
+        if (   is_a($object, midcom_db_person::class)
+            || is_a($object, org_openpsa_contacts_person_dba::class)) {
             $qb->add_constraint('person', '=', $object->id);
-        } elseif (is_a($object, 'org_openpsa_directmarketing_campaign_dba')) {
+        } elseif (is_a($object, org_openpsa_directmarketing_campaign_dba::class)) {
             $qb->add_constraint('campaign', '=', $object->id);
         } else {
             return;

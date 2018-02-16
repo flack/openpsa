@@ -54,7 +54,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     public static function get_parser()
     {
         $parser = new SimplePie;
-        $parser->get_registry()->register('Item', 'net_nemein_rss_parser_item');
+        $parser->get_registry()->register('Item', net_nemein_rss_parser_item::class);
         $parser->set_output_encoding(midcom::get()->i18n->get_current_charset());
         $parser->set_cache_location(midcom::get()->config->get('midcom_tempdir'));
         $parser->enable_cache(false); //enabling cache leads to segfaults for some reason
@@ -200,7 +200,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         // Safety, make sure we have sane name (the allow_catenate was set earlier, so this will not clash
         if (empty($article->name)) {
-            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+            $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
             $values['name'] = $generator->from_string($title);
         }
 

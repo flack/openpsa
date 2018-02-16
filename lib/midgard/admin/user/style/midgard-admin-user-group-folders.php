@@ -17,7 +17,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         foreach ($data['objects'] as $guid => $privs) {
             try {
                 $object = midcom::get()->dbfactory->get_object_by_guid($guid);
-                if (!is_a($object, 'midcom_db_topic')) {
+                if (!is_a($object, midcom_db_topic::class)) {
                     continue;
                 }
             } catch (midcom_error $e) {

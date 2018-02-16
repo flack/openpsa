@@ -186,7 +186,7 @@ class midcom_core_user
                 debug_add("Failed to retrieve the person ID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
                 throw new midcom_error_midgard($e, $id);
             }
-        } elseif (is_a($id, 'midcom_db_person') || is_a($id, $person_class)) {
+        } elseif (is_a($id, midcom_db_person::class) || is_a($id, $person_class)) {
             $this->_storage = $id;
         } else {
             debug_print_r('Passed argument was:', $id);
@@ -479,7 +479,7 @@ class midcom_core_user
         }
 
         // Process
-        if (midcom::get()->dbfactory->is_a($group, 'midcom_core_group')) {
+        if (midcom::get()->dbfactory->is_a($group, midcom_core_group::class)) {
             return array_key_exists($group->id, $this->_all_groups);
         }
         if (preg_match('/^group:/', $group)) {
@@ -487,7 +487,7 @@ class midcom_core_user
         }
         // We scan through our groups looking for a midgard group with the right name
         foreach ($this->_all_groups as $group_object) {
-            if (   midcom::get()->dbfactory->is_a($group_object, 'midcom_core_group')
+            if (   midcom::get()->dbfactory->is_a($group_object, midcom_core_group::class)
                 && $group_object->get_storage()->name == $group) {
                 return true;
             }

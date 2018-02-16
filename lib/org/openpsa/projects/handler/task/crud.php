@@ -57,7 +57,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             $defaults['resources'] = array_keys($parent->resources);
             $defaults['contacts'] = array_keys($parent->contacts);
         } else {
-            midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_projects_task_dba');
+            midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_projects_task_dba::class);
         }
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('create task'));

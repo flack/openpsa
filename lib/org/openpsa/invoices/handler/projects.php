@@ -74,7 +74,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
     public function _handler_uninvoiced($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
-        midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba');
+        midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class);
 
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('status', '>=', org_openpsa_projects_task_status_dba::COMPLETED);

@@ -108,7 +108,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $user_url = $siteconfig->get_node_full_url('org.openpsa.user');
 
         if (   $invoices_url
-            && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')
+            && midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)
             && $this->_contact->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button($invoices_url . "billingdata/" . $this->_contact->guid . '/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit billingdata'),
@@ -117,7 +117,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         if (   $user_url
             && (   midcom_connection::get_user() == $this->_contact->id
-                || midcom::get()->auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface'))) {
+                || midcom::get()->auth->can_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class))) {
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $user_url . "view/{$this->_contact->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('user management', 'org.openpsa.user'),

@@ -210,8 +210,8 @@ class midcom_core_privilege
      */
     public function set_assignee($assignee)
     {
-        if (   is_a($assignee, 'midcom_core_user')
-            || is_a($assignee, 'midcom_core_group')) {
+        if (   is_a($assignee, midcom_core_user::class)
+            || is_a($assignee, midcom_core_group::class)) {
             $this->assignee = $assignee->id;
         } elseif (is_string($assignee)) {
             if ($this->is_magic_assignee($assignee)) {

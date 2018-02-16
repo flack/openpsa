@@ -41,8 +41,8 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
     {
         //check if there is already an at_entry
         $mc_entry = org_openpsa_relatedto_dba::new_collector('toGuid', $deliverable->guid);
-        $mc_entry->add_constraint('fromClass', '=', 'midcom_services_at_entry_dba');
-        $mc_entry->add_constraint('toClass', '=', 'org_openpsa_sales_salesproject_deliverable_dba');
+        $mc_entry->add_constraint('fromClass', '=', midcom_services_at_entry_dba::class);
+        $mc_entry->add_constraint('toClass', '=', org_openpsa_sales_salesproject_deliverable_dba::class);
         $mc_entry->add_constraint('toExtra', '=', 'notify_at_entry');
         $entry_keys = $mc_entry->get_values('fromGuid');
 
@@ -101,7 +101,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
         $tmp = [];
 
         while ($object) {
-            if (midcom::get()->dbfactory->is_a($object, 'org_openpsa_sales_salesproject_deliverable_dba')) {
+            if (midcom::get()->dbfactory->is_a($object, org_openpsa_sales_salesproject_deliverable_dba::class)) {
                 if ($object->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
                     $prefix = $handler->_l10n->get('subscription');
                 } else {

@@ -33,7 +33,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         parent::__construct();
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.help/style-editor.css');
 
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.help/twisty.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.admin.help/twisty.js');
     }
 
     public function _on_initialize()
