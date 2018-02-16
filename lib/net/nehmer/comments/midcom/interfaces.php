@@ -46,7 +46,7 @@ class net_nehmer_comments_interface extends midcom_baseclasses_components_interf
      *
      * Uses SUDO to ensure privileges.
      */
-    public function _on_watched_dba_delete($object)
+    public function _on_watched_dba_delete(midcom_core_dbaobject $object)
     {
         $sudo = midcom::get()->auth->request_sudo($this->_component);
 

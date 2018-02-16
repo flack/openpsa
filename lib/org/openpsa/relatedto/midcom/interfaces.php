@@ -15,7 +15,7 @@
  */
 class org_openpsa_relatedto_interface extends midcom_baseclasses_components_interface
 {
-    public function _on_watched_dba_create($object)
+    public function _on_watched_dba_create(midcom_core_dbaobject $object)
     {
         //Check if we have data in session, if so use that.
         $session = new midcom_services_session('org.openpsa.relatedto');
@@ -40,7 +40,7 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
     /**
      * Ensure relatedto links pointing to an object are deleted when the object is
      */
-    public function _on_watched_dba_delete($object)
+    public function _on_watched_dba_delete(midcom_core_dbaobject $object)
     {
         $qb = org_openpsa_relatedto_dba::new_query_builder();
         $qb->begin_group('OR');

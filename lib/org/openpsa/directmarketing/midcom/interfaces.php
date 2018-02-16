@@ -14,13 +14,13 @@
 class org_openpsa_directmarketing_interface extends midcom_baseclasses_components_interface
 implements midcom_services_permalinks_resolver
 {
-    public function _on_watched_dba_delete($object)
+    public function _on_watched_dba_delete(midcom_core_dbaobject $object)
     {
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        if (   is_a($object, midcom_db_person::class)
-            || is_a($object, org_openpsa_contacts_person_dba::class)) {
+        if (   $object instanceof midcom_db_person
+            || $object instanceof org_openpsa_contacts_person_dba) {
             $qb->add_constraint('person', '=', $object->id);
-        } elseif (is_a($object, org_openpsa_directmarketing_campaign_dba::class)) {
+        } elseif ($object instanceof org_openpsa_directmarketing_campaign_dba) {
             $qb->add_constraint('campaign', '=', $object->id);
         } else {
             return;

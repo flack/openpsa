@@ -27,9 +27,9 @@ implements midcom_services_permalinks_resolver
     /**
      * Handle deletes of "parent" objects
      *
-     * @param mixed $object The object triggering the watch
+     * @param midcom_core_dbaobject $object The object triggering the watch
      */
-    public function _on_watched_dba_delete($object)
+    public function _on_watched_dba_delete(midcom_core_dbaobject $object)
     {
         midcom::get()->auth->request_sudo($this->_component);
         $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();

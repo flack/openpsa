@@ -344,10 +344,10 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * for more specific processing.
      *
      * @param int $operation The operation that has occurred.
-     * @param mixed $object The object on which the operation occurred. The system will
+     * @param midcom_core_dbaobject $object The object on which the operation occurred. The system will
      *     do is_a checks against any registered class restriction on the watch.
      */
-    public function trigger_watch($operation, $object)
+    public function trigger_watch($operation, midcom_core_dbaobject $object)
     {
         debug_add("We were notified about a watch for the operation {$operation} on " . get_class($object) . " {$object->guid}");
 
@@ -384,9 +384,9 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @param int $operation The operation identifier (one of the MIDCOM_OPERATION constants)
      *     which applies.
-     * @param object $object The object on which the operation has occurred.
+     * @param midcom_core_dbaobject $object The object on which the operation has occurred.
      */
-    public function _on_watched_operation($operation, $object)
+    public function _on_watched_operation($operation, midcom_core_dbaobject $object)
     {
     }
 
@@ -400,9 +400,9 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * It is called after the generic _on_watched_operation event handler.
      *
-     * @param object $object The object on which the operation has occurred.
+     * @param midcom_core_dbaobject $object The object on which the operation has occurred.
      */
-    public function _on_watched_dba_create($object)
+    public function _on_watched_dba_create(midcom_core_dbaobject $object)
     {
     }
 
@@ -416,9 +416,9 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * It is called after the generic _on_watched_operation event handler.
      *
-     * @param object $object The object on which the operation has occurred.
+     * @param midcom_core_dbaobject $object The object on which the operation has occurred.
      */
-    public function _on_watched_dba_update($object)
+    public function _on_watched_dba_update(midcom_core_dbaobject $object)
     {
     }
 
@@ -428,9 +428,9 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * It is called after the generic _on_watched_operation event handler.
      *
-     * @param object $object The object on which the operation has occurred.
+     * @param midcom_core_dbaobject $object The object on which the operation has occurred.
      */
-    public function _on_watched_dba_delete($object)
+    public function _on_watched_dba_delete(midcom_core_dbaobject $object)
     {
     }
 
