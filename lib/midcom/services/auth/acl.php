@@ -520,10 +520,8 @@ class midcom_services_auth_acl
         // content privileges
         $content_privileges = $this->_collect_content_privileges($object_guid, $user_id, $object_class);
 
-        $user = $this->auth->get_user($user_id);
-
         // user privileges
-        if (is_a($user, midcom_core_user::class)) {
+        if ($user = $this->auth->get_user($user_id)) {
             $user_privileges = $user->get_privileges();
             $user_per_class_privileges = $this->_get_user_per_class_privileges($object_class, $user);
         } else {
@@ -771,10 +769,8 @@ class midcom_services_auth_acl
             return self::$_privileges_cache[$cache_key][$privilege];
         }
 
-        $user = $this->auth->get_user($user_id);
-
         // user privileges
-        if (is_a($user, midcom_core_user::class)) {
+        if ($user = $this->auth->get_user($user_id)) {
             $user_per_class_privileges = $this->_get_user_per_class_privileges($object_class, $user);
 
             if (array_key_exists($privilege, $user_per_class_privileges)) {

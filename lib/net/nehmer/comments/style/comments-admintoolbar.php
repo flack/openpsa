@@ -5,8 +5,7 @@ $formatter = $data['l10n']->get_formatter();
 $creator = $comment->metadata->creator;
 $created = $comment->metadata->created;
 
-$user = midcom::get()->auth->get_user($creator);
-if ($user) {
+if ($user = midcom::get()->auth->get_user($creator)) {
     $username = "{$user->name} ({$user->username})";
 } else {
     $username = $data['l10n_midcom']->get('anonymous');

@@ -10,7 +10,7 @@ $qb->end_group();
 
 foreach ($qb->execute() as $comment) {
     $author = midcom::get()->auth->get_user($comment->metadata->creator);
-    if (!$author->guid) {
+    if (!$author) {
         continue;
     }
 

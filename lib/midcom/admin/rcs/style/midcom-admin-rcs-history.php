@@ -33,8 +33,7 @@ if (count($history) == 0) {
         echo "                    <td>" . $formatter->datetime($history['date']) . "</td>\n";
 
         if ($history['user']) {
-            $user = midcom::get()->auth->get_user($history['user']);
-            if (is_object($user)) {
+            if ($user = midcom::get()->auth->get_user($history['user'])) {
                 $person_label = $user->get_storage()->name;
                 echo "                    <td>{$person_label}</td>\n";
             } elseif ($history['ip']) {

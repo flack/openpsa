@@ -500,8 +500,7 @@ class midcom_core_privilege
                     return true;
                 }
                 if (strstr($this->__privilege['assignee'], 'group:') !== false) {
-                    $user = midcom::get()->auth->get_user($user_id);
-                    if (is_object($user)) {
+                    if ($user = midcom::get()->auth->get_user($user_id)) {
                         return $user->is_in_group($this->__privilege['assignee']);
                     }
                 }
