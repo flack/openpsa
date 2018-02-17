@@ -35,8 +35,6 @@ class midcom_helper__dbfactory
      * This is a replacement for the original midgard_object_class::get_object_by_guid method, which takes
      * the MidCOM DBA system into account.
      *
-     * @see http://www.midgard-project.org/documentation/php_midgard_object_class/
-     *
      * @param string $guid The object GUID.
      * @return midcom_core_dbaobject A MidCOM DBA object if the set GUID is known
      */

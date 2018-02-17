@@ -207,7 +207,6 @@
  *  <b>string midcom_services_rcs_bin_dir</b>: the prefix for the rcs utilities (default: /usr/bin)
  *  <b>string midcom_services_rcs_root </b>: the directory where the rcs files get placed. (default: must be set!)
  *  <b>boolean midcom_services_rcs_enable</b>:  if set, midcom will fail hard if the rcs service is not operational. (default: false)
- *  See also: http://www.midgard-project.org/documentation/midcom-services-rcs/
  *
  * <b>Style Engine</b>
  *

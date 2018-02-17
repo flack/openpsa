@@ -9,14 +9,6 @@
 /**
  * This class is responsible for ACL checks against classes and content objects.
  *
- * This implementation is based on the general idea outlined in mRFC 15
- * ( http://www.midgard-project.org/development/mrfc/0015/ ),
- * MidCOM Authentication and Access Control service. <i>Developers Note:</i> Be aware that
- * the basic requirements for the ACL system undergone a major chance during the implementation,
- * as the DBA layer with full access control even for database I/O was added. The proposals
- * from the mRFC are largely outdated therefore. What is documented on the main MidCOM
- * documentation has to take priority obviously.
- *
  * <b>Privilege definition</b>
  *
  * Privileges are represented by the class midcom_core_privilege and basically consist

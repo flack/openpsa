@@ -92,7 +92,6 @@ class midcom_exception_handler
      *
      * <b>Note:</b> This function will call _midcom_stop_request() after it is finished.
      *
-     * @link http://www.midgard-project.org/documentation/styling-midcom-error-pages/ Styling MidCOM error pages
      * @param int $httpcode        The error code to send.
      * @param string $message    The message to print.
      */
