@@ -2,7 +2,7 @@
 // Match /
 'frontpage' => array
 (
-    'handler' => 'frontpage',
+    'handler' => array('org_openpsa_calendar_handler_calendar', 'frontpage'),
 ),
 
 // Match /filters
@@ -38,48 +38,48 @@
 // Match /event/new
 'new_event' => array
 (
-    'handler' => array('org_openpsa_calendar_handler_create', 'create'),
+    'handler' => array('org_openpsa_calendar_handler_event_create', 'create'),
     'fixed_args' => array('event', 'new'),
 ),
 // Match /event/new/<resource>
 'new_event_with_resource' => array
 (
-    'handler' => array('org_openpsa_calendar_handler_create', 'create'),
+    'handler' => array('org_openpsa_calendar_handler_event_create', 'create'),
     'fixed_args' => array('event', 'new'),
     'variable_args' => 1,
 ),
 // Match /event/raw/<guid>
 'event_view_raw' => array
 (
-    'handler' => array('org_openpsa_calendar_handler_view', 'event'),
+    'handler' => array('org_openpsa_calendar_handler_event_view', 'event'),
     'fixed_args' => array('event', 'raw'),
     'variable_args' => 1,
 ),
 // Match /event/edit/<guid>
 'event_edit' => array
 (
-    'handler' => array('org_openpsa_calendar_handler_admin', 'edit'),
+    'handler' => array('org_openpsa_calendar_handler_event_admin', 'edit'),
     'fixed_args' => array('event', 'edit'),
     'variable_args' => 1,
 ),
 // Match /event/delete/<guid>
 'event_delete' => array
 (
-    'handler' => array('org_openpsa_calendar_handler_admin', 'delete'),
+    'handler' => array('org_openpsa_calendar_handler_event_admin', 'delete'),
     'fixed_args' => array('event', 'delete'),
     'variable_args' => 1,
 ),
 // Match /event/move/<guid>
 'event_move' => array
 (
-    'handler' => array('org_openpsa_calendar_handler_admin', 'move'),
+    'handler' => array('org_openpsa_calendar_handler_event_admin', 'move'),
     'fixed_args' => array('event', 'move'),
     'variable_args' => 1,
 ),
 // Match /event/<guid>
 'event_view' => array
 (
-    'handler' => array('org_openpsa_calendar_handler_view', 'event'),
+    'handler' => array('org_openpsa_calendar_handler_event_view', 'event'),
     'fixed_args' => 'event',
     'variable_args' => 1,
 ),
@@ -94,13 +94,13 @@
 // Match /json/
 'calendar_view_json' => array
 (
-    'handler' => array('org_openpsa_calendar_handler_view', 'json'),
+    'handler' => array('org_openpsa_calendar_handler_calendar', 'json'),
     'fixed_args' => 'json',
 ),
 // Match /<mode>/<date>
 'calendar_view_mode_date' => array
 (
-    'handler' => array('org_openpsa_calendar_handler_view', 'calendar'),
+    'handler' => array('org_openpsa_calendar_handler_calendar', 'calendar'),
     'variable_args' => 2,
 ),
 

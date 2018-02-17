@@ -14,7 +14,7 @@ use midcom\datamanager\datamanager;
  *
  * @package org.openpsa.calendar
  */
-class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_handler
+class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_components_handler
 {
     /**
      * The event we're working on

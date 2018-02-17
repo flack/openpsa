@@ -1,35 +1,24 @@
 <?php
 /**
  * @package org.openpsa.calendar
- * @author Nemein Oy http://www.nemein.com/
- * @copyright Nemein Oy http://www.nemein.com/
+ * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
 use Doctrine\ORM\Query\Expr\Join;
-use midcom\datamanager\schemadb;
-use midcom\datamanager\datamanager;
 
 /**
- * org.openpsa.calendar site interface class.
- *
  * @package org.openpsa.calendar
  */
-class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_handler
+class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_components_handler
 {
-    /**
-     * Datamanager2 instance
-     *
-     * @var datamanager
-     */
-    private $datamanager;
-
     /**
      * The calendar root event
      *
      * @var org_openpsa_calendar_event_dba
      */
-    private $_root_event = null;
+    private $root_event;
 
     private $filters;
 
@@ -40,7 +29,25 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      */
     public function _on_initialize()
     {
-        $this->_root_event = org_openpsa_calendar_interface::find_root_event();
+        midcom::get()->auth->require_valid_user();
+        $this->root_event = org_openpsa_calendar_interface::find_root_event();
+    }
+
+    /**
+     * @param String $handler_id    Name of the request handler
+     * @param array $args           Variable arguments
+     * @param array &$data          Public request data, passed by reference
+     */
+    public function _handler_frontpage($handler_id, array $args, array &$data)
+    {
+        $selected_time = time();
+        $view = $this->_config->get('start_view');
+        if ($view == 'day') {
+            $view = 'agendaDay';
+        } elseif ($view != 'month') {
+            $view = 'agendaWeek';
+        }
+        return new midcom_response_relocate($view . '/' . date('Y-m-d', $selected_time) . '/');
     }
 
     /**
@@ -53,9 +60,8 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     public function _handler_calendar($handler_id, array $args, array &$data)
     {
         $workflow = $this->get_workflow('datamanager');
-        midcom::get()->auth->require_valid_user();
         $buttons = [];
-        if ($this->_root_event->can_do('midgard:create')) {
+        if ($this->root_event->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button('#', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
@@ -101,8 +107,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      */
     public function _handler_json($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_valid_user();
-        $this->_load_events($_GET['start'], $_GET['end']);
+        $this->load_events($_GET['start'], $_GET['end']);
         $this->add_holidays($_GET['start'], $_GET['end']);
         return new midcom_response_json(array_values($this->events));
     }
@@ -149,7 +154,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     private function load_memberships($from, $to)
     {
         $user = midcom::get()->auth->user->get_storage();
-        $mc = org_openpsa_calendar_event_member_dba::new_collector('eid.up', $this->_root_event->id);
+        $mc = org_openpsa_calendar_event_member_dba::new_collector('eid.up', $this->root_event->id);
         // Find all events that occur during [$from, $to]
         $mc->add_constraint('eid.start', '<=', $to);
         $mc->add_constraint('eid.end', '>=', $from);
@@ -191,7 +196,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      * @param int $from Start time
      * @param int $to End time
      */
-    private function _load_events($from, $to)
+    private function load_events($from, $to)
     {
         foreach ($this->load_memberships($from, $to) as $membership) {
             $event = org_openpsa_calendar_event_dba::get_cached($membership['eid']);
@@ -240,95 +245,6 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
             if ($event->orgOpenpsaAccesstype == org_openpsa_core_acl::ACCESS_PRIVATE) {
                 $this->events[$event->guid]['className'][] = 'private';
             }
-        }
-    }
-
-    /**
-     * Handle the single event view
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _handler_event($handler_id, array $args, array &$data)
-    {
-        // Get the requested event object
-        $data['event'] = new org_openpsa_calendar_event_dba($args[0]);
-
-        midcom::get()->skip_page_style = ($handler_id == 'event_view_raw');
-
-        $this->load_datamanager();
-
-        // Add toolbar items
-        $buttons = [
-            [
-                MIDCOM_TOOLBAR_URL => 'event/edit/' . $this->_request_data['event']->guid . '/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $data['event']->can_do('midgard:update'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ]
-        ];
-        if ($data['event']->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', ['object' => $data['event']]);
-            $buttons[] = $workflow->get_button("event/delete/{$data['event']->guid}/");
-        }
-        $buttons[] = [
-            MIDCOM_TOOLBAR_URL => 'javascript:window.print()',
-            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('print'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-            MIDCOM_TOOLBAR_OPTIONS  => ['rel' => 'directlink']
-        ];
-
-        $relatedto_button_settings = null;
-
-        if (midcom::get()->auth->user) {
-            $user = midcom::get()->auth->user->get_storage();
-            $date = $this->_l10n->get_formatter()->date();
-            $relatedto_button_settings = [
-                'wikinote'      => [
-                    'component' => 'net.nemein.wiki',
-                    'node'  => false,
-                    'wikiword'  => str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('wiki_title_skeleton')), $data['event']->title, $date, $user->name)),
-                ],
-            ];
-        }
-        $this->_view_toolbar->add_items($buttons);
-        org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $data['event'], $this->_component, $relatedto_button_settings);
-
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('event %s'), $this->_request_data['event']->title));
-        return $this->get_workflow('viewer')->run();
-    }
-
-    private function load_datamanager()
-    {
-        // Load schema database
-        $schemadb = schemadb::from_path($this->_config->get('schemadb'));
-        $schema = null;
-        if (!$this->_request_data['event']->can_do('org.openpsa.calendar:read')) {
-            $schema = 'private';
-        }
-        $this->datamanager = new datamanager($schemadb);
-        $this->datamanager->set_storage($this->_request_data['event'], $schema);
-    }
-
-    /**
-     * Show a single event
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _show_event($handler_id, array &$data)
-    {
-        if ($handler_id == 'event_view') {
-            // Set title to popup
-            $data['title'] = sprintf($this->_l10n->get('event %s'), $data['event']->title);
-
-            // Show popup
-            $data['event_dm'] = $this->datamanager;
-            midcom_show_style('show-event');
-        } else {
-            midcom_show_style('show-event-raw');
         }
     }
 }

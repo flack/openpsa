@@ -14,7 +14,7 @@ use midcom\datamanager\schemadb;
  *
  * @package org.openpsa.calendar
  */
-class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_handler
+class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_components_handler
 {
     private function load_controller(org_openpsa_calendar_conflictmanager $conflictmanager, array $args)
     {
