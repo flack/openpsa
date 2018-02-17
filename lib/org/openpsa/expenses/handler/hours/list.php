@@ -47,15 +47,8 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $this->breadcrumb_title = $data['view_title'];
         $this->_master->add_list_filter($this->qb, true);
         $this->prepare_request_data();
-        $data['grid'] = new org_openpsa_widgets_grid($data['mode'] . '_hours_grid', 'local');
-        $data['group_options'] = [
-            'category' => $this->_l10n->get('category'),
-            'task' => $this->_l10n->get('task'),
-            'reporter' => $this->_l10n->get('person')
-        ];
-        $data['action_options'] = $this->prepare_batch_options();
 
-        return $this->show('hours_grid');
+        return $this->show_list($data);
     }
 
     /**
@@ -84,15 +77,8 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 MIDCOM_TOOLBAR_ACCESSKEY => 'g',
             ]);
         }
-    }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_task($handler_id, array &$data)
-    {
-        $this->_show_list($handler_id, $data);
+        return $this->show_list($data);
     }
 
     /**
@@ -121,6 +107,20 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 MIDCOM_TOOLBAR_ACCESSKEY => 'g',
             ]);
         }
+        return $this->show_list($data);
+    }
+
+    private function show_list(array &$data)
+    {
+        $data['grid'] = new org_openpsa_widgets_grid($data['mode'] . '_hours_grid', 'local');
+        $data['group_options'] = [
+            'category' => $this->_l10n->get('category'),
+            'task' => $this->_l10n->get('task'),
+            'reporter' => $this->_l10n->get('person')
+        ];
+        $data['action_options'] = $this->prepare_batch_options();
+
+        return $this->show('hours_grid');
     }
 
     /**

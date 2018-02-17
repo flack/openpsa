@@ -29,6 +29,8 @@ class org_openpsa_expenses_handler_hours_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.expenses', ['hours', 'task', self::$_task->guid]);
         $this->assertEquals('list_hours_task', $data['handler_id']);
 
+        $this->show_handler($data);
+
         midcom::get()->auth->drop_sudo();
     }
 
@@ -45,6 +47,8 @@ class org_openpsa_expenses_handler_hours_listTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.expenses', ['hours']);
         $this->assertEquals('list_hours', $data['handler_id']);
+
+        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }
