@@ -15,16 +15,9 @@
  */
 class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
 {
-    /**
-     * Array of available report generators
-     *
-     * @var array
-     */
-    private $_available_generators;
-
     public function _on_initialize()
     {
-        $components = $this->_get_available_generators();
+        $components = self::get_available_generators();
         foreach (array_keys($components) as $component) {
             $parts = explode('.', $component);
             $last = array_pop($parts);
@@ -67,19 +60,19 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
         $this->_request_switch['csv_export'] = [
             'fixed_args'    => 'csv',
             'variable_args' => 1,
-            'handler'       => 'csv',
+            'handler'       => [org_openpsa_reports_handler_common::class, 'csv'],
         ];
 
         // Match /delete/<guid>
         $this->_request_switch['delete_report'] = [
             'fixed_args'    => 'delete',
             'variable_args' => 1,
-            'handler'       => 'delete_report',
+            'handler'       => [org_openpsa_reports_handler_common::class, 'delete_report'],
         ];
 
         // Match /
         $this->_request_switch['frontpage'] = [
-            'handler' => 'frontpage'
+            'handler' => [org_openpsa_reports_handler_common::class, 'frontpage']
         ];
     }
 
@@ -89,97 +82,32 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
         midcom::get()->cache->content->no_cache();
     }
 
-    /**
-     * Delete the given report and redirect to front page
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_delete_report($handler_id, array $args, array &$data)
+    public static function get_available_generators()
     {
-        $report = new org_openpsa_reports_query_dba($args[0]);
-        $report->delete();
-        return new midcom_response_relocate('');
-    }
-
-    /**
-     * The CSV handlers return a posted variable with correct headers
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_csv($handler_id, array $args, array &$data)
-    {
-        if (!isset($_POST['org_openpsa_reports_csv'])) {
-            throw new midcom_error('Variable org_openpsa_reports_csv not set in _POST');
+        static $available_generators;
+        if (is_array($available_generators)) {
+            return $available_generators;
         }
-
-        //We're outputting CSV
-        midcom::get()->skip_page_style = true;
-        midcom::get()->header('Content-type: application/csv');
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_csv($handler_id, array &$data)
-    {
-        echo $_POST['org_openpsa_reports_csv'];
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_frontpage($handler_id, array $args, array &$data)
-    {
-        midcom::get()->auth->require_valid_user();
-
-        $data['available_components'] = $this->_get_available_generators();
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_frontpage($handler_id, array &$data)
-    {
-        midcom_show_style('show-frontpage');
-    }
-
-    private function _get_available_generators()
-    {
-        if (is_array($this->_available_generators)) {
-            return $this->_available_generators;
-        }
-        $this->_available_generators = [];
+        $available_generators = [];
 
         $components = [
-            // TODO: better localization strings
-            'org.openpsa.projects' => $this->_i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
-            'org.openpsa.sales' => $this->_i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'),
-            'org.openpsa.invoices' => $this->_i18n->get_string('org.openpsa.invoices', 'org.openpsa.invoices'),
+            'org.openpsa.projects',
+            'org.openpsa.sales',
+            'org.openpsa.invoices'
         ];
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
 
-        foreach ($components as $component => $loc) {
+        foreach ($components as $component) {
             $node_guid = $siteconfig->get_node_guid($component);
             try {
                 midcom_db_topic::get_cached($node_guid);
-                $this->_available_generators[$component] = $loc;
+                $available_generators[$component] = midcom::get()->i18n->get_string($component, $component);
             } catch (midcom_error $e) {
                 debug_add("topic for component '{$component}' not found or accessible");
             }
         }
 
-        $this->_available_generators = $components;
-        return $this->_available_generators;
+        return $available_generators;
     }
 }
