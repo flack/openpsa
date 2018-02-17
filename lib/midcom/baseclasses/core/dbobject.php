@@ -131,7 +131,7 @@ class midcom_baseclasses_core_dbobject
         $parent = $object->get_parent();
         if (!is_null($parent)) {
             // Attachments are a special case
-            if (midcom::get()->dbfactory->is_a($object, 'midgard_attachment')) {
+            if ($object instanceof midcom_db_attachment) {
                 if (   !$parent->can_do('midgard:attachments')
                     || !$parent->can_do('midgard:update')) {
                     debug_add("Failed to create attachment, update or attachments privilege on the parent " . get_class($parent) . " {$parent->guid} not granted for the current user.",
@@ -329,7 +329,7 @@ class midcom_baseclasses_core_dbobject
 
         // Delete all extensions:
         // Attachments can't have attachments so no need to query those
-        if (!is_a($object, midcom_db_attachment::class)) {
+        if (!$object instanceof midcom_db_attachment) {
             $list = $object->list_attachments();
             foreach ($list as $attachment) {
                 if (!$attachment->delete()) {

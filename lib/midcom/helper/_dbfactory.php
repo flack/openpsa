@@ -186,7 +186,7 @@ class midcom_helper__dbfactory
 
         if (   isset($object->__object)
             && is_object($object->__object)
-            && is_a($object->__object, $class)) {
+            && $object->__object instanceof $class) {
             // Decorator whose MgdSchema object matches
             return true;
         }

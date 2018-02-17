@@ -82,7 +82,7 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
         $this->_object->require_do('midgard:update');
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
-        if (is_a($this->_object, midcom_db_topic::class)) {
+        if ($this->_object instanceof midcom_db_topic) {
             // This is a topic
             $this->_topic->require_do('midgard.admin.asgard:topic_management');
         }

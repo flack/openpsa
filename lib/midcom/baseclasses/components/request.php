@@ -573,7 +573,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             return false;
         }
 
-        if (is_a($handler, midcom_baseclasses_components_handler::class)) {
+        if ($handler instanceof midcom_baseclasses_components_handler) {
             $handler->populate_breadcrumb_line();
         }
 
@@ -603,7 +603,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             }
 
             $this->_handler['handler'][0] = new $classname();
-            if (!is_a($this->_handler['handler'][0], midcom_baseclasses_components_handler::class)) {
+            if (!$this->_handler['handler'][0] instanceof midcom_baseclasses_components_handler) {
                 throw new midcom_error("Failed to create a class instance of the type {$classname}, it is no subclass of midcom_baseclasses_components_handler.");
             }
 

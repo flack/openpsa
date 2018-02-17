@@ -91,7 +91,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
         $i = 0;
         while (   !empty($tmp->guid)
-               && !midcom::get()->dbfactory->is_a($tmp, 'midgard_topic')
+               && !is_a($tmp, midcom_db_topic::class)
                && $i < 100) {
             // Get the parent; wishing eventually to get a topic
             $tmp = $tmp->get_parent();
@@ -99,7 +99,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         }
 
         // If the temporary object eventually reached a topic, fetch its manifest
-        if (midcom::get()->dbfactory->is_a($tmp, 'midgard_topic')) {
+        if (is_a($tmp, midcom_db_topic::class)) {
             $current_manifest = $component_loader->manifests[$tmp->component];
         } else {
             $current_manifest = $component_loader->manifests[midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT)];
@@ -118,7 +118,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         }
 
         // In addition, give component configuration privileges if we're in topic
-        if (midcom::get()->dbfactory->is_a($this->_object, 'midgard_topic')) {
+        if ($this->_object instanceof midcom_db_topic) {
             $this->_privileges[] = 'midcom.admin.folder:topic_management';
             $this->_privileges[] = 'midcom.admin.folder:template_management';
             $this->_privileges[] = 'midcom:component_config';

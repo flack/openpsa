@@ -158,11 +158,11 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * returns a unix timestamp for sorting relatedto arrays
      */
-    private function _get_object_links_sort_time($obj)
+    private function _get_object_links_sort_time(midcom_core_dbaobject $obj)
     {
         switch (true) {
-            case midcom::get()->dbfactory->is_a($obj, org_openpsa_calendar_event_dba::class):
-            case midcom::get()->dbfactory->is_a($obj, org_openpsa_projects_task_dba::class):
+            case $obj instanceof org_openpsa_calendar_event_dba:
+            case $obj instanceof org_openpsa_projects_task_dba:
                 return $obj->start;
             default:
                 return $obj->metadata->created;

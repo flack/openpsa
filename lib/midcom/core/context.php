@@ -308,7 +308,7 @@ class midcom_core_context
                 throw new midcom_error('Root node missing.');
             }
 
-            if (is_a($object, midcom_db_attachment::class)) {
+            if ($object instanceof midcom_db_attachment) {
                 midcom::get()->serve_attachment($object);
                 // This will exit
             }

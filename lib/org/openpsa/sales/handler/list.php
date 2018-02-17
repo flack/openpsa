@@ -79,7 +79,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
             $create_url .= $this->_request_data['customer']->guid . '/';
 
             if ($this->_request_data['contacts_url']) {
-                $url_prefix = $this->_request_data['contacts_url'] . (is_a($this->_request_data['customer'], org_openpsa_contacts_group_dba::class) ? 'group' : 'person') . "/";
+                $url_prefix = $this->_request_data['contacts_url'] . ($this->_request_data['customer'] instanceof org_openpsa_contacts_group_dba ? 'group' : 'person') . "/";
                 $this->_view_toolbar->add_item([
                     MIDCOM_TOOLBAR_URL => $url_prefix . $this->_request_data['customer']->guid . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),

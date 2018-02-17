@@ -300,7 +300,7 @@ class midcom_helper_nav
             debug_add("Could not load GUID {$guid}, trying to continue anyway. Last error was: " . $e->getMessage(), MIDCOM_LOG_WARN);
         }
         if (!empty($object)) {
-            if (is_a($object, midcom_db_topic::class)) {
+            if ($object instanceof midcom_db_topic) {
                 // Ok. This topic should be within the content tree,
                 // we check this and return the node if everything is ok.
                 if (!$this->is_node_in_tree($object->id, $this->get_root_node())) {
@@ -311,7 +311,7 @@ class midcom_helper_nav
                 return $this->get_node($object->id);
             }
 
-            if (is_a($object, midcom_db_article::class)) {
+            if ($object instanceof midcom_db_article) {
                 // Ok, let's try to find the article using the topic in the tree.
                 if (!$this->is_node_in_tree($object->topic, $this->get_root_node())) {
                     debug_add("The GUID {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
@@ -497,14 +497,12 @@ class midcom_helper_nav
      * Example:
      *
      * <code>
-     * $tmp = Array
-     * (
-     *     Array
-     *     (
+     * $tmp = [
+     *     [
      *         MIDCOM_NAV_URL => "list/{$this->_category}/{$this->_mode}/1/",
      *         MIDCOM_NAV_NAME => $this->_category_name,
-     *     ),
-     * );
+     *     ],
+     * ];
      * midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
      * </code>
      *

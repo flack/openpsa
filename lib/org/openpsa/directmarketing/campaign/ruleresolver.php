@@ -271,7 +271,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                 continue;
             }
             switch (true) {
-                case (is_a($parent, midcom_db_person::class)):
+                case $parent instanceof midcom_db_person:
                     $person_rule = ['property' => 'id', 'match' => '=', 'value' => $parent->id];
                     return $this->add_person_rule($person_rule);
 
@@ -279,9 +279,9 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                     $group_rule = ['property' => 'id', 'match' => '=', 'value' => $parent->id];
                     return $this->add_group_rule($group_rule);
 
-                case midcom::get()->dbfactory->is_a($parent, 'org_openpsa_campaign_member'):
-                case midcom::get()->dbfactory->is_a($parent, 'org_openpsa_campaign_message_receipt'):
-                case midcom::get()->dbfactory->is_a($parent, 'org_openpsa_link_log'):
+                case $parent instanceof org_openpsa_directmarketing_campaign_member_dba:
+                case $parent instanceof org_openpsa_directmarketing_campaign_messagereceipt_dba:
+                case $parent instanceof org_openpsa_directmarketing_link_log_dba:
                     $person_rule = ['property' => 'id', 'match' => '=', 'value' => $parent->person];
                     return $this->add_person_rule($person_rule);
 

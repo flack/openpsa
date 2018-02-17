@@ -335,13 +335,13 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     private function _prepare_relocate(midcom_core_dbaobject $object, $mode = 'default')
     {
         // Redirect parameters to overview
-        if (is_a($object, midcom_db_parameter::class)) {
+        if ($object instanceof midcom_db_parameter) {
             return new midcom_response_relocate("__mfa/asgard/object/parameters/{$object->parentguid}/");
         }
 
         if ($mode == 'delete') {
             // Redirect person deletion to user management
-            if (is_a($object, midcom_db_person::class)) {
+            if ($object instanceof midcom_db_person) {
                 return new midcom_response_relocate("__mfa/asgard_midgard.admin.user/");
             }
             if ($parent = $object->get_parent()) {
@@ -359,7 +359,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $url = '__mfa/asgard/' . $url;
         } else {
             // Redirect persons to user management
-            if (is_a($object, midcom_db_person::class)) {
+            if ($object instanceof midcom_db_person) {
                 return new midcom_response_relocate("__mfa/asgard_midgard.admin.user/edit/{$object->guid}/");
             }
             // Redirect to default object mode page.

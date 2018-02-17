@@ -94,7 +94,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
             if (midcom::get()->dbclassloader->is_midcom_db_object($object)) {
                 $classname = $object->__mgdschema_class_name__;
-            } elseif (is_a($object, midcom_helper_metadata::class)) {
+            } elseif ($object instanceof midcom_helper_metadata) {
                 $metadata = true;
                 $classname = $object->__object->__mgdschema_class_name__;
             }

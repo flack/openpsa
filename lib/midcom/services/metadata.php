@@ -400,7 +400,7 @@ class midcom_services_metadata
     public function set_request_metadata($lastmodified, $permalinkguid)
     {
         if (   is_object($lastmodified)
-            && is_a($lastmodified, 'midgard_datetime')) {
+            && $lastmodified instanceof midgard_datetime) {
             // Midgard2 compatibility
             $lastmodified = $lastmodified->format('U');
         }
@@ -431,7 +431,7 @@ class midcom_services_metadata
         ];
 
         if (   is_object($meta['lastmodified'])
-            && is_a($meta['lastmodified'], 'midgard_datetime')) {
+            && $meta['lastmodified'] instanceof midgard_datetime) {
             // Midgard2 compatibility
             $meta['lastmodified'] = $meta['lastmodified']->format('U');
         }

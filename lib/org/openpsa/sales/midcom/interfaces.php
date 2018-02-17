@@ -33,11 +33,11 @@ implements midcom_services_permalinks_resolver
     public function org_openpsa_relatedto_find_suspects(midcom_core_dbaobject $object, $defaults, array &$links_array)
     {
         switch (true) {
-            case midcom::get()->dbfactory->is_a($object, midcom_db_person::class):
+            case $object instanceof midcom_db_person:
                 //List all projects and tasks given person is involved with
                 $this->_find_suspects_person($object, $defaults, $links_array);
                 break;
-            case midcom::get()->dbfactory->is_a($object, org_openpsa_calendar_event_dba::class):
+            case $object instanceof org_openpsa_calendar_event_dba:
                 $this->_find_suspects_event($object, $defaults, $links_array);
                 break;
                 //TODO: groups ? other objects ?
