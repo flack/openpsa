@@ -32,6 +32,6 @@
 // Match /{$tinyurl}/
 'tinyurl' => array
 (
-    'handler' => 'redirect',
+    'handler' => array('net_nemein_redirector_handler_redirect', 'redirect'),
     'variable_args' => 1,
 ),
