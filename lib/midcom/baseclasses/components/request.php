@@ -532,7 +532,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * Before doing anything, it will call the _on_handle event handler to allow for
      * generic request preparation.
      *
-     * @return boolean Indicating whether the request was handled successfully.
+     * @return midcom_response|null The response object (or null in the case of old-style handlers)
      * @see _on_handle()
      */
     public function handle()
@@ -567,11 +567,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         }
         $method = "_handler_{$this->_handler['handler'][1]}";
         $result = $handler->$method($this->_handler['id'], $this->_handler['args'], $this->_request_data);
-
-        if ($result === false) {
-            debug_add($method . ' (' . $this->_handler['id'] . ') returned false. This is deprecated, please use exceptions instead');
-            return false;
-        }
 
         if ($handler instanceof midcom_baseclasses_components_handler) {
             $handler->populate_breadcrumb_line();
