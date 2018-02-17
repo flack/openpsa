@@ -358,6 +358,11 @@ form.datamanager2 table.jquery-enabled thead .deleted img.delete
   display: inline !important;
 }
 
+.CodeMirror
+{
+    resize: vertical;
+}
+
 .CodeMirror .activeline
 {
     background-color: #f5f5f5;

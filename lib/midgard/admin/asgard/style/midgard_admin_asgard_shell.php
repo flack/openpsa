@@ -12,5 +12,7 @@ $data['controller']->display_form();
 
 <div id="output-wrapper">
 <h3><?php echo $data['l10n']->get('script output'); ?></h3>
+<div class="resize-wrapper">
 <iframe name="shell-runner" id="shell-runner" frameborder="0" src="./?ajax"></iframe>
+</div>
 </div>
