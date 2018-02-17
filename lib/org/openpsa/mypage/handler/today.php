@@ -71,15 +71,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         midcom\workflow\datamanager::add_head_elements();
         org_openpsa_widgets_calendar::add_head_elements();
         org_openpsa_widgets_ui::enable_ui_tab();
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_today($handler_id, array &$data)
-    {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['calendar_url'] = $siteconfig->get_node_relative_url('org.openpsa.calendar');
         $data['projects_relative_url'] = $siteconfig->get_node_relative_url('org.openpsa.projects');
@@ -88,6 +80,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $data['wiki_guid'] = $siteconfig->get_node_guid('net.nemein.wiki');
         $data['journal_url'] = '__mfa/org.openpsa.relatedto/journalentry/list/' . $data['day_start'] . '/';
 
-        midcom_show_style('show-today');
+        return $this->show('show-today');
     }
 }

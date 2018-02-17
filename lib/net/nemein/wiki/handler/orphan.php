@@ -43,15 +43,7 @@ class net_nemein_wiki_handler_orphan extends midcom_baseclasses_components_handl
         }
 
         $this->add_breadcrumb('orphans/', $data['view_title']);
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_orphan($handler_id, array &$data)
-    {
-        midcom_show_style('view-orphans');
+        return $this->show('view-orphans');
     }
 }

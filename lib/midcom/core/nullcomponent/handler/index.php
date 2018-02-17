@@ -26,17 +26,7 @@ class midcom_core_nullcomponent_handler_index  extends midcom_baseclasses_compon
         midcom::get()->head->set_pagetitle($this->_topic->extra);
 
         midcom::get()->metadata->set_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
-    }
-
-    /**
-     * This function does the output.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_index($handler_id, array &$data)
-    {
         $data['node'] = $this->_topic;
-        midcom_show_style('index');
+        return $this->show('index');
     }
 }

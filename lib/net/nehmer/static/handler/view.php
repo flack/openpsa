@@ -136,6 +136,8 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         } else {
             midcom::get()->head->set_pagetitle($this->_article->title);
         }
+        $data['view_article'] = $data['datamanager']->get_content_html();
+        return $this->show('show-article');
     }
 
     private function _load_index_article()
@@ -160,17 +162,5 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
 
             throw new midcom_error_forbidden('Directory index forbidden');
         }
-    }
-
-    /**
-     * Shows the loaded article.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_view($handler_id, array &$data)
-    {
-        $data['view_article'] = $data['datamanager']->get_content_html();
-        midcom_show_style('show-article');
     }
 }

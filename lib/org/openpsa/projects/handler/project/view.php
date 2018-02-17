@@ -49,6 +49,8 @@ class org_openpsa_projects_handler_project_view extends midcom_baseclasses_compo
         org_openpsa_widgets_contact::add_head_elements();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.js');
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.css');
+
+        return $this->show('show-project');
     }
 
     /**
@@ -78,15 +80,5 @@ class org_openpsa_projects_handler_project_view extends midcom_baseclasses_compo
         }
         $this->_view_toolbar->add_items($buttons);
         org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->project->guid);
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_read($handler_id, array &$data)
-    {
-        midcom_show_style('show-project');
     }
 }

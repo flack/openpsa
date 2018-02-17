@@ -129,21 +129,11 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_populate_toolbar();
         midcom::get()->head->set_pagetitle($data['view_title']);
         org_openpsa_widgets_tree::add_head_elements();
-    }
-
-    /**
-     * This function does the output.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_list($handler_id, array &$data)
-    {
         if ($this->datamanager) {
             $data['view_group'] = $this->datamanager->get_content_html();
         }
 
-        midcom_show_style('list');
+        return $this->show('list');
     }
 
     private function _populate_toolbar()
@@ -202,14 +192,7 @@ implements org_openpsa_widgets_grid_provider_client
         }
         midcom::get()->skip_page_style = true;
         $data['provider'] = $this->provider;
-    }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_json($handler_id, array &$data)
-    {
-        midcom_show_style('list-json');
+        return $this->show('list-json');
     }
 }

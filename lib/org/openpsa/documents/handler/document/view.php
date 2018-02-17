@@ -166,8 +166,9 @@ implements org_openpsa_widgets_grid_provider_client
         }
 
         $this->_add_version_navigation();
-
         $this->bind_view_to_object($this->_document, $this->_datamanager->get_schema()->get_name());
+
+        return $this->show('show-document');
     }
 
     private function _populate_toolbar()
@@ -233,15 +234,5 @@ implements org_openpsa_widgets_grid_provider_client
         } else {
             $this->add_breadcrumb('document/' . $this->_document->guid . '/', $this->_document->title);
         }
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_view($handler_id, array &$data)
-    {
-        midcom_show_style('show-document');
     }
 }

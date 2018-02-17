@@ -63,15 +63,7 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.projects/frontpage.js');
         midcom::get()->head->set_pagetitle($this->_l10n->get('current projects'));
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_frontpage($handler_id, array &$data)
-    {
-        midcom_show_style('show-frontpage');
+        return $this->show('show-frontpage');
     }
 }

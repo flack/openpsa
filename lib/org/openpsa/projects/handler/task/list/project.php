@@ -55,16 +55,8 @@ class org_openpsa_projects_handler_task_list_project extends org_openpsa_project
         midcom::get()->skip_page_style = true;
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_json($handler_id, array &$data)
-    {
         $data['provider'] = $this->provider;
-        midcom_show_style('show-json-tasks');
+
+        return $this->show('show-json-tasks');
     }
 }

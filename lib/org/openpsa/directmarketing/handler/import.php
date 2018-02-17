@@ -92,17 +92,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
         // Update the breadcrumb line
         $this->_update_breadcrumb($handler_id, $args);
-    }
 
-    /**
-     * Show the selection list for import types
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _show_index($handler_id, array &$data)
-    {
-        midcom_show_style('show-import-index');
+        return $this->show('show-import-index');
     }
 
     /**
@@ -316,16 +307,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         ];
         $importer = new org_openpsa_directmarketing_importer_csv($this->_schemadbs, $config);
         $this->_run_import($importer, $_POST['org_openpsa_directmarketing_import_tmp_file']);
-    }
 
-    /**
-     * Show the CSV import phase
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _show_csv($handler_id, array &$data)
-    {
-        midcom_show_style('show-import-status');
+        return $this->show('show-import-status');
     }
 }

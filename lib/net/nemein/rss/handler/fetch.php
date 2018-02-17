@@ -48,16 +48,7 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
         }
 
         $this->_update_breadcrumb_line($handler_id);
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_fetch($handler_id, array &$data)
-    {
-        midcom_show_style('net-nemein-rss-feed-fetch');
+        return $this->show('net-nemein-rss-feed-fetch');
     }
 
     /**

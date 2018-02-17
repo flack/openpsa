@@ -76,6 +76,13 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $data['view_title'] = sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %G", $data['week_start']));
         $this->add_breadcrumb('', $data['view_title']);
         midcom::get()->head->set_pagetitle($data['view_title']);
+        $data['grid'] = new org_openpsa_widgets_grid('hours_week', 'local');
+        $data['group_options'] = [
+            'task' => $this->_l10n->get('task'),
+            'person' => $this->_l10n->get('person')
+        ];
+
+        return $this->show('hours_week');
     }
 
     private function _populate_toolbar($previous_week, $next_week)
@@ -179,22 +186,5 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         }
 
         return "<a href=\"{$url}\">" . $label . "</a>";
-    }
-
-    /**
-     * This function does the output.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_index($handler_id, array &$data)
-    {
-        $data['grid'] = new org_openpsa_widgets_grid('hours_week', 'local');
-        $data['group_options'] = [
-            'task' => $this->_l10n->get('task'),
-            'person' => $this->_l10n->get('person')
-        ];
-
-        midcom_show_style('hours_week');
     }
 }

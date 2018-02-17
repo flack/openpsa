@@ -78,17 +78,8 @@ implements org_openpsa_widgets_grid_provider_client
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
             ]));
         }
-    }
 
-    /**
-     * Show list of the users
-     *
-     * @param string $handler_id Name of the used handler
-     * @param array &$data Data passed to the show method
-     */
-    public function _show_list($handler_id, array &$data)
-    {
-        midcom_show_style('users-grid');
+        return $this->show('users-grid');
     }
 
     /**
@@ -105,17 +96,8 @@ implements org_openpsa_widgets_grid_provider_client
         if (count($args) == 1) {
             $this->_group = new org_openpsa_contacts_group_dba($args[0]);
         }
-    }
 
-    /**
-     * Show users in JSON format
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_json($handler_id, array &$data)
-    {
-        midcom_show_style('users-grid-json');
+        return $this->show('users-grid-json');
     }
 
     /**

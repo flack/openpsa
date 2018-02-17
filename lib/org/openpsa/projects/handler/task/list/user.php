@@ -47,15 +47,7 @@ class org_openpsa_projects_handler_task_list_user extends org_openpsa_projects_h
                     org_openpsa_projects_task_status_dba::ONHOLD
                 ]
             ]);
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_list($handler_id, array &$data)
-    {
-        midcom_show_style('show-task-grid');
+        return $this->show('show-task-grid');
     }
 }

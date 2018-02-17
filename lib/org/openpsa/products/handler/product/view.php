@@ -87,6 +87,9 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         org_openpsa_widgets_ui::enable_ui_tab();
         org_openpsa_widgets_tree::add_head_elements();
         midcom::get()->head->set_pagetitle($title);
+        $data['view_product'] = $data['datamanager']->get_content_html();
+
+        return $this->show('product_view');
     }
 
     private function _load_product($handler_id, array $args)
@@ -110,17 +113,5 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         if (!$this->_product) {
             throw new midcom_error_notfound('Product is not available (or hidden)');
         }
-    }
-
-    /**
-     * Shows the loaded product.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_view($handler_id, array &$data)
-    {
-        $data['view_product'] = $data['datamanager']->get_content_html();
-        midcom_show_style('product_view');
     }
 }

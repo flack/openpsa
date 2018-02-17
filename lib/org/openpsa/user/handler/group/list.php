@@ -37,6 +37,8 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
             ]));
         }
+
+        return $this->show('group-list');
     }
 
     public static function render_link($guid)
@@ -44,16 +46,5 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         return $prefix . 'group/' . $guid . '/';
-    }
-
-    /**
-     * Show the group listing
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_list($handler_id, array &$data)
-    {
-        midcom_show_style('group-list');
     }
 }

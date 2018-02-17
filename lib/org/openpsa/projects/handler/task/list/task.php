@@ -33,15 +33,7 @@ class org_openpsa_projects_handler_task_list_task extends org_openpsa_projects_h
         $this->qb = org_openpsa_projects_task_dba::new_query_builder();
         $this->qb->add_constraint('up', '=', $this->_request_data['task']->id);
         $this->add_filters('task');
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_list($handler_id, array &$data)
-    {
-        midcom_show_style('show-task-grid');
+        return $this->show('show-task-grid');
     }
 }

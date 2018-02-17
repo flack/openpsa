@@ -89,17 +89,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         $data['calendar_options'] = $this->_master->get_calendar_options();
         org_openpsa_widgets_calendar::add_head_elements();
         midcom::get()->head->enable_jquery_ui(['datepicker']);
-    }
-
-    /**
-     * Show the calendar view
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _show_calendar($handler_id, array &$data)
-    {
-        midcom_show_style('show-calendar');
+        return $this->show('show-calendar');
     }
 
     /**

@@ -53,6 +53,9 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/table2csv.js');
 
         $this->add_toolbar_buttons();
+        $data['salesprojects'] = $this->_salesprojects;
+
+        return $this->show('show-salesproject-grid');
     }
 
     private function get_list_mode(array $args)
@@ -115,17 +118,5 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
             $this->_request_data['customer'] = new org_openpsa_contacts_person_dba($guid);
             $qb->add_constraint('customerContact', '=', $this->_request_data['customer']->id);
         }
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_list($handler_id, array &$data)
-    {
-        $data['salesprojects'] = $this->_salesprojects;
-
-        midcom_show_style('show-salesproject-grid');
     }
 }

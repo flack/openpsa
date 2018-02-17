@@ -34,16 +34,8 @@ class org_openpsa_projects_handler_task_list_agreement extends org_openpsa_proje
         $this->provider->add_order('end', 'DESC');
 
         $this->add_filters('agreement');
-        $this->_request_data['table-heading'] = 'agreement tasks';
-    }
+        $data['table-heading'] = 'agreement tasks';
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_list($handler_id, array &$data)
-    {
-        midcom_show_style('show-task-grid');
+        return $this->show('show-task-grid');
     }
 }

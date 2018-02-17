@@ -88,14 +88,7 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
         }
         $this->_view_toolbar->add_items($buttons);
         $this->bind_view_to_object($this->_group);
-    }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_view($handler_id, array &$data)
-    {
-        midcom_show_style('show-group');
+        return $this->show('show-group');
     }
 }

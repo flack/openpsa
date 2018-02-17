@@ -114,6 +114,8 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         $this->bind_view_to_object($this->_article, $this->_datamanager->get_schema()->get_name());
         midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+        $data['view_article'] = $this->_datamanager->get_content_html();
+        return $this->show('view');
     }
 
     /**
@@ -143,17 +145,5 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         }
 
         return $comments_node;
-    }
-
-    /**
-     * Shows the loaded article.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_view($handler_id, array &$data)
-    {
-        $this->_request_data['view_article'] = $this->_datamanager->get_content_html();
-        midcom_show_style('view');
     }
 }

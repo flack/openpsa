@@ -111,16 +111,8 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
             $breadcrumb_label =  $this->_l10n->get('define custom report');
         }
         $this->add_breadcrumb("", $breadcrumb_label);
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_query_form($handler_id, array &$data)
-    {
-        midcom_show_style("{$this->module}_query_form");
+        return $this->show("{$this->module}_query_form");
     }
 
     protected function _generator_load_redirect(&$args)

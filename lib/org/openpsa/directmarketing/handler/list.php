@@ -82,15 +82,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         $provider = new org_openpsa_widgets_grid_provider($this, 'local');
         $data['grid'] = $provider->get_grid('campaign_grid');
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_frontpage($handler_id, array &$data)
-    {
-        midcom_show_style('show-frontpage');
+        return $this->show('show-frontpage');
     }
 }

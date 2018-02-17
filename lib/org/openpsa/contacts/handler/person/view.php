@@ -86,6 +86,9 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);
         midcom::get()->head->set_pagetitle($this->_contact->name);
+        $data['contact_view'] = $this->_datamanager->get_content_html();
+
+        return $this->show('show-person');
     }
 
     /**
@@ -148,19 +151,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             ];
         }
         $this->_view_toolbar->add_items($buttons);
-    }
-
-    /**
-     * Shows the loaded contact.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_view($handler_id, array &$data)
-    {
-        $data['contact_view'] = $this->_datamanager->get_content_html();
-
-        midcom_show_style('show-person');
     }
 
     /**

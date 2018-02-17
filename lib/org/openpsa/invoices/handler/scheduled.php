@@ -32,6 +32,8 @@ implements org_openpsa_widgets_grid_provider_client
         midcom::get()->head->set_pagetitle($this->_l10n->get('scheduled invoices'));
         $this->_master->prepare_toolbar('scheduled');
         $this->set_active_leaf($this->_topic->id . ':scheduled');
+
+        return $this->show('show-scheduled');
     }
 
     public function get_qb($field = null, $direction = 'ASC', array $search = [])
@@ -99,14 +101,5 @@ implements org_openpsa_widgets_grid_provider_client
                 $e->log();
             }
         }
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_list($handler_id, array &$data)
-    {
-        midcom_show_style('show-scheduled');
     }
 }

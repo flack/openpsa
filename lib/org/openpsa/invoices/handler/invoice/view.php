@@ -48,17 +48,8 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         org_openpsa_widgets_ui::enable_ui_tab();
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/" . $this->_component . "/invoices.js");
-    }
 
-    /**
-     * Shows the loaded object.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_read($handler_id, array &$data)
-    {
-        midcom_show_style('admin-read');
+        return $this->show('admin-read');
     }
 
     private function load_datamanager()

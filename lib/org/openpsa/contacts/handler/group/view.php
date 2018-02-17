@@ -169,19 +169,10 @@ implements org_openpsa_widgets_grid_provider_client
     public function _handler_json($handler_id, array $args, array &$data)
     {
         midcom::get()->skip_page_style = true;
-        $this->_request_data['group'] = new org_openpsa_contacts_group_dba($args[0]);
-    }
-
-    /**
-     * Show group members in JSON format
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_json($handler_id, array &$data)
-    {
+        $data['group'] = new org_openpsa_contacts_group_dba($args[0]);
         $data['provider'] = new org_openpsa_widgets_grid_provider($this);
-        midcom_show_style('show-group-json');
+
+        return $this->show('show-group-json');
     }
 
     /**

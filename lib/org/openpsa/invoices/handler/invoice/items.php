@@ -65,6 +65,8 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         $data['grid'] = new org_openpsa_widgets_grid('invoice_items', 'local');
         $data['grid']->set_footer_data(['sum' => $invoice_sum]);
         $this->_prepare_output();
+
+        return $this->show('show-items');
     }
 
     private function _prepare_output()
@@ -85,15 +87,6 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
 
         // This is used for the Drag&Drop sorting
         midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/widgets/sortable.min.js');
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_items($handler_id, array &$data)
-    {
-        midcom_show_style('show-items');
     }
 
     /**

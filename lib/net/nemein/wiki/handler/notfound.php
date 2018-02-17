@@ -65,15 +65,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
         ];
         $data['wiki_tools']->add_items($buttons);
         $this->add_breadcrumb('notfound/' . rawurlencode($data['wikiword']), $data['wikiword']);
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_notfound($handler_id, array &$data)
-    {
-        midcom_show_style('view-notfound');
+        return $this->show('view-notfound');
     }
 }

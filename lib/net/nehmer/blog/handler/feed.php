@@ -170,16 +170,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     {
         $this->set_active_leaf(net_nehmer_blog_navigation::LEAFID_FEEDS);
         midcom::get()->metadata->set_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
-    }
 
-    /**
-     * Displays the feeds page
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_index($handler_id, array &$data)
-    {
-        midcom_show_style('feeds');
+        return $this->show('feeds');
     }
 }

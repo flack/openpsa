@@ -59,6 +59,8 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
             $this->_l10n->get('view related information')
         );
         $this->add_breadcrumb("", $this->_l10n->get('journal entries'));
+
+        return $this->show('show_entries_html');
     }
 
     /**
@@ -81,15 +83,6 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         $this->_view_toolbar->add_items($buttons);
 
         org_openpsa_widgets_contact::add_head_elements();
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_object($handler_id, array &$data)
-    {
-        midcom_show_style('show_entries_html');
     }
 
     /**
@@ -130,15 +123,8 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         org_openpsa_widgets_grid::add_head_elements();
         midcom::get()->head->set_pagetitle($this->_l10n->get('journal entries'));
         $this->add_breadcrumb('', $this->_l10n->get('journal entries'));
-    }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_list($handler_id, array &$data)
-    {
-        midcom_show_style('show_entries_list');
+        return $this->show('show_entries_list');
     }
 
     /**
@@ -187,15 +173,8 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
         midcom::get()->header("Content-type: text/xml; charset=UTF-8");
         midcom::get()->skip_page_style = true;
-    }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_xml($handler_id, array &$data)
-    {
-        midcom_show_style('show_entries_xml');
+        return $this->show('show_entries_xml');
     }
 
     private function _prepare_journal_query()

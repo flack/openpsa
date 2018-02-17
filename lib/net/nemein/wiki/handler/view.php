@@ -200,15 +200,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         midcom::get()->head->set_pagetitle($this->_page->title);
         midcom::get()->metadata->set_request_metadata($this->_page->metadata->revised, $this->_page->guid);
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_view($handler_id, array &$data)
-    {
         $data['wikipage_view'] = $this->_datamanager->get_content_html();
         $data['wikipage'] = $this->_page;
         $data['display_related_to'] = $this->_config->get('display_related_to');
@@ -221,7 +213,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $data['wikipage_view']['content'] = $this->_autogenerate_toc($data['wikipage_view']['content']);
         }
 
-        midcom_show_style('view-wikipage');
+        return $this->show('view-wikipage');
     }
 
     /**
@@ -294,15 +286,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         }
         midcom::get()->skip_page_style = true;
         $this->_load_datamanager();
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_raw($handler_id, array &$data)
-    {
         $data['wikipage_view'] = $this->_datamanager->get_content_html();
         $data['autogenerate_toc'] = $this->_config->get('autogenerate_toc');
         $data['display_related_to'] = $this->_config->get('display_related_to');
@@ -311,7 +295,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $parser = new net_nemein_wiki_parser($this->_page);
         $data['wikipage_view']['content'] = $parser->get_markdown($data['wikipage_view']['content']);
 
-        midcom_show_style('view-wikipage-raw');
+        return $this->show('view-wikipage-raw');
     }
 
     /**
@@ -384,22 +368,13 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $qb = net_nemein_wiki_link_dba::new_query_builder();
         $qb->add_constraint('topage', '=', $this->_page->title);
         $data['wikilinks'] = $qb->execute();
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_whatlinks($handler_id, array &$data)
-    {
         $data['wikipage_view'] = $this->_datamanager->get_content_html();
 
         // Replace wikiwords
         $parser = new net_nemein_wiki_parser($this->_page);
         $data['wikipage_view']['content'] = $parser->get_markdown($data['wikipage_view']['content']);
 
-        midcom_show_style('view-wikipage-whatlinks');
+        return $this->show('view-wikipage-whatlinks');
     }
 
     /**

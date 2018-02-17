@@ -49,6 +49,8 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/layout.css');
 
         $this->_populate_toolbar();
+
+        return $this->show('show-directory');
     }
 
     /**
@@ -83,16 +85,6 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         }
         $this->_view_toolbar->add_items($buttons);
         $this->bind_view_to_object($this->_request_data['directory']);
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_view($handler_id, array &$data)
-    {
-        midcom_show_style('show-directory');
     }
 
     /**

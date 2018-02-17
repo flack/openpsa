@@ -66,15 +66,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
         }
 
         midcom::get()->head->set_pagetitle($this->_l10n->get("my contacts"));
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_frontpage($handler_id, array &$data)
-    {
-        midcom_show_style('show-frontpage');
+        return $this->show('show-frontpage');
     }
 }

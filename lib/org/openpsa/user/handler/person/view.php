@@ -66,16 +66,9 @@ class org_openpsa_user_handler_person_view extends midcom_baseclasses_components
             $this->_view_toolbar->add_items($buttons);
         }
         $this->bind_view_to_object($this->_person);
-    }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_view($handler_id, array &$data)
-    {
         $data['person'] = $this->_person;
         $data['account'] = new midcom_core_account($this->_person);
-        midcom_show_style('show-person');
+        return $this->show('show-person');
     }
 }

@@ -53,6 +53,9 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         $this->bind_view_to_object($this->_message, $this->_datamanager->get_schema()->get_name());
         midcom::get()->metadata->set_request_metadata($this->_message->metadata->revised, $this->_message->guid);
         midcom::get()->head->set_pagetitle($this->_message->title);
+        $data['view_message'] = $this->_datamanager->get_content_html();
+
+        return $this->show('show-message');
     }
 
     private function _populate_toolbar()
@@ -113,14 +116,5 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             ]
         ];
         $this->_view_toolbar->add_items($buttons);
-    }
-
-    /**
-     * Shows the loaded message.
-     */
-    public function _show_view($handler_id, array &$data)
-    {
-        $data['view_message'] = $this->_datamanager->get_content_html();
-        midcom_show_style('show-message');
     }
 }

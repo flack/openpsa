@@ -24,15 +24,6 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
         $data['calendar_options'] = $this->_master->get_calendar_options();
         $data['calendar_options']['defaultDate'] = $date->format('Y-m-d');
         $data['date'] = $date;
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_day($handler_id, array &$data)
-    {
-        midcom_show_style('show-agenda');
+        return $this->show('show-agenda');
     }
 }

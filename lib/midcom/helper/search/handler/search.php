@@ -26,6 +26,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     {
         $this->prepare_formdata($handler_id);
         $this->populate_toolbar();
+        return $this->show('search_form');
     }
 
     private function prepare_formdata($handler_id)
@@ -66,18 +67,6 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         foreach ($subnodes as $sub_id) {
             $this->search_nodes($sub_id, $nap, $prefix);
         }
-    }
-
-    /**
-     * Search form show handler, displays the search form, including
-     * some hints about how to write queries.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_searchform($handler_id, array &$data)
-    {
-        midcom_show_style('search_form');
     }
 
     /**
@@ -289,17 +278,8 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     {
         midcom::get()->cache->content->content_type("application/opensearchdescription+xml; charset=UTF-8");
         midcom::get()->skip_page_style = true;
-    }
 
-    /**
-     * Display OpenSearch data file for browser search bar integration.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_opensearchdescription($handler_id, array &$data)
-    {
         $data['node'] = $this->_topic;
-        midcom_show_style('opensearch_description');
+        return $this->show('opensearch_description');
     }
 }

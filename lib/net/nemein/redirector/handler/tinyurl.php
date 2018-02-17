@@ -102,17 +102,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
 
         // Set the request data
         $this->_populate_request_data($handler_id);
-    }
-
-    /**
-     * Show the creation form
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
-    {
-        midcom_show_style('tinyurl-create');
+        return $this->show('tinyurl-create');
     }
 
     /**
@@ -142,6 +132,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
 
         // Set the request data
         $this->_populate_request_data($handler_id);
+        return $this->show('tinyurl-edit');
     }
 
 
@@ -157,17 +148,6 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
         $this->_tinyurl = $this->_get_item($args[0]);
         $workflow = $this->get_workflow('delete', ['object' => $this->_tinyurl]);
         return $workflow->run();
-    }
-
-    /**
-     * Show the creation form
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        midcom_show_style('tinyurl-edit');
     }
 
     /**

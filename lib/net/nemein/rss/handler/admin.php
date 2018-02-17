@@ -108,17 +108,9 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         }
 
         $this->_update_breadcrumb_line($handler_id);
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_subscribe($handler_id, array &$data)
-    {
         $data['folder'] = $this->_topic;
-        midcom_show_style('net-nemein-rss-feeds-subscribe');
+        return $this->show('net-nemein-rss-feeds-subscribe');
     }
 
     /**
@@ -146,16 +138,8 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $this->bind_view_to_object($data['feed']);
 
         $this->_update_breadcrumb_line($handler_id);
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        midcom_show_style('net-nemein-rss-feed-edit');
+        return $this->show('net-nemein-rss-feed-edit');
     }
 
     /**

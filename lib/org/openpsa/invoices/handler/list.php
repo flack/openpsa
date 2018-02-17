@@ -155,17 +155,9 @@ implements org_openpsa_widgets_grid_provider_client
     {
         midcom::get()->skip_page_style = true;
         $this->_list_type = $args[0];
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_json($handler_id, array &$data)
-    {
         $data['provider'] = new org_openpsa_widgets_grid_provider($this);
-        midcom_show_style('show-grid-json');
+
+        return $this->show('show-grid-json');
     }
 
     /**

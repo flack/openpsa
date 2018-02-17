@@ -104,6 +104,9 @@ implements org_openpsa_widgets_grid_provider_client
         $this->bind_view_to_object($this->_campaign, $this->_datamanager->get_schema()->get_name());
         midcom::get()->metadata->set_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
         midcom::get()->head->set_pagetitle($this->_campaign->title);
+        $data['view_campaign'] = $this->_datamanager->get_content_html();
+
+        return $this->show('show-campaign');
     }
 
     private function _populate_toolbar()
@@ -157,15 +160,6 @@ implements org_openpsa_widgets_grid_provider_client
     }
 
     /**
-     * Shows the loaded campaign.
-     */
-    public function _show_view($handler_id, array &$data)
-    {
-        $data['view_campaign'] = $this->_datamanager->get_content_html();
-        midcom_show_style('show-campaign');
-    }
-
-    /**
      * Displays campaign members.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -177,14 +171,8 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_campaign = $this->_master->load_campaign($args[0]);
 
         midcom::get()->skip_page_style = true;
-    }
 
-    /**
-     * Shows campaign members.
-     */
-    public function _show_members($handler_id, array &$data)
-    {
         $data['provider'] = new org_openpsa_widgets_grid_provider($this);
-        midcom_show_style('show-campaign-members');
+        return $this->show('show-campaign-members');
     }
 }

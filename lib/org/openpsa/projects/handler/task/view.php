@@ -48,6 +48,9 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('up', '=', $this->task->id);
         $data['has_subtasks'] = $qb->count() > 0;
+        $data['task_bookings'] = $this->list_bookings();
+
+        return $this->show('show-task');
     }
 
     /**
@@ -118,17 +121,6 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
 
         $this->_view_toolbar->add_items($buttons);
         org_openpsa_widgets_ui::enable_ui_tab();
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_read($handler_id, array &$data)
-    {
-        $data['task_bookings'] = $this->list_bookings();
-        midcom_show_style('show-task');
     }
 
     private function list_bookings()

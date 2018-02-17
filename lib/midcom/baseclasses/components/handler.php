@@ -123,6 +123,21 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     }
 
     /**
+     * Generates a response with a given style element
+     *
+     * @param string $element
+     * @return midcom_response_styled
+     */
+    public function show($element)
+    {
+        $context = midcom_core_context::get();
+        $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, function() use ($element) {
+            midcom::get()->style->show($element);
+        });
+        return new midcom_response_styled($context);
+    }
+
+    /**
      * Registers a new breadcrumb entry
      *
      * @param string $url The URL

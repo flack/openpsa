@@ -74,15 +74,9 @@ implements org_openpsa_widgets_grid_provider_client
         $this->rules = $this->_load_rules();
 
         midcom::get()->skip_page_style = true;
-    }
-
-    /**
-     * Shows campaign members.
-     */
-    public function _show_query($handler_id, array &$data)
-    {
         $data['provider'] = new org_openpsa_widgets_grid_provider($this);
-        midcom_show_style('show-campaign-members');
+
+        return $this->show('show-campaign-members');
     }
 
     /**
@@ -156,6 +150,8 @@ implements org_openpsa_widgets_grid_provider_client
         midcom::get()->head->set_pagetitle($this->_campaign->title);
         $this->bind_view_to_object($this->_campaign);
         $this->add_breadcrumb("campaign/edit_query/{$this->_campaign->guid}/", $this->_l10n->get('edit rules'));
+
+        return $this->show('show-campaign-edit_query');
     }
 
     private function _load_rules()
@@ -164,13 +160,5 @@ implements org_openpsa_widgets_grid_provider_client
             return $this->_campaign->rules;
         }
         return org_openpsa_directmarketing_campaign_ruleresolver::parse($_REQUEST['midcom_helper_datamanager2_dummy_field_rules']);
-    }
-
-    /**
-     * Shows the loaded campaign.
-     */
-    public function _show_edit_query($handler_id, array &$data)
-    {
-        midcom_show_style('show-campaign-edit_query');
     }
 }

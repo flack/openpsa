@@ -46,8 +46,9 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         $data['requested_time'] = new DateTime;
 
         $this->_master->calculate_day($data['requested_time']);
-
         $this->_list_work_hours();
+
+        return $this->show('workingon');
     }
 
     /**
@@ -113,16 +114,6 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
             $this->_request_data['hours'][$category][$customer] += $array['hours'];
         }
         $this->_request_data['hours']['total_' . $category] += $array['hours'];
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_view($handler_id, array &$data)
-    {
-        midcom_show_style('workingon');
     }
 
     /**

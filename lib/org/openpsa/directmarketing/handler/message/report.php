@@ -348,16 +348,8 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         ];
         $this->_view_toolbar->add_items($buttons);
         $this->_analyze_message_report($data);
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_report($handler_id, array &$data)
-    {
-        midcom_show_style('show-message-report');
+        return $this->show('show-message-report');
     }
 
     /**

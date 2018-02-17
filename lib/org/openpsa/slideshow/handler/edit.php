@@ -116,17 +116,8 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
             ]
         ];
         $this->_view_toolbar->add_items($buttons);
-    }
 
-    /**
-     * Show edit page
-     *
-     * @param string $handler_id Name of the used handler
-     * @param array &$data Data passed to the show method
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        midcom_show_style('edit');
+        return $this->show('edit');
     }
 
     /**
