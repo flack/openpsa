@@ -9,8 +9,6 @@
 /**
  * n.n.static NAP interface class
  *
- * See the individual member documentations about special NAP options in use.
- *
  * @package net.nehmer.static
  */
 class net_nehmer_static_navigation extends midcom_baseclasses_components_navigation

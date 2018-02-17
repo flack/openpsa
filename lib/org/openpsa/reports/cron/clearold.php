@@ -8,6 +8,7 @@
 
 /**
  * Cron handler for clearing tokens from old send receipts
+ *
  * @package org.openpsa.reports
  */
 class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cron_handler

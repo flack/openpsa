@@ -8,6 +8,7 @@
 
 /**
  * Cron handler for clearing tokens from old send receipts
+ *
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_cron_duplicates_mark extends midcom_baseclasses_components_cron_handler

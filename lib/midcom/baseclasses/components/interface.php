@@ -39,7 +39,6 @@
  * The following options can be used to parametrize the component's startup and operation.
  * See the individual member documentation for now.
  *
- * - $_component
  * - $_nap_class_suffix
  * - $_site_class_suffix
  *

@@ -9,8 +9,6 @@
 /**
  * OpenPSA qbpager library, handles paging of QB resultsets.
  *
- * Startup loads main class, which is used for all operations.
- *
  * @package org.openpsa.qbpager
  */
 class org_openpsa_qbpager_interface extends midcom_baseclasses_components_interface

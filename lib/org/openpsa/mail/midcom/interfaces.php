@@ -9,8 +9,6 @@
 /**
  * OpenPSA mail library, handles encoding/sending and decoding.
  *
- * Startup loads main class, which is used for all operations.
- *
  * @package org.openpsa.mail
  */
 class org_openpsa_mail_interface extends midcom_baseclasses_components_interface

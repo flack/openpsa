@@ -9,8 +9,6 @@
 /**
  * org.openpsa.expenses NAP interface class
  *
- * See the individual member documentations about special NAP options in use.
- *
  * @package org.openpsa.expenses
  */
 class org_openpsa_expenses_navigation extends midcom_baseclasses_components_navigation

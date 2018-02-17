@@ -7,7 +7,7 @@
  */
 
 /**
- * Import a site style from the format used by Site Wizard
+ * Import a site style
  *
  * @package midcom.helper.filesync
  */

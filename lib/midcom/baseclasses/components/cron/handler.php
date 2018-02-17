@@ -10,9 +10,8 @@
  * This is the base class used for all jobs run by MidCOM CRON.
  *
  * It gives you an easy to use way of building cron jobs. You should rely only on
- * the two event handlers _on_initialize and _on_execute, which are called by the
- * cron service. Your constructor shouldn't do anything then calling the base class
- * constructor.
+ * the two event handlers _on_initialize and execute, which are called by the
+ * cron service.
  *
  * See the main cron service class for details.
  *

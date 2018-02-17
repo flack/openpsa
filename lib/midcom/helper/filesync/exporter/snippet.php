@@ -7,7 +7,7 @@
  */
 
 /**
- * Export a site snippet to the format used by Site Wizard
+ * Export a site snippet
  *
  * @package midcom.helper.filesync
  */

@@ -9,8 +9,6 @@
 use midcom\datamanager\helper\autocomplete;
 
 /**
- * This is a URL handler class for org.openpsa.expenses
- *
  * @package org.openpsa.expenses
  */
 class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_components_handler

@@ -13,7 +13,6 @@
  *
  * @package net.nehmer.comments
  */
-
 class net_nehmer_comments_navigation extends midcom_baseclasses_components_navigation
 {
 }

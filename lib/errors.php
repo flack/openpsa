@@ -9,8 +9,6 @@
 use midgard\portable\api\error\exception as mgd_exception;
 
 /**
- * midcom_exception_handler
- *
  * Class for intercepting PHP errors and unhandled exceptions. Each fault is caught
  * and converted into Exception handled by midcom_exception_handler::show() with
  * code 500 thus can be customized and make user friendly.

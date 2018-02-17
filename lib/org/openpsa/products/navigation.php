@@ -9,8 +9,6 @@
 /**
  * o.o.products NAP interface class
  *
- * See the individual member documentations about special NAP options in use.
- *
  * @package org.openpsa.products
  */
 class org_openpsa_products_navigation extends midcom_baseclasses_components_navigation

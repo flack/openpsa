@@ -9,7 +9,6 @@
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
-use midcom\datamanager\template\form;
 
 /**
  * Permissions interface

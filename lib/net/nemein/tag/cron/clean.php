@@ -7,7 +7,8 @@
  */
 
 /**
- * Cron handler for periodical gallery sync
+ * Cron handler for periodical tag cleanup
+ *
  * @package net.nemein.tag
  */
 class net_nemein_tag_cron_clean extends midcom_baseclasses_components_cron_handler

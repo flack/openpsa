@@ -7,8 +7,6 @@
  */
 
 /**
- * This is a URL handler class for org.openpsa.expenses
- *
  * @package org.openpsa.expenses
  */
 class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_handler

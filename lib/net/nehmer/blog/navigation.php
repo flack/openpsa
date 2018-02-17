@@ -9,11 +9,8 @@
 /**
  * Blog navigation interface class
  *
- * See the individual member documentations about special NAP options in use.
- *
  * @package net.nehmer.blog
  */
-
 class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigation
 {
     const LEAFID_FEEDS = 2;

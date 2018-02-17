@@ -9,8 +9,6 @@
 /**
  * midcom.core.nullcomponent NAP interface class
  *
- * See the individual member documentations about special NAP options in use.
- *
  * @package midcom.core.nullcomponent
  */
 class midcom_core_nullcomponent_navigation extends midcom_baseclasses_components_navigation

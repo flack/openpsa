@@ -8,6 +8,7 @@
 
 /**
  * Cron handler for fetching subscribed RSS and Atom feeds
+ *
  * @package net.nemein.rss
  */
 class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_handler

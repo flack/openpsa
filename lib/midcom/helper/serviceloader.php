@@ -10,7 +10,8 @@
  * Service interface loader class
  *
  * MidCOM services are implemented following the inversion of control pattern where services are defined by an
- * interface class and
+ * interface class
+ *
  * @package midcom
  */
 class midcom_helper_serviceloader

@@ -9,8 +9,6 @@
 use midcom\datamanager\datamanager;
 
 /**
- * Discussion forum index
- *
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_message_compose extends midcom_baseclasses_components_handler

@@ -8,6 +8,7 @@
 
 /**
  * Plugin interface
+ *
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin

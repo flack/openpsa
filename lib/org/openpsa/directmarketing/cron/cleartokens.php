@@ -8,6 +8,7 @@
 
 /**
  * Cron handler for clearing tokens from old send receipts
+ *
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_components_cron_handler

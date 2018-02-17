@@ -9,9 +9,6 @@
 /**
  * This is a URL handler class for midcom.core.nullcomponent
  *
- * The midcom_baseclasses_components_handler class defines a bunch of helper vars
- *
- * @see midcom_baseclasses_components_handler
  * @package midcom.core.nullcomponent
  */
 class midcom_core_nullcomponent_handler_index  extends midcom_baseclasses_components_handler
