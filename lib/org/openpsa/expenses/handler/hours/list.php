@@ -123,16 +123,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         return $this->show('hours_grid');
     }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_invoice($handler_id, array &$data)
-    {
-        $this->_show_list($handler_id, $data);
-    }
-
-
     private function prepare_request_data($prefix = '', $suffix = '')
     {
         $this->_request_data['hours'] = $this->qb->execute();
