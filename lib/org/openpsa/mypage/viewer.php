@@ -52,34 +52,4 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
         $date->modify('+6 days');
         $this->_request_data['week_end'] = (int) $date->format('U');
     }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_updates($handler_id, array $args, array &$data)
-    {
-        $indexer = midcom::get()->indexer;
-
-        $start = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-        $query = '__TOPIC_URL:"' . midcom::get()->get_host_name() . '*"';
-        $filter = new midcom_services_indexer_filter_date('__EDITED', $start, 0);
-        $this->_request_data['today'] = $indexer->query($query, $filter);
-        $start = mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));
-        $end = mktime(23, 59, 59, date('m'), date('d') - 1, date('Y'));
-        $query = '__TOPIC_URL:"' . midcom::get()->get_host_name() . '*"';
-        $filter = new midcom_services_indexer_filter_date('__EDITED', $start, $end);
-        $this->_request_data['yesterday'] = $indexer->query($query, $filter);
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_updates($handler_id, array &$data)
-    {
-        midcom_show_style('show-updates');
-    }
 }

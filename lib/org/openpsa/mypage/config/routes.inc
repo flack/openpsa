@@ -1,8 +1,8 @@
 // Match /updates
 'updates' => array
 (
+    'handler' => array('org_openpsa_mypage_handler_today', 'updates'),
     'fixed_args' => 'updates',
-    'handler' => 'updates'
 ),
 
 // Match /
