@@ -616,12 +616,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
     /**
      * Display the content, it uses the handler as determined by can_handle.
-     *
-     * Before doing anything, it will call the _on_show event handler to allow for
-     * generic preparation. If this function returns false, the regular output
-     * handler will not be called.
-     *
-     * @see _on_show()
      */
     public function show()
     {
@@ -710,12 +704,16 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @param mixed $handler The ID (array key) of the handler that is responsible to handle
      *   the request.
      * @return boolean Return false to override the regular component output.
+     * @deprecated
      */
     public function _on_show($handler)
     {
         return true;
     }
 
+    /**
+     * @deprecated
+     */
     public function _on_shown($handler)
     {
     }
