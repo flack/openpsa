@@ -114,6 +114,14 @@ class midcom_config_test
             $this->add("OPCache", self::WARNING, "OPCache is recommended for efficient MidCOM operation");
         }
 
+        $lang = midcom::get()->i18n->get_current_language();
+        $locale = Locale::getDefault();
+        if ($lang != substr($locale, 0, 2)) {
+            $this->add('Locale', self::WARNING, 'MidCOM language is set to "' . $lang . '", but the locale "' . $locale . '" is used. This might lead to problems in datamanager number inputs if decimal separators diverge');
+        } else {
+            $this->add('Locale', self::OK, $locale);
+        }
+
         if (!class_exists('Memcached')) {
             $this->add('Memcache', self::WARNING, 'The PHP memcached module is recommended for efficient MidCOM operation.');
         } elseif (!midcom::get()->config->get('cache_module_memcache_backend')) {
