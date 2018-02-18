@@ -166,13 +166,8 @@ class midcom_config_test
         }
 
         // Other utilities
-        $this->check_for_utility('find', self::WARNING, 'The find utility is required for bulk upload processing in the image galleries, you should install it if you plan to deploy Image Galleries.');
-        $this->check_for_utility('unzip', self::WARNING, 'The unzip utility is required for bulk upload processing in the image galleries, you should install it if you plan to deploy Image Galleries.');
-        $this->check_for_utility('tar', self::WARNING, 'The tar utility is required for bulk upload processing in the image galleries, you should install it if you plan to deploy Image Galleries.');
-        $this->check_for_utility('gzip', self::WARNING, 'The gzip utility is required for bulk upload processing in the image galleries, you should install it if you plan to deploy Image Galleries.');
+        $this->check_for_utility('find', self::WARNING, 'The find utility is required for finding component manifests');
         $this->check_for_utility('jpegtran', self::WARNING, 'The jpegtran utility is used for lossless JPEG operations, even though ImageMagick can do the same conversions, the lossless features provided by this utility are used where appropriate, so its installation is recommended unless it is known to cause problems.', 'The jpegtran utility is used for lossless rotations of JPEG images. If there are problems with image rotations, disabling jpegtran, which will cause ImageMagick to be used instead, probably helps.');
-
-        $this->check_for_utility('diff', self::WARNING, 'diff is needed by the versioning library');
 
         if (midcom::get()->config->get('indexer_backend')) {
             $this->check_for_utility('catdoc', self::ERROR, 'Catdoc is required to properly index Microsoft Word documents. It is strongly recommended to install it, otherwise Word documents will be indexed as binary files.');

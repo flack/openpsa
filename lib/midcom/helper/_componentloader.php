@@ -345,7 +345,7 @@ class midcom_helper__componentloader
         // repositories are "merged" manually
         $directories = [];
         $manifests = [];
-        exec('find ' . MIDCOM_ROOT . ' '  . dirname(MIDCOM_ROOT) . '/src -follow -type d -name "config"', $directories);
+        exec($config->get('utility_find') . ' ' . MIDCOM_ROOT . ' '  . dirname(MIDCOM_ROOT) . '/src -follow -type d -name "config"', $directories);
         foreach ($directories as $directory) {
             $candidates[] = "{$directory}/manifest.inc";
         }
