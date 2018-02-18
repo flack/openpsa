@@ -23,6 +23,20 @@ abstract class midcom_core_dbaobject
     use parameters, attachments, privileges;
 
     /**
+     * MidCOM classname
+     *
+     * @var string
+     */
+    public $__midcom_class_name__;
+
+    /**
+     * Midgard classname
+     *
+     * @var string
+     */
+    public $__mgdschema_class_name__;
+
+    /**
      * MgdSchema object
      *
      * @var midgard\portable\api\mgdobject MgdSchema object
