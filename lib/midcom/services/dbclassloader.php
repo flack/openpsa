@@ -81,7 +81,6 @@ class midcom_services_dbclassloader
     public function get_component_for_class($classname)
     {
         $class_parts = array_filter(explode('_', $classname));
-        $component = '';
         // Fix for incorrectly named classes
         $component_map = [
             'midgard' => 'midcom',

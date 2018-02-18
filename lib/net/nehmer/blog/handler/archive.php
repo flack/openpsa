@@ -111,9 +111,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param DateTime $end End of the timeframe (exclusive)
      * @return int Posting count
      */
-    private function _compute_welcome_posting_count($start, $end)
+    private function _compute_welcome_posting_count(DateTime $start, DateTime $end)
     {
-        $data =& $this->_request_data;
         $qb = midcom_db_article::new_query_builder();
 
         $qb->add_constraint('metadata.published', '>=', $start->format('Y-m-d H:i:s'));
