@@ -33,7 +33,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
 
     public function _on_handle($handler, array $args)
     {
-        midcom::get()->auth->require_admin_user();
+        midcom::get()->auth->require_valid_user();
     }
 
     /**
