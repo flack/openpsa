@@ -16,7 +16,7 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
     public static function add_head_elements()
     {
         $head = midcom::get()->head;
-        $prefix = '/org.openpsa.widgets/fullcalendar-3.4.0/';
+        $prefix = '/org.openpsa.widgets/fullcalendar-3.8.2/';
         $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . 'lib/moment.min.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . 'fullcalendar.min.js');
 
