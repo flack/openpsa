@@ -17,6 +17,8 @@ use midcom\datamanager\datamanager;
  */
 class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
 {
+    use net_nehmer_blog_handler;
+
     /**
      * The articles to display
      *
@@ -49,7 +51,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
 
         // Get the articles,
         $qb = midcom_db_article::new_query_builder();
-        $this->_master->article_qb_constraints($qb);
+        $this->article_qb_constraints($qb);
 
         $qb->add_order('metadata.published', 'DESC');
 
@@ -64,7 +66,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
             // TODO: Check for ".xml" suffix
             $this->_request_data['category'] = trim(strip_tags($args[0]));
 
-            $this->_master->apply_category_constraint($qb, $this->_request_data['category']);
+            $this->apply_category_constraint($qb, $this->_request_data['category']);
         }
 
         $qb->set_limit($this->_config->get('rss_count'));

@@ -15,6 +15,8 @@ use midcom\datamanager\datamanager;
  */
 class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
 {
+    use net_nehmer_blog_handler;
+
     /**
      * The article to display
      *
@@ -67,7 +69,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
     public function _can_handle_view($handler_id, array $args, array &$data)
     {
         $qb = midcom_db_article::new_query_builder();
-        $this->_master->article_qb_constraints($qb);
+        $this->article_qb_constraints($qb);
 
         $qb->begin_group('OR');
         $qb->add_constraint('name', '=', $args[0]);
@@ -107,7 +109,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
             // TODO: Should we tell admin to create a net.nehmer.comments folder?
         }
 
-        $this->add_breadcrumb($this->_master->get_url($this->_article), $this->_article->title);
+        $this->add_breadcrumb($this->get_url($this->_article), $this->_article->title);
 
         $this->_prepare_request_data();
 

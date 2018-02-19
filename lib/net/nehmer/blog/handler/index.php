@@ -15,9 +15,10 @@ use midcom\datamanager\datamanager;
  *
  * @package net.nehmer.blog
  */
-
 class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handler
 {
+    use net_nehmer_blog_handler;
+
     /**
      * The articles to display
      *
@@ -42,7 +43,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         $data['datamanager'] = new datamanager($data['schemadb']);
         $qb = new org_openpsa_qbpager(midcom_db_article::class, 'net_nehmer_blog_index');
         $data['qb'] = $qb;
-        $this->_master->article_qb_constraints($qb);
+        $this->article_qb_constraints($qb);
 
         // Set default page title
         $data['page_title'] = $this->_topic->extra;
@@ -86,7 +87,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
             // TODO: Check here if there are actually items in this cat?
         }
 
-        $this->_master->apply_category_constraint($qb, $this->_request_data['category']);
+        $this->apply_category_constraint($qb, $this->_request_data['category']);
 
         // Add category to title
         $this->_request_data['page_title'] = sprintf($this->_l10n->get('%s category %s'), $this->_topic->extra, $this->_request_data['category']);
@@ -145,8 +146,8 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
                 $data['article'] = $article;
                 $data['article_counter'] = $article_counter;
 
-                $data['local_view_url'] = $prefix . $this->_master->get_url($article);
-                $data['view_url'] = $this->_master->get_url($article, true);
+                $data['local_view_url'] = $prefix . $this->get_url($article);
+                $data['view_url'] = $this->get_url($article, true);
                 if (!preg_match('/^http(s):\/\//', $data['view_url'])) {
                     $data['view_url'] = $prefix . $data['view_url'];
                 }

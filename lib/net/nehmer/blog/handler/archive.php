@@ -17,6 +17,8 @@ use midcom\datamanager\datamanager;
  */
 class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_handler
 {
+    use net_nehmer_blog_handler;
+
     /**
      * The articles to display
      *
@@ -85,7 +87,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     private function _compute_welcome_first_post()
     {
         $qb = midcom_db_article::new_query_builder();
-        $this->_master->article_qb_constraints($qb);
+        $this->article_qb_constraints($qb);
         $qb->add_constraint('metadata.published', '>', '1970-01-02 23:59:59');
 
         $qb->add_order('metadata.published');
@@ -117,7 +119,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
         $qb->add_constraint('metadata.published', '>=', $start->format('Y-m-d H:i:s'));
         $qb->add_constraint('metadata.published', '<', $end->format('Y-m-d H:i:s'));
-        $this->_master->article_qb_constraints($qb);
+        $this->article_qb_constraints($qb);
 
         return $qb->count();
     }
@@ -267,7 +269,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $data['datamanager'] = new datamanager($data['schemadb']);
         // Get Articles, distinguish by handler.
         $qb = midcom_db_article::new_query_builder();
-        $this->_master->article_qb_constraints($qb);
+        $this->article_qb_constraints($qb);
 
         // Use helper functions to determine start/end
         switch ($handler_id) {
@@ -417,7 +419,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 $data['article'] = $article;
                 $data['article_counter'] = $article_counter;
                 $data['article_count'] = $total_count;
-                $data['view_url'] = $prefix . $this->_master->get_url($article, $this->_config->get('link_to_external_url'));
+                $data['view_url'] = $prefix . $this->get_url($article, $this->_config->get('link_to_external_url'));
                 $data['local_view_url'] = $data['view_url'];
                 $data['linked'] = ($article->topic !== $this->_topic->id);
                 if ($data['linked']) {

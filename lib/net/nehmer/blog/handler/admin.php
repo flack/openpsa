@@ -16,6 +16,8 @@ use midcom\datamanager\controller;
  */
 class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handler
 {
+    use net_nehmer_blog_handler;
+
     /**
      * The article to operate on
      *
@@ -74,7 +76,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         // Reindex the article
         $indexer = midcom::get()->indexer;
         net_nehmer_blog_viewer::index($controller->get_datamanager(), $indexer, $this->_topic);
-        return $this->_master->get_url($this->article);
+        return $this->get_url($this->article);
     }
 
     /**
