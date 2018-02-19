@@ -33,9 +33,9 @@ class midcom_helper_filesync_exporter_style extends midcom_helper_filesync_expor
 
         $style_qb = midcom_db_style::new_query_builder();
         $style_qb->add_constraint('up', '=', $style->id);
-        foreach ($style_qb->execute() as $style) {
-            $this->read_style($style, "{$style_path}/");
-            $foldernames[] = $style->name;
+        foreach ($style_qb->execute() as $substyle) {
+            $this->read_style($substyle, "{$style_path}/");
+            $foldernames[] = $substyle->name;
         }
 
         if ($this->delete_missing) {

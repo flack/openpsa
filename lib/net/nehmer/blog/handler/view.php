@@ -67,7 +67,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
     public function _can_handle_view($handler_id, array $args, array &$data)
     {
         $qb = midcom_db_article::new_query_builder();
-        $this->_master->article_qb_constraints($qb, $handler_id);
+        $this->_master->article_qb_constraints($qb);
 
         $qb->begin_group('OR');
         $qb->add_constraint('name', '=', $args[0]);

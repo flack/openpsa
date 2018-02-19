@@ -207,7 +207,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      *
      * @param midgard_query_builder $qb The QB object
      */
-    public function article_qb_constraints($qb, $handler_id)
+    public function article_qb_constraints($qb)
     {
         $topic_guids = [$this->_topic->guid];
 

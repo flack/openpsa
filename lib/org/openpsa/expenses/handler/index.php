@@ -9,7 +9,7 @@
 /**
  * @package org.openpsa.expenses
  */
-class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_handler
+class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_handler
 {
     /**
      * Can-Handle check against the passed date. We have to do this explicitly

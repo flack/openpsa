@@ -533,7 +533,7 @@ class midcom_helper__styleloader
      * Adds an extra style directory to check for style elements at
      * the end of the styledir queue.
      *
-     * @param dirname path of style directory within midcom.
+     * @param string $dirname path of style directory within midcom.
      * @throws midcom exception if directory does not exist.
      */
     function append_styledir($dirname)

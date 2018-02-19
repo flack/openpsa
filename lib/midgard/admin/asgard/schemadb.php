@@ -44,6 +44,11 @@ class midgard_admin_asgard_schemadb
     private $_reflector;
 
     /**
+     * @var midcom_services_i18n_l10
+     */
+    private $l10n;
+
+    /**
      * Flag that controls if fields used for copying should be added
      *
      * @var boolean
@@ -63,7 +68,7 @@ class midgard_admin_asgard_schemadb
         }
         $this->_reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($this->_object));
         $this->_config = $config;
-        $this->_l10n = midcom::get()->i18n->get_l10n('midgard.admin.asgard');
+        $this->l10n = midcom::get()->i18n->get_l10n('midgard.admin.asgard');
     }
 
     /**
@@ -194,12 +199,12 @@ class midgard_admin_asgard_schemadb
     private function _add_rcs_field()
     {
         $this->schema['fields']['_rcs_message'] = [
-            'title'       => $this->_l10n->get('revision comment'),
+            'title'       => $this->l10n->get('revision comment'),
             'storage'     => null,
             'type'        => 'rcsmessage',
             'widget'      => 'text',
             'start_fieldset' => [
-                'title' => $this->_l10n->get('revision'),
+                'title' => $this->l10n->get('revision'),
                 'css_group' => 'rcs',
             ],
             'end_fieldset' => '',
@@ -345,7 +350,7 @@ class midgard_admin_asgard_schemadb
         $field_type = $this->_reflector->get_midgard_type($key);
 
         if ($key == 'up') {
-            $field_label = sprintf($this->_l10n->get('under %s'), midgard_admin_asgard_plugin::get_type_label($linked_type));
+            $field_label = sprintf($this->l10n->get('under %s'), midgard_admin_asgard_plugin::get_type_label($linked_type));
         } else {
             $type_label = midgard_admin_asgard_plugin::get_type_label($linked_type);
             if (substr($type_label, 0, strlen($key)) == $key) {
@@ -356,7 +361,7 @@ class midgard_admin_asgard_schemadb
             } else {
                 $ref = midcom_helper_reflector::get($this->_object);
                 $component_l10n = $ref->get_component_l10n();
-                $field_label = sprintf($this->_l10n->get('%s (%s)'), $component_l10n->get($key), $type_label);
+                $field_label = sprintf($this->l10n->get('%s (%s)'), $component_l10n->get($key), $type_label);
             }
         }
 
@@ -426,7 +431,7 @@ class midgard_admin_asgard_schemadb
     {
         // Add switch for copying parameters
         $this->schema['fields']['parameters'] = [
-            'title'       => $this->_l10n->get('copy parameters'),
+            'title'       => $this->l10n->get('copy parameters'),
             'storage'     => null,
             'type'        => 'boolean',
             'widget'      => 'checkbox',
@@ -435,7 +440,7 @@ class midgard_admin_asgard_schemadb
 
         // Add switch for copying metadata
         $this->schema['fields']['metadata'] = [
-            'title'       => $this->_l10n->get('copy metadata'),
+            'title'       => $this->l10n->get('copy metadata'),
             'storage'     => null,
             'type'        => 'boolean',
             'widget'      => 'checkbox',
@@ -444,7 +449,7 @@ class midgard_admin_asgard_schemadb
 
         // Add switch for copying attachments
         $this->schema['fields']['attachments'] = [
-            'title'       => $this->_l10n->get('copy attachments'),
+            'title'       => $this->l10n->get('copy attachments'),
             'storage'     => null,
             'type'        => 'boolean',
             'widget'      => 'checkbox',
@@ -453,7 +458,7 @@ class midgard_admin_asgard_schemadb
 
         // Add switch for copying privileges
         $this->schema['fields']['privileges'] = [
-            'title'       => $this->_l10n->get('copy privileges'),
+            'title'       => $this->l10n->get('copy privileges'),
             'storage'     => null,
             'type'        => 'boolean',
             'widget'      => 'checkbox',

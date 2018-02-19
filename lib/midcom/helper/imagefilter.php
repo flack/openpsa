@@ -240,7 +240,7 @@ class midcom_helper_imagefilter
      *
      * @param string $cmd The command to be executed.
      */
-    function process_command($cmd)
+    private function process_command($cmd)
     {
         if (!preg_match('/([a-z_:]*)\(([^)]*)\)/', $cmd, $matches)) {
             throw new midcom_error("Failed to parse command {$cmd}");

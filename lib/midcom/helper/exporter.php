@@ -56,11 +56,6 @@ abstract class midcom_helper_exporter
      */
     public function array2object(array $data, midcom_core_dbaobject $object)
     {
-        if (!is_array($data)) {
-            debug_add("Invalid datatype");
-            return false;
-        }
-
         // set the object's values to the ones from the data
         $fields = midcom_helper_reflector::get_object_fieldnames($object);
         foreach ($fields as $field_name) {

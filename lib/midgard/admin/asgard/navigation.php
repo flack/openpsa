@@ -57,10 +57,10 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $this->expanded_root_types[] = $expanded_type;
         } elseif (isset($this->_object)) {
             // we go through the path bottom up and show the first root type we find
-            foreach (array_reverse($this->_object_path) as $object) {
+            foreach (array_reverse($this->_object_path) as $node) {
                 foreach ($this->root_types as $root_type) {
-                    if (    is_a($object, $root_type)
-                        || midcom_helper_reflector::is_same_class($root_type, $object->__midcom_class_name__)) {
+                    if (    is_a($node, $root_type)
+                        || midcom_helper_reflector::is_same_class($root_type, $node->__midcom_class_name__)) {
                         $this->expanded_root_types[] = $root_type;
                         break;
                     }

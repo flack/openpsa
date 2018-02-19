@@ -16,11 +16,18 @@ use midcom\datamanager\schemadb;
  */
 class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_components_handler
 {
+    /**
+     * The calendar root event
+     *
+     * @var org_openpsa_calendar_event_dba
+     */
+    private $root_event;
+
     private function load_controller(org_openpsa_calendar_conflictmanager $conflictmanager, array $args)
     {
         $resource = (isset($args[0])) ? $args[0] : midcom::get()->auth->user->guid;
         $event = new org_openpsa_calendar_event_dba();
-        $event->up = $this->_root_event->id;
+        $event->up = $this->root_event->id;
 
         $defaults = ['participants' => []];
         if ($person = midcom::get()->auth->get_user($resource)) {
@@ -62,8 +69,8 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_root_event = org_openpsa_calendar_interface::find_root_event();
-        $this->_root_event->require_do('midgard:create');
+        $this->root_event = org_openpsa_calendar_interface::find_root_event();
+        $this->root_event->require_do('midgard:create');
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
         midcom::get()->head->set_pagetitle($this->_l10n->get('create event'));
