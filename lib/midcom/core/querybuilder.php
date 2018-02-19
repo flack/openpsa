@@ -252,7 +252,6 @@ class midcom_core_querybuilder extends midcom_core_query
     public function include_deleted()
     {
         $this->_reset();
-        $this->_include_deleted = true;
         $this->_query->include_deleted();
     }
 
