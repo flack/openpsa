@@ -18,10 +18,6 @@
         <property name="reportType" type="string"/>
         <property name="invoiceable" type="boolean" index="yes"/>
 
-        <!-- Caches for various values that other would have to be queried/calculated runtime -->
-        <property name="costCache" type="float"/>
-        <property name="priceCache" type="float"/>
-
         <!-- Common OpenPSA properties -->
         <property name="orgOpenpsaObtype" type="integer">
             <description>

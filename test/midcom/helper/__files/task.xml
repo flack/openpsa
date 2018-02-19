@@ -3,37 +3,24 @@
         <guid><![CDATA[a4de2d4263af11df90631192dd1df1f4f1f4]]></guid>
     </midcom_helper_metadata>    <guid><![CDATA[a4de2d4263af11df90631192dd1df1f4f1f4]]></guid>
     <invoiceableHours>0</invoiceableHours>
-    <projectCode><![CDATA[]]></projectCode>
     <agreement>102</agreement>
     <start>1274306400</start>
     <customer>57</customer>
     <reportedHours>0</reportedHours>
     <hoursInvoiceableDefault>1</hoursInvoiceableDefault>
-    <expensesInvoiceableDefault></expensesInvoiceableDefault>
     <orgOpenpsaAccesstype>0</orgOpenpsaAccesstype>
     <up>0</up>
     <approvedHours>0</approvedHours>
-    <maxCost>0</maxCost>
-    <pricePlugin><![CDATA[]]></pricePlugin>
-    <maxPrice>0</maxPrice>
     <plannedHours>1</plannedHours>
-    <dependency>0</dependency>
     <description><![CDATA[test
 
 Ümläüt]]></description>
     <project>32</project>
     <id>352</id>
-    <acceptanceType>0</acceptanceType>
     <manager>0</manager>
-    <priceBase>0</priceBase>
     <title><![CDATA[Test entry *.* 1]]></title>
     <orgOpenpsaObtype>6002</orgOpenpsaObtype>
-    <affectsSaldo></affectsSaldo>
-    <costCache>0</costCache>
     <priority>3</priority>
-    <costPlugin><![CDATA[]]></costPlugin>
-    <priceCache>0</priceCache>
-    <costBase>0</costBase>
     <orgOpenpsaWgtype>0</orgOpenpsaWgtype>
     <status>6500</status>
     <invoicedHours>0</invoicedHours>

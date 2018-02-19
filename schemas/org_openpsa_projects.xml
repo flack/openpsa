@@ -63,24 +63,16 @@
         </property>
         <property name="up" upfield="up" link="org_openpsa_task:id" type="unsigned integer"/>
         <property name="project" parentfield="project" link="org_openpsa_project:id" type="unsigned integer"/>
-        <property name="dependency" link="org_openpsa_task:id" type="unsigned integer"/>
         <property name="start" type="integer"/>
         <property name="end" type="integer"/>
         <property name="title" type="string"/>
         <property name="description" type="text"/>
 
-        <property name="affectsSaldo" type="boolean"/>
         <property name="plannedHours" type="float"/>
-        <property name="projectCode" type="string" />
 
         <property name="status" type="integer">
             <description>
                 cache of last status
-            </description>
-        </property>
-        <property name="acceptanceType" type="integer">
-            <description>
-                Deprecated. This belonged to a feature that was never implemented
             </description>
         </property>
 
@@ -89,40 +81,12 @@
 
         <property name="manager" link="midgard_person:id" type="unsigned integer"/>
 
-        <!-- What "plugin" to use for price/cost calculation -->
-        <!-- PONDER: should these we even links, that would in a way make defining new ones easier, though how many are we going to need ? -->
-        <property name="pricePlugin" type="string"/>
-        <property name="costPlugin" type="string"/>
-        <!-- Base value for those calculations, only meaningful for some of the "plugins" -->
-        <property name="priceBase" type="float"/>
-        <property name="costBase" type="float"/>
-        <!-- Define max values (for warnings etc) for price & cost -->
-        <property name="maxPrice" type="float"/>
-        <property name="maxCost" type="float"/>
-
         <!-- Caches for various values that otherwise would have to be queried runtime -->
-        <property name="costCache" type="float"/>
-        <property name="priceCache" type="float"/>
         <property name="reportedHours" type="float"/>
         <property name="approvedHours" type="float"/>
         <property name="invoicedHours" type="float"/>
         <property name="invoiceableHours" type="float"/>
 
-        <!-- Are all of these really necessary ?
-        <property name="customerProjectCode" type="string" />
-        <property name="customerOrderCode" type="string" />
-        <property name="customerReference" type="string" />
-        -->
-
-        <!-- Allow calendar "tasks as resources" feature (when implemented) to reserve overlapping
-             instances with this task, I'm not sure this is actually very useful as most be the time it will be true
-        <property name="calendarAllowOverlap" type="integer"/>
-         -->
-        <property name="expensesInvoiceableDefault" type="boolean">
-            <description>
-                Are expenses and mileages invoiceable by default ?
-            </description>
-        </property>
         <property name="hoursInvoiceableDefault" type="boolean">
             <description>
                 Are hours invoiceable by default ?
