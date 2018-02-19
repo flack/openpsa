@@ -341,8 +341,7 @@ class midcom_core_context
         $component_interface = midcom::get()->componentloader->get_interface_class($path);
 
         // Load configuration
-        $config_obj = $this->_loadconfig($this->id, $object);
-        $config = ($config_obj == false) ? [] : $config_obj->get_all();
+        $config = $this->_loadconfig($this->id, $object)->get_all();
         $component_interface->configure($config, $this->id);
 
         // Make can_handle check

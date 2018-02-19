@@ -11,7 +11,7 @@
  *
  * @package midcom.core.nullcomponent
  */
-class midcom_core_nullcomponent_handler_index  extends midcom_baseclasses_components_handler
+class midcom_core_nullcomponent_handler_index extends midcom_baseclasses_components_handler
 {
     /**
      * The handler for the index article.
