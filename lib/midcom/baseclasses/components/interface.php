@@ -140,20 +140,10 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
 
     /**
      * Initializes the component.
-     *
-     * This should <i>not</i> be overwritten by the client. Instead, use the on_initialize
-     * event handler.
-     *
-     * @return boolean Indicating successful initialization.
-     * @see _on_initialize()
      */
-    public function initialize($component)
+    public function __construct($component)
     {
-        // Preparation
         $this->_component = $component;
-
-        // Call the event handler.
-        return $this->_on_initialize();
     }
 
     // ===================== COMPONENT INTERFACE ======================
@@ -443,21 +433,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      */
     public function _on_watched_dba_import($object)
     {
-    }
-
-    /**
-     * This is an event handler, called after the basic component initialization has been done
-     * just before the initialize call will return to MidCOM.
-     * It should prepare all necessary information to start processing requests.
-     *
-     * Unless you need more functionality than snippet and library loading, configuration merging
-     * and basic component data storage initialization, no further modification needs to be done.
-     *
-     * @return boolean Indicating whether the initialization has been successful.
-     */
-    public function _on_initialize()
-    {
-        return true;
     }
 
     /**
