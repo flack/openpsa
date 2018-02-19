@@ -11,13 +11,11 @@ use Doctrine\ORM\Query\Expr\Join;
 /**
  * MidCOM wants this class present and QB etc use this, so keep logic here
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property string $extra
  * @property integer $uid
  * @property integer $eid
  * @property integer $hoursReported
  * @property integer $orgOpenpsaObtype
- * @property string $guid
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject

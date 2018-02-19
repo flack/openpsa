@@ -9,7 +9,6 @@
 /**
  * MidCOM wrapped class for access to deliverables
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property integer $up
  * @property integer $product
  * @property integer $supplier
@@ -39,7 +38,6 @@
  * @property integer $notify
  * @property integer $state State of the proposal/order
  * @property integer $orgOpenpsaObtype Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
- * @property string $guid
  * @package org.openpsa.sales
  */
 class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobject

@@ -8,7 +8,6 @@
 /**
  * MidCOM wrapped base class
  *
- * @property integer $id
  * @property integer $invoice
  * @property integer $task
  * @property integer $deliverable
@@ -16,7 +15,6 @@
  * @property string $description
  * @property float $pricePerUnit
  * @property float $units
- * @property string $guid
  * @package org.openpsa.invoices
  */
 class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject

@@ -9,12 +9,10 @@
 /**
  * MidCOM wrapped class for access to stored queries
  *
- * @property integer $id
  * @property string $title
  * @property string $description
  * @property string $location
  * @property float $capacity
- * @property string $guid
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_resource_dba extends  midcom_core_dbaobject

@@ -9,7 +9,6 @@
 /**
  * MidCOM wrapped access to the MgdSchema class, keep logic here
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property integer $up
  * @property integer $project
  * @property integer $start
@@ -34,7 +33,6 @@
             - 01(int=1) is workgroup but not active
             - 11(int=3) active workgroup
  * @property string $orgOpenpsaOwnerWg The "owner" workgroup of this object
- * @property string $guid
  * @package org.openpsa.projects
  */
 class org_openpsa_projects_task_dba extends midcom_core_dbaobject

@@ -15,6 +15,8 @@ use midcom\dba\privileges;
 /**
  * MidCOM DBA baseclass for MgdSchema object decorators.
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $guid
  * @property midcom_helper_metadata $metadata the object's metadata
  * @package midcom
  */

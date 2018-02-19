@@ -7,7 +7,6 @@
  */
 
 /**
- * @property integer $id Local non-replication-safe database identifier
  * @property string $name Path name of the group
  * @property string $official Official name of the group
  * @property string $street Street address of the group
@@ -20,7 +19,6 @@
  * @property string $fax Fax number of the group
  * @property string $extra Additional information about the group
  * @property integer $owner Group the group is under
- * @property string $guid
  * @property string $postalStreet
  * @property string $postalPostcode
  * @property string $postalCity

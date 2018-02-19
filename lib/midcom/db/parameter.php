@@ -11,12 +11,10 @@
  *
  * The uplink is the parentguid parameter.
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property string $domain Namespace of the parameter
  * @property string $name Key of the parameter
  * @property string $value Value of the parameter
  * @property string $parentguid GUID of the object the parameter extends
- * @property string $guid
  * @package midcom.db
  */
 class midcom_db_parameter extends midcom_core_dbaobject

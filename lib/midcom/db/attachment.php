@@ -11,13 +11,11 @@ use midgard\portable\api\blob;
 /**
  * MidCOM level replacement for the Midgard Attachment record with framework support.
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property string $name Filename of the attachment
  * @property string $title Title of the attachment
  * @property string $location Location of the attachment in the blob directory structure
  * @property string $mimetype MIME type of the attachment
  * @property string $parentguid GUID of the object the attachment is attached to
- * @property string $guid
  * @package midcom.db
  */
 class midcom_db_attachment extends midcom_core_dbaobject

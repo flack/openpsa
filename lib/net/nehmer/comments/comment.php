@@ -11,7 +11,6 @@
  *
  * Comments link up to the object they refer to.
  *
- * @property integer $id
  * @property string $author
  * @property string $objectguid
  * @property string $title
@@ -20,7 +19,6 @@
  * @property string $remoteid Remote ID for comments fetched from external source (rss …)
  * @property string $ip
  * @property integer $status
- * @property string $guid
  * @package net.nehmer.comments
  */
 class net_nehmer_comments_comment extends midcom_core_dbaobject

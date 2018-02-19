@@ -9,12 +9,10 @@
 /**
  * MidCOM wrapped class for access to stored queries
  *
- * @property integer $id
  * @property integer $person
  * @property integer $campaign
  * @property integer $suspended
  * @property integer $orgOpenpsaObtype
- * @property string $guid
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobject

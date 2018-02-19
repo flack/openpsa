@@ -9,10 +9,8 @@
 /**
  * MidCOM level replacement for the Midgard Person record with framework support.
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property string $firstname First name of the person
  * @property string $lastname Last name of the person
- * @property string $guid
  * @property string $homephone Home phone number of the person
  * @property string $handphone Cell phone number of the person
  * @property string $workphone Work phone name of the person

@@ -9,11 +9,9 @@
 /**
  * MidCOM wrapped access to the MgdSchema class, keep logic here
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property integer $person
  * @property integer $task
  * @property integer $orgOpenpsaObtype Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
- * @property string $guid
  * @package org.openpsa.projects
  */
 class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject

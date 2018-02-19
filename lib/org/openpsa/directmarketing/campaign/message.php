@@ -9,7 +9,6 @@
 /**
  * Message class, handles storage of various messages and sending them out.
  *
- * @property integer $id
  * @property integer $campaign
  * @property string $title
  * @property string $description
@@ -18,7 +17,6 @@
  * @property integer $orgOpenpsaAccesstype
  * @property integer $orgOpenpsaObtype
  * @property string $orgOpenpsaOwnerWg
- * @property string $guid
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaobject

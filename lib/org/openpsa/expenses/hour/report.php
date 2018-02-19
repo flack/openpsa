@@ -9,7 +9,6 @@
 /**
  * MidCOM wrapped access to the MgdSchema class, keep logic here
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property integer $task
  * @property integer $person
  * @property integer $invoice
@@ -19,7 +18,6 @@
  * @property string $reportType
  * @property boolean $invoiceable
  * @property integer $orgOpenpsaObtype Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
- * @property string $guid
  * @package org.openpsa.expenses
  */
 class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject

@@ -9,7 +9,6 @@
 /**
  * MidCOM wrapped class for access to stored queries
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property string $component Component that sent the notification
  * @property string $componentaction Component's action that sent the notification
  * @property integer $recipient Recipient of the notification
@@ -18,7 +17,6 @@
  * @property string $abstract Short description of the notification
  * @property string $content Full notification text
  * @property string $objectguid GUID of object the notification is about
- * @property string $guid
  * @package org.openpsa.notifications
  */
 class org_openpsa_notifications_notification_dba extends midcom_core_dbaobject

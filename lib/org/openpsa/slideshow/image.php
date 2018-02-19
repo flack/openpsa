@@ -9,7 +9,6 @@
 /**
  * Image DBA class
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property integer $topic
  * @property string $title
  * @property string $description
@@ -17,7 +16,6 @@
  * @property integer $attachment
  * @property integer $thumbnail
  * @property integer $image
- * @property string $guid
  * @package org.openpsa.slideshow
  */
 class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject

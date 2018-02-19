@@ -11,7 +11,6 @@
  * refactored from OpenPSA 1.x calendar
  *
  * @todo Figure out a good way to always use UTC for internal time storage
- * @property integer $id Local non-replication-safe database identifier
  * @property integer $start
  * @property integer $end
  * @property string $title
@@ -28,7 +27,6 @@
  * @property integer $orgOpenpsaObtype
  * @property integer $orgOpenpsaWgtype
  * @property string $orgOpenpsaOwnerWg
- * @property string $guid
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_event_dba extends midcom_core_dbaobject

@@ -9,14 +9,12 @@
 /**
  * MidCOM wrapped class for access to stored queries
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property string $fromGuid Tagged object's GUID
  * @property string $fromComponent Tagged object's component
  * @property string $fromClass Tagged object's class
  * @property integer $tag Link to the tag object
  * @property string $context Context to be used with machine tags
  * @property string $value Value to be used with machine tags
- * @property string $guid
  * @package net.nemein.tag
  */
 class net_nemein_tag_link_dba extends midcom_core_dbaobject

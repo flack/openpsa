@@ -9,7 +9,6 @@
 /**
  * MidCOM wrapped base class, keep logic here
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property integer $sent
  * @property integer $due
  * @property integer $paid
@@ -23,7 +22,6 @@
  * @property integer $customer
  * @property integer $customerContact
  * @property integer $owner Sender of the invoice
- * @property string $guid
  * @package org.openpsa.invoices
  */
 class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements org_openpsa_invoices_interfaces_customer

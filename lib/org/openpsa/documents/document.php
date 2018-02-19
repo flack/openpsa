@@ -11,7 +11,6 @@
  *
  * Implements parameter and attachment methods for DM compatibility
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property integer $author
  * @property integer $topic
  * @property integer $nextVersion
@@ -28,7 +27,6 @@
             - 01(int=1) is workgroup but not active
             - 11(int=3) active workgroup
  * @property string $orgOpenpsaOwnerWg The "owner" workgroup of this object
- * @property string $guid
  * @package org.openpsa.documents
  */
 class org_openpsa_documents_document_dba extends midcom_core_dbaobject
