@@ -41,25 +41,6 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         $this->_populate_node_toolbar();
     }
 
-    public static function get_messagetype_icon($type)
-    {
-        $icon = 'stock_mail.png';
-        switch ($type) {
-            case org_openpsa_directmarketing_campaign_message_dba::SMS:
-            case org_openpsa_directmarketing_campaign_message_dba::MMS:
-                $icon = 'stock_cell-phone.png';
-                break;
-            case org_openpsa_directmarketing_campaign_message_dba::CALL:
-            case org_openpsa_directmarketing_campaign_message_dba::FAX:
-                $icon = 'stock_landline-phone.png';
-                break;
-            case org_openpsa_directmarketing_campaign_message_dba::SNAILMAIL:
-                $icon = 'stock_home.png';
-                break;
-        }
-        return $icon;
-    }
-
     public function load_campaign($identifier)
     {
         $campaign = new org_openpsa_directmarketing_campaign_dba($identifier);

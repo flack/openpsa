@@ -19,7 +19,7 @@ implements org_openpsa_widgets_grid_provider_client
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
-        org_openpsa_invoices_viewer::add_head_elements_for_invoice_grid();
+        org_openpsa_widgets_grid::add_head_elements();
     }
 
     public function get_qb($field = null, $direction = 'ASC', array $search = [])
