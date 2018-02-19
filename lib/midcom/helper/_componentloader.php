@@ -194,7 +194,8 @@ class midcom_helper__componentloader
             debug_add("Class {$classname} does not exist.", MIDCOM_LOG_CRIT);
             return false;
         }
-        $this->_interface_classes[$path] = new $classname($path);
+        $this->_interface_classes[$path] = new $classname();
+        $this->_interface_classes[$path]->initialize($path);
 
         $this->_loaded[] = $path;
         $this->_tried_to_load[$path] = true;

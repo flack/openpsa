@@ -141,7 +141,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     /**
      * Initializes the component.
      */
-    public function __construct($component)
+    public function initialize($component)
     {
         $this->_component = $component;
     }
