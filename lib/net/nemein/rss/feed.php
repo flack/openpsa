@@ -9,6 +9,17 @@
 /**
  * MidCOM wrapped class for access to stored queries
  *
+ * @property integer $id
+ * @property string $title
+ * @property string $url
+ * @property integer $node
+ * @property integer $defaultauthor
+ * @property boolean $forceauthor
+ * @property boolean $keepremoved
+ * @property boolean $autoapprove
+ * @property integer $latestupdate
+ * @property integer $latestfetch
+ * @property string $guid
  * @package net.nemein.rss
  */
 class net_nemein_rss_feed_dba extends midcom_core_dbaobject

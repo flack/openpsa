@@ -9,6 +9,14 @@
 /**
  * TinyURL abstraction class for generating short URLs
  *
+ * @property integer $id
+ * @property string $name
+ * @property integer $code
+ * @property string $node
+ * @property string $title
+ * @property string $url
+ * @property longstring $description
+ * @property string $guid
  * @package net.nemein.calendar
  */
 class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject

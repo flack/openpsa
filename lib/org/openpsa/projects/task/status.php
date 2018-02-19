@@ -8,6 +8,14 @@
 
 /**
  * MidCOM wrapped access to the MgdSchema class, keep logic here
+ *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property integer $task
+ * @property integer $targetPerson
+ * @property integer $type
+ * @property integer $timestamp
+ * @property string $comment
+ * @property string $guid
  * @package org.openpsa.projects
  */
 class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject

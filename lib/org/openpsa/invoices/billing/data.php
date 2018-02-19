@@ -9,6 +9,28 @@
 /**
  * Billing data DBA class
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $recipient
+ * @property string $street
+ * @property string $postcode
+ * @property string $city
+ * @property string $country
+ * @property string $email
+ * @property string $accountNumber
+ * @property string $bankCode
+ * @property string $iban
+ * @property string $bic
+ * @property string $bankName
+ * @property string $vatNo
+ * @property string $taxId
+ * @property integer $vat
+ * @property string $delivery
+ * @property integer $due
+ * @property integer $sendingoption
+ * @property string $remarks
+ * @property boolean $useContactAddress
+ * @property string $linkGuid
+ * @property string $guid
  * @package org.openpsa.invoices
  */
 class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject

@@ -9,6 +9,37 @@
 /**
  * MidCOM wrapped class for access to deliverables
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property integer $up
+ * @property integer $product
+ * @property integer $supplier
+ * @property integer $salesproject
+ * @property string $title
+ * @property string $description
+ * @property float $price
+ * @property float $invoiced
+ * @property float $units
+ * @property float $plannedUnits
+ * @property float $uninvoiceableUnits
+ * @property string $unit
+ * @property float $pricePerUnit
+ * @property boolean $invoiceByActualUnits
+ * @property boolean $invoiceApprovedOnly
+ * @property boolean $continuous
+ * @property float $cost Actual cost of the delivery
+ * @property float $plannedCost Original planned cost
+ * @property float $costPerUnit Cost per unit, used as basis of calculations for the fields above
+ * @property string $costType
+ * @property integer $start Start can have two different meanings:
+        		- for single deliveries, it's the time when delivery can start
+        		- for subscriptions it's the subscription start
+ * @property integer $end End can have two different meanings:
+        		- for single deliveries, it's the delivery deadline
+        		- for subscriptions it's the subscription end
+ * @property integer $notify
+ * @property integer $state State of the proposal/order
+ * @property integer $orgOpenpsaObtype Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
+ * @property string $guid
  * @package org.openpsa.sales
  */
 class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobject

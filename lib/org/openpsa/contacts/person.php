@@ -9,6 +9,28 @@
 /**
  * MidCOM wrapped access to org_openpsa_person plus some utility methods
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $firstname First name of the person
+ * @property string $lastname Last name of the person
+ * @property string $guid
+ * @property string $homephone Home phone number of the person
+ * @property string $handphone Cell phone number of the person
+ * @property string $workphone Work phone name of the person
+ * @property string $homepage Homepage URL of the person
+ * @property string $email Email address of the person
+ * @property string $street Street address of the person
+ * @property string $postcode Zip code of the person
+ * @property string $city City of the person
+ * @property string $extra Additional information about the person
+ * @property integer $salutation
+ * @property string $title
+ * @property midgard_datetime $birthdate
+ * @property string $pgpkey
+ * @property string $country
+ * @property string $fax
+ * @property integer $orgOpenpsaAccesstype
+ * @property integer $orgOpenpsaObtype
+ * @property integer $orgOpenpsaWgtype
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_person_dba extends midcom_db_person

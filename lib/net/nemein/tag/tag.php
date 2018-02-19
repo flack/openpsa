@@ -9,6 +9,10 @@
 /**
  * MidCOM wrapped class for access to tags
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $tag The tag itself
+ * @property string $url A URI or URL pointing to information about the tag
+ * @property string $guid
  * @package net.nemein.tag
  */
 class net_nemein_tag_tag_dba extends midcom_core_dbaobject

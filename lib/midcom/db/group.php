@@ -9,6 +9,20 @@
 /**
  * MidCOM level replacement for the Midgard Group record with framework support.
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $name Path name of the group
+ * @property string $official Official name of the group
+ * @property string $street Street address of the group
+ * @property string $postcode Zip code of the group
+ * @property string $city City of the group
+ * @property string $country Country of the group
+ * @property string $homepage Homepage URL of the group
+ * @property string $email Email of the group
+ * @property string $phone Phone number of the group
+ * @property string $fax Fax number of the group
+ * @property string $extra Additional information about the group
+ * @property integer $owner Group the group is under
+ * @property string $guid
  * @package midcom.db
  */
 class midcom_db_group extends midcom_core_dbaobject

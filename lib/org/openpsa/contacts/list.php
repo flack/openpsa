@@ -9,6 +9,16 @@
 /**
  * DBA class for contact lists
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $name Path name of the group
+ * @property string $official Official name of the group
+ * @property string $extra Additional information about the group
+ * @property integer $owner Group the group is under
+ * @property string $guid
+ * @property string $customerId
+ * @property integer $orgOpenpsaAccesstype
+ * @property integer $orgOpenpsaObtype
+ * @property integer $orgOpenpsaWgtype
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_list_dba extends midcom_core_dbaobject

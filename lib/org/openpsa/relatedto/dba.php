@@ -9,6 +9,17 @@
 /**
  * MidCOM wrapped base class, keep logic here
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $fromComponent
+ * @property string $fromGuid
+ * @property string $fromClass
+ * @property string $fromExtra
+ * @property string $toComponent
+ * @property string $toGuid
+ * @property string $toClass
+ * @property string $toExtra
+ * @property integer $status
+ * @property string $guid
  * @package org.openpsa.relatedto
  */
 class org_openpsa_relatedto_dba extends midcom_core_dbaobject

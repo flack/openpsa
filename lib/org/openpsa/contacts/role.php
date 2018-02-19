@@ -7,6 +7,14 @@
  */
 
 /**
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $fromComponent
+ * @property string $objectGuid
+ * @property integer $role
+ * @property string $description
+ * @property integer $person
+ * @property integer $status
+ * @property string $guid
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_role_dba extends midcom_core_dbaobject

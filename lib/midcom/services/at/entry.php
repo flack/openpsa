@@ -9,6 +9,14 @@
 /**
  * MidCOM wrapped class for access to the at-job database entries
  *
+ * @property integer $id
+ * @property integer $status
+ * @property integer $start
+ * @property string $component
+ * @property string $method
+ * @property string $argumentsstore
+ * @property integer $host
+ * @property string $guid
  * @package midcom.services.at
  */
 class midcom_services_at_entry_dba extends midcom_core_dbaobject

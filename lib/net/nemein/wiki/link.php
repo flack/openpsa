@@ -9,6 +9,11 @@
 /**
  * MidCOM wrapped class for access to stored queries
  *
+ * @property integer $id
+ * @property integer $frompage
+ * @property string $topage
+ * @property integer $topageid
+ * @property string $guid
  * @package net.nemein.wiki
  */
 class net_nemein_wiki_link_dba extends midcom_core_dbaobject

@@ -9,6 +9,37 @@
 /**
  * MidCOM wrapped base class, keep logic here
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property integer $up In practice all salesprojects will have up of 0 but in case we someday wish to divide
+            a huge salesproject to subprojects this is here
+ * @property integer $start
+ * @property integer $end
+ * @property string $code
+ * @property string $title
+ * @property string $description
+ * @property integer $state
+ * @property integer $customer
+ * @property integer $customerContact
+ * @property integer $owner
+ * @property integer $probability
+ * @property float $value
+ * @property float $profit
+ * @property float $price
+ * @property float $cost
+ * @property integer $closeEst
+ * @property string $guid
+ * @property integer $status Current project status
+ * @property float $plannedHours
+ * @property float $reportedHours
+ * @property float $approvedHours
+ * @property float $invoicedHours
+ * @property float $invoiceableHours
+ * @property integer $orgOpenpsaAccesstype Shortcut for various ACL scenarios
+ * @property integer $orgOpenpsaWgtype will contain bitmask as integer
+        - 00(int=0) not a workgroup
+        - 01(int=1) is workgroup but not active
+        - 11(int=3) active workgroup
+ * @property string $orgOpenpsaOwnerWg The "owner" workgroup of this object
  * @package org.openpsa.sales
  */
 class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implements org_openpsa_invoices_interfaces_customer

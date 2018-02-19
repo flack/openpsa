@@ -9,6 +9,22 @@
 /**
  * MidCOM wrapped class for access to stored queries
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property integer $productGroup
+ * @property string $code
+ * @property string $title
+ * @property string $description
+ * @property float $price
+ * @property string $unit
+ * @property string $cost
+ * @property string $costType
+ * @property integer $start
+ * @property integer $end
+ * @property integer $owner
+ * @property integer $supplier
+ * @property integer $delivery
+ * @property integer $orgOpenpsaObtype
+ * @property string $guid
  * @package org.openpsa.products
  */
 class org_openpsa_products_product_dba extends midcom_core_dbaobject

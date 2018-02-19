@@ -9,6 +9,11 @@
 /**
  * MidCOM wrapped class for access to stored queries
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property integer $resource
+ * @property integer $event
+ * @property string $description
+ * @property string $guid
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject

@@ -11,6 +11,10 @@
  *
  * The uplink is the owning snippetdir.
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $name Path name of the snippetdir
+ * @property integer $up Snippetdir the snippetdir is under
+ * @property string $guid
  * @package midcom.db
  */
 class midcom_db_snippetdir extends midcom_core_dbaobject

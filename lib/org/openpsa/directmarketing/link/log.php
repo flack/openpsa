@@ -9,6 +9,15 @@
 /**
  * MidCOM wrapped class for access to stored queries
  *
+ * @property integer $id
+ * @property integer $person
+ * @property integer $message
+ * @property string $target
+ * @property string $referrer
+ * @property string $token
+ * @property integer $timestamp
+ * @property integer $orgOpenpsaObtype
+ * @property string $guid
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_link_log_dba extends midcom_core_dbaobject

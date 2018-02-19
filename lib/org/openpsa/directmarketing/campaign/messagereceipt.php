@@ -9,6 +9,14 @@
 /**
  * MidCOM wrapped class for access to stored queries
  *
+ * @property integer $id
+ * @property integer $message
+ * @property integer $person
+ * @property string $token
+ * @property integer $bounced
+ * @property integer $timestamp
+ * @property integer $orgOpenpsaObtype
+ * @property string $guid
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_campaign_messagereceipt_dba extends midcom_core_dbaobject

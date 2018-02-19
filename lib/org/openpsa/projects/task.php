@@ -9,6 +9,32 @@
 /**
  * MidCOM wrapped access to the MgdSchema class, keep logic here
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property integer $up
+ * @property integer $project
+ * @property integer $start
+ * @property integer $end
+ * @property string $title
+ * @property string $description
+ * @property float $plannedHours
+ * @property integer $status cache of last status
+ * @property integer $agreement
+ * @property integer $customer
+ * @property integer $manager
+ * @property float $reportedHours
+ * @property float $approvedHours
+ * @property float $invoicedHours
+ * @property float $invoiceableHours
+ * @property boolean $hoursInvoiceableDefault Are hours invoiceable by default ?
+ * @property integer $priority
+ * @property integer $orgOpenpsaAccesstype Shortcut for various ACL scenarios
+ * @property integer $orgOpenpsaObtype Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
+ * @property integer $orgOpenpsaWgtype will contain bitmask as integer
+            - 00(int=0) not a workgroup
+            - 01(int=1) is workgroup but not active
+            - 11(int=3) active workgroup
+ * @property string $orgOpenpsaOwnerWg The "owner" workgroup of this object
+ * @property string $guid
  * @package org.openpsa.projects
  */
 class org_openpsa_projects_task_dba extends midcom_core_dbaobject

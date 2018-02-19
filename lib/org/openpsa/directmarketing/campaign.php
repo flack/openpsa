@@ -9,6 +9,17 @@
 /**
  * MidCOM DBA wrapped access to org_openpsa_campaign object, with some utility methods
  *
+ * @property integer $id
+ * @property string $title
+ * @property string $description
+ * @property integer $node
+ * @property integer $archived
+ * @property string $rulesSerialized
+ * @property integer $orgOpenpsaAccesstype
+ * @property integer $orgOpenpsaObtype
+ * @property integer $orgOpenpsaWgtype
+ * @property string $orgOpenpsaOwnerWg
+ * @property string $guid
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject

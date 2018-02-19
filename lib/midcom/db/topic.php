@@ -9,6 +9,17 @@
 /**
  * MidCOM level replacement for the Midgard Topic record with framework support.
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $name URL name of the topic
+ * @property string $code Executable PHP code for topic display
+ * @property integer $up Topic the topic is under
+ * @property string $component MidCOM component responsible for the topic
+ * @property string $style MidCOM style path for the topic
+ * @property boolean $styleInherit Whether the MidCOM style should be inherited to subtopics
+ * @property string $title Title of the topic
+ * @property string $extra Extra information about the topic
+ * @property string $description Topic description
+ * @property string $guid
  * @package midcom.db
  */
 class midcom_db_topic extends midcom_core_dbaobject

@@ -7,6 +7,37 @@
  */
 
 /**
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $name Path name of the group
+ * @property string $official Official name of the group
+ * @property string $street Street address of the group
+ * @property string $postcode Zip code of the group
+ * @property string $city City of the group
+ * @property string $country Country of the group
+ * @property string $homepage Homepage URL of the group
+ * @property string $email Email of the group
+ * @property string $phone Phone number of the group
+ * @property string $fax Fax number of the group
+ * @property string $extra Additional information about the group
+ * @property integer $owner Group the group is under
+ * @property string $guid
+ * @property string $postalStreet
+ * @property string $postalPostcode
+ * @property string $postalCity
+ * @property string $postalCountry
+ * @property string $invoiceStreet
+ * @property string $invoicePostcode
+ * @property string $invoiceCity
+ * @property string $invoiceCountry
+ * @property string $customerId
+ * @property string $keywords
+ * @property integer $invoiceDue
+ * @property integer $invoiceVat
+ * @property string $invoiceDistribution
+ * @property string $vatNo
+ * @property integer $orgOpenpsaAccesstype
+ * @property integer $orgOpenpsaObtype
+ * @property integer $orgOpenpsaWgtype
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_group_dba extends midcom_core_dbaobject

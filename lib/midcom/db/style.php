@@ -11,6 +11,10 @@
  *
  * The uplink is the owning Style.
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $name Path name of the style
+ * @property integer $up Style the style is under
+ * @property string $guid
  * @package midcom.db
  */
 class midcom_db_style extends midcom_core_dbaobject

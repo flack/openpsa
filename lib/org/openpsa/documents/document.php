@@ -11,6 +11,24 @@
  *
  * Implements parameter and attachment methods for DM compatibility
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property integer $author
+ * @property integer $topic
+ * @property integer $nextVersion
+ * @property string $title
+ * @property string $abstract
+ * @property string $keywords
+ * @property integer $docStatus For status flags like: DRAFT, etc, could even be a bitmask stored as integer
+	        	status seems to be a reserved word in some layer between DM -> DB
+ * @property string $content plaintext representation of content, non-ML
+ * @property integer $orgOpenpsaAccesstype Shortcut for various ACL scenarios
+ * @property integer $orgOpenpsaObtype Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
+ * @property integer $orgOpenpsaWgtype will contain bitmask as integer
+            - 00(int=0) not a workgroup
+            - 01(int=1) is workgroup but not active
+            - 11(int=3) active workgroup
+ * @property string $orgOpenpsaOwnerWg The "owner" workgroup of this object
+ * @property string $guid
  * @package org.openpsa.documents
  */
 class org_openpsa_documents_document_dba extends midcom_core_dbaobject

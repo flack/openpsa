@@ -9,6 +9,11 @@
 /**
  * MidCOM level replacement for the Midgard Membership record with framework support.
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property integer $uid Identifier of the user that belongs to a group
+ * @property integer $gid Identifier of the group that the user belongs to
+ * @property string $extra Additional information about the membership
+ * @property string $guid
  * @package midcom.db
  */
 class midcom_db_member extends midcom_core_dbaobject

@@ -9,6 +9,17 @@
 /**
  * MidCOM wrapped class for access to stored queries
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $title title for a report meant for long-term storage
+ * @property integer $start start timestamp for report window
+ * @property integer $end  end timestamp for report window
+ * @property string $style style used to display report
+ * @property string $component component this query belongs to
+ * @property string $relatedcomponent  component this query is related to
+ * @property string $mimetype mimetype for output (in case it's not 'text/html')
+ * @property string $extension file-extension (helps browsers, if not '.html')
+ * @property integer $orgOpenpsaObtype used to distinguish between temporary and long-term storage
+ * @property string $guid
  * @package org.openpsa.reports
  */
 class org_openpsa_reports_query_dba extends midcom_core_dbaobject

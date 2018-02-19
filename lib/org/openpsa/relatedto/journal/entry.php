@@ -7,6 +7,14 @@
 /**
  * MidCOM wrapped base class, keep logic here
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $linkGuid
+ * @property string $title
+ * @property string $text
+ * @property integer $followUp date to show up the entry
+ * @property integer $status
+ * @property boolean $closed
+ * @property string $guid
  * @package org.openpsa.relatedto
  */
 class org_openpsa_relatedto_journal_entry_dba extends midcom_core_dbaobject
