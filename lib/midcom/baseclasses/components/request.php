@@ -559,11 +559,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             . $this->_request_data['plugin_anchorprefix'];
         } else {
             // We're not using a plugin handler, so call the general handle event handler
-            $result = $this->_on_handle($this->_handler['id'], $this->_handler['args']);
-            if ($result === false) {
-                debug_add('_on_handle for ' . $this->_handler['id'] . ' returned false. This is deprecated, please use exceptions instead');
-                return false;
-            }
+            $this->_on_handle($this->_handler['id'], $this->_handler['args']);
         }
         $method = "_handler_{$this->_handler['handler'][1]}";
         $result = $handler->$method($this->_handler['id'], $this->_handler['args'], $this->_request_data);
