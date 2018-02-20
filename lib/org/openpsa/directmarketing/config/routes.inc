@@ -279,7 +279,6 @@
 'config' => array
 (
     'handler' => Array('midcom_baseclasses_components_handler_configuration', 'config'),
-    'schema' => 'config',
     'fixed_args' => array('config'),
 ),
 

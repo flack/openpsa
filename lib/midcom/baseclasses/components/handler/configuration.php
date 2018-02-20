@@ -40,19 +40,12 @@ class midcom_baseclasses_components_handler_configuration extends midcom_basecla
 
     private function load_controller()
     {
-        if (isset($this->_master->_handler['schemadb'])) {
-            $schemadb_path = $this->_master->_handler['schemadb'];
-        } elseif ($this->_config->get('schemadb_config')) {
-            $schemadb_path = $this->_config->get('schemadb_config');
-        } else {
-            throw new midcom_error("No configuration schema defined");
+        if ($schemadb_path = $this->_config->get('schemadb_config')) {
+            return datamanager::from_schemadb($schemadb_path)
+                ->set_storage($this->_topic, 'config')
+                ->get_controller();
         }
-
-        $schema = (isset($this->_master->_handler['schema'])) ? $this->_master->_handler['schema'] : 'config';
-
-        return datamanager::from_schemadb($schemadb_path)
-            ->set_storage($this->_topic, $schema)
-            ->get_controller();
+        throw new midcom_error("No configuration schema defined");
     }
 
     /**
