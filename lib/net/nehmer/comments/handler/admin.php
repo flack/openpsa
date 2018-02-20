@@ -15,6 +15,8 @@ use midcom\datamanager\datamanager;
  */
 class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_handler
 {
+    use net_nehmer_comments_handler;
+
     /**
      * This datamanager instance is used to display an existing comment. only set
      * if there are actually comments to display.
@@ -156,7 +158,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     {
         if (!empty($data['comment'])) {
             $this->_display_datamanager->set_storage($data['comment']);
-            $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($data['comment'], $data['handler']);
+            $data['comment_toolbar'] = $this->populate_post_toolbar($data['comment'], $data['handler']);
             midcom_show_style('admin-comments-item');
         }
     }

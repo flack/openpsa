@@ -22,6 +22,8 @@ use midcom\datamanager\controller;
  */
 class net_nehmer_comments_handler_view extends midcom_baseclasses_components_handler
 {
+    use net_nehmer_comments_handler;
+
     /**
      * The schema database to use.
      *
@@ -301,7 +303,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             foreach ($this->_comments as $comment) {
                 $this->_display_datamanager->set_storage($comment);
                 $data['comment'] = $comment;
-                $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($comment);
+                $data['comment_toolbar'] = $this->populate_post_toolbar($comment);
                 midcom_show_style('comments-item');
 
                 if (   midcom::get()->auth->admin

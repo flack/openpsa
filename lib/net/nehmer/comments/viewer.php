@@ -21,9 +21,10 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
     }
 
     /**
-     * Populates the node toolbar depending on the user's rights.
+     * Generic request startup work:
+     * - Populate the Node Toolbar depengin on the user's rights
      */
-    private function _populate_node_toolbar()
+    public function _on_handle($handler, array $args)
     {
         $buttons = [];
         if (   $this->_topic->can_do('midgard:update')
@@ -74,81 +75,5 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
             ];
         }
         $this->_node_toolbar->add_items($buttons);
-    }
-
-    public function _populate_post_toolbar(net_nehmer_comments_comment $comment, $viewtype = null)
-    {
-        $toolbar = new midcom_helper_toolbar();
-        $buttons = [];
-        if (   midcom::get()->auth->user
-            && $comment->status < net_nehmer_comments_comment::MODERATED) {
-            if (!$comment->can_do('net.nehmer.comments:moderation')) {
-                // Regular users can only report abuse
-                $buttons[] = [
-                    MIDCOM_TOOLBAR_URL => "report/abuse/{$comment->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('report abuse'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
-                    MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => [
-                        'return_url' => midcom_connection::get_url('uri'),
-                    ]
-                ];
-            } else {
-                $buttons[] = [
-                    MIDCOM_TOOLBAR_URL => "report/confirm_abuse/{$comment->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('confirm abuse'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
-                    MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => [
-                        'return_url' => midcom_connection::get_url('uri'),
-                    ]
-                ];
-                $buttons[] = [
-                    MIDCOM_TOOLBAR_URL => "report/confirm_junk/{$comment->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('confirm junk'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
-                    MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => [
-                        'return_url' => midcom_connection::get_url('uri'),
-                    ]
-                ];
-                $buttons[] = [
-                    MIDCOM_TOOLBAR_URL => "report/not_abuse/{$comment->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('not abuse'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/ok.png',
-                    MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
-                    MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => [
-                        'return_url' => midcom_connection::get_url('uri'),
-                    ]
-                ];
-                if (!empty($viewtype)) {
-                    $buttons[] = [
-                        MIDCOM_TOOLBAR_URL => 'moderate/ajax/' . $viewtype . '/',
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editdelete.png',
-                        MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
-                        MIDCOM_TOOLBAR_OPTIONS => [
-                            'class' => 'moderate-ajax',
-                            'data-guid' => $comment->guid,
-                            'data-action' => 'action_delete',
-                        ]
-                    ];
-                }
-            }
-        }
-        $toolbar->add_items($buttons);
-        return $toolbar;
-    }
-
-    /**
-     * Generic request startup work:
-     * - Populate the Node Toolbar
-     */
-    public function _on_handle($handler, array $args)
-    {
-        $this->_populate_node_toolbar();
     }
 }
