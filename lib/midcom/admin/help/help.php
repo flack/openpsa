@@ -114,21 +114,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         if (!$text) {
             return false;
         }
-
-        // Finding [callback:some_method_of_viewer]
-        if (preg_match_all('/(\[callback:(.+?)\])/', $text, $regs)) {
-            foreach ($regs[1] as $i => $value) {
-                if ($component != midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT)) {
-                    $text = str_replace($value, "\n\n    __Note:__ documentation part _{$regs[2][$i]}_ from _{$component}_ is unavailable in this MidCOM context.\n\n", $text);
-                } else {
-                    $method_name = "help_{$regs[2][$i]}";
-                    if (method_exists($this->_master, $method_name)) {
-                        $text = str_replace($value, $this->_master->$method_name(), $text);
-                    }
-                }
-            }
-        }
-
         return MarkdownExtra::defaultTransform($text);
     }
 
