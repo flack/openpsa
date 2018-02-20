@@ -27,7 +27,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
         }
         return $this->verify_existing_password($fields);
     }
-
+    
     /**
      * Validate the existing password
      *
@@ -48,7 +48,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
         }
         return true;
     }
-
+    
     /**
      * Test if a username exists
      *
@@ -62,13 +62,13 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
         if (!$user) {
             $result["username"] = midcom::get()->i18n->get_string("unknown username", "org.openpsa.user");
         }
-
+        
         if (!empty($result)) {
             return $result;
         }
         return true;
     }
-
+    
     /**
      * Test is email address exists
      *
@@ -86,13 +86,13 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
         } elseif ($count > 1) {
             $result["email"] = midcom::get()->i18n->get_string("multiple entries found, cannot continue", "org.openpsa.user");
         }
-
+        
         if (!empty($result)) {
             return $result;
         }
         return true;
     }
-
+    
     /**
      * Test that both email and username exist
      *
@@ -112,6 +112,32 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
             if ($qb->count() == 0) {
                 $result["username"] = midcom::get()->i18n->get_string("no user found with this username and email address", "org.openpsa.user");
             }
+        }
+        if (!empty($result)) {
+            return $result;
+        }
+        return true;
+    }
+    
+    /**
+     * Test that no previous password is reused & password is strong enough
+     *
+     * @var array $fields The form's data
+     * @return mixed True on success, array of error messages otherwise
+     */
+    public function password_check(array $fields)
+    {
+        $result = [];
+        
+        $user = new midcom_db_person($fields["person"]);
+        
+        $accounthelper = new org_openpsa_user_accounthelper($user);
+        $show_ui_message = false;
+        if(!$accounthelper->check_password_reuse($fields['new_password'], $show_ui_message)){
+            $result['password'] = midcom::get()->i18n->get_string('password was already used');
+        }
+        if(!$accounthelper->check_password_strength($fields['new_password'], $show_ui_message)){
+            $result['password'] =  midcom::get()->i18n->get_string('password weak');
         }
         if (!empty($result)) {
             return $result;
