@@ -15,7 +15,7 @@
 // Match /agenda/day/<timestamp>
 'agenda_day' => array
 (
-    'handler' => Array('org_openpsa_calendar_handler_agenda', 'day'),
+    'handler' => Array('org_openpsa_calendar_handler_calendar', 'day'),
     'fixed_args' => Array('agenda', 'day'),
     'variable_args' => 1,
 ),
@@ -94,7 +94,7 @@
 // Match /json/
 'calendar_view_json' => array
 (
-    'handler' => array('org_openpsa_calendar_handler_calendar', 'json'),
+    'handler' => array('org_openpsa_calendar_handler_json', 'json'),
     'fixed_args' => 'json',
 ),
 // Match /<mode>/<date>
