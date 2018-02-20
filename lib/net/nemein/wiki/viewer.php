@@ -53,19 +53,6 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         ]);
     }
 
-    public function load_page($wikiword)
-    {
-        $qb = net_nemein_wiki_wikipage::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_topic->id);
-        $qb->add_constraint('name', '=', $wikiword);
-        $result = $qb->execute();
-
-        if (count($result) > 0) {
-            return $result[0];
-        }
-        throw new midcom_error_notfound('The page "' . $wikiword . '" could not be found.');
-    }
-
     /**
      * Indexes a wiki page.
      *
@@ -85,19 +72,5 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $document->read_metadata_from_object($dm->get_storage()->get_value());
         $document->component = $topic->component;
         $indexer->index($document);
-    }
-
-    public static function initialize_index_article($topic)
-    {
-        $page = new net_nemein_wiki_wikipage();
-        $page->topic = $topic->id;
-        $page->name = 'index';
-        $page->title = $topic->extra;
-        $page->content = midcom::get()->i18n->get_string('wiki default page content', 'net.nemein.wiki');
-        $page->author = midcom_connection::get_user();
-        if (!$page->create()) {
-            throw new midcom_error('Failed to create index article: ' . midcom_connection::get_error_string());
-        }
-        return $page;
     }
 }

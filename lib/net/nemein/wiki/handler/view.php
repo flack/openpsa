@@ -15,6 +15,8 @@ use midcom\datamanager\datamanager;
  */
 class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 {
+    use net_nemein_wiki_handler;
+
     /**
      * The wikipage we're viewing
      *
@@ -115,7 +117,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         if ($wikiword == 'index') {
             // Autoinitialize
             $this->_topic->require_do('midgard:create');
-            $this->_page = net_nemein_wiki_viewer::initialize_index_article($this->_topic);
+            $this->_page = $this->initialize_index_article($this->_topic);
             return true;
         }
 

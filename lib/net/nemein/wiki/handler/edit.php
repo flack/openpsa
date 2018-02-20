@@ -17,6 +17,8 @@ use midcom\datamanager\controller;
  */
 class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 {
+    use net_nemein_wiki_handler;
+
     /**
      * The wikipage we're editing
      *
@@ -72,7 +74,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->page = $this->_master->load_page($args[0]);
+        $this->page = $this->load_page($args[0]);
         $this->page->require_do('midgard:update');
 
         $this->load_controller();
@@ -126,7 +128,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
-        $this->page = $this->_master->load_page($args[0]);
+        $this->page = $this->load_page($args[0]);
         $this->page->require_do('midgard:update');
 
         // Change schema to redirect

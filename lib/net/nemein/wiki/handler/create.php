@@ -17,6 +17,8 @@ use midcom\datamanager\controller;
  */
 class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handler
 {
+    use net_nemein_wiki_handler;
+
     /**
      * Wiki word we're creating page for
      *
@@ -73,7 +75,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
                 }
             } else {
                 try {
-                    net_nemein_wiki_viewer::initialize_index_article($topic);
+                    $this->initialize_index_article($topic);
                 } catch (midcom_error $e) {
                     // Could not create index
                     $topic->delete();
