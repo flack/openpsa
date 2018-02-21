@@ -54,6 +54,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     /**
      * The request class that has invoked this handler instance.
      *
+     * @deprecated
      * @var midcom_baseclasses_components_request
      */
     var $_master = null;
@@ -95,7 +96,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      *
      * @param midcom_baseclasses_components_request $master The request class
      */
-    public function initialize($master)
+    public function initialize(midcom_baseclasses_components_request $master)
     {
         $this->_master = $master;
 
