@@ -13,6 +13,8 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_directmarketing_handler;
+
     /**
      * @var datamanager
      */
@@ -145,7 +147,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         midcom::get()->auth->require_valid_user();
         //Load message
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        $data['campaign'] = $this->_master->load_campaign($data['message']->campaign);
+        $data['campaign'] = $this->load_campaign($data['message']->campaign);
 
         $this->add_breadcrumb("message/{$data['message']->guid}/", $data['message']->title);
         $this->add_breadcrumb("send_test/{$data['message']->guid}/", $this->_l10n->get('send'));

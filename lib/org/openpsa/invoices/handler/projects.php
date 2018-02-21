@@ -13,6 +13,8 @@
  */
 class org_openpsa_invoices_handler_projects extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_invoices_handler;
+
     /**
      * The array of tasks.
      *
@@ -113,7 +115,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $this->set_active_leaf($this->_topic->id . ':projects');
         midcom::get()->head->set_pagetitle($this->_l10n->get('project invoicing'));
 
-        $this->_master->prepare_toolbar('projects');
+        $this->prepare_toolbar();
     }
 
     /**

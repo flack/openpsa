@@ -40,14 +40,4 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         midcom::get()->cache->content->no_cache();
         $this->_populate_node_toolbar();
     }
-
-    public function load_campaign($identifier)
-    {
-        $campaign = new org_openpsa_directmarketing_campaign_dba($identifier);
-        if ($campaign->node != $this->_topic->id) {
-            throw new midcom_error_notfound("The campaign {$identifier} was not found.");
-        }
-        $this->set_active_leaf('campaign_' . $campaign->id);
-        return $campaign;
-    }
 }

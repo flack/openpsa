@@ -11,6 +11,8 @@
  */
 class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_expenses_handler;
+
     /**
      * Can-Handle check against the passed date. We have to do this explicitly
      * in can_handle already, otherwise we would hide all subtopics as the request switch
@@ -60,7 +62,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
     public function _handler_index($handler_id, array $args, array &$data)
     {
         $hours_mc = org_openpsa_expenses_hour_report_dba::new_collector();
-        $this->_master->add_list_filter($hours_mc);
+        $this->add_list_filter($hours_mc);
         $hours_mc->add_constraint('date', '>=', $data['week_start']);
         $hours_mc->add_constraint('date', '<=', $data['week_end']);
         $hours_mc->add_order('task');
@@ -87,8 +89,6 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
 
     private function _populate_toolbar($previous_week, $next_week)
     {
-        $this->_master->populate_view_toolbar();
-
         $week_start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
         $week_end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
         $buttons = [

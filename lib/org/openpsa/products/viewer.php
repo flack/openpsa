@@ -137,39 +137,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         }
     }
 
-    /**
-     * Update the context so that we get a complete breadcrumb line towards the current location.
-     *
-     * @param midcom_core_dbaobject $object
-     */
-    public function update_breadcrumb_line($object)
-    {
-        $tmp = [];
-        $root_group = $this->_config->get('root_group');
-
-        while ($object) {
-            $parent = $object->get_parent();
-
-            if ($object instanceof org_openpsa_products_product_dba) {
-                $tmp[] = [
-                    MIDCOM_NAV_URL => "product/{$object->guid}/",
-                    MIDCOM_NAV_NAME => $object->title,
-                ];
-            } else {
-                if ($object->guid === $root_group) {
-                    break;
-                }
-
-                $tmp[] = [
-                    MIDCOM_NAV_URL => $object->guid . '/',
-                    MIDCOM_NAV_NAME => $object->title,
-                ];
-            }
-            $object = $parent;
-        }
-        return array_reverse($tmp);
-    }
-
     public static function get_unit_options()
     {
         $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options');

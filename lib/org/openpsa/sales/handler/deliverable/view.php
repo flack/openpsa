@@ -74,7 +74,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
             ->set_storage($this->_deliverable)
             ->get_content_html();
 
-        org_openpsa_sales_viewer::add_breadcrumb_path($this->_deliverable, $this);
+        $this->add_breadcrumb_path($this->_deliverable, $this);
 
         $this->_prepare_request_data();
 
@@ -84,6 +84,34 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         org_openpsa_widgets_ui::enable_ui_tab();
 
         midcom::get()->head->set_pagetitle("{$this->_salesproject->title}: {$this->_deliverable->title}");
+    }
+
+    /**
+     * Update the context so that we get a complete breadcrumb line towards the current location.
+     */
+    private function add_breadcrumb_path()
+    {
+        $tmp = [];
+        $object = $this->_deliverable;
+
+        while ($object) {
+            if (midcom::get()->dbfactory->is_a($object, org_openpsa_sales_salesproject_deliverable_dba::class)) {
+                if ($object->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
+                    $prefix = $this->_l10n->get('subscription');
+                } else {
+                    $prefix = $this->_l10n->get('single delivery');
+                }
+                $tmp["deliverable/{$object->guid}/"] = $prefix . ': ' . $object->title;
+            } else {
+                $tmp["salesproject/{$object->guid}/"] = $object->title;
+            }
+            $object = $object->get_parent();
+        }
+        $tmp = array_reverse($tmp);
+
+        foreach ($tmp as $url => $title) {
+            $this->add_breadcrumb($url, $title);
+        }
     }
 
     /**

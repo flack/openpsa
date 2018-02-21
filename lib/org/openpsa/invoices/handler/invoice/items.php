@@ -13,6 +13,8 @@
  */
 class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_invoices_handler;
+
     /**
      * The invoice we're working with
      *
@@ -83,7 +85,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
             MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
         ]);
 
-        $this->_master->add_next_previous($this->_object, $this->_view_toolbar, 'invoice/items/');
+        $this->add_next_previous($this->_object, 'invoice/items/');
 
         // This is used for the Drag&Drop sorting
         midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/widgets/sortable.min.js');

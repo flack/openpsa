@@ -17,6 +17,8 @@ use midcom\datamanager\datamanager;
 class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client
 {
+    use org_openpsa_contacts_handler;
+
     /**
      * What type of group are we dealing with, organization or group?
      *
@@ -101,7 +103,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
             $this->type = 'group';
-            $data['group_tree'] = $this->_master->get_group_tree();
+            $data['group_tree'] = $this->get_group_tree();
             $data['members_grid'] = new org_openpsa_widgets_grid('members_grid', 'json');
             org_openpsa_widgets_tree::add_head_elements();
         } else {

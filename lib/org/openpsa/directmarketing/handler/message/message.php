@@ -13,6 +13,8 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_directmarketing_handler_message_message extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_directmarketing_handler;
+
     /**
      * The message which has been created
      *
@@ -37,7 +39,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
     {
         midcom::get()->auth->require_valid_user();
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        $this->_campaign = $this->_master->load_campaign($this->_message->campaign);
+        $this->_campaign = $this->load_campaign($this->_message->campaign);
 
         $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_message'));
         $this->_datamanager->set_storage($this->_message);

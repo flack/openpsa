@@ -16,6 +16,8 @@ use midcom\datamanager\controller;
  */
 class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_directmarketing_handler;
+
     /**
      * The message to operate on
      *
@@ -35,7 +37,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $this->_message->require_do('midgard:update');
 
-        $data['campaign'] = $this->_master->load_campaign($this->_message->campaign);
+        $data['campaign'] = $this->load_campaign($this->_message->campaign);
 
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_message'));
         $dm->set_storage($this->_message);
@@ -73,7 +75,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     {
         $this->_topic->require_do('midgard:create');
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        $this->_master->load_campaign($this->_message->campaign);
+        $this->load_campaign($this->_message->campaign);
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('copy message'));
 

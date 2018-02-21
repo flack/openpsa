@@ -12,6 +12,8 @@
 class org_openpsa_invoices_handler_scheduled extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client
 {
+    use org_openpsa_invoices_handler;
+
     private $_sales_url;
 
     /**
@@ -30,7 +32,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         $data['grid'] = $provider->get_grid('scheduled_invoices');
         midcom::get()->head->set_pagetitle($this->_l10n->get('scheduled invoices'));
-        $this->_master->prepare_toolbar('scheduled');
+        $this->prepare_toolbar();
         $this->set_active_leaf($this->_topic->id . ':scheduled');
 
         return $this->show('show-scheduled');

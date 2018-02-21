@@ -15,6 +15,8 @@ use midcom\datamanager\schemadb;
 class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client
 {
+    use org_openpsa_directmarketing_handler;
+
     /**
      * The campaign which has been created
      *
@@ -86,7 +88,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        $this->_campaign = $this->_master->load_campaign($args[0]);
+        $this->_campaign = $this->load_campaign($args[0]);
 
         $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_campaign'));
         $this->_datamanager->set_storage($this->_campaign);
@@ -187,7 +189,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_members($handler_id, array $args, array &$data)
     {
-        $this->_campaign = $this->_master->load_campaign($args[0]);
+        $this->_campaign = $this->load_campaign($args[0]);
 
         midcom::get()->skip_page_style = true;
 

@@ -14,6 +14,8 @@ use midcom\datamanager\datamanager;
 class org_openpsa_products_handler_list extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client
 {
+    use org_openpsa_products_handler;
+
     /**
      * The grid provider
      *
@@ -120,7 +122,7 @@ implements org_openpsa_widgets_grid_provider_client
 
             $this->datamanager = new datamanager($data['schemadb_group']);
             $this->datamanager->set_storage($data['group']);
-            $tmp = $this->_master->update_breadcrumb_line($this->_request_data['group']);
+            $tmp = $this->update_breadcrumb_line($data['group']);
             midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
         }
         $data['grid'] = $this->provider->get_grid('product_search');

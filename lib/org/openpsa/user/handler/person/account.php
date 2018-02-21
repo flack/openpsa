@@ -17,6 +17,8 @@ use midcom\datamanager\controller;
  */
 class org_openpsa_user_handler_person_account extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_user_handler;
+
     /**
      * The person we're working on
      *
@@ -57,7 +59,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         $response = $workflow->run();
 
         if (   $workflow->get_state() == 'save'
-            && $this->_master->create_account($this->person, $data["controller"]->get_form_values())) {
+            && $this->create_account($this->person, $data["controller"]->get_form_values())) {
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->person->name));
         }
 

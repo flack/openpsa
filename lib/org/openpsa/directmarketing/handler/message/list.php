@@ -13,6 +13,8 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_directmarketing_handler;
+
     private $_campaign;
 
     /**
@@ -26,7 +28,7 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
     public function _handler_list($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
-        $this->_campaign = $this->_master->load_campaign($args[1]);
+        $this->_campaign = $this->load_campaign($args[1]);
 
         $data['campaign'] = $this->_campaign;
         $this->datamanager = datamanager::from_schemadb($this->_config->get('schemadb_message'));

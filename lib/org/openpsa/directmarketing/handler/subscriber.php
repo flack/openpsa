@@ -12,6 +12,8 @@
  */
 class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_directmarketing_handler;
+
     public function _on_initialize()
     {
         //This is often called by people who should not see anything pointing to OpenPSA, also allows full styling of the unsubscribe page
@@ -126,7 +128,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         midcom::get()->auth->request_sudo($this->_component);
 
         $data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
-        $data['campaign'] = $this->_master->load_campaign($data['membership']->campaign);
+        $data['campaign'] = $this->load_campaign($data['membership']->campaign);
 
         $data['membership']->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
         $data['unsubscribe_status'] = $data['membership']->update();
@@ -160,7 +162,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     {
         midcom::get()->auth->request_sudo($this->_component);
         $membership = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
-        $this->_master->load_campaign($membership->campaign);
+        $this->load_campaign($membership->campaign);
         $membership->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
         $unsubscribe_status = $membership->update();
         midcom::get()->auth->drop_sudo();

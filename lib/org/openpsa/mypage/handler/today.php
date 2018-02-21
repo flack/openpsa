@@ -15,6 +15,8 @@ use midcom\datamanager\helper\autocomplete;
  */
 class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_mypage_handler;
+
     private function _populate_toolbar()
     {
         $buttons = [
@@ -51,7 +53,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
             $data['requested_time'] = new DateTime($args[0]);
         }
 
-        $this->_master->calculate_day($data['requested_time']);
+        $this->prepare_timestamps($data['requested_time']);
 
         $this->_populate_toolbar();
 

@@ -15,6 +15,8 @@ use midcom\datamanager\helper\autocomplete;
  */
 class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_mypage_handler;
+
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
@@ -45,7 +47,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
 
         $data['requested_time'] = new DateTime;
 
-        $this->_master->calculate_day($data['requested_time']);
+        $this->prepare_timestamps($data['requested_time']);
         $this->_list_work_hours();
 
         return $this->show('workingon');

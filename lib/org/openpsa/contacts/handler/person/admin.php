@@ -16,6 +16,8 @@ use midcom\datamanager\controller;
  */
 class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_contacts_handler;
+
     /**
      * The contact to operate on
      *
@@ -28,7 +30,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      */
     private function load_controller()
     {
-        $schema = $this->_master->get_person_schema($this->_contact);
+        $schema = $this->get_person_schema($this->_contact);
         return datamanager::from_schemadb($this->_config->get('schemadb_person'))
             ->set_storage($this->_contact, $schema)
             ->get_controller();

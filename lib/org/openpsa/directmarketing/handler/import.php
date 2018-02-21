@@ -15,6 +15,8 @@ use midcom\datamanager\schemadb;
  */
 class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_directmarketing_handler;
+
     /**
      * The schema databases used for importing to various objects like persons and organizations
      *
@@ -34,7 +36,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class);
 
         // Try to load the correct campaign
-        $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);
+        $this->_request_data['campaign'] = $this->load_campaign($args[0]);
 
         $this->_view_toolbar->add_item([
             MIDCOM_TOOLBAR_URL => "campaign/{$this->_request_data['campaign']->guid}/",

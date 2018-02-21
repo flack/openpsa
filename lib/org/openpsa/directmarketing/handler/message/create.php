@@ -15,6 +15,8 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_directmarketing_handler_message_create extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_directmarketing_handler;
+
     /**
      * The message which has been created
      *
@@ -31,7 +33,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $data['campaign'] = $this->_master->load_campaign($args[0]);
+        $data['campaign'] = $this->load_campaign($args[0]);
         $data['campaign']->require_do('midgard:create');
 
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_message'));

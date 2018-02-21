@@ -13,6 +13,8 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_directmarketing_handler_message_report extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_directmarketing_handler;
+
     /**
      * The message we're working on
      *
@@ -318,7 +320,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             ->set_storage($this->_message)
             ->get_content_raw();
 
-        $this->_campaign = $this->_master->load_campaign($this->_message->campaign);
+        $this->_campaign = $this->load_campaign($this->_message->campaign);
         $data['campaign'] = $this->_campaign;
 
         if (   isset($_POST['oo_dirmar_userule'])

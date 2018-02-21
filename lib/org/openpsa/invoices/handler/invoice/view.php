@@ -16,6 +16,8 @@ use midcom\datamanager\schemadb;
  */
 class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_invoices_handler;
+
     /**
      * @var org_openpsa_invoices_invoice_dba
      */
@@ -121,7 +123,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         }
 
         $this->_view_toolbar->add_items($buttons);
-        $this->_master->add_next_previous($this->invoice, $this->_view_toolbar, 'invoice/');
+        $this->add_next_previous($this->invoice, 'invoice/');
     }
 
     private function build_button($action, $icon)

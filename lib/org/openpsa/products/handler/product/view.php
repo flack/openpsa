@@ -15,6 +15,8 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_products_handler_product_view extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_products_handler;
+
     /**
      * The product to display
      *
@@ -64,7 +66,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         $this->_prepare_request_data();
         $this->bind_view_to_object($this->_product, $data['datamanager']->get_schema()->get_name());
 
-        $breadcrumb = $this->_master->update_breadcrumb_line($this->_product);
+        $breadcrumb = $this->update_breadcrumb_line($this->_product);
         midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
 
         midcom::get()->metadata->set_request_metadata($this->_product->metadata->revised, $this->_product->guid);

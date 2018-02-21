@@ -15,6 +15,8 @@ use midcom\datamanager\helper\autocomplete;
  */
 class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_contacts_handler;
+
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
@@ -23,7 +25,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
         autocomplete::add_head_elements();
-        $data['tree'] = $this->_master->get_group_tree();
+        $data['tree'] = $this->get_group_tree();
 
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];

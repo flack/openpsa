@@ -15,6 +15,8 @@ use midcom\datamanager\schemadb;
  */
 class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_components_handler_dataexport
 {
+    use org_openpsa_directmarketing_handler;
+
     /**
      * config key csv_export_memberships cached
      *
@@ -27,7 +29,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
     public function _load_schemadbs($handler_id, array &$args, array &$data)
     {
         // Try to load the correct campaign
-        $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);
+        $this->_request_data['campaign'] = $this->load_campaign($args[0]);
 
         $data['filename'] = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_request_data['campaign']->title)) . '_' . date('Y-m-d') . '.csv';
 

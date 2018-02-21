@@ -13,6 +13,8 @@ use midcom\datamanager\helper\autocomplete;
  */
 class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_expenses_handler;
+
     /**
      * @var midcom_core_querybuilder
      */
@@ -45,7 +47,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $data['mode'] = 'full';
         $data['view_title'] = $data['l10n']->get('hour reports');
         $this->breadcrumb_title = $data['view_title'];
-        $this->_master->add_list_filter($this->qb, true);
+        $this->add_list_filter($this->qb, true);
         $this->prepare_request_data();
 
         return $this->show_list($data);
@@ -130,7 +132,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
         $this->add_breadcrumb('', $this->breadcrumb_title);
 
-        $this->_master->populate_view_toolbar($prefix, $suffix);
+        $this->populate_view_toolbar($prefix, $suffix);
     }
 
     /**

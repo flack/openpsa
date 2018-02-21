@@ -15,12 +15,7 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclasses_components_handler
 {
-    /**
-     * The campaign to operate on
-     *
-     * @var org_openpsa_directmarketing_campaign_dba
-     */
-    private $_campaign;
+    use org_openpsa_directmarketing_handler;
 
     /**
      * Displays a campaign edit view.
@@ -31,11 +26,11 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_campaign = $this->_master->load_campaign($args[0]);
-        $this->_campaign->require_do('midgard:update');
+        $campaign = $this->load_campaign($args[0]);
+        $campaign->require_do('midgard:update');
 
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_campaign'));
-        $dm->set_storage($this->_campaign);
+        $dm->set_storage($campaign);
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit campaign'));
 
@@ -50,8 +45,8 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $this->_campaign = $this->_master->load_campaign($args[0]);
-        $workflow = $this->get_workflow('delete', ['object' => $this->_campaign]);
+        $campaign = $this->load_campaign($args[0]);
+        $workflow = $this->get_workflow('delete', ['object' => $campaign]);
         return $workflow->run();
     }
 }

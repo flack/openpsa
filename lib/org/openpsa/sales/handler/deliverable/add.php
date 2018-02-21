@@ -17,6 +17,8 @@ use midcom\datamanager\controller;
  */
 class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_sales_handler;
+
     /**
      * The deliverable to display
      *
@@ -128,7 +130,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
     public function save_callback(controller $controller)
     {
         $formdata = $controller->get_form_values();
-        $this->_master->process_notify_date((int) $formdata['notify'], $this->_deliverable);
+        $this->process_notify_date((int) $formdata['notify'], $this->_deliverable);
         return "salesproject/{$this->_salesproject->guid}/";
     }
 }

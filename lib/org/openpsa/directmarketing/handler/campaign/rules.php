@@ -14,6 +14,8 @@
 class org_openpsa_directmarketing_handler_campaign_rules extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client
 {
+    use org_openpsa_directmarketing_handler;
+
     /**
      * The campaign to operate on
      *
@@ -69,7 +71,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_query($handler_id, array $args, array &$data)
     {
-        $this->_campaign = $this->_master->load_campaign($args[0]);
+        $this->_campaign = $this->load_campaign($args[0]);
         $this->_campaign->require_do('midgard:update');
         $this->rules = $this->_load_rules();
 
@@ -88,7 +90,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_edit_query($handler_id, array $args, array &$data)
     {
-        $this->_campaign = $this->_master->load_campaign($args[0]);
+        $this->_campaign = $this->load_campaign($args[0]);
         $this->_campaign->require_do('midgard:update');
         $data['campaign'] = $this->_campaign;
 

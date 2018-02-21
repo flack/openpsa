@@ -16,6 +16,8 @@ use Doctrine\ORM\Query\Expr\Join;
 class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client
 {
+    use org_openpsa_invoices_handler;
+
     /**
      * The customer we're working with, if any
      *
@@ -141,7 +143,7 @@ implements org_openpsa_widgets_grid_provider_client
         if ($this->_list_type == 'paid') {
             $colname = 'paid';
         }
-        $entry[$colname] = $this->_master->render_invoice_actions($invoice);
+        $entry[$colname] = $this->render_invoice_actions($invoice);
 
         return $entry;
     }
@@ -167,7 +169,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_dashboard($handler_id, array $args, array &$data)
     {
-        $this->_master->prepare_toolbar('dashboard');
+        $this->prepare_toolbar(false);
 
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {

@@ -13,6 +13,8 @@
  */
 class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_invoices_handler;
+
     private $invoice;
 
     public function _on_initialize()
@@ -40,7 +42,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
         $result = [
             'success' => $success,
-            'action' => $this->_master->render_invoice_actions($this->invoice),
+            'action' => $this->render_invoice_actions($this->invoice),
             'due' => strftime('%Y-%m-%d', $this->invoice->due),
             'new_status' => $this->invoice->get_status(),
             'message' => $message

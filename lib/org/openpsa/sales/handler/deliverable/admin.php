@@ -17,6 +17,8 @@ use midcom\datamanager\controller;
  */
 class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_sales_handler;
+
     /**
      * The deliverable to operate on
      *
@@ -86,7 +88,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         if (isset($formdata['at_entry'])) {
             $this->process_at_entry((int) $formdata['at_entry'], (int) $formdata['next_cycle']);
         }
-        $this->_master->process_notify_date((int) $formdata['notify'], $this->_deliverable);
+        $this->process_notify_date((int) $formdata['notify'], $this->_deliverable);
     }
 
     private function process_at_entry($at_entry, $next_cycle)

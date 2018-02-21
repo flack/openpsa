@@ -15,6 +15,8 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_contacts_handler;
+
     /**
      * The contact to display
      *
@@ -49,7 +51,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
     private function _load_datamanager()
     {
-        $schemaname = $this->_master->get_person_schema($this->_contact);
+        $schemaname = $this->get_person_schema($this->_contact);
         $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_person'))
             ->set_storage($this->_contact, $schemaname);
     }
