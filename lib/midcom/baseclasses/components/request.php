@@ -7,7 +7,7 @@
  */
 
 /**
- * Base class to encapsulate a request to the component, instantiated by the MidCOM
+ * Base class to encapsulate the component's routing, instantiated by the MidCOM
  * component interface.
  *
  * It provides an automatic mechanism for URL processing and validation, minimizing
@@ -18,9 +18,8 @@
  * The class uses an array which aids in URL-to-function mapping. Handlers are distinguished
  * by the "URL-space" they handle. For each handler three functions are needed, one for the
  * request handle decision ("Can Handle Phase"), one for the
- * request handling ("Handle Phase") and one for output ("Output Phase"). These handlers can
- * either be contained in this class or refer to another class which gets instantiated, if
- * necessary.
+ * request handling ("Handle Phase") and one for output ("Output Phase"). These handlers refer to
+ * another class which gets instantiated if necessary.
  *
  * All request handlers are contained in a single array, whose keys identify the various switch
  * configurations. These identifiers are only for informational purposes (they appear in the
@@ -44,31 +43,24 @@
  *   is used to indicate no expiration setting. Any positive integer will cause its value to
  *   be passed to the caching engine, indicating the expiration time in seconds.
  * - <b>mixed handler:</b> This is a definition of what method should be invoked to
- *   handle the request. You have two options here. First you can refer to a method of this
- *   request handler class, in that case you just supply the name of the method. Alternatively,
- *   you can refer to an external class for request processing using an array syntax. The
- *   first array member must either contain the name of an existing class or an already instantiated class.
- *   This value has no default and must be set. The actual methods called will have either an _handle_ or _show_
- *   prefixed to the exec_handler value, respectively. See below for automatic handler instances,
- *   the preferred way to set things up.
+ *   handle the request using the callable array syntax. The first array member must either contain
+ *   the name of an existing class or an already instantiated class.
+ *   This value has no default and must be set. The actual methods called will have either an
+ *   _handler_ or _show_ prefix.
  *
  * Example:
  *
  * <code>
- * $this->_request_switch[] = array
- * (
- *     'fixed_args' => array ('registrations', 'view'),
+ * $this->_request_switch[] = [
+ *     'fixed_args' => ['registrations', 'view'],
  *     'variable_args' => 1,
  *     'no_cache' => false,
  *     'expires' => -1,
- *     'handler' => 'view_registration'
- *     //
- *     // Alternative, use a class with automatic instantiation:
- *     // 'handler' => array('net_nemein_registrations_regadmin', 'view')
+ *     'handler' => ['net_nemein_registrations_regadmin', 'view']
  *     //
  *     // Alternative, use existing instance:
- *     // 'handler' => Array($regadmin, 'view')
- * );
+ *     // 'handler' => [$regadmin, 'view']
+ * ];
  * </code>
  *
  * This definition is usually located in either in the routes.inc file (preferred)
