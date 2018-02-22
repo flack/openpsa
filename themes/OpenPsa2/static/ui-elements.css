@@ -368,9 +368,33 @@ form.datamanager2 div.input textarea
     padding: .15em .2em;
 }
 
-form.datamanager2 div.input .midcom_helper_datamanager2_widget_downloads input[type="text"]
+form.datamanager2 div.element_subform fieldset
 {
-    width: 90%;
+    position: relative
+}
+
+form.datamanager2 div.element_subform .remove-item
+{
+    position: absolute;
+    top: -1.5em;
+    right: 0px;
+}
+
+
+form.datamanager2 div.element_subform .attachment-preview
+{
+    width: 60px;
+}
+
+form.datamanager2 div.element_subform .attachment-input
+{
+    width: 100%;
+}
+
+form.datamanager2 div.element_subform .attachment-input label
+{
+    flex-basis: auto;
+    min-width: 5em;
 }
 
 input[type="submit"],

@@ -177,8 +177,10 @@ class form extends base
         $string .= '<div class="attachment-preview">';
         if (!empty($data['value']['filename'])) {
             $icon = \midcom_helper_misc::get_mime_icon($data['value']['mimetype']);
-
             $string .= '<a href="' . $data['value']['url'] . '" target="_blank"><img alt="' . $data['value']['filename'] . '" src="' . $icon . '" /></a>';
+        } else {
+            $icon = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
+            $string .= '<img class="no-file" src="' . $icon . '" />';
         }
 
         $string .= '</div><div class="attachment-input">';

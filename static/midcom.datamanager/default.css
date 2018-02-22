@@ -375,12 +375,25 @@ form.datamanager2 table.jquery-enabled thead .deleted img.delete
 
 form.datamanager2 .ui-sortable > *
 {
-	cursor: move
+    cursor: move
 }
 
 form.datamanager2 .input .remove-item
 {
     float: right
+}
+
+form.datamanager2 .element_subform fieldset
+{
+    border: solid 1px #ddd;
+    padding: .5em;
+    margin-bottom: .75em;
+    border-radius: .3em;
+}
+
+form.datamanager2 .element_subform fieldset legend
+{
+    font-weight: normal;
 }
 
 form.datamanager2 .attachment-container
@@ -398,6 +411,11 @@ form.datamanager2 .attachment-preview
 {
     padding: 0 1em;
     vertical-align: middle
+}
+
+form.datamanager2 .attachment-preview .no-file
+{
+    opacity: .3
 }
 
 .CodeMirror .activeline
