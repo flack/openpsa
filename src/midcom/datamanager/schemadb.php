@@ -17,15 +17,96 @@ class schemadb
 
     public static function from_path($path)
     {
+        return new static(static::load_from_path($path));
+    }
+
+    private static function load_from_path($path)
+    {
         $data = midcom_helper_misc::get_snippet_content($path);
-        $data = midcom_helper_misc::parse_config($data);
-        return new static($data);
+        return midcom_helper_misc::parse_config($data);
     }
 
     public function __construct(array $data = [])
     {
+        $this->check_inheritance($data);
         foreach ($data as $name => $config) {
             $this->add($name, new schema($config));
+        }
+    }
+
+    private function check_inheritance(array &$data)
+    {
+        foreach ($data as $schema_name => $schema) {
+            if (!isset($schema['extends'])) {
+                continue;
+            }
+
+            // Default extended schema is with the same name
+            $extended_schema_name = $schema_name;
+            $path = '';
+
+            if (is_array($schema['extends'])) {
+                if (isset($schema['extends']['path'])) {
+                    $path = $schema['extends']['path'];
+                }
+
+                // Override schema name
+                if (isset($schema['extends']['name'])) {
+                    $extended_schema_name = $schema['extends']['name'];
+                }
+            } elseif (isset($data[$schema['extends']])) {
+                $schema['extends'] = [
+                    'name' => $schema['extends'],
+                ];
+            } else {
+                $path = $schema['extends'];
+            }
+
+            if ($path === '') {
+                // Infinite loop, set an UI message and stop executing
+                if (   !isset($schema['extends']['name'])
+                    || $schema['extends']['name'] === $schema_name) {
+                    throw new midcom_error('schema ' . $path . ':' . $schema_name . ' extends itself');
+                }
+
+                $extended_schemadb[$schema['extends']['name']] = $data[$schema['extends']['name']];
+                $extended_schema_name = $schema['extends']['name'];
+            } else {
+                $extended_schemadb = static::load_from_path($path);
+            }
+
+            // Raise a notice if extended schema was not found from the schemadb
+            if (!isset($extended_schemadb[$extended_schema_name])) {
+                throw new midcom_error('extended schema ' . $path . ':' . $schema_name . ' was not found');
+            }
+
+            // Override the extended schema with fields from the new schema
+            foreach ($data[$schema_name] as $key => $value) {
+                if ($key === 'extends') {
+                    continue;
+                }
+
+                // This is probably either fields or operations
+                if (is_array($value)) {
+                    if (!isset($extended_schemadb[$extended_schema_name][$key])) {
+                        $extended_schemadb[$extended_schema_name][$key] = [];
+                    }
+
+                    foreach ($value as $name => $field) {
+                        if (!$field) {
+                            unset($extended_schemadb[$extended_schema_name][$key][$name]);
+                            continue;
+                        }
+
+                        $extended_schemadb[$extended_schema_name][$key][$name] = $field;
+                    }
+                } else {
+                    $extended_schemadb[$extended_schema_name][$key] = $value;
+                }
+            }
+
+            // Replace the new schema with extended schema
+            $data[$schema_name] = $extended_schemadb[$extended_schema_name];
         }
     }
 
