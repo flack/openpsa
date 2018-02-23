@@ -264,6 +264,9 @@ class form extends base
     public function radio_widget(FormView $view, array $data)
     {
         $string = '<input type="radio"';
+        if (!empty($view->vars['attr']['readonly'])) {
+            $view->vars['attr']['disabled'] = true;
+        }
         $string .= $this->renderer->block($view, 'widget_attributes');
         if (isset($data['value'])) {
             $string .= ' value="' . $data['value'] . '"';
