@@ -211,6 +211,7 @@ class schema
 
         $resolver->setDefaults([
             'title' => '',
+            'description' => '',
             'type' => null,
             'type_config' => [],
             'widget' => null,
