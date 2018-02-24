@@ -63,11 +63,6 @@
                 (
                     array
                     (
-                        'title' => 'name',
-                        'name' => 'name',
-                    ),
-                    array
-                    (
                         'title' => 'official',
                         'name' => 'official',
                     ),
@@ -289,11 +284,6 @@
                 ),
                 'result_headers' => array
                 (
-                    array
-                    (
-                        'title' => 'name',
-                        'name' => 'name',
-                    ),
                     array
                     (
                         'title' => 'official',

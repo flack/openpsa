@@ -164,14 +164,8 @@
                 'class' => 'org_openpsa_contacts_group_dba',
                 'component' => 'org.openpsa.contacts',
                 'titlefield' => 'name',
-
                 'result_headers' => array
                 (
-                    array
-                    (
-                        'title' => 'name',
-                        'name' => 'name',
-                    ),
                     array
                     (
                         'title' => 'official',
@@ -227,11 +221,6 @@
 
                 'result_headers' => array
                 (
-                    array
-                    (
-                        'title' => 'name',
-                        'name' => 'name',
-                    ),
                     array
                     (
                         'title' => 'official',

@@ -96,7 +96,6 @@
                 'component'   => 'org.openpsa.contacts',
                 'titlefield'  => 'official',
                 'id_field'     => 'id',
-                'constraints' => array(),
                 'searchfields'  => array
                 (
                     'name',

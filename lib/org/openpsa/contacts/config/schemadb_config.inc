@@ -37,11 +37,6 @@
                 (
                     array
                     (
-                        'title' => 'name',
-                        'name' => 'name',
-                    ),
-                    array
-                    (
                         'title' => 'official',
                         'name' => 'official',
                     ),
