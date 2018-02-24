@@ -69,13 +69,19 @@ class autocomplete extends AbstractType
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
             $type_defaults = [
                 'options' => [],
+                'constraints' => [],
                 'allow_other' => false,
                 'allow_multiple' => ($options['dm2_type'] == 'mnrelation'),
                 'require_corresponding_option' => true,
                 'multiple_storagemode' => 'serialized',
                 'multiple_separator' => '|'
             ];
-            return helper::resolve_options($type_defaults, $value);
+
+            $resolved = helper::resolve_options($type_defaults, $value);
+            if (empty($resolved['constraints']) && !empty($options['widget_config']['constraints'])) {
+                $resolved['constraints'] = $options['widget_config']['constraints'];
+            }
+            return $resolved;
         });
     }
 
@@ -132,6 +138,7 @@ class autocomplete extends AbstractType
         }
 
         $handler_options = $options['widget_config'];
+        $handler_options['constraints'] = $options['type_config']['constraints'];
         $handler_options['handler_url'] = $handler_url;
         $handler_options['allow_multiple'] = $options['type_config']['allow_multiple'];
         $handler_options['preset'] = $preset;
