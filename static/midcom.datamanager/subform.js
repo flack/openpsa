@@ -1,7 +1,7 @@
 function init_subform(id, sortable) {
     var container = $('#' + id),
-        delete_button = $('<button class="remove-item">-</button>'),
-        add_button = $('<button class="add-item">+</button>')
+        delete_button = $('<a class="button remove-item">-</a>'),
+        add_button = $('<a class="button add-item">+</a>')
             .on('click', function(e)
             {
                 e.preventDefault();
@@ -9,7 +9,7 @@ function init_subform(id, sortable) {
             }),
         index = 0;
 
-    container.on('click', 'button.remove-item', function(e) {
+    container.on('click', 'a.button.remove-item', function(e) {
         e.preventDefault();
         $(this).closest('fieldset').remove();
         if (   container.data('max-count') > 0

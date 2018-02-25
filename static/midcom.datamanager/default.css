@@ -378,7 +378,20 @@ form.datamanager2 .ui-sortable > *
     cursor: move
 }
 
-form.datamanager2 .input .remove-item
+form.datamanager2 .element_subform .input a.button
+{
+    border: solid 1px #ddd;
+    padding: .2em 1em;
+    border-radius: .3em;
+    cursor: pointer;
+    background-color: white;
+}
+form.datamanager2 .element_subform .input a.button:hover
+{
+	text-decoration: none;
+}
+
+form.datamanager2 .element_subform .input .remove-item
 {
     float: right
 }
