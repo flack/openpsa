@@ -248,8 +248,6 @@
  * - <b>string utility_jpegtran:</b> JPEGTran is used to do lossless rotation of JPEG
  *   images for automatic EXIF rotation in n.s.photos for example. If unavailable,
  *   there is an automatic fallback to imagemagick.
- * - <b>string utility_find:</b> The Find utility is used for bulk upload preprocessing
- *   and the like.
  * - <b>string utility_catdoc:</b> Transforms Word Documents into text for indexing.
  * - <b>string utility_pdftotext:</b> Transforms PDF Documents into text for indexing.
  * - <b>string utility_unrtf:</b> Transforms RTF Documents into text files for indexing.
@@ -351,6 +349,50 @@ class midcom_config implements arrayaccess
         'midcom_max_memory' => -1,
         'midcom_max_execution_time' => 0,
         'midcom_components' => [],
+        'builtin_components' =>  [
+            'lib/net/nehmer/comments',
+            'lib/net/nehmer/blog',
+            'lib/net/nehmer/static',
+            'lib/net/nemein/rss',
+            'lib/net/nemein/wiki',
+            'lib/net/nemein/redirector',
+            'lib/net/nemein/tag',
+            'lib/org/openpsa/directmarketing',
+            'lib/org/openpsa/calendar',
+            'lib/org/openpsa/products',
+            'lib/org/openpsa/core',
+            'lib/org/openpsa/sales',
+            'lib/org/openpsa/invoices',
+            'lib/org/openpsa/mail',
+            'lib/org/openpsa/expenses',
+            'lib/org/openpsa/projects',
+            'lib/org/openpsa/contacts',
+            'lib/org/openpsa/user',
+            'lib/org/openpsa/httplib',
+            'lib/org/openpsa/mypage',
+            'lib/org/openpsa/relatedto',
+            'lib/org/openpsa/qbpager',
+            'lib/org/openpsa/documents',
+            'lib/org/openpsa/slideshow',
+            'lib/org/openpsa/helpers',
+            'lib/org/openpsa/notifications',
+            'lib/org/openpsa/widgets',
+            'lib/org/openpsa/reports',
+            'lib/midcom/core/nullcomponent',
+            'lib/midcom',
+            'lib/midcom/admin/folder',
+            'lib/midcom/admin/rcs',
+            'lib/midcom/admin/help',
+            'lib/midcom/helper/imagepopup',
+            'lib/midcom/helper/reflector',
+            'lib/midcom/helper/search',
+            'lib/midcom/helper/filesync',
+            'lib/midcom/services/at',
+            'lib/midgard/admin/user',
+            'lib/midgard/admin/asgard',
+            'lib/fi/protie/navigation',
+            'src/midcom/datamanager',
+        ],
 
         // Visibility settings (NAP)
         'show_hidden_objects' => true,
@@ -385,7 +427,6 @@ class midcom_config implements arrayaccess
         // Utilities
         'utility_imagemagick_base' => '',
         'utility_jpegtran' => 'jpegtran',
-        'utility_find' => 'find',
         'utility_catdoc' => 'catdoc',
         'utility_pdftotext' => 'pdftotext',
         'utility_unrtf' => 'unrtf',

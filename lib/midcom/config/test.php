@@ -165,8 +165,6 @@ class midcom_config_test
             $this->add('ImageMagick', self::OK);
         }
 
-        // Other utilities
-        $this->check_for_utility('find', self::WARNING, 'The find utility is required for finding component manifests');
         $this->check_for_utility('jpegtran', self::WARNING, 'The jpegtran utility is used for lossless JPEG operations, even though ImageMagick can do the same conversions, the lossless features provided by this utility are used where appropriate, so its installation is recommended unless it is known to cause problems.', 'The jpegtran utility is used for lossless rotations of JPEG images. If there are problems with image rotations, disabling jpegtran, which will cause ImageMagick to be used instead, probably helps.');
 
         if (midcom::get()->config->get('indexer_backend')) {

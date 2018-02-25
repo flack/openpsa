@@ -324,29 +324,19 @@ class midcom_helper__componentloader
     }
 
     /**
-     * This function is called from the class manifest loader in case of a cache
-     * miss.
+     * This function is called from the class manifest loader in case of a cache miss.
      *
-     * @param midcom_config $config The configuration object (useful for  calling this function without initializing midcom)
+     * @param midcom_config $config The configuration object (useful for calling this function without initializing midcom)
      */
     public function get_manifests(midcom_config $config = null)
     {
         if ($config === null) {
             $config = midcom::get()->config;
         }
-        $candidates = [MIDCOM_ROOT . 'midcom'];
-        // First, we locate all manifest includes:
-        // We use some find construct like find -follow -type d -name "config"
-        // This does follow symlinks, which can be important when several
-        // repositories are "merged" manually
-        $directories = [];
         $manifests = [];
-        exec($config->get('utility_find') . ' ' . MIDCOM_ROOT . ' '  . dirname(MIDCOM_ROOT) . '/src -follow -type d -name "config"', $directories);
-        foreach ($directories as $directory) {
-            $candidates[] = "{$directory}/manifest.inc";
-        }
-        foreach (array_filter($candidates, 'file_exists') as $filename) {
-            $manifests[] = new midcom_core_manifest($filename);
+
+        foreach ($config->get('builtin_components', []) as $path) {
+            $manifests[] = new midcom_core_manifest(dirname(MIDCOM_ROOT) . '/' . $path . '/config/manifest.inc');
         }
 
         // now we look for extra components the user may have registered
