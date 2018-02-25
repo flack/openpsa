@@ -331,6 +331,6 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.rcs'), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]));
             return new midcom_response_relocate($this->get_object_url());
         }
-        throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], $this->backend->get_error()));
+        throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], midcom_connection::get_error_string()));
     }
 }
