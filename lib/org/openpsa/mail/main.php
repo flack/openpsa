@@ -30,6 +30,11 @@
  * }
  * </code>
  *
+ * @property mixed $bcc BCC address(es)
+ * @property mixed $cc CC address(es)
+ * @property mixed $from From address(es)
+ * @property string $subject Subject line
+ * @property mixed $to To address(es)
  * @package org.openpsa.mail
  */
 class org_openpsa_mail extends midcom_baseclasses_components_purecode
