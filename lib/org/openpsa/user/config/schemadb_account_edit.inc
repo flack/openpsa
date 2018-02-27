@@ -6,10 +6,6 @@
         array
         (
             'callback' => array(new org_openpsa_user_validator, 'validate_edit_form'),
-        ),
-        array
-        (
-            'callback' => array(new org_openpsa_user_validator, 'password_check'),
         )
     ),
 
