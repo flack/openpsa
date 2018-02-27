@@ -61,7 +61,7 @@ class mnrelation extends delayed
     public function load()
     {
         if (!$this->get_master_foreign_key()) {
-            return [];
+            return $this->config['type_config']['allow_multiple'] ? [] : null;
         }
         if ($this->config['type_config']['allow_multiple']) {
             return array_keys($this->load_objects());
