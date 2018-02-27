@@ -185,7 +185,7 @@ abstract class midcom_services_auth_backend
     public function logout(midcom_core_user $user)
     {
         if ($person = $user->get_storage()) {
-            $person->__object->delete_parameters(['domain' => 'midcom', 'name' => 'online']);
+            $person->__object->delete_parameters([['domain' , '=' , 'midcom'], ['name', '=', 'online']]);
         }
         $this->delete_session();
         midcom_connection::logout();
