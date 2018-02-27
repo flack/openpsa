@@ -5,7 +5,7 @@
     (
         Array
         (
-            'callback' => array(new org_openpsa_user_validator, 'is_username_available'),
+            'callback' => array(new org_openpsa_user_validator, 'validate_create_form'),
         ),
     ),
 

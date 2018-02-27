@@ -33,6 +33,28 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
     }
 
     /**
+     * Validation rules for create forms
+     *
+     * @var array $fields The form's data
+     * @return mixed True on success, array of error messages otherwise
+     */
+    public function validate_create_form(array $fields)
+    {
+        $result = $this->is_username_available($fields);
+
+        $accounthelper = new org_openpsa_user_accounthelper();
+        $show_ui_message = false;
+        if($fields['password']['switch'] && !$accounthelper->check_password_strength($fields['password']['password'], $show_ui_message)){
+            $result =  ['password' => midcom::get()->i18n->get_string('password weak')];
+        }
+
+        if (is_array($result)) {
+            return $result;
+        }
+        return $this->verify_existing_password($fields);
+    }
+
+    /**
      * Validate the existing password
      *
      * @var array $fields The form's data
