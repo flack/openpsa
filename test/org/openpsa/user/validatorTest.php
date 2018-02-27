@@ -62,6 +62,17 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
             "current_password" => $account->get_password()
         ];
         $this->assertTrue($val->validate_edit_form($fields));
+
+        // try changing the password - this should not work - too weak
+        $fields = [
+            "person" => $person->guid,
+            "username" => $account->get_username(),
+            "current_password" => $person->extra,
+            "new_password" => 'as'
+        ];
+        $result = $val->validate_edit_form($fields);
+        $this->assertTrue(is_array($result));
+
         midcom::get()->auth->drop_sudo();
     }
 

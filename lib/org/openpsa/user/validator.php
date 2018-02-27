@@ -22,10 +22,14 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
     public function validate_edit_form(array $fields)
     {
         $result = $this->is_username_available($fields);
-        $result_password = $this->password_check($fields);
-        if (is_array($result_password)) {
-            $result = (is_array($result)) ? array_merge($result, $result_password) : $result_password;
+
+        if(isset($fields['new_password'])){
+            $result_password = $this->password_check($fields);
+            if (is_array($result_password)) {
+                $result = (is_array($result)) ? array_merge($result, $result_password) : $result_password;
+            }
         }
+
         if (is_array($result)) {
             return $result;
         }
