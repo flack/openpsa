@@ -17,46 +17,56 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
 {
     /**
      * Loads all entries that need to be processed and processes them.
-     *
-     * @todo: refactor to use more modern MidCOM interfaces and better sanity-checking
      */
     public function execute()
     {
-        $qb = midcom_services_at_entry_dba::new_query_builder();
-        $qb->add_constraint('start', '<=', time());
-        $qb->add_constraint('status', '=', midcom_services_at_entry_dba::SCHEDULED);
-        $qb->set_limit((int) $this->_config->get('limit_per_run'));
+        $limit = (int) $this->_config->get('limit_per_run');
 
-        midcom::get()->auth->request_sudo('midcom.services.at');
-        $qbret = $qb->execute();
-        midcom::get()->auth->drop_sudo();
+        // We load each entry separately to minimize the chances of double executions
+        // when cron runs overlap or are triggered twice for some reason
+        // since this is only used by cron, performance is secondary, so better play it safe
+        for ($i = 0; $i < $limit; $i++) {
+            $qb = midcom_services_at_entry_dba::new_query_builder();
+            $qb->add_constraint('start', '<=', time());
+            $qb->add_constraint('status', '=', midcom_services_at_entry_dba::SCHEDULED);
+            $qb->set_limit(1);
 
-        foreach ($qbret as $entry) {
-            debug_add("Processing entry #{$entry->id}\n");
-            //Avoid double-execute in case of long runs
-            $entry->status = midcom_services_at_entry_dba::RUNNING;
             midcom::get()->auth->request_sudo('midcom.services.at');
-            $entry->update();
+            $qbret = $qb->execute();
             midcom::get()->auth->drop_sudo();
-            $args = $entry->arguments;
-            $args['midcom_services_at_entry_object'] = $entry;
-            $interface = midcom::get()->componentloader->get_interface_class($entry->component);
-            $method = $entry->method;
-            if (!is_callable([$interface, $method])) {
-                $error = get_class($interface) . "->{$method}() is not callable";
-                $this->handle_error($entry, $error, $args);
-                continue;
+            if (count($qbret) == 0) {
+                break;
             }
-            $mret = $interface->$method($args, $this);
+            $this->process_entry($qbret[0]);
+        }
+    }
 
-            if ($mret !== true) {
-                $error = get_class($interface) . '->' . $method . '(' . json_encode($args) . ", \$this) returned '{$mret}', errstr: " . midcom_connection::get_error_string();
-                $this->handle_error($entry, $error, $args);
-            } else {
-                midcom::get()->auth->request_sudo('midcom.services.at');
-                $entry->delete();
-                midcom::get()->auth->drop_sudo();
-            }
+    private function process_entry(midcom_services_at_entry_dba $entry)
+    {
+        debug_add("Processing entry #{$entry->id}\n");
+        //Avoid double-execute
+        $entry->status = midcom_services_at_entry_dba::RUNNING;
+        midcom::get()->auth->request_sudo('midcom.services.at');
+        $entry->update();
+        midcom::get()->auth->drop_sudo();
+        $args = $entry->arguments;
+        $args['midcom_services_at_entry_object'] = $entry;
+        $interface = midcom::get()->componentloader->get_interface_class($entry->component);
+        $method = $entry->method;
+        if (!is_callable([$interface, $method])) {
+            $error = get_class($interface) . "->{$method}() is not callable";
+            $this->handle_error($entry, $error, $args);
+            return;
+        }
+        $mret = $interface->$method($args, $this);
+
+        if ($mret !== true) {
+            $error = get_class($interface) . '->' . $method . '(' . json_encode($args) . ", \$this) returned '{$mret}', errstr: " . midcom_connection::get_error_string();
+            $this->handle_error($entry, $error, $args);
+        } else {
+            midcom::get()->auth->request_sudo('midcom.services.at');
+            $entry->delete();
+            midcom::get()->auth->drop_sudo();
         }
     }
 
