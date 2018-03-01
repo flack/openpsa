@@ -23,7 +23,7 @@
                     '0' => 'no',
                 ),
             ),
-            'widget' => 'select',
+            'widget' => 'radiocheckselect',
             'start_fieldset' => array
             (
                 'title' => 'editor options',
@@ -48,7 +48,7 @@
                     '0' => 'no',
                 ),
             ),
-            'widget' => 'select',
+            'widget' => 'radiocheckselect',
         ),
         'edit_mode' => array
         (
@@ -69,7 +69,7 @@
                     '0' => 'no',
                 ),
             ),
-            'widget' => 'select',
+            'widget' => 'radiocheckselect',
             'end_fieldset' => '',
         ),
         'interface_language' => array
@@ -112,7 +112,7 @@
                     'expanded' => 'expanded list',
                 ),
             ),
-            'widget' => 'select',
+            'widget' => 'radiocheckselect',
             'start_fieldset' => array
             (
                 'title' => 'navigation options',
@@ -149,7 +149,7 @@
                     'no' => 'no',
                 ),
             ),
-            'widget' => 'select',
+            'widget' => 'radiocheckselect',
         ),
         'escape_frameset' => array
         (
@@ -170,7 +170,7 @@
                     '0' => 'no',
                 ),
             ),
-            'widget' => 'select',
+            'widget' => 'radiocheckselect',
             'end_fieldset' => '',
         ),
         'midgard_types_model' => array
@@ -192,7 +192,7 @@
                     'include' => 'include',
                 ),
             ),
-            'widget' => 'select',
+            'widget' => 'radiocheckselect',
             'start_fieldset' => array
             (
                 'title' => 'mgdschema type visibility in navigation',
