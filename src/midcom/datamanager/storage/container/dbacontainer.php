@@ -57,7 +57,7 @@ class dbacontainer extends container
         if ($this->object->metadata->can_unlock()) {
             return $this->object->metadata->unlock();
         }
-        return;
+        return false;
     }
 
     public function is_locked()

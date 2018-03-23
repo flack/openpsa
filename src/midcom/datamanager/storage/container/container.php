@@ -25,10 +25,19 @@ abstract class container implements node, \ArrayAccess, \Iterator
      */
     protected $schema;
 
+    /**
+     * @return boolean
+     */
     abstract public function lock();
 
+    /**
+     * @return boolean
+     */
     abstract public function unlock();
 
+    /**
+     * @return boolean
+     */
     abstract public function is_locked();
 
     public function __get($name)
