@@ -25,11 +25,7 @@ class privilege extends delayed
      */
     public function load()
     {
-        $source = $this->get_privilege_object()->get_privilege(
-            $this->config['type_config']['privilege_name'],
-            $this->config['type_config']['assignee'],
-            $this->config['type_config']['classname']
-        );
+        $source = $this->get_privilege();
         return $source->value;
     }
 
@@ -38,12 +34,25 @@ class privilege extends delayed
      */
     public function save()
     {
-        return $this->get_privilege_object()->set_privilege(
+        $privilege = $this->get_privilege();
+        $privilege->value = $this->value;
+        return $privilege->store();
+    }
+
+    /**
+     * @return \midcom_core_privilege
+     */
+    private function get_privilege()
+    {
+        $privilege = $this->get_privilege_object()->get_privilege(
             $this->config['type_config']['privilege_name'],
             $this->config['type_config']['assignee'],
-            $this->value,
-            $this->config['type_config']['classname']
-        );
+            $this->config['type_config']['classname']);
+
+        if ($privilege === false) {
+            throw new \midcom_error_forbidden('Failed to load privilege');
+        }
+        return $privilege;
     }
 
     /**
