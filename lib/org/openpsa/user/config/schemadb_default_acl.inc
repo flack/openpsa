@@ -61,7 +61,7 @@
             'widget'      => 'privilege',
             'storage'     => null,
         ),
-        'unlock' => array
+        'midcom_unlock' => array
         (
             'title'       => 'enable unlocking locked objects',
             'type'        => 'privilege',
