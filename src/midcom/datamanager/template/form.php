@@ -327,8 +327,7 @@ class form extends base
     public function radiocheckselect_widget(FormView $view, array $data)
     {
         if (!empty($data['form']->vars['type'])) {
-            $obj = $data['form'];
-            $obj = $data['form']->vars['type']->search_for_object($obj);
+            $obj = $data['form']->vars['type']->search_for_object($data['form']);
             $new_label = $data['form']->vars['type']->render_choices($data['form']->vars['type_conf'], $obj);
             $view->children[2]->vars['label'] = $new_label;
         }

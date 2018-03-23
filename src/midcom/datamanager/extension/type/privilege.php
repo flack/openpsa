@@ -32,8 +32,7 @@ class privilege extends RadioType
     public function configureOptions(OptionsResolver $resolver)
     {
         $map_privilege = function (Options $options) {
-            $return_options = $this->defaultChoices;
-            return $return_options;
+            return $this->defaultChoices;
         };
         $resolver->setDefaults([
             'choices' => $map_privilege,
@@ -62,10 +61,9 @@ class privilege extends RadioType
         $view->vars['type_conf'] = $options['type_config'];
     }
 
-    public function get_effective_value(array $options, $object = null)
+    public function get_effective_value(array $options, \midcom_core_dbaobject $object = null)
     {
-        if (!$object)
-        {
+        if (!$object) {
             $defaults = midcom::get()->auth->acl->get_default_privileges();
             return $defaults[$options['privilege_name']] === MIDCOM_PRIVILEGE_ALLOW;
         }
@@ -76,7 +74,7 @@ class privilege extends RadioType
                 return (($defaults[$options['privilege_name']] === MIDCOM_PRIVILEGE_ALLOW));
             }
             return midcom::get()->auth->can_user_do($options['privilege_name'],
-                    new midcom_core_user($object->__object->id), $options['classname']);
+                new midcom_core_user($object->id), $options['classname']);
         }
         if ($principal = midcom::get()->auth->get_assignee($options['assignee'])) {
             return $object->can_do($options['privilege_name'], $principal);
@@ -98,8 +96,7 @@ class privilege extends RadioType
 
     public function search_for_object($object)
     {
-        while (true)
-        {
+        while (true) {
             if ($object instanceof dbacontainer) {
                 return $object->get_value();
             }

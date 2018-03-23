@@ -71,7 +71,7 @@ class midcom_core_user
      *
      * It is loaded on demand.
      *
-     * @var Array
+     * @var midcom_core_group[]
      */
     private $_all_groups = null;
 
@@ -85,7 +85,7 @@ class midcom_core_user
      *
      * It is loaded on demand.
      *
-     * @var Array
+     * @var midcom_core_group[]
      */
     private $_direct_groups = null;
 
