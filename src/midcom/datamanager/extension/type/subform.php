@@ -37,8 +37,8 @@ class subform extends CollectionType
             'delete_empty' => true,
             'error_bubbling' => false
         ]);
-        $resolver->setNormalizer('type', function (Options $options, $value) {
-            return $options['dm2_type'];
+        $resolver->setNormalizer('entry_type', function (Options $options, $value) {
+            return compat::get_type_name($options['dm2_type']);
         });
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
             $widget_defaults = [
@@ -60,7 +60,7 @@ class subform extends CollectionType
             }
             return $validation;
         });
-        $resolver->setNormalizer('options', function (Options $options, $value) {
+        $resolver->setNormalizer('entry_options', function (Options $options, $value) {
             return [
                 'required' => false, //@todo no idea why this is necessary
                 'widget_config' => $options['widget_config']
@@ -79,10 +79,9 @@ class subform extends CollectionType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $options['entry_type'] = compat::get_type_name($options['type']);
         parent::buildForm($builder, $options);
 
-        $builder->addEventSubscriber(new ResizeFormListener(compat::get_type_name($options['type']), ['widget_config' => $options['widget_config']]));
+        $builder->addEventSubscriber(new ResizeFormListener($options['entry_type'], ['widget_config' => $options['widget_config']]));
 
         $head = midcom::get()->head;
         $head->enable_jquery();

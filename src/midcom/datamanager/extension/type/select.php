@@ -51,7 +51,6 @@ class select extends ChoiceType
 
         $resolver->setDefaults([
             'choices' => $map_options,
-            'choices_as_values' => true,
             'multiple' => $map_multiple,
             'placeholder' => false
         ]);

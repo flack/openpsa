@@ -195,7 +195,7 @@ class form extends base
     public function form_widget_simple(FormView $view, array $data)
     {
         $type = isset($data['type']) ? $data['type'] : 'text';
-        if ($data['read_only'] && $type !== 'hidden') {
+        if (!empty($data['attr']['readonly']) && $type !== 'hidden') {
             return $data['value'] . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
         }
 
@@ -294,8 +294,8 @@ class form extends base
     {
         $string = '<select';
         if (   $data['required']
-            && null === $data['empty_value']
-            && $data['empty_value_in_choices'] === false
+            && null === $data['placeholder']
+            && $data['placeholder_in_choices'] === false
             && $data['multiple'] === false) {
             $data['required'] = false;
         }
@@ -305,14 +305,14 @@ class form extends base
         }
 
         $string .= $this->renderer->block($view, 'widget_attributes', ['required' => $data['required']]) . '>';
-        if (null !== $data['empty_value']) {
+        if (null !== $data['placeholder']) {
             $string .= '<option value=""';
             if (   $data['required']
                 && empty($data['value'])
                 && "0" !== $data['value']) {
                 $string .= ' selected="selected"';
             }
-            $string .= '>' . $data['empty_value'] . '</option>';
+            $string .= '>' . $data['placeholder'] . '</option>';
         }
         if (count($data['preferred_choices']) > 0) {
             $string .= $this->renderer->block($view, 'choice_widget_options', ['choices' => $data['preferred_choices']]);
@@ -409,7 +409,7 @@ class form extends base
     {
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
 
-        if ($data['read_only']) {
+        if (!empty($data['attr']['readonly'])) {
             if (empty($data['value']['date'])) {
                 $date = '0000-00-00';
                 $time = '00:00:00';

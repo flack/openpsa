@@ -36,7 +36,6 @@ class privilege extends RadioType
         };
         $resolver->setDefaults([
             'choices' => $map_privilege,
-            'choices_as_values' => true,
             'expanded' => true,
         ]);
 
