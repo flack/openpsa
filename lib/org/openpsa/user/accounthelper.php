@@ -144,8 +144,8 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $account = $this->_get_account();
         if (!empty($new_password)) {
             //check if the new encrypted password was already used
-            if (    $this->check_password_reuse($new_password)
-                && $this->check_password_strength($new_password)) {
+            if (   $this->check_password_reuse($new_password, true)
+                && $this->check_password_strength($new_password, true)) {
                     $this->_save_old_password();
                     $account->set_password($new_password);
                 } else {
@@ -216,13 +216,13 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * Function to check if passed password was already used
      *
      * @param string $password Password to check
-     * @return bool returns if password was already used - true indicates passed password wasn't used
+     * @return bool returns true if password wasn't used already
      */
-    function check_password_reuse($password, $show_ui_message = true)
+    public function check_password_reuse($password, $show_ui_message = false)
     {
         // check current password
         if (midcom_connection::verify_password($password, $this->_get_account()->get_password())) {
-            if($show_ui_message){
+            if ($show_ui_message) {
                 midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password is the same as the current one'), 'error');
             }
             return false;
@@ -234,7 +234,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         // check last passwords
         foreach ($old_passwords as $old) {
             if (midcom_connection::verify_password($password, $old)) {
-                if($show_ui_message){
+                if ($show_ui_message) {
                     midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password was already used'), 'error');
                 }
                 return false;
@@ -290,7 +290,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @param string $password Contains password to check
      */
-    function check_password_strength($password, $show_ui_message = true)
+    public function check_password_strength($password, $show_ui_message = false)
     {
         $password_length = strlen($password);
 
@@ -305,7 +305,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $max = $this->_config->get('min_password_length');
 
         if ($password_length < $max) {
-            if($show_ui_message){
+            if ($show_ui_message){
                 midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password too short'), 'error');
             }
             return false;
@@ -320,7 +320,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         }
 
         if ($score < $this->_config->get('min_password_score')) {
-            if($show_ui_message){
+            if ($show_ui_message){
                 midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password weak'), 'error');
             }
             return false;
