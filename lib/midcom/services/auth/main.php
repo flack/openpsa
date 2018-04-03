@@ -159,8 +159,8 @@ class midcom_services_auth
             }
 
             // Now we check whether there is a success-relocate URL given somewhere.
-            if ($request->query->has('midcom_services_auth_login_success_url')) {
-                midcom::get()->relocate($request->query->get('midcom_services_auth_login_success_url'));
+            if ($request->get('midcom_services_auth_login_success_url')) {
+                midcom::get()->relocate($request->get('midcom_services_auth_login_success_url'));
                 // This will exit.
             }
         }
