@@ -119,7 +119,7 @@ $grid_id = $data['grid']->get_identifier();
 <input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 </form>
 
-<form method="post" id="csv_&(grid_id);" action="&(prefix);/csv/hour_report/?filename=hours_&(data['mode']);.csv">
+<form method="post" class="tab_escape" id="csv_&(grid_id);" action="&(prefix);/csv/hour_report/?filename=hours_&(data['mode']);.csv">
     <input type="hidden" name="order[date]" value="ASC" />
     <input class="button" type="submit" value="<?= midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
 </form>
