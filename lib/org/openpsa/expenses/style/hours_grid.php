@@ -7,6 +7,8 @@ $footer_data = ['hours' => 0];
 $categories = [$data['l10n']->get('uninvoiceable'), $data['l10n']->get('invoiceable'), $data['l10n']->get('invoiced')];
 $entries = [];
 $workflow = new midcom\workflow\datamanager;
+$filename = $data['mode'];
+
 foreach ($data['hours'] as $report) {
     $entry = [];
 
@@ -61,6 +63,9 @@ foreach ($data['hours'] as $report) {
     $entry['invoice'] = '';
     if ($report->invoice) {
         $invoice = org_openpsa_invoices_invoice_dba::get_cached($report->invoice);
+        if ($filename == 'invoice') {
+            $filename .= '_' . $invoice->number;
+        }
         $entry['index_invoice'] = $invoice->number;
         $entry['invoice'] = $invoice->get_label();
         if ($invoice_url) {
@@ -119,7 +124,7 @@ $grid_id = $data['grid']->get_identifier();
 <input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 </form>
 
-<form method="post" class="tab_escape" id="csv_&(grid_id);" action="&(prefix);/csv/hour_report/?filename=hours_&(data['mode']);.csv">
+<form method="post" class="tab_escape" id="csv_&(grid_id);" action="&(prefix);/csv/hour_report/?filename=hours_&(filename);.csv">
     <input type="hidden" name="order[date]" value="ASC" />
     <input class="button" type="submit" value="<?= midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
 </form>
