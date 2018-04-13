@@ -21,9 +21,10 @@
                     delay: 0,
                     minLength: 0,
                     source: $.proxy( this, "_source" ),
-                    select: function(event, ui)
-                    {
-                        $(ui.item.option).closest('form').submit();
+                    select: function(event, ui) {
+                        setTimeout(function() {
+                            $(ui.item.option).closest('form').submit();
+                        }, 10);
                     }
                 });
             this.input.data('ui-autocomplete')._renderItem = function( ul, item ) {
