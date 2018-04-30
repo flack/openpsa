@@ -12,7 +12,7 @@ switch ($data['membership']->orgOpenpsaObtype) {
         break;
     default:
         $class = 'member';
-        $unsubscribe_code = '<a href="' . $prefix . 'campaign/unsubscribe/' . $data['membership']->guid .'/" target="_blank"><img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/trash.png"/></a>';
+        $unsubscribe_code = '<a href="' . $prefix . 'campaign/unsubscribe/' . $data['membership']->guid .'/" target="_blank"><i class="fa fa-trash delete"></i></a>';
         break;
 }
 echo "<dt class=\"{$class}\"><a href=\"{$prefix}campaign/{$data['campaign']->guid}/\">{$data['campaign']->title}</a>{$unsubscribe_code}</dt>\n";

@@ -1,0 +1,14 @@
+.fa.delete
+{
+	margin-left: .5em;
+    font-size: 16px;
+    color: #ee2b2b;
+    opacity: .5;
+    transition: opacity .2s;
+    cursor: pointer
+}
+
+.fa.delete:hover
+{
+    opacity: 1;
+}
