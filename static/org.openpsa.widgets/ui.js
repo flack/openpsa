@@ -233,7 +233,7 @@ var org_openpsa_layout = {
 
         selector.insertBefore(field);
 
-        $('<div id="org_openpsa_search_trigger"></div>')
+        $('<div id="org_openpsa_search_trigger"><i class="fa fa-search"></i></div>')
             .click(function() {
                 $('#org_openpsa_search_providers').toggle();
                 $(this).toggleClass('focused');

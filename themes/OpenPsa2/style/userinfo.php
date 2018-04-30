@@ -11,7 +11,7 @@ if ($auth->user) {
     } ?>
     <ul>
         <li class="user">&(person_string:h);</li>
-        <li class="logout"><a href="<?= midcom_connection::get_url('self') ?>midcom-logout-"><img src="<?= MIDCOM_STATIC_URL ?>/stock-icons/16x16/exit.png" title="&(logout_label);" alt="&(logout_label);" /></a></li>
+        <li class="logout"><a href="<?= midcom_connection::get_url('self') ?>midcom-logout-" title="&(logout_label);" alt="&(logout_label);" /><i class="fa fa-sign-out"></i></a></li>
         <li class="midgard"><div id="midcom_services_toolbars_minimizer"></div></li>
     </ul>
 <?php

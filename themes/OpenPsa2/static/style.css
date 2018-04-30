@@ -362,6 +362,22 @@ a:hover
 {
     display: inline-block;
 }
+
+#content-menu .logout .fa
+{
+    color: #d41f2a;
+    font-size: 16px;
+    opacity: .7;
+    transition: opacity .2s;
+    vertical-align: bottom;
+}
+#content-menu .logout:hover .fa
+{
+    color: #d41f2a;
+    font-size: 16px;
+    opacity: 1;
+}
+
 #org_openpsa_search_form
 {
     position: relative;
@@ -407,18 +423,22 @@ ul#org_openpsa_search_providers li.current
 
 #org_openpsa_search_trigger
 {
-    height: 18px;
+    height: 16px;
     width: 20px;
+    padding: 1px 0;
     border: 1px solid #777;
     border-radius: .6em 0 0 .6em;
     position: absolute;
     right: 12.3em;
     background-color: white;
-    background-image:url('../stock-icons/16x16/search.png');
-    background-repeat: no-repeat;
-    background-position: center;
     cursor: pointer;
     opacity: .5;
+    text-align: center;
+    color: #777
+}
+#org_openpsa_search_trigger i
+{
+    font-size: 14px;
 }
 
 input#org_openpsa_search_query
