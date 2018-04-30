@@ -92,7 +92,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         if (self::$_head_elements_added) {
             return;
         }
-        $version = '4.14.0';
+        $version = '4.15.4';
         $jqgrid_path = '/org.openpsa.widgets/jqGrid-' . $version . '/';
 
         $head = midcom::get()->head;
