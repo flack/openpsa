@@ -523,21 +523,11 @@ dl.campaigns dt.unsubscribed {
 {
     text-decoration: underline
 }
-#container div.main div.vcard li
-{
-    margin-left: 10px;
-    /*line-height: 16px;*/
-}
-#container div.main div.vcard li.org
-{
-    background-image: none;
-    font-style: italic;
-}
 
 #container div.vcard i.delete
 {
-	font-size: 16px;
-	color: #ee2b2b;
+    font-size: 16px;
+    color: #ee2b2b;
     opacity: 0;
     transition: opacity .2s;
     cursor: pointer

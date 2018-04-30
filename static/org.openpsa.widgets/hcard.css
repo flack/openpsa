@@ -1,6 +1,7 @@
 /* hCard rendering */
 div.vcard div.n {
     font-weight: bold;
+    margin-bottom: .3em
 }
 div.vcard div.n a {
     text-decoration: none;
@@ -12,7 +13,6 @@ div.vcard ul {
 div.vcard ul.contact_information li {
     list-style: none;
     height: 16px;
-    margin: 2px 0;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 155px;
@@ -21,41 +21,34 @@ div.vcard ul.contact_information li {
 div.vcard ul li a {
     min-height: 16px;
     display: block;
-    padding-left: 20px;
-    background-position: left;
-    background-repeat: no-repeat;
     text-decoration: none;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 135px;
     white-space: nowrap
 }
-div.vcard ul li.org a {
-    background-image: url("../stock-icons/16x16/stock_people.png");
+div.vcard ul li i.fa {
+	padding-right: .3em;
+	width: 1em;
+	text-align: center;
+	font-size: 11px;
+	vertical-align: baseline;
+	opacity: .5;
+	transition: opacity .2s
 }
-div.vcard ul li.email a {
-    background-image: url("../stock-icons/16x16/stock_mail.png");
-}
-div.vcard ul li.url a {
-    background-image: url("../stock-icons/16x16/stock_internet.png");
-}
-div.vcard ul li.tel a {
-    background-image: url("../stock-icons/16x16/stock_landline-phone.png");
-}
-div.vcard ul li.cell a {
-    background-image: url("../stock-icons/16x16/stock_cell-phone.png");
-}
-div.vcard ul li.jabber a {
-    background-image: url("../stock-icons/16x16/im-jabber.png");
+div.vcard ul li:hover a i.fa {
+	opacity: .75
 }
 
 /* Styles for inline persons */
 span.vcard a {
     text-decoration: none;
 }
-span.vcard a {
-    padding-left: 20px;
-    background-position: left center;
-    background-repeat: no-repeat;
-    background-image: url("../stock-icons/16x16/stock_person.png");
+
+span.vcard a i {
+    opacity: .5;
+    transition: opacity .2s
+}
+
+span.vcard a:hover i {
+    opacity: 1;
 }

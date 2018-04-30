@@ -96,6 +96,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     public static function add_head_elements()
     {
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.widgets/hcard.css");
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
     }
 
     /**
@@ -169,7 +170,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         return true;
     }
 
-    private function _render_name()
+    private function _render_name($icon = false)
     {
         $name = "<span class=\"given-name\">{$this->contact_details['firstname']}</span> <span class=\"family-name\">{$this->contact_details['lastname']}</span>";
 
@@ -183,6 +184,10 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             } else {
                 $url = self::$_contacts_url . 'person/' . $this->contact_details['guid'] . '/';
             }
+        }
+
+        if ($icon) {
+            $name = '<i class="fa fa-address-card-o"></i> ' . $name;
         }
 
         if ($url) {
@@ -212,7 +217,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         // The name sequence
         $inline_string .= "<span class=\"n\">";
-        $inline_string .= $this->_render_name();
+        $inline_string .= $this->_render_name(true);
         $inline_string .= "</span>";
 
         $inline_string .= "</span>";
@@ -239,7 +244,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         if (   $this->_config->get('gravatar_enable')
             && !empty($this->contact_details['email'])) {
             $size = $this->_config->get('gravatar_size');
-            $gravatar_url = "http://www.gravatar.com/avatar.php?gravatar_id=" . md5($this->contact_details['email']) . "&size=" . $size;
+            $gravatar_url = "//www.gravatar.com/avatar.php?gravatar_id=" . md5($this->contact_details['email']) . "&size=" . $size;
             echo "<img src=\"{$gravatar_url}\" class=\"photo\" style=\"float: right; margin-left: 4px;\" />\n";
         }
 
@@ -261,32 +266,32 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         $this->_show_groups();
 
-        $this->_show_phone_number('handphone', 'cell');
-        $this->_show_phone_number('workphone', 'work');
+        $this->_show_phone_number('handphone', 'mobile');
+        $this->_show_phone_number('workphone', 'phone');
         $this->_show_phone_number('homephone', 'home');
 
         if (!empty($this->contact_details['email'])) {
-            echo "<li class=\"email\"><a title=\"{$this->contact_details['email']}\" href=\"mailto:{$this->contact_details['email']}\">{$this->contact_details['email']}</a></li>\n";
+            echo "<li><a title=\"{$this->contact_details['email']}\" href=\"mailto:{$this->contact_details['email']}\"><i class=\"fa fa-envelope-o\"></i>{$this->contact_details['email']}</a></li>\n";
         }
 
         if (!empty($this->contact_details['skype'])) {
-            echo "<li class=\"tel skype\">";
-            echo "<a href=\"skype:{$this->contact_details['skype']}?call\">{$this->contact_details['skype']}</a></li>\n";
+            echo "<li>";
+            echo "<a href=\"skype:{$this->contact_details['skype']}?call\"><i class=\"fa fa-skype\"></i>{$this->contact_details['skype']}</a></li>\n";
         }
 
         // Instant messaging contact information
         if (!empty($this->contact_details['jid'])) {
-            echo "<li class=\"jabbber\">";
+            echo "<li>";
             echo "<a href=\"xmpp:{$this->contact_details['jid']}\"";
             $edgar_url = $this->_config->get('jabber_edgar_url');
             if (!empty($edgar_url)) {
                 echo " style=\"background-repeat: no-repeat;background-image: url('{$edgar_url}?jid={$this->contact_details['jid']}&type=image');\"";
             }
-            echo ">{$this->contact_details['jid']}</a></li>\n";
+            echo "><i class=\"fa fa-comment-o\"></i>{$this->contact_details['jid']}</a></li>\n";
         }
 
         if (!empty($this->contact_details['homepage'])) {
-            echo "<li class=\"url\"><a title=\"{$this->contact_details['homepage']}\" href=\"{$this->contact_details['homepage']}\">{$this->contact_details['homepage']}</a></li>\n";
+            echo "<li><a title=\"{$this->contact_details['homepage']}\" href=\"{$this->contact_details['homepage']}\"><i class=\"fa fa-globe\"></i>{$this->contact_details['homepage']}</a></li>\n";
         }
 
         echo "</ul>\n";
@@ -301,9 +306,9 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         }
         if (!empty($this->contact_details[$field])) {
             if ($dialurl) {
-                echo "<li class=\"tel $type\"><a title=\"Dial {$this->contact_details[$field]}\" href=\"#\" onclick=\"javascript:window.open('$dialurl{$this->contact_details[$field]}','dialwin','width=300,height=200')\">{$this->contact_details[$field]}</a></li>\n";
+                echo "<li><a title=\"Dial {$this->contact_details[$field]}\" href=\"#\" onclick=\"javascript:window.open('$dialurl{$this->contact_details[$field]}','dialwin','width=300,height=200')\"><i class=\"fa fa-{$type}\"></i>{$this->contact_details[$field]}</a></li>\n";
             } else {
-                echo "<li class=\"tel $type\">{$this->contact_details[$field]}</li>\n";
+                echo "<li><i class=\"fa fa-{$type}\"></i>{$this->contact_details[$field]}</li>\n";
             }
         }
     }
@@ -328,7 +333,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
                 continue;
             }
 
-            echo "<li class=\"org\">";
+            echo "<li>";
 
             if ($data['extra']) {
                 echo "<span class=\"title\">" . htmlspecialchars($data['extra']) . "</span>, ";
@@ -336,7 +341,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
             $group_label = $group->get_label();
             if ($link_contacts) {
-                $group_label = "<a href=\"" . self::$_contacts_url . "group/{$group->guid}/\">" . $group_label . '</a>';
+                $group_label = "<a href=\"" . self::$_contacts_url . "group/{$group->guid}/\"><i class=\"fa fa-users\"></i>" . $group_label . '</a>';
             }
 
             echo "<span class=\"organization-name\">{$group_label}</span>";
