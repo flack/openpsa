@@ -33,3 +33,28 @@ div.org_openpsa_reports_report table.report
 {
     width: 100%;
 }
+
+.actions i
+{
+    margin-left: .5em;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity .2s;
+    cursor: pointer;
+    color: #333;
+}
+
+li:hover .actions i
+{
+	opacity: .5
+}
+
+li .actions:hover i
+{
+    opacity: 1;
+}
+
+.actions i.fa-trash
+{
+    color: #ee2b2b;
+}

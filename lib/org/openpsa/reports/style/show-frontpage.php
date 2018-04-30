@@ -19,10 +19,10 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     <a href="&(data['report_prefix']);&(report.guid);/" target="_blank">
                       &(report.title);
                     </a>
-                    <a class="actions" href="delete/&(report.guid);/"><img style="border:0px" src="<?php echo MIDCOM_STATIC_URL . '/stock-icons/16x16/trash.png'?>" title="<?php echo $data['l10n_midcom']->get('delete'); ?>" alt="<?php echo $data['l10n_midcom']->get('delete'); ?>"/></a>
-                    <a class="actions" href="&(data['report_prefix']);edit/&(report.guid);/"><img style="border:0px" src="<?php echo MIDCOM_STATIC_URL . '/stock-icons/16x16/edit.png'?>" title="<?php echo $data['l10n_midcom']->get('edit'); ?>" alt="<?php echo $data['l10n_midcom']->get('edit'); ?>"/></a>
+                    <a class="actions" href="delete/&(report.guid);/"><i class="fa fa-trash" title="<?php echo $data['l10n_midcom']->get('delete'); ?>"></i></a>
+                    <a class="actions" href="&(data['report_prefix']);edit/&(report.guid);/"><i class="fa fa-pencil" title="<?php echo $data['l10n_midcom']->get('edit'); ?>"></i></a>
                   </li>
-                <?php 
+                <?php
                 }
                 echo '</ul>';
             }

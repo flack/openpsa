@@ -22,6 +22,7 @@ class org_openpsa_reports_handler_common extends midcom_baseclasses_components_h
     {
         midcom::get()->auth->require_valid_user();
         $data['available_components'] = org_openpsa_reports_viewer::get_available_generators();
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/common.css');
 
         return $this->show('show-frontpage');
     }
