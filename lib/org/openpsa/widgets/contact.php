@@ -300,16 +300,8 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
     private function _show_phone_number($field, $type)
     {
-        $dialurl = false;
-        if ($this->_config->get('click_to_dial')) {
-            $dialurl = $this->_config->get('click_to_dial_url');
-        }
         if (!empty($this->contact_details[$field])) {
-            if ($dialurl) {
-                echo "<li><a title=\"Dial {$this->contact_details[$field]}\" href=\"#\" onclick=\"javascript:window.open('$dialurl{$this->contact_details[$field]}','dialwin','width=300,height=200')\"><i class=\"fa fa-{$type}\"></i>{$this->contact_details[$field]}</a></li>\n";
-            } else {
-                echo "<li><i class=\"fa fa-{$type}\"></i>{$this->contact_details[$field]}</li>\n";
-            }
+            echo "<li><a title=\"Dial {$this->contact_details[$field]}\" href=\"tel:{$this->contact_details[$field]}\"><i class=\"fa fa-{$type}\"></i>{$this->contact_details[$field]}</a></li>\n";
         }
     }
 
