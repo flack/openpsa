@@ -331,7 +331,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
                 echo "<span class=\"title\">" . htmlspecialchars($data['extra']) . "</span>, ";
             }
 
-            $group_label = $group->get_label();
+            $group_label = htmlspecialchars($group->get_label());
             if ($link_contacts) {
                 $group_label = "<a href=\"" . self::$_contacts_url . "group/{$group->guid}/\"><i class=\"fa fa-users\"></i>" . $group_label . '</a>';
             }
