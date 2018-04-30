@@ -1453,7 +1453,7 @@ a.ui-button:active,
 
 .ui-jqgrid .ui-jqgrid-hdiv
 {
-    overflow: hidden
+    overflow: hidden;
     border-color: transparent;
 }
 
@@ -1500,6 +1500,7 @@ a.ui-button:active,
 .ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th select
 {
     opacity: .75;
+    text-align: left;
 }
 .ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar:hover input,
 .ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar:hover select,
@@ -1522,7 +1523,8 @@ a.ui-button:active,
 {
     position: absolute;
     right: 0;
-    top: 2px
+    top: 1px;
+    font-size: 90%
 }
 
 .ui-jqgrid .ui-widget-content td.title,
@@ -1598,6 +1600,12 @@ a.ui-button:active,
     background-image: url(../stock-icons/16x16/cancel.png);
 }
 
+.ui-jqgrid .ui-jqgrid-btable .jqgroup .fa
+{
+	padding-right: .25em;
+	font-size: 90%
+}
+
 .normal .ui-jqgrid-hbox .ui-state-default,
 .good .ui-jqgrid-hbox .ui-state-default,
 .bad .ui-jqgrid-hbox .ui-state-default,
@@ -1612,11 +1620,11 @@ a.ui-button:active,
     color: white;
 }
 
-.normal .ui-jqgrid-htable .ui-icon,
-.good .ui-jqgrid-htable .ui-icon,
-.bad .ui-jqgrid-htable .ui-icon
+.normal .ui-jqgrid-hbox .ui-jqgrid-htable .fa::before,
+.good .ui-jqgrid-hbox .ui-jqgrid-htable .fa::before,
+.bad .ui-jqgrid-hbox .ui-jqgrid-htable .fa::before
 {
-    background-image: url("images/ui-icons_ffffff_256x240.png");
+    color: white;
 }
 
 .normal .ui-jqgrid-view .ui-state-default,
@@ -1662,6 +1670,15 @@ a.ui-button:active,
     margin: 0.1em 0 0.2em;
 }
 
+.ui-jqgrid-view .ui-jqgrid-titlebar .fa::before
+{
+    color: #d1d1c9;  
+}
+.ui-jqgrid-view .ui-jqgrid-titlebar .fa:hover::before
+{
+    color: #3769ae; 
+}
+
 .ui-jqgrid .ui-widget-header .ui-state-hover,
 .ui-jqgrid .ui-widget-header .ui-state-focus,
 .ui-jqgrid .ui-widget-header .ui-state-active
@@ -1669,12 +1686,13 @@ a.ui-button:active,
     border: none;
     background: transparent;
 }
-.ui-jqgrid .ui-widget-header .ui-icon
+
+.ui-jqgrid .ui-widget-header .fa
 {
     opacity: .75;
 }
 
-.ui-jqgrid .ui-jqgrid-titlebar:hover .ui-icon
+.ui-jqgrid .ui-jqgrid-titlebar:hover .fa
 {
     opacity: 1;
 }

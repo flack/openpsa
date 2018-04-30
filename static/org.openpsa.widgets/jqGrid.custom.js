@@ -12,6 +12,7 @@ var org_openpsa_jqgrid_presets = {
     sortable: true,
     autoencode: false,
     datatype: 'xml',
+    iconSet: 'fontAwesome',
     jsonReader: {
         repeatitems: false,
         id: '0'
@@ -62,11 +63,12 @@ var org_openpsa_grid_resize = {
     },
     attach_maximizer: function(items) {
         $(items).each(function() {
-            $('<a role="link" class="ui-jqgrid-titlebar-maximize"><span class="ui-icon ui-icon-circle-zoomin"></a></a>')
+            $('<a role="link" class="ui-jqgrid-titlebar-maximize"><span class="fa fa-plus-circle"></a></a>')
                 .on('click', function() {
                     var container = $(this).closest('.ui-jqgrid').parent();
 
                     if (container.hasClass('ui-jqgrid-maximized')) {
+                        $(this).find('span').removeClass('fa-minus-circle').addClass('fa-plus-circle')
                         var jqgrid_id = container.find('table.ui-jqgrid-btable').attr('id'),
                             placeholder = $('#maximized_placeholder');
 
@@ -86,6 +88,7 @@ var org_openpsa_grid_resize = {
                         $(org_openpsa_grid_resize.containment).children().removeClass('ui-jqgrid-maximized-background');
                         $(org_openpsa_grid_resize.containment).css('overflow', 'auto');
                     } else {
+                        $(this).find('span').removeClass('fa-plus-circle').addClass('fa-minus-circle')
                         $(org_openpsa_grid_resize.containment).scrollTop(0);
                         $('<div id="maximized_placeholder"></div>')
                             .data('orig_height', container.find('.ui-jqgrid-bdiv').outerHeight())

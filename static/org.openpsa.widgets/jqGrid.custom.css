@@ -8,14 +8,31 @@
     display: none;
 }
 
-a.ui-jqgrid-titlebar-maximize {
-    height: 18px;
-    margin: -8px 0 0;
+.ui-jqgrid-titlebar > .ui-jqgrid-titlebar-maximize
+{
+	vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
     position: absolute;
-    right: 20px;
     top: 50%;
-    vertical-align: middle;
+    right: 20px;
+    width: 1.4em;
+    line-height: 1.5em;
+    font-size: 12px;
+    margin: -.7em 0 0 0;
+    padding: .2em;
+    border: 1px solid transparent;
+    height: 1.4em;
+    cursor: pointer;
 }
+
+a.ui-jqgrid-titlebar-maximize span
+{
+    font-size: 14px;
+	display: block;
+	margin-top: -2px
+}
+
 .ui-jqgrid tr.jqgrow td a img
 {
     border: none;
