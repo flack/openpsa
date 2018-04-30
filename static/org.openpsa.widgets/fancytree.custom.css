@@ -1,0 +1,16 @@
+.ui-fancytree .fa
+{
+    opacity: .6;
+    transition: opacity .2s
+}
+
+.ui-fancytree .fancytree-expander:hover
+{
+	opacity: .85;
+}
+
+.ui-fancytree .fancytree-icon:hover + .fancytree-title,
+.ui-fancytree .fancytree-title:hover
+{
+    text-decoration: underline
+}

@@ -25,6 +25,10 @@ $(document).ready(function()
                     parent.tinymce.activeEditor.windowManager.getParams().oninsert(data.node.data.href, {title: data.node.title});
                     parent.tinymce.activeEditor.windowManager.close();
                 }
+            },
+            extensions: ['glyph'],
+            glyph: {
+                preset: "awesome4",
             }
         });
     }

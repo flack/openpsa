@@ -47,12 +47,9 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
         $data['list_type'] = 'links';
         $data['filetype'] = $args[0];
 
-        $head = midcom::get()->head;
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/jQuery/fancytree-2.27.0/skin-win7/ui.fancytree.min.css");
-
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/styling.css");
-        $head->enable_jquery_ui(['effect-blind']);
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/fancytree-2.27.0/jquery.fancytree-all.min.js');
+        org_openpsa_widgets_tree::add_head_elements();
+        $head = midcom::get()->head;
         $head->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/functions.js");
 
         // Ensure we get the correct styles

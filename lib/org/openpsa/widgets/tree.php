@@ -96,8 +96,7 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
 
         echo <<<JSINIT
 <script type="text/javascript">
-      $(document).ready(function ()
-      {
+      $(document).ready(function() {
           org_openpsa_tree.setup("{$identifier}", "{$prefix}");
       });
 </script>
@@ -181,8 +180,10 @@ JSINIT;
         $head = midcom::get()->head;
         $head->enable_jquery_ui(['effect', 'effect-blind']);
         $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/js.cookie-2.2.0.min.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/fancytree-2.27.0/jquery.fancytree-all.min.js');
-        $head->add_stylesheet(MIDCOM_STATIC_URL . "/jQuery/fancytree-2.27.0/skin-win7/ui.fancytree.min.css");
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/fancytree-2.28.1/jquery.fancytree-all.min.js');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
+        $head->add_stylesheet(MIDCOM_STATIC_URL . "/jQuery/fancytree-2.28.1/skin-awesome/ui.fancytree.min.css");
+        $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.widgets/fancytree.custom.css");
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fancytree.custom.js');
         self::$_head_elements_added = true;
     }
