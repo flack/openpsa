@@ -534,14 +534,26 @@ dl.campaigns dt.unsubscribed {
     font-style: italic;
 }
 
-#container div.vcard input.delete
+#container div.vcard i.delete
 {
-    display: none;
+	font-size: 16px;
+	color: #ee2b2b;
+    opacity: 0;
+    transition: opacity .2s;
+    cursor: pointer
 }
 
-#container div.vcard:hover input.delete
+#container div.vcard:hover i.delete
 {
     display: block;
+    opacity: 1
+}
+
+#container div.vcard:hover .fa-spinner
+{
+	margin-top: .5em;
+	font-size: 32px;
+	opacity: .7
 }
 
 /* Related Wiki pages */

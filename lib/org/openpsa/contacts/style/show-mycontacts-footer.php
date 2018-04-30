@@ -5,16 +5,16 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 </div>
 
 <script type="text/javascript">
-jQuery('input.delete').bind('click', function(){
-    var guid = this.id.substr(38);
-    var loading = "<img src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif' alt='loading' />";
-    jQuery('#org_openpsa_widgets_contact-' + guid).css('text-align', 'center');
-    jQuery('#org_openpsa_widgets_contact-' + guid).html(loading);
-    jQuery.ajax({
+$('i.delete').bind('click', function(){
+    var guid = this.id.substr(38),
+    				loading = "<i class='fa fa-spinner fa-spin'></i>";
+    $('#org_openpsa_widgets_contact-' + guid).css('text-align', 'center');
+    $('#org_openpsa_widgets_contact-' + guid).html(loading);
+    $.ajax({
         url: "<?php echo $prefix; ?>mycontacts/remove/" + guid + "/",
-        success: function(){
-            jQuery('#org_openpsa_widgets_contact-' + guid).fadeOut('fast', function() {
-                jQuery('#org_openpsa_widgets_contact-' + guid).remove();
+        success: function() {
+            $('#org_openpsa_widgets_contact-' + guid).fadeOut('fast', function() {
+                $('#org_openpsa_widgets_contact-' + guid).remove();
             });
         }
     });
