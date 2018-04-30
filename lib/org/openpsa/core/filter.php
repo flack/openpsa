@@ -59,7 +59,7 @@ abstract class org_openpsa_core_filter
     protected function _render_actions()
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.core');
-        echo '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/ok.png" class="filter_action filter_apply" alt="' . $l10n->get("apply") . '" title="' . $l10n->get("apply") . '" />';
-        echo '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/cancel.png" class="filter_action filter_unset" alt="' . $l10n->get("unset") . '" title="' . $l10n->get("unset") . '" />';
+        echo '<i class="fa fa-check filter_action filter_apply" title="' . $l10n->get("apply") . '"></i>';
+        echo '<i class="fa fa-times-circle filter_action filter_unset" title="' . $l10n->get("unset") . '"></i>';
     }
 }

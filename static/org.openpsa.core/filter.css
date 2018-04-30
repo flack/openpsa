@@ -9,13 +9,24 @@
 {
     cursor: pointer;
     visibility: hidden;
-    padding-left: .3em
+    padding-left: .3em;
+    font-size: 16px
 }
 
 .org_openpsa_filter_widget:hover .filter_action,
 .org_openpsa_filter_widget.filter-changed .filter_action
 {
     visibility: visible
+}
+
+.org_openpsa_filter_widget .filter_apply
+{
+	color: #72bf28
+}
+
+.org_openpsa_filter_widget .filter_unset
+{
+	color: #ee2b2b
 }
 
 .org_openpsa_filter_widget .hasDatepicker
