@@ -1,15 +1,20 @@
-#midcom_admin_folder_show_save_info
+#midcom_admin_folder_order_form .fa-spinner
 {
-  background-image: url('../stock-icons/32x32/ajax-loading-black.gif');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-color: black;
-  color: white;
-  padding: 1em;
-  display: none;
+	font-size: 32px;
+	text-align: center;
+	padding: 1em;
+	color: orange;
+	display: none;	
+}
+#midcom_admin_folder_order_form.loading > div
+{
+	display: none;
+}
+#midcom_admin_folder_order_form.loading .fa-spinner
+{
+	display: block	
 }
 
-#midcom_admin_folder_order_form input,
 #midcom_admin_folder_order_form img
 {
   display: inline;

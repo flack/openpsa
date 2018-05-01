@@ -135,10 +135,11 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             // jQuery sorting
             midcom::get()->head->enable_jquery_ui(['mouse', 'sortable']);
 
-            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.folder/jquery-postfix.js');
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.admin.folder/jquery-postfix.js');
 
             // Custom styles
-            $this->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.admin.folder/midcom-admin-order.css');
+            $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/midcom-admin-order.css');
+            $this->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
         }
     }
 
