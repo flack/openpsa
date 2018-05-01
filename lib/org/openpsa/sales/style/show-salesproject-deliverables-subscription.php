@@ -6,8 +6,7 @@ $price = $formatter->number($data['deliverable_object']->price);
 $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
 ?>
 <li class="deliverable subscription collapsed" id="deliverable_<?php echo $data['deliverable_object']->guid; ?>">
-    <span class="icon">
-    </span>
+    <span class="icon"><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></span>
     <div class="tags">&(deliverable['tags']:h);</div>
     <?php
     echo "<h3><a href=\"{$prefix}deliverable/{$data['deliverable_object']->guid}/\">{$data['deliverable_object']->title}</a></h3>\n";

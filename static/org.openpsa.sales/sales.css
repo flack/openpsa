@@ -35,20 +35,23 @@ div.salesproject div.deliverables ol.deliverable_list .icon
 {
     float: left;
     display: block;
-    background-position: 4px 4px;
-    background-repeat: no-repeat;
     height: 20px;
     width: 20px;
-    cursor: pointer
+    cursor: pointer;
+    text-align: center;
+    padding-top: 2px;
+    padding-left: 2px;
+    opacity: .5;
+    transition: opacity .2s
 }
-
-div.salesproject div.deliverables ol.deliverable_list li.collapsed .icon
+div.salesproject div.deliverables ol.deliverable_list .icon:hover
 {
-    background-image:url('../stock-icons/16x16/list-add.png');
+	opacity: 1
 }
-div.salesproject div.deliverables ol.deliverable_list li.expanded .icon
+div.salesproject div.deliverables ol.deliverable_list li.collapsed .fa-chevron-up,
+div.salesproject div.deliverables ol.deliverable_list li.expanded .fa-chevron-down
 {
-    background-image:url('../stock-icons/16x16/list-remove.png');
+	display: none;
 }
 
 div.salesproject div.deliverables ol.deliverable_list li.deliverable h3
