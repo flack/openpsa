@@ -66,7 +66,7 @@ function rule(parent, id) {
             rule = $('<div id="' + this.id + '" class="rule" />'),
             parent_field = $('<input type="hidden" name="' + this.id + '[parent]" value="' + this.parent + '"/>'),
             object_select = build_select(this.id + '_object', this.id + '[object]', 'select', org_openpsa_directmarketing_edit_query_property_map, selected, true),
-            remove_button = $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/list-remove.png"  class="button remove_row" />');
+            remove_button = $('<i class="button remove_row fa fa-minus"></i>');
 
         remove_button.on('click', function(e) {
             e.preventDefault();
@@ -201,7 +201,7 @@ function rule(parent, id) {
     };
 
     this.append_add_button = function(rule) {
-        $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/list-add.png"  class="button add_row" />')
+        $('<i class="button add_row fa fa-plus"></i>')
             .on('click', function(e) {
                 e.preventDefault();
                 $(this).remove();

@@ -15,16 +15,6 @@ form#org_openpsa_directmarketing_rules_editor input.button
     padding: 2px;
 }
 
-form.org_openpsa_directmarketing_edit_query input.add_row
-{
-    border: none;
-}
-
-form.org_openpsa_directmarketing_edit_query input.remove_row
-{
-    border: none;
-}
-
 div.org_openpsa_directmarketing_edit_query_handler_buttons
 {
     float: right;
