@@ -27,23 +27,11 @@
   margin: 1em 0;
 }
 
-#midcom_admin_folder_order_form ul.sortable li.node
-{
-  background-image: url('../stock-icons/16x16/folder.png');
-  background-repeat: no-repeat;
-  background-position: left center;
-  padding-left: 20px;
-}
-
-#midcom_admin_folder_order_form ul.sortable li.leaf
-{
-  background-repeat: no-repeat;
-  background-position: left center;
-  padding-left: 20px;
-}
-
 #midcom_admin_folder_order_form ul.sortable li
 {
+  background-repeat: no-repeat;
+  background-position: left center;
+  padding-left: 20px;
   list-style: none;
   cursor: move;
   font-weight: normal;

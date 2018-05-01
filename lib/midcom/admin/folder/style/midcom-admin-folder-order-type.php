@@ -33,12 +33,8 @@ foreach ($data['navigation_items'] as $i => $item) {
         $icon = MIDCOM_STATIC_URL . "/stock-icons/16x16/script.png";
     }
 
-    if ($icon) {
-        $icon = " style=\"background-image: url('{$icon}');\"";
-    }
-
-    echo "        <li class=\"sortable {$item[MIDCOM_NAV_TYPE]}\"{$icon}>\n";
-    echo "            <input type=\"text\" name=\"sortable[{$item[MIDCOM_NAV_TYPE]}][{$identificator}]\" value=\"{$index}\"{$style} />\n";
+    echo "        <li class=\"sortable {$item[MIDCOM_NAV_TYPE]}\" style=\"background-image: url('{$icon}');\">\n";
+    echo "            <input type=\"hidden\" name=\"sortable[{$item[MIDCOM_NAV_TYPE]}][{$identificator}]\" value=\"{$index}\"{$style} />\n";
     echo "            {$item[MIDCOM_NAV_NAME]}\n";
     echo "        </li>\n";
 }

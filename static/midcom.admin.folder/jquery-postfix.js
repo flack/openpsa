@@ -1,7 +1,4 @@
 $(document).ready(function() {
-    $('#midcom_admin_folder_order_form ul.sortable input').css('display', 'none');
-    $('#midcom_admin_folder_order_form_sort_type div.form_toolbar').css('display', 'none');
-
     $('#midcom_admin_folder_order_form_sort_type select').on('change', function() {
         var form = $('#midcom_admin_folder_order_form_sort_type');
         $.post(form.attr('action') + '?ajax', form.serialize(), function(data) {
