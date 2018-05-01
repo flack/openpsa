@@ -48,9 +48,12 @@ div.org_openpsa_mypage_workingon .controls
 }
 #org_openpsa_mypage_workingon_loading
 {
+    height: 80px;
     text-align: center;
-    height: 9.8em;
-    padding-top: 2em
+    padding-top: 2em;
+    font-size: 32px;
+    opacity: .7;
+    color: orange
 }
 .org_openpsa_mypage.main .tasks
 {

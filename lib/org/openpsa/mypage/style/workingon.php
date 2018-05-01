@@ -73,7 +73,7 @@ midcom::get()->uimessages->show();
     </div>
 </div>
 <div id="org_openpsa_mypage_workingon_loading">
-<img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/32x32/ajax-loading.gif" alt="loading" />
+<i class="fa fa-pulse fa-spinner"></i>
 </div>
 
 <?php
