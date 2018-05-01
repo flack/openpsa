@@ -1922,9 +1922,6 @@ ul.fancytree-container span.fancytree-folder a
 .midcom-workflow-dialog .ui-dialog-content {
     overflow: hidden;
     padding: 0;
-    background-image: url('../stock-icons/32x32/ajax-loading.gif');
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .midcom-workflow-dialog .ui-widget-content .ui-dialog-buttonset {

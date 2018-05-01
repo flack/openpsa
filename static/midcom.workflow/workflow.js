@@ -3,6 +3,8 @@ $(document).ready(function() {
         event.preventDefault();
         var button = $(this),
             dialog = $('<div class="midcom-delete-dialog">'),
+            spinner = $('<div class="spinner"><i class="fa fa-pulse fa-spinner"></i></div>');
+            text = button.data('dialog-text');
             action = button.attr('href') || button.data('action'),
             options = {
                 title:  button.data('dialog-heading'),
@@ -60,17 +62,22 @@ $(document).ready(function() {
                               dialog.find('p.warning').hide();
                           }
                           options.buttons[0].disabled = false;
-                          dialog.removeClass('loading')
+
+                          dialog
+                              .removeClass('loading')
                               .dialog('option', 'position', dialog.dialog('option', 'position'))
                               .dialog('option', 'buttons', options.buttons)
                               .focus();
                       });
+        } else {
+            text = '<p>' + text + '</p>';
         }
 
         dialog
             .css('min-width', '300px') // This should be handled by dialog's minWidth option, but that doesn't work with width: "auto"
                                        // Should be fixed in https://github.com/jquery/jquery-ui/commit/643b80c6070e2eba700a09a5b7b9717ea7551005
-            .append($('<p>' + button.data('dialog-text') + '</p>'))
+            .append($(text))
+            .append(spinner)
             .appendTo($('body'))
             .dialog(options);
     });
@@ -123,7 +130,7 @@ function create_dialog(control, title, url) {
         $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
     }
 
-    var dialog, iframe,
+    var dialog, iframe, spinner
         config = {
             dialogClass: 'midcom-workflow-dialog',
             buttons: [],
@@ -153,6 +160,7 @@ function create_dialog(control, title, url) {
     if ($('#midcom-dialog').length > 0) {
         dialog = $('#midcom-dialog');
         iframe = dialog.find('> iframe');
+        spinner = dialog.find('> i').show();
         config.height = dialog.dialog('option', 'height');
         config.width = dialog.dialog('option', 'width');
         if (   config.width > window.innerWidth
@@ -160,6 +168,7 @@ function create_dialog(control, title, url) {
             config.position = { my: "center", at: "center", of: window, collision: 'flipfit' };
         }
     } else {
+        spinner = $('<i class="fa fa-pulse fa-spinner"></i>');
         iframe = $('<iframe name="datamanager-dialog"'
                    + ' frameborder="0"'
                    + ' marginwidth="0"'
@@ -169,9 +178,11 @@ function create_dialog(control, title, url) {
                    + ' scrolling="auto" />')
             .on('load', function() {
                 $(this).css('visibility', 'visible');
+                spinner.hide();
             });
 
         dialog = $('<div id="midcom-dialog"></div>')
+            .append(spinner)
             .append(iframe)
             .insertAfter(control);
     }

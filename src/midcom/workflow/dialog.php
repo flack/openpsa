@@ -48,6 +48,7 @@ abstract class dialog
         $head = midcom::get()->head;
         $head->enable_jquery_ui(['mouse', 'draggable', 'resizable', 'button', 'dialog']);
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/workflow.js');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.workflow/workflow.css');
     }
 

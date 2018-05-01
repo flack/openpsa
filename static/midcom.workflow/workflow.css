@@ -8,17 +8,30 @@
     display: none;
 }
 
-.midcom-delete-dialog.loading p
+.midcom-workflow-dialog .ui-dialog-content > i,
+.midcom-delete-dialog > .spinner i
 {
+    font-size: 32px;
+    color: orange;
+}
+
+.midcom-workflow-dialog .ui-dialog-content > i
+{
+    position: absolute;
+    top: calc(50% - 16px);
+    left: calc(50% - 16px);
+}
+
+.midcom-delete-dialog > .spinner
+{
+    height: 40px;
+    text-align: center;
     display: none;
 }
 
-.midcom-delete-dialog.loading #delete-child-list
+.midcom-delete-dialog.loading > .spinner
 {
-    height: 40px;
-    background-image: url('../stock-icons/32x32/ajax-loading.gif');
-    background-repeat: no-repeat;
-    background-position: center;
+    display: block;
 }
 
 .midcom-delete-dialog .warning

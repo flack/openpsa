@@ -352,7 +352,7 @@ form.datamanager2 select
 
 form.datamanager2 .autocomplete-widget-creation-enabled input.shorttext
 {
-    max-width: calc(100% - 3.6em);
+    max-width: calc(100% - 3.7em);
 }
 
 input.ajax_focused,
