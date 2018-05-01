@@ -38,12 +38,21 @@
     border-color: #E6C8C8;
 }
 
-#midcom_services_uimessages_wrapper img.close
+#midcom_services_uimessages_wrapper i.close
 {
     float: right;
     position: relative;
     right: -12px;
-    cursor: pointer
+    cursor: pointer;
+    color: #f33;
+    font-size: 14px;
+    opacity: .7;
+    transition: opacity .2s
+}
+
+#midcom_services_uimessages_wrapper i.close:hover
+{
+    opacity: 1
 }
 
 #midcom_services_uimessages_wrapper div.midcom_services_uimessages h3

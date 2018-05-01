@@ -15,8 +15,7 @@ $.midcom_services_uimessage_add = function(options) {
     $('#midcom_services_uimessages_wrapper').midcom_services_uimessage(options);
 };
 
-$.fn.midcom_services_uimessage = function(options)
-{
+$.fn.midcom_services_uimessage = function(options) {
     var id = 'midcom_services_uimessages_' + MIDCOM_SERVICES_UIMESSAGES_INDEX;
 
     $('<div></div>')
@@ -34,49 +33,37 @@ $.fn.midcom_services_uimessage = function(options)
         .addClass('message')
         .appendTo('#' + id);
 
-    $('<img />')
-        .attr({
-            src: MIDCOM_STATIC_URL + '/stock-icons/16x16/cancel.png',
-            alt: 'X'
-        })
-        .addClass('close')
-        .click(function()
-        {
+    $('<i class="close fa fa-times-circle"></i>')
+        .click(function() {
             var message = $(this).parent();
             message.slideUp('fast');
             clearTimeout(message.data('timer'));
             clearInterval(message.data('interval'));
 
             // Return without removing the object
-            if (!MIDCOM_SERVICES_UIMESSAGES_REMOVE)
-            {
+            if (!MIDCOM_SERVICES_UIMESSAGES_REMOVE) {
                 return;
             }
 
             // Remove the element after some safety margin
-            message.data('timer', setTimeout(function()
-            {
+            message.data('timer', setTimeout(function() {
                 message.remove();
             }, MIDCOM_SERVICES_UIMESSAGES_SLIDE_DELAY));
         })
         .prependTo('#' + id);
 
-    switch (options.type)
-    {
+    switch (options.type) {
         case MIDCOM_SERVICES_UIMESSAGES_TYPE_INFO:
-            $('#' + id).data('timer', setTimeout(function()
-            {
+            $('#' + id).data('timer', setTimeout(function() {
                 $('#' + id).slideUp(MIDCOM_SERVICES_UIMESSAGES_SLIDE_SPEED);
 
                 // Return without removing the object
-                if (!MIDCOM_SERVICES_UIMESSAGES_REMOVE)
-                {
+                if (!MIDCOM_SERVICES_UIMESSAGES_REMOVE) {
                     return;
                 }
 
                 // Remove the element after some safety margin
-                $('#' + id).data('timer', setTimeout(function()
-                {
+                $('#' + id).data('timer', setTimeout(function() {
                     $('#' + id).remove();
                 }, MIDCOM_SERVICES_UIMESSAGES_SLIDE_DELAY));
             }, MIDCOM_SERVICES_UIMESSAGES_SLIDE_DELAY));
@@ -84,10 +71,8 @@ $.fn.midcom_services_uimessage = function(options)
             break;
 
         case MIDCOM_SERVICES_UIMESSAGES_TYPE_ERROR:
-            if (MIDCOM_SERVICES_UIMESSAGES_ERROR_HIGHLIGHT)
-            {
-                $('#' + id).data('interval', setInterval(function()
-                {
+            if (MIDCOM_SERVICES_UIMESSAGES_ERROR_HIGHLIGHT) {
+                $('#' + id).data('interval', setInterval(function() {
                     $('#' + id).effect('pulsate', { times: 1}, 500);
                 }, 7000));
             }
