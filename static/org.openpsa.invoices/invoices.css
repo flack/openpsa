@@ -116,6 +116,19 @@ div.org_openpsa_invoices table button.yes
 #add-journal-entry
 {
     float: right;
+    opacity: .5;
+    transition: opacity .2s;
+    cursor: pointer;
+}
+
+.area.history:hover #add-journal-entry
+{
+    opacity: .7;
+}
+
+.area.history #add-journal-entry:hover
+{
+    opacity: 1;
 }
 
 .add-journal-text

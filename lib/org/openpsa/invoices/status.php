@@ -72,7 +72,7 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
         $save_label = $this->l10n_midcom->get('save');
         $cancel_label = $this->l10n_midcom->get('cancel');
         return '<a id="add-journal-entry" data-guid="' . $this->invoice->guid . '" data-dialog-submit-label="' . $save_label . '" data-dialog-cancel-label="' . $cancel_label . '" title="' . $tooltip . "\">\n" .
-            '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/list-add.png" alt="' . $tooltip . "\"></a>\n";
+            '<i class="fa fa-plus" title="' . $tooltip . "\"></i></a>\n";
     }
 
     /**
