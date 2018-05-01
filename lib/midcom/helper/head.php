@@ -562,6 +562,7 @@ class midcom_helper_head
             }
         }
 
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/jQuery/jquery-ui-1.12.icon-font.min.css');
         if (midcom::get()->config->get('jquery_ui_theme')) {
             $this->add_stylesheet(midcom::get()->config->get('jquery_ui_theme'));
         } else {

@@ -1312,6 +1312,24 @@ a.ui-button:active,
 }
 
 /* Manually added styles */
+.ui-icon,
+.ui-widget-content .ui-icon {
+	color: #3969a9;
+}
+.ui-widget-header .ui-icon {
+	color: #d1d1c9;
+}
+.ui-button .ui-icon {
+	color: #3969a9;
+}
+
+.ui-state-hover .ui-icon,
+.ui-state-focus .ui-icon,
+.ui-button:hover .ui-icon,
+.ui-button:focus .ui-icon {
+	color: #3769ae
+}
+
 .ui-widget-content {
     border-color: #daddd6;
     background-color: white;
