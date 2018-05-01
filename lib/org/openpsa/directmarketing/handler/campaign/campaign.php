@@ -73,11 +73,11 @@ implements org_openpsa_widgets_grid_provider_client
         ];
 
         $delete_string = sprintf($this->_l10n->get('remove %s from campaign'), $person->name);
-        $row['delete'] = '<input type="image" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/trash.png" data-person-guid="' . $person->guid . '" data-member-guid="' . $this->memberships[$person->id]['guid'] . '" title="' . $delete_string . '"/>';
+        $row['delete'] = '<i class="fa fa-trash" data-person-guid="' . $person->guid . '" data-member-guid="' . $this->memberships[$person->id]['guid'] . '" title="' . $delete_string . '"></i>';
 
         $row['bounced'] = '';
         if ($this->memberships[$person->id]['orgOpenpsaObtype'] == org_openpsa_directmarketing_campaign_member_dba::BOUNCED) {
-            $row['bounced'] = '<span class="icon icon-bounced" title="' . sprintf($this->_l10n->get('%s has bounced'), $person->email) . '"></span>';
+            $row['bounced'] = '<i class="fa fa-exclamation-triangle" title="' . sprintf($this->_l10n->get('%s has bounced'), $person->email) . '"></i>';
         }
 
         return $row;
