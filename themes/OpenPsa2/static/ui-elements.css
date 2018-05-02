@@ -55,20 +55,6 @@ ul.area_toolbar li input
 {
     background-position: 2px;
 }
-ul.area_toolbar li a.yes,
-ul.area_toolbar li input.yes
-{
-    padding-left: 21px;
-    background-image: url('../stock-icons/16x16/ok.png');
-    background-repeat: no-repeat;
-}
-ul.area_toolbar li a.no,
-ul.area_toolbar li input.no
-{
-    padding-left: 21px;
-    background-image: url('../stock-icons/16x16/cancel.png');
-    background-repeat: no-repeat;
-}
 ul.area_toolbar li input.hours
 {
     padding-left: 21px;
@@ -80,7 +66,24 @@ ul.area_toolbar li input:hover
 {
     cursor: pointer;
 }
-
+ul.area_toolbar li button.yes i,
+ul.area_toolbar li button.no i
+{
+    opacity: .7;
+    transition: opacity .2s
+}
+ul.area_toolbar li button:hover i
+{
+    opacity: 1;
+}
+ul.area_toolbar li button.yes i
+{
+    color: #72bf28
+}
+ul.area_toolbar li button.no i
+{
+    color: #ee2b2b
+}
 div.area div.current div.org_openpsa_projects_hourlist
 {
     display: none;
@@ -325,6 +328,7 @@ form.datamanager2 .required_note
 input.ajax_editable:hover,
 form.datamanager2 div.input input, form.datamanager2 div.input textarea, form.datamanager2 div.input select,
 input[type="submit"],
+button[type="submit"],
 .form_toolbar input[type="button"],
 .form_toolbar button,
 .area_toolbar a.button
@@ -398,6 +402,7 @@ form.datamanager2 div.element_subform .attachment-input label
 }
 
 input[type="submit"],
+button[type="submit"],
 .form_toolbar input[type="button"],
 .form_toolbar button,
 form.datamanager2 div.input .submit,
@@ -415,6 +420,7 @@ form.datamanager2 div.input .submit,
 }
 
 input[type="submit"]:hover,
+button[type="submit"]:hover,
 .form_toolbar input[type="button"]:hover,
 .area_toolbar a.button:hover
 {

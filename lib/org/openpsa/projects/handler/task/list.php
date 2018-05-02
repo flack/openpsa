@@ -176,8 +176,8 @@ implements org_openpsa_widgets_grid_provider_client
                     $html .= '<form method="post" action="' . $prefix . 'workflow/' . $task->guid . '/">';
                     //TODO: If we need all resources to accept task hide tools when we have accepted and replace with "pending acceptance from..."
                     $html .= '<ul class="area_toolbar">';
-                    $html .= '<li><input type="submit" name="org_openpsa_projects_workflow_action[accept]" class="yes" value="' . $this->_l10n->get('accept') . '" /></li>';
-                    $html .= '<li><input type="submit" name="org_openpsa_projects_workflow_action[decline]" class="no" value="' . $this->_l10n->get('decline') . '" /></li>';
+                    $html .= '<li><button type="submit" name="org_openpsa_projects_workflow_action[accept]" class="yes"><i class="fa fa-check"></i> ' . $this->_l10n->get('accept') . '</button></li>';
+                    $html .= '<li><button type="submit" name="org_openpsa_projects_workflow_action[decline]" class="no"><i class="fa fa-ban"></i> ' . $this->_l10n->get('decline') . '</button></li>';
                     $html .= "</ul></form>";
                 }
                 return $html;
@@ -191,9 +191,9 @@ implements org_openpsa_widgets_grid_provider_client
                 if (midcom_connection::get_user() == $task->manager) {
                     $html = '<form method="post" action="' . $prefix . 'workflow/' . $task->guid . '">';
                     $html .= '<ul class="area_toolbar">';
-                    $html .= '<li><input type="submit" name="org_openpsa_projects_workflow_action[approve]" class="yes" value="' . $this->_l10n->get('approve') . '" /></li>';
+                    $html .= '<li><button type="submit" name="org_openpsa_projects_workflow_action[approve]" class="yes"><i class="fa fa-check"></i> ' . $this->_l10n->get('approve') . '</button></li>';
                     //PONDER: This is kind of redundant  when one can just remove the checkbox -->
-                    $html .= '<li><input type="submit" name="org_openpsa_projects_workflow_action[reject]" class="no" value="' . $this->_l10n->get('dont approve') . '" /></li>';
+                    $html .= '<li><button type="submit" name="org_openpsa_projects_workflow_action[reject]" class="no"><i class="fa fa-ban"></i> ' . $this->_l10n->get('dont approve') . '</button></li>';
                     $html .= "</ul></form>";
                     return $html;
                 }
