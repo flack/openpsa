@@ -402,7 +402,7 @@ form.datamanager2 div.element_subform .attachment-input label
 }
 
 input[type="submit"],
-button[type="submit"],
+.area_toolbar button[type="submit"],
 .form_toolbar input[type="button"],
 .form_toolbar button,
 form.datamanager2 div.input .submit,
