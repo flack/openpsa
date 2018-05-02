@@ -8,9 +8,22 @@ div.org_openpsa_invoices
     box-shadow: 1px 3px 5px #aaa;
 }
 
-div.org_openpsa_invoices.unsent table button.yes
+div.org_openpsa_invoices table button i
 {
-    background-image: url('../stock-icons/16x16/stock_mail-reply.png');
+    color: #5d81b0;
+    opacity: .7;
+    transition: opacity .2s;
+    margin-right: .3em
+}
+
+div.org_openpsa_invoices table button:hover i
+{
+    opacity: 1;
+}
+
+div.org_openpsa_invoices table button.mark_paid i
+{
+    color: #76d41a;
 }
 
 div.org_openpsa_invoices_invoice span.bad

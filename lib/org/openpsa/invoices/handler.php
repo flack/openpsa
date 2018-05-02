@@ -15,8 +15,15 @@ trait org_openpsa_invoices_handler
 {
     public function render_invoice_actions(org_openpsa_invoices_invoice_dba $invoice)
     {
-        $actions = '';
-        $next = null;
+        if ($invoice->paid && $invoice->sent) {
+            return strftime('%Y-%m-%d', $invoice->paid);
+        }
+        if (!$invoice->can_do('midgard:update')) {
+            return '';
+        }
+
+        $action = null;
+        $icon = null;
 
         // unsent invoices
         if ($invoice->sent == 0) {
@@ -24,26 +31,23 @@ trait org_openpsa_invoices_handler
             $billing_data = org_openpsa_invoices_billing_data_dba::get_by_object($invoice);
             // only show if mail was chosen as option
             if (intval($billing_data->sendingoption) == 2) {
-                $next = 'send_by_mail';
+                $action = 'send_by_mail';
+                $icon = '<i class="fa fa-paper-plane"></i>';
             } else {
-                $next = 'mark_sent';
+                $action = 'mark_sent';
+                $icon = '<i class="fa fa-paper-plane-o"></i>';
             }
         }
         // not paid yet
         elseif (!$invoice->paid) {
-            $next = 'mark_paid';
-        } else {
-            $actions .= strftime('%Y-%m-%d', $invoice->paid);
+            $action = 'mark_paid';
+            $icon = '<i class="fa fa-check"></i>';
         }
 
         // generate next action buttons
-        if (   $next !== null
-            && $invoice->can_do('midgard:update')) {
-                $actions .= '<button id="invoice_' . $invoice->guid . '" class="yes ' . $next. '">';
-                $actions .= $this->_l10n->get($next);
-                $actions .= '</button>';
-            }
-            return $actions;
+        if ($action !== null) {
+            return '<button id="invoice_' . $invoice->guid . '" class="' . $action . '">' . $icon . ' ' . $this->_l10n->get($action) . '</button>';
+        }
     }
 
     public function prepare_toolbar($show_backlink = true)
