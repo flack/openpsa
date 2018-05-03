@@ -415,10 +415,10 @@ var org_openpsa_grid_editable = {
         });
     },
     render_buttons: function(rowid) {
-        var be = "<input class='row_button row_edit' data-row-id='" + rowid + "' type='button' value='E' />",
-            bs = "<input class='row_button row_save hidden' data-row-id='" + rowid + "' type='button' value='S' />",
-            bc = "<input class='row_button row_cancel hidden' data-row-id='" + rowid + "' type='button' value='C' />",
-            bd = "<input class='row_button row_delete' data-row-id='" + rowid + "' type='button' value='D' />";
+        var be = "<i class='row_button row_edit fa fa-pencil' data-row-id='" + rowid + "'></i>",
+            bs = "<i class='row_button row_save hidden fa fa-check' data-row-id='" + rowid + "'></i>",
+            bc = "<i class='row_button row_cancel hidden fa fa-ban' data-row-id='" + rowid + "'></i>",
+            bd = "<i class='row_button row_delete fa fa-trash' data-row-id='" + rowid + "'></i>";
         $("#" + this.grid_id).jqGrid('setRowData', rowid, {actions: be + bs + bc + bd});
     },
     add_inline_controls: function() {

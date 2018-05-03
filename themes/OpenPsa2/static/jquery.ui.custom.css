@@ -1569,8 +1569,7 @@ a.ui-button:active,
 
 .ui-jqgrid .ui-jqgrid-btable .row_button
 {
-    background-repeat: no-repeat;
-    background-color: transparent;
+    font-size: 16px;
     border: none;
     width: 16px;
     height: 16px;
@@ -1578,7 +1577,6 @@ a.ui-button:active,
     vertical-align: middle;
     opacity: .75;
     cursor: pointer;
-    color: transparent
 }
 
 .ui-jqgrid .ui-jqgrid-btable .row_button:hover
@@ -1587,7 +1585,7 @@ a.ui-button:active,
 }
 .ui-jqgrid .ui-jqgrid-btable .row_edit
 {
-    background-image: url(../stock-icons/16x16/edit.png);
+    color: #5d81b0;
     display: none;
     margin-right: 20px
 }
@@ -1602,7 +1600,7 @@ a.ui-button:active,
 }
 .ui-jqgrid .ui-jqgrid-btable .row_delete
 {
-    background-image: url(../stock-icons/16x16/trash.png);
+    color: #ee2b2b;
     display: none;
 }
 .ui-jqgrid .ui-jqgrid-btable .ui-state-hover .row_delete
@@ -1611,17 +1609,17 @@ a.ui-button:active,
 }
 .ui-jqgrid .ui-jqgrid-btable .row_save
 {
-    background-image: url(../stock-icons/16x16/ok.png);
+    color: #76d41a;
 }
 .ui-jqgrid .ui-jqgrid-btable .row_cancel
 {
-    background-image: url(../stock-icons/16x16/cancel.png);
+    color: orange;
 }
 
 .ui-jqgrid .ui-jqgrid-btable .jqgroup .fa
 {
-	padding-right: .25em;
-	font-size: 90%
+    padding-right: .25em;
+    font-size: 90%
 }
 
 .normal .ui-jqgrid-hbox .ui-state-default,
@@ -1690,11 +1688,11 @@ a.ui-button:active,
 
 .ui-jqgrid-view .ui-jqgrid-titlebar .fa::before
 {
-    color: #d1d1c9;  
+    color: #d1d1c9;
 }
 .ui-jqgrid-view .ui-jqgrid-titlebar .fa:hover::before
 {
-    color: #3769ae; 
+    color: #3769ae;
 }
 
 .ui-jqgrid .ui-widget-header .ui-state-hover,
