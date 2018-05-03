@@ -47,14 +47,6 @@ div.org_openpsa_invoices table button:hover
     cursor: pointer;
     text-decoration: underline
 }
-div.org_openpsa_invoices table button.yes
-{
-    padding-left: 22px;
-    background-image: url('../stock-icons/16x16/ok.png');
-    background-position: left;
-    background-repeat: no-repeat;
-}
-
 
 .input_description
 {
@@ -71,16 +63,6 @@ div.org_openpsa_invoices table button.yes
 .remove
 {
     background-color: #EDEDEB;
-}
-.add_button
-{
-    background-image: url('../stock-icons/16x16/ok.png');
-    background-repeat:no-repeat;
-}
-.remove_button
-{
-    background-image: url('../stock-icons/16x16/cancel.png');
-    background-repeat:no-repeat;
 }
 .invoice_item_row
 {
