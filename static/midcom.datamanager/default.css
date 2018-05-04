@@ -446,3 +446,20 @@ form.datamanager2 .attachment-preview .no-file
 {
 	min-height: 3em;
 }
+
+.ui-datepicker-trigger {
+    font-family: FontAwesome;
+    border: none;
+    margin-left: .3em;
+    vertical-align: middle;
+    opacity: .75;
+    cursor: pointer;
+    background-color: transparent;
+    font-size: 14px;
+}
+
+.ui-datepicker-trigger:hover,
+.ui-datepicker-trigger:active
+{
+    opacity: 1;
+}

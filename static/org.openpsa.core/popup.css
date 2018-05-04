@@ -12,9 +12,9 @@ header
 }
 
 #container,
-#container select,
-#container button,
-#container input
+select,
+button,
+input
 {
   font-family: Verdana, Arial, Helvetica, sans-serif;
 }

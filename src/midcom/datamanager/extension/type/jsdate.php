@@ -138,7 +138,8 @@ class jsdate extends AbstractType
             altFormat: $.datepicker.ISO_8601,
             prevText: '',
             nextText: '',
-            showOn: '{$options['widget_config']['showOn']}'
+            showOn: '{$options['widget_config']['showOn']}',
+            buttonText: '&#xf073;'
         }).on('change', function() {
             if ($(this).val() == '') {
                 $("#{$view['date']->vars['id']}").val('');
