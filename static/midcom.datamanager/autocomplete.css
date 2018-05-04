@@ -84,14 +84,11 @@ span.ui-sortable .autocomplete-item
     width: 16px;
     height: 16px;
     cursor: pointer;
-    background-repeat: no-repeat;
     margin-left: .5em;
     vertical-align: middle;
-}
-
-.autocomplete-action-icon
-{
-    opacity: .6
+    font-size: 14px;
+    opacity: .6;
+    transition: opacity .2s
 }
 .autocomplete-todelete .autocomplete-action-icon
 {
@@ -106,29 +103,34 @@ span.ui-sortable .autocomplete-item
     opacity: 1
 }
 
-.autocomplete-selected .autocomplete-action-icon
+.autocomplete-selected .autocomplete-action-icon:hover .fa-check,
+.autocomplete-saved .autocomplete-action-icon:hover .fa-check,
+.autocomplete-new .autocomplete-action-icon:hover .fa-plus,
+.autocomplete-new .autocomplete-action-icon .fa-check,
+.autocomplete-todelete .autocomplete-action-icon .fa-check
 {
-    background-position: 0 -192px
-}
-.autocomplete-saved .autocomplete-action-icon
-{
-    background-position: -208px -192px
-}
-
-.autocomplete-todelete .autocomplete-action-icon
-{
-    background-position: -32px -192px
+    display: none;
 }
 
-.autocomplete-selected .autocomplete-action-icon:hover,
-.autocomplete-saved .autocomplete-action-icon:hover
+.autocomplete-todelete .autocomplete-action-icon:hover .fa-check,
+.autocomplete-todelete .autocomplete-action-icon .fa-trash,
+.autocomplete-selected .autocomplete-action-icon:hover .fa-trash,
+.autocomplete-saved .autocomplete-action-icon:hover .fa-trash
 {
-    background-position: -32px -192px
+    display: inline-block;
 }
-.autocomplete-todelete .autocomplete-action-icon:hover
+.autocomplete-action-icon .fa-trash,
+.autocomplete-action-icon .fa-plus,
+.autocomplete-todelete .autocomplete-action-icon:hover .fa-trash
 {
-    background-position: -208px -192px
+    display: none;
 }
+
+.autocomplete-new .autocomplete-action-icon .fa-plus
+{
+    display: inline-block;
+}
+
 
 .autocomplete-todelete .autocomplete-item-label
 {

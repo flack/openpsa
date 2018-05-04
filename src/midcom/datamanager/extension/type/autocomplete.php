@@ -101,6 +101,7 @@ class autocomplete extends AbstractType
         $builder->add('search_input', SearchType::class, ['mapped' => false]);
 
         $head = midcom::get()->head;
+        $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.css');
 
         $components = ['menu', 'autocomplete'];

@@ -304,7 +304,7 @@ var midcom_helper_datamanager2_autocomplete = {
             status = (selected === true ? 'selected ' : 'todelete ') + status;
             item = $('<span class="autocomplete-item autocomplete-' + status + '" data-id="' + item_id + '"><span class="autocomplete-item-label" title="' + text + '">' + text + '</span></span>');
             if (!selection_holder.hasClass('autocomplete-selection-holder-readonly')) {
-                item.append('<span class="ui-icon autocomplete-action-icon"></span>');
+                item.append('<span class="autocomplete-action-icon"><i class="fa fa-check"></i><i class="fa fa-plus"></i><i class="fa fa-trash"></i></span>');
             }
             item.prependTo(selection_holder);
         } else if (existing_item.hasClass('autocomplete-todelete')) {
