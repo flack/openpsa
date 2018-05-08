@@ -22,21 +22,37 @@
 
 .table_widget thead th
 {
-  background-repeat: no-repeat;
-  background-position: right center;
-  padding: 2px 20px 2px 5px;
-  cursor: pointer;
-  white-space: nowrap
+    padding: 2px 20px 2px 5px;
+    cursor: pointer;
+    white-space: nowrap;
+    position: relative;
 }
 
-.table_widget thead th.headerSortDown
-{
-  background-image: url('../stock-icons/16x16/down.png');
+.table_widget thead th:before {
+    content: '';
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    border-style: solid;
+    border-color: white transparent;
+    visibility: hidden;
+    opacity: 0;
+    user-select: none;
 }
 
-.table_widget thead th.headerSortUp
-{
-  background-image: url('../stock-icons/16x16/up.png');
+.table_widget thead th.headerSortUp:before {
+    border-bottom: none;
+    border-width: 4px 4px 0;
+}
+
+.table_widget thead th.headerSortDown:before {
+    border-width: 0 4px 4px;
+}
+
+.table_widget thead th.headerSortUp:before,
+.table_widget thead th.headerSortDown:before {
+    visibility: visible;
+    opacity: .7;
 }
 .table_widget td
 {
