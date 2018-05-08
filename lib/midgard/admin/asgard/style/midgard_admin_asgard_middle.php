@@ -25,14 +25,14 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                                 $help_file = midcom_admin_help_help::generate_file_path($data['handler_id'], 'midgard.admin.asgard');
                             if ($help_file) {
                                 echo "                                <li>\n";
-                                echo "                                    <a href=\"{$prefix}__ais/help/midgard.admin.asgard/{$data['handler_id']}/\" target='_blank' title=\"" . midcom::get()->i18n->get_string('midcom.admin.help', 'midcom.admin.help') . "\"><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/stock_help-agent.png\" alt=\"" . midcom::get()->i18n->get_string('midcom.admin.help', 'midcom.admin.help') . "\" /></a>\n";
+                                echo "                                    <a href=\"{$prefix}__ais/help/midgard.admin.asgard/{$data['handler_id']}/\" target='_blank' title=\"" . midcom::get()->i18n->get_string('midcom.admin.help', 'midcom.admin.help') . "\"><i class=\"fa fa-question\"></i></a>\n";
                                 echo "                                </li>\n";
                             } ?>
                                 <li>
-                                    <a href="&(prefix);__mfa/asgard/preferences/?return_uri=<?php echo midcom_connection::get_url('uri'); ?>" title="<?php echo $data['l10n']->get('user preferences'); ?>"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/configuration.png" alt="<?php echo $data['l10n']->get('user preferences'); ?>" /></a>
+                                    <a href="&(prefix);__mfa/asgard/preferences/?return_uri=<?php echo midcom_connection::get_url('uri'); ?>" title="<?php echo $data['l10n']->get('user preferences'); ?>"><i class="fa fa-sliders"></i></a>
                                 </li>
                                 <li>
-                                    <a href="&(prefix);" title="<?php echo $data['l10n']->get('back to site'); ?>"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/gohome.png" alt="<?php echo $data['l10n']->get('back to site'); ?>" /></a>
+                                    <a href="&(prefix);" title="<?php echo $data['l10n']->get('back to site'); ?>"><i class="fa fa-home"></i></a>
                                 </li>
                             </ul>
                         </div>

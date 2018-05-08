@@ -744,9 +744,18 @@ p
   display: inline;
 }
 
-#container #content div.quicklinks a img
+#container #content div.quicklinks i
 {
-  border: none;
+    color: white;
+    font-size: 16px;
+    vertical-align: super;
+    margin: 0 .2em;
+    opacity: .7;
+    transition: opacity .2s
+}
+#container #content div.quicklinks a:hover i
+{
+    opacity: 1
 }
 
 #content form.datamanager2 span.field_text span.global
@@ -944,14 +953,6 @@ table.midgard_admin_asgard_object_parameters li span.toolbar_label
     background-color: #d3d7cf;
     color: #555753;
 }
-#content div.midgard_admin_asgard_stylehelper_help button.copy
-{
-    background-image: url('../stock-icons/16x16/editcopy.png');
-    background-position: left;
-    background-repeat: no-repeat;
-    padding-left: 20px;
-}
-
 #content #output-wrapper .resize-wrapper
 {
     overflow: auto;

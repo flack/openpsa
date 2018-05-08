@@ -106,19 +106,19 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
             echo "<input id=\"item_{$object->guid}\" type=\"{$this->input_type}\" name=\"{$this->input_name}\" value=\"{$object->guid}\"{$checked} />\n";
         }
 
-        echo "<span class=\"title{$span_class}\">{$icon}{$label}</span>\n";
+        echo "<span class=\"title{$span_class}\" title=\"" . sprintf($this->_l10n->get('%s (%s)'), $label, $ref->get_class_label()) . "\">{$icon}{$label}</span>\n";
 
         // Show the link to the object
         if ($this->view_link) {
-            echo "<a href=\"{$this->page_prefix}__mfa/asgard/object/view/{$object->guid}/\" class=\"thickbox\" target=\"_blank\" title=\"" . sprintf($this->_l10n->get('%s (%s)'), $label, $ref->get_class_label()) . "\">\n";
-            echo "<img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/view.png\" alt=\"" . $this->_l10n->get('view object') . "\" />\n";
+            echo "<a href=\"{$this->page_prefix}__mfa/asgard/object/view/{$object->guid}/\" class=\"thickbox\" target=\"_blank\" title=\"" . $this->_l10n->get('view object') . "\">\n";
+            echo "<i class=\"fa fa-eye\"></i>\n";
             echo "</a>\n";
         }
 
         // Show the link to the object
         if ($this->edit_link) {
-            echo "<a href=\"{$this->page_prefix}__mfa/asgard/object/edit/{$object->guid}/\" target='_blank' title=\"" . sprintf($this->_l10n->get('%s (%s)'), $label, $ref->get_class_label()) . "\">\n";
-            echo "<img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/edit.png\" alt=\"" . $this->_l10n->get('edit object') . "\" />\n";
+            echo "<a href=\"{$this->page_prefix}__mfa/asgard/object/edit/{$object->guid}/\" target='_blank' title=\"" . $this->_l10n->get('edit object') . "\">\n";
+            echo "<i class=\"fa fa-pencil\"> </i>\n";
             echo "</a>\n";
         }
 

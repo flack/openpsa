@@ -49,14 +49,14 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     $class = 'class="thickbox"';
                 }
                 echo "    <a {$class} title=\"{$file->name}\" target=\"_self\" href=\"{$prefix}midcom-serveattachmentguid-{$file->guid}/{$file->name}\">\n";
-                echo "      <img alt=\"{$file->name}\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/view.png\"/>\n";
-                echo "    </a> \n";
+                echo "      <i class=\"fa fa-eye\"></i>\n";
+                echo "    </a>\n";
                 echo "    <a title=\"{$delete_title}\" href=\"{$prefix}__mfa/asgard/object/attachments/delete/{$data['object']->guid}/{$file->name}/\" " . $workflow->render_attributes() . ">\n";
-                echo "      <img alt=\"{$delete_title}\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/trash.png\"/>\n";
+                echo "      <i class=\"fa fa-trash\"></i>\n";
                 echo "    </a>\n";
                 $manage_title = $data['l10n']->get('manage object');
                 echo "    <a title=\"{$manage_title}\" href=\"{$prefix}__mfa/asgard/object/open/{$file->guid}/\">\n";
-                echo "      <img alt=\"{$manage_title}\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/properties.png\"/>\n";
+                echo "      <i class=\"fa fa-cog\"></i>\n";
                 echo "    </a>\n";
                 echo "  </td>\n";
                 echo "</tr>\n";

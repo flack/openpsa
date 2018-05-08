@@ -34,10 +34,15 @@ div.file-manager div.filelist .selected a
 {
     font-weight: bold;
 }
-div.file-manager div.filelist a img
+div.file-manager div.filelist a i
 {
-    border: none;
-    vertical-align: middle;
+    margin: 0 .3em;
+    opacity: .7;
+    transition: opacity .2s
+}
+div.file-manager div.filelist a:hover i
+{
+    opacity: 1
 }
 div.file-manager div.main h1
 {
@@ -64,7 +69,7 @@ div.file-manager div.main form label span
     display: block;
     font-weight: bold;
 }
-div.file-manager div.main form input, 
+div.file-manager div.main form input,
 div.file-manager div.main form textarea,
 div.file-manager div.main form select
 {
