@@ -3,7 +3,6 @@
     width: 16px;
     height: 16px;
     overflow: hidden;
-    text-indent: -999em;
     cursor: pointer;
     display: none;
     margin-left: auto;
@@ -12,41 +11,25 @@
 
 .privilege_val a
 {
+    font-size: 14px;
     width: 16px;
     height: 16px;
     display: block;
-    display: block;
-    background: url(privileges.gif) no-repeat top left;
+}
+
+.privilege_val a .fa-check-square,
+.privilege_val a .fa-check-square-o
+{
+    color: green;
+}
+
+.privilege_val a .fa-minus-square,
+.privilege_val a .fa-minus-square-o
+{
+    color: red;
 }
 
 .privilege_val a.ineffectual
 {
     opacity: 0.5;
-}
-.privilege_val a.inherited,
-.privilege_val a.inherited:hover
-{
-    background-position:  0 0px;
-}
-div.privilege_val a.inherited-allow,
-div.privilege_val a.inherited-allow:hover
-{
-    background-position:  0 -16px;
-    opacity: .5
-}
-.privilege_val a.inherited-deny,
-.privilege_val a.inherited-deny:hover
-{
-    background-position:  0 -32px;
-    opacity: .5
-}
-.privilege_val a.allow,
-.privilege_val a.allow:hover
-{
-    background-position:  0 -48px;
-}
-.privilege_val a.deny,
-.privilege_val a.deny:hover
-{
-    background-position:  0 -64px;
 }
