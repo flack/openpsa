@@ -197,6 +197,22 @@
     margin-left: 6px;
 }
 
+.midcom_services_toolbars_fancy .items div.item ul li i
+{
+    font-size: 140%;
+    opacity: .5;
+    vertical-align: baseline;
+    margin: 2px 0;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+}
+
+.midcom_services_toolbars_fancy .items div.item ul li:hover i
+{
+    opacity: .95;
+}
+
 .midcom_services_toolbars_fancy .items div.item ul li img
 {
     padding: 0;

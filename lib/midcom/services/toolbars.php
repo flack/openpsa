@@ -105,6 +105,7 @@ class midcom_services_toolbars
             $path = midcom::get()->config->get('toolbars_simple_css_path', MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css");
             midcom::get()->head->add_stylesheet($path, 'screen');
         }
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
 
         // We've included CSS and JS, path is clear for centralized mode
         $this->_enable_centralized = true;

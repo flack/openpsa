@@ -350,6 +350,7 @@ class midcom_helper_toolbar
             MIDCOM_TOOLBAR_HIDDEN => false,
             MIDCOM_TOOLBAR_HELPTEXT => '',
             MIDCOM_TOOLBAR_ICON => null,
+            MIDCOM_TOOLBAR_GLYPHICON => null,
             MIDCOM_TOOLBAR_ENABLED => true,
             MIDCOM_TOOLBAR_POST => false,
             MIDCOM_TOOLBAR_POST_HIDDENARGS => [],
@@ -646,9 +647,12 @@ class midcom_helper_toolbar
         }
         $output .= '>';
 
-        if (!is_null($item[MIDCOM_TOOLBAR_ICON])) {
+        if (!is_null($item[MIDCOM_TOOLBAR_GLYPHICON])) {
+            $class = 'fa fa-' . $item[MIDCOM_TOOLBAR_GLYPHICON];
+            $output .= "<i class='{$class}'></i>";
+        } elseif (!is_null($item[MIDCOM_TOOLBAR_ICON])) {
             $url = MIDCOM_STATIC_URL . '/' . $item[MIDCOM_TOOLBAR_ICON];
-            $output .= "<img src='{$url}' alt='' />";
+            $output .= "<img src='{$url}' alt=\"{$item[MIDCOM_TOOLBAR_HELPTEXT]}\" />";
         }
 
         $output .= '&nbsp;<span class="toolbar_label">' . $this->_generate_item_label($item) . "</span>";
@@ -697,9 +701,12 @@ class midcom_helper_toolbar
             $output .= '>';
         }
 
-        if ($item[MIDCOM_TOOLBAR_ICON]) {
+        if (!is_null($item[MIDCOM_TOOLBAR_GLYPHICON])) {
+            $class = 'fa fa-' . $item[MIDCOM_TOOLBAR_GLYPHICON];
+            $output .= "<i class='{$class}'></i>";
+        } elseif ($item[MIDCOM_TOOLBAR_ICON]) {
             $url = MIDCOM_STATIC_URL . "/{$item[MIDCOM_TOOLBAR_ICON]}";
-            $output .= "<img src=\"{$url}\" alt=\"\" title=\"{$item[MIDCOM_TOOLBAR_HELPTEXT]}\" />";
+            $output .= "<img src=\"{$url}\" alt=\"{$item[MIDCOM_TOOLBAR_HELPTEXT]}\" />";
         }
 
         $label = $this->_generate_item_label($item);

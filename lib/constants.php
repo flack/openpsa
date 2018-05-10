@@ -112,6 +112,15 @@ const MIDCOM_TOOLBAR_HELPTEXT = 2;
  * @see midcom_helper_toolbar
  */
 const MIDCOM_TOOLBAR_ICON = 3;
+
+/**
+ * Element Icon (as font-awesome class),
+ * e.g. 'pencil-square-o'.
+ *
+ * @see midcom_helper_toolbar
+ */
+const MIDCOM_TOOLBAR_GLYPHICON = 11;
+
 /**
  * Element Enabled state
  *

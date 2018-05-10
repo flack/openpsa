@@ -69,8 +69,10 @@ abstract class dialog
     public function get_button($url, array $options = [])
     {
         static::add_head_elements();
-
         $button_config = $this->get_button_config();
+        if (!empty($options[MIDCOM_TOOLBAR_ICON])) {
+            unset($button_config[MIDCOM_TOOLBAR_GLYPHICON]);
+        }
         $button_config[MIDCOM_TOOLBAR_URL] = $url;
         //The constants are numeric, so array_merge won't work...
         foreach ($options as $key => $value) {

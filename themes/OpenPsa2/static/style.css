@@ -562,12 +562,27 @@ input#org_openpsa_search_query
   padding: 0.2em 0.3em;
 }
 
+.org_openpsa_toolbar ul.midcom_toolbar li i
+{
+    font-size: 135%;
+    opacity: .5;
+    vertical-align: text-top;
+    text-shadow: 0 1px 1px #fff;
+}
+
 .org_openpsa_toolbar ul.midcom_toolbar li > a:hover,
 .org_openpsa_toolbar ul.midcom_toolbar li > a.active,
 .org_openpsa_toolbar ul.midcom_toolbar li button:hover
 {
     background: #fcfcfc;
     background: linear-gradient(to bottom, #fcfcfc 0%, #efefef 14%, #ededed 30%, #ffffff 100%);
+}
+
+.org_openpsa_toolbar ul.midcom_toolbar li > a:hover i,
+.org_openpsa_toolbar ul.midcom_toolbar li > a.active i,
+.org_openpsa_toolbar ul.midcom_toolbar li button:hover i
+{
+    opacity: .7
 }
 
 .org_openpsa_toolbar ul.midcom_toolbar li > a img,
