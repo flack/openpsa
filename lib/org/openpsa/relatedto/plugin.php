@@ -142,7 +142,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         $toolbar->add_item([
             MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/render/{$guid}/{$mode}/",
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view related information', 'org.openpsa.relatedto'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'paperclip',
         ]);
     }
 
@@ -238,7 +238,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_projects_task_dba::class)) {
                         $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}task/new/?" . self::relatedto2get([$related_to]), [
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create task', $data['component']),
-                            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
+                            MIDCOM_TOOLBAR_GLYPHICON => 'tasks',
                             MIDCOM_TOOLBAR_OPTIONS  => ['data-refresh-opener' => 'true'],
                         ]);
                     }
@@ -261,7 +261,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$data['wikiword_encoded']}&" . self::relatedto2get([$related_to]), [
                         MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create note', $data['component']),
                         //TODO: Different icon from new document ?
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
+                        MIDCOM_TOOLBAR_GLYPHICON => 'sticky-note-o',
                         MIDCOM_TOOLBAR_ENABLED => $data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'),
                         MIDCOM_TOOLBAR_OPTIONS  => ['data-refresh-opener' => 'true'],
                     ]);
@@ -270,7 +270,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     if ($data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create')) {
                         $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}document/create/?" . self::relatedto2get([$related_to]), [
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create document', $data['component']),
-                            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
+                            MIDCOM_TOOLBAR_GLYPHICON => 'file-o',
                             MIDCOM_TOOLBAR_OPTIONS  => ['data-refresh-opener' => 'true'],
                         ]);
                     }
@@ -291,7 +291,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         $toolbar->add_item([
             MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/journalentry/{$guid}/",
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view journal entries', 'org.openpsa.relatedto'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'list',
         ]);
     }
 }

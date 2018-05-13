@@ -120,7 +120,7 @@ implements midcom_services_permalinks_resolver
         $workflow = new midcom\workflow\datamanager;
         return $workflow->get_button($node[MIDCOM_NAV_ABSOLUTEURL] . "event/new/" . $url, [
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create event', 'org.openpsa.calendar'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'calendar-plus-o',
         ]);
     }
 

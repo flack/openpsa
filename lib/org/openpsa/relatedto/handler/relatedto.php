@@ -89,7 +89,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             $this->_view_toolbar->add_item([
                 MIDCOM_TOOLBAR_URL => $object_url,
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'eject',
             ]);
             $this->add_breadcrumb($object_url, $object_label);
         }
