@@ -45,12 +45,12 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
         if ($this->_topic->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button('create/?wikiword=' . rawurlencode($data['wikiword']), [
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('create page %s'), $data['wikiword']),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-html.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'file-o',
                 MIDCOM_TOOLBAR_ENABLED => $this->_topic->can_do('midgard:create'),
             ]);
             $buttons[] = $workflow->get_button('create/redirect/?wikiword=' . rawurlencode($data['wikiword']), [
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('create redirection page %s'), $data['wikiword']),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-html.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'file-o',
                 MIDCOM_TOOLBAR_ENABLED => $this->_topic->can_do('midgard:create'),
             ]);
         }
@@ -58,7 +58,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => 'http://' . $this->_i18n->get_current_language() . '.wikipedia.org/wiki/' . rawurlencode($data['wikiword']),
             MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('look for %s in wikipedia'), $data['wikiword']),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'search',
             MIDCOM_TOOLBAR_OPTIONS => [
                 'rel' => 'directlink',
             ]

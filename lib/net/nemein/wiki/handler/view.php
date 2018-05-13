@@ -52,7 +52,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             [
                 MIDCOM_TOOLBAR_URL => "{$this->_page->name}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'search',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'v',
             ],
             $workflow->get_button("edit/{$this->_page->name}/", [
@@ -68,7 +68,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => "whatlinks/{$this->_page->name}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('what links'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'link',
         ];
 
         if (midcom::get()->auth->user) {
@@ -81,7 +81,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "subscribe/{$this->_page->name}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'envelope-o',
                 MIDCOM_TOOLBAR_POST => true,
                 MIDCOM_TOOLBAR_POST_HIDDENARGS => [$action => 1],
             ];
