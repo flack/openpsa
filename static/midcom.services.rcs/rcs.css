@@ -16,11 +16,17 @@ div.rcs_navigation ul li
   padding: 0 0.5em;
 }
 
-div.rcs_navigation ul li img,
-div.rcs_navigation ul li a img
+div.rcs_navigation ul li i
 {
-  border: none;
-  vertical-align: middle;
+    opacity: .4;
+    transition: opacity .2s;
+    font-size: 120%;
+    vertical-align: text-bottom;
+}
+
+div.rcs_navigation ul li.enabled:hover i
+{
+    opacity: .9;
 }
 
 div.rcs_navigation ul li abbr

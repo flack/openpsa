@@ -31,7 +31,7 @@ class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
         $this->_view_toolbar->add_item([
             MIDCOM_TOOLBAR_URL => $this->get_object_url(),
             MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('back to %s'), $this->resolve_object_title()),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_up.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'eject',
         ]);
     }
 

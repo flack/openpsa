@@ -74,7 +74,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
             [
                 MIDCOM_TOOLBAR_URL => "{$prefix}{$this->object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show history'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'history',
             ]
         ];
 
@@ -82,7 +82,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "{$prefix}restore/{$this->object->guid}/{$current}/",
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore version %s'), $current),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'recycle',
                 MIDCOM_TOOLBAR_ENABLED => ($current !== $last),
             ];
         }
@@ -102,7 +102,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $buttons = [[
             MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$first}",
             MIDCOM_TOOLBAR_LABEL => $first,
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/start.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'fast-backward',
             MIDCOM_TOOLBAR_ENABLED => ($current !== $first || $diff_view),
         ]];
 
@@ -120,35 +120,35 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$previous}",
                 MIDCOM_TOOLBAR_LABEL => $previous,
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/previous.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'backward',
                 MIDCOM_TOOLBAR_ENABLED => ($current !== $first || $diff_view),
             ];
 
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "{$prefix}diff/{$this->object->guid}/{$current}/{$previous}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show differences'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/diff-previous.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'step-backward',
                 MIDCOM_TOOLBAR_ENABLED => ($current !== $first),
             ];
 
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$current}/{$current}/",
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('version %s'), $current),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/document.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'file-o',
                 MIDCOM_TOOLBAR_ENABLED => false,
             ];
 
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "{$prefix}diff/{$this->object->guid}/{$current}/{$next}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show differences'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/diff-next.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'step-forward',
                 MIDCOM_TOOLBAR_ENABLED => ($current !== $last),
             ];
 
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$next}",
                 MIDCOM_TOOLBAR_LABEL => $next,
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/forward.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'forward',
                 MIDCOM_TOOLBAR_ENABLED => ($current !== $last || $diff_view),
             ];
         }
@@ -156,7 +156,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$last}",
             MIDCOM_TOOLBAR_LABEL => $last,
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/finish.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'fast-forward',
             MIDCOM_TOOLBAR_ENABLED => ($current !== $last || $diff_view),
         ];
 
