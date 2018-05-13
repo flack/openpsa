@@ -47,7 +47,7 @@ class datamanager extends dialog
     {
         return [
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_l10n('midcom')->get('edit'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
             MIDCOM_TOOLBAR_OPTIONS => [
                 'data-dialog' => 'dialog',
                 'data-dialog-cancel-label' => midcom::get()->i18n->get_l10n('midcom')->get('cancel')

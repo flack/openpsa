@@ -94,18 +94,18 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => "invoice/items/{$this->invoice->guid}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit invoice items'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'list-ul',
             MIDCOM_TOOLBAR_ENABLED => $this->invoice->can_do('midgard:update'),
         ];
 
         if (!$this->invoice->sent) {
-            $buttons[] = $this->build_button('mark_sent', 'stock-icons/16x16/stock_mail-reply.png');
+            $buttons[] = $this->build_button('mark_sent', 'paper-plane-o');
         } elseif (!$this->invoice->paid) {
-            $buttons[] = $this->build_button('mark_paid', 'stock-icons/16x16/ok.png');
+            $buttons[] = $this->build_button('mark_paid', 'check');
         }
 
         if ($this->_config->get('invoice_pdfbuilder_class')) {
-            $button = $this->build_button('create_pdf', 'stock-icons/16x16/printer.png');
+            $button = $this->build_button('create_pdf', 'file-pdf-o');
             $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
             $button[MIDCOM_TOOLBAR_OPTIONS] = $pdf_helper->get_button_options();
             $buttons[] = $button;
@@ -114,12 +114,12 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
             $billing_data = org_openpsa_invoices_billing_data_dba::get_by_object($this->invoice);
             if (    !$this->invoice->sent
                  && intval($billing_data->sendingoption) == 2) {
-                $buttons[] = $this->build_button('send_by_mail', 'stock-icons/16x16/stock_mail-reply.png');
+                $buttons[] = $this->build_button('send_by_mail', 'paper-plane');
             }
         }
 
         if ($this->invoice->is_cancelable()) {
-            $buttons[] = $this->build_button('create_cancelation', 'stock-icons/16x16/cancel.png');
+            $buttons[] = $this->build_button('create_cancelation', 'ban');
         }
 
         $this->_view_toolbar->add_items($buttons);
@@ -131,7 +131,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         return [
             MIDCOM_TOOLBAR_URL => 'invoice/action/' . $action . '/',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
-            MIDCOM_TOOLBAR_ICON => $icon,
+            MIDCOM_TOOLBAR_GLYPHICON => $icon,
             MIDCOM_TOOLBAR_POST => true,
             MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                 'id' => $this->invoice->id,

@@ -177,7 +177,7 @@ implements org_openpsa_widgets_grid_provider_client
             $this->_node_toolbar->add_item($workflow->get_button('config/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'wrench',
             ]));
         }
 
@@ -293,13 +293,14 @@ implements org_openpsa_widgets_grid_provider_client
             $workflow = $this->get_workflow('datamanager');
             $buttons[] = $workflow->get_button("invoice/new/{$this->_customer->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'plus',
             ]);
 
             if ($this->_customer->can_do('midgard:create')) {
                 $buttons[] = $workflow->get_button("billingdata/" . $this->_customer->guid . "/", [
                     MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('edit billingdata', 'org.openpsa.contacts'),
                     MIDCOM_TOOLBAR_OPTIONS => ['data-refresh-opener' => 'false'],
+                    MIDCOM_TOOLBAR_GLYPHICON => 'address-card'
                 ]);
             }
         }
@@ -308,7 +309,7 @@ implements org_openpsa_widgets_grid_provider_client
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $this->_request_data['contacts_url'] . (is_a($this->_customer, org_openpsa_contacts_group_dba::class) ? 'group' : 'person') . "/{$this->_customer->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'user',
             ];
         }
         $this->_view_toolbar->add_items($buttons);

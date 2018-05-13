@@ -110,7 +110,7 @@ class delete extends dialog
 
         return [
             MIDCOM_TOOLBAR_LABEL => $this->l10n_midcom->get('delete'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'trash',
             MIDCOM_TOOLBAR_ACCESSKEY => 'd',
             MIDCOM_TOOLBAR_OPTIONS => [
                 'data-dialog' => 'delete',

@@ -56,14 +56,14 @@ trait org_openpsa_invoices_handler
             $this->_view_toolbar->add_item([
                 MIDCOM_TOOLBAR_URL => '',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('dashboard'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
             ]);
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)) {
             $workflow = $this->get_workflow('datamanager');
             $this->_view_toolbar->add_item($workflow->get_button('invoice/new/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'plus',
             ]));
         }
     }
@@ -81,7 +81,7 @@ trait org_openpsa_invoices_handler
                 $this->_view_toolbar->add_item([
                     MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'p',
                 ]);
             }
@@ -98,7 +98,7 @@ trait org_openpsa_invoices_handler
                 $this->_view_toolbar->add_item([
                     MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'chevron-right',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'n',
                 ]);
             }
