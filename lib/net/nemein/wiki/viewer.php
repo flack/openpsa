@@ -37,7 +37,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
             $this->_node_toolbar->add_item([
                 MIDCOM_TOOLBAR_URL => "subscribe/index/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'envelope-o',
                 MIDCOM_TOOLBAR_POST => true,
                 MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                     $action => 1,
@@ -49,7 +49,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $this->_node_toolbar->add_item([
             MIDCOM_TOOLBAR_URL => "orphans/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('orphaned pages'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcut.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'chain-broken',
         ]);
     }
 

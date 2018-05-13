@@ -51,7 +51,6 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
         org_openpsa_widgets_tree::add_head_elements();
         org_openpsa_widgets_grid::add_head_elements();
 
-        $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
         $this->add_breadcrumb('', $this->_group->get_label());
 
         $workflow = $this->get_workflow('datamanager');
@@ -69,21 +68,21 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
         if ($this->_group->can_do('midgard:privileges')) {
             $buttons[] = $workflow->get_button("group/privileges/{$this->_group->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
-                MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'shield',
             ]);
         }
 
         if ($this->_group->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("group/notifications/{$this->_group->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'bell-o',
             ]);
         }
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class)) {
             $buttons[] = $workflow->get_button("create/{$this->_group->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'user',
             ]);
         }
         $this->_view_toolbar->add_items($buttons);

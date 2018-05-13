@@ -53,14 +53,14 @@ class org_openpsa_user_handler_person_view extends midcom_baseclasses_components
                 && $this->_person->can_do('midgard:privileges')) {
                 $buttons[] = $workflow->get_button("privileges/{$this->_person->guid}/", [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
-                    MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'shield',
                 ]);
             }
 
             if ($this->_person->can_do('midgard:update')) {
                 $buttons[] = $workflow->get_button("person/notifications/{$this->_person->guid}/", [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'bell-o',
                 ]);
             }
             $this->_view_toolbar->add_items($buttons);

@@ -14,7 +14,7 @@
 class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_handler
 {
     /**
-     * Handle the group listing
+     * Handle the group listing (used in dynamic load)
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
@@ -28,15 +28,6 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
         $tree->title_fields = ['official', 'name'];
         $tree->link_callback = [__CLASS__, 'render_link'];
         $data['tree'] = $tree;
-
-        $this->add_breadcrumb("", $this->_l10n->get('groups'));
-        if (midcom::get()->auth->can_user_do('midgard:create', null, midcom_db_group::class)) {
-            $workflow = $this->get_workflow('datamanager');
-            $this->_view_toolbar->add_item($workflow->get_button("group/create/", [
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-            ]));
-        }
 
         return $this->show('group-list');
     }
