@@ -67,11 +67,11 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
             $workflow = $this->get_workflow('datamanager');
             $this->_view_toolbar->add_item($workflow->get_button("document/create/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new document'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'file-o',
             ]));
             $this->_view_toolbar->add_item($workflow->get_button("create/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new directory'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'folder-o',
             ]));
         }
     }

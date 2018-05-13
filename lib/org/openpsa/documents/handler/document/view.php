@@ -203,7 +203,7 @@ implements org_openpsa_widgets_grid_provider_client
             $this->_view_toolbar->add_item([
                 MIDCOM_TOOLBAR_URL => "document/{$results[0]->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous version'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'backward',
             ]);
         }
 
@@ -224,7 +224,7 @@ implements org_openpsa_widgets_grid_provider_client
             $this->_view_toolbar->add_item([
                 MIDCOM_TOOLBAR_URL => "document/{$results[0]->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next version'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'forward',
             ]);
 
             $current_version = org_openpsa_documents_document_dba::get_cached($this->_document->nextVersion);
