@@ -32,17 +32,17 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
             [
                 MIDCOM_TOOLBAR_URL => 'day/' . strftime('%Y-%m-%d', $this->_request_data['week_start']) . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('day review'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'dashboard',
             ],
             [
                 MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['prev_week'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'chevron-right',
             ],
             [
                 MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['next_week'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
             ]
         ];
         $this->_view_toolbar->add_items($buttons);
