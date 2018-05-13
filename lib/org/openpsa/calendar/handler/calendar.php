@@ -65,7 +65,7 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
         if ($root_event->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button('#', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'plus',
                 MIDCOM_TOOLBAR_OPTIONS  => [
                     'id' => 'openpsa_calendar_add_event',
                 ]
@@ -73,19 +73,19 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
             if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_calendar_resource_dba::class)) {
                 $buttons[] = $workflow->get_button('resource/new/', [
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('resource')),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'television',
                 ]);
             }
         }
         $buttons[] = $workflow->get_button('filters/', [
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('choose calendars'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/preferences-desktop.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'sliders',
         ]);
 
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => '#',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_jump-to.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'calendar',
             MIDCOM_TOOLBAR_OPTIONS  => [
                 'rel' => 'directlink',
                 'id' => 'date-navigation',

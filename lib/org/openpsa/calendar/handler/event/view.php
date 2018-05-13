@@ -44,7 +44,7 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
             [
                 MIDCOM_TOOLBAR_URL => 'event/edit/' . $this->_request_data['event']->guid . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
                 MIDCOM_TOOLBAR_ENABLED => $data['event']->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]
