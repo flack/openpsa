@@ -30,16 +30,14 @@ foreach ($data['hours'] as $report) {
             $entry['category'] = 0;
         }
     } else {
-        $approved_img_src = MIDCOM_STATIC_URL . '/stock-icons/16x16/';
         if ($report->is_approved()) {
             $approved_text = $projects_l10n->get('approved');
-            $approved_img_src .= 'page-approved.png';
+            $icon = 'check';
         } else {
             $approved_text = $projects_l10n->get('not approved');
-            $approved_img_src .= 'page-notapproved.png';
+            $icon = 'times';
         }
-        $approved_img =  "<img src='{$approved_img_src}' alt='{$approved_text}' title='{$approved_text}' />";
-        $entry['approved'] = $approved_img;
+        $entry['approved'] =  "<i class='fa fa-{$icon}' title='{$approved_text}'></i>";
     }
 
     $entry['index_description'] = $report->description;

@@ -26,7 +26,7 @@ trait org_openpsa_expenses_handler
             $create_url = "hours/create/{$prefix}{$name}/{$suffix}";
             $this->_view_toolbar->add_item($workflow->get_button($create_url, [
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schema->get('description'))),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'plus',
             ]));
         }
     }
