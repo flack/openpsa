@@ -203,17 +203,17 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class)) {
             $buttons[] = $workflow->get_button('person/create/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'user-o',
             ]);
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_group_dba::class)) {
             $buttons[] = $workflow->get_button('group/create/organization/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'group',
             ]);
             $buttons[] = $workflow->get_button('group/create/group/', [
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('group')),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'group',
             ]);
         }
         $this->_view_toolbar->add_items($buttons);

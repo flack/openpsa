@@ -39,11 +39,11 @@ implements org_openpsa_widgets_grid_provider_client
                 ]),
                 $workflow->get_button("group/create/organization/{$this->group->guid}/", [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create suborganization'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'group',
                 ]),
                 $workflow->get_button("group/create/group/{$this->group->guid}/", [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create subgroup'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'group',
                 ])
             ];
         }
@@ -52,7 +52,7 @@ implements org_openpsa_widgets_grid_provider_client
             && $this->group->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button("person/create/{$this->group->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'user-o',
             ]);
         }
 
@@ -63,7 +63,7 @@ implements org_openpsa_widgets_grid_provider_client
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $user_url . "group/{$this->group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('user management', 'org.openpsa.user'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'user-circle-o',
             ];
         }
 

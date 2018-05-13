@@ -32,18 +32,18 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class)) {
             $buttons[] = $workflow->get_button('person/create/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'user-o',
             ]);
         }
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_group_dba::class)) {
             $buttons[] = $workflow->get_button("group/create/organization/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'group',
             ]);
             $buttons[] = $workflow->get_button("group/create/group/", [
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('group')),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'group',
             ]);
         }
 
@@ -52,7 +52,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => 'duplicates/person/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('merge persons'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'code-fork',
                 MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:update', null, org_openpsa_contacts_person_dba::class),
             ];
         }
@@ -63,7 +63,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
             $this->_node_toolbar->add_item($workflow->get_button('config/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'sliders',
             ]));
         }
 
