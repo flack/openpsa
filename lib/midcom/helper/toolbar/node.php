@@ -45,7 +45,7 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
             ]);
             $buttons[] = $workflow->get_button("__ais/folder/metadata/{$urltopic->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit folder metadata', 'midcom.admin.folder'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'database',
             ]);
         }
 
@@ -56,7 +56,7 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
                 $viewer = new midcom\workflow\viewer;
                 $buttons[] = $viewer->get_button("__ais/folder/move/{$urltopic->guid}/", [
                     MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'arrows',
                 ]);
             }
         }
@@ -66,14 +66,14 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "__ais/folder/order/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('order navigation', 'midcom.admin.folder'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/topic-score.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'sort',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'o',
             ];
 
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$this->topic->guid}/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('manage object', 'midgard.admin.asgard'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'cog',
                 MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin') && midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
             ];
         }
@@ -97,7 +97,7 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $styleeditor_url,
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit layout template', 'midcom.admin.folder'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/text-x-generic-template.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'file-o',
                 MIDCOM_TOOLBAR_ACCESSKEY => 't',
                 MIDCOM_TOOLBAR_ENABLED => $enabled,
             ];
@@ -107,7 +107,7 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
             && $this->topic->can_do('midcom.admin.folder:topic_management')) {
             $buttons[] = $workflow->get_button("__ais/folder/create/", [
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create subfolder', 'midcom.admin.folder'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'folder',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'f',
             ]);
         }

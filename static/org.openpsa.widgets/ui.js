@@ -49,7 +49,7 @@ var org_openpsa_layout = {
             // there seem to be no toolbar buttons, so we don't need to do anything
             return;
         }
-        var container = $('#toolbar_dropdown').length > 0 ? $('#toolbar_dropdown') : $('<li class="enabled submenu"><a><img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/preferences-desktop.png"/> <span class="toolbar_label">' + TOOLBAR_MORE_LABEL + '</span></a><ul class="midcom_toolbar"></ul></li>')
+        var container = $('#toolbar_dropdown').length > 0 ? $('#toolbar_dropdown') : $('<li class="enabled submenu"><a><i class="fa fa-caret-down"></i> <span class="toolbar_label">' + TOOLBAR_MORE_LABEL + '</span></a><ul class="midcom_toolbar"></ul></li>')
             .attr('id', 'toolbar_dropdown')
             .data('event_attached', false)
             .mouseover(function() {

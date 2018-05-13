@@ -34,20 +34,20 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
             $workflow = new midcom\workflow\datamanager;
             $buttons[] = $workflow->get_button("__ais/folder/metadata/{$object->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit metadata', 'midcom.admin.folder'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'database',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'm',
             ]);
             $viewer = new midcom\workflow\viewer;
             $buttons = array_merge($buttons, [
                 $viewer->get_button("__ais/folder/move/{$object->guid}/", [
                     MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'arrows',
                     MIDCOM_TOOLBAR_ENABLED => $object instanceof midcom_db_article
                 ]),
                 [
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('manage object', 'midgard.admin.asgard'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'cog',
                     MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin') && midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
                 ]
             ]);
@@ -59,7 +59,7 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "__ais/rcs/{$object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('show history', 'midcom.admin.rcs'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'history',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'v',
             ];
         }
