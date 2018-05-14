@@ -131,7 +131,7 @@ implements org_openpsa_widgets_grid_provider_client
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "campaign/edit_query/{$this->_campaign->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit rules'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'filter',
                 MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:update'),
             ];
         } else {
@@ -139,14 +139,14 @@ implements org_openpsa_widgets_grid_provider_client
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "campaign/import/{$this->_campaign->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import subscribers'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'upload',
                 MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class),
             ];
         }
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => "campaign/export/csv/{$this->_campaign->guid}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('export as csv'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_data-edit-table.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'download',
         ];
 
         if ($this->_campaign->can_do('midgard:create')) {
@@ -154,7 +154,7 @@ implements org_openpsa_widgets_grid_provider_client
             foreach ($schemadb->all() as $name => $schema) {
                 $buttons[] = $workflow->get_button("message/create/{$this->_campaign->guid}/{$name}/", [
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('new %s'), $this->_l10n->get($schema->get('description'))),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . $this->get_messagetype_icon($schema->get('customdata')['org_openpsa_directmarketing_messagetype']),
+                    MIDCOM_TOOLBAR_GLYPHICON => $this->get_messagetype_icon($schema->get('customdata')['org_openpsa_directmarketing_messagetype']),
                 ]);
             }
         }
@@ -163,18 +163,20 @@ implements org_openpsa_widgets_grid_provider_client
 
     private function get_messagetype_icon($type)
     {
-        $icon = 'stock_mail.png';
+        $icon = 'envelope-o';
         switch ($type) {
             case org_openpsa_directmarketing_campaign_message_dba::SMS:
             case org_openpsa_directmarketing_campaign_message_dba::MMS:
-                $icon = 'stock_cell-phone.png';
+                $icon = 'mobile';
                 break;
             case org_openpsa_directmarketing_campaign_message_dba::CALL:
+                $icon = 'phone';
+                break;
             case org_openpsa_directmarketing_campaign_message_dba::FAX:
-                $icon = 'stock_landline-phone.png';
+                $icon = 'fax';
                 break;
             case org_openpsa_directmarketing_campaign_message_dba::SNAILMAIL:
-                $icon = 'stock_home.png';
+                $icon = 'home';
                 break;
         }
         return $icon;

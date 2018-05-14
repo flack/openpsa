@@ -125,7 +125,7 @@ implements org_openpsa_widgets_grid_provider_client
             [
                 MIDCOM_TOOLBAR_URL => "#",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('advanced rule editor'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'cogs',
                 MIDCOM_TOOLBAR_OPTIONS  => [
                     'id' => 'openpsa_dirmar_edit_query_advanced',
                 ],
@@ -133,7 +133,7 @@ implements org_openpsa_widgets_grid_provider_client
             [
                 MIDCOM_TOOLBAR_URL => "campaign/edit_query/{$this->_campaign->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit rules'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'filter',
                 MIDCOM_TOOLBAR_OPTIONS  => [
                     'id' => 'openpsa_dirmar_edit_query',
                 ],

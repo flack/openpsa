@@ -41,7 +41,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         $this->_view_toolbar->add_item([
             MIDCOM_TOOLBAR_URL => "campaign/{$this->_request_data['campaign']->guid}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'eject',
         ]);
 
         $this->bind_view_to_object($this->_request_data['campaign']);

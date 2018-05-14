@@ -337,12 +337,12 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             [
                 MIDCOM_TOOLBAR_URL => "message/{$this->_message->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'eject',
             ],
             [
                 MIDCOM_TOOLBAR_URL => "message/compose/{$this->_message->guid}/" . midcom::get()->auth->user->guid . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('preview message'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'search',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'p',
                 MIDCOM_TOOLBAR_ENABLED => $this->_message->can_do('midgard:read'),
                 MIDCOM_TOOLBAR_OPTIONS => ['target' => '_BLANK'],

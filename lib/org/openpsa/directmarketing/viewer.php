@@ -26,7 +26,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
             $this->_node_toolbar->add_item($workflow->get_button('config/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'wrench',
             ]));
         }
     }

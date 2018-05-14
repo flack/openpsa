@@ -76,14 +76,14 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         if ($this->_message->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("message/copy/{$this->_message->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('copy message'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcopy.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'clone',
             ]);
         }
 
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => "message/compose/{$this->_message->guid}/" . midcom::get()->auth->user->guid . '/',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('preview message'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'search',
             MIDCOM_TOOLBAR_ACCESSKEY => 'p',
             MIDCOM_TOOLBAR_OPTIONS => ['target' => '_BLANK'],
         ];
@@ -91,14 +91,14 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             MIDCOM_TOOLBAR_URL => "message/report/{$this->_message->guid}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("message report"),
             MIDCOM_TOOLBAR_ACCESSKEY => 'r',
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'print',
         ];
 
         $this->_campaign->get_testers();
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => "message/send_test/{$this->_message->guid}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to testers"),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-send.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'paper-plane-o',
             MIDCOM_TOOLBAR_ENABLED => (count($this->_campaign->testers) > 0),
         ];
 
@@ -111,7 +111,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => "message/send/{$this->_message->guid}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to whole campaign"),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-send.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'paper-plane',
             MIDCOM_TOOLBAR_ENABLED => (count($keys) > 0 && $this->_message->can_do('midgard:update')),
             MIDCOM_TOOLBAR_OPTIONS => [
                 'onclick' => "return confirm('" . $this->_l10n->get('are you sure you wish to send this to the whole campaign') . "')",

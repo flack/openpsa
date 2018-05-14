@@ -75,7 +75,7 @@ implements org_openpsa_widgets_grid_provider_client
             foreach ($schemadb->all() as $name => $schema) {
                 $this->_view_toolbar->add_item($workflow->get_button("campaign/create/{$name}/", [
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schema->get('description'))),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'bullhorn',
                 ]));
             }
         }
