@@ -353,7 +353,7 @@ implements org_openpsa_widgets_grid_provider_client
             $this->_view_toolbar->add_item([
                 MIDCOM_TOOLBAR_URL => $sales_url . "deliverable/{$this->_deliverable->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to deliverable'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'money',
             ]);
         }
 

@@ -238,7 +238,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_projects_task_dba::class)) {
                         $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}task/new/?" . self::relatedto2get([$related_to]), [
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create task', $data['component']),
-                            MIDCOM_TOOLBAR_GLYPHICON => 'tasks',
+                            MIDCOM_TOOLBAR_GLYPHICON => 'calendar-check-o',
                             MIDCOM_TOOLBAR_OPTIONS  => ['data-refresh-opener' => 'true'],
                         ]);
                     }

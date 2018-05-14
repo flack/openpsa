@@ -56,7 +56,7 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => 'javascript:window.print()',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('print'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'print',
             MIDCOM_TOOLBAR_OPTIONS  => ['rel' => 'directlink']
         ];
 

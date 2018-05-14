@@ -76,7 +76,7 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
         if ($this->task->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button("task/new/task/{$this->task->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'calendar-check-o',
             ]);
         }
 
@@ -84,7 +84,7 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "workflow/{$this->task->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('reopen'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder-expanded.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'refresh',
                 MIDCOM_TOOLBAR_POST => true,
                 MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                     'org_openpsa_projects_workflow_action[reopen]' => 'dummy',
@@ -95,7 +95,7 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "workflow/{$this->task->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark completed'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'check',
                 MIDCOM_TOOLBAR_POST => true,
                 MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                     'org_openpsa_projects_workflow_action[complete]' => 'dummy',
@@ -112,7 +112,7 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
                     $buttons[] = [
                         MIDCOM_TOOLBAR_URL => "{$sales_url}deliverable/{$agreement->guid}/",
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('agreement'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                        MIDCOM_TOOLBAR_GLYPHICON => 'money',
                     ];
                 }
             } catch (midcom_error $e) {

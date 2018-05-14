@@ -75,7 +75,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             $this->_view_toolbar->add_item([
                 MIDCOM_TOOLBAR_URL => $projects_url . "task/{$task->guid}/",
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show task %s'), $task->title),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'calendar-check-o',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'g',
             ]);
         }
@@ -105,7 +105,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             $this->_view_toolbar->add_item([
                 MIDCOM_TOOLBAR_URL => $invoices_url . "invoice/{$invoice->guid}/",
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show invoice %s'), $invoice->get_label()),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'file-text-o',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'g',
             ]);
         }

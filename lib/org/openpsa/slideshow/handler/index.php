@@ -45,12 +45,12 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
             [
                 MIDCOM_TOOLBAR_URL => "edit/",
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('slideshow')),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
             ],
             [
                 MIDCOM_TOOLBAR_URL => "recreate_folder_thumbnails/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('recreate subfolder thumbnails'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'refresh',
             ]
         ];
         $this->_view_toolbar->add_items($buttons);

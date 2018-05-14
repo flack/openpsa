@@ -66,7 +66,7 @@ class org_openpsa_projects_handler_project_view extends midcom_baseclasses_compo
             ]);
             $buttons[] = $workflow->get_button("task/new/project/{$this->project->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'calendar-check-o',
             ]);
         }
 
@@ -75,7 +75,7 @@ class org_openpsa_projects_handler_project_view extends midcom_baseclasses_compo
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $sales_url . "salesproject/{$this->project->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('salesproject', 'org.openpsa.sales'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'book',
             ];
         }
         $this->_view_toolbar->add_items($buttons);
