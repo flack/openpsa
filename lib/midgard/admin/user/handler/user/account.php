@@ -64,7 +64,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
             $data['asgard_toolbar']->add_item([
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/account/delete/{$this->person->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete account'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'trash',
             ]);
             $data['view_title'] = $this->_l10n->get('edit account');
         } else {

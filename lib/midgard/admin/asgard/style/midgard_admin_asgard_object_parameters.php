@@ -3,7 +3,7 @@ $parameter_toolbar = new midcom_helper_toolbar();
 $parameter_toolbar->add_item([
     MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/create/midgard_parameter/{$data['object']->guid}/",
     MIDCOM_TOOLBAR_LABEL => $data['l10n']->get('add parameter'),
-    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
+    MIDCOM_TOOLBAR_GLYPHICON => 'plus',
 ]);
 echo $parameter_toolbar->render();
 
@@ -24,17 +24,17 @@ if (count($data['parameters']) > 0) {
             [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/view/{$parameter->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $data['l10n_midcom']->get('view'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'eye',
             ],
             [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/edit/{$parameter->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $data['l10n_midcom']->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
             ],
             [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/delete/{$parameter->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $data['l10n_midcom']->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'trash',
             ]
         ];
         $parameter_toolbar->add_items($buttons);

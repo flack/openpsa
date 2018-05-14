@@ -55,7 +55,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         $this->_request_data['asgard_toolbar']->add_item([
             MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/' . $type . '/',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('undelete'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'recycle',
             MIDCOM_TOOLBAR_POST => true,
             MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                 'undelete[]' => $this->_request_data['guid']
@@ -64,7 +64,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         $this->_request_data['asgard_toolbar']->add_item([
             MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/' . $type . '/',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('purge'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'trash',
             MIDCOM_TOOLBAR_POST => true,
             MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                 'undelete[]' => $this->_request_data['guid'],

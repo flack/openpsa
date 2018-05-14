@@ -108,7 +108,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
         $data['asgard_toolbar']->add_item([
             MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/group/create/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'users',
         ]);
 
         $this->_update_breadcrumb($handler_id);

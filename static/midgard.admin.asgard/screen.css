@@ -519,6 +519,20 @@ p
   margin: 0;
 }
 
+#container #toolbar ul li i
+{
+    color: black;
+    opacity: .35;
+    transition: opacity .2s;
+    font-size: 15px;
+}
+
+#container #toolbar ul li a:hover i,
+#container #toolbar ul li button:hover i
+{
+    opacity: .6;
+}
+
 #container #toolbar ul li a,
 #container #toolbar ul li abbr,
 #container #toolbar ul li button

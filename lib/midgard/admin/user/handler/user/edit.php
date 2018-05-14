@@ -25,25 +25,25 @@ class midgard_admin_user_handler_user_edit extends midcom_baseclasses_components
             $data['asgard_toolbar']->add_item([
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/preferences/{$person->guid}/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('user preferences', 'midgard.admin.asgard'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'sliders',
             ]);
             $account = new midcom_core_account($person);
             if ($account->get_username() !== '') {
                 $data['asgard_toolbar']->add_item([
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/account/{$person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit account'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'user',
                 ]);
                 $data['asgard_toolbar']->add_item([
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/account/delete/{$person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete account'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'trash',
                 ]);
             } else {
                 $data['asgard_toolbar']->add_item([
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/account/{$person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create account'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'user-o',
                 ]);
             }
             midgard_admin_asgard_plugin::bind_to_object($person, $handler_id, $data);

@@ -140,7 +140,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         $this->_view_toolbar->add_item([
             MIDCOM_TOOLBAR_URL => $url . $this->_request_data['params'],
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($other_type . ' search'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'search',
         ]);
     }
 

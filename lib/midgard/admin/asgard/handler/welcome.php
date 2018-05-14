@@ -206,39 +206,39 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => '__mfa/asgard/preferences/',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('user preferences'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'sliders',
         ];
 
         if (midcom::get()->auth->admin) {
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => '__mfa/asgard/shell/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('shell'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'terminal',
             ];
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('trash'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash-full.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'trash',
             ];
         }
 
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => '__mfa/asgard/components/',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('components'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/component.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'puzzle-piece',
         ];
 
         // Add link to site
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('back to site'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/gohome.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'home',
         ];
 
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "midcom-logout-",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('logout'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/exit.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'sign-out',
         ];
         $this->_request_data['asgard_toolbar']->add_items($buttons);
     }

@@ -29,12 +29,12 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$this->_request_data['name']}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'eye',
             ],
             [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/edit/{$this->_request_data['name']}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
             ]
         ];
         $this->_request_data['asgard_toolbar']->add_items($buttons);

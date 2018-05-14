@@ -88,13 +88,13 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
         $data['asgard_toolbar']->add_item([
             MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/group/move/{$this->_group->guid}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('move group'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'arrows',
         ]);
 
         $data['asgard_toolbar']->add_item([
             MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/group/folders/{$this->_group->guid}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('folders'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder.png',
+            MIDCOM_TOOLBAR_GLYPHICON => 'folder',
         ]);
         midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
         return new midgard_admin_asgard_response($this, '_show_edit');

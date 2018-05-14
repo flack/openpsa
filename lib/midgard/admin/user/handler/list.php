@@ -29,13 +29,13 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
             [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/create/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create user'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'user-o',
                 MIDCOM_TOOLBAR_ENABLED => $this->_config->get('allow_manage_accounts'),
             ],
             [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/group/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('groups'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'users',
             ]
         ];
         $data['asgard_toolbar']->add_items($buttons);
