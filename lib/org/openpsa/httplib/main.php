@@ -6,12 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Buzz\Browser;
-use Buzz\Client\FileGetContents;
-use Buzz\Message\Request;
-use Buzz\Message\RequestInterface;
-use Buzz\Message\Form\FormRequest;
-use Buzz\Util\Url;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Client;
+use GuzzleHttp\RedirectMiddleware;
 
 /**
  * HTTP content fetching library
@@ -45,28 +42,29 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * @return \Buzz\Browser
+     * @return Client
      */
-    private function get_browser()
+    private function get_client()
     {
-        $client = new FileGetContents;
+        $config = [];
         foreach ($this->params as $key => $value) {
             switch ($key) {
                 case 'timeout':
-                    $client->setTimeout($value);
+                    $config['timeout'] = $value;
                     break;
                 case 'ssl_verify_peer':
-                    $client->setVerifyPeer($value);
+                    $config['verify'] = $value;
                     break;
                 case 'follow_redirects':
                     $value = ($value) ? 10 : 0;
-                    $client->setMaxRedirects($value);
+                    $config['allow_redirects'] = RedirectMiddleware::$defaultSettings;
+                    $config['allow_redirects']['max'] = $value;
                     break;
                 default:
                     debug_add('Unsupported client parameter ' . $key, MIDCOM_LOG_WARN);
             }
         }
-        return new Browser($client);
+        return new Client($config);
     }
 
     /**
@@ -80,9 +78,9 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      */
     public function get($url, array $headers = [], $username = null, $password = null)
     {
-        $request = new Request(RequestInterface::METHOD_GET);
+        $request = new Request('GET', $url, $headers);
 
-        return (string) $this->send($request, $url, $headers, $username, $password);
+        return $this->send($request, $username, $password);
     }
 
     /**
@@ -101,44 +99,38 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
             debug_add($this->error, MIDCOM_LOG_ERROR);
             return false;
         }
-        $request = new FormRequest;
-        $request->setFields($variables);
+        $headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
-        return $this->send($request, $uri, $headers, $this->basicauth['user'], $this->basicauth['password']);
+        $request = new Request('POST', $uri, $headers, http_build_query($variables, null, '&'));
+
+        return $this->send($request, $this->basicauth['user'], $this->basicauth['password']);
     }
 
-    private function send(Request $request, $uri, array $headers, $username, $password)
+    private function send(Request $request, $username, $password)
     {
-        $url = new Url($uri);
-        $url->applyToRequest($request);
-
-        $request->addHeader('User-Agent: Midgard/' . substr(mgd_version(), 0, 4));
+        $request = $request->withHeader('User-Agent', 'Midgard/' . substr(mgd_version(), 0, 4));
 
         // Handle basic auth
         if (   !empty($username)
             && !empty($password)) {
             // Set basic auth
-            $request->addHeader('Authorization: Basic ' . base64_encode($username . ':' . $password));
-        }
-        // add custom headers
-        if (!empty($headers)) {
-            $request->addHeaders($headers);
+            $request = $request->withHeader('Authorization', 'Basic ' . base64_encode($username . ':' . $password));
         }
 
-        $browser = $this->get_browser();
+        $client = $this->get_client();
 
         try {
-            $response = $browser->send($request);
+            $response = $client->send($request);
         } catch (Exception $e) {
             $this->error = $e->getMessage();
             debug_add("Got error '{$this->error}' from HTTP request", MIDCOM_LOG_INFO);
             return false;
         }
-        if (!$response->isSuccessful()) {
+        if ($response->getStatusCode() < 200 || $response->getStatusCode() >= 300) {
             $this->error = $response->getReasonPhrase();
             debug_add("Got error '{$this->error}' from '{$uri}'", MIDCOM_LOG_INFO);
             return false;
         }
-        return $response->getContent();
+        return (string) $response->getBody();
     }
 }

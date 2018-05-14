@@ -6,9 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Buzz\Browser;
-use Buzz\Message\Request;
-use Buzz\Message\RequestInterface;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 
 /**
  * Solr implementation of the indexer backend.
@@ -30,7 +29,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      *
      * @var midcom_services_indexer_solrDocumentFactory
      */
-    private $factory = null;
+    private $factory;
 
     /**
      * Constructor is empty at this time.
@@ -108,25 +107,16 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      */
     private function post($optimize = false)
     {
-        $request = $this->prepare_request('update');
-        $request->setMethod(RequestInterface::METHOD_POST);
-        $request->setContent($this->factory->to_xml());
+        $request = $this->prepare_request('update', $this->factory->to_xml())
+            ->withMethod('POST');
 
         if (!$this->send_request($request)) {
             return false;
         }
 
-        if ($optimize) {
-            $request->setContent('<optimize/>');
-        } else {
-            $request->setContent('<commit/>');
-        }
-
-        if (!$this->send_request($request)) {
-            return false;
-        }
-
-        return true;
+        $request = $this->prepare_request('update', ($optimize) ? '<optimize/>' : '<commit/>')
+            ->withMethod('POST');
+        return (bool) $this->send_request($request);
     }
 
     /**
@@ -152,7 +142,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         }
 
         $document = new DomDocument;
-        $document->loadXML($response->getContent());
+        $document->loadXML((string) $response->getBody());
         $xquery = new DomXPath($document);
         $result = [];
 
@@ -188,40 +178,40 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         return $result;
     }
 
-    private function prepare_request($action)
+    private function prepare_request($action, $body = null)
     {
-        $host = "http://" . midcom::get()->config->get('indexer_xmltcp_host');
-        $host .= ":" . midcom::get()->config->get('indexer_xmltcp_port');
+        $uri = "http://" . midcom::get()->config->get('indexer_xmltcp_host');
+        $uri .= ":" . midcom::get()->config->get('indexer_xmltcp_port');
 
-        $resource = '/solr/';
+        $uri .= '/solr/';
         if (midcom::get()->config->get('indexer_xmltcp_core')) {
-            $resource .= midcom::get()->config->get('indexer_xmltcp_core') . '/';
+            $uri .= midcom::get()->config->get('indexer_xmltcp_core') . '/';
         }
-        $resource .= $action;
+        $uri .= $action;
 
-        $request = new Request;
-        $request->setHost($host);
-        $request->setResource($resource);
-        $request->addHeader('Accept-Charset: UTF-8');
-        $request->addHeader('Content-type: text/xml; charset=utf-8');
-        $request->addHeader('Connection: close');
-        return $request;
+        return new Request('GET', $uri, [
+            'Accept-Charset' => 'UTF-8',
+            'Content-type' => 'text/xml; charset=utf-8',
+            'Connection' => 'close'
+        ], $body);
     }
 
     private function send_request(Request $request)
     {
-        $browser = new Browser;
+        $client = new Client();
         try {
-            $response = $browser->send($request);
+            /** @var \Psr\Http\Message\ResponseInterface $response */
+            $response = $client->send($request);
         } catch (Exception $e) {
-            debug_add("Failed to execute request " . $request->getUrl() . ": " . $e->getMessage(), MIDCOM_LOG_WARN);
+            debug_add("Failed to execute request " . $request->getUri() . ": " . $e->getMessage(), MIDCOM_LOG_WARN);
             return false;
         }
+
         $code = $response->getStatusCode();
 
         if ($code != 200) {
-            debug_print_r($request->getUrl() . " returned response code {$code}, body:", $response->getContent());
-            debug_print_r('Request content:', $request->getContent());
+            debug_print_r($request->getUri() . " returned response code {$code}, body:", (string) $response->getBody());
+            debug_print_r('Request content:', (string) $request->getBody());
             return false;
         }
         return $response;
