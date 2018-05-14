@@ -154,8 +154,8 @@ implements org_openpsa_widgets_grid_provider_client
             }
         }
 
-        $this->_add_schema_buttons('schemadb_group', 'new-dir', '', $allow_create_group);
-        $this->_add_schema_buttons('schemadb_product', 'new-text', 'product/', $allow_create_product);
+        $this->_add_schema_buttons('schemadb_group', 'cubes', '', $allow_create_group);
+        $this->_add_schema_buttons('schemadb_product', 'cube', 'product/', $allow_create_product);
 
         if (!empty($this->_request_data['group'])) {
             $this->bind_view_to_object($this->_request_data['group'], $this->datamanager->get_schema()->get_name());
@@ -167,7 +167,7 @@ implements org_openpsa_widgets_grid_provider_client
         $workflow = $this->get_workflow('datamanager');
         foreach ($this->_request_data[$schemadb_name]->all() as $name => $schema) {
             $config = [
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . $default_icon . '.png',
+                MIDCOM_TOOLBAR_GLYPHICON => $default_icon,
                 MIDCOM_TOOLBAR_ENABLED => $allowed,
                 MIDCOM_TOOLBAR_LABEL => sprintf(
                     $this->_l10n_midcom->get('create %s'),

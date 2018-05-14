@@ -67,7 +67,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                     MIDCOM_TOOLBAR_URL => 'export/product/csv/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('export products'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('export products'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editshred.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'download',
                 ];
             }
             if ($this->_topic->can_do('midcom:component_config')) {
@@ -75,7 +75,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                 $buttons[] = $workflow->get_button('config/', [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'wrench',
                 ]);
             }
         }
