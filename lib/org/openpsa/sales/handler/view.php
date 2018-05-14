@@ -80,7 +80,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $prefix . "project/{$this->_salesproject->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'tasks',
             ];
         }
 
@@ -90,7 +90,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             $workflow = $this->get_workflow('datamanager');
             $buttons[] = $workflow->get_button("salesproject/render/{$this->_salesproject->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'p',
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/32x32/PDF.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'file-pdf-o',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create_pdf'),
             ]);
         }

@@ -86,7 +86,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
                 $this->_view_toolbar->add_item([
                     MIDCOM_TOOLBAR_URL => $url_prefix . $this->_request_data['customer']->guid . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'user',
                 ]);
             }
         }
@@ -94,7 +94,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
             $workflow = $this->get_workflow('datamanager');
             $this->_view_toolbar->add_item($workflow->get_button($create_url, [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create salesproject'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'book',
             ]));
         }
     }
