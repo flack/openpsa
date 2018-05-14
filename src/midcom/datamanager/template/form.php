@@ -201,7 +201,7 @@ class form extends base
 
         if (!empty($data['attr']['class'])) {
             $view->vars['attr']['class'] = $data['attr']['class'];
-        } elseif ($type == 'text' || $type == 'password' || $type == 'email') {
+        } elseif ($type == 'text' || $type == 'password' || $type == 'email' || $type == 'url') {
             $view->vars['attr']['class'] = 'shorttext';
         }
 
