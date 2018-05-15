@@ -24,7 +24,7 @@ trait net_nehmer_comments_handler
                 $buttons[] = [
                     MIDCOM_TOOLBAR_URL => "report/abuse/{$comment->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('report abuse'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'flag',
                     MIDCOM_TOOLBAR_POST => true,
                     MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                         'return_url' => midcom_connection::get_url('uri'),
@@ -34,7 +34,7 @@ trait net_nehmer_comments_handler
                 $buttons[] = [
                     MIDCOM_TOOLBAR_URL => "report/confirm_abuse/{$comment->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('confirm abuse'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'ban',
                     MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
                     MIDCOM_TOOLBAR_POST => true,
                     MIDCOM_TOOLBAR_POST_HIDDENARGS => [
@@ -44,7 +44,7 @@ trait net_nehmer_comments_handler
                 $buttons[] = [
                     MIDCOM_TOOLBAR_URL => "report/confirm_junk/{$comment->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('confirm junk'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'ban',
                     MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
                     MIDCOM_TOOLBAR_POST => true,
                     MIDCOM_TOOLBAR_POST_HIDDENARGS => [
@@ -54,7 +54,7 @@ trait net_nehmer_comments_handler
                 $buttons[] = [
                     MIDCOM_TOOLBAR_URL => "report/not_abuse/{$comment->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('not abuse'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/ok.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'check',
                     MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
                     MIDCOM_TOOLBAR_POST => true,
                     MIDCOM_TOOLBAR_POST_HIDDENARGS => [
@@ -65,7 +65,7 @@ trait net_nehmer_comments_handler
                     $buttons[] = [
                         MIDCOM_TOOLBAR_URL => 'moderate/ajax/' . $viewtype . '/',
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editdelete.png',
+                        MIDCOM_TOOLBAR_GLYPHICON => 'trash',
                         MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
                         MIDCOM_TOOLBAR_OPTIONS => [
                             'class' => 'moderate-ajax',

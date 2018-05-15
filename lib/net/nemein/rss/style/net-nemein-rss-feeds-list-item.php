@@ -2,7 +2,7 @@
 $topic_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $prefix = $topic_prefix . '__feeds/rss/';
 
-echo "<li><a href=\"{$data['feed']->url}\"><img src=\"" . MIDCOM_STATIC_URL . "/net.nemein.rss/feed-icon-14x14.png\" alt=\"{$data['feed']->url}\" title=\"{$data['feed']->url}\" /></a>";
+echo "<li><a href=\"{$data['feed']->url}\"><i class=\"fa fa-rss-square\" title=\"{$data['feed']->url}\"></i></a> ";
 if ($data['feed']->can_do('midgard:update')) {
     echo "<a href=\"{$prefix}edit/{$data['feed']->guid}/\">{$data['feed']->title}</a>\n";
 } else {

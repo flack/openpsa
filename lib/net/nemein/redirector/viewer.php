@@ -42,7 +42,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
             $this->_node_toolbar->add_item([
                 MIDCOM_TOOLBAR_URL => "create/",
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('tinyurl')),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_event.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'external-link',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'n',
             ]);
         }

@@ -70,7 +70,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
                         $this->_l10n_midcom->get('create %s'),
                         $this->_l10n->get($schema->get('description'))
                     ),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'file-o',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'n',
                 ]);
             }
@@ -81,7 +81,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
             $buttons[] = $workflow->get_button('config/', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
+                MIDCOM_TOOLBAR_GLYPHICON => 'wrench',
             ]);
         }
         $this->_node_toolbar->add_items($buttons);
