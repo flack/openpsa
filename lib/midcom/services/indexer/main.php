@@ -34,7 +34,7 @@ class midcom_services_indexer implements EventSubscriberInterface
      *
      * @var midcom_services_indexer_backend
      */
-    private $_backend = null;
+    private $_backend;
 
     /**
      * Flag for disabled indexing, set by the constructor.
@@ -128,7 +128,8 @@ class midcom_services_indexer implements EventSubscriberInterface
         }
 
         try {
-            return $this->_backend->index($documents);
+            $this->_backend->index($documents);
+            return true;
         } catch (Exception $e) {
             debug_add("Indexing error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
             return false;
@@ -153,7 +154,8 @@ class midcom_services_indexer implements EventSubscriberInterface
             return true;
         }
         try {
-            return $this->_backend->delete($RIs);
+            $this->_backend->delete($RIs);
+            return true;
         } catch (Exception $e) {
             debug_add("Deleting error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
             return false;
@@ -174,7 +176,8 @@ class midcom_services_indexer implements EventSubscriberInterface
         }
 
         try {
-            return $this->_backend->delete_all($constraint);
+            $this->_backend->delete_all($constraint);
+            return true;
         } catch (Exception $e) {
             debug_add("Deleting error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
             return false;
@@ -214,10 +217,6 @@ class midcom_services_indexer implements EventSubscriberInterface
             return false;
         }
 
-        if ($result_raw === false) {
-            debug_add("Failed to execute the query, aborting.", MIDCOM_LOG_INFO);
-            return false;
-        }
         $result = [];
         foreach ($result_raw as $document) {
             $document->fields_to_members();

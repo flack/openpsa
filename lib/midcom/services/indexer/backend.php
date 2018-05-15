@@ -18,7 +18,6 @@ interface midcom_services_indexer_backend
      * Adds a document to the index.
      *
      * @param array $documents A list of midcom_services_indexer_document objects.
-     * @return boolean Indicating success.
      */
     public function index(array $documents);
 
@@ -26,7 +25,6 @@ interface midcom_services_indexer_backend
      * Removes the document(s) with the given resource identifier(s) from the index.
      *
      * @param array $RIs The resource identifier(s) of the document(s) that should be deleted.
-     * @return boolean Indicating success.
      */
     public function delete(array $RIs);
 
@@ -36,7 +34,6 @@ interface midcom_services_indexer_backend
      * This will drop the current index.
      *
      * @param Optional query constraint
-     * @return boolean Indicating success.
      */
     public function delete_all($constraint);
 
@@ -46,7 +43,7 @@ interface midcom_services_indexer_backend
      * @param string $query The query, which must suite the backends query syntax.
      * @param midcom_services_indexer_filter $filter An optional filter used to restrict the query. This may be null indicating no filter.
      * @param array $options Options to modify the backend behavior
-     * @return midcom_services_indexer_document[] An array of documents matching the query, or false on a failure.
+     * @return midcom_services_indexer_document[] An array of documents matching the query
      */
     public function query($query, midcom_services_indexer_filter $filter = null, array $options = []);
 }

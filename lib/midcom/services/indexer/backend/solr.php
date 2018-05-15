@@ -75,7 +75,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             return true;
         }
 
-        return $this->post();
+        $this->post();
     }
 
     /**
@@ -88,7 +88,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     {
         $this->factory->reset();
         array_map([$this->factory, 'delete'], $RIs);
-        return $this->post();
+        $this->post();
     }
 
     /**
@@ -99,7 +99,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     public function delete_all($constraint)
     {
         $this->factory->delete_all($constraint);
-        return $this->post(empty($constraint));
+        $this->post(empty($constraint));
     }
 
     /**
@@ -109,14 +109,11 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     {
         $request = $this->prepare_request('update', $this->factory->to_xml())
             ->withMethod('POST');
-
-        if (!$this->send_request($request)) {
-            return false;
-        }
+        $this->send_request($request);
 
         $request = $this->prepare_request('update', ($optimize) ? '<optimize/>' : '<commit/>')
             ->withMethod('POST');
-        return (bool) $this->send_request($request);
+        $this->send_request($request);
     }
 
     /**
@@ -199,20 +196,12 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     private function send_request(Request $request)
     {
         $client = new Client();
-        try {
-            /** @var \Psr\Http\Message\ResponseInterface $response */
-            $response = $client->send($request);
-        } catch (Exception $e) {
-            debug_add("Failed to execute request " . $request->getUri() . ": " . $e->getMessage(), MIDCOM_LOG_WARN);
-            return false;
-        }
+        $response = $client->send($request);
 
         $code = $response->getStatusCode();
-
         if ($code != 200) {
-            debug_print_r($request->getUri() . " returned response code {$code}, body:", (string) $response->getBody());
             debug_print_r('Request content:', (string) $request->getBody());
-            return false;
+            throw new midcom_error((string) $response->getReasonPhrase(), $code);
         }
         return $response;
     }
