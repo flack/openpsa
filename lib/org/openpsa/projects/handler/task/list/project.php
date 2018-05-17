@@ -48,6 +48,7 @@ class org_openpsa_projects_handler_task_list_project extends org_openpsa_project
 
         $this->qb = org_openpsa_projects_task_dba::new_query_builder();
         $this->qb->add_constraint('project', '=', $project->id);
+        $this->qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
         $this->qb->add_order('status');
         $this->qb->add_order('end', 'DESC');
         $this->qb->add_order('start');
