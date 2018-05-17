@@ -204,12 +204,12 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
     public function providerGet_create_icon()
     {
         return [
-            1 => ['midcom_db_article', 'new-text.png'],
-            2 => ['midgard_topic', 'new-dir.png'],
-            3 => ['midcom_db_snippet', 'new-text.png'],
-            4 => ['org_openpsa_organization', 'stock_people-new.png'],
-            5 => ['org_openpsa_calendar_event_dba', 'stock_event_new.png'],
-            6 => ['org_openpsa_contacts_person_dba', 'stock_person-new.png'],
+            1 => ['midcom_db_article', 'plus'],
+            2 => ['midgard_topic', 'folder-o'],
+            3 => ['midcom_db_snippet', 'plus'],
+            4 => ['org_openpsa_organization', 'users'],
+            5 => ['org_openpsa_calendar_event_dba', 'calendar-o'],
+            6 => ['org_openpsa_contacts_person_dba', 'user-o'],
         ];
     }
 

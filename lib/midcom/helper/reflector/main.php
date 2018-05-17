@@ -282,14 +282,14 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             // heuristics magic (instead of adding something here, take a look at config key "create_type_magic")
             case (strpos($type, 'member') !== false):
             case (strpos($type, 'organization') !== false):
-                $icon = 'stock_people-new.png';
+                $icon = 'users';
                 break;
             case (strpos($type, 'person') !== false):
             case (strpos($type, 'member') !== false):
-                $icon = 'stock_person-new.png';
+                $icon = 'user-o';
                 break;
             case (strpos($type, 'event') !== false):
-                $icon = 'stock_event_new.png';
+                $icon = 'calendar-o';
                 break;
 
             // Fallback default value
