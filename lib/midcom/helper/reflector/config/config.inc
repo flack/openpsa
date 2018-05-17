@@ -133,17 +133,17 @@
 // This works just like object_icon_magic
 'create_type_magic' => array
 (
-    'new-text.png' => array
+    'plus' => array
     (
         '__default__',
     ),
-    'new-dir.png' => array
+    'folder-o' => array
     (
         'midgard_topic',
         'midgard_snippetdir',
         'midgard_style',
     ),
-    'stock_people-new.png' => array
+	'user-o' => array
     (
         'org_openpsa_campaign',
     ),

@@ -130,7 +130,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
                 $buttons[] = [
                     MIDCOM_TOOLBAR_URL => $this->_generate_url('create/' . $type, $object),
                     MIDCOM_TOOLBAR_LABEL => sprintf(midcom::get()->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($type)),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . $data['tree_reflector']->get_create_icon($type),
+                    MIDCOM_TOOLBAR_GLYPHICON => $data['tree_reflector']->get_create_icon($type),
                 ];
             }
         }

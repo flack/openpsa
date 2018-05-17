@@ -155,7 +155,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/create/{$this->type}/",
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), midgard_admin_asgard_plugin::get_type_label($this->type)),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . midcom_helper_reflector_tree::get_create_icon($this->type),
+                MIDCOM_TOOLBAR_GLYPHICON => midcom_helper_reflector_tree::get_create_icon($this->type),
             ];
         }
 
