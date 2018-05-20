@@ -61,8 +61,7 @@ $formatter = $data['l10n']->get_formatter();
             $toggle_class = (array_sum($task_count) > 0) ? 'expand-icon' : 'hidden-icon';
             echo "<img class='" . $toggle_class . "' id='project_" . $project->id . "' onclick=\"show_tasks_for_project(this, '{$prefix}task/list/json/{$project->guid}/');\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/plus" . $position . ".png\" alt=\"" . $data['l10n']->get($project->status_type) . "\" title=\"" . $data['l10n']->get('show tasks') . "\" />\n";
 
-            echo "<img class='status-icon' src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/" . $project->get_icon() . "\" alt=\"" . $data['l10n']->get($project->status_type) . "\" title=\"" . $data['l10n']->get($project->status_type) . "\" />";
-            echo "        <a href=\"{$prefix}project/{$project->guid}/\">{$project->title}</a></td>\n";
+            echo "        <a href=\"{$prefix}project/{$project->guid}/\" class=\"workflow-status " . $project->status_type . "\" title=\"" . $data['l10n']->get($project->status_type) . "\">{$project->title}</a></td>\n";
             echo "        <td> " . $formatter->date($project->start) . "</td>\n";
             echo "        <td> " . $formatter->date($project->end) . "</td>\n";
             echo "        <td class=\"numeric\"><span title=\"" . $data['l10n']->get('not_started') . "\">{$task_count['not_started']}</span></td>\n";

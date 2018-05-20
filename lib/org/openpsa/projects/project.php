@@ -91,7 +91,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
 
     public function get_icon()
     {
-        return org_openpsa_projects_workflow::get_status_type_icon($this->status_type);
+        return 'document-text.png';
     }
 
     /**

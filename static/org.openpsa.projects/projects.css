@@ -137,3 +137,31 @@ div.org_openpsa_projects_project .filter_form
     padding-top:0px;
     padding-bottom:0px;
 }
+
+.workflow-status::before {
+    content: '';
+    border-radius: 50%;
+    display: inline-block;
+    width: .6em;
+    height: .6em;
+    vertical-align: middle;
+    margin-right: .5em;
+    margin-left: .3em;
+    border: 1px solid rgba(0, 0, 0, .3);
+}
+
+.workflow-status.ongoing::before {
+    background-color: orange;
+}
+
+.workflow-status.closed::before {
+    background-color: green;
+}
+
+.workflow-status.rejected::before {
+    background-color: red;
+}
+
+.workflow-status.on_hold::before {
+    background-color: #bbb;
+}

@@ -246,7 +246,7 @@ implements org_openpsa_widgets_grid_provider_client
         $entry = $this->get_table_row_data($task);
         $entry['id'] = $task->id;
         $entry['index_task'] = $task->title;
-        $entry['task'] = '<a href="' . $task_url . '"><img class="status-icon" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/' . $task->get_icon() . '" /> ' . $task->title . '</a>';
+        $entry['task'] = '<a href="' . $task_url . '" class="workflow-status ' . $task->status_type . '" title="' . $this->_l10n->get($task->status_type) . '">' . $task->title . '</a>';
         if ($this->show_status_controls) {
             $entry['status_control'] = org_openpsa_projects_workflow::render_status_control($task);
             $status_type = $this->get_status_type($task);
