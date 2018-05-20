@@ -209,11 +209,11 @@ class midcom_core_manifest
     public $description = '';
 
     /**
-     * The icon of the component.
+     * The icon of the component, if any.
      *
      * @var string
      */
-    public $icon = 'stock-icons/16x16/component.png';
+    public $icon;
 
     /**
      * The name of the parent component, if any.
