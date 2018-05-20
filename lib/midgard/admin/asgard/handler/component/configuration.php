@@ -190,13 +190,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
         switch ($type) {
             case 'boolean':
-                $src = MIDCOM_STATIC_URL . '/stock-icons/16x16/cancel.png';
-                $result = "<img src='{$src}'/>";
-
-                if ($value === true) {
-                    $result = "<img src='" . MIDCOM_STATIC_URL . "/stock-icons/16x16/ok.png'/>";
-                }
-
+                $result = '<i class="fa fa-' . ($value === true ? 'check' : 'times') . '"></i>';
                 break;
             case 'array':
                 $content = '<ul>';
