@@ -226,10 +226,6 @@ Kopioi editoriin
 Kopioi puu
 ---STRINGEND
 
----STRING core_components
-MidCOMin pääkomponentit
----STRINGEND
-
 ---STRING create %s under %s
 Luo %s %s:n alle
 ---STRINGEND

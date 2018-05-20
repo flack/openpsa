@@ -238,14 +238,6 @@ Copy to editor
 Copy tree
 ---STRINGEND
 
----STRING core_components
-Main MidCOM components
----STRINGEND
-
----STRING core_libraries
-MidCOM Core Libraries
----STRINGEND
-
 ---STRING create %s under %s
 Create %s under %s
 ---STRINGEND

@@ -45,17 +45,11 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
 
     private function _list_components()
     {
-        $this->_request_data['core_components'] = [];
         $this->_request_data['components'] = [];
         $this->_request_data['libraries'] = [];
 
         foreach (midcom::get()->componentloader->manifests as $name => $manifest) {
-            $type = 'components';
-            if ($manifest->purecode) {
-                $type = 'libraries';
-            } elseif (midcom::get()->componentloader->is_core_component($name)) {
-                $type = 'core_components';
-            }
+            $type = ($manifest->purecode) ? 'libraries' : 'components';
 
             $component_array = $this->_load_component_data($name, $manifest);
 
@@ -90,7 +84,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      */
     public function _show_list($handler_id, array &$data)
     {
-        $this->_show_lists('core_components');
         $this->_show_lists('components');
         $this->_show_lists('libraries');
     }

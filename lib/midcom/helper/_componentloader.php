@@ -394,49 +394,6 @@ class midcom_helper__componentloader
         return $result;
     }
 
-    /**
-     * Checks if component is a part of the default MidCOM distribution
-     * or an external component
-     *
-     * @param string $component Component to check
-     */
-    public function is_core_component($component)
-    {
-        static $core_components = null;
-        if (is_array($core_components)) {
-            return (in_array($component, $core_components));
-        }
-
-        $core_components = [
-            'fi.protie.navigation',
-            'midcom.admin.folder',
-            'midcom.admin.help',
-            'midcom.admin.rcs',
-            'midcom',
-            'midcom.core.nullcomponent',
-            'midcom.datamanager',
-            'midcom.helper.imagepopup',
-            'midcom.helper.reflector',
-            'midcom.helper.replicator',
-            'midcom.helper.search',
-            'midcom.services.at',
-            'midgard.admin.asgard',
-            'midgard.admin.user',
-            'net.nehmer.blog',
-            'net.nehmer.comments',
-            'net.nehmer.static',
-            'net.nemein.redirector',
-            'net.nemein.rss',
-            'net.nemein.tag',
-            'org.openpsa.widgets',
-            'org.openpsa.httplib',
-            'org.openpsa.mail',
-            'org.openpsa.qbpager',
-        ];
-
-        return (in_array($component, $core_components));
-    }
-
     public function get_component_icon($component, $provide_fallback = true)
     {
         if (!$this->is_installed($component)) {

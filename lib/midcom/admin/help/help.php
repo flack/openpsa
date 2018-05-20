@@ -346,32 +346,19 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     private function _list_components()
     {
-        $this->_request_data['core_components'] = [];
         $this->_request_data['components'] = [];
         $this->_request_data['libraries'] = [];
-        $this->_request_data['core_libraries'] = [];
-
-        $this->_request_data['core_components']['midcom'] = $this->_load_component_data('midcom');
 
         foreach (midcom::get()->componentloader->manifests as $name => $manifest) {
-            if ($name == 'midcom') {
-                continue;
-            }
             $type = ($manifest->purecode) ? 'libraries' : 'components';
-
-            if (midcom::get()->componentloader->is_core_component($name)) {
-                $type = 'core_' . $type;
-            }
 
             $component_array = $this->_load_component_data($name);
 
             $this->_request_data[$type][$name] = $component_array;
         }
 
-        asort($this->_request_data['core_components']);
         asort($this->_request_data['components']);
         asort($this->_request_data['libraries']);
-        asort($this->_request_data['core_libraries']);
     }
 
     private function _prepare_breadcrumb($handler_id)
@@ -429,7 +416,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     public function _show_welcome($handler_id, array &$data)
     {
         midcom_show_style('midcom_admin_help_header');
-        $list_types = ['core_components', 'core_libraries', 'components', 'libraries'];
+        $list_types = ['components', 'libraries'];
 
         foreach ($list_types as $list_type) {
             $data['list_type'] = $list_type;

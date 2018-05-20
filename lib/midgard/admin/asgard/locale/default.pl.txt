@@ -230,10 +230,6 @@ Kopiuj do edytora
 Kopiuj drzewo
 ---STRINGEND
 
----STRING core_components
-Moduły systemowe
----STRINGEND
-
 ---STRING create %s under %s
 Utwórz %s w %s
 ---STRINGEND
@@ -797,8 +793,3 @@ Pokaż w serwisie
 ---STRING xml
 XML
 ---STRINGEND
-
----STRING core_libraries
-Biblioteki systemowe
----STRINGEND
-

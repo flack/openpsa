@@ -230,10 +230,6 @@ In den Editor kopieren
 Objektbaum kopieren
 ---STRINGEND
 
----STRING core_components
-MidCOM-Hauptkomponenten
----STRINGEND
-
 ---STRING create %s under %s
 %s unter %s anlegen
 ---STRINGEND
