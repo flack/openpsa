@@ -28,26 +28,6 @@ class org_openpsa_projects_workflow
     }
 
     /**
-     * Returns the icon for a given status
-     *
-     * @param integer $status The status to convert
-     * @return string The icon filename
-     */
-    public static function get_status_type_icon($status)
-    {
-        switch ($status) {
-            case 'ongoing':
-                return 'page-approved-notpublished.png';
-            case 'on_hold':
-                return 'page-notapproved.png';
-            case 'closed':
-                return 'page-approved.png';
-            default:
-                return 'document-text.png';
-        }
-    }
-
-    /**
      * Returns the status type of a given status
      *
      * @param integer $status The status to convert
