@@ -143,10 +143,22 @@ p
     border-radius: 3px;
     text-shadow: 1px 1px 1px rgba(255, 255, 255, .7);
 }
-#navigation div.section ul.midgard_admin_asgard_navigation li a img
+#navigation div.section ul.midgard_admin_asgard_navigation li a i
 {
-    vertical-align: text-bottom
+    vertical-align: baseline;
+    color: #333;
+    opacity: .5;
+    transition: opacity .2s;
+    margin-right: .5em;
+    font-size: 15px;
 }
+
+#navigation div.section ul.midgard_admin_asgard_navigation li a:hover i,
+#navigation div.section ul.midgard_admin_asgard_navigation li.current > a > i
+{
+    opacity: .8;
+}
+
 #navigation div.section ul.midgard_admin_asgard_navigation li a:hover
 {
     background-color: white;
@@ -698,9 +710,11 @@ p
     padding-right: 20px;
 }
 #latest_objects table.results th.icon,
-#latest_objects table.results td.icon
+#latest_objects table.results td.icon,
+#latest_objects table.results th.selection,
+#latest_objects table.results td.selection
 {
-    padding-right: 5px;
+    padding-right: 0;
 }
 
 #latest_objects table.results td.revised,
@@ -860,16 +874,41 @@ div.midgard_admin_asgard_tree label,
   font-weight: normal;
 }
 
+div.midgard_admin_asgard_tree label i
+{
+    vertical-align: baseline;
+    color: #333;
+    opacity: .5;
+    transition: opacity .2s;
+    margin-right: .5em;
+    width: 16px;
+    text-align: center;
+}
+
+div.midgard_admin_asgard_tree label a:hover i
+{
+    opacity: .7;
+}
+
 div.midgard_admin_asgard_tree label.deselected span.title
 {
   color: red;
   text-decoration: line-through;
 }
 
-div.midgard_admin_asgard_tree a img,
-table.table_widget a img
+table.table_widget i
 {
-  border: none;
+    vertical-align: baseline;
+    color: #333;
+    opacity: .5;
+    transition: opacity .2s;
+    margin-right: .3em;
+    width: 16px;
+    text-align: center;
+}
+table.table_widget a:hover i
+{
+    opacity: .8
 }
 
 table.midgard_admin_asgard_object_parameters th

@@ -168,7 +168,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     public function get_icon()
     {
-        return 'document-text.png';
+        return 'calendar-check-o';
     }
 
     /**

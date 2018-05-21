@@ -91,7 +91,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
 
     public function get_icon()
     {
-        return 'document-text.png';
+        return 'tasks';
     }
 
     /**

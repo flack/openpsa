@@ -101,31 +101,31 @@
 // keyed by icon, values are arrays of classes (__default__ marking the default icon) names, used to determine icon to use for object
 'object_icon_magic' => array
 (
-    'document.png' => array
+    'file-o' => array
     (
         '__default__',
     ),
-    'stock_folder.png' => array
+    'folder-o' => array
     (
         'midgard_topic',
         'midgard_snippetdir',
         'midgard_style',
         'org_openpsa_products_product_group',
     ),
-    'stock_people.png' => array
+    'bullhorn' => array
     (
         'org_openpsa_campaign',
     ),
-    'stock_news.png' => array
+	'newspaper-o' => array
     (
         'org_openpsa_notifications_notification',
         'net_nemein_rss_feed',
     ),
-    'stock-discussion.png' => array
+    'comments' => array
     (
         'net_nehmer_comments_comment_db',
     ),
-    'package.png' => array
+    'cube' => array
     (
         'org_openpsa_products_product',
     ),

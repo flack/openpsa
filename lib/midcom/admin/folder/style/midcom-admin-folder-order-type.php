@@ -18,24 +18,23 @@ foreach ($data['navigation_items'] as $i => $item) {
         $style = ' style="display: none;"';
     }
 
-    // Get the icon from corresponding reflector class
-    $icon = midcom_helper_reflector::get_object_icon($item[MIDCOM_NAV_OBJECT], true);
-
     // Actually we should skip all components that return the default icon as icon here!
     if (   isset($item[MIDCOM_NAV_COMPONENT])
         && $item[MIDCOM_NAV_COMPONENT] !== 'net.nehmer.static'
         && $item[MIDCOM_NAV_COMPONENT] !== 'net.nehmer.blog'
         && ($tmp = midcom::get()->componentloader->get_component_icon($item[MIDCOM_NAV_COMPONENT], false))) {
-        $icon = MIDCOM_STATIC_URL . "/{$tmp}";
+        $icon = '<img src="' . MIDCOM_STATIC_URL . '/' . $tmp . '" align="absmiddle" border="0" alt="' . $item[MIDCOM_NAV_COMPONENT] . '" />';
+    } elseif (!$item[MIDCOM_NAV_GUID]) {
+        $icon = '<i class="fa fa-code"></i>';
+    } else {
+        // Get the icon from corresponding reflector class
+        $icon = midcom_helper_reflector::get_object_icon($item[MIDCOM_NAV_OBJECT]);
     }
 
-    if (!$item[MIDCOM_NAV_GUID]) {
-        $icon = MIDCOM_STATIC_URL . "/stock-icons/16x16/script.png";
-    }
 
-    echo "        <li class=\"sortable {$item[MIDCOM_NAV_TYPE]}\" style=\"background-image: url('{$icon}');\">\n";
+    echo "        <li class=\"sortable {$item[MIDCOM_NAV_TYPE]}\">\n";
     echo "            <input type=\"hidden\" name=\"sortable[{$item[MIDCOM_NAV_TYPE]}][{$identificator}]\" value=\"{$index}\"{$style} />\n";
-    echo "            {$item[MIDCOM_NAV_NAME]}\n";
+    echo "            {$icon} {$item[MIDCOM_NAV_NAME]}\n";
     echo "        </li>\n";
 }
 ?>

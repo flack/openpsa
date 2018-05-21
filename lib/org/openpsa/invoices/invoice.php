@@ -57,7 +57,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
     public function get_icon()
     {
-        return 'printer.png';
+        return 'file-text-o';
     }
 
     public static function get_by_number($number)

@@ -24,6 +24,6 @@ class midcom_db_snippet extends midcom_core_dbaobject
 
     public function get_icon()
     {
-        return 'script.png';
+        return 'file-code-o';
     }
 }

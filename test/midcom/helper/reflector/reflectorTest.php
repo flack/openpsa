@@ -220,19 +220,20 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
     {
         $reflector = new midcom_helper_reflector($classname);
         $object = new $classname;
-        $this->assertEquals(MIDCOM_STATIC_URL . $icon, $reflector->get_object_icon($object, true));
+        $icon = '<i class="fa fa-' . $icon . '"></i>';
+        $this->assertEquals($icon, $reflector->get_object_icon($object));
     }
 
     public function providerGet_object_icon()
     {
         return [
-            1 => ['midcom_db_article', '/stock-icons/16x16/document.png'],
-            2 => ['midgard_topic', '/stock-icons/16x16/stock_folder.png'],
-            3 => ['midcom_db_snippet', '/stock-icons/16x16/script.png'],
-            4 => ['org_openpsa_organization', '/stock-icons/16x16/stock_people.png'],
-            5 => ['org_openpsa_calendar_event_dba', '/stock-icons/16x16/stock_event.png'],
-            6 => ['org_openpsa_contacts_person_dba', '/stock-icons/16x16/stock_person.png'],
-            7 => ['midcom_db_element', '/stock-icons/16x16/text-x-generic-template.png'],
+            1 => ['midcom_db_article', 'file-o'],
+            2 => ['midgard_topic', 'folder-o'],
+            3 => ['midcom_db_snippet', 'file-code-o'],
+            4 => ['org_openpsa_organization', 'users'],
+            5 => ['org_openpsa_calendar_event_dba', 'calendar-o'],
+            6 => ['org_openpsa_contacts_person_dba', 'user'],
+            7 => ['midcom_db_element', 'file-code-o'],
         ];
     }
 

@@ -4,7 +4,7 @@
 	text-align: center;
 	padding: 1em;
 	color: orange;
-	display: none;	
+	display: none;
 }
 #midcom_admin_folder_order_form.loading > div
 {
@@ -12,7 +12,7 @@
 }
 #midcom_admin_folder_order_form.loading .fa-spinner
 {
-	display: block	
+	display: block
 }
 
 #midcom_admin_folder_order_form img
@@ -34,9 +34,6 @@
 
 #midcom_admin_folder_order_form ul.sortable li
 {
-  background-repeat: no-repeat;
-  background-position: left center;
-  padding-left: 20px;
   list-style: none;
   cursor: move;
   font-weight: normal;
@@ -46,4 +43,17 @@
 #midcom_admin_folder_order_form ul.sortable li:hover
 {
   font-weight: bold;
+}
+
+#midcom_admin_folder_order_form ul.sortable li i
+{
+    width: 16px;
+    text-align: center;
+    font-size: 14px;
+    opacity: .7;
+    transition: opacity .2s
+}
+#midcom_admin_folder_order_form ul.sortable li:hover i
+{
+    opacity: 1;
 }

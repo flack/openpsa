@@ -265,7 +265,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     public static function get_create_icon($type)
     {
         if (null === self::$_cache['create_icon_map']) {
-            self::$_cache['create_icon_map'] = self::_get_icon_map('create_type_magic', 'new-text.png');
+            self::$_cache['create_icon_map'] = self::_get_icon_map('create_type_magic', 'file-o');
         }
 
         $icon_callback = [$type, 'get_create_icon'];
@@ -301,16 +301,15 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Get the name of the icon image
+     * Get the object icon
      *
      * @param mixed $obj          MgdSchema object
-     * @param boolean $url_only   Get only the URL location instead of full <img /> tag
-     * @return string             URL name of the image
+     * @return string             Icon (FontAwesome)
      */
-    public static function get_object_icon($obj, $url_only = false)
+    public static function get_object_icon($obj)
     {
         if (null === self::$_cache['object_icon_map']) {
-            self::$_cache['object_icon_map'] = self::_get_icon_map('object_icon_magic', 'document.png');
+            self::$_cache['object_icon_map'] = self::_get_icon_map('object_icon_magic', 'file');
         }
 
         $object_class = get_class($obj);
@@ -332,18 +331,18 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
             // heuristics magic (instead of adding something here, take a look at config key "object_icon_magic")
             case (strpos($object_class, 'person') !== false):
-                $icon = 'stock_person.png';
+                $icon = 'user';
                 break;
             case (strpos($object_class, 'event') !== false):
-                $icon = 'stock_event.png';
+                $icon = 'calendar-o';
                 break;
             case (strpos($object_class, 'member') !== false):
             case (strpos($object_class, 'organization') !== false):
             case (strpos($object_class, 'group') !== false):
-                $icon = 'stock_people.png';
+                $icon = 'users';
                 break;
             case (strpos($object_class, 'element') !== false):
-                $icon = 'text-x-generic-template.png';
+                $icon = 'file-code-o';
                 break;
 
             // Fallback default value
@@ -352,16 +351,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 break;
         }
 
-        // If the icon name has no slash then it's in stock-icons
-        if (strpos($icon, '/') === false) {
-            $icon_url = MIDCOM_STATIC_URL . "/stock-icons/16x16/{$icon}";
-        } else {
-            $icon_url = $icon;
-        }
-        if ($url_only) {
-            return $icon_url;
-        }
-        return "<img src=\"{$icon_url}\" align=\"absmiddle\" border=\"0\" alt=\"{$object_class}\" /> ";
+        return '<i class="fa fa-' . $icon . '"></i>';
     }
 
     private static function _get_icon_map($config_key, $fallback)
