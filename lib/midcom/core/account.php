@@ -83,7 +83,7 @@ class midcom_core_account
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('assignee', '=', $user->id);
         foreach ($qb->execute() as $entry) {
-            debug_add("Deleting privilege {$entry->privilegename} ID {$entry->id} on {$entry->objectguid}");
+            debug_add("Deleting privilege {$entry->privilegename} on {$entry->objectguid}");
             $entry->purge();
         }
 
