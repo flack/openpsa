@@ -218,7 +218,7 @@ class midcom_application
 
         $response = $this->_process($context);
         if ($response === false) {
-            debug_add("Dynamic load _process() phase ended up with 404 Error. Aborting...", MIDCOM_LOG_ERROR);
+            debug_add("Dynamic load _process() phase for $uri ended up with 404 Error. Aborting...", MIDCOM_LOG_ERROR);
 
             // Leave Context
             $oldcontext->set_current();
