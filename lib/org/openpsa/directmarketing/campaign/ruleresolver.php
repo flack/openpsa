@@ -233,6 +233,10 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     private function add_person_rule(array $rule)
     {
+        if ($rule['property'] === 'username') {
+            midcom_core_account::add_username_constraint($this->mc, $rule['match'], $rule['value']);
+            return true;
+        }
         return $this->mc->add_constraint($rule['property'], $rule['match'], $rule['value']);
     }
 
