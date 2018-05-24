@@ -187,7 +187,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
 
     public function register_send_job($batch, $url_base, $time = null)
     {
-        $time = $time ?: time() + 60;
+        $time = $time ?: time() + 30;
         $args = [
             'batch' => $batch,
             'url_base' => $url_base,
