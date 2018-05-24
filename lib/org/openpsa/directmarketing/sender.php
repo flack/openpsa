@@ -334,8 +334,6 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         if (   count($results) == 0
             && ($level < $this->_chunk_max_recurse)) {
             debug_add('All our results got filtered, recursing for another round');
-            //Trivial rate limiting.
-            sleep(1);
             $this->_chunk_num++;
             return $this->_qb_single_chunk($level + 1);
         }
