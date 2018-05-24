@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @package org.openpsa.directmarketing
@@ -37,15 +38,16 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
-        $mc = org_openpsa_directmarketing_campaign_member_dba::new_collector('campaign', $this->_campaign->id);
-        $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
-        $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
-        $mc->add_constraint('person.metadata.deleted', '=', false);
-        midcom::get()->auth->request_sudo($this->_component);
-        $this->memberships = $mc->get_rows(['orgOpenpsaObtype', 'guid'], 'person');
-        midcom::get()->auth->drop_sudo();
         $query = org_openpsa_contacts_person_dba::new_query_builder();
-        $query->add_constraint('id', 'IN', array_keys($this->memberships));
+        $query->get_doctrine()
+            ->leftJoin('org_openpsa_campaign_member', 'm', Join::WITH, 'm.person = c.id')
+            ->where('m.orgOpenpsaObtype <> :tester AND m.orgOpenpsaObtype <> :unsubscribed AND m.campaign = :campaign')
+            ->setParameters([
+                'tester' => org_openpsa_directmarketing_campaign_member_dba::TESTER,
+                'unsubscribed' => org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED,
+                'campaign' => $this->_campaign->id
+            ]);
+
         if (!is_null($field)) {
             $query->add_order($field, $direction);
         }
