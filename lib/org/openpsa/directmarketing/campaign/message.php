@@ -24,6 +24,10 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_campaign_message';
 
+    public $autodelete_dependents = [
+        org_openpsa_directmarketing_campaign_messagereceipt_dba::class => 'message'
+    ];
+
     const EMAIL_TEXT = 8000;
     const SMS = 8001;
     const MMS = 8002;
