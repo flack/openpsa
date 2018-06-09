@@ -44,6 +44,13 @@
     'variable_args' => 1,
 ),
 
+// Match /salesproject/deliverables/sort/
+'salesproject_sort_deliveables' => array
+(
+    'handler' => array('org_openpsa_sales_handler_view', 'sort'),
+    'fixed_args' => array('salesproject', 'deliverables', 'sort'),
+),
+
 // Match /salesproject/<salesproject>
 'salesproject_view' => array
 (

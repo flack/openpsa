@@ -53,6 +53,15 @@ div.salesproject div.deliverables ol.deliverable_list li.expanded .fa-chevron-do
 {
 	display: none;
 }
+div.salesproject div.deliverables ol.deliverable_list li.deliverable
+{
+    background-color: white
+}
+
+div.salesproject div.deliverables ol.deliverable_list .ui-sortable li.deliverable
+{
+    cursor: move;
+}
 
 div.salesproject div.deliverables ol.deliverable_list li.deliverable h3
 {

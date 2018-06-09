@@ -147,7 +147,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         autocomplete::add_head_elements();
         org_openpsa_invoices_viewer::add_head_elements_for_invoice_grid();
 
-        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/widgets/button.min.js');
+        midcom::get()->head->enable_jquery_ui(['button', 'sortable']);
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
@@ -166,7 +166,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             $qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
         }
         $qb->add_order('state');
-        $qb->add_order('metadata.created', 'DESC');
+        $qb->add_order('metadata.score');
         $this->_request_data['deliverables_objects'] = [];
         foreach ($qb->execute() as $deliverable) {
             $this->_request_data['deliverables_objects'][$deliverable->guid] = $deliverable;
@@ -185,16 +185,27 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         midcom_show_style('show-salesproject-deliverables-header');
 
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_deliverable'));
+        $state = null;
         foreach ($data['deliverables_objects'] as $deliverable) {
             $dm->set_storage($deliverable);
             $data['deliverable'] = $dm->get_content_html();
             $data['deliverable_object'] = $deliverable;
             $data['deliverable_toolbar'] = $this->build_status_toolbar($deliverable);
+            if ($state != $deliverable->state) {
+                if ($state !== null) {
+                    midcom_show_style('show-salesproject-deliverables-group-end');
+                }
+                midcom_show_style('show-salesproject-deliverables-group-start');
+                $state = $deliverable->state;
+            }
             if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
                 midcom_show_style('show-salesproject-deliverables-subscription');
             } else {
                 midcom_show_style('show-salesproject-deliverables-item');
             }
+        }
+        if ($state !== null) {
+            midcom_show_style('show-salesproject-deliverables-group-end');
         }
         midcom_show_style('show-salesproject-deliverables-footer');
     }
@@ -240,5 +251,26 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             }
         }
         return $toolbar;
+    }
+
+    /**
+     * Sort salesproject deliverables.
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_sort($handler_id, array $args, array &$data)
+    {
+        if (empty($_POST['list'])) {
+            throw new midcom_error('Incomplete request');
+        }
+        $success = [];
+        foreach ($_POST['list'] as $guid => $score) {
+            $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);
+            $deliverable->metadata->score = $score;
+            $success[$guid] = $deliverable->update();
+        }
+        return new midcom_response_json($success);
     }
 }
