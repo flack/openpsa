@@ -125,6 +125,10 @@ Bestellungen for product "%s"
 Delivered
 ---STRINGEND
 
+---STRING designation
+Designation
+---STRINGEND
+
 ---STRING did not mark deliverable "%s" delivered due to other tasks
 Did not mark the deliverable "%s" delivered due to other tasks
 ---STRINGEND
@@ -147,6 +151,10 @@ Go to customer
 
 ---STRING go to product
 Go to product
+---STRINGEND
+
+---STRING introduction
+Introduction
 ---STRINGEND
 
 ---STRING invoice
@@ -217,12 +225,24 @@ No customer
 Note to "%s" on %s
 ---STRINGEND
 
+---STRING notice
+Notice
+---STRINGEND
+
 ---STRING notification for agreement %s
 Notification for agreement "%s"
 ---STRINGEND
 
 ---STRING notify date
 Notification date
+---STRINGEND
+
+---STRING offer intro
+on the following pages you'll find an offer regarding your inquiry
+---STRINGEND
+
+---STRING offer_filename_prefix
+offer
 ---STRINGEND
 
 ---STRING ordered
@@ -235,6 +255,18 @@ Sales projects
 
 ---STRING owner
 Owner
+---STRINGEND
+
+---STRING pdf created
+PDF created
+---STRINGEND
+
+---STRING pdf not created
+PDF not created
+---STRINGEND
+
+---STRING please verify the file
+Please verify the file
 ---STRINGEND
 
 ---STRING per %s

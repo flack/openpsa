@@ -126,6 +126,10 @@ Bestellungen zu Produkt "%s"
 Geliefert
 ---STRINGEND
 
+---STRING designation
+Bezeichnung
+---STRINGEND
+
 ---STRING did not mark deliverable "%s" delivered due to other tasks
 Die Bestellung "%s" wurde aufgrund anderer Aufgaben nicht als geliefert markiert
 ---STRINGEND
@@ -148,6 +152,10 @@ Kunden anzeigen
 
 ---STRING go to product
 Produkt anzeigen
+---STRINGEND
+
+---STRING introduction
+Einleitung
 ---STRINGEND
 
 ---STRING invoice
@@ -218,12 +226,24 @@ Kein Kunde
 Notiz zu "%s" am %s
 ---STRINGEND
 
+---STRING notice
+Anmerkung
+---STRINGEND
+
 ---STRING notification for agreement %s
 Benachrichtigung für Vereinbarung "%s"
 ---STRINGEND
 
 ---STRING notify date
 Benachrichtigungsdatum
+---STRINGEND
+
+---STRING offer intro
+auf den folgenden Seiten erhalten Sie ein Angebot für Ihre Ausschreibung/Anzeige 
+---STRINGEND
+
+---STRING offer_filename_prefix
+angebot
 ---STRINGEND
 
 ---STRING ordered
@@ -236,6 +256,18 @@ Verkaufsprojekte
 
 ---STRING owner
 Besitzer
+---STRINGEND
+
+---STRING pdf created
+PDF erstellt
+---STRINGEND
+
+---STRING pdf not created
+PDF nicht erstellt
+---STRINGEND
+
+---STRING please verify the file
+Bitte überprüfen sie die Datei
 ---STRINGEND
 
 ---STRING per %s

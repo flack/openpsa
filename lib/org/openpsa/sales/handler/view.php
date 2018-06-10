@@ -88,11 +88,16 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             && $this->_salesproject->can_do('midgard:update')
             && $this->is_pdf_creatable()) {
             $workflow = $this->get_workflow('datamanager');
-            $buttons[] = $workflow->get_button("salesproject/render/{$this->_salesproject->guid}/", [
+            $buttons[] = $workflow->get_button("salesproject/offer/{$this->_salesproject->guid}/", [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'p',
                 MIDCOM_TOOLBAR_GLYPHICON => 'file-pdf-o',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create_pdf'),
             ]);
+
+            $qb = org_openpsa_sales_salesproject_offer_dba::new_query_builder();
+            $qb->add_constraint('salesproject', '=', $this->_salesproject->id);
+            $qb->add_order('metadata.revised', 'DESC');
+            $this->_request_data['offers'] = $qb->execute();
         }
 
         $this->_view_toolbar->add_items($buttons);

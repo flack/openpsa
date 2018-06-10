@@ -107,4 +107,30 @@
         </property>
         <!-- /Common OpenPSA properties -->
     </type>
+
+    <type name="org_openpsa_offer" table="org_openpsa_offer" parent="org_openpsa_salesproject">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+
+        <property name="salesproject" link="org_openpsa_salesproject:id" type="unsigned integer" parentfield="salesproject"/>
+
+        <property name="designation" type="string">
+            <description>
+                Official designation of the company
+            </description>
+        </property>
+
+        <property name="introduction" type="text">
+            <description>
+                Introduction sentences for further information
+            </description>
+        </property>
+
+         <property name="notice" type="text">
+            <description>
+                further information related to the salesproject
+            </description>
+        </property>
+    </type>
 </Schema>

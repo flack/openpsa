@@ -125,10 +125,26 @@
     'handler' => array('org_openpsa_sales_handler_list', 'list'),
 ),
 
-// Match salesproject/render/<guid>/
-'create_pdf' => array
+// Match salesproject/offer/<guid>/
+'create_offer' => array
 (
-    'handler' => array('org_openpsa_sales_handler_render', 'create_pdf'),
-    'fixed_args' => array('salesproject', 'render'),
+    'handler' => array('org_openpsa_sales_handler_offer', 'create'),
+    'fixed_args' => array('salesproject', 'offer'),
+    'variable_args' => 1,
+),
+
+// Match salesproject/offer/edit/<guid>/
+'edit_offer' => array
+(
+    'handler' => array('org_openpsa_sales_handler_offer', 'edit'),
+    'fixed_args' => array('salesproject', 'offer', 'edit'),
+    'variable_args' => 1,
+),
+
+// Match salesproject/offer/delete/<guid>/
+'delete_offer' => array
+(
+    'handler' => array('org_openpsa_sales_handler_offer', 'delete'),
+    'fixed_args' => array('salesproject', 'offer', 'delete'),
     'variable_args' => 1,
 ),

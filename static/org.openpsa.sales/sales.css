@@ -171,3 +171,56 @@ div.org_openpsa_sales_salesproject_deliverable .tab_div .org_openpsa_invoices .u
     font-size: 90%;
     color: #666
 }
+
+.org_openpsa_helpers_fileinfo
+{
+    margin-bottom: 1em
+}
+
+.org_openpsa_helpers_fileinfo > .filename,
+.org_openpsa_helpers_fileinfo > span
+{
+    margin-left: 3em
+}
+
+.org_openpsa_helpers_fileinfo .icon i {
+    font-size: 300%;
+    opacity: .5;
+    transition: opacity .2s;
+}
+
+.org_openpsa_helpers_fileinfo .updated
+{
+    font-size: 90%;
+    margin-left: 3.5em
+}
+
+.org_openpsa_helpers_fileinfo .actions i
+{
+    margin-left: .5em;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity .2s;
+    cursor: pointer;
+    color: #333;
+}
+
+.org_openpsa_helpers_fileinfo:hover .actions i
+{
+    opacity: .5
+}
+
+.org_openpsa_helpers_fileinfo:hover .icon i
+{
+    opacity: 1
+}
+
+.org_openpsa_helpers_fileinfo .actions:hover i
+{
+    opacity: 1;
+}
+
+.org_openpsa_helpers_fileinfo .actions i.fa-trash
+{
+    color: #ee2b2b;
+}
