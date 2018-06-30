@@ -18,7 +18,7 @@ div.vcard ul.contact_information li {
     width: 155px;
     white-space: nowrap
 }
-div.vcard ul li a {
+div.vcard ul li > a {
     min-height: 16px;
     display: block;
     text-decoration: none;
