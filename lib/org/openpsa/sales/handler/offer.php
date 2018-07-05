@@ -64,7 +64,6 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
         $offer->offer_number = $this->salesproject->code;
         $offer->salesproject = $this->salesproject->id;
         $offer->notice = $billingdata->remarks;
-        $offer->create();
         return $offer;
     }
 
