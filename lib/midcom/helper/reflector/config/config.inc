@@ -13,6 +13,7 @@
     'org_openpsa_calendar_event_dba' => 'org_openpsa_event',
     'midgard_person' => 'org_openpsa_person',
     'midgard_group' => 'org_openpsa_organization',
+    'org_openpsa_salesproject' => 'org_openpsa_project',
 ),
 /**
  * Define the property to use as 'URL-name' per class, use false for skipping heuristics and not using any property as url-name

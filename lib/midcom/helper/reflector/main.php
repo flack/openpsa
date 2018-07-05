@@ -600,7 +600,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $parent_class = $classname;
         }
 
-        $cached[$classname] = $parent_class;
+        $cached[$classname] = self::class_rewrite($parent_class);
 
         return $cached[$classname];
     }

@@ -249,7 +249,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     if (empty($info['target'])) {
                         $info['target'] = 'guid';
                     }
-                } elseif ($linked_class != $object_baseclass) {
+                } elseif (!self::is_same_class($linked_class, $object_baseclass)) {
                     // This link points elsewhere
                     continue;
                 }
@@ -413,6 +413,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 && !$this->_resolve_child_classes_links_back($up_property, $schema_type, $this->mgdschema_class)) {
                 continue;
             }
+
             $child_classes[] = $schema_type;
         }
 
