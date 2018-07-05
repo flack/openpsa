@@ -61,7 +61,6 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
         $offer = new org_openpsa_sales_salesproject_offer_dba;
         $offer->designation = '';
         $offer->introduction = $this->_l10n->get('offer intro');
-        $offer->offer_number = $this->salesproject->code;
         $offer->salesproject = $this->salesproject->id;
         $offer->notice = $billingdata->remarks;
         return $offer;
@@ -91,6 +90,8 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->offer = new org_openpsa_sales_salesproject_offer_dba($args[0]);
+        $this->salesproject = $this->offer->get_parent();
+        $this->salesproject->require_do('midgard:update');
         return $this->run_form();
     }
 
@@ -107,7 +108,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
         $response = $wf->run();
         if ($wf->get_state() == 'save') {
             try {
-                $output_filename = $this->_l10n->get('offer_filename_prefix') . '-' . $this->offer->offer_number . '.pdf';
+                $output_filename = $this->_l10n->get('offer_filename_prefix') . '-' . $this->salesproject->code . '.pdf';
                 $this->client->render($output_filename);
                 midcom::get()->uimessages->add($this->_l10n->get('pdf created'), $this->_l10n->get('please verify the file'));
             }
