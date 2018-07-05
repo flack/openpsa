@@ -62,6 +62,10 @@ div.salesproject div.deliverables ol.deliverable_list .ui-sortable li.deliverabl
 {
     cursor: move;
 }
+div.salesproject div.deliverables ol.deliverable_list li.state-300
+{
+    opacity: .5
+}
 
 div.salesproject div.deliverables ol.deliverable_list li.deliverable h3
 {
