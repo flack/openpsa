@@ -21,7 +21,7 @@
         "php": "^5.5.35 || ^5.6.21 || >7.0.4",
         "ext-mbstring": "*",
         "ext-iconv": "*",
-        "checkdomain/holiday": "^2.0.0",
+        "checkdomain/holiday": "^3.0.0",
         "doctrine/cache": "^1.5.4",
         "ezyang/htmlpurifier": "^4.7",
         "gregwar/captcha": "^1.0",
