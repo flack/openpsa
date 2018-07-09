@@ -22,7 +22,7 @@
         "ext-mbstring": "*",
         "ext-iconv": "*",
         "checkdomain/holiday": "^3.0.0",
-        "doctrine/cache": "^1.5.4",
+        "doctrine/cache": "^1.6.0",
         "ezyang/htmlpurifier": "^4.7",
         "gregwar/captcha": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
