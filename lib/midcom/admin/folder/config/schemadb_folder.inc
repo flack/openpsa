@@ -28,7 +28,7 @@
             (
                 'options' => midcom_admin_folder_management::list_components(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT)),
             ),
-            'widget' => 'midcom_admin_folder_selectcomponent',
+            'widget' => 'select',
         ),
         'style' => array
         (

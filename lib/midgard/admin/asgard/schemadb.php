@@ -339,7 +339,7 @@ class midgard_admin_asgard_schemadb
             'type_config' => [
                 'options' => $components,
             ],
-            'widget'      => midcom_admin_folder_selectcomponent::class,
+            'widget'      => 'select',
         ];
     }
 

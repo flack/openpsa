@@ -39,16 +39,6 @@ form.datamanager2 fieldset.radio label span
     display: inline-block;
 }
 
-form.datamanager2 select.selectcomponent option
-{
-    height: 20px;
-    padding-left: 22px;
-    padding-top: 2px;
-    vertical-align: middle;
-    background-position: 2px 2px;
-    background-repeat: no-repeat;
-}
-
 form.datamanager2 input.radiobutton
 {
     display: inline;
