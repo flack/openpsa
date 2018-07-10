@@ -333,7 +333,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     {
         $component_array = [];
         $component_array['name'] = $name;
-        $component_array['title'] = midcom::get()->i18n->get_string($name, $name);
+        $component_array['title'] = '';
+        if (midcom::get()->i18n->get_l10n($name)->string_exists($name)) {
+            $component_array['title'] = midcom::get()->i18n->get_string($name, $name);
+        }
         $component_array['icon'] = midcom::get()->componentloader->get_component_icon($name);
 
         if (isset(midcom::get()->componentloader->manifests[$name])) {
