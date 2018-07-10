@@ -1,5 +1,5 @@
 'name' => 'org.openpsa.httplib',
-'icon' => 'org.openpsa.httplib/httplib.png',
+'icon' => 'cloud',
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array(),

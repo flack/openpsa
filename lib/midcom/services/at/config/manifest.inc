@@ -1,5 +1,5 @@
 'name' => 'midcom.services.at',
-'icon' => 'stock-icons/16x16/stock_new-event.png',
+'icon' => 'clock-o',
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array

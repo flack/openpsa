@@ -1,5 +1,5 @@
 'name' => 'midcom.admin.help',
-'icon' => 'stock-icons/16x16/stock_help-agent.png',
+'icon' => 'question-circle',
 'description' => 'On-site help displayer',
 'purecode' => true,
 'privileges' => array(),

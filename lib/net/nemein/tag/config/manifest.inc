@@ -1,5 +1,5 @@
 'name' => 'net.nemein.tag',
-'icon' => 'net.nemein.tag/tag-16.png',
+'icon' => 'tags',
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array

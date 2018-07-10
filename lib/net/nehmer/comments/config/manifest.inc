@@ -1,5 +1,5 @@
 'name' => 'net.nehmer.comments',
-'icon' => 'stock-icons/16x16/stock-discussion.png',
+'icon' => 'comments-o',
 'class_mapping' => array
 (
     'net_nehmer_comments_comment_db' => 'net_nehmer_comments_comment'

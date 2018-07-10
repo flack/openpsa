@@ -1,5 +1,5 @@
 'name' => 'org.openpsa.products',
-'icon' => 'stock-icons/16x16/package.png',
+'icon' => 'cubes',
 'purecode' => false,
 'privileges' => array(),
 'class_mapping' => array

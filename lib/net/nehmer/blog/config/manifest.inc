@@ -1,5 +1,5 @@
 'name' => 'net.nehmer.blog',
-'icon' => 'net.nehmer.blog/news-listing.png',
+'icon' => 'newspaper-o',
 'class_mapping' => array(),
 'description' => 'System for displaying and managing news posts',
 'watches' => array(),

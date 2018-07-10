@@ -1,5 +1,5 @@
 'name' => 'midcom.helper.search',
-'icon' => 'stock-icons/16x16/search.png',
+'icon' => 'search',
 'purecode' => false,
 'privileges' => array(),
 'class_mapping' => array(),

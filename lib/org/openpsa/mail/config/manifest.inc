@@ -1,5 +1,5 @@
 'name' => 'org.openpsa.mail',
-'icon' => 'stock-icons/16x16/stock_mail-open.png',
+'icon' => 'envelope-o',
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array(),

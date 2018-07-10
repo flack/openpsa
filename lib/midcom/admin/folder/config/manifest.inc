@@ -1,5 +1,5 @@
 'name' => 'midcom.admin.folder',
-'icon' => 'stock-icons/16x16/folder.png',
+'icon' => 'folder-o',
 'purecode' => true,
 'privileges' => array
 (

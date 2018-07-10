@@ -1,5 +1,5 @@
 'name' => 'org.openpsa.user',
-'icon' => 'org.openpsa.user/user-management.png',
+'icon' => 'users',
 'purecode' => false,
 'privileges' => array
 (

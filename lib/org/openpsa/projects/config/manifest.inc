@@ -1,4 +1,5 @@
 'name' => 'org.openpsa.projects',
+'icon' => 'tasks',
 'purecode' => false,
 'privileges' => array(),
 'class_mapping' => array

@@ -1,5 +1,5 @@
 'name' => 'net.nemein.wiki',
-'icon' => 'net.nemein.wiki/wiki.png',
+'icon' => 'pencil',
 'purecode' => false,
 'privileges' => array(),
 'class_mapping' => array

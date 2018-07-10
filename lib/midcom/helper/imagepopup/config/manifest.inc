@@ -1,5 +1,5 @@
 'name' => 'midcom.helper.imagepopup',
-'icon' => 'stock-icons/16x16/attach.png',
+'icon' => 'paperclip',
 'description' => 'Image upload and insertion tool',
 'purecode' => true,
 'privileges' => array(),

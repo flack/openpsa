@@ -1,6 +1,6 @@
 'name' => 'midgard.admin.user',
 'description' => 'User management tool',
-'icon' => 'midgard.admin.user/user-manager.png',
+'icon' => 'users',
 'purecode' => true,
 'privileges' => array
 (

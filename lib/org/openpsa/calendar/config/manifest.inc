@@ -1,4 +1,5 @@
 'name' => 'org.openpsa.calendar',
+'icon' => 'calendar',
 'purecode' => false,
 'privileges' => array
 (
@@ -43,4 +44,3 @@
         ),
     ),
 ),
-

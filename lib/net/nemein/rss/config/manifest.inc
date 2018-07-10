@@ -1,5 +1,5 @@
 'name' => 'net.nemein.rss',
-'icon' => 'net.nemein.rss/rss-16.png',
+'icon' => 'rss',
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array

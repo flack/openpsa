@@ -23,7 +23,7 @@ foreach ($data['navigation_items'] as $i => $item) {
         && $item[MIDCOM_NAV_COMPONENT] !== 'net.nehmer.static'
         && $item[MIDCOM_NAV_COMPONENT] !== 'net.nehmer.blog'
         && ($tmp = midcom::get()->componentloader->get_component_icon($item[MIDCOM_NAV_COMPONENT], false))) {
-        $icon = '<img src="' . MIDCOM_STATIC_URL . '/' . $tmp . '" align="absmiddle" border="0" alt="' . $item[MIDCOM_NAV_COMPONENT] . '" />';
+        $icon = '<i class="fa fa-' . $tmp . '"></i>';
     } elseif (!$item[MIDCOM_NAV_GUID]) {
         $icon = '<i class="fa fa-code"></i>';
     } else {

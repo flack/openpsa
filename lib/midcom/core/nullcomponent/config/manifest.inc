@@ -1,5 +1,5 @@
 'name' => 'midcom.core.nullcomponent',
-'icon' => 'stock-icons/16x16/script.png',
+'icon' => 'square-o',
 'purecode' => false,
 'privileges' => array(),
 'class_mapping' => array(),

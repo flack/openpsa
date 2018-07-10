@@ -1,5 +1,5 @@
 'name' => 'org.openpsa.directmarketing',
-'icon' => 'stock-icons/16x16/stock_mail.png',
+'icon' => 'bullhorn',
 'purecode' => false,
 'class_mapping' => array
 (

@@ -1,5 +1,5 @@
 'name' => 'org.openpsa.sales',
-'icon' => 'stock-icons/16x16/currency.png',
+'icon' => 'money',
 'purecode' => false,
 'class_mapping' => array
 (

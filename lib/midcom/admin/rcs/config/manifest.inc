@@ -1,5 +1,5 @@
 'name' => 'midcom.admin.rcs',
-'icon' => 'stock-icons/16x16/history.png',
+'icon' => 'history',
 'description' => 'Front and backend for a versioning library',
 'purecode' => true,
 'privileges' => array(),

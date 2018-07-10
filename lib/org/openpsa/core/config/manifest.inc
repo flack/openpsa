@@ -1,5 +1,5 @@
 'name' => 'org.openpsa.core',
-'icon' => 'org.openpsa.core/openpsa-16x16.png',
+'icon' => 'cog',
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array(),

@@ -1,5 +1,5 @@
 'name' => 'org.openpsa.invoices',
-'icon' => 'stock-icons/16x16/stock_mail-open.png',
+'icon' => 'file-text-o',
 'purecode' => false,
 'privileges' => array(),
 'class_mapping' => array

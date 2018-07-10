@@ -1,5 +1,5 @@
 'name' => 'org.openpsa.relatedto',
-'icon' => 'stock-icons/16x16/hidden.png',
+'icon' => 'external-link',
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array

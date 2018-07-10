@@ -1,5 +1,5 @@
 'name' => 'midgard.admin.asgard',
-'icon' => 'midgard.admin.asgard/asgard2-16.png',
+'icon' => 'server',
 'purecode' => true,
 'privileges' => array
 (

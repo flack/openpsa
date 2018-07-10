@@ -1,5 +1,5 @@
 'name' => 'org.openpsa.notifications',
-'icon' => 'org.openpsa.notifications/notification-system.png',
+'icon' => 'bell-o',
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array

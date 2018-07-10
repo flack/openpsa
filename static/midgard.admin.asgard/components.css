@@ -58,10 +58,11 @@
     display:block
 }
 
-#content div.components ul li h3 img
+#content div.components ul li h3 i
 {
-    border: none;
-    vertical-align: middle;
+    color: #555;
+    vertical-align: baseline;
+    font-size: 16px
 }
 
 #content div.components ul.midcom_toolbar

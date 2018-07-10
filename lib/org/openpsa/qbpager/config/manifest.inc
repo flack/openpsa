@@ -1,5 +1,5 @@
 'name' => 'org.openpsa.qbpager',
-'icon' => 'org.openpsa.qbpager/pager.png',
+'icon' => 'list-ol',
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array(),

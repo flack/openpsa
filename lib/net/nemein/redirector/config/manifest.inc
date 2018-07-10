@@ -1,5 +1,5 @@
 'name' => 'net.nemein.redirector',
-'icon' => 'stock-icons/16x16/stock_jump-to.png',
+'icon' => 'arrow-right',
 'purecode' => false,
 'privileges' => array
 (

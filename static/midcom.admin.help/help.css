@@ -13,7 +13,8 @@ body
 a
 {
     font-weight:bold;
-    color:brown;
+    color: brown;
+    text-decoration: none;
 }
 
 pre
@@ -135,15 +136,18 @@ div.components ul li
     margin: 6px;
 }
 
-div.components ul li img
-{
-    border: none;
-    vertical-align: middle;
-}
-
 div.components ul li span
 {
     padding-left: 6px;
+}
+
+div.components ul li i.fa
+{
+    color: grey;
+    font-size: 16px;
+    vertical-align: baseline;
+    text-align: center;
+    width: 18px;
 }
 
 .method_name

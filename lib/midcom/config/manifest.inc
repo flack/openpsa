@@ -1,5 +1,5 @@
 'name' => 'midcom',
-'icon' => 'stock-icons/logos/midgard-16x16.png',
+'icon' => 'cogs',
 'purecode' => true,
 'privileges' => [
     // Midgard core level privileges
