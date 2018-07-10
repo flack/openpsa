@@ -372,8 +372,7 @@ var org_openpsa_grid_editable = {
             self = this,
             callAfterSave = function() {
                 $('#' + self.grid_id).jqGrid('delRowData', id);
-                if (   typeof self.options.aftersavefunc !== 'undefined'
-                    && $.isFunction(self.options.aftersavefunc)) {
+                if (typeof self.options.afterdeletefunc === 'function') {
                     self.options.afterdeletefunc();
                 }
                 if (self.options.enable_sorting) {
