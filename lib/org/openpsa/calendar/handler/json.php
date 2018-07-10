@@ -45,7 +45,7 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
         $from = new DateTime(strftime('%Y-%m-%d', $from));
         $to = new DateTime(strftime('%Y-%m-%d', $to));
         $country = $this->_config->get('holidays_country');
-        if (class_exists('\\Checkdomain\\Holiday\\Provider\\' . $country)) {
+        if (class_exists('\\Checkdomain\\Holiday\\Provider\\' . strtoupper($country))) {
             $util = new \Checkdomain\Holiday\Util;
             $region = $this->_config->get('holidays_region');
 

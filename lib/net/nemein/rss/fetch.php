@@ -415,6 +415,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         }
 
         if (isset($author_info['user_or_full'])) {
+            $author_info['user_or_full'] = trim($author_info['user_or_full']);
             if (strstr($author_info['user_or_full'], ' ')) {
                 // This value has a space in it, assuming full name
                 $author_info['full_name'] = $author_info['user_or_full'];

@@ -127,7 +127,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
     private function _update_topic($prefix, $old_name)
     {
-        if ($this->_controller->get_form_values()['style'] == '__create') {
+        if (isset($this->_controller->get_form_values()['style']) && $this->_controller->get_form_values()['style'] == '__create') {
             $this->edit_topic->style = $this->_create_style($this->edit_topic->name);
 
             // Failed to create the new style template

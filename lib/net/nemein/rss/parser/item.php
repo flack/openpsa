@@ -83,7 +83,8 @@ class net_nemein_rss_parser_item extends SimplePie_Item
      */
     public function get_id($hash = false)
     {
-        $guid = parent::get_id($hash);
+        $guid = parent::get_id($hash, false);
+
         if (empty($guid)) {
             $this->_id_missing = true;
             $guid = parent::get_link();

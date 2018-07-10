@@ -289,7 +289,8 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
     {
         return [
             1 => ['org_openpsa_calendar_event_dba', 'org_openpsa_event', true],
-            3 => ['midgard_snippet', 'org_openpsa_invoices_billing_data_dba', false],
+            2 => ['midgard_snippet', 'org_openpsa_invoices_billing_data_dba', false],
+            3 => ['org_openpsa_salesproject', 'org_openpsa_project', true],
         ];
     }
 
@@ -307,6 +308,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
             1 => ['org_openpsa_calendar_event_dba', 'org_openpsa_event'],
             2 => ['org_openpsa_calendar_event_member_dba', 'org_openpsa_eventmember'],
             3 => ['org_openpsa_contacts_person_dba', 'org_openpsa_person'],
+            4 => ['org_openpsa_sales_salesproject_dba', 'org_openpsa_project'],
         ];
     }
 
