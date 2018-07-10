@@ -1,70 +1,56 @@
-'default' => array
-(
+'default' => [
     'description' => 'project',
-    'fields'      => array
-    (
-        'title' => array
-        (
+    'fields'      => [
+        'title' => [
             'title'    => 'title',
             'type'     => 'text',
             'widget'   => 'text',
             'storage'  => 'title',
             'required' => true,
-            'start_fieldset' => array (
+            'start_fieldset' => [
                 'title' => 'basic information',
                 'css_group' => 'area meta',
-            ),
-        ),
-        'description' => Array
-        (
+            ],
+        ],
+        'description' => [
             'title' => 'description',
             'storage' => 'description',
             'type' => 'text',
-            'type_config' => array
-            (
+            'type_config' => [
                 'output_mode' => 'markdown'
-            ),
+            ],
             'widget' => 'markdown',
-        ),
-        'start' => Array
-        (
+        ],
+        'start' => [
             'title' => 'start time',
             'storage' => 'start',
             'type' => 'date',
-            'type_config' => Array
-            (
+            'type_config' => [
                 'storage_type' => 'UNIXTIME'
-            ),
+            ],
             'widget' => 'jsdate',
-            'widget_config' => Array
-            (
+            'widget_config' => [
                 'show_time' => false,
-            ),
-        ),
-        'end' => Array
-        (
+            ],
+        ],
+        'end' => [
             'title' => 'deadline',
             'storage' => 'end',
             'type' => 'date',
-            'type_config' => Array
-            (
+            'type_config' => [
                 'storage_type' => 'UNIXTIME'
-            ),
+            ],
             'widget' => 'jsdate',
-            'widget_config' => Array
-            (
+            'widget_config' => [
                 'show_time' => false,
-            ),
-        ),
-        'status' => array
-        (
+            ],
+        ],
+        'status' => [
             'title' => 'Status',
             'storage' => 'status',
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => Array
-                (
+            'type_config' => [
+                'options' => [
                     org_openpsa_projects_task_status_dba::PROPOSED => 'not_started',
                     org_openpsa_projects_task_status_dba::DECLINED => 'declined',
                     org_openpsa_projects_task_status_dba::ACCEPTED => 'accepted',
@@ -75,245 +61,202 @@
                     org_openpsa_projects_task_status_dba::COMPLETED => 'completed',
                     org_openpsa_projects_task_status_dba::APPROVED => 'approved',
                     org_openpsa_projects_task_status_dba::CLOSED => 'closed',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
-        ),
-        'customer' => array
-        (
+        ],
+        'customer' => [
             'title'   => 'customer',
             'storage' => 'customer',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => false,
-                 'options' => array(),
-            ),
+                 'options' => [],
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class'       => 'org_openpsa_contacts_group_dba',
                 'component'   => 'org.openpsa.contacts',
                 'titlefield'  => 'official',
                 'id_field'     => 'id',
-                'searchfields'  => array
-                (
+                'searchfields'  => [
                     'name',
                     'official',
-                ),
-                'result_headers' => array
-                (
-                    array
-                    (
+                ],
+                'result_headers' => [
+                    [
                         'title' => 'name',
                         'name' => 'official',
-                    ),
-                ),
-                'orders'        => array
-                (
-                    array('official'    => 'ASC'),
-                    array('name'    => 'ASC'),
-                ),
-            ),
-        ),
-        'contacts' => array
-        (
+                    ],
+                ],
+                'orders'        => [
+                    ['official'    => 'ASC'],
+                    ['name'    => 'ASC'],
+                ],
+            ],
+        ],
+        'contacts' => [
             'title' => 'contacts',
             'storage' => null,
             'type' => 'mnrelation',
-            'type_config' => array
-            (
+            'type_config' => [
                 'mapping_class_name' => 'org_openpsa_contacts_role_dba',
                 'master_fieldname' => 'objectGuid',
                 'member_fieldname' => 'person',
-                'additional_fields' => array('role' => org_openpsa_projects_task_resource_dba::CONTACT)
-            ),
+                'additional_fields' => ['role' => org_openpsa_projects_task_resource_dba::CONTACT]
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'org_openpsa_contacts_person_dba',
                 'component' => 'org.openpsa.contacts',
                 'titlefield' => 'name',
 
-                'result_headers' => array
-                (
-                    array
-                    (
+                'result_headers' => [
+                    [
                         'title' => 'name',
                         'name' => 'name',
-                    ),
-                    array
-                    (
+                    ], [
                         'title' => 'email',
                         'name' => 'email',
-                    ),
-                ),
+                    ],
+                ],
 
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'firstname',
                     'lastname',
                     'username',
-                ),
-                'orders' => array
-                (
-                    array('lastname' => 'ASC'),
-                    array('firstname' => 'ASC'),
-                ),
+                ],
+                'orders' => [
+                    ['lastname' => 'ASC'],
+                    ['firstname' => 'ASC'],
+                ],
                 'id_field' => 'id',
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
                 'creation_default_key' => 'lastname',
-            ),
-        ),
-        'manager' => array
-        (
+            ],
+        ],
+        'manager' => [
             'title'   => 'manager',
             'storage' => 'manager',
             //'required' => true,
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => false,
-                 'options' => array(),
-            ),
+                 'options' => [],
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class'       => 'org_openpsa_contacts_person_dba',
                 'component'   => 'org.openpsa.contacts',
                 'titlefield'  => 'name',
                 'id_field'     => 'id',
-                'constraints' => array
-                (
-                    array
-                    (
+                'constraints' => [
+                    [
                         'field' => 'username',
                         'op'    => '<>',
                         'value' => '',
-                    ),
-                ),
-                'searchfields'  => array
-                (
+                    ],
+                ],
+                'searchfields'  => [
                     'firstname',
                     'lastname',
                     'username',
-                ),
-                'result_headers' => array
-                (
-                    array
-                    (
+                ],
+                'result_headers' => [
+                    [
                         'title' => 'name',
                         'name' => 'name',
-                    ),
-                    array
-                    (
+                    ], [
                         'title' => 'email',
                         'name' => 'email',
-                    ),
-                ),
-                'orders'        => array
-                (
-                    array('lastname'    => 'ASC'),
-                    array('firstname'    => 'ASC'),
+                    ],
+                ],
+                'orders'        => [
+                    ['lastname'    => 'ASC'],
+                    ['firstname'    => 'ASC'],
 
-                ),
-            ),
-        ),
-        'resources' => array
-        (
+                ],
+            ],
+        ],
+        'resources' => [
             'title' => 'resources',
             'storage' => null,
             'type' => 'mnrelation',
-            'type_config' => array
-            (
+            'type_config' => [
                 'mapping_class_name' => 'org_openpsa_contacts_role_dba',
                 'master_fieldname' => 'objectGuid',
                 'member_fieldname' => 'person',
                 'allow_multiple' => true,
-                'additional_fields' => array('role' => org_openpsa_projects_task_resource_dba::RESOURCE)
-            ),
+                'additional_fields' => ['role' => org_openpsa_projects_task_resource_dba::RESOURCE]
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'org_openpsa_contacts_person_dba',
                 'component' => 'org.openpsa.contacts',
                 'titlefield' => 'name',
 
-                'result_headers' => array
-                (
-                    array
-                    (
+                'result_headers' => [
+                    [
                         'title' => 'name',
                         'name' => 'name',
-                    ),
-                    array
-                    (
+                    ], [
                         'title' => 'email',
                         'name' => 'email',
-                    ),
-                ),
+                    ],
+                ],
 
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'firstname',
                     'lastname',
                     'username',
-                ),
-                'orders' => array
-                (
-                    array('lastname' => 'ASC'),
-                    array('firstname' => 'ASC'),
-                ),
+                ],
+                'orders' => [
+                    ['lastname' => 'ASC'],
+                    ['firstname' => 'ASC'],
+                ],
                 'id_field' => 'id',
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
                 'creation_default_key' => 'lastname',
-            ),
-        ),
-        'tags' => Array
-        (
+            ],
+        ],
+        'tags' => [
             'title' => 'skills required',
             'storage' => null,
             'type' => 'tags',
             'widget' => 'text',
             'end_fieldset' => '',
-        ),
+        ],
 
-        'orgOpenpsaWgtype' => array
-        (
+        'orgOpenpsaWgtype' => [
             'title' => 'create workgroups for this project',
             'storage' => 'orgOpenpsaWgtype',
             'type' => 'boolean',
             'widget' => 'checkbox',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'access control',
                 'css_group' => 'area acl',
-            ),
-        ),
-        'orgOpenpsaAccesstype' => array
-        (
+            ],
+        ],
+        'orgOpenpsaAccesstype' => [
             'title' => 'access type',
             'storage' => 'orgOpenpsaAccesstype',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'options' => org_openpsa_core_acl::get_options(),
-            ),
+            ],
             'widget' => 'select',
-        ),
-        'orgOpenpsaOwnerWg' => array
-        (
+        ],
+        'orgOpenpsaOwnerWg' => [
             'title' => 'workgroup',
             'storage' => 'orgOpenpsaOwnerWg',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'options' => org_openpsa_helpers_list::workgroups(),
-            ),
+            ],
             'widget' => 'select',
             'end_fieldset' => '',
-        ),
-    )
-),
+        ],
+    ]
+],

@@ -1,114 +1,95 @@
-'default' => array
-(
+'default' => [
     'description' => 'filters',
-    'fields' => array
-    (
-        'people' => array
-        (
+    'fields' => [
+        'people' => [
             'title' => 'people',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'org.openpsa.calendar.filters',
                 'name' => 'people',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array(),
+            'type_config' => [
+                'options' => [],
                 'allow_other' => true,
                 'allow_multiple' => true,
                 'multiple_storagemode' => 'serialized',
                 'require_corresponding_option' => false,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'clever_class' => 'contact',
-                'constraints' => array
-                (
-                    array
-                    (
+                'constraints' => [
+                    [
                         'field' => 'username',
                         'op'    => '<>',
                         'value' => '',
-                    ),
-                ),
+                    ],
+                ],
                 'id_field' => 'guid',
-            ),
-        ),
-        'groups' => array
-        (
+            ],
+        ],
+        'groups' => [
             'title' => 'groups',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'org.openpsa.calendar.filters',
                 'name' => 'groups',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array(),
+            'type_config' => [
+                'options' => [],
                 'allow_other' => true,
                 'allow_multiple' => true,
                 'multiple_storagemode' => 'serialized',
                 'require_corresponding_option' => false,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'clever_class' => 'group',
                 'id_field' => 'guid',
-            ),
-        ),
-        'resources' => array
-        (
+            ],
+        ],
+        'resources' => [
             'title' => 'resources',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'org.openpsa.calendar.filters',
                 'name' => 'resources',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array(),
+            'type_config' => [
+                'options' => [],
                 'allow_other' => true,
                 'allow_multiple' => true,
                 'multiple_storagemode' => 'serialized',
                 'require_corresponding_option' => false,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'org_openpsa_calendar_resource_dba',
-                'result_headers' => array
-                (
-                    array(
+                'result_headers' => [
+                    [
                         'name' => 'title',
                         'title' => 'title',
-                    ),
-                    array(
+                    ],
+                    [
                         'name' => 'location',
                         'title' => 'location',
-                    ),
-                ),
-                'searchfields' => array
-                (
+                    ],
+                ],
+                'searchfields' => [
                     'title',
                     'name',
                     'location',
-                ),
-                'orders' => array
-                (
-                    array('title' => 'ASC'),
-                    array('name' => 'ASC'),
-                    array('location' => 'ASC'),
-                ),
+                ],
+                'orders' => [
+                    ['title' => 'ASC'],
+                    ['name' => 'ASC'],
+                    ['location' => 'ASC'],
+                ],
                 'id_field' => 'id',
-            ),
-        ),
-    ),
-),
+            ],
+        ],
+    ],
+],

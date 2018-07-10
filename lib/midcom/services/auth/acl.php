@@ -81,9 +81,9 @@
  * public function get_class_magic_default_privileges()
  * {
  *     return Array (
- *         'EVERYONE' => Array(),
- *         'ANONYMOUS' => Array(),
- *         'USERS' => Array('midcom:create' => MIDCOM_PRIVILEGE_ALLOW)
+ *         'EVERYONE' => [],
+ *         'ANONYMOUS' => [],
+ *         'USERS' => ['midcom:create' => MIDCOM_PRIVILEGE_ALLOW]
  *     );
  * }
  * </code>
@@ -276,8 +276,8 @@ class midcom_services_auth_acl
      * <pre>
      * 'class_name' => Array
      * (
-     *     'EVERYONE' => Array(),
-     *     'ANONYMOUS' => Array(),
+     *     'EVERYONE' => [],
+     *     'ANONYMOUS' => [],
      *     'USERS' => Array
      *     (
      *         'midcom:create' => MIDCOM_PRIVILEGE_ALLOW,

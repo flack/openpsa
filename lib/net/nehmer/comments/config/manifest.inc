@@ -1,38 +1,29 @@
 'name' => 'net.nehmer.comments',
 'icon' => 'comments-o',
-'class_mapping' => array
-(
+'class_mapping' => [
     'net_nehmer_comments_comment_db' => 'net_nehmer_comments_comment'
-),
+],
 
-'watches' => array
-(
-    array
-    (
-        'classes' => array(),
+'watches' => [
+    [
+        'classes' => [],
         'operations' => MIDCOM_OPERATION_DBA_DELETE,
-    ),
-),
+    ],
+],
 'description' => 'Page commenting tool',
-'customdata' => array
-(
-    'midcom.services.cron' => array
-    (
-        array
-        (
+'customdata' => [
+    'midcom.services.cron' => [
+	    [
             'handler' => 'net_nehmer_comments_cron_atom',
             'recurrence' => MIDCOM_CRON_HOUR,
-        ),
-    ),
-    'org.openpsa.notifications' => array
-    (
-        'comment_posted' => array
-        (
+        ],
+    ],
+    'org.openpsa.notifications' => [
+        'comment_posted' => [
             'default' => 'email',
-        ),
-        'report_abuse' => array
-        (
+        ],
+        'report_abuse' => [
             'default' => 'email',
-        ),
-    ),
-),
+        ],
+    ],
+],

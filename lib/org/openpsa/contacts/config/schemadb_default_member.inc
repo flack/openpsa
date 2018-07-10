@@ -1,31 +1,26 @@
-'default' => array
-(
+'default' => [
     'description' => 'member',
     'l10n_db' => 'org.openpsa.contacts',
-    'fields'  => array
-    (
-        'title' => array
-        (
+    'fields'  => [
+        'title' => [
             'title'    => 'job title',
             'storage'  => 'extra',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'organization' => array
-        (
+        ],
+        'organization' => [
             'title'    => 'organization',
             'storage'  => 'gid',
             'type'     => 'text',
             'widget'   => 'text',
             'hidden'   => true,
-        ),
-        'person' => array
-        (
+        ],
+        'person' => [
             'title'    => 'person',
             'storage'  => 'uid',
             'type'     => 'text',
             'widget'   => 'text',
             'hidden'   => true,
-        ),
-    )
-),
+        ],
+    ]
+],

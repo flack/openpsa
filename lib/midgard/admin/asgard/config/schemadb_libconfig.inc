@@ -1,8 +1,5 @@
-'default' => array
-(
+'default' => [
     'description' => 'configuration for %s',
-    'fields'      => array
-    (
-
-    )
-),
+    'fields'      => [
+  ]
+],

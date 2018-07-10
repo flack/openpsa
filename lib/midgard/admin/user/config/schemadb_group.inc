@@ -1,191 +1,163 @@
 // This is for a midcom_db_person object
-'default' => array
-(
+'default' => [
     'description' => 'group',
     'l10n_db' => 'midgard.admin.user',
-    'fields'      => array
-    (
-        'name' => array
-        (
+    'fields'      => [
+        'name' => [
             // COMPONENT-REQUIRED
             'title'       => 'name',
             'storage'     => 'name',
             'type'        => 'urlname',
             'widget'      => 'text',
             'index_method' => 'noindex',
-            'type_config' => array
-            (
+            'type_config' => [
                 'allow_catenate' => true,
                 'title_field' => 'official',
                 'allow_unclean' => true,
-            ),
-        ),
-        'official' => array
-        (
+            ],
+        ],
+        'official' => [
             // COMPONENT-RECOMMENDED
             'title'       => 'official',
             'storage'     => 'official',
             'type'        => 'text',
             'widget'      => 'text',
             'required'    => true,
-        ),
-        'owner' => array
-        (
+        ],
+        'owner' => [
             'title' => 'owner group',
             'storage' => 'owner',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => false,
                  'allow_multiple' => false,
-                 'options' => array(),
-            ),
+                 'options' => [],
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'clever_class' => 'group',
                 'id_field' => 'id',
-            ),
-        ),
-        'email' => array
-        (
+            ],
+        ],
+        'email' => [
             'title'       => 'email',
             'type'        => 'text',
             'widget'      => 'text',
             'storage'     => 'email',
             'validation'  => 'email',
-        ),
-        'postcode' => array
-        (
+        ],
+        'postcode' => [
             'title'       => 'postcode',
             'type'        => 'text',
             'widget'      => 'text',
             'storage'     => 'postcode',
-        ),
-        'city' => array
-        (
+        ],
+        'city' => [
             'title'       => 'city',
             'type'        => 'text',
             'widget'      => 'text',
             'storage'     => 'city',
-        ),
-        'persons' => array
-        (
+        ],
+        'persons' => [
             'title' => 'members',
             'storage' => null,
             'type' => 'mnrelation',
-            'type_config' => array
-            (
+            'type_config' => [
                 'mapping_class_name' => 'midcom_db_member',
                 'master_fieldname' => 'gid',
                 'member_fieldname' => 'uid',
                 'master_is_id' => true,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'midcom_db_person',
                 'id_field' => 'id',
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'lastname',
                     'firstname',
                     'email'
-                ),
-                'result_headers' => array
-                (
-                    array(
+                ],
+                'result_headers' => [
+                    [
                         'name' => 'name',
                         'title' => 'Name',
-                    ),
-                    array(
+                    ],
+                    [
                         'name' => 'email',
                         'title' => 'Email',
-                    ),
-                    array(
+                    ],
+                    [
                         'name' => 'username',
                         'title' => 'Username',
-                    ),
-                ),
-            ),
-        ),
-        'centralized_toolbar' => array
-        (
+                    ],
+                ],
+            ],
+        ],
+        'centralized_toolbar' => [
             'title'       => 'enable centralized toolbar',
             'type'        => 'privilege',
-            'type_config' => array
-            (
+            'type_config' => [
                 'privilege_name' => 'midcom:centralized_toolbar',
                 'assignee'       => 'SELF',
                 'classname'      => 'midcom_services_toolbars',
-            ),
+            ],
             'widget'      => 'privilege',
             'storage'     => null,
-        ),
-        'ajax_toolbar' => array
-        (
+        ],
+        'ajax_toolbar' => [
             'title'       => 'enable ajax in toolbar',
             'type'        => 'privilege',
-            'type_config' => array
-            (
+            'type_config' => [
                 'privilege_name' => 'midcom:ajax',
                 'assignee'       => 'SELF',
                 'classname'      => 'midcom_services_toolbars',
-            ),
+            ],
             'widget'      => 'privilege',
             'storage'     => null,
-        ),
-        'ajax_uimessages' => array
-        (
+        ],
+        'ajax_uimessages' => [
             'title'       => 'enable ajax in uimessages',
             'type'        => 'privilege',
-            'type_config' => array
-            (
+            'type_config' => [
                 'privilege_name' => 'midcom:ajax',
                 'assignee'       => 'SELF',
                 'classname'      => 'midcom_services_uimessages',
-            ),
+            ],
             'widget'      => 'privilege',
             'storage'     => null,
-        ),
-        'asgard_access' => array
-        (
+        ],
+        'asgard_access' => [
             'title'       => 'enable asgard',
             'type'        => 'privilege',
-            'type_config' => array
-            (
+            'type_config' => [
                 'privilege_name' => 'midgard.admin.asgard:access',
                 'assignee'       => 'SELF',
                 'classname'      => 'midgard_admin_asgard_plugin',
-            ),
+            ],
             'widget'      => 'privilege',
             'storage'     => null,
-        ),
-        'usermanager_access' => array
-        (
+        ],
+        'usermanager_access' => [
             'title'       => 'enable asgard user manager plugin',
             'type'        => 'privilege',
-            'type_config' => array
-            (
+            'type_config' => [
                 'privilege_name' => 'midgard.admin.user:access',
                 'assignee'       => 'SELF',
                 'classname'      => 'midgard_admin_user_plugin',
-            ),
+            ],
             'widget'      => 'privilege',
             'storage'     => null,
-        ),
-        'midcom_unlock' => array
-        (
+        ],
+        'midcom_unlock' => [
             'title'       => 'enable unlocking locked objects',
             'type'        => 'privilege',
-            'type_config' => array
-            (
+            'type_config' => [
                 'privilege_name' => 'midcom:unlock',
                 'assignee'       => 'SELF',
                 'classname'      => 'midcom_services_auth',
-            ),
+            ],
             'widget'      => 'privilege',
             'storage'     => null,
-        ),
-    ),
-),
+        ],
+    ],
+],

@@ -1,86 +1,75 @@
 // Match render/<objguid>/<mode>/<sort>
-'render_sort' => array
-(
-    'handler' => array('org_openpsa_relatedto_handler_relatedto', 'render'),
-    'fixed_args' => array('render'),
+'render_sort' => [
+    'handler' => ['org_openpsa_relatedto_handler_relatedto', 'render'],
+    'fixed_args' => ['render'],
     'variable_args' => 3,
-),
+],
 
 // Match render/<objguid>/<mode>
-'render' => array
-(
-    'handler' => array('org_openpsa_relatedto_handler_relatedto', 'render'),
-    'fixed_args' => array('render'),
+'render' => [
+    'handler' => ['org_openpsa_relatedto_handler_relatedto', 'render'],
+    'fixed_args' => ['render'],
     'variable_args' => 2,
-),
+],
 
 // Match delete/<guid>
-'delete' => array
-(
-    'handler' => array('org_openpsa_relatedto_handler_relatedto', 'delete'),
-    'fixed_args' => array('delete'),
+'delete' => [
+    'handler' => ['org_openpsa_relatedto_handler_relatedto', 'delete'],
+    'fixed_args' => ['delete'],
     'variable_args' => 1,
-),
+],
 
 // Match ajax/<mode>/<objguid>
-'ajax_object' => array
-(
-    'handler' => array('org_openpsa_relatedto_handler_relatedto', 'ajax'),
-    'fixed_args' => array('ajax'),
+'ajax_object' => [
+    'handler' => ['org_openpsa_relatedto_handler_relatedto', 'ajax'],
+    'fixed_args' => ['ajax'],
     'variable_args' => 2,
-),
+],
 
 // Match ajax/<mode>
-'ajax' => array
-(
-    'handler' => array('org_openpsa_relatedto_handler_relatedto', 'ajax'),
-    'fixed_args' => array('ajax'),
+'ajax' => [
+    'handler' => ['org_openpsa_relatedto_handler_relatedto', 'ajax'],
+    'fixed_args' => ['ajax'],
     'variable_args' => 1,
-),
+],
 // Match journalentry/list/<time>
-'journal_entry_list' => array
-(
-    'handler' => array('org_openpsa_relatedto_handler_journal_list', 'list'),
-    'fixed_args' => array('journalentry', 'list'),
+'journal_entry_list' => [
+    'handler' => ['org_openpsa_relatedto_handler_journal_list', 'list'],
+    'fixed_args' => ['journalentry', 'list'],
     'variable_args' => 1
-),
+],
 // Match journalentry/xml/
-'journal_entry_xml' => array
-(
-    'handler' => array('org_openpsa_relatedto_handler_journal_list', 'xml'),
-    'fixed_args' => array('journalentry', 'xml')
-),
+'journal_entry_xml' => [
+    'handler' => ['org_openpsa_relatedto_handler_journal_list', 'xml'],
+    'fixed_args' => ['journalentry', 'xml']
+],
 // Match journalentry/create/<guid>
-'journal_entry_create' => array
-(
-    'handler' => array('org_openpsa_relatedto_handler_journal_entry', 'create'),
-    'fixed_args' => array('journalentry', 'create'),
+'journal_entry_create' => [
+    'handler' => ['org_openpsa_relatedto_handler_journal_entry', 'create'],
+    'fixed_args' => ['journalentry', 'create'],
     'variable_args' => 1,
-),
+],
 // Match journalentry/edit/<guid>/
-'journal_entry_edit' => array
-(
-    'handler' => array('org_openpsa_relatedto_handler_journal_entry', 'edit'),
-    'fixed_args' => array('journalentry', 'edit'),
+'journal_entry_edit' => [
+    'handler' => ['org_openpsa_relatedto_handler_journal_entry', 'edit'],
+    'fixed_args' => ['journalentry', 'edit'],
     'variable_args' => 1,
-),
+],
 // Match journalentry/delete/<guid>/
-'journal_entry_delete' => array
-(
-    'handler' => array('org_openpsa_relatedto_handler_journal_entry', 'delete'),
-    'fixed_args' => array('journalentry', 'delete'),
+'journal_entry_delete' => [
+    'handler' => ['org_openpsa_relatedto_handler_journal_entry', 'delete'],
+    'fixed_args' => ['journalentry', 'delete'],
     'variable_args' => 1,
-),
+],
 // Match journalentry/<guid>/
-'journal_entry' => array
-(
-    'handler' => array('org_openpsa_relatedto_handler_journal_list', 'object'),
-    'fixed_args' => array('journalentry'),
+'journal_entry' => [
+    'handler' => ['org_openpsa_relatedto_handler_journal_list', 'object'],
+    'fixed_args' => ['journalentry'],
     'variable_args' => 1,
-),
+],
 
 // Match rest/journalentry/
-'journal_entry_rest' => array(
-    'handler' => array('org_openpsa_relatedto_handler_journal_rest', 'process'),
-    'fixed_args' => array('rest', 'journalentry'),
-),
+'journal_entry_rest' => [
+    'handler' => ['org_openpsa_relatedto_handler_journal_rest', 'process'],
+    'fixed_args' => ['rest', 'journalentry'],
+],

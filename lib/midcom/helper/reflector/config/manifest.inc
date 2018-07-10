@@ -1,6 +1,6 @@
 'name' => 'midcom.helper.reflector',
 'purecode' => true,
 'icon' => 'stock-icons/16x16/stock_folder-properties.png',
-'privileges' => array(),
-'class_mapping' => array(),
+'privileges' => [],
+'class_mapping' => [],
 'description' => 'Contains helper methods for shortcutting common reflection based tasks',

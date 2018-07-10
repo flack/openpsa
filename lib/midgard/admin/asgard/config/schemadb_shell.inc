@@ -1,29 +1,23 @@
-'default' => array
-(
+'default' => [
     'description' => 'shell schema',
     'l10n_db'     => 'midgard.admin.asgard',
-    'operations' => array
-    (
+    'operations' => [
         'save' => 'run'
-    ),
-    'fields'      => array
-    (
-        'code' => array
-        (
+    ],
+    'fields'      => [
+        'code' => [
             'title'       => 'code',
             'storage'     => null,
             'type'        => 'php',
-            'type_config' => Array
-            (
+            'type_config' => [
                 'output_mode' => 'code',
-            ),
+            ],
             'widget'      => 'codemirror',
-            'widget_config' => Array
-            (
+            'widget_config' => [
                 'height' => 30,
                 'width' => '100%'
-            ),
+            ],
             'required' => true
-        )
-    )
-),
+    	]
+	]
+],

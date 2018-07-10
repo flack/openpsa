@@ -23,7 +23,7 @@
  *
  * <code>
  * $GLOBALS['midcom_config_site']['cache_module_content_backend'] =
- *     Array ('directory' => 'content/', 'driver' => 'sqlite');
+ *     ['directory' => 'content/', 'driver' => 'sqlite'];
  * </code>
  *
  * <b>Instance-specific configuration:</b>
@@ -128,7 +128,7 @@
  *   option set. This defaults to an empty array.
  * - <b>Array cache_module_memcache_data_groups:</b> The data groups available for the memcache module.
  *   You should normally not have to touch this, see the memcache module documentation for details.
- *   This defaults to Array('ACL', 'PARENT').
+ *   This defaults to ['ACL', 'PARENT'].
  *
  * See also midcom_services_cache, the midcom_services_cache_backend class hierarchy and
  * the midcom_services_cache_module class hierarchy.

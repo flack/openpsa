@@ -1,9 +1,8 @@
 // Schema database to use
 'schemadb' => 'file:/net/nehmer/static/config/schemadb_default.inc',
-'schemadbs' => Array
-(
+'schemadbs' => [
     'file:/net/nehmer/static/config/schemadb_default.inc' => 'Default Schema Database',
-),
+],
 
 'schemadb_config' => 'file:/net/nehmer/static/config/config_schemadb.inc',
 

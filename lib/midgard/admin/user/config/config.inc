@@ -4,23 +4,21 @@
 'list_without_search' => 20,
 'list_users_max' => 30,
 'allow_manage_accounts' => true, // Turn this off if the accounts are integrated with some external source like AD or LDAP
-'search_fields' => array
-(
+'search_fields' => [
     'firstname',
     'lastname',
     'username',
     'email',
     'city',
     'postcode',
-),
-'list_fields' => array
-(
+],
+'list_fields' => [
     'firstname',
     'lastname',
     'username',
     'email',
     'city',
-),
+],
 'message_subject' => 'your password has been changed',
 'message_body' => "Your password has been changed. Your new password is __PASSWORD__",
 'message_footer' => "

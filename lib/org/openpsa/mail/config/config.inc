@@ -1,34 +1,30 @@
-'default_try_backends' => array
-(
+'default_try_backends' => [
     'mail_sendmail',
     'mail_smtp',
     'mail',
-),
+],
 
 //This becomes the fifth parameter of mail()
-'mail_params' => array(
+'mail_params' => [
     'additional_params' => ''
-),
+],
 
 //These are passed to the SMTP transport
-'mail_smtp_params' => array
-(
+'mail_smtp_params' => [
     'host' => null,
     'port' => null
-),
+],
 
 //These are passed to the Sendmail transport
-'mail_sendmail_params' => array
-(
+'mail_sendmail_params' => [
     'sendmail_path' => '/usr/sbin/sendmail',
     'sendmail_args' => '-bs',
-),
+],
 
 //Theses domains report character set incorrectly (thus messing up the conversion if we trust it)
-'incorrect_charset_domains' => array
-(
+'incorrect_charset_domains' => [
      'yahoo.com',
-),
+],
 'mb_detect_encoding_list' => 'ASCII,JIS,UTF-8,ISO-8859-1,EUC-JP,SJIS',
 //Transliterate by default (other valid options '//IGNORE' or null)
 'iconv_append_target' => '//TRANSLIT',

@@ -1,82 +1,69 @@
-'default' => array
-(
+'default' => [
     'description' => 'feed',
     'l10n_db'     => 'net.nemein.rss',
-    'fields'      => array
-    (
-        'title' => Array
-        (
+    'fields'      => [
+        'title' => [
             'title' => 'feed title',
             'storage' => 'title',
             'required' => true,
             'type' => 'text',
             'widget' => 'text',
             'index_method' => 'title',
-        ),
-        'url' => Array
-        (
+        ],
+        'url' => [
             'title' => 'feed url',
             'storage' => 'url',
             'required' => true,
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'keepremoved' => Array
-        (
+        ],
+        'keepremoved' => [
             'title'   => 'keep removed items',
             'storage' => 'keepremoved',
             'type'    => 'boolean',
             'widget'  => 'checkbox',
-        ),
-        'autoapprove' => Array
-        (
+        ],
+        'autoapprove' => [
             'title'   => 'approve new items automatically',
             'storage' => 'autoapprove',
             'type'    => 'boolean',
             'widget'  => 'checkbox',
             'hidden' => !midcom::get()->config->get('metadata_approval'),
-        ),
-        'defaultauthor' => array
-        (
+        ],
+        'defaultauthor' => [
             'title' => 'default author for items',
             'storage' => 'defaultauthor',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => false,
-                 'options' => array(),
-            ),
+                 'options' => [],
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'midcom_db_person',
                 'component' => 'midgard.admin.asgard',
                 'titlefield' => 'name',
                 'id_field' => 'id',
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'firstname',
                     'lastname',
                     'username',
-                ),
-                'result_headers' => array
-                (
-                    array('name' => 'name', 'title' => 'name'),
-                    array('name' => 'email', 'title' => 'email'),
-                ),
-                'orders' => array(),
+                ],
+                'result_headers' => [
+                    ['name' => 'name', 'title' => 'name'],
+                    ['name' => 'email', 'title' => 'email'],
+                ],
+                'orders' => [],
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/midgard_person/",
                 'creation_default_key' => 'lastname',
-            ),
-        ),
-        'forceauthor' => Array
-        (
+            ],
+        ],
+        'forceauthor' => [
             'title'   => 'always use the default author',
             'storage' => 'forceauthor',
             'type'    => 'boolean',
             'widget'  => 'checkbox',
-        ),
-    )
-),
-
+        ],
+    ]
+],

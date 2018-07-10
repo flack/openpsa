@@ -1,181 +1,157 @@
 // Match /
-'dashboard' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_list', 'dashboard'),
-),
+'dashboard' => [
+    'handler' => ['org_openpsa_invoices_handler_list', 'dashboard'],
+],
 
 // Match /projects/
-'list_projects_uninvoiced' => array
-(
-    'fixed_args' => array('projects'),
-    'handler' => Array('org_openpsa_invoices_handler_projects', 'uninvoiced'),
-),
+'list_projects_uninvoiced' => [
+    'fixed_args' => ['projects'],
+    'handler' => ['org_openpsa_invoices_handler_projects', 'uninvoiced'],
+],
 
 // Match /list/json/<type>
-'list_json_type' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_list', 'json'),
-    'fixed_args' => array('list', 'json'),
+'list_json_type' => [
+    'handler' => ['org_openpsa_invoices_handler_list', 'json'],
+    'fixed_args' => ['list', 'json'],
     'variable_args' => 1,
-),
+],
 
 // Match /list/customer/all/<company guid>
-'list_customer_all' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_list', 'customer'),
-    'fixed_args' => array('list', 'customer', 'all'),
+'list_customer_all' => [
+    'handler' => ['org_openpsa_invoices_handler_list', 'customer'],
+    'fixed_args' => ['list', 'customer', 'all'],
     'variable_args' => 1,
-),
+],
 
 // Match /list/deliverable/<deliverable guid>
-'list_deliverable_all' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_list', 'deliverable'),
-    'fixed_args' => array('list', 'deliverable'),
+'list_deliverable_all' => [
+    'handler' => ['org_openpsa_invoices_handler_list', 'deliverable'],
+    'fixed_args' => ['list', 'deliverable'],
     'variable_args' => 1,
-),
+],
 
 // Match /scheduled/
-'list_scheduled' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_scheduled', 'list'),
-    'fixed_args' => array('scheduled'),
-),
+'list_scheduled' => [
+    'handler' => ['org_openpsa_invoices_handler_scheduled', 'list'],
+    'fixed_args' => ['scheduled'],
+],
 
 // Match /invoice/new/
-'invoice_new_nocustomer' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_crud', 'create'),
-    'fixed_args' => array('invoice', 'new'),
-),
+'invoice_new_nocustomer' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_crud', 'create'],
+    'fixed_args' => ['invoice', 'new'],
+],
 
 // Match /invoice/new/<company guid>
-'invoice_new' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_crud', 'create'),
-    'fixed_args' => array('invoice', 'new'),
+'invoice_new' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_crud', 'create'],
+    'fixed_args' => ['invoice', 'new'],
     'variable_args' => 1,
-),
+],
 
 // Match /invoice/edit/<guid>
-'invoice_edit' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_crud', 'update'),
-    'fixed_args' => array('invoice', 'edit'),
+'invoice_edit' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_crud', 'update'],
+    'fixed_args' => ['invoice', 'edit'],
     'variable_args' => 1,
-),
+],
 
 // Match /invoice/delete/<guid>
-'invoice_delete' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_crud', 'delete'),
-    'fixed_args' => array('invoice', 'delete'),
+'invoice_delete' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_crud', 'delete'],
+    'fixed_args' => ['invoice', 'delete'],
     'variable_args' => 1,
-),
+],
 // Match /invoice/action/mark_sent/
-'invoice_mark_sent' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_action', 'mark_sent'),
-    'fixed_args' => array('invoice', 'action', 'mark_sent'),
-),
+'invoice_mark_sent' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_action', 'mark_sent'],
+    'fixed_args' => ['invoice', 'action', 'mark_sent'],
+],
 // Match /invoice/action/send_by_mail/
-'invoice_send_by_mail' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_action', 'send_by_mail'),
-    'fixed_args' => array('invoice', 'action', 'send_by_mail'),
-),
+'invoice_send_by_mail' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_action', 'send_by_mail'],
+    'fixed_args' => ['invoice', 'action', 'send_by_mail'],
+],
 // Match /invoice/action/mark_paid/
-'invoice_mark_paid' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_action', 'mark_paid'),
-    'fixed_args' => array('invoice', 'action', 'mark_paid'),
-),
+'invoice_mark_paid' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_action', 'mark_paid'],
+    'fixed_args' => ['invoice', 'action', 'mark_paid'],
+],
 // Match /invoice/action/create_cancelation/
-'invoice_create_cancelation' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_action', 'create_cancelation'),
-    'fixed_args' => array('invoice', 'action', 'create_cancelation'),
-),
+'invoice_create_cancelation' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_action', 'create_cancelation'],
+    'fixed_args' => ['invoice', 'action', 'create_cancelation'],
+],
 // Match /invoice/action/create_pdf/
-'create_pdf' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_action', 'create_pdf'),
-    'fixed_args' => array('invoice', 'action', 'create_pdf'),
-),
+'create_pdf' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_action', 'create_pdf'],
+    'fixed_args' => ['invoice', 'action', 'create_pdf'],
+],
 
 // Match /invoice/recalculation/<guid>
-'recalc_invoice' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_items', 'recalculation'),
-    'fixed_args' => array('invoice', 'recalculation'),
+'recalc_invoice' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_items', 'recalculation'],
+    'fixed_args' => ['invoice', 'recalculation'],
     'variable_args' => 1,
-),
+],
 
 // Match /invoice/items/<guid>
-'invoice_items' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_items', 'items'),
-    'fixed_args' => array('invoice', 'items'),
+'invoice_items' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_items', 'items'],
+    'fixed_args' => ['invoice', 'items'],
     'variable_args' => 1,
-),
+],
 
 // Match /invoice/itemedit/<guid>
-'invoice_item_edit' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_items', 'itemedit'),
-    'fixed_args' => array('invoice', 'itemedit'),
+'invoice_item_edit' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_items', 'itemedit'],
+    'fixed_args' => ['invoice', 'itemedit'],
     'variable_args' => 1,
-),
+],
 
 // Match /invoice/itemposition/
-'invoice_item_position' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_items', 'itemposition'),
-    'fixed_args' => array('invoice', 'itemposition'),
-),
+'invoice_item_position' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_items', 'itemposition'],
+    'fixed_args' => ['invoice', 'itemposition'],
+],
 
 // Match /invoice/<guid>
-'invoice' => array
-(
-    'handler' => Array('org_openpsa_invoices_handler_invoice_view', 'read'),
-    'fixed_args' => array('invoice'),
+'invoice' => [
+    'handler' => ['org_openpsa_invoices_handler_invoice_view', 'read'],
+    'fixed_args' => ['invoice'],
     'variable_args' => 1,
-),
+],
 // Match /billingdata/delete/<guid>
-'billing_data_delete' => array
-(
-    'handler' => array('org_openpsa_invoices_handler_billingdata', 'delete'),
-    'fixed_args' => array('billingdata', 'delete'),
+'billing_data_delete' => [
+    'handler' => ['org_openpsa_invoices_handler_billingdata', 'delete'],
+    'fixed_args' => ['billingdata', 'delete'],
     'variable_args' => 1,
-),
+],
 // Match /billingdata/<customer guid>
-'billing_data' => array
-(
-    'handler' => array('org_openpsa_invoices_handler_billingdata', 'edit'),
-    'fixed_args' => array('billingdata'),
+'billing_data' => [
+    'handler' => ['org_openpsa_invoices_handler_billingdata', 'edit'],
+    'fixed_args' => ['billingdata'],
     'variable_args' => 1,
-),
+],
 
-'invoice_rest' => array(
-    'handler' => array('org_openpsa_invoices_handler_rest_invoice', 'process'),
-    'fixed_args' => array('rest', 'invoice'),
-),
+'invoice_rest' => [
+    'handler' => ['org_openpsa_invoices_handler_rest_invoice', 'process'],
+    'fixed_args' => ['rest', 'invoice'],
+],
 
-'billingdata_rest' => array(
-    'handler' => array('org_openpsa_invoices_handler_rest_billingdata', 'process'),
-    'fixed_args' => array('rest', 'billingdata'),
-),
+'billingdata_rest' => [
+    'handler' => ['org_openpsa_invoices_handler_rest_billingdata', 'process'],
+    'fixed_args' => ['rest', 'billingdata'],
+],
 
 // Match /config/
-'config' => array
-(
-    'handler' => array ('midcom_baseclasses_components_handler_configuration', 'config'),
-    'fixed_args' => array ('config'),
-),
+'config' => [
+    'handler' => ['midcom_baseclasses_components_handler_configuration', 'config'],
+    'fixed_args' => ['config'],
+],
 
 // Match /goto
-'goto' => array
-(
-    'fixed_args' => array('goto'),
-    'handler' => Array('org_openpsa_invoices_handler_goto', 'goto'),
-),
+'goto' => [
+    'fixed_args' => ['goto'],
+    'handler' => ['org_openpsa_invoices_handler_goto', 'goto'],
+],

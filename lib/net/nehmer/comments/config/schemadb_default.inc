@@ -1,21 +1,16 @@
-'comment' => array
-(
+'comment' => [
     'description' => 'default schema',
-    'operations' => array
-    (
+    'operations' => [
         'save' => 'post'
-    ),
-    'fields' => array
-    (
-        'csrf' => array
-        (
+    ],
+    'fields' => [
+        'csrf' => [
             'title' => 'csrf',
             'type' => 'text',
             'widget' => 'csrf',
             'required' => 'true',
-        ),
-        'author' => array
-        (
+        ],
+        'author' => [
             'title' => 'author',
             'helptext' => '',
 
@@ -23,9 +18,8 @@
             'required' => true,
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'title' => array
-        (
+        ],
+        'title' => [
             'title' => 'title',
             'helptext' => '',
 
@@ -33,45 +27,40 @@
             'required' => true,
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'content' => array
-        (
+        ],
+        'content' => [
             'title' => 'content',
             'helptext' => '',
 
             'required' => 'true',
             'storage' => 'content',
             'type' => 'text',
-            'type_config' => array ( 'output_mode' => 'markdown' ),
+            'type_config' => [ 'output_mode' => 'markdown' ],
             'widget' => 'textarea',
-        ),
-        'rating' => array
-        (
+        ],
+        'rating' => [
             'title' => 'rating',
             'storage' => 'rating',
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     0 => '',
                     1 => '*',
                     2 => '**',
                     3 => '***',
                     4 => '****',
                     5 => '*****',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
             'hidden' => true,
-        ),
-        'subscribe' => array
-        (
+        ],
+        'subscribe' => [
             'title'      => 'subscribe',
             'storage'   => null,
             'type'      => 'boolean',
             'widget'   => 'checkbox',
             'hidden' => !midcom::get()->auth->user,
-        ),
-    ),
-),
+        ],
+    ],
+],

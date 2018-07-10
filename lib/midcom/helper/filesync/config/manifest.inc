@@ -1,5 +1,5 @@
 'name' => 'midcom.helper.filesync',
 'icon' => 'refresh',
 'purecode' => true,
-'privileges' => array(),
+'privileges' => [],
 'description' => 'Site template filesystem synchronization',

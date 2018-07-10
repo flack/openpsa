@@ -9,128 +9,97 @@
 'auto_wildcards' => 'end',
 'owner_organization' => null, // Set to GUID of org_openpsa_organization
 
-'group_merge_configuration' => array(),
+'group_merge_configuration' => [],
 
-'person_merge_configuration' => array
-(
-    'org_openpsa_calendar_event_member_dba' => array
-    (
-        'uid' => array
-        (
+'person_merge_configuration' => [
+    'org_openpsa_calendar_event_member_dba' => [
+        'uid' => [
             'target' => 'id',
             'duplicate_check' => 'eid'
-        )
-    ),
-    'org_openpsa_calendar_event_dba' => array(),
-    'midcom_db_member' => array
-    (
-        'uid' => array
-        (
+        ]
+    ],
+    'org_openpsa_calendar_event_dba' => [],
+    'midcom_db_member' => [
+        'uid' => [
             'target' => 'id',
             'duplicate_check' => 'gid'
-        )
-    ),
-    'org_openpsa_contacts_person_dba' => array(),
-    'org_openpsa_contacts_group_dba' => array(),
-    'org_openpsa_contacts_role_dba' => array
-    (
-        'person' => array
-        (
+        ]
+    ],
+    'org_openpsa_contacts_person_dba' => [],
+    'org_openpsa_contacts_group_dba' => [],
+    'org_openpsa_contacts_role_dba' => [
+        'person' => [
             'target' => 'id',
             'duplicate_check' => 'check_duplicates'
-        )
-    ),
+        ]
+    ],
 
-    'org_openpsa_directmarketing_campaign_member_dba' => array
-    (
-        'person' => array
-        (
+    'org_openpsa_directmarketing_campaign_member_dba' => [
+        'person' => [
             'target' => 'id',
             'duplicate_check' => 'check_duplicate_membership'
-        )
-    ),
-    'org_openpsa_directmarketing_campaign_messagereceipt_dba' => array
-    (
-        'person' => array
-        (
+        ]
+    ],
+    'org_openpsa_directmarketing_campaign_messagereceipt_dba' => [
+        'person' => [
             'target' => 'id',
-        )
-    ),
-    'org_openpsa_directmarketing_link_log_dba' => array
-    (
-        'person' => array
-        (
+        ]
+    ],
+    'org_openpsa_directmarketing_link_log_dba' => [
+        'person' => [
             'target' => 'id',
-        )
-    ),
-    'org_openpsa_directmarketing_campaign_dba' => array(),
-    'org_openpsa_directmarketing_campaign_message_dba' => array(),
-    'org_openpsa_invoices_invoice_dba' => array
-    (
-        'customerContact' => array
-        (
+        ]
+    ],
+    'org_openpsa_directmarketing_campaign_dba' => [],
+    'org_openpsa_directmarketing_campaign_message_dba' => [],
+    'org_openpsa_invoices_invoice_dba' => [
+        'customerContact' => [
             'target' => 'id'
-        )
-    ),
-    'org_openpsa_invoices_billing_data_dba' => array
-    (
-        'linkGuid' => array
-        (
+        ]
+    ],
+    'org_openpsa_invoices_billing_data_dba' => [
+        'linkGuid' => [
             'target' => 'guid',
             'duplicate_check' => 'linkGuid'
-        )
-    ),
-    'org_openpsa_projects_task_resource_dba' => array
-    (
-        'person' => array
-        (
+        ]
+    ],
+    'org_openpsa_projects_task_resource_dba' => [
+        'person' => [
             'target' => 'id',
             'duplicate_check' => 'task'
-        )
-    ),
-    'org_openpsa_projects_task_status_dba' => array
-    (
-        'targetPerson' => array
-        (
+        ]
+    ],
+    'org_openpsa_projects_task_status_dba' => [
+        'targetPerson' => [
             'target' => 'id',
-        )
-    ),
-    'org_openpsa_expenses_hour_report_dba' => array
-    (
-        'person' => array
-        (
+        ]
+    ],
+    'org_openpsa_expenses_hour_report_dba' => [
+        'person' => [
             'target' => 'id',
-        )
-    ),
-    'org_openpsa_projects_task_dba' => array
-    (
-        'manager' => array
-        (
+        ]
+    ],
+    'org_openpsa_projects_task_dba' => [
+        'manager' => [
             'target' => 'id',
-        )
-    ),
-    'org_openpsa_relatedto_dba' => array
-    (
-        'fromGuid' => array
-        (
+        ]
+    ],
+    'org_openpsa_relatedto_dba' => [
+        'fromGuid' => [
             'target' => 'guid',
             'duplicate_check' => 'toGuid'
-        ),
-        'toGuid' => array
-        (
+        ],
+        'toGuid' => [
             'target' => 'guid',
             'duplicate_check' => 'fromGuid'
-        )
-    ),
-    'org_openpsa_sales_salesproject_dba' => array
-    (
-        'customerContact' => array
-        (
+        ]
+    ],
+    'org_openpsa_sales_salesproject_dba' => [
+        'customerContact' => [
             'target' => 'id'
-        ),
-        'owner' => array
-        (
+        ],
+        'owner' => [
             'target' => 'id'
-        )
-    ),
-),
+        ]
+    ],
+],

@@ -1,48 +1,41 @@
 // Match /updates
-'updates' => array
-(
-    'handler' => array('org_openpsa_mypage_handler_today', 'updates'),
+'updates' => [
+    'handler' => ['org_openpsa_mypage_handler_today', 'updates'],
     'fixed_args' => 'updates',
-),
+],
 
 // Match /
-'today' => array
-(
-    'handler' => array('org_openpsa_mypage_handler_today', 'today'),
-),
+'today' => [
+    'handler' => ['org_openpsa_mypage_handler_today', 'today'],
+],
 
 // Match /day/<date>
-'day' => array
-(
-    'handler' => array('org_openpsa_mypage_handler_today', 'today'),
-    'fixed_args' => array('day'),
+'day' => [
+    'handler' => ['org_openpsa_mypage_handler_today', 'today'],
+    'fixed_args' => ['day'],
     'variable_args' => 1,
-),
+],
 
 // Match /weekreview/<date>
-'weekreview' => array
-(
-    'handler' => array('org_openpsa_mypage_handler_weekreview', 'review'),
-    'fixed_args' => array('weekreview'),
+'weekreview' => [
+    'handler' => ['org_openpsa_mypage_handler_weekreview', 'review'],
+    'fixed_args' => ['weekreview'],
     'variable_args' => 1,
-),
+],
 
 // Match /weekreview/
-'weekreview_redirect' => array
-(
-    'handler' => array('org_openpsa_mypage_handler_weekreview', 'redirect'),
-    'fixed_args' => array('weekreview'),
-),
+'weekreview_redirect' => [
+    'handler' => ['org_openpsa_mypage_handler_weekreview', 'redirect'],
+    'fixed_args' => ['weekreview'],
+],
 
 // Match /workingon/
-'workingon' => array
-(
-    'handler' => array('org_openpsa_mypage_handler_workingon', 'view'),
-    'fixed_args' => array('workingon'),
-),
+'workingon' => [
+    'handler' => ['org_openpsa_mypage_handler_workingon', 'view'],
+    'fixed_args' => ['workingon'],
+],
 // Match /workingon/set
-'workingon_set' => array
-(
-    'handler' => array('org_openpsa_mypage_handler_workingon', 'set'),
-    'fixed_args' => array('workingon', 'set' ),
-),
+'workingon_set' => [
+    'handler' => ['org_openpsa_mypage_handler_workingon', 'set'],
+    'fixed_args' => ['workingon', 'set' ],
+],

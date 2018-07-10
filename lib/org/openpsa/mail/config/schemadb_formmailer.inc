@@ -1,21 +1,17 @@
-'default' => array
-(
+'default' => [
     'description' => 'Formmailer',
     'l10n_db' => 'org.openpsa.mail',
-    'fields'  => array
-    (
-        'subject' => array
-        (
+    'fields'  => [
+        'subject' => [
             'title'    => 'subject',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'message' => array
-        (
+        ],
+        'message' => [
             'title'    => 'message',
             'type'     => 'text',
             'widget'   => 'textarea',
             'required' => true
-        ),
-    )
-),
+        ],
+    ]
+],

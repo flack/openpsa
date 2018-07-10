@@ -1,5 +1,5 @@
 'name' => 'org.openpsa.mypage',
 'purecode' => false,
-'privileges' => array(),
-'class_mapping' => array(),
+'privileges' => [],
+'class_mapping' => [],
 'description' => 'At a glance view of your documents, tasks etc',

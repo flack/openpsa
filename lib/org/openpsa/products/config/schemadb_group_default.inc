@@ -1,66 +1,56 @@
-'default' => array
-(
+'default' => [
     'description' => 'product group',
-    'fields'      => array
-    (
-        'code' => Array
-        (
+    'fields'      => [
+        'code' => [
             // COMPONENT-REQUIRED
             'title'   => 'code',
             'storage' => 'code',
             'type'    => 'text',
             'widget'  => 'text',
             'required' => true,
-        ),
-        'title' => Array
-        (
+        ],
+        'title' => [
             // COMPONENT-REQUIRED
             'title' => 'title',
             'storage' => 'title',
             'required' => true,
             'type' => 'text',
             'widget'  => 'text',
-        ),
-        'up' => Array
-        (
+        ],
+        'up' => [
             'title' => 'parent group',
             'storage' => 'up',
             'type'    => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'require_corresponding_option' => false,
                 'allow_multiple' => false,
-                'options' => array(),
-            ),
+                'options' => [],
+            ],
             'widget'  => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'org_openpsa_products_product_group_dba',
                 'component' => 'org.openpsa.products',
                 'titlefield' => 'title',
                 'id_field' => 'id',
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'code',
                     'title',
-                ),
-                'result_headers' => array
-                (
-                    array('name' => 'title', 'title' => 'title'),
-                    array('name' => 'code', 'title' => 'code'),
-                ),
+                ],
+                'result_headers' => [
+                    ['name' => 'title', 'title' => 'title'],
+                    ['name' => 'code', 'title' => 'code'],
+                ],
                 'categorize_by_parent_label' => true,
-            ),
-        ),
-        'description' => Array
-        (
+            ],
+        ],
+        'description' => [
             'title' => 'description',
             'storage' => 'description',
             'type' => 'text',
-            'type_config' => Array (
+            'type_config' => [
                 'output_mode' => 'markdown'
-            ),
+            ],
             'widget' => 'markdown',
-        ),
-    )
-),
+        ],
+    ]
+],

@@ -23,8 +23,8 @@ use midcom\datamanager\datamanager;
  * <code>
  *     $this->_request_handler['config'] = array
  *     (
- *         'handler' => array ('midcom_baseclasses_components_handler_configuration', 'config'),
- *         'fixed_args' => array ('config'),
+ *         'handler' => ['midcom_baseclasses_components_handler_configuration', 'config'],
+ *         'fixed_args' => ['config'],
  *     );
  * </code>
  *

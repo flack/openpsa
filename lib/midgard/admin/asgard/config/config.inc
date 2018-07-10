@@ -1,5 +1,4 @@
-'object_preferred_fields' => array
-(
+'object_preferred_fields' => [
     'name',
     'title',
     'official',
@@ -9,16 +8,14 @@
     'prefix',
     'port',
     'domain',
-),
-'object_timerange_fields' => array
-(
+],
+'object_timerange_fields' => [
     'start',
     'end',
     'openregistration',
     'closeregistration',
-),
-'object_address_fields' => array
-(
+],
+'object_address_fields' => [
     'street',
     'postcode',
     'city',
@@ -31,28 +28,25 @@
     'invoicePostcode',
     'invoiceCity',
     'invoiceCountry',
-),
-'object_phone_fields' => array
-(
+],
+'object_phone_fields' => [
     'phone',
     'handphone',
     'workphone',
     'homephone',
     'fax',
-),
-'object_location_fields' => array
-(
+],
+'object_location_fields' => [
     'latitude',
     'longitude',
     'altitude',
     'bearing',
     'accuracy',
-),
-'object_skip_fields' => array
-(
+],
+'object_skip_fields' => [
     'guid',
     'id',
-),
+],
 'schemadb_permissions' => 'file:/midgard/admin/asgard/config/schemadb_permissions.inc',
 'schemadb_shell' => 'file:/midgard/admin/asgard/config/schemadb_shell.inc',
 
@@ -73,23 +67,20 @@
 
 // Welcome page
 // List of types we don't list on latest objects
-'skip_in_filter' => array
-(
+'skip_in_filter' => [
     'midgard_parameter',
     'midcom_helper_activitystream_activity',
     'midcom_core_privilege_db',
     'midcom_services_at_entry_db',
-),
-'attachment_text_types' => array
-(
+],
+'attachment_text_types' => [
     'text/css'                 => 'cascading style sheet',
     'application/x-javascript' => 'javascript',
     'text/plain'               => 'plain text',
     'text/xml'                 => 'xml',
     'text/html'                => 'html',
-),
-'allow_unclean_names_for' => array
-(
+],
+'allow_unclean_names_for' => [
     'midgard_style',
     'midgard_element',
     'midgard_attachment',
@@ -97,12 +88,11 @@
     'midgard_snippetdir',
     'midgard_snippet',
     'midgard_group',
-),
+],
 
 'enable_review_dates' => false,
 
-'no_permalinks_for' => array
-(
+'no_permalinks_for' => [
     'midcom_db_style',
     'midcom_db_element',
     'midcom_db_snippetdir',
@@ -110,4 +100,4 @@
     'midcom_db_parameter',
     'net_nemein_tag_tag_dba',
     'net_nemein_tag_link_dba',
-),
+],

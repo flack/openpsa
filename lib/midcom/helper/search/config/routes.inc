@@ -1,26 +1,22 @@
 // Default search form, no args, Basic search from
-'basic' => array
-(
-    'handler' => array('midcom_helper_search_handler_search', 'searchform')
-),
+'basic' => [
+    'handler' => ['midcom_helper_search_handler_search', 'searchform']
+],
 
 // Resultlists, controlled using HTTP GET/POST
-'result' => array
-(
+'result' => [
     'fixed_args' => 'result',
-    'handler' => array('midcom_helper_search_handler_search', 'result')
-),
+    'handler' => ['midcom_helper_search_handler_search', 'result']
+],
 
 // Advanced search form, no args
-'advanced' => array
-(
+'advanced' => [
     'fixed_args' => 'advanced',
-    'handler' => array('midcom_helper_search_handler_search', 'searchform')
-),
+    'handler' => ['midcom_helper_search_handler_search', 'searchform']
+],
 
 // OpenSearch description file
-'opensearch_description' => array
-(
+'opensearch_description' => [
     'fixed_args' => 'opensearch.xml',
-    'handler' => array('midcom_helper_search_handler_search', 'opensearchdescription')
-),
+    'handler' => ['midcom_helper_search_handler_search', 'opensearchdescription']
+],

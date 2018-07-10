@@ -1,8 +1,7 @@
 'default_workgroup_filter' => 'all',
 
 //Components for which siteconfig should cache URL information
-'siteconfig_components' => array
-(
+'siteconfig_components' => [
     'org.openpsa.calendar' => 'org.openpsa.calendar',
     'org.openpsa.contacts' => 'org.openpsa.contacts',
     'org.openpsa.documents' => 'org.openpsa.documents',
@@ -15,4 +14,4 @@
     'org.openpsa.user' => 'org.openpsa.user',
     'net.nemein.wiki' => 'net.nemein.wiki',
     'midcom.helper.search' => 'midcom.helper.search',
-),
+],

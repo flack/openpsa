@@ -127,7 +127,7 @@ class midcom_baseclasses_components_configuration
 
     /**
      * Read a file from disk and evaluate its content as array.
-     * This is essentially a simple Array($data\n) eval construct.
+     * This is essentially a simple [$data\n] eval construct.
      *
      * If the file does not exist, false is returned.
      *
@@ -152,7 +152,7 @@ class midcom_baseclasses_components_configuration
 
     /**
      * Read a snippet and evaluate its content as array.
-     * This is essentially a simple Array($data\n) eval construct.
+     * This is essentially a simple [$data\n] eval construct.
      *
      * If the snippet does not exist, false is returned.
      *

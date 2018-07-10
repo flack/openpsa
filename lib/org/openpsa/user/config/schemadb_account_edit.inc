@@ -1,65 +1,54 @@
-'default' => array
-(
+'default' => [
     'description'   => 'Account editing schema',
-    'validation' => array
-    (
-        array
-        (
-            'callback' => array(new org_openpsa_user_validator, 'validate_edit_form'),
-        )
-    ),
+    'validation' => [
+    	[
+            'callback' => [new org_openpsa_user_validator, 'validate_edit_form'],
+        ]
+    ],
 
-    'fields'  => array
-    (
-        'username' => array
-        (
+    'fields'  => [
+        'username' => [
             'title'    => 'username',
             'storage'  => 'username',
             'type'     => 'text',
             'widget'   => 'text',
             'required' => 'true',
 
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'account_fieldset',
                 'css_group' => 'area meta',
-            ),
-        ),
+            ],
+        ],
 
-        'current_password' => array
-        (
+        'current_password' => [
             'title' => 'current password',
             'type' => 'text',
             'widget' => 'text',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'hideinput' => true
-            ),
+            ],
             'storage' => null,
             'hidden' => (midcom::get()->auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface')),
             'required' => (!midcom::get()->auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface')),
-        ),
+        ],
 
-        'new_password' => array
-        (
+        'new_password' => [
             'title' => 'new password',
             'type' => 'text',
             'widget' => 'password',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'require_password' => false
-            ),
+            ],
 
             'required' => false,
             'storage' => null,
-        ),
+        ],
         // needed for validation
-        'person' => array
-        (
+        'person' => [
             'title'    => 'person',
             'storage'  => null,
             'type'     => 'text',
             'widget'   => 'hidden',
-        ),
-    )
-),
+        ],
+    ]
+],

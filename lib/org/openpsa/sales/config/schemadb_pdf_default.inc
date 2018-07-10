@@ -1,39 +1,32 @@
-'default' => array
-(
+'default' => [
     'description' => 'salesproject',
-    'fields'      => array
-    (
-    'designation' => array
-        (
+    'fields'      => [
+    'designation' => [
             'title' => 'designation',
             'storage' => 'designation',
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'introduction' => array
-        (
+        ],
+        'introduction' => [
             'title' => 'introduction',
             'storage' => 'introduction',
             'type' => 'text',
-            'type_config' => array
-            (
+            'type_config' => [
                 'output_mode' => 'markdown'
-            ),
+            ],
 
             'widget' => 'textarea',
             'required' => true,
 
-        ),
-        'notice' => array
-        (
+        ],
+        'notice' => [
             'title' => 'notice',
             'storage' => 'notice',
             'type' => 'text',
-            'type_config' => array
-            (
+            'type_config' => [
                 'output_mode' => 'markdown'
-            ),
+            ],
             'widget' => 'textarea',
-        ),
-    )
-),
+        ],
+    ]
+],

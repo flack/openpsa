@@ -21,15 +21,14 @@ You can now log in with your normal username and the following password:
 
 __PASSWORD__',
 
-'search_fields' => array
-(
+'search_fields' => [
     'firstname',
     'lastname',
     'username',
     'email',
     'city',
     'postcode',
-),
+],
 
 'message_sender' => 'noreply@openpsa2.org',
 
@@ -54,38 +53,37 @@ Password: __PASSWORD__',
 
 'welcome_mail_from_address' => 'noreply@openpsa2.org',
 
-'password_score_rules' => array
-(
-    array(
+'password_score_rules' => [
+    [
         'match' => '/(.*[0-9].*[0-9].*[0-9])/',
         'score' => 10,
-    ),
-    array(
+    ],
+    [
         'match' => '/(.*[!,@,#,$,%,^,&,*,?,_,~].*[!,@,#,$,%,^,&,*,?,_,~])/',
         'score' => 10,
-    ),
-    array(
+    ],
+    [
         'match' => '/(.*[a-z].*[A-Z])|(.*[A-Z].*[a-z])/',
         'score' => 10,
-    ),
-    array(
+    ],
+    [
         'match' => '/(.*[a-zA-Z].*[0-9])|(.*[0-9].*[a-zA-Z])/',
         'score' => 10,
-    ),
-    array(
+    ],
+    [
         'match' => '/(.*[!,@,#,$,%,^,&,*,?,_,~])/',
         'score' => 10,
-    ),
-    array(
+    ],
+    [
         'match' => '/(.*[!,@,#,$,%,^,&,*,?,_,~].*[0-9])|(.*[0-9].*[!,@,#,$,%,^,&,*,?,_,~])/',
         'score' => 10,
-    ),
-    array(
+    ],
+    [
         'match' => '/^\w+$/',
         'score' => -25,
-    ),
-    array(
+    ],
+    [
         'match' => '/^\d+$/',
         'score' => -25,
-    ),
-),
+    ],
+],

@@ -124,7 +124,7 @@
  * Here's a quick example to remove the underlining.
  * <code>
  * foreach ($toolbar->items as $index => $item) {
- *     $toolbar->items[$index][MIDCOM_TOOLBAR_OPTIONS] = array( "style" => "text-decoration:none;");
+ *     $toolbar->items[$index][MIDCOM_TOOLBAR_OPTIONS] = [ "style" => "text-decoration:none;"];
  * }
  * </code>
  * This will add style="text-decoration:none;" to all the links in the toolbar.

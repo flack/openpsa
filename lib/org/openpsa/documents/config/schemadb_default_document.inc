@@ -1,122 +1,101 @@
-'default' => array (
+'default' => [
 
     'name'        => 'default',
     'description' => 'Document',
-    'fields'      => array
-    (
-        'title' => array
-        (
+    'fields'      => [
+        'title' => [
             'title' => 'Title',
             'type'    => 'text',
             'widget' => 'text',
             'storage'    => 'title',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'Document',
                 'css_group' => 'area',
-            )
-        ),
-        'abstract' => array
-        (
+            ]
+        ],
+        'abstract' => [
             'title' => 'Abstract',
             'type'    => 'text',
             'widget' => 'textarea',
             'storage'    => 'abstract',
-        ),
-        'document' => array
-        (
+        ],
+        'document' => [
             'title' => 'Document',
             'type'    => 'blobs',
             'widget' => 'downloads',
-            'type_config' => array
-            (
+            'type_config' => [
                 'max_count' => 1,
                 'sortable' => false,
-            ),
+            ],
             'end_fieldset' => '',
             'index_method' => 'attachment',
             'required' => true
-        ),
-        'status_select' => array
-        (
+        ],
+        'status_select' => [
             'title' => 'document status',
             'storage'    => 'docStatus',
             'type'     => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     org_openpsa_documents_document_dba::STATUS_DRAFT  => 'draft',
                     org_openpsa_documents_document_dba::STATUS_REVIEW => 'review',
                     org_openpsa_documents_document_dba::STATUS_FINAL  => 'final',
-                ),
-            ),
+                ],
+            ],
             'widget'       => 'radiocheckselect',
             'index_merge_with_content' => false,
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'Metadata',
                 'css_group' => 'area meta',
-            ),
+            ],
             'default' => org_openpsa_documents_document_dba::STATUS_DRAFT
-        ),
-        'keywords' => array
-        (
+        ],
+        'keywords' => [
             'title' => 'Keywords',
             'type'    => 'text',
             'widget' => 'text',
             'storage'    => 'keywords',
-        ),
-        'author' => array
-        (
+        ],
+        'author' => [
             'title' => 'author',
             'storage'    => 'author',
             'type'    => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => false,
-                 'options' => array(),
-            ),
+                 'options' => [],
+            ],
             'widget'      => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class'       => 'org_openpsa_contacts_person_dba',
                 'component'   => 'org.openpsa.contacts',
                 'titlefield'  => 'name',
                 'id_field'     => 'id',
-                'searchfields'  => array
-                (
+                'searchfields'  => [
                     'firstname',
                     'lastname',
                     'username',
-                ),
-                'result_headers' => array
-                (
-                    array
-                    (
+                ],
+                'result_headers' => [
+                    [
                         'title' => 'name',
                         'name' => 'name',
-                    ),
-                    array
-                    (
+                    ], [
                         'title' => 'email',
                         'name' => 'email',
-                    ),
-                ),
-                'orders'        => array
-                (
-                    array('lastname'    => 'ASC'),
-                    array('firstname'    => 'ASC'),
+                    ],
+                ],
+                'orders'        => [
+                    ['lastname'    => 'ASC'],
+                    ['firstname'    => 'ASC'],
 
-                ),
+                ],
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
                 'creation_default_key' => 'lastname',
-             ),
-        ),
+             ],
+        ],
         //Hidden field for orgOpenpsaObtype
-        'object_type'  => array
-        (
+        'object_type'  => [
             'title' => 'object type',
             'default'  => org_openpsa_documents_document_dba::OBTYPE_DOCUMENT,
             'hidden'   => true,
@@ -124,85 +103,71 @@
             'storage' => 'orgOpenpsaObtype',
             'type' => 'number',
             'widget' => 'text',
-        ),
-        'topic' => array
-        (
+        ],
+        'topic' => [
             'title' => 'directory',
             'storage'    => 'topic',
             'type'    => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => false,
                  'allow_multiple' => false,
-            ),
+            ],
             'widget'      => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class'       => 'org_openpsa_documents_directory',
                 'component'   => 'org.openpsa.documents',
                 'titlefield'  => 'name',
                 'id_field'     => 'id',
-                'constraints' => array
-                (
-                    array
-                    (
+                'constraints' => [
+                    [
                         'field' => 'component',
                         'op'    => '=',
                         'value' => 'org.openpsa.documents',
-                    ),
-                ),
-                'searchfields'  => array
-                (
+                    ],
+                ],
+                'searchfields'  => [
                     'extra',
                     'name',
-                ),
-                'result_headers' => array
-                (
-                    array
-                    (
+                ],
+                'result_headers' => [
+                    [
                         'title' => 'title',
                         'name' => 'extra',
-                    ),
-                ),
-                'orders'        => array
-                (
-                    array('extra'    => 'ASC'),
-                    array('name'    => 'ASC'),
-                ),
-             ),
+                    ],
+                ],
+                'orders'        => [
+                    ['extra'    => 'ASC'],
+                    ['name'    => 'ASC'],
+                ],
+             ],
             'required' => true,
             'index_merge_with_content' => false,
             'end_fieldset' => '',
-        ),
-        'orgOpenpsaAccesstype' => array
-        (
+        ],
+        'orgOpenpsaAccesstype' => [
             'title' => 'Access type',
             'storage'    => 'orgOpenpsaAccesstype',
             'type'     => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'options' => org_openpsa_core_acl::get_options(),
-            ),
+            ],
             'widget'       => 'select',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'Access control',
                 'css_group' => 'area acl',
-            ),
+            ],
             'index_merge_with_content' => false,
-        ),
-        'orgOpenpsaOwnerWg' => array
-        (
+        ],
+        'orgOpenpsaOwnerWg' => [
             'title' => 'Workgroup',
             'storage'    => 'orgOpenpsaOwnerWg',
             'type'     => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'options' => org_openpsa_helpers_list::workgroups(),
-            ),
+            ],
             'widget'       => 'select',
             'end_fieldset' => '',
             'index_merge_with_content' => false,
-        ),
-    )
-),
+        ],
+    ]
+],

@@ -1,34 +1,28 @@
-'default' => array
-(
+'default' => [
     'name' => 'default',
     'description' => 'resource',
-    'fields' => array
-    (
-        'title' => array
-        (
+    'fields' => [
+        'title' => [
             'title' => 'title',
             'storage' => 'title',
             'type' => 'text',
             'widget' =>  'text',
             'required' => true,
-        ),
-        'location' => array
-        (
+        ],
+        'location' => [
             'title' => 'location',
             'storage' => 'location',
             'type' => 'text',
             'widget' =>  'text',
-        ),
-        'description' => array
-        (
+        ],
+        'description' => [
             'title' => 'description',
             'storage' => 'description',
             'type' => 'text',
-            'type_config' => array
-            (
+            'type_config' => [
                 'output_mode' => 'markdown',
-            ),
+            ],
             'widget' => 'markdown',
-        ),
-    ),
-),
+        ],
+    ],
+],

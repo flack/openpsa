@@ -9,7 +9,7 @@
 'use_captcha_if_anonymous' => true,
 
 // The captcha config to use
-'captcha_config' => Array(),
+'captcha_config' => [],
 
 // Allow anonymous posting.
 'allow_anonymous' => true,

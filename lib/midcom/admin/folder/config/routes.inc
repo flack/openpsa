@@ -7,33 +7,30 @@
  *
  * Match /create/
  */
-'create' => array
-(
-    'handler' => array('midcom_admin_folder_handler_edit', 'edit'),
-    'fixed_args' => array ('create'),
-),
+'create' => [
+    'handler' => ['midcom_admin_folder_handler_edit', 'edit'],
+    'fixed_args' => ['create'],
+],
 
 /**
  * Edit a topic
  *
  * Match /edit/
  */
-'edit' => array
-(
-    'handler' => array('midcom_admin_folder_handler_edit', 'edit'),
-    'fixed_args' => array ('edit'),
-),
+'edit' => [
+    'handler' => ['midcom_admin_folder_handler_edit', 'edit'],
+    'fixed_args' => ['edit'],
+],
 
 /**
  * Delete a topic
  *
  * Match /delete/
  */
-'delete' => array
-(
-    'handler' => array('midcom_admin_folder_handler_delete', 'delete'),
-    'fixed_args' => array ('delete'),
-),
+'delete' => [
+    'handler' => ['midcom_admin_folder_handler_delete', 'delete'],
+    'fixed_args' => ['delete'],
+],
 
 /**
  * Approval pseudo locations, which redirect back to the original page
@@ -44,22 +41,20 @@
  *
  * Match /metadata/approve/
  */
-'approve' => array
-(
-    'handler' => array('midcom_admin_folder_handler_approvals', 'approval'),
-    'fixed_args' => array ('approve'),
-),
+'approve' => [
+    'handler' => ['midcom_admin_folder_handler_approvals', 'approval'],
+    'fixed_args' => ['approve'],
+],
 
 /**
  * Unapprove a topic object
  *
  * Match /metadata/unapprove/
  */
-'unapprove' => array
-(
-    'handler' => array('midcom_admin_folder_handler_approvals', 'approval'),
-    'fixed_args' => array ('unapprove'),
-),
+'unapprove' => [
+    'handler' => ['midcom_admin_folder_handler_approvals', 'approval'],
+    'fixed_args' => ['unapprove'],
+],
 
 /**
  * Miscellaneous other functionalities
@@ -69,28 +64,25 @@
  *
  * Match /metadata/<object guid>/
  */
-'metadata' => array
-(
-    'handler' => array('midcom_admin_folder_handler_metadata', 'metadata'),
-    'fixed_args' => array ('metadata'),
+'metadata' => [
+    'handler' => ['midcom_admin_folder_handler_metadata', 'metadata'],
+    'fixed_args' => ['metadata'],
     'variable_args' => 1,
-),
+],
 
 /**
  * Object moving
  *
  * Match /move/<object guid>/
  */
-'move' => array
-(
-    'handler' => array('midcom_admin_folder_handler_move', 'move'),
-    'fixed_args' => array ('move'),
+'move' => [
+    'handler' => ['midcom_admin_folder_handler_move', 'move'],
+    'fixed_args' => ['move'],
     'variable_args' => 1,
-),
+],
 
 // Match /order/
-'order' => array
-(
-    'handler' => array('midcom_admin_folder_handler_order', 'order'),
-    'fixed_args' => array ('order'),
-),
+'order' => [
+    'handler' => ['midcom_admin_folder_handler_order', 'order'],
+    'fixed_args' => ['order'],
+],

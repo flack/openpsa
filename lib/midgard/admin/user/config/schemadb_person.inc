@@ -1,104 +1,86 @@
 // This is for a midcom_db_person object
-'default' => array
-(
+'default' => [
     'description' => 'person',
     'l10n_db' => 'midgard.admin.user',
-    'fields' => array
-    (
-        'firstname' => array
-        (
+    'fields' => [
+        'firstname' => [
             'title' => 'firstname',
             'type' => 'text',
             'widget' => 'text',
             'storage' => 'firstname',
             'index_method' => 'noindex',
-        ),
-        'lastname' => array
-        (
+        ],
+        'lastname' => [
             'title' => 'lastname',
             'type' => 'text',
             'widget' => 'text',
             'storage' => 'lastname',
             'index_method' => 'noindex',
-        ),
-        'email' => array
-        (
+        ],
+        'email' => [
             'title' => 'email',
             'type' => 'text',
             'widget' => 'text',
             'storage' => 'email',
             'validation' => 'email',
-        ),
-        'workphone' => array
-        (
+        ],
+        'workphone' => [
             'title' => 'workphone',
             'type' => 'text',
             'widget' => 'text',
             'storage' => 'workphone'
-        ),
-        'street' => array
-        (
+        ],
+        'street' => [
             'title' => 'street',
             'type' => 'text',
             'widget' => 'text',
             'storage' => 'street',
-        ),
-        'postcode' => array
-        (
+        ],
+        'postcode' => [
             'title' => 'postcode',
             'type' => 'text',
             'widget' => 'text',
             'storage' => 'postcode',
-        ),
-        'city' => array
-        (
+        ],
+        'city' => [
             'title' => 'city',
             'type' => 'text',
             'widget' => 'text',
             'storage' => 'city',
-        ),
-        'groups' => array
-        (
+        ],
+        'groups' => [
             'title' => 'groups',
             'storage' => null,
             'type' => 'mnrelation',
-            'type_config' => array
-            (
+            'type_config' => [
                 'mapping_class_name' => 'midcom_db_member',
                 'master_fieldname' => 'uid',
                 'member_fieldname' => 'gid',
                 'master_is_id' => true,
                 'allow_multiple' => true,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'midcom_db_group',
-                'result_headers' => array
-                (
-                    array
-                    (
+                'result_headers' => [
+	                [
                         'title' => 'name',
                         'name' => 'name',
-                    ),
-                    array
-                    (
+                    ], [
                         'title' => 'official',
                         'name' => 'official',
-                    ),
-                ),
-                'searchfields' => array
-                (
+                    ],
+                ],
+                'searchfields' => [
                     'name',
                     'official',
-                ),
-                'orders' => array
-                (
-                    array('owner' => 'ASC'),
-                    array('name' => 'ASC'),
-                ),
+                ],
+                'orders' => [
+                    ['owner' => 'ASC'],
+                    ['name' => 'ASC'],
+                ],
                 'id_field' => 'id',
-            ),
-        ),
-    ),
-),
+            ],
+        ],
+    ],
+],

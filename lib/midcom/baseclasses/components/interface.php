@@ -71,9 +71,9 @@
  * 'privileges' =>  Array
  * (
  *     'read' => MIDCOM_PRIVILEGE_ALLOW,
- *     'write' => Array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW)
+ *     'write' => [MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW]
  * ),
- * 'class_mapping' => array('mgdschema_classname' => 'midcom_classname'),
+ * 'class_mapping' => ['mgdschema_classname' => 'midcom_classname'],
  * </code>
  *
  * See the class midcom_core_manifest for further details.

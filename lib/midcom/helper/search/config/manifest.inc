@@ -1,6 +1,6 @@
 'name' => 'midcom.helper.search',
 'icon' => 'search',
 'purecode' => false,
-'privileges' => array(),
-'class_mapping' => array(),
+'privileges' => [],
+'class_mapping' => [],
 'description' => 'Front-end for the Lucene search engine',

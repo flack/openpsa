@@ -2,17 +2,15 @@
 'ui_page' => 'uitab',
 
 /* search box */
-'search_providers' => array
-(
+'search_providers' => [
     'midcom.helper.search' => 'result/',
-    'org.openpsa.contacts' => array
-    (
+    'org.openpsa.contacts' => [
         'route' => 'search/',
         'autocomplete' => true
-    ),
+    ],
     'org.openpsa.documents' => 'search/',
     'org.openpsa.invoices' => 'goto/',
-),
+],
 
 /* contact widget */
 'jabber_enable_presence' => true,

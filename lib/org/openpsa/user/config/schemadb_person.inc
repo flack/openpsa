@@ -1,59 +1,49 @@
-'default' => array
-(
+'default' => [
     'description'   => 'person',
 
-    'fields'  => array
-    (
-        'firstname' => array
-        (
+    'fields'  => [
+        'firstname' => [
             'title'    => 'firstname',
             'storage'  => 'firstname',
             'type'     => 'text',
             'widget'   => 'text',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'person_fieldset',
                 'css_group' => 'area meta',
-            ),
-        ),
-        'lastname' => array
-        (
+            ],
+        ],
+        'lastname' => [
             'title'    => 'lastname',
             'storage'  => 'lastname',
             'type'     => 'text',
             'widget'   => 'text',
             'required' => true,
-        ),
-        'street' => array
-        (
+        ],
+        'street' => [
             'title'    => 'street',
             'storage'  => 'street',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'postcode' => array
-        (
+        ],
+        'postcode' => [
             'title'    => 'postcode',
             'storage'  => 'postcode',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'city' => array
-        (
+        ],
+        'city' => [
             'title'    => 'city',
             'storage'  => 'city',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'person_homepage' => array
-        (
+        ],
+        'person_homepage' => [
             'title'    => 'homepage',
             'storage'  => 'homepage',
             'type'     => 'text',
             'widget'   => 'url',
-        ),
-        'email' => array
-        (
+        ],
+        'email' => [
             'required' => true,
 
             'title'    => 'email',
@@ -61,83 +51,70 @@
             'type'     => 'text',
             'widget'   => 'text',
             'validation' => 'email',
-        ),
-        'workphone' => array
-        (
+        ],
+        'workphone' => [
             'title'    => 'work phone',
             'storage'  => 'workphone',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'handphone' => array
-        (
+        ],
+        'handphone' => [
             'title'    => 'mobile phone',
             'storage'  => 'handphone',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'homephone' => array
-        (
+        ],
+        'homephone' => [
             'title'    => 'homephone',
             'storage'  => 'homephone',
             'type'     => 'text',
             'widget'   => 'text',
             'end_fieldset' => '',
-        ),
-        'groups' => array
-        (
+        ],
+        'groups' => [
             'title' => 'groups',
             'storage' => null,
             'type' => 'mnrelation',
-            'type_config' => array
-            (
+            'type_config' => [
                 'mapping_class_name' => 'org_openpsa_contacts_member_dba',
                 'master_fieldname' => 'uid',
                 'member_fieldname' => 'gid',
                 'master_is_id' => true,
-                'constraints' => array
-                (
-                    array
-                    (
+                'constraints' => [
+                	[
                         'field' => 'orgOpenpsaObtype',
                         'op'    => '<',
                         'value' => org_openpsa_contacts_group_dba::MYCONTACTS,
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'org_openpsa_contacts_group_dba',
                 'component' => 'org.openpsa.contacts',
                 'titlefield' => 'name',
 
-                'result_headers' => array
-                (
-                    array
-                    (
+                'result_headers' => [
+                	[
                         'title' => 'official',
                         'name' => 'official',
-                    ),
-                ),
-                'searchfields' => array
-                (
+                    ],
+                ],
+                'searchfields' => [
                     'name',
                     'official',
-                ),
-                'orders' => array
-                (
-                    array('name' => 'ASC'),
-                    array('official' => 'ASC'),
-                ),
+                ],
+                'orders' => [
+                    ['name' => 'ASC'],
+                    ['official' => 'ASC'],
+                ],
                 'id_field' => 'id',
-            ),
-            'start_fieldset' => array
-            (
+            ],
+            'start_fieldset' => [
                 'title' => 'groups_fieldset',
                 'css_group' => 'area meta',
-            ),
+            ],
             'end_fieldset' => '',
-        ),
-    )
-),
+        ],
+    ]
+],

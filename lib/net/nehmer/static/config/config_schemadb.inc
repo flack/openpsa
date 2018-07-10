@@ -1,22 +1,16 @@
-'config' => array
-(
+'config' => [
     'description' => 'Default Configuration Schema',
-    'fields' => array
-    (
-        'sort_order' => array
-        (
+    'fields' => [
+        'sort_order' => [
             'title' => 'sort_order',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.static',
                 'name' => 'sort_order',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     'score' => 'score',
                     'created' => 'created',
@@ -28,191 +22,158 @@
                     'reverse revised' => 'reverse revised',
                     'calendar' => 'calendar',
                     'reverse calendar' => 'reverse calendar'
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
-        ),
+        ],
 
-        'enable_ajax_editing' => array
-        (
+        'enable_ajax_editing' => [
             'title' => 'enable_ajax_editing',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.static',
                 'name' => 'enable_ajax_editing',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
             'hidden' => !midcom::get()->config->get('enable_ajax_editing'),
-        ),
+        ],
 
-        'hide_navigation' => array
-        (
+        'hide_navigation' => [
             'title' => 'hide_navigation',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.static',
                 'name' => 'hide_navigation',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
             'end_fieldset' => '',
-        ),
-        'autoindex' => array
-        (
+        ],
+        'autoindex' => [
             'title' => 'autoindex',
             'helptext' => 'autoindex-notes',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.static',
                 'name' => 'autoindex',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'autoindex settings'
-            ),
+            ],
 
-        ),
+        ],
 
-        'show_blobs_in_autoindex' => array
-        (
+        'show_blobs_in_autoindex' => [
             'title' => 'show_blobs_in_autoindex',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.static',
                 'name' => 'show_blobs_in_autoindex',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
-        ),
+        ],
 
-        'indexinnav' => array
-        (
+        'indexinnav' => [
             'title' => 'indexinnav',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.static',
                 'name' => 'indexinnav',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
             'end_fieldset' => '',
-        ),
+        ],
 
-        'schemadb' => array
-        (
+        'schemadb' => [
             'title' => 'schemadb',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.static',
                 'name' => 'schemadb',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'options' => array_merge(['' => 'default setting'], midcom_baseclasses_components_configuration::get('net.nehmer.static', 'config')->get('schemadbs')),
-            ),
+            ],
             'widget' => 'select',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'schema settings'
-            ),
-        ),
-        'auto_approve' => array
-        (
+            ],
+        ],
+        'auto_approve' => [
             'title' => 'auto_approve',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.static',
                 'name' => 'auto_approve',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
-        ),
-        'simple_name_handling' => array
-        (
+        ],
+        'simple_name_handling' => [
             'title' => 'simple_name_handling',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.static',
                 'name' => 'simple_name_handling',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
             'end_fieldset' => '',
-        ),
-    ),
-),
+        ],
+    ],
+],

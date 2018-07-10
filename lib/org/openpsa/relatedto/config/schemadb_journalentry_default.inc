@@ -1,41 +1,34 @@
-'default' => array
-(
+'default' => [
     'description' => 'reminder',
     'l10n_db' => 'org.openpsa.relatedto',
-    'fields'      => array
-    (
-        'title' => Array
-        (
+    'fields'      => [
+        'title' => [
             'title' => 'title',
             'storage' => 'title',
             'type' => 'text',
             'widget'  => 'text',
             'required' => true
-        ),
-        'text' => Array
-        (
+        ],
+        'text' => [
             'title' => 'text',
             'storage' => 'text',
             'type' => 'text',
             'widget'  => 'textarea',
-        ),
-        'followup' => Array
-        (
+        ],
+        'followup' => [
             'title' => 'followup',
             'storage' => 'followUp',
             'type' => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 'storage_type' => 'UNIXTIME',
-            ),
+            ],
             'widget' => 'jsdate',
-        ),
-        'closed' => Array
-        (
+        ],
+        'closed' => [
             'title' => 'finished',
             'storage' => 'closed',
             'type'        => 'boolean',
             'widget'      => 'checkbox',
-        ),
-    )
-),
+        ],
+    ]
+],

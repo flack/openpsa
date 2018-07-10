@@ -1,123 +1,100 @@
-'config' => array
-(
+'config' => [
     'description' => 'Default Configuration Schema',
-    'fields' => array
-    (
-        'product_page_title' => array
-        (
+    'fields' => [
+        'product_page_title' => [
             'title' => 'product page title',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'org.openpsa.products',
                 'name' => 'product_page_title',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'show_items_in_feed' => array
-        (
+        ],
+        'show_items_in_feed' => [
             'title' => 'number of items in feed',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'org.openpsa.products',
                 'name' => 'show_items_in_feed',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'root_group' => array
-        (
+        ],
+        'root_group' => [
             'title' => 'root product group',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'org.openpsa.products',
                 'name' => 'root_group',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'options' => org_openpsa_products_product_group_dba::list_groups(0, '', 'guid'),
-            ),
+            ],
             'widget' => 'select',
             'end_fieldset' => '',
-        ),
-        'index_products' => array
-        (
+        ],
+        'index_products' => [
             'title' => 'Index products',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'org.openpsa.products',
                 'name' => 'index_products',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'Indexer related',
-            ),
-        ),
-        'index_groups' => array
-        (
+            ],
+        ],
+        'index_groups' => [
             'title' => 'Index groups',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'org.openpsa.products',
                 'name' => 'index_groups',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
             'end_fieldset' => '',
-        ),
-        'schemadb_product' => array
-        (
+        ],
+        'schemadb_product' => [
             'title' => 'product schema database',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'org.openpsa.products',
                 'name' => 'schemadb_product',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'text',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'advanced schema and data settings',
-            ),
-        ),
-        'schemadb_group' => array
-        (
+            ],
+        ],
+        'schemadb_group' => [
             'title' => 'product group schema database',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'org.openpsa.products',
                 'name' => 'schemadb_group',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'text',
-        ),
-    )
-),
+        ],
+    ]
+],

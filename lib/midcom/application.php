@@ -174,7 +174,7 @@ class midcom_application
      * Results of dynamic_loads are cached, by default with the system cache strategy
      * but you can specify separate cache strategy for the DL in the config array like so
      * <code>
-     * midcom::get()->dynamic_load("/midcom-substyle-{$substyle}/{$newsticker}", array('cache_module_content_caching_strategy' => 'public'))
+     * midcom::get()->dynamic_load("/midcom-substyle-{$substyle}/{$newsticker}", ['cache_module_content_caching_strategy' => 'public'])
      * </code>
      *
      * You can use only less specific strategy than the global strategy, ie basically you're limited to 'memberships' and 'public' as

@@ -2,17 +2,14 @@
 'description' => 'User management tool',
 'icon' => 'users',
 'purecode' => true,
-'privileges' => array
-(
+'privileges' => [
     'access' => MIDCOM_PRIVILEGE_DENY,
-),
-'class_mapping' => array(),
-'customdata' => array
-(
-    'asgard_plugin' => array
-    (
+],
+'class_mapping' => [],
+'customdata' => [
+    'asgard_plugin' => [
         'class' => 'midgard_admin_user_plugin',
         'name' => 'User Management',
         'config' => '',
-    ),
-),
+    ],
+],

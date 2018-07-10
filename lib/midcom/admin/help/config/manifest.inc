@@ -2,5 +2,5 @@
 'icon' => 'question-circle',
 'description' => 'On-site help displayer',
 'purecode' => true,
-'privileges' => array(),
-'class_mapping' => array(),
+'privileges' => [],
+'class_mapping' => [],

@@ -45,7 +45,7 @@ class midcom_helper_misc
      */
     public static function parse_config($data)
     {
-        $data = eval("return array({$data}\n);");
+        $data = eval("return [{$data}\n];");
         if ($data === false) {
             throw new midcom_error("Failed to parse config data, see above for PHP errors.");
         }

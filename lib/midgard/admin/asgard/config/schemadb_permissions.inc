@@ -1,28 +1,22 @@
-'privileges' => array
-(
+'privileges' => [
     'description' => 'privileges',
     'l10n_db'     => 'midgard.admin.asgard',
-    'fields'      => array
-    (
-        'add_assignee' => Array
-        (
+    'fields'      => [
+        'add_assignee' => [
             // COMPONENT-REQUIRED
             'title' => 'add assignee',
             'storage' => null,
             'type' => 'select',
-            'type_config' => Array
-            (
-                'options' => Array(),
-            ),
+            'type_config' => [
+                'options' => [],
+            ],
             'widget' => 'select',
-            'widget_config' => array
-            (
-                'jsevents' => array
-                (
+            'widget_config' => [
+                'jsevents' => [
                     'onchange' => 'submit_privileges(this.form);',
-                ),
-            ),
-        ),
+                ],
+            ],
+        ],
         // This is dynamically filled later
-    )
-),
+    ]
+],

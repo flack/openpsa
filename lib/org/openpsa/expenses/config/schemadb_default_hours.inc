@@ -1,180 +1,145 @@
-'hour_report' => array
-(
+'hour_report' => [
     'description'        => 'hour report',
-    'fields'      => array
-    (
-        'date' => array
-        (
+    'fields'      => [
+        'date' => [
             'title' => 'date',
             'storage' => 'date',
             'type' => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 'storage_type' => 'UNIXTIME'
-            ),
+            ],
             'widget' => 'jsdate',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'show_time' => false,
-            ),
+            ],
             'required' => true,
-        ),
-        'hours' => array
-        (
+        ],
+        'hours' => [
             'title' => 'hours',
             'storage' => 'hours',
             'type' => 'number',
-            'type_config' => array
-            (
+            'type_config' => [
                 'precision' => 2,
-            ),
+            ],
             'widget'  => 'text',
             'required' => true,
-        ),
-        'description' => array
-        (
+        ],
+        'description' => [
             'title' => 'description',
             'storage' => 'description',
             'type' => 'text',
-            'type_config' => array
-            (
+            'type_config' => [
                 'output_mode' => 'markdown'
-            ),
+            ],
             'widget' => 'markdown',
-        ),
-        'invoiceable' => array
-        (
+        ],
+        'invoiceable' => [
             'title'   => 'invoiceable',
             'storage' => 'invoiceable',
             'type'    => 'boolean',
             'widget'  => 'checkbox',
-        ),
-        'task' => array
-        (
+        ],
+        'task' => [
             'title'   => 'task',
             'storage' => 'task',
             'required' => true,
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => false,
-                 'options' => array(),
-            ),
+                 'options' => [],
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class'       => 'org_openpsa_projects_task_dba',
                 'component'   => 'org.openpsa.projects',
                 'titlefield'  => 'title',
                 'id_field'     => 'id',
-                'result_headers' => array
-                (
-                    array
-                    (
+                'result_headers' => [
+                    [
                         'title' => 'title',
                         'name' => 'title',
-                    ),
-                ),
-                'searchfields'  => array
-                (
+                    ],
+                ],
+                'searchfields'  => [
                     'title'
-                ),
-                'orders'        => array
-                (
-                    array('title'    => 'ASC')
-                ),
+                ],
+                'orders'        => [
+                    ['title'    => 'ASC']
+                ],
                 'categorize_by_parent_label' => 'title',
-            ),
-        ),
-        'person' => array
-        (
+            ],
+        ],
+        'person' => [
             'title'   => 'person',
             'storage' => 'person',
             'required' => true,
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => false,
-                 'options' => array(),
-            ),
+                 'options' => [],
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class'       => 'org_openpsa_contacts_person_dba',
                 'component'   => 'org.openpsa.contacts',
                 'titlefield'  => 'name',
                 'id_field'     => 'id',
-                'constraints' => array
-                (
-                    array
-                    (
+                'constraints' => [
+                    [
                         'field' => 'username',
                         'op'    => '<>',
                         'value' => '',
-                    ),
-                ),
-                'result_headers' => array
-                (
-                    array
-                    (
+                    ],
+                ],
+                'result_headers' => [
+                    [
                         'title' => 'name',
                         'name' => 'name',
-                    ),
-                    array
-                    (
+                    ], [
                         'title' => 'email',
                         'name' => 'email',
-                    ),
-                ),
-                'searchfields'  => array
-                (
+                    ],
+                ],
+                'searchfields'  => [
                     'firstname',
                     'lastname',
                     'username',
-                ),
-                'orders'        => array
-                (
-                    array('lastname'    => 'ASC'),
-                    array('firstname'    => 'ASC'),
-                ),
-            ),
-        ),
-        'invoice' => array
-        (
+                ],
+                'orders'        => [
+                    ['lastname'    => 'ASC'],
+                    ['firstname'    => 'ASC'],
+                ],
+            ],
+        ],
+        'invoice' => [
             'title'   => 'invoice',
             'storage' => 'invoice',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => false,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class'       => 'org_openpsa_invoices_invoice_dba',
                 'component'   => 'org.openpsa.invoices',
                 'titlefield'  => 'number',
                 'id_field'     => 'id',
-                'result_headers' => array
-                (
-                    array
-                    (
+                'result_headers' => [
+                    [
                         'title' => 'invoice number',
                         'name' => 'number',
-                    ),
-                ),
-                'searchfields'  => array
-                (
+                    ],
+                ],
+                'searchfields'  => [
                     'number',
-                ),
+                ],
                 'auto_wildcards' => false,
-                'orders'        => array
-                (
-                    array('number'    => 'ASC'),
-                ),
+                'orders'        => [
+                    ['number'    => 'ASC'],
+                ],
                 'get_label_for' => 'number'
-            ),
-        ),
-    )
-),
+            ],
+        ],
+    ]
+],
 

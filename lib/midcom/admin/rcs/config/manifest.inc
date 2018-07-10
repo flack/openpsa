@@ -2,5 +2,5 @@
 'icon' => 'history',
 'description' => 'Front and backend for a versioning library',
 'purecode' => true,
-'privileges' => array(),
-'class_mapping' => array(),
+'privileges' => [],
+'class_mapping' => [],

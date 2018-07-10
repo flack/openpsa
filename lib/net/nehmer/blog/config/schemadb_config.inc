@@ -1,453 +1,367 @@
-'config' => array
-(
+'config' => [
     'name'        => 'config',
     'description' => 'Default Configuration Schema',
-    'fields'      => array_merge(
-        array
-        (
-            'index_entries' => array
-            (
+    'fields'      => array_merge([
+            'index_entries' => [
                 'title' => 'index_entries',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'index_entries',
-                ),
+                ],
                 'type' => 'text',
                 'widget' => 'text',
-                'start_fieldset' => array
-                (
+                'start_fieldset' => [
                     'title' => 'blog settings'
-                ),
-            ),
-            'categories' => array
-            (
+                ],
+            ],
+            'categories' => [
                 'title' => 'categories',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'categories',
-                ),
+                ],
                 'type' => 'text',
                 'widget' => 'text',
-            ),
-            'enable_scheduled_publishing' => array
-            (
+            ],
+            'enable_scheduled_publishing' => [
                 'title' => 'enable scheduled publishing',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'enable_scheduled_publishing',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         '1' => 'yes',
                         '0' => 'no',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
-            ),
-            'disable_permalinks' => array
-            (
+            ],
+            'disable_permalinks' => [
                 'title' => 'disable permalinks',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'disable_permalinks',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         '1' => 'yes',
                         '0' => 'no',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
-            ),
-            'disable_indexing' => array
-            (
+            ],
+            'disable_indexing' => [
                 'title' => 'disable indexing',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'disable_indexing',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         '1' => 'yes',
                         '0' => 'no',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
-            ),
-            'list_from_folders' => array
-            (
+            ],
+            'list_from_folders' => [
                 'title' => 'folders',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'list_from_folders',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
+                'type_config' => [
                     'require_corresponding_option' => false,
                     'allow_multiple' => true,
-                    'options' => array (),
+                    'options' => [],
                     'multiple_storagemode' => 'imploded_wrapped',
-                ),
+                ],
                 'widget' => 'autocomplete',
-                'widget_config' => array
-                (
+                'widget_config' => [
                     'class'       => 'midcom_db_topic',
                     'component'   => 'net.nehmer.blog',
                     'titlefield'  => 'extra',
                     'idfield'     => 'guid',
-                    'searchfields' => array
-                    (
+                    'searchfields' => [
                         'extra',
                         'name',
-                    ),
-                    'constraints' => array
-                    (
-                        array
-                        (
+                    ],
+                    'constraints' => [
+                        [
                             'field' => 'extra',
                             'op' => '<>',
                             'value' => '',
-                        ),
-                        array
-                        (
+                        ],
+                        [
                             'field' => 'component',
                             'op' => '=',
                             'value' => 'net.nehmer.blog',
-                        ),
-                    ),
-                    'result_headers' => array
-                    (
-                        array
-                        (
+                        ],
+                    ],
+                    'result_headers' => [
+                        [
                             'name' => 'extra',
                             'title' => midcom::get()->i18n->get_string('title', 'midcom'),
-                        ),
-                        array
-                        (
+                        ],
+                        [
                             'name' => 'name',
                             'title' => midcom::get()->i18n->get_string('name', 'midcom'),
-                        ),
-                    ),
+                        ],
+                    ],
                     'categorize_by_parent_label' => true,
-                    'orders' => array
-                    (
-                        array
-                        (
+                    'orders' => [
+	                    [
                             'extra' => 'ASC',
-                        ),
-                        array
-                        (
+                        ],
+                        [
                             'name' => 'ASC',
-                        ),
-                    ),
-                ),
-                'start_fieldset' => array
-                (
+                        ],
+                    ],
+                ],
+                'start_fieldset' => [
                     'title' => 'list articles from folders'
-                ),
-            ),
-            'list_from_folders_categories' => array
-            (
+                ],
+            ],
+            'list_from_folders_categories' => [
                 'title' => 'categories',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'list_from_folders_categories',
-                ),
+                ],
                 'type' => 'text',
                 'widget' => 'text',
                 'end_fieldset' => '1',
-            ),
-            'archive_enable' => array
-            (
+            ],
+            'archive_enable' => [
                 'title' => 'archive_enable',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'archive_enable',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         '1' => 'yes',
                         '0' => 'no',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
-            ),
-            'archive_item_order' => array
-            (
+            ],
+            'archive_item_order' => [
                 'title' => 'archive item order',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'archive_item_order',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         'ASC' => 'ascending',
                         'DESC' => 'descending',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
                 'end_fieldset' => '1',
-            ),
+            ],
 
-            'schemadb' => array
-            (
+            'schemadb' => [
                 'title' => 'schemadb',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'schemadb',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
+                'type_config' => [
                     'options' => array_merge(['' => 'default setting'], midcom_baseclasses_components_configuration::get('net.nehmer.blog', 'config')->get('schemadbs')),
-                ),
+                ],
                 'widget' => 'select',
-                'start_fieldset' => array
-                (
+                'start_fieldset' => [
                     'title' => 'schema settings',
-                ),
-            ),
-            'comments_enable' => array
-            (
+                ],
+            ],
+            'comments_enable' => [
                 'title' => 'comments_enable',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'comments_enable',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         '1' => 'yes',
                         '0' => 'no',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
-            ),
-            'ajax_comments_enable' => array
-            (
+            ],
+            'ajax_comments_enable' => [
                 'title' => 'ajax_comments_enable',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'ajax_comments_enable',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         '1' => 'yes',
                         '0' => 'no',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
-            ),
-            'ajax_enable' => array
-            (
+            ],
+            'ajax_enable' => [
                 'title' => 'ajax_enable',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'enable_ajax_editing',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         '1' => 'yes',
                         '0' => 'no',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
                 'hidden' => !midcom::get()->config->get('enable_ajax_editing'),
-            ),
-            'rss_subscription_enable' => array
-            (
+            ],
+            'rss_subscription_enable' => [
                 'title' => 'rss_subscription_enable',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'rss_subscription_enable',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         '1' => 'yes',
                         '0' => 'no',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
-            ),
-            'link_to_external_url' => array
-            (
+            ],
+            'link_to_external_url' => [
                 'title' => 'link_to_external_url',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'link_to_external_url',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         '1' => 'yes',
                         '0' => 'no',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
-            ),
-            'show_latest_in_navigation' => array
-            (
+            ],
+            'show_latest_in_navigation' => [
                 'title' => 'show latest items in navigation',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'show_latest_in_navigation',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         '1' => 'yes',
                         '0' => 'no',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
-                'start_fieldset' => array
-                (
+                'start_fieldset' => [
                     'title' => 'navigation options',
-                ),
-            ),
+                ],
+            ],
 
-            'show_navigation_pseudo_leaves' => array
-            (
+            'show_navigation_pseudo_leaves' => [
                 'title' => 'show pseudo leaves in navigation',
                 'helptext' => 'set this to no if you want to hide feeds and archive links in navigation',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'show_navigation_pseudo_leaves',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         '1' => 'yes',
                         '0' => 'no',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
-            ),
-            'feeds_in_navigation' => array
-            (
+            ],
+            'feeds_in_navigation' => [
                 'title' => 'show feeds in navigation',
                 'helptext' => 'set this to no if you want to hide feeds link in navigation',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'feeds_in_navigation',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         '1' => 'yes',
                         '0' => 'no',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
-            ),
-            'view_in_url' => array
-            (
+            ],
+            'view_in_url' => [
                 'title' => 'use view prefix in url',
                 'helptext' => 'set to no for de.linkm.newsticker compatibility',
-                'storage' => array
-                (
+                'storage' => [
                     'location' => 'configuration',
                     'domain' => 'net.nehmer.blog',
                     'name' => 'view_in_url',
-                ),
+                ],
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => [
+                    'options' => [
                         '1' => 'yes',
                         '0' => 'no',
                         '' => 'default setting',
-                    ),
-                ),
+                    ],
+                ],
                 'widget' => 'radiocheckselect',
                 'end_fieldset' => 1,
-            ),
-        ),
+            ],
+        ],
         net_nemein_rss_helpers::default_rss_config_schema_fields('net.nehmer.blog')
     ),
-),
+],

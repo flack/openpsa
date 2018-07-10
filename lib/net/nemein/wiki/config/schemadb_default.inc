@@ -1,106 +1,86 @@
-'default' => array
-(
+'default' => [
     'description' => 'wiki',
-    'fields'      => array
-    (
-        'title' => Array
-        (
+    'fields'      => [
+        'title' => [
             'title' => 'title',
             'storage' => 'title',
             'readonly' => true,
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'content' => Array
-        (
+        ],
+        'content' => [
             // COMPONENT-REQUIRED
             'title' => 'content',
             'storage' => 'content',
             'required' => true,
             'type' => 'text',
-            'type_config' => Array
-            (
+            'type_config' => [
                 'output_mode' => 'markdown'
-            ),
+            ],
             'widget' => 'markdown',
-            'widget_config' => Array
-            (
+            'widget_config' => [
                 'height' => 26,
                 'width'  => 80,
-            ),
-        ),
-        'changemessage' => Array
-        (
+            ],
+        ],
+        'changemessage' => [
             'title' => 'change message',
             'type' => 'rcsmessage',
             'widget' => 'text',
-        ),
-        'tags' => Array
-        (
+        ],
+        'tags' => [
             'title' => 'tags',
             'type' => 'tags',
             'widget' => 'text',
-        ),
-    )
-),
-'redirect' => array
-(
+        ],
+	]
+],
+'redirect' => [
     'description' => 'redirection',
-    'fields'      => array
-    (
-        'title' => Array
-        (
+    'fields'      => [
+        'title' => [
             'title' => 'title',
             'storage' => 'title',
             'readonly' => true,
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'redirect' => Array
-        (
+        ],
+        'redirect' => [
             // COMPONENT-REQUIRED
             'title' => 'redirect page',
             'storage' => 'url',
             'required' => true,
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => false,
-                 'options' => array(),
-            ),
+                 'options' => [],
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'net_nemein_wiki_wikipage',
                 'component' => 'net.nemein.wiki',
                 'titlefield' => 'title',
                 'id_field' => 'name',
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'title',
                     'name',
-                ),
-                'result_headers' => array
-                (
-                    array('name' => 'title', 'title' => 'title'),
-                ),
-                'constraints' => array
-                (
-                    array
-                    (
+                ],
+                'result_headers' => [
+                    ['name' => 'title', 'title' => 'title'],
+                ],
+                'constraints' => [
+                    [
                         'field' => 'topic.component',
                         'op'    => '=',
                         'value' => 'net.nemein.wiki'
-                    ),
-                    array
-                    (
+                    ], [
                         'field' => 'up',
                         'op'    => '=',
                         'value' => 0,
-                    ),
-                ),
-                'orders' => array(),
-            ),
-        )
-    )
-),
+                    ],
+                ],
+                'orders' => [],
+            ],
+    	]
+ 	]
+],

@@ -1,160 +1,131 @@
-'config' => array
-(
+'config' => [
     'description' => 'Default Configuration Schema', /* This is a topic */
-    'fields'      => array
-    (
-        'allow_anonymous' => array
-        (
+    'fields'      => [
+        'allow_anonymous' => [
             'title' => 'allow_anonymous',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.comments',
                 'name' => 'allow_anonymous',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
-        ),
+        ],
 
-        'ratings_enable' => array
-        (
+        'ratings_enable' => [
             'title' => 'ratings_enable',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.comments',
                 'name' => 'ratings_enable',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'ratings',
-            )
-        ),
+            ]
+        ],
 
-        'ratings_cache_to_object' => array
-        (
+        'ratings_cache_to_object' => [
             'title' => 'ratings_cache_to_object',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.comments',
                 'name' => 'ratings_cache_to_object',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
-        ),
+        ],
 
-        'ratings_cache_to_object_property' => array
-        (
+        'ratings_cache_to_object_property' => [
             'title' => 'ratings_cache_to_object_property',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.comments',
                 'name' => 'ratings_cache_to_object_property',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'text',
-        ),
+        ],
 
-        'ratings_cache_total' => array
-        (
+        'ratings_cache_total' => [
             'title' => 'ratings_cache_total',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.comments',
                 'name' => 'ratings_cache_total',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
             'end_fieldset' => '',
-        ),
+        ],
 
-        'comment_count_cache_to_object' => array
-        (
+        'comment_count_cache_to_object' => [
             'title' => 'comment_count_cache_to_object',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.comments',
                 'name' => 'comment_count_cache_to_object',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
-        ),
+        ],
 
-        'comment_count_cache_to_object_property' => array
-        (
+        'comment_count_cache_to_object_property' => [
             'title' => 'comment_count_cache_to_object_property',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.comments',
                 'name' => 'comment_count_cache_to_object_property',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'text',
-        ),
+        ],
 
-        'schemadb' => array
-        (
+        'schemadb' => [
             'title' => 'schemadb',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.comments',
                 'name' => 'schemadb',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'text',
-        ),
-    )
-),
+        ],
+    ]
+],

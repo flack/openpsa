@@ -29,9 +29,9 @@
  * 'privileges' => Array
  * (
  *     'read' => MIDCOM_PRIVILEGE_ALLOW,
- *     'write' => Array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW)
+ *     'write' => [MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW]
  * ),
- * 'class_mapping' => array('mgdschema_classname' => 'midcom_classname'),
+ * 'class_mapping' => ['mgdschema_classname' => 'midcom_classname'],
  * 'watches' => Array
  * (
  *     Array
@@ -88,7 +88,7 @@
  * MIDCOM_PRIVILEGE_ALLOW you would do something like this:
  *
  * <code>
- * 'privileges' => array('read' => MIDCOM_PRIVILEGE_ALLOW)
+ * 'privileges' => ['read' => MIDCOM_PRIVILEGE_ALLOW]
  * </code>
  *
  * This assumes, that object owners should get no specific treatment, e.g.

@@ -1,330 +1,276 @@
-'organization' => array
-(
+'organization' => [
     'description'   => 'organization',
-    'fields'  => array
-    (
-        'official' => array
-        (
+    'fields'  => [
+        'official' => [
             'title'    => 'official',
             'storage'  => 'official',
             'type'     => 'text',
             'widget'   => 'text',
             'required' => true,
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'basic information',
                 'css_group' => 'area meta',
-            ),
+            ],
             'index_method' => 'title',
-        ),
-        'company_id' => array
-        (
+        ],
+        'company_id' => [
             'title'    => 'company_id',
             'storage'  => 'name',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'organization_type'  => array
-        (
+        ],
+        'organization_type'  => [
             'title'  => 'organization_type',
             'storage'     => 'orgOpenpsaObtype',
             'type'     => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     org_openpsa_contacts_group_dba::ORGANIZATION => 'organization',
                     org_openpsa_contacts_group_dba::DAUGHTER     => 'daughter organization',
                     org_openpsa_contacts_group_dba::DEPARTMENT   => 'department'
-                ),
-            ),
+                ],
+            ],
             'widget'       => 'radiocheckselect',
             'default' => org_openpsa_contacts_group_dba::ORGANIZATION
-        ),
-        'categories' => array
-        (
+        ],
+        'categories' => [
             'title' => 'categories',
             'type'    => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     'org_openpsa_category_partner'  => 'partner',
                     'org_openpsa_category_client'   => 'client',
                     'org_openpsa_category_vendor'   => 'vendor',
-                ),
+                ],
                 'allow_multiple' => true,
-            ),
+            ],
 
             'widget' => 'radiocheckselect'
-        ),
-        'notes' => array
-        (
+        ],
+        'notes' => [
             'title' => 'notes',
             'widget'    => 'textarea',
             'type' => 'text',
             'storage'    => 'extra',
-        ),
-        'members' => array
-        (
+        ],
+        'members' => [
             'title' => 'contacts',
             'storage' => null,
             'type' => 'mnrelation',
-            'type_config' => array
-            (
+            'type_config' => [
                 'mapping_class_name' => 'midcom_db_member',
                 'master_fieldname' => 'gid',
                 'member_fieldname' => 'uid',
                 'master_is_id' => true,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'org_openpsa_contacts_person_dba',
                 'component' => 'org.openpsa.contacts',
                 'titlefield' => 'name',
 
-                'result_headers' => array
-                (
-                    array
-                    (
+                'result_headers' => [
+                    [
                         'title' => 'name',
                         'name' => 'name',
-                    ),
-                    array
-                    (
+                    ], [
                         'title' => 'email',
                         'name' => 'email',
-                    ),
-                ),
+                    ],
+                ],
 
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'firstname',
                     'lastname',
                     'username',
-                ),
-                'orders' => array
-                (
-                    array('lastname' => 'ASC'),
-                    array('firstname' => 'ASC'),
-                ),
+                ],
+                'orders' => [
+                    ['lastname' => 'ASC'],
+                    ['firstname' => 'ASC'],
+                ],
                 'id_field' => 'id',
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
                 'creation_default_key' => 'lastname',
-            ),
+            ],
             'index_method' => 'noindex',
             'end_fieldset' => '',
-        ),
-        'homepage' => array
-        (
+        ],
+        'homepage' => [
             'title'    => 'homepage',
             'storage'  => 'homepage',
             'type'     => 'text',
             'widget'   => 'url',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'contact information',
                 'css_group' => 'area contact',
-            ),
-        ),
-        'email' => array
-        (
+            ],
+        ],
+        'email' => [
             'title'    => 'email',
             'storage'  => 'email',
             'type'     => 'text',
             'widget'   => 'text',
             'validation' => 'email'
-        ),
-        'phone' => array
-        (
+        ],
+        'phone' => [
             'title'    => 'phone',
             'storage'  => 'phone',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'fax' => array
-        (
+        ],
+        'fax' => [
             'title'    => 'fax',
             'storage'  => 'fax',
             'type'     => 'text',
             'widget'   => 'text',
             'end_fieldset' => '',
-        ),
-        'street' => array
-        (
+        ],
+        'street' => [
             'title'    => 'street',
             'storage'  => 'street',
             'type'     => 'text',
             'widget'   => 'text',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'visiting address',
                 'css_group' => 'area contact visiting',
-            ),
-        ),
-        'postcode' => array
-        (
+            ],
+        ],
+        'postcode' => [
             'title'    => 'postcode',
             'storage'  => 'postcode',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'city' => array
-        (
+        ],
+        'city' => [
             'title'    => 'city',
             'storage'  => 'city',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'country' => array
-        (
+        ],
+        'country' => [
             'title'    => 'country',
             'storage'  => 'country',
             'type'     => 'text',
             'widget'   => 'text',
             'end_fieldset' => '',
-        ),
-       'postal_label' => array
-        (
+        ],
+       'postal_label' => [
             'title'    => 'name',
             'storage'  => 'parameter',
             'type'     => 'text',
             'widget'   => 'text',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'postal address',
                 'css_group' => 'area contact postal',
-            ),
-        ),
-       'postal_street' => array
-        (
+            ],
+        ],
+       'postal_street' => [
             'title'    => 'street',
             'storage'  => 'postalStreet',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'postal_postcode' => array
-        (
+        ],
+        'postal_postcode' => [
             'title'    => 'postcode',
             'storage'  => 'postalPostcode',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'postal_city' => array
-        (
+        ],
+        'postal_city' => [
             'title'    => 'city',
             'storage'  => 'postalCity',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'postal_country' => array
-        (
+        ],
+        'postal_country' => [
             'title'    => 'country',
             'storage'  => 'postalCountry',
             'type'     => 'text',
             'widget'   => 'text',
             'end_fieldset' => '',
-        ),
-    )
-),
-'group' => array
-(
+        ],
+    ]
+],
+'group' => [
     'description'   => 'group',
-    'fields'  => array
-    (
-        'official' => array
-        (
+    'fields'  => [
+        'official' => [
             'title'    => 'official',
             'storage'  => 'official',
             'type'     => 'text',
             'widget'   => 'text',
             'required' => true,
             'index_method' => 'title',
-        ),
-        'name' => array
-        (
+        ],
+        'name' => [
             'title'    => 'name',
             'storage'  => 'name',
             'type'     => 'text',
             'widget'   => 'text',
-        ),
-        'owner' => array
-        (
+        ],
+        'owner' => [
             'title' => 'owner group',
             'storage' => 'owner',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => false,
                  'allow_multiple' => false,
-                 'options' => array(),
-            ),
+                 'options' => [],
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'clever_class' => 'group',
                 'id_field' => 'id',
-            ),
-        ),
-        'notes' => array
-        (
+            ],
+        ],
+        'notes' => [
             'title' => 'notes',
             'widget'    => 'textarea',
             'type' => 'text',
             'storage'    => 'extra',
-        ),
-        'members' => array
-        (
+        ],
+        'members' => [
             'title' => 'members',
             'storage' => null,
             'type' => 'mnrelation',
-            'type_config' => array
-            (
+            'type_config' => [
                 'mapping_class_name' => 'midcom_db_member',
                 'master_fieldname' => 'gid',
                 'member_fieldname' => 'uid',
                 'master_is_id' => true,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'org_openpsa_contacts_person_dba',
                 'component' => 'org.openpsa.contacts',
                 'titlefield' => 'name',
 
-                'result_headers' => array
-                (
-                    array
-                    (
+                'result_headers' => [
+                    [
                         'title' => 'name',
                         'name' => 'name',
-                    ),
-                    array
-                    (
+                    ], [
                         'title' => 'email',
                         'name' => 'email',
-                    ),
-                ),
+                    ],
+                ],
 
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'firstname',
                     'lastname',
                     'username',
-                ),
-                'orders' => array
-                (
-                    array('lastname' => 'ASC'),
-                    array('firstname' => 'ASC'),
-                ),
+                ],
+                'orders' => [
+                    ['lastname' => 'ASC'],
+                    ['firstname' => 'ASC'],
+                ],
                 'id_field' => 'id',
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
                 'creation_default_key' => 'lastname',
-            ),
+            ],
             'index_method' => 'noindex',
-        )
-    )
-),
+        ]
+    ]
+],

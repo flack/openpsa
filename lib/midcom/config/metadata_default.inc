@@ -2,451 +2,382 @@
  * Changes to this schema must be documented in midcom_helper_metadata's
  * class introduction
  */
-'metadata' => array
-(
+'metadata' => [
     'description' => 'metadata',
     'l10n_db'     => 'midcom.admin.folder',
-    'fields' => array
-    (
-        'opengraph_type' => array
-        (
-            'start_fieldset' => array
-            (
+    'fields' => [
+        'opengraph_type' => [
+            'start_fieldset' => [
                 'title' => 'opengraph information',
-            ),
+            ],
             'end_fieldset' => '',
             'title' => 'opengraph type',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'options' => midcom::get()->metadata->get_opengraph_types(),
-            ),
+            ],
             'widget' => 'select',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain'   => 'midcom.helper.metadata',
                 'name'     => 'opengraph_type',
-            ),
+            ],
             'default' => midcom::get()->metadata->get_opengraph_type_default(),
             'hidden' => !midcom::get()->config->get('metadata_opengraph'),
-        ),
-        'navnoentry' => array
-        (
-            'start_fieldset' => array
-            (
+        ],
+        'navnoentry' => [
+            'start_fieldset' => [
                 'title' => 'visibility settings',
-            ),
+            ],
             'title' => 'hide from navigation',
             'helptext' => 'objects with no navigation entry are still accessible on-site if the url is known',
             'type' => 'boolean',
             'storage' => 'metadata',
             'widget' => 'checkbox',
-        ),
-        'do_not_index' => array
-        (
+        ],
+        'do_not_index' => [
             'title' => "do not index (midcom's indexer)",
             'helptext' => "hides object from midcom indexer'",
             'type' => 'boolean',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'midcom.services.indexer',
                 'name' => "do_not_index",
-            ),
+            ],
             'widget' => 'checkbox',
             'hidden' => !midcom::get()->config->get('indexer_backend'),
-        ),
-        'schedulestart' => array
-        (
+        ],
+        'schedulestart' => [
             'hidden' => !midcom::get()->config->get('metadata_scheduling'),
             'title' => 'schedule start',
             'type' => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 // MidCOM DBA converts dates to/from unixtimes to MgdSchema's ISO format
                 'storage_type' => 'UNIXTIME',
-            ),
+            ],
             'storage' => 'metadata',
             'widget' => 'jsdate',
-        ),
-        'scheduleend' => array
-        (
+        ],
+        'scheduleend' => [
             'hidden' => !midcom::get()->config->get('metadata_scheduling'),
             'title' => 'schedule end',
             'type' => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 // MidCOM DBA converts dates to/from unixtimes to MgdSchema's ISO format
                 'storage_type' => 'UNIXTIME',
-            ),
+            ],
             'storage' => 'metadata',
             'widget' => 'jsdate',
-        ),
-        'score' => array
-        (
+        ],
+        'score' => [
             'title' => 'arrangement score',
             'storage' => 'metadata',
             'type' => 'number',
             'widget' => 'text',
-            'write_privilege' => array
-            (
+            'write_privilege' => [
                 'privilege' => 'midcom.admin.folder:topic_management',
-            ),
-        ),
-        'hidden' => array
-        (
+            ],
+        ],
+        'hidden' => [
             'title' => 'prevent entering',
             'type' => 'boolean',
             'storage' => 'metadata',
             'widget' => 'checkbox',
             'end_fieldset' => '',
-        ),
-        'description' => array
-        (
+        ],
+        'description' => [
             'title' => 'description',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain'   => 'midcom.helper.metadata',
                 'name'     => 'description',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'textarea',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'metadata',
-            ),
-        ),
-        'keywords' => array
-        (
+            ],
+        ],
+        'keywords' => [
             'title' => 'keywords',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain'   => 'midcom.helper.metadata',
                 'name'     => 'keywords',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'tags' => Array
-        (
+        ],
+        'tags' => [
             'title' => 'tags',
             'type' => 'tags',
             'widget' => 'text',
-        ),
-        'published' => array
-        (
+        ],
+        'published' => [
             'title' => 'published',
             'storage' => 'metadata',
             'type' => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 // MidCOM DBA converts dates to/from unixtimes to MgdSchema's ISO format
                 'storage_type' => 'UNIXTIME',
-            ),
+            ],
             'widget' => 'jsdate',
-        ),
-        'authors' => array
-        (
+        ],
+        'authors' => [
             'title' => 'authors',
             'storage' => 'metadata',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'require_corresponding_option' => false,
-                'options' => array(),
+                'options' => [],
                 'allow_other' => true,
                 'allow_multiple' => true,
                 'multiple_storagemode' => 'imploded_wrapped',
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'midcom_db_person',
                 'component' => 'midgard.admin.asgard',
                 'titlefield' => 'name',
                 'id_field' => 'guid',
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'firstname',
                     'lastname',
                     'username',
-                ),
-                'result_headers' => array
-                (
-                    array('name' => 'firstname', 'title' => 'firstname'),
-                    array('name' => 'lastname', 'title' => 'lastname'),
-                    array('name' => 'email', 'title' => 'email'),
-                ),
-                'orders' => array(),
+                ],
+                'result_headers' => [
+                    ['name' => 'firstname', 'title' => 'firstname'],
+                    ['name' => 'lastname', 'title' => 'lastname'],
+                    ['name' => 'email', 'title' => 'email'],
+                ],
+                'orders' => [],
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/midgard_person/",
                 'creation_default_key' => 'lastname',
-            ),
-        ),
-        'owner' => array
-        (
+            ],
+        ],
+        'owner' => [
             'title' => 'owner',
             'storage' => 'metadata',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'require_corresponding_option' => false,
-                'options' => array(),
+                'options' => [],
                 'allow_other' => true,
                 'allow_multiple' => false,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'midcom_db_group',
                 'component' => 'midgard.admin.asgard',
                 'titlefield' => 'name',
                 'id_field' => 'guid',
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'name',
                     'official',
-                ),
-                'result_headers' => array
-                (
-                    array('name' => 'name', 'title' => 'name'),
-                    array('name' => 'official', 'title' => 'title'),
-                ),
+                ],
+                'result_headers' => [
+                    ['name' => 'name', 'title' => 'name'],
+                    ['name' => 'official', 'title' => 'title'],
+                ],
                 'categorize_by_parent_label' => true,
-                'orders' => array(),
+                'orders' => [],
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/midgard_group/",
                 'creation_default_key' => 'official',
-            ),
+            ],
             'end_fieldset' => '',
-        ),
-        'created' => array
-        (
+        ],
+        'created' => [
             'title' => 'created',
             'storage' => 'metadata',
             'type' => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 // MidCOM DBA converts dates to/from unixtimes to MgdSchema's ISO format
                 'storage_type' => 'UNIXTIME',
-            ),
-            'start_fieldset' => array
-            (
+            ],
+            'start_fieldset' => [
                 'title' => 'internal metadata',
-            ),
+            ],
             'widget' => 'jsdate',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'hide_seconds' => false
-            ),
+            ],
             'readonly' => true,
-        ),
-        'creator' => array
-        (
+        ],
+        'creator' => [
             'title' => 'creator',
             'storage' => 'metadata',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'require_corresponding_option' => false,
-                'options' => array (),
+                'options' => [],
                 'allow_other' => true,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'midcom_db_person',
                 'component' => 'midgard.admin.asgard',
                 'titlefield' => 'name',
                 'id_field' => 'guid',
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'firstname',
                     'lastname',
-                ),
-                'result_headers' => array
-                (
-                    array('name' => 'firstname', 'title' => 'firstname'),
-                    array('name' => 'lastname', 'title' => 'lastname'),
-                    array('name' => 'email', 'title' => 'email'),
-                ),
-                'orders' => array(array('lastname', 'ASC')),
-            ),
+                ],
+                'result_headers' => [
+                    ['name' => 'firstname', 'title' => 'firstname'],
+                    ['name' => 'lastname', 'title' => 'lastname'],
+                    ['name' => 'email', 'title' => 'email'],
+                ],
+                'orders' => [['lastname' => 'ASC']],
+            ],
             'readonly' => true,
-        ),
-        'revised' => array
-        (
+        ],
+        'revised' => [
             'title' => 'revised',
             'storage' => 'metadata',
             'type' => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 // MidCOM DBA converts dates to/from unixtimes to MgdSchema's ISO format
                 'storage_type' => 'UNIXTIME',
-            ),
+            ],
             'widget' => 'jsdate',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'hide_seconds' => false
-            ),
+            ],
             'readonly' => true,
-        ),
-        'revisor' => array
-        (
+        ],
+        'revisor' => [
             'title' => 'revisor',
             'storage' => 'metadata',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'require_corresponding_option' => false,
-                'options' => array (),
+                'options' => [],
                 'allow_other' => true,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'midcom_db_person',
                 'component' => 'midgard.admin.asgard',
                 'titlefield' => 'name',
                 'id_field' => 'guid',
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'firstname',
                     'lastname',
-                ),
-                'result_headers' => array
-                (
-                    array('name' => 'firstname', 'title' => 'firstname'),
-                    array('name' => 'lastname', 'title' => 'lastname'),
-                    array('name' => 'email', 'title' => 'email'),
-                ),
-                'orders' => array(array('lastname', 'ASC')),
-            ),
+                ],
+                'result_headers' => [
+                    ['name' => 'firstname', 'title' => 'firstname'],
+                    ['name' => 'lastname', 'title' => 'lastname'],
+                    ['name' => 'email', 'title' => 'email'],
+                ],
+                'orders' => [['lastname' => 'ASC']],
+            ],
             'readonly' => true,
-        ),
-        'revision' => array
-        (
+        ],
+        'revision' => [
             'title' => 'revision',
             'storage' => 'metadata',
             'type' => 'number',
             'widget' => 'text',
             'readonly' => true,
-        ),
-        'size' => array
-        (
+        ],
+        'size' => [
             'title' => 'size',
             'storage' => 'metadata',
             'type' => 'number',
             'widget' => 'text',
             'readonly' => true,
             'end_fieldset' => '',
-        ),
+        ],
 
         // Approvals
-        'approved' => array
-        (
-            'start_fieldset' => array
-            (
+        'approved' => [
+            'start_fieldset' => [
                 'title' => 'approvals',
-            ),
+            ],
             'title' => 'approved',
             'storage' => 'metadata',
             'type' => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 // MidCOM DBA converts dates to/from unixtimes to MgdSchema's ISO format
                 'storage_type' => 'UNIXTIME',
-            ),
+            ],
             'widget' => 'jsdate',
             'readonly' => true,
             'hidden' => !midcom::get()->config->get('metadata_approval'),
-        ),
-        'approver' => array
-        (
+        ],
+        'approver' => [
             'hidden' => !midcom::get()->config->get('metadata_approval'),
             'title' => 'approver',
             'storage' => 'metadata',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'require_corresponding_option' => false,
-                'options' => array (),
+                'options' => [],
                 'allow_other' => true,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'midcom_db_person',
                 'component' => 'midgard.admin.asgard',
                 'titlefield' => 'name',
                 'id_field' => 'guid',
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'firstname',
                     'lastname',
-                ),
-                'result_headers' => array
-                (
-                    array('name' => 'firstname', 'title' => 'firstname'),
-                    array('name' => 'lastname', 'title' => 'lastname'),
-                    array('name' => 'email', 'title' => 'email'),
-                ),
-                'orders' => array(array('lastname', 'ASC')),
-            ),
+                ],
+                'result_headers' => [
+                    ['name' => 'firstname', 'title' => 'firstname'],
+                    ['name' => 'lastname', 'title' => 'lastname'],
+                    ['name' => 'email', 'title' => 'email'],
+                ],
+                'orders' => [['lastname' => 'ASC']],
+            ],
             'readonly' => true,
             'end_fieldset' => '',
-        ),
+        ],
 
         // Editing status
-        'locked' => array
-        (
-            'start_fieldset' => array
-            (
+        'locked' => [
+            'start_fieldset' => [
                 'title' => 'editing status',
-            ),
+            ],
             'title' => 'locked',
             'storage' => 'metadata',
             'type' => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 // MidCOM DBA converts dates to/from unixtimes to MgdSchema's ISO format
                 'storage_type' => 'UNIXTIME',
-            ),
+            ],
             'widget' => 'jsdate',
             'readonly' => true,
             'hidden' => true,
-        ),
-        'locker' => array
-        (
+        ],
+        'locker' => [
             'title' => 'locker',
             'storage' => 'metadata',
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'require_corresponding_option' => false,
-                'options' => array (),
+                'options' => [],
                 'allow_other' => true,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class' => 'midcom_db_person',
                 'component' => 'midgard.admin.asgard',
                 'titlefield' => 'name',
                 'id_field' => 'guid',
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'firstname',
                     'lastname',
-                ),
-                'orders' => array(array('lastname', 'ASC')),
-            ),
+                ],
+                'orders' => [['lastname' => 'ASC']],
+            ],
             'readonly' => true,
             'hidden' => true,
             'end_fieldset' => '',
-        ),
-    ),
-),
+        ],
+    ],
+],

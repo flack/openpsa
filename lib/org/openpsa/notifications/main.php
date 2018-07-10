@@ -15,7 +15,7 @@ use Doctrine\ORM\Query\Expr\Join;
  *
  * <code>
  * // Populate the message
- * $message = array();
+ * $message = [];
  *
  * // Add content for long notification formats (email and RSS)
  * $message['title'] = 'Something has happened';

@@ -189,8 +189,8 @@
  *     (
  *          'metadata' => array
  *          (
- *              'handler' => array('midcom_admin_folder_handler_metadata', 'metadata'),
- *              'fixed_args' => array ('metadata'),
+ *              'handler' => ['midcom_admin_folder_handler_metadata', 'metadata'],
+ *              'fixed_args' => ['metadata'],
  *              'variable_args' => 1,
  *          ),
  *         // ...

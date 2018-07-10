@@ -1,5 +1,5 @@
 'name' => 'org.openpsa.widgets',
 'purecode' => true,
-'privileges' => array(),
-'class_mapping' => array(),
+'privileges' => [],
+'class_mapping' => [],
 'description' => 'OpenPSA common UI elements',

@@ -1,5 +1,5 @@
 'name' => 'net.nehmer.static',
 'icon' => 'file-text-o',
-'class_mapping' => array(),
+'class_mapping' => [],
 'description' => 'Static content display component emulating regular directory of HTML files',
-'watches' => array(),
+'watches' => [],

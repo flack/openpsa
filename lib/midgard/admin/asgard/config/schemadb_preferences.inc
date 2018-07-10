@@ -1,234 +1,190 @@
-'default' => array
-(
+'default' => [
     'description' => 'user preferences',
     'l10n_db' => 'midgard.admin.asgard',
-    'fields' => array
-    (
-        'tinymce_enabled' => array
-        (
+    'fields' => [
+        'tinymce_enabled' => [
             'title' => 'use tinymce editor for editing content',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'midgard.admin.asgard:preferences',
                 'name' => 'tinymce_enabled',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'radiocheckselect',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'editor options',
-            ),
-        ),
-        'codemirror_enabled' => array
-        (
+            ],
+        ],
+        'codemirror_enabled' => [
             'title' => 'use codemirror editor for editing code snippets',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'midgard.admin.asgard:preferences',
                 'name' => 'codemirror_enabled',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'radiocheckselect',
-        ),
-        'edit_mode' => array
-        (
+        ],
+        'edit_mode' => [
             'title' => 'use edit mode instead of view mode as the primary object management page',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'midgard.admin.asgard:preferences',
                 'name' => 'edit_mode',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'radiocheckselect',
             'end_fieldset' => '',
-        ),
-        'interface_language' => array
-        (
+        ],
+        'interface_language' => [
             'title' => 'interface language',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'midgard.admin.asgard:preferences',
                 'name' => 'interface_language',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'options' => midgard_admin_asgard_handler_preferences::get_languages(),
-            ),
+            ],
             'widget' => 'select',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'localisation settings',
-            ),
+            ],
             'end_fieldset' => '',
-        ),
-        'navigation_type' => array
-        (
+        ],
+        'navigation_type' => [
             'title' => 'navigation type',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'midgard.admin.asgard:preferences',
                 'name' => 'navigation_type',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     'dropdown' => 'dropdown list',
                     'expanded' => 'expanded list',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'radiocheckselect',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'navigation options',
-            ),
-        ),
-        'offset' => array
-        (
+            ],
+        ],
+        'offset' => [
             'title' => 'navigation width (in pixels)',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'midgard.admin.asgard:preferences',
                 'name' => 'offset',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'enable_quicklinks' => array
-        (
+        ],
+        'enable_quicklinks' => [
             'title' => 'enable quicklinks',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'midgard.admin.asgard:preferences',
                 'name' => 'enable_quicklinks',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     'yes' => 'yes',
                     'no' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'radiocheckselect',
-        ),
-        'escape_frameset' => array
-        (
+        ],
+        'escape_frameset' => [
             'title' => 'always display in top frame',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'midgard.admin.asgard:preferences',
                 'name' => 'escape_frameset',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     '1' => 'yes',
                     '0' => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'radiocheckselect',
             'end_fieldset' => '',
-        ),
-        'midgard_types_model' => array
-        (
+        ],
+        'midgard_types_model' => [
             'title' => 'model for selecting navigation types',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'midgard.admin.asgard:preferences',
                 'name' => 'midgard_types_model',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     'exclude' => 'exclude',
                     'include' => 'include',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'radiocheckselect',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'mgdschema type visibility in navigation',
-            ),
-        ),
-        'midgard_types' => array
-        (
+            ],
+        ],
+        'midgard_types' => [
             'title' => 'select the types',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'midgard.admin.asgard:preferences',
                 'name' => 'midgard_types_excluded',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'options' => midgard_admin_asgard_plugin::get_root_classes(),
                 'allow_multiple' => true,
                 'require_corresponding_option' => false,
                 'multiple_storagemode' => 'imploded_wrapped',
-            ),
+            ],
             'widget' => 'select',
-        ),
-        'midgard_types_regexp' => array
-        (
+        ],
+        'midgard_types_regexp' => [
             'title' => 'regular expression for selecting mgdschema types',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'parameter',
                 'domain' => 'midgard.admin.asgard:preferences',
                 'name' => 'midgard_types_regexp',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'text',
             'end_fieldset' => 1,
-        ),
-    ),
-),
+        ],
+    ],
+],

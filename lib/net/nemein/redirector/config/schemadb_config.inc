@@ -1,215 +1,169 @@
-'config' => array
-(
+'config' => [
     'description' => 'Default Configuration Schema', /* This is a topic */
-    'fields' => array
-    (
+    'fields' => [
         /* redirection settings */
-        'redirection_type' => array
-        (
+        'redirection_type' => [
             'title' => 'redirection type',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nemein.redirector',
                 'name' => 'redirection_type',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     'subnode' => 'first subfolder',
                     'node' => 'selected node',
                     'url' => 'url entered below',
                     'permalink' => 'permalink guid',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'redirection settings',
-            ),
-        ),
-        'redirection_url' => array
-        (
+            ],
+        ],
+        'redirection_url' => [
             'title' => 'redirection url',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nemein.redirector',
                 'name' => 'redirection_url',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'redirection_node' => array
-        (
+        ],
+        'redirection_node' => [
             'title' => 'redirection node',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nemein.redirector',
                 'name' => 'redirection_node',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array(),
+            'type_config' => [
+                'options' => [],
                 'allow_other' => true,
                 'require_corresponding_option' => false,
-            ),
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class'       => 'midcom_db_topic',
                 'component'   => 'net.nemein.redirector',
                 'titlefield'  => 'extra',
                 'id_field'     => 'guid',
-                'searchfields' => array
-                (
+                'searchfields' => [
                     'title',
                     'extra',
                     'component',
                     'name',
-                ),
-                'constraints' => array
-                (
-                    array
-                    (
+                ],
+                'constraints' => [
+                    [
                         'field' => 'extra',
                         'op' => '<>',
                         'value' => '',
-                    ),
-                    array
-                    (
+                    ], [
                         'field' => 'up',
                         'op' => 'INTREE',
                         'value' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPICID),
-                    ),
-                ),
-                'result_headers' => array
-                (
-                    array
-                    (
+                    ],
+                ],
+                'result_headers' => [
+                    [
                         'name' => 'extra',
                         'title' => 'extra',
-                    ),
-                    array
-                    (
+                    ], [
                         'name' => 'name',
                         'title' => 'name',
-                    ),
-                    array
-                    (
+                    ], [
                         'name' => 'component',
                         'title' => 'component',
-                    ),
-                ),
-                'orders' => array
-                (
-                    array
-                    (
+                    ],
+                ],
+                'orders' => [
+                    [
                         'title' => 'ASC',
-                    ),
-                    array
-                    (
+                    ], [
                         'extra' => 'ASC',
-                    ),
-                    array
-                    (
+                    ], [
                         'name' => 'ASC',
-                    ),
-                ),
-            ),
-        ),
-        'redirection_guid' => array
-        (
+                    ],
+                ],
+            ],
+        ],
+        'redirection_guid' => [
             'title' => 'permalink guid',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nemein.redirector',
                 'name' => 'redirection_guid',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'redirection_code' => array
-        (
+        ],
+        'redirection_code' => [
             'title' => 'redirection http code',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nemein.redirector',
                 'name' => 'redirection_code',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     301 => '301 Moved Permanently',
                     302 => '302 Found',
                     410 => '410 Gone',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
             'default' => 301,
-        ),
-        'redirection_metatag' => array
-        (
+        ],
+        'redirection_metatag' => [
             'title' => 'redirect with metatag',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nemein.redirector',
                 'name' => 'redirection_metatag',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     1 => 'yes',
                     0 => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
-        ),
-        'redirection_metatag_speed' => array
-        (
+        ],
+        'redirection_metatag_speed' => [
             'title' => 'metatag refresh speed',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nemein.redirector',
                 'name' => 'redirection_metatag_speed',
-            ),
+            ],
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'admin_redirection' => array
-        (
+        ],
+        'admin_redirection' => [
             'title' => 'redirect administrators',
-            'storage' => array
-            (
+            'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nemein.redirector',
                 'name' => 'admin_redirection',
-            ),
+            ],
             'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     '' => 'default setting',
                     1 => 'yes',
                     0 => 'no',
-                ),
-            ),
+                ],
+            ],
             'widget' => 'select',
             'end_fieldset' => 1,
-        ),
-    ),
-),
+        ],
+    ],
+],

@@ -1,131 +1,104 @@
-'default' => array
-(
+'default' => [
     'description' => 'campaign',
-    'fields'      => array
-    (
+    'fields'      => [
         // Metadata
-        'title' => array
-        (
+        'title' => [
             // COMPONENT-REQUIRED
             'title'    => 'title',
             'type'     => 'text',
             'widget'   => 'text',
             'storage'  => 'title',
             'required' => true,
-        ),
-        'type' => array
-        (
+        ],
+        'type' => [
             'title'       => 'type',
             'storage'     => 'orgOpenpsaObtype',
             'type'        => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
+            'type_config' => [
+                'options' => [
                     org_openpsa_directmarketing_campaign_dba::TYPE_NORMAL => 'normal campaign',
                     org_openpsa_directmarketing_campaign_dba::TYPE_SMART => 'smart campaign',
-                ),
-            ),
+                ],
+            ],
             'default'     => org_openpsa_directmarketing_campaign_dba::TYPE_NORMAL,
             'widget'      => 'radiocheckselect',
-        ),
-        'description' => array
-        (
+        ],
+        'description' => [
             'title' => 'description',
             'storage' => 'description',
             'type' => 'text',
-            'type_config' => array
-            (
+            'type_config' => [
                 'output_mode' => 'markdown'
-            ),
+            ],
             'widget' => 'markdown',
-        ),
-        'testers' => array
-        (
+        ],
+        'testers' => [
             'title'       => 'testers',
             'storage'     => null,
             'type'        => 'mnrelation',
-            'type_config' => array
-            (
+            'type_config' => [
                 'mapping_class_name' => 'org_openpsa_directmarketing_campaign_member_dba',
                 'master_fieldname' => 'campaign',
                 'master_is_id' => true,
                 'member_fieldname' => 'person',
-                'options' => array(),
-                'additional_fields' => array
-                (
+                'options' => [],
+                'additional_fields' => [
                     'orgOpenpsaObtype' => org_openpsa_directmarketing_campaign_member_dba::TESTER,
-                ),
-                'constraints' => array
-                (
-                    array
-                    (
+                ],
+                'constraints' => [
+                    [
                         'field' => 'email',
                         'op' => '<>',
                         'value' => '',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'clever_class' => 'contact',
                 'id_field' => 'id',
-                'result_headers' => array
-                (
-                    array
-                    (
+                'result_headers' => [
+                    [
                         'name' => 'name',
                         'title' => 'name',
-                    ),
-                    array
-                    (
+                    ], [
                         'name' => 'email',
                         'title' => 'email',
-                    ),
-                    array
-                    (
+                    ], [
                         'name' => 'handphone',
                         'title' => 'handphone',
-                    ),
-                    array
-                    (
+                    ], [
                         'name' => 'username',
                         'title' => 'username',
-                    ),
-                ),
-                'searchfields' => array
-                (
+                    ],
+                ],
+                'searchfields' => [
                     'firstname',
                     'lastname',
                     'email',
                     'username',
                     'handphone',
-                ),
+                ],
                 'auto_wildcards' => 'both',
-            ),
-        ),
-        'orgOpenpsaAccesstype' => array
-        (
+            ],
+        ],
+        'orgOpenpsaAccesstype' => [
             'title'       => 'access type',
             'storage'     => 'orgOpenpsaAccesstype',
             'type'        => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'options' => org_openpsa_core_acl::get_options(),
-            ),
+            ],
             'widget'      => 'select',
-        ),
-        'orgOpenpsaOwnerWg' => array
-        (
+        ],
+        'orgOpenpsaOwnerWg' => [
             'title'       => 'workgroup',
             'storage'     => 'orgOpenpsaOwnerWg',
             'type'        => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                 'options' => org_openpsa_helpers_list::workgroups(),
-            ),
+            ],
             'widget'      => 'select',
-        ),
-    )
-),
+        ],
+    ]
+],

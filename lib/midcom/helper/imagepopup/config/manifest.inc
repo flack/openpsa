@@ -2,5 +2,5 @@
 'icon' => 'paperclip',
 'description' => 'Image upload and insertion tool',
 'purecode' => true,
-'privileges' => array(),
-'class_mapping' => array(),
+'privileges' => [],
+'class_mapping' => [],

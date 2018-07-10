@@ -1,269 +1,219 @@
-'default' => array
-(
+'default' => [
     'name' => 'default',
     'description' => 'invoice',
-    'fields'      => array
-    (
-        'date' => array
-        (
+    'fields'      => [
+        'date' => [
             'title' => 'invoice date',
             'storage'    => 'date',
             'type'    => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 'storage_type' => 'UNIXTIME',
-            ),
+            ],
             'widget'    => 'jsdate',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'show_time' => false
-            ),
-            'start_fieldset' => array
-            (
+            ],
+            'start_fieldset' => [
                 'title' => 'basic information',
                 'css_group' => 'area meta',
-            ),
-        ),
-        'deliverydate' => array
-        (
+            ],
+        ],
+        'deliverydate' => [
             'title' => 'invoice delivery date',
             'storage'    => 'deliverydate',
             'type'    => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 'storage_type' => 'UNIXTIME',
-            ),
+            ],
             'widget'    => 'jsdate',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'show_time' => false
-            ),
-        ),
-        'number' => array
-        (
+            ],
+        ],
+        'number' => [
             'title' => 'invoice number',
             'storage'  => 'number',
             'type'  => 'number',
             'widget'  => 'text',
             'required' => true,
-        ),
-        'owner' => array
-        (
+        ],
+        'owner' => [
             'title' => 'owner',
             'storage'  => 'owner',
             'type'  => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => false,
-                 'options' => array(),
-            ),
+                 'options' => [],
+            ],
             'widget'    => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class'       => 'org_openpsa_contacts_person_dba',
                 'component'   => 'org.openpsa.contacts',
                 'titlefield'  => 'name',
                 'id_field'     => 'id',
-                'constraints' => array
-                (
-                    array
-                    (
+                'constraints' => [
+                    [
                         'field' => 'username',
                         'op'    => '<>',
                         'value' => '',
-                    ),
-                ),
-                'searchfields'  => array
-                (
+                    ],
+                ],
+                'searchfields'  => [
                     'firstname',
                     'lastname',
                     'username',
-                ),
-                'result_headers' => array
-                (
-                    array
-                    (
+                ],
+                'result_headers' => [
+                    [
                         'title' => 'name',
                         'name' => 'name',
-                    ),
-                    array
-                    (
+                    ], [
                         'title' => 'email',
                         'name' => 'email',
-                    ),
-                ),
-                'orders'        => array
-                (
-                    array('lastname'    => 'ASC'),
-                    array('firstname'    => 'ASC'),
-                ),
-             ),
-        ),
-        'customerContact' => array
-        (
+                    ],
+                ],
+                'orders'        => [
+                    ['lastname'    => 'ASC'],
+                    ['firstname'    => 'ASC'],
+                ],
+             ],
+        ],
+        'customerContact' => [
             'title' => 'customer contact',
             'storage'  => 'customerContact',
             'type'  => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => false,
-                 'options' => array(),
-            ),
+                 'options' => [],
+            ],
             'widget'    => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'class'       => 'org_openpsa_contacts_person_dba',
                 'component'   => 'org.openpsa.contacts',
                 'titlefield'  => 'name',
                 'id_field'     => 'id',
-                'constraints' => array(),
-                'searchfields'  => array
-                (
+                'constraints' => [],
+                'searchfields'  => [
                     'firstname',
                     'lastname',
                     'username',
-                ),
-                'result_headers' => array
-                (
-                    array
-                    (
+                ],
+                'result_headers' => [
+                    [
                         'title' => 'name',
                         'name' => 'name',
-                    ),
-                    array
-                    (
+                    ], [
                         'title' => 'email',
                         'name' => 'email',
-                    ),
-                ),
-                'orders'        => array
-                (
-                    array('lastname'    => 'ASC'),
-                    array('firstname'    => 'ASC'),
+                    ],
+                ],
+                'orders'        => [
+                    ['lastname'    => 'ASC'],
+                    ['firstname'    => 'ASC'],
 
-                ),
+                ],
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
                 'creation_default_key' => 'openpsa',
-             ),
-        ),
-        'customer' => array
-        (
+             ],
+        ],
+        'customer' => [
             'title' => 'customer',
             'storage'    => 'customer',
             'type'    => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => true,
-                 'options' => array(),
-            ),
+                 'options' => [],
+            ],
             'widget' => 'select',
-        ),
-        'description' => array
-        (
+        ],
+        'description' => [
             'title' => 'description',
             'storage'  => 'description',
             'type'  => 'text',
             'widget' => 'textarea',
             'end_fieldset' => '',
-        ),
-        'sum' => array
-        (
+        ],
+        'sum' => [
             'title' => 'sum',
             'storage'  => 'sum',
             'type'  => 'number',
             'widget'    => 'text',
             'default'   => 0,
-            'start_fieldset' => array
-            (
+            'start_fieldset' => [
                 'title' => 'invoicing information',
                 'css_group' => 'area meta',
-            ),
-        ),
-        'vat' => array
-        (
+            ],
+        ],
+        'vat' => [
             'title' => 'vat',
             'storage'  => 'vat',
             'type'  => 'select',
-            'type_config' => array
-            (
+            'type_config' => [
                  'require_corresponding_option' => true,
-                 'options' => array(),
-            ),
+                 'options' => [],
+            ],
             'widget'    => 'select',
-        ),
-        'sent' => array
-        (
+        ],
+        'sent' => [
             'title' => 'sent',
             'storage'    => 'sent',
             'type'    => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 'storage_type' => 'UNIXTIME',
-            ),
+            ],
             'widget'    => 'jsdate',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'show_time' => false
-            ),
+            ],
             'hidden'    => true,
-        ),
-        'due' => array
-        (
+        ],
+        'due' => [
             'title' => 'due',
             'storage'    => 'due',
             'type'    => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 'storage_type' => 'UNIXTIME',
-            ),
+            ],
             'widget'    => 'jsdate',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'show_time' => false
-            ),
+            ],
             'hidden' => true
-        ),
-        'paid' => array
-        (
+        ],
+        'paid' => [
             'title' => 'paid date',
             'storage'    => 'paid',
             'type'    => 'date',
-            'type_config' => array
-            (
+            'type_config' => [
                 'storage_type' => 'UNIXTIME',
-            ),
+            ],
             'widget'    => 'jsdate',
-            'widget_config' => array
-            (
+            'widget_config' => [
                 'show_time' => false
-            ),
+            ],
             'hidden'    => true,
-        ),
-        'pdf_file' => array
-        (
+        ],
+        'pdf_file' => [
             'title' => 'pdf file',
             'type'    => 'blobs',
             'widget' => 'downloads',
-            'type_config' => array
-            (
+            'type_config' => [
                 'sortable' => false,
                 'max_count' => 1,
-            ),
+            ],
             'index_method' => 'attachment',
             'hidden' => true,
-        ),
-        'files' => array
-        (
+        ],
+        'files' => [
             'title' => 'Files',
             'type'    => 'blobs',
             'widget' => 'downloads',
-            'type_config' => array
-            (
+            'type_config' => [
                 'sortable' => false,
-            ),
+            ],
             'end_fieldset' => '',
             'index_method' => 'attachment',
-        ),
-    ),
-),
+        ],
+    ],
+],
