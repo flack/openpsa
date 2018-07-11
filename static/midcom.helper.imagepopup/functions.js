@@ -1,7 +1,7 @@
 $(document).ready(function()
 {
     $('.content-area')
-        .on('click', 'a', function(event) {
+        .on('click', 'a[href]', function(event) {
             event.preventDefault();
             var url = $(this).attr('href'),
                 title = '';
@@ -13,7 +13,7 @@ $(document).ready(function()
             parent.tinymce.activeEditor.windowManager.getParams().oninsert(url, {alt: title});
             parent.tinymce.activeEditor.windowManager.close();
         })
-        .on('hover', 'a', function() {
+        .on('hover', 'a[href]', function() {
             $(this).prop('title', 'Click to insert');
         });
 
