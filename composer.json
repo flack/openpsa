@@ -35,7 +35,7 @@
         "openpsa/universalfeedcreator": "^1.8.2",
         "paragonie/random_compat": "^2.0",
         "phpspec/php-diff": "^1.0.2",
-        "sabre/vobject" : "^3.5.3",
+        "sabre/vobject" : "^4.1.6",
         "simplepie/simplepie": "^1.5",
         "studio-42/elfinder": ">= 2.1.31",
         "swiftmailer/swiftmailer": "^5.2.0",
