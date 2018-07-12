@@ -22,11 +22,11 @@ class engine extends AbstractRendererEngine
         return $resource->$blockName($view, $data);
     }
 
-    public function setTheme(FormView $view, $themes)
+    public function setTheme(FormView $view, $themes, $useDefaultThemes = true)
     {
         $this->themes = [];
         $this->resources = [];
-        parent::setTheme($view, $themes);
+        parent::setTheme($view, $themes, $useDefaultThemes);
     }
 
     /**
