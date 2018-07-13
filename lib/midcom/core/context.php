@@ -300,7 +300,15 @@ class midcom_core_context
         $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$component][$key] =& $value;
     }
 
-    public function get_component()
+    /**
+     * Handle a request.
+     *
+     * The URL of the component that is used to handle the request is obtained automatically.
+     * If the handler hook returns false (i.e. handling failed), it will produce an error page.
+     *
+     * @return midcom_response
+     */
+    public function run()
     {
         do {
             $object = $this->parser->get_current_object();
@@ -316,23 +324,23 @@ class midcom_core_context
         } while ($this->parser->get_object() !== false);
 
         // Check whether the component can handle the request.
-        if ($handler = $this->get_handler($object)) {
-            return $handler;
+        $response = $this->load_component_interface($object)->handle();
+        if (!is_object($response)) {
+            $response = new midcom_response_styled($this);
         }
-        return false;
+        return $response;
     }
 
     /**
      * Check whether a given component is able to handle the current request.
      *
-     * Used by midcom_application::_process(), it checks if the component associated to $object is able
-     * to handle the request. After the local configuration is retrieved from the object in question the
+     * After the local configuration is retrieved from the object in question the
      * component will be asked if it can handle the request. If so, the interface class will be returned to the caller
      *
      * @param midcom_db_topic $object The node that is currently being tested.
-     * @return midcom_baseclasses_components_interface The component's interface class or false
+     * @return midcom_baseclasses_components_interface
      */
-    public function get_handler(midcom_db_topic $object)
+    public function load_component_interface(midcom_db_topic $object)
     {
         $path = $object->component;
         $this->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
@@ -347,7 +355,12 @@ class midcom_core_context
         // Make can_handle check
         if (!$component_interface->can_handle($object, $this->parser->argv, $this->id)) {
             debug_add("Component {$path} in {$object->name} declared unable to handle request.", MIDCOM_LOG_INFO);
-            return false;
+
+            // We couldn't fetch a node due to access restrictions
+            if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED) {
+                throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
+            }
+            throw new midcom_error_notfound("This page is not available on this server.");
         }
 
         // Initialize context
@@ -358,24 +371,6 @@ class midcom_core_context
         $this->set_key(MIDCOM_CONTEXT_URLTOPICS, $this->parser->get_objects());
         $this->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$component_interface, 'show_content']);
         return $component_interface;
-    }
-
-    /**
-     * Handle a request.
-     *
-     * The URL of the component that is used to handle the request is obtained automatically.
-     * If the handler hook returns false (i.e. handling failed), it will produce an error page.
-     *
-     * @param midcom_baseclasses_components_interface $handler The component's main handler class
-     * @return midcom_response
-     */
-    public function run(midcom_baseclasses_components_interface $handler)
-    {
-        $response = $handler->handle();
-        if (!is_object($response)) {
-            $response = new midcom_response_styled($this);
-        }
-        return $response;
     }
 
     public function show()

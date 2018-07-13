@@ -50,7 +50,7 @@ class midcom_helper_backendTest extends openpsa_testcase
 
         $context->parser->parse([$child_topic_name, $article_name]);
         $context->parser->get_object();
-        $context->get_handler($child_topic);
+        $context->load_component_interface($child_topic);
         $backend = new midcom_helper_nav_backend($context->id);
 
         $this->assertEquals($backend->get_root_node(), $root_topic->id);
