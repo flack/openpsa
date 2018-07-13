@@ -313,12 +313,12 @@ class midcom_core_context
                 // This will exit
             }
 
-            // Check whether the component can handle the request.
-            // If so, execute it, if not, continue.
-            if ($handler = $this->get_handler($object)) {
-                return $handler;
-            }
         } while ($this->parser->get_object() !== false);
+
+        // Check whether the component can handle the request.
+        if ($handler = $this->get_handler($object)) {
+            return $handler;
+        }
         return false;
     }
 

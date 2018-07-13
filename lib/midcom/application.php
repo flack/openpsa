@@ -345,13 +345,12 @@ class midcom_application
      * handle the request. If one is found, it will process the request, if not, it
      * will report an error, depending on the situation.
      *
-     * Details: The logic will traverse the node tree and for each node it will load
+     * Details: The logic will traverse the node tree, and for the last node it will load
      * the component that is responsible for it. This component gets the chance to
-     * accept the request (this is encapsulated in the _can_handle call), which is
-     * basically a call to can_handle. If the component declares to be able to handle
-     * the call, its handle function is executed. Depending if the handle was successful
-     * or not, it will either display an HTTP error page or prepares the content handler
-     * to display the content later on.
+     * accept the request, which is basically a call to can_handle. If the component
+     * declares to be able to handle the call, its handle function is executed. Depending
+     * if the handle was successful or not, it will either display an HTTP error page or
+     * prepares the content handler to display the content later on.
      *
      * If the parsing process doesn't find any component that declares to be able to
      * handle the request, an HTTP 404 - Not Found error is triggered.

@@ -83,9 +83,9 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     }
 
     /**
-     * The handle callback populates root group information
+     * The handle callback populates the toolbars and root group information.
      */
-    public function _on_can_handle(array $argv)
+    public function _on_handle($handler, array $args)
     {
         if ($this->_config->get('root_group') === 0) {
             $this->_request_data['root_group'] = 0;
@@ -93,23 +93,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             $root_group = org_openpsa_products_product_group_dba::get_cached($this->_config->get('root_group'));
             $this->_request_data['root_group'] = $root_group->id;
         }
-
-        if (count($argv) >= 1) {
-            $mc = midcom_db_topic::new_collector('up', $this->_topic->id);
-            $mc->add_constraint('name', '=', $argv[0]);
-            $mc->execute();
-            $keys = $mc->list_keys();
-            return count($keys) == 0;
-        }
-
-        return true;
-    }
-
-    /**
-     * The handle callback populates the toolbars.
-     */
-    public function _on_handle($handler, array $args)
-    {
         $this->_request_data['schemadb_group'] = schemadb::from_path($this->_config->get('schemadb_group'));
         $this->_request_data['schemadb_product'] = schemadb::from_path($this->_config->get('schemadb_product'));
 

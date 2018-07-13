@@ -57,32 +57,6 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
     }
 
     /**
-     * Can-Handle check against the article name. We have to do this explicitly
-     * in can_handle already, otherwise we would hide all subtopics as the request switch
-     * accepts all argument count matches unconditionally.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     * @return boolean True if the request can be handled, false otherwise.
-     */
-    public function _can_handle_view($handler_id, array $args, array &$data)
-    {
-        $qb = midcom_db_article::new_query_builder();
-        $this->article_qb_constraints($qb);
-
-        $qb->begin_group('OR');
-        $qb->add_constraint('name', '=', $args[0]);
-        $qb->add_constraint('guid', '=', $args[0]);
-        $qb->end_group();
-        if ($this->_article = $qb->get_result(0)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Handle actual article display
      *
      * @param mixed $handler_id The ID of the handler.
@@ -91,6 +65,18 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
+        $qb = midcom_db_article::new_query_builder();
+        $this->article_qb_constraints($qb);
+
+        $qb->begin_group('OR');
+        $qb->add_constraint('name', '=', $args[0]);
+        $qb->add_constraint('guid', '=', $args[0]);
+        $qb->end_group();
+        $this->_article = $qb->get_result(0);
+        if (!$this->_article) {
+            throw new midcom_error_notfound('Could not find ' . $args[0]);
+        }
+
         if ($handler_id == 'view-raw') {
             midcom::get()->skip_page_style = true;
         }

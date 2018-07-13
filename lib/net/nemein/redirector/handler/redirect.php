@@ -12,53 +12,6 @@
 class net_nemein_redirector_handler_redirect extends midcom_baseclasses_components_handler
 {
     /**
-     * Check for hijacked URL space
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     * @return boolean Indicating success.
-     */
-    public function _can_handle_redirect($handler_id, array $args, array &$data)
-    {
-        // Process the request immediately
-        if (isset($args[0])) {
-            $mc = net_nemein_redirector_tinyurl_dba::new_collector('node', $this->_topic->guid);
-            $mc->add_constraint('name', '=', $args[0]);
-            $mc->add_value_property('code');
-            $mc->add_value_property('url');
-            $mc->execute();
-
-            $results = $mc->list_keys();
-
-            // No results found
-            if (count($results) === 0) {
-                return false;
-            }
-
-            // Catch first the configuration option for showing editing interface instead
-            // of redirecting administrators
-            if (   $this->_topic->can_do('net.nemein.redirector:noredirect')
-                && !$this->_config->get('admin_redirection')) {
-                midcom::get()->relocate("{$this->_topic->name}/edit/{$args[0]}/");
-            }
-            $guid = key($results);
-            $url = $mc->get_subkey($guid, 'url');
-            $code = $mc->get_subkey($guid, 'code');
-
-            // Redirection HTTP code
-            if (!$code) {
-                $code = $this->_config->get('redirection_code');
-            }
-
-            midcom::get()->relocate($url, $code);
-            // This will exit
-        }
-
-        return true;
-    }
-
-    /**
      * Process the redirect request
      *
      * @param mixed $handler_id The ID of the handler.
@@ -66,6 +19,46 @@ class net_nemein_redirector_handler_redirect extends midcom_baseclasses_componen
      * @param array &$data The local request data.
      */
     public function _handler_redirect($handler_id, array $args, array &$data)
+    {
+        $mc = net_nemein_redirector_tinyurl_dba::new_collector('node', $this->_topic->guid);
+        $mc->add_constraint('name', '=', $args[0]);
+        $mc->add_value_property('code');
+        $mc->add_value_property('url');
+        $mc->execute();
+
+        $results = $mc->list_keys();
+
+        // No results found
+        if (count($results) === 0) {
+            throw new midcom_error_notfound($args[0] . ' could not be found');
+        }
+
+        // Catch first the configuration option for showing editing interface instead
+        // of redirecting administrators
+        if (   $this->_topic->can_do('net.nemein.redirector:noredirect')
+            && !$this->_config->get('admin_redirection')) {
+            return new midcom_response_relocate("{$this->_topic->name}/edit/{$args[0]}/");
+        }
+        $guid = key($results);
+        $url = $mc->get_subkey($guid, 'url');
+        $code = $mc->get_subkey($guid, 'code');
+
+        // Redirection HTTP code
+        if (!$code) {
+            $code = $this->_config->get('redirection_code');
+        }
+
+        return new midcom_response_relocate($url, $code);
+    }
+
+    /**
+     * Process the index request
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_index($handler_id, array $args, array &$data)
     {
         // Get the topic link and relocate accordingly
         $data['url'] = net_nemein_redirector_viewer::topic_links_to($data);

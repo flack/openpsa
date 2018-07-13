@@ -56,43 +56,10 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
     }
 
     /**
-     * Can-Handle check against the article name. We have to do this explicitly
-     * in can_handle already, otherwise we would hide all subtopics as the request switch
-     * accepts all argument count matches unconditionally.
-     *
-     * Not applicable for the "index" handler, where the article name is fixed (see handle).
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     * @return boolean True if the request can be handled, false otherwise.
-     */
-    public function _can_handle_view($handler_id, array $args, array &$data)
-    {
-        if ($handler_id == 'index') {
-            return true;
-        }
-
-        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
-        $qb->add_constraint('name', '=', $args[0]);
-        $qb->add_constraint('up', '=', 0);
-        $qb->set_limit(1);
-
-        if ($this->_article = $qb->get_result(0)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Looks up an article to display. If the handler_id is 'index', the index article is tried to be
      * looked up, otherwise the article name is taken from args[0]. Triggered error messages are
      * generated accordingly. A missing index will trigger a forbidden error, a missing regular
-     * article a 404 (from can_handle).
-     *
-     * Note, that the article for non-index mode operation is automatically determined in the can_handle
-     * phase.
+     * article a 404.
      *
      * If create privileges apply, we relocate to the index creation article
      *
@@ -104,6 +71,16 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
     {
         if ($handler_id == 'index') {
             $this->_load_index_article();
+        } else {
+            $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
+            $qb->add_constraint('name', '=', $args[0]);
+            $qb->add_constraint('up', '=', 0);
+            $qb->set_limit(1);
+
+            $this->_article = $qb->get_result(0);
+            if (!$this->_article) {
+                throw new midcom_error_notfound('Could not find ' . $args[0]);
+            }
         }
 
         if ($handler_id == 'view_raw') {

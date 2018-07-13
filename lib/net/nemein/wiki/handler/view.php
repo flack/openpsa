@@ -101,7 +101,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $this->bind_view_to_object($this->_page, $this->_datamanager->get_schema()->get_name());
     }
 
-    private function _load_page($wikiword)
+    private function _load_page($wikiword, $autocreate = true)
     {
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
@@ -111,23 +111,14 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         midcom::get()->auth->drop_sudo();
         if (count($result) > 0) {
             $this->_page = $result[0];
-            return true;
+            return;
         }
 
         if ($wikiword == 'index') {
             // Autoinitialize
             $this->_topic->require_do('midgard:create');
             $this->_page = $this->initialize_index_article($this->_topic);
-            return true;
-        }
-
-        $topic_qb = midcom_db_topic::new_query_builder();
-        $topic_qb->add_constraint('up', '=', $this->_topic->id);
-        $topic_qb->add_constraint('name', '=', $wikiword);
-        $topics = $topic_qb->execute();
-        if (count($topics) > 0) {
-            // There is a topic by this URL name underneath, go there
-            return false;
+            return;
         }
 
         // We need to get the node from NAP for safe redirect
@@ -146,25 +137,11 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                 midcom::get()->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}{$result[0]->name}/", 301);
             }
         }
-        midcom::get()->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}notfound/" . rawurlencode($wikiword) . '/');
-        // This will exit
-    }
-
-    /**
-     * Can-Handle check against the current wikipage name. We have to do this explicitly
-     * in can_handle already, otherwise we would hide all subtopics as the request switch
-     * accepts all argument count matches unconditionally.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _can_handle_view($handler_id, array $args, array &$data)
-    {
-        if (count($args) == 0) {
-            return $this->_load_page('index');
+        if ($autocreate) {
+            midcom::get()->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}notfound/" . rawurlencode($wikiword) . '/');
+            // This will exit
         }
-        return $this->_load_page($args[0]);
+        throw new midcom_error_notfound('The page ' . $wikiword . ' could not be found.');
     }
 
     /**
@@ -174,6 +151,12 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _handler_view($handler_id, $args, &$data)
     {
+        if (count($args) == 0) {
+            $this->_load_page('index');
+        } else {
+            $this->_load_page($args[0]);
+        }
+
         $this->_load_datamanager();
 
         if ($this->_datamanager->get_schema()->get_name() == 'redirect') {
@@ -283,9 +266,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _handler_raw($handler_id, $args, &$data)
     {
-        if (!$this->_load_page($args[0])) {
-            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
-        }
+        $this->_load_page($args[0], false);
         midcom::get()->skip_page_style = true;
         $this->_load_datamanager();
 
@@ -313,9 +294,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         midcom::get()->auth->require_valid_user();
 
-        if (!$this->_load_page($args[0])) {
-            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
-        }
+        $this->_load_page($args[0], false);
 
         midcom::get()->auth->request_sudo('net.nemein.wiki');
 
@@ -357,9 +336,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _handler_whatlinks($handler_id, $args, &$data)
     {
-        if (!$this->_load_page($args[0])) {
-            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
-        }
+        $this->_load_page($args[0], false);
 
         $this->_load_datamanager();
 

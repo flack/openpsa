@@ -14,27 +14,18 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
     use org_openpsa_expenses_handler;
 
     /**
-     * Can-Handle check against the passed date. We have to do this explicitly
-     * in can_handle already, otherwise we would hide all subtopics as the request switch
-     * accepts all argument count matches unconditionally.
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
-    public function _can_handle_index($handler_id, array $args, array &$data)
+    private function prepare_dates(array $args, array &$data)
     {
         if (isset($args[0])) {
             $requested_time = $args[0];
         } else {
             $requested_time = date('Y-m-d');
         }
-        try {
-            $date = new DateTime($requested_time);
-        } catch (Exception $e) {
-            return false;
-        }
+        $date = new DateTime($requested_time);
         $offset = $date->format('N') - 1;
 
         $date->modify('-' . $offset . ' days');
@@ -48,8 +39,6 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
 
         $date->modify('-14 days');
         $data['previous_week'] = $date->format('Y-m-d');
-
-        return true;
     }
 
     /**
@@ -61,6 +50,8 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
      */
     public function _handler_index($handler_id, array $args, array &$data)
     {
+        $this->prepare_dates($args, $data);
+
         $hours_mc = org_openpsa_expenses_hour_report_dba::new_collector();
         $this->add_list_filter($hours_mc);
         $hours_mc->add_constraint('date', '>=', $data['week_start']);

@@ -27,7 +27,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
             ];
         } else {
             $this->_request_switch['redirect'] = [
-                'handler' => [net_nemein_redirector_handler_redirect::class, 'redirect']
+                'handler' => [net_nemein_redirector_handler_redirect::class, 'index']
             ];
         }
     }
