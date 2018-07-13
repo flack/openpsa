@@ -216,13 +216,16 @@ class midcom_application
         $argv = $context->parser->tokenize($url);
         $context->parser->parse($argv);
 
-        $response = $this->_process($context);
-        if ($response === false) {
-            debug_add("Dynamic load _process() phase for $uri ended up with 404 Error. Aborting...", MIDCOM_LOG_ERROR);
-
-            // Leave Context
-            $oldcontext->set_current();
-            return;
+        try {
+            $response = $this->_process($context);
+        } catch (midcom_error $e) {
+            if ($e instanceof midcom_error_notfound || $e instanceof midcom_error_forbidden) {
+                $e->log();
+                // Leave Context
+                $oldcontext->set_current();
+                return;
+            }
+            throw $e;
         }
 
         // Start another buffer for caching DL results
@@ -356,7 +359,7 @@ class midcom_application
      * handle the request, an HTTP 404 - Not Found error is triggered.
      *
      * @param midcom_core_context $context
-     * @return boolean|midcom_response
+     * @return midcom_response
      */
     private function _process(midcom_core_context $context)
     {
@@ -365,24 +368,14 @@ class midcom_application
             return $response;
         }
 
-        $handler = $context->get_component();
-
-        if (false === $handler) {
-            /**
-             * Simple: if current context is not '0' we were called from another context.
-             * If so we should not break application now - just gracefully continue.
-             */
-            if ($context->id == 0) {
-                // We couldn't fetch a node due to access restrictions
-                if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED) {
-                    throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
-                }
-                throw new midcom_error_notfound("This page is not available on this server.");
-            }
-
-            return false;
+        if ($handler = $context->get_component()) {
+            return $context->run($handler);
         }
-        return $context->run($handler);
+        // We couldn't fetch a node due to access restrictions
+        if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED) {
+            throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
+        }
+        throw new midcom_error_notfound("This page is not available on this server.");
     }
 
     /**
