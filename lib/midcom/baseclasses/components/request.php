@@ -390,10 +390,12 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * Post-process the initial information as set by the constructor.
      * It fills all missing fields with sensible defaults, see the class introduction for
      * details.
+     *
+     * @param array $routes
      */
-    public function _prepare_request_switch()
+    private function _prepare_request_switch(array &$routes)
     {
-        foreach ($this->_request_switch as $key => &$value) {
+        foreach ($routes as $key => &$value) {
             if (empty($value['fixed_args'])) {
                 $value['fixed_args'] = [];
             } else {
@@ -405,16 +407,16 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             }
 
             if (is_string($value['handler'])) {
-                $this->_request_switch[$key]['handler'] = [&$this, $value['handler']];
+                $value['handler'] = [&$this, $value['handler']];
             }
 
             if (   !array_key_exists('expires', $value)
                 || !is_integer($value['expires'])
                 || $value['expires'] < -1) {
-                $this->_request_switch[$key]['expires'] = -1;
+                $value['expires'] = -1;
             }
             if (!array_key_exists('no_cache', $value)) {
-                $this->_request_switch[$key]['no_cache'] = false;
+                $value['no_cache'] = false;
             }
         }
     }
@@ -444,33 +446,34 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             $namespace = $argv[0];
             $plugin = $argv[1];
             debug_add("Loading the plugin {$namespace}/{$plugin}");
-            $this->_load_plugin($namespace, $plugin);
+            $routes = $this->_load_plugin($namespace, $plugin);
+        } else {
+            $routes = $this->_request_switch;
         }
 
-        $this->_prepare_request_switch();
+        $this->_prepare_request_switch($routes);
 
-        foreach ($this->_request_switch as $key => $request) {
+        return $this->match($routes, $argv);
+    }
+
+    private function match(array $routes, array $argv)
+    {
+        foreach ($routes as $key => $request) {
             if (!$this->_validate_route($request, $argv)) {
                 continue;
             }
-            $fixed_args_count = count($request['fixed_args']);
-            $this->_handler =& $this->_request_switch[$key];
-
-            $this->_handler['id'] = $key;
-            $this->_handler['args'] = array_slice($argv, $fixed_args_count);
 
             // Prepare the handler object
-            $this->_prepare_handler();
+            $handler = $this->_prepare_handler($key, $request, $argv);
 
             // If applicable, run the _can_handle check for the handler in question.
-            $handler =& $this->_handler['handler'][0];
-            $method = "_can_handle_{$this->_handler['handler'][1]}";
-
+            $method = "_can_handle_{$request['handler'][1]}";
             if (   method_exists($handler, $method)
-                && !$handler->$method($this->_handler['id'], $this->_handler['args'], $this->_request_data)) {
+                && !$handler->$method($key, $request['args'], $this->_request_data)) {
                 // This can_handle failed, allow next one to take over if there is one
                 continue;
             }
+            $this->_handler =& $request;
             return true;
         }
         // No match
@@ -516,6 +519,47 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         }
 
         return true;
+    }
+
+    /**
+     * Prepares the handler callback for execution.
+     * This will create the handler class instance if required.
+     *
+     * @param unknown $key
+     * @param array $request
+     * @param array $argv
+     * @throws midcom_error
+     * @return midcom_baseclasses_components_handler
+     */
+    private function _prepare_handler($key, array &$request, array $argv = [])
+    {
+        $fixed_args_count = count($request['fixed_args']);
+
+        $request['id'] = $key;
+        $request['args'] = array_slice($argv, $fixed_args_count);
+
+        if (is_string($request['handler'][0])) {
+            $classname = $request['handler'][0];
+            if (!class_exists($classname)) {
+                throw new midcom_error("Failed to create a class instance of the type {$classname}, the class is not declared.");
+            }
+
+            $request['handler'][0] = new $classname();
+            if (!$request['handler'][0] instanceof midcom_baseclasses_components_handler) {
+                throw new midcom_error("Failed to create a class instance of the type {$classname}, it is no subclass of midcom_baseclasses_components_handler.");
+            }
+
+            //For plugins, set the component name explicitly so that L10n and config can be found
+            if (isset($request['plugin'])) {
+                $this->_active_plugin->initialize($this);
+                $request['handler'][0]->_component = $request['plugin'];
+            }
+
+            $request['handler'][0]->initialize($this);
+
+            midcom_core_context::get()->set_key(MIDCOM_CONTEXT_HANDLERID, $request['id']);
+        }
+        return $request['handler'][0];
     }
 
     /**
@@ -571,35 +615,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $this->_on_handled($this->_handler['id'], $this->_handler['args']);
 
         return $result;
-    }
-
-    /**
-     * Prepares the handler callback for execution.
-     * This will create the handler class instance if required.
-     */
-    public function _prepare_handler()
-    {
-        if (is_string($this->_handler['handler'][0])) {
-            $classname = $this->_handler['handler'][0];
-            if (!class_exists($classname)) {
-                throw new midcom_error("Failed to create a class instance of the type {$classname}, the class is not declared.");
-            }
-
-            $this->_handler['handler'][0] = new $classname();
-            if (!$this->_handler['handler'][0] instanceof midcom_baseclasses_components_handler) {
-                throw new midcom_error("Failed to create a class instance of the type {$classname}, it is no subclass of midcom_baseclasses_components_handler.");
-            }
-
-            //For plugins, set the component name explicitly so that L10n and config can be found
-            if (isset($this->_handler['plugin'])) {
-                $this->_active_plugin->initialize($this);
-                $this->_handler['handler'][0]->_component = $this->_handler['plugin'];
-            }
-
-            $this->_handler['handler'][0]->initialize($this);
-
-            midcom_core_context::get()->set_key(MIDCOM_CONTEXT_HANDLERID, $this->_handler['id']);
-        }
     }
 
     /**
@@ -740,8 +755,9 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @param string $namespace The plugin namespace to use.
      * @param string $plugin The plugin to load from the namespace.
+     * @return array
      */
-    public function _load_plugin($namespace, $plugin)
+    private function _load_plugin($namespace, $plugin)
     {
         $this->_load_plugin_class($namespace, $plugin);
 
@@ -767,7 +783,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $this->_active_plugin = new $plugin_config['class']();
         $this->_active_plugin->_component = preg_replace('/([a-z0-9]+)_([a-z0-9]+)_([a-z0-9]+).+/', '$1.$2.$3', $plugin_config['class']);
 
-        $this->_prepare_plugin($namespace, $plugin);
+        return $this->_prepare_plugin($namespace, $plugin);
     }
 
     /**
@@ -776,7 +792,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @param string $namespace The plugin namespace to use.
      * @param string $plugin The plugin to load from the namespace.
      */
-    public function _load_plugin_class($namespace, $plugin)
+    private function _load_plugin_class($namespace, $plugin)
     {
         $plugin_config = self::$_plugin_namespace_config[$namespace][$plugin];
 
@@ -821,10 +837,12 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @param string $namespace The plugin namespace to use.
      * @param string $plugin The plugin to load from the namespace.
+     * @return array
      */
-    public function _prepare_plugin($namespace, $plugin)
+    private function _prepare_plugin($namespace, $plugin)
     {
         $handlers = $this->_active_plugin->get_plugin_handlers();
+        $routes = [];
 
         foreach ($handlers as $identifier => $handler_config) {
             // First, update the fixed args list (be tolerant here)
@@ -840,8 +858,9 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             }
             $handler_config['plugin'] = $this->_active_plugin->_component;
 
-            $this->_request_switch["__{$namespace}-{$plugin}-{$identifier}"] = $handler_config;
+            $routes["__{$namespace}-{$plugin}-{$identifier}"] = $handler_config;
         }
+        return $routes;
     }
 
     /**
