@@ -102,22 +102,12 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
                 // Set to current topic
                 $this->objects[$object_url] = $qb->get_result(0);
             } else {
-                //last load returned ACCESS DENIED, no sense to dig deeper
+                // last load returned ACCESS DENIED, no sense to dig deeper
                 if ($qb->denied > 0) {
                     midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
-                    return false;
                 }
-                // No topics matching path, check for attachments
-                $att_qb =  midcom_db_attachment::new_query_builder();
-                $att_qb->add_constraint('name', '=', $this->argv[0]);
-                $att_qb->add_constraint('parentguid', '=', $this->get_current_object()->guid);
-                if ($att_qb->count() == 0) {
-                    // allow for handler switches to work
-                    return false;
-                }
-
-                // Set as current object
-                $this->objects[$object_url] = $att_qb->get_result(0);
+                // allow for handler switches to work
+                return false;
             }
         }
         // Remove this component from path

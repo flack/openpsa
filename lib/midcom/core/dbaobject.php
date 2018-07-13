@@ -360,10 +360,6 @@ abstract class midcom_core_dbaobject
     {
         return $this->__object->purge_attachments($constraints);
     }
-    public static function serve_attachment($guid)
-    {
-        midcom::get()->serve_attachment(new midcom_db_attachment($guid));
-    }
     public function has_parameters()
     {
         return $this->__object->has_parameters();
