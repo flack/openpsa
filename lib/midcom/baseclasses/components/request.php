@@ -37,11 +37,6 @@
  *   article IDs, or article names. This can be 0, indicating that no variable arguments are
  *   required, which is the default. For an unlimited number of variable_args set it to -1.
  *
- * - <b>boolean no_cache:</b> For those cases where you want to prevent a certain "type" of request
- *   being cached. Set to false by default.
- * - <b>int expires:</b> Set the default expiration time of a given type of request. The default -1
- *   is used to indicate no expiration setting. Any positive integer will cause its value to
- *   be passed to the caching engine, indicating the expiration time in seconds.
  * - <b>mixed handler:</b> This is a definition of what method should be invoked to
  *   handle the request using the callable array syntax. The first array member must either contain
  *   the name of an existing class or an already instantiated class.
@@ -54,8 +49,6 @@
  * $this->_request_switch[] = [
  *     'fixed_args' => ['registrations', 'view'],
  *     'variable_args' => 1,
- *     'no_cache' => false,
- *     'expires' => -1,
  *     'handler' => ['net_nemein_registrations_regadmin', 'view']
  *     //
  *     // Alternative, use existing instance:
@@ -351,7 +344,17 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         $this->_prepare_request_switch($routes);
 
-        return $this->match($routes, $argv);
+        foreach ($routes as $key => $request) {
+            if (!$this->_validate_route($request, $argv)) {
+                continue;
+            }
+
+            // Prepare the handler object
+            $this->_prepare_handler($key, $request, $argv);
+            return true;
+        }
+        // No match
+        return false;
     }
 
     /**
@@ -377,32 +380,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             if (is_string($value['handler'])) {
                 $value['handler'] = [&$this, $value['handler']];
             }
-
-            if (   !array_key_exists('expires', $value)
-                || !is_integer($value['expires'])
-                || $value['expires'] < -1) {
-                $value['expires'] = -1;
-            }
-            if (!array_key_exists('no_cache', $value)) {
-                $value['no_cache'] = false;
-            }
         }
-    }
-
-    private function match(array $routes, array $argv)
-    {
-        foreach ($routes as $key => $request) {
-            if (!$this->_validate_route($request, $argv)) {
-                continue;
-            }
-
-            // Prepare the handler object
-            $this->_prepare_handler($key, $request, $argv);
-            $this->_handler =& $request;
-            return true;
-        }
-        // No match
-        return false;
     }
 
     private function _validate_route(array $request, array $argv)
@@ -455,12 +433,10 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @param array $argv
      * @throws midcom_error
      */
-    private function _prepare_handler($key, array &$request, array $argv = [])
+    private function _prepare_handler($key, array $request, array $argv = [])
     {
-        $fixed_args_count = count($request['fixed_args']);
-
         $request['id'] = $key;
-        $request['args'] = array_slice($argv, $fixed_args_count);
+        $request['args'] = array_slice($argv, count($request['fixed_args']));
 
         if (is_string($request['handler'][0])) {
             $classname = $request['handler'][0];
@@ -482,6 +458,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
             midcom_core_context::get()->set_key(MIDCOM_CONTEXT_HANDLERID, $request['id']);
         }
+        $this->_handler =& $request;
     }
 
     /**
@@ -519,14 +496,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         if ($handler instanceof midcom_baseclasses_components_handler) {
             $handler->populate_breadcrumb_line();
-        }
-
-        // Check whether this request should not be cached by default:
-        if ($this->_handler['no_cache'] == true) {
-            midcom::get()->cache->content->no_cache();
-        }
-        if ($this->_handler['expires'] >= 0) {
-            midcom::get()->cache->content->expires($this->_handler['expires']);
         }
 
         $this->_on_handled($this->_handler['id'], $this->_handler['args']);
