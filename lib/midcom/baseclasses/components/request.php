@@ -88,15 +88,6 @@
  *
  * <code>
  * /**
- *  * can_handle example, with Docblock:
- *  * @param mixed $handler_id The ID of the handler.
- *  * @param array $args The argument list.
- *  * @param array &$data The local request data.
- *  * @return boolean True if the request can be handled, false otherwise.
- *  {@*}
- * public function _can_handle_xxx ($handler_id, array $args, array &$data) {}
- *
- * /**
  *  * Exec handler example, with Docblock:
  *  * @param mixed $handler_id The ID of the handler.
  *  * @param array $args The argument list.
@@ -112,14 +103,7 @@
  * public function _show_xxx ($handler_id, array &$data) {}
  * </code>
  *
- * The three callbacks match the regular processing sequence of MidCOM.
- *
- * <i>_can_handle_xxx notes:</i> For ease of use,
- * the _can_handle_xxx callback is optional, it will only be called if the method actually
- * exists. Normally you want to override this only if you request handler can hide stuff
- * which is not under the control of your topic. A prominent example is a handler definition
- * which has only a single variable argument. It would hide all subtopics if you don't check
- * what objects actually belong to you, and what not.
+ * The two callbacks match the regular processing sequence of MidCOM.
  *
  * The main callback _handle_xxx is mandatory, _show_xxx is optional since the handle method can
  * return a response directly.
@@ -347,6 +331,30 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     }
 
     /**
+     * CAN_HANDLE Phase interface, checks against all registered handlers if a valid
+     * one can be found. You should not need to override this, instead, use the
+     * HANDLE Phase for further checks.
+     *
+     * @param array $argv The argument list
+     * @return boolean Indicating whether the request can be handled by the class, or not.
+     */
+    public function can_handle(array $argv)
+    {
+        // Check if we need to start up a plugin.
+        if (   count($argv) > 1
+            && array_key_exists($argv[0], self::$_plugin_namespace_config)
+            && array_key_exists($argv[1], self::$_plugin_namespace_config[$argv[0]])) {
+            $routes = $this->_load_plugin($argv[0], $argv[1]);
+        } else {
+            $routes = $this->_request_switch;
+        }
+
+        $this->_prepare_request_switch($routes);
+
+        return $this->match($routes, $argv);
+    }
+
+    /**
      * Post-process the initial information as set by the constructor.
      * It fills all missing fields with sensible defaults, see the class introduction for
      * details.
@@ -381,38 +389,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         }
     }
 
-    /**
-     * CAN_HANDLE Phase interface, checks against all registered handlers if a valid
-     * one can be found. You should not need to override this, instead, use the
-     * HANDLE Phase for further checks.
-     *
-     * If available, the function calls the _can_handle callback of the event handlers
-     * which potentially match the argument declaration.
-     *
-     * @param array $argv The argument list
-     * @return boolean Indicating whether the request can be handled by the class, or not.
-     */
-    public function can_handle(array $argv)
-    {
-        // Call the general can_handle event handler
-        if (!$this->_on_can_handle($argv)) {
-            return false;
-        }
-
-        // Check if we need to start up a plugin.
-        if (   count($argv) > 1
-            && array_key_exists($argv[0], self::$_plugin_namespace_config)
-            && array_key_exists($argv[1], self::$_plugin_namespace_config[$argv[0]])) {
-            $routes = $this->_load_plugin($argv[0], $argv[1]);
-        } else {
-            $routes = $this->_request_switch;
-        }
-
-        $this->_prepare_request_switch($routes);
-
-        return $this->match($routes, $argv);
-    }
-
     private function match(array $routes, array $argv)
     {
         foreach ($routes as $key => $request) {
@@ -421,15 +397,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             }
 
             // Prepare the handler object
-            $handler = $this->_prepare_handler($key, $request, $argv);
-
-            // If applicable, run the _can_handle check for the handler in question.
-            $method = "_can_handle_{$request['handler'][1]}";
-            if (   method_exists($handler, $method)
-                && !$handler->$method($key, $request['args'], $this->_request_data)) {
-                // This can_handle failed, allow next one to take over if there is one
-                continue;
-            }
+            $this->_prepare_handler($key, $request, $argv);
             $this->_handler =& $request;
             return true;
         }
@@ -486,7 +454,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @param array $request
      * @param array $argv
      * @throws midcom_error
-     * @return midcom_baseclasses_components_handler
      */
     private function _prepare_handler($key, array &$request, array $argv = [])
     {
@@ -515,7 +482,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
             midcom_core_context::get()->set_key(MIDCOM_CONTEXT_HANDLERID, $request['id']);
         }
-        return $request['handler'][0];
     }
 
     /**
@@ -594,7 +560,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
     /**
      * Initialization event handler, called at the end of the initialization process
-     * immediately before the request handler configuration is read.
      *
      * Use this function instead of the constructor for all initialization work. You
      * can safely populate the request switch from here.
@@ -627,27 +592,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
     public function _on_handled($handler, array $args)
     {
-    }
-
-    /**
-     * Component specific initialization code for the can_handle phase.
-     *
-     * This is run before the actual evaluation of the request switch. Components can use
-     * this phase to load plugins that need registering in the request switch on demand.
-     *
-     * The advantage of this is that it is not necessary to load all plugins completely,
-     * you just have to know the "root" URL space (f.x. "/plugins/$name/").
-     *
-     * If you discover that you cannot handle the request already at this stage, return false
-     * The remainder of the can_handle phase is skipped then, returning the URL processing back
-     * to MidCOM.
-     *
-     * @param array $argv The argument list.
-     * @return boolean Return false to abort the handle phase, true to continue normally.
-     */
-    public function _on_can_handle(array $argv)
-    {
-        return true;
     }
 
     /**
