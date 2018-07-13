@@ -23,7 +23,5 @@
 'customdata' => [
     'request_handler_plugin' => [
         'class' => 'org_openpsa_relatedto_plugin',
-        'name' => 'Related information',
-        'config' => '',
     ],
 ],

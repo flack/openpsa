@@ -6,7 +6,5 @@
 'customdata' => [
     'request_handler_plugin' => [
         'class' => 'org_openpsa_helpers_plugin',
-        'name' => 'OpenPSA helpers',
-        'config' => '',
     ],
 ],

@@ -244,7 +244,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $customdata = midcom::get()->componentloader->get_all_manifest_customdata('asgard_plugin');
         foreach ($customdata as $component => $plugin_config) {
             $this->_request_data['section_url'] = midcom_connection::get_url('self') . "__mfa/asgard_{$component}/";
-            $this->_request_data['section_name'] = $this->_i18n->get_string($plugin_config['name'], $component);
+            $this->_request_data['section_name'] = $this->_i18n->get_string($component, $component);
             $class = $plugin_config['class'];
 
             if (!midcom::get()->auth->can_user_do("{$component}:access", null, $class)) {

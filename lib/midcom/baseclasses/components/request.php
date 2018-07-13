@@ -525,7 +525,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * Prepares the handler callback for execution.
      * This will create the handler class instance if required.
      *
-     * @param unknown $key
+     * @param mixed $key
      * @param array $request
      * @param array $argv
      * @throws midcom_error
@@ -759,9 +759,11 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     private function _load_plugin($namespace, $plugin)
     {
-        $this->_load_plugin_class($namespace, $plugin);
-
         $plugin_config = self::$_plugin_namespace_config[$namespace][$plugin];
+
+        if (empty($plugin_config['class']) || !class_exists($plugin_config['class'])) {
+            throw new midcom_error("Failed to load the plugin {$namespace}/{$plugin}, implementation class not available.");
+        }
 
         // Load the configuration into the request data, add the configured plugin name as
         // well so that URLs can be built.
@@ -784,51 +786,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $this->_active_plugin->_component = preg_replace('/([a-z0-9]+)_([a-z0-9]+)_([a-z0-9]+).+/', '$1.$2.$3', $plugin_config['class']);
 
         return $this->_prepare_plugin($namespace, $plugin);
-    }
-
-    /**
-     * Loads the file/snippet necessary for a given plugin, according to its configuration.
-     *
-     * @param string $namespace The plugin namespace to use.
-     * @param string $plugin The plugin to load from the namespace.
-     */
-    private function _load_plugin_class($namespace, $plugin)
-    {
-        $plugin_config = self::$_plugin_namespace_config[$namespace][$plugin];
-
-        // If class can be autoloaded, we're done here
-        if (class_exists($plugin_config['class'])) {
-            return;
-        }
-
-        if ($i = strpos($plugin_config['src'], ':')) {
-            $method = substr($plugin_config['src'], 0, $i);
-            $src = substr($plugin_config['src'], $i + 1);
-        } else {
-            $method = 'snippet';
-            $src = $plugin_config['src'];
-        }
-
-        switch ($method) {
-            case 'file':
-                require_once MIDCOM_ROOT . $src;
-                break;
-
-            case 'component':
-                midcom::get()->componentloader->load($src);
-                break;
-
-            case 'snippet':
-                midcom_helper_misc::include_snippet_php($src);
-                break;
-
-            default:
-                throw new midcom_error("The plugin loader method {$method} is unknown, cannot continue.");
-        }
-
-        if (!class_exists($plugin_config['class'])) {
-            throw new midcom_error("Failed to load the plugin {$namespace}/{$plugin}, implementation class not available.");
-        }
     }
 
     /**
@@ -869,51 +826,33 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     private function _register_core_plugin_namespaces()
     {
         $this->register_plugin_namespace(
-            '__ais',
-            [
+            '__ais', [
                 'folder' => [
                     'class' => midcom_admin_folder_management::class,
-                    'name' => 'Folder administration',
-                    'config' => null,
                 ],
                 'rcs' => [
                     'class' => midcom_admin_rcs_plugin::class,
-                    'name' => 'Revision control',
-                    'config' => null,
                 ],
                 'imagepopup' => [
                     'class' => midcom_helper_imagepopup_viewer::class,
-                    'name' => 'Image pop-up',
-                    'config' => null,
                 ],
                 'help' => [
                     'class' => midcom_admin_help_help::class,
-                    'name' => 'On-site help',
-                    'config' => null,
                 ],
             ]
         );
 
-        // Centralized admin panel functionalities
-
         // Load plugins registered via component manifests
-        $manifest_plugins = midcom::get()->componentloader->get_all_manifest_customdata('request_handler_plugin');
-        $customdata = midcom::get()->componentloader->get_all_manifest_customdata('asgard_plugin');
-        foreach ($customdata as $component => $plugin_config) {
-            $manifest_plugins["asgard_{$component}"] = $plugin_config;
-        }
-
-        $hardcoded_plugins = [
-            'asgard' => [
-                'class' => midgard_admin_asgard_plugin::class,
-                'name' => 'Asgard',
-                'config' => null,
-            ],
+        $plugins = midcom::get()->componentloader->get_all_manifest_customdata('request_handler_plugin');
+        $plugins['asgard'] = [
+            'class' => midgard_admin_asgard_plugin::class,
         ];
 
-        $this->register_plugin_namespace(
-            '__mfa',
-            array_merge($hardcoded_plugins, $manifest_plugins)
-        );
+        $customdata = midcom::get()->componentloader->get_all_manifest_customdata('asgard_plugin');
+        foreach ($customdata as $component => $plugin_config) {
+            $plugins["asgard_{$component}"] = $plugin_config;
+        }
+
+        $this->register_plugin_namespace('__mfa', $plugins);
     }
 }
