@@ -508,12 +508,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     public function show()
     {
-        // Call the event handler
-        if (!$this->_on_show($this->_handler['id'])) {
-            debug_add('The _on_show event handler returned false, aborting.');
-            return;
-        }
-
         if (empty($this->_handler['handler'])) {
             return;
         }
@@ -523,8 +517,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $method = "_show_{$this->_handler['handler'][1]}";
 
         $handler->$method($this->_handler['id'], $this->_request_data);
-
-        $this->_on_shown($this->_handler['id']);
     }
 
     /**
@@ -560,28 +552,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     }
 
     public function _on_handled($handler, array $args)
-    {
-    }
-
-    /**
-     * Generic output initialization code. The return value lets you control whether the
-     * output method associated with the handler declaration is called, return false to
-     * override this automatism, true, the default, will call the output handler normally.
-     *
-     * @param mixed $handler The ID (array key) of the handler that is responsible to handle
-     *   the request.
-     * @return boolean Return false to override the regular component output.
-     * @deprecated
-     */
-    public function _on_show($handler)
-    {
-        return true;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function _on_shown($handler)
     {
     }
 
