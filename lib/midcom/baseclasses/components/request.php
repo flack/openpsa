@@ -174,30 +174,6 @@
  * A plugin class must be a descendant of midcom_baseclasses_components_handler or at
  * least support its full interface.
  *
- * It must define an additional function, called get_plugin_handlers(). It has to return
- * an array of standard request handler declarations. Both handler identifiers and
- * argument lists are <i>relative</i> to the base URL of the plugin (see below),
- * not to the component running the problem. You are thus completely location independent.
- * The handler callback must be statically callable.
- *
- * <i>Example: Plugin handler callback</i>
- *
- * <code>
- * public function get_plugin_handlers()
- * {
- *     return Array
- *     (
- *          'metadata' => array
- *          (
- *              'handler' => ['midcom_admin_folder_handler_metadata', 'metadata'],
- *              'fixed_args' => ['metadata'],
- *              'variable_args' => 1,
- *          ),
- *         // ...
- *     );
- * }
- * </code>
- *
  * As outlined above, plugins are managed in a two-level hierarchy. First, there is
  * the plugin identifier, second the class identifier. When registering a plugin,
  * these two are specified. The request handlers obtained by the above callback are
@@ -206,19 +182,13 @@
  * <i>Example: Plugin registration</i>
  *
  * <code>
- * $this->register_plugin_namespace
- * (
- *     '__ais',
- *     Array
- *     (
- *         'folder' => Array
- *         (
+ * $this->register_plugin_namespace(
+ *     '__ais', [
+ *         'folder' => [
  *             'class' => 'midcom_admin_folder_management',
- *             'src' => 'file:/midcom/admin/folder/management.php',
- *             'name' => 'Folder administration',
  *             'config' => null,
- *         ),
- *     )
+ *         ],
+ *     ]
  * );
  * </code>
  *
@@ -250,9 +220,6 @@
  * - mixed plugin_config: The configuration passed to the plugin as outlined
  *   above.
  * - string plugin_name: The name of the plugin as defined in its config
- * - string plugin_namespace: The plugin namespace defined when registering.
- * - string plugin_anchorprefix: A plugin-aware version of
- *   MIDCOM_CONTEXT_ANCHORPREFIX pointing to the root URL of the plugin.
  *
  * @package midcom.baseclasses
  */
@@ -309,13 +276,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @var array
      */
     private static $_plugin_namespace_config = [];
-
-    /**
-     * The controlling class for the active plugin, if any
-     *
-     * @var midcom_baseclasses_components_plugin
-     */
-    private $_active_plugin;
 
     /**
      * Request execution switch configuration.
@@ -443,10 +403,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         if (   count($argv) > 1
             && array_key_exists($argv[0], self::$_plugin_namespace_config)
             && array_key_exists($argv[1], self::$_plugin_namespace_config[$argv[0]])) {
-            $namespace = $argv[0];
-            $plugin = $argv[1];
-            debug_add("Loading the plugin {$namespace}/{$plugin}");
-            $routes = $this->_load_plugin($namespace, $plugin);
+            $routes = $this->_load_plugin($argv[0], $argv[1]);
         } else {
             $routes = $this->_request_switch;
         }
@@ -551,7 +508,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
             //For plugins, set the component name explicitly so that L10n and config can be found
             if (isset($request['plugin'])) {
-                $this->_active_plugin->initialize($this);
                 $request['handler'][0]->_component = $request['plugin'];
             }
 
@@ -588,12 +544,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // Add the handler ID to request data
         $this->_request_data['handler_id'] = $this->_handler['id'];
 
-        if (array_key_exists('plugin_namespace', $this->_request_data)) {
-            // Prepend the plugin anchor prefix so that it is complete.
-            $this->_request_data['plugin_anchorprefix'] =
-            midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
-            . $this->_request_data['plugin_anchorprefix'];
-        } else {
+        if (!array_key_exists('plugin_name', $this->_request_data)) {
             // We're not using a plugin handler, so call the general handle event handler
             $this->_on_handle($this->_handler['id'], $this->_handler['args']);
         }
@@ -754,15 +705,16 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *     much easier.
      *
      * @param string $namespace The plugin namespace to use.
-     * @param string $plugin The plugin to load from the namespace.
+     * @param string $name The plugin to load from the namespace.
      * @return array
      */
-    private function _load_plugin($namespace, $plugin)
+    private function _load_plugin($namespace, $name)
     {
-        $plugin_config = self::$_plugin_namespace_config[$namespace][$plugin];
+        debug_add("Loading the plugin {$namespace}/{$name}");
+        $plugin_config = self::$_plugin_namespace_config[$namespace][$name];
 
         if (empty($plugin_config['class']) || !class_exists($plugin_config['class'])) {
-            throw new midcom_error("Failed to load the plugin {$namespace}/{$plugin}, implementation class not available.");
+            throw new midcom_error("Failed to load the plugin {$namespace}/{$name}, implementation class not available.");
         }
 
         // Load the configuration into the request data, add the configured plugin name as
@@ -772,50 +724,28 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         } else {
             $this->_request_data['plugin_config'] = null;
         }
-        $this->_request_data['plugin_name'] = $plugin;
-        $this->_request_data['plugin_namespace'] = $namespace;
-
-        // This cannot be fully prepared at this point, as the ANCHORPREFIX is
-        // undefined up until to the handle phase. It thus completed in handle
-        // by prefixing the local anchorprefix.
-        $this->_request_data['plugin_anchorprefix'] = "{$namespace}/{$plugin}/";
+        $this->_request_data['plugin_name'] = $name;
 
         // Load remaining configuration, and prepare the plugin,
         // errors are logged by the callers.
-        $this->_active_plugin = new $plugin_config['class']();
-        $this->_active_plugin->_component = preg_replace('/([a-z0-9]+)_([a-z0-9]+)_([a-z0-9]+).+/', '$1.$2.$3', $plugin_config['class']);
+        $plugin = new $plugin_config['class']();
+        $plugin->initialize($this);
 
-        return $this->_prepare_plugin($namespace, $plugin);
-    }
-
-    /**
-     * Prepares the actual plugin by adding all necessary information to the request
-     * switch.
-     *
-     * @param string $namespace The plugin namespace to use.
-     * @param string $plugin The plugin to load from the namespace.
-     * @return array
-     */
-    private function _prepare_plugin($namespace, $plugin)
-    {
-        $handlers = $this->_active_plugin->get_plugin_handlers();
+        $handlers = midcom_baseclasses_components_configuration::get($plugin->_component, 'routes');
         $routes = [];
-
         foreach ($handlers as $identifier => $handler_config) {
             // First, update the fixed args list (be tolerant here)
             if (!array_key_exists('fixed_args', $handler_config)) {
-                $handler_config['fixed_args'] = [$namespace, $plugin];
-            } elseif (!is_array($handler_config['fixed_args'])) {
-                $handler_config['fixed_args'] = [$namespace, $plugin, $handler_config['fixed_args']];
+                $handler_config['fixed_args'] = [$namespace, $name];
             } else {
                 $handler_config['fixed_args'] = array_merge(
-                    [$namespace, $plugin],
-                    $handler_config['fixed_args']
+                    [$namespace, $name],
+                    (array) $handler_config['fixed_args']
                 );
             }
-            $handler_config['plugin'] = $this->_active_plugin->_component;
+            $handler_config['plugin'] = $plugin->_component;
 
-            $routes["__{$namespace}-{$plugin}-{$identifier}"] = $handler_config;
+            $routes["__{$namespace}-{$name}-{$identifier}"] = $handler_config;
         }
         return $routes;
     }
