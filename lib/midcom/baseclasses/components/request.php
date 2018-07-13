@@ -345,13 +345,11 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $this->_prepare_request_switch($routes);
 
         foreach ($routes as $key => $request) {
-            if (!$this->_validate_route($request, $argv)) {
-                continue;
+            if ($this->_validate_route($request, $argv)) {
+                // Prepare the handler object
+                $this->_prepare_handler($key, $request, $argv);
+                return true;
             }
-
-            // Prepare the handler object
-            $this->_prepare_handler($key, $request, $argv);
-            return true;
         }
         // No match
         return false;
@@ -375,10 +373,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
             if (!array_key_exists('variable_args', $value)) {
                 $value['variable_args'] = 0;
-            }
-
-            if (is_string($value['handler'])) {
-                $value['handler'] = [&$this, $value['handler']];
             }
         }
     }
@@ -438,7 +432,10 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $request['id'] = $key;
         $request['args'] = array_slice($argv, count($request['fixed_args']));
 
-        if (is_string($request['handler'][0])) {
+        if (is_string($request['handler'])) {
+            // Support for handlers in request class (deprecated)
+            $request['handler'] = [&$this, $request['handler']];
+        } elseif (is_string($request['handler'][0])) {
             $classname = $request['handler'][0];
             if (!class_exists($classname)) {
                 throw new midcom_error("Failed to create a class instance of the type {$classname}, the class is not declared.");
