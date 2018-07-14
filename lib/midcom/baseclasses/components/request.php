@@ -267,7 +267,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @var array
      */
-    public $_request_switch = [];
+    protected $_request_switch = [];
 
     /**
      * The handler which has been declared to be able to handle the
@@ -367,8 +367,11 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @param array $routes
      * @return \Symfony\Component\Routing\Router
      */
-    public function get_router(array $routes)
+    public function get_router(array $routes = null)
     {
+        if ($routes == null) {
+            $routes = $this->_request_switch;
+        }
         $loader = new loader();
         return new Router($loader, $routes);
     }

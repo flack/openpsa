@@ -213,40 +213,38 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     {
         $data = [];
 
-        // TODO: We're using "private" members here, better expose them through a method
         $handler = midcom::get()->componentloader->get_interface_class($component);
-        $request =& $handler->_context_data[midcom_core_context::get()->id]['handler'];
-        if (!isset($request->_request_switch)) {
-            // No request switch available, skip loading it
+        if (empty($handler->_context_data[midcom_core_context::get()->id]['handler'])) {
             return $data;
         }
+
         /** @var midcom_baseclasses_components_request $request */
-        $routes = $request->get_router($request->_request_switch)->getRouteCollection()->all();
-
+        $request =& $handler->_context_data[midcom_core_context::get()->id]['handler'];
+        $routes = $request->get_router()->getRouteCollection()->all();
         foreach ($routes as $request_handler_id => $route) {
-
-            $data[$request_handler_id] = [];
+            $details = [];
 
             // Build the dynamic_loadable URI, starting from topic path
-            $data[$request_handler_id]['route'] = str_replace(midcom_connection::get_url('prefix') . '/', '', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
+            $details['route'] = str_replace(midcom_connection::get_url('prefix') . '/', '', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
 
             // Add fixed arguments
-            $data[$request_handler_id]['route'] .= preg_replace('/args_(\d+)/', 'args[\1]', $route->getPath());
+            $details['route'] .= preg_replace('/args_(\d+)/', 'args[\1]', $route->getPath());
 
             if (is_array($route->getDefault('handler'))) {
-                $data[$request_handler_id]['controller'] = $route->getDefault('handler')[0];
+                $details['controller'] = $route->getDefault('handler')[0];
 
-                if (is_object($data[$request_handler_id]['controller'])) {
-                    $data[$request_handler_id]['controller'] = get_class($data[$request_handler_id]['controller']);
+                if (is_object($details['controller'])) {
+                    $details['controller'] = get_class($details['controller']);
                 }
 
-                $data[$request_handler_id]['action'] = $route->getDefault('handler')[1];
+                $details['action'] = $route->getDefault('handler')[1];
             }
 
             if (self::generate_file_path('handlers_' . $request_handler_id, $component)) {
-                $data[$request_handler_id]['info'] = $this->get_help_contents('handlers_' . $request_handler_id, $component);
-                $data[$request_handler_id]['handler_help_url'] = 'handlers_' . $request_handler_id;
+                $details['info'] = $this->get_help_contents('handlers_' . $request_handler_id, $component);
+                $details['handler_help_url'] = 'handlers_' . $request_handler_id;
             }
+            $data[$request_handler_id] = $details;
         }
 
         return $data;
