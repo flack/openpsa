@@ -28,8 +28,16 @@ class loader extends base
         foreach ($array as $name => $config) {
             $path = '/';
             $requirements = [];
-            if (!empty($config['fixed_args'])) {
+
+            if (empty($config['fixed_args'])) {
+                $config['fixed_args'] = [];
+            } else {
+                $config['fixed_args'] = (array) $config['fixed_args'];
                 $path = '/' . implode('/', $config['fixed_args']) . '/';
+            }
+
+            if (!array_key_exists('variable_args', $config)) {
+                $config['variable_args'] = 0;
             }
             for ($i = 0; $i < $config['variable_args']; $i++) {
                 $path .= '{args_' . $i . '}/';
@@ -37,6 +45,7 @@ class loader extends base
                     $requirements['args_' . $i] = $this->translate_validation($config['validation'][$i]);
                 }
             }
+
             $route = new Route($path, $config, $requirements);
             $collection->add($name, $route);
         }

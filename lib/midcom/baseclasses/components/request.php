@@ -341,22 +341,20 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         if (   count($argv) > 1
             && array_key_exists($argv[0], self::$_plugin_namespace_config)
             && array_key_exists($argv[1], self::$_plugin_namespace_config[$argv[0]])) {
-            $routes = $this->_load_plugin($argv[0], $argv[1]);
+            $namespace = array_shift($argv);
+            $name = array_shift($argv);
+            $routes = $this->_load_plugin($namespace, $name);
         } else {
             $routes = $this->_request_switch;
         }
 
-        $this->_prepare_request_switch($routes);
-
-        $loader = new loader();
-        $router = new Router($loader, $routes);
         if (empty($argv)) {
             $url = '/';
         } else {
             $url = '/' . implode('/', $argv) . '/';
         }
         try {
-            $result = $router->match($url);
+            $result = $this->get_router($routes)->match($url);
             $this->_prepare_handler($result, $argv);
             return true;
         } catch (ResourceNotFoundException $e) {
@@ -366,25 +364,13 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     }
 
     /**
-     * Post-process the initial information as set by the constructor.
-     * It fills all missing fields with sensible defaults, see the class introduction for
-     * details.
-     *
      * @param array $routes
+     * @return \Symfony\Component\Routing\Router
      */
-    private function _prepare_request_switch(array &$routes)
+    public function get_router(array $routes)
     {
-        foreach ($routes as $key => &$value) {
-            if (empty($value['fixed_args'])) {
-                $value['fixed_args'] = [];
-            } else {
-                $value['fixed_args'] = (array) $value['fixed_args'];
-            }
-
-            if (!array_key_exists('variable_args', $value)) {
-                $value['variable_args'] = 0;
-            }
-        }
+        $loader = new loader();
+        return new Router($loader, $routes);
     }
 
     /**
@@ -582,15 +568,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $handlers = midcom_baseclasses_components_configuration::get($plugin->_component, 'routes');
         $routes = [];
         foreach ($handlers as $identifier => $handler_config) {
-            // First, update the fixed args list (be tolerant here)
-            if (!array_key_exists('fixed_args', $handler_config)) {
-                $handler_config['fixed_args'] = [$namespace, $name];
-            } else {
-                $handler_config['fixed_args'] = array_merge(
-                    [$namespace, $name],
-                    (array) $handler_config['fixed_args']
-                );
-            }
             $handler_config['plugin'] = $plugin->_component;
 
             $routes["__{$namespace}-{$name}-{$identifier}"] = $handler_config;
