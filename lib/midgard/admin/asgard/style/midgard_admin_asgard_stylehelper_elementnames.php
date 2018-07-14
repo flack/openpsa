@@ -18,7 +18,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             foreach ($elements as $name => $path) {
                 echo "<li>";
 
-                if ($data['handler_id'] == '____mfa-asgard-object_create') {
+                if ($data['handler_id'] == 'object_create') {
                     // We're creating an element, on clicking a name we should input it to the form
                     echo '<a class="namepicker">';
                 } else {

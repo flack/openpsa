@@ -42,19 +42,19 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         }
 
         switch ($handler_id) {
-            case '____ais-imagepopup-list_folder_noobject':
-            case '____ais-imagepopup-list_folder':
+            case 'list_folder_noobject':
+            case 'list_folder':
                 $data['list_type'] = 'folder';
                 $data['list_title'] = $this->_l10n->get('folder attachments');
                 break;
 
-            case '____ais-imagepopup-list_object':
+            case 'list_object':
                 $data['list_type'] = 'page';
                 $data['list_title'] = $this->_l10n->get('page attachments');
                 break;
 
-            case '____ais-imagepopup-list_unified_noobject':
-            case '____ais-imagepopup-list_unified':
+            case 'list_unified_noobject':
+            case 'list_unified':
                 $data['list_type'] = 'unified';
                 $data['list_title'] = $this->_l10n->get('unified search');
                 $data['query'] = (array_key_exists('query', $_REQUEST) ? $_REQUEST['query'] : '');

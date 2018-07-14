@@ -20,7 +20,7 @@ class midcom_helper_imagepopup_handler_listTest extends openpsa_testcase
         $node = self::get_component_node('net.nehmer.static');
 
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'folder', 'file', $node->guid]);
-        $this->assertEquals('____ais-imagepopup-list_folder', $data['handler_id']);
+        $this->assertEquals('list_folder', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
@@ -32,7 +32,7 @@ class midcom_helper_imagepopup_handler_listTest extends openpsa_testcase
         $this->create_user(true);
 
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'folder', 'file']);
-        $this->assertEquals('____ais-imagepopup-list_folder_noobject', $data['handler_id']);
+        $this->assertEquals('list_folder_noobject', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -44,7 +44,7 @@ class midcom_helper_imagepopup_handler_listTest extends openpsa_testcase
         $node = self::get_component_node('net.nehmer.static');
 
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'unified', 'file', $node->guid]);
-        $this->assertEquals('____ais-imagepopup-list_unified', $data['handler_id']);
+        $this->assertEquals('list_unified', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
@@ -56,7 +56,7 @@ class midcom_helper_imagepopup_handler_listTest extends openpsa_testcase
         $this->create_user(true);
 
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'unified', 'file']);
-        $this->assertEquals('____ais-imagepopup-list_unified_noobject', $data['handler_id']);
+        $this->assertEquals('list_unified_noobject', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }

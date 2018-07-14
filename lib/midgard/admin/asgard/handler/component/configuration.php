@@ -40,10 +40,10 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         $this->_request_data['asgard_toolbar']->add_items($buttons);
 
         switch ($handler_id) {
-            case '____mfa-asgard-components_configuration_edit':
+            case 'components_configuration_edit':
                 $this->_request_data['asgard_toolbar']->disable_item("__mfa/asgard/components/configuration/edit/{$this->_request_data['name']}/");
                 break;
-            case '____mfa-asgard-components_configuration':
+            case 'components_configuration':
                 $this->_request_data['asgard_toolbar']->disable_item("__mfa/asgard/components/configuration/{$this->_request_data['name']}/");
                 break;
         }
@@ -66,7 +66,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             $this->_l10n_midcom->get('component configuration')
         );
 
-        if ($handler_id == '____mfa-asgard-components_configuration_edit') {
+        if ($handler_id == 'components_configuration_edit') {
             $this->add_breadcrumb(
                 "__mfa/asgard/components/configuration/{$this->_request_data['name']}/edit/",
                 $this->_l10n_midcom->get('edit')
@@ -356,7 +356,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             throw new midcom_error_notfound("Component {$data['name']} was not found.");
         }
 
-        if ($handler_id == '____mfa-asgard-components_configuration_edit_folder') {
+        if ($handler_id == 'components_configuration_edit_folder') {
             $data['folder'] = new midcom_db_topic($args[1]);
             if ($data['folder']->component != $data['name']) {
                 throw new midcom_error_notfound("Folder {$args[1]} not found for configuration.");
@@ -377,7 +377,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                if ($handler_id == '____mfa-asgard-components_configuration_edit_folder') {
+                if ($handler_id == 'components_configuration_edit_folder') {
                     return new midcom_response_relocate("__mfa/asgard/object/view/{$data['folder']->guid}/");
                 }
                 return new midcom_response_relocate("__mfa/asgard/components/configuration/{$data['name']}/");
@@ -385,7 +385,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
         $data['controller'] = $this->_controller;
 
-        if ($handler_id == '____mfa-asgard-components_configuration_edit_folder') {
+        if ($handler_id == 'components_configuration_edit_folder') {
             midgard_admin_asgard_plugin::bind_to_object($data['folder'], $handler_id, $data);
             $data['view_title'] = sprintf($this->_l10n->get('edit configuration for %s folder %s'), $data['name'], $data['folder']->extra);
         } else {
@@ -413,7 +413,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             // Get back to form
         }
 
-        if ($data['handler_id'] == '____mfa-asgard-components_configuration_edit_folder') {
+        if ($data['handler_id'] == 'components_configuration_edit_folder') {
             // Editing folder configuration
             $this->_save_topic($data['folder'], $config_array);
             midcom::get()->uimessages->add(

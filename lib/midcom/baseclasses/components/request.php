@@ -569,13 +569,10 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $plugin->initialize($this);
 
         $handlers = midcom_baseclasses_components_configuration::get($plugin->_component, 'routes');
-        $routes = [];
-        foreach ($handlers as $identifier => $handler_config) {
+        foreach ($handlers as $identifier => &$handler_config) {
             $handler_config['plugin'] = $plugin->_component;
-
-            $routes["__{$namespace}-{$name}-{$identifier}"] = $handler_config;
         }
-        return $routes;
+        return $handlers;
     }
 
     /**

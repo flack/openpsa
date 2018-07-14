@@ -19,7 +19,7 @@ class midgard_admin_asgard_handler_object_deletedTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'deleted', 'dummy']);
-        $this->assertEquals('____mfa-asgard-object_deleted', $data['handler_id']);
+        $this->assertEquals('object_deleted', $data['handler_id']);
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }

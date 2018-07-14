@@ -19,7 +19,7 @@ class midgard_admin_asgard_handler_preferencesTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'preferences']);
-        $this->assertEquals('____mfa-asgard-preferences', $data['handler_id']);
+        $this->assertEquals('preferences', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
@@ -31,7 +31,7 @@ class midgard_admin_asgard_handler_preferencesTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'preferences', 'ajax']);
-        $this->assertEquals('____mfa-asgard-preferences_ajax', $data['handler_id']);
+        $this->assertEquals('preferences_ajax', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -44,7 +44,7 @@ class midgard_admin_asgard_handler_preferencesTest extends openpsa_testcase
         $person = $this->create_object(midcom_db_person::class);
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'preferences', $person->guid]);
-        $this->assertEquals('____mfa-asgard-preferences_guid', $data['handler_id']);
+        $this->assertEquals('preferences_guid', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();

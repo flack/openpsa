@@ -211,8 +211,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
         $this->_new_object = new $create_type();
 
-        if (   $handler_id == '____mfa-asgard-object_create_toplevel'
-            || $handler_id == '____mfa-asgard-object_create_chooser') {
+        if (   $handler_id == 'object_create_toplevel'
+            || $handler_id == 'object_create_chooser') {
             midcom::get()->auth->require_user_do('midgard:create', null, $create_type);
 
             $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), midgard_admin_asgard_plugin::get_type_label($data['current_type']));
@@ -237,13 +237,13 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
                 $this->_new_object->set_parameter('midcom.helper.datamanager2', 'schema_name', 'default');
 
-                if ($handler_id !== '____mfa-asgard-object_create_chooser') {
+                if ($handler_id !== 'object_create_chooser') {
                     return $this->_prepare_relocate($this->_new_object);
                 }
                 break;
             case 'cancel':
                 $data['cancelled'] = true;
-                if ($handler_id !== '____mfa-asgard-object_create_chooser') {
+                if ($handler_id !== 'object_create_chooser') {
                     if ($this->_object) {
                         return $this->_prepare_relocate($this->_object);
                     }
@@ -252,7 +252,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         $this->_prepare_request_data();
-        if ($handler_id !== '____mfa-asgard-object_create_chooser') {
+        if ($handler_id !== 'object_create_chooser') {
             return new midgard_admin_asgard_response($this, '_show_create');
         }
     }
@@ -299,7 +299,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     public function _show_create($handler_id, array &$data)
     {
-        if ($handler_id == '____mfa-asgard-object_create_chooser') {
+        if ($handler_id == 'object_create_chooser') {
             midcom_show_style('midgard_admin_asgard_popup_header');
             if (   $this->_new_object->id
                 || isset($data['cancelled'])) {
@@ -470,7 +470,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
 
         // Set the page title
-        if ($handler_id === '____mfa-asgard-object_copy_tree') {
+        if ($handler_id === 'object_copy_tree') {
             $data['page_title'] = sprintf($this->_l10n->get('copy %s and its descendants'), $this->_object->{$target['label']});
         } else {
             $data['page_title'] = sprintf($this->_l10n->get('copy %s'), $this->_object->{$target['label']});
@@ -522,7 +522,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $copy->copy_attachments = $formdata['attachments'];
         $copy->copy_privileges = $formdata['privileges'];
 
-        if ($this->_request_data['handler_id'] === '____mfa-asgard-object_copy_tree') {
+        if ($this->_request_data['handler_id'] === 'object_copy_tree') {
             $copy->exclude = array_diff($_POST['all_objects'], $_POST['selected']);
         } else {
             $copy->copy_tree = false;
@@ -535,7 +535,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         $new_object = $copy->get_object();
 
-        if ($this->_request_data['handler_id'] === '____mfa-asgard-object_copy_tree') {
+        if ($this->_request_data['handler_id'] === 'object_copy_tree') {
             midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the root of the new object tree'));
         } else {
             midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the new object'));
@@ -552,7 +552,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     public function _show_copy($handler_id, array &$data)
     {
         // Show the tree hierarchy
-        if ($handler_id === '____mfa-asgard-object_copy_tree') {
+        if ($handler_id === 'object_copy_tree') {
             $data['tree'] = new midgard_admin_asgard_copytree($this->_object, $data);
             $data['tree']->inputs = true;
             $data['tree']->copy_tree = true;

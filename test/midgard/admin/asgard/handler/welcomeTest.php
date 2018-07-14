@@ -19,7 +19,7 @@ class midgard_admin_asgard_handler_welcomeTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard']);
-        $this->assertEquals('____mfa-asgard-welcome', $data['handler_id']);
+        $this->assertEquals('welcome', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();

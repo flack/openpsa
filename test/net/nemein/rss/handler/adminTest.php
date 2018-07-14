@@ -29,13 +29,13 @@ class net_nemein_rss_handler_adminTest extends openpsa_testcase
     public function test_handler_subscribe()
     {
         $data = $this->run_handler(self::$topic, ['__feeds', 'rss', 'subscribe']);
-        $this->assertEquals('____feeds-rss-feeds_subscribe', $data['handler_id']);
+        $this->assertEquals('feeds_subscribe', $data['handler_id']);
     }
 
     public function test_handler_edit()
     {
         $feed = $this->create_object(net_nemein_rss_feed_dba::class, ['node' => self::$topic->id]);
         $data = $this->run_handler(self::$topic, ['__feeds', 'rss', 'edit', $feed->guid]);
-        $this->assertEquals('____feeds-rss-feeds_edit', $data['handler_id']);
+        $this->assertEquals('feeds_edit', $data['handler_id']);
     }
 }

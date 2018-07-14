@@ -18,7 +18,7 @@ class midgard_admin_user_handler_user_createTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('midgard.admin.user');
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard_midgard.admin.user', 'create']);
-        $this->assertEquals('____mfa-asgard_midgard.admin.user-user_create', $data['handler_id']);
+        $this->assertEquals('user_create', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();

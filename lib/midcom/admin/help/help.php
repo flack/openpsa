@@ -359,15 +359,15 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     {
         $this->add_breadcrumb("__ais/help/", $this->_l10n->get('midcom.admin.help'));
 
-        if (   $handler_id == '____ais-help-help'
-            || $handler_id == '____ais-help-component') {
+        if (   $handler_id == 'help'
+            || $handler_id == 'component') {
             $this->add_breadcrumb(
                 "__ais/help/{$this->_request_data['component']}/",
                 sprintf($this->_l10n->get('help for %s'), midcom::get()->i18n->get_string($this->_request_data['component'], $this->_request_data['component']))
             );
         }
 
-        if ($handler_id == '____ais-help-help') {
+        if ($handler_id == 'help') {
             if (   $this->_request_data['help_id'] == 'handlers'
                 || $this->_request_data['help_id'] == 'urlmethods'
                 || $this->_request_data['help_id'] == 'mgdschemas') {

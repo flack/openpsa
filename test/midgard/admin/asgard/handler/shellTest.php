@@ -19,7 +19,7 @@ class midgard_admin_asgard_handler_shellTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'shell']);
-        $this->assertEquals('____mfa-asgard-shell', $data['handler_id']);
+        $this->assertEquals('shell', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();

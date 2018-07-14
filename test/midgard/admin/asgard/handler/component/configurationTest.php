@@ -19,7 +19,7 @@ class midgard_admin_asgard_handler_component_configurationTest extends openpsa_t
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'components', 'configuration', 'net.nehmer.blog']);
-        $this->assertEquals('____mfa-asgard-components_configuration', $data['handler_id']);
+        $this->assertEquals('components_configuration', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
@@ -31,7 +31,7 @@ class midgard_admin_asgard_handler_component_configurationTest extends openpsa_t
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'components', 'configuration', 'edit', 'net.nehmer.blog']);
-        $this->assertEquals('____mfa-asgard-components_configuration_edit', $data['handler_id']);
+        $this->assertEquals('components_configuration_edit', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
@@ -45,7 +45,7 @@ class midgard_admin_asgard_handler_component_configurationTest extends openpsa_t
         $topic = $this->create_object(midcom_db_topic::class, ['component' => 'net.nehmer.blog']);
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'components', 'configuration', 'edit', 'net.nehmer.blog', $topic->guid]);
-        $this->assertEquals('____mfa-asgard-components_configuration_edit_folder', $data['handler_id']);
+        $this->assertEquals('components_configuration_edit_folder', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();

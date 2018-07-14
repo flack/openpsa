@@ -31,7 +31,7 @@ class midcom_admin_folder_handler_approvals extends midcom_baseclasses_component
         $object = midcom::get()->dbfactory->get_object_by_guid($_REQUEST['guid']);
         $object->require_do('midcom:approve');
 
-        if ($handler_id == '____ais-folder-approve') {
+        if ($handler_id == 'approve') {
             $object->metadata->approve();
         } else {
             $object->metadata->unapprove();

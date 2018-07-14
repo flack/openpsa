@@ -87,7 +87,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_topic->require_do('midcom.admin.folder:topic_management');
-        $this->_handler_id = str_replace('____ais-folder-', '', $handler_id);
+        $this->_handler_id = $handler_id;
 
         if ($this->_handler_id == 'edit') {
             $this->_topic->require_do('midgard:update');

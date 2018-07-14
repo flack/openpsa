@@ -41,7 +41,7 @@ class midcom_helper_imagepopup_handler_linksTest extends openpsa_testcase
         $node = self::get_component_node('net.nehmer.static');
 
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'links', 'file', $node->guid]);
-        $this->assertEquals('____ais-imagepopup-list_links', $data['handler_id']);
+        $this->assertEquals('list_links', $data['handler_id']);
 
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
@@ -53,7 +53,7 @@ class midcom_helper_imagepopup_handler_linksTest extends openpsa_testcase
         $this->create_user(true);
 
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'links', 'dummy']);
-        $this->assertEquals('____ais-imagepopup-list_links_noobject', $data['handler_id']);
+        $this->assertEquals('list_links_noobject', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }

@@ -31,7 +31,7 @@ class org_openpsa_relatedto_handler_relatedtoTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
         $data = $this->run_handler('org.openpsa.invoices', ['__mfa', 'org.openpsa.relatedto', 'render', self::$_object_from->guid, 'both', 'default']);
-        $this->assertEquals('____mfa-org.openpsa.relatedto-render_sort', $data['handler_id']);
+        $this->assertEquals('render_sort', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -41,7 +41,7 @@ class org_openpsa_relatedto_handler_relatedtoTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
 
         $data = $this->run_handler('org.openpsa.invoices', ['__mfa', 'org.openpsa.relatedto', 'render', self::$_object_from->guid, 'both']);
-        $this->assertEquals('____mfa-org.openpsa.relatedto-render', $data['handler_id']);
+        $this->assertEquals('render', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }

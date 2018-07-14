@@ -33,7 +33,7 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
 
         // Do it goes with guid ?
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'upload', 'image', $node->guid]);
-        $this->assertEquals('____ais-imagepopup-upload_image', $data['handler_id']);
+        $this->assertEquals('upload_image', $data['handler_id']);
 
         // Do new attachment exists ? Has a location and name ?
         $this->assertInstanceOf(midcom_db_attachment::class, $data['attachment']);
@@ -56,7 +56,7 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
 
         // Do it goes without guid ?
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'upload', 'image']);
-        $this->assertEquals('____ais-imagepopup-upload_image_noobject', $data['handler_id']);
+        $this->assertEquals('upload_image_noobject', $data['handler_id']);
 
         // Do new attachment exists ? Has a location and name ?
         $this->assertInstanceOf(midcom_db_attachment::class, $data['attachment']);

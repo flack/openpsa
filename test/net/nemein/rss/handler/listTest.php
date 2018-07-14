@@ -29,12 +29,12 @@ class net_nemein_rss_handler_listTest extends openpsa_testcase
     public function test_handler_opml()
     {
         $data = $this->run_handler(self::$topic, ['__feeds', 'rss', 'feeds.opml']);
-        $this->assertEquals('____feeds-rss-feeds_opml', $data['handler_id']);
+        $this->assertEquals('feeds_opml', $data['handler_id']);
     }
 
     public function test_handler_edit()
     {
         $data = $this->run_handler(self::$topic, ['__feeds', 'rss', 'list']);
-        $this->assertEquals('____feeds-rss-feeds_list', $data['handler_id']);
+        $this->assertEquals('feeds_list', $data['handler_id']);
     }
 }

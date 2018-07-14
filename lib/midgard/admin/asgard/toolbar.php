@@ -151,7 +151,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
                 MIDCOM_TOOLBAR_URL => $this->_generate_url('rcs', $object),
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('show history', 'midgard.admin.asgard'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'history',
-                MIDCOM_TOOLBAR_ENABLED => (substr($handler_id, 0, 25) !== '____mfa-asgard-object_rcs'),
+                MIDCOM_TOOLBAR_ENABLED => (substr($handler_id, 0, 25) !== 'object_rcs'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'h',
             ];
         }
@@ -162,38 +162,38 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
     private function _disable_active_item($handler_id, $object, array $data)
     {
         switch ($handler_id) {
-            case '____mfa-asgard-object_view':
+            case 'object_view':
                 $this->disable_item($this->_generate_url('view', $object));
                 break;
-            case '____mfa-asgard-object_edit':
+            case 'object_edit':
                 $this->disable_item($this->_generate_url('edit', $object));
                 break;
-            case '____mfa-asgard-object_copy':
+            case 'object_copy':
                 $this->disable_item($this->_generate_url('copy', $object));
                 break;
-            case '____mfa-asgard-object_copy_tree':
+            case 'object_copy_tree':
                 $this->disable_item($this->_generate_url('copy/tree', $object));
                 break;
-            case '____mfa-asgard-components_configuration_edit_folder':
+            case 'components_configuration_edit_folder':
                 $this->disable_item("__mfa/asgard/components/configuration/edit/{$object->component}/{$object->guid}/");
                 break;
-            case '____mfa-asgard-object_metadata':
+            case 'object_metadata':
                 $this->disable_item($this->_generate_url('metadata', $object));
                 break;
-            case '____mfa-asgard-object_attachments':
-            case '____mfa-asgard-object_attachments_edit':
+            case 'object_attachments':
+            case 'object_attachments_edit':
                 $this->disable_item($this->_generate_url('attachments', $object));
                 break;
-            case '____mfa-asgard-object_parameters':
+            case 'object_parameters':
                 $this->disable_item($this->_generate_url('parameters', $object));
                 break;
-            case '____mfa-asgard-object_permissions':
+            case 'object_permissions':
                 $this->disable_item($this->_generate_url('permissions', $object));
                 break;
-            case '____mfa-asgard-object_create':
+            case 'object_create':
                 $this->disable_item($this->_generate_url('create/' . $data['current_type'], $object));
                 break;
-            case '____mfa-asgard-object_delete':
+            case 'object_delete':
                 $this->disable_item($this->_generate_url('delete', $object));
                 break;
             case '____mfa-asgard_midcom.helper.replicator-object':

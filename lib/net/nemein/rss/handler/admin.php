@@ -168,9 +168,9 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
     {
         $this->add_breadcrumb("__feeds/rss/list/", $this->_l10n->get('manage feeds'));
 
-        if ($handler_id == '____feeds-rss-feeds_subscribe') {
+        if ($handler_id == 'feeds_subscribe') {
             $this->add_breadcrumb("__feeds/rss/subscribe/", $this->_l10n->get('subscribe feeds'));
-        } elseif ($handler_id == '____feeds-rss-feeds_edit') {
+        } elseif ($handler_id == 'feeds_edit') {
             $this->add_breadcrumb("__feeds/rss/edit/{$this->_request_data['feed']->guid}/", $this->_l10n_midcom->get('edit'));
         }
         net_nemein_rss_manage::add_toolbar_buttons($this->_node_toolbar);
