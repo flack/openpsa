@@ -1,0 +1,16 @@
+history:
+    path: /{guid}/
+    defaults: { _controller: 'midcom_admin_rcs_handler_rcs::history' }
+
+preview:
+    path: /preview/{guid}/{revision}/
+    defaults: { _controller: 'midcom_admin_rcs_handler_rcs::preview' }
+
+diff:
+    path: /diff/{guid}/{revision1}/{revision2}/
+    defaults: { _controller: 'midcom_admin_rcs_handler_rcs::diff' }
+
+restore:
+    path: /restore/{guid}/{revision}/
+    defaults: { _controller: 'midcom_admin_rcs_handler_rcs::restore' }
+

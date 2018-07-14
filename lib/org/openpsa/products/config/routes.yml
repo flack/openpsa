@@ -1,0 +1,80 @@
+config:
+    path: /config/
+    defaults: { _controller: 'org_openpsa_products_handler_configuration::config' }
+
+config_recreate:
+    path: /config/recreate/
+    defaults: { _controller: 'org_openpsa_products_handler_configuration::recreate' }
+
+list:
+    path: /
+    defaults: { _controller: 'org_openpsa_products_handler_list::list' }
+
+list_json:
+    path: /json/
+    defaults: { _controller: 'org_openpsa_products_handler_list::json' }
+
+list_json_group:
+    path: /json/{guid}/
+    defaults: { _controller: 'org_openpsa_products_handler_list::json' }
+
+list_group:
+    path: /{guid}/
+    defaults: { _controller: 'org_openpsa_products_handler_list::list' }
+
+edit_product_group:
+    path: /edit/{guid}/
+    defaults: { _controller: 'org_openpsa_products_handler_group_edit::edit' }
+
+create_group:
+    path: /create/{group}/{schema}/
+    defaults: { _controller: 'org_openpsa_products_handler_group_create::create' }
+
+create_product:
+    path: /product/create/{schema}/
+    defaults: { _controller: 'org_openpsa_products_handler_product_create::create' }
+
+create_group_product:
+    path: /product/create/{group}/{schema}/
+    defaults: { _controller: 'org_openpsa_products_handler_product_create::create' }
+
+edit_product:
+    path: /product/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_products_handler_product_admin::update' }
+
+delete_product:
+    path: /product/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_products_handler_product_admin::delete' }
+
+view_product:
+    path: /product/{guid}/
+    defaults: { _controller: 'org_openpsa_products_handler_product_view::view' }
+
+view_product_raw:
+    path: /product/raw/{guid}/
+    defaults: { _controller: 'org_openpsa_products_handler_product_view::view' }
+
+updated_products:
+    path: /updated/{n}/
+    defaults: { _controller: 'org_openpsa_products_handler_product_latest::updated' }
+
+updated_products_intree:
+    path: /updated/{productgroup}/{n}/
+    defaults: { _controller: 'org_openpsa_products_handler_product_latest::updated' }
+
+updated_products_feed:
+    path: /rss.xml/
+    defaults: { _controller: 'org_openpsa_products_handler_product_latest::feed' }
+
+updated_products_feed_intree:
+    path: /rss/{productgroup}/{rss_xml}/
+    defaults: { _controller: 'org_openpsa_products_handler_product_latest::feed' }
+
+export_product_csv:
+    path: /export/product/csv/
+    defaults: { _controller: 'org_openpsa_products_handler_product_csv::csv' }
+
+export_product_csv_schemaname:
+    path: /export/product/csv/{schema}/
+    defaults: { _controller: 'org_openpsa_products_handler_product_csv::csv' }
+

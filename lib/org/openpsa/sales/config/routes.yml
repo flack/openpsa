@@ -1,0 +1,80 @@
+list_state:
+    path: /list/{state}/
+    defaults: { _controller: 'org_openpsa_sales_handler_list::list' }
+
+list_customer:
+    path: /list/customer/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_list::list' }
+
+salesproject_edit:
+    path: /salesproject/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_edit::edit' }
+
+salesproject_delete:
+    path: /salesproject/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_edit::delete' }
+
+salesproject_new:
+    path: /salesproject/new/
+    defaults: { _controller: 'org_openpsa_sales_handler_edit::new' }
+
+salesproject_new_customer:
+    path: /salesproject/new/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_edit::new' }
+
+salesproject_sort_deliveables:
+    path: /salesproject/deliverables/sort/
+    defaults: { _controller: 'org_openpsa_sales_handler_view::sort' }
+
+salesproject_view:
+    path: /salesproject/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_view::view' }
+
+deliverable_add:
+    path: /deliverable/add/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_deliverable_add::add' }
+
+deliverable_process:
+    path: /deliverable/process/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_deliverable_process::process' }
+
+deliverable_edit:
+    path: /deliverable/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_deliverable_admin::edit' }
+
+deliverable_delete:
+    path: /deliverable/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_deliverable_admin::delete' }
+
+deliverable_list_product:
+    path: /deliverable/list/product/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_deliverable_list::product' }
+
+deliverable_view:
+    path: /deliverable/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_deliverable_view::view' }
+
+deliverable_rest:
+    path: /rest/deliverable/
+    defaults: { _controller: 'org_openpsa_sales_handler_rest_deliverable::process' }
+
+sales_order_rest:
+    path: /rest/order/
+    defaults: { _controller: 'org_openpsa_sales_handler_rest_order::process' }
+
+frontpage:
+    path: /
+    defaults: { _controller: 'org_openpsa_sales_handler_list::list' }
+
+create_offer:
+    path: /salesproject/offer/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_offer::create' }
+
+edit_offer:
+    path: /salesproject/offer/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_offer::edit' }
+
+delete_offer:
+    path: /salesproject/offer/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_offer::delete' }
+

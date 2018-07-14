@@ -1,0 +1,132 @@
+welcome:
+    path: /
+    defaults: { _controller: 'midgard_admin_asgard_handler_welcome::welcome' }
+
+shell:
+    path: /shell/
+    defaults: { _controller: 'midgard_admin_asgard_handler_shell::shell' }
+
+components:
+    path: /components/
+    defaults: { _controller: 'midgard_admin_asgard_handler_components::list' }
+
+components_component:
+    path: /components/{component}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_components::component' }
+
+components_configuration:
+    path: /components/configuration/{component}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_component_configuration::view' }
+
+components_configuration_edit:
+    path: /components/configuration/edit/{component}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_component_configuration::edit' }
+
+components_configuration_edit_folder:
+    path: /components/configuration/edit/{component}/{folder}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_component_configuration::edit' }
+
+trash:
+    path: /trash/
+    defaults: { _controller: 'midgard_admin_asgard_handler_undelete::trash' }
+
+preferences:
+    path: /preferences/
+    defaults: { _controller: 'midgard_admin_asgard_handler_preferences::preferences' }
+
+preferences_ajax:
+    path: /preferences/ajax/
+    defaults: { _controller: 'midgard_admin_asgard_handler_preferences::ajax' }
+
+preferences_guid:
+    path: /preferences/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_preferences::preferences' }
+
+type:
+    path: /{type}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_type::type' }
+
+trash_type:
+    path: /trash/{type}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_undelete::trash_type' }
+
+object_open:
+    path: /object/open/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_manage::open' }
+
+object_view:
+    path: /object/view/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_manage::view' }
+
+object_edit:
+    path: /object/edit/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_manage::edit' }
+
+object_metadata:
+    path: /object/metadata/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_metadata::edit' }
+
+object_parameters:
+    path: /object/parameters/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_parameters::edit' }
+
+object_permissions:
+    path: /object/permissions/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_permissions::edit' }
+
+object_copy:
+    path: /object/copy/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_manage::copy' }
+
+object_copy_tree:
+    path: /object/copy/tree/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_manage::copy' }
+
+object_attachments:
+    path: /object/attachments/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_attachments::create' }
+
+object_attachments_edit:
+    path: /object/attachments/{guid}/{filename}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_attachments::edit' }
+
+object_attachments_delete:
+    path: /object/attachments/delete/{guid}/{filename}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_attachments::delete' }
+
+object_create_chooser:
+    path: /object/create/chooser/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_manage::create' }
+
+object_create:
+    path: /object/create/{type}/{parent_guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_manage::create' }
+
+object_create_toplevel:
+    path: /object/create/{type}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_manage::create' }
+
+object_delete:
+    path: /object/delete/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_manage::delete' }
+
+object_deleted:
+    path: /object/deleted/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_deleted::deleted' }
+
+object_rcs_history:
+    path: /object/rcs/{guid}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_rcs::history' }
+
+object_rcs_preview:
+    path: /object/rcs/preview/{guid}/{revision}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_rcs::preview' }
+
+object_rcs_diff:
+    path: /object/rcs/diff/{guid}/{revision1}/{revision2}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_rcs::diff' }
+
+object_rcs_restore:
+    path: /object/rcs/restore/{guid}/{revision}/
+    defaults: { _controller: 'midgard_admin_asgard_handler_object_rcs::restore' }
+

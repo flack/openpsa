@@ -1,0 +1,52 @@
+user_list:
+    path: /
+    defaults: { _controller: 'midgard_admin_user_handler_list::list' }
+
+user_batch:
+    path: /batch/{action}/
+    defaults: { _controller: 'midgard_admin_user_handler_list::batch' }
+
+user_password_email:
+    path: /password/email/
+    defaults: { _controller: 'midgard_admin_user_handler_list::password_email' }
+
+user_edit:
+    path: /edit/{guid}/
+    defaults: { _controller: 'midgard_admin_user_handler_user_edit::edit' }
+
+user_passwords:
+    path: /password/
+    defaults: { _controller: 'midgard_admin_user_handler_user_account::passwords' }
+
+user_edit_account:
+    path: /account/{guid}/
+    defaults: { _controller: 'midgard_admin_user_handler_user_account::edit' }
+
+user_delete_account:
+    path: /account/delete/{guid}/
+    defaults: { _controller: 'midgard_admin_user_handler_user_account::delete' }
+
+user_create:
+    path: /create/
+    defaults: { _controller: 'midgard_admin_user_handler_user_create::create' }
+
+group_list:
+    path: /group/
+    defaults: { _controller: 'midgard_admin_user_handler_group_list::list' }
+
+group_move:
+    path: /group/move/{guid}/
+    defaults: { _controller: 'midgard_admin_user_handler_group_list::move' }
+
+group_edit:
+    path: /group/edit/{guid}/
+    defaults: { _controller: 'midgard_admin_user_handler_group_edit::edit' }
+
+group_folders:
+    path: /group/folders/{guid}/
+    defaults: { _controller: 'midgard_admin_user_handler_group_permissions::folders' }
+
+group_create:
+    path: /group/create/
+    defaults: { _controller: 'midgard_admin_user_handler_group_create::create' }
+

@@ -1,0 +1,32 @@
+create:
+    path: /create/
+    defaults: { _controller: 'midcom_admin_folder_handler_edit::edit' }
+
+edit:
+    path: /edit/
+    defaults: { _controller: 'midcom_admin_folder_handler_edit::edit' }
+
+delete:
+    path: /delete/
+    defaults: { _controller: 'midcom_admin_folder_handler_delete::delete' }
+
+approve:
+    path: /approve/
+    defaults: { _controller: 'midcom_admin_folder_handler_approvals::approval' }
+
+unapprove:
+    path: /unapprove/
+    defaults: { _controller: 'midcom_admin_folder_handler_approvals::approval' }
+
+metadata:
+    path: /metadata/{guid}/
+    defaults: { _controller: 'midcom_admin_folder_handler_metadata::metadata' }
+
+move:
+    path: /move/{guid}/
+    defaults: { _controller: 'midcom_admin_folder_handler_move::move' }
+
+order:
+    path: /order/
+    defaults: { _controller: 'midcom_admin_folder_handler_order::order' }
+

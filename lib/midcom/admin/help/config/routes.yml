@@ -1,0 +1,12 @@
+welcome:
+    path: /
+    defaults: { _controller: 'midcom_admin_help_help::welcome' }
+
+component:
+    path: /{component}/
+    defaults: { _controller: 'midcom_admin_help_help::component' }
+
+help:
+    path: /{component}/{help_id}/
+    defaults: { _controller: 'midcom_admin_help_help::help' }
+

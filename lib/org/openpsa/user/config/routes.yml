@@ -1,0 +1,92 @@
+user_list:
+    path: /
+    defaults: { _controller: 'org_openpsa_user_handler_list::list' }
+
+user_list_members:
+    path: /members/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_list::list' }
+
+user_list_json:
+    path: /json/
+    defaults: { _controller: 'org_openpsa_user_handler_list::json' }
+
+user_list_json_members:
+    path: /json/members/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_list::json' }
+
+user_view:
+    path: /view/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_person_view::view' }
+
+user_edit:
+    path: /edit/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_person_edit::edit' }
+
+user_delete:
+    path: /delete/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_person_delete::delete' }
+
+person_notifications:
+    path: /person/notifications/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_person_notifications::notifications' }
+
+user_privileges:
+    path: /privileges/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_person_privileges::privileges' }
+
+user_create:
+    path: /create/
+    defaults: { _controller: 'org_openpsa_user_handler_person_create::create' }
+
+user_create_group:
+    path: /create/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_person_create::create' }
+
+account_create:
+    path: /account/create/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_person_account::create' }
+
+account_edit:
+    path: /account/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_person_account::edit' }
+
+account_delete:
+    path: /account/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_person_account::delete' }
+
+account_su:
+    path: /account/su/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_person_account::su' }
+
+lostpassword:
+    path: /lostpassword/
+    defaults: { _controller: 'org_openpsa_user_handler_lostpassword::lostpassword' }
+
+group_list:
+    path: /groups/
+    defaults: { _controller: 'org_openpsa_user_handler_group_list::list' }
+
+group_create:
+    path: /group/create/
+    defaults: { _controller: 'org_openpsa_user_handler_group_create::create' }
+
+group_view:
+    path: /group/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_group_view::view' }
+
+group_edit:
+    path: /group/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_group_edit::edit' }
+
+group_delete:
+    path: /group/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_group_delete::delete' }
+
+group_notifications:
+    path: /group/notifications/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_group_notifications::notifications' }
+
+group_privileges:
+    path: /group/privileges/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_group_privileges::privileges' }
+

@@ -1,0 +1,16 @@
+basic:
+    path: /
+    defaults: { _controller: 'midcom_helper_search_handler_search::searchform' }
+
+result:
+    path: /result/
+    defaults: { _controller: 'midcom_helper_search_handler_search::result' }
+
+advanced:
+    path: /advanced/
+    defaults: { _controller: 'midcom_helper_search_handler_search::searchform' }
+
+opensearch_description:
+    path: /opensearch.xml/
+    defaults: { _controller: 'midcom_helper_search_handler_search::opensearchdescription' }
+

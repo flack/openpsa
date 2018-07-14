@@ -1,0 +1,148 @@
+import_main:
+    path: /campaign/import/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_import::index' }
+
+import_simpleemails:
+    path: /campaign/import/simpleemails/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_import::simpleemails' }
+
+import_csv_file_select:
+    path: /campaign/import/csv/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_import::csv_select' }
+
+import_csv_field_select:
+    path: /campaign/import/csv2/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_import::csv' }
+
+import_vcards:
+    path: /campaign/import/vcards/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_import::vcards' }
+
+export_csv:
+    path: /campaign/export/csv/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_export::csv' }
+
+create_message:
+    path: /message/create/{campaign}/{schema}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_message_create::create' }
+
+message_list_dynamic_type:
+    path: /message/list/{type}/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_message_list::list' }
+
+compose4person:
+    path: /message/compose/{guid}/{person}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_message_compose::compose' }
+
+compose:
+    path: /message/compose/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_message_compose::compose' }
+
+background_send_message:
+    path: /message/send_bg/{guid}/{batch_number}/{job}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_message_send::send_bg' }
+
+send_message:
+    path: /message/send/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_message_send::send' }
+
+test_send_message:
+    path: /message/send_test/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_message_send::send' }
+
+message_send_status:
+    path: /message/send_status/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_message_report::status' }
+
+message_report:
+    path: /message/report/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_message_report::report' }
+
+message_view:
+    path: /message/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_message_message::view' }
+
+message_edit:
+    path: /message/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_message_admin::edit' }
+
+message_copy:
+    path: /message/copy/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_message_admin::copy' }
+
+message_delete:
+    path: /message/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_message_admin::delete' }
+
+create_campaign:
+    path: /campaign/create/{schema}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_campaign_create::create' }
+
+list_campaign_person:
+    path: /campaign/list/{person}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_subscriber::list' }
+
+subscriber_unsubscribe:
+    path: /campaign/unsubscribe/{member}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_subscriber::unsubscribe' }
+
+subscriber_unsubscribe_ajax:
+    path: /campaign/unsubscribe/ajax/{member}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_subscriber::unsubscribe_ajax' }
+
+subscriber_unsubscribe_all:
+    path: /campaign/unsubscribe_all/{member}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_subscriber::unsubscribe_all' }
+
+subscriber_unsubscribe_all_future:
+    path: /campaign/unsubscribe_all_future/{person}/{type}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_subscriber::unsubscribe_all' }
+
+edit_campaign_query:
+    path: /campaign/edit_query/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_campaign_rules::edit_query' }
+
+campaign_query:
+    path: /campaign/query/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_campaign_rules::query' }
+
+edit_campaign:
+    path: /campaign/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_campaign_admin::edit' }
+
+delete_campaign:
+    path: /campaign/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_campaign_admin::delete' }
+
+campaign_list_members:
+    path: /campaign/members/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_campaign_campaign::members' }
+
+view_campaign:
+    path: /campaign/{guid}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_campaign_campaign::view' }
+
+log_bounce:
+    path: /logger/bounce/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_logger::bounce' }
+
+log_link:
+    path: /logger/link/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_logger::link' }
+
+log_redirect_byurl:
+    path: /logger/redirect/{token}/{url}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_logger::redirect' }
+
+log_redirect:
+    path: /logger/redirect/{token}/
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_logger::redirect' }
+
+config:
+    path: /config/
+    defaults: { _controller: 'midcom_baseclasses_components_handler_configuration::config' }
+
+frontpage:
+    path: /
+    defaults: { _controller: 'org_openpsa_directmarketing_handler_list::frontpage' }
+

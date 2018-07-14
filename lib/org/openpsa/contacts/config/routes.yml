@@ -1,0 +1,96 @@
+person_duplicates:
+    path: /duplicates/person/
+    defaults: { _controller: 'org_openpsa_contacts_handler_duplicates_person::sidebyside' }
+
+mycontacts:
+    path: /mycontacts/
+    defaults: { _controller: 'org_openpsa_contacts_handler_mycontacts::list' }
+
+mycontacts_add:
+    path: /mycontacts/add/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_mycontacts::add' }
+
+mycontacts_remove:
+    path: /mycontacts/remove/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_mycontacts::remove' }
+
+search_autocomplete:
+    path: /search/autocomplete/
+    defaults: { _controller: 'org_openpsa_contacts_handler_search::search' }
+
+search_type:
+    path: /search/{type}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_search::search_type' }
+
+search:
+    path: /search/
+    defaults: { _controller: 'org_openpsa_contacts_handler_search::search' }
+
+group_new:
+    path: /group/create/{type}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_group_create::create' }
+
+group_new_subgroup:
+    path: /group/create/{type}/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_group_create::create' }
+
+group_edit:
+    path: /group/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_group_edit::edit' }
+
+group_view:
+    path: /group/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_group_view::view' }
+
+group_view_json:
+    path: /group/json/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_group_view::json' }
+
+group_update_member_title:
+    path: /group/update_member_title/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_group_action::update_member_title' }
+
+group_members:
+    path: /group/members/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_group_action::members' }
+
+group_subgroups:
+    path: /group/subgroups/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_group_action::subgroups' }
+
+person_new_group:
+    path: /person/create/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_person_create::create' }
+
+person_new:
+    path: /person/create/
+    defaults: { _controller: 'org_openpsa_contacts_handler_person_create::create' }
+
+person_view:
+    path: /person/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_person_view::view' }
+
+person_edit:
+    path: /person/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_person_admin::edit' }
+
+person_delete:
+    path: /person/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_person_admin::delete' }
+
+group_memberships:
+    path: /person/memberships/{guid}/
+    defaults: { _controller: 'org_openpsa_contacts_handler_person_view::group_memberships' }
+
+person_rest:
+    path: /rest/person/
+    defaults: { _controller: 'org_openpsa_contacts_handler_rest_person::process' }
+
+frontpage:
+    path: /
+    defaults: { _controller: 'org_openpsa_contacts_handler_frontpage::frontpage' }
+
+config:
+    path: /config/
+    defaults: { _controller: 'midcom_baseclasses_components_handler_configuration::config' }
+

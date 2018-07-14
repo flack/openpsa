@@ -1,0 +1,48 @@
+document-create:
+    path: /document/create/
+    defaults: { _controller: 'org_openpsa_documents_handler_document_admin::create' }
+
+document-delete:
+    path: /document/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_documents_handler_document_admin::delete' }
+
+document-edit:
+    path: /document/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_documents_handler_document_admin::edit' }
+
+document-versions:
+    path: /document/versions/{guid}/
+    defaults: { _controller: 'org_openpsa_documents_handler_document_view::versions' }
+
+document-view:
+    path: /document/{guid}/
+    defaults: { _controller: 'org_openpsa_documents_handler_document_view::view' }
+
+navigation-show:
+    path: /directory/navigation/
+    defaults: { _controller: 'org_openpsa_documents_handler_directory_navigation::navigation' }
+
+directory-edit:
+    path: /edit/
+    defaults: { _controller: 'org_openpsa_documents_handler_directory_edit::edit' }
+
+directory-create:
+    path: /create/
+    defaults: { _controller: 'org_openpsa_documents_handler_directory_create::create' }
+
+search:
+    path: /search/
+    defaults: { _controller: 'org_openpsa_documents_handler_search::search' }
+
+finder-goto:
+    path: /connector/goto/{args_0}/
+    defaults: { _controller: 'org_openpsa_documents_handler_finder::goto' }
+
+finder-connector:
+    path: /connector/
+    defaults: { _controller: 'org_openpsa_documents_handler_finder::connector' }
+
+finder-view:
+    path: /
+    defaults: { _controller: 'org_openpsa_documents_handler_finder::view' }
+

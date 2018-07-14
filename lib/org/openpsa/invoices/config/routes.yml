@@ -1,0 +1,104 @@
+dashboard:
+    path: /
+    defaults: { _controller: 'org_openpsa_invoices_handler_list::dashboard' }
+
+list_projects_uninvoiced:
+    path: /projects/
+    defaults: { _controller: 'org_openpsa_invoices_handler_projects::uninvoiced' }
+
+list_json_type:
+    path: /list/json/{type}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_list::json' }
+
+list_customer_all:
+    path: /list/customer/all/{guid}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_list::customer' }
+
+list_deliverable_all:
+    path: /list/deliverable/{guid}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_list::deliverable' }
+
+list_scheduled:
+    path: /scheduled/
+    defaults: { _controller: 'org_openpsa_invoices_handler_scheduled::list' }
+
+invoice_new_nocustomer:
+    path: /invoice/new/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_crud::create' }
+
+invoice_new:
+    path: /invoice/new/{company}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_crud::create' }
+
+invoice_edit:
+    path: /invoice/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_crud::update' }
+
+invoice_delete:
+    path: /invoice/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_crud::delete' }
+
+invoice_mark_sent:
+    path: /invoice/action/mark_sent/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::mark_sent' }
+
+invoice_send_by_mail:
+    path: /invoice/action/send_by_mail/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::send_by_mail' }
+
+invoice_mark_paid:
+    path: /invoice/action/mark_paid/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::mark_paid' }
+
+invoice_create_cancelation:
+    path: /invoice/action/create_cancelation/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::create_cancelation' }
+
+create_pdf:
+    path: /invoice/action/create_pdf/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::create_pdf' }
+
+recalc_invoice:
+    path: /invoice/recalculation/{guid}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_items::recalculation' }
+
+invoice_items:
+    path: /invoice/items/{guid}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_items::items' }
+
+invoice_item_edit:
+    path: /invoice/itemedit/{guid}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_items::itemedit' }
+
+invoice_item_position:
+    path: /invoice/itemposition/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_items::itemposition' }
+
+invoice:
+    path: /invoice/{guid}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_view::read' }
+
+billing_data_delete:
+    path: /billingdata/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_billingdata::delete' }
+
+billing_data:
+    path: /billingdata/{guid}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_billingdata::edit' }
+
+invoice_rest:
+    path: /rest/invoice/
+    defaults: { _controller: 'org_openpsa_invoices_handler_rest_invoice::process' }
+
+billingdata_rest:
+    path: /rest/billingdata/
+    defaults: { _controller: 'org_openpsa_invoices_handler_rest_billingdata::process' }
+
+config:
+    path: /config/
+    defaults: { _controller: 'midcom_baseclasses_components_handler_configuration::config' }
+
+goto:
+    path: /goto/
+    defaults: { _controller: 'org_openpsa_invoices_handler_goto::goto' }
+

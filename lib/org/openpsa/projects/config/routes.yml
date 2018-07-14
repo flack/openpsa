@@ -1,0 +1,80 @@
+project-edit:
+    path: /project/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_project_crud::update' }
+
+project-new:
+    path: /project/new/
+    defaults: { _controller: 'org_openpsa_projects_handler_project_crud::create' }
+
+project:
+    path: /project/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_project_view::read' }
+
+task-list-agreement:
+    path: /task/list/agreement/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_list_agreement::list' }
+
+task-list-json:
+    path: /task/list/json/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_list_project::json' }
+
+task-list-project:
+    path: /task/list/project/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_list_project::list' }
+
+task-list-subtask:
+    path: /task/list/task/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_list_task::list' }
+
+task-list:
+    path: /task/list/{status}/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_list::list' }
+
+task-list-user:
+    path: /task/list/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_list_user::list' }
+
+task_edit:
+    path: /task/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_crud::update' }
+
+task_delete:
+    path: /task/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_crud::delete' }
+
+task_resourcing:
+    path: /task/resourcing/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_resourcing::resourcing' }
+
+task_resourcing_prospects:
+    path: /task/resourcing/prospects/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_resourcing::list_prospects' }
+
+task_resourcing_prospect_slots:
+    path: /task/resourcing/prospect/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_resourcing::prospect_slots' }
+
+task-new:
+    path: /task/new/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_crud::create' }
+
+task-new-2:
+    path: /task/new/{type}/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_crud::create' }
+
+task_view:
+    path: /task/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_task_view::read' }
+
+workflow-action:
+    path: /workflow/{guid}/{action}/
+    defaults: { _controller: 'org_openpsa_projects_handler_workflow::action' }
+
+workflow:
+    path: /workflow/{guid}/
+    defaults: { _controller: 'org_openpsa_projects_handler_workflow::post' }
+
+frontpage:
+    path: /
+    defaults: { _controller: 'org_openpsa_projects_handler_frontpage::frontpage' }
+

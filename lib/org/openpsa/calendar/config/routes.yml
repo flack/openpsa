@@ -1,0 +1,64 @@
+frontpage:
+    path: /
+    defaults: { _controller: 'org_openpsa_calendar_handler_calendar::frontpage' }
+
+filters_edit:
+    path: /filters/
+    defaults: { _controller: 'org_openpsa_calendar_handler_filters::edit' }
+
+agenda_day:
+    path: /agenda/day/{timestamp}/
+    defaults: { _controller: 'org_openpsa_calendar_handler_calendar::day' }
+
+ical_user_feed:
+    path: /ical/events/{username}/
+    defaults: { _controller: 'org_openpsa_calendar_handler_ical::user_events' }
+
+ical_user_busy:
+    path: /ical/busy/{username}/
+    defaults: { _controller: 'org_openpsa_calendar_handler_ical::user_busy' }
+
+new_event:
+    path: /event/new/
+    defaults: { _controller: 'org_openpsa_calendar_handler_event_create::create' }
+
+new_event_with_resource:
+    path: /event/new/{resource}/
+    defaults: { _controller: 'org_openpsa_calendar_handler_event_create::create' }
+
+event_view_raw:
+    path: /event/raw/{guid}/
+    defaults: { _controller: 'org_openpsa_calendar_handler_event_view::event' }
+
+event_edit:
+    path: /event/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_calendar_handler_event_admin::edit' }
+
+event_delete:
+    path: /event/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_calendar_handler_event_admin::delete' }
+
+event_move:
+    path: /event/move/{guid}/
+    defaults: { _controller: 'org_openpsa_calendar_handler_event_admin::move' }
+
+event_view:
+    path: /event/{guid}/
+    defaults: { _controller: 'org_openpsa_calendar_handler_event_view::event' }
+
+new_resource:
+    path: /resource/new/
+    defaults: { _controller: 'org_openpsa_calendar_handler_resource::create' }
+
+calendar_view_json:
+    path: /json/
+    defaults: { _controller: 'org_openpsa_calendar_handler_json::json' }
+
+calendar_view_mode_date:
+    path: /{mode}/{date}/
+    defaults: { _controller: 'org_openpsa_calendar_handler_calendar::calendar' }
+
+config:
+    path: /config/
+    defaults: { _controller: 'midcom_baseclasses_components_handler_configuration::config' }
+

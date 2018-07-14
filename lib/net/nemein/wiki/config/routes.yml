@@ -1,0 +1,56 @@
+delete:
+    path: /delete/{wikipage}/
+    defaults: { _controller: 'net_nemein_wiki_handler_delete::delete' }
+
+raw:
+    path: /raw/{wikipage}/
+    defaults: { _controller: 'net_nemein_wiki_handler_view::raw' }
+
+whatlinks:
+    path: /whatlinks/{wikipage}/
+    defaults: { _controller: 'net_nemein_wiki_handler_view::whatlinks' }
+
+subscribe:
+    path: /subscribe/{wikipage}/
+    defaults: { _controller: 'net_nemein_wiki_handler_view::subscribe' }
+
+create_by_word:
+    path: /create/
+    defaults: { _controller: 'net_nemein_wiki_handler_create::create' }
+
+create_by_word_schema:
+    path: /create/{schema}/
+    defaults: { _controller: 'net_nemein_wiki_handler_create::create' }
+
+notfound:
+    path: /notfound/{wikiword}/
+    defaults: { _controller: 'net_nemein_wiki_handler_notfound::notfound' }
+
+edit:
+    path: /edit/{wikipage}/
+    defaults: { _controller: 'net_nemein_wiki_handler_edit::edit' }
+
+change:
+    path: /change/{wikipage}/
+    defaults: { _controller: 'net_nemein_wiki_handler_edit::change' }
+
+rss:
+    path: /rss.xml/
+    defaults: { _controller: 'net_nemein_wiki_handler_feed::rss' }
+
+latest:
+    path: /latest/
+    defaults: { _controller: 'net_nemein_wiki_handler_latest::latest' }
+
+orphans:
+    path: /orphans/
+    defaults: { _controller: 'net_nemein_wiki_handler_orphan::orphan' }
+
+start:
+    path: /
+    defaults: { _controller: 'net_nemein_wiki_handler_view::view' }
+
+view:
+    path: /{wikipage}/
+    defaults: { _controller: 'net_nemein_wiki_handler_view::view' }
+

@@ -1,0 +1,24 @@
+index:
+    path: /
+    defaults: { _controller: 'org_openpsa_slideshow_handler_index::index' }
+
+index_subfolders:
+    path: /subfolders/
+    defaults: { _controller: 'org_openpsa_slideshow_handler_index::subfolders' }
+
+edit:
+    path: /edit/
+    defaults: { _controller: 'org_openpsa_slideshow_handler_edit::edit' }
+
+edit_ajax:
+    path: /edit/ajax/
+    defaults: { _controller: 'org_openpsa_slideshow_handler_edit::edit_ajax' }
+
+recreate:
+    path: /recreate/
+    defaults: { _controller: 'org_openpsa_slideshow_handler_edit::recreate' }
+
+recreate_folder_thumbnails:
+    path: /recreate_folder_thumbnails/
+    defaults: { _controller: 'org_openpsa_slideshow_handler_edit::recreate_folder_thumbnails' }
+

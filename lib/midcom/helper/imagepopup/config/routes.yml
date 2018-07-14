@@ -1,0 +1,44 @@
+upload_image:
+    path: /upload/image/{guid}/
+    defaults: { _controller: 'midcom_helper_imagepopup_handler_upload::upload' }
+
+upload_image_noobject:
+    path: /upload/image/
+    defaults: { _controller: 'midcom_helper_imagepopup_handler_upload::upload' }
+
+open:
+    path: /open/{filetype}/{guid}/
+    defaults: { _controller: 'midcom_helper_imagepopup_handler_links::open' }
+
+open_noobject:
+    path: /open/{args_0}/
+    defaults: { _controller: 'midcom_helper_imagepopup_handler_links::open' }
+
+list_folder:
+    path: /folder/{filetype}/{guid}/
+    defaults: { _controller: 'midcom_helper_imagepopup_handler_list::list' }
+
+list_folder_noobject:
+    path: /folder/{filetype}/
+    defaults: { _controller: 'midcom_helper_imagepopup_handler_list::list' }
+
+list_unified:
+    path: /unified/{filetype}/{guid}/
+    defaults: { _controller: 'midcom_helper_imagepopup_handler_list::list' }
+
+list_unified_noobject:
+    path: /unified/{filetype}/
+    defaults: { _controller: 'midcom_helper_imagepopup_handler_list::list' }
+
+list_links:
+    path: /links/{filetype}/{guid}/
+    defaults: { _controller: 'midcom_helper_imagepopup_handler_links::links' }
+
+list_links_noobject:
+    path: /links/{filetype}/
+    defaults: { _controller: 'midcom_helper_imagepopup_handler_links::links' }
+
+list_object:
+    path: /{filetype}/{guid}/
+    defaults: { _controller: 'midcom_helper_imagepopup_handler_list::list' }
+

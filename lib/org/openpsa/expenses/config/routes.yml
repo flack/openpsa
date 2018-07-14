@@ -1,0 +1,48 @@
+hours_task_action:
+    path: /hours/task/batch/
+    defaults: { _controller: 'org_openpsa_expenses_handler_hours_admin::batch' }
+
+list_hours_task:
+    path: /hours/task/{guid}/
+    defaults: { _controller: 'org_openpsa_expenses_handler_hours_list::task' }
+
+list_hours_invoice:
+    path: /hours/invoice/{guid}/
+    defaults: { _controller: 'org_openpsa_expenses_handler_hours_list::invoice' }
+
+list_hours:
+    path: /hours/
+    defaults: { _controller: 'org_openpsa_expenses_handler_hours_list::list' }
+
+hours_edit:
+    path: /hours/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_expenses_handler_hours_admin::edit' }
+
+hours_delete:
+    path: /hours/delete/{guid}/
+    defaults: { _controller: 'org_openpsa_expenses_handler_hours_admin::delete' }
+
+hours_create:
+    path: /hours/create/{schema}/
+    defaults: { _controller: 'org_openpsa_expenses_handler_hours_admin::create' }
+
+hours_create_task:
+    path: /hours/create/task/{schema}/{guid}/
+    defaults: { _controller: 'org_openpsa_expenses_handler_hours_admin::create' }
+
+hours_create_invoice:
+    path: /hours/create/invoice/{schema}/{guid}/
+    defaults: { _controller: 'org_openpsa_expenses_handler_hours_admin::create' }
+
+csv:
+    path: /csv/{type}/
+    defaults: { _controller: 'org_openpsa_expenses_handler_csv::csv' }
+
+index_timestamp:
+    path: /{timestamp}/
+    defaults: { _controller: 'org_openpsa_expenses_handler_index::index' }
+
+index:
+    path: /
+    defaults: { _controller: 'org_openpsa_expenses_handler_index::index' }
+

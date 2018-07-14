@@ -1,0 +1,28 @@
+updates:
+    path: /updates/
+    defaults: { _controller: 'org_openpsa_mypage_handler_today::updates' }
+
+today:
+    path: /
+    defaults: { _controller: 'org_openpsa_mypage_handler_today::today' }
+
+day:
+    path: /day/{date}/
+    defaults: { _controller: 'org_openpsa_mypage_handler_today::today' }
+
+weekreview:
+    path: /weekreview/{date}/
+    defaults: { _controller: 'org_openpsa_mypage_handler_weekreview::review' }
+
+weekreview_redirect:
+    path: /weekreview/
+    defaults: { _controller: 'org_openpsa_mypage_handler_weekreview::redirect' }
+
+workingon:
+    path: /workingon/
+    defaults: { _controller: 'org_openpsa_mypage_handler_workingon::view' }
+
+workingon_set:
+    path: /workingon/set/
+    defaults: { _controller: 'org_openpsa_mypage_handler_workingon::set' }
+

@@ -1,0 +1,28 @@
+feeds_list:
+    path: /list/
+    defaults: { _controller: 'net_nemein_rss_handler_list::list' }
+
+feeds_opml:
+    path: /feeds.opml/
+    defaults: { _controller: 'net_nemein_rss_handler_list::opml' }
+
+feeds_subscribe:
+    path: /subscribe/
+    defaults: { _controller: 'net_nemein_rss_handler_admin::subscribe' }
+
+feeds_edit:
+    path: /edit/{guid}/
+    defaults: { _controller: 'net_nemein_rss_handler_admin::edit' }
+
+feeds_delete:
+    path: /delete/{guid}/
+    defaults: { _controller: 'net_nemein_rss_handler_admin::delete' }
+
+feeds_fetch_all:
+    path: /fetch/all/
+    defaults: { _controller: 'net_nemein_rss_handler_fetch::fetch' }
+
+feeds_fetch:
+    path: /fetch/{guid}/
+    defaults: { _controller: 'net_nemein_rss_handler_fetch::fetch' }
+
