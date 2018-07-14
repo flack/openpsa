@@ -6,6 +6,10 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\Routing\Router;
+use midcom\routing\loader;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+
 /**
  * Base class to encapsulate the component's routing, instantiated by the MidCOM
  * component interface.
@@ -344,15 +348,21 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         $this->_prepare_request_switch($routes);
 
-        foreach ($routes as $key => $request) {
-            if ($this->_validate_route($request, $argv)) {
-                // Prepare the handler object
-                $this->_prepare_handler($key, $request, $argv);
-                return true;
-            }
+        $loader = new loader();
+        $router = new Router($loader, $routes);
+        if (empty($argv)) {
+            $url = '/';
+        } else {
+            $url = '/' . implode('/', $argv) . '/';
         }
-        // No match
-        return false;
+        try {
+            $result = $router->match($url);
+            $this->_prepare_handler($result, $argv);
+            return true;
+        } catch (ResourceNotFoundException $e) {
+            // No match
+            return false;
+        }
     }
 
     /**
@@ -377,59 +387,17 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         }
     }
 
-    private function _validate_route(array $request, array $argv)
-    {
-        $fixed_args_count = count($request['fixed_args']);
-        $variable_args_count = $request['variable_args'];
-        $total_args_count = $fixed_args_count + $variable_args_count;
-
-        if (   (count($argv) != $total_args_count && ($variable_args_count >= 0))
-            || $fixed_args_count > count($argv)) {
-            return false;
-        }
-
-        // Check the static parts
-        if (array_slice($argv, 0, $fixed_args_count) != $request['fixed_args']) {
-            return false;
-        }
-
-        // Validation for variable args
-        for ($i = 0; $i < $variable_args_count; $i++) {
-            // rule exists?
-            if (!empty($request['validation'][$i])) {
-                $param = $argv[$fixed_args_count + $i];
-                // by default we use an OR condition
-                // so as long as one rules succeeds, we are ok..
-                $success = false;
-                foreach ($request['validation'][$i] as $rule) {
-                    // rule is a callable function, like mgd_is_guid or is_int
-                    if (   is_callable($rule)
-                        && $success = call_user_func($rule, $param)) {
-                        break;
-                    }
-                }
-                // validation failed, we can stop here
-                if (!$success) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
     /**
      * Prepares the handler callback for execution.
      * This will create the handler class instance if required.
      *
-     * @param mixed $key
      * @param array $request
      * @param array $argv
      * @throws midcom_error
      */
-    private function _prepare_handler($key, array $request, array $argv = [])
+    private function _prepare_handler(array $request, array $argv = [])
     {
-        $request['id'] = $key;
+        $request['id'] = $request['_route'];
         $request['args'] = array_slice($argv, count($request['fixed_args']));
 
         if (is_string($request['handler'])) {
