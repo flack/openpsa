@@ -229,16 +229,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
             // Add fixed arguments
             $details['route'] .= preg_replace('/args_(\d+)/', 'args[\1]', $route->getPath());
-
-            if (is_array($route->getDefault('handler'))) {
-                $details['controller'] = $route->getDefault('handler')[0];
-
-                if (is_object($details['controller'])) {
-                    $details['controller'] = get_class($details['controller']);
-                }
-
-                $details['action'] = $route->getDefault('handler')[1];
-            }
+            list ($details['controller'], $details['action']) = explode('::', $route->getDefault('_controller'), 2);
 
             if (self::generate_file_path('handlers_' . $request_handler_id, $component)) {
                 $details['info'] = $this->get_help_contents('handlers_' . $request_handler_id, $component);

@@ -9,6 +9,8 @@
 use Symfony\Component\Routing\Router;
 use midcom\routing\loader;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Loader\YamlFileLoader;
+use Symfony\Component\Config\FileLocator;
 
 /**
  * Base class to encapsulate the component's routing, instantiated by the MidCOM
@@ -42,8 +44,8 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
  *   required, which is the default. For an unlimited number of variable_args set it to -1.
  *
  * - <b>mixed handler:</b> This is a definition of what method should be invoked to
- *   handle the request using the callable array syntax. The first array member must either contain
- *   the name of an existing class or an already instantiated class.
+ *   handle the request using the callable array syntax. The first array member must contain
+ *   the name of an existing class.
  *   This value has no default and must be set. The actual methods called will have either an
  *   _handler_ or _show_ prefix.
  *
@@ -54,9 +56,6 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
  *     'fixed_args' => ['registrations', 'view'],
  *     'variable_args' => 1,
  *     'handler' => ['net_nemein_registrations_regadmin', 'view']
- *     //
- *     // Alternative, use existing instance:
- *     // 'handler' => [$regadmin, 'view']
  * ];
  * </code>
  *
@@ -258,6 +257,8 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     private static $_plugin_namespace_config = [];
 
+    private $active_plugin;
+
     /**
      * Request execution switch configuration.
      *
@@ -316,13 +317,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         if (empty(self::$_plugin_namespace_config)) {
             $this->_register_core_plugin_namespaces();
         }
-
-        $manifest = midcom::get()->componentloader->manifests[$this->_component];
-        if (!empty($manifest->extends)) {
-            $this->_request_switch = midcom_baseclasses_components_configuration::get($manifest->extends, 'routes');
-        }
-
-        $this->_request_switch = array_merge($this->_request_switch, midcom_baseclasses_components_configuration::get($this->_component, 'routes'));
+        $this->_request_switch = $this->get_component_routes($component);
 
         $this->_on_initialize();
     }
@@ -341,11 +336,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         if (   count($argv) > 1
             && array_key_exists($argv[0], self::$_plugin_namespace_config)
             && array_key_exists($argv[1], self::$_plugin_namespace_config[$argv[0]])) {
-            $namespace = array_shift($argv);
-            $name = array_shift($argv);
-            $routes = $this->_load_plugin($namespace, $name);
-        } else {
-            $routes = $this->_request_switch;
+            $this->_load_plugin(array_shift($argv), array_shift($argv));
         }
 
         if (empty($argv)) {
@@ -354,7 +345,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             $url = '/' . implode('/', $argv) . '/';
         }
         try {
-            $result = $this->get_router($routes)->match($url);
+            $result = $this->get_router($this->active_plugin)->match($url);
             $this->_prepare_handler($result, $argv);
             return true;
         } catch (ResourceNotFoundException $e) {
@@ -364,16 +355,47 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     }
 
     /**
-     * @param array $routes
+     * @param string $component
      * @return \Symfony\Component\Routing\Router
      */
-    public function get_router(array $routes = null)
+    public function get_router($component = null)
     {
-        if ($routes == null) {
-            $routes = $this->_request_switch;
+        if ($component == null) {
+            if (!empty($this->_request_switch)) {
+                $routes = $this->_request_switch;
+            } else {
+                $routes = $this->get_component_routes($this->_component);
+            }
+        } else {
+            $routes = $this->get_component_routes($component);
         }
-        $loader = new loader();
+        if (is_string($routes)) {
+            $loader = new YamlFileLoader(new FileLocator());
+        } else {
+            $loader = new loader();
+        }
         return new Router($loader, $routes);
+    }
+
+    /**
+     * @param string $component
+     * @return array|string
+     */
+    private function get_component_routes($component)
+    {
+        $cl = midcom::get()->componentloader;
+        $routes = [];
+        if (file_exists($cl->path_to_snippetpath($component) . '/config/routes.yml')) {
+            return $cl->path_to_snippetpath($component) . '/config/routes.yml';
+        } else {
+            $manifest = $cl->manifests[$component];
+            if (!empty($manifest->extends)) {
+                $routes = midcom_baseclasses_components_configuration::get($manifest->extends, 'routes');
+            }
+
+            $routes = array_merge($routes, midcom_baseclasses_components_configuration::get($component, 'routes'));
+        }
+        return $routes;
     }
 
     /**
@@ -386,33 +408,38 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     private function _prepare_handler(array $request, array $argv = [])
     {
-        $request['id'] = $request['_route'];
-        $request['args'] = array_slice($argv, count($request['fixed_args']));
+        $this->_handler =& $request;
 
-        if (is_string($request['handler'])) {
+        $request['args'] = array_values(array_filter($request, function($item) {
+            return substr($item, 0, 1) !== '_';
+        }, ARRAY_FILTER_USE_KEY));
+
+        if (strpos($request['_controller'], '::') === false) {
             // Support for handlers in request class (deprecated)
             $request['handler'] = [&$this, $request['handler']];
-        } elseif (is_string($request['handler'][0])) {
-            $classname = $request['handler'][0];
-            if (!class_exists($classname)) {
-                throw new midcom_error("Failed to create a class instance of the type {$classname}, the class is not declared.");
-            }
-
-            $request['handler'][0] = new $classname();
-            if (!$request['handler'][0] instanceof midcom_baseclasses_components_handler) {
-                throw new midcom_error("Failed to create a class instance of the type {$classname}, it is no subclass of midcom_baseclasses_components_handler.");
-            }
-
-            //For plugins, set the component name explicitly so that L10n and config can be found
-            if (isset($request['plugin'])) {
-                $request['handler'][0]->_component = $request['plugin'];
-            }
-
-            $request['handler'][0]->initialize($this);
-
-            midcom_core_context::get()->set_key(MIDCOM_CONTEXT_HANDLERID, $request['id']);
+            return;
         }
-        $this->_handler =& $request;
+        $request['handler'] = explode('::', $request['_controller'], 2);
+        $request['id'] = $request['_route'];
+
+        $classname = $request['handler'][0];
+        if (!class_exists($classname)) {
+            throw new midcom_error("Failed to create a class instance of the type {$classname}, the class is not declared.");
+        }
+
+        $request['handler'][0] = new $classname();
+        if (!$request['handler'][0] instanceof midcom_baseclasses_components_handler) {
+            throw new midcom_error("Failed to create a class instance of the type {$classname}, it is no subclass of midcom_baseclasses_components_handler.");
+        }
+
+        //For plugins, set the component name explicitly so that L10n and config can be found
+        if (!empty($this->active_plugin)) {
+            $request['handler'][0]->_component = $this->active_plugin;
+        }
+
+        $request['handler'][0]->initialize($this);
+
+        midcom_core_context::get()->set_key(MIDCOM_CONTEXT_HANDLERID, $request['id']);
     }
 
     /**
@@ -543,7 +570,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @param string $namespace The plugin namespace to use.
      * @param string $name The plugin to load from the namespace.
-     * @return array
      */
     private function _load_plugin($namespace, $name)
     {
@@ -567,12 +593,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // errors are logged by the callers.
         $plugin = new $plugin_config['class']();
         $plugin->initialize($this);
-
-        $handlers = midcom_baseclasses_components_configuration::get($plugin->_component, 'routes');
-        foreach ($handlers as $identifier => &$handler_config) {
-            $handler_config['plugin'] = $plugin->_component;
-        }
-        return $handlers;
+        $this->active_plugin = $plugin->_component;
     }
 
     /**

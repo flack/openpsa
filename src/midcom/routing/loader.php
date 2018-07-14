@@ -46,7 +46,11 @@ class loader extends base
                 }
             }
 
-            $route = new Route($path, $config, $requirements);
+            $defaults = [
+                '_controller' => implode('::', (array) $config['handler'])
+            ];
+
+            $route = new Route($path, $defaults, $requirements);
             $collection->add($name, $route);
         }
 
