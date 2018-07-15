@@ -20,13 +20,6 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      */
     private $_comment;
 
-    public function _on_initialize()
-    {
-        if (empty($_POST)) {
-            throw new midcom_error('No post data found');
-        }
-    }
-
     /**
      * Marks comment as possible abuse
      *

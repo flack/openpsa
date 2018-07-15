@@ -29,16 +29,20 @@ moderate_ajax:
 report_abuse:
     path: /report/abuse/{guid}/
     defaults: { _controller: 'net_nehmer_comments_handler_moderate::abuse' }
+    methods: [POST]
 
 report_confirm_abuse:
     path: /report/confirm_abuse/{guid}/
     defaults: { _controller: 'net_nehmer_comments_handler_moderate::confirm_abuse' }
+    methods: [POST]
 
 report_not_abuse:
     path: /report/not_abuse/{guid}/
     defaults: { _controller: 'net_nehmer_comments_handler_moderate::not_abuse' }
+    methods: [POST]
 
 report_confirm_junk:
     path: /report/confirm_junk/{guid}/
     defaults: { _controller: 'net_nehmer_comments_handler_moderate::confirm_junk' }
+    methods: [POST]
 
