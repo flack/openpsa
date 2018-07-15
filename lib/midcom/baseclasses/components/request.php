@@ -384,10 +384,13 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     private function _prepare_handler(array $request)
     {
         $this->_handler =& $request;
-
-        $request['args'] = array_values(array_filter($request, function($item) {
-            return substr($item, 0, 1) !== '_';
-        }, ARRAY_FILTER_USE_KEY));
+        $args = [];
+        foreach ($request as $name => $value) {
+            if (substr($name, 0, 1) !== '_') {
+                $args[] = $value;
+            }
+        }
+        $request['args'] = $args;
 
         if (strpos($request['_controller'], '::') === false) {
             // Support for handlers in request class (deprecated)
