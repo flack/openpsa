@@ -169,10 +169,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      */
     public function _handler_comments($handler_id, array $args, array &$data)
     {
-        if (!mgd_is_guid($args[0])) {
-            throw new midcom_error("The GUID '{$args[0]}' is invalid. Cannot continue.");
-        }
-
         $this->_objectguid = $args[0];
         midcom::get()->cache->content->register($this->_objectguid);
 

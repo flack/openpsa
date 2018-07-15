@@ -9,6 +9,7 @@ today:
 day:
     path: /day/{date}/
     defaults: { _controller: 'org_openpsa_mypage_handler_today::today' }
+    requirements: { date: '\d{4}-\d{2}-\d{2}' }
 
 weekreview:
     path: /weekreview/{date}/

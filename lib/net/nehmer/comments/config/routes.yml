@@ -3,16 +3,19 @@ admin-welcome:
     defaults: { _controller: 'net_nehmer_comments_handler_admin::welcome' }
 
 view-comments:
-    path: /comment/{args_0}/
+    path: /comment/{guid}/
     defaults: { _controller: 'net_nehmer_comments_handler_view::comments' }
+    requirements: { guid: '[0-9a-f]{21,80}' }
 
 view-comments-nonempty:
-    path: /comment-nonempty/{args_0}/
+    path: /comment-nonempty/{guid}/
     defaults: { _controller: 'net_nehmer_comments_handler_view::comments' }
+    requirements: { guid: '[0-9a-f]{21,80}' }
 
 view-comments-custom:
-    path: /comment/{args_0}/{args_1}/
+    path: /comment/{guid}/{args_1}/
     defaults: { _controller: 'net_nehmer_comments_handler_view::comments' }
+    requirements: { guid: '[0-9a-f]{21,80}' }
 
 config:
     path: /config/

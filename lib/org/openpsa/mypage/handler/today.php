@@ -49,7 +49,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         if ($handler_id == 'today') {
             $data['requested_time'] = new DateTime;
         } else {
-            // TODO: Check format as YYYY-MM-DD via regexp
             $data['requested_time'] = new DateTime($args[0]);
         }
 

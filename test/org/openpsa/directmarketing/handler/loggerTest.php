@@ -76,7 +76,7 @@ class org_openpsa_directmarketing_handler_loggerTest extends openpsa_testcase
     {
         $helper = new openpsa_test_campaign_helper($this);
         $message = $helper->get_message();
-        $token = uniqid();
+        $token = 'a' . uniqid();
         $receipt = $this->create_object(org_openpsa_directmarketing_campaign_messagereceipt_dba::class, [
             'token' => $token,
             'orgOpenpsaObtype' => org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT,

@@ -41,6 +41,7 @@ compose:
 background_send_message:
     path: /message/send_bg/{guid}/{batch_number}/{job}/
     defaults: { _controller: 'org_openpsa_directmarketing_handler_message_send::send_bg' }
+    requirements: { batch_number: '\d+' }
 
 send_message:
     path: /message/send/{guid}/
@@ -133,10 +134,12 @@ log_link:
 log_redirect_byurl:
     path: /logger/redirect/{token}/{url}/
     defaults: { _controller: 'org_openpsa_directmarketing_handler_logger::redirect' }
+    requirements: { token: '[a-z][a-z0-9]+' }
 
 log_redirect:
     path: /logger/redirect/{token}/
     defaults: { _controller: 'org_openpsa_directmarketing_handler_logger::redirect' }
+    requirements: { token: '[a-z][a-z0-9]+' }
 
 config:
     path: /config/

@@ -33,9 +33,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     public function _handler_send_bg($handler_id, array $args, array &$data)
     {
-        if (!is_numeric($args[1])) {
-            throw new midcom_error('Batch number missing');
-        }
         midcom::get()->auth->request_sudo($this->_component);
 
         //Load message

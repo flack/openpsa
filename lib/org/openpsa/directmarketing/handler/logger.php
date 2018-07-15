@@ -167,9 +167,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      */
     public function _handler_redirect($handler_id, array $args, array &$data)
     {
-        if (empty($args[0])) {
-            throw new midcom_error('Token empty');
-        }
         $token = $args[0];
 
         if (count($args) == 2 && !empty($args[1])) {

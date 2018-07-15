@@ -106,9 +106,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      */
     public function _handler_search_type($handler_id, array $args, array &$data)
     {
-        if ($args[0] != 'foaf') {
-            throw new midcom_error('Unknown search type ' . $args[0]);
-        }
         $this->_parse_query();
 
         midcom::get()->skip_page_style = true;
