@@ -44,7 +44,7 @@ class net_nemein_wiki_handler_viewTest extends openpsa_testcase
         $qb->add_constraint('name', '=', 'index');
         $results = $qb->execute();
         $this->register_objects($results);
-        $this->assertEquals(1, sizeof($results));
+        $this->assertCount(1, $results);
         midcom::get()->auth->drop_sudo();
     }
 

@@ -42,7 +42,7 @@ class org_openpsa_calendar_handler_icalTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.calendar', ['ical', 'events', $account->get_username()]);
         $this->assertEquals('ical_user_feed', $data['handler_id']);
 
-        $this->assertEquals(1, sizeof($data['events']));
+        $this->assertCount(1, $data['events']);
         $this->assertEquals($event->guid, $data['events'][0]->guid);
         $output = $this->show_handler($data);
 

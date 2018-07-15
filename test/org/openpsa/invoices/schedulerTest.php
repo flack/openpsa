@@ -265,7 +265,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $task = $scheduler->create_task($start, $end, $title);
-        $this->assertTrue(is_a($task, 'org_openpsa_projects_task_dba'));
+        $this->assertInstanceOf(org_openpsa_projects_task_dba::class, $task);
         $this->register_object($task);
 
         $this->assertEquals($deliverable->id, $task->agreement);
@@ -283,7 +283,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $this->assertEquals($salesproject->contacts, $task->contacts);
 
         $project = new org_openpsa_projects_project($task->project);
-        $this->assertTrue(!empty($project->guid));
+        $this->assertNotEmpty($project->guid);
         $this->register_object($project);
 
         $project->get_members();

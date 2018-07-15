@@ -70,7 +70,7 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
         $qb->add_constraint('description', '=', __CLASS__ . '::' . __FUNCTION__);
         $results = $qb->execute();
         $this->register_objects($results);
-        $this->assertEquals(1, sizeof($results));
+        $this->assertCount(1, $results);
 
         midcom::get()->auth->drop_sudo();
     }

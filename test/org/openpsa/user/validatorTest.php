@@ -42,8 +42,7 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
             "current_password" => "abc"
         ];
         $result = $val->validate_edit_form($fields);
-        $this->assertTrue(is_array($result));
-        $this->assertTrue(array_key_exists("current_password", $result));
+        $this->assertArrayHasKey("current_password", $result);
 
         // now, use sudo..
         midcom::get()->auth->request_sudo("midcom.core");
@@ -88,8 +87,7 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
 
         // try invalid username
         $result = $val->username_exists(["username" => uniqid(__FUNCTION__ . "FAKE_BOB")]);
-        $this->assertTrue(is_array($result));
-        $this->assertTrue(array_key_exists("username", $result));
+        $this->assertArrayHasKey("username", $result);
     }
 
     public function testEmail_exists()
@@ -100,8 +98,7 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
 
         // try invalid email
         $result = $val->email_exists(["email" => uniqid(__FUNCTION__ . "-fake-mail-") . "@nowhere.cc"]);
-        $this->assertTrue(is_array($result));
-        $this->assertTrue(array_key_exists("email", $result));
+        $this->assertArrayHasKey("email", $result);
 
         // try valid email
         $email = uniqid(__FUNCTION__ . "-user-") . "@nowhere.cc";
@@ -125,13 +122,11 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         ];
 
         $result = $val->email_and_username_exist($fields);
-        $this->assertTrue(is_array($result));
-        $this->assertTrue(array_key_exists("username", $result));
+        $this->assertArrayHasKey("username", $result);
 
         // use invalid username as well
         $fields["username"] = uniqid(__FUNCTION__ . "-fake-user-");
-        $this->assertTrue(is_array($result));
-        $this->assertTrue(array_key_exists("username", $result));
+        $this->assertArrayHasKey("username", $result);
 
         // try valid combination
         $email = uniqid(__FUNCTION__ . "-user-") . "@nowhere.cc";

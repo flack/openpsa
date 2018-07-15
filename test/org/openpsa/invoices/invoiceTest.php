@@ -21,7 +21,7 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         $invoice->_use_rcs = false;
 
         $next_number = $invoice->generate_invoice_number();
-        $this->assertTrue(is_int($next_number));
+        $this->assertInternalType('int', $next_number);
         $invoice->number = $next_number;
         $stat = $invoice->create();
         $this->assertTrue($stat);

@@ -43,7 +43,7 @@ class org_openpsa_products_handler_product_createTest extends openpsa_testcase
         $qb->add_constraint('productGroup', '=', self::$_group->id);
         $results = $qb->execute();
         $this->register_objects($results);
-        $this->assertEquals(1, sizeof($results));
+        $this->assertCount(1, $results);
         $this->assertEquals('product/' . $results[0]->guid . '/', $url);
 
         midcom::get()->auth->drop_sudo();

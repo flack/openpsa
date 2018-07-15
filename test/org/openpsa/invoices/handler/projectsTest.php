@@ -66,7 +66,7 @@ class org_openpsa_invoices_handler_projectsTest extends openpsa_testcase
         $qb->add_constraint('task', '=', $task->id);
         $results = $qb->execute();
         $this->register_objects($results);
-        $this->assertEquals(1, sizeof($results));
+        $this->assertCount(1, $results);
         $item = $results[0];
         $invoice = new org_openpsa_invoices_invoice_dba($item->invoice);
         $this->register_object($invoice);

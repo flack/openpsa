@@ -24,13 +24,13 @@ class org_openpsa_products_product_groupTest extends openpsa_testcase
         $stat = $group->create();
         $this->assertTrue($stat);
 
-        $this->assertEquals($group->code, 'TEST-100' . $time);
+        $this->assertEquals('TEST-100' . $time, $group->code);
 
         $group->code = 'TEST-101' . $time;
         $stat = $group->update();
         $this->assertTrue($stat);
         $this->register_object($group);
-        $this->assertEquals($group->code, 'TEST-101' . $time);
+        $this->assertEquals('TEST-101' . $time, $group->code);
 
         $group2 = new org_openpsa_products_product_group_dba();
         $group2->code = 'TEST-101' . $time;

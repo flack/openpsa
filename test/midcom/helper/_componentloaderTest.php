@@ -62,7 +62,7 @@ class midcom_helper__componentloaderTest extends openpsa_testcase
         $componentloader = new midcom_helper__componentloader();
         $componentloader->load_all_manifests();
         $interface = $componentloader->get_interface_class('org.openpsa.user');
-        $this->assertTrue(is_a($interface, 'org_openpsa_user_interface'));
+        $this->assertInstanceOf(org_openpsa_user_interface::class, $interface);
     }
 
     public function test_path_to_snippetpath()

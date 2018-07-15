@@ -39,9 +39,9 @@ class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
         $this->assertEquals($parent->guid, self::$_task->guid);
 
         self::$_task->refresh();
-        $this->assertEquals(self::$_task->reportedHours, 2.5);
+        $this->assertEquals(2.5, self::$_task->reportedHours);
         $task_hours = self::$_project->get_task_hours();
-        $this->assertEquals($task_hours['reportedHours'], 2.5);
+        $this->assertEquals(2.5, $task_hours['reportedHours']);
 
         $report->invoiceable = true;
         $report->hours = 3.5;
@@ -49,17 +49,17 @@ class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
 
         $this->assertTrue($stat);
         self::$_task->refresh();
-        $this->assertEquals(self::$_task->invoiceableHours, 3.5);
+        $this->assertEquals(3.5, self::$_task->invoiceableHours);
         $task_hours = self::$_project->get_task_hours();
-        $this->assertEquals($task_hours['reportedHours'], 3.5);
+        $this->assertEquals(3.5, $task_hours['reportedHours']);
 
         $stat = $report->delete();
         $this->assertTrue($stat, midcom_connection::get_error_string());
 
         self::$_task->refresh();
-        $this->assertEquals(self::$_task->reportedHours, 0);
+        $this->assertEquals(0, self::$_task->reportedHours);
         $task_hours = self::$_project->get_task_hours();
-        $this->assertEquals($task_hours['reportedHours'], 0);
+        $this->assertEquals(0, $task_hours['reportedHours']);
 
         midcom::get()->auth->drop_sudo();
     }

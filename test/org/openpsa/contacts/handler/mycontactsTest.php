@@ -44,14 +44,14 @@ class org_openpsa_contacts_handler_mycontactsTest extends openpsa_testcase
         $qb->add_constraint('person', '=', self::$_person->guid);
         $result = $qb->execute();
         $this->register_objects($result);
-        $this->assertEquals(1, count($result), 'Contact list missing');
+        $this->assertCount(1, $result, 'Contact list missing');
 
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $result[0]->id);
         $qb->add_constraint('uid', '=', $person->id);
         $result = $qb->execute();
         $this->register_objects($result);
-        $this->assertEquals(1, count($result));
+        $this->assertCount(1, $result);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -73,7 +73,7 @@ class org_openpsa_contacts_handler_mycontactsTest extends openpsa_testcase
         $qb->add_constraint('person', '=', self::$_person->guid);
         $result = $qb->execute();
         $this->register_objects($result);
-        $this->assertEquals(1, count($result), 'Contact list missing');
+        $this->assertCount(1, $result, 'Contact list missing');
 
         midcom::get()->auth->drop_sudo();
     }

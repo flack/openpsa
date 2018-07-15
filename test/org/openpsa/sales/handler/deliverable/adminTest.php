@@ -73,7 +73,7 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
         ];
 
         $this->submit_dm_no_relocate_form('controller', $formdata, 'org.openpsa.sales', ['deliverable', 'edit', $deliverable->guid]);
-        $this->assertEquals(0, count($deliverable->get_at_entries()));
+        $this->assertCount(0, $deliverable->get_at_entries());
 
         midcom::get()->auth->drop_sudo();
     }

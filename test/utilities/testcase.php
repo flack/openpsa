@@ -163,7 +163,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             if (array_key_exists($controller_key, $data)) {
                 $this->assertEquals([], $data[$controller_key]->formmanager->form->_errors, 'Form validation failed');
             }
-            $this->assertTrue($data['__openpsa_testcase_response'] instanceof midcom_response_relocate, 'Form did not relocate');
+            $this->assertInstanceOf(midcom_response_relocate::class, $data['__openpsa_testcase_response'], 'Form did not relocate');
             return $data['__openpsa_testcase_response']->url;
         } catch (openpsa_test_relocate $e) {
             $url = $e->getMessage();
@@ -219,7 +219,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             if (array_key_exists($controller_key, $data)) {
                 $this->assertEquals([], $data[$controller_key]->get_errors(), 'Form validation failed');
             }
-            $this->assertTrue($data['__openpsa_testcase_response'] instanceof midcom_response_relocate, 'Form did not relocate');
+            $this->assertInstanceOf(midcom_response_relocate::class, $data['__openpsa_testcase_response'], 'Form did not relocate');
             return $data['__openpsa_testcase_response']->url;
         } catch (openpsa_test_relocate $e) {
             $url = $e->getMessage();

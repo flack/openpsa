@@ -69,7 +69,7 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
         $qb->add_constraint('salesproject', '=', $this->_salesproject->id);
         $results = $qb->execute();
-        $this->assertEquals(1, sizeof($results));
+        $this->assertCount(1, $results);
         $this->register_object($results[0]);
 
         midcom::get()->auth->drop_sudo();
@@ -100,7 +100,7 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
         $qb->add_constraint('salesproject', '=', $this->_salesproject->id);
         $results = $qb->execute();
-        $this->assertEquals(1, sizeof($results));
+        $this->assertCount(1, $results);
 
         $deliverable = $results[0];
         $this->register_object($deliverable);

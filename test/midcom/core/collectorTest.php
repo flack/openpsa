@@ -43,8 +43,8 @@ class midcom_core_collectorTest extends openpsa_testcase
         $mc = midcom_db_topic::new_collector('id', self::$_topic->id);
         $keys = $mc->list_keys();
 
-        $this->assertEquals(1, sizeof($keys));
-        $this->assertTrue(array_key_exists(self::$_topic->guid, $keys));
+        $this->assertCount(1, $keys);
+        $this->assertArrayHasKey(self::$_topic->guid, $keys);
         // This is to test for infinite loops that happen in mgd core
         $this->assertEquals($keys, $mc->list_keys());
     }
@@ -61,7 +61,7 @@ class midcom_core_collectorTest extends openpsa_testcase
         $mc = midcom_db_topic::new_collector('id', self::$_topic->id);
         $values = $mc->get_values('name');
 
-        $this->assertEquals(1, sizeof($values));
+        $this->assertCount(1, $values);
         $this->assertEquals($values, [self::$_topic->guid => self::$_topic->name]);
     }
 
@@ -70,7 +70,7 @@ class midcom_core_collectorTest extends openpsa_testcase
         $mc = midcom_db_topic::new_collector('id', self::$_topic->id);
         $objects = $mc->get_objects();
 
-        $this->assertEquals(1, sizeof($objects));
+        $this->assertCount(1, $objects);
         $this->assertEquals(self::$_topic->guid, $objects[0]->guid);
     }
 }

@@ -25,7 +25,7 @@ class midcom_core_accountTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('midcom.core');
 
         $account = new midcom_core_account(self::$_person);
-        $this->assertTrue($account instanceOf midcom_core_account);
+        $this->assertInstanceOf(midcom_core_account::class, $account);
 
         $password = 'password_' . time();
         $account->set_password($password);

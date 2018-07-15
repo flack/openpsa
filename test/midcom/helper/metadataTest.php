@@ -72,13 +72,13 @@ class midcom_helper_metadataTest extends openpsa_testcase
      * @depends testSetEmptyObjectProperties
      * @dataProvider providerSetDBObjectProperties
      */
-    public function testSetDBObjectProperties($field, $value, $expected)
+    public function testSetDBObjectProperties($field, $expected)
     {
         $topic = $this->create_object(midcom_db_topic::class);
         midcom::get()->auth->request_sudo('midcom.core');
-        $topic->metadata->$field = $value;
+        $topic->metadata->$field = $expected;
         midcom::get()->auth->drop_sudo();
-        $this->assertEquals($topic->metadata->$field, $value);
+        $this->assertEquals($expected, $topic->metadata->$field);
     }
 
 

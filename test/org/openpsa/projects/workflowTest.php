@@ -39,7 +39,7 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
         $qb->add_constraint('task', '=', self::$_task->id);
         $result = $qb->execute();
-        $this->assertEquals(sizeof($result), 1);
+        $this->assertCount(1, $result);
         $status = $result[0];
         $this->assertEquals($status->targetPerson, self::$_other_user->id);
     }
@@ -58,7 +58,7 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         $qb->add_constraint('task', '=', self::$_task->id);
         $qb->add_order('type');
         $result = $qb->execute();
-        $this->assertEquals(sizeof($result), 2);
+        $this->assertCount(2, $result);
         $this->assertEquals(self::$_user->id, $result[0]->targetPerson);
         $this->assertEquals(0, $result[1]->targetPerson);
 
@@ -78,9 +78,9 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
         $qb->add_constraint('task', '=', self::$_task->id);
         $result = $qb->execute();
-        $this->assertEquals(sizeof($result), 3);
+        $this->assertCount(3, $result);
         $status = $result[0];
-        $this->assertEquals($status->targetPerson, 0);
+        $this->assertEquals(0, $status->targetPerson);
     }
 
     public function testCompleteOthersTask()
@@ -100,9 +100,9 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
         $qb->add_constraint('task', '=', self::$_task->id);
         $result = $qb->execute();
-        $this->assertEquals(sizeof($result), 1);
+        $this->assertCount(1, $result);
         $status = $result[0];
-        $this->assertEquals($status->targetPerson, 0);
+        $this->assertEquals(0, $status->targetPerson);
     }
 
     public function testCompleteUnmanagedTask()
@@ -122,9 +122,9 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
         $qb->add_constraint('task', '=', self::$_task->id);
         $result = $qb->execute();
-        $this->assertEquals(sizeof($result), 3);
+        $this->assertCount(3, $result);
         $status = $result[0];
-        $this->assertEquals($status->targetPerson, 0);
+        $this->assertEquals(0, $status->targetPerson);
     }
 
     public function testApproveOwnTask()
@@ -139,9 +139,9 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
         $qb->add_constraint('task', '=', self::$_task->id);
         $result = $qb->execute();
-        $this->assertEquals(sizeof($result), 2);
+        $this->assertCount(2, $result);
         $status = $result[0];
-        $this->assertEquals($status->targetPerson, 0);
+        $this->assertEquals(0, $status->targetPerson);
     }
 
     public function testApproveOthersTask()

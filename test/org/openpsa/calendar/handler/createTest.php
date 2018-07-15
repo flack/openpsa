@@ -63,7 +63,7 @@ class org_openpsa_calendar_handler_createTest extends openpsa_testcase
         $results = $qb->execute();
         $this->register_objects($results);
 
-        $this->assertEquals(1, sizeof($results));
+        $this->assertCount(1, $results);
 
         $this->assertEquals('2009-10-11 10:15:01', date('Y-m-d h:i:s', $results[0]->start));
 

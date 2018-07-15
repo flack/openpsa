@@ -154,7 +154,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $qb->add_constraint('project', '=', $this->_project->id);
         $results = $qb->execute();
         $this->register_objects($results);
-        $this->assertEquals(1, sizeof($results));
+        $this->assertCount(1, $results);
         $new_task = $results[0];
         $this->assertEquals($this->_deliverable->id, $new_task->agreement);
         $this->assertEquals($this->_salesproject->customer, $new_task->customer);
@@ -167,7 +167,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $at_entries = $mc->get_related_objects('midcom.services.at');
         $this->register_objects($at_entries);
 
-        $this->assertEquals(1, sizeof($at_entries));
+        $this->assertCount(1, $at_entries);
         $at_entry = $at_entries[0];
 
         foreach ($values as $field => $value) {
@@ -189,9 +189,9 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $result =  $mc->list_keys();
 
         if ($values == false) {
-            $this->assertEquals(0, sizeof($result), 'Invoice was created, which shouldn\'t have happened');
+            $this->assertCount(0, $result, 'Invoice was created, which shouldn\'t have happened');
         } else {
-            $this->assertEquals(1, sizeof($result), 'Invoice was not created');
+            $this->assertCount(1, $result, 'Invoice was not created');
             $invoice = new org_openpsa_invoices_invoice_dba($mc->get_subkey(key($result), 'invoice'));
             $this->register_object($invoice);
 
@@ -214,9 +214,9 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $this->register_objects($items);
 
         if ($items_to_verify == false) {
-            $this->assertEquals(0, sizeof($items), 'Invoice item was created, which shouldn\'t have happened');
+            $this->assertCount(0, $items, 'Invoice item was created, which shouldn\'t have happened');
         } else {
-            $this->assertEquals(sizeof($items_to_verify), sizeof($items), 'Wrong number of invoice items');
+            $this->assertCount(count($items_to_verify), $items, 'Wrong number of invoice items');
 
             foreach ($items_to_verify as $values) {
                 $key = key($values);
@@ -573,14 +573,14 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
         $qb->add_constraint('deliverable', '=', $this->_deliverable->id);
         $results = $qb->execute();
-        $this->assertEquals(1, sizeof($results));
+        $this->assertCount(1, $results);
         $item1 = $results[0];
         $this->register_object($item1);
 
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
         $qb->add_constraint('deliverable', '=', $deliverable2->id);
         $results = $qb->execute();
-        $this->assertEquals(1, sizeof($results));
+        $this->assertCount(1, $results);
         $item2 = $results[0];
         $this->register_object($item2);
 

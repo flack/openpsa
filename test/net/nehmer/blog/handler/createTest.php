@@ -42,7 +42,7 @@ class net_nehmer_blog_handler_createTest extends openpsa_testcase
         $qb->add_constraint('title', '=', $formdata['title']);
         $results = $qb->execute();
         $this->register_objects($results);
-        $this->assertEquals(1, sizeof($results));
+        $this->assertCount(1, $results);
 
         midcom::get()->auth->drop_sudo();
     }

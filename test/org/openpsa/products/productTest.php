@@ -41,7 +41,7 @@ class org_openpsa_products_productTest extends openpsa_testcase
         $stat = $product->update();
         $this->assertTrue($stat);
 
-        $this->assertEquals($product->title, 'TEST TITLE');
+        $this->assertEquals('TEST TITLE', $product->title);
 
         $stat = $product->delete();
         $this->assertTrue($stat);

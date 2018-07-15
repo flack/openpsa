@@ -33,29 +33,29 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $stat = $deliverable->create();
         $this->assertTrue($stat, midcom_connection::get_error_string());
         $this->register_object($deliverable);
-        $this->assertEquals($deliverable->price, 250);
+        $this->assertEquals(250, $deliverable->price);
 
         $parent = $deliverable->get_parent();
         $this->assertEquals($parent->guid, $this->_salesproject->guid);
 
         $this->_salesproject->refresh();
-        $this->assertEquals($this->_salesproject->value, 250);
-        $this->assertEquals($this->_salesproject->profit, 250);
+        $this->assertEquals(250, $this->_salesproject->value);
+        $this->assertEquals(250, $this->_salesproject->profit);
 
         $deliverable->plannedUnits = 2;
         $stat = $deliverable->update();
         $this->assertTrue($stat);
 
         $this->_salesproject->refresh();
-        $this->assertEquals($this->_salesproject->value, 200);
-        $this->assertEquals($this->_salesproject->profit, 200);
+        $this->assertEquals(200, $this->_salesproject->value);
+        $this->assertEquals(200, $this->_salesproject->profit);
 
         $stat = $deliverable->delete();
         $this->assertTrue($stat);
 
         $this->_salesproject->calculate_price();
-        $this->assertEquals($this->_salesproject->value, 0);
-        $this->assertEquals($this->_salesproject->profit, 0);
+        $this->assertEquals(0, $this->_salesproject->value);
+        $this->assertEquals(0, $this->_salesproject->profit);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -87,7 +87,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $stat = $deliverable->order();
         midcom::get()->auth->drop_sudo();
 
-        $this->assertEquals($stat, $retval);
+        $this->assertEquals($retval, $stat);
 
         if ($retval === true) {
             $salesproject = $this->_salesproject;

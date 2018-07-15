@@ -39,12 +39,12 @@ class midcom_services_auth_loginTest extends openpsa_testcase
         $this->assertTrue($auth->is_valid_user());
 
         $user = $auth->user;
-        $this->assertTrue($user instanceof midcom_core_user);
+        $this->assertInstanceOf(midcom_core_user::class, $user);
         $this->assertEquals(self::$_person->guid, $user->guid);
         $this->assertEquals(self::$_person->id, midcom_connection::get_user());
 
         $auth->logout();
-        $this->assertTrue(is_null($auth->user));
+        $this->assertNull($auth->user);
         $this->assertFalse($auth->is_valid_user());
     }
 }

@@ -40,13 +40,13 @@ class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
         $this->register_object($item);
 
         $parent = $item->get_parent();
-        $this->assertEquals($parent->guid, self::$_invoice->guid);
+        $this->assertEquals(self::$_invoice->guid, $parent->guid);
 
         self::$_invoice->refresh();
         self::$_deliverable->refresh();
-        $this->assertEquals(self::$_invoice->sum, 250);
-        $this->assertEquals(self::$_deliverable->invoiced, 250);
-        $this->assertEquals(self::$_deliverable->state, org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED);
+        $this->assertEquals(250, self::$_invoice->sum);
+        $this->assertEquals(250, self::$_deliverable->invoiced);
+        $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED, self::$_deliverable->state);
 
         $item->units = 3.5;
         $stat = $item->update();
@@ -54,16 +54,16 @@ class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
 
         self::$_invoice->refresh();
         self::$_deliverable->refresh();
-        $this->assertEquals(self::$_invoice->sum, 350);
-        $this->assertEquals(self::$_deliverable->invoiced, 350);
+        $this->assertEquals(350, self::$_invoice->sum);
+        $this->assertEquals(350, self::$_deliverable->invoiced);
 
         $stat = $item->delete();
         $this->assertTrue($stat);
 
         self::$_invoice->refresh();
         self::$_deliverable->refresh();
-        $this->assertEquals(self::$_invoice->sum, 0);
-        $this->assertEquals(self::$_deliverable->invoiced, 0);
+        $this->assertEquals(0, self::$_invoice->sum);
+        $this->assertEquals(0, self::$_deliverable->invoiced);
 
         midcom::get()->auth->drop_sudo();
     }

@@ -133,7 +133,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
     {
         $person = org_openpsa_user_accounthelper::get_person_by_formdata($data);
         if ($expected_result) {
-            $this->assertTrue($person instanceof midcom_db_person);
+            $this->assertInstanceOf(midcom_db_person::class, $person);
         } else {
             $this->assertFalse($person);
         }
@@ -179,7 +179,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         for ($attempt_num = 1; $attempt_num < $max_attempts; $attempt_num++) {
             $this->assertTrue($helper->check_login_attempts());
             $attempts = unserialize($person->get_parameter("org_openpsa_user_password", "attempts"));
-            $this->assertEquals($attempt_num, count($attempts));
+            $this->assertCount($attempt_num, $attempts);
         }
 
         $this->assertFalse($helper->check_login_attempts());
@@ -289,7 +289,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $qb->add_constraint('argumentsstore', '=', serialize($args));
         $result = $qb->execute();
         $this->register_objects($result);
-        $this->assertEquals(1, sizeof($result));
+        $this->assertCount(1, $result);
 
         $account->set_password($accounthelper->generate_safe_password());
         $account->save();
@@ -320,7 +320,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $account = new midcom_core_account($user);
         $this->assertTrue(midcom_connection::verify_password($new_password, $account->get_password()));
         $this->assertEquals($new_username, $account->get_username());
-        $this->assertFalse(is_null($user->get_parameter('org_openpsa_user_password', 'last_change')));
+        $this->assertNotNull($user->get_parameter('org_openpsa_user_password', 'last_change'));
         $old = unserialize($user->get_parameter('org_openpsa_user_password', 'old_passwords'));
         $this->assertCount(1, $old);
         $this->assertTrue(midcom_connection::verify_password($password, $old[0]));

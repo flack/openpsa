@@ -37,6 +37,6 @@ class midcom_services_rcs_backend_rcsTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
         $handler = self::$_config->get_handler($topic);
 
-        $this->assertEquals(1, sizeof($handler->list_history()));
+        $this->assertCount(1, $handler->list_history());
     }
 }

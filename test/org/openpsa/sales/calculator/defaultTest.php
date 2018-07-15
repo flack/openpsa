@@ -37,7 +37,7 @@ class org_openpsa_sales_calculatorTest extends openpsa_testcase
         $calculator->run($this->_deliverable);
         $items = $calculator->get_invoice_items($invoice);
 
-        $this->assertTrue(sizeof($items) == 1);
+        $this->assertCount(1, $items);
         $this->assertEquals($task->id, $items[0]->task);
 
         midcom::get()->auth->drop_sudo();

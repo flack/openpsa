@@ -30,7 +30,7 @@ class org_openpsa_products_groupTest extends openpsa_testcase
         $stat = $group->update();
         $this->assertTrue($stat);
 
-        $this->assertEquals($group->title, 'TEST TITLE');
+        $this->assertEquals('TEST TITLE', $group->title);
 
         $stat = $group->delete();
         $this->assertTrue($stat);

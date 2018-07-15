@@ -54,19 +54,19 @@ class midcom_db_groupTest extends openpsa_testcase
         $this->assertTrue($group->is_member($person));
 
         $count = $this->_count_membership_objects($group->id, $person->id);
-        $this->assertEquals($count, 1);
+        $this->assertEquals(1, $count);
 
         //Make sure we don't create duplicate membership objects
         $stat = $group->add_member($person);
         $this->assertTrue($stat);
         $count = $this->_count_membership_objects($group->id, $person->id);
-        $this->assertEquals($count, 1);
+        $this->assertEquals(1, $count);
 
         $person->delete();
         $this->assertFalse($group->is_member($person));
 
         $count = $this->_count_membership_objects($group->id, $person->id);
-        $this->assertEquals($count, 0);
+        $this->assertEquals(0, $count);
 
         midcom::get()->auth->drop_sudo();
     }
