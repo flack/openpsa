@@ -338,11 +338,16 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     public function can_handle(Request $request)
     {
         $argv = $request->attributes->get('argv', []);
+        $prefix = midcom_core_context::get()->parser->get_url();
+
         // Check if we need to start up a plugin.
         if (   count($argv) > 1
             && array_key_exists($argv[0], self::$_plugin_namespace_config)
             && array_key_exists($argv[1], self::$_plugin_namespace_config[$argv[0]])) {
-            $this->_load_plugin(array_shift($argv), array_shift($argv));
+            $namespace = array_shift($argv);
+            $name = array_shift($argv);
+            $prefix .= $namespace . '/' . $name . '/';
+            $this->_load_plugin($namespace, $name);
         }
 
         if (empty($argv)) {
@@ -353,7 +358,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $this->router->getContext()->fromRequest($request);
         try {
             $result = $this->router->match($url);
-            $prefix = midcom_core_context::get()->parser->get_url();
             $this->router->getContext()->setBaseUrl(substr($prefix, 0, -1));
             $this->_prepare_handler($result);
             return true;
