@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\Routing\Router;
+
 /**
  * Execution handler subclass, to be used with the request switch
  * in midcom_baseclasses_components_request.
@@ -78,6 +80,11 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     var $_view_toolbar = null;
 
     /**
+     * @var Router
+     */
+    protected $router;
+
+    /**
      * Holds breadcrumb entries the handler wants to add
      *
      * @var array
@@ -96,9 +103,10 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      *
      * @param midcom_baseclasses_components_request $master The request class
      */
-    public function initialize(midcom_baseclasses_components_request $master)
+    public function initialize(midcom_baseclasses_components_request $master, Router $router)
     {
         $this->_master = $master;
+        $this->router = $router;
 
         $this->_request_data =& $master->_request_data;
         $this->_topic = $master->_topic;

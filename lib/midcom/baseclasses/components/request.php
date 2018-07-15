@@ -8,7 +8,6 @@
 
 use midcom\routing\loader;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
 
@@ -262,6 +261,11 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     private $loader;
 
     /**
+     * @var Router
+     */
+    protected $router;
+
+    /**
      * Request execution switch configuration.
      *
      * The main request switch data. You need to set this during construction,
@@ -275,7 +279,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     /**
      * The handler which has been declared to be able to handle the
      * request. The array will contain the original index of the handler in the
-     * 'id' member for backtracking purposes. The variable argument list will be
+     * '_route' member for backtracking purposes. The variable argument list will be
      * placed into 'args' for performance reasons.
      *
      * @var Array
@@ -315,10 +319,12 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         if (empty(self::$_plugin_namespace_config)) {
             $this->_register_core_plugin_namespaces();
         }
-        $this->loader = new loader;
-        $this->_request_switch = $this->loader->get_legacy_routes($component);
+
+        $loader = new loader;
+        $this->_request_switch = $loader->get_legacy_routes($component);
 
         $this->_on_initialize();
+        $this->router = $this->get_router();
     }
 
     /**
@@ -344,12 +350,11 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         } else {
             $url = '/' . implode('/', $argv) . '/';
         }
-        $router = $this->get_router($this->active_plugin);
-        $ctx = new RequestContext;
-        $ctx->fromRequest($request);
-        $router->setContext($ctx);
+        $this->router->getContext()->fromRequest($request);
         try {
-            $result = $router->match($url);
+            $result = $this->router->match($url);
+            $prefix = midcom_core_context::get()->parser->get_url();
+            $this->router->getContext()->setBaseUrl(substr($prefix, 0, -1));
             $this->_prepare_handler($result);
             return true;
         } catch (ResourceNotFoundException $e) {
@@ -364,13 +369,14 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     public function get_router($component = null)
     {
-        if ($component == null) {
-            if (!empty($this->_request_switch)) {
-                return new Router($this->loader, $this->_request_switch);
-            }
-            $component = $this->_component;
+        $loader = new loader;
+        $resource = $this->_component;
+        if ($component) {
+            $resource = $component;
+        } elseif (!empty($this->_request_switch)) {
+            $resource = $this->_request_switch;
         }
-        return new Router($this->loader, $component);
+        return new Router($loader, $resource);
     }
 
 
@@ -398,7 +404,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             return;
         }
         $request['handler'] = explode('::', $request['_controller'], 2);
-        $request['id'] = $request['_route'];
 
         $classname = $request['handler'][0];
         if (!class_exists($classname)) {
@@ -415,9 +420,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             $request['handler'][0]->_component = $this->active_plugin;
         }
 
-        $request['handler'][0]->initialize($this);
-
-        midcom_core_context::get()->set_key(MIDCOM_CONTEXT_HANDLERID, $request['id']);
+        $request['handler'][0]->initialize($this, $this->router);
     }
 
     /**
@@ -436,6 +439,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         // Update the request data
         $this->_request_data['topic'] = $this->_topic;
+        $this->_request_data['router'] = $this->router;
 
         // Get the toolbars for both the main request object and the handler object.
         $this->_node_toolbar = midcom::get()->toolbars->get_node_toolbar();
@@ -444,20 +448,20 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $handler->_view_toolbar = $this->_view_toolbar;
 
         // Add the handler ID to request data
-        $this->_request_data['handler_id'] = $this->_handler['id'];
+        $this->_request_data['handler_id'] = $this->_handler['_route'];
 
         if (!array_key_exists('plugin_name', $this->_request_data)) {
             // We're not using a plugin handler, so call the general handle event handler
-            $this->_on_handle($this->_handler['id'], $this->_handler['args']);
+            $this->_on_handle($this->_handler['_route'], $this->_handler['args']);
         }
         $method = "_handler_{$this->_handler['handler'][1]}";
-        $result = $handler->$method($this->_handler['id'], $this->_handler['args'], $this->_request_data);
+        $result = $handler->$method($this->_handler['_route'], $this->_handler['args'], $this->_request_data);
 
         if ($handler instanceof midcom_baseclasses_components_handler) {
             $handler->populate_breadcrumb_line();
         }
 
-        $this->_on_handled($this->_handler['id'], $this->_handler['args']);
+        $this->_on_handled($this->_handler['_route'], $this->_handler['args']);
 
         return $result;
     }
@@ -475,7 +479,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $handler = $this->_handler['handler'][0];
         $method = "_show_{$this->_handler['handler'][1]}";
 
-        $handler->$method($this->_handler['id'], $this->_request_data);
+        $handler->$method($this->_handler['_route'], $this->_request_data);
     }
 
     /**
@@ -570,7 +574,8 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // Load remaining configuration, and prepare the plugin,
         // errors are logged by the callers.
         $plugin = new $plugin_config['class']();
-        $plugin->initialize($this);
+        $this->router = $this->get_router($plugin->_component);
+        $plugin->initialize($this, $this->router);
         $this->active_plugin = $plugin->_component;
     }
 
