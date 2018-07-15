@@ -11,6 +11,10 @@ namespace midcom\routing;
 use Symfony\Component\Config\Loader\Loader as base;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
+use midcom;
+use midcom_baseclasses_components_configuration;
+use Symfony\Component\Routing\Loader\YamlFileLoader;
+use Symfony\Component\Config\FileLocator;
 
 /**
  * @package midcom.routing
@@ -18,14 +22,26 @@ use Symfony\Component\Routing\Route;
 class loader extends base
 {
     /**
+     * @var YamlFileLoader
+     */
+    private $yaml_loader;
+
+    /**
      * {@inheritDoc}
      * @see \Symfony\Component\Config\Loader\LoaderInterface::load()
      */
-    public function load($array, $type = null)
+    public function load($input, $type = null)
     {
+        if (is_string($input)) {
+            if (!$this->is_legacy($input)) {
+                return $this->get_yaml()->load($this->get_path($input, 'yml'), $type);
+            }
+            $input = $this->get_legacy_routes($input);
+        }
+
         $collection = new RouteCollection();
 
-        foreach ($array as $name => $config) {
+        foreach ($input as $name => $config) {
             $path = '/';
             $requirements = [];
 
@@ -80,6 +96,68 @@ class loader extends base
      */
     public function supports($resource, $type = null)
     {
+        if (is_string($resource)) {
+            if (!$this->is_legacy($resource)) {
+                return $this->get_yaml()->supports($this->get_path($input, 'yml'), $type);
+            }
+            return (!$type || 'string' === $type);
+        }
+
         return is_array($resource) && (!$type || 'array' === $type);
+    }
+
+    /**
+     * @param string $component
+     * @return boolean
+     */
+    private function is_legacy($component)
+    {
+        return !file_exists($this->get_path($component, 'yml'));
+    }
+
+    /**
+     * @return \Symfony\Component\Routing\Loader\YamlFileLoader
+     */
+    private function get_yaml()
+    {
+        if (empty($this->yaml_loader)) {
+            $this->yaml_loader = new YamlFileLoader(new FileLocator);
+        }
+        return $this->yaml_loader;
+    }
+
+    private function get_path($component, $suffix)
+    {
+        return midcom::get()->componentloader->path_to_snippetpath($component) . '/config/routes.' . $suffix;
+    }
+
+    /**
+     * @param string $component
+     * @return array
+     */
+    public function get_legacy_routes($component)
+    {
+        $routes = [];
+        if (!$this->is_legacy($component)) {
+            return $routes;
+        }
+        $manifest = midcom::get()->componentloader->manifests[$component];
+        if (!empty($manifest->extends)) {
+            $routes = $this->get_legacy_routes($manifest->extends);
+        }
+
+        return array_merge($routes, $this->load_routes($component));
+    }
+
+    private function load_routes($component)
+    {
+        $path = $this->get_path($component, 'inc');
+        // Load and parse the global config
+        $data = midcom_baseclasses_components_configuration::read_array_from_file($path);
+        if (!$data) {
+            // Empty defaults
+            $data = [];
+        }
+        return $data;
     }
 }

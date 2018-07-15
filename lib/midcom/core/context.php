@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * MidCOM context handling
  *
@@ -306,9 +308,10 @@ class midcom_core_context
      * The URL of the component that is used to handle the request is obtained automatically.
      * If the handler hook returns false (i.e. handling failed), it will produce an error page.
      *
+     * @param Request $request
      * @return midcom_response
      */
-    public function run()
+    public function run(Request $request)
     {
         do {
             $object = $this->parser->get_current_object();
@@ -317,12 +320,7 @@ class midcom_core_context
             }
         } while ($this->parser->get_object() !== false);
 
-        // Check whether the component can handle the request.
-        $response = $this->load_component_interface($object)->handle();
-        if (!is_object($response)) {
-            $response = new midcom_response_styled($this);
-        }
-        return $response;
+        return $this->handle($object, $request);
     }
 
     /**
@@ -331,24 +329,30 @@ class midcom_core_context
      * After the local configuration is retrieved from the object in question the
      * component will be asked if it can handle the request. If so, the interface class will be returned to the caller
      *
-     * @param midcom_db_topic $object The node that is currently being tested.
-     * @return midcom_baseclasses_components_interface
+     * @param midcom_db_topic $topic The node that is currently being tested.
+     * @param Request $request
+     * @return midcom_response
      */
-    public function load_component_interface(midcom_db_topic $object)
+    public function handle(midcom_db_topic $topic, Request $request = null)
     {
-        $path = $object->component;
+        if ($request === null) {
+            $request = Request::createFromGlobals();
+        }
+        $request->attributes->set('argv', $this->parser->argv);
+
+        $path = $topic->component;
         $this->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
 
         // Get component interface class
         $component_interface = midcom::get()->componentloader->get_interface_class($path);
 
         // Load configuration
-        $config = $this->_loadconfig($this->id, $object)->get_all();
+        $config = $this->_loadconfig($this->id, $topic)->get_all();
         $component_interface->configure($config, $this->id);
 
         // Make can_handle check
-        if (!$component_interface->can_handle($object, $this->parser->argv, $this->id)) {
-            debug_add("Component {$path} in {$object->name} declared unable to handle request.", MIDCOM_LOG_INFO);
+        if (!$component_interface->can_handle($topic, $request, $this->id)) {
+            debug_add("Component {$path} in {$topic->name} declared unable to handle request.", MIDCOM_LOG_INFO);
 
             // We couldn't fetch a node due to access restrictions
             if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED) {
@@ -364,7 +368,12 @@ class midcom_core_context
         $this->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $this->parser->get_current_object());
         $this->set_key(MIDCOM_CONTEXT_URLTOPICS, $this->parser->get_objects());
         $this->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$component_interface, 'show_content']);
-        return $component_interface;
+
+        $response = $component_interface->handle();
+        if (!is_object($response)) {
+            $response = new midcom_response_styled($this);
+        }
+        return $response;
     }
 
     public function show()
@@ -385,21 +394,21 @@ class midcom_core_context
      * Load the configuration for a given object.
      *
      * This is a small wrapper function that retrieves all local configuration data
-     * attached to $object. The assigned component is used to determine which
+     * attached to $topic. The assigned component is used to determine which
      * parameter domain has to be used.
      *
      * @param int $context_id The context ID
-     * @param midcom_db_topic $object      The node from which to load the configuration.
+     * @param midcom_db_topic $topic      The node from which to load the configuration.
      * @return midcom_helper_configuration The newly constructed configuration object.
      */
-    private function _loadconfig($context_id, midcom_db_topic $object)
+    private function _loadconfig($context_id, midcom_db_topic $topic)
     {
         static $configs = [];
-        $cache_key = $context_id . '::' . $object->guid;
+        $cache_key = $context_id . '::' . $topic->guid;
 
         if (!isset($configs[$cache_key])) {
             $path = $this->get_key(MIDCOM_CONTEXT_COMPONENT);
-            $configs[$cache_key] = new midcom_helper_configuration($object, $path);
+            $configs[$cache_key] = new midcom_helper_configuration($topic, $path);
         }
 
         return $configs[$cache_key];

@@ -22,9 +22,9 @@ class net_nehmer_comments_handler_moderateTest extends openpsa_testcase
 
         midcom::get()->auth->request_sudo('net.nehmer.comments');
 
-        $_POST = [
+        $this->set_post_data([
             'return_url' => 'dummy'
-        ];
+        ]);
 
         $url = $this->run_relocate_handler('net.nehmer.comments', ['report', 'abuse', $comment->guid]);
         $this->assertEquals('dummy', $url);

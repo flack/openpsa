@@ -60,11 +60,9 @@ class midcom_baseclasses_components_configuration
     {
         self::$_data[$component] = [
             'active_leaf' => false,
-            'config' => [],
-            'routes' => []
+            'config' => []
         ];
         self::_load_configuration($component);
-        self::_load_routes($component);
     }
 
     /**
@@ -110,19 +108,6 @@ class midcom_baseclasses_components_configuration
         }
 
         self::$_data[$component]['config'] = new midcom_helper_configuration($data);
-    }
-
-    private static function _load_routes($component)
-    {
-        $loader = midcom::get()->componentloader;
-        $component_path = $loader->path_to_snippetpath($component);
-        // Load and parse the global config
-        $data = self::read_array_from_file($component_path . '/config/routes.inc');
-        if (!$data) {
-            // Empty defaults
-            $data = [];
-        }
-        self::$_data[$component]['routes'] = $data;
     }
 
     /**

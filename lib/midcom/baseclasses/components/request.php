@@ -6,11 +6,11 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Symfony\Component\Routing\Router;
 use midcom\routing\loader;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\Loader\YamlFileLoader;
-use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Router;
 
 /**
  * Base class to encapsulate the component's routing, instantiated by the MidCOM
@@ -259,6 +259,8 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
     private $active_plugin;
 
+    private $loader;
+
     /**
      * Request execution switch configuration.
      *
@@ -313,7 +315,8 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         if (empty(self::$_plugin_namespace_config)) {
             $this->_register_core_plugin_namespaces();
         }
-        $this->_request_switch = $this->get_component_routes($component);
+        $this->loader = new loader;
+        $this->_request_switch = $this->loader->get_legacy_routes($component);
 
         $this->_on_initialize();
     }
@@ -326,8 +329,9 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @param array $argv The argument list
      * @return boolean Indicating whether the request can be handled by the class, or not.
      */
-    public function can_handle(array $argv)
+    public function can_handle(Request $request)
     {
+        $argv = $request->attributes->get('argv', []);
         // Check if we need to start up a plugin.
         if (   count($argv) > 1
             && array_key_exists($argv[0], self::$_plugin_namespace_config)
@@ -340,9 +344,13 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         } else {
             $url = '/' . implode('/', $argv) . '/';
         }
+        $router = $this->get_router($this->active_plugin);
+        $ctx = new RequestContext;
+        $ctx->fromRequest($request);
+        $router->setContext($ctx);
         try {
-            $result = $this->get_router($this->active_plugin)->match($url);
-            $this->_prepare_handler($result, $argv);
+            $result = $router->match($url);
+            $this->_prepare_handler($result);
             return true;
         } catch (ResourceNotFoundException $e) {
             // No match
@@ -358,51 +366,22 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     {
         if ($component == null) {
             if (!empty($this->_request_switch)) {
-                $routes = $this->_request_switch;
-            } else {
-                $routes = $this->get_component_routes($this->_component);
+                return new Router($this->loader, $this->_request_switch);
             }
-        } else {
-            $routes = $this->get_component_routes($component);
+            $component = $this->_component;
         }
-        if (is_string($routes)) {
-            $loader = new YamlFileLoader(new FileLocator());
-        } else {
-            $loader = new loader();
-        }
-        return new Router($loader, $routes);
+        return new Router($this->loader, $component);
     }
 
-    /**
-     * @param string $component
-     * @return array|string
-     */
-    private function get_component_routes($component)
-    {
-        $cl = midcom::get()->componentloader;
-        $routes = [];
-        if (file_exists($cl->path_to_snippetpath($component) . '/config/routes.yml')) {
-            return $cl->path_to_snippetpath($component) . '/config/routes.yml';
-        } else {
-            $manifest = $cl->manifests[$component];
-            if (!empty($manifest->extends)) {
-                $routes = midcom_baseclasses_components_configuration::get($manifest->extends, 'routes');
-            }
-
-            $routes = array_merge($routes, midcom_baseclasses_components_configuration::get($component, 'routes'));
-        }
-        return $routes;
-    }
 
     /**
      * Prepares the handler callback for execution.
      * This will create the handler class instance if required.
      *
      * @param array $request
-     * @param array $argv
      * @throws midcom_error
      */
-    private function _prepare_handler(array $request, array $argv = [])
+    private function _prepare_handler(array $request)
     {
         $this->_handler =& $request;
 

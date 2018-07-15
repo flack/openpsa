@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Baseclass to use for the component interface in MidCOM.
  *
@@ -183,11 +185,11 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * to MidCOM.
      *
      * @param midcom_db_topic $current_object The topic in question.
-     * @param array $argv The argument listing
+     * @param Request $request
      * @param int $contextid The id of the context we are operating in.
      * @return boolean True, if the component can handle the request, false otherwise.
      */
-    public function can_handle($current_object, array $argv, $contextid)
+    public function can_handle($current_object, Request $request, $contextid)
     {
         $data =& $this->_context_data[$contextid];
         $loader = midcom::get()->componentloader;
@@ -196,7 +198,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
         if ($data['handler'] instanceof midcom_baseclasses_components_request) {
             $data['handler']->initialize($this->_component);
         }
-        return $data['handler']->can_handle($argv);
+        return $data['handler']->can_handle($request);
     }
 
     /**

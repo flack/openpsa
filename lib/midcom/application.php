@@ -368,7 +368,7 @@ class midcom_application
             return $response;
         }
 
-        return $context->run();
+        return $context->run($this->request);
     }
 
     /**

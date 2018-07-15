@@ -99,18 +99,11 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         // Parser Init: Generate arguments and instantiate it.
         $context->parser = midcom::get()->serviceloader->load('midcom_core_service_urlparser');
         $context->parser->parse($args);
-        $interface = $context->load_component_interface($topic);
-        $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $topic);
-        $this->assertTrue(is_a($interface, 'midcom_baseclasses_components_interface'), $component . ' found no handler for ./' . implode('/', $args) . '/');
+        $result = $context->handle($topic);
 
-        $result = $interface->handle();
         $this->assertTrue($result !== false, $component . ' handle returned false on ./' . implode('/', $args) . '/');
-        $data = $interface->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
-
-        if (   is_object($result)
-            && $result instanceof midcom_response) {
-            $data['__openpsa_testcase_response'] = $result;
-        }
+        $data = $context->get_custom_key('request_data');
+        $data['__openpsa_testcase_response'] = $result;
 
         // added to simulate http uri composition
         $_SERVER['REQUEST_URI'] = $context->get_key(MIDCOM_CONTEXT_URI);
