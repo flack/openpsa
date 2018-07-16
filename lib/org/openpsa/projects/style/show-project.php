@@ -2,7 +2,6 @@
 $project = $data['object'];
 $project->get_members();
 $view = $data['object_view'];
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
 ?>

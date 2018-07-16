@@ -1,7 +1,7 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $projects_l10n = midcom::get()->i18n->get_l10n('org.openpsa.projects');
-$action_target_url = $prefix . "hours/task/batch/";
+$action_target_url = $data['router']->generate('hours_task_action');
+$export_url = $data['router']->generate('csv', ['type' => 'hour_report']);
 $invoice_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
 $footer_data = ['hours' => 0];
 $categories = [$data['l10n']->get('uninvoiceable'), $data['l10n']->get('invoiceable'), $data['l10n']->get('invoiced')];
@@ -17,7 +17,8 @@ foreach ($data['hours'] as $report) {
 
     if ($data['mode'] != 'task') {
         $task = org_openpsa_projects_task_dba::get_cached($report->task);
-        $entry['task'] = "<a href=\"{$prefix}hours/task/{$task->guid}/\">" . $task->get_label() . "</a>";
+        $link = $data['router']->generate('list_hours_task', ['guid' => $task->guid]);
+        $entry['task'] = "<a href=\"{$link}\">" . $task->get_label() . "</a>";
         $entry['index_task'] = $task->get_label();
     }
 
@@ -41,7 +42,7 @@ foreach ($data['hours'] as $report) {
     }
 
     $entry['index_description'] = $report->description;
-    $entry['description'] = '<a' . $workflow->render_attributes() . ' href="' . $prefix . 'hours/edit/' . $report->guid . '/">' . $report->get_description() . '</a>';
+    $entry['description'] = '<a' . $workflow->render_attributes() . ' href="' . $data['router']->generate('hours_edit', ['guid' => $report->guid]) . '">' . $report->get_description() . '</a>';
 
     try {
         $reporter = midcom_db_person::get_cached($report->person);
@@ -122,7 +123,7 @@ $grid_id = $data['grid']->get_identifier();
 <input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 </form>
 
-<form method="post" class="tab_escape" id="csv_&(grid_id);" action="&(prefix);/csv/hour_report/?filename=hours_&(filename);.csv">
+<form method="post" class="tab_escape" id="csv_&(grid_id);" action="&(export_url);?filename=hours_&(filename);.csv">
     <input type="hidden" name="order[date]" value="ASC" />
     <input class="button" type="submit" value="<?= midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
 </form>

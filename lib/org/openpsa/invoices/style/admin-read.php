@@ -12,7 +12,6 @@ try {
     $customer = false;
 }
 
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
 $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
 $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
@@ -20,7 +19,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 $cancelation_invoice_link = false;
 if ($invoice->cancelationInvoice) {
     $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
-    $cancelation_invoice_link = $prefix . 'invoice/' . $cancelation_invoice->guid . '/';
+    $cancelation_invoice_link = $data['router']->generate('invoice', ['guid' => $cancelation_invoice->guid]);
 
     $cancelation_invoice_link = "<a href=\"" . $cancelation_invoice_link . "\">" . $data['l10n']->get('invoice') . " " . $cancelation_invoice->get_label() . "</a>";
 }
@@ -72,7 +71,7 @@ if ($invoice->cancelationInvoice) {
     }
     // is the invoice a cancelation invoice itself?
     if ($canceled_invoice = $invoice->get_canceled_invoice()) {
-        $canceled_invoice_link = $prefix . 'invoice/' . $canceled_invoice->guid . '/';
+        $canceled_invoice_link = $data['router']->generate('invoice', ['guid' => $canceled_invoice->guid]);
 
         echo "<div class=\"field\">";
         echo "<div class=\"title\">" . $data['l10n']->get('cancelation invoice for') .":</div>";

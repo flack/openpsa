@@ -1,5 +1,4 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');
 $formatter = $l10n->get_formatter();
 
@@ -48,9 +47,6 @@ foreach ($data['invoices'] as $invoice) {
 
     $footer_data['sum'] += $invoice->sum;
     $footer_data['vat_sum'] += $entry['vat_sum'];
-
-    $link_html = "<a href='{$prefix}invoice/{$invoice->guid}/'>" . $invoice->get_label() . "</a>";
-    $next_marker = false;
 
     if ($invoice->id) {
         if ($data['invoices_url']) {

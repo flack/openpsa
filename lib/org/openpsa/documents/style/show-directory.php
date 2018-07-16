@@ -1,5 +1,5 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$url = $data['router']->generate('finder-connector');
 ?>
 
 <div class="wide">
@@ -10,8 +10,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 <script type="text/javascript">
     $(document).ready(function() {
 
-        function resize()
-        {
+        function resize() {
             if ($('#elfinder').height() !== $('#elfinder').parent().parent().height() - 2) {
                 $('#elfinder')
                     .css('width', 'auto')
@@ -21,7 +20,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         }
 
         $('#elfinder').elfinder({
-            url : '&(prefix);connector/',
+            url : '&(url);',
             defaultView: 'list',
             lang: '&(data["lang"]);',
             cssAutoLoad: false,

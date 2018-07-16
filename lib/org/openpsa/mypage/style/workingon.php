@@ -1,5 +1,5 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$url = $data['router']->generate('today');
 $workingon = $data['workingon'];
 
 $checked = "";
@@ -18,7 +18,7 @@ midcom::get()->uimessages->show();
 <div id="org_openpsa_mypage_workingon_widget">
 <div class="org_openpsa_mypage_workingon">
     <h3><?php echo $data['l10n']->get('now working on'); ?></h3>
-    <input type="hidden" name="url" value="&(prefix);" />
+    <input type="hidden" name="url" value="&(url);" />
     <div id="working_task" >
     <script type="text/javascript">
     $(document).ready(function()

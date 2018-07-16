@@ -165,15 +165,13 @@ implements org_openpsa_widgets_grid_provider_client
 
     private function render_workflow_controls(org_openpsa_projects_task_dba $task)
     {
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
         switch ($this->get_status_type($task)) {
             case 'proposed':
                 $html = $this->render_status($task->manager, "from %s");
                 $task->get_members();
                 if (   $task->can_do('midgard:update')
                     && isset($task->resources[midcom_connection::get_user()])) {
-                    $html .= '<form method="post" action="' . $prefix . 'workflow/' . $task->guid . '/">';
+                    $html .= '<form method="post" action="' . $this->router->generate('workflow', ['guid' => $task->guid]) . '">';
                     //TODO: If we need all resources to accept task hide tools when we have accepted and replace with "pending acceptance from..."
                     $html .= '<ul class="area_toolbar">';
                     $html .= '<li><button type="submit" name="org_openpsa_projects_workflow_action[accept]" class="yes"><i class="fa fa-check"></i> ' . $this->_l10n->get('accept') . '</button></li>';
@@ -189,7 +187,7 @@ implements org_openpsa_widgets_grid_provider_client
             case 'pending_approve':
                 //PONDER: Check ACL instead?
                 if (midcom_connection::get_user() == $task->manager) {
-                    $html = '<form method="post" action="' . $prefix . 'workflow/' . $task->guid . '">';
+                    $html = '<form method="post" action="' . $this->router->generate('workflow', ['guid' => $task->guid]) . '">';
                     $html .= '<ul class="area_toolbar">';
                     $html .= '<li><button type="submit" name="org_openpsa_projects_workflow_action[approve]" class="yes"><i class="fa fa-check"></i> ' . $this->_l10n->get('approve') . '</button></li>';
                     //PONDER: This is kind of redundant  when one can just remove the checkbox -->
@@ -239,8 +237,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function get_row(midcom_core_dbaobject $task)
     {
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $task_url = $prefix . "task/{$task->guid}/";
+        $task_url = $this->router->generate('task_view', ['guid' => $task->guid]);
         $manager_card = org_openpsa_widgets_contact::get($task->manager);
 
         $entry = $this->get_table_row_data($task);
@@ -305,8 +302,8 @@ implements org_openpsa_widgets_grid_provider_client
 
         try {
             $project = org_openpsa_projects_project::get_cached($task->project);
-            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-            $ret['project'] = '<a href="' . $prefix . 'project/' . $project->guid . '/">' . $project->title . '</a>';
+            $url = $this->router->generate('project', ['guid' => $project->guid]);
+            $ret['project'] = '<a href="' . $url . '">' . $project->title . '</a>';
             $ret['index_project'] = $project->title;
         } catch (midcom_error $e) {
             $e->log();

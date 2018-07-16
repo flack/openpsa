@@ -1,6 +1,5 @@
 <?php
 $grid = $data['grid'];
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $rows = [];
 $formatter = $data['l10n']->get_formatter();
 
@@ -14,7 +13,7 @@ $state_labels = [
 ];
 
 foreach ($data['salesprojects'] as $salesproject) {
-    $salesproject_url = "{$prefix}salesproject/{$salesproject->guid}/";
+    $salesproject_url = $data['router']->generate('salesproject_view', ['guid' => $salesproject->guid]);
 
     $row = [];
 

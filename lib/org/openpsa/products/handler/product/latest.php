@@ -84,7 +84,6 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
     public function _show_updated($handler_id, array &$data)
     {
         if (count($data['products']) > 0) {
-            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             midcom_show_style('updated_products_header');
 
             foreach ($data['products'] as $product) {
@@ -96,7 +95,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
                     continue;
                 }
                 $data['view_product'] = $data['datamanager_product']->get_content_html();
-                $data['view_product_url'] = "{$prefix}product/" . $product->guid . '/';
+                $data['view_product_url'] = $this->router->generate('view_product', ['guid' => $product->guid]);
                 midcom_show_style('updated_products_item');
             }
 
@@ -140,8 +139,8 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
 
         $data['rss_creator'] = new UniversalFeedCreator();
         $data['rss_creator']->title = $this->_topic->extra;
-        $data['rss_creator']->link = $prefix;
-        $data['rss_creator']->syndicationURL = "{$prefix}rss.xml";
+        $data['rss_creator']->link = $this->router->generate('list');
+        $data['rss_creator']->syndicationURL = $this->router->generate('updated_products_feed');
 
         if (count($data['products']) > 0) {
             foreach ($data['products'] as $product) {
@@ -153,7 +152,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
                     continue;
                 }
                 $data['view_product'] = $data['datamanager_product']->get_content_html();
-                $data['view_product_url'] = "{$prefix}product/" . $product->guid . '/';
+                $data['view_product_url'] = $this->router->generate('view_product', ['guid' => $product->guid]);
 
                 midcom_show_style('feed_products_item');
             }

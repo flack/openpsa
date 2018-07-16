@@ -92,8 +92,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function get_row(midcom_core_dbaobject $object)
     {
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $link_html = "<a href='{$prefix}product/{$object->guid}/'>";
+        $link_html = '<a href="' . $this->router->generate('view_product', ['guid' => $object->guid]) . '">';
 
         return [
             'id' => $object->id,

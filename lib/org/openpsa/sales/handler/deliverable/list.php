@@ -26,17 +26,16 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function get_row(midcom_core_dbaobject $deliverable)
     {
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $salesproject = $deliverable->get_parent();
-        $deliverable_link = "<a href='{$prefix}deliverable/{$deliverable->guid}/'>" . $deliverable->title . "</a>";
-        $salesproject_link = "<a href='{$prefix}salesproject/{$salesproject->guid}/'>" . $salesproject->title . "</a>";
+        $deliverable_link = $this->router->generate('deliverable_view', ['guid' => $deliverable->guid]);
+        $salesproject_link = $this->router->generate('salesproject_view', ['guid' => $salesproject->guid]);
 
         return [
             'id' => $deliverable->id,
             'index_title' => $deliverable->title,
-            'title' => $deliverable_link,
+            'title' => "<a href='{$deliverable_link}'>" . $deliverable->title . "</a>",
             'index_salesproject' => $salesproject->title,
-            'salesproject' => $salesproject_link,
+            'salesproject' => "<a href='{$salesproject_link}'>" . $salesproject->title . "</a>",
             'unit' => org_openpsa_products_viewer::get_unit_option($deliverable->unit),
             'state' => $deliverable->state,
             'type' => $deliverable->invoiceByActualUnits,

@@ -107,7 +107,6 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
     private function _get_sorted_reports(midcom_core_collector $hours_mc)
     {
         $workflow = $this->get_workflow('datamanager');
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $reports = [];
         $hours = $hours_mc->get_rows(['task', 'hours', 'date', 'person']);
         $formatter = $this->_l10n->get_formatter();
@@ -140,9 +139,10 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
                 ];
             }
             if (!isset($reports[$row_identifier][$date_identifier])) {
+                $link = $this->router->generate('hours_edit', ['guid' => $guid]);
                 $reports[$row_identifier]['index_' . $date_identifier] = $row['hours'];
                 $number = $formatter->number($reports[$row_identifier]['index_' . $date_identifier]);
-                $reports[$row_identifier][$date_identifier] = '<a href="' . $prefix . 'hours/edit/' . $guid . '/" ' . $workflow->render_attributes() . '>' . $number . '</a>';
+                $reports[$row_identifier][$date_identifier] = '<a href="' . $link . '" ' . $workflow->render_attributes() . '>' . $number . '</a>';
             } else {
                 $reports[$row_identifier]['index_' . $date_identifier] += $row['hours'];
                 $reports[$row_identifier][$date_identifier] = $this->_get_list_link($formatter->number($reports[$row_identifier]['index_' . $date_identifier]), $date_identifier, $task->guid, $row['person']);
@@ -154,9 +154,10 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
 
     private function _get_list_link($label, $date = null, $task_guid = null, $person_id = null)
     {
-        $url = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'hours/';
         if ($task_guid !== null) {
-            $url .= 'task/' . $task_guid . '/';
+            $url = $this->router->generate('list_hours_task', ['guid' => $task_guid]);
+        } else {
+            $url = $this->router->generate('list_hours');
         }
 
         $filters = [];

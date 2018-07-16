@@ -2,7 +2,6 @@
 $view = $data['view_salesproject'];
 $salesproject = $data['salesproject'];
 $formatter = $data['l10n']->get_formatter();
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <div class="content-with-sidebar">
     <div class="main salesproject">
@@ -57,13 +56,15 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                  foreach ($data['offers'] as $offer) {
                      echo '<span class="org_openpsa_helpers_fileinfo">';
                      $attachment = $offer->get_file();
+                     $delete_link = $data['router']->generate('delete_offer', ['guid' => $offer->guid]);
+                     $edit_link = $data['router']->generate('edit_offer', ['guid' => $offer->guid]);
                      if (!empty($attachment)) {
                          $url = midcom_db_attachment::get_url($attachment);
                          echo '<a href="' . $url . '" class="icon"><i class="fa fa-file-text-o"></i></a>';
                      }
                      echo '<span class="filename">' . $offer->get_number();
-                     echo ' <a class="actions" href="' . $prefix . 'salesproject/offer/delete/' . $offer->guid . '/"><i class="fa fa-trash" title="' . $data['l10n_midcom']->get('delete') . '"></i></a>';
-                     echo ' <a class="actions" ' . $wf->render_attributes() . ' href="' . $prefix . 'salesproject/offer/edit/' . $offer->guid . '/"><i class="fa fa-pencil" title="' . $data['l10n_midcom']->get('edit') . '"></i></a>';
+                     echo ' <a class="actions" href="' . $delete_link . '"><i class="fa fa-trash" title="' . $data['l10n_midcom']->get('delete') . '"></i></a>';
+                     echo ' <a class="actions" ' . $wf->render_attributes() . ' href="' . $edit_link . '"><i class="fa fa-pencil" title="' . $data['l10n_midcom']->get('edit') . '"></i></a>';
                      echo "</span>\n";
                      echo ' <span class="updated">' . $formatter->datetime($offer->metadata->revised) . '</span>';
                      echo "</span>\n";

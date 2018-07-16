@@ -1,5 +1,5 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$position_url = $data['router']->generate('invoice_item_position');
 
 $grid = $data['grid'];
 $grid->set_option('editurl', $prefix . 'invoice/itemedit/' . $data['invoice']->guid . '/');
@@ -49,6 +49,6 @@ $grid_id = $grid->get_identifier();
     org_openpsa_grid_editable.enable_inline("<?= $grid_id ?>", {
         afterdeletefunc: update_totals,
         enable_sorting: true,
-        position_url: '&(prefix);invoice/itemposition/'
+        position_url: '&(position_url);'
     });
 </script>

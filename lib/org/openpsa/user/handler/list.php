@@ -50,8 +50,7 @@ implements org_openpsa_widgets_grid_provider_client
             return new midcom_response_relocate('view/' . $person->guid . '/');
         }
 
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $data['provider_url'] = $prefix . 'json/';
+        $data['provider_url'] = $this->router->generate('user_list_json');
         $grid_id = 'org_openpsa_user_grid';
         if (sizeof($args) == 1) {
             $grid_id = 'org_openpsa_members_grid';
@@ -142,16 +141,16 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function get_row(midcom_core_dbaobject $user)
     {
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $link = $this->router->generate('user_view', ['guid' => $user->guid]);
         $entry = [];
         $entry['id'] = $user->id;
         $lastname = trim($user->lastname);
         if (empty($lastname)) {
             $lastname = $this->_l10n->get('person') . ' #' . $user->id;
         }
-        $entry['lastname'] = "<a href='" . $prefix . 'view/' . $user->guid . "/'>" . $lastname . "</a>";
+        $entry['lastname'] = "<a href='" . $link . "'>" . $lastname . "</a>";
         $entry['index_lastname'] = $user->lastname;
-        $entry['firstname'] = "<a href='" . $prefix . 'view/' . $user->guid . "/' >" . $user->firstname . "</a>";
+        $entry['firstname'] = "<a href='" . $link . "'>" . $user->firstname . "</a>";
         $entry['index_firstname'] = $user->firstname;
         $account = new midcom_core_account($user);
         $entry['username'] = $account->get_username();

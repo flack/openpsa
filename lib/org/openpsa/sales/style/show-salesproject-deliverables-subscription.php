@@ -1,6 +1,7 @@
 <?php
 $deliverable = $data['deliverable'];
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$deliverable_link = $data['router']->generate('deliverable_view', ['guid' => $data['deliverable_object']->guid]);
+$process_link = $data['router']->generate('deliverable_process', ['guid' => $data['deliverable_object']->guid]);
 $formatter = $data['l10n']->get_formatter();
 $price = $formatter->number($data['deliverable_object']->price);
 $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
@@ -9,7 +10,7 @@ $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
     <span class="icon"><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></span>
     <div class="tags">&(deliverable['tags']:h);</div>
     <?php
-    echo "<h3><a href=\"{$prefix}deliverable/{$data['deliverable_object']->guid}/\">{$data['deliverable_object']->title}</a></h3>\n";
+    echo "<h3><a href=\"{$deliverable_link}\">{$data['deliverable_object']->title}</a></h3>\n";
     ?>
     <div class="information" id="information_<?php echo $data['deliverable_object']->guid; ?>">
     <div class="description">
@@ -69,7 +70,7 @@ $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
     </table>
     </div>
     <div class="toolbar">
-        <form method="post" action="&(prefix);deliverable/process/<?php echo $data['deliverable_object']->guid; ?>/">
+        <form method="post" action="&(process_link);">
             <p>
             <?php
             echo $data['deliverable_toolbar']['label'];

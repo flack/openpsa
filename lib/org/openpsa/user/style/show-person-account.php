@@ -1,5 +1,4 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $username = $data['account']->get_username();
 ?>
 <div class="area org_openpsa_helper_box">
@@ -18,16 +17,16 @@ $username = $data['account']->get_username();
             || midcom::get()->auth->can_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class)) {
             $workflow = new midcom\workflow\datamanager;
             echo '<ul class="area_toolbar">';
-            echo '<li><a class="button" href="' . $prefix . 'account/edit/' . $data['person']->guid . '/" ' . $workflow->render_attributes() . ' />' . $data['l10n_midcom']->get('edit') . "</a></li>\n";
+            echo '<li><a class="button" href="' . $data['router']->generate('account_edit', ['guid' => $data['person']->guid]) . '" ' . $workflow->render_attributes() . ' />' . $data['l10n_midcom']->get('edit') . "</a></li>\n";
             $workflow = new midcom\workflow\delete([
                 'object' => $data['person'],
                 'label' => $data['l10n']->get('account')
             ]);
-            echo '<li><a href="' . $prefix . 'account/delete/' . $data['person']->guid . '" ' . $workflow->render_attributes() . '"  class="button">';
+            echo '<li><a href="' . $data['router']->generate('account_delete', ['guid' => $data['person']->guid]). '" ' . $workflow->render_attributes() . '"  class="button">';
             echo '<span class="toolbar_label">' . $data['l10n_midcom']->get('delete') . '</span></a></li>';
             if (    midcom::get()->config->get('auth_allow_trusted') === true
                  && $data['person']->can_do('org.openpsa.user:su')) {
-                echo '<li><a class="button" href="' . $prefix . 'account/su/' . $data['person']->guid . '/" />' . $data['l10n']->get('switch to user') . "</a></li>\n";
+                 echo '<li><a class="button" href="' . $data['router']->generate('account_su', ['guid' => $data['person']->guid]) . '" />' . $data['l10n']->get('switch to user') . "</a></li>\n";
             }
             echo "</ul>\n";
         }
@@ -37,7 +36,7 @@ $username = $data['account']->get_username();
             || midcom::get()->auth->can_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class)) {
             $workflow = new midcom\workflow\datamanager;
             echo '<ul class="area_toolbar">';
-            echo '<li><a class="button" href="' . $prefix . 'account/create/' . $data['person']->guid . '/" ' . $workflow->render_attributes() . '/>' . $data['l10n']->get('create account') . "</a></li>\n";
+            echo '<li><a class="button" href="' . $data['router']->generate('account_create', ['guid' => $data['person']->guid]) . '" ' . $workflow->render_attributes() . '/>' . $data['l10n']->get('create account') . "</a></li>\n";
             echo "</ul>\n";
         }
     }

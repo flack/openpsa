@@ -59,7 +59,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function get_row(midcom_core_dbaobject $document)
     {
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $link = $this->router->generate('document-view', ['guid' => $document->guid]);
         $entry = [];
 
         $entry['id'] = $document->id;
@@ -80,7 +80,7 @@ implements org_openpsa_widgets_grid_provider_client
             $entry['mimetype'] = org_openpsa_documents_document_dba::get_file_type($att->mimetype);
         }
 
-        $title = '<a class="tab_escape" href="' .$prefix . 'document/' . $document->guid .'/"><img src="' . $icon . '"';
+        $title = '<a class="tab_escape" href="' . $link . '"><img src="' . $icon . '"';
         $title .= 'alt="' . $alt . '" style="border: 0px; height: 16px; vertical-align: middle" /> ' . $document->title . '</a>';
         $entry['title'] = $title;
 

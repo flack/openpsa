@@ -1,9 +1,9 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$action = $data['router']->generate('index');
 ?>
 <h1><?php printf($data['l10n_midcom']->get('edit %s'), $data['l10n']->get('slideshow')); ?></h1>
 
-<form method="get" action="&(prefix);">
+<form method="get" action="&(action);">
 <input type="file" multiple="multiple" id="upload_field" />
 <input type="button" id="reverse" value="<?php echo $data['l10n']->get('reverse order'); ?>" />
 
@@ -40,7 +40,7 @@ foreach ($data['images'] as $image) {
         <span class="description"><textarea rows="3" cols="40" placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>">&(image.description);</textarea></span>
       </div>
     </div>
-<?php 
+<?php
 } ?>
 
 <div class="entry entry-template">

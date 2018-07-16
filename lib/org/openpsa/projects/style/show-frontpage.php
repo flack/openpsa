@@ -1,5 +1,4 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $formatter = $data['l10n']->get_formatter();
 ?>
 <div class="wide">
@@ -59,9 +58,10 @@ $formatter = $data['l10n']->get_formatter();
             echo "    <tr class='{$class}'>\n";
             echo "        <td class='multivalue'>";
             $toggle_class = (array_sum($task_count) > 0) ? 'expand-icon' : 'hidden-icon';
-            echo "<img class='" . $toggle_class . "' id='project_" . $project->id . "' onclick=\"show_tasks_for_project(this, '{$prefix}task/list/json/{$project->guid}/');\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/plus" . $position . ".png\" alt=\"" . $data['l10n']->get($project->status_type) . "\" title=\"" . $data['l10n']->get('show tasks') . "\" />\n";
-
-            echo "        <a href=\"{$prefix}project/{$project->guid}/\" class=\"workflow-status " . $project->status_type . "\" title=\"" . $data['l10n']->get($project->status_type) . "\">{$project->title}</a></td>\n";
+            $link = $data['router']->generate('task-list-json', ['guid' => $project->guid]);
+            echo "<img class='" . $toggle_class . "' id='project_" . $project->id . "' onclick=\"show_tasks_for_project(this, '{$link}');\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/plus" . $position . ".png\" alt=\"" . $data['l10n']->get($project->status_type) . "\" title=\"" . $data['l10n']->get('show tasks') . "\" />\n";
+            $link = $data['router']->generate('project', ['guid' => $project->guid]);
+            echo "        <a href=\"{$link}\" class=\"workflow-status " . $project->status_type . "\" title=\"" . $data['l10n']->get($project->status_type) . "\">{$project->title}</a></td>\n";
             echo "        <td> " . $formatter->date($project->start) . "</td>\n";
             echo "        <td> " . $formatter->date($project->end) . "</td>\n";
             echo "        <td class=\"numeric\"><span title=\"" . $data['l10n']->get('not_started') . "\">{$task_count['not_started']}</span></td>\n";

@@ -1,5 +1,5 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$url = $data['router']->generate('list_json_type', ['type' => $data['list_type']]);
 
 $grid = $data['grid'];
 $classes = $data['list_type'];
@@ -33,7 +33,7 @@ $grid->set_option('scroll', 1);
 $grid->set_option('rowNum', 6);
 $grid->set_option('height', 120);
 $grid->set_option('viewrecords', true);
-$grid->set_option('url', $prefix . 'list/json/' . $data['list_type'] . '/');
+$grid->set_option('url', $url);
 $grid->set_option('caption', $data['list_label']);
 $grid->set_option('footerrow', true);
 $grid->set_option('loadComplete', 'calculate_total', false);
