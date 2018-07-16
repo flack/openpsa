@@ -62,7 +62,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         $data['feeds'] = $qb->execute();
 
         \midcom\workflow\delete::add_head_elements();
-        $this->add_breadcrumb("__feeds/rss/list/", $this->_l10n->get('manage feeds'));
+        $this->add_breadcrumb($this->router->generate('feeds_list'), $this->_l10n->get('manage feeds'));
     }
 
     /**
@@ -97,7 +97,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         $buttons = [];
         if ($feed->can_do('midgard:update')) {
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "__feeds/rss/edit/{$feed->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('feeds_edit', ['guid' => $feed->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
             ];
@@ -105,7 +105,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
 
         if ($this->_topic->can_do('midgard:create')) {
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "__feeds/rss/fetch/{$feed->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('feeds_fetch', ['guid' => $feed->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('refresh feed'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'refresh',
             ];
@@ -113,7 +113,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
 
         if ($feed->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', ['object' => $feed]);
-            $buttons[] = $workflow->get_button("__feeds/rss/delete/{$feed->guid}/");
+            $buttons[] = $workflow->get_button($this->router->generate('feeds_delete', ['guid' => $feed->guid]));
         }
         $toolbar->add_items($buttons);
         return $toolbar;

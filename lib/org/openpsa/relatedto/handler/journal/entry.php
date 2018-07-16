@@ -58,8 +58,8 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
         $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
         if ($entry->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', ['object' => $entry]);
-            $url_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
-            $workflow->add_dialog_button($delete, $url_prefix . "delete/" . $entry->guid . "/");
+            $url = $this->router->generate('journal_entry_delete', ['guid' => $entry->guid ]);
+            $workflow->add_dialog_button($delete, $url);
         }
         return $workflow->run();
     }

@@ -39,7 +39,6 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
     {
         $this->object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         $this->object_url = midcom::get()->permalinks->create_permalink($this->object->guid);
-        $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
 
         $this->qb = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
         $this->qb->add_constraint('linkGuid', '=', $args[0]);
@@ -55,7 +54,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
             $this->add_breadcrumb($this->object_url, $ref->get_object_label($this->object));
         }
         $this->add_breadcrumb(
-            midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/render/" . $this->object->guid . "/both/",
+            $this->router->generate('render', ['guid' => $this->object->guid, 'mode' => 'both']),
             $this->_l10n->get('view related information')
         );
         $this->add_breadcrumb("", $this->_l10n->get('journal entries'));
@@ -75,7 +74,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'eject',
             ],
-            $workflow->get_button($this->_request_data['url_prefix'] . "create/" . $this->object->guid . "/", [
+            $workflow->get_button($this->router->generate('journal_entry_create', ['guid' => $this->object->guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add journal entry'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'plus'
             ])
@@ -119,7 +118,6 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
                 'value' => false,
             ]
         ];
-        $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
         org_openpsa_widgets_grid::add_head_elements();
         midcom::get()->head->set_pagetitle($this->_l10n->get('journal entries'));
         $this->add_breadcrumb('', $this->_l10n->get('journal entries'));
@@ -169,8 +167,6 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
                 $data['linked_raw_objects'][$entry->linkGuid] = $reflector->get_object_label($linked_object);
             }
         }
-        //url_prefix to build the links to the entries
-        $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
         midcom::get()->header("Content-type: text/xml; charset=UTF-8");
         midcom::get()->skip_page_style = true;
 

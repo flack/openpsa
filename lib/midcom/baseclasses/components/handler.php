@@ -80,7 +80,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     var $_view_toolbar = null;
 
     /**
-     * @var Router
+     * @var \Symfony\Component\Routing\Router
      */
     protected $router;
 

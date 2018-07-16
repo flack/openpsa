@@ -25,7 +25,7 @@ foreach ($data['entries'] as $entry) {
         <cell><![CDATA[&(entry.title:h)]]></cell>
         <?php
         $link_html = "<![CDATA[";
-    $link_html .= '<a href="' . $data['url_prefix'] . 'edit/' . $entry->guid . '" ' . $workflow->render_attributes() . '>';
+    $link_html .= '<a href="' . $data['router']->generate('journal_entry_edit', ['guid' => $entry->guid]) . '" ' . $workflow->render_attributes() . '>';
     $link_html .= "<span>" . $entry->title . "</span></a>";
     $link_html .= "]]>";
     echo "<cell>" . $link_html . "</cell>"; ?>

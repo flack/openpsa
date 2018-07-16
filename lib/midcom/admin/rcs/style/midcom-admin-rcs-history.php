@@ -1,6 +1,5 @@
 <?php
 $history = $data['history'];
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $guid = $data['guid'];
 
 echo "<h1>{$data['view_title']}</h1>\n";
@@ -29,7 +28,7 @@ if (count($history) == 0) {
         echo "                <tr>\n";
         echo "                    <td><input type=\"radio\" name=\"first\" value=\"{$rev}\" />\n";
         echo "                    <td><input type=\"radio\" name=\"last\" value=\"{$rev}\" />\n";
-        echo "                    <td><a href='{$prefix}__ais/rcs/preview/{$guid}/{$rev}/'>{$rev}</a></td>\n";
+        echo "                    <td><a href='" . $data['router']->generate('preview', ['guid' => $guid, 'revision' => $rev]) . "'>{$rev}</a></td>\n";
         echo "                    <td>" . $formatter->datetime($history['date']) . "</td>\n";
 
         if ($history['user']) {

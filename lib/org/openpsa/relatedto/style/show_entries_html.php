@@ -18,7 +18,7 @@
                 'index_date' => $entry->followUp,
             ];
 
-            $row['name'] = '<a href="' . $data['url_prefix'] . 'edit/' . $entry->guid . '" ' . $workflow->render_attributes() . '>';
+            $row['name'] = '<a href="' . $data['router']->generate('journal_entry_edit', ['guid' => $entry->guid]) . '" ' . $workflow->render_attributes() . '>';
             $row['name'] .= "<span>" . $entry->title . "</span></a>";
 
             $row['date'] = date('Y-m-d', $entry->metadata->created);

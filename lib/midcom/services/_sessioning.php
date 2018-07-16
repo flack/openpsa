@@ -54,6 +54,7 @@ class midcom_services__sessioning extends Session
         if ($cookie_path == 'auto') {
             $cookie_path = midcom_connection::get_url('self');
         }
+
         $cookie_secure = (   !empty($_SERVER['HTTPS'])
                           && $_SERVER['HTTPS'] !== 'off'
                           && midcom::get()->config->get('auth_backend_simple_cookie_secure'));

@@ -58,14 +58,14 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
      */
     private function _update_breadcrumb_line($handler_id)
     {
-        $this->add_breadcrumb("__feeds/rss/list/", $this->_l10n->get('manage feeds'));
+        $this->add_breadcrumb($this->router->generate('feeds_list'), $this->_l10n->get('manage feeds'));
 
         switch ($handler_id) {
             case 'feeds_fetch_all':
-                $this->add_breadcrumb("__feeds/rss/fetch/all/", $this->_l10n->get('refresh all feeds'));
+                $this->add_breadcrumb($this->router->generate('feeds_fetch_all'), $this->_l10n->get('refresh all feeds'));
                 break;
             case 'feeds_fetch':
-                $this->add_breadcrumb("__feeds/rss/fetch/{$this->_request_data['feed']->guid}/", $this->_l10n->get('refresh feed'));
+                $this->add_breadcrumb($this->router->generate('feeds_list', ['guid' => $this->_request_data['feed']->guid]), $this->_l10n->get('refresh feed'));
                 break;
         }
         net_nemein_rss_manage::add_toolbar_buttons($this->_node_toolbar);

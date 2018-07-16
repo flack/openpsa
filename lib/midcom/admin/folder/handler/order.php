@@ -118,10 +118,10 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             midcom::get()->skip_page_style = true;
         } else {
             // Add the view to breadcrumb trail
-            $this->add_breadcrumb('__ais/folder/order/', $this->_l10n->get('order navigation'));
+            $this->add_breadcrumb($this->router->generate('order'), $this->_l10n->get('order navigation'));
 
             // Hide the button in toolbar
-            $this->_node_toolbar->hide_item('__ais/folder/order/');
+            $this->_node_toolbar->hide_item($this->router->generate('order'));
 
             // Set page title
             $data['folder'] = $this->_topic;

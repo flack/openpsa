@@ -1,10 +1,9 @@
 <?php
 $topic_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$prefix = $topic_prefix . '__feeds/rss/';
 
 echo "<li><a href=\"{$data['feed']->url}\"><i class=\"fa fa-rss-square\" title=\"{$data['feed']->url}\"></i></a> ";
 if ($data['feed']->can_do('midgard:update')) {
-    echo "<a href=\"{$prefix}edit/{$data['feed']->guid}/\">{$data['feed']->title}</a>\n";
+    echo "<a href=\"" . $data['router']->generate('feeds_edit', ['guid' => $data['feed']->guid]) . "\">{$data['feed']->title}</a>\n";
 } else {
     echo "{$data['feed']->title}\n";
 }

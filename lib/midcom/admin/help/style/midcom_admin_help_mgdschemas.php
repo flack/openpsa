@@ -1,7 +1,6 @@
 <?php
 use Michelf\MarkdownExtra;
 
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 echo "<h1>" . sprintf($data['l10n']->get('mgdschemas in %s'), midcom::get()->i18n->get_string($data['component'], $data['component'])) . "</h1>\n";
 
 if (count($data['mgdschemas']) > 0) {
@@ -21,7 +20,8 @@ if (count($data['mgdschemas']) > 0) {
             $description = preg_replace('/ *\n */', "\n", $val['value']);
             if (   $val['link']
                 && $linked_component = midcom::get()->dbclassloader->get_component_for_class($val['link_name'])) {
-                $proplink = "<a href='{$prefix}__ais/help/{$linked_component}/mgdschemas/#{$val['link_name']}' title='{$linked_component}/{$val['link_name']}::{$val['link_target']}'>{$val['link_name']}:{$val['link_target']}</a>";
+                $proplink = $data['router']->generate('help', ['component' => $linked_component, 'help_id' => 'mgdschemas']);
+                $proplink = "<a href='{$proplink}#{$val['link_name']}' title='{$linked_component}/{$val['link_name']}::{$val['link_target']}'>{$val['link_name']}:{$val['link_target']}</a>";
                 $classname = str_replace('_', '\\_', $val['link_name']);
                 $description .= "\n\n**This property links to {$classname}:{$val['link_target']}**";
             }

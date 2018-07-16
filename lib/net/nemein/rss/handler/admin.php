@@ -78,7 +78,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
             // TODO: display error messages
             // TODO: redirect user to edit page if creation succeeded
 
-            return new midcom_response_relocate('__feeds/rss/list/');
+            return new midcom_response_relocate($this->router->generate('feeds_list'));
         }
 
         // OPML subscription list import support
@@ -104,7 +104,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
             }
             xml_parser_free($opml_parser);
 
-            return new midcom_response_relocate('__feeds/rss/list/');
+            return new midcom_response_relocate($this->router->generate('feeds_list'));
         }
 
         $this->_update_breadcrumb_line($handler_id);
@@ -131,7 +131,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                return new midcom_response_relocate('__feeds/rss/list/');
+                return new midcom_response_relocate($this->router->generate('feeds_list'));
         }
 
         midcom::get()->metadata->set_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);
@@ -154,7 +154,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $feed = new net_nemein_rss_feed_dba($args[0]);
         $workflow = $this->get_workflow('delete', [
             'object' => $feed,
-            'success_url' => '__feeds/rss/list/'
+            'success_url' => $this->router->generate('feeds_list')
         ]);
         return $workflow->run();
     }
@@ -166,12 +166,12 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
      */
     private function _update_breadcrumb_line($handler_id)
     {
-        $this->add_breadcrumb("__feeds/rss/list/", $this->_l10n->get('manage feeds'));
+        $this->add_breadcrumb($this->router->generate('feeds_list'), $this->_l10n->get('manage feeds'));
 
         if ($handler_id == 'feeds_subscribe') {
-            $this->add_breadcrumb("__feeds/rss/subscribe/", $this->_l10n->get('subscribe feeds'));
+            $this->add_breadcrumb($this->router->generate('feeds_subscribe'), $this->_l10n->get('subscribe feeds'));
         } elseif ($handler_id == 'feeds_edit') {
-            $this->add_breadcrumb("__feeds/rss/edit/{$this->_request_data['feed']->guid}/", $this->_l10n_midcom->get('edit'));
+            $this->add_breadcrumb($this->router->generate('feeds_edit', ['guid' => $this->_request_data['feed']->guid]), $this->_l10n_midcom->get('edit'));
         }
         net_nemein_rss_manage::add_toolbar_buttons($this->_node_toolbar);
     }

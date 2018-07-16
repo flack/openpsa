@@ -51,6 +51,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         if (!$request->hasPreviousSession()) {
             return false;
         }
+
         $this->session = new midcom_services_session($this->_cookie_id);
         $userid = $this->session->get('userid');
         if (empty($userid)) {

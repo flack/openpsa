@@ -8,7 +8,7 @@ var post_array = <?php echo json_encode($data['journal_constraints']); ?>;
 
 $("#journalgrid").jqGrid({
     scroll: 1,
-    url: '<?php echo $data['url_prefix'] ; ?>xml/',
+    url: '<?php echo $data['router']->generate('journal_entry_xml'); ?>',
     datatype: "xml",
     mtype: "POST",
     height: 150,
