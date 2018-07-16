@@ -1,6 +1,3 @@
-<?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__ais/imagepopup/";
-?>
 <div id="top_navigation">
     <ul>
     <?php

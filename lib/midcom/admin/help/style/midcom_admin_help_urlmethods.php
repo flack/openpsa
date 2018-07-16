@@ -1,5 +1,4 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 echo "<h1>" . $data['l10n']->get('urlmethods') . "</h1>\n";
 if (count($data['urlmethods']) > 0) {
     $i = 0;

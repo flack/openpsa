@@ -1,6 +1,5 @@
 <?php
 $view = $data['wikipage_view'];
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <div class="net_nemein_wiki_wikipage">
     <h1>&(view['title']:h);</h1>
@@ -19,7 +18,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         echo "<dl class=\"tagged\">\n";
         echo "  <dt>" . sprintf($data['l10n']->get('%s for %s'), midcom::get()->i18n->get_string('tagged', 'net.nemein.tag'), $data['wikipage']->title) . "</dt>\n";
         foreach ($tagged_pages as $page) {
-            echo "    <dd><a href=\"{$prefix}{$page->name}/\">{$page->title}</a></dd>\n";
+            echo "    <dd><a href=\"" . $data['router']->generate('view', ['wikipage' => $page->name]) . "\">{$page->title}</a></dd>\n";
         }
         echo "</dl>\n";
     }

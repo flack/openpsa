@@ -1,5 +1,5 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$action = $data['router']->generate('result');
 
 // Map, timestamps => text
 // default is 1, 3, 6 and a year
@@ -13,7 +13,7 @@ $lastmod_content = [
 
 $query = midcom_helper_xsspreventer::escape_attribute($data['query']);
 ?>
-<form method='get' name='midcom_helper_search_form' action='&(prefix);result/' class='midcom.helper.search'>
+<form method='get' name='midcom_helper_search_form' action='&(action);' class='midcom.helper.search'>
 <input type='hidden' name='type' value='advanced' />
 <input type='hidden' name='page' value='1' />
 

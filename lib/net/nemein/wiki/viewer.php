@@ -22,7 +22,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
             'rel'   => 'alternate',
             'type'  => 'application/rss+xml',
             'title' => sprintf($this->_l10n->get('latest updates in %s'), $this->_topic->extra),
-            'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
+            'href'  => $this->router->generate('rss'),
         ]);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/net.nemein.wiki/wiki.css");

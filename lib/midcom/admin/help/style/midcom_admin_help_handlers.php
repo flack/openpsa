@@ -1,5 +1,4 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 echo "<h1>" . $data['l10n']->get('handlers') . "</h1>\n";
 if (count($data['request_switch_info']) > 0) {
     echo "<p>" . $data['l10n']->get('available urls') . "</p>\n";

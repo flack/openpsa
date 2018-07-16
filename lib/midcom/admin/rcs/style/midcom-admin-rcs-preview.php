@@ -1,6 +1,5 @@
 <?php
 $preview = $data['preview'];
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $l10n = $data['l10n'];
 ?>
 <h1>&(data['view_title']:h);</h1>

@@ -1,10 +1,10 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__ais/imagepopup/";
 $query = htmlspecialchars($data['query'], ENT_QUOTES);
 
-$url = $prefix . 'unified/' . $data['filetype'] . '/';
 if ($data['object']) {
-    $url .= $data['object']->guid;
+    $url = $data['router']->generate('list_unified', ['filetype' => $data['filetype'], 'guid' => $data['object']->guid]);
+} else {
+    $url = $data['router']->generate('list_unified_noobject', ['filetype' => $data['filetype']]);
 }
 ?>
 <div class="midcom_helper_imagepopup">
