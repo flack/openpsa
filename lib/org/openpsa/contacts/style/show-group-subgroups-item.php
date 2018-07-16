@@ -1,11 +1,11 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $view_group = $data['subgroup'];
+$link = $data['router']->generate('group_view', ['guid' => $view_group->guid]);
 $view_group_name = $view_group->get_label();
 ?>
 <div class="vcard">
     <div class="organization-name">
-        <a href="&(prefix);group/&(view_group.guid);/">&(view_group_name);</a>
+        <a href="&(link);">&(view_group_name);</a>
     </div>
     <ul>
         <?php

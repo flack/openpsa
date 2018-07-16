@@ -203,16 +203,16 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function get_row(midcom_core_dbaobject $user)
     {
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $link = $this->router->generate('person_view', ['guid' => $user->guid]);
         $entry = [];
         $entry['id'] = $user->id;
         $lastname = trim($user->lastname);
         if (empty($lastname)) {
             $lastname = $this->_l10n->get('person') . ' #' . $user->id;
         }
-        $entry['lastname'] = "<a href='" . $prefix . 'person/' . $user->guid . "/'>" . $lastname . "</a>";
+        $entry['lastname'] = "<a href='" . $link . "'>" . $lastname . "</a>";
         $entry['index_lastname'] = $lastname;
-        $entry['firstname'] = "<a href='" . $prefix . 'person/' . $user->guid . "/' >" . $user->firstname . "</a>";
+        $entry['firstname'] = "<a href='" . $link . "' >" . $user->firstname . "</a>";
         $entry['index_firstname'] = $user->firstname;
         $entry['homepage'] = '';
         $entry['index_homepage'] = $user->homepage;

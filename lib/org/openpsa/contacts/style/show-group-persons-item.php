@@ -1,9 +1,7 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
 // Display the member
 $contact = new org_openpsa_widgets_contact($data['person']);
-$contact->link = "{$prefix}person/{$data['person']->guid}/";
+$contact->link = $data['router']->generate('person_view', ['guid' => $data['person']->guid]);
 $contact->show_groups = false;
 
 if ($data['member']->can_do('midgard:update')) {
@@ -13,7 +11,7 @@ if ($data['member']->can_do('midgard:update')) {
                style=\"width: 80%;\"
                value=\"{$data['member_title']}\"
                data-guid=\"{$data['member']->guid}\"
-               data-ajax-url=\"{$prefix}group/update_member_title/{$data['group']->guid}/\"
+               data-ajax-url=\"" . $data['router']->generate('group_update_member_title', ['guid' => $data['group']->guid]) . "\"
                placeholder=\"" . $data['l10n']->get('<title>') . "\" />
         </li>\n";
 } else {

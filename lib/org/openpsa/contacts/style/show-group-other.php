@@ -1,12 +1,10 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
 $grid = $data['members_grid'];
 $grid->set_option('scroll', 1);
 $grid->set_option('rowNum', 30);
 $grid->set_option('height', 600);
 $grid->set_option('viewrecords', true);
-$grid->set_option('url', $prefix . 'group/json/' . $data['group']->guid . '/');
+$grid->set_option('url', $data['router']->generate('group_view_json', ['guid' => $data['group']->guid]));
 
 $grid->set_column('lastname', $data['l10n']->get('lastname'), 'width: 80, classes: "title ui-ellipsis"', 'string')
     ->set_column('firstname', $data['l10n']->get('firstname'), 'width: 80, classes: "ui-ellipsis"', 'string')

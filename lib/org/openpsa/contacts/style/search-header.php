@@ -1,8 +1,8 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$action = $data['router']->generate('search');
 ?>
 <div class="search_input">
-    <form method="get" action="&(prefix);search/">
+    <form method="get" action="&(action);">
        <label for="query"><?php echo $data['l10n']->get("search title"); ?>: </label>
 
         <input type="text" name="query" value="&(data['query_string']);" />

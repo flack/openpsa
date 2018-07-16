@@ -1,8 +1,8 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
 $view_group = $data['group'];
 $group_guid = $data['group']->guid;
+$link = $data['router']->generate('group_view', ['guid' => $group_guid]);
+$title_link = $data['router']->generate('group_update_member_title', ['guid' => $group_guid]);
 
 if ($data['member']->can_do('midgard:update')) {
     $view_title_form = "<input name=\"member_title[{$data['member']->id}]\"
@@ -11,7 +11,7 @@ if ($data['member']->can_do('midgard:update')) {
         value=\"{$data['member_title']}\"
         data-guid=\"" . $data['member']->guid . "\"
         placeholder=\"" . $data['l10n']->get('<title>') . "\"
-        data-ajax-url=\"{$prefix}group/update_member_title/{$group_guid}/\" />\n";
+        data-ajax-url=\"{$title_link}\" />\n";
 } else {
     $view_title_form = $data['member_title'];
 }
@@ -23,7 +23,7 @@ if ($view_group_name == '') {
 ?>
 <div class="vcard">
     <div class="organization-name">
-        <a href="&(prefix);group/&(view_group.guid);/">&(view_group_name);</a>
+        <a href="&(link);">&(view_group_name);</a>
     </div>
     <ul>
         <?php

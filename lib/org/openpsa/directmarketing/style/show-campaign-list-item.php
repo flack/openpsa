@@ -1,5 +1,5 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$view_url = $data['router']->generate('view_campaign', ['guid' => $data['campaign']->guid]);
 $unsubscribe_code = '';
 
 switch ($data['membership']->orgOpenpsaObtype) {
@@ -12,8 +12,9 @@ switch ($data['membership']->orgOpenpsaObtype) {
         break;
     default:
         $class = 'member';
-        $unsubscribe_code = '<a href="' . $prefix . 'campaign/unsubscribe/' . $data['membership']->guid .'/" target="_blank"><i class="fa fa-trash delete"></i></a>';
+        $unsubscribe_url = $data['router']->generate('subscriber_unsubscribe', ['member' => $data['membership']->guid]);
+        $unsubscribe_code = '<a href="' . $unsubscribe_url . '" target="_blank"><i class="fa fa-trash delete"></i></a>';
         break;
 }
-echo "<dt class=\"{$class}\"><a href=\"{$prefix}campaign/{$data['campaign']->guid}/\">{$data['campaign']->title}</a>{$unsubscribe_code}</dt>\n";
+echo "<dt class=\"{$class}\"><a href=\"{$view_url}\">{$data['campaign']->title}</a>{$unsubscribe_code}</dt>\n";
 echo "    <dd class=\"description\">{$data['campaign']->description}</dd>\n";

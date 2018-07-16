@@ -170,14 +170,13 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
     private function _prepare_json_reply()
     {
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $data = [];
         foreach ($this->_persons as $person) {
             $data[] = [
                 'category' => $this->_l10n->get('persons'),
                 'label' => $person->get_label(),
                 'value' => $person->get_label(),
-                'url' => $prefix . 'person/' . $person->guid . '/'
+                'url' => $this->router->generate('person_view', ['guid' => $person->guid])
             ];
         }
         foreach ($this->_groups as $group) {
@@ -185,7 +184,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 'category' => $this->_l10n->get('groups'),
                 'label' => $group->get_label(),
                 'value' => $group->get_label(),
-                'url' => $prefix . 'group/' . $group->guid . '/'
+                'url' => $this->router->generate('group_view', ['guid' => $group->guid])
             ];
         }
         usort($data, ['midcom\datamanager\helper\autocomplete', 'sort_items']);

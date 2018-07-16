@@ -1,7 +1,5 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$msg_guid = $data['message']->guid;
-$ajax_url = "{$prefix}message/send_status/{$msg_guid}/";
+$ajax_url = $data['router']->generate('message_send_status', ['guid' => $data['message']->guid]);
 ?>
 <div id="org_openpsa_directmarketing_send_uimessages">
     <?php echo $data['l10n']->get('messages sent'); ?>: <div id="org_openpsa_directmarketing_send_uimessages_sent" style="display: inline">??</div> / <div id="org_openpsa_directmarketing_send_uimessages_total" style="display: inline">??</div>

@@ -1,5 +1,5 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$action = $data['router']->generate('import_csv_field_select', ['guid' => $data['campaign']->guid]);
 ?>
 <div class="main">
     <h1><?php printf($data['l10n']->get('import subscribers to "%s"'), $data['campaign']->title); ?></h1>
@@ -8,7 +8,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         <?php echo $data['l10n']->get('match csv columns to database fields'); ?>
     </p>
 
-    <form action="&(prefix);campaign/import/csv2/<?php echo $data['campaign']->guid; ?>/" method="post" class="datamanager">
+    <form action="&(action);" method="post" class="datamanager">
         <input type="hidden" name="org_openpsa_directmarketing_import_separator" value="<?php echo $data['separator']; ?>" />
         <input type="hidden" name="org_openpsa_directmarketing_import_tmp_file" value="<?php echo $data['tmp_file']; ?>" />
         <table>

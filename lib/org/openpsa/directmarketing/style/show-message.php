@@ -1,6 +1,6 @@
 <?php
 $message_dm = $data['datamanager'];
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$link = $data['router']->generate('view_campaign', ['guid' => $data['campaign']->guid]);
 ?>
 <div class="content-with-sidebar">
     <div class="main">
@@ -10,7 +10,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         <div class="area">
             <h2><?php echo $data['l10n']->get("recipients"); ?></h2>
             <dl>
-                <dt><?php echo "<a href=\"{$prefix}campaign/{$data['campaign']->guid}/\">{$data['campaign']->title}</a>"; ?></dt>
+                <dt><?php echo "<a href=\"{$link}\">{$data['campaign']->title}</a>"; ?></dt>
                 <!--<dd>
                     TODO: List recipients
                 </dd>-->

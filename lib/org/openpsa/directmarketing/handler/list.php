@@ -37,12 +37,12 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function get_row(midcom_core_dbaobject $campaign)
     {
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $link = $this->router->generate('view_campaign', ['guid' => $campaign->guid]);
         $entry = [];
 
         $entry['id'] = $campaign->id;
         $entry['index_title'] = $campaign->title;
-        $entry['title'] = "<a href='{$prefix}campaign/{$campaign->guid}/'>" . $campaign->title . "</a>";
+        $entry['title'] = "<a href='{$link}'>" . $campaign->title . "</a>";
         $entry['description'] = $campaign->title;
         $entry['smart_campaign'] = $campaign->orgOpenpsaObtype === org_openpsa_directmarketing_campaign_dba::TYPE_SMART;
 

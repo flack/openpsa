@@ -1,13 +1,11 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
 // Display the persons
 $contact1 = new org_openpsa_widgets_contact($data['person1']);
-$contact1->link = "{$prefix}person/{$data['person1']->guid}/";
+$contact1->link = $data['router']->generate('person_view', ['guid' => $data['person1']->guid]);
 $contact1->show_groups = false;
 
 $contact2 = new org_openpsa_widgets_contact($data['person2']);
-$contact2->link = "{$prefix}person/{$data['person2']->guid}/";
+$contact2->link = $data['router']->generate('person_view', ['guid' => $data['person2']->guid]);
 $contact2->show_groups = false;
 ?>
 <h1><?php echo $data['l10n']->get('merge persons'); ?></h1>

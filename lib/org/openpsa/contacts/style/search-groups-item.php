@@ -1,6 +1,5 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$link = $prefix . 'group/' . $data['group']->guid . '/';
+$link = $data['router']->generate('group_view', ['guid' => $data['group']->guid]);
 $view_group_name = $data['group']->get_label();
 ?>
 <div class="vcard">

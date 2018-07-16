@@ -107,11 +107,11 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         }
 
         $message = $this->_l10n->get('message was copied to the following campaigns') . '<br><dl>';
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $link = $this->router->generate('view_campaign', ['guid' => $cdata['campaign']->guid]);
 
         foreach ($copy_data as $cdata) {
-            $message .= "<dt><a href=\"{$prefix}campaign/{$cdata['campaign']->guid}/\">{$cdata['campaign']->title}</a></dt>\n";
-            $message .= "    <dd><a href=\"{$prefix}message/{$cdata['message']->guid}/\">{$cdata['message']->title}</a></dd>\n";
+            $message .= "<dt><a href=\"{$link}\">{$cdata['campaign']->title}</a></dt>\n";
+            $message .= "    <dd><a href=\"{$link}\">{$cdata['message']->title}</a></dd>\n";
         }
         $message .= '</dl>';
 

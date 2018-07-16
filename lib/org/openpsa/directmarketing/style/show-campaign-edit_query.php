@@ -1,8 +1,7 @@
 <?php
 $current_rules = $data['campaign']->rules;
 $property_map = org_openpsa_directmarketing_campaign_ruleresolver::build_property_map($data['l10n']);
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$preview_url = $prefix . 'campaign/query/' . $data['campaign']->guid . '/';
+$preview_url = $data['router']->generate('campaign_query', ['guid' => $data['campaign']->guid]);
 
 $grid = $data['grid'];
 $grid->add_pager(30)
