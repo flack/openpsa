@@ -44,8 +44,6 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
     public function _handler_move($handler_id, array $args, array &$data)
     {
         $data['group'] = new midcom_db_group($args[0]);
-        // Get the prefix
-        $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         if (isset($_POST['f_cancel'])) {
             return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $data['group']->guid]));
@@ -101,8 +99,6 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        // Get the prefix
-        $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $data['view_title'] = $this->_l10n->get('groups');
 
         $data['asgard_toolbar']->add_item([

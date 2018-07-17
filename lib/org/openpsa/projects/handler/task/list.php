@@ -356,7 +356,6 @@ implements org_openpsa_widgets_grid_provider_client
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $this->_request_data['sales_url'] = $siteconfig->get_node_full_url('org.openpsa.sales');
-        $this->_request_data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         $this->provider = new org_openpsa_widgets_grid_provider($this, 'local');
         $this->_request_data['provider'] = $this->provider;
