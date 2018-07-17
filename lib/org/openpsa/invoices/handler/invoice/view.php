@@ -149,7 +149,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
     private function update_breadcrumb($handler_id)
     {
         if ($customer = $this->invoice->get_customer()) {
-            $this->add_breadcrumb($this->router->generate('invoice_customer_all', ['guid' => $customer->guid]), $customer->get_label());
+            $this->add_breadcrumb($this->router->generate('list_customer_all', ['guid' => $customer->guid]), $customer->get_label());
         }
 
         $this->add_breadcrumb("", $this->_l10n->get('invoice') . ' ' . $this->invoice->get_label());
