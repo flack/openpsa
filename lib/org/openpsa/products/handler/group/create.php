@@ -91,6 +91,6 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
             org_openpsa_products_viewer::index($controller->get_datamanager(), $indexer, $this->_topic);
         }
         midcom::get()->cache->invalidate($this->_topic->guid);
-        return "{$this->_group->guid}/";
+        return $this->router->generate('list_group', ['guid' => $this->_group->guid]);
     }
 }

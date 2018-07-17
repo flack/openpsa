@@ -81,18 +81,18 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         $buttons = [];
         if ($this->invoice->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager');
-            $buttons[] = $workflow->get_button("invoice/edit/{$this->invoice->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('invoice_edit', ['guid' => $this->invoice->guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]);
         }
 
         if ($this->invoice->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', ['object' => $this->invoice]);
-            $buttons[] = $workflow->get_button("invoice/delete/{$this->invoice->guid}/");
+            $buttons[] = $workflow->get_button($this->router->generate('invoice_delete', ['guid' => $this->invoice->guid]));
         }
 
         $buttons[] = [
-            MIDCOM_TOOLBAR_URL => "invoice/items/{$this->invoice->guid}/",
+            MIDCOM_TOOLBAR_URL => $this->router->generate('invoice_items', ['guid' => $this->invoice->guid]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit invoice items'),
             MIDCOM_TOOLBAR_GLYPHICON => 'list-ul',
             MIDCOM_TOOLBAR_ENABLED => $this->invoice->can_do('midgard:update'),
@@ -149,9 +149,9 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
     private function update_breadcrumb($handler_id)
     {
         if ($customer = $this->invoice->get_customer()) {
-            $this->add_breadcrumb("list/customer/all/{$customer->guid}/", $customer->get_label());
+            $this->add_breadcrumb($this->router->generate('invoice_customer_all', ['guid' => $customer->guid]), $customer->get_label());
         }
 
-        $this->add_breadcrumb("invoice/" . $this->invoice->guid . "/", $this->_l10n->get('invoice') . ' ' . $this->invoice->get_label());
+        $this->add_breadcrumb("", $this->_l10n->get('invoice') . ' ' . $this->invoice->get_label());
     }
 }

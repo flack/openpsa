@@ -34,14 +34,14 @@ implements org_openpsa_widgets_grid_provider_client
         $buttons = [];
         if ($this->group->can_do('midgard:update')) {
             $buttons = [
-                $workflow->get_button("group/edit/{$this->group->guid}/", [
+                $workflow->get_button($this->router->generate('group_edit', ['guid' => $this->group->guid]), [
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 ]),
-                $workflow->get_button("group/create/organization/{$this->group->guid}/", [
+                $workflow->get_button($this->router->generate('group_new_subgroup', ['type' => 'organization', 'guid' => $this->group->guid]), [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create suborganization'),
                     MIDCOM_TOOLBAR_GLYPHICON => 'group',
                 ]),
-                $workflow->get_button("group/create/group/{$this->group->guid}/", [
+                $workflow->get_button($this->router->generate('group_new_subgroup', ['type' => 'group', 'guid' => $this->group->guid]), [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create subgroup'),
                     MIDCOM_TOOLBAR_GLYPHICON => 'group',
                 ])
@@ -50,7 +50,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         if (   midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class)
             && $this->group->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button("person/create/{$this->group->guid}/", [
+                $buttons[] = $workflow->get_button($this->router->generate('person_new_group', ['guid' => $this->group->guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'user-o',
             ]);

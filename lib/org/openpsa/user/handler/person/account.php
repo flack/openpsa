@@ -120,7 +120,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     {
         if (!$this->load_person($args[0])) {
             // Account needs to be created first, relocate
-            return new midcom_response_relocate("account/create/" . $this->person->guid . "/");
+            return new midcom_response_relocate($this->router->generate('account_create', ['guid' => $this->person->guid]));
         }
 
         // if there is no password set (due to block), show ui-message for info
@@ -136,7 +136,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
 
         if ($this->person->can_do('midgard:update')) {
             $delete = $this->get_workflow('delete', ['object' => $this->person]);
-            $workflow->add_dialog_button($delete, "account/delete/{$this->person->guid}/");
+            $workflow->add_dialog_button($delete, $this->router->generate('account_delete', ['guid' => $this->person->guid]));
         }
 
         $response = $workflow->run();
@@ -180,7 +180,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     {
         if (!$this->load_person($args[0])) {
             // Account needs to be created first, relocate
-            return new midcom_response_relocate("view/" . $this->person->guid . "/");
+            return new midcom_response_relocate($this->router->generate('user_view', ['guid' => $this->person->guid]));
         }
 
         $workflow = new delete(['object' => $this->person]);
@@ -190,6 +190,6 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
             }
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_l10n->get('account')));
         }
-        return new midcom_response_relocate('view/' . $this->person->guid . "/");
+        return new midcom_response_relocate($this->router->generate('user_view', ['guid' => $this->person->guid]));
     }
 }

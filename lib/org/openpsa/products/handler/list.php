@@ -144,7 +144,9 @@ implements org_openpsa_widgets_grid_provider_client
 
         if (!empty($this->_request_data['group'])) {
             $workflow = $this->get_workflow('datamanager');
-            $this->_view_toolbar->add_item($workflow->get_button("edit/{$this->_request_data['group']->guid}/", [
+            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('edit_product_group', [
+                'guid' => $this->_request_data['group']->guid
+            ]), [
                 MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]));

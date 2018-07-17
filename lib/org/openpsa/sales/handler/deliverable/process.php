@@ -53,7 +53,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
                     throw new midcom_error('Operation failed. Last Midgard error was: ' . midcom_connection::get_error_string());
                 }
                 // Get user back to the sales project
-                return new midcom_response_relocate("salesproject/{$this->_salesproject->guid}/");
+                return new midcom_response_relocate($this->router->generate('salesproject_view', ['guid' => $this->_salesproject->guid]));
             }
         }
 

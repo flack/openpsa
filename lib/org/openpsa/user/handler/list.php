@@ -65,14 +65,14 @@ implements org_openpsa_widgets_grid_provider_client
 
         $workflow = $this->get_workflow('datamanager');
         if (midcom::get()->auth->can_user_do('midgard:create', null, midcom_db_person::class)) {
-            $this->_view_toolbar->add_item($workflow->get_button("create/", [
+            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('user_create'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'user',
             ]));
         }
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, midcom_db_group::class)) {
-            $this->_view_toolbar->add_item($workflow->get_button("group/create/", [
+            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('group_create'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'group',
             ]));

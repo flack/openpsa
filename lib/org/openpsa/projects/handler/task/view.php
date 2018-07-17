@@ -63,18 +63,21 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
         }
         $buttons = [];
         $workflow = $this->get_workflow('datamanager');
-        $buttons[] = $workflow->get_button("task/edit/{$this->task->guid}/", [
+        $buttons[] = $workflow->get_button($this->router->generate('task_edit', ['guid' => $this->task->guid]), [
             MIDCOM_TOOLBAR_ACCESSKEY => 'e',
         ]);
 
         if (   $this->task->reportedHours == 0
             && $this->task->can_do('midgard:delete')) {
             $delete_workflow = $this->get_workflow('delete', ['object' => $this->task]);
-            $buttons[] = $delete_workflow->get_button("task/delete/{$this->task->guid}/");
+            $buttons[] = $delete_workflow->get_button($this->router->generate('task_delete', ['guid' => $this->task->guid]));
         }
 
         if ($this->task->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button("task/new/task/{$this->task->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('task_view', [
+                'guid' => $this->task->guid,
+                'type' => 'task'
+            ]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_GLYPHICON => 'calendar-check-o',
             ]);
@@ -82,24 +85,24 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
 
         if ($this->task->status == org_openpsa_projects_task_status_dba::CLOSED) {
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "workflow/{$this->task->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('workflow', ['guid' => $this->task->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('reopen'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'refresh',
                 MIDCOM_TOOLBAR_POST => true,
                 MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                     'org_openpsa_projects_workflow_action[reopen]' => 'dummy',
-                    'org_openpsa_projects_workflow_action_redirect' => "task/{$this->task->guid}/"
+                    'org_openpsa_projects_workflow_action_redirect' => $this->router->generate('task_view', ['guid' => $this->task->guid])
                 ],
             ];
         } elseif ($this->task->status < org_openpsa_projects_task_status_dba::COMPLETED) {
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "workflow/{$this->task->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('workflow', ['guid' => $this->task->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark completed'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'check',
                 MIDCOM_TOOLBAR_POST => true,
                 MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                     'org_openpsa_projects_workflow_action[complete]' => 'dummy',
-                    'org_openpsa_projects_workflow_action_redirect' => "task/{$this->task->guid}/"
+                    'org_openpsa_projects_workflow_action_redirect' => $this->router->generate('task_view', ['guid' => $this->task->guid])
                 ],
             ];
         }

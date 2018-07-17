@@ -27,7 +27,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
         $mycontacts = new org_openpsa_contacts_mycontacts;
         $mycontacts->add($target->guid);
 
-        $return_url = "person/{$target->guid}/";
+        $return_url = $this->router->generate('person_view', ['guid' => $target->guid]);
         if (!empty($_GET['return_url'])) {
             $return_url = $_GET['return_url'];
         }
@@ -46,7 +46,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
         $mycontacts = new org_openpsa_contacts_mycontacts;
         $mycontacts->remove($target->guid);
 
-        return new midcom_response_relocate("person/{$target->guid}/");
+        return new midcom_response_relocate($this->router->generate('person_view', ['guid' => $target->guid]));
     }
 
     /**

@@ -61,7 +61,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     {
         $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
         $indexer->index($controller->get_datamanager());
-        return "person/" . $this->_contact->guid . "/";
+        return $this->router->generate('person_view', ['guid' => $this->_contact->guid]);
     }
 
     /**

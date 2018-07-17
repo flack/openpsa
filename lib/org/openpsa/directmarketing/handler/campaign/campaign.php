@@ -118,20 +118,20 @@ implements org_openpsa_widgets_grid_provider_client
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if ($this->_campaign->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("campaign/edit/{$this->_campaign->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('edit_campaign', ['guid' => $this->_campaign->guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]);
         }
 
         if ($this->_campaign->can_do('midgard:delete')) {
             $delete_workflow = $this->get_workflow('delete', ['object' => $this->_campaign]);
-            $buttons[] = $delete_workflow->get_button("campaign/delete/{$this->_campaign->guid}/");
+            $buttons[] = $delete_workflow->get_button($this->router->generate('delete_campaign', ['guid' => $this->_campaign->guid]));
         }
 
         if ($this->_campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART) {
             //Edit query parameters button in case 1) not in edit mode 2) is smart campaign 3) can edit
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "campaign/edit_query/{$this->_campaign->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('edit_campaign_query', ['guid' => $this->_campaign->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit rules'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'filter',
                 MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:update'),
@@ -139,14 +139,14 @@ implements org_openpsa_widgets_grid_provider_client
         } else {
             // Import button if we have permissions to create users
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "campaign/import/{$this->_campaign->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('import_main', ['guid' => $this->_campaign->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import subscribers'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'upload',
                 MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class),
             ];
         }
         $buttons[] = [
-            MIDCOM_TOOLBAR_URL => "campaign/export/csv/{$this->_campaign->guid}/",
+            MIDCOM_TOOLBAR_URL => $this->router->generate('export_csv', ['guid' => $this->_campaign->guid]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('export as csv'),
             MIDCOM_TOOLBAR_GLYPHICON => 'download',
         ];
@@ -154,7 +154,10 @@ implements org_openpsa_widgets_grid_provider_client
         if ($this->_campaign->can_do('midgard:create')) {
             $schemadb = schemadb::from_path($this->_config->get('schemadb_message'));
             foreach ($schemadb->all() as $name => $schema) {
-                $buttons[] = $workflow->get_button("message/create/{$this->_campaign->guid}/{$name}/", [
+                $buttons[] = $workflow->get_button($this->router->generate('create_message', [
+                    'campaign' => $this->_campaign->guid,
+                    'schema' => $name
+                ]), [
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('new %s'), $this->_l10n->get($schema->get('description'))),
                     MIDCOM_TOOLBAR_GLYPHICON => $this->get_messagetype_icon($schema->get('customdata')['org_openpsa_directmarketing_messagetype']),
                 ]);

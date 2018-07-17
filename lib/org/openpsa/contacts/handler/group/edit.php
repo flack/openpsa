@@ -63,6 +63,6 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
         // Index the organization
         $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
         $indexer->index($controller->get_datamanager());
-        return "group/" . $this->_group->guid . "/";
+        $this->router->generate('group_view', ['guid' => $this->_group->guid]);
     }
 }

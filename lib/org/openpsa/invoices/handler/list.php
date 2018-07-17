@@ -291,13 +291,13 @@ implements org_openpsa_widgets_grid_provider_client
         $buttons = [];
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)) {
             $workflow = $this->get_workflow('datamanager');
-            $buttons[] = $workflow->get_button("invoice/new/{$this->_customer->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('invoice_new', ['company' => $this->_customer->guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'plus',
             ]);
 
             if ($this->_customer->can_do('midgard:create')) {
-                $buttons[] = $workflow->get_button("billingdata/" . $this->_customer->guid . "/", [
+                $buttons[] = $workflow->get_button($this->router->generate('billing_data', ['guid' => $this->_customer->guid]), [
                     MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('edit billingdata', 'org.openpsa.contacts'),
                     MIDCOM_TOOLBAR_OPTIONS => ['data-refresh-opener' => 'false'],
                     MIDCOM_TOOLBAR_GLYPHICON => 'address-card'

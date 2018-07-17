@@ -116,6 +116,6 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
 
         midcom::get()->cache->invalidate($this->_product->guid);
 
-        return "product/{$this->_product->guid}/";
+        return $this->router->generate('view_product', ['guid' => $this->_product->guid]);
     }
 }

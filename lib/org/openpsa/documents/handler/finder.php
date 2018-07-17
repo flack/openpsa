@@ -61,17 +61,17 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if ($this->_request_data['directory']->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button("document/create/", [
+            $buttons[] = $workflow->get_button($this->router->generate('document-create'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new document'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'file-o',
             ]);
-            $buttons[] = $workflow->get_button("create/", [
+            $buttons[] = $workflow->get_button($this->router->generate('directory-create'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new directory'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'folder-o',
             ]);
         }
         if ($this->_request_data['directory']->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("edit/", [
+            $buttons[] = $workflow->get_button($this->router->generate('directory-edit'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit directory'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]);

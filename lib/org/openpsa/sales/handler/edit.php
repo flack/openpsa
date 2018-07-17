@@ -74,7 +74,8 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
                 $defaults['customerContact'] = $customer->id;
                 $field['type_config']['options'] = org_openpsa_helpers_list::task_groups(new org_openpsa_sales_salesproject_dba, 'id', [$customer->id => true]);
             }
-            $this->add_breadcrumb("list/customer/{$customer->guid}/", sprintf($this->_l10n->get('salesprojects with %s'), $customer->get_label()));
+            $this->add_breadcrumb($this->router->generate('list_customer', ['guid' => $customer->guid]),
+                sprintf($this->_l10n->get('salesprojects with %s'), $customer->get_label()));
         }
         $dm = new datamanager($schemadb);
         $dm->set_defaults($defaults);
@@ -91,7 +92,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
     public function save_callback()
     {
-        return "salesproject/" . $this->_salesproject->guid . "/";
+        return $this->router->generate('salesproject_view', ['guid' => $this->_salesproject->guid]);
     }
 
     /**

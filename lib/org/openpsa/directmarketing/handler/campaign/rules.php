@@ -96,7 +96,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         // PONDER: Locking ?
         if (!empty($_POST['midcom_helper_datamanager2_cancel'])) {
-            return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
+            return new midcom_response_relocate($this->router->generate('view_campaign', ['guid' => $this->_campaign->guid]));
         }
 
         //check if it should be saved
@@ -115,7 +115,7 @@ implements org_openpsa_widgets_grid_provider_client
                 $this->_campaign->schedule_update_smart_campaign_members();
 
                 //Save ok, relocate
-                return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
+                return new midcom_response_relocate($this->router->generate('view_campaign', ['guid' => $this->_campaign->guid]));
             }
             //Save failed
             midcom::get()->uimessages->add($this->_component, sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
@@ -131,7 +131,7 @@ implements org_openpsa_widgets_grid_provider_client
                 ],
             ],
             [
-                MIDCOM_TOOLBAR_URL => "campaign/edit_query/{$this->_campaign->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('edit_campaign_query', ['guid' => $this->_campaign->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit rules'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'filter',
                 MIDCOM_TOOLBAR_OPTIONS  => [
@@ -151,7 +151,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         midcom::get()->head->set_pagetitle($this->_campaign->title);
         $this->bind_view_to_object($this->_campaign);
-        $this->add_breadcrumb("campaign/edit_query/{$this->_campaign->guid}/", $this->_l10n->get('edit rules'));
+        $this->add_breadcrumb('', $this->_l10n->get('edit rules'));
 
         return $this->show('show-campaign-edit_query');
     }

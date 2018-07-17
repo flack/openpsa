@@ -41,24 +41,24 @@ class org_openpsa_user_handler_person_view extends midcom_baseclasses_components
             $buttons = [];
             $workflow = $this->get_workflow('datamanager');
             if ($this->_person->can_do('midgard:update')) {
-                $buttons[] = $workflow->get_button("edit/{$this->_person->guid}/", [
+                $buttons[] = $workflow->get_button($this->router->generate('user_edit', ['guid' => $this->_person->guid]), [
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 ]);
             }
             if ($this->_person->can_do('midgard:delete')) {
                 $delete_workflow = $this->get_workflow('delete', ['object' => $this->_person]);
-                $buttons[] = $delete_workflow->get_button("delete/{$this->_person->guid}/");
+                $buttons[] = $delete_workflow->get_button($this->router->generate('user_delete', ['guid' => $this->_person->guid]));
             }
             if (   midcom_connection::is_user($this->_person)
                 && $this->_person->can_do('midgard:privileges')) {
-                $buttons[] = $workflow->get_button("privileges/{$this->_person->guid}/", [
+                $buttons[] = $workflow->get_button($this->router->generate('user_privileges', ['guid' => $this->_person->guid]), [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
                     MIDCOM_TOOLBAR_GLYPHICON => 'shield',
                 ]);
             }
 
             if ($this->_person->can_do('midgard:update')) {
-                $buttons[] = $workflow->get_button("person/notifications/{$this->_person->guid}/", [
+                $buttons[] = $workflow->get_button($this->router->generate('person_notifications', ['guid' => $this->_person->guid]), [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
                     MIDCOM_TOOLBAR_GLYPHICON => 'bell-o',
                 ]);

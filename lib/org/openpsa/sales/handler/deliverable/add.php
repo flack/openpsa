@@ -131,6 +131,6 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
     {
         $formdata = $controller->get_form_values();
         $this->process_notify_date((int) $formdata['notify'], $this->_deliverable);
-        return "salesproject/{$this->_salesproject->guid}/";
+        return $this->router->generate('salesproject_view', ['guid' => $this->_salesproject->guid]);
     }
 }

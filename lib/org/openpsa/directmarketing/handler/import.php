@@ -39,7 +39,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         $this->_request_data['campaign'] = $this->load_campaign($args[0]);
 
         $this->_view_toolbar->add_item([
-            MIDCOM_TOOLBAR_URL => "campaign/{$this->_request_data['campaign']->guid}/",
+            MIDCOM_TOOLBAR_URL => $this->router->generate('view_campaign', ['guid' => $this->_request_data['campaign']->guid]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
             MIDCOM_TOOLBAR_GLYPHICON => 'eject',
         ]);
@@ -65,7 +65,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     private function _update_breadcrumb($handler_id, $args)
     {
-        $this->add_breadcrumb("campaign/import/{$args[0]}/", $this->_l10n->get('import subscribers'));
+        $this->add_breadcrumb($this->router->generate('import_main', ['guid' => $args[0]]), $this->_l10n->get('import subscribers'));
 
         switch ($handler_id) {
             case 'import_simpleemails':

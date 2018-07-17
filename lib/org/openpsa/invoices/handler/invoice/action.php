@@ -113,7 +113,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
             return $this->reply(false, sprintf($this->_l10n->get('could not update invoice %s'), $this->invoice->get_label()));
         }
 
-        return new midcom_response_relocate("invoice/" . $cancelation_invoice->guid . "/");
+        return new midcom_response_relocate($this->router->generate('invoice', ['guid' => $cancelation_invoice->guid]));
     }
 
     /**

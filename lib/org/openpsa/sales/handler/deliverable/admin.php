@@ -137,7 +137,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $salesproject = $deliverable->get_parent();
         $workflow = $this->get_workflow('delete', [
             'object' => $deliverable,
-            'success_url' => "salesproject/{$salesproject->guid}/"
+            'success_url' => $this->router->generate('salesproject_view', ['guid' => $salesproject->guid])
         ]);
         return $workflow->run();
     }

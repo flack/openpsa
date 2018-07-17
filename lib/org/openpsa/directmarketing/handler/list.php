@@ -73,7 +73,7 @@ implements org_openpsa_widgets_grid_provider_client
             $workflow = $this->get_workflow('datamanager');
             $schemadb = schemadb::from_path($this->_config->get('schemadb_campaign'));
             foreach ($schemadb->all() as $name => $schema) {
-                $this->_view_toolbar->add_item($workflow->get_button("campaign/create/{$name}/", [
+                $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('create_campaign', ['schema' => $name]), [
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schema->get('description'))),
                     MIDCOM_TOOLBAR_GLYPHICON => 'bullhorn',
                 ]));

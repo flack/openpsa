@@ -44,7 +44,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_message'));
         $this->_datamanager->set_storage($this->_message);
 
-        $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
+        $this->add_breadcrumb($this->router->generate('message_view', ['guid' => $this->_message->guid]), $this->_message->title);
 
         $data['message'] = $this->_message;
         $data['campaign'] = $this->_campaign;
@@ -65,30 +65,33 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if ($this->_message->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("message/edit/{$this->_message->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('message_edit', ['guid' => $this->_message->guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]);
         }
         if ($this->_message->can_do('midgard:delete')) {
             $delete_workflow = $this->get_workflow('delete', ['object' => $this->_message]);
-            $buttons[] = $delete_workflow->get_button("message/delete/{$this->_message->guid}/");
+            $buttons[] = $delete_workflow->get_button($this->router->generate('message_delete', ['guid' => $this->_message->guid]));
         }
         if ($this->_message->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("message/copy/{$this->_message->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('message_copy', ['guid' => $this->_message->guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('copy message'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'clone',
             ]);
         }
 
         $buttons[] = [
-            MIDCOM_TOOLBAR_URL => "message/compose/{$this->_message->guid}/" . midcom::get()->auth->user->guid . '/',
+            MIDCOM_TOOLBAR_URL => $this->router->generate('compose4person', [
+                'guid' => $this->_message->guid,
+                'person' => midcom::get()->auth->user->guid
+            ]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('preview message'),
             MIDCOM_TOOLBAR_GLYPHICON => 'search',
             MIDCOM_TOOLBAR_ACCESSKEY => 'p',
             MIDCOM_TOOLBAR_OPTIONS => ['target' => '_BLANK'],
         ];
         $buttons[] = [
-            MIDCOM_TOOLBAR_URL => "message/report/{$this->_message->guid}/",
+            MIDCOM_TOOLBAR_URL => $this->router->generate('message_report', ['guid' => $this->_message->guid]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("message report"),
             MIDCOM_TOOLBAR_ACCESSKEY => 'r',
             MIDCOM_TOOLBAR_GLYPHICON => 'print',
@@ -96,7 +99,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
 
         $this->_campaign->get_testers();
         $buttons[] = [
-            MIDCOM_TOOLBAR_URL => "message/send_test/{$this->_message->guid}/",
+            MIDCOM_TOOLBAR_URL => $this->router->generate('test_send_message', ['guid' => $this->_message->guid]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to testers"),
             MIDCOM_TOOLBAR_GLYPHICON => 'paper-plane-o',
             MIDCOM_TOOLBAR_ENABLED => (count($this->_campaign->testers) > 0),
@@ -109,7 +112,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
 
         // Show the message send if there are recipients
         $buttons[] = [
-            MIDCOM_TOOLBAR_URL => "message/send/{$this->_message->guid}/",
+            MIDCOM_TOOLBAR_URL => $this->router->generate('send_message', ['guid' => $this->_message->guid]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to whole campaign"),
             MIDCOM_TOOLBAR_GLYPHICON => 'paper-plane',
             MIDCOM_TOOLBAR_ENABLED => (count($keys) > 0 && $this->_message->can_do('midgard:update')),

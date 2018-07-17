@@ -65,14 +65,14 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $buttons = [];
         if ($this->_salesproject->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager');
-            $buttons[] = $workflow->get_button("salesproject/edit/{$this->_salesproject->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('salesproject_edit', ['guid' => $this->_salesproject->guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]);
         }
 
         if ($this->_salesproject->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', ['object' => $this->_salesproject, 'recursive' => true]);
-            $buttons[] = $workflow->get_button("salesproject/delete/{$this->_salesproject->guid}/");
+            $buttons[] = $workflow->get_button($this->router->generate('salesproject_delete', ['guid' => $this->_salesproject->guid]));
         }
 
         if (!empty($this->_request_data['projects_url'])) {
@@ -88,7 +88,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             && $this->_salesproject->can_do('midgard:update')
             && $this->is_pdf_creatable()) {
             $workflow = $this->get_workflow('datamanager');
-            $buttons[] = $workflow->get_button("salesproject/offer/{$this->_salesproject->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('create_offer', ['guid' => $this->_salesproject->guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'p',
                 MIDCOM_TOOLBAR_GLYPHICON => 'file-pdf-o',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create_pdf'),
@@ -142,10 +142,10 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $this->_populate_toolbar();
 
         if ($customer = $this->_salesproject->get_customer()) {
-            $this->add_breadcrumb("list/customer/{$customer->guid}/", $customer->get_label());
+            $this->add_breadcrumb($this->router->generate('list_customer', ['guid' => $customer->guid]), $customer->get_label());
         }
 
-        $this->add_breadcrumb("salesproject/{$this->_salesproject->guid}/", $this->_salesproject->title);
+        $this->add_breadcrumb($this->router->generate('salesproject_edit', ['guid' => $this->_salesproject->guid]), $this->_salesproject->title);
         midcom::get()->metadata->set_request_metadata($this->_salesproject->metadata->revised, $this->_salesproject->guid);
         midcom::get()->head->set_pagetitle($this->_salesproject->title);
 

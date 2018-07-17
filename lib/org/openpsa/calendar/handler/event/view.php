@@ -42,7 +42,7 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
         // Add toolbar items
         $buttons = [
             [
-                MIDCOM_TOOLBAR_URL => 'event/edit/' . $this->_request_data['event']->guid . '/',
+                MIDCOM_TOOLBAR_URL => $this->router->generate('event_view', ['guid' => $data['event']->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
                 MIDCOM_TOOLBAR_ENABLED => $data['event']->can_do('midgard:update'),
@@ -51,7 +51,7 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
         ];
         if ($data['event']->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', ['object' => $data['event']]);
-            $buttons[] = $workflow->get_button("event/delete/{$data['event']->guid}/");
+            $buttons[] = $workflow->get_button($this->router->generate('event_delete', ['guid' => $data['event']->guid]));
         }
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => 'javascript:window.print()',

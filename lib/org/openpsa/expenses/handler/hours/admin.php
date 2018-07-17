@@ -80,7 +80,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                 'object' => $report,
                 'label' => $this->_l10n->get('hour report')
             ]);
-            $workflow->add_dialog_button($delete, "hours/delete/{$report->guid}/");
+            $workflow->add_dialog_button($delete, $this->router->generate('hours_delete', ['guid' => $report->guid]));
         }
         return $workflow->run();
     }
@@ -130,7 +130,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             }
         }
 
-        $relocate = isset($_POST['relocate_url']) ? $_POST['relocate_url'] : "/";
+        $relocate = isset($_POST['relocate_url']) ? $_POST['relocate_url'] : $this->router->generate('index');
         return new midcom_response_relocate($relocate);
     }
 

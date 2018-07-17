@@ -74,12 +74,12 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
     private function _prepare_output()
     {
         $title = $this->_l10n->get('invoice') . ' ' . $this->_object->get_label();
-        $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $title);
-        $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $this->_l10n->get('edit invoice items') . ': ' . $title);
+        $this->add_breadcrumb($this->router->generate('invoice', ['guid' => $this->_object->guid]), $title);
+        $this->add_breadcrumb("", $this->_l10n->get('edit invoice items') . ': ' . $title);
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit invoice items') . ': ' . $title);
         $this->_view_toolbar->add_item([
-            MIDCOM_TOOLBAR_URL => "invoice/recalculation/{$this->_object->guid}/",
+            MIDCOM_TOOLBAR_URL => $this->router->generate('recalc_invoice', ['guid' => $this->_object->guid]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('recalculate_by_reports'),
             MIDCOM_TOOLBAR_GLYPHICON => 'refresh',
             MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
@@ -174,6 +174,6 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
         $this->_object->_recalculate_invoice_items();
 
-        return new midcom_response_relocate("invoice/items/" . $this->_object->guid . "/");
+        return new midcom_response_relocate($this->router->generate('invoice_items', ['guid' => $this->_object->guid]));
     }
 }

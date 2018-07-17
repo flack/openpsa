@@ -53,6 +53,6 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
 
     public function save_callback()
     {
-        return "message/{$this->_message->guid}/";
+        return $this->router->generate('message_view', ['guid' => $this->_message->guid]);
     }
 }

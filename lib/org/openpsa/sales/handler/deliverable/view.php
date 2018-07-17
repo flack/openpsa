@@ -39,7 +39,9 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
 
         if ($this->_deliverable->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager');
-            $this->_view_toolbar->add_item($workflow->get_button("deliverable/edit/{$this->_deliverable->guid}/", [
+            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('deliverable_edit', [
+                'guid' => $this->_deliverable->guid
+            ]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]));
         }
@@ -49,7 +51,9 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         $this->_request_data['invoices_url'] = $siteconfig->get_node_relative_url('org.openpsa.invoices');
         if ($this->_deliverable->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', ['object' => $this->_deliverable]);
-            $this->_view_toolbar->add_item($workflow->get_button("deliverable/delete/{$this->_deliverable->guid}/"));
+            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('deliverable_delete', [
+                'guid' => $this->_deliverable->guid
+            ])));
         }
         try {
             $this->_request_data['product'] = org_openpsa_products_product_dba::get_cached($this->_deliverable->product);

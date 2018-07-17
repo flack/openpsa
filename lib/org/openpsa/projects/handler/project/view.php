@@ -61,10 +61,13 @@ class org_openpsa_projects_handler_project_view extends midcom_baseclasses_compo
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if ($this->project->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("project/edit/{$this->project->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('project-edit', ['guid' => $this->project->guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]);
-            $buttons[] = $workflow->get_button("task/new/project/{$this->project->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('task-new-2', [
+                'guid' => $this->project->guid,
+                'type' => 'project'
+            ]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_GLYPHICON => 'calendar-check-o',
             ]);

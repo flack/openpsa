@@ -30,7 +30,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
 
         if ($this->_task->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager');
-            $this->_view_toolbar->add_item($workflow->get_button("task/edit/{$this->_task->guid}/", [
+            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('task_edit', ['guid' => $this->_task->guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]));
         }
@@ -94,10 +94,10 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
                     debug_add('Failed to update prospect: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 }
             }
-            return new midcom_response_relocate("task/{$this->_task->guid}/");
+            return new midcom_response_relocate($this->router->generate('task_view', ['guid' => $this->_task->guid]));
         }
         if (!empty($_POST['cancel'])) {
-            return new midcom_response_relocate("task/{$this->_task->guid}/");
+            return new midcom_response_relocate($this->router->generate('task_view', ['guid' => $this->_task->guid]));
         }
 
         $this->_prepare_request_data($handler_id);
@@ -105,7 +105,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $this->bind_view_to_object($this->_task);
 
         org_openpsa_projects_viewer::add_breadcrumb_path($data['task'], $this);
-        $this->add_breadcrumb("task/resourcing/{$this->_task->guid}/", $this->_l10n->get('resourcing'));
+        $this->add_breadcrumb($this->router->generate('task_resourcing', ['guid' => $this->_task->guid]), $this->_l10n->get('resourcing'));
 
         return $this->show('show-task-resourcing');
     }

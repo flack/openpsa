@@ -103,7 +103,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         // Check if we're sending an invoice here
         if (array_key_exists('org_openpsa_invoices_invoice', $_POST)) {
             if ($invoice = $this->_generate_invoice()) {
-                return new midcom_response_relocate("invoice/{$invoice->guid}/");
+                return new midcom_response_relocate($this->router->generate('invoice', ['guid' => $invoice->guid]));
             }
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('failed to create invoice, reason') . midcom_connection::get_error_string(), 'error');
         }

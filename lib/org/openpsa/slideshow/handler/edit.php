@@ -110,7 +110,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
                 MIDCOM_TOOLBAR_GLYPHICON => 'search',
             ],
             [
-                MIDCOM_TOOLBAR_URL => "recreate/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('recreate'),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('recreate derived images'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'refresh',
             ]

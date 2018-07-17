@@ -175,13 +175,13 @@ implements org_openpsa_widgets_grid_provider_client
     {
         if ($this->_document->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager');
-            $this->_view_toolbar->add_item($workflow->get_button("document/edit/{$this->_document->guid}/", [
+            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('document-view', ['guid' => $this->_document->guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]));
         }
         if ($this->_document->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', ['object' => $this->_document]);
-            $this->_view_toolbar->add_item($workflow->get_button("document/delete/{$this->_document->guid}/"));
+            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('document-delete', ['guid' => $this->_document->guid])));
         }
     }
 
@@ -201,7 +201,7 @@ implements org_openpsa_widgets_grid_provider_client
             $qb->set_limit(1);
             $results = $qb->execute();
             $this->_view_toolbar->add_item([
-                MIDCOM_TOOLBAR_URL => "document/{$results[0]->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('document-view', ['guid' => $results[0]->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous version'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'backward',
             ]);
@@ -222,7 +222,7 @@ implements org_openpsa_widgets_grid_provider_client
             $results = $qb->execute();
 
             $this->_view_toolbar->add_item([
-                MIDCOM_TOOLBAR_URL => "document/{$results[0]->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('document-view', ['guid' => $results[0]->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next version'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'forward',
             ]);

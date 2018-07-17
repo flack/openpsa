@@ -80,7 +80,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
                 'object' => $bd,
                 'label' => $this->_l10n->get('billing data')
             ]);
-            $workflow->add_dialog_button($delete, "billingdata/delete/{$bd->guid}/");
+            $workflow->add_dialog_button($delete, $this->router->generate('billing_data_delete', ['guid' => $bd->guid]));
         }
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get($mode . ' %s'), $this->_l10n->get('billing data')));

@@ -56,31 +56,31 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if ($this->_group->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("group/edit/{$this->_group->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('group_edit', ['guid' => $this->_group->guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]);
         }
         if ($this->_group->can_do('midgard:delete')) {
             $delete_workflow = $this->get_workflow('delete', ['object' => $this->_group]);
-            $buttons[] = $delete_workflow->get_button("group/delete/{$this->_group->guid}/");
+            $buttons[] = $delete_workflow->get_button($this->router->generate('group_delete', ['guid' => $this->_group->guid]));
         }
 
         if ($this->_group->can_do('midgard:privileges')) {
-            $buttons[] = $workflow->get_button("group/privileges/{$this->_group->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('group_privileges', ['guid' => $this->_group->guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
                 MIDCOM_TOOLBAR_GLYPHICON => 'shield',
             ]);
         }
 
         if ($this->_group->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("group/notifications/{$this->_group->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('group_notifications', ['guid' => $this->_group->guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
                 MIDCOM_TOOLBAR_GLYPHICON => 'bell-o',
             ]);
         }
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class)) {
-            $buttons[] = $workflow->get_button("create/{$this->_group->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('user_create_group', ['guid' => $this->_group->guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'user',
             ]);

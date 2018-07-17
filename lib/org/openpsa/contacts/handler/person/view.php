@@ -87,7 +87,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         $this->bind_view_to_object($this->_contact, $this->_datamanager->get_schema()->get_name());
 
-        $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);
+        $this->add_breadcrumb($this->router->generate('person_view', ['guid' => $this->_contact->guid]), $this->_contact->name);
         midcom::get()->head->set_pagetitle($this->_contact->name);
         $data['contact_view'] = $this->_datamanager->get_content_html();
 
@@ -104,7 +104,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if ($this->_contact->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("person/edit/{$this->_contact->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('person_edit', ['guid' => $this->_contact->guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]);
         }
@@ -134,7 +134,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         if ($this->_contact->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', ['object' => $this->_contact]);
-            $buttons[] = $workflow->get_button("person/delete/{$this->_contact->guid}/");
+            $buttons[] = $workflow->get_button($this->router->generate('person_delete', ['guid' => $this->_contact->guid]));
         }
 
         $mycontacts = new org_openpsa_contacts_mycontacts;
@@ -142,14 +142,14 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         if ($mycontacts->is_member($this->_contact->guid)) {
             // We're buddies, show remove button
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "mycontacts/remove/{$this->_contact->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('mycontacts_remove', ['guid' => $this->_contact->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove from my contacts'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'ban',
             ];
         } else {
             // We're not buddies, show add button
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "mycontacts/add/{$this->_contact->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('mycontacts_add', ['guid' => $this->_contact->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add to my contacts'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'plus',
             ];

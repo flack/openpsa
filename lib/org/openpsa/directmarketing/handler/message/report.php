@@ -301,7 +301,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             throw new midcom_error('Could not create campaign: ' . midcom_connection::get_error_string());
         }
         $campaign->schedule_update_smart_campaign_members();
-        return new midcom_response_relocate("campaign/{$campaign->guid}/");
+        return new midcom_response_relocate($this->router->generate('view_campaign', ['guid' => $campaign->guid]));
     }
 
     /**
@@ -330,17 +330,23 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
-        $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
-        $this->add_breadcrumb("message/report/{$this->_message->guid}/", sprintf($this->_l10n->get('report for message %s'), $this->_message->title));
+        $this->add_breadcrumb($this->router->generate('message_view', ['guid' => $this->_message->guid]), $this->_message->title);
+        $this->add_breadcrumb(
+            $this->router->generate('message_report', ['guid' => $this->_message->guid]),
+            sprintf($this->_l10n->get('report for message %s'), $this->_message->title)
+        );
 
         $buttons = [
             [
-                MIDCOM_TOOLBAR_URL => "message/{$this->_message->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('message_view', ['guid' => $this->_message->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
                 MIDCOM_TOOLBAR_GLYPHICON => 'eject',
             ],
             [
-                MIDCOM_TOOLBAR_URL => "message/compose/{$this->_message->guid}/" . midcom::get()->auth->user->guid . '/',
+                MIDCOM_TOOLBAR_URL => $this->router->generate('compose4person', [
+                    'guid' => $this->_message->guid,
+                    'person' => midcom::get()->auth->user->guid
+                ]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('preview message'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'search',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'p',

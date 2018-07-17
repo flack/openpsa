@@ -65,11 +65,11 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
     {
         if ($this->_request_data['directory']->can_do('midgard:create')) {
             $workflow = $this->get_workflow('datamanager');
-            $this->_view_toolbar->add_item($workflow->get_button("document/create/", [
+            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('document-create'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new document'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'file-o',
             ]));
-            $this->_view_toolbar->add_item($workflow->get_button("create/", [
+            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('directory-create'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new directory'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'folder-o',
             ]));

@@ -37,11 +37,11 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
         }
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_group_dba::class)) {
-            $buttons[] = $workflow->get_button("group/create/organization/", [
+            $buttons[] = $workflow->get_button($this->router->generate('group_new', ['type' => 'organization']), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'group',
             ]);
-            $buttons[] = $workflow->get_button("group/create/group/", [
+            $buttons[] = $workflow->get_button($this->router->generate('group_new', ['type' => 'group']), [
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('group')),
                 MIDCOM_TOOLBAR_GLYPHICON => 'group',
             ]);

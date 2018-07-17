@@ -50,6 +50,6 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
 
     public function save_callback()
     {
-        return "campaign/{$this->_campaign->guid}/";
+        return $this->router->generate('view_campaign', ['guid' => $this->_campaign->guid]);
     }
 }

@@ -59,7 +59,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $campaign = new org_openpsa_directmarketing_campaign_dba($message->campaign);
         $workflow = $this->get_workflow('delete', [
             'object' => $message,
-            'success_url' => "campaign/{$campaign->guid}/"
+            'success_url' => $this->router->generate('view_campaign', ['guid' => $campaign->guid])
         ]);
         return $workflow->run();
     }
@@ -117,6 +117,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
         midcom::get()->uimessages->add($this->_l10n->get('copy message'), $message, 'ok');
 
-        return "message/{$this->_message->guid}/";
+        return $this->router->generate('message_view', ['guid' => $this->_message->guid]);
     }
 }
