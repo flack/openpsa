@@ -78,7 +78,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
         $salesproject = $offer->get_parent();
         $offer->require_do('midgard:delete');
         $offer->delete();
-        return new midcom_response_relocate('salesproject/' . $salesproject->guid . '/');
+        return new midcom_response_relocate($this->router->generate('salesproject_view', ['guid' => $salesproject->guid]));
     }
 
     /**

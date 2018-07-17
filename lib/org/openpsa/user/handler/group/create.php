@@ -47,6 +47,6 @@ class org_openpsa_user_handler_group_create extends midcom_baseclasses_component
     public function save_callback()
     {
         midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('group %s saved'), $this->group->name));
-        return 'group/' . $this->group->guid . '/';
+        return $this->router->generate('group_view', ['guid' => $this->group->guid]);
     }
 }

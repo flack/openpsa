@@ -61,7 +61,7 @@ trait org_openpsa_invoices_handler
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)) {
             $workflow = $this->get_workflow('datamanager');
-            $this->_view_toolbar->add_item($workflow->get_button('invoice/new/', [
+            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('invoice_new_nocustomer'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'plus',
             ]));

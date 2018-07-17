@@ -97,6 +97,6 @@ class org_openpsa_user_handler_person_create extends midcom_baseclasses_componen
         if ($this->create_account($this->_person, $controller->get_form_values())) {
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
         }
-        return 'view/' . $this->_person->guid . '/';
+        return $this->router->generate('user_view', ['guid' => $this->_person->guid]);
     }
 }

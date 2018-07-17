@@ -77,7 +77,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $indexer->index($controller->get_datamanager());
 
         if ($this->mode === 'create') {
-            return 'task/' . $this->task->guid . '/';
+            return $this->router->generate('task_view', ['guid' => $this->task->guid]);
         }
     }
 
@@ -141,7 +141,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $options = ['object' => $this->task];
         try {
             $parent = new org_openpsa_projects_project($this->task->project);
-            $options['success_url'] = 'project/' . $parent->guid . '/';
+            $options['success_url'] = $this->router->generate('project', ['guid' => $parent->guid]);
         } catch (midcom_error $e) {
             $e->log();
         }

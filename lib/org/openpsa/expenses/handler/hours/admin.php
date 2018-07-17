@@ -99,7 +99,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         try {
             $task = org_openpsa_projects_task_dba::get_cached($hour_report->task);
-            $options['success_url'] = 'hours/task/' . $task->guid . '/';
+            $options['success_url'] = $this->router->generate('list_hours_task', ['guid' => $task->guid]);
         } catch (midcom_error $e) {
             $e->log();
         }

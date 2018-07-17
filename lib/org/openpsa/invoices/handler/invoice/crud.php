@@ -91,7 +91,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         $indexer->index($controller->get_datamanager());
 
         if ($this->mode === 'create') {
-            return 'invoice/' . $this->invoice->guid . '/';
+            return $this->router->generate('invoice', ['guid' => $this->invoice->guid]);
         }
     }
 

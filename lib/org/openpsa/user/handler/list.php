@@ -47,7 +47,7 @@ implements org_openpsa_widgets_grid_provider_client
         $auth = midcom::get()->auth;
         if (!$auth->can_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class)) {
             $person = $auth->user->get_storage();
-            return new midcom_response_relocate('view/' . $person->guid . '/');
+            return new midcom_response_relocate($this->router->generate('user_view', ['guid' => $person->guid]));
         }
 
         $data['provider_url'] = $this->router->generate('user_list_json');

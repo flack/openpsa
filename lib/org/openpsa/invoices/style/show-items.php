@@ -2,7 +2,7 @@
 $position_url = $data['router']->generate('invoice_item_position');
 
 $grid = $data['grid'];
-$grid->set_option('editurl', $prefix . 'invoice/itemedit/' . $data['invoice']->guid . '/');
+$grid->set_option('editurl', $data['router']->generate('invoice_item_edit', ['guid' => $data['invoice']->guid]));
 $grid->set_option('pager', '#p_' . $grid->get_identifier());
 
 $grid->set_column('position', $data['l10n']->get('position'),  'hidden: true');

@@ -30,17 +30,17 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     {
         $buttons = [
             [
-                MIDCOM_TOOLBAR_URL => 'day/' . strftime('%Y-%m-%d', $this->_request_data['week_start']) . '/',
+                MIDCOM_TOOLBAR_URL => $this->router->generate('day', ['date' => strftime('%Y-%m-%d', $this->_request_data['week_start'])]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('day review'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'dashboard',
             ],
             [
-                MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['prev_week'] . '/',
+                MIDCOM_TOOLBAR_URL => $this->router->generate('weekreview', ['date' => $this->_request_data['prev_week']]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'chevron-right',
             ],
             [
-                MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['next_week'] . '/',
+                MIDCOM_TOOLBAR_URL => $this->router->generate('weekreview', ['date' => $this->_request_data['next_week']]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
             ]
@@ -181,7 +181,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
-        $this->add_breadcrumb('weekreview/', $this->_l10n->get('week review'));
+        $this->add_breadcrumb($this->router->generate('weekreview_redirect'), $this->_l10n->get('week review'));
         $this->add_breadcrumb('', $data['title']);
     }
 

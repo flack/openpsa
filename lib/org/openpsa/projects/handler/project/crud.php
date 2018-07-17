@@ -52,7 +52,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         $indexer->index($controller->get_datamanager());
 
         if ($this->_mode === 'create') {
-            return 'project/' . $this->project->guid . '/';
+            return $this->router->generate('project', ['guid' => $this->project->guid]);
         }
     }
 

@@ -157,7 +157,7 @@ implements org_openpsa_widgets_grid_provider_client
         $tmp = array_reverse($tmp, true);
 
         foreach ($tmp as $guid => $title) {
-            $this->add_breadcrumb('group/' . $guid . '/', $title);
+            $this->add_breadcrumb($this->router->generate('group_view', ['guid' => $guid]), $title);
         }
     }
 

@@ -174,7 +174,7 @@ implements org_openpsa_widgets_grid_provider_client
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
             $workflow = $this->get_workflow('datamanager');
-            $this->_node_toolbar->add_item($workflow->get_button('config/', [
+            $this->_node_toolbar->add_item($workflow->get_button($this->router->generate('config'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'wrench',

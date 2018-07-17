@@ -30,7 +30,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class)) {
-            $buttons[] = $workflow->get_button('person/create/', [
+            $buttons[] = $workflow->get_button($this->router->generate('person_new'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'user-o',
             ]);
@@ -50,7 +50,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
         $p_merger = new org_openpsa_contacts_duplicates_merge('person', $this->_config);
         if ($p_merger->merge_needed()) {
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => 'duplicates/person/',
+                MIDCOM_TOOLBAR_URL => $this->router->generate('person_duplicates'),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('merge persons'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'code-fork',
                 MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:update', null, org_openpsa_contacts_person_dba::class),
@@ -60,7 +60,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
 
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
-            $this->_node_toolbar->add_item($workflow->get_button('config/', [
+            $this->_node_toolbar->add_item($workflow->get_button($this->router->generate('config'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'sliders',

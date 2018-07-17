@@ -37,7 +37,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
         if (!empty($_POST['relocate'])) {
             midcom::get()->uimessages->add($message['title'], $message['message'], $message['type']);
-            return new midcom_response_relocate('invoice/' . $this->invoice->guid . '/');
+            return new midcom_response_relocate($this->router->generate('invoice', ['guid' => $this->invoice->guid]));
         }
 
         $result = [

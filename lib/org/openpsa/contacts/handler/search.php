@@ -154,11 +154,11 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
         if (   count($this->_groups) == 1
             && count($this->_persons) == 0) {
-            return new midcom_response_relocate('group/' . $this->_groups[0]->guid . '/');
+            return new midcom_response_relocate($this->router->generate('group_view', ['guid' => $this->_groups[0]->guid]));
         }
         if (   count($this->_groups) == 0
             && count($this->_persons) == 1) {
-            return new midcom_response_relocate('person/' . $this->_persons[0]->guid . '/');
+            return new midcom_response_relocate($this->router->generate('person_view', ['guid' => $this->_persons[0]->guid]));
         }
 
         $this->_populate_toolbar();
@@ -197,17 +197,17 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class)) {
-            $buttons[] = $workflow->get_button('person/create/', [
+            $buttons[] = $workflow->get_button($this->router->generate('person_new'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'user-o',
             ]);
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_group_dba::class)) {
-            $buttons[] = $workflow->get_button('group/create/organization/', [
+            $buttons[] = $workflow->get_button($this->router->generate('group_new', ['type' => 'organization']), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'group',
             ]);
-            $buttons[] = $workflow->get_button('group/create/group/', [
+            $buttons[] = $workflow->get_button($this->router->generate('group_new', ['type' => 'group']), [
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('group')),
                 MIDCOM_TOOLBAR_GLYPHICON => 'group',
             ]);

@@ -27,7 +27,7 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
         $invoicenumber = (int) $_GET['query'] ;
 
         if ($invoice = org_openpsa_invoices_invoice_dba::get_by_number($invoicenumber)) {
-            return new midcom_response_relocate('invoice/' . $invoice->guid . '/');
+            return new midcom_response_relocate($this->router->generate('invoice', ['guid' => $invoice->guid]));
         }
 
         return $this->fail(sprintf($this->_l10n->get('there is no invoice with number %s'), $invoicenumber));

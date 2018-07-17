@@ -33,7 +33,10 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
         } elseif ($view != 'month') {
             $view = 'agendaWeek';
         }
-        return new midcom_response_relocate($view . '/' . date('Y-m-d', $selected_time) . '/');
+        return new midcom_response_relocate($this->router->generate('calendar_view_mode_date', [
+            'mode' => $view,
+            'date' => date('Y-m-d', $selected_time)
+        ]));
     }
 
     /**
@@ -71,13 +74,13 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
                 ]
             ]);
             if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_calendar_resource_dba::class)) {
-                $buttons[] = $workflow->get_button('resource/new/', [
+                $buttons[] = $workflow->get_button($this->router->generate('new_resource'), [
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('resource')),
                     MIDCOM_TOOLBAR_GLYPHICON => 'television',
                 ]);
             }
         }
-        $buttons[] = $workflow->get_button('filters/', [
+        $buttons[] = $workflow->get_button($this->router->generate('filters_edit'), [
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('choose calendars'),
             MIDCOM_TOOLBAR_GLYPHICON => 'sliders',
         ]);
