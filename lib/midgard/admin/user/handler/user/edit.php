@@ -30,18 +30,18 @@ class midgard_admin_user_handler_user_edit extends midcom_baseclasses_components
             $account = new midcom_core_account($person);
             if ($account->get_username() !== '') {
                 $data['asgard_toolbar']->add_item([
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/account/{$person->guid}/",
+                    MIDCOM_TOOLBAR_URL => $this->router->generate('user_edit_account', ['guid' => $person->guid]),
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit account'),
                     MIDCOM_TOOLBAR_GLYPHICON => 'user',
                 ]);
                 $data['asgard_toolbar']->add_item([
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/account/delete/{$person->guid}/",
+                    MIDCOM_TOOLBAR_URL => $this->router->generate('user_delete_account', ['guid' => $person->guid]),
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete account'),
                     MIDCOM_TOOLBAR_GLYPHICON => 'trash',
                 ]);
             } else {
                 $data['asgard_toolbar']->add_item([
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/account/{$person->guid}/",
+                    MIDCOM_TOOLBAR_URL => $this->router->generate('user_edit_account', ['guid' => $person->guid]),
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create account'),
                     MIDCOM_TOOLBAR_GLYPHICON => 'user-o',
                 ]);
@@ -67,16 +67,16 @@ class midgard_admin_user_handler_user_edit extends midcom_baseclasses_components
             case 'save':
                 // Show confirmation for the user
                 midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('person %s saved'), $person->name));
-                return new midcom_response_relocate("__mfa/asgard_midgard.admin.user/edit/{$person->guid}/");
+                return new midcom_response_relocate($this->router->generate('user_edit', ['guid' => $person->guid]));
 
             case 'cancel':
-                return new midcom_response_relocate('__mfa/asgard_midgard.admin.user/');
+                return new midcom_response_relocate($this->router->generate('user_list'));
         }
 
         $data['person'] = $person;
         $data['view_title'] = sprintf($this->_l10n->get('edit %s'), $person->name);
         $this->_prepare_toolbar($data, $handler_id, $person);
-        $this->add_breadcrumb("__mfa/asgard_midgard.admin.user/", $this->_l10n->get($this->_component));
+        $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb("", $data['view_title']);
         return new midgard_admin_asgard_response($this, '_show_edit');
     }

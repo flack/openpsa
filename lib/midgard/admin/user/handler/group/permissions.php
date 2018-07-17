@@ -25,7 +25,7 @@ class midgard_admin_user_handler_group_permissions extends midcom_baseclasses_co
      */
     private function _update_breadcrumb()
     {
-        $this->add_breadcrumb("__mfa/asgard_midgard.admin.user/", $this->_l10n->get('midgard.admin.user'));
+        $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get('midgard.admin.user'));
 
         $tmp = [];
         $grp = $this->_group;
@@ -37,7 +37,7 @@ class midgard_admin_user_handler_group_permissions extends midcom_baseclasses_co
         $tmp = array_reverse($tmp);
 
         foreach ($tmp as $guid => $title) {
-            $this->add_breadcrumb('__mfa/asgard_midgard.admin.user/group/edit/' . $guid . '/', $title);
+            $this->add_breadcrumb($this->router->generate('group_edit', ['guid' => $guid]), $title);
         }
         $this->add_breadcrumb('', $this->_l10n->get('folders'));
     }

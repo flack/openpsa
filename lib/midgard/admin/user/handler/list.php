@@ -27,13 +27,13 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     {
         $buttons = [
             [
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/create/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('user_create'),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create user'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'user-o',
                 MIDCOM_TOOLBAR_ENABLED => $this->_config->get('allow_manage_accounts'),
             ],
             [
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/group/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('group_list'),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('groups'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'users',
             ]
@@ -64,7 +64,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
             $this->list_groups_for_select(0, $data, 0);
         }
 
-        $this->add_breadcrumb("__mfa/asgard_midgard.admin.user/", $data['view_title']);
+        $this->add_breadcrumb($this->router->generate('user_list'), $data['view_title']);
         $this->_prepare_toolbar($data);
         return new midgard_admin_asgard_response($this, '_show_list');
     }
@@ -155,7 +155,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
      */
     public function _handler_batch($handler_id, array $args, array &$data)
     {
-        $relocate_url = '__mfa/asgard_midgard.admin.user/';
+        $relocate_url = $this->router->generate('user_list');
         if (!empty($_GET)) {
             $relocate_url .= '?' . http_build_query($_GET);
         }
@@ -212,9 +212,6 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         $mail->from = $this->_config->get('message_sender');
         $mail->encoding = 'UTF-8';
 
-        // Get the context prefix
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
         try {
             $account = new midcom_core_account($person);
         } catch (midcom_error $e) {
@@ -223,7 +220,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         }
 
         // This shortcut is used in case of errors
-        $person_edit_url = "<a href=\"{$prefix}__mfa/asgard_midgard.admin.user/edit/{$person->guid}\">{$person->name}</a>";
+        $person_edit_url = "<a href=\"" . $this->router->generate('user_edit', ['guid' => $person->guid]) . "\">{$person->name}</a>";
 
         // Cannot send the email if address is not specified
         if (!$person->email) {

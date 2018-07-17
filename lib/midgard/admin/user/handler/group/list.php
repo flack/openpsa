@@ -25,12 +25,12 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
      */
     private function _update_breadcrumb($handler_id)
     {
-        $this->add_breadcrumb("__mfa/asgard_midgard.admin.user/", $this->_l10n->get('midgard.admin.user'));
-        $this->add_breadcrumb("__mfa/asgard_midgard.admin.user/group/", $this->_l10n->get('groups'));
+        $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get('midgard.admin.user'));
+        $this->add_breadcrumb($this->router->generate('group_list'), $this->_l10n->get('groups'));
 
         if (preg_match('/group_move$/', $handler_id)) {
-            $this->add_breadcrumb("__mfa/asgard_midgard.admin.user/group/{$this->_request_data['group']->guid}/", $this->_request_data['group']->official);
-            $this->add_breadcrumb("__mfa/asgard_midgard.admin.user/group/move/{$this->_request_data['group']->guid}/", $this->_l10n_midcom->get('move'));
+            $this->add_breadcrumb($this->router->generate('group_edit', ['guid' => $this->_request_data['group']->guid]), $this->_request_data['group']->official);
+            $this->add_breadcrumb($this->router->generate('group_move', ['guid' => $this->_request_data['group']->guid]), $this->_l10n_midcom->get('move'));
         }
     }
 
@@ -48,7 +48,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
         $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         if (isset($_POST['f_cancel'])) {
-            return new midcom_response_relocate("__mfa/asgard_midgard.admin.user/group/edit/{$data['group']->guid}/");
+            return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $data['group']->guid]));
         }
 
         if (isset($_POST['f_submit'])) {
@@ -56,7 +56,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
 
             if ($data['group']->update()) {
                 midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), $this->_l10n_midcom->get('updated'));
-                return new midcom_response_relocate("__mfa/asgard_midgard.admin.user/group/edit/{$data['group']->guid}/");
+                return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $data['group']->guid]));
             }
             debug_add('Failed to update the group, last error was '. midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_print_r('We operated on this object', $data['group'], MIDCOM_LOG_ERROR);
@@ -106,7 +106,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
         $data['view_title'] = $this->_l10n->get('groups');
 
         $data['asgard_toolbar']->add_item([
-            MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/group/create/",
+            MIDCOM_TOOLBAR_URL => $this->router->generate('group_create'),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
             MIDCOM_TOOLBAR_GLYPHICON => 'users',
         ]);

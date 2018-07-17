@@ -10,7 +10,6 @@ use Doctrine\ORM\Query\Expr\Join;
     ?>
     <td><input type="checkbox" name="midgard_admin_user[]" value="<?php echo $data['person']->guid; ?>" <?php echo $disabled; ?>/></td>
     <?php
-    $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     $linked = 0;
     foreach ($data['list_fields'] as $field) {
         if ($field == 'username') {
@@ -23,7 +22,7 @@ use Doctrine\ORM\Query\Expr\Join;
             if (!$value) {
                 $value = '&lt;' . $data['l10n']->get($field) . '&gt;';
             }
-            $value = "<a href=\"{$prefix}__mfa/asgard_midgard.admin.user/edit/{$data['person']->guid}/\">{$value}</a>";
+            $value = '<a href="' . $data['router']->generate('user_edit', ['guid' => $data['person']->guid]) . '">' . $value . '</a>';
             $linked++;
         }
         echo "<td>{$value}</td>\n";
@@ -39,7 +38,7 @@ use Doctrine\ORM\Query\Expr\Join;
     foreach ($qb->execute() as $group) {
         $value = $group->get_label();
         if ($group->can_do('midgard:update')) {
-            $value = "<a href=\"{$prefix}__mfa/asgard_midgard.admin.user/group/edit/{$group->guid}/\">{$value}</a>";
+            $value = '<a href="' . $data['router']->generate('group_edit', ['guid' => $person->guid]) . '">' . $value . '</a>';
         }
         $groups[] = $value;
     }

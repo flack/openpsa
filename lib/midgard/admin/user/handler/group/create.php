@@ -36,16 +36,16 @@ class midgard_admin_user_handler_group_create extends midcom_baseclasses_compone
             case 'save':
                 // Show confirmation for the group
                 midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('group %s saved'), $group->name));
-                return new midcom_response_relocate("__mfa/asgard_midgard.admin.user/group/edit/{$group->guid}/");
+                return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $group->guid]));
 
             case 'cancel':
-                return new midcom_response_relocate('__mfa/asgard_midgard.admin.user/group/');
+                return new midcom_response_relocate($this->router->generate('group_list'));
         }
 
         $data['view_title'] = $this->_l10n->get('create group');
 
-        $this->add_breadcrumb("__mfa/asgard_midgard.admin.user/", $this->_l10n->get($this->_component));
-        $this->add_breadcrumb("__mfa/asgard_midgard.admin.user/group/create/", $data['view_title']);
+        $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get($this->_component));
+        $this->add_breadcrumb($this->router->generate('group_create'), $data['view_title']);
         return new midgard_admin_asgard_response($this, '_show_create');
     }
 

@@ -28,8 +28,8 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
      */
     private function _update_breadcrumb()
     {
-        $this->add_breadcrumb("__mfa/asgard_midgard.admin.user/", $this->_l10n->get('midgard.admin.user'));
-        $this->add_breadcrumb('__mfa/asgard_midgard.admin.user/group', $this->_l10n->get('groups'));
+        $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get('midgard.admin.user'));
+        $this->add_breadcrumb($this->router->generate('group_list'), $this->_l10n->get('groups'));
 
         $tmp = [];
 
@@ -41,7 +41,7 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
         $tmp = array_reverse($tmp);
 
         foreach ($tmp as $guid => $title) {
-            $this->add_breadcrumb('__mfa/asgard_midgard.admin.user/group/edit/' . $guid . '/', $title);
+            $this->add_breadcrumb($this->router->generate('group_edit', ['guid' => $guid]), $title);
         }
     }
 
@@ -72,10 +72,10 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
             case 'save':
                 // Show confirmation for the group
                 midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));
-                return new midcom_response_relocate("__mfa/asgard_midgard.admin.user/group/edit/{$this->_group->guid}/");
+                return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $this->_group->guid]));
 
             case 'cancel':
-                return new midcom_response_relocate('__mfa/asgard_midgard.admin.user/');
+                return new midcom_response_relocate($this->router->generate('user_list'));
         }
 
         $data['group'] = $this->_group;
@@ -86,13 +86,13 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
         $this->_update_breadcrumb();
 
         $data['asgard_toolbar']->add_item([
-            MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/group/move/{$this->_group->guid}/",
+            MIDCOM_TOOLBAR_URL => $this->router->generate('group_move', ['guid' => $this->_group->guid]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('move group'),
             MIDCOM_TOOLBAR_GLYPHICON => 'arrows',
         ]);
 
         $data['asgard_toolbar']->add_item([
-            MIDCOM_TOOLBAR_URL => "__mfa/asgard_midgard.admin.user/group/folders/{$this->_group->guid}/",
+            MIDCOM_TOOLBAR_URL => $this->router->generate('group_folders', ['guid' => $this->_group->guid]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('folders'),
             MIDCOM_TOOLBAR_GLYPHICON => 'folder',
         ]);
