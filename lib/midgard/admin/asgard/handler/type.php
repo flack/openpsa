@@ -126,7 +126,8 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
             //If there is exactly one result, go there directly
             if (sizeof($data['search_results']) == 1) {
-                return new midcom_response_relocate('__mfa/asgard/object/' . $data['default_mode'] . '/' . $data['search_results'][0]->guid . '/');
+                $url = $this->router->generate('object_' . $data['default_mode'], ['guid' => $data['search_results'][0]->guid]);
+                return new midcom_response_relocate($url);
             }
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
             $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
@@ -143,8 +144,8 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $this->_prepare_toolbar($data);
 
         // Set the breadcrumb data
-        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
-        $this->add_breadcrumb("__mfa/asgard/{$this->type}/", $data['view_title']);
+        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get('midgard.admin.asgard'));
+        $this->add_breadcrumb($this->router->generate('type', ['type' => $this->type]), $data['view_title']);
         return new midgard_admin_asgard_response($this, '_show_type');
     }
 
@@ -153,7 +154,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $buttons = [];
         if (midcom::get()->auth->can_user_do('midgard:create', null, $this->type)) {
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/create/{$this->type}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('object_create_toplevel', ['type' => $this->type]),
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), midgard_admin_asgard_plugin::get_type_label($this->type)),
                 MIDCOM_TOOLBAR_GLYPHICON => midcom_helper_reflector_tree::get_create_icon($this->type),
             ];
@@ -166,13 +167,13 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             $deleted = $qb->count();
             if ($deleted > 0) {
                 $buttons[] = [
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
+                    MIDCOM_TOOLBAR_URL => $this->router->generate('trash_type', ['type' => $this->type]),
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('%s deleted items'), $deleted),
                     MIDCOM_TOOLBAR_GLYPHICON => 'trash',
                 ];
             } else {
                 $buttons[] = [
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
+                    MIDCOM_TOOLBAR_URL => $this->router->generate('trash_type', ['type' => $this->type]),
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('trash is empty'),
                     MIDCOM_TOOLBAR_GLYPHICON => 'trash-o',
                 ];
@@ -180,7 +181,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         }
         if ($data['component'] != 'midgard') {
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/{$data['component']}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('components_component', ['component' => $data['component']]),
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string($data['component'], $data['component']),
                 MIDCOM_TOOLBAR_GLYPHICON => 'puzzle-piece',
             ];

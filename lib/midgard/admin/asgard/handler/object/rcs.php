@@ -21,7 +21,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_services_rcs_handle
 
     protected function get_object_url()
     {
-        return "__mfa/asgard/object/open/{$this->object->guid}/";
+        return $this->router->generate('object_open', ['guid' => $this->object->guid]);
     }
 
     protected function get_breadcrumbs()

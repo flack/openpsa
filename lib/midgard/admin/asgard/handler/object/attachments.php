@@ -192,7 +192,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->prepare_object($args[0]);
 
         if ($filename = $this->_process_form()) {
-            return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
+            return $this->relocate_to_file($filename);
         }
 
         $this->_list_files();
@@ -200,6 +200,15 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
         return new midgard_admin_asgard_response($this, '_show_create');
+    }
+
+    private function relocate_to_file($filename)
+    {
+        $url = $this->router->generate('object_attachments_edit', [
+            'guid' => $this->_object->guid,
+            'filename' => $filename
+        ]);
+        return new midcom_response_relocate($url);
     }
 
     /**
@@ -234,7 +243,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $filename = $this->_process_form();
         if (   $filename
             && $filename != $data['filename']) {
-            return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
+            return $this->relocate_to_file($filename);
         }
 
         $this->_list_files();
@@ -299,7 +308,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $workflow = $this->get_workflow('delete', [
             'object' => $file,
             'label' => $filename,
-            'success_url' => "__mfa/asgard/object/attachments/{$this->_object->guid}/"
+            'success_url' => $this->router->generate('object_attachments', ['guid' => $this->_object->guid])
         ]);
         return $workflow->run();
     }

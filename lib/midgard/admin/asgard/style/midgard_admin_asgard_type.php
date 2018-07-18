@@ -1,5 +1,4 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 if ($data['component'] == 'midgard') {
     $component_label = 'Midgard CMS';
 } else {
@@ -13,13 +12,15 @@ echo "</h2>";
 
 echo "<p>";
 if ($data['parent_type']) {
-    printf($data['l10n']->get('%s is under type %s'), midgard_admin_asgard_plugin::get_type_label($data['type']), "<a href=\"{$prefix}__mfa/asgard/{$data['parent_type']}/\">" . midgard_admin_asgard_plugin::get_type_label($data['parent_type']) . "</a>") . ' ';
+    $link = $data['router']->generate('type', ['type' => $data['parent_type']]);
+    printf($data['l10n']->get('%s is under type %s'), midgard_admin_asgard_plugin::get_type_label($data['type']), "<a href=\"{$link}\">" . midgard_admin_asgard_plugin::get_type_label($data['parent_type']) . "</a>") . ' ';
 }
 
 if ($data['component'] == 'midgard') {
     echo $data['l10n']->get('this is a midgard core type') . "</p>\n";
 } else {
-    printf($data['l10n']->get('this type belongs to %s component'), "<a href=\"{$prefix}__mfa/asgard/components/{$data['component']}/\">{$data['component']}</a>") . "</p>\n";
+    $link = $data['router']->generate('components_component', ['component' => $data['component']]);
+    printf($data['l10n']->get('this type belongs to %s component'), "<a href=\"{$link}\">{$data['component']}</a>") . "</p>\n";
 }
 ?>
 
@@ -59,13 +60,15 @@ if (isset($data['search_results'])) {
             $icon = $reflector->get_object_icon($result);
             $label = $reflector->resolve_path($result, '/');
             $creator = midcom::get()->auth->get_user($result->metadata->creator);
+            $link = $data['router']->generate('object_' . $data['default_mode'], ['guid' => $result->guid]);
 
             echo "        <tr>\n";
-            echo "            <td><a href=\"{$prefix}__mfa/asgard/object/{$data['default_mode']}/{$result->guid}/\">{$icon} {$label}</a></td>\n";
+            echo "            <td><a href=\"{$link}/\">{$icon} {$label}</a></td>\n";
             echo "            <td>" . strftime('%x %X', $result->metadata->created) . "</td>\n";
 
             if (!empty($creator->guid)) {
-                echo "            <td><a href=\"{$prefix}__mfa/asgard/object/view/{$creator->guid}/\">{$creator->name}</a></td>\n";
+                $link = $data['router']->generate('object_view', ['guid' => $creator->guid]);
+                echo "            <td><a href=\"{$link}/\">{$creator->name}</a></td>\n";
             } else {
                 echo "            <td>&nbsp;</td>\n";
             }

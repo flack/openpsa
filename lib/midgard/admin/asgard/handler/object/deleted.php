@@ -27,7 +27,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         $data['guid'] = $args[0];
         $data['view_title'] = $this->_l10n->get('object deleted');
 
-        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get($this->_component));
+        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
 
         if (midcom::get()->auth->admin) {
             $this->prepare_admin_view();
@@ -53,7 +53,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         $this->_request_data['object'] = $qb->get_result(0);
 
         $this->_request_data['asgard_toolbar']->add_item([
-            MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/' . $type . '/',
+            MIDCOM_TOOLBAR_URL => $this->router->generate('trash_type', ['type' => $type]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('undelete'),
             MIDCOM_TOOLBAR_GLYPHICON => 'recycle',
             MIDCOM_TOOLBAR_POST => true,
@@ -62,7 +62,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
             ]
         ]);
         $this->_request_data['asgard_toolbar']->add_item([
-            MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/' . $type . '/',
+            MIDCOM_TOOLBAR_URL => $this->router->generate('trash_type', ['type' => $type]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('purge'),
             MIDCOM_TOOLBAR_GLYPHICON => 'trash',
             MIDCOM_TOOLBAR_POST => true,
@@ -71,8 +71,8 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
                 'purge' => true
             ]
         ]);
-        $this->add_breadcrumb('__mfa/asgard/trash/', $this->_l10n->get('trash'));
-        $this->add_breadcrumb('__mfa/asgard/trash/' . $type . '/', midgard_admin_asgard_plugin::get_type_label($dba_type));
+        $this->add_breadcrumb($this->router->generate('trash'), $this->_l10n->get('trash'));
+        $this->add_breadcrumb($this->router->generate('trash_type', ['type' => $type]), midgard_admin_asgard_plugin::get_type_label($dba_type));
         $label = midcom_helper_reflector::get($this->_request_data['object'])->get_object_label($this->_request_data['object']);
         $this->add_breadcrumb('', $label);
     }

@@ -29,7 +29,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
             'toolbar' => new midcom_helper_toolbar()
         ];
         $component_array['toolbar']->add_item([
-            MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$name}/",
+            MIDCOM_TOOLBAR_URL => $this->router->generate('components_configuration', ['component' => $name]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
             MIDCOM_TOOLBAR_GLYPHICON => 'wrench',
         ]);
@@ -71,8 +71,8 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $this->_list_components();
 
         // Set the breadcrumb data
-        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get($this->_component));
-        $this->add_breadcrumb('__mfa/asgard/components/', $this->_l10n->get('components'));
+        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
+        $this->add_breadcrumb($this->router->generate('components'), $this->_l10n->get('components'));
         return new midgard_admin_asgard_response($this, '_show_list');
     }
 
@@ -118,15 +118,15 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $data['view_title'] = $data['component_data']['title'];
 
         $data['asgard_toolbar']->add_item([
-            MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$data['component']}",
+            MIDCOM_TOOLBAR_URL => $this->router->generate('components_configuration', ['component' => $data['component']]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
             MIDCOM_TOOLBAR_GLYPHICON => 'wrench',
         ]);
 
         // Set the breadcrumb data
-        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get($this->_component));
-        $this->add_breadcrumb('__mfa/asgard/components/', $this->_l10n->get('components'));
-        $this->add_breadcrumb("__mfa/asgard/components/{$data['component']}", $data['component_data']['title']);
+        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
+        $this->add_breadcrumb($this->router->generate('components'), $this->_l10n->get('components'));
+        $this->add_breadcrumb('', $data['component_data']['title']);
         return new midgard_admin_asgard_response($this, '_show_component');
     }
 

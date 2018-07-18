@@ -279,7 +279,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
             case 'save':
                 //Fall-through
             case 'cancel':
-                return new midcom_response_relocate("__mfa/asgard/object/view/{$this->_object->guid}/");
+                return new midcom_response_relocate($this->router->generate('object_view', ['guid' => $this->_object->guid]));
         }
 
         $this->_prepare_request_data();

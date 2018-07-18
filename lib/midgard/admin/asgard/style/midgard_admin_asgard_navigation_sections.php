@@ -12,6 +12,7 @@ foreach ($data['label_mapping'] as $type => $label) {
 
     echo "        <option value=\"{$type}\"{$selected}>{$label}</option>\n";
 }
+$home_link = $data['router']->generate('welcome');
 ?>
     </select>
     <input type="submit" name="midgard_type_change" class="submit" value="<?php echo $data['l10n']->get('go'); ?>" />
@@ -20,15 +21,11 @@ foreach ($data['label_mapping'] as $type => $label) {
 <script type="text/javascript">
     $('#midgard_admin_asgard_navigation_form input[type="submit"]').css({display:'none'});
 
-    $('#midgard_admin_asgard_navigation_chooser').change(function()
-    {
-        if (!this.value)
-        {
-            window.location = '<?php echo midcom_connection::get_url('self') . '__mfa/asgard/'; ?>';
-        }
-        else
-        {
-            window.location = '<?php echo midcom_connection::get_url('self') . '__mfa/asgard/'; ?>' + $(this).val() + '/';
+    $('#midgard_admin_asgard_navigation_chooser').change(function() {
+        if (!this.value) {
+            window.location = '&(home_link);';
+        } else {
+            window.location = '&(home_link);' + $(this).val() + '/';
         }
     });
 </script>

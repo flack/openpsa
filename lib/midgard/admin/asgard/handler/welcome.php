@@ -204,26 +204,26 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
     {
         $buttons = [];
         $buttons[] = [
-            MIDCOM_TOOLBAR_URL => '__mfa/asgard/preferences/',
+            MIDCOM_TOOLBAR_URL => $this->router->generate('preferences'),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('user preferences'),
             MIDCOM_TOOLBAR_GLYPHICON => 'sliders',
         ];
 
         if (midcom::get()->auth->admin) {
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => '__mfa/asgard/shell/',
+                MIDCOM_TOOLBAR_URL => $this->router->generate('shell'),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('shell'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'terminal',
             ];
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/',
+                MIDCOM_TOOLBAR_URL => $this->router->generate('trash'),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('trash'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'trash',
             ];
         }
 
         $buttons[] = [
-            MIDCOM_TOOLBAR_URL => '__mfa/asgard/components/',
+            MIDCOM_TOOLBAR_URL => $this->router->generate('components'),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('components'),
             MIDCOM_TOOLBAR_GLYPHICON => 'puzzle-piece',
         ];

@@ -1,5 +1,4 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 echo "<h2>";
 echo $data['l10n']->get('trash');
 echo "</h2>";
@@ -15,21 +14,20 @@ echo "</h2>";
     <tbody>
         <?php
         foreach (array_filter($data['types']) as $type => $items) {
+            $link = $data['router']->generate('trash_type', ['type' => $type]);
             ?>
             <tr>
-                <td><a href="&(prefix);__mfa/asgard/trash/&(type);"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/trash-full.png" /> <?php echo midgard_admin_asgard_plugin::get_type_label($type); ?></a></td>
+                <td><a href="&(link);"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/trash-full.png" /> <?php echo midgard_admin_asgard_plugin::get_type_label($type); ?></a></td>
                 <td>&(items);</td>
             </tr>
             <?php
-
         }
         ?>
     </tbody>
 </table>
 <script type="text/javascript">
      // <![CDATA[
-        jQuery('#deleted').tablesorter(
-        {
+        jQuery('#deleted').tablesorter({
             widgets: ['zebra'],
             sortList: [[0,0]]
         });

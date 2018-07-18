@@ -1,6 +1,5 @@
 <?php
 $history = $data['history'];
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $guid = $data['guid'];
 
 if (count($history) == 0) {
@@ -31,12 +30,13 @@ echo $data['rcs_toolbar']->render();
             $i = 0;
 
             foreach ($history as $rev => $history) {
+                $link = $data['router']->generate('object_rcs_preview', ['guid' => $guid, 'revision' => $rev]);
                 $i++;
                 echo "                <tr id=\"midgard_admin_asgard_rcs_version_compare_{$i}_row\">\n";
                 echo "                    <td><input type=\"radio\" name=\"first\" value=\"{$rev}\" />\n";
                 echo "                    <td><input type=\"radio\" name=\"last\" value=\"{$rev}\" />\n";
-                echo "                    <td><span style=\"display: none;\">". substr($rev, 2) ."</span><a href='{$prefix}__mfa/asgard/object/rcs/preview/$guid/$rev'>{$rev}</a></td>\n";
-                echo "                    <td><span style=\"display: none;\">{$history['date']}</span>".strftime('%x %X Z', $history['date'])."</td>\n";
+                echo "                    <td><span style=\"display: none;\">" . substr($rev, 2) . "</span><a href='{$link}'>{$rev}</a></td>\n";
+                echo "                    <td><span style=\"display: none;\">{$history['date']}</span>" . strftime('%x %X Z', $history['date']) . "</td>\n";
                 echo "                    <td>";
 
                 if (   $history['user']

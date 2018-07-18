@@ -1,7 +1,9 @@
 <?php
 $parameter_toolbar = new midcom_helper_toolbar();
 $parameter_toolbar->add_item([
-    MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/create/midgard_parameter/{$data['object']->guid}/",
+    MIDCOM_TOOLBAR_URL => $data['router']->generate('object_create', [
+        'type' => 'midgard_parameter',
+        'parent_guid' => $data['object']->guid]),
     MIDCOM_TOOLBAR_LABEL => $data['l10n']->get('add parameter'),
     MIDCOM_TOOLBAR_GLYPHICON => 'plus',
 ]);
@@ -22,17 +24,17 @@ if (count($data['parameters']) > 0) {
         $parameter_toolbar = new midcom_helper_toolbar();
         $buttons = [
             [
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/view/{$parameter->guid}/",
+                MIDCOM_TOOLBAR_URL => $data['router']->generate('object_view', ['guid' => $parameter->guid]),
                 MIDCOM_TOOLBAR_LABEL => $data['l10n_midcom']->get('view'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'eye',
             ],
             [
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/edit/{$parameter->guid}/",
+                MIDCOM_TOOLBAR_URL => $data['router']->generate('object_edit', ['guid' => $parameter->guid]),
                 MIDCOM_TOOLBAR_LABEL => $data['l10n_midcom']->get('edit'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
             ],
             [
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/delete/{$parameter->guid}/",
+                MIDCOM_TOOLBAR_URL => $data['router']->generate('object_delete', ['guid' => $parameter->guid]),
                 MIDCOM_TOOLBAR_LABEL => $data['l10n_midcom']->get('delete'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'trash',
             ]

@@ -418,7 +418,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         echo "<ul class=\"midgard_admin_asgard_navigation\">\n";
 
         foreach ($types as $type => $label) {
-            $url = midcom_connection::get_url('self') . "__mfa/asgard/{$type}";
+            $url = midcom_connection::get_url('self') . "__mfa/asgard/{$type}/";
             echo "    <li class=\"mgdschema-type\">";
 
             $dbaclass = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($type);

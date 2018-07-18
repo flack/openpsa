@@ -25,14 +25,16 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
     private function _prepare_toolbar($handler_id)
     {
+        $view_url = $this->router->generate('components_configuration', ['component' => $this->_request_data['name']]);
+        $edit_url = $this->router->generate('components_configuration_edit', ['component' => $this->_request_data['name']]);
         $buttons = [
             [
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$this->_request_data['name']}/",
+                MIDCOM_TOOLBAR_URL => $view_url,
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'eye',
             ],
             [
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/edit/{$this->_request_data['name']}/",
+                MIDCOM_TOOLBAR_URL => $edit_url,
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
             ]
@@ -41,10 +43,10 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
         switch ($handler_id) {
             case 'components_configuration_edit':
-                $this->_request_data['asgard_toolbar']->disable_item("__mfa/asgard/components/configuration/edit/{$this->_request_data['name']}/");
+                $this->_request_data['asgard_toolbar']->disable_item($edit_url);
                 break;
             case 'components_configuration':
-                $this->_request_data['asgard_toolbar']->disable_item("__mfa/asgard/components/configuration/{$this->_request_data['name']}/");
+                $this->_request_data['asgard_toolbar']->disable_item($view_url);
                 break;
         }
     }
@@ -54,21 +56,21 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
      */
     private function _prepare_breadcrumbs($handler_id)
     {
-        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
-        $this->add_breadcrumb('__mfa/asgard/components/', $this->_l10n->get('components'));
+        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
+        $this->add_breadcrumb($this->router->generate('components'), $this->_l10n->get('components'));
 
         $this->add_breadcrumb(
-            "__mfa/asgard/components/{$this->_request_data['name']}/",
+            $this->router->generate('components_component', ['component' => $this->_request_data['name']]),
             midcom::get()->i18n->get_string($this->_request_data['name'], $this->_request_data['name'])
         );
         $this->add_breadcrumb(
-            "__mfa/asgard/components/configuration/{$this->_request_data['name']}/",
+            $this->router->generate('components_configuration', ['component' => $this->_request_data['name']]),
             $this->_l10n_midcom->get('component configuration')
         );
 
         if ($handler_id == 'components_configuration_edit') {
             $this->add_breadcrumb(
-                "__mfa/asgard/components/configuration/{$this->_request_data['name']}/edit/",
+                $this->router->generate('components_configuration_edit', ['component' => $this->_request_data['name']]),
                 $this->_l10n_midcom->get('edit')
             );
         }
@@ -378,9 +380,9 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
             case 'cancel':
                 if ($handler_id == 'components_configuration_edit_folder') {
-                    return new midcom_response_relocate("__mfa/asgard/object/view/{$data['folder']->guid}/");
+                    return new midcom_response_relocate($this->router->generate('object_view', ['guid' => $data['folder']->guid]));
                 }
-                return new midcom_response_relocate("__mfa/asgard/components/configuration/{$data['name']}/");
+                return new midcom_response_relocate($this->router->generate('components_configuration', ['component' => $data['name']]));
         }
 
         $data['controller'] = $this->_controller;
@@ -420,7 +422,12 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
                 $this->_l10n_midcom->get('component configuration'),
                 $this->_l10n->get('configuration saved successfully')
             );
-            midcom::get()->relocate("__mfa/asgard/components/configuration/edit/{$data['name']}/{$data['folder']->guid}/");
+            $url = $this->router->generate('components_configuration_edit_folder', [
+                'component' => $data['name'],
+                'folder' => $data['folder']->guid
+            ]);
+
+            midcom::get()->relocate($url);
             // This will exit
         }
 

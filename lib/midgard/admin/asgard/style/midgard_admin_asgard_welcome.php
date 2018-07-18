@@ -1,6 +1,4 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
 $type_choices = [];
 foreach ($data['schema_types'] as $schema_type) {
     if (!isset($data['reflectors'][$schema_type])) {
@@ -138,21 +136,23 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
     <tbody>
 <?php
 foreach ($data['revised'] as $row) {
-                echo "        <tr>\n";
-                echo "            <td class=\"selection\"><input type=\"checkbox\" name=\"selections[]\" value=\"{$row['guid']}\" /></td>\n";
-                echo "            <td class=\"icon\">" . $row['icon'] . "</td>\n";
-                echo "            <td class=\"title\"><a href=\"{$prefix}__mfa/asgard/object/{$data['default_mode']}/{$row['guid']}/\" title=\"{$row['class']}\">" . $row['title'] . "</a></td>\n";
+    $link = $data['router']->generate('object_' . $data['default_mode'], ['guid' => $row['guid']]);
 
-                if (isset($row['review_date'])) {
-                    echo "            <td class=\"review_by\">" . $row['review_date'] . "</td>\n";
-                }
+    echo "        <tr>\n";
+    echo "            <td class=\"selection\"><input type=\"checkbox\" name=\"selections[]\" value=\"{$row['guid']}\" /></td>\n";
+    echo "            <td class=\"icon\">" . $row['icon'] . "</td>\n";
+    echo "            <td class=\"title\"><a href=\"{$link}\" title=\"{$row['class']}\">" . $row['title'] . "</a></td>\n";
 
-                echo "            <td class=\"revised\">" . strftime('%x %X', $row['revised']) . "</td>\n";
-                echo "            <td class=\"revisor\">{$row['revisor']}</td>\n";
-                echo "            <td class=\"approved\">{$row['approved']}</td>\n";
-                echo "            <td class=\"revision\">{$row['revision']}</td>\n";
-                echo "        </tr>\n";
-            }?>
+    if (isset($row['review_date'])) {
+        echo "            <td class=\"review_by\">" . $row['review_date'] . "</td>\n";
+    }
+
+    echo "            <td class=\"revised\">" . strftime('%x %X', $row['revised']) . "</td>\n";
+    echo "            <td class=\"revisor\">{$row['revisor']}</td>\n";
+    echo "            <td class=\"approved\">{$row['approved']}</td>\n";
+    echo "            <td class=\"revision\">{$row['revision']}</td>\n";
+    echo "        </tr>\n";
+}?>
   </tbody>
 </table>
     <script type="text/javascript">

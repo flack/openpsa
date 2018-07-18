@@ -95,10 +95,10 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
                 //$indexer = midcom::get()->indexer;
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
                 midcom::get()->cache->invalidate($this->_object->guid);
-                return new midcom_response_relocate("__mfa/asgard/object/metadata/{$this->_object->guid}");
+                return new midcom_response_relocate($this->router->generate('object_metadata', ['guid' => $this->_object->guid]));
 
             case 'cancel':
-                return new midcom_response_relocate("__mfa/asgard/object/view/{$this->_object->guid}");
+                return new midcom_response_relocate($this->router->generate('object_view', ['guid' => $this->_object->guid]));
         }
 
         $this->_prepare_request_data();

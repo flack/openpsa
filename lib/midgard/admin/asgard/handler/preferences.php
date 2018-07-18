@@ -30,11 +30,11 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
         $data['view_title'] = $this->_l10n->get('user preferences');
 
         // Set the breadcrumb data
-        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
-        $this->add_breadcrumb('__mfa/asgard/preferences/', $this->_l10n->get('user preferences'));
+        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
+        $this->add_breadcrumb($this->router->generate('preferences'), $this->_l10n->get('user preferences'));
 
         if ($this->_person->guid !== midcom::get()->auth->user->guid) {
-            $this->add_breadcrumb("__mfa/asgard/preferences/{$this->_person->guid}/", $this->_person->name);
+            $this->add_breadcrumb('', $this->_person->name);
         }
     }
 

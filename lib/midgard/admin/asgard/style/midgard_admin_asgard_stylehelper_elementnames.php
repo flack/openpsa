@@ -1,19 +1,13 @@
-<?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-?>
 <div class="midgard_admin_asgard_stylehelper_help">
     <h3><?php echo $data['l10n']->get('creating new style element'); ?></h3>
     <div>
         <?php
         echo "<ul>\n";
         foreach ($data['help_style_elementnames']['elements'] as $component => $elements) {
-            echo "<li class=\"component\">";
-            if ($component == 'midcom') {
-                echo "Midgard CMS\n";
-            } else {
-                echo "<a href=\"{$prefix}__mfa/asgard/components/{$component}/\">" . midcom::get()->i18n->get_string($component, $component) ." </a>\n";
-            }
+            $link = $data['router']->generate('components_component', ['component' => $component]);
 
+            echo "<li class=\"component\">";
+            echo "<a href=\"{$link}\">" . midcom::get()->i18n->get_string($component, $component) ." </a>\n";
             echo "<ul>\n";
             foreach ($elements as $name => $path) {
                 echo "<li>";
@@ -23,7 +17,8 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     echo '<a class="namepicker">';
                 } else {
                     // Clicking should take us to form creating such an element
-                    echo "<a href=\"{$prefix}__mfa/asgard/object/create/midgard_element/{$data['object']->guid}/?defaults[name]={$name}\">";
+                    $link = $data['router']->generate('object_create', ['type' => 'midgard_element', 'parent_guid' => $data['object']->guid]);
+                    echo "<a href=\"{$link}?defaults[name]={$name}\">";
                 }
 
                 echo "{$name}</a></li>\n";

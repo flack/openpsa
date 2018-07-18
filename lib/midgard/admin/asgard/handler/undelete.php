@@ -54,8 +54,8 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         }
 
         // Set the breadcrumb data
-        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
-        $this->add_breadcrumb('__mfa/asgard/trash/', $this->_l10n->get('trash'));
+        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get('midgard.admin.asgard'));
+        $this->add_breadcrumb($this->router->generate('trash'), $this->_l10n->get('trash'));
         return new midgard_admin_asgard_response($this, '_show_trash');
     }
 
@@ -98,7 +98,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             } else {
                 $this->_undelete();
             }
-            return new midcom_response_relocate("__mfa/asgard/trash/{$this->type}/");
+            return new midcom_response_relocate($this->router->generate('trash_type', ['type' => $this->type]));
         }
 
         $qb = new org_openpsa_qbpager_direct($data['type'], "{$data['type']}_trash");
@@ -109,10 +109,10 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         $data['trash'] = $qb->execute_unchecked();
 
         // Set the breadcrumb data
-        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
-        $this->add_breadcrumb("__mfa/asgard/{$this->type}/", $data['view_title']);
+        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
+        $this->add_breadcrumb($this->router->generate('trash_type', ['type' => $this->type]), $data['view_title']);
         $this->add_breadcrumb(
-            "__mfa/asgard/trash/{$this->type}/",
+            "",
             sprintf($this->_l10n->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($data['type']))
         );
         return new midgard_admin_asgard_response($this, '_show_trash_type');
