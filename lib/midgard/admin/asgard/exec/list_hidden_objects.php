@@ -20,7 +20,7 @@ function render_breadcrumb(&$crumbs)
     }
 }
 
-$site_root_id = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPICID);
+$site_root_id = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC)->id;
 $host_prefix = midcom::get()->get_host_prefix();
 $nap = new midcom_helper_nav();
 

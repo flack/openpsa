@@ -45,7 +45,6 @@ class midcom_core_context
         MIDCOM_CONTEXT_ANCHORPREFIX => '',
         MIDCOM_CONTEXT_URI => '',
         MIDCOM_CONTEXT_ROOTTOPIC => null,
-        MIDCOM_CONTEXT_ROOTTOPICID => null,
         MIDCOM_CONTEXT_CONTENTTOPIC => null,
         MIDCOM_CONTEXT_COMPONENT => null,
         MIDCOM_CONTEXT_SUBSTYLE => null,
@@ -84,7 +83,6 @@ class midcom_core_context
         }
         if (is_object($node)) {
             $this->_data[MIDCOM_CONTEXT_ROOTTOPIC] = $node;
-            $this->_data[MIDCOM_CONTEXT_ROOTTOPICID] = $node->id;
         }
 
         if (is_null($id)) {
@@ -159,8 +157,7 @@ class midcom_core_context
             return false;
         }
 
-        if (   (   $key === MIDCOM_CONTEXT_ROOTTOPICID
-                || $key === MIDCOM_CONTEXT_ROOTTOPIC)
+        if (   $key === MIDCOM_CONTEXT_ROOTTOPIC
             && $this->_data[$key] === null) {
             $this->_initialize_root_topic();
         }
@@ -187,7 +184,6 @@ class midcom_core_context
             }
         }
         $this->set_key(MIDCOM_CONTEXT_ROOTTOPIC, $root_node);
-        $this->set_key(MIDCOM_CONTEXT_ROOTTOPICID, $root_node->id);
     }
 
     /**

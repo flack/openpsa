@@ -66,7 +66,7 @@
                     ], [
                         'field' => 'up',
                         'op' => 'INTREE',
-                        'value' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPICID),
+                        'value' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC)->id,
                     ],
                 ],
                 'result_headers' => [

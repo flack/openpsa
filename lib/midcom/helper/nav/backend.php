@@ -173,7 +173,7 @@ class midcom_helper_nav_backend
      */
     public function __construct($context = 0)
     {
-        $this->_root = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_ROOTTOPICID);
+        $this->_root = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_ROOTTOPIC)->id;
 
         $this->_nap_cache = midcom::get()->cache->nap;
         $this->_loader = midcom::get()->componentloader;
