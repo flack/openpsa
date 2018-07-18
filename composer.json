@@ -52,7 +52,7 @@
         "symfony/security-csrf": "~2.5 | ~3.4 | ^4.0",
         "symfony/translation": "~2.3 | ~3.4 | ^4.0",
         "symfony/validator": "~2.8 | ~3.4 | ^4.0",
-        "symfony/yaml": "~3.4"
+        "symfony/yaml": "~3.4 | ^4.0"
     },
     "scripts": {
         "post-install-cmd": [
