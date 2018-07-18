@@ -81,7 +81,7 @@ class net_nemein_rss_parser_item extends SimplePie_Item
     /**
      * @inheritdoc
      */
-    public function get_id($hash = false)
+    public function get_id($hash = false, $fn = 'md5')
     {
         $guid = parent::get_id($hash, false);
 
