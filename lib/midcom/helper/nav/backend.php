@@ -173,8 +173,6 @@ class midcom_helper_nav_backend
      */
     public function __construct($context = 0)
     {
-        $this->_root = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_ROOTTOPIC)->id;
-
         $this->_nap_cache = midcom::get()->cache->nap;
         $this->_loader = midcom::get()->componentloader;
 
@@ -182,8 +180,20 @@ class midcom_helper_nav_backend
             $this->_user_id = midcom::get()->auth->acl->get_user_id();
         }
 
-        $node_path_candidates = [$this->_root];
+        $root = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
+        $this->_root = $root->id;
         $this->_current = $this->_root;
+
+        if (empty($root->id)) {
+            self::$_nodes[$root->id] = $this->_loadNodeData($root);
+        } else {
+            $this->init_topics($context);
+        }
+    }
+
+    private function init_topics($context)
+    {
+        $node_path_candidates = [$this->_root];
         foreach (midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_URLTOPICS) as $topic) {
             $id = $this->_nodeid($topic->id, null);
             $node_path_candidates[] = $id;
@@ -309,12 +319,12 @@ class midcom_helper_nav_backend
      * prevent dynamically loaded components from disrupting active leaf information,
      * as this can happen if dynamic_load is called before showing the navigation.
      *
-     * @param mixed $topic_id Topic ID to be processed
+     * @param mixed $topic Topic object or ID to be processed
      * @return array The loaded node data
      */
-    private function _loadNodeData($topic_id, $up = null)
+    private function _loadNodeData($topic, $up = null)
     {
-        $node = new midcom_helper_nav_node($this, $topic_id, $up);
+        $node = new midcom_helper_nav_node($this, $topic, $up);
 
         if (    !$node->is_object_visible()
              || !$node->is_readable_by($this->_user_id)) {

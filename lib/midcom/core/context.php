@@ -169,8 +169,14 @@ class midcom_core_context
     {
         $guid = midcom::get()->config->get('midcom_root_topic_guid');
         if (empty($guid)) {
-            $setup = new midcom_core_setup("Root folder is not configured. Please log in as administrator");
-            $root_node = $setup->find_topic(true);
+            $component = midcom::get()->config->get('midcom_root_component');
+            if ($component) {
+                $root_node = new midcom_db_topic;
+                $root_node->component = $component;
+            } else {
+                $setup = new midcom_core_setup("Root folder is not configured. Please log in as administrator");
+                $root_node = $setup->find_topic(true);
+            }
         } else {
             try {
                 $root_node = midcom_db_topic::get_cached($guid);
@@ -311,7 +317,7 @@ class midcom_core_context
     {
         do {
             $object = $this->parser->get_current_object();
-            if (empty($object->guid)) {
+            if (empty($object)) {
                 throw new midcom_error('Root node missing.');
             }
         } while ($this->parser->get_object() !== false);

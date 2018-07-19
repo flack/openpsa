@@ -12,6 +12,8 @@
  */
 class midcom_helper_nav_node extends midcom_helper_nav_item
 {
+    private $topic;
+
     private $topic_id;
 
     private $up;
@@ -21,10 +23,15 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
      */
     private $backend;
 
-    public function __construct(midcom_helper_nav_backend $backend, $topic_id, $up = null)
+    public function __construct(midcom_helper_nav_backend $backend, $topic, $up = null)
     {
         $this->backend = $backend;
-        $this->topic_id = $topic_id;
+        if (is_a($topic, midcom_db_topic::class)) {
+            $this->topic = $topic;
+            $this->topic_id = $topic->id;
+        } else {
+            $this->topic_id = $topic;
+        }
         $this->up = $up;
     }
 
@@ -141,10 +148,10 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
 
     private function load_data()
     {
-        $topic = new midcom_core_dbaproxy($this->topic_id, midcom_db_topic::class);
-        if (!$topic->guid) {
-            debug_add("Could not load Topic #{$this->topic_id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            return null;
+        if (empty($this->topic)) {
+            $topic = new midcom_core_dbaproxy($this->topic_id, midcom_db_topic::class);
+        } else {
+            $topic = $this->topic;
         }
 
         // Retrieve a NAP instance

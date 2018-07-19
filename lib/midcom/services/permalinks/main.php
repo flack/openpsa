@@ -121,10 +121,16 @@ class midcom_services_permalinks
 
         // Bad, this means a full scan,
         // We need to try every topic for the GUID.
-        $topic_qb = midcom_db_topic::new_query_builder();
-        $topic_qb->add_constraint('name', '<>', '');
-        $topic_qb->add_constraint('up', 'INTREE', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC)->id);
-        foreach ($topic_qb->execute() as $topic) {
+        $root_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
+        if (!empty($root_topic->id)) {
+            $qb = midcom_db_topic::new_query_builder();
+            $qb->add_constraint('name', '<>', '');
+            $qb->add_constraint('up', 'INTREE', $root_topic->id);
+            $topics = $qb->execute();
+        } else {
+            $topics = [$root_topic];
+        }
+        foreach ($topics as $topic) {
             if ($result = $this->_resolve_permalink_in_topic($topic, $object)) {
                 return $result;
             }
@@ -140,16 +146,21 @@ class midcom_services_permalinks
         if (!midcom::get()->componentloader->is_installed($component)) {
             return null;
         }
-        $interface = midcom::get()->componentloader->get_interface_class($component);
-        $nav = new midcom_helper_nav();
-        $node = $nav->get_node($topic->id);
+        if (!empty($topic->id)) {
+            $nav = new midcom_helper_nav();
+            $node = $nav->get_node($topic->id);
 
-        if (!$node) {
-            debug_add("Failed to load the NAP information of the topic #{$topic->id}, cannot resolve the permalink here.", MIDCOM_LOG_WARN);
-            debug_print_r('Passed topic was:', $topic);
-            return null;
+            if (!$node) {
+                debug_add("Failed to load the NAP information of the topic #{$topic->id}, cannot resolve the permalink here.", MIDCOM_LOG_WARN);
+                debug_print_r('Passed topic was:', $topic);
+                return null;
+            }
+            $prefix = $node[MIDCOM_NAV_FULLURL];
+        } else {
+            $prefix = midcom_connection::get('prefix');
         }
 
+        $interface = midcom::get()->componentloader->get_interface_class($component);
         if ($interface instanceof midcom_services_permalinks_resolver) {
             $result = $interface->resolve_object_link($topic, $object);
         } else {
@@ -166,7 +177,7 @@ class midcom_services_permalinks
             return null;
         }
 
-        return "{$node[MIDCOM_NAV_FULLURL]}{$result}";
+        return "{$prefix}{$result}";
     }
 
     /**

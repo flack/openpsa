@@ -519,7 +519,7 @@ class midcom_helper__styleloader
     {
         // get component's snippetdir (for default styles)
         $loader = midcom::get()->componentloader;
-        if (empty($this->_topic->guid)) {
+        if (empty($this->_topic->component)) {
             return null;
         }
         if (!empty($loader->manifests[$this->_topic->component]->extends)) {
