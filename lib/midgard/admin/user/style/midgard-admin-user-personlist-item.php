@@ -38,7 +38,7 @@ use Doctrine\ORM\Query\Expr\Join;
     foreach ($qb->execute() as $group) {
         $value = $group->get_label();
         if ($group->can_do('midgard:update')) {
-            $value = '<a href="' . $data['router']->generate('group_edit', ['guid' => $person->guid]) . '">' . $value . '</a>';
+            $value = '<a href="' . $data['router']->generate('group_edit', ['guid' => $group->guid]) . '">' . $value . '</a>';
         }
         $groups[] = $value;
     }
