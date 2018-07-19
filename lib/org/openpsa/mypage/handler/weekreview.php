@@ -37,12 +37,12 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
             [
                 MIDCOM_TOOLBAR_URL => $this->router->generate('weekreview', ['date' => $this->_request_data['prev_week']]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'chevron-right',
+                MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
             ],
             [
                 MIDCOM_TOOLBAR_URL => $this->router->generate('weekreview', ['date' => $this->_request_data['next_week']]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
+                MIDCOM_TOOLBAR_GLYPHICON => 'chevron-right',
             ]
         ];
         $this->_view_toolbar->add_items($buttons);
