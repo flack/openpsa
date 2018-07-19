@@ -53,7 +53,7 @@ trait privileges
      * @param string $classname An optional class name to which a SELF privilege gets restricted to. Only valid for SELF privileges
      *     (invalid if $privilege is a midcom_core_privilege).
      * @return boolean Indicating success.
-     * @see midcom_services_auth
+     * @see \midcom_services_auth
      */
     public function set_privilege($privilege, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
     {

@@ -35,7 +35,7 @@ trait parameters
     public function get_parameter($domain, $name)
     {
         if (!$this->guid) {
-            debug_add('Cannot retrieve information on a non-persistent object.', MIDCOM_LOG_WARN);
+            debug_add('Cannot retrieve information on a non-persistent object.', MIDCOM_LOG_INFO);
             return false;
         }
 
@@ -101,8 +101,8 @@ trait parameters
     public function list_parameters($domain = null)
     {
         if (!$this->guid) {
-            debug_add('Cannot retrieve information on a non-persistent object.', MIDCOM_LOG_WARN);
-            return false;
+            debug_add('Cannot retrieve information on a non-persistent object.', MIDCOM_LOG_INFO);
+            return [];
         }
 
         if (!is_null($domain)) {

@@ -114,7 +114,7 @@ trait attachments
      * Returns a prepared query builder that is already limited to the attachments of the given
      * object.
      *
-     * @return midcom_core_querybuilder The initialized instance of the query builder or false on failure.
+     * @return \midcom_core_querybuilder The initialized instance of the query builder or false on failure.
      */
     public function get_attachment_qb()
     {
@@ -138,7 +138,7 @@ trait attachments
     public function list_attachments()
     {
         if (!$this->id) {
-            debug_add('Cannot retrieve attachments on a non-persistent object.', MIDCOM_LOG_WARN);
+            debug_add('Cannot retrieve attachments on a non-persistent object.', MIDCOM_LOG_INFO);
             return [];
         }
 
