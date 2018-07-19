@@ -24,6 +24,26 @@ class midgard_admin_user_handler_listTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
+    public function testHandler_list_search()
+    {
+        $person = $this->create_object(midcom_db_person::class, [
+            'lastname' => uniqid()
+        ]);
+        $group = $this->create_object(midcom_db_group::class);
+        $this->create_object(midcom_db_member::class, [
+            'gid' => $group->id,
+            'uid' => $person->id
+        ]);
+        midcom::get()->auth->request_sudo('midgard.admin.user');
+        $_REQUEST['midgard_admin_user_search'] = $person->lastname;
+
+        $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard_midgard.admin.user']);
+        $this->assertEquals('user_list', $data['handler_id']);
+
+        $this->show_handler($data);
+        midcom::get()->auth->drop_sudo();
+    }
+
     public function testHandler_password_email()
     {
         midcom::get()->auth->request_sudo('midgard.admin.user');
