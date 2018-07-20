@@ -198,7 +198,7 @@ class midcom_helper_nav_backend
         $root_set = false;
 
         foreach ($node_path_candidates as $node_id) {
-            switch ($this->_loadNode($node_id)) {
+            switch ($this->_loadNode($node_id, $this->_lastgoodnode)) {
                 case MIDCOM_ERROK:
                     if (!$root_set) {
                         // Reset the Root node's URL Parameter to an empty string.
@@ -231,10 +231,11 @@ class midcom_helper_nav_backend
      * If all load calls were successful, MIDCOM_ERROK is returned. Any error
      * will be indicated with a corresponding return value.
      *
-     * @param mixed $node_id    The node ID of the node to be loaded
+     * @param mixed $node_id  The node ID of the node to be loaded
+     * @param int $parent_id  The node's parent ID, if known
      * @return int            MIDCOM_ERROK on success, one of the MIDCOM_ERR... constants upon an error
      */
-    private function _loadNode($node_id)
+    private function _loadNode($node_id, $parent_id = null)
     {
         // Check if we have a cached version of the node already
         if (isset(self::$_nodes[$node_id])) {
@@ -243,9 +244,12 @@ class midcom_helper_nav_backend
 
         $topic_id = (int) $node_id;
 
-        // Load parent nodes also to cache
-        $parent_id = $this->_get_parent_id($topic_id);
-
+        if ($parent_id === null) {
+            // Load parent nodes also to cache
+            $parent_id = $this->_get_parent_id($topic_id);
+        } elseif ($parent_id === -1) {
+            $parent_id = false;
+        }
         $lastgoodnode = null;
 
         while (   $parent_id
@@ -414,7 +418,7 @@ class midcom_helper_nav_backend
         $result = [];
 
         foreach ($subnodes as $id) {
-            if ($this->_loadNode($id) !== MIDCOM_ERROK) {
+            if ($this->_loadNode($id, $parent_node) !== MIDCOM_ERROK) {
                 continue;
             }
 
