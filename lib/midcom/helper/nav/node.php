@@ -44,18 +44,22 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
     public function get_subnodes()
     {
         if (!isset($this->subnodes)) {
-            // Use midgard_collector to get the subnodes
-            $mc = midcom_db_topic::new_collector('up', (int) $this->topic_id);
-            $mc->add_constraint('name', '<>', '');
-            $mc->add_order('metadata.score', 'DESC');
-            $mc->add_order('metadata.created');
+            if ((int) $this->topic_id == 0) {
+                $this->subnodes = [];
+            } else {
+                // Use midgard_collector to get the subnodes
+                $mc = midcom_db_topic::new_collector('up', (int) $this->topic_id);
+                $mc->add_constraint('name', '<>', '');
+                $mc->add_order('metadata.score', 'DESC');
+                $mc->add_order('metadata.created');
 
-            //we always write all the subnodes to cache and filter for ACLs after the fact
-            midcom::get()->auth->request_sudo('midcom.helper.nav');
-            $subnodes = $mc->get_values('id');
-            midcom::get()->auth->drop_sudo();
+                //we always write all the subnodes to cache and filter for ACLs after the fact
+                midcom::get()->auth->request_sudo('midcom.helper.nav');
+                $subnodes = $mc->get_values('id');
+                midcom::get()->auth->drop_sudo();
 
-            $this->subnodes = $subnodes;
+                $this->subnodes = $subnodes;
+            }
             $this->get_cache()->put_node($this->topic_id, $this->get_data());
         }
 
