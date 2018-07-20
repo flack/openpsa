@@ -54,22 +54,19 @@
  * - MIDCOM_NAV_GUID     => Optional argument denoting the GUID of the referred element
  * - MIDCOM_NAV_SORTABLE => Optional argument denoting whether the element is sortable
  *
- * The Datamanager will automatically transform (3) to the syntax described in
- * (1) by copying the values.
- *
  * @package midcom.helper
  */
 class midcom_helper_nav_backend
 {
     /**
-     * The GUID of the MidCOM Root Content Topic
+     * The ID of the MidCOM Root Content Topic
      *
      * @var int
      */
     private $_root;
 
     /**
-     * The GUID of the currently active Navigation Node, determined by the active
+     * The ID of the currently active Navigation Node, determined by the active
      * MidCOM Topic or one of its uplinks, if the subtree in question is invisible.
      *
      * @var int
@@ -160,8 +157,7 @@ class midcom_helper_nav_backend
     /**
      * Constructor
      *
-     * The only constructor of the Basicnav class. It will initialize Root-Topic,
-     * Current-Topic and all cache arrays. The function will load all nodes
+     * It will initialize Root Topic, Current Topic and all cache arrays. The function will load all nodes
      * between root and current node.
      *
      * If the current node is behind an invisible or undescendable node, the last
@@ -195,9 +191,8 @@ class midcom_helper_nav_backend
     {
         $node_path_candidates = [$this->_root];
         foreach (midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_URLTOPICS) as $topic) {
-            $id = $this->_nodeid($topic->id, null);
-            $node_path_candidates[] = $id;
-            $this->_current = $id;
+            $node_path_candidates[] = $topic->id;
+            $this->_current = $topic->id;
         }
 
         $root_set = false;
@@ -237,32 +232,19 @@ class midcom_helper_nav_backend
      * will be indicated with a corresponding return value.
      *
      * @param mixed $node_id    The node ID of the node to be loaded
-     * @param mixed $up    The node ID of the parent node.    Optional and not normally needed.
      * @return int            MIDCOM_ERROK on success, one of the MIDCOM_ERR... constants upon an error
      */
-    private function _loadNode($node_id, $up = null)
+    private function _loadNode($node_id)
     {
         // Check if we have a cached version of the node already
-        if (isset(self::$_nodes[$this->_nodeid($node_id, $up)])) {
+        if (isset(self::$_nodes[$node_id])) {
             return MIDCOM_ERROK;
-        }
-        if (!$up) {
-            $up = $this->_up($node_id);
         }
 
         $topic_id = (int) $node_id;
 
         // Load parent nodes also to cache
-        $up_ids = [];
-        if ($up) {
-            $parent_id = $up;
-
-            $up_ids = explode("_", $up);
-            $up_ids = array_reverse($up_ids);
-            array_pop($up_ids);
-        } else {
-            $parent_id = $this->_get_parent_id($topic_id);
-        }
+        $parent_id = $this->_get_parent_id($topic_id);
 
         $lastgoodnode = null;
 
@@ -279,12 +261,6 @@ class midcom_helper_nav_backend
 
             if (null === $lastgoodnode) {
                 $lastgoodnode = $parent_id;
-            }
-
-            if (   $up
-                && $up_id = array_pop($up_ids)
-                && $up_id != $parent_id) {
-                $parent_id = $up_id;
             }
         }
 
@@ -303,8 +279,7 @@ class midcom_helper_nav_backend
 
     /**
      * Load the navigational information associated with the topic $param, which
-     * can be passed as an ID or as a MidgardTopic object. This is differentiated
-     * by the flag $idmode (true for id, false for MidgardTopic).
+     * can be passed as an ID or as a MidgardTopic object.
      *
      * This method does query the topic for all information and completes it to
      * build up a full NAP data structure
@@ -405,9 +380,8 @@ class midcom_helper_nav_backend
     }
 
     /**
-     * Lists all Sub-nodes of $parent_node. If there are no subnodes you will get
-     * an empty array, if there was an error (for instance an unknown parent node
-     * ID) you will get false.
+     * Lists all Sub-nodes of $parent_node. If there are no subnodes, or if there was an error
+     * (for instance an unknown parent node ID) you will get an empty array
      *
      * @param mixed $parent_node    The ID of the node of which the subnodes are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
@@ -435,28 +409,22 @@ class midcom_helper_nav_backend
             return $listed[$cache_identifier];
         }
 
-        $up = $this->_up($parent_node);
         $node = (int) $parent_node;
-
-        if ($up) {
-            $up = $this->_nodeid($node, $up);
-        }
 
         $result = [];
 
         foreach ($subnodes as $id) {
-            if ($this->_loadNode($id, $up) !== MIDCOM_ERROK) {
+            if ($this->_loadNode($id) !== MIDCOM_ERROK) {
                 continue;
             }
-            $subnode_id = $this->_nodeid($id, $up);
 
             if (   !$show_noentry
-                && self::$_nodes[$subnode_id]->noentry) {
+                && self::$_nodes[$id]->noentry) {
                 // Hide "noentry" items
                 continue;
             }
 
-            $result[] = $subnode_id;
+            $result[] = $id;
         }
 
         $listed[$cache_identifier] = $result;
@@ -464,9 +432,8 @@ class midcom_helper_nav_backend
     }
 
     /**
-     * Lists all leaves of $parent_node. If there are no leaves you will get an
-     * empty array, if there was an error (for instance an unknown parent node ID)
-     * you will get false.
+     * Lists all leaves of $parent_node. If there are no leaves, or if there was an error
+     * (for instance an unknown parent node ID) you will get an empty array,
      *
      * @param mixed $parent_node    The ID of the node of which the leaves are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
@@ -652,42 +619,6 @@ class midcom_helper_nav_backend
         }
 
         return self::$_nodes[$node_id]->nodeid;
-    }
-
-    /**
-     * Retrieve the up part from the given node ID.
-     * (To get the topic ID part, just cast the node ID to int with (int).
-     *  That's why there's no method for that. :))
-     *
-     * @param mixed $nodeid    The node ID.
-     * @return mixed    The up part.
-     */
-    private function _up($nodeid)
-    {
-        static $cache = [];
-
-        if (!isset($cache[$nodeid])) {
-            $ids = explode("_", $nodeid);
-            array_shift($ids);
-            $cache[$nodeid] = implode('_', $ids);
-        }
-
-        return $cache[$nodeid];
-    }
-
-    /**
-     * Generate node ID from topic ID and up value.
-     *
-     * @param int $topic_id    Topic ID.
-     * @param mixed $up    The up part.
-     * @return mixed    The generated node ID.
-     */
-    private function _nodeid($topic_id, $up)
-    {
-        if ($up) {
-            $topic_id .= "_" . $up;
-        }
-        return $topic_id;
     }
 
     /**
