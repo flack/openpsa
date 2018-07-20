@@ -146,8 +146,8 @@ class midcom_services_permalinks
         if (!midcom::get()->componentloader->is_installed($component)) {
             return null;
         }
+        $nav = new midcom_helper_nav();
         if (!empty($topic->id)) {
-            $nav = new midcom_helper_nav();
             $node = $nav->get_node($topic->id);
 
             if (!$node) {
