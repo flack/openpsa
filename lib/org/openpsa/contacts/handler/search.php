@@ -312,9 +312,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             $this->add_constraints($qb, $fields, $term);
         }
         $qb->end_group();
-        if (sizeof($this->_query) > 1) {
-            $qb->end_group();
-        }
     }
 
     private function add_constraints(midcom_core_query $qb, array $fields, $term)
