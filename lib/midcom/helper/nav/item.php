@@ -61,6 +61,7 @@ abstract class midcom_helper_nav_item
         $name = $this->translate_name($name);
         if (!$this->loaded) {
             $this->data = $this->prepare_data();
+            $this->loaded = true;
         }
         $this->data[$name] = $value;
     }

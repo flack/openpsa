@@ -281,8 +281,6 @@ class midcom_helper_nav_backend
                 $lastgoodnode = $parent_id;
             }
 
-            $parent_id = $this->_get_parent_id($topic_id);
-
             if (   $up
                 && $up_id = array_pop($up_ids)
                 && $up_id != $parent_id) {
@@ -322,9 +320,9 @@ class midcom_helper_nav_backend
      * @param mixed $topic Topic object or ID to be processed
      * @return array The loaded node data
      */
-    private function _loadNodeData($topic, $up = null)
+    private function _loadNodeData($topic)
     {
-        $node = new midcom_helper_nav_node($this, $topic, $up);
+        $node = new midcom_helper_nav_node($this, $topic);
 
         if (    !$node->is_object_visible()
              || !$node->is_readable_by($this->_user_id)) {

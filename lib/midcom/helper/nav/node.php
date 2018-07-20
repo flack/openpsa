@@ -16,14 +16,12 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
 
     private $topic_id;
 
-    private $up;
-
     /**
      * @var midcom_helper_nav_backend
      */
     private $backend;
 
-    public function __construct(midcom_helper_nav_backend $backend, $topic, $up = null)
+    public function __construct(midcom_helper_nav_backend $backend, $topic)
     {
         $this->backend = $backend;
         if (is_a($topic, midcom_db_topic::class)) {
@@ -32,7 +30,6 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
         } else {
             $this->topic_id = $topic;
         }
-        $this->up = $up;
     }
 
     public function is_readable_by($user_id)
@@ -122,11 +119,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
 
     protected function prepare_data()
     {
-        $data = false;
-
-        if (!$this->up) {
-            $data = $this->get_cache()->get_node($this->topic_id);
-        }
+        $data = $this->get_cache()->get_node($this->topic_id);
 
         if (!$data) {
             midcom::get()->auth->request_sudo('midcom.helper.nav');
@@ -173,16 +166,11 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
             return null;
         }
 
-        $id = $topic->id;
-        if ($this->up) {
-            $id .= "_" . $this->up;
-        }
         // Now complete the node data structure
-
         $data[MIDCOM_NAV_URL] = $topic->name . '/';
         $data[MIDCOM_NAV_NAME] = trim($data[MIDCOM_NAV_NAME]) == '' ? $topic->name : $data[MIDCOM_NAV_NAME];
         $data[MIDCOM_NAV_GUID] = $topic->guid;
-        $data[MIDCOM_NAV_ID] = $id;
+        $data[MIDCOM_NAV_ID] = $topic->id;
         $data[MIDCOM_NAV_TYPE] = 'node';
         $data[MIDCOM_NAV_SCORE] = $topic->metadata->score;
         $data[MIDCOM_NAV_COMPONENT] = $topic->component;
@@ -201,10 +189,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
             $data[MIDCOM_NAV_NODEID] = -1;
             $data[MIDCOM_NAV_RELATIVEURL] = '';
         } else {
-            if (!$this->up || $this->backend->get_node($this->up) === false) {
-                $this->up = $topic->up;
-            }
-            $data[MIDCOM_NAV_NODEID] = $this->up;
+            $data[MIDCOM_NAV_NODEID] = $topic->up;
 
             if (!$data[MIDCOM_NAV_NODEID]) {
                 return null;
