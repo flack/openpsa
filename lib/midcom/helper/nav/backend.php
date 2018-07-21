@@ -148,12 +148,7 @@ class midcom_helper_nav_backend
     /**
      * Constructor
      *
-     * It will initialize Root Topic, Current Topic and all cache arrays. The function will load all nodes
-     * between root and current node.
-     *
-     * If the current node is behind an invisible or undescendable node, the last
-     * known good node will be used instead for the current node.
-     *
+     * It will initialize Root Topic, Current Topic and all cache arrays.
      * The constructor retrieves all initialization data from the component context.
      *
      * @param int $context    The Context ID for which to create NAP data for, defaults to 0
@@ -178,6 +173,15 @@ class midcom_helper_nav_backend
         }
     }
 
+    /**
+     * Loads all nodes between root and current node.
+     *
+     * If the current node is behind an invisible or undescendable node, the last
+     * known good node will be used instead for the current node.
+     *
+     * @param midcom_db_topic $root
+     * @param integer $context
+     */
     private function init_topics(midcom_db_topic $root, $context)
     {
         $node_path_candidates = [$root];
@@ -222,7 +226,7 @@ class midcom_helper_nav_backend
      *
      * @param mixed $node_id  The node ID of the node to be loaded
      * @param int $parent_id  The node's parent ID, if known
-     * @return int            MIDCOM_ERROK on success, one of the MIDCOM_ERR... constants upon an error
+     * @return int            MIDCOM_ERROK on success, MIDCOM_ERRFORBIDDEN when inaccessible
      */
     private function _loadNode($node_id, $parent_id = null)
     {
@@ -241,13 +245,11 @@ class midcom_helper_nav_backend
         while (   $parent_id
                && !isset(self::$_nodes[$parent_id])) {
             $stat = $this->_loadNodeData($parent_id);
-            if ($stat != MIDCOM_ERROK) {
-                if ($stat == MIDCOM_ERRFORBIDDEN) {
-                    debug_add("The Node {$parent_id} is invisible, could not satisfy the dependency chain to Node #{$node_id}", MIDCOM_LOG_WARN);
-                }
+            if ($stat == MIDCOM_ERRFORBIDDEN) {
+                debug_add("The Node {$parent_id} is invisible, could not satisfy the dependency chain to Node #{$node_id}", MIDCOM_LOG_WARN);
                 return $stat;
             }
-            $parent_id = $this->_get_parent_id($parent_id);
+            $parent_id = self::$_nodes[$parent_id]->nodeid;
         }
         return $this->_loadNodeData($topic_id);
     }
