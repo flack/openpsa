@@ -123,15 +123,6 @@ class midcom_helper_nav_backend
     private $_loader;
 
     /**
-     * Temporary storage where _loadNode can return the last known good
-     * node in case the current node not visible. It is evaluated by the
-     * constructor.
-     *
-     * @var int
-     */
-    private $_lastgoodnode = -1;
-
-    /**
      * The NAP cache store
      *
      * @var midcom_services_cache_module_nap
@@ -195,24 +186,22 @@ class midcom_helper_nav_backend
             $this->_current = $topic->id;
         }
 
-        $root_set = false;
-
+        $lastgood = null;
         foreach ($node_path_candidates as $node_id) {
-            switch ($this->_loadNode($node_id, $this->_lastgoodnode)) {
+            switch ($this->_loadNode($node_id, (int) $lastgood)) {
                 case MIDCOM_ERROK:
-                    if (!$root_set) {
+                    if ($node_id == $this->_root) {
                         // Reset the Root node's URL Parameter to an empty string.
-                        self::$_nodes[$this->_root]->url = '';
-                        $root_set = true;
+                        self::$_nodes[$node_id]->url = '';
                     }
                     $this->_node_path[] = $node_id;
-                    $this->_lastgoodnode = $node_id;
+                    $lastgood = $node_id;
                     break;
 
                 case MIDCOM_ERRFORBIDDEN:
-                    // Node is hidden behind an undescendable one, activate the last known good node as current
-                    $this->_current = $this->_lastgoodnode;
-                    break;
+                    // Node is hidden behind an undescendable one
+                    $this->_current = $lastgood;
+                    return;
 
                 default:
                     debug_add("_loadNode failed, see above error for details.", MIDCOM_LOG_ERROR);
@@ -247,10 +236,7 @@ class midcom_helper_nav_backend
         if ($parent_id === null) {
             // Load parent nodes also to cache
             $parent_id = $this->_get_parent_id($topic_id);
-        } elseif ($parent_id === -1) {
-            $parent_id = false;
         }
-        $lastgoodnode = null;
 
         while (   $parent_id
                && !isset(self::$_nodes[$parent_id])) {
@@ -262,15 +248,6 @@ class midcom_helper_nav_backend
             } catch (midcom_error $e) {
                 return $e->getCode();
             }
-
-            if (null === $lastgoodnode) {
-                $lastgoodnode = $parent_id;
-            }
-        }
-
-        if (   !is_null($lastgoodnode)
-            && (empty($this->_lastgoodnode) || $this->_lastgoodnode < 0)) {
-            $this->_lastgoodnode = $lastgoodnode;
         }
 
         try {
