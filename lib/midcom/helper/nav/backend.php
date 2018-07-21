@@ -172,30 +172,30 @@ class midcom_helper_nav_backend
         $this->_current = $this->_root;
 
         if (empty($root->id)) {
-            self::$_nodes[$root->id] = $this->_loadNodeData($root);
+            $this->_loadNodeData($root);
         } else {
-            $this->init_topics($context);
+            $this->init_topics($root, $context);
         }
     }
 
-    private function init_topics($context)
+    private function init_topics(midcom_db_topic $root, $context)
     {
-        $node_path_candidates = [$this->_root];
+        $node_path_candidates = [$root];
         foreach (midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_URLTOPICS) as $topic) {
-            $node_path_candidates[] = $topic->id;
+            $node_path_candidates[] = $topic;
             $this->_current = $topic->id;
         }
 
         $lastgood = null;
-        foreach ($node_path_candidates as $node_id) {
-            switch ($this->_loadNode($node_id, (int) $lastgood)) {
+        foreach ($node_path_candidates as $topic) {
+            switch ($this->_loadNodeData($topic)) {
                 case MIDCOM_ERROK:
-                    if ($node_id == $this->_root) {
+                    if ($topic->id == $this->_root) {
                         // Reset the Root node's URL Parameter to an empty string.
-                        self::$_nodes[$node_id]->url = '';
+                        self::$_nodes[$this->_root]->url = '';
                     }
-                    $this->_node_path[] = $node_id;
-                    $lastgood = $node_id;
+                    $this->_node_path[] = $topic->id;
+                    $lastgood = $topic->id;
                     break;
 
                 case MIDCOM_ERRFORBIDDEN:
@@ -240,22 +240,16 @@ class midcom_helper_nav_backend
 
         while (   $parent_id
                && !isset(self::$_nodes[$parent_id])) {
-            try {
-                self::$_nodes[$parent_id] = $this->_loadNodeData($parent_id);
-            } catch (midcom_error_forbidden $e) {
-                debug_add("The Node {$parent_id} is invisible, could not satisfy the dependency chain to Node #{$node_id}", MIDCOM_LOG_WARN);
-                return $e->getCode();
-            } catch (midcom_error $e) {
-                return $e->getCode();
+            $stat = $this->_loadNodeData($parent_id);
+            if ($stat != MIDCOM_ERROK) {
+                if ($stat == MIDCOM_ERRFORBIDDEN) {
+                    debug_add("The Node {$parent_id} is invisible, could not satisfy the dependency chain to Node #{$node_id}", MIDCOM_LOG_WARN);
+                }
+                return $stat;
             }
+            $parent_id = $this->_get_parent_id($parent_id);
         }
-
-        try {
-            self::$_nodes[$node_id] = $this->_loadNodeData($topic_id);
-        } catch (midcom_error $e) {
-            return $e->getCode();
-        }
-        return MIDCOM_ERROK;
+        return $this->_loadNodeData($topic_id);
     }
 
     /**
@@ -274,29 +268,35 @@ class midcom_helper_nav_backend
      * as this can happen if dynamic_load is called before showing the navigation.
      *
      * @param mixed $topic Topic object or ID to be processed
-     * @return array The loaded node data
+     * @return integer MIDCOM_ERROK on success, MIDCOM_ERRFORBIDDEN when inaccessible
      */
     private function _loadNodeData($topic)
     {
-        $node = new midcom_helper_nav_node($this, $topic);
-
-        if (    !$node->is_object_visible()
-             || !$node->is_readable_by($this->_user_id)) {
-            throw new midcom_error_forbidden('Node cannot be read or is invisible');
+        if (is_a($topic, midcom_db_topic::class)) {
+            $id = $topic->id;
+        } else {
+            $id = $topic;
         }
+        if (!array_key_exists($id, self::$_nodes)) {
+            $node = new midcom_helper_nav_node($this, $topic);
 
-        // The node is visible, add it to the list.
-        self::$_nodes[$node->id] = $node;
+            if (    !$node->is_object_visible()
+                || !$node->is_readable_by($this->_user_id)) {
+                return MIDCOM_ERRFORBIDDEN;
+            }
 
-        // Set the current leaf, this does *not* load the leaves from the DB, this is done during get_leaf.
-        if ($node->id === $this->_current) {
-            $currentleaf = $this->_loader->get_interface_class($node->component)->get_current_leaf();
-            if ($currentleaf !== false) {
-                $this->_currentleaf = "{$node->id}-{$currentleaf}";
+            // The node is visible, add it to the list.
+            self::$_nodes[$id] = $node;
+
+            // Set the current leaf, this does *not* load the leaves from the DB, this is done during get_leaf.
+            if ($node->id === $this->_current) {
+                $currentleaf = $this->_loader->get_interface_class($node->component)->get_current_leaf();
+                if ($currentleaf !== false) {
+                    $this->_currentleaf = "{$node->id}-{$currentleaf}";
+                }
             }
         }
-
-        return $node;
+        return MIDCOM_ERROK;
     }
 
     /**
