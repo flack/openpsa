@@ -167,7 +167,6 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
         }
 
         // Now complete the node data structure
-        $data[MIDCOM_NAV_URL] = $topic->name . '/';
         $data[MIDCOM_NAV_NAME] = trim($data[MIDCOM_NAV_NAME]) == '' ? $topic->name : $data[MIDCOM_NAV_NAME];
         $data[MIDCOM_NAV_GUID] = $topic->guid;
         $data[MIDCOM_NAV_ID] = $topic->id;
@@ -188,7 +187,9 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
         if ($topic->id == $this->backend->get_root_node()) {
             $data[MIDCOM_NAV_NODEID] = -1;
             $data[MIDCOM_NAV_RELATIVEURL] = '';
+            $data[MIDCOM_NAV_URL] = '';
         } else {
+            $data[MIDCOM_NAV_URL] = $topic->name . '/';
             $data[MIDCOM_NAV_NODEID] = $topic->up;
 
             if (!$data[MIDCOM_NAV_NODEID]) {

@@ -192,24 +192,13 @@ class midcom_helper_nav_backend
 
         $lastgood = null;
         foreach ($node_path_candidates as $topic) {
-            switch ($this->_loadNodeData($topic)) {
-                case MIDCOM_ERROK:
-                    if ($topic->id == $this->_root) {
-                        // Reset the Root node's URL Parameter to an empty string.
-                        self::$_nodes[$this->_root]->url = '';
-                    }
-                    $this->_node_path[] = $topic->id;
-                    $lastgood = $topic->id;
-                    break;
-
-                case MIDCOM_ERRFORBIDDEN:
-                    // Node is hidden behind an undescendable one
-                    $this->_current = $lastgood;
-                    return;
-
-                default:
-                    debug_add("_loadNode failed, see above error for details.", MIDCOM_LOG_ERROR);
-                    return;
+            if ($this->_loadNodeData($topic) == MIDCOM_ERROK) {
+                $this->_node_path[] = $topic->id;
+                $lastgood = $topic->id;
+            } else {
+                // Node is hidden behind an undescendable one
+                $this->_current = $lastgood;
+                return;
             }
         }
     }
@@ -242,8 +231,7 @@ class midcom_helper_nav_backend
             $parent_id = $this->_get_parent_id($topic_id);
         }
 
-        while (   $parent_id
-               && !isset(self::$_nodes[$parent_id])) {
+        while ((int) $parent_id > 0) {
             $stat = $this->_loadNodeData($parent_id);
             if ($stat == MIDCOM_ERRFORBIDDEN) {
                 debug_add("The Node {$parent_id} is invisible, could not satisfy the dependency chain to Node #{$node_id}", MIDCOM_LOG_WARN);
