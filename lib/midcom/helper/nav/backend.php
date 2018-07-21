@@ -308,19 +308,16 @@ class midcom_helper_nav_backend
      */
     private function _load_leaves(midcom_helper_nav_node $node)
     {
-        if (array_key_exists($node->id, $this->_loaded_leaves)) {
-            debug_add("Warning, tried to load the leaves of node {$node->id} more than once.", MIDCOM_LOG_INFO);
-            return;
-        }
+        if (!array_key_exists($node->id, $this->_loaded_leaves)) {
+            $this->_loaded_leaves[$node->id] = [];
 
-        $this->_loaded_leaves[$node->id] = [];
-
-        $leaves = array_filter($this->_get_leaves($node), function($leaf) {
-            return $leaf->is_object_visible();
-        });
-        foreach ($leaves as $id => $leaf) {
-            $this->_leaves[$id] = $leaf;
-            $this->_loaded_leaves[$node->id][$id] =& $this->_leaves[$id];
+            $leaves = array_filter($this->_get_leaves($node), function($leaf) {
+                return $leaf->is_object_visible();
+            });
+            foreach ($leaves as $id => $leaf) {
+                $this->_leaves[$id] = $leaf;
+                $this->_loaded_leaves[$node->id][$id] =& $this->_leaves[$id];
+            }
         }
     }
 
@@ -427,24 +424,20 @@ class midcom_helper_nav_backend
         if ($this->_loadNode($parent_node) !== MIDCOM_ERROK) {
             return [];
         }
+        $cache_key = $parent_node . '--' . $show_noentry;
 
-        if (isset($listed[$parent_node])) {
-            return $listed[$parent_node];
-        }
-
-        if (!array_key_exists($parent_node, $this->_loaded_leaves)) {
+        if (!isset($listed[$cache_key])) {
+            $listed[$cache_key] = [];
             $this->_load_leaves(self::$_nodes[$parent_node]);
-        }
 
-        $result = [];
-        foreach ($this->_loaded_leaves[self::$_nodes[$parent_node]->id] as $id => $leaf) {
-            if ($show_noentry || !$leaf->noentry) {
-                $result[] = $id;
+            foreach ($this->_loaded_leaves[self::$_nodes[$parent_node]->id] as $id => $leaf) {
+                if ($show_noentry || !$leaf->noentry) {
+                    $listed[$cache_key][] = $id;
+                }
             }
         }
 
-        $listed[$parent_node] = $result;
-        return $result;
+        return $listed[$cache_key];
     }
 
     /**
@@ -624,10 +617,9 @@ class midcom_helper_nav_backend
 
         if ($this->_loadNode($node_id) !== MIDCOM_ERROK) {
             debug_add("Tried to verify the leaf id {$leaf_id}, which should belong to node {$node_id}, but this node cannot be loaded, see debug level log for details.",
-                MIDCOM_LOG_INFO);
+            MIDCOM_LOG_INFO);
             return false;
         }
-
         $this->_load_leaves(self::$_nodes[$node_id]);
 
         return (array_key_exists($leaf_id, $this->_leaves));
