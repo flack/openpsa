@@ -25,6 +25,10 @@ class controller
 
     const PREVIEW = 'preview';
 
+    const NEXT = 'next';
+
+    const PREVIOUS = 'previous';
+
     /**
      *
      * @var Form
@@ -63,26 +67,21 @@ class controller
             }
         }
 
-        if (   $operation == self::SAVE
+        if (   in_array($operation, [self::SAVE, self::NEXT])
             && !$this->form->isValid()) {
             $operation = self::EDIT;
+        }
+        if ($operation == self::SAVE) {
+            $storage->save();
         }
 
         if (in_array($operation, [self::CANCEL, self::SAVE])) {
             $storage->unlock();
-            if ($operation == self::SAVE) {
-                $storage->save();
-            }
-            return $operation;
         } else {
             $storage->lock();
         }
 
-        if (in_array($operation, [self::DELETE, self::PREVIEW])) {
-            return $operation;
-        }
-
-        return self::EDIT;
+        return $operation;
     }
 
     /**
