@@ -42,6 +42,7 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
         midcom::get()->metadata->set_request_metadata($this->task->metadata->revised, $this->task->guid);
         $this->bind_view_to_object($this->task, $data['datamanager']->get_schema()->get_name());
 
+        org_openpsa_widgets_ui::enable_ui_tab();
         org_openpsa_widgets_contact::add_head_elements();
         $data['calendar_node'] = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
 
@@ -123,7 +124,6 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
         }
 
         $this->_view_toolbar->add_items($buttons);
-        org_openpsa_widgets_ui::enable_ui_tab();
     }
 
     private function list_bookings()
