@@ -15,9 +15,11 @@ echo "</h2>";
         <?php
         foreach (array_filter($data['types']) as $type => $items) {
             $link = $data['router']->generate('trash_type', ['type' => $type]);
+            $ref = midcom_helper_reflector::get($type);
+            $icon = $ref->get_object_icon(new $type);
             ?>
             <tr>
-                <td><a href="&(link);"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/16x16/trash-full.png" /> <?php echo midgard_admin_asgard_plugin::get_type_label($type); ?></a></td>
+                <td><a href="&(link);">&(icon:h); <?php echo midgard_admin_asgard_plugin::get_type_label($type); ?></a></td>
                 <td>&(items);</td>
             </tr>
             <?php
@@ -29,7 +31,10 @@ echo "</h2>";
      // <![CDATA[
         jQuery('#deleted').tablesorter({
             widgets: ['zebra'],
-            sortList: [[0,0]]
+            sortList: [[0,0]],
+            textExtraction: function(node) {
+                return $(node).text();
+            }
         });
     // ]]>
 </script>
