@@ -157,7 +157,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
                 if ($name == 'RI') {
                     $doc->add_result('__RI', $str->nodeValue);
                 }
-                if ($name == 'score' && $filter == null) {
+                if ($name == 'score') {
                     $doc->score = (float) $str->nodeValue;
                 }
             }
