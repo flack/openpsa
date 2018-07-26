@@ -214,7 +214,7 @@ class midcom_helper_misc
      * @param string $mimetype  Document MIME type
      * @return string    Path to the icon
      */
-    public static function get_mime_icon($mimetype, $fallback = '')
+    public static function get_mime_icon($mimetype)
     {
         $mime_fspath = MIDCOM_STATIC_ROOT . '/stock-icons/mime';
         $mime_urlpath = MIDCOM_STATIC_URL . '/stock-icons/mime';
@@ -234,18 +234,14 @@ class midcom_helper_misc
                 break;
         }
 
-        // Default icon if there is none for the MIME type
-        $check_files[] = 'gnome-unknown.png';
-        //TODO: handle other than PNG files ?
-
-        //Return first match
+        // Return first match
         foreach ($check_files as $filename) {
             if (is_readable("{$mime_fspath}/{$filename}")) {
                 return "{$mime_urlpath}/{$filename}";
             }
         }
-
-        return $fallback;
+        // Default icon if there is none for the MIME type
+        return $mime_urlpath . '/gnome-unknown.png';
     }
 
     /**
