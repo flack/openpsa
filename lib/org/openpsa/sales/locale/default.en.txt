@@ -109,6 +109,10 @@ Customer
 Customer contact
 ---STRINGEND
 
+---STRING declined
+Declined
+---STRINGEND
+
 ---STRING deliverable
 Deliverable
 ---STRINGEND

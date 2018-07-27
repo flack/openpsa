@@ -194,6 +194,10 @@ Ist
 Abgelehnt
 ---STRINGEND
 
+---STRING declined
+Abgelehnt
+---STRINGEND
+
 ---STRING mark declined
 abgelehnt
 ---STRINGEND
