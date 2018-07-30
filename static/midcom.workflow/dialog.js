@@ -88,7 +88,7 @@ $(document).ready(function()
         {
             dialog.nextAll('.ui-dialog-buttonpane').find('button')
                 .prop('disabled', true)
-                .addClass('ui-state-disdabled');
+                .addClass('ui-state-disabled');
         });
 
         if ($('.midcom-view-toolbar li').length > 0)
