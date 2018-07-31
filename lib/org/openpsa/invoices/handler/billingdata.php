@@ -97,7 +97,6 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
-        $billing_data->require_do('midgard:delete');
         $this->_linked_object = midcom::get()->dbfactory->get_object_by_guid($billing_data->linkGuid);
 
         $workflow = $this->get_workflow('delete', [

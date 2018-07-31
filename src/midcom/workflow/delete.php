@@ -126,13 +126,12 @@ class delete extends dialog
 
     public function run()
     {
+        $this->object->require_do('midgard:delete');
         $url = (!empty($_POST['referrer'])) ? $_POST['referrer'] : $this->success_url;
         if ($this->get_state() === static::CONFIRMED) {
-            $object = $this->object;
-            $object->require_do('midgard:delete');
             $method = $this->recursive ? 'delete_tree' : 'delete';
             $message = ['title' => $this->l10n_midcom->get('midcom'), 'type' => 'info'];
-            if ($object->{$method}()) {
+            if ($this->object->{$method}()) {
                 $this->state = static::SUCCESS;
                 $url = $this->success_url;
                 $message['body'] = sprintf($this->l10n_midcom->get("%s deleted"), $this->label);

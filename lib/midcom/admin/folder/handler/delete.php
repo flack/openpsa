@@ -22,7 +22,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $this->_topic->require_do('midgard:delete');
         $this->_topic->require_do('midcom.admin.folder:topic_management');
 
         $nav = new midcom_helper_nav();
