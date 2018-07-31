@@ -90,12 +90,12 @@ vorherige Woche
 Arbeitsstunden melden
 ---STRINGEND
 
----STRING show invoice %s
-Rechnung %s anzeigen
+---STRING show invoice
+Rechnung anzeigen
 ---STRINGEND
 
----STRING show task %s
-Aufgabe "%s" anzeigen
+---STRING show task
+Aufgabe anzeigen
 ---STRINGEND
 
 ---STRING task

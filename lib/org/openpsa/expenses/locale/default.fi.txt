@@ -86,8 +86,8 @@ Laskutettavat raportit
 Laskutetut raportit
 ---STRINGEND
 
----STRING show task %s
-Näytä tehtävät kohteelle %s
+---STRING show task
+Näytä tehtävät kohteelle
 ---STRINGEND
 
 ---STRING uninvoiceable reports

@@ -94,12 +94,12 @@ previous week
 Report hours
 ---STRINGEND
 
----STRING show invoice %s
-Show task %s
+---STRING show invoice
+Show invoice
 ---STRINGEND
 
----STRING show task %s
-Show task "%s"
+---STRING show task
+Show task
 ---STRINGEND
 
 ---STRING task
