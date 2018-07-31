@@ -374,13 +374,25 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     public function get_router($component = null)
     {
         $loader = new loader;
+        $cache = true;
         $resource = $this->_component;
         if ($component) {
             $resource = $component;
         } elseif (!empty($this->_request_switch)) {
             $resource = $this->_request_switch;
+            $cache = false;
         }
-        return new Router($loader, $resource);
+        if ($cache) {
+            $config = [
+                'cache_dir' => midcom::get()->config->get('cache_base_directory') . 'routing',
+                'matcher_cache_class' => 'loader__' . str_replace('.', '_', $resource),
+                'generator_cache_class' => 'generator__' . str_replace('.', '_', $resource)
+            ];
+        } else {
+            $config = [];
+        }
+
+        return new Router($loader, $resource, $config);
     }
 
 
