@@ -66,7 +66,7 @@ $formatter = $data['l10n']->get_formatter();
                      echo ' <a class="actions" href="' . $delete_link . '"><i class="fa fa-trash" title="' . $data['l10n_midcom']->get('delete') . '"></i></a>';
                      echo ' <a class="actions" ' . $wf->render_attributes() . ' href="' . $edit_link . '"><i class="fa fa-pencil" title="' . $data['l10n_midcom']->get('edit') . '"></i></a>';
                      echo "</span>\n";
-                     echo ' <span class="updated">' . $formatter->datetime($offer->metadata->revised) . '</span>';
+                     echo ' <span class="updated">' . $formatter->datetime($attachment->metadata->revised) . '</span>';
                      echo "</span>\n";
                  }
                  ?>

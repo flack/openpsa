@@ -84,16 +84,16 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             ];
         }
 
-        if (   $this->_config->get('sales_pdfbuilder_class')
-            && $this->_salesproject->can_do('midgard:update')
-            && $this->is_pdf_creatable()) {
-            $workflow = $this->get_workflow('datamanager');
-            $buttons[] = $workflow->get_button($this->router->generate('create_offer', ['guid' => $this->_salesproject->guid]), [
-                MIDCOM_TOOLBAR_ACCESSKEY => 'p',
-                MIDCOM_TOOLBAR_GLYPHICON => 'file-pdf-o',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create_pdf'),
-            ]);
-
+        if ($this->_config->get('sales_pdfbuilder_class')) {
+            if (   $this->_salesproject->can_do('midgard:update')
+                && $this->is_pdf_creatable()) {
+                $workflow = $this->get_workflow('datamanager');
+                $buttons[] = $workflow->get_button($this->router->generate('create_offer', ['guid' => $this->_salesproject->guid]), [
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'p',
+                    MIDCOM_TOOLBAR_GLYPHICON => 'file-pdf-o',
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create_pdf'),
+                ]);
+            }
             $qb = org_openpsa_sales_salesproject_offer_dba::new_query_builder();
             $qb->add_constraint('salesproject', '=', $this->_salesproject->id);
             $qb->add_order('metadata.revised', 'DESC');
