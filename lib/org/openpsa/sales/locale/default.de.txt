@@ -19,8 +19,8 @@ Auslaufen einer Vereinbarung
 Aktiv
 ---STRINGEND
 
----STRING add offer
-Angebot hinzufügen
+---STRING add item
+Posten hinzufügen
 ---STRINGEND
 
 ---STRING agreement %s ends on %s. click here: %s
@@ -86,12 +86,8 @@ Verkaufsprojekt anlegen
 Aufgabe anlegen
 ---STRINGEND
 
----STRING create_pdf
-PDF erzeugen
----STRINGEND
-
----STRING pdf file
-PDF-Datei
+---STRING create_offer
+Angebot erzeugen
 ---STRINGEND
 
 ---STRING created project "%s"
@@ -115,7 +111,7 @@ Bestellung
 ---STRINGEND
 
 ---STRING deliverables
-Bestellungen
+Leistungen
 ---STRINGEND
 
 ---STRING deliverables for product %s
@@ -250,6 +246,10 @@ auf den folgenden Seiten erhalten Sie ein Angebot für Ihre Ausschreibung/Anzeig
 angebot
 ---STRINGEND
 
+---STRING offers
+Angebote
+---STRINGEND
+
 ---STRING ordered
 Bestellt
 ---STRINGEND
@@ -262,12 +262,12 @@ Verkaufsprojekte
 Besitzer
 ---STRINGEND
 
----STRING pdf created
-PDF erstellt
+---STRING offer created
+Angebot erstellt
 ---STRINGEND
 
----STRING pdf not created
-PDF nicht erstellt
+---STRING offer not created
+Angebot nicht erstellt
 ---STRINGEND
 
 ---STRING please verify the file

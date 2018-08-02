@@ -118,7 +118,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
 
         $data['controller'] = $this->load_controller();
 
-        midcom::get()->head->set_pagetitle($this->_l10n->get('add offer'));
+        midcom::get()->head->set_pagetitle($this->_l10n->get('add item'));
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $data['controller'],

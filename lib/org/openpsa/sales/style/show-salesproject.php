@@ -51,7 +51,7 @@ $formatter = $data['l10n']->get_formatter();
              $wf = new midcom\workflow\datamanager;
          ?>
          <div class="field">
-         <div class="title"><?php echo $data['l10n']->get('pdf file'); ?></div>
+         <div class="title"><?php echo $data['l10n']->get('offers'); ?></div>
              <div class="value"><?php
                  foreach ($data['offers'] as $offer) {
                      echo '<span class="org_openpsa_helpers_fileinfo">';

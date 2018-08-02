@@ -14,7 +14,7 @@
 Aktív
 ---STRINGEND
 
----STRING add offer
+---STRING add item
 Szállítás hozzáadása
 ---STRINGEND
 

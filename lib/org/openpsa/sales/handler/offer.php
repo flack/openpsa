@@ -103,17 +103,17 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
             ->set_storage($this->offer)
             ->get_controller();
 
-        midcom::get()->head->set_pagetitle($this->_l10n->get('create_pdf'));
+        midcom::get()->head->set_pagetitle($this->_l10n->get('create_offer'));
         $wf = new midcom\workflow\datamanager(['controller' => $controller]);
         $response = $wf->run();
         if ($wf->get_state() == 'save') {
             try {
                 $output_filename = $this->_l10n->get('offer_filename_prefix') . '-' . $this->salesproject->code . '.pdf';
                 $this->client->render($output_filename);
-                midcom::get()->uimessages->add($this->_l10n->get('pdf created'), $this->_l10n->get('please verify the file'));
+                midcom::get()->uimessages->add($this->_l10n->get('offer created'), $this->_l10n->get('please verify the file'));
             }
             catch (midcom_error $e) {
-                midcom::get()->uimessages->add($this->_l10n->get('pdf not ceated'), $e->getMessage(), 'error');
+                midcom::get()->uimessages->add($this->_l10n->get('offer not ceated'), $e->getMessage(), 'error');
             }
         }
         return $response;

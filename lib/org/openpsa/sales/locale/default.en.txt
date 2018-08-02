@@ -18,8 +18,8 @@ Expiration of an agreement
 Active
 ---STRINGEND
 
----STRING add offer
-Add offer
+---STRING add item
+Add item
 ---STRINGEND
 
 ---STRING agreement %s ends on %s. click here: %s
@@ -85,12 +85,8 @@ Create sales project
 Create task
 ---STRINGEND
 
----STRING create_pdf
-Create PDF
----STRINGEND
-
----STRING pdf file
-PDF file
+---STRING create_offer
+Create offer
 ---STRINGEND
 
 ---STRING created project "%s"
@@ -249,6 +245,10 @@ on the following pages you'll find an offer regarding your inquiry
 offer
 ---STRINGEND
 
+---STRING offers
+Offers
+---STRINGEND
+
 ---STRING ordered
 Ordered
 ---STRINGEND
@@ -261,12 +261,12 @@ Sales projects
 Owner
 ---STRINGEND
 
----STRING pdf created
-PDF created
+---STRING offer created
+Offer created
 ---STRINGEND
 
----STRING pdf not created
-PDF not created
+---STRING offer not created
+Offer not created
 ---STRINGEND
 
 ---STRING please verify the file

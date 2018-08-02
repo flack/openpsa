@@ -91,7 +91,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 $buttons[] = $workflow->get_button($this->router->generate('create_offer', ['guid' => $this->_salesproject->guid]), [
                     MIDCOM_TOOLBAR_ACCESSKEY => 'p',
                     MIDCOM_TOOLBAR_GLYPHICON => 'file-pdf-o',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create_pdf'),
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create_offer'),
                 ]);
             }
             $qb = org_openpsa_sales_salesproject_offer_dba::new_query_builder();

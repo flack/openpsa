@@ -14,7 +14,7 @@ Uuden tilaussyklin alku
 Käynnissä
 ---STRINGEND
 
----STRING add offer
+---STRING add item
 Lisää tuote
 ---STRINGEND
 
