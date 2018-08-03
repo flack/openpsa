@@ -53,7 +53,7 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
         $siteconfig = new org_openpsa_core_siteconfig();
 
         if ($products_url = $siteconfig->get_node_full_url('org.openpsa.products')) {
-            return '<a href="' . $products_url . 'product/' . $this->guid . '/">' . $this->title . "</a>\n";
+            return '<a href="' . $products_url . 'product/' . $this->guid . '/">' . $this->title . "</a>";
         }
         return $this->title;
     }

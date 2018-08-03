@@ -69,7 +69,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
         $siteconfig = new org_openpsa_core_siteconfig();
 
         if ($contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts')) {
-            return '<a href="' . $contacts_url . 'person/' . $this->guid . '/">' . $this->get_label() . "</a>\n";
+            return '<a href="' . $contacts_url . 'person/' . $this->guid . '/">' . $this->get_label() . "</a>";
         }
         return $this->get_label();
     }

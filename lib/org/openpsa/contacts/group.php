@@ -89,7 +89,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         $siteconfig = new org_openpsa_core_siteconfig();
 
         if ($contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts')) {
-            return '<a href="' . $contacts_url . 'group/' . $this->guid . '/">' . $this->get_label() . "</a>\n";
+            return '<a href="' . $contacts_url . 'group/' . $this->guid . '/">' . $this->get_label() . "</a>";
         }
         return $this->get_label();
     }
