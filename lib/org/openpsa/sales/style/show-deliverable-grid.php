@@ -1,7 +1,6 @@
 <?php
 $state_options = [
     org_openpsa_sales_salesproject_deliverable_dba::STATE_NEW => $data['l10n']->get('proposed'),
-    org_openpsa_sales_salesproject_deliverable_dba::STATE_PROPOSED => $data['l10n']->get('proposed'),
     org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED => $data['l10n']->get('declined'),
     org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED => $data['l10n']->get('ordered'),
     org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED => $data['l10n']->get('started'),

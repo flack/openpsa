@@ -46,7 +46,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     public $__mgdschema_class_name__ = 'org_openpsa_salesproject_deliverable';
 
     const STATE_NEW = 100;
-    const STATE_PROPOSED = 200;
     const STATE_DECLINED = 300;
     const STATE_ORDERED = 400;
     const STATE_STARTED = 450;
@@ -139,7 +138,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     {
         switch ($this->state) {
             case self::STATE_NEW:
-            case self::STATE_PROPOSED:
                 return 'proposed';
             case self::STATE_DECLINED:
                 return 'declined';
