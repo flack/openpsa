@@ -133,6 +133,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     public function _handler_view($handler_id, array $args, array &$data)
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
+        $this->set_active_leaf($this->_topic->id . ':' . $this->_salesproject->get_state());
 
         $data['view_salesproject'] = datamanager::from_schemadb($this->_config->get('schemadb_salesproject'))
             ->set_storage($this->_salesproject)

@@ -57,6 +57,16 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
     const STATE_DELIVERED = 11200;
     const STATE_INVOICED = 11300;
 
+    // ... and because these constants suck for pratically everything..
+    private $states = [
+        self::STATE_LOST => 'lost',
+        self::STATE_CANCELED => 'canceled',
+        self::STATE_ACTIVE => 'active',
+        self::STATE_WON => 'won',
+        self::STATE_DELIVERED => 'delivered',
+        self::STATE_INVOICED => 'invoiced'
+    ];
+
     //org.openpsa.sales role types
     const ROLE_MEMBER = 10500;
 
@@ -69,6 +79,14 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
     {
         $this->_contacts = null;
         return parent::refresh();
+    }
+
+    public function get_state()
+    {
+        if (array_key_exists($this->state, $this->states)) {
+            return $this->states[$this->state];
+        }
+        return $this->states[self::STATE_ACTIVE];
     }
 
     /**
