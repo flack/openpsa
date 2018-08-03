@@ -81,7 +81,6 @@ implements org_openpsa_widgets_grid_provider_client
 
         $this->_render_contact_field($salesproject->customer, 'customer', $invoice, org_openpsa_contacts_group_dba::class);
         $this->_render_contact_field($salesproject->customerContact, 'customerContact', $invoice);
-        $this->_render_contact_field($salesproject->owner, 'owner', $invoice);
 
         if (!empty($this->_sales_url)) {
             $invoice['deliverable'] = '<a href="' . $this->_sales_url . 'deliverable/' . $deliverable->guid . '/">' . $invoice['deliverable'] . '</a>';
@@ -92,12 +91,17 @@ implements org_openpsa_widgets_grid_provider_client
 
     private function _render_contact_field($id, $fieldname, array &$invoice, $classname = org_openpsa_contacts_person_dba::class)
     {
+        $sales_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.sales');
         $invoice[$fieldname] = '';
         $invoice['index_' . $fieldname] = '';
         if ($id > 0) {
             try {
                 $object = $classname::get_cached($id);
-                $invoice[$fieldname] = $object->render_link();
+                $invoice['index_' . $fieldname] = $object->get_label();
+                $invoice[$fieldname] = $invoice['index_' . $fieldname];
+                if ($sales_url) {
+                    $invoice[$fieldname] = '<a href="' . $sales_url . 'list/customer/' . $object->guid . '/">' . $invoice[$fieldname] . '</a>';
+                }
                 $invoice['index_' . $fieldname] = $object->get_label();
             } catch (midcom_error $e) {
                 $e->log();
