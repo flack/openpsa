@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use midcom\datamanager\schemadb;
 
 /**
  * Sales offer handler creates pdf offers
@@ -63,6 +64,13 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
         $offer->introduction = $this->_l10n->get('offer intro');
         $offer->salesproject = $this->salesproject->id;
         $offer->notice = $billingdata->remarks;
+
+        $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('salesproject', $this->salesproject->id);
+        $mc->add_constraint('up', '=', 0);
+        $mc->add_constraint('state', '<', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
+        $mc->add_order('metadata.created', 'ASC');
+        $offer->deliverables = serialize(array_values($mc->get_values('id')));
+
         return $offer;
     }
 
@@ -99,7 +107,17 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
     {
         $this->load_pdf_builder();
 
-        $controller = datamanager::from_schemadb($this->_config->get('schemadb_pdf'))
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_pdf'));
+        $field =& $schemadb->get_first()->get_field('deliverables');
+        $field['type_config']['constraints'][] = [
+            'field' => 'salesproject',
+            'op' => '=',
+            'value' => $this->offer->salesproject
+        ];
+
+        $dm = new datamanager($schemadb);
+
+        $controller = $dm
             ->set_storage($this->offer)
             ->get_controller();
 

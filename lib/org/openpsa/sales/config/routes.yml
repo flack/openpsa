@@ -22,10 +22,6 @@ salesproject_new_customer:
     path: /salesproject/new/{guid}/
     defaults: { _controller: 'org_openpsa_sales_handler_edit::new' }
 
-salesproject_sort_deliverables:
-    path: /salesproject/deliverables/sort/
-    defaults: { _controller: 'org_openpsa_sales_handler_view::sort' }
-
 salesproject_view:
     path: /salesproject/{guid}/
     defaults: { _controller: 'org_openpsa_sales_handler_view::view' }

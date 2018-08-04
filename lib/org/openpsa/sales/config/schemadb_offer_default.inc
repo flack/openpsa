@@ -28,5 +28,35 @@
             ],
             'widget' => 'textarea',
         ],
+        'deliverables' => [
+            'title' => 'deliverables',
+            'storage' => 'deliverables',
+            'type' => 'select',
+            'type_config' => [
+                'allow_multiple' => true
+            ],
+            'widget' => 'autocomplete',
+            'widget_config' => [
+                'class' => 'org_openpsa_sales_salesproject_deliverable_dba',
+                'component' => 'org.openpsa.sales',
+                'titlefield' => 'title',
+                'sortable' => true,
+
+                'result_headers' => [
+                    [
+                        'title' => 'title',
+                        'name' => 'title',
+                    ],
+                ],
+                'constraints' => [],
+                'searchfields' => [
+                    'title',
+                ],
+                'orders' => [
+                    ['title' => 'ASC'],
+                ],
+                'id_field' => 'id',
+            ],
+        ],
     ]
 ],

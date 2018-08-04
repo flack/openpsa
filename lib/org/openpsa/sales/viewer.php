@@ -16,7 +16,6 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
     /**
      * Generic request startup work:
      *
-     * - Load the Schema Database
      * - Add the LINK HTML HEAD elements
      */
     public function _on_handle($handler, array $args)

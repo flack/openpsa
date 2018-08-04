@@ -132,5 +132,11 @@
                 further information related to the salesproject
             </description>
         </property>
+
+         <property name="deliverables" type="text">
+            <description>
+                Deliverables (serialized)
+            </description>
+        </property>
     </type>
 </Schema>

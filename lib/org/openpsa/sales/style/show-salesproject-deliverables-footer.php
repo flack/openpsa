@@ -1,6 +1,3 @@
-<?php
-$sort_url = $data['router']->generate('salesproject_sort_deliverables');
-?>
 </ol>
 </div>
 
@@ -43,19 +40,6 @@ $('.deliverable_list .deliverable > .icon').click(function() {
             container.removeClass('collapsed');
         }
         $(window).trigger('resize');
-    });
-});
-$(document).ready(function() {
-    $('.deliverable_list .deliverable-sort').sortable({
-		stop: function(event, ui) {
-			var container = ui.item.parent(),
-				data = {}, guid;
-			container.find('> li').each(function(index) {
-				guid = $(this).attr('id').replace('deliverable_', '');
-				data[guid] = index;
-			});
-			$.post("&(sort_url);", {list: data});
-		}
     });
 });
 </script>
