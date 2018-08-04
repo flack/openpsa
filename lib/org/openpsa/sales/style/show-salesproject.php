@@ -46,31 +46,4 @@ $formatter = $data['l10n']->get_formatter();
              <div class="title"><?php echo $data['l10n']->get('owner'); ?></div>
              <div class="value"><?php echo $owner_card->show_inline(); ?></div>
             </div>
-         <?php
-         if (!empty($data['offers'])) {
-             $wf = new midcom\workflow\datamanager;
-         ?>
-         <div class="field">
-         <div class="title"><?php echo $data['l10n']->get('offers'); ?></div>
-             <div class="value"><?php
-                 foreach ($data['offers'] as $offer) {
-                     echo '<span class="org_openpsa_helpers_fileinfo">';
-                     $attachment = $offer->get_file();
-                     $delete_link = $data['router']->generate('delete_offer', ['guid' => $offer->guid]);
-                     $edit_link = $data['router']->generate('edit_offer', ['guid' => $offer->guid]);
-                     if (!empty($attachment)) {
-                         $url = midcom_db_attachment::get_url($attachment);
-                         echo '<a href="' . $url . '" class="icon"><i class="fa fa-file-text-o"></i></a>';
-                     }
-                     echo '<span class="filename">' . $offer->get_number();
-                     echo ' <a class="actions" href="' . $delete_link . '"><i class="fa fa-trash" title="' . $data['l10n_midcom']->get('delete') . '"></i></a>';
-                     echo ' <a class="actions" ' . $wf->render_attributes() . ' href="' . $edit_link . '"><i class="fa fa-pencil" title="' . $data['l10n_midcom']->get('edit') . '"></i></a>';
-                     echo "</span>\n";
-                     echo ' <span class="updated">' . $formatter->datetime($attachment->metadata->revised) . '</span>';
-                     echo "</span>\n";
-                 }
-                 ?>
-	         </div>
-            </div>
-            <?php  } ?>
         </div>

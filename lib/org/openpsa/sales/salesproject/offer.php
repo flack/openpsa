@@ -31,6 +31,15 @@ class org_openpsa_sales_salesproject_offer_dba extends midcom_core_dbaobject
         return null;
     }
 
+    public function get_label()
+    {
+        $label = $this->get_number();
+        if ($this->designation) {
+            $label .= ': ' . $this->designation;
+        }
+        return $label;
+    }
+
     public function get_number()
     {
         return $this->get_parent()->code . '-' . $this->id;
