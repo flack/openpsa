@@ -146,10 +146,6 @@ Merkkaa tilatuksi
 Merkittiin toimitus "%s" toimitetuksi
 ---STRINGEND
 
----STRING next invoice will be generated on %s
-Seuraava lasku lähetetään %s
----STRINGEND
-
 ---STRING next run
 Seuraava ajo
 ---STRINGEND

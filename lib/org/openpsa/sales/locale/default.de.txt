@@ -15,6 +15,10 @@ Beginn eines neuen Abonnement-Zyklus
 Auslaufen einer Vereinbarung
 ---STRINGEND
 
+---STRING actions
+Aktionen
+---STRINGEND
+
 ---STRING active
 Aktiv
 ---STRINGEND
@@ -88,6 +92,10 @@ Aufgabe anlegen
 
 ---STRING create_offer
 Angebot erzeugen
+---STRINGEND
+
+---STRING created
+Erstellt
 ---STRINGEND
 
 ---STRING created project "%s"
@@ -208,10 +216,6 @@ bestellt
 
 ---STRING marked deliverable "%s" delivered
 Bestellung "%s" als geliefert markiert
----STRINGEND
-
----STRING next invoice will be generated on %s
-Die nächste Rechnung wird am %s erstellt
 ---STRINGEND
 
 ---STRING next run
@@ -383,7 +387,7 @@ Einmalige Bestellung
 ---STRINGEND
 
 ---STRING started
-Arbeit begonnen
+Laufend
 ---STRINGEND
 
 ---STRING state

@@ -140,7 +140,4 @@ $(document).ready(function() {
         }));
         $('#org_openpsa_sales_end').closest('.element').toggle(!continuous.is(':checked'));
     }
-    if (window.location.hash.substr(0, 13) === '#deliverable_') {
-        $(window.location.hash + ' > .icon').click();
-    }
 });

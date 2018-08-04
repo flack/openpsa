@@ -21,7 +21,12 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
      *
      * @var org_openpsa_sales_salesproject_dba
      */
-    private $_salesproject = null;
+    private $_salesproject;
+
+    /**
+     * @var array
+     */
+    private $deliverables = [];
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -155,8 +160,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
         midcom::get()->head->enable_jquery_ui(['button']);
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
     }
 
     /**
@@ -170,9 +173,11 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
         $qb->add_order('state');
         $qb->add_order('metadata.created', 'DESC');
-        $this->_request_data['deliverables_objects'] = [];
         foreach ($qb->execute() as $deliverable) {
-            $this->_request_data['deliverables_objects'][$deliverable->guid] = $deliverable;
+            if (!array_key_exists($deliverable->get_state(), $this->deliverables)) {
+                $this->deliverables[$deliverable->get_state()] = [];
+            }
+            $this->deliverables[$deliverable->get_state()][] = $deliverable;
         }
     }
 
@@ -187,61 +192,14 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         midcom_show_style('show-salesproject');
         midcom_show_style('show-salesproject-deliverables-header');
 
-        $dm = datamanager::from_schemadb($this->_config->get('schemadb_deliverable'));
-        foreach ($data['deliverables_objects'] as $deliverable) {
-            $dm->set_storage($deliverable);
-            $data['deliverable'] = $dm->get_content_html();
-            $data['deliverable_object'] = $deliverable;
-            $data['deliverable_toolbar'] = $this->build_status_toolbar($deliverable);
-            if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
-                midcom_show_style('show-salesproject-deliverables-subscription');
-            } else {
-                midcom_show_style('show-salesproject-deliverables-item');
+        foreach (['proposed', 'ordered', 'delivered', 'started', 'invoiced', 'declined'] as $state) {
+            if (!empty($this->deliverables[$state])) {
+                $data['state'] = $state;
+                $data['deliverables'] = $this->deliverables[$state];
+                midcom_show_style('show-salesproject-deliverables-grid');
             }
         }
+
         midcom_show_style('show-salesproject-deliverables-footer');
-    }
-
-    private function build_status_toolbar(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
-    {
-        $toolbar = ['label' => '', 'buttons' => []];
-        $formatter = $this->_l10n->get_formatter();
-        if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED) {
-            //new, proposed
-            $toolbar['buttons']['order'] = $this->_l10n->get('mark ordered');
-            $toolbar['buttons']['decline'] = $this->_l10n->get('mark declined');
-        } elseif ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED) {
-            //declined, nothing to do...
-            return $toolbar;
-        } elseif ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED) {
-            //started, ordered
-            if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
-                if ($entries = $deliverable->get_at_entries()) {
-                    $toolbar['label'] = sprintf($this->_l10n->get('next invoice will be generated on %s'), $formatter->date($entries[0]->start));
-                    if (   $entries[0]->status == midcom_services_at_entry_dba::SCHEDULED
-                        && midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)) {
-                        $toolbar['buttons']['run_cycle'] = $this->_l10n->get('generate now');
-                    }
-                }
-            } elseif ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED) {
-                $toolbar['buttons']['deliver'] = $this->_l10n->get('mark delivered');
-            }
-        } elseif ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED) {
-            //delivered, invoiced
-            if ($deliverable->invoiced > 0) {
-                $toolbar['label'] = $this->_l10n->get('invoiced') . ': ' . $formatter->number($deliverable->invoiced);
-            }
-        } elseif (   $deliverable->orgOpenpsaObtype != org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
-                 && midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)) {
-            //not invoiced yet
-            $client_class = $this->_config->get('calculator');
-            $client = new $client_class();
-            $client->run($deliverable);
-
-            if ($client->get_price() > 0) {
-                $toolbar['buttons']['invoice'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('invoice'));
-            }
-        }
-        return $toolbar;
     }
 }

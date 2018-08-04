@@ -14,6 +14,10 @@ Start of a new subscription cycle
 Expiration of an agreement
 ---STRINGEND
 
+---STRING actions
+Actions
+---STRINGEND
+
 ---STRING active
 Active
 ---STRINGEND
@@ -87,6 +91,10 @@ Create task
 
 ---STRING create_offer
 Create offer
+---STRINGEND
+
+---STRING created
+Created
 ---STRINGEND
 
 ---STRING created project "%s"
@@ -207,10 +215,6 @@ Mark ordered
 
 ---STRING marked deliverable "%s" delivered
 Marked deliverable "%s" delivered
----STRINGEND
-
----STRING next invoice will be generated on %s
-The next invoice will be generated on %s
 ---STRINGEND
 
 ---STRING next run

@@ -39,4 +39,3 @@ $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.pr
 
     }
     ?>
-    <ol class="deliverable_list">
