@@ -254,6 +254,8 @@ var midcom_helper_datamanager2_autocomplete = {
         if (handler_options.sortable === true) {
             $("#" + identifier + "_selection_holder").sortable({
                 items: "> span.autocomplete-item",
+                placeholder: 'autocomplete-placeholder',
+                forcePlaceholderSize: true,
                 update: function() {
                     var result = [];
                     $("#" + identifier + "_selection_holder .autocomplete-item:not(.autocomplete-todelete)")

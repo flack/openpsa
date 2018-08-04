@@ -177,3 +177,9 @@ li.ui-autocomplete-category
     color: #444;
     padding-top: .2em
 }
+
+
+.autocomplete-placeholder
+{
+    border: 2px solid rgba(0, 0, 0, 0.25);
+}
