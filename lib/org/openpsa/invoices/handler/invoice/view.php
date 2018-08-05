@@ -49,6 +49,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         org_openpsa_widgets_grid::add_head_elements();
         org_openpsa_widgets_ui::enable_ui_tab();
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.helpers/fileinfo.css");
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/" . $this->_component . "/invoices.js");
 
         return $this->show('admin-read');

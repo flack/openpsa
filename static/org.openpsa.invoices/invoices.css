@@ -76,38 +76,6 @@ div.org_openpsa_invoices table button:hover
     white-space: pre-wrap
 }
 
-.org_openpsa_helpers_fileinfo
-{
-    display: inline-block;
-    position: relative;
-    padding-right: 1em
-}
-
-.org_openpsa_helpers_fileinfo .icon
-{
-    position: absolute;
-    left: 0;
-}
-
-.org_openpsa_helpers_fileinfo .icon img
-{
-    border: none;
-}
-
-.org_openpsa_helpers_fileinfo .filename,
-.org_openpsa_helpers_fileinfo .mimetype,
-.org_openpsa_helpers_fileinfo .filesize
-{
-    display: block;
-    padding: .1em .3em;
-    margin-left: 55px
-}
-
-.org_openpsa_helpers_fileinfo .filename
-{
-    font-weight: bold;
-}
-
 #add-journal-entry
 {
     float: right;

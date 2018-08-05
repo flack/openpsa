@@ -48,13 +48,20 @@ div.org_openpsa_sales_salesproject_deliverable .tab_div .org_openpsa_invoices .u
 
 .org_openpsa_helpers_fileinfo
 {
+    display: flex;
     margin-bottom: 1em
 }
 
-.org_openpsa_helpers_fileinfo > .filename,
-.org_openpsa_helpers_fileinfo > span
+.org_openpsa_helpers_fileinfo .info
 {
-    margin-left: 3em
+    padding-left: .5em;
+}
+
+.org_openpsa_helpers_fileinfo .info .filename
+{
+    display: block;
+    font-weight: bold;
+    margin-bottom: .3em;
 }
 
 .org_openpsa_helpers_fileinfo .icon i {
@@ -66,7 +73,6 @@ div.org_openpsa_sales_salesproject_deliverable .tab_div .org_openpsa_invoices .u
 .org_openpsa_helpers_fileinfo .updated
 {
     font-size: 90%;
-    margin-left: 3.5em
 }
 
 .org_openpsa_helpers_fileinfo .actions i

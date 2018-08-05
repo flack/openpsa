@@ -23,9 +23,15 @@ class org_openpsa_helpers
             $url = midcom::get()->permalinks->create_attachment_link($attachment->guid, $attachment->name);
             $mimetype = org_openpsa_documents_document_dba::get_file_type($attachment->mimetype);
             $mimetype_icon = midcom_helper_misc::get_mime_icon($attachment->mimetype);
+            $parts = explode('.', $attachment->name);
+            $ext = '';
+            if (count($parts) > 1) {
+                $ext = end($parts);
+            }
 
             $output .= '<span class="org_openpsa_helpers_fileinfo">';
-            $output .= '<a href="' . $url . '" class="icon"><img src="' . $mimetype_icon . '" alt="' . $mimetype . '" /></a>';
+            $output .= '<a href="' . $url . '" class="icon" title="' . $attachment->name . '">';
+            $output .= '<i class="fa fa-file-o"></i><span class="extension">' . $ext . '</span></a>';
             $output .= '<a href="' . $url . '" class="filename">' . $attachment->name . '</a>';
             $output .= '<span class="mimetype">' . $mimetype . '</span>';
             $output .= '<span class="filesize">' . $filesize . '</span>';

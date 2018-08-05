@@ -35,13 +35,14 @@
                          $url = midcom_db_attachment::get_url($attachment);
                          echo '<a href="' . $url . '" class="icon"><i class="fa fa-file-text-o"></i></a>';
                      }
+                     echo '<span class="info">';
                      echo '<span class="filename">' . $offer->get_label();
                      echo ' <a class="actions" href="' . $delete_link . '"><i class="fa fa-trash" title="' . $data['l10n_midcom']->get('delete') . '"></i></a>';
                      echo ' <a class="actions" ' . $wf->render_attributes() . ' href="' . $edit_link . '"><i class="fa fa-pencil" title="' . $data['l10n_midcom']->get('edit') . '"></i></a>';
                      echo "</span>\n";
-                     echo ' <span class="date">' . $formatter->datetime($attachment->metadata->revised) . '</span>';
+                     echo ' <span class="date">' . $formatter->datetime($attachment->metadata->revised) . '</span> ';
                      echo $person_card->show_inline();
-                     echo "</span></li>\n";
+                     echo "</span></span></li>\n";
                  }
                  ?>
 	         </ul>
