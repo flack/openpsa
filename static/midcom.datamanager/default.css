@@ -232,26 +232,6 @@ form.datamanager2 fieldset.checkbox input.radiobutton
     float: left;
 }
 
-/* image actions */
-div.midcom_helper_datamanager2_widget_image_actions_container
-{
-    clear: left;
-}
-
-div.midcom_helper_datamanager2_widget_image_actions_container ul.midcom_helper_datamanager2_widget_image_actions
-{
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-}
-
-div.midcom_helper_datamanager2_widget_image_actions_container ul.midcom_helper_datamanager2_widget_image_actions li
-{
-    display: inline;
-    margin: 0px;
-    padding: 2px;
-}
-
 form.datamanager2 tr
 {
   vertical-align: top;
@@ -260,92 +240,6 @@ form.datamanager2 tr
 form.datamanager2 td.midcom_helper_datamanager2_helper_sortable .enabled
 {
   cursor: pointer;
-}
-
-form.datamanager2 table.jquery-enabled td.midcom_helper_datamanager2_helper_sortable input
-{
-  display: none;
-}
-
-form.datamanager2 table.jquery-enabled tr th.index,
-form.datamanager2 table.jquery-enabled tr td.midcom_helper_datamanager2_helper_sortable,
-form.datamanager2 table.jquery-enabled tr th.add_new_row
-{
-  text-align: right;
-  width: 48px;
-}
-
-form.datamanager2 table.jquery-enabled tr td img.delete
-{
-  display: none;
-  cursor: pointer;
-}
-
-form.datamanager2 table.jquery-enabled tr:hover td img.delete,
-form.datamanager2 table.jquery-enabled tr.hover td img.delete,
-form.datamanager2 table.jquery-enabled tr.deleted td img.delete
-{
-  display: inline;
-}
-
-form.datamanager2 table.jquery-enabled td img.delete
-{
-  position: absolute;
-  margin-left: -16px;
-}
-
-form.datamanager2 table.jquery-enabled tr th.add_new_row img,
-form.datamanager2 table.jquery-enabled tr th img.enabled
-{
-  cursor: pointer;
-}
-
-form.datamanager2 table.jquery-enabled tfoot td
-{
-  display: none;
-}
-
-form.datamanager2 table.jquery-enabled tfoot td.new_row
-{
-  display: table-cell;
-}
-
-form.datamanager2 table.jquery-enabled .deleted input,
-form.datamanager2 table.jquery-enabled .deleted select,
-form.datamanager2 table.jquery-enabled .deleted textarea
-{
-  text-decoration: line-through;
-  font-style: Italic;
-  opacity: 0.5;
-  filter:alpha(opacity=50);
-  vertical-align: middle;
-}
-
-form.datamanager2 table.jquery-enabled thead img.column_sort,
-form.datamanager2 table.jquery-enabled thead img.delete
-{
-  display: none;
-  position: absolute;
-}
-
-form.datamanager2 table.jquery-enabled thead img.move_left
-{
-  margin-left: -16px;
-}
-
-form.datamanager2 table.jquery-enabled thead img.delete
-{
-  margin-left: -32px;
-}
-
-form.datamanager2 table.jquery-enabled thead img.hover
-{
-  display: inline;
-}
-
-form.datamanager2 table.jquery-enabled thead .deleted img.delete
-{
-  display: inline !important;
 }
 
 .CodeMirror
