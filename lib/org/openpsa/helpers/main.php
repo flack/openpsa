@@ -22,7 +22,6 @@ class org_openpsa_helpers
             $filesize = midcom_helper_misc::filesize_to_string($stat[7]);
             $url = midcom::get()->permalinks->create_attachment_link($attachment->guid, $attachment->name);
             $mimetype = org_openpsa_documents_document_dba::get_file_type($attachment->mimetype);
-            $mimetype_icon = midcom_helper_misc::get_mime_icon($attachment->mimetype);
             $parts = explode('.', $attachment->name);
             $ext = '';
             if (count($parts) > 1) {
