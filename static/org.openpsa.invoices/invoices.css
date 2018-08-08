@@ -26,6 +26,11 @@ div.org_openpsa_invoices table button.mark_paid i
     color: #76d41a;
 }
 
+div.org_openpsa_invoices_invoice #tabs
+{
+    margin-top: 1em;
+}
+
 div.org_openpsa_invoices_invoice span.bad
 {
     color: #A40000;
