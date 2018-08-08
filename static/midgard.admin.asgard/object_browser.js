@@ -1,26 +1,19 @@
-$(document).ready(function()
-{
-    $('#content').on('click', 'a.thickbox', function(event)
-    {
-        if (!$(this).data('initialized'))
-        {
+$(document).ready(function() {
+    $('#content').on('click', 'a.thickbox', function(event) {
+        if (!$(this).data('initialized')) {
             event.preventDefault();
 
             // Add ajax to each colorbox link. This will tell to Asgard that it
             // should show only the object view style and nothing else.
             var link = $(this).attr('href');
 
-            if (!link)
-            {
+            if (!link) {
                 link = '';
             }
 
-            if (link.match(/\?/))
-            {
+            if (link.match(/\?/)) {
                 link = link.replace(/\?/, '?ajax&');
-            }
-            else
-            {
+            } else {
                 link += '?ajax';
             }
 
