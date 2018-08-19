@@ -9,6 +9,7 @@
 use midcom\datamanager\datamanager;
 use midcom\grid\provider\client;
 use midcom\grid\provider;
+use midcom\grid\grid;
 
 /**
  * org.openpsa.documents document handler and viewer class.
@@ -160,6 +161,8 @@ implements client
 
         org_openpsa_widgets_ui::enable_ui_tab();
         org_openpsa_widgets_contact::add_head_elements();
+        org_openpsa_widgets_tree::add_head_elements();
+        grid::add_head_elements();
 
         midcom::get()->head->set_pagetitle($this->_document->title);
 

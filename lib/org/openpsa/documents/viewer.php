@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use midcom\grid\grid;
-
 /**
  * org.openpsa.documents site interface class.
  *
@@ -25,8 +23,5 @@ class org_openpsa_documents_viewer extends midcom_baseclasses_components_request
 
         // Always run in uncached mode
         midcom::get()->cache->content->no_cache();
-
-        grid::add_head_elements();
-        org_openpsa_widgets_tree::add_head_elements();
     }
 }
