@@ -177,7 +177,7 @@ implements client
     {
         if ($this->_document->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager');
-            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('document-view', ['guid' => $this->_document->guid]), [
+            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('document-edit', ['guid' => $this->_document->guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]));
         }
