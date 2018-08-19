@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\grid\grid;
+
 /**
  * Sales project list handler
  *
@@ -49,7 +51,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         $this->_salesprojects = $qb->execute();
         // TODO: Filtering
 
-        $data['grid'] = new org_openpsa_widgets_grid($data['mode'] . '_salesprojects_grid', 'local');
+        $data['grid'] = new grid($data['mode'] . '_salesprojects_grid', 'local');
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/table2csv.js');
 
         $this->add_toolbar_buttons();

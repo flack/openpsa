@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\grid\grid;
+
 /**
  * Invoice item handler
  *
@@ -64,7 +66,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         }
 
         $data['invoice'] = $this->_object;
-        $data['grid'] = new org_openpsa_widgets_grid('invoice_items', 'local');
+        $data['grid'] = new grid('invoice_items', 'local');
         $data['grid']->set_footer_data(['sum' => $invoice_sum]);
         $this->_prepare_output();
 

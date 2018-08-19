@@ -50,5 +50,5 @@ $grid_id = $grid->get_identifier();
 <?php $grid->render(); ?>
 </div>
 <script type="text/javascript">
-org_openpsa_grid_helper.bind_grouping_switch('&(grid_id);');
+midcom_grid_helper.bind_grouping_switch('&(grid_id);');
 </script>

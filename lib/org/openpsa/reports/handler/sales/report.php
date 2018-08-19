@@ -7,6 +7,8 @@
  */
 
 use Doctrine\ORM\Query\Expr\Join;
+use midcom\grid\provider\client;
+use midcom\grid\provider;
 
 /**
  * Deliverable reports
@@ -14,7 +16,7 @@ use Doctrine\ORM\Query\Expr\Join;
  * @package org.openpsa.reports
  */
 class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handler_base
-implements org_openpsa_widgets_grid_provider_client
+implements client
 {
     /**
      * {@inheritdoc}
@@ -108,7 +110,7 @@ implements org_openpsa_widgets_grid_provider_client
         $data['start'] = $this->_request_data['query_data']['start'];
         $data['end'] = $this->_request_data['query_data']['end'];
 
-        $provider = new org_openpsa_widgets_grid_provider($this, 'local');
+        $provider = new provider($this, 'local');
         $data['grid'] = $provider->get_grid('deliverable_report_grid');
     }
 

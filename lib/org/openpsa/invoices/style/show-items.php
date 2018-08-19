@@ -46,7 +46,7 @@ $grid_id = $grid->get_identifier();
         grid.jqGrid("footerData", "set", {sum: total});
     }
 
-    org_openpsa_grid_editable.enable_inline("<?= $grid_id ?>", {
+    midcom_grid_editable.enable_inline("<?= $grid_id ?>", {
         afterdeletefunc: update_totals,
         enable_sorting: true,
         position_url: '&(position_url);'

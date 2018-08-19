@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\grid\provider;
+
 /**
  * Project tasks handler
  *
@@ -44,7 +46,7 @@ class org_openpsa_projects_handler_task_list_project extends org_openpsa_project
     public function _handler_json($handler_id, array $args, array &$data)
     {
         $project = new org_openpsa_projects_project($args[0]);
-        $this->provider = new org_openpsa_widgets_grid_provider($this, 'json');
+        $this->provider = new provider($this, 'json');
 
         $this->qb = org_openpsa_projects_task_dba::new_query_builder();
         $this->qb->add_constraint('project', '=', $project->id);

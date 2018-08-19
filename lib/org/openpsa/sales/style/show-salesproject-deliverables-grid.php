@@ -49,7 +49,7 @@ foreach ($data['deliverables'] as $deliverable) {
     ];
 }
 
-$provider = new org_openpsa_widgets_grid_provider($rows, 'local');
+$provider = new midcom\grid\provider($rows, 'local');
 $grid = $provider->get_grid('deliverables_' . $data['state']);
 
 $classes = $data['state'];

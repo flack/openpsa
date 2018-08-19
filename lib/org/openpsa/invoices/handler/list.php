@@ -7,6 +7,8 @@
  */
 
 use Doctrine\ORM\Query\Expr\Join;
+use midcom\grid\provider\client;
+use midcom\grid\provider;
 
 /**
  * Invoice list handler
@@ -14,7 +16,7 @@ use Doctrine\ORM\Query\Expr\Join;
  * @package org.openpsa.invoices
  */
 class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_handler
-implements org_openpsa_widgets_grid_provider_client
+implements client
 {
     use org_openpsa_invoices_handler;
 
@@ -157,7 +159,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         midcom::get()->skip_page_style = true;
         $this->_list_type = $args[0];
-        $data['provider'] = new org_openpsa_widgets_grid_provider($this);
+        $data['provider'] = new provider($this);
 
         return $this->show('show-grid-json');
     }
@@ -206,7 +208,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $this->_request_data['list_type'] = 'paid';
         $this->_list_type = 'recent';
-        $provider = new org_openpsa_widgets_grid_provider($this);
+        $provider = new provider($this);
         $provider->add_order('paid', 'DESC');
 
         if ($provider->count_rows() > 0) {
@@ -242,7 +244,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $this->_list_type = $type;
 
-        $provider = new org_openpsa_widgets_grid_provider($this, 'local');
+        $provider = new provider($this, 'local');
         if ($provider->count_rows() == 0) {
             return;
         }

@@ -1,17 +1,19 @@
 <?php
 /**
- * @package org.openpsa.widgets
+ * @package midcom.grid
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace midcom\grid\provider;
+
 /**
  * Interface for provider clients
  *
- * @package org.openpsa.widgets
+ * @package midcom.grid
  */
-interface org_openpsa_widgets_grid_provider_client
+interface client
 {
     /**
      * Get the query builder for the resultset
@@ -19,7 +21,7 @@ interface org_openpsa_widgets_grid_provider_client
      * @param string $field Optional ordering field
      * @param string $direction Optional ordering direction
      * @param array $search Optional search filters
-     * @return midcom_core_query QB or MC instance
+     * @return \midcom_core_query QB or MC instance
      */
     public function get_qb($field = null, $direction = 'ASC', array $search = []);
 
@@ -28,5 +30,5 @@ interface org_openpsa_widgets_grid_provider_client
      *
      * @return array The row item
      */
-    public function get_row(midcom_core_dbaobject $object);
+    public function get_row(\midcom_core_dbaobject $object);
 }

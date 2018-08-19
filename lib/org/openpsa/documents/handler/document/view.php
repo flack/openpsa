@@ -7,6 +7,8 @@
  */
 
 use midcom\datamanager\datamanager;
+use midcom\grid\provider\client;
+use midcom\grid\provider;
 
 /**
  * org.openpsa.documents document handler and viewer class.
@@ -14,7 +16,7 @@ use midcom\datamanager\datamanager;
  * @package org.openpsa.documents
  */
 class org_openpsa_documents_handler_document_view extends midcom_baseclasses_components_handler
-implements org_openpsa_widgets_grid_provider_client
+implements client
 {
     /**
      * The document we're working with (if any).
@@ -31,7 +33,7 @@ implements org_openpsa_widgets_grid_provider_client
     /**
      * The grid provider for document versions
      *
-     * @var org_openpsa_widgets_grid_provider
+     * @var provider
      */
     private $_provider;
 
@@ -122,7 +124,7 @@ implements org_openpsa_widgets_grid_provider_client
     public function _handler_versions($handler_id, array $args, array &$data)
     {
         $this->_document = $this->_load_document($args[0]);
-        $this->_provider = new org_openpsa_widgets_grid_provider($this, 'local');
+        $this->_provider = new provider($this, 'local');
         $this->_provider->add_order('created', 'DESC');
     }
 

@@ -101,7 +101,7 @@ if ($data['date_field'] == 'date') {
     $data['date_field'] = 'invoice date';
 }
 
-$grid = new org_openpsa_widgets_grid($grid_id, 'local');
+$grid = new midcom\grid\grid($grid_id, 'local');
 
 $grid->set_column('number', $l10n->get('invoice number'), 'width: 120', 'string')
     ->set_select_column('status', $data['l10n']->get('invoice status'), '', $status_options)
@@ -145,9 +145,9 @@ echo '<option value="month" data-hidden="true">' . $data['l10n']->get('month') .
 echo '<option value="clear">' . midcom::get()->i18n->get_string('no grouping', 'org.openpsa.core') . "</option>\n";
 echo '</select>';
 ?>
-<form id="&(grid_id);_export" class="tab_escape" method="post" action="&(host_prefix);midcom-exec-org.openpsa.core/csv_export.php">
-<input id="&(grid_id);_csvdata" type="hidden" value="" name="org_openpsa_export_csv_data" />
-<input type="hidden" value="&(filename);.csv" name="org_openpsa_export_csv_filename" />
+<form id="&(grid_id);_export" class="tab_escape" method="post" action="&(host_prefix);midcom-exec-midcom.grid/csv_export.php">
+<input id="&(grid_id);_csvdata" type="hidden" value="" name="midcom_grid_csv_data" />
+<input type="hidden" value="&(filename);.csv" name="midcom_grid_csv_filename" />
 <input class="button" type="submit" value="<?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
 </form>
 </div>
@@ -160,7 +160,7 @@ echo '</select>';
 
 <script type="text/javascript">
 
-org_openpsa_export_csv.add({
+midcom_grid_csv.add({
       id: '&(grid_id);',
       fields: {
           index_number: '<?php echo $l10n->get('invoice number'); ?>',
@@ -173,6 +173,6 @@ org_openpsa_export_csv.add({
           vat_sum: '<?php echo $l10n->get('vat sum'); ?>'
         }
 });
-org_openpsa_grid_helper.bind_grouping_switch('&(grid_id);');
+midcom_grid_helper.bind_grouping_switch('&(grid_id);');
 
 </script>

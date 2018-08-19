@@ -46,7 +46,7 @@ function calculate_subtotal(val, name, record)
 ?>
 </div>
 <script type="text/javascript">
-org_openpsa_grid_helper.bind_grouping_switch('&(grid_id);');
+midcom_grid_helper.bind_grouping_switch('&(grid_id);');
 
 var grid = $("#&(grid_id);"),
 date_columns = <?php echo json_encode($date_columns); ?>,

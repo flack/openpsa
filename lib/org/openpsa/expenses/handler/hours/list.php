@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\helper\autocomplete;
+use midcom\grid\grid;
 
 /**
  * @package org.openpsa.expenses
@@ -30,7 +31,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $this->qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $this->qb->add_order('date', 'DESC');
 
-        org_openpsa_widgets_grid::add_head_elements();
+        grid::add_head_elements();
         autocomplete::add_head_elements();
         org_openpsa_widgets_contact::add_head_elements();
     }
@@ -114,7 +115,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 
     private function show_list(array &$data)
     {
-        $data['grid'] = new org_openpsa_widgets_grid($data['mode'] . '_hours_grid', 'local');
+        $data['grid'] = new grid($data['mode'] . '_hours_grid', 'local');
         $data['group_options'] = [
             'category' => $this->_l10n->get('category'),
             'task' => $this->_l10n->get('task'),

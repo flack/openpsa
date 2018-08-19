@@ -6,13 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\grid\provider\client;
+use midcom\grid\provider;
+
 /**
  * Sales project list handler
  *
  * @package org.openpsa.sales
  */
 class org_openpsa_sales_handler_deliverable_list extends midcom_baseclasses_components_handler
-implements org_openpsa_widgets_grid_provider_client
+implements client
 {
     public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
@@ -54,7 +57,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $this->_product = new org_openpsa_products_product_dba($args[0]);
 
-        $provider = new org_openpsa_widgets_grid_provider($this, 'local');
+        $provider = new provider($this, 'local');
         $data['grid'] = $provider->get_grid('deliverables_product');
         $data['product'] = $this->_product;
 

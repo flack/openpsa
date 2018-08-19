@@ -1,17 +1,22 @@
 <?php
 /**
- * @package org.openpsa.widgets
+ * @package midcom.grid
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace midcom\grid;
+
+use midcom;
+use midcom_error;
+
 /**
  * Helper class for jqgrid widgets
  *
- * @package org.openpsa.widgets
+ * @package midcom.grid
  */
-class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
+class grid
 {
     /**
      * The grid's ID
@@ -73,7 +78,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
     /**
      * The data provider, if any
      *
-     * @var org_openpsa_widgets_grid_provider
+     * @var provider
      */
     private $_provider;
 
@@ -93,7 +98,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
             return;
         }
         $version = '4.15.4';
-        $jqgrid_path = '/org.openpsa.widgets/jqGrid-' . $version . '/';
+        $jqgrid_path = '/midcom.grid/jqGrid-' . $version . '/';
 
         $head = midcom::get()->head;
         $head->enable_jquery_ui(['button', 'mouse', 'resizable']);
@@ -107,12 +112,12 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'i18n/grid.locale-'. $lang . '.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'jquery.jqgrid.min.js');
 
-        org_openpsa_widgets_ui::add_head_elements();
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/jqGrid.custom.js');
+        \org_openpsa_widgets_ui::add_head_elements();
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.grid/jqGrid.custom.js');
 
         $head->add_stylesheet(MIDCOM_STATIC_URL . $jqgrid_path . 'ui.jqgrid.min.css');
         $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.widgets/jqGrid.custom.css');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.grid/jqGrid.custom.css');
         self::$_head_elements_added = true;
     }
 
@@ -130,7 +135,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         self::add_head_elements();
     }
 
-    public function set_provider(org_openpsa_widgets_grid_provider $provider)
+    public function set_provider(provider $provider)
     {
         $this->_provider = $provider;
     }
@@ -291,7 +296,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
             if (null !== $this->_provider) {
                 $this->_provider->set_rows($entries);
             } else {
-                $this->_provider = new org_openpsa_widgets_grid_provider($entries, $this->get_option('datatype'));
+                $this->_provider = new provider($entries, $this->get_option('datatype'));
                 $this->_provider->set_grid($this);
             }
         }
@@ -308,7 +313,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         $string .= '<div id="p_' . $this->_identifier . '"></div>';
         $string .= '<script type="text/javascript">//<![CDATA[' . "\n";
         $string .= $this->_prepend_js;
-        $string .= 'org_openpsa_grid_helper.setup_grid("' . $this->_identifier . '", {';
+        $string .= 'midcom_grid_helper.setup_grid("' . $this->_identifier . '", {';
 
         $colnames = [];
         foreach ($this->_columns as $name => $column) {

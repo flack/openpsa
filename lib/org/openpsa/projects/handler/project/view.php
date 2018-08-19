@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use midcom\grid\grid;
 
 /**
  * Project view handler
@@ -45,7 +46,7 @@ class org_openpsa_projects_handler_project_view extends midcom_baseclasses_compo
         midcom::get()->metadata->set_request_metadata($this->project->metadata->revised, $this->project->guid);
         $this->bind_view_to_object($this->project, $dm->get_schema()->get_name());
 
-        org_openpsa_widgets_grid::add_head_elements();
+        grid::add_head_elements();
         org_openpsa_widgets_contact::add_head_elements();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.js');
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.css');

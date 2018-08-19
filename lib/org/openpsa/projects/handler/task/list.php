@@ -7,6 +7,9 @@
  */
 
 use midcom\datamanager\schemadb;
+use midcom\grid\provider\client;
+use midcom\grid\provider;
+use midcom\grid\grid;
 
 /**
  * Task list handler
@@ -14,7 +17,7 @@ use midcom\datamanager\schemadb;
  * @package org.openpsa.projects
  */
 class org_openpsa_projects_handler_task_list extends midcom_baseclasses_components_handler
-implements org_openpsa_widgets_grid_provider_client
+implements client
 {
     private $status_order = [
         'proposed' => 0,
@@ -29,7 +32,7 @@ implements org_openpsa_widgets_grid_provider_client
     /**
      * Grid controller
      *
-     * @var org_openpsa_widgets_grid_provider
+     * @var provider
      */
     protected $provider;
 
@@ -357,9 +360,9 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $this->_request_data['sales_url'] = $siteconfig->get_node_full_url('org.openpsa.sales');
 
-        $this->provider = new org_openpsa_widgets_grid_provider($this, 'local');
+        $this->provider = new provider($this, 'local');
         $this->_request_data['provider'] = $this->provider;
 
-        org_openpsa_widgets_grid::add_head_elements();
+        grid::add_head_elements();
     }
 }

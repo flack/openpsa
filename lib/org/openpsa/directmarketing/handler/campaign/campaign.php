@@ -9,12 +9,14 @@
 use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
 use Doctrine\ORM\Query\Expr\Join;
+use midcom\grid\provider\client;
+use midcom\grid\provider;
 
 /**
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_baseclasses_components_handler
-implements org_openpsa_widgets_grid_provider_client
+implements client
 {
     use org_openpsa_directmarketing_handler;
 
@@ -101,7 +103,7 @@ implements org_openpsa_widgets_grid_provider_client
         org_openpsa_widgets_contact::add_head_elements();
         $this->_populate_toolbar();
 
-        $provider = new org_openpsa_widgets_grid_provider($this);
+        $provider = new provider($this);
         $data['grid'] = $provider->get_grid('list_members_' . $this->_campaign->guid);
 
         // Populate calendar events for the campaign
@@ -200,7 +202,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         midcom::get()->skip_page_style = true;
 
-        $data['provider'] = new org_openpsa_widgets_grid_provider($this);
+        $data['provider'] = new provider($this);
         return $this->show('show-campaign-members');
     }
 }

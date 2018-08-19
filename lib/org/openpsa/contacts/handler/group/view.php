@@ -8,6 +8,9 @@
 
 use Doctrine\ORM\Query\Expr\Join;
 use midcom\datamanager\datamanager;
+use midcom\grid\provider\client;
+use midcom\grid\grid;
+use midcom\grid\provider;
 
 /**
  * org.openpsa.contacts group handler and viewer class.
@@ -15,7 +18,7 @@ use midcom\datamanager\datamanager;
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_components_handler
-implements org_openpsa_widgets_grid_provider_client
+implements client
 {
     use org_openpsa_contacts_handler;
 
@@ -104,7 +107,7 @@ implements org_openpsa_widgets_grid_provider_client
         if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
             $this->type = 'group';
             $data['group_tree'] = $this->get_group_tree();
-            $data['members_grid'] = new org_openpsa_widgets_grid('members_grid', 'json');
+            $data['members_grid'] = new grid('members_grid', 'json');
             org_openpsa_widgets_tree::add_head_elements();
         } else {
             $this->type = 'organization';
@@ -172,7 +175,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         midcom::get()->skip_page_style = true;
         $data['group'] = new org_openpsa_contacts_group_dba($args[0]);
-        $data['provider'] = new org_openpsa_widgets_grid_provider($this);
+        $data['provider'] = new provider($this);
 
         return $this->show('show-group-json');
     }

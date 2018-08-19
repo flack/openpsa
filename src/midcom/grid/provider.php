@@ -1,22 +1,29 @@
 <?php
 /**
- * @package org.openpsa.widgets
+ * @package midcom.grid
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace midcom\grid;
+
+use midcom\grid\provider\client;
+use midcom_core_query;
+use midcom_error;
+use midcom;
+
 /**
  * Manager for retrieving grid data by AJAX
  *
- * @package org.openpsa.widgets
+ * @package midcom.grid
  */
-class org_openpsa_widgets_grid_provider
+class provider
 {
     /**
      * The class responsible for getting and formatting rows
      *
-     * @var org_openpsa_widgets_grid_provider_client
+     * @var client
      */
     private $_client;
 
@@ -65,7 +72,7 @@ class org_openpsa_widgets_grid_provider
     /**
      * The grid we're working with
      *
-     * @var org_openpsa_widgets_grid
+     * @var grid
      */
     private $_grid;
 
@@ -93,7 +100,7 @@ class org_openpsa_widgets_grid_provider
     public function __construct($source, $datatype = 'json')
     {
         $this->_datatype = $datatype;
-        if (is_a($source, org_openpsa_widgets_grid_provider_client::class)) {
+        if (is_a($source, client::class)) {
             $this->_client = $source;
         } elseif (is_array($source)) {
             $this->set_rows($source);
@@ -116,7 +123,7 @@ class org_openpsa_widgets_grid_provider
         $this->_sort_direction = $direction;
     }
 
-    public function set_grid(org_openpsa_widgets_grid $grid)
+    public function set_grid(grid $grid)
     {
         $this->_grid = $grid;
         $this->_grid->set_provider($this);
@@ -126,7 +133,7 @@ class org_openpsa_widgets_grid_provider
     public function get_grid($identifier = null)
     {
         if (null !== $identifier) {
-            $this->_grid = new org_openpsa_widgets_grid($identifier, $this->_datatype);
+            $this->_grid = new grid($identifier, $this->_datatype);
             $this->_grid->set_provider($this);
             if (!empty($this->_sort_field)) {
                 $this->_grid->set_option('sortname', $this->_sort_field);
@@ -299,9 +306,9 @@ class org_openpsa_widgets_grid_provider
         }
         $this->_rows = [];
 
-        if ($qb instanceof midcom_core_querybuilder) {
+        if ($qb instanceof \midcom_core_querybuilder) {
             $items = $qb->execute();
-        } elseif ($qb instanceof midcom_core_collector) {
+        } elseif ($qb instanceof \midcom_core_collector) {
             $items = $qb->get_objects();
         } else {
             throw new midcom_error('Unsupported query class ' . get_class($qb));

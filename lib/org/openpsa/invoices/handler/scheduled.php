@@ -6,11 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\grid\provider\client;
+use midcom\grid\provider;
+
 /**
  * @package org.openpsa.invoices
  */
 class org_openpsa_invoices_handler_scheduled extends midcom_baseclasses_components_handler
-implements org_openpsa_widgets_grid_provider_client
+implements client
 {
     use org_openpsa_invoices_handler;
 
@@ -27,7 +30,7 @@ implements org_openpsa_widgets_grid_provider_client
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
 
-        $provider = new org_openpsa_widgets_grid_provider($this, 'local');
+        $provider = new provider($this, 'local');
         $provider->add_order('start');
 
         $data['grid'] = $provider->get_grid('scheduled_invoices');

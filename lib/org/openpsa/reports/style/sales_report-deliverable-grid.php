@@ -50,7 +50,7 @@ echo '</select>';
 </div>
 
 <script type="text/javascript">
-org_openpsa_grid_helper.bind_grouping_switch('&(grid_id);');
+midcom_grid_helper.bind_grouping_switch('&(grid_id);');
 
-org_openpsa_grid_footer.set_field('&(grid_id);', 'amount', 'sum');
+midcom_grid_footer.set_field('&(grid_id);', 'amount', 'sum');
 </script>

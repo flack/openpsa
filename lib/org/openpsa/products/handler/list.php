@@ -7,19 +7,21 @@
  */
 
 use midcom\datamanager\datamanager;
+use midcom\grid\provider\client;
+use midcom\grid\provider;
 
 /**
  * @package org.openpsa.products
  */
 class org_openpsa_products_handler_list extends midcom_baseclasses_components_handler
-implements org_openpsa_widgets_grid_provider_client
+implements client
 {
     use org_openpsa_products_handler;
 
     /**
      * The grid provider
      *
-     * @var org_openpsa_widgets_grid_provider
+     * @var provider
      */
     private $provider;
 
@@ -30,7 +32,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function _on_initialize()
     {
-        $this->provider = new org_openpsa_widgets_grid_provider($this);
+        $this->provider = new provider($this);
     }
 
     public function get_qb($field = null, $direction = 'ASC', array $search = [])

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\grid\grid;
+
 /**
  * Invoices reporting
  *
@@ -43,7 +45,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             $data['invoices'] = array_merge($data['invoices'], $this->_load_invoices($status));
         }
 
-        org_openpsa_widgets_grid::add_head_elements();
+        grid::add_head_elements();
     }
 
     private function _get_invoices_for_subscription($deliverable, $at_entry)

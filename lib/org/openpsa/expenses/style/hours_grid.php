@@ -130,9 +130,9 @@ $grid_id = $data['grid']->get_identifier();
 </div>
 
 <script type="text/javascript">
-org_openpsa_grid_helper.bind_grouping_switch('&(grid_id);');
+midcom_grid_helper.bind_grouping_switch('&(grid_id);');
 
-org_openpsa_batch_processing.initialize({
+midcom_grid_batch_processing.initialize({
     id: '&(grid_id);',
     options: <?php echo json_encode($data['action_options']); ?>
 });

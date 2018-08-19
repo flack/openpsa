@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use midcom\grid\grid;
 
 /**
  * View group class for user management
@@ -49,7 +50,7 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
 
         $data['view'] = $this->load_datamanager();
         org_openpsa_widgets_tree::add_head_elements();
-        org_openpsa_widgets_grid::add_head_elements();
+        grid::add_head_elements();
 
         $this->add_breadcrumb('', $this->_group->get_label());
 

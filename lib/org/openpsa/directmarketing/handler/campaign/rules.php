@@ -6,13 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\grid\provider\client;
+use midcom\grid\provider;
+
 /**
  * directmarketing campaign rules handler
  *
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_campaign_rules extends midcom_baseclasses_components_handler
-implements org_openpsa_widgets_grid_provider_client
+implements client
 {
     use org_openpsa_directmarketing_handler;
 
@@ -76,7 +79,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->rules = $this->_load_rules();
 
         midcom::get()->skip_page_style = true;
-        $data['provider'] = new org_openpsa_widgets_grid_provider($this);
+        $data['provider'] = new provider($this);
 
         return $this->show('show-campaign-members');
     }
@@ -141,7 +144,7 @@ implements org_openpsa_widgets_grid_provider_client
         ];
         $this->_view_toolbar->add_items($buttons);
 
-        $provider = new org_openpsa_widgets_grid_provider($this);
+        $provider = new provider($this);
         $data['grid'] = $provider->get_grid('preview_persons');
 
         midcom::get()->head->enable_jquery();

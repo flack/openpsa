@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\grid\grid;
+
 /**
  * journal entry list handler
  *
@@ -46,7 +48,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         $data['entries'] = $this->qb->execute();
 
         $this->_prepare_output();
-        org_openpsa_widgets_grid::add_head_elements();
+        grid::add_head_elements();
 
         //prepare breadcrumb
         if ($this->object_url) {
@@ -118,7 +120,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
                 'value' => false,
             ]
         ];
-        org_openpsa_widgets_grid::add_head_elements();
+        grid::add_head_elements();
         midcom::get()->head->set_pagetitle($this->_l10n->get('journal entries'));
         $this->add_breadcrumb('', $this->_l10n->get('journal entries'));
 

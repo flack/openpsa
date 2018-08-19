@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\grid\grid;
+
 /**
  * @package org.openpsa.expenses
  */
@@ -63,12 +65,12 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
 
         $this->_populate_toolbar($data['previous_week'], $data['next_week']);
 
-        org_openpsa_widgets_grid::add_head_elements();
+        grid::add_head_elements();
 
         $data['view_title'] = sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %G", $data['week_start']));
         $this->add_breadcrumb('', $data['view_title']);
         midcom::get()->head->set_pagetitle($data['view_title']);
-        $data['grid'] = new org_openpsa_widgets_grid('hours_week', 'local');
+        $data['grid'] = new grid('hours_week', 'local');
         $data['group_options'] = [
             'task' => $this->_l10n->get('task'),
             'person' => $this->_l10n->get('person')

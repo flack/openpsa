@@ -7,6 +7,8 @@
  */
 
 use Doctrine\ORM\Query\Expr\Join;
+use midcom\grid\provider\client;
+use midcom\grid\provider;
 
 /**
  * Request class for user management
@@ -14,12 +16,12 @@ use Doctrine\ORM\Query\Expr\Join;
  * @package org.openpsa.user
  */
 class org_openpsa_user_handler_list extends midcom_baseclasses_components_handler
-implements org_openpsa_widgets_grid_provider_client
+implements client
 {
     /**
      * The grid provider
      *
-     * @var org_openpsa_widgets_grid_provider
+     * @var provider
      */
     private $_provider;
 
@@ -32,7 +34,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function _on_initialize()
     {
-        $this->_provider = new org_openpsa_widgets_grid_provider($this);
+        $this->_provider = new provider($this);
     }
 
     /**

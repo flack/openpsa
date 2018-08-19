@@ -1,4 +1,4 @@
-var org_openpsa_jqgrid_presets = {
+var midcom_jqgrid_presets = {
     autowidth: true,
     altRows: true,
     altclass: 'even',
@@ -19,9 +19,9 @@ var org_openpsa_jqgrid_presets = {
     }
 };
 
-$.jgrid.defaults = $.extend($.jgrid.defaults, org_openpsa_jqgrid_presets);
+$.jgrid.defaults = $.extend($.jgrid.defaults, midcom_jqgrid_presets);
 
-var org_openpsa_grid_resize = {
+var midcom_grid_resize = {
     timer: false,
     containment: '#content-text',
     firstrun: true,
@@ -32,34 +32,34 @@ var org_openpsa_grid_resize = {
                 $(window).trigger('resize');
         }});
 
-        org_openpsa_grid_resize.attach_maximizer($('.ui-jqgrid-titlebar'));
+        midcom_grid_resize.attach_maximizer($('.ui-jqgrid-titlebar'));
     },
     event_handler: function(resizing) {
-        if (org_openpsa_grid_resize.firstrun) {
-            org_openpsa_grid_resize.firstrun = false;
-            org_openpsa_grid_resize.add_header_controls();
+        if (midcom_grid_resize.firstrun) {
+            midcom_grid_resize.firstrun = false;
+            midcom_grid_resize.add_header_controls();
         }
 
         if (resizing) {
-            if (!org_openpsa_grid_resize.timer) {
-                $(org_openpsa_grid_resize.containment).addClass('openpsa-resizing');
+            if (!midcom_grid_resize.timer) {
+                $(midcom_grid_resize.containment).addClass('openpsa-resizing');
             } else {
-                clearTimeout(org_openpsa_grid_resize.timer);
+                clearTimeout(midcom_grid_resize.timer);
             }
-            org_openpsa_grid_resize.timer = setTimeout(org_openpsa_grid_resize.end_resize, 300);
+            midcom_grid_resize.timer = setTimeout(midcom_grid_resize.end_resize, 300);
         }
         if ($('.ui-jqgrid-maximized').length > 0) {
-            org_openpsa_grid_resize.maximize_height($('.ui-jqgrid-maximized'));
-            org_openpsa_grid_resize.fill_width($('.ui-jqgrid-maximized'));
+            midcom_grid_resize.maximize_height($('.ui-jqgrid-maximized'));
+            midcom_grid_resize.fill_width($('.ui-jqgrid-maximized'));
         } else {
-            org_openpsa_grid_resize.set_height($('.fill-height'), 'fill');
-            org_openpsa_grid_resize.set_height($('.crop-height'), 'crop');
-            org_openpsa_grid_resize.fill_width($('.full-width'));
+            midcom_grid_resize.set_height($('.fill-height'), 'fill');
+            midcom_grid_resize.set_height($('.crop-height'), 'crop');
+            midcom_grid_resize.fill_width($('.full-width'));
         }
     },
     end_resize: function() {
-        org_openpsa_grid_resize.timer = false;
-        $(org_openpsa_grid_resize.containment).removeClass('openpsa-resizing');
+        midcom_grid_resize.timer = false;
+        $(midcom_grid_resize.containment).removeClass('openpsa-resizing');
     },
     attach_maximizer: function(items) {
         $(items).each(function() {
@@ -83,13 +83,13 @@ var org_openpsa_grid_resize = {
                             .find('.ui-jqgrid-titlebar-close').show();
                         placeholder.remove();
                         //no container is maximized
-                        $(org_openpsa_grid_resize.containment).children().removeClass('ui-jqgrid-maximized');
-                        $(org_openpsa_grid_resize.containment).find('.ui-jqgrid-titlebar-maximize').show();
-                        $(org_openpsa_grid_resize.containment).children().removeClass('ui-jqgrid-maximized-background');
-                        $(org_openpsa_grid_resize.containment).css('overflow', 'auto');
+                        $(midcom_grid_resize.containment).children().removeClass('ui-jqgrid-maximized');
+                        $(midcom_grid_resize.containment).find('.ui-jqgrid-titlebar-maximize').show();
+                        $(midcom_grid_resize.containment).children().removeClass('ui-jqgrid-maximized-background');
+                        $(midcom_grid_resize.containment).css('overflow', 'auto');
                     } else {
                         $(this).find('span').removeClass('fa-plus-circle').addClass('fa-minus-circle')
-                        $(org_openpsa_grid_resize.containment).scrollTop(0);
+                        $(midcom_grid_resize.containment).scrollTop(0);
                         $('<div id="maximized_placeholder"></div>')
                             .data('orig_height', container.find('.ui-jqgrid-bdiv').outerHeight())
                             .insertAfter(container);
@@ -97,10 +97,10 @@ var org_openpsa_grid_resize = {
                             .detach()
                             .removeClass('ui-jqgrid-maximized-background')
                             .addClass('ui-jqgrid-maximized')
-                            .prependTo($(org_openpsa_grid_resize.containment))
+                            .prependTo($(midcom_grid_resize.containment))
                             .find('.ui-jqgrid-titlebar-close').hide();
-                        $(org_openpsa_grid_resize.containment).children(':not(:first-child)').addClass('ui-jqgrid-maximized-background');
-                        $(org_openpsa_grid_resize.containment).css('overflow', 'hidden');
+                        $(midcom_grid_resize.containment).children(':not(:first-child)').addClass('ui-jqgrid-maximized-background');
+                        $(midcom_grid_resize.containment).css('overflow', 'hidden');
                     }
                     $(window).trigger('resize');
                 })
@@ -127,7 +127,7 @@ var org_openpsa_grid_resize = {
 
         $.each(items, function(index, item) {
             if (items.hasClass('ui-jqgrid-maximized')) {
-                new_width = $(org_openpsa_grid_resize.containment).width();
+                new_width = $(midcom_grid_resize.containment).width();
             } else {
                 //calculate for each item separately to take care of floating neighbors
                 new_width = $(item).width();
@@ -151,19 +151,19 @@ var org_openpsa_grid_resize = {
         });
     },
     set_height: function(items, mode) {
-        if (items.length === 0 || $(org_openpsa_grid_resize.containment).length === 0) {
+        if (items.length === 0 || $(midcom_grid_resize.containment).length === 0) {
             return;
         }
 
         var grids_content_height = 0,
-            container_height = $(org_openpsa_grid_resize.containment).height(),
+            container_height = $(midcom_grid_resize.containment).height(),
             container_nongrid_height = 0,
             visible_grids = 0,
             grid_heights = {},
             minimum_height = 21;
 
         if ($('#org_openpsa_resize_marker_end').length === 0) {
-            $(org_openpsa_grid_resize.containment)
+            $(midcom_grid_resize.containment)
                 .append('<div id="org_openpsa_resize_marker_end"></div>')
                 .prepend('<div id="org_openpsa_resize_marker_start"></div>');
         }
@@ -235,7 +235,7 @@ var org_openpsa_grid_resize = {
     maximize_height: function(part) {
         var part_height = $(part).outerHeight(true),
             grid_height = $("table.ui-jqgrid-btable", part).parent().parent().outerHeight(),
-            new_height = $(org_openpsa_grid_resize.containment).height() + grid_height - part_height;
+            new_height = $(midcom_grid_resize.containment).height() + grid_height - part_height;
 
         try {
             $("table.ui-jqgrid-btable", part).jqGrid().setGridHeight(new_height);
@@ -244,15 +244,15 @@ var org_openpsa_grid_resize = {
     }
 };
 
-org_openpsa_resizers.append_handler('grid', org_openpsa_grid_resize.event_handler);
+org_openpsa_resizers.append_handler('grid', midcom_grid_resize.event_handler);
 
-var org_openpsa_grid_editable = {
+var midcom_grid_editable = {
     grid_id: '',
     last_added_row: 0,
     default_options: {
         keys: true,
         afterrestorefunc: function(id) {
-            org_openpsa_grid_editable.toggle(id, false);
+            midcom_grid_editable.toggle(id, false);
         },
         aftersavefunc: function(id, response) {
             //if saved row was new_... then refresh tr-id
@@ -260,21 +260,21 @@ var org_openpsa_grid_editable = {
                 var return_values = $.parseJSON(response.responseText),
                     oldId = return_values.oldid;
                 if (oldId.substring(0, 4) === 'new_') {
-                    var pos = $('#' + org_openpsa_grid_editable.grid_id + ' tr[id="' + oldId + '"]').prevAll().length,
+                    var pos = $('#' + midcom_grid_editable.grid_id + ' tr[id="' + oldId + '"]').prevAll().length,
                         newrow = $('#' + oldId);
                     id = return_values.id;
 
-                    org_openpsa_grid_editable.saveSingleItemPosition(id, pos);
+                    midcom_grid_editable.saveSingleItemPosition(id, pos);
 
                     newrow.attr('id', id);
                     newrow.find('.row_edit, .row_save, .row_cancel, .row_delete').data('row-id', id);
                 }
             }
 
-            org_openpsa_grid_editable.toggle(id, false);
+            midcom_grid_editable.toggle(id, false);
         },
         oneditfunc: function(id) {
-            org_openpsa_grid_editable.toggle(id, true);
+            midcom_grid_editable.toggle(id, true);
         },
         successfunc: function(data) {
             var return_values = $.parseJSON(data.responseText);
@@ -447,7 +447,7 @@ var org_openpsa_grid_editable = {
     }
 };
 
-var org_openpsa_grid_footer = {
+var midcom_grid_footer = {
     set_field: function(grid_id, colname, operation) {
         var value = $('#' + grid_id).jqGrid('getCol', colname, false, operation),
             footerdata = {};
@@ -456,7 +456,7 @@ var org_openpsa_grid_footer = {
     }
 };
 
-var org_openpsa_grid_helper = {
+var midcom_grid_helper = {
     event_handler_added: false,
     active_grids: [],
     maximized_grid: '',
@@ -514,7 +514,7 @@ var org_openpsa_grid_helper = {
         if (   typeof window.localStorage !== 'undefined'
             && window.localStorage
             && typeof JSON !== 'undefined') {
-            org_openpsa_grid_helper.active_grids.push(grid_id);
+            midcom_grid_helper.active_grids.push(grid_id);
             saved_values = $.parseJSON(window.localStorage.getItem(identifier));
             if (saved_values) {
                 if (typeof saved_values.custom_keys !== 'undefined') {
@@ -523,8 +523,8 @@ var org_openpsa_grid_helper = {
                     $('#' + grid_id).data('vScroll', keys.vScroll);
 
                     //only allow one maximized
-                    if (keys.maximized && org_openpsa_grid_helper.maximized_grid == '') {
-                        org_openpsa_grid_helper.maximized_grid = grid_id;
+                    if (keys.maximized && midcom_grid_helper.maximized_grid == '') {
+                        midcom_grid_helper.maximized_grid = grid_id;
                     } else {
                         keys.maximized = false;
                     }
@@ -542,9 +542,9 @@ var org_openpsa_grid_helper = {
                     config.page = 1;
                 }
             }
-            if (org_openpsa_grid_helper.event_handler_added === false) {
-                $(window).on('unload', org_openpsa_grid_helper.save_grid_data);
-                org_openpsa_grid_helper.event_handler_added = true;
+            if (midcom_grid_helper.event_handler_added === false) {
+                $(window).on('unload', midcom_grid_helper.save_grid_data);
+                midcom_grid_helper.event_handler_added = true;
             }
         }
 
@@ -561,7 +561,7 @@ var org_openpsa_grid_helper = {
     },
     save_grid_data: function() {
         var grid_maximized = false;
-        org_openpsa_grid_helper.active_grids.forEach(function(grid_id) {
+        midcom_grid_helper.active_grids.forEach(function(grid_id) {
             if (typeof $('#' + grid_id).jqGrid === 'undefined') {
                 return;
             }
@@ -600,7 +600,7 @@ var org_openpsa_grid_helper = {
     }
 };
 
-var org_openpsa_export_csv = {
+var midcom_grid_csv = {
     configs: {},
     separator: ';',
     add: function (config) {
@@ -608,7 +608,7 @@ var org_openpsa_export_csv = {
 
         $('#' + config.id + '_export input[type="submit"]').on('click', function() {
             var id = $(this).parent().attr('id').replace(/_export$/, '');
-            org_openpsa_export_csv.prepare_data(id);
+            midcom_grid_csv.prepare_data(id);
         });
     },
     prepare_data: function(id) {
@@ -641,7 +641,7 @@ var org_openpsa_export_csv = {
     }
 };
 
-var org_openpsa_batch_processing = {
+var midcom_grid_batch_processing = {
     initialize: function(config) {
         $('#form_' + config.id).hide();
 

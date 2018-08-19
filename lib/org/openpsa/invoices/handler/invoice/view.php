@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
+use midcom\grid\grid;
 
 /**
  * Invoice read handler
@@ -46,7 +47,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         $this->bind_view_to_object($this->invoice, $dm->get_schema()->get_name());
         midcom::get()->head->set_pagetitle($this->_l10n->get('invoice') . ' ' . $this->invoice->get_label());
 
-        org_openpsa_widgets_grid::add_head_elements();
+        grid::add_head_elements();
         org_openpsa_widgets_ui::enable_ui_tab();
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.helpers/fileinfo.css");

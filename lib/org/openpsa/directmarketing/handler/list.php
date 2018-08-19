@@ -7,6 +7,9 @@
  */
 
 use midcom\datamanager\schemadb;
+use midcom\grid\provider\client;
+use midcom\grid\grid;
+use midcom\grid\provider;
 
 /**
  * Campaign list handler
@@ -14,12 +17,12 @@ use midcom\datamanager\schemadb;
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_list extends midcom_baseclasses_components_handler
-implements org_openpsa_widgets_grid_provider_client
+implements client
 {
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
-        org_openpsa_widgets_grid::add_head_elements();
+        grid::add_head_elements();
     }
 
     public function get_qb($field = null, $direction = 'ASC', array $search = [])
@@ -80,7 +83,7 @@ implements org_openpsa_widgets_grid_provider_client
             }
         }
 
-        $provider = new org_openpsa_widgets_grid_provider($this, 'local');
+        $provider = new provider($this, 'local');
         $data['grid'] = $provider->get_grid('campaign_grid');
 
         return $this->show('show-frontpage');

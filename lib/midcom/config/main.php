@@ -392,6 +392,7 @@ class midcom_config implements arrayaccess
             'lib/midgard/admin/asgard',
             'lib/fi/protie/navigation',
             'src/midcom/datamanager',
+            'src/midcom/grid',
         ],
 
         // Visibility settings (NAP)

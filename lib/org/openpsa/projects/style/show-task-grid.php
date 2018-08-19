@@ -66,10 +66,10 @@ $grid->set_footer_data($footer_data);
 </div>
 
 <script type="text/javascript">
-org_openpsa_grid_helper.bind_grouping_switch('&(grid_id);');
+midcom_grid_helper.bind_grouping_switch('&(grid_id);');
 
-org_openpsa_grid_footer.set_field('&(grid_id);', 'planned_hours', 'sum');
-org_openpsa_grid_footer.set_field('&(grid_id);', 'reported_hours', 'sum');
-org_openpsa_grid_footer.set_field('&(grid_id);', 'invoiced_hours', 'sum');
-org_openpsa_grid_footer.set_field('&(grid_id);', 'reported', 'sum');
+midcom_grid_footer.set_field('&(grid_id);', 'planned_hours', 'sum');
+midcom_grid_footer.set_field('&(grid_id);', 'reported_hours', 'sum');
+midcom_grid_footer.set_field('&(grid_id);', 'invoiced_hours', 'sum');
+midcom_grid_footer.set_field('&(grid_id);', 'reported', 'sum');
 </script>
