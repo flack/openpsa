@@ -117,7 +117,7 @@ class midcom_helper__dbfactory
      * If the conversion cannot be done for some reason, the function returns null and logs
      * an error. We also ensure that the corresponding component has been loaded.
      *
-     * @param MidgardObject $object MgdSchema Object
+     * @param midgard\portable\api\mgdobject $object MgdSchema Object
      * @return midcom_core_dbaobject
      */
     public function convert_midgard_to_midcom($object)
@@ -146,7 +146,7 @@ class midcom_helper__dbfactory
      * If the conversion cannot be done for some reason, the function throws an error.
      *
      * @param midcom_core_dbaobject $object MidCOM DBA Object
-     * @return midgard_object MgdSchema Object
+     * @return midgard\portable\api\mgdobject MgdSchema Object
      */
     public function convert_midcom_to_midgard($object)
     {

@@ -7,6 +7,7 @@
  */
 
 use midgard\portable\storage\connection;
+use midgard\portable\api\mgdobject;
 
 /**
  * The Grand Unified Reflector
@@ -225,8 +226,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public function get_object_label($object)
     {
-        if (!isset($object->__mgdschema_class_name__)) {
-            // Not a MidCOM DBA object
+        if ($object instanceof mgdobject) {
             try {
                 $obj = midcom::get()->dbfactory->convert_midgard_to_midcom($object);
             } catch (midcom_error $e) {
