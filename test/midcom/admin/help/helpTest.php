@@ -42,7 +42,7 @@ class midcom_admin_help_helpTest extends openpsa_testcase
     {
         return [
             [
-                'org.openpsa.core',
+                'midcom.helper.filesync',
                 false,
                 [
                     'urlmethods' => [
