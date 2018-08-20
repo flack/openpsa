@@ -103,76 +103,29 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
     </div>
 
     <h2><?php echo $data['l10n']->get('recent changes'); ?></h2>
-    <form name="latest_objects_mass_action" method="post">
-      <table class="results table_widget" id="batch_process">
-        <thead>
-          <tr>
-            <th class="selection">&nbsp;</th>
-            <th class="icon">&nbsp;</th>
-            <th class="title"><?php echo $data['l10n_midcom']->get('title'); ?></th>
-            <?php
-            if ($data['config']->get('enable_review_dates')) {
-                echo "            <th class=\"review_by\">" . $data['l10n']->get('review date') . "</th>\n";
-            } ?>
+    <?php
+    $grid_id = $data['grid']->get_identifier();
+    $data['grid']->set_column('title', $data['l10n_midcom']->get('title'), 'width: 150', 'string');
 
-            <th class="revised"><?php echo midcom::get()->i18n->get_string('revised', 'midcom.admin.folder'); ?></th>
-            <th class="revisor"><?php echo midcom::get()->i18n->get_string('revisor', 'midcom.admin.folder'); ?></th>
-            <th class="approved"><?php echo $data['l10n_midcom']->get('approved'); ?></th>
-            <th class="revision"><?php echo midcom::get()->i18n->get_string('revision', 'midcom.admin.folder'); ?></th>
-          </tr>
-        </thead>
-        <tfoot>
-          <tr>
-            <td colspan="5">
-              <label for="select_all">
-                <input type="checkbox" name="select_all" id="select_all" value="" onclick="jQuery(this).check_all('#batch_process tbody');" /><?php echo $data['l10n']->get('select all');?>
-              </label>
-              <label for="invert_selection">
-                <input type="checkbox" name="invert_selection" id="invert_selection" value="" onclick="jQuery(this).invert_selection('#batch_process tbody');" /><?php echo $data['l10n']->get('invert selection'); ?>
-              </label>
-            </td>
-          </tr>
-        </tfoot>
-    <tbody>
-<?php
-foreach ($data['revised'] as $row) {
-    $link = $data['router']->generate('object_' . $data['default_mode'], ['guid' => $row['guid']]);
-
-    echo "        <tr>\n";
-    echo "            <td class=\"selection\"><input type=\"checkbox\" name=\"selections[]\" value=\"{$row['guid']}\" /></td>\n";
-    echo "            <td class=\"icon\">" . $row['icon'] . "</td>\n";
-    echo "            <td class=\"title\"><a href=\"{$link}\" title=\"{$row['class']}\">" . $row['title'] . "</a></td>\n";
-
-    if (isset($row['review_date'])) {
-        echo "            <td class=\"review_by\">" . $row['review_date'] . "</td>\n";
+    if ($data['config']->get('enable_review_dates')) {
+        $data['grid']->set_column('review_date', $data['l10n_midcom']->get('review date'));
     }
+    $data['grid']->set_column('revised', midcom::get()->i18n->get_string('revised', 'midcom.admin.folder'), 'fixed: true, width: 180, align: "center", formatter: "date", formatoptions: {srcformat: "U", newformat: "ISO8601Long"}')
+        ->set_column('revisor', midcom::get()->i18n->get_string('revisor', 'midcom.admin.folder'), 'width: 70')
+        ->set_column('approved', $data['l10n_midcom']->get('approved'), 'width: 50')
+        ->set_column('revision', midcom::get()->i18n->get_string('revision', 'midcom.admin.folder'), 'fixed: true, width: 95, template: "integer"')
 
-    echo "            <td class=\"revised\">" . strftime('%x %X', $row['revised']) . "</td>\n";
-    echo "            <td class=\"revisor\">{$row['revisor']}</td>\n";
-    echo "            <td class=\"approved\">{$row['approved']}</td>\n";
-    echo "            <td class=\"revision\">{$row['revision']}</td>\n";
-    echo "        </tr>\n";
-}?>
-  </tbody>
-</table>
+        ->set_option('multiselect', true);
+
+    $data['grid']->render();
+    ?>
+    <form id="form_&(grid_id);" method="post" action="">
+    </form>
+
     <script type="text/javascript">
-       // <![CDATA[
-       jQuery('#batch_process').tablesorter(
-       {
-           widgets: ['zebra'],
-           sortList: [[2,0]]
-       });
-       // ]]>
+    midcom_grid_batch_processing.initialize({
+        id: '&(grid_id);',
+        options: <?php echo json_encode($data['action_options']); ?>
+    });
     </script>
-    <div class="actions">
-        <div class="action">
-            <select name="mass_action" id="mass_action">
-                <option value=""><?php echo $data['l10n']->get('choose action'); ?></option>
-                <option value="delete"><?php echo $data['l10n_midcom']->get('delete'); ?></option>
-                <option value="approve"><?php echo $data['l10n_midcom']->get('approve'); ?></option>
-            </select>
-        </div>
-        <input type="submit" name="execute_mass_action" value="<?php echo $data['l10n']->get('apply to selected'); ?>" />
-    </div>
-</form>
 </div>

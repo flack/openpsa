@@ -1043,3 +1043,18 @@ body.loading #load-indicator
 {
     display: block
 }
+
+.asgard .ui-jqgrid-htable thead
+{
+    background-color: #555753;
+}
+.asgard .ui-jqgrid-htable thead th
+{
+    color: #ffffff;
+}
+
+.asgard .ui-jqgrid-htable thead th div
+{
+    text-shadow: none;
+    font-weight: bold;
+}

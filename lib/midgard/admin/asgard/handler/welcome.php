@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\grid\provider;
+
 /**
  * Welcome interface
  *
@@ -88,14 +90,12 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
         $data['view_title'] = $this->_l10n->get('asgard');
 
-        if (    isset($_POST['execute_mass_action'])
-             && !empty($_POST['selections'])
-             && isset($_POST['mass_action'])) {
-            $method_name = "_mass_{$_POST['mass_action']}";
-            $this->$method_name($_POST['selections']);
+        if (    !empty($_POST['action'])
+             && !empty($_POST['entries'])) {
+            $method_name = "_mass_{$_POST['action']}";
+            $this->$method_name($_POST['entries']);
         }
 
-        $data['revised'] = [];
         if (isset($_REQUEST['revised_after'])) {
             $data['revised_after'] = $_REQUEST['revised_after'];
             if ($data['revised_after'] != 'any') {
@@ -127,9 +127,15 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
         $this->_prepare_tabledata($objects);
 
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery.batch_process.js');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
+        $data['action_options'] = [
+            'none' => ['label' => $this->_l10n->get('apply to selected')],
+            'delete' => [
+                'label' => $this->_l10n_midcom->get('delete'),
+            ],
+            'approve' => [
+                'label' => $this->_l10n_midcom->get('approve'),
+            ]
+        ];
 
         $this->_populate_toolbar();
         return new midgard_admin_asgard_response($this, '_show_welcome');
@@ -164,23 +170,24 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
     private function _prepare_tabledata(array $objects)
     {
-        $this->_request_data['revised'] = [];
+        $rows = [];
         foreach ($objects as $data) {
             $object = $data['object'];
             $reflector = midcom_helper_reflector::get($object);
 
             $row = [
-                'icon' => $reflector->get_object_icon($object),
                 'revision' => $object->metadata->revision,
                 'revised' => $object->metadata->revised,
-                'guid' => $object->guid,
-                'class' => get_class($object)
+                'id' => $object->guid,
+                'class' => get_class($object),
             ];
 
             $row['approved'] = ($object->is_approved()) ? strftime('%x %X', $object->metadata->approved) : $this->_l10n->get('not approved');
 
-            $title = substr($reflector->get_object_label($object), 0, 60);
-            $row['title'] = ($title) ?: '[' . $this->_l10n->get('no title') . ']';
+            $title = $reflector->get_object_label($object);
+            $link = $this->router->generate('object_' . $this->_request_data['default_mode'], ['guid' => $object->guid]);
+            $row['index_title'] = ($title) ?: '[' . $this->_l10n->get('no title') . ']';
+            $row['title'] = '<a href="' . $link . '" title="' . $row['class'] . '">' . $reflector->get_object_icon($object) . ' ' . $row['index_title'] . '</a>';
 
             if (empty($data['revisor'])) {
                 $row['revisor'] = $this->_l10n_midcom->get('unknown');
@@ -196,8 +203,10 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                     $row['review_date'] = strftime('%x', $review_date);
                 }
             }
-            $this->_request_data['revised'][] = $row;
+            $rows[] = $row;
         }
+        $provider = new provider($rows, 'local');
+        $this->_request_data['grid'] = $provider->get_grid('revised');
     }
 
     private function _populate_toolbar()
