@@ -192,12 +192,7 @@ class midcom_config_test
 
     public function show()
     {
-        echo '<table border="1" cellspacing="0" cellpadding="2">
-              <tr>
-                <th>Test</th>
-                <th>Result</th>
-                <th>Recommendations</th>
-              </tr>';
+        echo '<table>';
 
         $this->print_section('Framework', $this->messages['midcom']);
         $this->print_section('PHP ' . PHP_VERSION, $this->messages['php']);
@@ -209,29 +204,29 @@ class midcom_config_test
     private function print_section($heading, array $messages)
     {
         echo "  <tr>\n";
-        echo "    <th colspan=\"3\">{$heading}</th>\n";
+        echo "    <th colspan=\"2\">{$heading}</th>\n";
         echo "  </tr>\n";
 
         foreach ($messages as $testname => $data) {
-            echo "  <tr class=\"test\">\n";
-            echo "    <th>{$testname}</th>\n";
+            echo "  <tr class=\"test\">\n    <th>\n";
             switch ($data['result']) {
                 case self::OK:
-                    echo "    <td style='color: green;'>OK</td>\n";
+                    echo "    <i class='fa fa-check' style='color: green;' title='OK'></i>";
                     break;
 
                 case self::WARNING:
-                    echo "    <td style='color: orange;'>WARNING</td>\n";
+                    echo "    <i class='fa fa-exclamation-triangle' style='color: orange;' title='WARNING'></i>";
                     break;
 
                 case self::ERROR:
-                    echo "    <td style='color: red;'>ERROR</td>\n";
+                    echo "    <i class='fa fa-exclamation-circle' style='color: red;' title='ERROR'></i>";
                     break;
 
                 default:
                     throw new midcom_error("Unknown error code {$data['result']}.");
             }
 
+            echo " {$testname}</th>\n";
             echo "    <td>{$data['message']}</td>\n";
             echo "  </tr>\n";
         }
