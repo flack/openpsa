@@ -51,7 +51,6 @@ class midcom_config_test
     private function check_midcom()
     {
         $this->section = 'midcom';
-        $this->add('Midgard Version', self::OK, mgd_version());
 
         // Validate the Cache Base Directory.
         $cachedir = midcom::get()->config->get('cache_base_directory');
