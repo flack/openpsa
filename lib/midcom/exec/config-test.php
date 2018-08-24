@@ -10,7 +10,9 @@ $title = midcom::get()->i18n->get_string('test settings', 'midcom')
 tr.test th
 {
     white-space: nowrap;
-    font-weight: normal
+    font-weight: normal;
+    vertical-align: top;
+    padding-right: 1rem;
 }
 th, td {
     text-align: left;
@@ -20,6 +22,7 @@ th, td {
 .fa {
     font-size: 1.2rem;
     margin: 0 .2rem;
+    vertical-align: text-top;
 }
 </style>
 </head>
