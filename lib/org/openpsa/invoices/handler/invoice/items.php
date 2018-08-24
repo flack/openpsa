@@ -35,19 +35,28 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
 
         $data['entries'] = [];
 
+        $sales_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.sales');
+        $projects_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.projects');
+
         $invoice_sum = 0;
         foreach ($this->_object->get_invoice_items() as $item) {
             $entry = [];
             $entry['id'] = $item->id;
             try {
                 $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($item->deliverable);
-                $entry['deliverable'] = $deliverable->title;
+                $entry['deliverable'] = '<i class="fa fa-money" title="' . $deliverable->title . '"></i>';
+                if ($sales_url) {
+                    $entry['deliverable'] = '<a href="' . $sales_url . 'deliverable/' . $deliverable->guid . '/">' . $entry['deliverable'] . '</a>';
+                }
             } catch (midcom_error $e) {
                 $entry['deliverable'] = '';
             }
             try {
                 $task = org_openpsa_projects_task_dba::get_cached($item->task);
-                $entry['task'] = $task->title;
+                $entry['task'] = '<i class="fa fa-calendar-check-o" title="' . $task->title . '"></i>';
+                if ($projects_url) {
+                    $entry['task'] = '<a href="' . $projects_url . 'task/' . $task->guid . '/">' . $entry['task'] . '</a>';
+                }
             } catch (midcom_error $e) {
                 $entry['task'] = '';
             }
