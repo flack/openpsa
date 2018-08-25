@@ -116,7 +116,7 @@ class midcom_config_test
         }
 
         if (ini_get("opcache.enable") == "1") {
-            $this->add("OPCache", self::OK, "OPCache is enabled");
+            $this->add("OPCache", self::OK);
         } else {
             $this->add("OPCache", self::WARNING, "OPCache is recommended for efficient MidCOM operation");
         }
