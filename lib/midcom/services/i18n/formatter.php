@@ -29,22 +29,6 @@ class midcom_services_i18n_formatter
 
     public function number($value, $precision = 2)
     {
-        if (   is_float($value)
-            && version_compare(Intl::getIcuVersion(), '49', '<')) {
-            // workaround for http://bugs.icu-project.org/trac/ticket/8561
-            if ($precision == 0) {
-                $value = (int) $value;
-            } else {
-                $value = number_format($value, $precision, '|', '');
-                $parts = explode('|', $value);
-                $formatter = new NumberFormatter($this->get_locale(), NumberFormatter::DECIMAL);
-                $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
-
-                $val = $formatter->format($parts[0]);
-                return substr($val, 0, strlen($val) - $precision) . $parts[1];
-            }
-        }
-
         // The fallback implementation in Intl only supports DECIMAL, so we hardcode the style here..
         $formatter = new NumberFormatter($this->get_locale(), NumberFormatter::DECIMAL);
         $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
