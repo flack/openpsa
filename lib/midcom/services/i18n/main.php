@@ -210,6 +210,9 @@ class midcom_services_i18n
         $this->_current_language = $lang;
 
         setlocale(LC_ALL, $lang);
+        if (Intl::isExtensionLoaded()) {
+            Locale::setDefault($lang);
+        }
 
         foreach ($this->_obj_l10n as $object) {
             $object->set_language($lang);
