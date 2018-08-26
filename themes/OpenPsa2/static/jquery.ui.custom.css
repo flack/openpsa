@@ -1503,48 +1503,6 @@ a.ui-button:active,
     border-bottom-width: 0
 }
 
-.ui-jqgrid .ui-jqgrid-htable th
-{
-    background: transparent;
-    height: 15px;
-    border-right-color: rgba(0, 0, 0, .07);
-}
-.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th
-{
-    border-top-color: rgba(0, 0, 0, .07);
-}
-
-.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th input,
-.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th select
-{
-    opacity: .75;
-    text-align: left;
-}
-.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar:hover input,
-.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar:hover select,
-.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th input:focus,
-.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th select:focus
-{
-    opacity: 1;
-}
-
-.ui-jqgrid .ui-jqgrid-htable th div
-{
-    font-weight: normal;
-    position: relative
-}
-.ui-jqgrid .ui-jqgrid-htable th input
-{
-    margin: 0;
-}
-.ui-jqgrid .ui-jqgrid-htable th .s-ico
-{
-    position: absolute;
-    right: 0;
-    top: 1px;
-    font-size: 90%
-}
-
 .ui-jqgrid .ui-widget-content td.title,
 .ui-jqgrid .ui-widget-content td.title a
 {
@@ -1672,12 +1630,6 @@ a.ui-button:active,
     background: linear-gradient(to bottom, #7aa83b 0%, #749e3d 56%, #5d8220 100%); /* W3C */
     color: #ffffff;
     font-weight: bold;
-}
-
-.ui-jqgrid .ui-jqgrid-view th.ui-state-hover
-{
-    background: -ms-linear-gradient(top, rgba(255, 255, 240, .35) 0%, rgba(255, 255, 230, .3) 6%, rgba(255, 255, 240, .25) 100%); /* IE10+ */
-    background: linear-gradient(to bottom, rgba(255, 255, 240, .35) 0%, rgba(255, 255, 230, .3) 6%, rgba(255, 255, 240, .25) 100%); /* W3C */
 }
 
 /* Header controls */

@@ -10,7 +10,7 @@
 
 .ui-jqgrid-titlebar > .ui-jqgrid-titlebar-maximize
 {
-	vertical-align: middle;
+    vertical-align: middle;
     text-align: center;
     text-decoration: none;
     position: absolute;
@@ -29,8 +29,57 @@
 a.ui-jqgrid-titlebar-maximize span
 {
     font-size: 14px;
-	display: block;
-	margin-top: -2px
+    display: block;
+    margin-top: -2px
+}
+
+.ui-jqgrid .ui-jqgrid-htable th
+{
+    background: transparent;
+    height: 15px;
+    border-right-color: rgba(0, 0, 0, .07);
+}
+
+.ui-jqgrid .ui-jqgrid-view th.ui-state-hover
+{
+    background: -ms-linear-gradient(top, rgba(255, 255, 240, .35) 0%, rgba(255, 255, 230, .3) 6%, rgba(255, 255, 240, .25) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(255, 255, 240, .35) 0%, rgba(255, 255, 230, .3) 6%, rgba(255, 255, 240, .25) 100%); /* W3C */
+}
+
+.ui-jqgrid .ui-jqgrid-htable th div
+{
+    font-weight: normal;
+    position: relative
+}
+.ui-jqgrid .ui-jqgrid-htable th input
+{
+    margin: 0;
+}
+.ui-jqgrid .ui-jqgrid-htable th .s-ico
+{
+    position: absolute;
+    right: 0;
+    top: 1px;
+    font-size: 90%
+}
+
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th
+{
+    border-top-color: rgba(0, 0, 0, .07);
+}
+
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th input,
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th select
+{
+    opacity: .75;
+    text-align: left;
+}
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar:hover input,
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar:hover select,
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th input:focus,
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th select:focus
+{
+    opacity: 1;
 }
 
 .ui-jqgrid tr.jqgrow td a img
@@ -69,19 +118,19 @@ a.ui-jqgrid-titlebar-maximize span
 
 .ui-jqgrid tr.jqgrow td.grid-button i
 {
-	opacity: .5;
-	transition: opacity .2s;
-	cursor: pointer;
+    opacity: .5;
+    transition: opacity .2s;
+    cursor: pointer;
 }
 
 .ui-jqgrid tr.jqgrow td.grid-button i:hover
 {
-	opacity: 1;
+    opacity: 1;
 }
 
 .ui-jqgrid tr.jqgrow td.grid-button i.fa-trash
 {
-	color: #ee2b2b
+    color: #ee2b2b
 }
 
 .ui-jqgrid tr.jqgrow td.warn
@@ -101,6 +150,6 @@ a.ui-jqgrid-titlebar-maximize span
 
 .batch-processing > form
 {
-	display: inline-block;
-	margin-right: 2em
+    display: inline-block;
+    margin-right: 2em
 }
