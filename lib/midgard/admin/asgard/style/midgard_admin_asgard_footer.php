@@ -60,5 +60,14 @@
                 <a href="http://www.gnu.org/licenses/lgpl.html" rel="license" about="http://www.midgard-project.org/">GNU Lesser General Public License</a>.<br />&nbsp;
             </span>
         </div>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            if (window.hasOwnProperty('org_openpsa_jsqueue')) {
+                var nongrid_height = $('#siteinfo').height() + $('#content-text').offset().top;
+                $('#content-text').css('height', 'calc(100vh - ' + nongrid_height  + 'px - 4.7em)');
+            	   org_openpsa_jsqueue.execute();
+            }
+        });
+        </script>
     </body>
 </html>

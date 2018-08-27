@@ -103,6 +103,7 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
     </div>
 
     <h2><?php echo $data['l10n']->get('recent changes'); ?></h2>
+    <div class="crop-height full-width">
     <?php
     $grid_id = $data['grid']->get_identifier();
     $data['grid']->set_column('title', $data['l10n_midcom']->get('title'), 'width: 150', 'string');
@@ -121,7 +122,7 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
     ?>
     <form id="form_&(grid_id);" method="post" action="">
     </form>
-
+    </div>
     <script type="text/javascript">
     midcom_grid_batch_processing.initialize({
         id: '&(grid_id);',
