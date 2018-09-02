@@ -109,7 +109,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 
     /**
      * retrieve the object based on classname and request parameters
-     * if we got an id, it will try to find an existing one, otherwhise it will create a new one
+     * if we got an id, it will try to find an existing one, otherwise it will create a new one
      *
      * @return midcom_core_dbaobject
      */

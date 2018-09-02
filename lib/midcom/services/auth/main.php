@@ -558,7 +558,7 @@ class midcom_services_auth
     /**
      * Resolve any assignee identifier known by the system into an appropriate user/group object.
      *
-     * @param string $id A valid user or group identifier useable as assignee (e.g. the $id member
+     * @param string $id A valid user or group identifier usable as assignee (e.g. the $id member
      *     of any midcom_core_user or midcom_core_group object).
      * @return object|false corresponding object or false on failure.
      */

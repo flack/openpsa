@@ -196,7 +196,7 @@ class org_openpsa_calendar_conflictmanager
                 $event = new org_openpsa_calendar_event_dba($member->event);
                 $set_as_modified = true;
             } catch (midcom_error $e) {
-                debug_add("event_resource #{$member->id} links ot bogus event #{$member->event}, skipping and removing", MIDCOM_LOG_WARN);
+                debug_add("event_resource #{$member->id} links to bogus event #{$member->event}, skipping and removing", MIDCOM_LOG_WARN);
                 $member->delete();
                 return;
             }

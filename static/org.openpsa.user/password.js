@@ -15,7 +15,7 @@
             },
             opts = $.extend({}, defaults, options || {}),
             password_field = $(this);
-        
+
         opts.passwordid = 'input[name="' + $(this).attr("name") + '"]';
         opts.userid = 'input[name="org_openpsa_user[username]"]';
         opts.submit_button = 'button.save';
@@ -122,7 +122,7 @@
         }
 
         //check if username is given and password check is ok
-        //determine wheter the submit button should be disabled
+        //determine whether the submit button should be disabled
         var disabled = ($(opts.userid).val() != "" && !check_password);
 
         //set or remove disabled attribute of the submit button accordingly

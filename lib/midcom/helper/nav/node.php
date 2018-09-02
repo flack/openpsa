@@ -135,7 +135,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
             debug_add("Added the ID {$data[MIDCOM_NAV_ID]} to the cache.");
         }
 
-        // Rewrite all host dependant URLs based on the relative URL within our topic tree.
+        // Rewrite all host dependent URLs based on the relative URL within our topic tree.
         $data[MIDCOM_NAV_FULLURL] = midcom::get()->config->get('midcom_site_url') . $data[MIDCOM_NAV_RELATIVEURL];
         $data[MIDCOM_NAV_ABSOLUTEURL] = midcom_connection::get_url('self') . $data[MIDCOM_NAV_RELATIVEURL];
         $data[MIDCOM_NAV_PERMALINK] = midcom::get()->permalinks->create_permalink($data[MIDCOM_NAV_GUID]);

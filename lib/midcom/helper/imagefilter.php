@@ -448,7 +448,7 @@ class midcom_helper_imagefilter
             $cmd = midcom::get()->config->get('utility_imagemagick_base') . "mogrify {$this->_quality}";
         }
         if (!array_key_exists($exif["Orientation"], $operations)) {
-            debug_add("Unsupported EXIF-Rotation tag encountered, ingoring: " . $exif["Orientation"], MIDCOM_LOG_INFO);
+            debug_add("Unsupported EXIF-Rotation tag encountered, ignoring: " . $exif["Orientation"], MIDCOM_LOG_INFO);
             return;
         }
         $cmd .= ' ' . $operations[$exif["Orientation"]] . ' ' . escapeshellarg($this->_filename);

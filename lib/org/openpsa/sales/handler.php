@@ -36,7 +36,7 @@ trait org_openpsa_sales_handler
             if (count($entry_keys) == 0) {
                 $notification_entry = new midcom_services_at_entry_dba();
                 $notification_entry->create();
-                //relatedto from notifcation to deliverable
+                //relatedto from notification to deliverable
                 org_openpsa_relatedto_plugin::create($notification_entry, 'midcom.services.at', $deliverable, 'org.openpsa.sales', false, ['toExtra' => 'notify_at_entry']);
             } else {
                 //get guid of at_entry

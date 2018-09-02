@@ -80,7 +80,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      *
      * This is done under sudo if possible, to avoid problems arising if the first posting
      * is hidden. This keeps up performance, as an execute_unchecked() can be made in this case.
-     * If sudo cannot be acquired, the system falls back to excute().
+     * If sudo cannot be acquired, the system falls back to execute().
      *
      * @return DateTime The time of the first posting or null on failure.
      */

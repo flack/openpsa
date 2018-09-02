@@ -13,7 +13,7 @@ use midcom\datamanager\controller;
 /**
  * Comments view handler.
  *
- * This handler is a sigle handler which displays the thread for a given object GUID.
+ * This handler is a single handler which displays the thread for a given object GUID.
  * It checks for various commands in $_REQUEST during startup and processes them
  * if applicable. It relocates to the same page (using $_SERVER info) to prevent
  * duplicate request runs.

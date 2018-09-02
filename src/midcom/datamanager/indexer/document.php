@@ -78,7 +78,7 @@ use midcom_error;
  *   of these fields is also added to the main content field. This is useful
  *   if you want to have fields searchable both by explicit field specification
  *   and the default field for simpler searches. This is controlled by setting
- *   the bolean key 'index_merge_with_content' in the field, which defaults
+ *   the boolean key 'index_merge_with_content' in the field, which defaults
  *   to true.
  * - <i>noindex</i> will prevent indexing of this field.
  *

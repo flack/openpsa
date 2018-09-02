@@ -21,7 +21,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
     private $_deliverable;
 
     /**
-     * The day of month on which subscriptions are invoiced (if none is set, they are invoiced continously)
+     * The day of month on which subscriptions are invoiced (if none is set, they are invoiced continuously)
      *
      * @var int
      */

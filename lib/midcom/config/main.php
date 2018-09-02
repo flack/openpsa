@@ -157,7 +157,7 @@
  * - <b>int log_level:</b> The logging level to use when starting up the logger, set to
  *   MIDCOM_LOG_ERROR by default. You cannot use the MIDCOM* constants when setting
  *   micdom_config_local, as they are not defined at that point. Use 0 for CRITICAL,
- *   1 for ERROR, 2 for WARING, 3 for INFO and 4 for DEBUG level logging.
+ *   1 for ERROR, 2 for WARNING, 3 for INFO and 4 for DEBUG level logging.
  * - <b>array error_actions:</b> Actions to run when a specific error code is produced. This can
  *   be used for saving logs about 404 errors from broken links, or sending an error 500 to
  *   webmaster for analysis.

@@ -66,7 +66,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         }
 
         if ($send_welcome_mail && empty($usermail)) {
-            $this->errstr = "Unable to deliver welcome mail: no usermail adress given";
+            $this->errstr = "Unable to deliver welcome mail: no usermail address given";
             return false;
         }
 
@@ -534,7 +534,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             array_unshift($attempts, time());
 
             /*
-             * If the maximum number of attemps is reached and the oldest attempt
+             * If the maximum number of attempts is reached and the oldest attempt
              * on the stack is within our defined timeframe, we block the account
              */
             if (   count($attempts) >= $max_attempts

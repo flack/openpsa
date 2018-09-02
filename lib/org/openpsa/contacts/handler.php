@@ -43,7 +43,7 @@ trait org_openpsa_contacts_handler
             if (midcom::get()->auth->admin) {
                 midcom::get()->uimessages->add(
                     $this->_l10n->get($this->_component),
-                    $this->_l10n->get('owner organization couldnt be found'),
+                    $this->_l10n->get('owner organization could not be found'),
                     'error'
                 );
             }

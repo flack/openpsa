@@ -69,8 +69,8 @@ class midcom_db_person extends midcom_core_dbaobject
     public $homepagelink = '';
 
     /**
-     * Read-Only variable, consisting of ta complete mailto A HREF tag to
-     * the set email addres.
+     * Read-Only variable, consisting of a complete mailto A HREF tag to
+     * the set email address.
      *
      * Updated during all DB operations.
      *

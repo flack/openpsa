@@ -222,7 +222,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         return $this->_history;
     }
 
-    /* it is debatable to move this into the object when it resides nicely in a libary... */
+    /* it is debatable to move this into the object when it resides nicely in a library... */
 
     private function rcs_parse_history_entry($entry)
     {

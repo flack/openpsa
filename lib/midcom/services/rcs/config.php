@@ -43,7 +43,7 @@ class midcom_services_rcs_config
     }
 
     /**
-     * Returns the root of the directory containg the RCS files.
+     * Returns the root of the directory containing the RCS files.
      */
     public function get_rcs_root()
     {

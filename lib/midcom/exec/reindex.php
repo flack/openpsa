@@ -83,11 +83,11 @@ while (!is_null($nodeid)) {
     debug_dump_mem("Mem usage after {$node[MIDCOM_NAV_RELATIVEURL]}; {$node[MIDCOM_NAV_COMPONENT]}");
 
     // Retrieve all child nodes and append them to $nodes:
-    $childs = $nap->list_nodes($nodeid);
-    if ($childs === false) {
+    $children = $nap->list_nodes($nodeid);
+    if ($children === false) {
         throw new midcom_error("Failed to list the child nodes of {$nodeid}. Aborting.");
     }
-    $nodes = array_merge($nodes, $childs);
+    $nodes = array_merge($nodes, $children);
     $nodeid = array_shift($nodes);
 }
 

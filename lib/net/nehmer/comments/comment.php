@@ -82,7 +82,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     /**
      * Returns a list of comments applicable to a given object
-     * not diplaying empty comments or anonymous posts,
+     * not displaying empty comments or anonymous posts,
      * ordered by creation date.
      *
      * @param string $guid The GUID of the object to bind to.

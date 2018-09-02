@@ -194,7 +194,7 @@ class midcom_services_toolbars
     /**
      * Creates the node and view toolbars for a given context ID.
      *
-     * @param int $context_id The context ID for whicht the toolbars should be created.
+     * @param int $context_id The context ID for which the toolbars should be created.
      */
     private function _create_toolbars($context_id)
     {

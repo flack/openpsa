@@ -303,8 +303,8 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
     }
 
     /**
-     * Creates a temporary copy of the attachment, the callee must delete it manually
-     * after completing procesing.
+     * Creates a temporary copy of the attachment, the caller must delete it manually
+     * after completing processing.
      *
      * @return string The name of the temporary file.
      */

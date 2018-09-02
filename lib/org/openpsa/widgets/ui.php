@@ -93,7 +93,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
      * Render jquery.ui tab controls. Relatedto tabs are automatically added if a GUID is found
      *
      * @param string $guid The GUID, if any
-     * @param array $tabdata Any custom tabs the handler wnats to add
+     * @param array $tabdata Any custom tabs the handler wants to add
      */
     public static function render_tabs($guid = null, $tabdata = [])
     {

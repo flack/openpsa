@@ -226,7 +226,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
                 // This is a magic assignee
                 $label = $this->_l10n->get($privilege->assignee);
             } else {
-                //Inconsistent privilige base will mess here. Let's give a chance to remove ghosts
+                // Inconsistent privilege base will mess here. Let's give a chance to remove ghosts
                 $assignee = midcom::get()->auth->get_assignee($privilege->assignee);
 
                 if (is_object($assignee)) {

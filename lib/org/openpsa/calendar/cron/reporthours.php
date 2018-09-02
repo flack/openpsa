@@ -32,7 +32,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
     }
 
     /**
-     * Search for events withing configured timeframe and if
+     * Search for events within configured timeframe and if
      * they have confirmed relatedtos to tasks reports hours
      * for each participant (who is task resource) towards
      * said task.
