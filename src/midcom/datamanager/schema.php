@@ -21,6 +21,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use midcom\datamanager\extension\type\toolbar;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Validator\Constraints\Regex;
 
 /**
  * Experimental schema class
@@ -328,6 +329,12 @@ class schema
                 $rule = array_merge($defaults, $rule);
                 if ($rule['type'] === 'email') {
                     $validation[] = new Email();
+                } elseif ($rule['type'] === 'regex') {
+                    $r_options = ['pattern' => $rule['format']];
+                    if (!empty($rule['message'])) {
+                        $r_options['message'] = $rule['message'];
+                    }
+                    $validation[] = new Regex($r_options);
                 } else {
                     throw new midcom_error($rule['type'] . ' validation not implemented yet');
                 }
