@@ -296,12 +296,12 @@ class midgard_admin_asgard_schemadb
         ];
     }
 
-    private function _add_name_field($key, $name_obj)
+    private function _add_name_field($key, midcom_core_dbaobject $name_obj)
     {
         $type_urlname_config = [];
         $allow_unclean_name_types = $this->_config->get('allow_unclean_names_for');
         foreach ($allow_unclean_name_types as $allow_unclean_name_types_type) {
-            if ($name_obj instanceof $allow_unclean_name_types_type) {
+            if ($name_obj->__object instanceof $allow_unclean_name_types_type) {
                 $type_urlname_config['allow_unclean'] = true;
                 break;
             }
