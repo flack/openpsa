@@ -207,7 +207,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
         if ($property === 'contacts') {
             $type = org_openpsa_projects_task_resource_dba::CONTACT;
-        } elseif ($property === 'contacts') {
+        } elseif ($property === 'resources') {
             $type = org_openpsa_projects_task_resource_dba::RESOURCE;
         } else {
             return;

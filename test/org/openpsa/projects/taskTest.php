@@ -58,4 +58,22 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
 
         $this->assertEquals($parent->guid, $project->guid);
     }
+
+    public function test_add_members()
+    {
+        $project = $this->create_object(org_openpsa_projects_project::class);
+        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => $project->id]);
+
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
+        $task->add_members('resources', [1, 2]);
+        midcom::get()->auth->drop_sudo();
+
+        $this->assertCount(2, $task->resources);
+
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
+        $task->add_members('contacts', [3, 4]);
+        midcom::get()->auth->drop_sudo();
+
+        $this->assertCount(2, $task->contacts);
+    }
 }
