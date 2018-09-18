@@ -16,7 +16,6 @@
  * be applied during upload.
  *
  * @todo Image type automatic best-web-format conversion
- * @todo Add support for working on attachments
  * @author Eero af Heurlin, Nemein Oy <eero.afheurlin@nemein.com>
  * @author Nico Kaiser <nico@siriux.net>
  * @author Torben Nehmer <torben@nehmer.net>

@@ -286,9 +286,6 @@ class midcom_services_auth_acl
      * )
      * </pre>
      *
-     * @todo This should be cached, as it would require loading all components by default.
-     *     The component manifest might help here too.
-     *
      * @var array
      */
     private static $_default_magic_class_privileges = [];

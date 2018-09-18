@@ -1,10 +1,6 @@
 net.nemein.rss TODO
 ===================
 
-## Duplicate checking
-
-* Don't import items if duplicate entries already exist (based on URL)
-
 ## Extended RSS features
 
 * Import YouTube video information from YouTube feeds

@@ -33,7 +33,6 @@
  *
  * $guid is the GUID of the object you're commenting.
  *
- * @todo Install instruction
  * @todo Approval
  *
  * @package net.nehmer.comments

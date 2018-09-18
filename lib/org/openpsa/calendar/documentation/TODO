@@ -1,11 +1,6 @@
 org.openpsa.calendar TODO
 =========================
 
-## On-demand handlers migration
-
-* `viewer.php` should be split into different handler classes for calendar list
-  views, event editing, etc
-
 ## Tagging
 
 * Support for tagging events
@@ -20,7 +15,6 @@ org.openpsa.calendar TODO
 * Updating manually and via cron
 * Subscribed events are read-only
 * iCal Events WordPress plugin may have useful code for this
-* Utilize helpers for HTTP fetching from org.openpsa.httplib
 
 ## Reminders
 

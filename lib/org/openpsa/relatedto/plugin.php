@@ -260,7 +260,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     $data['wikiword_encoded'] = rawurlencode($data['wikiword']);
                     $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$data['wikiword_encoded']}&" . self::relatedto2get([$related_to]), [
                         MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create note', $data['component']),
-                        //TODO: Different icon from new document ?
                         MIDCOM_TOOLBAR_GLYPHICON => 'sticky-note-o',
                         MIDCOM_TOOLBAR_ENABLED => $data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'),
                         MIDCOM_TOOLBAR_OPTIONS  => ['data-refresh-opener' => 'true'],

@@ -155,7 +155,6 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         // Content for long notifications
         $message['content']  = "{$message['title']}\n\n";
 
-        // TODO: Get RCS diff here
         $message['content'] .= midcom::get()->i18n->get_string('page modifications', 'net.nemein.wiki') . ":\n";
         $message['content'] .= "\n{$diff}\n\n";
 

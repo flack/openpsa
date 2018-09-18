@@ -10,15 +10,6 @@ org.openpsa.sales TODO
   - Registering next cycle
 * Enable manual invoicing of cycles mid-term
 
-## Sales project to project matching
-
-* If salesproject has only one service deliverable, generate only the task
-  for it, no project
-
-## Work hour invoicing
-
-* Display list of invoiceable hours and tasks for a deliverable
-
 ## Deliverable listing reports
 
 * Generate lists of deliverables and register to NAP:

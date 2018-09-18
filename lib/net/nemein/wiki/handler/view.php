@@ -206,8 +206,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      *
      * It looks for all H<num> tags and converts them to named
      * anchors, and prepends a list of links to them to the start of HTML.
-     *
-     * @todo Parse the heading structure to create OL subtrees based on their relative levels
      */
     private function _autogenerate_toc($content)
     {

@@ -236,7 +236,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                     } else {
                         // Make the first event of the day the last end time and skip rest of the checks
                         $last_end_time = $event->end;
-                        // PHP5-TODO: Must be copy by value
                         $last_event = $event;
                         continue;
                     }

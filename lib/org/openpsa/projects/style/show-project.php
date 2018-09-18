@@ -30,8 +30,6 @@ $node = $nap->get_node($nap->get_current_node());
 
     <?php
     midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "task/list/project/{$project->guid}/");
-
-    // TODO: Show help message otherwise?
     ?>
 </div>
 

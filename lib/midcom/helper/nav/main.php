@@ -507,8 +507,6 @@ class midcom_helper_nav
      * </code>
      *
      * @return array The computed breadcrumb data as outlined above.
-     * @todo Maybe cache this? I don't know how complex it really is, but DB accesses are
-     *     already cached by the _backend core. So it is not that hard.
      */
     public function get_breadcrumb_data($id = null)
     {
