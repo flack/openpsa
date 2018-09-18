@@ -75,7 +75,7 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
         }
 
         if ($this->task->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button($this->router->generate('task_view', [
+            $buttons[] = $workflow->get_button($this->router->generate('task-new-2', [
                 'guid' => $this->task->guid,
                 'type' => 'task'
             ]), [
