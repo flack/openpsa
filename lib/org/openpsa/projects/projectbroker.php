@@ -88,7 +88,6 @@ class org_openpsa_projects_projectbroker
     public function save_task_prospects($task)
     {
         midcom::get()->auth->request_sudo('org.openpsa.projects');
-        $task->set_parameter('org.openpsa.projects.projectbroker', 'local_search', 'SEARCH_IN_PROGRESS');
         $prospects = $this->find_task_prospects($task);
 
         foreach ($prospects as $person) {
@@ -100,7 +99,6 @@ class org_openpsa_projects_projectbroker
                 debug_add('Failed to create prospect: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
-        $task->set_parameter('org.openpsa.projects.projectbroker', 'local_search', 'SEARCH_COMPLETE');
         midcom::get()->auth->drop_sudo();
         return true;
     }

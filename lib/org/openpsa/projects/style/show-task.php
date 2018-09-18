@@ -111,16 +111,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         echo '</div>';
     }
 
-    if ($remote_search = $task->get_parameter('org.openpsa.projects.projectbroker', 'remote_search')) {
-        echo "<div class=\"area resources search\">\n";
-        if ($remote_search == 'REQUEST_SEARCH') {
-            echo $data['l10n']->get('remote resource search requested');
-        } elseif ($remote_search == 'SEARCH_IN_PROGRESS') {
-            echo $data['l10n']->get('remote resource search in progress');
-            // TODO: Link to results listing
-        }
-        echo "</div>\n";
-    } elseif (count($task->resources) > 0) {
+    if (count($task->resources) > 0) {
         echo '<div class="area">';
         echo "<h2>" . $data['l10n']->get('resources') . "</h2>\n";
         foreach (array_keys($task->resources) as $contact_id) {
