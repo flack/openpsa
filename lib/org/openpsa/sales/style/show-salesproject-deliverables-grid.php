@@ -41,7 +41,7 @@ foreach ($data['deliverables'] as $deliverable) {
     $rows[] = [
         'id' => $deliverable->id,
         'title' => '<a href="' . $data['router']->generate('deliverable_view', ['guid' => $deliverable->guid]) . '">' . $deliverable->title . '</a>',
-        'title_index' => $deliverable->title,
+        'index_title' => $deliverable->title,
         'price' => $deliverable->get_state() == 'invoiced' ? $deliverable->invoiced : $deliverable->price,
         'created' => strftime('%Y-%m-%d %H:%i:%s', $deliverable->metadata->created),
         'subscription' => $deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION,
