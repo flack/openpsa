@@ -114,23 +114,6 @@ implements midcom_services_permalinks_resolver
     }
 
     /**
-     * @param array $args handler arguments
-     * @param midcom_baseclasses_components_cron_handler $handler cron_handler object calling this method.
-     * @return boolean indicating success/failure
-     */
-    public function background_search_resources(array $args, midcom_baseclasses_components_cron_handler $handler)
-    {
-        try {
-            $task = new org_openpsa_projects_task_dba($args['task']);
-        } catch (midcom_error $e) {
-            $e->log();
-            return false;
-        }
-        $broker = new org_openpsa_projects_projectbroker();
-        return $broker->save_task_prospects($task);
-    }
-
-    /**
      * Prepare the indexer client
      */
     public function _on_reindex($topic, $config, &$indexer)

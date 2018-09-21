@@ -126,7 +126,6 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         }
 
         $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
-        $mc->add_constraint('role', '<>', org_openpsa_projects_task_resource_dba::PROSPECT);
         $ret = $mc->get_rows(['role', 'person']);
 
         foreach ($ret as $data) {

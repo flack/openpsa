@@ -18,7 +18,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 {
     const RESOURCE = 6006;
     const CONTACT = 6007;
-    const PROSPECT = 6008;
 
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_task_resource';

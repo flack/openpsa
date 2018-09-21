@@ -181,7 +181,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
 
         $mc = org_openpsa_projects_task_resource_dba::new_collector('task', $this->id);
-        $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_projects_task_resource_dba::PROSPECT);
         $ret = $mc->get_rows(['orgOpenpsaObtype', 'person']);
 
         foreach ($ret as $data) {
