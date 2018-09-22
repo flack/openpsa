@@ -10,16 +10,8 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\Callback;
 use midcom;
 use midcom_core_context;
-use midcom\datamanager\extension\compat;
-use midcom\datamanager\validation\callback as cb_wrapper;
-use midcom\datamanager\storage\container\container;
-use midcom\datamanager\storage\container\dbacontainer;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use midcom\datamanager\extension\type\toolbar;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Validator\Constraints\Regex;
 
@@ -28,16 +20,22 @@ use Symfony\Component\Validator\Constraints\Regex;
  */
 class schema
 {
+    /**
+     * @var array
+     */
     private $defaults = [
         'operations' => ['save' => '', 'cancel' => ''],
         'fields' => [],
-        'customdata' => []
+        'customdata' => [],
+        'validation' => []
     ];
 
+    /**
+     * @var array
+     */
     private $config = [];
 
     /**
-     *
      * @var string
      */
     private $name = 'default';
@@ -64,74 +62,6 @@ class schema
     public function get_name()
     {
         return $this->name;
-    }
-
-    /**
-     *
-     * @param FormFactoryInterface $factory
-     * @param container $storage
-     * @param string $name
-     * @return \Symfony\Component\Form\Form
-     */
-    public function build_form(FormFactoryInterface $factory, container $storage, $name)
-    {
-        $csrf = false;
-        $fields = [];
-
-        foreach ($this->config['fields'] as $field => $config) {
-            if ($config['widget'] === 'csrf') {
-                $csrf = true;
-            } else {
-                $fields[$field] = $config;
-            }
-        }
-
-        $builder = $factory->createNamedBuilder($name, FormType::class, $storage, ['csrf_protection' => $csrf]);
-        foreach ($fields as $field => $config) {
-            if ($config['write_privilege'] !== null) {
-                if (   array_key_exists('group', $config['write_privilege'])
-                    && !midcom::get()->auth->is_group_member($config['write_privilege']['group'])) {
-                    $config['readonly'] = true;
-                }
-                if (   array_key_exists('privilege', $config['write_privilege'])
-                    && $storage instanceof dbacontainer
-                    && !$storage->get_value()->can_do($config['write_privilege']['privilege'])) {
-                    $config['readonly'] = true;
-                }
-            }
-
-            $options = [
-                'label' => $config['title'],
-                'widget_config' => $config['widget_config'],
-                'type_config' => $config['type_config'],
-                'required' => $config['required'],
-                'constraints' => $config['validation'],
-                'dm2_type' => $config['type'],
-                'dm2_storage' => $config['storage'],
-                'start_fieldset' => $config['start_fieldset'],
-                'end_fieldset' => $config['end_fieldset'],
-                'index_method' => $config['index_method'],
-                'attr' => ['readonly' => $config['readonly']],
-                'helptext' => $config['helptext'],
-                'storage' => $storage,
-                'hidden' => $config['hidden']
-            ];
-
-            $builder->add($field, compat::get_type_name($config['widget']), $options);
-        }
-
-        $options = [
-            'operations' => $this->config['operations'],
-            'index_method' => 'noindex'
-        ];
-
-        if (!empty($this->config['validation'])) {
-            $cb_wrapper = new cb_wrapper($this->config['validation']);
-            $options['constraints'] = [new Callback(['callback' => [$cb_wrapper, 'validate']])];
-        }
-
-        $builder->add('form_toolbar', toolbar::class, $options);
-        return $builder->getForm();
     }
 
     /**

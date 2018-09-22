@@ -21,6 +21,8 @@ use midcom\datamanager\extension\transformer\multiple;
 use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use midcom\datamanager\storage\recreateable;
+use midcom\datamanager\extension\type\form as form_type;
+use midcom\datamanager\extension\type\toolbar;
 
 /**
  * Experimental datamanager class
@@ -230,7 +232,19 @@ class datamanager
         if (   $this->form === null
             || $this->form->getName() != $name) {
             $this->get_storage();
-            $this->form = $this->schema->build_form(self::get_factory(), $this->storage, $name);
+
+            $config = [
+                'schema' => $this->schema,
+            ];
+            $builder = self::get_factory()->createNamedBuilder($name, form_type::class, $this->storage, $config);
+
+            $config = [
+                'operations' => $this->schema->get('operations'),
+                'index_method' => 'noindex'
+            ];
+            $builder->add('form_toolbar', toolbar::class, $config);
+
+            $this->form = $builder->getForm();
         }
         return $this->form;
     }
