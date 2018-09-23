@@ -47,7 +47,7 @@ class privilegeselection extends privilege
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         parent::buildView($view, $form, $options);
-        $effective_value = $this->get_effective_value($options['type_config'], $options['storage']->get_value()) ? 'allow' : 'deny';
+        $effective_value = $this->get_effective_value($options['type_config'], $form) ? 'allow' : 'deny';
         $view->vars['jsinit'] = '$("#' . $view->vars['id'] . '").parent().render_privilege({effective_value: "' . $effective_value . '"});';
     }
 

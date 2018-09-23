@@ -56,12 +56,18 @@ class privilege extends RadioType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         parent::buildView($view, $form, $options);
-        $view->vars['type'] = $this;
-        $view->vars['type_conf'] = $options['type_config'];
+        $view->vars['effective_value'] = $this->get_effective_value($options['type_config'], $form);
     }
 
-    public function get_effective_value(array $options, \midcom_core_dbaobject $object = null)
+    protected function get_effective_value(array $options, FormInterface $form)
     {
+        $data = $form->getParent()->getData();
+        if ($data instanceof dbacontainer) {
+            $object = $data->get_value();
+        } else {
+            $object = null;
+        }
+
         if (!$object) {
             $defaults = midcom::get()->auth->acl->get_default_privileges();
             return $defaults[$options['privilege_name']] === MIDCOM_PRIVILEGE_ALLOW;
@@ -79,32 +85,6 @@ class privilege extends RadioType
             return $object->can_do($options['privilege_name'], $principal);
         }
         return $object->can_do($options['privilege_name'], $options['assignee']);
-    }
-
-    public function render_choices(array $options, $object = null)
-    {
-        $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
-
-        if ($this->get_effective_value($options, $object)) {
-            $label = $l10n->get('widget privilege: allow');
-        } else {
-            $label = $l10n->get('widget privilege: deny');
-        }
-        return sprintf($l10n->get('widget privilege: inherit %s'), $label);
-    }
-
-    public function search_for_object($object)
-    {
-        while (true) {
-            if ($object instanceof dbacontainer) {
-                return $object->get_value();
-            }
-            if (!empty($object->parent)) {
-                $object = $object->parent->vars['data'];
-            } else {
-                return null;
-            }
-        }
     }
 
     /**
