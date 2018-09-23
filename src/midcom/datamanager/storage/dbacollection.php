@@ -47,9 +47,8 @@ class dbacollection extends delayed
 
         foreach ($this->value as $key => $container) {
             $needs_save = false;
-            if (!mgd_is_guid($key)) {
-                $dbaobject = $container->get_value();
-                $dbaobject->{$this->config['type_config']['master_fieldname']} = $this->get_master_foreign_key();
+            if (is_array($container)) {
+                $container = $this->create_container($container);
                 $needs_save = true;
             } else {
                 foreach (array_keys($this->schema->get('fields')) as $name) {
@@ -70,6 +69,13 @@ class dbacollection extends delayed
             }
         }
         return true;
+    }
+
+    private function create_container(array $data)
+    {
+        $object = new $this->config['type_config']['mapping_class_name'];
+        $object->{$this->config['type_config']['master_fieldname']} = $this->get_master_foreign_key();
+        return new dbacontainer($this->schema, $object, $data);
     }
 
     /**
