@@ -23,7 +23,15 @@ class datamanager_form extends base
     {
         $string = $this->renderer->block($view, 'form_rows');
         $string .= $this->renderer->rest($view);
+        if ($view->parent) {
+            $string = '[' . $string . ']';
+        }
         return $string;
+    }
+
+    public function form_widget_simple(FormView $view, array $data)
+    {
+        return '"' . $data['value'] . '"';
     }
 
     public function form_rows(FormView $view, array $data)
@@ -58,17 +66,6 @@ class datamanager_form extends base
             return $ret . ']';
         }
         return $this->form_widget_simple($view, $data);
-    }
-
-    public function form_widget_simple(FormView $view, array $data)
-    {
-        if (   version_compare(PHP_VERSION, '5.5', '<')
-            && $data['value'] === 'NaN') {
-            // workaround for a strange problem observed on one php54 machine
-            // (happens only if the entires test suite runs)
-            $data['value'] = 0;
-        }
-        return '"' . $data['value'] . '"';
     }
 
     public function image_widget(FormView $view, array $data)
