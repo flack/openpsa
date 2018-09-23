@@ -57,6 +57,11 @@ class form extends FormType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
+        if (!array_key_exists('data', $options)) {
+            // This happens when we are in the nested case
+            // @todo Figure out why
+            $options['data'] = null;
+        }
         $storage = $options['data'];
 
         foreach ($options['schema']->get('fields') as $field => $config) {
