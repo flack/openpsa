@@ -27,7 +27,8 @@ class schema
         'operations' => ['save' => '', 'cancel' => ''],
         'fields' => [],
         'customdata' => [],
-        'validation' => []
+        'validation' => [],
+        'action' => ''
     ];
 
     /**

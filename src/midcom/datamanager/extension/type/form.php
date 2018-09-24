@@ -29,9 +29,11 @@ class form extends FormType
         parent::configureOptions($resolver);
 
         $resolver
-            ->setDefault('schema', null)
+            ->setRequired('schema')
             ->setAllowedTypes('schema', schema::class)
-            ->setRequired('schema');
+            ->setDefault('action', function (Options $options, $value) {
+                return $options['schema']->get('action');
+            });
 
         $resolver->setNormalizer('csrf_protection', function (Options $options, $value) {
             foreach ($options['schema']->get('fields') as $config) {

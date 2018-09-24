@@ -234,7 +234,7 @@ class datamanager
             $this->get_storage();
 
             $config = [
-                'schema' => $this->schema,
+                'schema' => $this->schema
             ];
             $builder = self::get_factory()->createNamedBuilder($name, form_type::class, $this->storage, $config);
 
