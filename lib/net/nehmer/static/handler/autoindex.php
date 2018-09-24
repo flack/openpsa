@@ -8,7 +8,6 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\storage;
-use midcom\datamanager\extension\transformer\blobs;
 
 /**
  * n.n.static Autoindex page handler
@@ -128,16 +127,15 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      */
     private function _process_datamanager(datamanager $datamanager, $article, array &$view)
     {
-        $content = $datamanager->get_content_raw();
+        $view_data = $datamanager->get_form()->getViewData();
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $filename = "{$article->name}/";
 
         $view[$filename]['article'] = $article;
-        $view[$filename]['name'] = $filename;
         $view[$filename]['url'] = $prefix . $filename;
-        $view[$filename]['size'] = midcom_helper_misc::filesize_to_string($article->metadata->size);
-        $view[$filename]['desc'] = $content['title'];
-        $view[$filename]['type'] = 'text/html';
+        $view[$filename]['formattedsize'] = midcom_helper_misc::filesize_to_string($article->metadata->size);
+        $view[$filename]['description'] = $view_data->title;
+        $view[$filename]['mimetype'] = 'text/html';
         $view[$filename]['lastmod'] = $this->formatter->datetime($article->metadata->revised);
         $view[$filename]['view_article'] = $datamanager->get_content_html();
 
@@ -146,31 +144,22 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
             return;
         }
 
-        foreach ($datamanager->get_storage() as $field => $value) {
-            if ($value instanceof storage\image && $content[$field]) {
-                $attachment = $content[$field]['main'];
-                $filename = "{$article->name}/{$attachment->name}";
-                $view[$filename] = $this->_get_attachment_data($filename, $attachment);
+        foreach ($view_data as $field => $value) {
+            if ($value instanceof storage\image) {
+                $data = $datamanager->get_form()->get($field)->getViewData();
+                if (!empty($data['main'])) {
+                    $filename = "{$article->name}/{$data['main']['filename']}";
+                    $data['main']['lastmod'] = $this->formatter->datetime($data['main']['lastmod']);
+                    $view[$filename] = $data['main'];
+                }
             } elseif ($value instanceof storage\blobs) {
-                foreach ($content[$field] as $attachment) {
-                    $filename = "{$article->name}/{$attachment->name}";
-                    $view[$filename] = $this->_get_attachment_data($filename, $attachment);
+                foreach ($datamanager->get_form()->get($field)->all() as $child) {
+                    $data = $child->getViewData();
+                    $data['lastmod'] = $this->formatter->datetime($data['lastmod']);
+                    $filename = "{$article->name}/{$data['filename']}";
+                    $view[$filename] = $data;
                 }
             }
         }
-    }
-
-    private function _get_attachment_data($filename, midcom_db_attachment $attachment)
-    {
-        $transformer = new blobs([]);
-        $data = $transformer->transform($attachment);
-        return [
-            'name' => $filename,
-            'url' => $data['url'],
-            'size' => $data['formattedsize'],
-            'desc' => $data['filename'],
-            'type' => $data['mimetype'],
-            'lastmod' => $this->formatter->datetime($data['lastmod'])
-        ];
     }
 }

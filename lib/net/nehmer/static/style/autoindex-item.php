@@ -2,9 +2,9 @@
 $object = $data['data'];
 ?>
   <tr>
-    <td><a href="&(object['url']);">&(object["name"]);</a></td>
-    <td>&(object["desc"]);</td>
-    <td>&(object["type"]);</td>
-    <td>&(object["size"]);</td>
+    <td><a href="&(object['url']);">&(data["filename"]);</a></td>
+    <td>&(object["description"]);</td>
+    <td>&(object["mimetype"]);</td>
+    <td>&(object["formattedsize"]);</td>
     <td>&(object["lastmod"]);</td>
   </tr>
