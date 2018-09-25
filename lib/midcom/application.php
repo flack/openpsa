@@ -271,14 +271,6 @@ class midcom_application
      */
     public function serve_attachment(midcom_db_attachment $attachment, $expires = -1)
     {
-        if ($this->config->get('attachment_cache_enabled')) {
-            $path = '/' . substr($attachment->guid, 0, 1) . "/{$attachment->guid}_{$attachment->name}";
-            if (file_exists($this->config->get('attachment_cache_root') . $path)) {
-                $response = new midcom_response_relocate($this->config->get('attachment_cache_url') . $path, 301);
-                $response->send();
-            }
-        }
-
         // Sanity check expires
         if (   !is_int($expires)
             || $expires < -1) {
