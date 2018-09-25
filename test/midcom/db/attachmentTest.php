@@ -87,7 +87,7 @@ class midcom_db_attachmentTest extends openpsa_testcase
         $this->assertNull($stat);
 
         midcom::get()->config->set('attachment_cache_enabled', true);
-        $expected_path = midcom::get()->config->get('attachment_cache_root') . '/' . substr($attachment->guid, 0, 1) . '/' . $attachment->guid . '_attach.png';
+        $expected_path = midcom::get()->config->get('attachment_cache_root') . '/' . substr($attachment->guid, 0, 1) . '/' . $attachment->guid . '/attach.png';
 
         $stat = $attachment->get_cache_path();
         midcom::get()->config->set('attachment_cache_enabled', false);
@@ -104,7 +104,7 @@ class midcom_db_attachmentTest extends openpsa_testcase
 
         midcom::get()->config->set('attachment_cache_enabled', true);
 
-        $expected_path = midcom::get()->config->get('attachment_cache_root') . '/' . substr($attachment->guid, 0, 1) . '/' . $attachment->guid . '_attach.png';
+        $expected_path = midcom::get()->config->get('attachment_cache_root') . '/' . substr($attachment->guid, 0, 1) . '/' . $attachment->guid . '/attach.png';
 
         $attachment->file_to_cache();
         midcom::get()->config->set('attachment_cache_enabled', false);
