@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 /**
  * Experimental autocomplete type
  */
-class toolbar extends AbstractType
+class toolbarType extends AbstractType
 {
     /**
      * {@inheritdoc}

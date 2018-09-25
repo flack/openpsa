@@ -10,14 +10,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use midcom\datamanager\extension\transformer\multiple;
+use midcom\datamanager\extension\transformer\multipleTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use midcom\datamanager\extension\helper;
 
 /**
  * Experimental select type
  */
-class radiocheckselect extends ChoiceType
+class radiocheckselectType extends ChoiceType
 {
     /**
      * {@inheritdoc}
@@ -74,7 +74,7 @@ class radiocheckselect extends ChoiceType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['multiple']) {
-            $builder->addModelTransformer(new multiple($options));
+            $builder->addModelTransformer(new multipleTransformer($options));
         }
         parent::buildForm($builder, $options);
     }

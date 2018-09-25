@@ -9,9 +9,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
-use midcom\datamanager\extension\transformer\autocomplete as transformer;
-use midcom\datamanager\extension\transformer\json as jsontransformer;
-use midcom\datamanager\extension\transformer\multiple as multipletransformer;
+use midcom\datamanager\extension\transformer\autocompleteTransformer;
+use midcom\datamanager\extension\transformer\jsonTransformer;
+use midcom\datamanager\extension\transformer\multipleTransformer;
 use midcom\datamanager\extension\helper;
 use midcom\datamanager\helper\autocomplete as autocomplete_helper;
 use midcom;
@@ -26,7 +26,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 /**
  * Experimental autocomplete type
  */
-class autocomplete extends AbstractType
+class autocompleteType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -90,12 +90,12 @@ class autocomplete extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer(new transformer($options));
+        $builder->addModelTransformer(new autocompleteTransformer($options));
         $builder->add('selection', HiddenType::class);
-        $builder->get('selection')->addViewTransformer(new jsontransformer);
+        $builder->get('selection')->addViewTransformer(new jsonTransformer);
 
         if ($options['type_config']['allow_multiple'] && $options['dm2_type'] == 'select') {
-            $builder->get('selection')->addModelTransformer(new multipletransformer($options));
+            $builder->get('selection')->addModelTransformer(new multipleTransformer($options));
         }
 
         $builder->add('search_input', SearchType::class, ['mapped' => false]);

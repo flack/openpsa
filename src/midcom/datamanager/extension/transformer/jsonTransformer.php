@@ -10,7 +10,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 /**
  * Experimental json transformer
  */
-class json implements DataTransformerInterface
+class jsonTransformer implements DataTransformerInterface
 {
     public function reverseTransform($input)
     {

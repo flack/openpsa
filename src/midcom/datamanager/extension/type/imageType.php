@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
 use midcom;
-use midcom\datamanager\extension\transformer\photo as transformer;
+use midcom\datamanager\extension\transformer\photoTransformer;
 use midcom\datamanager\validation\photo as constraint;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,7 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 /**
  * Experimental image type
  */
-class image extends AbstractType
+class imageType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -58,7 +58,7 @@ class image extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addViewTransformer(new transformer($options));
+        $builder->addViewTransformer(new photoTransformer($options));
         $builder->add('file', FileType::class, ['required' => false]);
         if ($options['widget_config']['show_title']) {
             $builder->add('title', TextType::class);

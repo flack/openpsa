@@ -14,7 +14,7 @@ use midcom\datamanager\validation\urlname as validator;
 /**
  * Experimental urlname type
  */
-class urlname extends TextType
+class urlnameType extends TextType
 {
     /**
      * {@inheritdoc}

@@ -10,7 +10,7 @@ use midcom_db_attachment;
 /**
  * Experimental photo transformer
  */
-class photo extends blobs
+class photoTransformer extends blobsTransformer
 {
     public function transform($input)
     {

@@ -12,7 +12,7 @@ use midcom_error;
 /**
  * Experimental jsdate transformer
  */
-class multiple implements DataTransformerInterface
+class multipleTransformer implements DataTransformerInterface
 {
     private $config;
 

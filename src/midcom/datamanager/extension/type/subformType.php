@@ -21,7 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 /**
  * Experimental images type
  */
-class subform extends CollectionType
+class subformType extends CollectionType
 {
     /**
      * {@inheritdoc}

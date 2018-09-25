@@ -18,18 +18,18 @@ class schemaextension extends AbstractExtension
     protected function loadTypes()
     {
         return [
-            new type\autocomplete,
-            new type\blobs,
-            new type\codemirror,
-            new type\images,
-            new type\jsdate,
-            new type\markdown,
-            new type\photo,
-            new type\radiocheckselect,
-            new type\subform,
-            new type\select,
-            new type\tinymce,
-            new type\toolbar,
+            new type\autocompleteType,
+            new type\blobsType,
+            new type\codemirrorType,
+            new type\imagesType,
+            new type\jsdateType,
+            new type\markdownType,
+            new type\photoType,
+            new type\radiocheckselectType,
+            new type\subformType,
+            new type\selectType,
+            new type\tinymceType,
+            new type\toolbarType,
         ];
     }
 

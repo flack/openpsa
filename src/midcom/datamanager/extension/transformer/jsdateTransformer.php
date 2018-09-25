@@ -7,13 +7,13 @@ namespace midcom\datamanager\extension\transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
-use midcom\datamanager\extension\type\jsdate as datetype;
+use midcom\datamanager\extension\type\jsdateType;
 use DateTime;
 
 /**
  * Experimental jsdate transformer
  */
-class jsdate implements DataTransformerInterface
+class jsdateTransformer implements DataTransformerInterface
 {
     private $config;
 
@@ -40,9 +40,9 @@ class jsdate implements DataTransformerInterface
         }
 
         $date = new \DateTime;
-        if ($this->config['type_config']['storage_type'] === datetype::UNIXTIME) {
+        if ($this->config['type_config']['storage_type'] === jsdateType::UNIXTIME) {
             $date->setTimestamp((int) $input);
-        } elseif ($this->config['type_config']['storage_type'] === datetype::ISO) {
+        } elseif ($this->config['type_config']['storage_type'] === jsdateType::ISO) {
             $date->modify($input);
         }
         $result['date'] = $date;
@@ -68,9 +68,9 @@ class jsdate implements DataTransformerInterface
             $array['date']->setTime((int) $array['time']->format('G'), (int) $array['time']->format('i'), (int) $array['time']->format('s'));
         }
 
-        if ($this->config['type_config']['storage_type'] === datetype::UNIXTIME) {
+        if ($this->config['type_config']['storage_type'] === jsdateType::UNIXTIME) {
             return $array['date']->format('U');
-        } elseif ($this->config['type_config']['storage_type'] === datetype::ISO) {
+        } elseif ($this->config['type_config']['storage_type'] === jsdateType::ISO) {
             return $array['date']->format('Y-m-d H:i:s');
         }
     }

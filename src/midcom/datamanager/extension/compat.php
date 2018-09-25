@@ -18,8 +18,8 @@ class compat
      */
     public static function get_type_name($shortname)
     {
-        if (class_exists('midcom\datamanager\extension\type\\' . $shortname)) {
-            return 'midcom\datamanager\extension\type\\' . $shortname;
+        if (class_exists('midcom\datamanager\extension\type\\' . $shortname . 'Type')) {
+            return 'midcom\datamanager\extension\type\\' . $shortname . 'Type';
         }
         if (class_exists('Symfony\Component\Form\Extension\Core\Type\\' . ucfirst($shortname) . 'Type')) {
             return 'Symfony\Component\Form\Extension\Core\Type\\' . ucfirst($shortname) . 'Type';

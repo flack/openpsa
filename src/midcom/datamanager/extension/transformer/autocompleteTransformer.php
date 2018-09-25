@@ -10,7 +10,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 /**
  * Experimental autocomplete transformer
  */
-class autocomplete implements DataTransformerInterface
+class autocompleteTransformer implements DataTransformerInterface
 {
     private $config;
 

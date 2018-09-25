@@ -18,7 +18,7 @@ use midcom\datamanager\extension\helper;
 /**
  * Experimental privilege type
  */
-class privilege extends RadioType
+class privilegeType extends RadioType
 {
     protected $defaultChoices = [
         'widget privilege: allow' => MIDCOM_PRIVILEGE_ALLOW,
@@ -100,6 +100,6 @@ class privilege extends RadioType
      */
     public function getParent()
     {
-        return radiocheckselect::class;
+        return radiocheckselectType::class;
     }
 }

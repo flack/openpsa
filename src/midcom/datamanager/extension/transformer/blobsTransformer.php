@@ -13,7 +13,7 @@ use midcom_helper_misc;
 /**
  * Experimental blobs transformer
  */
-class blobs implements DataTransformerInterface
+class blobsTransformer implements DataTransformerInterface
 {
     protected $config;
 

@@ -17,7 +17,7 @@ use midcom\datamanager\extension\helper;
 /**
  * Experimental markdown type
  */
-class markdown extends TextareaType
+class markdownType extends TextareaType
 {
     /**
      * {@inheritdoc}

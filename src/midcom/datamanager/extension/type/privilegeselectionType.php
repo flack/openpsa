@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Experimental privilege type
  */
-class privilegeselection extends privilege
+class privilegeselectionType extends privilegeType
 {
     protected $defaultChoices = [
         'widget privilege: inherit' => MIDCOM_PRIVILEGE_INHERIT,

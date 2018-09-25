@@ -16,9 +16,9 @@ use midcom\datamanager\extension\helper;
 use midcom\datamanager\validation\php;
 
 /**
- * Experimental select type
+ * Experimental codemirror type
  */
-class codemirror extends TextareaType
+class codemirrorType extends TextareaType
 {
     /**
      * Widget version

@@ -7,7 +7,7 @@ namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\FormType as base;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Callback;
 use midcom\datamanager\storage\container\dbacontainer;
@@ -19,7 +19,7 @@ use midcom\datamanager\schema;
 /**
  * Experimental form type
  */
-class form extends FormType
+class formType extends base
 {
     /**
      * {@inheritdoc}
@@ -109,6 +109,6 @@ class form extends FormType
      */
     public function getParent()
     {
-        return FormType::class;
+        return base::class;
     }
 }

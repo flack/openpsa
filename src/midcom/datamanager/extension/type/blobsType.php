@@ -7,7 +7,7 @@ namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use midcom\datamanager\extension\transformer\blobs as transformer;
+use midcom\datamanager\extension\transformer\blobsTransformer;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -16,7 +16,7 @@ use midcom;
 /**
  * Experimental attachment type
  */
-class blobs extends AbstractType
+class blobsType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class blobs extends AbstractType
         $builder->add('title', TextType::class);
         $builder->add('file', FileType::class, ['required' => false]);
         $builder->add('identifier', HiddenType::class);
-        $builder->addViewTransformer(new transformer($options));
+        $builder->addViewTransformer(new blobsTransformer($options));
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
     }
 

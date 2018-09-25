@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
-use midcom\datamanager\extension\transformer\jsdate as jsdatetransformer;
+use midcom\datamanager\extension\transformer\jsdateTransformer;
 use midcom;
 use DateTime;
 use Symfony\Component\Form\FormInterface;
@@ -25,7 +25,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 /**
  * Experimental jsdate type
  */
-class jsdate extends AbstractType
+class jsdateType extends AbstractType
 {
     const UNIXTIME = 'UNIXTIME';
 
@@ -47,14 +47,14 @@ class jsdate extends AbstractType
                 'format' => '%Y-%m-%d %H:%M',
                 'hide_seconds' => true,
                 'show_time' => true,
-                'maxyear' => ($options['type_config']['storage_type'] == jsdate::UNIXTIME) ? 2030 : 9999,
-                'minyear' => ($options['type_config']['storage_type'] == jsdate::UNIXTIME) ? 1970 : 0,
+                'maxyear' => ($options['type_config']['storage_type'] == self::UNIXTIME) ? 2030 : 9999,
+                'minyear' => ($options['type_config']['storage_type'] == self::UNIXTIME) ? 1970 : 0,
             ];
             return helper::resolve_options($widget_defaults, $value);
         });
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
             $type_defaults = [
-                'storage_type' => jsdate::ISO,
+                'storage_type' => self::ISO,
                 'min_date' => null,
                 'max_date' => null,
                 'later_than' => null
@@ -74,7 +74,7 @@ class jsdate extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer(new jsdatetransformer($options));
+        $builder->addModelTransformer(new jsdateTransformer($options));
 
         $input_options = ['attr' => ['size' => 10]];
         $date_options = ['widget' => 'single_text'];

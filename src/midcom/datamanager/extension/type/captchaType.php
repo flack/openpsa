@@ -20,7 +20,7 @@ use Symfony\Component\Form\FormError;
 /**
  * Experimental captcha type
  */
-class captcha extends TextType
+class captchaType extends TextType
 {
     /**
      * {@inheritdoc}

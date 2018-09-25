@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 /**
  * Experimental password type
  */
-class password extends RepeatedType
+class passwordType extends RepeatedType
 {
     /**
      * {@inheritdoc}

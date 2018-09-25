@@ -17,12 +17,12 @@ use midcom_core_context;
 use midcom;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
-use midcom\datamanager\extension\transformer\multiple;
+use midcom\datamanager\extension\transformer\multipleTransformer;
 use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use midcom\datamanager\storage\recreateable;
-use midcom\datamanager\extension\type\form as form_type;
-use midcom\datamanager\extension\type\toolbar;
+use midcom\datamanager\extension\type\formType;
+use midcom\datamanager\extension\type\toolbarType;
 
 /**
  * Experimental datamanager class
@@ -236,13 +236,13 @@ class datamanager
             $config = [
                 'schema' => $this->schema
             ];
-            $builder = self::get_factory()->createNamedBuilder($name, form_type::class, $this->storage, $config);
+            $builder = self::get_factory()->createNamedBuilder($name, formType::class, $this->storage, $config);
 
             $config = [
                 'operations' => $this->schema->get('operations'),
                 'index_method' => 'noindex'
             ];
-            $builder->add('form_toolbar', toolbar::class, $config);
+            $builder->add('form_toolbar', toolbarType::class, $config);
 
             $this->form = $builder->getForm();
         }
@@ -258,7 +258,7 @@ class datamanager
             $ret[$field] = $value->get_value();
             $config = $this->schema->get_field($field);
             if (!empty($config['type_config']['allow_multiple'])) {
-                $transformer = new multiple($config);
+                $transformer = new multipleTransformer($config);
                 $ret[$field] = $transformer->transform($ret[$field]);
             }
         }

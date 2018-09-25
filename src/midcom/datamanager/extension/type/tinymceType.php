@@ -18,7 +18,7 @@ use midcom\datamanager\extension\helper;
 /**
  * Experimental textarea type
  */
-class tinymce extends TextareaType
+class tinymceType extends TextareaType
 {
     /**
      * {@inheritdoc}

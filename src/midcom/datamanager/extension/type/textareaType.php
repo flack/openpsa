@@ -5,14 +5,17 @@
 
 namespace midcom\datamanager\extension\type;
 
+use Symfony\Component\Form\Extension\Core\Type\TextareaType as base;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
 use midcom\datamanager\extension\helper;
 
 /**
- * Experimental photo type
+ * Experimental textarea type
  */
-class photo extends image
+class textareaType extends base
 {
     /**
      * {@inheritdoc}
@@ -20,20 +23,19 @@ class photo extends image
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
-        $resolver->setNormalizer('widget_config', function (Options $options, $value) {
-            $widget_defaults = [
-                'map_action_elements' => false,
-                'show_title' => false
-            ];
-            return helper::resolve_options($widget_defaults, $value);
-        });
+
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
             $type_defaults = [
-                'do_not_save_archival' => false,
-                'derived_images' => [],
-                'filter_chain' => null
+                'output_mode' => 'html',
+                'specialchars_quotes' => ENT_QUOTES,
+                'specialchars_charset' => 'UTF-8'
             ];
             return helper::resolve_options($type_defaults, $value);
         });
+    }
+
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->vars['output_mode'] = $options['type_config']['output_mode'];
     }
 }

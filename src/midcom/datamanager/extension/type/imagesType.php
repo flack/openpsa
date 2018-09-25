@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
-use midcom\datamanager\extension\transformer\blobs as transformer;
+use midcom\datamanager\extension\transformer\blobsTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -18,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 /**
  * Experimental image type
  */
-class images extends AbstractType
+class imagesType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -52,7 +52,7 @@ class images extends AbstractType
         if ($options['widget_config']['sortable']) {
             $builder->add('score', HiddenType::class);
         }
-        $builder->addViewTransformer(new transformer($options));
+        $builder->addViewTransformer(new blobsTransformer($options));
     }
 
     /**

@@ -9,15 +9,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
-use midcom\datamanager\extension\transformer\other as transformer;
-use midcom\datamanager\extension\transformer\multiple;
+use midcom\datamanager\extension\transformer\otherTransformer;
+use midcom\datamanager\extension\transformer\multipleTransformer;
 use midcom\datamanager\extension\helper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Experimental other type
  */
-class other extends AbstractType
+class otherType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -43,11 +43,11 @@ class other extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer(new transformer($options['type_config']['options']));
+        $builder->addModelTransformer(new otherTransformer($options['type_config']['options']));
         if (!empty($options['type_config']['allow_multiple'])) {
-            $builder->addModelTransformer(new multiple($options));
+            $builder->addModelTransformer(new multipleTransformer($options));
         }
-        $builder->add('select', select::class, [
+        $builder->add('select', selectType::class, [
             'type_config' => $options['type_config'],
             'widget_config' => $options['widget_config'],
         ]);
