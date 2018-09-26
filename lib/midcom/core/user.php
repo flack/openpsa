@@ -479,7 +479,7 @@ class midcom_core_user
         }
 
         // Process
-        if (midcom::get()->dbfactory->is_a($group, midcom_core_group::class)) {
+        if (is_a($group, midcom_core_group::class)) {
             return array_key_exists($group->id, $this->_all_groups);
         }
         if (preg_match('/^group:/', $group)) {
@@ -487,8 +487,7 @@ class midcom_core_user
         }
         // We scan through our groups looking for a midgard group with the right name
         foreach ($this->_all_groups as $group_object) {
-            if (   midcom::get()->dbfactory->is_a($group_object, midcom_core_group::class)
-                && $group_object->get_storage()->name == $group) {
+            if ($group_object->get_storage()->name == $group) {
                 return true;
             }
         }
