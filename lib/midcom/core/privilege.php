@@ -27,6 +27,18 @@
  * This should speed up regular operations quite a bit (along with the parent guid cache,
  * which is a second important key).
  *
+ * @property string $objectguid GUID of the object the privilege applies to
+ * @property string $privilegename Name of the privilege (for example `midgard:create`)
+ * @property string $assignee Assignee of the privilege, for instance user or group identifier
+ * @property string $classname MgdSchema class the privilege applies to, in case of class-level privileges
+ * @property integer $value
+                Value of the privilege:
+
+                - 1: MIDCOM_PRIVILEGE_ALLOW
+                - 2: MIDCOM_PRIVILEGE_DENY
+                - 3: MIDCOM_PRIVILEGE_INHERIT
+
+ * @property string $guid
  * @package midcom
  */
 class midcom_core_privilege
@@ -63,7 +75,7 @@ class midcom_core_privilege
     /**
      * Cached content object, based on $objectguid.
      *
-     * @var object
+     * @var midcom_core_dbaobject
      */
     private $__cached_object = null;
 
@@ -71,7 +83,7 @@ class midcom_core_privilege
      * The Default constructor creates an empty privilege, if you specify
      * another privilege object in the constructor, a copy is constructed.
      *
-     * @param midcom_core_privilege_db $src Object to copy from.
+     * @param midcom_core_privilege_db|array $src Object to copy from.
      */
     public function __construct($src = null)
     {
