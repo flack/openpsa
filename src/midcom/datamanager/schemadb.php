@@ -68,16 +68,13 @@ class schemadb
                     || $schema['extends']['name'] === $schema_name) {
                     throw new midcom_error('schema ' . $path . ':' . $schema_name . ' extends itself');
                 }
-
-                $extended_schemadb[$schema['extends']['name']] = $data[$schema['extends']['name']];
                 $extended_schema_name = $schema['extends']['name'];
+                $extended_schemadb = [$extended_schema_name => $data[$extended_schema_name]];
             } else {
                 $extended_schemadb = static::load_from_path($path);
-            }
-
-            // Raise a notice if extended schema was not found from the schemadb
-            if (!isset($extended_schemadb[$extended_schema_name])) {
-                throw new midcom_error('extended schema ' . $path . ':' . $schema_name . ' was not found');
+                if (!isset($extended_schemadb[$extended_schema_name])) {
+                    throw new midcom_error('extended schema ' . $path . ':' . $schema_name . ' was not found');
+                }
             }
 
             // Override the extended schema with fields from the new schema

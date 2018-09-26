@@ -8,7 +8,6 @@ namespace midcom\datamanager\storage;
 use midcom;
 use midcom_error;
 use midcom_connection;
-use midcom_core_dbaobject;
 use midcom\datamanager\extension\helper;
 use midcom\datamanager\storage\container\dbacontainer;
 use midcom\datamanager\schema;
