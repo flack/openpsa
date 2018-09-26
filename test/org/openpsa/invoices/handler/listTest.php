@@ -65,7 +65,7 @@ class org_openpsa_invoices_handler_listTest extends openpsa_testcase
             'invoice' => $invoice->id,
             'deliverable' => $deliverable->id
         ];
-        $item  = $this->create_object(org_openpsa_invoices_invoice_item_dba::class, $attributes);
+        $this->create_object(org_openpsa_invoices_invoice_item_dba::class, $attributes);
 
         $data = $this->run_handler('org.openpsa.invoices', ['list', 'deliverable', $deliverable->guid]);
         $this->assertEquals('list_deliverable_all', $data['handler_id']);

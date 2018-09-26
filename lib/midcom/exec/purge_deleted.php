@@ -21,7 +21,6 @@ foreach ($handler->get_classes() as $mgdschema) {
     $stats = $handler->process_class($mgdschema);
 
     foreach ($stats['errors'] as $error) {
-        $errors++;
         echo '  ERROR:' . $error . "\n";
     }
     if ($stats['found'] > 0) {

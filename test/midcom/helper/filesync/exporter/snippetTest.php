@@ -26,7 +26,7 @@ class midcom_helper_filesync_exporter_snippetTest extends openpsa_testcase
         $element_name = uniqid('element_' . __CLASS__ . __FUNCTION__);
         $snippetdir = $this->create_object(midcom_db_snippetdir::class, ['name' => $snippetdir_name]);
         $sub_snippetdir = $this->create_object(midcom_db_snippetdir::class, ['name' => $snippetdir_name, 'up' => $snippetdir->id]);
-        $element = $this->create_object(midcom_db_snippet::class, ['name' => $element_name, 'snippetdir' => $sub_snippetdir->id]);
+        $this->create_object(midcom_db_snippet::class, ['name' => $element_name, 'snippetdir' => $sub_snippetdir->id]);
 
         $exporter = new midcom_helper_filesync_exporter_snippet(self::$_rootdir);
         midcom::get()->auth->request_sudo('midcom.helper.filesync');

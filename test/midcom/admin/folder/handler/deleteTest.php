@@ -28,7 +28,7 @@ class midcom_admin_folder_handler_deleteTest extends openpsa_testcase
 
         $_POST = ['confirm-delete' => true];
 
-        $url = $this->run_relocate_handler($topic, ['__ais', 'folder', 'delete']);
+        $this->run_relocate_handler($topic, ['__ais', 'folder', 'delete']);
 
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('id', '=', $topic->id);

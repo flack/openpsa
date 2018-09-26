@@ -225,7 +225,6 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
     public function testCheck_password_reuse()
     {
         $accounthelper = new org_openpsa_user_accounthelper(self::$_user);
-        $account = new midcom_core_account(self::$_user);
         $password = self::$_user->extra;
         $this->assertFalse($accounthelper->check_password_reuse($password));
 

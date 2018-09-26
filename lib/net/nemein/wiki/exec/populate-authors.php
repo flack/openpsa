@@ -13,7 +13,7 @@ foreach ($pages as $page) {
     $authors = explode('|', substr($page->metadata->authors, 1, -1));
     $object_rcs = $rcs->load_handler($page);
     $history = $object_rcs->list_history();
-    foreach ($history as $rev => $data) {
+    foreach ($history as $data) {
         $user_guid = substr($data['user'], 5);
         if (!in_array($user_guid, $authors)) {
             $authors[] = $user_guid;

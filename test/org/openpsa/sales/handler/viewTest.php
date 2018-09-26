@@ -38,7 +38,7 @@ class org_openpsa_sales_handler_viewTest extends openpsa_testcase
             'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
         ];
 
-        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
+        $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
 
         $data = $this->run_handler('org.openpsa.sales', ['salesproject', $salesproject->guid]);
         $this->assertEquals('salesproject_view', $data['handler_id']);

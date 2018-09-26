@@ -98,7 +98,7 @@ class loader extends base
     {
         if (is_string($resource)) {
             if (!$this->is_legacy($resource)) {
-                return $this->get_yaml()->supports($this->get_path($input, 'yml'), $type);
+                return $this->get_yaml()->supports($this->get_path($resource, 'yml'), $type);
             }
             return (!$type || 'string' === $type);
         }

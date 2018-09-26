@@ -29,7 +29,7 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
         $attachment = $this->create_object(midcom_db_attachment::class, ['parentguid' => self::$_topic->guid]);
 
         midcom::get()->auth->request_sudo('midcom.core');
-        $stat = $attachment->copy_from_file(self::$_filename);
+        $attachment->copy_from_file(self::$_filename);
         midcom::get()->auth->drop_sudo();
 
         $filter = new midcom_helper_imagefilter($attachment);

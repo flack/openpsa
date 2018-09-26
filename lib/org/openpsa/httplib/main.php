@@ -128,7 +128,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         }
         if ($response->getStatusCode() < 200 || $response->getStatusCode() >= 300) {
             $this->error = $response->getReasonPhrase();
-            debug_add("Got error '{$this->error}' from '{$uri}'", MIDCOM_LOG_INFO);
+            debug_add("Got error '{$this->error}' from '{$request->getUri()}'", MIDCOM_LOG_INFO);
             return false;
         }
         return (string) $response->getBody();

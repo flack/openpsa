@@ -48,7 +48,6 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
     public function testHandler_upload_noguid()
     {
         midcom::get()->auth->request_sudo('midcom.helper.imagepopup');
-        $node = self::get_component_node('net.nehmer.static');
         $_FILES['file'] = array_shift(self::$_images);
 
         // Sleep for 1 second to avoid the same modified filenames for both files in upload handler class

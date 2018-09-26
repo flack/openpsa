@@ -24,7 +24,7 @@ class org_openpsa_directmarketing_handler_exportTest extends openpsa_testcase
     {
         $helper = new openpsa_test_campaign_helper($this);
         $campaign = $helper->get_campaign();
-        $member = $helper->get_member(self::$_person);
+        $helper->get_member(self::$_person);
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 

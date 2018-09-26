@@ -54,7 +54,7 @@ class midgard_admin_asgard_handler_object_manageTest extends openpsa_testcase
 
         $formdata = [];
 
-        $url = $this->submit_dm_form('controller', $formdata, 'net.nehmer.static', ['__mfa', 'asgard', 'object', 'copy', self::$_object->guid]);
+        $this->submit_dm_form('controller', $formdata, 'net.nehmer.static', ['__mfa', 'asgard', 'object', 'copy', self::$_object->guid]);
 
         midcom::get()->auth->drop_sudo();
     }

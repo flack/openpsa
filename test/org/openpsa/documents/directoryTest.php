@@ -15,7 +15,7 @@ class org_openpsa_documents_directoryTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        $user = $this->create_user(true);
+        $this->create_user(true);
 
         midcom::get()->auth->request_sudo('org.openpsa.documents');
 

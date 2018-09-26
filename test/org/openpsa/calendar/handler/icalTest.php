@@ -32,7 +32,7 @@ class org_openpsa_calendar_handler_icalTest extends openpsa_testcase
             'uid' => $user->id,
             'eid' => $event->id
         ];
-        $eventmember = $this->create_object(org_openpsa_calendar_event_member_dba::class, $attributes);
+        $this->create_object(org_openpsa_calendar_event_member_dba::class, $attributes);
 
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
         $user->firstname = 'Firstname';
@@ -44,7 +44,7 @@ class org_openpsa_calendar_handler_icalTest extends openpsa_testcase
 
         $this->assertCount(1, $data['events']);
         $this->assertEquals($event->guid, $data['events'][0]->guid);
-        $output = $this->show_handler($data);
+        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }

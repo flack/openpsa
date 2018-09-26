@@ -24,8 +24,8 @@ class org_openpsa_directmarketing_handler_message_reportTest extends openpsa_tes
     {
         $helper = new openpsa_test_campaign_helper($this);
         $message = $helper->get_message();
-        $log = $helper->get_log($message, self::$_person);
-        $receipt = $helper->get_receipt($message, self::$_person);
+        $helper->get_log($message, self::$_person);
+        $helper->get_receipt($message, self::$_person);
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 

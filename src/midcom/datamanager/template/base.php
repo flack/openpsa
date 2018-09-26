@@ -28,7 +28,7 @@ abstract class base
     {
         $string = $this->renderer->start($view, $data);
         $string .= $this->renderer->widget($view, $data);
-        return $string .= $this->renderer->end($view, $data);
+        return $string . $this->renderer->end($view, $data);
     }
 
     public function form_widget(FormView $view, array $data)

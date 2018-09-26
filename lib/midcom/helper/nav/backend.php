@@ -377,8 +377,6 @@ class midcom_helper_nav_backend
             return $listed[$cache_identifier];
         }
 
-        $node = (int) $parent_node;
-
         $result = [];
 
         foreach ($subnodes as $id) {

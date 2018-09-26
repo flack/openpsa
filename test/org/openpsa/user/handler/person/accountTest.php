@@ -36,8 +36,6 @@ class org_openpsa_user_handler_person_accountTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.user');
 
-        $person = $this->create_object(midcom_db_person::class);
-
         $data = $this->run_handler('org.openpsa.user', ['account', 'edit', self::$_user->guid]);
         $this->assertEquals('account_edit', $data['handler_id']);
 
@@ -47,8 +45,6 @@ class org_openpsa_user_handler_person_accountTest extends openpsa_testcase
     public function test_handler_delete()
     {
         midcom::get()->auth->request_sudo('org.openpsa.user');
-
-        $person = $this->create_object(midcom_db_person::class);
 
         $data = $this->run_handler('org.openpsa.user', ['account', 'delete', self::$_user->guid]);
         $this->assertEquals('account_delete', $data['handler_id']);

@@ -549,7 +549,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
            'title' => 'TEST TITLE 2',
            'reportedHours' => 10
         ];
-        $task2 = $this->create_object(org_openpsa_projects_task_dba::class, $task_attributes);
+        $this->create_object(org_openpsa_projects_task_dba::class, $task_attributes);
 
         $this->_product->delivery = org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION;
         $this->_product->update();

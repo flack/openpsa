@@ -125,7 +125,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         $this->_request_data['categories'] = explode(',', $this->_config->get('categories'));
 
-        foreach ($this->_request_data['schemadb']->all() as $name => $schema) {
+        foreach ($this->_request_data['schemadb']->all() as $schema) {
             if (   $schema->has_field('categories')
                 && $schema->get_field('categories')['type'] == 'select') {
                 // TODO: Merge schema local and component config categories?

@@ -84,7 +84,7 @@ class org_openpsa_reports_handler_sales_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $query = $this->create_object(org_openpsa_reports_query_dba::class);
+        $this->create_object(org_openpsa_reports_query_dba::class);
 
         $data = $this->run_handler('org.openpsa.reports', ['sales']);
         $this->assertEquals('sales_report', $data['handler_id']);
