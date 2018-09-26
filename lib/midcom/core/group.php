@@ -59,13 +59,6 @@ class midcom_core_group
     public $scope = MIDCOM_PRIVILEGE_SCOPE_ROOTGROUP;
 
     /**
-     * Contains the parent of the current group, cached for repeated accesses.
-     *
-     * @var midcom_core_group
-     */
-    private $_cached_parent_group = null;
-
-    /**
      * The constructor retrieves the group identified by its name from the database and
      * prepares the object for operation.
      *
@@ -78,7 +71,7 @@ class midcom_core_group
      *     a database ID or GUID for Midgard Groups or a valid complete MidCOM group identifier, which
      *     will work for all subclasses.
      */
-    public function __construct($id = null)
+    public function __construct($id)
     {
         if (is_null($id)) {
             throw new midcom_error('The class midcom_core_group is not default constructible.');
@@ -95,7 +88,7 @@ class midcom_core_group
                     }
                     $id = $id_parts[1];
                 }
-            } elseif (is_numeric($id) && $id == 0) {
+            } elseif ($id == 0) {
                 throw new midcom_error('0 is not a valid DB identifier');
             }
             try {
@@ -117,10 +110,7 @@ class midcom_core_group
         $this->id = "group:{$this->_storage->guid}";
 
         // Determine scope
-        $parent = $this->get_parent_group();
-        if (is_null($parent)) {
-            $this->scope = MIDCOM_PRIVILEGE_SCOPE_ROOTGROUP;
-        } else {
+        if ($parent = $this->get_parent_group()) {
             $this->scope = $parent->scope + 1;
         }
     }
@@ -179,34 +169,19 @@ class midcom_core_group
     /**
      * Returns the parent group.
      *
-     * @return midcom_core_group The parent group of the current group or null if there is none.
+     * @return midcom_core_group|boolean The parent group of the current group or false if there is none.
      */
     function get_parent_group()
     {
-        if (is_null($this->_cached_parent_group)) {
-            if ($this->_storage->owner == 0) {
-                return null;
-            }
-
-            if ($this->_storage->id == $this->_storage->owner) {
-                debug_print_r('Broken Group', $this, MIDCOM_LOG_CRIT);
-                throw new midcom_error('A group was its own parent, which will result in an infinite loop. See debug log for more info.');
-            }
-
-            $parent = new midgard_group();
-            $parent->get_by_id($this->_storage->owner);
-
-            if (!$parent->id) {
-                debug_add("Could not load Group ID {$this->_storage->owner} from the database, aborting, this should not happen. See the debug level log for details. ("
-                    . midcom_connection::get_error_string() . ')',
-                    MIDCOM_LOG_ERROR);
-                debug_print_r('Group that we started from is:', $this->_storage);
-                return null;
-            }
-
-            $this->_cached_parent_group = midcom::get()->auth->get_group($parent);
+        if ($this->_storage->owner == 0) {
+            return false;
         }
-        return $this->_cached_parent_group;
+
+        if ($this->_storage->id == $this->_storage->owner) {
+            debug_print_r('Broken Group', $this, MIDCOM_LOG_CRIT);
+            throw new midcom_error('A group was its own parent, which will result in an infinite loop. See debug log for more info.');
+        }
+        return midcom::get()->auth->get_group($this->_storage->owner);
     }
 
     /**
