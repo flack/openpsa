@@ -259,34 +259,32 @@ class midcom_core_privilege
      */
     public function validate()
     {
-        // 1. Privilege name
         if (!midcom::get()->auth->acl->privilege_exists($this->privilegename)) {
             debug_add("The privilege name '{$this->privilegename}' is unknown to the system. Perhaps the corresponding component is not loaded?",
                 MIDCOM_LOG_INFO);
             return false;
         }
 
-        // 2. Assignee
+        if (!in_array($this->value, [MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_INHERIT])) {
+            debug_add("Invalid privilege value '{$this->value}'.", MIDCOM_LOG_INFO);
+            return false;
+        }
+
+        if ($this->classname != '') {
+            if ($this->assignee != 'SELF') {
+                debug_add("The classname parameter was specified without having the magic assignee SELF set, this is invalid.", MIDCOM_LOG_INFO);
+                return false;
+            } elseif (!class_exists($this->classname)) {
+                debug_add("The class '{$this->classname}' is not found, the SELF magic assignee with class restriction is invalid therefore.", MIDCOM_LOG_INFO);
+                return false;
+            }
+        }
+
         if (   !$this->is_magic_assignee()
             && !$this->get_assignee()) {
             debug_add("The assignee identifier '{$this->assignee}' is invalid.", MIDCOM_LOG_INFO);
             return false;
         }
-
-        if (   $this->assignee == 'SELF'
-            && $this->classname != ''
-            && !class_exists($this->classname)) {
-            debug_add("The class '{$this->classname}' is not loaded, the SELF magic assignee with class restriction is invalid therefore.", MIDCOM_LOG_INFO);
-            return false;
-        }
-
-        if (   $this->assignee != 'SELF'
-            && $this->classname != '') {
-            debug_add("The classname parameter was specified without having the magic assignee SELF set, this is invalid.", MIDCOM_LOG_INFO);
-            return false;
-        }
-
-        // Prevent owner assignments to owners
         if (   $this->assignee == 'OWNER'
             && $this->privilegename == 'midgard:owner') {
             debug_add("Tried to assign midgard:owner to the OWNER magic assignee, this is invalid.", MIDCOM_LOG_INFO);
@@ -303,16 +301,6 @@ class midcom_core_privilege
             || !$object->can_do('midgard:privileges')) {
             debug_add("Insufficient privileges on the content object with the GUID '{$this->__guid}', midgard:update and midgard:privileges required.",
                 MIDCOM_LOG_INFO);
-            return false;
-        }
-        $valid_values = [
-            MIDCOM_PRIVILEGE_ALLOW,
-            MIDCOM_PRIVILEGE_DENY,
-            MIDCOM_PRIVILEGE_INHERIT,
-        ];
-
-        if (!in_array($this->value, $valid_values)) {
-            debug_add("Invalid privilege value '{$this->value}'.", MIDCOM_LOG_INFO);
             return false;
         }
 
