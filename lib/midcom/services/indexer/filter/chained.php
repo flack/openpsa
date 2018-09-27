@@ -19,7 +19,7 @@ class midcom_services_indexer_filter_chained extends midcom_services_indexer_fil
      *
      * @var midcom_services_indexer_filter[]
      */
-    private $filters;
+    private $filters = [];
 
     public function __construct()
     {

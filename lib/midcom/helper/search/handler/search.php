@@ -99,6 +99,12 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     public function _handler_result($handler_id, array $args, array &$data)
     {
         $this->prepare_query_data();
+        // If we don't have a query string, relocate to empty search form
+        if (!isset($_REQUEST['query'])) {
+            debug_add('$_REQUEST["query"] is not set, relocating back to form', MIDCOM_LOG_INFO);
+            $url = ($_REQUEST['type'] == 'basic') ? '' : 'advanced/';
+            return new midcom_response_relocate($url);
+        }
         $this->prepare_formdata($_REQUEST['type']);
 
         if (   count(explode(' ', $data['query'])) == 1
@@ -196,14 +202,6 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      */
     private function prepare_query_data()
     {
-        // If we don't have a query string, relocate to empty search form
-        if (!isset($_REQUEST['query'])) {
-            debug_add('$_REQUEST["query"] is not set, relocating back to form', MIDCOM_LOG_INFO);
-            if ($this->_request_data['type'] == 'basic') {
-                midcom::get()->relocate('');
-            }
-            midcom::get()->relocate('advanced/');
-        }
         $defaults = [
             'type' => 'basic',
             'page' => 1,
