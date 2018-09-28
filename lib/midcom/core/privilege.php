@@ -118,35 +118,6 @@ class midcom_core_privilege
         return isset($this->__privilege[$property]);
     }
 
-    private function _get_scope()
-    {
-        $scope = -1;
-
-        switch ($this->__privilege['assignee']) {
-            case 'EVERYONE':
-                $scope = MIDCOM_PRIVILEGE_SCOPE_EVERYONE;
-                break;
-            case 'USERS':
-                $scope = MIDCOM_PRIVILEGE_SCOPE_USERS;
-                break;
-            case 'ANONYMOUS':
-                $scope = MIDCOM_PRIVILEGE_SCOPE_ANONYMOUS;
-                break;
-            case 'SELF':
-                //scope is not applicable here
-                break;
-            default:
-                if ($assignee = $this->get_assignee()) {
-                    $scope = $assignee->scope;
-                } else {
-                    debug_print_r('Could not resolve the assignee of this privilege:', $this);
-                }
-                break;
-        }
-
-        return $scope;
-    }
-
     /**
      * A copy of the object referenced by the guid value of this privilege.
      *
@@ -173,6 +144,59 @@ class midcom_core_privilege
     {
         $this->__cached_object = $object;
         $this->objectguid = $object->guid;
+    }
+
+    /**
+     * Determine whether a given privilege applies for the given
+     * user in content mode. This means, that all SELF privileges are skipped at this point,
+     * EVERYONE privileges apply always, and all other privileges are checked against the
+     * user.
+     *
+     * @param string $user_id The user id in question.
+     * @return boolean Indicating whether the privilege record applies for the user, or not.
+     */
+    public function does_privilege_apply($user_id)
+    {
+        if (!is_array($this->__privilege)) {
+            return false;
+        }
+
+        switch ($this->__privilege['assignee']) {
+            case 'EVERYONE':
+                return true;
+            case 'ANONYMOUS':
+                return ($user_id == 'EVERYONE' || $user_id == 'ANONYMOUS');
+            case 'USERS':
+                return ($user_id != 'ANONYMOUS' && $user_id != 'EVERYONE');
+            default:
+                if ($this->__privilege['assignee'] == $user_id) {
+                    return true;
+                }
+                if (strstr($this->__privilege['assignee'], 'group:') !== false) {
+                    if ($user = midcom::get()->auth->get_user($user_id)) {
+                        return $user->is_in_group($this->__privilege['assignee']);
+                    }
+                }
+                return false;
+        }
+    }
+
+    /**
+     * Returns the privilege's scope (or -1 for SELF and broken privileges)
+     *
+     * @return integer
+     */
+    public function get_scope()
+    {
+        if (defined('MIDCOM_PRIVILEGE_SCOPE_' . $this->__privilege['assignee'])) {
+            return constant('MIDCOM_PRIVILEGE_SCOPE_' . $this->__privilege['assignee']);
+        }
+        if ($assignee = $this->get_assignee()) {
+            return $assignee->scope;
+        }
+        debug_print_r('Could not resolve the assignee of this privilege', $this);
+
+        return -1;
     }
 
     /**
@@ -413,7 +437,6 @@ class midcom_core_privilege
                 // Invalid privilege, skip
                 continue;
             }
-            $privilege_object->scope = $privilege_object->_get_scope();
             $result[] = $privilege_object;
         }
 
@@ -473,41 +496,6 @@ class midcom_core_privilege
         return new midcom_core_privilege($result[0]);
     }
 
-    /**
-     * Determine whether a given privilege applies for the given
-     * user in content mode. This means, that all SELF privileges are skipped at this point,
-     * EVERYONE privileges apply always, and all other privileges are checked against the
-     * user.
-     *
-     * @param string $user_id The user id in question.
-     * @return boolean Indicating whether the privilege record applies for the user, or not.
-     */
-    public function does_privilege_apply($user_id)
-    {
-        if (!is_array($this->__privilege)) {
-            return false;
-        }
-
-        switch ($this->__privilege['assignee']) {
-            case 'EVERYONE':
-                return true;
-            case 'ANONYMOUS':
-                return ($user_id == 'EVERYONE' || $user_id == 'ANONYMOUS');
-            case 'USERS':
-                return ($user_id != 'ANONYMOUS' && $user_id != 'EVERYONE');
-            default:
-                if ($this->__privilege['assignee'] == $user_id) {
-                    return true;
-                }
-                if (strstr($this->__privilege['assignee'], 'group:') !== false) {
-                    if ($user = midcom::get()->auth->get_user($user_id)) {
-                        return $user->is_in_group($this->__privilege['assignee']);
-                    }
-                }
-                return false;
-        }
-    }
-
     private function _load($src)
     {
         if (is_a($src, 'midcom_core_privilege_db')) {
@@ -545,7 +533,6 @@ class midcom_core_privilege
         $this->assignee = $this->__privilege_object->assignee;
         $this->classname = $this->__privilege_object->classname;
         $this->value = $this->__privilege_object->value;
-        $this->scope = $this->_get_scope();
     }
 
     /**

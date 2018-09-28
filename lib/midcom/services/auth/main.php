@@ -221,7 +221,7 @@ class midcom_services_auth
 
         $user_id = $this->acl->get_user_id($user);
 
-        //if we're handed the correct object type, we use it's class right away
+        //if we're handed the correct object type, we use its class right away
         if (midcom::get()->dbclassloader->is_midcom_db_object($content_object)) {
             $content_object_class = get_class($content_object);
         }

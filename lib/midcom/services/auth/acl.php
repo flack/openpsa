@@ -598,8 +598,9 @@ class midcom_services_auth_acl
         // etc. up to the magic value -1 which is equal to the user level privileges)
         // noting it this way is required to ensure proper scoping of several privileges
         // assigned to a single object.
-        $valid_privileges = [];
-        $valid_privileges[MIDCOM_PRIVILEGE_SCOPE_OWNER] = midcom::get()->auth->acl->get_owner_default_privileges();
+        $valid_privileges = [
+            MIDCOM_PRIVILEGE_SCOPE_OWNER => midcom::get()->auth->acl->get_owner_default_privileges()
+        ];
 
         $object_privileges = midcom_core_privilege::get_content_privileges($guid);
 
@@ -611,16 +612,12 @@ class midcom_services_auth_acl
 
             // The privilege applies if we arrive here, so we merge it into the current collection
             // taking its scope into account.
-            if (defined('MIDCOM_PRIVILEGE_SCOPE_' . $privilege->assignee)) {
-                $scope = constant('MIDCOM_PRIVILEGE_SCOPE_' . $privilege->assignee);
-            } else {
-                $assignee = $privilege->get_assignee();
-                if (!$assignee) {
-                    debug_print_r('Could not resolve the assignee of this privilege, skipping it:', $privilege);
-                    // Skip broken privileges.
-                    continue;
-                }
-                $scope = $assignee->scope;
+            $scope = $privilege->get_scope();
+
+            if ($scope == -1) {
+                debug_print_r('Could not resolve the assignee of this privilege, skipping it:', $privilege);
+                // Skip broken privileges.
+                continue;
             }
 
             $valid_privileges[$scope][$privilege->privilegename] = $privilege->value;
@@ -820,14 +817,13 @@ class midcom_services_auth_acl
         $content_privilege = null;
 
         foreach ($object_privileges as $privilege) {
-            if (   $privilege->privilegename != $privilegename
-                ||  $privilege->scope <= $last_scope
-                || !$privilege->does_privilege_apply($user_id)) {
-                continue;
+            if ($privilege->privilegename == $privilegename) {
+                $scope = $privilege->get_scope();
+                if ($scope > $last_scope && $privilege->does_privilege_apply($user_id)) {
+                    $last_scope = $scope;
+                    $content_privilege = $privilege;
+                }
             }
-
-            $last_scope = $privilege->scope;
-            $content_privilege = $privilege;
         }
 
         //owner privileges override everything but person privileges, so we have to cross-check those here
