@@ -91,6 +91,10 @@ Parse Error in line %s
 No selection
 ---STRINGEND
 
+---STRING type text: value contains an expression that is not allowed: "%s". %s
+Value contains an expression that is not allowed: "%s". %s
+---STRINGEND
+
 ---STRING type urlname: name is already taken, try "%s"
 Given name is already taken, try '%s'
 ---STRINGEND

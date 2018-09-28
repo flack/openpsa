@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use midcom\datamanager\extension\helper;
+use midcom\datamanager\validation\pattern as validator;
 
 /**
  * Experimental textarea type
@@ -24,13 +25,21 @@ class textareaType extends base
     {
         parent::configureOptions($resolver);
 
+        $resolver->setDefault('constraints', []);
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
             $type_defaults = [
                 'output_mode' => 'html',
                 'specialchars_quotes' => ENT_QUOTES,
-                'specialchars_charset' => 'UTF-8'
+                'specialchars_charset' => 'UTF-8',
+                'forbidden_patterns' => []
             ];
             return helper::resolve_options($type_defaults, $value);
+        });
+        $resolver->setNormalizer('constraints', function (Options $options, $value) {
+            if (!empty($options['type_config']['forbidden_patterns'])) {
+                $value[] = new validator(['forbidden_patterns' => $options['type_config']['forbidden_patterns']]);
+            }
+            return $value;
         });
     }
 

@@ -82,6 +82,10 @@ Błąd składni w linii %s
 Brak wyboru
 ---STRINGEND
 
+---STRING type text: value contains an expression that is not allowed: "%s". %s
+Nieprawidłowe wyrażenie: "%s". %s
+---STRINGEND
+
 ---STRING type urlname: name is already taken, try "%s"
 Nazwa już zajęta, spróbuj '%s'
 ---STRINGEND

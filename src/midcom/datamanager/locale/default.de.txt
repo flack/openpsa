@@ -91,6 +91,10 @@ Parse Error in Zeile %s
 Keine Auswahl
 ---STRINGEND
 
+---STRING type text: value contains an expression that is not allowed: "%s". %s
+Der Wert enthält einen unzulässigen Ausdruck: "%s". %s
+---STRINGEND
+
 ---STRING type urlname: name is already taken, try "%s"
 Der Name ist bereits vergeben, versuchen sie "%s"
 ---STRINGEND
