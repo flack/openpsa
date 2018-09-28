@@ -77,19 +77,6 @@ class midcom_services_auth_mainTest extends openpsa_testcase
         $this->assertTrue($auth->can_user_do('midgard:create', $user2));
     }
 
-    public function test_get_privileges()
-    {
-        $person = $this->create_user();
-        $user = new midcom_core_user($person);
-        $topic = $this->create_object(midcom_db_topic::class);
-
-        $auth = new midcom_services_auth;
-
-        $privileges = $auth->get_privileges($topic, $user);
-
-        $this->assertTrue(sizeof($privileges) > 0);
-    }
-
     public function test_request_sudo()
     {
         $auth = new midcom_services_auth;

@@ -278,26 +278,6 @@ class midcom_services_auth
     }
 
     /**
-     * Returns a full listing of all currently known privileges for a certain object/user
-     * combination.
-     *
-     * The information is cached per object-guid during runtime, so that repeated checks
-     * to the same object do not cause repeating checks. Be aware that this means, that
-     * new privileges set are not guaranteed to take effect until the next request.
-     *
-     * @param MidgardObject $content_object A Midgard Content Object
-     * @param midcom_core_user $user The user against which to check the privilege, defaults to the currently authenticated user.
-     *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
-     * @return Array Associative listing of all privileges and their value.
-     */
-    public function get_privileges($content_object, $user = null)
-    {
-        $user_id = $this->acl->get_user_id($user);
-
-        return $this->acl->get_privileges_by_guid($content_object->guid, get_class($content_object), $user_id);
-    }
-
-    /**
      * Request superuser privileges for the domain passed.
      *
      * STUB IMPLEMENTATION ONLY, WILL ALWAYS GRANT SUDO.

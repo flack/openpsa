@@ -15,6 +15,13 @@ use midcom_core_privilege;
 /**
  * midcom privileges support
  *
+ * These calls operate only on the privileges of the given object. They do not do any merging
+ * whatsoever, this is the job of the ACL framework itself (midcom_services_auth_acl).
+ *
+ * Unsetting a privilege does not deny it, but clears the privilege specification on the current
+ * object and sets it to INHERIT internally. As you might have guessed, if you want to clear
+ * all privileges on a given object, call unset_all_privileges() on the DBA object in question.
+ *
  * @package midcom.dba
  */
 trait privileges
