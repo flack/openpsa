@@ -568,7 +568,7 @@ class midcom_services_auth_acl
             self::$_content_privileges_cache[$cache_id] = [];
         }
         if (array_key_exists($privilegename, self::$_content_privileges_cache[$cache_id])) {
-            return self::$_content_privileges_cache[$cache_id][$privilegename];
+            return true;
         }
 
         $object_privileges = midcom_core_privilege::get_content_privileges($guid);
