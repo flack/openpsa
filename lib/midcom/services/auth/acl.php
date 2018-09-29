@@ -269,16 +269,6 @@ class midcom_services_auth_acl
     private static $_default_magic_class_privileges = [];
 
     /**
-     * Internal cache of the effective privileges of users on content objects, this is
-     * an associative array using a combination of the user identifier and the object's
-     * guid as index. The privileges for the anonymous user use the magic
-     * EVERYONE as user identifier.
-     *
-     * @var Array
-     */
-    private static $_privileges_cache = [];
-
-    /**
     * Internal cache of the content privileges of users on content objects, this is
     * an associative array using a combination of the user identifier and the object's
     * guid as index. The privileges for the anonymous user use the magic
@@ -469,7 +459,6 @@ class midcom_services_auth_acl
             }
         }
 
-        // Remember to synchronize this merging chain with the one in get_privileges();
         $full_privileges = array_merge(
             self::$_default_privileges,
             $default_magic_class_privileges,
@@ -514,20 +503,18 @@ class midcom_services_auth_acl
         if ($this->auth->is_component_sudo()) {
             return true;
         }
+        static $cache = [];
 
-        $cache_key = "{$user_id}::{$object_guid}";
+        $cache_prefix = "{$user_id}::{$object_guid}";
+        $cache_key = $cache_prefix . "::{$privilege}";
 
-        if (!isset(self::$_privileges_cache[$cache_key])) {
-            self::$_privileges_cache[$cache_key] = [];
-        }
-
-        if (isset(self::$_privileges_cache[$cache_key][$privilege])) {
-            return self::$_privileges_cache[$cache_key][$privilege];
+        if (isset($cache[$cache_key])) {
+            return $cache[$cache_key];
         }
 
         if ($this->_load_content_privilege($privilege, $object_guid, $object_class, $user_id)) {
-            self::$_privileges_cache[$cache_key][$privilege] = self::$_content_privileges_cache[$cache_key][$privilege];
-            return self::$_privileges_cache[$cache_key][$privilege];
+            $cache[$cache_key] = self::$_content_privileges_cache[$cache_prefix][$privilege];
+            return $cache[$cache_key];
         }
 
         // user privileges
@@ -535,15 +522,15 @@ class midcom_services_auth_acl
             $user_per_class_privileges = $this->_get_user_per_class_privileges($object_class, $user);
 
             if (array_key_exists($privilege, $user_per_class_privileges)) {
-                self::$_privileges_cache[$cache_key][$privilege] = ($user_per_class_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
-                return self::$_privileges_cache[$cache_key][$privilege];
+                $cache[$cache_key] = ($user_per_class_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
+                return $cache[$cache_key];
             }
 
             $user_privileges = $user->get_privileges();
 
             if (array_key_exists($privilege, $user_privileges)) {
-                self::$_privileges_cache[$cache_key][$privilege] = ($user_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
-                return self::$_privileges_cache[$cache_key][$privilege];
+                $cache[$cache_key] = ($user_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
+                return $cache[$cache_key];
             }
         }
 
@@ -551,13 +538,13 @@ class midcom_services_auth_acl
         $dmcp = $this->_get_class_magic_privileges($object_class, $this->auth->user);
 
         if (array_key_exists($privilege, $dmcp)) {
-            self::$_privileges_cache[$cache_key][$privilege] = ($dmcp[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
-            return self::$_privileges_cache[$cache_key][$privilege];
+            $cache[$cache_key] = ($dmcp[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
+            return $cache[$cache_key];
         }
 
         if (array_key_exists($privilege, self::$_default_privileges)) {
-            self::$_privileges_cache[$cache_key][$privilege] = (self::$_default_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
-            return self::$_privileges_cache[$cache_key][$privilege];
+            $cache[$cache_key] = (self::$_default_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
+            return $cache[$cache_key];
         }
 
         debug_add("The privilege {$privilege} is unknown at this point. Assuming not granted privilege.", MIDCOM_LOG_WARN);
@@ -625,10 +612,9 @@ class midcom_services_auth_acl
         }
 
         $parent_cache_id = $user_id . '::' . $parent_guid;
-        if (!array_key_exists($parent_cache_id, self::$_privileges_cache)) {
+        if (!array_key_exists($parent_cache_id, self::$_content_privileges_cache)) {
             self::$_content_privileges_cache[$parent_cache_id] = [];
         }
-
         if ($this->_load_content_privilege($privilegename, $parent_guid, $parent_class, $user_id)) {
             self::$_content_privileges_cache[$cache_id][$privilegename] = self::$_content_privileges_cache[$parent_cache_id][$privilegename];
             return true;
