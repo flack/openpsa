@@ -367,15 +367,21 @@ class midcom_services_auth_acl
         );
     }
 
-    private function _get_user_per_class_privileges($classname, $user)
+    private function _get_user_per_class_privileges($classname, midcom_core_user $user)
     {
         static $cache = [];
 
         $cache_id = $user->id . '::' . $classname;
 
         if (!array_key_exists($cache_id, $cache)) {
-            $tmp_object = new $classname;
-            $cache[$cache_id] = $user->get_per_class_privileges($tmp_object);
+            $cache[$cache_id] = [];
+            $object = new $classname;
+
+            foreach ($user->get_per_class_privileges() as $class => $privileges) {
+                if (midcom::get()->dbfactory->is_a($object, $class)) {
+                    $cache[$cache_id] = array_merge($cache[$cache_id], $privileges);
+                }
+            }
         }
 
         return $cache[$cache_id];
@@ -441,21 +447,16 @@ class midcom_services_auth_acl
         }
 
         if ($class !== null) {
-            if (!is_object($class)) {
-                if (!class_exists($class)) {
-                    debug_add("can_user_do check to undefined class '{$class}'.", MIDCOM_LOG_ERROR);
-                    return false;
-                }
-
-                $tmp_object = new $class();
-            } else {
-                $tmp_object = $class;
-                $class = get_class($tmp_object);
+            if (is_object($class)) {
+                $class = get_class($class);
+            } elseif (!class_exists($class)) {
+                debug_add("can_user_do check to undefined class '{$class}'.", MIDCOM_LOG_ERROR);
+                return false;
             }
 
             $default_magic_class_privileges = $this->_get_class_magic_privileges($class, $user);
             if (!is_null($user)) {
-                $user_per_class_privileges = $user->get_per_class_privileges($tmp_object);
+                $user_per_class_privileges = $this->_get_user_per_class_privileges($class, $user);
             }
         }
 
@@ -612,9 +613,6 @@ class midcom_services_auth_acl
         }
 
         $parent_cache_id = $user_id . '::' . $parent_guid;
-        if (!array_key_exists($parent_cache_id, self::$_content_privileges_cache)) {
-            self::$_content_privileges_cache[$parent_cache_id] = [];
-        }
         if ($this->_load_content_privilege($privilegename, $parent_guid, $parent_class, $user_id)) {
             self::$_content_privileges_cache[$cache_id][$privilegename] = self::$_content_privileges_cache[$parent_cache_id][$privilegename];
             return true;

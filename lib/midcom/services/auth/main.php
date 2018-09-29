@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * <b>Checking Privileges</b>
  *
- * This class overs various methods to verify the privilege state of a user, all of them prefixed
+ * This class offers various methods to verify the privilege state of a user, all of them prefixed
  * with can_* for privileges and is_* for membership checks.
  *
  * Each function is available in a simple check version, which returns true or false, and a

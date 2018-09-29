@@ -271,9 +271,7 @@ class midcom_core_user
      */
     public function get_privileges()
     {
-        if (is_null($this->_privileges)) {
-            $this->_load_privileges();
-        }
+        $this->_load_privileges();
         return $this->_privileges;
     }
 
@@ -281,23 +279,12 @@ class midcom_core_user
      * Returns the specific per class global privilege set assigned to this user, taking all
      * parent groups into account.
      *
-     * If the class specified is unknown, an empty array is returned.
-     *
-     * @param object $object The object for which we should look up privileges for.
      * @return array Array keys are the privilege names, the values are the Privilege states (ALLOW/DENY).
      */
-    public function get_per_class_privileges($object)
+    public function get_per_class_privileges()
     {
-        if (is_null($this->_per_class_privileges)) {
-            $this->_load_privileges();
-        }
-        $result = [];
-        foreach ($this->_per_class_privileges as $class => $privileges) {
-            if (midcom::get()->dbfactory->is_a($object, $class)) {
-                $result = array_merge($result, $privileges);
-            }
-        }
-        return $result;
+        $this->_load_privileges();
+        return $this->_per_class_privileges;
     }
 
     /**
@@ -405,10 +392,10 @@ class midcom_core_user
 
             // Finally, apply our own privilege set to the one we got from the group
             $this->_merge_privileges(midcom_core_privilege::get_self_privileges($this->guid));
-            $cache[$this->id]['direct'] = $this->_privileges;
+            $cache[$this->id]['general'] = $this->_privileges;
             $cache[$this->id]['class'] = $this->_per_class_privileges;
         } else {
-            $this->_privileges = $cache[$this->id]['direct'];
+            $this->_privileges = $cache[$this->id]['general'];
             $this->_per_class_privileges = $cache[$this->id]['class'];
         }
     }
