@@ -406,44 +406,35 @@ class midcom_core_user
      * It loads the privileges of the given object and
      * loads all "SELF" assignee privileges into the class.
      *
-     * @param array $privileges A list of privilege records, see mRFC 15 for details.
+     * @param midcom_core_privilege[] $privileges A list of privilege records, see mRFC 15 for details.
      */
     private function _merge_privileges($privileges)
     {
         foreach ($privileges as $privilege) {
-            if ($privilege->classname != '') {
-                switch ($privilege->value) {
-                    case MIDCOM_PRIVILEGE_ALLOW:
-                        debug_add("Grant {$privilege->privilegename} for class hierarchy {$privilege->classname}.");
-                        $this->_per_class_privileges[$privilege->classname][$privilege->privilegename] = $privilege->value;
-                        break;
-
-                    case MIDCOM_PRIVILEGE_DENY:
-                        debug_add("Revoke {$privilege->privilegename} for class hierarchy {$privilege->classname}.");
-                        $this->_per_class_privileges[$privilege->classname][$privilege->privilegename] = $privilege->value;
-                        break;
-
-                    default:
-                        debug_add("Inheriting {$privilege->privilegename} for class hierarchy {$privilege->classname}.");
-                        break;
-                }
+            if ($privilege->value == MIDCOM_PRIVILEGE_ALLOW) {
+                $action = 'Grant';
+                $this->merge_privilege($privilege);
+            } elseif ($privilege->value == MIDCOM_PRIVILEGE_DENY) {
+                $action = 'Revoke';
+                $this->merge_privilege($privilege);
             } else {
-                switch ($privilege->value) {
-                    case MIDCOM_PRIVILEGE_ALLOW:
-                        debug_add("Grant {$privilege->privilegename}.");
-                        $this->_privileges[$privilege->privilegename] = $privilege->value;
-                        break;
-
-                    case MIDCOM_PRIVILEGE_DENY:
-                        debug_add("Revoke {$privilege->privilegename}.");
-                        $this->_privileges[$privilege->privilegename] = $privilege->value;
-                        break;
-
-                    default:
-                        debug_add("Inheriting {$privilege->privilegename}.");
-                        break;
-                }
+                $action = 'Inherit';
             }
+
+            $message = $action . ' ' . $privilege->privilegename;
+            if ($privilege->classname != '') {
+                $message .= ' for class hierarchy ' . $privilege->classname;
+            }
+            debug_add($message);
+        }
+    }
+
+    private function merge_privilege(midcom_core_privilege $privilege)
+    {
+        if ($privilege->classname != '') {
+            $this->_per_class_privileges[$privilege->classname][$privilege->privilegename] = $privilege->value;
+        } else {
+            $this->_privileges[$privilege->privilegename] = $privilege->value;
         }
     }
 
