@@ -248,3 +248,71 @@
         ),
     ),
 ),
+
+'html_purify_config' => array
+(
+    'HTML.Attr.Name.UseCDATA' => true,
+    'HTML' => array
+    (
+        /**
+         * These two must be changed to something unique to your situation
+         * if you change any of the html_purify_xx configs
+         *
+         * DEVELOPERS: If you change these defaults remember to bump DefinitionRev
+         */
+        'DefinitionID' => 'DM2 Default definition set',
+        'DefinitionRev' => 3,
+        /* NOTE: You must use transitional doctype if you want to use <a name> (see html_purify_HTMLDefinition below) */
+        'Doctype' => 'XHTML 1.0 Transitional',
+        'TidyLevel' => 'light',
+        'SafeObject' => true,
+    ),
+    'Attr' => array
+    (
+        /**
+         * To disable mangling of id/name attributes in content set this to empty string
+         */
+        'IDPrefix' => 'user_',
+        'AllowedFrameTargets' => array
+        (
+            '_blank',
+            '_self',
+            '_top',
+        ),
+        'EnableID' => true,
+    ),
+    'Cache' => array
+    (
+        'SerializerPath' => midcom::get()->config->get('cache_base_directory') . 'htmlpurifier',
+        /* Disable cache while testing
+        'DefinitionImpl' => null,
+        */
+    ),
+    'Output' => array
+    (
+        'FlashCompat' => true,
+    ),
+),
+'html_purify_HTMLDefinition' => array
+(
+    /**
+     * each value passed in order with call_user_func_array to $def->addAttribute()
+     *
+     * See http://htmlpurifier.org/docs/enduser-customize.html
+     */
+    'addAttribute' => array
+    (
+        array('a', 'name', 'Text'),
+        array('a', 'rel', 'Text'),
+        array('img', 'hspace', 'Length'),
+        array('img', 'vspace', 'Length'),
+    ),
+    /**
+     * each value passed in order with call_user_func_array to $def->addElement()
+     *
+     * See http://htmlpurifier.org/docs/enduser-customize.html
+     */
+    'addElement' => array
+    (
+    ),
+),

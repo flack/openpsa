@@ -13,6 +13,8 @@ use Symfony\Component\Form\FormInterface;
 use midcom\datamanager\extension\helper;
 use midcom\datamanager\validation\pattern as validator;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Form\FormBuilderInterface;
+use midcom\datamanager\extension\subscriber\purifySubscriber;
 
 /**
  * Experimental textarea type
@@ -33,7 +35,9 @@ class textareaType extends base
                 'specialchars_quotes' => ENT_QUOTES,
                 'specialchars_charset' => 'UTF-8',
                 'forbidden_patterns' => [],
-                'maxlength' => 0
+                'maxlength' => 0,
+                'purify' => false,
+                'purify_config' => []
             ];
             return helper::resolve_options($type_defaults, $value);
         });
@@ -46,6 +50,17 @@ class textareaType extends base
             }
             return $value;
         });
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        parent::buildForm($builder, $options);
+        if ($options['type_config']['purify']) {
+            $builder->addEventSubscriber(new purifySubscriber($options['type_config']['purify_config']));
+        }
     }
 
     public function finishView(FormView $view, FormInterface $form, array $options)
