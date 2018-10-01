@@ -14,7 +14,6 @@ use midcom;
 use midcom\datamanager\extension\transformer\photoTransformer;
 use midcom\datamanager\validation\photo as constraint;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
@@ -61,7 +60,7 @@ class imageType extends AbstractType
         $builder->addViewTransformer(new photoTransformer($options));
         $builder->add('file', FileType::class, ['required' => false]);
         if ($options['widget_config']['show_title']) {
-            $builder->add('title', TextType::class);
+            $builder->add('title', textType::class);
         }
         $builder->add('delete', CheckboxType::class, ['attr' => [
             "class" => "midcom_datamanager_photo_checkbox"

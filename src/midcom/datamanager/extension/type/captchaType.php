@@ -5,7 +5,6 @@
 
 namespace midcom\datamanager\extension\type;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use midcom;
 use midcom_connection;
@@ -20,7 +19,7 @@ use Symfony\Component\Form\FormError;
 /**
  * Experimental captcha type
  */
-class captchaType extends TextType
+class captchaType extends textType
 {
     /**
      * {@inheritdoc}

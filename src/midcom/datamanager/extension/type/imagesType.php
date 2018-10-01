@@ -12,7 +12,6 @@ use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
 use midcom\datamanager\extension\transformer\blobsTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
@@ -43,10 +42,10 @@ class imagesType extends AbstractType
     {
         $builder->add('file', FileType::class);
         if ($options['widget_config']['show_title']) {
-            $builder->add('title', TextType::class);
+            $builder->add('title', textType::class);
         }
         if ($options['widget_config']['show_description']) {
-            $builder->add('description', TextType::class);
+            $builder->add('description', textType::class);
         }
         $builder->add('identifier', HiddenType::class, ['data' => 'file']);
         if ($options['widget_config']['sortable']) {
