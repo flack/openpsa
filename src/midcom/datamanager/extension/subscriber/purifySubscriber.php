@@ -9,6 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use midcom_baseclasses_components_configuration;
+use midcom_error;
 
 /**
  * HTMLPurifier integration

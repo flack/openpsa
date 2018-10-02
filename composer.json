@@ -23,7 +23,6 @@
         "ext-iconv": "*",
         "checkdomain/holiday": "^3.0.0",
         "doctrine/cache": "^1.6.0",
-        "ezyang/htmlpurifier": "^4.7",
         "gregwar/captcha": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "mf2/mf2": ">=0.2.12",
@@ -65,6 +64,7 @@
     "prefer-stable": true,
     "minimum-stability": "dev",
     "suggest": {
+        "ezyang/htmlpurifier": "^4.7",
         "openpsa/midcom-console": "dev-master"
     },
     "provide": {
