@@ -225,7 +225,6 @@
     (
         'class' => 'org_openpsa_invoices_invoice_dba',
         'component' => 'org.openpsa.invoices',
-        'titlefield' => 'number',
         'id_field' => 'id',
 
         'result_headers' => array
@@ -236,7 +235,6 @@
                 'name' => 'number',
             ),
         ),
-        'get_label_for' => 'number',
         'searchfields' => array
         (
             'number',

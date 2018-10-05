@@ -50,8 +50,8 @@ class autocomplete
             throw new midcom_error("Empty query string.");
         }
 
-        if (!isset($this->request['get_label_for'])) {
-            $this->request['get_label_for'] = null;
+        if (!isset($this->request['titlefield'])) {
+            $this->request['titlefield'] = null;
         }
     }
 
@@ -200,7 +200,7 @@ class autocomplete
         foreach ($results as $object) {
             $item = [
                 'id' => $object->{$this->request['id_field']},
-                'label' => self::create_item_label($object, $this->request['result_headers'], $this->request['get_label_for']),
+                'label' => self::create_item_label($object, $this->request['result_headers'], $this->request['titlefield']),
             ];
             if (!empty($this->request['categorize_by_parent_label'])) {
                 $item['category'] = '';
@@ -212,9 +212,20 @@ class autocomplete
 
             $items[] = $item;
         }
-        usort($items, ['self', 'sort_items']);
+        usort($items, [$this, 'sort_items']);
 
         return $items;
+    }
+
+    private function sort_items($a, $b)
+    {
+        if (isset($a['category'])) {
+            $cmp = strnatcasecmp($a['category'], $b['category']);
+            if ($cmp != 0) {
+                return $cmp;
+            }
+        }
+        return strnatcasecmp($a['label'], $b['label']);
     }
 
     public static function add_head_elements($creation_mode_enabled = false, $sortable = false)
@@ -244,42 +255,36 @@ class autocomplete
         return $config;
     }
 
-    public static function create_item_label($object, $result_headers, $get_label_for)
+    public static function create_item_label($object, $result_headers, $titlefield)
     {
         $label = [];
-        foreach ($result_headers as $header_item) {
-            $item_name = $header_item['name'];
-
-            if ($get_label_for == $item_name) {
-                $value = midcom_helper_reflector::get($object)->get_object_label($object);
-            } else {
-                $value = self::get_property_string($object, $item_name);
+        if (!empty($titlefield)) {
+            if ($label = self::build_label($object, (array) $titlefield)) {
+                return $label;
             }
-            $value = strip_tags($value);
-            if (trim($value) !== '') {
+        }
+        if ($label = midcom_helper_reflector::get($object)->get_object_label($object)) {
+            return $label;
+        }
+        if ($label = self::build_label($object, array_column($result_headers, 'name'))) {
+            return $label;
+        }
+
+        return get_class($object) . ' #' . $object->id;
+    }
+
+    private static function build_label($object, array $fields)
+    {
+        $label = [];
+        foreach ((array) $fields as $field) {
+            if ($value = self::get_property_string($object, $field)) {
                 $label[] = $value;
             }
         }
-        $label = implode(', ', $label);
-        if (empty($label)) {
-            $label = get_class($object) . ' #' . $object->id;
-        }
-
-        return $label;
+        return implode(', ', $label);
     }
 
-    public static function sort_items($a, $b)
-    {
-        if (isset($a['category'])) {
-            $cmp = strnatcasecmp($a['category'], $b['category']);
-            if ($cmp != 0) {
-                return $cmp;
-            }
-        }
-        return strnatcasecmp($a['label'], $b['label']);
-    }
-
-    public static function get_property_string($object, $item_name)
+    private static function get_property_string($object, $item_name)
     {
         if (preg_match('/^metadata\.(.+)$/', $item_name, $regs)) {
             $metadata_property = $regs[1];
@@ -304,15 +309,20 @@ class autocomplete
                 case 'locker':
                     if ($value) {
                         $person = new midcom_db_person($value);
-                        return $person->name;
+                        return self::sanitize_label($person->name);
                     }
                     break;
             }
         } elseif (   $item_name == 'username'
                   && $object instanceof midcom_db_person) {
             $account = new midcom_core_account($object);
-            return $account->get_username();
+            return self::sanitize_label($account->get_username());
         }
-        return $object->$item_name;
+        return self::sanitize_label($object->$item_name);
+    }
+
+    private static function sanitize_label($input)
+    {
+        return trim(strip_tags((string) $input));
     }
 }

@@ -399,8 +399,7 @@ class midgard_admin_asgard_schemadb
                         'creation_mode_enabled' => true,
                         'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/",
                         'creation_default_key' => $linked_type_reflector->get_title_property(new $linked_type),
-                        'categorize_by_parent_label' => true,
-                        'get_label_for' => $linked_type_reflector->get_label_property(),
+                        'categorize_by_parent_label' => true
                     ],
                     'required' => (midgard_object_class::get_property_parent($this->_object->__mgdschema_class_name__) == $key)
                 ];

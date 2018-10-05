@@ -46,7 +46,7 @@ class autocompleteType extends AbstractType
                 'auto_wildcards' => 'both',
                 'creation_handler' => null,
                 'creation_default_key' => null,
-                'get_label_for' => null,
+                'titlefield' => null,
                 'categorize_by_parent_label' => false,
                 'searchfields' => [],
                 'min_chars' => 2,
@@ -131,7 +131,7 @@ class autocompleteType extends AbstractType
                 }
                 try {
                     $object = call_user_func([$options['widget_config']['class'], 'get_cached'], $identifier);
-                    $preset[$identifier] = autocomplete_helper::create_item_label($object, $options['widget_config']['result_headers'], $options['widget_config']['get_label_for']);
+                    $preset[$identifier] = autocomplete_helper::create_item_label($object, $options['widget_config']['result_headers'], $options['widget_config']['titlefield']);
                 } catch (midcom_error $e) {
                     $e->log();
                 }

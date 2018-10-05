@@ -122,7 +122,6 @@
             'widget_config' => [
                 'class'       => 'org_openpsa_invoices_invoice_dba',
                 'component'   => 'org.openpsa.invoices',
-                'titlefield'  => 'number',
                 'id_field'     => 'id',
                 'result_headers' => [
                     [
@@ -136,8 +135,7 @@
                 'auto_wildcards' => false,
                 'orders'        => [
                     ['number'    => 'ASC'],
-                ],
-                'get_label_for' => 'number'
+                ]
             ],
         ],
     ]
