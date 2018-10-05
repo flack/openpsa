@@ -303,7 +303,8 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             throw new midcom_error('Invalid ' . $type . ' search configuration');
         }
 
-        if (sizeof($this->_query) > 1) {
+        $qb->begin_group('OR');
+        if (count($this->_query) > 1) {
             //if we have more than one token in the query, we try to match the entire string as well
             $this->add_constraints($qb, $fields, $this->_query_string_processed);
         }
@@ -312,11 +313,13 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             $this->add_constraints($qb, $fields, $term);
         }
         $qb->end_group();
+        $qb->end_group();
     }
 
     private function add_constraints(midcom_core_query $qb, array $fields, $term)
     {
         $term = str_replace('__TERM__', $term, $this->_wildcard_template);
+
         $qb->begin_group('OR');
         foreach ($fields as $field) {
             if ($field == 'username') {
