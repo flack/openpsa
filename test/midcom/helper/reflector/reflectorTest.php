@@ -33,30 +33,14 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
     public function provider_property_exists()
     {
         return [
-            [
-                new midgard_article
-            ],
-            [
-                new midcom_db_article,
-            ],
-            [
-                'midgard_article',
-            ],
-            [
-                'midcom_db_article',
-            ],
-            [
-                new midgard_topic,
-            ],
-            [
-                new midcom_db_topic,
-            ],
-            [
-                'midgard_topic',
-            ],
-            [
-                'midcom_db_topic',
-            ]
+            1 => [new midgard_article],
+            2 => [new midcom_db_article],
+            3 => ['midgard_article'],
+            4 => ['midcom_db_article'],
+            5 => [new midgard_topic],
+            6 => [new midcom_db_topic],
+            7 => ['midgard_topic'],
+            8 => ['midcom_db_topic']
         ];
     }
 
@@ -98,6 +82,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
             5 => ['midcom_db_member', 'guid'],
             6 => ['midcom_db_person', ['rname', 'id']],
             7 => ['org_openpsa_contacts_person_dba', 'rname'],
+            8 => ['org_openpsa_organization', 'official'],
         ];
     }
 

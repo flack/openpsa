@@ -76,14 +76,6 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         return $this->name;
     }
 
-    public function get_label_property()
-    {
-        if ($this->official) {
-            return 'official';
-        }
-        return 'name';
-    }
-
     public function render_link()
     {
         $siteconfig = new org_openpsa_core_siteconfig();
