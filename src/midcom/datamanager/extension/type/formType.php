@@ -10,10 +10,8 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\Extension\Core\Type\FormType as base;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Callback;
-use midcom\datamanager\storage\container\dbacontainer;
 use midcom\datamanager\validation\callback as cb_wrapper;
 use midcom\datamanager\extension\compat;
-use midcom;
 use midcom\datamanager\schema;
 
 /**
@@ -71,36 +69,7 @@ class formType extends base
                 continue;
             }
 
-            if ($config['write_privilege'] !== null) {
-                if (   array_key_exists('group', $config['write_privilege'])
-                    && !midcom::get()->auth->is_group_member($config['write_privilege']['group'])) {
-                    $config['readonly'] = true;
-                }
-                if (   array_key_exists('privilege', $config['write_privilege'])
-                    && $storage instanceof dbacontainer
-                    && !$storage->get_value()->can_do($config['write_privilege']['privilege'])) {
-                    $config['readonly'] = true;
-                }
-            }
-
-            $settings = [
-                'label' => $config['title'],
-                'widget_config' => $config['widget_config'],
-                'type_config' => $config['type_config'],
-                'required' => $config['required'],
-                'constraints' => $config['validation'],
-                'dm2_type' => $config['type'],
-                'dm2_storage' => $config['storage'],
-                'start_fieldset' => $config['start_fieldset'],
-                'end_fieldset' => $config['end_fieldset'],
-                'index_method' => $config['index_method'],
-                'attr' => ['readonly' => $config['readonly']],
-                'helptext' => $config['helptext'],
-                'storage' => $storage,
-                'hidden' => $config['hidden']
-            ];
-
-            $builder->add($field, compat::get_type_name($config['widget']), $settings);
+            $builder->add($field, compat::get_type_name($config['widget']), compat::get_settings($config, $storage));
         }
     }
 
