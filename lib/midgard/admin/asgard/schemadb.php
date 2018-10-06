@@ -346,7 +346,6 @@ class midgard_admin_asgard_schemadb
     private function _add_linked_field($key)
     {
         $linked_type = $this->_reflector->get_link_name($key);
-        $linked_type_reflector = midcom_helper_reflector::get($linked_type);
         $field_type = $this->_reflector->get_midgard_type($key);
 
         if ($key == 'up') {
@@ -374,9 +373,6 @@ class midgard_admin_asgard_schemadb
                 if (!$class) {
                     break;
                 }
-                $component = midcom::get()->dbclassloader->get_component_for_class($linked_type);
-                $searchfields = $linked_type_reflector->get_search_properties();
-                $searchfields[] = 'guid';
                 $this->schema['fields'][$key] = [
                     'title'       => $field_label,
                     'storage'     => $key,
@@ -388,42 +384,45 @@ class midgard_admin_asgard_schemadb
                         'allow_multiple' => false,
                     ],
                     'widget' => 'autocomplete',
-                    'widget_config' => [
-                        'class' => $class,
-                        'component' => $component,
-                        'titlefield' => $linked_type_reflector->get_label_property(),
-                        'id_field' => $this->_reflector->get_link_target($key),
-                        'searchfields' => $searchfields,
-                        'result_headers' => $this->_get_result_headers($linked_type_reflector),
-                        'orders' => [],
-                        'creation_mode_enabled' => true,
-                        'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/",
-                        'creation_default_key' => $linked_type_reflector->get_title_property(new $linked_type),
-                        'categorize_by_parent_label' => true
-                    ],
+                    'widget_config' => $this->build_autocomplete_config($key, $class, $linked_type),
                     'required' => (midgard_object_class::get_property_parent($this->_object->__mgdschema_class_name__) == $key)
                 ];
                 break;
         }
     }
 
-    /**
-     * Get headers to be used with chooser
-     *
-     * @return array
-     */
-    private function _get_result_headers($linked_type_reflector)
+    private function build_autocomplete_config($key, $class, $linked_type)
     {
-        $headers = [];
-        $properties = $linked_type_reflector->get_search_properties();
-        $l10n = $linked_type_reflector->get_component_l10n();
-        foreach ($properties as $property) {
-            $headers[] = [
-                'name' => $property,
-                'title' => ucfirst($l10n->get($property)),
-            ];
+        $reflector = midcom_helper_reflector::get($linked_type);
+        $component = midcom::get()->dbclassloader->get_component_for_class($linked_type);
+        $searchfields = $reflector->get_search_properties();
+        $label_property = $reflector->get_label_property();
+        $has_parent = !empty(midgard_object_class::get_property_parent($linked_type)) || !empty(midgard_object_class::get_property_up($linked_type));
+        $result_headers = [];
+
+        foreach ($searchfields as $field) {
+            if ($field !== $label_property) {
+                $result_headers[] = [
+                    'name' => $field,
+                    'title' => ucfirst($field),
+                ];
+            }
         }
-        return $headers;
+        $searchfields[] = 'guid';
+
+        return [
+            'class' => $class,
+            'component' => $component,
+            'titlefield' => method_exists($class, 'get_label') ? null : $label_property,
+            'id_field' => $this->_reflector->get_link_target($key),
+            'searchfields' => $searchfields,
+            'result_headers' => $result_headers,
+            'orders' => [],
+            'creation_mode_enabled' => true,
+            'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/",
+            'creation_default_key' => $reflector->get_title_property(new $linked_type),
+            'categorize_by_parent_label' => $has_parent
+        ];
     }
 
     private function _add_copy_fields()
