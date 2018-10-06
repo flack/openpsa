@@ -31,15 +31,7 @@
             ],
             'widget' => 'autocomplete',
             'widget_config' => [
-                'class'       => 'org_openpsa_projects_task_dba',
-                'titlefield'  => 'title',
-                'id_field'     => 'id',
-                'searchfields'  => [
-                    'title'
-                ],
-                'orders'        => [
-                    ['title'    => 'ASC']
-                ],
+                'clever_class' => 'task',
             ],
         ],
         'title' => [
@@ -130,24 +122,7 @@
             ],
             'widget' => 'autocomplete',
             'widget_config' => [
-                'class' => 'org_openpsa_contacts_person_dba',
-                'component' => 'org.openpsa.contacts',
-                'titlefield' => 'name',
-                'result_headers' => [
-                    [
-                        'title' => 'email',
-                        'name' => 'email',
-                    ],
-                ],
-                'searchfields' => [
-                    'firstname',
-                    'lastname',
-                    'username',
-                ],
-                'orders' => [
-                    ['lastname' => 'ASC'],
-                    ['firstname' => 'ASC'],
-                ],
+                'clever_class' => 'contact',
                 'id_field' => 'id',
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
@@ -207,24 +182,7 @@
             ],
             'widget' => 'autocomplete',
             'widget_config' => [
-                'class' => 'org_openpsa_contacts_person_dba',
-                'component' => 'org.openpsa.contacts',
-                'titlefield' => 'name',
-                'result_headers' => [
-                	[
-                        'title' => 'email',
-                        'name' => 'email',
-                    ],
-                ],
-                'searchfields' => [
-                    'firstname',
-                    'lastname',
-                    'username',
-                ],
-                'orders' => [
-                    ['lastname' => 'ASC'],
-                    ['firstname' => 'ASC'],
-                ],
+                'clever_class' => 'contact',
                 'id_field' => 'id',
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",

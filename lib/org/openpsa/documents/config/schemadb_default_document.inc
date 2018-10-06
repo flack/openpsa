@@ -66,26 +66,8 @@
             ],
             'widget'      => 'autocomplete',
             'widget_config' => [
-                'class'       => 'org_openpsa_contacts_person_dba',
-                'component'   => 'org.openpsa.contacts',
-                'titlefield'  => 'name',
+                'clever_class'       => 'contact',
                 'id_field'     => 'id',
-                'searchfields'  => [
-                    'firstname',
-                    'lastname',
-                    'username',
-                ],
-                'result_headers' => [
-                    [
-                        'title' => 'email',
-                        'name' => 'email',
-                    ],
-                ],
-                'orders'        => [
-                    ['lastname'    => 'ASC'],
-                    ['firstname'    => 'ASC'],
-
-                ],
                 'creation_mode_enabled' => true,
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
                 'creation_default_key' => 'lastname',

@@ -50,17 +50,7 @@
             ],
             'widget' => 'autocomplete',
             'widget_config' => [
-                'class'       => 'org_openpsa_projects_task_dba',
-                'component'   => 'org.openpsa.projects',
-                'titlefield'  => 'title',
-                'id_field'     => 'id',
-                'searchfields'  => [
-                    'title'
-                ],
-                'orders'        => [
-                    ['title'    => 'ASC']
-                ],
-                'categorize_by_parent_label' => 'title',
+                'clever_class' => 'task',
             ],
         ],
         'person' => [
@@ -74,9 +64,7 @@
             ],
             'widget' => 'autocomplete',
             'widget_config' => [
-                'class'       => 'org_openpsa_contacts_person_dba',
-                'component'   => 'org.openpsa.contacts',
-                'titlefield'  => 'name',
+                'clever_class' => 'contact',
                 'id_field'     => 'id',
                 'constraints' => [
                     [
@@ -84,21 +72,6 @@
                         'op'    => '<>',
                         'value' => '',
                     ],
-                ],
-                'result_headers' => [
-                    [
-                        'title' => 'email',
-                        'name' => 'email',
-                    ],
-                ],
-                'searchfields'  => [
-                    'firstname',
-                    'lastname',
-                    'username',
-                ],
-                'orders'        => [
-                    ['lastname'    => 'ASC'],
-                    ['firstname'    => 'ASC'],
                 ],
             ],
         ],
@@ -111,16 +84,8 @@
             ],
             'widget' => 'autocomplete',
             'widget_config' => [
-                'class'       => 'org_openpsa_invoices_invoice_dba',
-                'component'   => 'org.openpsa.invoices',
-                'id_field'     => 'id',
-                'searchfields'  => [
-                    'number',
-                ],
+                'clever_class' => 'invoice',
                 'auto_wildcards' => false,
-                'orders'        => [
-                    ['number'    => 'ASC'],
-                ]
             ],
         ],
     ]

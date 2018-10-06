@@ -41,6 +41,21 @@
             array('firstname' => 'ASC'),
         ),
     ),
+    'article' => array
+    (
+        'class' => 'midcom_db_article',
+        'component' => 'net.nehmer.static',
+        'searchfields' => array
+        (
+            'title'
+        ),
+        'orders' => array
+        (
+            array('title' => 'ASC'),
+            array('metadata.published' => 'ASC'),
+        ),
+        'id_field' => 'guid',
+    ),
     'group' => array
     (
         'class' => 'midcom_db_group',
