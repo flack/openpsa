@@ -45,12 +45,12 @@ class toolbarType extends AbstractType
                     'attr' => ['class' => 'submit ' . $operation]
                 ];
                 if ($operation == controller::SAVE) {
-                    //@todo Move to template?
                     $attributes['attr']['accesskey'] = 's';
                     $attributes['attr']['class'] .= ' save_' . $key;
                 } elseif ($operation == controller::CANCEL) {
-                    //@todo Move to template?
                     $attributes['attr']['accesskey'] = 'd';
+                    $attributes['attr']['formnovalidate'] = true;
+                } elseif ($operation == controller::PREVIOUS) {
                     $attributes['attr']['formnovalidate'] = true;
                 }
 
