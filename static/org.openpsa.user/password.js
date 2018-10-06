@@ -57,8 +57,7 @@
             });
         });
     };
-    var teststrength = function(password, option)
-    {
+    var teststrength = function(password, option) {
         var score = 0;
 
         //password <

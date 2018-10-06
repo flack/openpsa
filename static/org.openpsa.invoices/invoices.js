@@ -95,8 +95,7 @@ function process_invoice(button, action, invoice_url) {
     });
 }
 
-function bind_invoice_actions(classes, invoice_url)
-{
+function bind_invoice_actions(classes, invoice_url) {
     classes = classes.replace(/ /g, '.');
 
     $('.org_openpsa_invoices.' + classes + ' .ui-jqgrid-btable')

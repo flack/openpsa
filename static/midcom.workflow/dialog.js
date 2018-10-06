@@ -1,5 +1,4 @@
-function refresh_opener(url)
-{
+function refresh_opener(url) {
     if (url === undefined) {
         url = window.parent.location.href;
     }
@@ -16,8 +15,7 @@ function refresh_opener(url)
     window.parent.location.href = url;
 }
 
-function close()
-{
+function close() {
     var dialog = window.parent.$('#midcom-dialog');
     if (dialog.length > 0) {
         dialog.dialog('close');
@@ -25,8 +23,7 @@ function close()
 }
 
 var extra_buttons = [];
-function add_dialog_button(url, label, options)
-{
+function add_dialog_button(url, label, options) {
     var button = {
         text: label,
         'data-action': url,
@@ -39,8 +36,7 @@ function add_dialog_button(url, label, options)
     extra_buttons.push(button);
 }
 
-function add_post_button(url, label, options)
-{
+function add_post_button(url, label, options) {
     var button = {
         text: label,
         'class': 'dialog-extra-button',
@@ -57,8 +53,7 @@ function add_post_button(url, label, options)
     extra_buttons.push(button);
 }
 
-$(document).ready(function()
-{
+$(document).ready(function() {
     var title = document.title,
         buttons = [];
 

@@ -153,8 +153,7 @@ var org_openpsa_widgets_tabs = {
             $.ajax({
                 url: href,
                 dataFilter: org_openpsa_widgets_tabs.load_head_elements,
-                success: function(data)
-                {
+                success: function(data) {
                     $(":not(.ui-tabs-hide) > .tab_div").html(data);
                 }
             });

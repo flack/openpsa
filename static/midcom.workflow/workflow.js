@@ -21,8 +21,7 @@ $(document).ready(function() {
                             .prependTo('body');
                         $('input[name="' + button.data('form-id') + '"]').click();
                     }
-                },
-                {
+                }, {
                     text: button.data('dialog-cancel-label'),
                     click: function() {
                         $(this).dialog("close");
@@ -103,8 +102,7 @@ $(document).ready(function() {
                     click: function() {
                         button.closest('form').submit();
                     }
-                },
-                {
+                }, {
                     text: button.data('dialog-cancel-label'),
                     click: function() {
                         $(this).dialog("close");

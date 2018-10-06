@@ -27,8 +27,7 @@ function toggle_twisty(id) {
             case 'hidden':
             case 'do-hidden':
                 twisties[i].src = source.replace(/twisty-(.+)\.gif$/, 'twisty-do-down.gif');
-                if (element.style.display == 'none')
-                {
+                if (element.style.display == 'none') {
                     self.setTimeout('document.getElementById("' + id + '").style.display = "block";', slide_speed * 1000);
                 }
 

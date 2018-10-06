@@ -30,15 +30,13 @@ Galleria.addTheme({
             left: this.prev,
             right: this.next,
             up: function() {
-                if (this.getIndex() !== 0)
-                {
+                if (this.getIndex() !== 0) {
                     this.show(0);
                 }
             },
             down: function() {
                 var last = this.$('total').text() - 1;
-                if (this.getIndex() !== last)
-                {
+                if (this.getIndex() !== last) {
                     this.show(last);
                 }
             },

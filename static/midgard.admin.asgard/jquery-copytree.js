@@ -1,17 +1,12 @@
-$.fn.tree_checker = function()
-{
-    $(this).on('change', 'label > input[type="checkbox"]', function()
-    {
-        if ($(this).is(':checked'))
-        {
+$.fn.tree_checker = function() {
+    $(this).on('change', 'label > input[type="checkbox"]', function() {
+        if ($(this).is(':checked')) {
             $(this).closest('li').find('li')
                 .removeClass('readonly')
                 .find('input').prop('disabled', false);
 
             $(this).closest('label').removeClass('deselected');
-        }
-        else
-        {
+        } else {
             $(this).closest('li').find('li')
                 .addClass('readonly')
                 .find('input').prop('disabled', true);

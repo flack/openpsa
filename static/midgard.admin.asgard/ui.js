@@ -1,14 +1,11 @@
-$(document).ready(function()
-{
+$(document).ready(function() {
     $('<div></div>')
         .attr('id', 'midgard_admin_asgard_resizer')
         .css('left', $('#content').css('margin-left'))
-        .mouseover(function()
-        {
+        .mouseover(function() {
             $(this).addClass('hover');
         })
-        .mouseout(function()
-        {
+        .mouseout(function() {
             $(this).removeClass('hover');
         })
         .appendTo('#container-wrapper');
@@ -16,14 +13,12 @@ $(document).ready(function()
     $('#midgard_admin_asgard_resizer').draggable({
         axis: 'axis-x',
         containment: '#container-wrapper',
-        stop: function(event, ui)
-        {
+        stop: function(event, ui) {
             var offset = ui.offset.left,
-            navigation_width = offset - 31,
-            content_margin_left = offset + 1;
+                navigation_width = offset - 31,
+                content_margin_left = offset + 1;
 
-            if (offset < 0)
-            {
+            if (offset < 0) {
                 offset = 0;
             }
 
@@ -34,16 +29,14 @@ $(document).ready(function()
         }
     });
 
-    $('body').on('click', '.section_content a', function()
-    {
+    $('body').on('click', '.section_content a', function() {
         var scroll_top = $('#navigation').scrollTop(),
         section = $('#navigation .section.expanded').find('h3').text();
-        sessionStorage.setItem(section + '_scrolltop', scroll_top)
+        sessionStorage.setItem(section + '_scrolltop', scroll_top);
     });
 
     var section = $('#navigation .section.expanded').find('h3').text();
-    if (sessionStorage.getItem(section + '_scrolltop'))
-    {
+    if (sessionStorage.getItem(section + '_scrolltop')) {
         $('#navigation').scrollTop(sessionStorage.getItem(section + '_scrolltop'));
     }
 });

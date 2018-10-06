@@ -1,5 +1,4 @@
-$.widget( "custom.category_complete", $.ui.autocomplete,
-{
+$.widget( "custom.category_complete", $.ui.autocomplete, {
     _create: function() {
         this._super();
         this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
@@ -358,8 +357,7 @@ var midcom_helper_datamanager2_autocomplete = {
     /**
      * Generate and attach HTML for autocomplete widget (for use outside of DM2)
      */
-    create_widget: function(config, autocomplete_options)
-    {
+    create_widget: function(config, autocomplete_options) {
         var default_config = {
                 id_field: 'guid',
                 auto_wildcards: 'both',

@@ -1,5 +1,4 @@
-$(document).ready(function()
-{
+$(document).ready(function() {
     $('.content-area')
         .on('click', 'a[href]', function(event) {
             event.preventDefault();
@@ -17,8 +16,7 @@ $(document).ready(function()
             $(this).prop('title', 'Click to insert');
         });
 
-    if ($('#links').length > 0)
-    {
+    if ($('#links').length > 0) {
         $('#links').fancytree({
             click: function(event, data) {
                 if (data.targetType === 'title') {
