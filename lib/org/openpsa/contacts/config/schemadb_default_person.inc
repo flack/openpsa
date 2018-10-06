@@ -134,24 +134,7 @@
             ],
             'widget' => 'autocomplete',
             'widget_config' => [
-                'class' => 'org_openpsa_contacts_group_dba',
-                'component' => 'org.openpsa.contacts',
-                'titlefield' => 'name',
-                'result_headers' => [
-                    [
-                        'title' => 'official',
-                        'name' => 'official',
-                    ],
-                ],
-                'searchfields' => [
-                    'name',
-                    'official',
-                ],
-                'orders' => [
-                    ['name' => 'ASC'],
-                    ['official' => 'ASC'],
-                ],
-                'id_field' => 'id',
+                'clever_class' => 'organization',
             ],
         ],
         'groups' => [
