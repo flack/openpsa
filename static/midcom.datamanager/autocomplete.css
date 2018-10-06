@@ -171,6 +171,11 @@ ul.ui-autocomplete .ui-menu-item a.ui-state-focus
     margin: 0
 }
 
+ul.ui-autocomplete .item-description
+{
+    opacity: .6;
+}
+
 li.ui-autocomplete-category
 {
     font-weight: bold;

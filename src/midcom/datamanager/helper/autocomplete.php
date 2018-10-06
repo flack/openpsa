@@ -53,6 +53,9 @@ class autocomplete
         if (!isset($this->request['titlefield'])) {
             $this->request['titlefield'] = null;
         }
+        if (!isset($this->request['result_headers'])) {
+            $this->request['result_headers'] = [];
+        }
     }
 
     private function prepare_qb()
@@ -202,6 +205,9 @@ class autocomplete
                 'id' => $object->{$this->request['id_field']},
                 'label' => self::create_item_label($object, $this->request['result_headers'], $this->request['titlefield']),
             ];
+            if (!empty($this->request['result_headers'])) {
+                $item['description'] = self::build_label($object, array_column($this->request['result_headers'], 'name'));
+            }
             if (!empty($this->request['categorize_by_parent_label'])) {
                 $item['category'] = '';
                 if ($parent = $object->get_parent()) {

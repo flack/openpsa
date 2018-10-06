@@ -234,7 +234,14 @@ var midcom_helper_datamanager2_autocomplete = {
         if (handler_options.categorize_by_parent_label !== false) {
             input.category_complete(options);
         } else {
-            input.autocomplete(options);
+            input
+                .autocomplete(options)
+                .autocomplete("instance")._renderItem = function(ul, item) {
+                    var desc = item.description || '';
+                    return $('<li>')
+                        .append('<div><div class="item-label">' + item.label + '</div><span class="item-description">' + desc + "</span></div>" )
+                        .appendTo( ul );
+                };
         }
 
         input.parent().on('click', '.autocomplete-selection-holder .autocomplete-action-icon', function() {
