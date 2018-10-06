@@ -90,10 +90,6 @@
                 ],
                 'result_headers' => [
                     [
-                        'name' => 'title',
-                        'title' => 'title',
-                    ],
-                    [
                         'name' => 'location',
                         'title' => 'location',
                     ],

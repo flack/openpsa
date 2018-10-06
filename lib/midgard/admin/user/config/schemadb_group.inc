@@ -72,16 +72,13 @@
             'widget_config' => [
                 'class' => 'midcom_db_person',
                 'id_field' => 'id',
+                'titlefield' => 'name',
                 'searchfields' => [
                     'lastname',
                     'firstname',
                     'email'
                 ],
                 'result_headers' => [
-                    [
-                        'name' => 'name',
-                        'title' => 'Name',
-                    ],
                     [
                         'name' => 'email',
                         'title' => 'Email',

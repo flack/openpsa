@@ -71,9 +71,6 @@
                 ],
                 'result_headers' => [
                     [
-                        'name' => 'extra',
-                        'title' => 'extra',
-                    ], [
                         'name' => 'name',
                         'title' => 'name',
                     ], [

@@ -179,12 +179,10 @@
             'widget_config' => [
                 'class' => 'org_openpsa_contacts_group_dba',
                 'component' => 'org.openpsa.contacts',
-                'titlefield' => 'name',
-
                 'result_headers' => [
                     [
-                        'title' => 'official',
-                        'name' => 'official',
+                        'title' => 'name',
+                        'name' => 'name',
                     ],
                 ],
                 'searchfields' => [

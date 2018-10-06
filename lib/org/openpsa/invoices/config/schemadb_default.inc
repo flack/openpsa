@@ -65,9 +65,6 @@
                 ],
                 'result_headers' => [
                     [
-                        'title' => 'name',
-                        'name' => 'name',
-                    ], [
                         'title' => 'email',
                         'name' => 'email',
                     ],
@@ -100,9 +97,6 @@
                 ],
                 'result_headers' => [
                     [
-                        'title' => 'name',
-                        'name' => 'name',
-                    ], [
                         'title' => 'email',
                         'name' => 'email',
                     ],

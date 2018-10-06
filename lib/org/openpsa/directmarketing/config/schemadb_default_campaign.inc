@@ -59,9 +59,6 @@
                 'id_field' => 'id',
                 'result_headers' => [
                     [
-                        'name' => 'name',
-                        'title' => 'name',
-                    ], [
                         'name' => 'email',
                         'title' => 'email',
                     ], [

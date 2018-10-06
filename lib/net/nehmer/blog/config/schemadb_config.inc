@@ -114,10 +114,6 @@
                     ],
                     'result_headers' => [
                         [
-                            'name' => 'extra',
-                            'title' => midcom::get()->i18n->get_string('title', 'midcom'),
-                        ],
-                        [
                             'name' => 'name',
                             'title' => midcom::get()->i18n->get_string('name', 'midcom'),
                         ],

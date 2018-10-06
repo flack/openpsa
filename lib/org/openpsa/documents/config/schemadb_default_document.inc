@@ -77,9 +77,6 @@
                 ],
                 'result_headers' => [
                     [
-                        'title' => 'name',
-                        'name' => 'name',
-                    ], [
                         'title' => 'email',
                         'name' => 'email',
                     ],
@@ -116,7 +113,6 @@
             'widget_config' => [
                 'class'       => 'org_openpsa_documents_directory',
                 'component'   => 'org.openpsa.documents',
-                'titlefield'  => 'name',
                 'id_field'     => 'id',
                 'constraints' => [
                     [
@@ -132,7 +128,7 @@
                 'result_headers' => [
                     [
                         'title' => 'title',
-                        'name' => 'extra',
+                        'name' => 'name',
                     ],
                 ],
                 'orders'        => [

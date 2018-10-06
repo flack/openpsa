@@ -70,10 +70,6 @@
                 'class' => 'org_openpsa_calendar_resource_dba',
                 'result_headers' => [
                     [
-                        'name' => 'title',
-                        'title' => 'title',
-                    ],
-                    [
                         'name' => 'location',
                         'title' => 'location',
                     ],

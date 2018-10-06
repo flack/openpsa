@@ -22,9 +22,6 @@
                 'titlefield' => 'title',
                 'result_headers' => [
                     [
-                        'name' => 'title',
-                        'title' => 'Title',
-                    ], [
                         'name' => 'description',
                         'title' => 'Description',
                     ],

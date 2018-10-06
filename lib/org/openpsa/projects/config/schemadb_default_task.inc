@@ -14,12 +14,6 @@
                 'class'       => 'org_openpsa_projects_project',
                 'titlefield'  => 'title',
                 'id_field'     => 'id',
-                'result_headers' => [
-                    [
-                        'title' => 'title',
-                        'name' => 'title',
-                    ],
-                ],
                 'searchfields'  => [
                     'title'
                 ],
@@ -40,12 +34,6 @@
                 'class'       => 'org_openpsa_projects_task_dba',
                 'titlefield'  => 'title',
                 'id_field'     => 'id',
-                'result_headers' => [
-                    [
-                        'title' => 'title',
-                        'name' => 'title',
-                    ],
-                ],
                 'searchfields'  => [
                     'title'
                 ],
@@ -145,17 +133,12 @@
                 'class' => 'org_openpsa_contacts_person_dba',
                 'component' => 'org.openpsa.contacts',
                 'titlefield' => 'name',
-
                 'result_headers' => [
                     [
-                        'title' => 'name',
-                        'name' => 'name',
-                    ], [
                         'title' => 'email',
                         'name' => 'email',
                     ],
                 ],
-
                 'searchfields' => [
                     'firstname',
                     'lastname',
@@ -200,9 +183,6 @@
                 ],
                 'result_headers' => [
                 	[
-                        'title' => 'name',
-                        'name' => 'name',
-                    ], [
                         'title' => 'email',
                         'name' => 'email',
                     ],
@@ -230,17 +210,12 @@
                 'class' => 'org_openpsa_contacts_person_dba',
                 'component' => 'org.openpsa.contacts',
                 'titlefield' => 'name',
-
                 'result_headers' => [
                 	[
-                        'title' => 'name',
-                        'name' => 'name',
-                    ], [
                         'title' => 'email',
                         'name' => 'email',
                     ],
                 ],
-
                 'searchfields' => [
                     'firstname',
                     'lastname',
@@ -274,17 +249,12 @@
             'widget_config' => [
                 'class'       => 'org_openpsa_sales_salesproject_deliverable_dba',
                 'component'   => 'org.openpsa.sales',
-                'titlefield'  => 'deliverable_html',
+                'titlefield'  => 'title',
+                'categorize_by_parent_label' => 'salesproject',
                 'id_field'     => 'id',
                 'searchfields'  => [
                     'title',
                     'salesproject.title'
-                ],
-                'result_headers' => [
-                	[
-                        'title' => 'title',
-                        'name' => 'title',
-                    ],
                 ],
                 'orders'        => [
                     ['title'    => 'ASC'],

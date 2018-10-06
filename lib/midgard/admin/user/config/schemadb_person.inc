@@ -66,9 +66,6 @@
 	                [
                         'title' => 'name',
                         'name' => 'name',
-                    ], [
-                        'title' => 'official',
-                        'name' => 'official',
                     ],
                 ],
                 'searchfields' => [

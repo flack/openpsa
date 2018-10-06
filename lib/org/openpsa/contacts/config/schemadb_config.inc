@@ -25,11 +25,6 @@
                         'value' => org_openpsa_contacts_group_dba::ORGANIZATION,
                     ],
                 ],
-                'result_headers' => [                    [
-                        'title' => 'official',
-                        'name' => 'official',
-                    ],
-                ],
                 'orders'        => [
                     ['official'    => 'ASC'],
                 ],

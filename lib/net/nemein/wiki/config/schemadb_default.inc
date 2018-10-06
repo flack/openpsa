@@ -65,9 +65,6 @@
                     'title',
                     'name',
                 ],
-                'result_headers' => [
-                    ['name' => 'title', 'title' => 'title'],
-                ],
                 'constraints' => [
                     [
                         'field' => 'topic.component',

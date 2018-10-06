@@ -20,13 +20,9 @@
     (
         'class' => 'org_openpsa_contacts_person_dba',
         'component' => 'org.openpsa.contacts',
+        'titlefield' => 'name',
         'result_headers' => array
         (
-            array
-            (
-                'title' => 'name',
-                'name' => 'name',
-            ),
             array
             (
                 'title' => 'email',
@@ -56,11 +52,6 @@
                 'title' => 'revised',
                 'name' => 'revised',
             ),
-            array
-            (
-                'title' => 'title',
-                'name' => 'title',
-            ),
         ),
         'searchfields' => array
         (
@@ -77,14 +68,6 @@
     (
         'class' => 'midcom_db_article',
         'component' => 'net.nehmer.static',
-        'result_headers' => array
-        (
-            array
-            (
-                'title' => 'title',
-                'name' => 'title',
-            ),
-        ),
         'searchfields' => array
         (
             'title'
@@ -102,11 +85,6 @@
         'component' => 'midcom.admin.folder',
         'result_headers' => array
         (
-            array
-            (
-                'title' => 'extra',
-                'name' => 'extra',
-            ),
             array
             (
                 'title' => 'component',
@@ -136,11 +114,6 @@
             (
                 'title' => 'name',
                 'name' => 'name',
-            ),
-            array
-            (
-                'title' => 'official',
-                'name' => 'official',
             ),
         ),
         'searchfields' => array
@@ -202,14 +175,6 @@
         'component'   => 'org.openpsa.projects',
         'titlefield'  => 'title',
         'id_field'     => 'id',
-        'result_headers' => array
-        (
-            array
-            (
-                'title' => 'title',
-                'name' => 'title',
-            ),
-        ),
         'searchfields'  => array
         (
             'title',
@@ -226,15 +191,6 @@
         'class' => 'org_openpsa_invoices_invoice_dba',
         'component' => 'org.openpsa.invoices',
         'id_field' => 'id',
-
-        'result_headers' => array
-        (
-            array
-            (
-                'title' => 'number',
-                'name' => 'number',
-            ),
-        ),
         'searchfields' => array
         (
             'number',

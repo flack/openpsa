@@ -83,12 +83,6 @@
                     'name',
                     'official',
                 ],
-                'result_headers' => [
-                    [
-                        'title' => 'name',
-                        'name' => 'official',
-                    ],
-                ],
                 'orders'        => [
                     ['official'    => 'ASC'],
                     ['name'    => 'ASC'],
@@ -110,17 +104,12 @@
                 'class' => 'org_openpsa_contacts_person_dba',
                 'component' => 'org.openpsa.contacts',
                 'titlefield' => 'name',
-
                 'result_headers' => [
                     [
-                        'title' => 'name',
-                        'name' => 'name',
-                    ], [
                         'title' => 'email',
                         'name' => 'email',
                     ],
                 ],
-
                 'searchfields' => [
                     'firstname',
                     'lastname',
@@ -165,9 +154,6 @@
                 ],
                 'result_headers' => [
                     [
-                        'title' => 'name',
-                        'name' => 'name',
-                    ], [
                         'title' => 'email',
                         'name' => 'email',
                     ],
@@ -195,17 +181,12 @@
                 'class' => 'org_openpsa_contacts_person_dba',
                 'component' => 'org.openpsa.contacts',
                 'titlefield' => 'name',
-
                 'result_headers' => [
                     [
-                        'title' => 'name',
-                        'name' => 'name',
-                    ], [
                         'title' => 'email',
                         'name' => 'email',
                     ],
                 ],
-
                 'searchfields' => [
                     'firstname',
                     'lastname',

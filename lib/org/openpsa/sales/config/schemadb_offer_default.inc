@@ -41,13 +41,6 @@
                 'component' => 'org.openpsa.sales',
                 'titlefield' => 'title',
                 'sortable' => true,
-
-                'result_headers' => [
-                    [
-                        'title' => 'title',
-                        'name' => 'title',
-                    ],
-                ],
                 'constraints' => [],
                 'searchfields' => [
                     'title',

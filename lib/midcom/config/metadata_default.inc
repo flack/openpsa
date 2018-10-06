@@ -146,8 +146,6 @@
                     'username',
                 ],
                 'result_headers' => [
-                    ['name' => 'firstname', 'title' => 'firstname'],
-                    ['name' => 'lastname', 'title' => 'lastname'],
                     ['name' => 'email', 'title' => 'email'],
                 ],
                 'orders' => [],
@@ -177,7 +175,6 @@
                     'official',
                 ],
                 'result_headers' => [
-                    ['name' => 'name', 'title' => 'name'],
                     ['name' => 'official', 'title' => 'title'],
                 ],
                 'categorize_by_parent_label' => true,
@@ -225,8 +222,6 @@
                     'lastname',
                 ],
                 'result_headers' => [
-                    ['name' => 'firstname', 'title' => 'firstname'],
-                    ['name' => 'lastname', 'title' => 'lastname'],
                     ['name' => 'email', 'title' => 'email'],
                 ],
                 'orders' => [['lastname' => 'ASC']],
@@ -267,8 +262,6 @@
                     'lastname',
                 ],
                 'result_headers' => [
-                    ['name' => 'firstname', 'title' => 'firstname'],
-                    ['name' => 'lastname', 'title' => 'lastname'],
                     ['name' => 'email', 'title' => 'email'],
                 ],
                 'orders' => [['lastname' => 'ASC']],
@@ -328,8 +321,6 @@
                     'lastname',
                 ],
                 'result_headers' => [
-                    ['name' => 'firstname', 'title' => 'firstname'],
-                    ['name' => 'lastname', 'title' => 'lastname'],
                     ['name' => 'email', 'title' => 'email'],
                 ],
                 'orders' => [['lastname' => 'ASC']],

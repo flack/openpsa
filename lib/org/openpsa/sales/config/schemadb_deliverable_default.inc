@@ -48,12 +48,6 @@
                     'name',
                     'official'
                 ],
-                'result_headers' => [
-                	[
-                        'title' => 'official',
-                        'name' => 'official',
-                    ],
-                ],
                 'orders' => [
                     ['official'    => 'ASC'],
                 ],
@@ -109,8 +103,6 @@
                 'result_headers' => [
                 	[
                         'name' => 'code',
-                    ], [
-                        'name' => 'title',
                     ],
                 ],
                 'orders'        => [
@@ -230,12 +222,6 @@
                     'name',
                     'official'
                 ],
-                'result_headers' => [
-                	[
-                        'title' => 'official',
-                        'name' => 'official',
-                    ],
-                ],
                 'orders'        => [
                     ['official'    => 'ASC'],
                 ],
@@ -310,8 +296,6 @@
                 'result_headers' => [
                 	[
                         'name' => 'code',
-                    ],  [
-                        'name' => 'title',
                     ],
                 ],
                 'orders'        => [

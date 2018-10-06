@@ -50,7 +50,6 @@
                     'username',
                 ],
                 'result_headers' => [
-                    ['name' => 'name', 'title' => 'name'],
                     ['name' => 'email', 'title' => 'email'],
                 ],
                 'orders' => [],

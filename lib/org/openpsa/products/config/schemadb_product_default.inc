@@ -65,7 +65,6 @@
                     'title',
                 ],
                 'result_headers' => [
-                    ['name' => 'title', 'title' => 'title'],
                     ['name' => 'code', 'title' => 'code'],
                 ],
                 'categorize_by_parent_label' => true,
@@ -132,7 +131,6 @@
                 'id_field'     => 'id',
                 'result_headers' => [
                     ['name' => 'name', 'title' => 'name'],
-                    ['name' => 'official', 'title' => 'official'],
                 ],
                 'searchfields'  => [
                     'name',

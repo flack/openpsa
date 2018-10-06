@@ -54,12 +54,6 @@
                 'component'   => 'org.openpsa.projects',
                 'titlefield'  => 'title',
                 'id_field'     => 'id',
-                'result_headers' => [
-                    [
-                        'title' => 'title',
-                        'name' => 'title',
-                    ],
-                ],
                 'searchfields'  => [
                     'title'
                 ],
@@ -93,9 +87,6 @@
                 ],
                 'result_headers' => [
                     [
-                        'title' => 'name',
-                        'name' => 'name',
-                    ], [
                         'title' => 'email',
                         'name' => 'email',
                     ],
@@ -123,12 +114,6 @@
                 'class'       => 'org_openpsa_invoices_invoice_dba',
                 'component'   => 'org.openpsa.invoices',
                 'id_field'     => 'id',
-                'result_headers' => [
-                    [
-                        'title' => 'invoice number',
-                        'name' => 'number',
-                    ],
-                ],
                 'searchfields'  => [
                     'number',
                 ],

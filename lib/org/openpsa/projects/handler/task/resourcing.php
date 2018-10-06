@@ -149,10 +149,10 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
             $minimum_time_slot = 0.25;
         }
         $data['slots'] = org_openpsa_calendar_event_member_dba::find_free_times(
-                ($minimum_time_slot * 60),
-                $data['person'],
-                $this->_task->start,
-                $this->_task->end);
+            ($minimum_time_slot * 60),
+            $data['person'],
+            $this->_task->start,
+            $this->_task->end);
 
         midcom::get()->skip_page_style = true;
 
