@@ -13,113 +13,89 @@
 
 'codemirror_config_snippet' => "file://midcom/datamanager/config/codemirror_default",
 
-//Pre-made chooser configurations
-'clever_classes' => array
-(
-    'contact' => array
-    (
+//Pre-made autocomplete configurations
+'clever_classes' => [
+    'contact' => [
         'class' => 'org_openpsa_contacts_person_dba',
         'component' => 'org.openpsa.contacts',
         'titlefield' => 'name',
-        'result_headers' => array
-        (
-            array
-            (
+        'result_headers' => [
+            [
                 'title' => 'email',
                 'name' => 'email',
-            ),
-        ),
-        'searchfields' => array
-        (
+            ],
+        ],
+        'searchfields' => [
             'firstname',
             'lastname',
             'username',
-        ),
-        'orders' => array
-        (
-            array('lastname' => 'ASC'),
-            array('firstname' => 'ASC'),
-        ),
-    ),
-    'article' => array
-    (
+        ],
+        'orders' => [
+            ['lastname' => 'ASC'],
+            ['firstname' => 'ASC'],
+        ],
+    ],
+    'article' => [
         'class' => 'midcom_db_article',
         'component' => 'net.nehmer.static',
-        'searchfields' => array
-        (
-            'title'
-        ),
-        'orders' => array
-        (
-            array('title' => 'ASC'),
-            array('metadata.published' => 'ASC'),
-        ),
+        'searchfields' => ['title'],
+        'orders' => [
+            ['title' => 'ASC'],
+            ['metadata.published' => 'ASC'],
+        ],
         'id_field' => 'guid',
-    ),
-    'group' => array
-    (
+    ],
+    'group' => [
         'class' => 'midcom_db_group',
         'component' => 'midgard.admin.asgard',
-        'result_headers' => array
-        (
-            array
-            (
+        'result_headers' => [
+            [
                 'title' => 'name',
                 'name' => 'name',
-            ),
-        ),
-        'searchfields' => array
-        (
+            ],
+        ],
+        'searchfields' => [
             'name',
             'official',
-        ),
-        'orders' => array
-        (
-            array('extra' => 'ASC'),
-            array('metadata.published' => 'ASC'),
-        ),
+        ],
+        'orders' => [
+            ['extra' => 'ASC'],
+            ['metadata.published' => 'ASC'],
+        ],
         'id_field' => 'id',
         'generate_path_for' => 'name',
-    ),
-    'task' => array
-    (
+    ],
+    'task' => [
         'class'       => 'org_openpsa_projects_task_dba',
         'component'   => 'org.openpsa.projects',
         'titlefield'  => 'title',
         'id_field'     => 'id',
-        'searchfields'  => array
-        (
+        'searchfields'  => [
             'title',
             'project.title'
-        ),
-        'orders'        => array
-        (
-            array('title'    => 'ASC')
-        ),
+        ],
+        'orders'        => [
+            ['title'    => 'ASC']
+        ],
         'categorize_by_parent_label' => true
-    ),
-    'invoice' => array
-    (
+    ],
+    'invoice' => [
         'class' => 'org_openpsa_invoices_invoice_dba',
         'component' => 'org.openpsa.invoices',
         'id_field' => 'id',
-        'searchfields' => array
-        (
+        'searchfields' => [
             'number',
             'description',
-        ),
-        'orders' => array
-        (
-            array('number' => 'ASC'),
-        ),
-    ),
-),
+        ],
+        'orders' => [
+            ['number' => 'ASC'],
+        ],
+    ],
+],
 
-'html_purify_config' => array
-(
+'html_purify_config' => [
     'HTML.Attr.Name.UseCDATA' => true,
-    'HTML' => array
-    (
+    'HTML' => [
         /**
          * These two must be changed to something unique to your situation
          * if you change any of the html_purify_xx configs
@@ -132,53 +108,41 @@
         'Doctype' => 'XHTML 1.0 Transitional',
         'TidyLevel' => 'light',
         'SafeObject' => true,
-    ),
-    'Attr' => array
-    (
+    ],
+    'Attr' => [
         /**
          * To disable mangling of id/name attributes in content set this to empty string
          */
         'IDPrefix' => 'user_',
-        'AllowedFrameTargets' => array
-        (
-            '_blank',
-            '_self',
-            '_top',
-        ),
+        'AllowedFrameTargets' => ['_blank', '_self', '_top'],
         'EnableID' => true,
-    ),
-    'Cache' => array
-    (
+    ],
+    'Cache' => [
         'SerializerPath' => midcom::get()->config->get('cache_base_directory') . 'htmlpurifier',
         /* Disable cache while testing
         'DefinitionImpl' => null,
         */
-    ),
-    'Output' => array
-    (
+    ],
+    'Output' => [
         'FlashCompat' => true,
-    ),
-),
-'html_purify_HTMLDefinition' => array
-(
+    ],
+],
+'html_purify_HTMLDefinition' => [
     /**
      * each value passed in order with call_user_func_array to $def->addAttribute()
      *
      * See http://htmlpurifier.org/docs/enduser-customize.html
      */
-    'addAttribute' => array
-    (
-        array('a', 'name', 'Text'),
-        array('a', 'rel', 'Text'),
-        array('img', 'hspace', 'Length'),
-        array('img', 'vspace', 'Length'),
-    ),
+    'addAttribute' => [
+        ['a', 'name', 'Text'],
+        ['a', 'rel', 'Text'],
+        ['img', 'hspace', 'Length'],
+        ['img', 'vspace', 'Length'],
+    ],
     /**
      * each value passed in order with call_user_func_array to $def->addElement()
      *
      * See http://htmlpurifier.org/docs/enduser-customize.html
      */
-    'addElement' => array
-    (
-    ),
-),
+    'addElement' => [],
+],
