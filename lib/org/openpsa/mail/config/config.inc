@@ -21,14 +21,6 @@
     'sendmail_args' => '-bs',
 ],
 
-//Theses domains report character set incorrectly (thus messing up the conversion if we trust it)
-'incorrect_charset_domains' => [
-     'yahoo.com',
-],
-'mb_detect_encoding_list' => 'ASCII,JIS,UTF-8,ISO-8859-1,EUC-JP,SJIS',
-//Transliterate by default (other valid options '//IGNORE' or null)
-'iconv_append_target' => '//TRANSLIT',
-
 'schemadb_formmailer' => 'file:/org/openpsa/mail/config/schemadb_formmailer.inc',
 'formmailer_from' => 'formmailer@openpsa2.org',
 'formmailer_to' => '',

@@ -16,8 +16,6 @@
 'navi_order' => 'ASC',
 'campaign_list_order' => 'DESC',
 
-'disable_attachment_embedding' => false,
-
 'delete_older_than_days' => 30,
 'delete_older' => false,
 'delete_older_per_run' => 1000,

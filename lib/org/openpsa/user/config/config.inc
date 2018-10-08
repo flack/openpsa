@@ -6,7 +6,6 @@
 'schemadb_group' => 'file:/org/openpsa/user/config/schemadb_group.inc',
 
 'schemadb_acl' => 'file:/org/openpsa/user/config/schemadb_default_acl.inc',
-'schemadb_notifications' => 'file:/org/openpsa/user/config/schemadb_default_notifications.inc',
 
 //Set 'none' to disable lostpassword functionality
 'lostpassword_mode' => 'lostpassword_by_username',
@@ -29,8 +28,6 @@ __PASSWORD__',
     'city',
     'postcode',
 ],
-
-'message_sender' => 'noreply@openpsa2.org',
 
 'default_password_length' => 8,
 'password_max_age_days' => 30,
