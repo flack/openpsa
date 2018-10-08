@@ -1,8 +1,7 @@
 $(document).ready(function() {
     $('#reverse').on('click', function() {
-        $('#item_container > div').not('.entry-template').each(function(index, element) {
-            $('#item_container').prepend(element);
-        });
+        var entries = $('#item_container > div').not('.entry-template').detach();
+        $('#item_container').prepend($(entries.get().reverse()));
     });
     $('.existing-entry').each(function(index, item) {
         $(item).data('saved_values', {
