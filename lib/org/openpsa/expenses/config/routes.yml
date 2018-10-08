@@ -34,10 +34,6 @@ hours_create_invoice:
     path: /hours/create/invoice/{schema}/{guid}/
     defaults: { _controller: 'org_openpsa_expenses_handler_hours_admin::create' }
 
-csv:
-    path: /csv/{type}/
-    defaults: { _controller: 'org_openpsa_expenses_handler_csv::csv' }
-
 index_timestamp:
     path: /{timestamp}/
     defaults: { _controller: 'org_openpsa_expenses_handler_index::index' }

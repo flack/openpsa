@@ -1,13 +1,13 @@
 <?php
 $projects_l10n = midcom::get()->i18n->get_l10n('org.openpsa.projects');
 $action_target_url = $data['router']->generate('hours_task_action');
-$export_url = $data['router']->generate('csv', ['type' => 'hour_report']);
 $invoice_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
 $footer_data = ['hours' => 0];
 $categories = [$data['l10n']->get('uninvoiceable'), $data['l10n']->get('invoiceable'), $data['l10n']->get('invoiced')];
 $entries = [];
 $workflow = new midcom\workflow\datamanager;
 $filename = $data['mode'];
+$host_prefix = midcom::get()->get_host_prefix();
 
 foreach ($data['hours'] as $report) {
     $entry = [];
@@ -75,17 +75,28 @@ foreach ($data['hours'] as $report) {
     $entries[] = $entry;
 }
 
+$export_fields = [
+    'date' => $data['l10n']->get('date'),
+    'index_reporter' => $data['l10n']->get('person')
+];
+
 $data['grid']->set_column('date', $data['l10n']->get('date'), "width: 80, align: 'right', formatter: 'date', fixed: true")
     ->set_column('reporter', $data['l10n']->get('person'), "width: 80, classes: 'ui-ellipsis'", 'string');
 
 if ($data['mode'] != 'task') {
     $data['grid']->set_column('task', $data['l10n']->get('task'), "classes: 'ui-ellipsis'", 'string');
+    $export_fields['task'] = $data['l10n']->get('task');
 }
+$export_fields['description'] = $data['l10n']->get('description');
+$export_fields['hours'] = $data['l10n']->get('hours');
 $data['grid']->set_column('description', $data['l10n']->get('description'), "width: 250, classes: 'multiline'", 'string');
 $data['grid']->set_column('hours', $data['l10n']->get('hours'), "width: 50, align: 'right', formatter: 'number', summaryType: 'sum'");
 if ($data['mode'] == 'invoice') {
+    $export_fields['approved'] = $data['l10n']->get('approved');
     $data['grid']->set_column('approved', $projects_l10n->get('approved'), "width: 20, align: 'center', fixed: true");
 } else {
+    $export_fields['category'] = $data['l10n']->get('category');
+    $export_fields['invoice'] = $data['l10n']->get('invoice');
     $data['grid']->set_select_column('category', $data['l10n']->get('category'), "width: 50, hidden: true", $categories);
     $data['grid']->set_column('invoice', $data['l10n']->get('invoice'), "width: 50, align: 'center'", 'integer');
 }
@@ -123,10 +134,12 @@ $grid_id = $data['grid']->get_identifier();
 <input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 </form>
 
-<form method="post" class="tab_escape" id="csv_&(grid_id);" action="&(export_url);?filename=hours_&(filename);.csv">
-    <input type="hidden" name="order[date]" value="ASC" />
-    <input class="button" type="submit" value="<?= midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
+<form id="&(grid_id);_export" class="tab_escape" method="post" action="&(host_prefix);midcom-exec-midcom.grid/csv_export.php">
+<input id="&(grid_id);_csvdata" type="hidden" value="" name="midcom_grid_csv_data" />
+<input type="hidden" value="&(filename);.csv" name="midcom_grid_csv_filename" />
+<input class="button" type="submit" value="<?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
 </form>
+
 </div>
 
 <script type="text/javascript">
@@ -137,9 +150,10 @@ midcom_grid_batch_processing.initialize({
     options: <?php echo json_encode($data['action_options']); ?>
 });
 
-$('#csv_&(grid_id);').on('submit', function() {
-    $('#&(grid_id);').jqGrid('getRowData').forEach(function(row) {
-        $('#csv_&(grid_id);').append($('<input type="hidden" name="ids[]" value="' + row.id + '" />'));
-    });
+midcom_grid_csv.add({
+      id: '&(grid_id);',
+      fields: <?php echo json_encode($export_fields); ?>
 });
+midcom_grid_helper.bind_grouping_switch('&(grid_id);');
+
 </script>
