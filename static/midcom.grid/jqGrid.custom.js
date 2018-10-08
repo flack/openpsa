@@ -630,7 +630,7 @@ var midcom_grid_csv = {
             }
             data += '\n';
         }
-        document.getElementById(config.id + '_csvdata').value += data;
+        document.getElementById(config.id + '_csvdata').value = data;
     },
     trim: function(input) {
         var output = input.replace(/\n|\r/g, " " ); // remove line breaks
