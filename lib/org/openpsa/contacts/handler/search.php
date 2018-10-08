@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\helper\autocomplete;
+
 /**
  * org.openpsa.contacts search handler and viewer class.
  *
@@ -187,7 +189,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 'url' => $this->router->generate('group_view', ['guid' => $group->guid])
             ];
         }
-        usort($data, ['midcom\datamanager\helper\autocomplete', 'sort_items']);
+        usort($data, [autocomplete::class, 'sort_items']);
 
         return new midcom_response_json($data);
     }

@@ -223,7 +223,7 @@ class autocomplete
         return $items;
     }
 
-    private function sort_items($a, $b)
+    public static function sort_items($a, $b)
     {
         if (isset($a['category'])) {
             $cmp = strnatcasecmp($a['category'], $b['category']);
