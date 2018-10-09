@@ -39,7 +39,7 @@ implements client
             'title' => "<a href='{$deliverable_link}'>" . $deliverable->title . "</a>",
             'index_salesproject' => $salesproject->title,
             'salesproject' => "<a href='{$salesproject_link}'>" . $salesproject->title . "</a>",
-            'unit' => org_openpsa_products_viewer::get_unit_option($deliverable->unit),
+            'unit' => org_openpsa_sales_viewer::get_unit_option($deliverable->unit),
             'state' => $deliverable->state,
             'type' => $deliverable->invoiceByActualUnits,
             'pricePerUnit' => $deliverable->pricePerUnit,

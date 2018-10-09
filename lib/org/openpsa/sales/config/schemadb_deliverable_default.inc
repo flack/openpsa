@@ -157,7 +157,7 @@
             'storage' => 'unit',
             'type' => 'select',
             'type_config' => [
-                'options' => org_openpsa_products_viewer::get_unit_options(),
+                'options' => org_openpsa_sales_viewer::get_unit_options(),
             ],
             'hidden' => true,
             'widget' => 'select',

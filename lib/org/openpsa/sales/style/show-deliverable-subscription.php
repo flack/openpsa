@@ -4,7 +4,7 @@ $state = $data['deliverable']->get_state();
 $formatter = $data['l10n']->get_formatter();
 $per_unit = $data['l10n']->get('per unit');
 if (   $data['product']
-    && $unit_option = org_openpsa_products_viewer::get_unit_option($data['product']->unit)) {
+    && $unit_option = org_openpsa_sales_viewer::get_unit_option($data['product']->unit)) {
     $per_unit = sprintf($data['l10n']->get('per %s'), $unit_option);
 }
 ?>
