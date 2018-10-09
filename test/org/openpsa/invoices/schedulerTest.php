@@ -42,11 +42,6 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
     {
         return [
             [
-                'd',
-                '2011-02-12 00:00:00',
-                '2011-02-13 00:00:00',
-            ],
-            [
                 'm',
                 '2011-02-12 00:00:00',
                 '2011-03-12 00:00:00',
@@ -105,14 +100,6 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         return [
             [
                 [
-                    'unit' => 'd',
-                    'start' => 1293840000,
-                    'end' => 1325376000,
-                ],
-                '2011-01-01',
-            ],
-            [
-                [
                     'unit' => 'm',
                     'start' => 1293840000,
                     'end' => 1325376000,
@@ -165,15 +152,6 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         return [
             [
                 [
-                    'unit' => 'd',
-                    'start' => 1293840000,
-                    'end' => 1325376000,
-                ],
-                null,
-                365,
-            ],
-            [
-                [
                     'unit' => 'm',
                     'start' => 1293840000,
                     'end' => 1325376000,
@@ -208,15 +186,6 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
                 null,
                 4,
             ],
-            [
-                [
-                    'unit' => 'd',
-                    'start' => 1293840000,
-                    'end' => 1325376000,
-                ],
-                1,
-                31,
-             ],
         ];
     }
 

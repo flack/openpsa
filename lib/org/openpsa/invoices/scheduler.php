@@ -290,10 +290,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
     public function calculate_cycle_next($time)
     {
         switch ($this->_deliverable->unit) {
-            case 'd':
-                // Daily recurring subscription
-                $new_date = new DateTime('+1 day ' . gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
-                break;
             case 'm':
                 // Monthly recurring subscription
                 $new_date = $this->_add_month($time, 1);
@@ -314,13 +310,12 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
                 debug_add('Unrecognized unit value "' . $this->_deliverable->unit . '" for deliverable ' . $this->_deliverable->guid . ", returning false", MIDCOM_LOG_WARN);
                 return false;
         }
-        if ($this->_deliverable->unit != 'd') {
-            //If previous cycle was run at the end of the month, the new one should be at the end of the month as well
-            $date = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
-            if (   $date->format('t') == $date->format('j')
-                && $new_date->format('t') != $new_date->format('j')) {
-                $new_date->setDate((int) $new_date->format('Y'), (int) $new_date->format('m'), (int) $new_date->format('t'));
-            }
+
+        //If previous cycle was run at the end of the month, the new one should be at the end of the month as well
+        $date = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
+        if (   $date->format('t') == $date->format('j')
+            && $new_date->format('t') != $new_date->format('j')) {
+            $new_date->setDate((int) $new_date->format('Y'), (int) $new_date->format('m'), (int) $new_date->format('t'));
         }
         return (int) $new_date->format('U');
     }
@@ -372,10 +367,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $date = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
 
         switch ($this->_deliverable->unit) {
-            case 'd':
-                // Daily recurring subscription
-                $identifier = $date->format('Y-m-d');
-                break;
             case 'm':
                 // Monthly recurring subscription
                 $identifier = $date->format('Y-m');
