@@ -7,7 +7,6 @@ $categories = [$data['l10n']->get('uninvoiceable'), $data['l10n']->get('invoicea
 $entries = [];
 $workflow = new midcom\workflow\datamanager;
 $filename = $data['mode'];
-$host_prefix = midcom::get()->get_host_prefix();
 
 foreach ($data['hours'] as $report) {
     $entry = [];
@@ -134,11 +133,10 @@ $grid_id = $data['grid']->get_identifier();
 <input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 </form>
 
-<form id="&(grid_id);_export" class="tab_escape" method="post" action="&(host_prefix);midcom-exec-midcom.grid/csv_export.php">
-<input id="&(grid_id);_csvdata" type="hidden" value="" name="midcom_grid_csv_data" />
-<input type="hidden" value="&(filename);.csv" name="midcom_grid_csv_filename" />
-<input class="button" type="submit" value="<?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
-</form>
+<button id="&(grid_id);_export">
+	   <i class="fa fa-download"></i>
+	   <?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>
+</button>
 
 </div>
 
@@ -151,8 +149,9 @@ midcom_grid_batch_processing.initialize({
 });
 
 midcom_grid_csv.add({
-      id: '&(grid_id);',
-      fields: <?php echo json_encode($export_fields); ?>
+    id: '&(grid_id);',
+    fields: <?php echo json_encode($export_fields); ?>,
+    filename: '&(filename);'
 });
 midcom_grid_helper.bind_grouping_switch('&(grid_id);');
 

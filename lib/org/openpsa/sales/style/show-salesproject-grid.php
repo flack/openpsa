@@ -121,18 +121,16 @@ $grid->render($rows);
 </div>
 <?php
 $grid_id = $grid->get_identifier();
-$host_prefix = midcom::get()->get_host_prefix();
 
 $filename = $data['list_title'];
 $filename .= '_' . date('Y_m_d');
 $filename = preg_replace('/[^a-z0-9-]/i', '_', $filename);
 ?>
 
-<form id="&(grid_id);_export" class="tab_escape" method="post" action="&(host_prefix);midcom-exec-midcom.grid/csv_export.php">
-<input id="&(grid_id);_csvdata" type="hidden" value="" name="midcom_grid_csv_data" />
-<input type="hidden" value="&(filename);.csv" name="midcom_grid_csv_filename" />
-<input class="button tab_escape" type="submit" value="<?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
-</form>
+<button id="&(grid_id);_export">
+	   <i class="fa fa-download"></i>
+	   <?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>
+</button>
 
 <script type="text/javascript">
 
@@ -140,6 +138,7 @@ $('#&(grid_id);').jqGrid('filterToolbar');
 
 midcom_grid_csv.add({
       id: '&(grid_id);',
+      filename: '&(filename);',
       fields: {
           index_title: '<?php echo $data['l10n']->get('title'); ?>',
           <?php
@@ -150,11 +149,11 @@ midcom_grid_csv.add({
 } ?>
           index_owner: '<?php echo $data['l10n']->get('owner'); ?>',
           closeest: '<?php echo $data['l10n']->get('estimated closing date'); ?>',
-          index_value: '<?php echo $data['l10n']->get('value'); ?>',
+          value: '<?php echo $data['l10n']->get('value'); ?>',
           <?php if ($data['mode'] == 'active') {
     ?>
               probability: '<?php echo $data['l10n']->get('probability'); ?>',
-              index_weightedvalue: '<?php echo $data['l10n']->get('weighted value'); ?>',
+              weightedvalue: '<?php echo $data['l10n']->get('weighted value'); ?>',
           <?php
 } ?>
           index_profit: '<?php echo $data['l10n']->get('profit'); ?>'

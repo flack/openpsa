@@ -129,8 +129,6 @@ $grid->set_option('loadonce', true)
 
 $grid->set_footer_data($footer_data);
 
-$host_prefix = midcom::get()->get_host_prefix();
-
 $filename = preg_replace('/[^a-z0-9-]/i', '_', $data['title'] . '_' . date('Y_m_d'));
 ?>
 <div class="grid-controls">
@@ -145,11 +143,12 @@ echo '<option value="month" data-hidden="true">' . $data['l10n']->get('month') .
 echo '<option value="clear">' . midcom::get()->i18n->get_string('no grouping', 'org.openpsa.core') . "</option>\n";
 echo '</select>';
 ?>
-<form id="&(grid_id);_export" class="tab_escape" method="post" action="&(host_prefix);midcom-exec-midcom.grid/csv_export.php">
-<input id="&(grid_id);_csvdata" type="hidden" value="" name="midcom_grid_csv_data" />
-<input type="hidden" value="&(filename);.csv" name="midcom_grid_csv_filename" />
-<input class="button" type="submit" value="<?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
-</form>
+
+<button id="&(grid_id);_export">
+	   <i class="fa fa-download"></i>
+	   <?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>
+</button>
+
 </div>
 
 <div class="report org_openpsa_invoices full-width fill-height">
@@ -162,8 +161,9 @@ echo '</select>';
 
 midcom_grid_csv.add({
       id: '&(grid_id);',
+      filename: '&(filename);',
       fields: {
-          index_number: '<?php echo $l10n->get('invoice number'); ?>',
+          number: '<?php echo $l10n->get('invoice number'); ?>',
           status: '<?php echo $l10n->get('status'); ?>',
           date: '<?php echo $data['l10n_midcom']->get('date'); ?>',
           index_customer: '<?php echo $l10n->get('customer'); ?>',

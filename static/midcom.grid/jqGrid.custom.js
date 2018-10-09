@@ -606,14 +606,13 @@ var midcom_grid_csv = {
     add: function (config) {
         this.configs[config.id] = config;
 
-        $('#' + config.id + '_export input[type="submit"]').on('click', function() {
-            var id = $(this).parent().attr('id').replace(/_export$/, '');
-            midcom_grid_csv.prepare_data(id);
+        $('button#' + config.id + '_export').on('click', function(e) {
+            midcom_grid_csv.prepare_data(config);
+            e.preventDefault();
         });
     },
-    prepare_data: function(id) {
-        var config = this.configs[id],
-            rows = $('#' + config.id).jqGrid('getRowData'),
+    prepare_data: function(config) {
+        var rows = $('#' + config.id).jqGrid('getRowData'),
             field, i,
             data = '';
         for (field in config.fields) {
@@ -630,14 +629,16 @@ var midcom_grid_csv = {
             }
             data += '\n';
         }
-        document.getElementById(config.id + '_csvdata').value = data;
+        var blob = new Blob([data], {type: "application/csv;charset=utf-8"});
+        saveAs(blob, config.filename + ".csv");
     },
     trim: function(input) {
-        var output = input.replace(/\n|\r/g, " " ); // remove line breaks
-        output = output.replace(/\s+/g, " " ); // Shorten long whitespace
-        output = output.replace(/^\s+/g, "" ); // strip leading ws
-        output = output.replace(/\s+$/g, "" ); // strip trailing ws
-        return output.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, ''); //strip HTML tags
+        return input
+            .replace(/\n|\r/g, " ") // remove line breaks
+            .replace(/\s+/g, " ") // Shorten long whitespace
+            .replace(/^\s+/g, "") // strip leading ws
+            .replace(/\s+$/g, "") // strip trailing ws
+            .replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, ''); //strip HTML tags
     }
 };
 
