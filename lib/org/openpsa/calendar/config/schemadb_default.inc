@@ -2,15 +2,6 @@
     'name' => 'default',
     'description' => 'event',
     'fields' => [
-        //Hidden field for orgOpenpsaObtype
-        'object_type' => [
-            'title' => 'OpenPSA type',
-            'type' => 'number',
-            'storage' => 'orgOpenpsaObtype',
-            'widget' =>  'text',
-            'default' => org_openpsa_calendar_event_dba::OBTYPE_EVENT,
-            'hidden' => true,
-        ],
         'title' => [
             'title' => 'title',
             'storage' => 'title',

@@ -27,6 +27,7 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
     {
         $resource = (isset($args[0])) ? $args[0] : midcom::get()->auth->user->guid;
         $event = new org_openpsa_calendar_event_dba();
+        $event->orgOpenpsaObtype = org_openpsa_calendar_event_dba::OBTYPE_EVENT;
         $event->up = $this->root_event->id;
 
         $defaults = ['participants' => []];
