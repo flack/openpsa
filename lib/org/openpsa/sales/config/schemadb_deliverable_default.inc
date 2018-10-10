@@ -151,17 +151,7 @@
             'storage' => 'invoiceApprovedOnly',
             'type'    => 'boolean',
             'widget'  => 'checkbox',
-        ],
-        'unit' => [
-            'title' => 'unit',
-            'storage' => 'unit',
-            'type' => 'select',
-            'type_config' => [
-                'options' => org_openpsa_sales_viewer::get_unit_options(),
-            ],
-            'hidden' => true,
-            'widget' => 'select',
-        ],
+        ]
     ]
 ],
 'subscription' => [
