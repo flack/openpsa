@@ -29,7 +29,6 @@
                      $attachment = $offer->get_file();
                      $delete_link = $data['router']->generate('delete_offer', ['guid' => $offer->guid]);
                      $edit_link = $data['router']->generate('edit_offer', ['guid' => $offer->guid]);
-                     $person_card = org_openpsa_widgets_contact::get($attachment->metadata->revisor);
 
                      if (!empty($attachment)) {
                          $url = midcom_db_attachment::get_url($attachment);
@@ -40,8 +39,11 @@
                      echo ' <a class="actions" href="' . $delete_link . '"><i class="fa fa-trash" title="' . $data['l10n_midcom']->get('delete') . '"></i></a>';
                      echo ' <a class="actions" ' . $wf->render_attributes() . ' href="' . $edit_link . '"><i class="fa fa-pencil" title="' . $data['l10n_midcom']->get('edit') . '"></i></a>';
                      echo "</span>\n";
-                     echo ' <span class="date">' . $formatter->datetime($attachment->metadata->revised) . '</span> ';
-                     echo $person_card->show_inline();
+                     if (!empty($attachment)) {
+                         echo ' <span class="date">' . $formatter->datetime($attachment->metadata->revised) . '</span> ';
+                         $person_card = org_openpsa_widgets_contact::get($attachment->metadata->revisor);
+                         echo $person_card->show_inline();
+                     }
                      echo "</span></span></li>\n";
                  }
                  ?>
