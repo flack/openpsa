@@ -113,7 +113,6 @@ EOX;
             'title' => 'Test entry *.* 1',
             'orgOpenpsaObtype' => '6002',
             'priority' => '3',
-            'orgOpenpsaWgtype' => '',
             'status' => '6500',
             'invoicedHours' => '',
             'end' => '1305842399',

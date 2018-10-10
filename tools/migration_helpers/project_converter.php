@@ -262,7 +262,6 @@ class project_converter
             'invoicedHours' => 'invoicedHours',
             'invoiceableHours' => 'invoiceableHours',
             'orgOpenpsaAccesstype' => 'orgOpenpsaAccesstype',
-            'orgOpenpsaWgtype' => 'orgOpenpsaWgtype',
             'orgOpenpsaOwnerWg' => 'orgOpenpsaOwnerWg',
         ];
         foreach ($property_map as $source => $destination) {

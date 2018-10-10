@@ -74,15 +74,6 @@
 	        	Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
         	</description>
         </property>
-        <property name="orgOpenpsaWgtype" type="integer">
-        	<description>
-	            will contain bitmask as integer
-
-	            - 00(int=0) not a workgroup
-	            - 01(int=1) is workgroup but not active
-	            - 11(int=3) active workgroup
-        	</description>
-        </property>
         <property name="orgOpenpsaOwnerWg" type="string">
         	<description>
         		The "owner" workgroup of this object

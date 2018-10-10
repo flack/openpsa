@@ -16,7 +16,6 @@
  * @property string $customerId
  * @property integer $orgOpenpsaAccesstype
  * @property integer $orgOpenpsaObtype
- * @property integer $orgOpenpsaWgtype
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_list_dba extends midcom_core_dbaobject

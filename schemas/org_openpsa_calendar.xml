@@ -23,9 +23,6 @@
 
         <!-- Shortcut for various ACL scenarios -->
         <property name="orgOpenpsaAccesstype" type="integer"/>
-        <!-- will contain bitmask as integer, 00(int=0) not a workgroup, 01(int=1) is workgroup
-             but not active, 11(int=3) active workgroup -->
-        <property name="orgOpenpsaWgtype" type="integer"/>
         <!-- The "owner" workgroup of this object -->
         <property name="orgOpenpsaOwnerWg" type="string"/>
 

@@ -33,10 +33,6 @@
  * @property float $invoicedHours
  * @property float $invoiceableHours
  * @property integer $orgOpenpsaAccesstype Shortcut for various ACL scenarios
- * @property integer $orgOpenpsaWgtype will contain bitmask as integer
-        - 00(int=0) not a workgroup
-        - 01(int=1) is workgroup but not active
-        - 11(int=3) active workgroup
  * @property string $orgOpenpsaOwnerWg The "owner" workgroup of this object
  * @package org.openpsa.sales
  */

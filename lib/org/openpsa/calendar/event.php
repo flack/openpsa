@@ -24,7 +24,6 @@
  * @property string $externalGuid
  * @property string $vCalSerialized
  * @property integer $orgOpenpsaAccesstype
- * @property integer $orgOpenpsaWgtype
  * @property string $orgOpenpsaOwnerWg
  * @package org.openpsa.calendar
  */

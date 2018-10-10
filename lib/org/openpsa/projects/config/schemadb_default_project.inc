@@ -147,16 +147,6 @@
             'end_fieldset' => '',
         ],
 
-        'orgOpenpsaWgtype' => [
-            'title' => 'create workgroups for this project',
-            'storage' => 'orgOpenpsaWgtype',
-            'type' => 'boolean',
-            'widget' => 'checkbox',
-            'start_fieldset' => [
-                'title' => 'access control',
-                'css_group' => 'area acl',
-            ],
-        ],
         'orgOpenpsaAccesstype' => [
             'title' => 'access type',
             'storage' => 'orgOpenpsaAccesstype',
@@ -165,6 +155,10 @@
                  'options' => org_openpsa_core_acl::get_options(),
             ],
             'widget' => 'select',
+            'start_fieldset' => [
+                'title' => 'access control',
+                'css_group' => 'area acl',
+            ],
         ],
         'orgOpenpsaOwnerWg' => [
             'title' => 'workgroup',

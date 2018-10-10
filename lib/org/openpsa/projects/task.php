@@ -28,18 +28,11 @@
  * @property integer $priority
  * @property integer $orgOpenpsaAccesstype Shortcut for various ACL scenarios
  * @property integer $orgOpenpsaObtype Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
- * @property integer $orgOpenpsaWgtype will contain bitmask as integer
-            - 00(int=0) not a workgroup
-            - 01(int=1) is workgroup but not active
-            - 11(int=3) active workgroup
  * @property string $orgOpenpsaOwnerWg The "owner" workgroup of this object
  * @package org.openpsa.projects
  */
 class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 {
-    const WGTYPE_NONE = 0;
-    const WGTYPE_INACTIVE = 1;
-    const WGTYPE_ACTIVE = 3;
     const OBTYPE = 6002;
 
     public $__midcom_class_name__ = __CLASS__;
@@ -241,10 +234,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         if ($this->start > $this->end) {
             debug_add("start ({$this->start}) is greater than end ({$this->end}), aborting", MIDCOM_LOG_ERROR);
             return false;
-        }
-
-        if ($this->orgOpenpsaWgtype == self::OBTYPE) {
-            $this->orgOpenpsaWgtype = self::WGTYPE_NONE;
         }
 
         if ($agreement = $this->get_agreement()) {

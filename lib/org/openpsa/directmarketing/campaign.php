@@ -16,7 +16,6 @@
  * @property string $rulesSerialized
  * @property integer $orgOpenpsaAccesstype
  * @property integer $orgOpenpsaObtype
- * @property integer $orgOpenpsaWgtype
  * @property string $orgOpenpsaOwnerWg
  * @package org.openpsa.directmarketing
  */

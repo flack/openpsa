@@ -382,7 +382,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $skip_properties = [
             // These will be deprecated soon
             'orgOpenpsaAccesstype',
-            'orgOpenpsaWgtype',
             // Skip metadata for now
             'metadata'
         ];
