@@ -73,16 +73,6 @@
                 'creation_default_key' => 'lastname',
              ],
         ],
-        //Hidden field for orgOpenpsaObtype
-        'object_type'  => [
-            'title' => 'object type',
-            'default'  => org_openpsa_documents_document_dba::OBTYPE_DOCUMENT,
-            'hidden'   => true,
-            //'readonly'   => true,
-            'storage' => 'orgOpenpsaObtype',
-            'type' => 'number',
-            'widget' => 'text',
-        ],
         'topic' => [
             'title' => 'directory',
             'storage'    => 'topic',

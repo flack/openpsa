@@ -15,13 +15,10 @@ use Doctrine\ORM\Query\Expr\Join;
  * @property integer $uid
  * @property integer $eid
  * @property integer $hoursReported
- * @property integer $orgOpenpsaObtype
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
 {
-    const OBTYPE_EVENTPARTICIPANT = 5001;
-
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_eventmember';
 
@@ -29,14 +26,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
     public $_use_rcs = false;
 
     public $notify_person = true;
-
-    public function __construct($identifier = null)
-    {
-        parent::__construct($identifier);
-        if (!$this->orgOpenpsaObtype) {
-            $this->orgOpenpsaObtype = self::OBTYPE_EVENTPARTICIPANT;
-        }
-    }
 
     public function _on_created()
     {

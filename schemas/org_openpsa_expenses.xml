@@ -17,15 +17,6 @@
 
         <property name="reportType" type="string"/>
         <property name="invoiceable" type="boolean" index="yes"/>
-
-        <!-- Common OpenPSA properties -->
-        <property name="orgOpenpsaObtype" type="integer">
-            <description>
-                Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
-            </description>
-        </property>
-        <!-- /Common OpenPSA properties -->
-
     </type>
 
 </Schema>

@@ -24,7 +24,6 @@ implements midcom_services_permalinks_resolver
         $qb_documents = org_openpsa_documents_document_dba::new_query_builder();
         $qb_documents->add_constraint('topic', '=', $topic->id);
         $qb_documents->add_constraint('nextVersion', '=', 0);
-        $qb_documents->add_constraint('orgOpenpsaObtype', '=', org_openpsa_documents_document_dba::OBTYPE_DOCUMENT);
         $dm_documents = datamanager::from_schemadb($config->get('schemadb_document'));
 
         $qb_directories = org_openpsa_documents_directory::new_query_builder();

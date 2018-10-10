@@ -27,14 +27,11 @@
  * @property string $country
  * @property string $fax
  * @property integer $orgOpenpsaAccesstype
- * @property integer $orgOpenpsaObtype
  * @property integer $orgOpenpsaWgtype
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_person_dba extends midcom_db_person
 {
-    const TYPE_PERSON = 2000;
-
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_person';
 
@@ -72,15 +69,6 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
             return '<a href="' . $contacts_url . 'person/' . $this->guid . '/">' . $this->get_label() . "</a>";
         }
         return $this->get_label();
-    }
-
-    public function _on_creating()
-    {
-        //Make sure we have objType
-        if (!$this->orgOpenpsaObtype) {
-            $this->orgOpenpsaObtype = self::TYPE_PERSON;
-        }
-        return true;
     }
 
     public function _on_updated()

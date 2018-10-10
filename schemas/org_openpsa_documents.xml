@@ -30,11 +30,6 @@
         		Shortcut for various ACL scenarios
         	</description>
         </property>
-        <property name="orgOpenpsaObtype" type="integer">
-        	<description>
-	        	Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
-        	</description>
-        </property>
         <property name="orgOpenpsaWgtype" type="integer">
         	<description>
 	            will contain bitmask as integer

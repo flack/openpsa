@@ -55,7 +55,6 @@ implements client
             $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
         }
         $qb->add_constraint('topic', '=', $this->_request_data['directory']->id);
-        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_documents_document_dba::OBTYPE_DOCUMENT);
 
         return $qb;
     }

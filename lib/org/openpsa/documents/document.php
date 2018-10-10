@@ -21,7 +21,6 @@
 	        	status seems to be a reserved word in some layer between DM -> DB
  * @property string $content plaintext representation of content, non-ML
  * @property integer $orgOpenpsaAccesstype Shortcut for various ACL scenarios
- * @property integer $orgOpenpsaObtype Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
  * @property integer $orgOpenpsaWgtype will contain bitmask as integer
             - 00(int=0) not a workgroup
             - 01(int=1) is workgroup but not active
@@ -42,8 +41,6 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     const STATUS_FINAL = 4001;
     const STATUS_REVIEW = 4002;
 
-    const OBTYPE_DOCUMENT = 3000;
-
     public function _on_loaded()
     {
         if ($this->title == "") {
@@ -57,7 +54,6 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        $this->orgOpenpsaObtype = self::OBTYPE_DOCUMENT;
         if (!$this->author) {
             $user = midcom::get()->auth->user->get_storage();
             $this->author = $user->id;

@@ -27,7 +27,6 @@
  * @property string $country
  * @property string $fax
  * @property integer $orgOpenpsaAccesstype
- * @property integer $orgOpenpsaObtype
  * @property integer $orgOpenpsaWgtype
  * @package midcom.db
  */
