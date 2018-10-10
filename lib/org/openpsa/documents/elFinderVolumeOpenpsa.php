@@ -54,16 +54,18 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
             return $this->setError(elFinder::ERROR_INVALID_NAME);
         }
 
-        $mime = $this->mimetype($this->mimeDetect == 'internal' ? $name : $tmpname, $name);
         $mimeByName = '';
-        if ($this->mimeDetect !== 'internal') {
-            $mimeByName = elFinderVolumeDriver::mimetypeInternalDetect($name);
-            if ($mime == 'unknown') {
+        if ($this->mimeDetect === 'internal') {
+            $mime = $this->mimetype($tmpname, $name);
+        } else {
+            $mime = $this->mimetype($tmpname, $name);
+            $mimeByName = $this->mimetype($name, true);
+            if ($mime === 'unknown') {
                 $mime = $mimeByName;
             }
         }
 
-        if (!$this->allowPutMime($mime) || ($mimeByName && $mimeByName !== 'unknown' && !$this->allowPutMime($mimeByName))) {
+        if (!$this->allowPutMime($mime) || ($mimeByName && !$this->allowPutMime($mimeByName))) {
             return $this->setError(elFinder::ERROR_UPLOAD_FILE_MIME);
         }
 
@@ -75,17 +77,16 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         $dstpath = $this->decode($dst);
         if (isset($hashes[$name])) {
             $test = $this->decode($hashes[$name]);
+            $file = $this->stat($test);
         } else {
             $test = $this->joinPathCE($dstpath, $name);
+            $file = $this->isNameExists($test);
         }
 
-        $file = $this->stat($test);
         $this->clearcache();
 
         if ($file && $file['name'] === $name) { // file exists and check filename for item ID based filesystem
-            // check POST data `overwrite` for 3rd party uploader
-            $overwrite = isset($_POST['overwrite'])? (bool)$_POST['overwrite'] : $this->options['uploadOverwrite'];
-            if ($overwrite) {
+            if ($this->uploadOverwrite) {
                 if (!$file['write']) {
                     return $this->setError(elFinder::ERROR_PERM_DENIED);
                 }
@@ -128,7 +129,13 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
             return false;
         }
 
-        return $this->stat($path);
+        $stat = $this->stat($path);
+        // Try get URL
+        if (empty($stat['url']) && ($url = $this->getContentUrl($stat['hash']))) {
+            $stat['url'] = $url;
+        }
+
+        return $stat;
     }
 
     private function get_by_path($path)
@@ -334,6 +341,9 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
                 $data['mime'] = $att->mimetype;
                 if ($stat = $att->stat()) {
                     $data['size'] = $stat['size'];
+                } else {
+                    // Workaround for https://github.com/Studio-42/elFinder/issues/2704
+                    $data['size'] = $att->metadata->size;
                 }
             }
         } else {
