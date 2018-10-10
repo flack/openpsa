@@ -90,13 +90,11 @@ class org_openpsa_core_acl_synchronizer
         return true;
     }
 
-    private function _set_attachment_permission($object, $privilege, $assignee, $value)
+    private function _set_attachment_permission(midcom_core_dbaobject $object, $privilege, $assignee, $value)
     {
-        if ($attachments = $object->list_attachments()) {
-            foreach ($attachments as $attachment) {
-                debug_add("Setting {$value} to privilege {$privilege} for {$assignee} to attachment #{$attachment->id}");
-                $attachment->set_privilege($privilege, $assignee, $value);
-            }
+        foreach ($object->list_attachments() as $attachment) {
+            debug_add("Setting {$value} to privilege {$privilege} for {$assignee} to attachment #{$attachment->id}");
+            $attachment->set_privilege($privilege, $assignee, $value);
         }
     }
 }

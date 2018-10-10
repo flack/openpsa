@@ -212,14 +212,8 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             }
         }
 
-        // Find the attachment
-        $attachments = $this->list_attachments();
-
-        if (!$attachments) {
-            return true;
-        }
-
-        foreach ($attachments as $original_attachment) {
+        // Find the attachments
+        foreach ($this->list_attachments() as $original_attachment) {
             $backup_attachment = $backup->create_attachment($original_attachment->name, $original_attachment->title, $original_attachment->mimetype);
 
             $original_handle = $original_attachment->open('r');

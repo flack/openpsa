@@ -330,8 +330,7 @@ class midcom_baseclasses_core_dbobject
         // Delete all extensions:
         // Attachments can't have attachments so no need to query those
         if (!$object instanceof midcom_db_attachment) {
-            $list = $object->list_attachments();
-            foreach ($list as $attachment) {
+            foreach ($object->list_attachments() as $attachment) {
                 if (!$attachment->delete()) {
                     debug_add("Failed to delete attachment ID {$attachment->id}", MIDCOM_LOG_ERROR);
                     return false;
