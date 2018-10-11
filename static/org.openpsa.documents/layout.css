@@ -55,3 +55,7 @@ dl.search_results ul
     background: #3875d7;
     color:#fff;
 }
+
+.elfinder .ui-resizable-se {
+	position: absolute
+}
