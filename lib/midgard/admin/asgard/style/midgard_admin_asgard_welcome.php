@@ -11,20 +11,6 @@ foreach ($data['schema_types'] as $schema_type) {
 $type_choices = ['any' => $data['l10n']->get('any')] + $type_choices;
 
 $revised_after_choices = [];
-if ($data['config']->get('enable_review_dates')) {
-    $review_by_choices = [];
-    $revised_after_choices['any'] = $data['l10n']->get('any');
-    $review_by_choices['any'] = $data['l10n']->get('any');
-    // 1 week
-    $date = mktime(0, 0, 0, date('m'), date('d') + 6, date('Y'));
-    $review_by_choices[$date] = $data['l10n']->get('1 week');
-    // 2 weeks
-    $date = mktime(0, 0, 0, date('m'), date('d') + 13, date('Y'));
-    $review_by_choices[$date] = $data['l10n']->get('2 weeks');
-    // 1 month
-    $date = mktime(0, 0, 0, date('m') + 1, date('d'), date('Y'));
-    $review_by_choices[$date] = $data['l10n']->get('1 month');
-}
 
 // 1 day
 $date = mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));
@@ -71,27 +57,6 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
                     ?>
                 </select>
             </div>
-            <?php
-            if ($data['config']->get('enable_review_dates')) {
-                ?>
-            <div class="review_by">
-                <label for="review_by"><?php echo $data['l10n']->get('objects expiring within'); ?></label>
-                <select name="review_by" id="review_by">
-                    <?php
-                    foreach ($review_by_choices as $value => $label) {
-                        $selected = '';
-                        if (   isset($data['revised_after'])
-                            && $data['review_by'] == $value) {
-                            $selected = ' selected="selected"';
-                        }
-                        echo "<option value=\"{$value}\"{$selected}>{$label}</option>\n";
-                    } ?>
-                </select>
-            </div>
-                <?php
-
-            }
-            ?>
             <input type="checkbox" id="only_mine" name="only_mine" value="1" <?php if (isset($data['only_mine']) && $data['only_mine'] == 1) {
                 echo ' checked="checked"';
             } ?> />
@@ -106,12 +71,9 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
     <div class="crop-height full-width">
     <?php
     $grid_id = $data['grid']->get_identifier();
-    $data['grid']->set_column('title', $data['l10n_midcom']->get('title'), 'width: 150', 'string');
-
-    if ($data['config']->get('enable_review_dates')) {
-        $data['grid']->set_column('review_date', $data['l10n_midcom']->get('review date'));
-    }
-    $data['grid']->set_column('revised', midcom::get()->i18n->get_string('revised', 'midcom.admin.folder'), 'fixed: true, width: 180, align: "center", formatter: "date", formatoptions: {srcformat: "U", newformat: "ISO8601Long"}')
+    $data['grid']
+        ->set_column('title', $data['l10n_midcom']->get('title'), 'width: 150', 'string')
+        ->set_column('revised', midcom::get()->i18n->get_string('revised', 'midcom.admin.folder'), 'fixed: true, width: 180, align: "center", formatter: "date", formatoptions: {srcformat: "U", newformat: "ISO8601Long"}')
         ->set_column('revisor', midcom::get()->i18n->get_string('revisor', 'midcom.admin.folder'), 'width: 70')
         ->set_column('approved', $data['l10n_midcom']->get('approved'), 'width: 50')
         ->set_column('revision', midcom::get()->i18n->get_string('revision', 'midcom.admin.folder'), 'fixed: true, width: 95, template: "integer"')

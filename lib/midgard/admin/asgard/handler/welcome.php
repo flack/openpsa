@@ -15,7 +15,7 @@ use midcom\grid\provider;
  */
 class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components_handler
 {
-    private function _list_revised($since, $review_by = null, $type = null, $only_mine = false)
+    private function _list_revised($since, $type = null, $only_mine = false)
     {
         $classes = [];
         $revised = [];
@@ -42,10 +42,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         foreach ($classes as $class) {
             $qb_callback = [$class, 'new_query_builder'];
             $qb = call_user_func($qb_callback);
-
-            if ($since != 'any') {
-                $qb->add_constraint('metadata.revised', '>=', $since);
-            }
+            $qb->add_constraint('metadata.revised', '>=', $since);
 
             if (   $only_mine
                 && midcom::get()->auth->user) {
@@ -55,14 +52,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             $qb->add_order('metadata.revision', 'DESC');
 
             foreach ($qb->execute() as $object) {
-                if (!is_null($review_by)) {
-                    $object_review_by = (int) $object->get_parameter('midcom.helper.metadata', 'review_date');
-                    if ($object_review_by > $review_by) {
-                        // Skip
-                        continue;
-                    }
-                }
-
                 $revisor = midcom::get()->auth->get_user($object->metadata->revisor);
 
                 $revised["{$object->metadata->revised}_{$object->guid}_{$object->metadata->revision}"] = [
@@ -97,17 +86,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         }
 
         if (isset($_REQUEST['revised_after'])) {
-            $data['revised_after'] = $_REQUEST['revised_after'];
-            if ($data['revised_after'] != 'any') {
-                $data['revised_after'] = date('Y-m-d H:i:s\Z', $_REQUEST['revised_after']);
-            }
-
-            $data['review_by'] = null;
-            if (   $this->_config->get('enable_review_dates')
-                && isset($_REQUEST['review_by'])
-                && $_REQUEST['review_by'] != 'any') {
-                $data['review_by'] = (int) $_REQUEST['review_by'];
-            }
+            $data['revised_after'] = date('Y-m-d H:i:s\Z', $_REQUEST['revised_after']);
 
             $data['type_filter'] = null;
             if (   isset($_REQUEST['type_filter'])
@@ -117,7 +96,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
             $data['only_mine'] = !empty($_REQUEST['only_mine']);
 
-            $objects = $this->_list_revised($data['revised_after'], $data['review_by'], $data['type_filter'], $data['only_mine']);
+            $objects = $this->_list_revised($data['revised_after'], $data['type_filter'], $data['only_mine']);
         } elseif (class_exists('midcom_helper_activitystream_activity_dba')) {
             $objects = $this->_load_activities();
         } else {
@@ -193,15 +172,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                 $row['revisor'] = $this->_l10n_midcom->get('unknown');
             } else {
                 $row['revisor'] = $data['revisor']->name;
-            }
-
-            if ($this->_config->get('enable_review_dates')) {
-                $review_date = $object->get_parameter('midcom.helper.metadata', 'review_date');
-                if (!$review_date) {
-                    $row['review_date'] = $this->_l10n->get('n/a');
-                } else {
-                    $row['review_date'] = strftime('%x', $review_date);
-                }
             }
             $rows[] = $row;
         }

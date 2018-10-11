@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 
 /**
@@ -40,34 +39,6 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
         $this->_request_data['controller'] = $this->_controller;
     }
 
-    private function load_controller()
-    {
-        $schemadb = schemadb::from_path(midcom::get()->config->get('metadata_schema'));
-
-        if (   $this->_config->get('enable_review_dates')
-            && !$schemadb->get('metadata')->has_field('review_date')) {
-            $fields = $schemadb->get('metadata')->get('fields');
-            $fields['review_date'] = [
-                'title' => $this->_l10n->get('review date'),
-                'type' => 'date',
-                'type_config' => [
-                    'storage_type' => 'UNIXTIME',
-                ],
-                'storage' => [
-                    'location' => 'parameter',
-                    'domain' => 'midcom.helper.metadata',
-                    'name' => 'review_date',
-                ],
-                'widget' => 'jsdate',
-            ];
-            $schemadb->get('metadata')->set('fields', $fields);
-        }
-        $dm = new datamanager($schemadb);
-        return $dm
-            ->set_storage($this->_object, 'metadata')
-            ->get_controller();
-    }
-
     /**
      * Handler for folder metadata. Checks for updating permissions, initializes
      * the metadata and the content topic itself. Handles also the sent form.
@@ -88,7 +59,9 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
         }
 
         // Load the DM2 controller instance
-        $this->_controller = $this->load_controller();
+        $this->_controller = datamanager::from_schemadb(midcom::get()->config->get('metadata_schema'))
+            ->set_storage($this->_object, 'metadata')
+            ->get_controller();
         switch ($this->_controller->process()) {
             case 'save':
                 // Reindex the object

@@ -90,8 +90,6 @@
     'midgard_group',
 ],
 
-'enable_review_dates' => false,
-
 'no_permalinks_for' => [
     'midcom_db_style',
     'midcom_db_element',

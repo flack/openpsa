@@ -34,10 +34,6 @@
 1 week
 ---STRINGEND
 
----STRING 2 weeks
-2 weeks
----STRINGEND
-
 ---STRING ANONYMOUS
 Anonymous users
 ---STRINGEND
@@ -602,10 +598,6 @@ Object %s removed
 Object deleted
 ---STRINGEND
 
----STRING objects expiring within
-Objects expiring within
----STRINGEND
-
 ---STRING objects revised within
 Objects changed within
 ---STRINGEND
@@ -680,10 +672,6 @@ Restore to version %s was successful
 
 ---STRING restore version %s
 Restore version %s
----STRINGEND
-
----STRING review date
-Review date
 ---STRINGEND
 
 ---STRING revised by

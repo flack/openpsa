@@ -34,10 +34,6 @@ ostatniego miesiąca
 ostatniego tygodnia
 ---STRINGEND
 
----STRING 2 weeks
-ostatnie 14 dni
----STRINGEND
-
 ---STRING ANONYMOUS
 Anonimy
 ---STRINGEND
@@ -570,10 +566,6 @@ Obiekt %s został usunięty
 Obiekt usunięty
 ---STRINGEND
 
----STRING objects expiring within
-Obiekty wygasające w ciągu
----STRINGEND
-
 ---STRING objects revised within
 Obiekty zmienione w ciągu
 ---STRINGEND
@@ -640,10 +632,6 @@ Przywrócono wersję %s
 
 ---STRING restore version %s
 Przywróć wersję %s
----STRINGEND
-
----STRING review date
-Data zmiany
 ---STRINGEND
 
 ---STRING revised by

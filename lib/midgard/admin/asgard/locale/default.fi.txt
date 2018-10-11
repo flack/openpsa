@@ -30,10 +30,6 @@ Tyypin %s roskakori
 1 viikko
 ---STRINGEND
 
----STRING 2 weeks
-2 viikkoa
----STRINGEND
-
 ---STRING ANONYMOUS
 Tunnistamattomat käyttäjät
 ---STRINGEND
@@ -566,10 +562,6 @@ Kohde %s poistettu
 Kohde poistettu
 ---STRINGEND
 
----STRING objects expiring within
-Ajan sisällä tarkistettavat kohteet
----STRINGEND
-
 ---STRING objects revised within
 Kohteet muutettu aikavälillä
 ---STRINGEND
@@ -636,10 +628,6 @@ Palautus versioon %s onnistui
 
 ---STRING restore version %s
 Palauta versio %s
----STRINGEND
-
----STRING review date
-Tarkistuspäivä
 ---STRINGEND
 
 ---STRING revised by

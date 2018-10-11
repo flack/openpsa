@@ -30,10 +30,6 @@
 1 Woche
 ---STRINGEND
 
----STRING 2 weeks
-2 Wochen
----STRINGEND
-
 ---STRING ANONYMOUS
 Anonyme Benutzer
 ---STRINGEND
@@ -578,10 +574,6 @@ Objekt "%s" gelöscht
 Objekt gelöscht
 ---STRINGEND
 
----STRING objects expiring within
-Objekte mit Ablaufdatum innerhalb
----STRINGEND
-
 ---STRING objects revised within
 Objekte mit Änderungen seit
 ---STRINGEND
@@ -656,10 +648,6 @@ Die Wiederherstellung der Revision %s war erfolgreich
 
 ---STRING restore version %s
 Revision %s wiederherstellen
----STRINGEND
-
----STRING review date
-Review-Datum
 ---STRINGEND
 
 ---STRING revised by

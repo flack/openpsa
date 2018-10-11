@@ -30,10 +30,6 @@
 1 vecka
 ---STRINGEND
 
----STRING 2 weeks
-2 veckor
----STRINGEND
-
 ---STRING ANONYMOUS
 Anonyma användare
 ---STRINGEND
@@ -526,10 +522,6 @@ Objektet %s godkännt
 Objektet %s borttaget
 ---STRINGEND
 
----STRING objects expiring within
-Objekt som upphör inom
----STRINGEND
-
 ---STRING objects revised within
 Objekt ändrade inom
 ---STRINGEND
@@ -596,10 +588,6 @@ Kräv autentisering
 
 ---STRING restore version %s
 Återställ version %s
----STRINGEND
-
----STRING review date
-Granskings datum
 ---STRINGEND
 
 ---STRING revised by
