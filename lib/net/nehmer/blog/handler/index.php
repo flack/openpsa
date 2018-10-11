@@ -157,7 +157,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
                     $data['node'] = $nap->get_node($article->topic);
                 }
 
-                midcom_show_style('index-item', [$article->guid]);
+                midcom_show_style('index-item');
             }
         } else {
             midcom_show_style('index-empty');

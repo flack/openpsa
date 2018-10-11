@@ -192,7 +192,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $prev_version = $history[1];
 
         try {
-            $diff_fields = $rcs_handler->get_diff($prev_version, $this_version, 'unified');
+            $diff_fields = $rcs_handler->get_diff($prev_version, $this_version);
         } catch (midcom_error $e) {
             $e->log();
             return '';

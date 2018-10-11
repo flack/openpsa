@@ -79,7 +79,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
             ->set_storage($this->_deliverable)
             ->get_content_html();
 
-        $this->add_breadcrumb_path($this->_deliverable, $this);
+        $this->add_breadcrumb_path();
 
         $this->_prepare_request_data();
 
