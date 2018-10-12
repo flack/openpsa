@@ -60,7 +60,7 @@ trait org_openpsa_sales_handler
             $notification_entry->arguments = ['deliverable' => $deliverable->guid];
             $notification_entry->update();
         } else {
-            //void date - so delete existing at_entrys for this notify_date
+            //void date - so delete existing at_entries for this notify_date
             foreach ($entry_keys as $key => $empty) {
                 try {
                     $notification_entry = new midcom_services_at_entry_dba($mc_entry->get_subkey($key, 'fromGuid'));

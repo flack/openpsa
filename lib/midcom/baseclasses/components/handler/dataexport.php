@@ -241,7 +241,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                 $this->csv['charset'] = 'UTF-8';
             }
         }
-        $this->csv['mimetype'] = $this->_config->get('csv_export_content_type') ?: 'appplication/csv';
+        $this->csv['mimetype'] = $this->_config->get('csv_export_content_type') ?: 'application/csv';
     }
 
     private function encode_csv($data)

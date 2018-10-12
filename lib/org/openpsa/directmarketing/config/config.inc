@@ -11,7 +11,7 @@
 'csv_export_separator' => ';',
 'csv_export_quote' => '"',
 'csv_export_newline' => "\n",
-'csv_export_content_type' => 'appplication/csv',
+'csv_export_content_type' => 'application/csv',
 'csv_import_check_duplicates' => true,
 'navi_order' => 'ASC',
 'campaign_list_order' => 'DESC',

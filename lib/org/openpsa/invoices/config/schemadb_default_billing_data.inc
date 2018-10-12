@@ -15,7 +15,7 @@
             'widget'   => 'textarea',
             'start_fieldset' => [
                 'title' => 'invoice address',
-                'css_group' => 'invoice_adress area meta',
+                'css_group' => 'invoice_address area meta',
             ],
         ],
         'street' => [

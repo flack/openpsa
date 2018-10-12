@@ -131,7 +131,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
                 midcom::get()->uimessages->add($this->_l10n->get('offer created'), $this->_l10n->get('please verify the file'));
             }
             catch (midcom_error $e) {
-                midcom::get()->uimessages->add($this->_l10n->get('offer not ceated'), $e->getMessage(), 'error');
+                midcom::get()->uimessages->add($this->_l10n->get('offer not created'), $e->getMessage(), 'error');
             }
         }
         return $response;

@@ -370,7 +370,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     }
 
     /**
-     * Return true if path is dir and has at least one childs directory
+     * Return true if path is dir and has at least one child directory
      *
      * @param  string  $path  dir path
      * @return bool

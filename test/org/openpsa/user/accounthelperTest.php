@@ -31,7 +31,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $this->assertFalse($helper->create_account("", "", ""));
         // no username
         $this->assertFalse($helper->create_account($person->guid, "", ""));
-        // cannot send welcome mail without mail adress
+        // cannot send welcome mail without mail address
         $this->assertFalse($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Bob"), "", "", true));
 
         // test with no password given

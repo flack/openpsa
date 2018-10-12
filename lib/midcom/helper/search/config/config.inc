@@ -7,4 +7,4 @@
  * (objects containing just the given keyword as written
  * may not get matched since the wildcard part matches nothing)
  */
-'single_term_auto_wilcard' => false,
+'single_term_auto_wildcard' => false,

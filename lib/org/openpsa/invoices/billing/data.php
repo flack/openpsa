@@ -111,7 +111,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
         //add contact address if needed
         $this->set_address();
 
-        //html-ouptut
+        //html-output
         echo '<div class="vcard">';
         echo '<div style="text-align:center"><em>' . midcom::get()->i18n->get_string('invoice address', 'org.openpsa.contacts') . "</em></div>\n";
         echo "<strong>\n";
