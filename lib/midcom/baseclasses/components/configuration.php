@@ -98,14 +98,10 @@ class midcom_baseclasses_components_configuration
         }
 
         // Go for the sitewide default
-        if ($fs_data = self::read_array_from_snippet("conf:/{$component}/config.inc")) {
-            $data = array_merge($data, $fs_data);
-        }
+        $data = array_merge($data, self::read_array_from_snippet("conf:/{$component}/config.inc"));
 
         // Finally, check the sitegroup config
-        if ($sn_data = self::read_array_from_snippet(midcom::get()->config->get('midcom_sgconfig_basedir') . "/{$component}/config")) {
-            $data = array_merge($data, $sn_data);
-        }
+        $data = array_merge($data, self::read_array_from_snippet(midcom::get()->config->get('midcom_sgconfig_basedir') . "/{$component}/config"));
 
         self::$_data[$component]['config'] = new midcom_helper_configuration($data);
     }
