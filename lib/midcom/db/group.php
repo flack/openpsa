@@ -56,7 +56,7 @@ class midcom_db_group extends midcom_core_dbaobject
      * midgard:create privileges on this object for this to succeed. If the person is
      * already a member of this group, nothing is done.
      *
-     * @param midcom_db_person The person to add.
+     * @param midcom_db_person $person The person to add.
      * @return boolean Indicating success.
      */
     public function add_member($person)

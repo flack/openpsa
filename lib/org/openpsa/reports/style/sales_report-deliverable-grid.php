@@ -1,6 +1,6 @@
 <?php
-$sales_l10n = midcom::get('i18n')->get_l10n('org.openpsa.sales');
-$invoices_l10n = midcom::get('i18n')->get_l10n('org.openpsa.invoices');
+$sales_l10n = midcom::get()->i18n->get_l10n('org.openpsa.sales');
+$invoices_l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');
 $grid = $data['grid'];
 $grid_id = $grid->get_identifier();
 $footer_data = ['invoice' => $data['l10n']->get('totals')];

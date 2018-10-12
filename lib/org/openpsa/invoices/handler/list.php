@@ -222,9 +222,9 @@ implements client
     /**
      * Add a customer/deliverable constraint to list QBs
      *
-     * @param midcom_core_querybuilder $qb th QB we're working with
+     * @param midcom_core_query $qb th QB we're working with
      */
-    private function _add_filters($qb)
+    private function _add_filters(midcom_core_query $qb)
     {
         if ($this->_deliverable) {
             $qb->get_doctrine()

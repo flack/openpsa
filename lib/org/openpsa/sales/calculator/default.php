@@ -16,6 +16,11 @@ use Doctrine\ORM\Query\Expr\Join;
 class org_openpsa_sales_calculator_default implements org_openpsa_invoices_interfaces_calculator
 {
     /**
+     * @var org_openpsa_invoices_invoice_dba
+     */
+    private $_invoice;
+
+    /**
      * The deliverable we're processing
      *
      * @var org_openpsa_sales_salesproject_deliverable_dba

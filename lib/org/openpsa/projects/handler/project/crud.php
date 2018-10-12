@@ -22,6 +22,11 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     private $project;
 
     /**
+     * @var string
+     */
+    private $mode;
+
+    /**
      * Generates an object creation view.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -51,7 +56,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         $indexer = new org_openpsa_projects_midcom_indexer($this->_topic);
         $indexer->index($controller->get_datamanager());
 
-        if ($this->_mode === 'create') {
+        if ($this->mode === 'create') {
             return $this->router->generate('project', ['guid' => $this->project->guid]);
         }
     }

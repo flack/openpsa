@@ -157,7 +157,7 @@ abstract class midcom_core_query
     }
 
     /**
-     * @return \Doctrine\ORM\Query\Expr:
+     * @return \Doctrine\ORM\Query\Expr\Composite
      */
     public function get_current_group()
     {

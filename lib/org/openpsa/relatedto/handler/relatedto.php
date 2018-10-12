@@ -221,7 +221,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * Renders single link line
      *
      * @param array $link The necessary link information
-     * @param object &other_obj The link target
+     * @param object &$other_obj The link target
      */
     private function _render_line(array $link, &$other_obj)
     {

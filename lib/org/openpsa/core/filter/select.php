@@ -21,7 +21,7 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
     protected $_options;
 
     /**
-     * Callabck to load the filter's options
+     * Callback to load the filter's options
      *
      * @var callable
      */
@@ -97,7 +97,7 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
      *
      * May use option_callback config setting to populate the options array
      *
-     * @param array The options array
+     * @return array The options array
      */
     protected function _get_options()
     {

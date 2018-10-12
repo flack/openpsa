@@ -32,7 +32,7 @@ trait net_nehmer_blog_handler
     /**
      * Sets the constraints for QB for articles
      *
-     * @param midgard_query_builder $qb The QB object
+     * @param midcom_core_querybuilder $qb The QB object
      */
     public function article_qb_constraints($qb)
     {

@@ -61,7 +61,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         }
 
         // Find in which ways to notify the user
-        $notification_type = self::_merge_notification_prefences($component, $action, $recipient);
+        $notification_type = self::_merge_notification_preferences($component, $action, $recipient);
         if ($notification_type == 'none') {
             // User doesn't wish to be notified
             return true;
@@ -94,9 +94,9 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
      * @param string $component Component name
      * @param string $action Event name
      * @param midcom_db_person $recipient The receiving person
-     * @return Array options supported by user
+     * @return string option supported by user
      */
-    private static function _merge_notification_prefences($component, $action, midcom_db_person $recipient)
+    private static function _merge_notification_preferences($component, $action, midcom_db_person $recipient)
     {
         $preference = 'none';
 

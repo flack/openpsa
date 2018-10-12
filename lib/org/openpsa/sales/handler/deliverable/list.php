@@ -17,6 +17,11 @@ use midcom\grid\provider;
 class org_openpsa_sales_handler_deliverable_list extends midcom_baseclasses_components_handler
 implements client
 {
+    /**
+     * @var org_openpsa_products_product_dba
+     */
+    private $_product;
+
     public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
         $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('product', $this->_product->id);
