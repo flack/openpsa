@@ -1,7 +1,3 @@
-<?php
-$nap = new midcom_helper_nav();
-$node = $nap->get_node($nap->get_current_node());
-?>
     </dl>
 <?php
 if ($data['campaigns_all']) {

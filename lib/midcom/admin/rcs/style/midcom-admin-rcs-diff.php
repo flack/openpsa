@@ -1,7 +1,5 @@
 <?php
-$diff   = $data['diff'];
-$latest = $data['latest_revision'];
-$comment= $data['comment'];
+$diff = $data['diff'];
 ?>
 <h1>&(data['view_title']);</h1>
 <div class="rcs_navigation">

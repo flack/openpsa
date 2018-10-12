@@ -1,6 +1,4 @@
 <?php
-$l10n = $data['l10n'];
-$report = $data['report'];
 $link_data = $data['use_link_data'];
 if (!isset($data['body_title'])) {
     $data['body_title'] = '';
@@ -17,7 +15,7 @@ $body_class = " class='{$data['body_class']}'";
                 <tr>
                     <th colspan=6 class="title">&(body_title);</th>
                 </tr>
-<?php 
+<?php
 }
             $total = 0;
 

@@ -6,7 +6,6 @@
 <script type="text/javascript">
     <?php
     //add static data to jqgrid if wanted
-    $start = true;
     if (array_key_exists('entries', $data)) {
         $rows = [];
         $workflow = new midcom\workflow\datamanager;

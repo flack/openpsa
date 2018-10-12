@@ -1,7 +1,6 @@
 <?php
 $grid = $data['grid'];
 $rows = [];
-$formatter = $data['l10n']->get_formatter();
 
 $state_labels = [
     org_openpsa_sales_salesproject_dba::STATE_LOST => $data['l10n']->get('lost'),

@@ -1,5 +1,4 @@
 <?php
-$report = $data['report'];
 $query_data = $data['query_data'];
 ?>
         <div class="org_openpsa_reports_report org_openpsa_reports_basic">
@@ -22,12 +21,12 @@ $query_data = $data['query_data'];
 <?php   if (array_key_exists('hour_type_filter', $query_data)) {
             ?>
                         <th><?php echo $data['l10n']->get('type'); ?></th>
-<?php 
+<?php
         }   ?>
 <?php   if (   array_key_exists('invoiceable_filter', $query_data)) {
             ?>
                         <th><?php echo midcom::get()->i18n->get_string('invoiceable', 'org.openpsa.projects'); ?></th>
-<?php 
+<?php
         }   ?>
                         <th><?php echo $data['l10n_midcom']->get('description'); ?></th>
                         <th><?php echo midcom::get()->i18n->get_string('hours', 'org.openpsa.projects'); ?></th>

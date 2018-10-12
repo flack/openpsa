@@ -1,6 +1,5 @@
 <?php
 $preview = $data['preview'];
-$l10n = $data['l10n'];
 ?>
 <h1>&(data['view_title']:h);</h1>
 <div class="rcs_navigation">

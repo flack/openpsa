@@ -2,7 +2,6 @@
 $diff   = $data['diff'];
 $latest = $data['latest_revision'];
 $comment= $data['comment'];
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <div class="rcs_navigation">
 <?php

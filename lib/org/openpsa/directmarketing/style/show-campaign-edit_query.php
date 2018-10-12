@@ -1,5 +1,4 @@
 <?php
-$current_rules = $data['campaign']->rules;
 $property_map = org_openpsa_directmarketing_campaign_ruleresolver::build_property_map($data['l10n']);
 $preview_url = $data['router']->generate('campaign_query', ['guid' => $data['campaign']->guid]);
 

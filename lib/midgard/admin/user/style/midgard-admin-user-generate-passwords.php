@@ -1,7 +1,6 @@
 <?php
 $n = 10;
 $length = 8;
-$non_alphas = false;
 $max_amount = 100;
 $max_length = 16;
 

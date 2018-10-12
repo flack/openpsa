@@ -1,7 +1,3 @@
-<?php
-$nap = new midcom_helper_nav();
-$node = $nap->get_node($nap->get_current_node());
-?>
 <div class="net_nemein_wiki_notfound">
     <h1>&(data['wikiword']);</h1>
 
