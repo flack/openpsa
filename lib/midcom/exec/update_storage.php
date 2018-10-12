@@ -1,6 +1,6 @@
 <?php
 $ip_sudo = midcom::get()->auth->require_admin_or_ip('midcom.services.indexer');
-ob_implicit_flush(true);
+ob_implicit_flush();
 midcom::get()->disable_limits();
 
 echo "<pre>\n";

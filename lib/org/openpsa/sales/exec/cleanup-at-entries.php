@@ -1,7 +1,7 @@
 <?php
 midcom::get()->auth->require_admin_user();
 midcom::get()->disable_limits();
-ob_implicit_flush(true);
+ob_implicit_flush();
 echo "<h1>Cleanup deliverable AT entries:</h1>\n";
 
 $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();

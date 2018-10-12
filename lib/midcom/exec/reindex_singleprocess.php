@@ -23,7 +23,7 @@ if (midcom::get()->config->get('indexer_backend') === false) {
 <?php
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
-ob_implicit_flush(true);
+ob_implicit_flush();
 midcom::get()->disable_limits();
 
 $nap = new midcom_helper_nav();

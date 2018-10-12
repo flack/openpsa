@@ -1,7 +1,7 @@
 <?php
 midcom::get()->auth->require_admin_user();
 midcom::get()->disable_limits();
-ob_implicit_flush(true);
+ob_implicit_flush();
 echo "<h1>Invalidating task caches:</h1>\n";
 
 $qb = org_openpsa_projects_task_dba::new_query_builder();

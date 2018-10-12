@@ -1,7 +1,7 @@
 <?php
 midcom::get()->auth->require_admin_user();
 midcom::get()->disable_limits();
-ob_implicit_flush(true);
+ob_implicit_flush();
 
 if (!isset($_GET['days'])) {
     $grace_days = midcom::get()->config->get('cron_purge_deleted_after');

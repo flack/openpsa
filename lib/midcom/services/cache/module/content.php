@@ -381,7 +381,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // Note, that check_hit might _midcom_stop_request().
         $this->_check_hit($request);
 
-        ob_implicit_flush(false);
+        ob_implicit_flush(0);
         ob_start();
         $this->_obrunning = true;
     }
