@@ -116,7 +116,7 @@ class midgard_admin_asgard_schemadb
                     $this->_add_string_field($key, $type);
                     break;
                 case MGD_TYPE_LONGTEXT:
-                    $this->_add_longtext_field($key, $type);
+                    $this->_add_longtext_field($key);
                     break;
                 case MGD_TYPE_INT:
                 case MGD_TYPE_UINT:
@@ -237,7 +237,7 @@ class midgard_admin_asgard_schemadb
         }
     }
 
-    private function _add_longtext_field($key, $type)
+    private function _add_longtext_field($key)
     {
         // Figure out nice size for the editing field
 

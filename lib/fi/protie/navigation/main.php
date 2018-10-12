@@ -230,13 +230,11 @@ class fi_protie_navigation
 
         echo "<ul class=\"{$this->css_list_style} node-{$id}\"{$element_id}>";
 
-        $item_count = count($children);
-
         // Draw each child element
-        foreach ($children as $i => $child) {
+        foreach ($children as $child) {
             $item = $this->_nap->get_node($child);
 
-            $classes = $this->_get_css_classes($child, $item, $i, $item_count);
+            $classes = $this->_get_css_classes($child, $item);
 
             $this->_display_element($item, $classes);
         }
@@ -270,10 +268,8 @@ class fi_protie_navigation
 
         echo "<ul class=\"{$this->css_list_style} node-{$id}\"{$element_id}>";
 
-        $item_count = count($children);
-
         // Draw each child element
-        foreach ($children as $i => $child) {
+        foreach ($children as $child) {
             if ($child[MIDCOM_NAV_TYPE] === 'node') {
                 // If the listing of nodes is set to false, skip this item and proceed to the next
                 if ($this->list_nodes === false) {
@@ -283,7 +279,7 @@ class fi_protie_navigation
             } else {
                 $item = $this->_nap->get_leaf($child[MIDCOM_NAV_ID]);
             }
-            $classes = $this->_get_css_classes($child, $item, $i, $item_count);
+            $classes = $this->_get_css_classes($child, $item);
 
             $this->_display_element($item, $classes);
         }
@@ -291,7 +287,7 @@ class fi_protie_navigation
         echo "</ul>";
     }
 
-    private function _get_css_classes($child, $item, $item_counter, $item_count)
+    private function _get_css_classes($child, $item)
     {
         $classes = [];
 

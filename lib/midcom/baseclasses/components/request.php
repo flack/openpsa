@@ -258,8 +258,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
     private $active_plugin;
 
-    private $loader;
-
     /**
      * @var Router
      */
