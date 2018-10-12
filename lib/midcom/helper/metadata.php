@@ -51,15 +51,19 @@ use midcom\datamanager\datamanager;
  * @property string $description A short description for this object, should be used for META HTML headers.
  * @property string $robots Search engine crawler instructions, one of '' (unset), 'noindex', 'index', 'follow' and 'nofollow'.
  *      See the corresponding META HTML header.
- * @property integer $published The publication time of the object, read-only.
+ * @property integer $published The publication time of the object.
  * @property string $publisher The person that published the object (i.e. author), read-only except on articles and pages.
- * @property integer $created The creation time of the object, read-only unless an article is edited.
- * @property string $creator The person that created the object, read-only.
- * @property integer $revised The last-modified time of the object, read-only.
- * @property string $revisor The person that modified the object, read-only.
+ * @property-read integer $created The creation time of the object.
+ * @property-read string $creator The person that created the object.
+ * @property-read integer $revised The last-modified time of the object.
+ * @property-read string $revisor The person that modified the object.
+ * @property-read integer $locked The lock time of the object.
+ * @property-read string $locker The person that locked the object.
+ * @property-read integer $revision The object's revision.
+ * @property-read integer $size The object's size in bytes.
+ * @property-read boolean $deleted Is the object deleted.
  * @property integer $approved The time of approval of the object, or 0 if not approved. Set automatically through approve/unapprove.
  * @property string $approver The person that approved/unapproved the object. Set automatically through approve/unapprove.
-
  * @package midcom.helper
  */
 class midcom_helper_metadata
