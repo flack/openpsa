@@ -145,7 +145,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
 
         foreach ($customdata as $component => $actions) {
             $i = 0;
-            $total = sizeof($actions);
+            $total = count($actions);
             foreach ($actions as $action => $settings) {
                 $action_key = "{$component}:{$action}";
                 $field_config = [

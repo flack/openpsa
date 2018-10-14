@@ -212,7 +212,7 @@ class view extends base
     {
         if (!array_key_exists('main', $data['value'])) {
             $ret = "";
-            if (sizeof($data['value']) > 0) {
+            if (!empty($data['value'])) {
                 $ret .= $this->renderer->humanize('could not figure out which image to show, listing files') . "<ul>";
                 foreach ($data['value'] as $info) {
                     $ret .= "<li><a href='{$info['url']}'>{$info['filename']}</a></li>";

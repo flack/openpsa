@@ -118,7 +118,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
             }
         }
 
-        if (sizeof($tasks) == 0) {
+        if (empty($tasks)) {
             $items[] = $this->_generate_invoice_item($this->_deliverable->title, $this->_deliverable->units);
         }
         return $items;

@@ -148,7 +148,7 @@ JSINIT;
 
     private function _render_items(array $items)
     {
-        if (sizeof($items) == 0) {
+        if (empty($items)) {
             return;
         }
         $prefix = midcom::get()->get_host_prefix();

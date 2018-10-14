@@ -71,7 +71,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
                 $failed++;
             }
         }
-        $successful = sizeof($images) - $failed;
+        $successful = count($images) - $failed;
         if ($failed == 0) {
             $message = sprintf($this->_l10n->get('generated derived images for %s entries'), $successful);
             $type = 'info';

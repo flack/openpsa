@@ -326,7 +326,7 @@ class grid
 
         $string .= $this->_render_colmodel();
 
-        $total_options = sizeof($this->_options);
+        $total_options = count($this->_options);
         $i = 0;
         foreach ($this->_options as $name => $value) {
             $string .= $name . ': ' . $value;
@@ -349,7 +349,7 @@ class grid
     private function _render_colmodel()
     {
         $string = "colModel: [\n";
-        $total_columns = sizeof($this->_columns);
+        $total_columns = count($this->_columns);
         $i = 0;
         foreach ($this->_columns as $name => $column) {
             if ($column['separate_index']) {

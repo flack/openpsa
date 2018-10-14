@@ -124,8 +124,8 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         if (isset($_GET['search'])) {
             $data['search_results'] = $this->_search($_GET['search']);
 
-            //If there is exactly one result, go there directly
-            if (sizeof($data['search_results']) == 1) {
+            // If there is exactly one result, go there directly
+            if (count($data['search_results']) == 1) {
                 $url = $this->router->generate('object_' . $data['default_mode'], ['guid' => $data['search_results'][0]->guid]);
                 return new midcom_response_relocate($url);
             }

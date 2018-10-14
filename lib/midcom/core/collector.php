@@ -287,7 +287,7 @@ class midcom_core_collector extends midcom_core_query
         $this->execute();
         $guids = $this->list_keys();
 
-        if (sizeof($guids) == 0) {
+        if (empty($guids)) {
             return [];
         }
 

@@ -14,7 +14,7 @@ foreach ($qb->execute() as $deliverable) {
     $mc->add_object_order('start', 'DESC');
     $at_entries = $mc->get_related_objects();
 
-    if (sizeof($at_entries) <= 1) {
+    if (count($at_entries) < 2) {
         continue;
     }
 

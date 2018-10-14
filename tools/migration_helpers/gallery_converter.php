@@ -37,7 +37,7 @@ class gallery_converter
 
         $this->_output('Processing gallery node ' . $this->_node->name);
         $links = $this->_get_photolinks();
-        $this->_output('Found ' . sizeof($links) . ' photolinks');
+        $this->_output('Found ' . count($links) . ' photolinks');
 
         foreach ($links as $i => $link) {
             $photo = new org_routamc_photostream_photo($link->photo);
@@ -68,7 +68,7 @@ class gallery_converter
 
         $this->_output('Processing photostream node ' . $this->_node->name);
         $photos = $this->_get_photos();
-        $this->_output('Found ' . sizeof($photos) . ' photos');
+        $this->_output('Found ' . count($photos) . ' photos');
 
         $i = 0;
         foreach ($photos as $photo) {
@@ -123,7 +123,7 @@ class gallery_converter
         $qb->add_constraint('node', '=', $this->_node->id);
         $orders = (array) $this->_node->get_parameter('org.routamc.gallery', 'nav_order');
 
-        if (sizeof($orders) == 0) {
+        if (empty($orders)) {
             $orders = [
                 'metadata.score reverse',
                 'photo.taken reverse',

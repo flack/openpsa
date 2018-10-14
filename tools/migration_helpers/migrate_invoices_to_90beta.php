@@ -17,7 +17,7 @@ foreach ($tasks as $task) {
     $relatedto_qb->add_constraint('fromClass', '=', 'org_openpsa_invoices_invoice_dba');
     $relatedtos = $relatedto_qb->execute();
 
-    if (sizeof($relatedtos) == 0) {
+    if (empty($relatedtos)) {
         echo "Task " . $task->get_label() . " has no invoice relatedtos, skipping\n";
         flush();
     }
@@ -26,7 +26,7 @@ foreach ($tasks as $task) {
         $invoice = new org_openpsa_invoices_invoice_dba($relatedto->fromGuid);
         $items = $invoice->get_invoice_items();
 
-        if (sizeof($items) == 0) {
+        if (empty($items)) {
             echo "Invoice " . $invoice->get_label() . " has no items, creating one for task\n";
             flush();
 
@@ -91,7 +91,7 @@ foreach ($deliverables as $deliverable) {
     $relatedto_qb->add_constraint('fromClass', '=', 'org_openpsa_invoices_invoice_dba');
     $relatedtos = $relatedto_qb->execute();
 
-    if (sizeof($relatedtos) == 0) {
+    if (empty($relatedtos)) {
         echo "Deliverable " . $deliverable->title . " has no invoice relatedtos, skipping\n";
         flush();
     }
@@ -100,7 +100,7 @@ foreach ($deliverables as $deliverable) {
         $invoice = new org_openpsa_invoices_invoice_dba($relatedto->fromGuid);
         $items = $invoice->get_invoice_items();
 
-        if (sizeof($items) == 0) {
+        if (empty($items)) {
             echo "Invoice " . $invoice->get_label() . " has no items, creating one for deliverable\n";
             flush();
 

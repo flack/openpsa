@@ -61,7 +61,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $qb->set_limit(1);
             $qb->add_order('id');
             $result = $qb->execute();
-            if (sizeof($result) == 1) {
+            if (!empty($result)) {
                 midcom::get()->auth->drop_sudo();
                 return $result[0];
             }
@@ -427,7 +427,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
     private static function _process_delete_queue($queue_name, $queue)
     {
         midcom::get()->auth->request_sudo('midcom.core');
-        $limit = sizeof($queue) * 5;
+        $limit = count($queue) * 5;
         $iteration = 0;
         // we reverse the queue here because parents are usually created
         // before their children. Normally, mgd core should catch parent
@@ -471,7 +471,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                     }
                 }
                 $classnames_string = implode(', ', $classnames);
-                self::fail('Maximum retry count for ' . $queue_name . ' cleanup reached (' . sizeof($queue) . ' remaining entries: ' . $classnames_string . '). Last Midgard error was: ' . midcom_connection::get_error_string());
+                self::fail('Maximum retry count for ' . $queue_name . ' cleanup reached (' . count($queue) . ' remaining entries: ' . $classnames_string . '). Last Midgard error was: ' . midcom_connection::get_error_string());
                 $queue = [];
             }
         }

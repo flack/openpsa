@@ -25,7 +25,7 @@ class midcom_core_account
     /**
      * The current account
      *
-     * @param object
+     * @param midgard_user
      */
     private $_user;
 
@@ -204,13 +204,16 @@ class midcom_core_account
         return true;
     }
 
+    /**
+     * @return midgard_user
+     */
     private function _get_user()
     {
         $qb = new midgard_query_builder('midgard_user');
         $qb->add_constraint('person', '=', $this->_person->guid);
         $qb->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
         $result = $qb->execute();
-        if (sizeof($result) != 1) {
+        if (count($result) != 1) {
             return new midgard_user();
         }
         return $result[0];

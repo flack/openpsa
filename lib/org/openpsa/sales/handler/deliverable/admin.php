@@ -39,7 +39,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $mc->set_object_limit(1);
         $at_entries = $mc->get_related_objects();
 
-        if (sizeof($at_entries) != 1) {
+        if (empty($at_entries)) {
             if (   (   $this->_deliverable->continuous
                     || $this->_deliverable->end > time())
                 && $this->_deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED) {

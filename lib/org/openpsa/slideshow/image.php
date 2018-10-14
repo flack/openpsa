@@ -102,7 +102,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
             $qb->add_order('position');
             $qb->set_limit(1);
             $results = $qb->execute();
-            if (sizeof($results) == 0) {
+            if (empty($results)) {
                 return false;
             }
             midcom::get()->auth->request_sudo('org.openpsa.slideshow');

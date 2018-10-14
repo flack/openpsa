@@ -43,7 +43,7 @@ class org_openpsa_contacts_mycontacts
             $qb = org_openpsa_contacts_list_dba::new_query_builder();
             $qb->add_constraint('person', '=', $this->_user->guid);
             $results = $qb->execute();
-            if (sizeof($results) > 0) {
+            if (!empty($results)) {
                 $this->_group = $results[0];
             } elseif ($autocreate) {
                 $this->_group = new org_openpsa_contacts_list_dba;
@@ -85,7 +85,7 @@ class org_openpsa_contacts_mycontacts
     {
         if ($group = $this->_get_group()) {
             $memberships = $group->list_members();
-            if (sizeof($memberships) > 0) {
+            if (!empty($memberships)) {
                 $qb = org_openpsa_contacts_person_dba::new_query_builder();
                 $qb->add_constraint('id', 'IN', $memberships);
                 return $qb->execute();

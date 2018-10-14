@@ -492,7 +492,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             $results = $qb->execute();
             midcom::get()->auth->drop_sudo();
 
-            if (sizeof($results) != 1) {
+            if (count($results) != 1) {
                 return false;
             }
             return $results[0];

@@ -198,7 +198,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         $task_qb->add_constraint('project', '=', $this->id);
         $ret = $task_qb->execute();
 
-        if (sizeof($ret) == 0) {
+        if (empty($ret)) {
             return;
         }
 
@@ -216,7 +216,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
             $task_statuses[$task->status] = true;
         }
 
-        if (sizeof($task_statuses) == 1) {
+        if (count($task_statuses) == 1) {
             // If all tasks are of the same type, that is the type to use then
             $new_status = key($task_statuses);
         } else {

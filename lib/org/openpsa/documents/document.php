@@ -117,7 +117,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             return null;
         }
 
-        if (sizeof($attachments) > 1) {
+        if (count($attachments) > 1) {
             debug_add("Multiple attachments have been found for document #" . $this->id . ", returning only the first.", MIDCOM_LOG_INFO);
         }
 

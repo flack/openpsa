@@ -17,7 +17,7 @@ echo "<pre>\n";
 $qb = org_openpsa_relatedto_dba::new_query_builder();
 $results = $qb->execute();
 
-$total = sizeof($results);
+$total = count($results);
 
 echo "Checking " . $total . " relatedto links. \n";
 

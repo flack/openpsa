@@ -132,7 +132,7 @@ abstract class midcom_core_dbaobject
                     $guids[$this->__object->guid]++;
                     $message = $this->__mgdschema_class_name__ . ' ' . $this->__object->guid;
                     $message .= ' loaded from db ' . $guids[$this->__object->guid] . ' times.';
-                    $stats = 'Objects loaded (Total/Unique): ' . $total . '/' . sizeof($guids);
+                    $stats = 'Objects loaded (Total/Unique): ' . $total . '/' . count($guids);
 
                     debug_add($message);
                     debug_add($stats);

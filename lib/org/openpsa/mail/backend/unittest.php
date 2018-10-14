@@ -19,7 +19,7 @@ class org_openpsa_mail_backend_unittest extends org_openpsa_mail_backend
 
     public function __construct(array $params)
     {
-        $this->_index = sizeof(self::$mails);
+        $this->_index = count(self::$mails);
         self::$mails[$this->_index] = ['params' => $params];
     }
 

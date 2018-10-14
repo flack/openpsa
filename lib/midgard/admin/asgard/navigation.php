@@ -182,7 +182,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
 
         asort($label_mapping);
-        $autoexpand = (sizeof($root_objects) == 1);
+        $autoexpand = (count($root_objects) == 1);
         foreach ($label_mapping as $index => $label) {
             $object = $root_objects[$index];
             $this->_draw_element($object, $label, 1, $autoexpand);
@@ -383,7 +383,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
          * click if nothing is expanded
          */
         $types_shown = false;
-        if (    sizeof($expanded_types) > 0
+        if (    !empty($expanded_types)
              && midgard_admin_asgard_plugin::get_preference('navigation_type') === 'dropdown') {
             $this->_draw_select_navigation();
             $types_shown = true;

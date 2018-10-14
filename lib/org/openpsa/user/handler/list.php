@@ -54,7 +54,7 @@ implements client
 
         $data['provider_url'] = $this->router->generate('user_list_json');
         $grid_id = 'org_openpsa_user_grid';
-        if (sizeof($args) == 1) {
+        if (count($args) == 1) {
             $grid_id = 'org_openpsa_members_grid';
             $this->_group = new org_openpsa_contacts_group_dba($args[0]);
             $data['group'] = $this->_group;

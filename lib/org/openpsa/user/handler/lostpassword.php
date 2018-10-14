@@ -78,7 +78,7 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
         }
         $results = $qb->execute();
 
-        if (sizeof($results) != 1) {
+        if (count($results) != 1) {
             midcom::get()->auth->drop_sudo();
             throw new midcom_error("Cannot find user");
         }

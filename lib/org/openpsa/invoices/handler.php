@@ -77,7 +77,7 @@ trait org_openpsa_invoices_handler
             $mc->add_order('number', 'DESC');
             $results = $mc->list_keys();
 
-            if (sizeof($results) == 1) {
+            if (!empty($results)) {
                 $this->_view_toolbar->add_item([
                     MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
@@ -94,7 +94,7 @@ trait org_openpsa_invoices_handler
             $mc->add_order('number', 'ASC');
             $results = $mc->list_keys();
 
-            if (sizeof($results) == 1) {
+            if (!empty($results)) {
                 $this->_view_toolbar->add_item([
                     MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),

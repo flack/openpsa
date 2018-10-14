@@ -54,7 +54,7 @@ class org_openpsa_helpers
          }
          foreach ($identifiers as $identifier) {
              $parts = explode(':', $identifier);
-             if (sizeof($parts) != 2) {
+             if (count($parts) != 2) {
                  continue;
              }
              $guid = $parts[1];

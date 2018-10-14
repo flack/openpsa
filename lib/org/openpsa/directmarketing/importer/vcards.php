@@ -41,7 +41,7 @@ class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmark
 
         if ($card->FN) {
             $name_parts = explode(' ', $card->FN->getValue(), 2);
-            if (sizeof($name_parts) > 1) {
+            if (count($name_parts) > 1) {
                 $contact['person']['lastname'] = $name_parts[1];
                 $contact['person']['firstname'] = $name_parts[0];
             } else {

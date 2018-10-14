@@ -23,7 +23,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Files in the current object
      *
-     * @var array
+     * @var midcom_db_attachment[]
      */
     private $_files = [];
 
@@ -159,7 +159,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     private function _add_jscripts()
     {
-        if (sizeof($this->_files) > 0) {
+        if (!empty($this->_files)) {
             // Add Colorbox
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/colorbox/jquery.colorbox-min.js');
             $this->add_stylesheet(MIDCOM_STATIC_URL . '/jQuery/colorbox/colorbox.css', 'screen');
