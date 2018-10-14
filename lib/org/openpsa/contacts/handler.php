@@ -56,6 +56,6 @@ trait org_openpsa_contacts_handler
             }
         }
 
-        return null;
+        return 'default';
     }
 }

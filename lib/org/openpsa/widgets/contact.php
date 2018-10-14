@@ -73,6 +73,8 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      */
     private static $_contacts_url;
 
+    private $person;
+
     /**
      * Initializes the class and stores the selected person to be shown
      * The argument should be a MidgardPerson object.
@@ -88,6 +90,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             self::$_contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         }
 
+        $this->person = $person;
         // Read properties of provided person object
         // TODO: Handle groups as well
         $this->_data_read_ok = $this->read_object($person);
@@ -170,7 +173,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         return true;
     }
 
-    private function _render_name($icon = false)
+    private function _render_name($fallback_image = 'address-card-o')
     {
         $name = "<span class=\"given-name\">{$this->contact_details['firstname']}</span> <span class=\"family-name\">{$this->contact_details['lastname']}</span>";
 
@@ -186,15 +189,28 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             }
         }
 
-        if ($icon) {
-            $name = '<i class="fa fa-address-card-o"></i> ' . $name;
-        }
+        $name = $this->get_image('thumbnail', $fallback_image) . $name;
 
         if ($url) {
             $name = '<a href="' . $url . '">' . $name . '</a>';
         }
 
         return $name;
+    }
+
+    public function get_image($type, $fallback = 'address-card-o')
+    {
+        $attachments = org_openpsa_helpers::get_dm2_attachments($this->person, 'photo');
+        if (!empty($attachments[$type])) {
+            return '<img class="photo" src="' . midcom_db_attachment::get_url($attachments[$type]) . '">';
+        }
+        if (   $this->_config->get('gravatar_enable')
+            && !empty($this->contact_details['email'])) {
+            $size = ($type == 'view') ? 500 : 32;
+            $gravatar_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->contact_details['email']))) . "?s=" . $size . '&d=identicon';
+            return "<img src=\"{$gravatar_url}\" class=\"photo\" />\n";
+        }
+        return '<i class="fa fa-' . $fallback . '"></i>';
     }
 
     /**
@@ -217,7 +233,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         // The name sequence
         $inline_string .= "<span class=\"n\">";
-        $inline_string .= $this->_render_name(true);
+        $inline_string .= $this->_render_name();
         $inline_string .= "</span>";
 
         $inline_string .= "</span>";
@@ -239,15 +255,6 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             echo $this->prefix_html;
         }
 
-        // Show picture
-        // TODO: Implement photo also in local way
-        if (   $this->_config->get('gravatar_enable')
-            && !empty($this->contact_details['email'])) {
-            $size = $this->_config->get('gravatar_size');
-            $gravatar_url = "//www.gravatar.com/avatar.php?gravatar_id=" . md5($this->contact_details['email']) . "&size=" . $size;
-            echo "<img src=\"{$gravatar_url}\" class=\"photo\" style=\"float: right; margin-left: 4px;\" />\n";
-        }
-
         if (!empty($this->contact_details['guid'])) {
             // Identifier
             echo "<span class=\"uid\" style=\"display: none;\">{$this->contact_details['guid']}</span>";
@@ -255,7 +262,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         // The Name sequence
         echo "<div class=\"n\">\n";
-        echo $this->_render_name();
+        echo $this->_render_name('user-o');
         echo "</div>\n";
 
         // Contact information sequence

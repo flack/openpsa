@@ -16,5 +16,4 @@
 'jabber_enable_presence' => true,
 'jabber_edgar_url'       => '',
 'gravatar_enable'        => false,
-'gravatar_size'          => 40,
 'skype_enable_presence'  => true,

@@ -4,9 +4,18 @@ $node = $nap->get_node($nap->get_current_node());
 ?>
 <div class="content-with-sidebar">
 <div class="main">
+<div class="person-details">
 <?php
     $data['datamanager']->display_view(true);
 
+    $widget = new org_openpsa_widgets_contact($data['person']);
+    echo '<div class="avatar">';
+    echo $widget->get_image('view', 'user');
+    echo '</div>';
+
+    ?>
+</div>
+    <?php
     //add tabs
     $tabs = [];
     $siteconfig = org_openpsa_core_siteconfig::get_instance();

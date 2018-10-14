@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use midcom\datamanager\schemadb;
 
 /**
  * Person display class
@@ -52,8 +53,12 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     private function _load_datamanager()
     {
         $schemaname = $this->get_person_schema($this->_contact);
-        $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_person'))
-            ->set_storage($this->_contact, $schemaname);
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_person'));
+        $fields = $schemadb->get($schemaname)->get('fields');
+        unset($fields['photo']);
+        $schemadb->get($schemaname)->set('fields', $fields);
+        $this->_datamanager = new datamanager($schemadb);
+        $this->_datamanager->set_storage($this->_contact, $schemaname);
     }
 
     /**

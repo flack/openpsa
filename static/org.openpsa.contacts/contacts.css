@@ -1,6 +1,6 @@
 .fa.delete
 {
-	margin-left: .5em;
+    margin-left: .5em;
     font-size: 16px;
     color: #ee2b2b;
     opacity: .5;
@@ -11,4 +11,40 @@
 .fa.delete:hover
 {
     opacity: 1;
+}
+
+.person-details
+{
+    display: flex;
+    justify-content: space-between
+}
+
+.person-details .midcom_helper_datamanager2_view
+{
+    width: 66%;
+}
+
+.person-details .avatar
+{
+    width: 33%;
+    max-width: 200px;
+    text-align: right;
+}
+
+.person-details .avatar img
+{
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, .15);
+}
+
+.person-details .avatar i.fa
+{
+    text-align: center;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, .3);
+    width: 1em;
+    color: white;
+    font-size: 12vw;
+    opacity: .3;
 }

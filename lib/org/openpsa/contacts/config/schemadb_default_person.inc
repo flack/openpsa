@@ -188,7 +188,7 @@
                     // Intentionally this way, so that portraits can be taller
                     'view' => 'exifrotate();resize(500,600)',
                     // Use specific thumbnail rule to allow for exifrotate
-                    'thumbnail' => 'exifrotate();resize(200,200)',
+                    'thumbnail' => 'exifrotate();resize(32,32)',
                 ],
             ],
             'widget' => 'photo',

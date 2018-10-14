@@ -6,10 +6,28 @@ div.vcard div.n {
 div.vcard div.n a {
     text-decoration: none;
 }
+div.vcard div.n a .family-name {
+    display: block;
+}
 div.vcard ul {
     padding: 0px;
     margin: 0px;
 }
+
+div.vcard img.photo,
+div.vcard i.fa {
+    max-height: 32px;
+    max-width: 32px;
+    float: left;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    border-radius: 2px;
+}
+div.vcard i.fa {
+    opacity: .5;
+    font-size: 28px;
+}
+
 div.vcard ul.contact_information li {
     list-style: none;
     height: 16px;
@@ -42,13 +60,37 @@ div.vcard ul li:hover a i.fa {
 /* Styles for inline persons */
 span.vcard a {
     text-decoration: none;
+    display: inline-flex;
 }
 
-span.vcard a i {
-    opacity: .5;
-    transition: opacity .2s
+span.vcard .family-name {
+    white-space: pre;
 }
 
-span.vcard a:hover i {
+span.vcard .family-name::before {
+    content: ' ';
+}
+
+span.vcard a:hover {
+    text-decoration: underline;
+}
+
+span.vcard a i,
+span.vcard a img.photo {
+    opacity: .7;
+    transition: opacity .2s;
+    margin-right: 4px;
+}
+
+span.vcard img.photo {
+    max-height: 1em;
+    max-width: 1em;
+    border-radius: 2px;
+    display: inline-block;
+    algin-self: center;
+}
+
+span.vcard a:hover i,
+span.vcard a:hover img {
     opacity: 1;
 }
