@@ -192,7 +192,8 @@ var org_openpsa_layout = {
                             location.href = ui.item.url;
                         }
                     },
-                    minLength: 2
+                    minLength: 2,
+                    autoFocus: true
                 });
             }
         };
