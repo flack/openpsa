@@ -358,7 +358,7 @@ class midcom_core_context
 
             // We couldn't fetch a node due to access restrictions
             if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED) {
-                throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
+                throw new midcom_error_forbidden(midcom::get()->i18n->get_string('access denied', 'midcom'));
             }
             throw new midcom_error_notfound("This page is not available on this server.");
         }

@@ -50,8 +50,8 @@ abstract class midcom_helper_exporter
     /**
      * Take data from array and move it into an object
      *
-     * @param array
-     * @param midcom_core_dbaobject The object in question
+     * @param array $data
+     * @param midcom_core_dbaobject $object The object in question
      * @return object the updated object (not saved)
      */
     public function array2object(array $data, midcom_core_dbaobject $object)

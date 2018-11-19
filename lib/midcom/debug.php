@@ -212,7 +212,7 @@ class midcom_debug
         if (function_exists('xdebug_get_function_stack')) {
             $stack = array_reverse(xdebug_get_function_stack());
         } else {
-            $stack = debug_backtrace(false);
+            $stack = debug_backtrace(0);
         }
         //the last two levels are already inside the debugging system, so skip those
         array_shift($stack);

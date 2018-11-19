@@ -168,7 +168,7 @@ if ($invoice->cancelationInvoice) {
         echo '<div class="area">';
         echo "<h2>" . $data['l10n']->get('customer contact') . "</h2>\n";
         $contact = org_openpsa_widgets_contact::get($invoice->customerContact);
-        echo $contact->show();
+        $contact->show();
         echo '</div>';
     }
     if ($billing_data = $invoice->get_billing_data()) {

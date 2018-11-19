@@ -9,6 +9,8 @@
 /**
  * MidCOM DBA proxy class. This is useful for loading objects on-demand
  *
+ * @property integer $id Local non-replication-safe database identifier
+ * @property string $guid
  * @package midcom
  */
 class midcom_core_dbaproxy

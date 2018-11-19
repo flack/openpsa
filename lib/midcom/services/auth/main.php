@@ -340,7 +340,7 @@ class midcom_services_auth
      * It always returns true for administrative users.
      *
      * @param mixed $group Group to check against, this can be either a midcom_core_group object or a group string identifier.
-     * @param midcom_core_user The user which should be checked, defaults to the current user.
+     * @param midcom_core_user $user The user which should be checked, defaults to the current user.
      * @return boolean Indicating membership state.
      */
     public function is_group_member($group, $user = null)

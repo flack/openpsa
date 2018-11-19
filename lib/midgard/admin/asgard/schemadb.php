@@ -44,7 +44,7 @@ class midgard_admin_asgard_schemadb
     private $_reflector;
 
     /**
-     * @var midcom_services_i18n_l10
+     * @var midcom_services_i18n_l10n
      */
     private $l10n;
 

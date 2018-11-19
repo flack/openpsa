@@ -126,7 +126,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         echo "<h2>" . $data['l10n']->get('contacts') . "</h2>\n";
         foreach (array_keys($task->contacts) as $contact_id) {
             $contact = org_openpsa_widgets_contact::get($contact_id);
-            echo $contact->show();
+            $contact->show();
         }
         echo "</div>\n";
     }

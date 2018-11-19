@@ -3,7 +3,7 @@ $contactwidget = new org_openpsa_widgets_contact($data['person']);
 ?>
 <div class="org_openpsa_projects_projectbroker_prospect">
     <?php
-    echo $contactwidget->show();
+    $contactwidget->show();
     ?>
     <table class="slots">
         <thead>

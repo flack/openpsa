@@ -66,7 +66,7 @@ $node = $nap->get_node($nap->get_current_node());
         echo "<h2>" . $data['l10n']->get('contacts') . "</h2>\n";
         foreach (array_keys($project->contacts) as $contact_id) {
             $contact = org_openpsa_widgets_contact::get($contact_id);
-            echo $contact->show();
+            $contact->show();
         }
     }
     ?>

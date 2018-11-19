@@ -14,7 +14,7 @@
  * @property string $designation Official designation of the company
  * @property string $introduction Introduction sentences for further information
  * @property string $notice further information related to the salesproject
- * @property string $offer_number Number of the offer
+ * @property string $deliverables Deliverables (serialized)
  * @property string $guid
  * @package org.openpsa.sales
  */
