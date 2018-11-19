@@ -88,7 +88,8 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
     <script type="text/javascript">
     midcom_grid_batch_processing.initialize({
         id: '&(grid_id);',
-        options: <?php echo json_encode($data['action_options']); ?>
+        options: <?php echo json_encode($data['action_options']); ?>,
+        submit: "<?php echo $data['l10n_midcom']->get('save') ?>"
     });
     </script>
 </div>

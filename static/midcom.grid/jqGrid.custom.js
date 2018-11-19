@@ -647,6 +647,7 @@ var midcom_grid_batch_processing = {
         $('#form_' + config.id).hide();
 
         var widgets_to_add = [],
+            label = config.submit || 'Go',
             //build action form and associated widgets
             action_select = '<div class="action_select_div" id="' + config.id + '_batch">';
         action_select += '<select id="' + config.id + '_batch_select" class="action_select" name="action" size="1">';
@@ -658,7 +659,7 @@ var midcom_grid_batch_processing = {
                 widgets_to_add.push({id: widget_id, insertAfter: '#' + config.id + '_batch_select', widget_config: value.widget_config});
             }
         });
-        action_select += '</select><input type="submit" name="send" /></div>';
+        action_select += '</select><input type="submit" name="send" value="' + label + '" style="display: none" /></div>';
         $(action_select).appendTo($('#form_' + config.id));
 
         widgets_to_add.forEach(function(widget_conf) {
@@ -667,6 +668,11 @@ var midcom_grid_batch_processing = {
 
         $('#' + config.id + '_batch_select').on('change', function(event) {
             var selected_option = $(event.target).val();
+            if (selected_option === 'none') {
+                $(event.target).nextAll('input[type="submit"]').hide();
+            } else {
+                $(event.target).nextAll('input[type="submit"]').show();
+            }
             $('.batch_widget').hide();
             $('#' + config.id + '_batch').css('display', 'inline');
             $('#' + config.id + '__' + selected_option + '_search_input').show();

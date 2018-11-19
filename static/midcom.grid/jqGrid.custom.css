@@ -153,3 +153,8 @@ a.ui-jqgrid-titlebar-maximize span
     display: inline-block;
     margin-right: 2em
 }
+
+.batch-processing > form input
+{
+    margin-left: 1em
+}
