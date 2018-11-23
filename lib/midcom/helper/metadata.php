@@ -46,24 +46,23 @@ use midcom\datamanager\datamanager;
  * @property integer $schedulestart The time upon which the object should be made visible. 0 for no restriction.
  * @property integer $scheduleend The time upon which the object should be made invisible. 0 for no restriction.
  * @property boolean $navnoentry Set this to true if you do not want this object to appear in the navigation without it being completely hidden.
- * @property boolean $hide Set this to true to hide the object on-site, overriding scheduling.
- * @property string $keywords The keywords for this object, should be used for META HTML headers.
- * @property string $description A short description for this object, should be used for META HTML headers.
- * @property string $robots Search engine crawler instructions, one of '' (unset), 'noindex', 'index', 'follow' and 'nofollow'.
- *      See the corresponding META HTML header.
+ * @property boolean $hidden Set this to true to hide the object on-site, overriding scheduling.
  * @property integer $published The publication time of the object.
  * @property string $publisher The person that published the object (i.e. author), read-only except on articles and pages.
+ * @property string $authors The persons that worked on the object, pipe-separated list of GUIDs
+ * @property string $owner The group that owns the object.
  * @property-read integer $created The creation time of the object.
  * @property-read string $creator The person that created the object.
  * @property-read integer $revised The last-modified time of the object.
  * @property-read string $revisor The person that modified the object.
+ * @property-read integer $revision The object's revision.
  * @property-read integer $locked The lock time of the object.
  * @property-read string $locker The person that locked the object.
- * @property-read integer $revision The object's revision.
  * @property-read integer $size The object's size in bytes.
  * @property-read boolean $deleted Is the object deleted.
  * @property integer $approved The time of approval of the object, or 0 if not approved. Set automatically through approve/unapprove.
  * @property string $approver The person that approved/unapproved the object. Set automatically through approve/unapprove.
+ * @property integer $score The object's score for sorting.
  * @package midcom.helper
  */
 class midcom_helper_metadata
