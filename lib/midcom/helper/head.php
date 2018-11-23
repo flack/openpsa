@@ -272,7 +272,7 @@ class midcom_helper_head
         }
 
         // Register each URL only once
-        if ($key = array_search($attributes['href'], $this->_linkhrefs)) {
+        if (($key = array_search($attributes['href'], $this->_linkhrefs)) !== false) {
             if (end($this->_linkhrefs) != $attributes['href']) {
                 unset($this->_linkhrefs[$key]);
                 $this->_linkhrefs[] = $attributes['href'];
@@ -280,6 +280,7 @@ class midcom_helper_head
             }
             return false;
         }
+
         $this->_linkhrefs[] = $attributes['href'];
         $this->_link_head[$attributes['href']] = $attributes;
     }
