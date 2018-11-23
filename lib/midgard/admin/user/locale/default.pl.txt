@@ -27,10 +27,6 @@ Wykonaj dla zaznaczonych
 Masowe generowanie haseł
 ---STRINGEND
 
----STRING change passwords
-Zmień hasła
----STRINGEND
-
 ---STRING choose action
 Wybierz akcję
 ---STRINGEND
@@ -193,10 +189,6 @@ Hasła
 
 ---STRING passwords updated and mail sent
 Hasła zmieniono i wysłano powiadomienia
----STRINGEND
-
----STRING passwords will be sent to the following users
-Hasła zostaną wysłane do następujących użytkowników
 ---STRINGEND
 
 ---STRING person %s saved

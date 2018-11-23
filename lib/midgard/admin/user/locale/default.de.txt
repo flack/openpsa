@@ -26,10 +26,6 @@ Auf Auswahl anwenden
 Passwörter automatisiert erzeugen
 ---STRINGEND
 
----STRING change passwords
-Passwörter ändern
----STRINGEND
-
 ---STRING choose action
 Aktion auswählen
 ---STRINGEND
@@ -200,10 +196,6 @@ Passwörter
 
 ---STRING passwords updated and mail sent
 Die Passwörter wurden aktualisiert und eine Mail verschickt
----STRINGEND
-
----STRING passwords will be sent to the following users
-Die Passwörter werden an folgende User verschickt
 ---STRINGEND
 
 ---STRING person %s saved

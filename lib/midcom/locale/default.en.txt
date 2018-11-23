@@ -10,10 +10,6 @@
 %s deleted
 ---STRINGEND
 
----STRING %s of packages of type %s
-%s of packages of type %s
----STRINGEND
-
 ---STRING More...
 More...
 ---STRINGEND
@@ -138,20 +134,12 @@ Security code
 Component
 ---STRINGEND
 
----STRING component %s configuration for folder %s
-Component %s configuration for folder "%s"
----STRINGEND
-
 ---STRING component configuration
 Component configuration
 ---STRINGEND
 
 ---STRING component configuration helptext
 Click this menu to configure the component settings specific to this folder.
----STRINGEND
-
----STRING component depends on
-Component depends on
 ---STRINGEND
 
 ---STRING confirm

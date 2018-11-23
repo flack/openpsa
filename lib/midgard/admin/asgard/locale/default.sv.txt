@@ -38,24 +38,12 @@ Anonyma användare
 Alla
 ---STRINGEND
 
----STRING This object has no translation in the current language and cannot be deleted.
-Detta objektet har inga översättningar i det valda språket och kan inte raderas.
----STRINGEND
-
 ---STRING USERS
 Alla användare
 ---STRINGEND
 
----STRING acl_editor
-Access editor
----STRINGEND
-
 ---STRING actions
 Funktioner
----STRINGEND
-
----STRING active url parsing
-Aktiv URL parsning
 ---STRINGEND
 
 ---STRING add assignee
@@ -84,14 +72,6 @@ Verkställ för valda
 
 ---STRING asgard
 Asgard
----STRINGEND
-
----STRING asgard homepage
-Asgard Hem
----STRINGEND
-
----STRING asgard plugins
-Asgard instickstillägg
 ---STRINGEND
 
 ---STRING attachment
@@ -168,14 +148,6 @@ Sparande av konfigurations lyckades
 
 ---STRING content
 Innehåll
----STRINGEND
-
----STRING contentchanged
-Innehåll ändrat
----STRINGEND
-
----STRING contentowner
-Innehålls ägare
 ---STRINGEND
 
 ---STRING copy %s
@@ -300,10 +272,6 @@ Misslykcades med att återställa %s, anledning %s
 
 ---STRING failed undeleting attachment %s, reason %s
 Misslyckades med att återställa bifogad fil %s, anledning %s
----STRINGEND
-
----STRING file %s deleted
-Filen '%s' raderades
 ---STRINGEND
 
 ---STRING file contents
@@ -466,10 +434,6 @@ MIME typ
 Model för val av navigeringstyp
 ---STRINGEND
 
----STRING most recently visited
-Nyligen besökta objekt
----STRINGEND
-
 ---STRING navigation options
 Navigerings inställningar
 ---STRINGEND
@@ -574,10 +538,6 @@ Reguljärt uttryck för val av MgdSchema typ
 Kräv autentisering
 ---STRINGEND
 
----STRING restore this revision (%s)
-Återställ till den här revisionen (%s)
----STRINGEND
-
 ---STRING restore to version %s failed, reason %s
 Återställning till versionen %s misslyckades, anledning %s
 ---STRINGEND
@@ -642,10 +602,6 @@ Denna typ tillhör till %s komponenten.
 Titel
 ---STRINGEND
 
----STRING topic privileges
-Katalog tillåtelse
----STRINGEND
-
 ---STRING trash
 Papperskorg
 ---STRINGEND
@@ -692,10 +648,6 @@ Användare
 
 ---STRING user preferences
 Användar inställningar
----STRINGEND
-
----STRING validation error in field %s: %s
-Valideringsfel i fält %s: %s
 ---STRINGEND
 
 ---STRING value

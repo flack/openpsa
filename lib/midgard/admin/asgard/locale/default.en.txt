@@ -42,24 +42,12 @@ Anonymous users
 Everyone
 ---STRINGEND
 
----STRING This object has no translation in the current language and cannot be deleted.
-This object has no translation in the current language and cannot be deleted.
----STRINGEND
-
 ---STRING USERS
 All users
 ---STRINGEND
 
----STRING acl_editor
-Access Control Lists editor
----STRINGEND
-
 ---STRING actions
 Actions
----STRINGEND
-
----STRING active url parsing
-Active URL parsing
 ---STRINGEND
 
 ---STRING add assignee
@@ -96,14 +84,6 @@ Asgard
 
 ---STRING asgard for
 Asgard for
----STRINGEND
-
----STRING asgard homepage
-Asgard Home
----STRINGEND
-
----STRING asgard plugins
-Asgard plugins
 ---STRINGEND
 
 ---STRING attachment
@@ -182,20 +162,8 @@ Configuration save failed: %s
 Configuration saved successfully
 ---STRINGEND
 
----STRING confirm deletion of file %s
-Confirm deletion of file %s
----STRINGEND
-
 ---STRING content
 Content
----STRINGEND
-
----STRING contentchanged
-Content changed
----STRINGEND
-
----STRING contentowner
-Content owner
 ---STRINGEND
 
 ---STRING copy %s
@@ -260,10 +228,6 @@ Date
 
 ---STRING delete %s %s
 Delete %s "%s"
----STRINGEND
-
----STRING delete file %s
-Delete file "%s"
 ---STRINGEND
 
 ---STRING deleted by
@@ -348,10 +312,6 @@ Failed undeleting %s, reason %s
 
 ---STRING failed undeleting attachment %s, reason %s
 Failed undeleting attachment %s, reason %s
----STRINGEND
-
----STRING file %s deleted
-File "%s" deleted
 ---STRINGEND
 
 ---STRING file contents
@@ -530,10 +490,6 @@ MIME type
 Model for selecting navigation types
 ---STRINGEND
 
----STRING most recently visited
-Most recently visited objects
----STRINGEND
-
 ---STRING navigation options
 Navigation options
 ---STRINGEND
@@ -658,10 +614,6 @@ Require authentication
 Restore from browser
 ---STRINGEND
 
----STRING restore this revision (%s)
-Restore to this revision (%s)
----STRINGEND
-
 ---STRING restore to version %s failed, reason %s
 Restore to version %s failed, reason %s
 ---STRINGEND
@@ -692,10 +644,6 @@ Revision comment
 
 ---STRING revision history of %s
 Revision history of %s
----STRINGEND
-
----STRING revision history of %s %s
-Revision history of %s %s
 ---STRINGEND
 
 ---STRING run
@@ -758,14 +706,6 @@ This type belongs to %s component.
 Title
 ---STRINGEND
 
----STRING toolbar mode
-Toolbar mode
----STRINGEND
-
----STRING topic privileges
-Folder permissions
----STRINGEND
-
 ---STRING trash
 Trash
 ---STRINGEND
@@ -820,10 +760,6 @@ User
 
 ---STRING user preferences
 User preferences
----STRINGEND
-
----STRING validation error in field %s: %s
-Validation error in field %s: %s
 ---STRINGEND
 
 ---STRING value

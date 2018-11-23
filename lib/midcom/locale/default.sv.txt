@@ -6,10 +6,6 @@
 %s i %s
 ---STRINGEND
 
----STRING %s of packages of type %s
-%s paket av typen %s
----STRINGEND
-
 ---STRING all descendants will be deleted
 Allting i den här katalogen kommer att ta bort:
 ---STRINGEND
@@ -126,20 +122,12 @@ Säkerhetskod
 Komponent
 ---STRINGEND
 
----STRING component %s configuration for folder %s
-Komponent %s konfiguration för katalog "%s"
----STRINGEND
-
 ---STRING component configuration
 Komponent inställningar
 ---STRINGEND
 
 ---STRING component configuration helptext
 Klicka på den här menyn för att konfigurera spceifika inställningar för den här foldern.
----STRINGEND
-
----STRING component depends on
-Komponenten beror på
 ---STRINGEND
 
 ---STRING copy

@@ -6,10 +6,6 @@
 %s w %s
 ---STRINGEND
 
----STRING %s of packages of type %s
-%s pakietów typu %s
----STRINGEND
-
 ---STRING More...
 Więcej...
 ---STRINGEND
@@ -130,20 +126,12 @@ Kod dostępu
 Moduł
 ---STRINGEND
 
----STRING component %s configuration for folder %s
-Konfiguracja modułu %s w folderze %s
----STRINGEND
-
 ---STRING component configuration
 Konfiguracja modułu
 ---STRINGEND
 
 ---STRING component configuration helptext
 Kliknij by skonfigurować moduł
----STRINGEND
-
----STRING component depends on
-Moduł zależny od
 ---STRINGEND
 
 ---STRING confirm

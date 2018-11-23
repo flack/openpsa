@@ -6,10 +6,6 @@
 %s kansiossa %s
 ---STRINGEND
 
----STRING %s of packages of type %s
-%s paketeille tyyppiä %s
----STRINGEND
-
 ---STRING More...
 Lisää...
 ---STRINGEND
@@ -130,20 +126,12 @@ Turvatarkastus
 Komponentti
 ---STRINGEND
 
----STRING component %s configuration for folder %s
-Komponentin %s asetukset kansiossa "%s"
----STRINGEND
-
 ---STRING component configuration
 Komponentin asetukset
 ---STRINGEND
 
 ---STRING component configuration helptext
 Klikkaa valikkoa muokataksesi komponentin tämän kansion kohtaisia asetuksia.
----STRINGEND
-
----STRING component depends on
-Komponentin vaatimat kirjastot
 ---STRINGEND
 
 ---STRING confirm

@@ -38,24 +38,12 @@ Tunnistamattomat käyttäjät
 Kaikki
 ---STRINGEND
 
----STRING This object has no translation in the current language and cannot be deleted.
-Tällä kohteella ei ole käännöstä nykyiselle kielelle, eikä sitä voida poistaa.
----STRINGEND
-
 ---STRING USERS
 Kaikki tunnistautuneet käyttäjät
 ---STRINGEND
 
----STRING acl_editor
-Käyttöoikeuksien hallinta
----STRINGEND
-
 ---STRING actions
 Toiminnot
----STRINGEND
-
----STRING active url parsing
-Aktiivinen URL-jäsennys
 ---STRINGEND
 
 ---STRING add assignee
@@ -92,14 +80,6 @@ Asgard
 
 ---STRING asgard for
 Asgard palvelulle
----STRINGEND
-
----STRING asgard homepage
-Asgardin etusivu
----STRINGEND
-
----STRING asgard plugins
-Asgardin lisätoiminnot
 ---STRINGEND
 
 ---STRING attachment
@@ -176,14 +156,6 @@ Asetukset tallennettu
 
 ---STRING content
 Sisältö
----STRINGEND
-
----STRING contentchanged
-Sisältöä muutettu
----STRINGEND
-
----STRING contentowner
-Sisällön omistaja
 ---STRINGEND
 
 ---STRING copy %s
@@ -320,10 +292,6 @@ Kohteen %s palauttaminen epäonnistui, syy %s
 
 ---STRING failed undeleting attachment %s, reason %s
 Liitetiedoston %s palauttaminen epäonnistui, syy %s
----STRINGEND
-
----STRING file %s deleted
-Tiedosto '%s' poistettu
 ---STRINGEND
 
 ---STRING file contents
@@ -498,10 +466,6 @@ MIME-tyyppi
 Navigaatiotyyppien valintamalli
 ---STRINGEND
 
----STRING most recently visited
-Viimeksi katsellut kohteet
----STRINGEND
-
 ---STRING navigation options
 Navigaatio-ominaisuudet
 ---STRINGEND
@@ -614,10 +578,6 @@ Säännöllinen lauseke MgdSchema-tyyppien valintaan
 Vaadi sisäänkirjautumista
 ---STRINGEND
 
----STRING restore this revision (%s)
-Palauta tähän versioon (%s)
----STRINGEND
-
 ---STRING restore to version %s failed, reason %s
 Palautus versioon %s epäonnistui, syy %s
 ---STRINGEND
@@ -648,10 +608,6 @@ Muutoskommentti
 
 ---STRING revision history of %s
 Muutoshistoria kohteelle %s
----STRINGEND
-
----STRING revision history of %s %s
-%s %s versiohistoria
 ---STRINGEND
 
 ---STRING search
@@ -692,14 +648,6 @@ Tämä tyyppi on osa komponenttia %s.
 
 ---STRING title
 Otsikko
----STRINGEND
-
----STRING toolbar mode
-Työkalupalkin tila
----STRINGEND
-
----STRING topic privileges
-Kansion käyttöoikeudet
 ---STRINGEND
 
 ---STRING trash
@@ -752,10 +700,6 @@ Käyttäjä
 
 ---STRING user preferences
 Käyttöasetukset
----STRINGEND
-
----STRING validation error in field %s: %s
-Validointivirhe kentässä %s: %s
 ---STRINGEND
 
 ---STRING value

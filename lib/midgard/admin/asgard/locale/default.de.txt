@@ -38,24 +38,12 @@ Anonyme Benutzer
 Jeder
 ---STRINGEND
 
----STRING This object has no translation in the current language and cannot be deleted.
-Dieses Objekt hat keine Übersetzung in der aktuellen Sprache und kann nicht gelöscht werden
----STRINGEND
-
 ---STRING USERS
 Alle angemeldeten Benutzer
 ---STRINGEND
 
----STRING acl_editor
-Editor für Zugriffsrechte
----STRINGEND
-
 ---STRING actions
 Aktionen
----STRINGEND
-
----STRING active url parsing
-Aktives URL-Parsing
 ---STRINGEND
 
 ---STRING add assignee
@@ -88,14 +76,6 @@ Auf ausgewählte anwenden
 
 ---STRING asgard
 Asgard
----STRINGEND
-
----STRING asgard homepage
-Asgard-Startseite
----STRINGEND
-
----STRING asgard plugins
-Asgard-Plugins
 ---STRINGEND
 
 ---STRING attachment
@@ -174,20 +154,8 @@ Sichern der Konfiguration fehlgeschlagen: %s
 Konfiguration erfolgreich gespeichert
 ---STRINGEND
 
----STRING confirm deletion of file %s
-Löschen der Datei "%s" bestätigen
----STRINGEND
-
 ---STRING content
 Inhalt
----STRINGEND
-
----STRING contentchanged
-Inhalt verändert
----STRINGEND
-
----STRING contentowner
-Inhalts-Besitzer
 ---STRINGEND
 
 ---STRING copy %s
@@ -248,10 +216,6 @@ Datum
 
 ---STRING delete %s %s
 %s "%s" löschen
----STRINGEND
-
----STRING delete file %s
-Datei "%s" löschen
 ---STRINGEND
 
 ---STRING deleted by
@@ -328,10 +292,6 @@ Attachment %s => %s konnte nicht entfernt werden, Ursache: %s
 
 ---STRING failed undeleting attachment %s, reason %s
 Attachment %s konnte nicht wiederhergestellt werden, Ursache: %s
----STRINGEND
-
----STRING file %s deleted
-Datei "%s" gelöscht
 ---STRINGEND
 
 ---STRING file contents
@@ -510,10 +470,6 @@ MIME-Typ
 Auswahlverfahren für Navigationstypen
 ---STRINGEND
 
----STRING most recently visited
-Zuletzt besuchte Objekte
----STRINGEND
-
 ---STRING navigation options
 Navigationseinstellungen
 ---STRINGEND
@@ -634,10 +590,6 @@ Authentifizierung verlangen
 vom Browser laden
 ---STRINGEND
 
----STRING restore this revision (%s)
-Diese Revision wiederherstellen
----STRINGEND
-
 ---STRING restore to version %s failed, reason %s
 Die Wiederherstellung der Revision %s ist fehlgeschlagen, Ursache: %s
 ---STRINGEND
@@ -664,10 +616,6 @@ Revision
 
 ---STRING revision history of %s
 Revisionsgeschichte von %s
----STRINGEND
-
----STRING revision history of %s %s
-Revisionsgeschichte von %s %s
 ---STRINGEND
 
 ---STRING run
@@ -730,14 +678,6 @@ Dieser Typ gehört zur Komponente %s
 Titel
 ---STRINGEND
 
----STRING toolbar mode
-Toolbar-Modus
----STRINGEND
-
----STRING topic privileges
-Ordner-Zugriffsrechte
----STRINGEND
-
 ---STRING trash
 Papierkorb
 ---STRINGEND
@@ -792,10 +732,6 @@ Benutzer
 
 ---STRING user preferences
 Benutzer-Einstellungen
----STRINGEND
-
----STRING validation error in field %s: %s
-Validationsfehler im Feld %s: %s
 ---STRINGEND
 
 ---STRING value

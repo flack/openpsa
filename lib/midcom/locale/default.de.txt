@@ -10,10 +10,6 @@
 %s gelöscht
 ---STRINGEND
 
----STRING %s of packages of type %s
-%s der Pakete des Typs %s
----STRINGEND
-
 ---STRING More...
 Mehr...
 ---STRINGEND
@@ -134,20 +130,12 @@ Sicherheitscode
 Komponente
 ---STRINGEND
 
----STRING component %s configuration for folder %s
-Komponente %s für Ordner "%s" konfigurieren
----STRINGEND
-
 ---STRING component configuration
 Komponente konfigurieren
 ---STRINGEND
 
 ---STRING component configuration helptext
 Mit Hilfe dieses Menüs können Sie die komponenten-spezifischen Einstellungen für diese Rubrik ändern.
----STRINGEND
-
----STRING component depends on
-Die Komponente hängt ab von
 ---STRINGEND
 
 ---STRING confirm delete

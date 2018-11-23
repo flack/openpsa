@@ -26,10 +26,6 @@ Värkställ för valda
 Batch generera lösenord
 ---STRINGEND
 
----STRING change passwords
-Ändra lösenord
----STRINGEND
-
 ---STRING city
 Stad
 ---STRINGEND
@@ -188,10 +184,6 @@ Lösenord
 
 ---STRING passwords updated and mail sent
 Lösenorden uppdaterade och epost skickat
----STRINGEND
-
----STRING passwords will be sent to the following users
-Lösenord kommer att skickas till följande användare
 ---STRINGEND
 
 ---STRING person %s saved

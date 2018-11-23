@@ -26,10 +26,6 @@ Apply to selected
 Batch generate passwords
 ---STRINGEND
 
----STRING change passwords
-Change passwords
----STRINGEND
-
 ---STRING choose action
 Choose action
 ---STRINGEND
@@ -208,10 +204,6 @@ Passwords
 
 ---STRING passwords updated and mail sent
 Passwords updated and mail sent
----STRINGEND
-
----STRING passwords will be sent to the following users
-Passwords will be sent to the following users
 ---STRINGEND
 
 ---STRING person %s saved

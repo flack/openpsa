@@ -42,24 +42,12 @@ Anonimy
 Wszyscy
 ---STRINGEND
 
----STRING This object has no translation in the current language and cannot be deleted.
-Obiekt nie posiada tłumaczenia w bieżącym języku, które można usunąć
----STRINGEND
-
 ---STRING USERS
 Użytkownicy
 ---STRINGEND
 
----STRING acl_editor
-Edycja uprawnień
----STRINGEND
-
 ---STRING actions
 Akcje
----STRINGEND
-
----STRING active url parsing
-Aktywne przetwarzanie URLi
 ---STRINGEND
 
 ---STRING add assignee
@@ -96,14 +84,6 @@ Asgard
 
 ---STRING asgard for
 Asgard dla
----STRINGEND
-
----STRING asgard homepage
-Asgard Home
----STRINGEND
-
----STRING asgard plugins
-Narzędzia
 ---STRINGEND
 
 ---STRING attachment
@@ -180,14 +160,6 @@ Konfiguracja zapisana
 
 ---STRING content
 Treść
----STRINGEND
-
----STRING contentchanged
-Zmiana treści
----STRINGEND
-
----STRING contentowner
-Właściciel treści
 ---STRINGEND
 
 ---STRING copy %s
@@ -324,10 +296,6 @@ Odzyskiwanie %s nieudane: %s
 
 ---STRING failed undeleting attachment %s, reason %s
 Odzyskiwanie załącznika %s nieudane: %s
----STRINGEND
-
----STRING file %s deleted
-Plik '%s' usunięto
 ---STRINGEND
 
 ---STRING file contents
@@ -502,10 +470,6 @@ Typ MIME
 Wybór obiektów w nawigacji
 ---STRINGEND
 
----STRING most recently visited
-Ostatnio otwierane obiekty
----STRINGEND
-
 ---STRING navigation options
 Opcje nawigacji
 ---STRINGEND
@@ -618,10 +582,6 @@ Wyrażenie regularne
 Wymagana autentykacja
 ---STRINGEND
 
----STRING restore this revision (%s)
-Przywróć tą wersję (%s)
----STRINGEND
-
 ---STRING restore to version %s failed, reason %s
 Przywrócenie wersji %s nieudane: %s
 ---STRINGEND
@@ -652,10 +612,6 @@ Komentarz do wersji
 
 ---STRING revision history of %s
 Historia wersji %s
----STRINGEND
-
----STRING revision history of %s %s
-Historia zmian %s %s
 ---STRINGEND
 
 ---STRING search
@@ -696,14 +652,6 @@ Ten typ należy do komponentu %s
 
 ---STRING title
 Tytuł
----STRINGEND
-
----STRING toolbar mode
-Tryb menu
----STRINGEND
-
----STRING topic privileges
-Uprawnienia folderu
 ---STRINGEND
 
 ---STRING trash
@@ -756,10 +704,6 @@ Użytkownik
 
 ---STRING user preferences
 Preferencje
----STRINGEND
-
----STRING validation error in field %s: %s
-Błąd pola %s: %s
 ---STRINGEND
 
 ---STRING value
