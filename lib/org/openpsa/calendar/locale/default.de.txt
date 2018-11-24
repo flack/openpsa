@@ -14,10 +14,6 @@ Kalender auswählen
 Termin erstellen
 ---STRINGEND
 
----STRING create note
-Notiz erstellen
----STRINGEND
-
 ---STRING day view
 Tagesansicht
 ---STRINGEND

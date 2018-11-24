@@ -46,24 +46,8 @@ Yksikkökulu
 Kustannustyyppi
 ---STRINGEND
 
----STRING create document
-Luo dokumentti
----STRINGEND
-
----STRING create event
-Luo tapahtuma
----STRINGEND
-
----STRING create note
-Luo muistio
----STRINGEND
-
 ---STRING create salesproject
 Luo myyntiprojekti
----STRINGEND
-
----STRING create task
-Luo tehtävä
 ---STRINGEND
 
 ---STRING created task "%s"

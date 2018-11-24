@@ -30,10 +30,6 @@ Add to my contacts
 Basic information
 ---STRINGEND
 
----STRING cancel
-Cancel
----STRINGEND
-
 ---STRING categories
 Categories
 ---STRINGEND
@@ -72,10 +68,6 @@ Contacts
 
 ---STRING country
 Country
----STRINGEND
-
----STRING create event
-Create event
 ---STRINGEND
 
 ---STRING create organization

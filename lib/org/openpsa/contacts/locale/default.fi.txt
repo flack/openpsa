@@ -54,10 +54,6 @@ Yhteyshenkilöt
 Maa
 ---STRINGEND
 
----STRING create event
-Luo tapahtuma
----STRINGEND
-
 ---STRING create organization
 Luo yritys
 ---STRINGEND
@@ -252,10 +248,6 @@ Työpuhelin
 
 ---STRING %s of
 %s
----STRINGEND
-
----STRING cancel
-Peruuta
 ---STRINGEND
 
 ---STRING no results

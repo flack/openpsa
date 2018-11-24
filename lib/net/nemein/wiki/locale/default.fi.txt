@@ -130,28 +130,12 @@ Sivulle "%s" viittaavat sivut
 Esikatselu
 ---STRINGEND
 
----STRING recipients
-Vastaanottajat
----STRINGEND
-
 ---STRING redirect page
 Sivu jolle ohjataan
 ---STRINGEND
 
 ---STRING redirection
 Uudelleenohjaus
----STRINGEND
-
----STRING related notes
-Asiaan liittyviä muistioita
----STRINGEND
-
----STRING related to
-Liittyy aiheeseen
----STRINGEND
-
----STRING sender
-Lähettäjä
 ---STRINGEND
 
 ---STRING subscribe

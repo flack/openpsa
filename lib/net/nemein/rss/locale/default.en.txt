@@ -18,24 +18,8 @@ Add new feed
 Approve new items automatically
 ---STRINGEND
 
----STRING cancel
-Cancel
----STRINGEND
-
----STRING channels
-Display items sorted by channel
----STRINGEND
-
----STRING combined
-Combine items from all channels by publication date
----STRINGEND
-
 ---STRING default author for items
 Default author for items
----STRINGEND
-
----STRING details
-Full details
 ---STRINGEND
 
 ---STRING edit feed %s
@@ -68,10 +52,6 @@ Latest fetch was on %s
 
 ---STRING latest item from %s
 Latest item is from %s
----STRINGEND
-
----STRING local
-Local storage
 ---STRINGEND
 
 ---STRING local item
@@ -152,10 +132,6 @@ Subscribe new feeds
 
 ---STRING subscribe feeds for %s
 Subscribe feeds for folder "%s"
----STRINGEND
-
----STRING titles
-Titles only
 ---STRINGEND
 
 ---STRING untitled

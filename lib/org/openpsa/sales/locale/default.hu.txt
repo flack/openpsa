@@ -42,24 +42,8 @@ Költség
 Darab költség
 ---STRINGEND
 
----STRING create document
-Dokumentum létrehozása
----STRINGEND
-
----STRING create event
-Esemény létrehozása
----STRINGEND
-
----STRING create note
-Jegyzet létrehozása
----STRINGEND
-
 ---STRING create salesproject
 Értékesítési projekt létrehozása
----STRINGEND
-
----STRING create task
-Feladat létrehozása
 ---STRINGEND
 
 ---STRING customer

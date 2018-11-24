@@ -134,10 +134,6 @@ Wiki pages linking to %s
 Preview
 ---STRINGEND
 
----STRING recipients
-Recipients
----STRINGEND
-
 ---STRING redirect page
 Page to redirect to
 ---STRINGEND
@@ -146,20 +142,8 @@ Page to redirect to
 Redirection
 ---STRINGEND
 
----STRING related notes
-Related notes
----STRINGEND
-
----STRING related to
-Related to
----STRINGEND
-
 ---STRING rss_count
 How many items to include to RSS feed
----STRINGEND
-
----STRING sender
-Sender
 ---STRINGEND
 
 ---STRING subscribe

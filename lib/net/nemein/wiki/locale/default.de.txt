@@ -134,10 +134,6 @@ Wiki-Seiten, die auf "%s" verweisen
 Vorschau
 ---STRINGEND
 
----STRING recipients
-Empfänger
----STRINGEND
-
 ---STRING redirect page
 Seite weiterleiten nach
 ---STRINGEND
@@ -146,20 +142,8 @@ Seite weiterleiten nach
 Weiterleitung
 ---STRINGEND
 
----STRING related notes
-Verbundene Notizen
----STRINGEND
-
----STRING related to
-Verbunden mit
----STRINGEND
-
 ---STRING rss_count
 Wie viele Einträge sollen im RSS-Feed angezeigt werden
----STRINGEND
-
----STRING sender
-Absender
 ---STRINGEND
 
 ---STRING subscribe

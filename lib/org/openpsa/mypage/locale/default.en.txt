@@ -6,18 +6,6 @@
 %02.2f hours (%02.2f billable) reported
 ---STRINGEND
 
----STRING create event
-Create event
----STRINGEND
-
----STRING create person
-Create person
----STRINGEND
-
----STRING create task
-Create task
----STRINGEND
-
 ---STRING day review
 Day View
 ---STRINGEND
@@ -72,10 +60,6 @@ Totals
 
 ---STRING uninvoiceable
 Not billable
----STRINGEND
-
----STRING updated %s
-Updated %s
 ---STRINGEND
 
 ---STRING updated today

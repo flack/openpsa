@@ -6,18 +6,6 @@
 %02.2f tuntia (%02.2f laskutettavaa) raportoitu
 ---STRINGEND
 
----STRING create event
-Luo tapahtuma
----STRINGEND
-
----STRING create person
-Luo henkilö
----STRINGEND
-
----STRING create task
-Luo tehtävä
----STRINGEND
-
 ---STRING now working on
 Nyt työn alla
 ---STRINGEND
@@ -36,10 +24,6 @@ Viikon %s yhteenveto
 
 ---STRING totals
 Yhteensä
----STRINGEND
-
----STRING updated %s
-Päivitetty %s
 ---STRINGEND
 
 ---STRING updated today

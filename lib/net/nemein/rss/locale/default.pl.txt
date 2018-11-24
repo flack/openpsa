@@ -14,24 +14,8 @@ Dodaj RSS
 Automatycznie zatwierdzaj nowe elementy
 ---STRINGEND
 
----STRING cancel
-Anuluj
----STRINGEND
-
----STRING channels
-Sortuj wg kanałów
----STRINGEND
-
----STRING combined
-Połącz różne kanaly wg daty
----STRINGEND
-
 ---STRING default author for items
 Domyślny autor
----STRINGEND
-
----STRING details
-Szczegóły
 ---STRINGEND
 
 ---STRING edit feed %s
@@ -64,10 +48,6 @@ Ostatnie pobranie: %s
 
 ---STRING latest item from %s
 Ostatni element: %s
----STRINGEND
-
----STRING local
-Ustawienia lokalne
 ---STRINGEND
 
 ---STRING local item
@@ -124,10 +104,6 @@ Dodaj wsady
 
 ---STRING subscribe feeds for %s
 Dodaj wsady do folderu "%s"
----STRINGEND
-
----STRING titles
-Tylko tytuly
 ---STRINGEND
 
 ---STRING untitled

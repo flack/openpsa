@@ -22,10 +22,6 @@ Cég azonosító
 Ország
 ---STRINGEND
 
----STRING create event
-Esemény létrehozása
----STRINGEND
-
 ---STRING create organization
 Szervezet létrehozása
 ---STRINGEND

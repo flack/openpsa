@@ -10,10 +10,6 @@ Válasszon megjelenítendő naptárt
 Esemény létrehozása
 ---STRINGEND
 
----STRING create note
-Jegyzet létrehozása
----STRINGEND
-
 ---STRING day view
 Napi nézet
 ---STRINGEND

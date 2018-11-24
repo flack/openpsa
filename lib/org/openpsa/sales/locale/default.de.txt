@@ -66,24 +66,8 @@ Stückkosten (%)
 Kostenart
 ---STRINGEND
 
----STRING create document
-Dokument anlegen
----STRINGEND
-
----STRING create event
-Termin anlegen
----STRINGEND
-
----STRING create note
-Notiz anlegen
----STRINGEND
-
 ---STRING create salesproject
 Verkaufsprojekt anlegen
----STRINGEND
-
----STRING create task
-Aufgabe anlegen
 ---STRINGEND
 
 ---STRING create_offer
