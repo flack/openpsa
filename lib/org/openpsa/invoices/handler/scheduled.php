@@ -70,7 +70,7 @@ implements client
         }
 
         if ($deliverable->invoiceByActualUnits) {
-            $type = $this->_i18n->get_l10n('org.openpsa.expenses')->get('invoiceable reports');
+            $type = $this->_l10n->get('invoiceable reports');
             $invoice_sum = $deliverable->units * $deliverable->pricePerUnit;
         } else {
             $invoice_sum = $deliverable->price;

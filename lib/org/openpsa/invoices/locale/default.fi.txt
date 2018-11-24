@@ -86,6 +86,10 @@ Laskunumero
 Laskua ei löytynyt
 ---STRINGEND
 
+---STRING invoiceable reports
+Laskutettavat raportit
+---STRINGEND
+
 ---STRING invoiced hour reports
 Laskutetut tuntiraportit
 ---STRINGEND

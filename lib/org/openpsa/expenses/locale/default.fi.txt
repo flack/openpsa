@@ -6,10 +6,6 @@
 Päivämäärä
 ---STRINGEND
 
----STRING delete hour report
-Poista tuntikirjaus
----STRINGEND
-
 ---STRING description
 Kuvaus
 ---STRINGEND
@@ -78,19 +74,7 @@ Poista tuntiraportti
 Muokkaa tuntiraporttia
 ---STRINGEND
 
----STRING invoiceable reports
-Laskutettavat raportit
----STRINGEND
-
----STRING invoiced reports
-Laskutetut raportit
----STRINGEND
-
 ---STRING show task
 Näytä tehtävät kohteelle
----STRINGEND
-
----STRING uninvoiceable reports
-Ei-laskutettavat raportit
 ---STRINGEND
 

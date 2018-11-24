@@ -10,10 +10,6 @@ Category
 Date
 ---STRINGEND
 
----STRING delete hour report
-Delete hour report
----STRINGEND
-
 ---STRING description
 Description
 ---STRINGEND
@@ -50,16 +46,8 @@ Edit Hour Report
 Billable
 ---STRINGEND
 
----STRING invoiceable reports
-Billable Reports
----STRINGEND
-
 ---STRING invoiced
 Invoiced
----STRINGEND
-
----STRING invoiced reports
-Invoiced Reports
 ---STRINGEND
 
 ---STRING list view
@@ -116,10 +104,6 @@ Total
 
 ---STRING uninvoiceable
 Not billable
----STRINGEND
-
----STRING uninvoiceable reports
-Unbillable Reports
 ---STRINGEND
 
 ---STRING invoice

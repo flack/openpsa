@@ -138,6 +138,10 @@ Rechnungspositionen
 Rechnungsnummer
 ---STRINGEND
 
+---STRING invoiceable reports
+Abrechenbare Stundenberichte
+---STRINGEND
+
 ---STRING invoiced hour reports
 Abgerechnete Stundenberichte
 ---STRINGEND

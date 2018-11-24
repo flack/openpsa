@@ -146,6 +146,10 @@ Invoice number
 The invoice was not found
 ---STRINGEND
 
+---STRING invoiceable reports
+Billable Reports
+---STRINGEND
+
 ---STRING invoiced hour reports
 Invoiced hour reports
 ---STRINGEND

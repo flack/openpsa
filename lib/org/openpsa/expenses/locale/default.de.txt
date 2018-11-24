@@ -10,10 +10,6 @@ Kategorie
 Datum
 ---STRINGEND
 
----STRING delete hour report
-Stundenbericht löschen
----STRINGEND
-
 ---STRING description
 Beschreibung
 ---STRINGEND
@@ -46,16 +42,8 @@ Stundenbericht bearbeiten
 Abrechenbar
 ---STRINGEND
 
----STRING invoiceable reports
-Abrechenbare Stundenberichte
----STRINGEND
-
 ---STRING invoiced
 Abgerechnet
----STRINGEND
-
----STRING invoiced reports
-Abgerechnete Stundenberichte
 ---STRINGEND
 
 ---STRING list view
@@ -112,10 +100,6 @@ Summe
 
 ---STRING uninvoiceable
 Nicht abrechenbar
----STRINGEND
-
----STRING uninvoiceable reports
-Nicht abrechenbare Stundenberichte
 ---STRINGEND
 
 ---STRING hours_delete
