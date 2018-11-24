@@ -34,10 +34,6 @@ Inga ändringar i innehållet
 Versions hantering
 ---STRINGEND
 
----STRING restore this revision (%s)
-Återställ till version (%s)
----STRINGEND
-
 ---STRING restore to version %s failed, reason %s
 Återställning till version %s misslyckades, anledning %s
 ---STRINGEND

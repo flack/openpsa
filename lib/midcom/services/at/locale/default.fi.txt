@@ -14,10 +14,6 @@ Käynnissä
 Ajastettu
 ---STRINGEND
 
----STRING scheduled operations
-Ajastetut toiminnot
----STRINGEND
-
 ---STRING status
 Tila
 ---STRINGEND

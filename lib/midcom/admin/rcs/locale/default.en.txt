@@ -38,10 +38,6 @@ Revision control
 No revisions exist
 ---STRINGEND
 
----STRING restore this revision (%s)
-Restore to this revision (%s)
----STRINGEND
-
 ---STRING restore to version %s failed, reason %s
 Restore to version %s failed, reason %s
 ---STRINGEND

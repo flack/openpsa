@@ -18,10 +18,6 @@ Kör
 Schemalagd
 ---STRINGEND
 
----STRING scheduled operations
-Schemalagda operationer
----STRINGEND
-
 ---STRING status
 Status
 ---STRINGEND

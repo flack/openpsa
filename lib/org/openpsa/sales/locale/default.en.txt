@@ -61,10 +61,6 @@ Cost per unit
 Cost per unit (%)
 ---STRINGEND
 
----STRING cost structure
-Cost structure
----STRINGEND
-
 ---STRING cost type
 Cost type
 ---STRINGEND
@@ -95,10 +91,6 @@ Create offer
 
 ---STRING created
 Created
----STRINGEND
-
----STRING created project "%s"
-Created project "%s"
 ---STRINGEND
 
 ---STRING created task "%s"
@@ -333,10 +325,6 @@ Sales report for %s - %s
 Sales project
 ---STRINGEND
 
----STRING salesproject %s deleted
-Sales project "%s" was deleted successfully
----STRINGEND
-
 ---STRING salesprojects
 Sales projects
 ---STRINGEND
@@ -363,10 +351,6 @@ Lost sales projects
 
 ---STRING salesprojects won
 Sales projects won
----STRINGEND
-
----STRING salesprojects: %s
-Sales projects: %s
 ---STRINGEND
 
 ---STRING salesprojects with %s
@@ -413,10 +397,6 @@ Subscription cycle %d closed for agreement %s (%s)
 Subscription ends
 ---STRINGEND
 
----STRING subscription starts
-Subscription starts
----STRINGEND
-
 ---STRING supplier
 Supplier
 ---STRINGEND
@@ -427,10 +407,6 @@ Title
 
 ---STRING total
 Total
----STRINGEND
-
----STRING total cost
-Total cost
 ---STRINGEND
 
 ---STRING unit

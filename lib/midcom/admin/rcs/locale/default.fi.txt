@@ -34,10 +34,6 @@ Sisällössä ei muutoksia
 Versionhallinta
 ---STRINGEND
 
----STRING restore this revision (%s)
-Palauta tähän versioon (%s)
----STRINGEND
-
 ---STRING restore to version %s failed, reason %s
 Palautus versioon %s epäonnistui, syy %s
 ---STRINGEND

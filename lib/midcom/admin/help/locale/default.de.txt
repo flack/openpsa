@@ -26,10 +26,6 @@ Controller
 Beschreibung
 ---STRINGEND
 
----STRING go to help main page
-Zur Startseite der Hilfe
----STRINGEND
-
 ---STRING handler_id
 Handler-ID
 ---STRINGEND
@@ -125,8 +121,3 @@ URL-Handler
 ---STRING mgdschemas
 MgdSchemas
 ---STRINGEND
-
----STRING no handlers found
-keine Handler gefunden
----STRINGEND
-

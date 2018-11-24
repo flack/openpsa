@@ -62,10 +62,6 @@ Stückkosten
 Stückkosten (%)
 ---STRINGEND
 
----STRING cost structure
-Kostenstruktur
----STRINGEND
-
 ---STRING cost type
 Kostenart
 ---STRINGEND
@@ -96,10 +92,6 @@ Angebot erzeugen
 
 ---STRING created
 Erstellt
----STRINGEND
-
----STRING created project "%s"
-Projekt "%s" wurde angelegt
 ---STRINGEND
 
 ---STRING created task "%s"
@@ -334,10 +326,6 @@ Verkaufsbericht für %s - %s
 Verkaufsprojekt
 ---STRINGEND
 
----STRING salesproject %s deleted
-Verkaufsprojekt "%s" wurde erfolgreich gelöscht
----STRINGEND
-
 ---STRING salesprojects
 Verkaufsprojekte
 ---STRINGEND
@@ -360,10 +348,6 @@ Ausgelieferte Verkaufsprojekte
 
 ---STRING salesprojects invoiced
 Abgerechnete Verkaufsprojekte
----STRINGEND
-
----STRING salesprojects: %s
-Verkaufsprojekte: %s
 ---STRINGEND
 
 ---STRING salesprojects with %s
@@ -410,10 +394,6 @@ Abonnement-Zyklus %d für Vereinbarung %s (%s) abgeschlossen
 Abonnement endet
 ---STRINGEND
 
----STRING subscription starts
-Abonnement beginnt
----STRINGEND
-
 ---STRING supplier
 Zulieferer
 ---STRINGEND
@@ -424,10 +404,6 @@ Titel
 
 ---STRING total
 Gesamtsumme
----STRINGEND
-
----STRING total cost
-Gesamtkosten
 ---STRINGEND
 
 ---STRING unit

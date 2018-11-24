@@ -26,10 +26,6 @@ Info
 Kontrola wersji
 ---STRINGEND
 
----STRING restore this revision (%s)
-Przywróć tą wersję (%s)
----STRINGEND
-
 ---STRING restore to version %s failed, reason %s
 Przywrócenie wersji %s nieudane: %s
 ---STRINGEND

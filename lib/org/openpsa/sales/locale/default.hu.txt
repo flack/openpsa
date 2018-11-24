@@ -42,10 +42,6 @@ Költség
 Darab költség
 ---STRINGEND
 
----STRING cost structure
-Költség szerkezet
----STRINGEND
-
 ---STRING create document
 Dokumentum létrehozása
 ---STRINGEND
@@ -186,10 +182,6 @@ Tevezett
 Értékesítési projekt
 ---STRINGEND
 
----STRING salesprojects: %s
-Értékesítési projektek: %s
----STRINGEND
-
 ---STRING select product
 Válasszon terméket
 ---STRINGEND
@@ -218,10 +210,6 @@ Előfizetés kezdete
 Előfizetés vége
 ---STRINGEND
 
----STRING subscription starts
-Előfizetés startol
----STRINGEND
-
 ---STRING supplier
 Szállító
 ---STRINGEND
@@ -232,10 +220,6 @@ Cím
 
 ---STRING total
 Összesen
----STRINGEND
-
----STRING total cost
-Összes költség
 ---STRINGEND
 
 ---STRING unit

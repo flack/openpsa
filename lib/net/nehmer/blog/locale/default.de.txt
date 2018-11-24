@@ -62,18 +62,6 @@ Kommentare zu News-Beiträgen erlauben (benötigt die net.nehmer.comments-Kompon
 Inhalt
 ---STRINGEND
 
----STRING create article
-Artikel anlegen
----STRINGEND
-
----STRING create name from title
-URL Namen automatisch aus dem Titel des Artikels generieren
----STRINGEND
-
----STRING create news article
-Neuen News-Artikel erstellen
----STRINGEND
-
 ---STRING descending
 Absteigend
 ---STRINGEND
@@ -86,36 +74,12 @@ Konfiguration der Anzeige
 Artikel bearbeiten
 ---STRINGEND
 
----STRING enable date filters get
-Datumsfilter via HTTP GET aktivieren
----STRINGEND
-
----STRING enable date filters path
-Datumsfilter via URL (.../JJJJ/MM/TT) aktivieren
----STRINGEND
-
----STRING enable details
-Detail-Seiten aktivieren
----STRINGEND
-
----STRING enable filters get
-Feldfilter via HTTP GET aktivieren
----STRINGEND
-
 ---STRING first post was made on %s.
 Die erste Nachricht wurde am %s veröffentlicht.
 ---STRINGEND
 
 ---STRING from
 Von
----STRINGEND
-
----STRING if you want to delete the original article, <a href="%s">click here</a>
-Wenn Sie den ursprünglichen Artikel löschen möchten, <a href="%s">klicken Sie bitte hier</a>.
----STRINGEND
-
----STRING index count
-Anzahl Artikel in der Übersicht
 ---STRINGEND
 
 ---STRING index settings
@@ -140,10 +104,6 @@ News-Liste
 
 ---STRING no news found.
 Keine Artikel gefunden.
----STRINGEND
-
----STRING no schema available
-Kein Layout-Schema verfügbar
 ---STRINGEND
 
 ---STRING posted on %s.
@@ -180,10 +140,6 @@ Schema-Einstellungen
 
 ---STRING schemadb
 Schema-Datenbank für Artikel
----STRINGEND
-
----STRING select article type
-Artikel-Typ auswählen
 ---STRINGEND
 
 ---STRING set this to no if you want to hide feeds and archive links in navigation

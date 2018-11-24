@@ -42,10 +42,6 @@ Aktuelles Passwort
 Benutzerkonto löschen
 ---STRINGEND
 
----STRING delete account %s %s
-Benutzerkonto von %s %s löschen
----STRINGEND
-
 ---STRING enable calendar
 Darf Termine im Gruppenkalender anlegen
 ---STRINGEND

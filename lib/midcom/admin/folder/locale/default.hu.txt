@@ -81,11 +81,3 @@ Mappakezelés
 ---STRING published
 Publikálva
 ---STRINGEND
-
----STRING sort folders
-Mappák rendezése
----STRINGEND
-
----STRING sort pages
-Oldalak rendezése
----STRINGEND

@@ -62,18 +62,6 @@ Włącz komentarze (wymaga net.nehmer.comments)
 Treść
 ---STRINGEND
 
----STRING create article
-Dodaj artykuł
----STRINGEND
-
----STRING create name from title
-Generuj URL'e na podstawie tytułów
----STRINGEND
-
----STRING create news article
-Dodaj news
----STRINGEND
-
 ---STRING descending
 Malejąco
 ---STRINGEND
@@ -86,22 +74,6 @@ Ustawienia wyświetlania
 Edytuj
 ---STRINGEND
 
----STRING enable date filters get
-Włącz filtry daty jako parametry GET
----STRINGEND
-
----STRING enable date filters path
-Włącz filtry daty w URL (format /YYYY/MM/DD)
----STRINGEND
-
----STRING enable details
-Włącz szczegóły
----STRINGEND
-
----STRING enable filters get
-Włącz filtry pola (jako parametry GET)
----STRINGEND
-
 ---STRING enable scheduled publishing
 Włącz planowanie publikacji
 ---STRINGEND
@@ -112,14 +84,6 @@ Pierwszy post: %s
 
 ---STRING from
 Z
----STRINGEND
-
----STRING if you want to delete the original article, <a href="%s">click here</a>
-Jeśli chcesz usunąć artykuł oryginalny <a href="%s">kliknij tu</a>
----STRINGEND
-
----STRING index count
-Ilość pozycji w indeksie
 ---STRINGEND
 
 ---STRING index settings
@@ -156,10 +120,6 @@ Newsy/Blogi
 
 ---STRING no news found.
 Brak newsów
----STRINGEND
-
----STRING no schema available
-Brak schematów
 ---STRINGEND
 
 ---STRING posted on %s.
@@ -200,10 +160,6 @@ Ustawienia schematów
 
 ---STRING schemadb
 Baza schematów
----STRINGEND
-
----STRING select article type
-Wybierz typ artykułów
 ---STRINGEND
 
 ---STRING set this to no if you want to hide feeds and archive links in navigation

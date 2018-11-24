@@ -18,10 +18,6 @@ Läuft
 Eingetragen
 ---STRINGEND
 
----STRING scheduled operations
-Geplante Operationen
----STRINGEND
-
 ---STRING status
 Status
 ---STRINGEND

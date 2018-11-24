@@ -26,10 +26,6 @@ Controller
 Description
 ---STRINGEND
 
----STRING go to help main page
-Go to Help main page
----STRINGEND
-
 ---STRING handler_id
 Handler identifier
 ---STRINGEND
@@ -90,8 +86,8 @@ MgdSchemas in component %s
 Online help
 ---STRINGEND
 
----STRING no handlers found
-No handlers found
+---STRING no routes found
+No routes found
 ---STRINGEND
 
 ---STRING no url methods found

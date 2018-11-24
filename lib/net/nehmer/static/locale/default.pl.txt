@@ -2,14 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE pl
 
----STRING Only show approved articles
-Pokaż tylko zatwierdzone artykuły
----STRINGEND
-
----STRING activate autoindex
-Włącz Autoindex
----STRINGEND
-
 ---STRING approve
 Zatwierdź
 ---STRINGEND
@@ -46,10 +38,6 @@ Skrypt zawierający kod funkcji zwrotnej.
 Treść
 ---STRINGEND
 
----STRING create article
-Utwórz artykuł
----STRINGEND
-
 ---STRING default_schema
 Domyślny schemat artykułu
 ---STRINGEND
@@ -60,10 +48,6 @@ Zawartość folderu %s
 
 ---STRING display settings
 Konfiguracja wyświetlania artykułów
----STRINGEND
-
----STRING edit article
-Edytuj artykuł
 ---STRINGEND
 
 ---STRING enable_ajax_editing
@@ -118,10 +102,6 @@ Kategoria jest pusta
 Ten folder nie zawiera artykułu indeksowego. Utwórz artykuł o nazwie <strong>index</strong> lub skorzystaj z opcji autoindex.
 ---STRINGEND
 
----STRING no schemas available
-Brak schematów danych.
----STRINGEND
-
 ---STRING schema settings
 Ustawienia schematów danych.
 ---STRINGEND
@@ -130,19 +110,11 @@ Ustawienia schematów danych.
 Schemat danych folderu.
 ---STRINGEND
 
----STRING select schema
-Wybierz schemat
----STRINGEND
-
 ---STRING settings
 Ustawienia
 ---STRINGEND
 
 ---STRING show blobs in autoindex
-Pokazuj załączniki w indeksie
----STRINGEND
-
----STRING show_blobs_in_autoindex
 Pokazuj załączniki w indeksie
 ---STRINGEND
 
@@ -156,10 +128,6 @@ Kolejność
 
 ---STRING unapprove
 Odtwierdź
----STRINGEND
-
----STRING view article
-Pokaż artykuł
 ---STRINGEND
 
 ---STRING visible

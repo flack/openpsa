@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE sv
 
----STRING %s state
-%s status
----STRINGEND
-
 ---STRING author
 Författare
 ---STRINGEND
@@ -30,10 +26,6 @@ Kunde inte spara katalog. Anledning: %s
 Skapa katalog
 ---STRINGEND
 
----STRING create folder under %s
-Skapa underkatalog under "%s"
----STRINGEND
-
 ---STRING create subfolder
 Skapa underkatalog
 ---STRINGEND
@@ -48,10 +40,6 @@ Skapare
 
 ---STRING default
 Standard
----STRINGEND
-
----STRING default order selected
-Standard ordning vald
 ---STRINGEND
 
 ---STRING default sort order
@@ -158,10 +146,6 @@ Ny stil skapad
 Inga sorteringsbara element funna
 ---STRINGEND
 
----STRING no url name specified
-Inget URL namn specifierat!
----STRINGEND
-
 ---STRING objects with no navigation entry are still accessible on-site if the url is known
 objekt utan navigerings kan fortfarande nås om url är känd
 ---STRINGEND
@@ -212,18 +196,6 @@ Väld sorteringsmetod för för att sortera sidor
 
 ---STRING size
 Storlek
----STRINGEND
-
----STRING sort by score
-Sortera efter poäng
----STRINGEND
-
----STRING sort folders
-Sortera kataloger
----STRINGEND
-
----STRING sort pages
-Sortera sidor
 ---STRINGEND
 
 ---STRING style

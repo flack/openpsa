@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE de
 
----STRING %s state
-%s-Status
----STRINGEND
-
 ---STRING author
 Verfasser
 ---STRINGEND
@@ -30,10 +26,6 @@ Ordner konnte nicht gespeichert werden. Ursache: %s
 Ordner anlegen
 ---STRINGEND
 
----STRING create folder under %s
-Unterordner in "%s" anlegen
----STRINGEND
-
 ---STRING create subfolder
 Unterordner anlegen
 ---STRINGEND
@@ -48,10 +40,6 @@ Ersteller
 
 ---STRING default
 Standard
----STRINGEND
-
----STRING default order selected
-Standard-Reihenfolge gewählt
 ---STRINGEND
 
 ---STRING default sort order
@@ -162,10 +150,6 @@ Neue Stilvorlage wurde erstellt
 keine sortierbaren Elemente gefunden
 ---STRINGEND
 
----STRING no url name specified
-Kein URL-Name angegeben!
----STRINGEND
-
 ---STRING order navigation
 Navigationselemente anordnen
 ---STRINGEND
@@ -228,18 +212,6 @@ Wählen Sie eine Sortiermethode, um die Seiten anzuordnen
 
 ---STRING size
 Größe
----STRINGEND
-
----STRING sort by score
-Nach Score sortieren
----STRINGEND
-
----STRING sort folders
-Ordner anordnen
----STRINGEND
-
----STRING sort pages
-Seiten anordnen
 ---STRINGEND
 
 ---STRING style

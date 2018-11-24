@@ -62,18 +62,6 @@ Salli uutisten kommentointi (vaatii net.nehmer.comments -komponentin)
 Sisältö
 ---STRINGEND
 
----STRING create article
-Luo artikkeli
----STRINGEND
-
----STRING create name from title
-Luo tiedostonimet artikkelien otsikoista
----STRINGEND
-
----STRING create news article
-Luo uutisartikkeli
----STRINGEND
-
 ---STRING descending
 Laskeva
 ---STRINGEND
@@ -86,22 +74,6 @@ Uutisten näyttöasetukset
 Muokkaa artikkelia
 ---STRINGEND
 
----STRING enable date filters get
-Salli päivämäärällä suodatus (GET-parametri)
----STRINGEND
-
----STRING enable date filters path
-Salli päivämäärällä suodatus (polussa muodossa /VVVV/KK/PP)
----STRINGEND
-
----STRING enable details
-Salli lisätietosivut
----STRINGEND
-
----STRING enable filters get
-Salli sisältökentillä suodatus (GET-parametri)
----STRINGEND
-
 ---STRING enable scheduled publishing
 Käytä ajastettua julkaisua
 ---STRINGEND
@@ -112,14 +84,6 @@ Julkaistu %s.
 
 ---STRING from
 Kansiosta
----STRINGEND
-
----STRING if you want to delete the original article, <a href="%s">click here</a>
-Jos haluat poistaa alkuperäisen artikkelin, <a href="%s">klikkaa tästä</a>.
----STRINGEND
-
----STRING index count
-Listan määrä
 ---STRINGEND
 
 ---STRING index settings
@@ -156,10 +120,6 @@ Uutiskansio
 
 ---STRING no news found.
 Ei uutisia.
----STRINGEND
-
----STRING no schema available
-Tietokantakuvausta (schema) ei löydy
 ---STRINGEND
 
 ---STRING posted on %s.
@@ -200,10 +160,6 @@ Tietokanta-asetukset
 
 ---STRING schemadb
 Artikkeleille käytettävä tietokantakuvaus
----STRINGEND
-
----STRING select article type
-Valitse artikkelin tyyppi
 ---STRINGEND
 
 ---STRING set this to no if you want to hide feeds and archive links in navigation

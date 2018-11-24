@@ -26,10 +26,6 @@ Kontroler
 Opis
 ---STRINGEND
 
----STRING go to help main page
-Strona główna Pomocy
----STRINGEND
-
 ---STRING handler_id
 Handler
 ---STRINGEND
@@ -92,10 +88,6 @@ Klasy MgdSchema w module %s
 
 ---STRING midcom.admin.help
 Pomoc
----STRINGEND
-
----STRING no handlers found
-Brak definicji routingu URLi
 ---STRINGEND
 
 ---STRING no routes found

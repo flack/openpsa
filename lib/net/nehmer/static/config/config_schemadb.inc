@@ -88,7 +88,7 @@
         ],
 
         'show_blobs_in_autoindex' => [
-            'title' => 'show_blobs_in_autoindex',
+            'title' => 'show blobs in autoindex',
             'storage' => [
                 'location' => 'configuration',
                 'domain' => 'net.nehmer.static',

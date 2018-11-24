@@ -34,10 +34,6 @@ Enddatum
 Festpreis
 ---STRINGEND
 
----STRING generate report
-Bericht erstellen
----STRINGEND
-
 ---STRING invoice report %s - %s
 Rechnungsbericht %s - %s
 ---STRINGEND
@@ -152,10 +148,6 @@ Zeitraum
 
 ---STRING totals
 Gesamtsummen
----STRINGEND
-
----STRING weekly report
-Wöchentlicher Bericht
 ---STRINGEND
 
 ---STRING workgroup/person

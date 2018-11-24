@@ -2,22 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE da
 
----STRING create article
-Opret artikel
----STRINGEND
-
----STRING edit article
-Rediger artikel
----STRINGEND
-
----STRING no schemas available
-Ingen skemaer tilgængelige
----STRINGEND
-
----STRING select schema
-Vælg skema
----STRINGEND
-
 ---STRING net.nehmer.static
 Statisk indhold
 ---STRINGEND

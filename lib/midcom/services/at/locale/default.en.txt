@@ -18,10 +18,6 @@ Running
 Scheduled
 ---STRINGEND
 
----STRING scheduled operations
-Scheduled operations
----STRINGEND
-
 ---STRING status
 Status
 ---STRINGEND

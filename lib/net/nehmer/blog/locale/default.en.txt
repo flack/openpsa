@@ -66,18 +66,6 @@ Show comments in listing (using AJAX, requires the net.nehmer.comments component
 Content
 ---STRINGEND
 
----STRING create article
-Create Article
----STRINGEND
-
----STRING create name from title
-Generate URL names from article titles
----STRINGEND
-
----STRING create news article
-Create news article
----STRINGEND
-
 ---STRING descending
 Descending
 ---STRINGEND
@@ -98,22 +86,6 @@ News item display configuration
 Edit Article
 ---STRINGEND
 
----STRING enable date filters get
-Enable date filters (GET parameter)
----STRINGEND
-
----STRING enable date filters path
-Enable date filters (in path, format /YYYY/MM/DD)
----STRINGEND
-
----STRING enable details
-Enable detail pages
----STRINGEND
-
----STRING enable filters get
-Enable field filters (GET parameter)
----STRINGEND
-
 ---STRING enable scheduled publishing
 Enable scheduled publishing
 ---STRINGEND
@@ -124,14 +96,6 @@ The first posting was made on %s.
 
 ---STRING from
 From
----STRINGEND
-
----STRING if you want to delete the original article, <a href="%s">click here</a>
-If you want to delete the original article, <a href="%s">click here</a>.
----STRINGEND
-
----STRING index count
-Index count
 ---STRINGEND
 
 ---STRING index settings
@@ -178,10 +142,6 @@ News listing
 No news found.
 ---STRINGEND
 
----STRING no schema available
-No Layout Schema available
----STRINGEND
-
 ---STRING posted on %s.
 Posted on %s.
 ---STRINGEND
@@ -220,10 +180,6 @@ Schema settings
 
 ---STRING schemadb
 Database schema to use for articles
----STRINGEND
-
----STRING select article type
-Select Article type
 ---STRINGEND
 
 ---STRING set this to no if you want to hide feeds and archive links in navigation

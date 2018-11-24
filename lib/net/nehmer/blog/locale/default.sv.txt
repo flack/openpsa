@@ -46,18 +46,6 @@ Slå på kommentering av nyhetsartiklar (kräver net.nehmer.comments komponenten
 Innehåll
 ---STRINGEND
 
----STRING create article
-Skapa Artikel
----STRINGEND
-
----STRING create name from title
-Skapa URL-namn från artikel titlar
----STRINGEND
-
----STRING create news article
-Skapa nyhets artikel
----STRINGEND
-
 ---STRING descending
 Descending
 ---STRINGEND
@@ -70,22 +58,6 @@ Nyhets inlägg visnings konfiguration
 Ändra Artikel
 ---STRINGEND
 
----STRING enable date filters get
-Slå på datum filer (GET parameter)
----STRINGEND
-
----STRING enable date filters path
-Slå på datum filer (i sökväg, format /YYYY/MM/DD)
----STRINGEND
-
----STRING enable details
-Slå på detaljerade sidor
----STRINGEND
-
----STRING enable filters get
-Slå på fält filter (GET parameter)
----STRINGEND
-
 ---STRING enable scheduled publishing
 Slå på schemalagd publicering
 ---STRINGEND
@@ -96,14 +68,6 @@ Första postningen vad gjord %s.
 
 ---STRING from
 Från
----STRINGEND
-
----STRING if you want to delete the original article, <a href="%s">click here</a>
-Om du vill radera orginalartikeln, < href="%s">klicka här</a>
----STRINGEND
-
----STRING index count
-Antal som ska visas i Index
 ---STRINGEND
 
 ---STRING index settings
@@ -132,10 +96,6 @@ Nyhets listning
 
 ---STRING no news found.
 Inga nyheter funna.
----STRINGEND
-
----STRING no schema available
-Inget Schema tillgängligt
 ---STRINGEND
 
 ---STRING posted on %s.
@@ -168,10 +128,6 @@ Schemainställningar
 
 ---STRING schemadb
 Databasschema för artiklar
----STRINGEND
-
----STRING select article type
-Välj artikel typ
 ---STRINGEND
 
 ---STRING settings

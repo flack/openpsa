@@ -2,14 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE fi
 
----STRING Only show approved articles
-Näytä vain hyväksytyt artikkelit
----STRINGEND
-
----STRING activate autoindex
-Luodaanko kansiolle automaattinen etusivu?
----STRINGEND
-
 ---STRING approve
 Hyväksy
 ---STRINGEND
@@ -42,10 +34,6 @@ Luonnin jälkeen kutsuttavan callback-funktion sisältävä snippet-tietue
 Sisältö
 ---STRINGEND
 
----STRING create article
-Luo artikkeli
----STRINGEND
-
 ---STRING default_schema
 Oletus-tietokantakuvaus uusille artikkeleille
 ---STRINGEND
@@ -56,10 +44,6 @@ Kansion %s sisällysluettelo
 
 ---STRING display settings
 Artikkelien näkyvyysasetukset
----STRINGEND
-
----STRING edit article
-Muokkaa artikkelia
 ---STRINGEND
 
 ---STRING enable_ajax_editing
@@ -114,10 +98,6 @@ Ei tiedostoja kansiossa
 Kansiosta puuttuu <strong>index</strong>-artikkeli. Luo artikkeli jonka tiedostonimenä on <strong>index</strong> tai laita automaattinen sisällysluettelo päälle.
 ---STRINGEND
 
----STRING no schemas available
-Tietokantakuvausta (schema) ei löydy
----STRINGEND
-
 ---STRING schema settings
 Tietokantakuvauksen asetukset
 ---STRINGEND
@@ -126,20 +106,12 @@ Tietokantakuvauksen asetukset
 Tässä kansiossa käytettävä tietokantakuvaus
 ---STRINGEND
 
----STRING select schema
-Valitse tyyppi
----STRINGEND
-
 ---STRING settings
 Asetukset
 ---STRINGEND
 
 ---STRING show blobs in autoindex
 Näytä liitetiedostot automaattisella etusivulla
----STRINGEND
-
----STRING show_blobs_in_autoindex
-Näytä liitetiedostot automaattisessa sisällysluettelossa
 ---STRINGEND
 
 ---STRING simple_name_handling
@@ -152,10 +124,6 @@ Järjestely
 
 ---STRING unapprove
 Poista hyväksyntä
----STRINGEND
-
----STRING view article
-Näytä artikkeli
 ---STRINGEND
 
 ---STRING visible

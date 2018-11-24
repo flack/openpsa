@@ -38,10 +38,6 @@ End time
 Fixed price
 ---STRINGEND
 
----STRING generate report
-Generate report
----STRINGEND
-
 ---STRING invoice report %s - %s
 Invoice Report %s - %s
 ---STRINGEND
@@ -156,10 +152,6 @@ Timeframe
 
 ---STRING totals
 Totals
----STRINGEND
-
----STRING weekly report
-Weekly report
 ---STRINGEND
 
 ---STRING workgroup/person

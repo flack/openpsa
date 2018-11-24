@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE pl
 
----STRING %s state
-Stan: %s
----STRINGEND
-
 ---STRING author
 Autor
 ---STRINGEND
@@ -30,10 +26,6 @@ Nie mogę zapisać folderu. Powód:
 Utwórz folder
 ---STRINGEND
 
----STRING create folder under %s
-Utwórz folder w "%s"
----STRINGEND
-
 ---STRING create subfolder
 Utwórz folder
 ---STRINGEND
@@ -48,10 +40,6 @@ Twórca
 
 ---STRING default
 Domyślnie
----STRINGEND
-
----STRING default order selected
-Kolejność domyślna
 ---STRINGEND
 
 ---STRING default sort order
@@ -158,10 +146,6 @@ Utworzono nowy styl
 Brak elementów do sortowania
 ---STRINGEND
 
----STRING no url name specified
-Nie podano URLa
----STRINGEND
-
 ---STRING objects with no navigation entry are still accessible on-site if the url is known
 Obiekty ukryte w nawigacji nadal można osiągną bezpośrednim URLem
 ---STRINGEND
@@ -228,18 +212,6 @@ Metoda sortowania
 
 ---STRING size
 Rozmiar
----STRINGEND
-
----STRING sort by score
-Wg wagi
----STRINGEND
-
----STRING sort folders
-Sortowanie folderów
----STRINGEND
-
----STRING sort pages
-Sortowanie stron
 ---STRINGEND
 
 ---STRING style

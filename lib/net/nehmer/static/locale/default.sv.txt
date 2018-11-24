@@ -2,14 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE sv
 
----STRING Only show approved articles
-Visa endast godkända artiklar
----STRINGEND
-
----STRING activate autoindex
-Automatisk skapa ett index för det här ämnet
----STRINGEND
-
 ---STRING approve
 Godkänn
 ---STRINGEND
@@ -34,20 +26,12 @@ Index sidan ersätter artikeln vars URL namn är index och innehåller en lista 
 Innehåll
 ---STRINGEND
 
----STRING create article
-Skapa artikel
----STRINGEND
-
 ---STRING default_schema
 Standard schema för artiklar
 ---STRINGEND
 
 ---STRING directory index for %s
 Katalogs index för %s
----STRINGEND
-
----STRING edit article
-Ändra artikel
 ---STRINGEND
 
 ---STRING file lastmodified
@@ -98,20 +82,12 @@ Det finns inga  filer i den här katalogen
 Den här katalogen har ingen <strong>index</strong> artikel. Var vänlig att skapa en med URL namn <strong>index</strong> eller aktivera autoindex läge.
 ---STRINGEND
 
----STRING no schemas available
-Inga scheman tillgängliga
----STRINGEND
-
 ---STRING schema settings
 Data schemats inställningar
 ---STRINGEND
 
 ---STRING schemadb
 Schemadatabas för det här ämnet
----STRINGEND
-
----STRING select schema
-Välj schema
 ---STRINGEND
 
 ---STRING settings
@@ -122,20 +98,12 @@ Inställningar
 Visa blobs i autoindex
 ---STRINGEND
 
----STRING show_blobs_in_autoindex
-Visa blobs i autoindex
----STRINGEND
-
 ---STRING sort_order
 Sorterings ordning
 ---STRINGEND
 
 ---STRING unapprove
 Godkänn inte
----STRINGEND
-
----STRING view article
-Visa artikel
 ---STRINGEND
 
 ---STRING visible

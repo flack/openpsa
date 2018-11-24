@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
----STRING %s state
-%s state
----STRINGEND
-
 ---STRING author
 Author
 ---STRINGEND
@@ -30,10 +26,6 @@ Could not save folder. Reason: %s
 Create folder
 ---STRINGEND
 
----STRING create folder under %s
-Create subfolder under "%s"
----STRINGEND
-
 ---STRING create subfolder
 Create subfolder
 ---STRINGEND
@@ -48,10 +40,6 @@ Creator
 
 ---STRING default
 Default
----STRINGEND
-
----STRING default order selected
-Default order selected
 ---STRINGEND
 
 ---STRING default sort order
@@ -162,10 +150,6 @@ New style created
 No sortable elements found
 ---STRINGEND
 
----STRING no url name specified
-No URL name specified!
----STRINGEND
-
 ---STRING order navigation
 Arrange navigation items
 ---STRINGEND
@@ -228,18 +212,6 @@ Select the ordering method first to sort the pages
 
 ---STRING size
 Size
----STRINGEND
-
----STRING sort by score
-Sort by score
----STRINGEND
-
----STRING sort folders
-Sort folders
----STRINGEND
-
----STRING sort pages
-Sort pages
 ---STRINGEND
 
 ---STRING style

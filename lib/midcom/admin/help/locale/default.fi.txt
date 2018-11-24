@@ -26,10 +26,6 @@ Kontrolleri
 Kuvaus
 ---STRINGEND
 
----STRING go to help main page
-Takaisin ohjeiden pääsivulle
----STRINGEND
-
 ---STRING handler_id
 Tunniste
 ---STRINGEND
@@ -96,10 +92,6 @@ MgdSchema-tyypit komponentissa %s
 
 ---STRING midcom.admin.help
 Käyttöohjeet
----STRINGEND
-
----STRING no handlers found
-Käsittelijöitä ei löytynyt
 ---STRINGEND
 
 ---STRING no routes found

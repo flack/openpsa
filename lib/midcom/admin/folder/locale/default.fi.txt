@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE fi
 
----STRING %s state
-%s-aste
----STRINGEND
-
 ---STRING author
 Tekijä
 ---STRINGEND
@@ -30,10 +26,6 @@ Kansion tallennus epäonnistui. Syy: %s
 Luo kansio
 ---STRINGEND
 
----STRING create folder under %s
-Luo alikansio kansion "%s" alle
----STRINGEND
-
 ---STRING create subfolder
 Luo alikansio
 ---STRINGEND
@@ -48,10 +40,6 @@ Luoja
 
 ---STRING default
 Oletus
----STRINGEND
-
----STRING default order selected
-Oletusjärjestys valittu
 ---STRINGEND
 
 ---STRING default sort order
@@ -158,10 +146,6 @@ Uusi tyyli luotu
 Järjesteltäviä tietueita ei löytynyt
 ---STRINGEND
 
----STRING no url name specified
-URL-nimeä ei määritelty!
----STRINGEND
-
 ---STRING objects with no navigation entry are still accessible on-site if the url is known
 Tietueet jotka eivät näy navigaatiossa ovat silti saatavilla suoran URL-osoitteen kautta
 ---STRINGEND
@@ -228,18 +212,6 @@ Valitse järjestelytapa ensin järjestelläksesi sivuja
 
 ---STRING size
 Tiedoston koko
----STRINGEND
-
----STRING sort by score
-Järjestä pisteiden mukaisesti
----STRINGEND
-
----STRING sort folders
-Järjestele kansioita
----STRINGEND
-
----STRING sort pages
-Järjestele sivuja
 ---STRINGEND
 
 ---STRING style

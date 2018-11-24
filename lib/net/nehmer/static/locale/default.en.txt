@@ -2,14 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
----STRING Only show approved articles
-Only show approved articles
----STRINGEND
-
----STRING activate autoindex
-Automatically create an index page for this topic?
----STRINGEND
-
 ---STRING approve
 Approve
 ---STRINGEND
@@ -46,10 +38,6 @@ Creation callback snippet for defining site-specific function
 Content
 ---STRINGEND
 
----STRING create article
-Create Article
----STRINGEND
-
 ---STRING default_schema
 Default schema for new articles
 ---STRINGEND
@@ -60,10 +48,6 @@ Directory index for %s
 
 ---STRING display settings
 Article display configuration
----STRINGEND
-
----STRING edit article
-Edit Article
 ---STRINGEND
 
 ---STRING enable_ajax_editing
@@ -118,10 +102,6 @@ There are no files in this directory
 This folder does not have an <strong>index</strong> article. Please create an article with URL name <strong>index</strong> or activate the autoindex mode to get started.
 ---STRINGEND
 
----STRING no schemas available
-No Schemas available
----STRINGEND
-
 ---STRING schema settings
 Data schema settings
 ---STRINGEND
@@ -130,19 +110,11 @@ Data schema settings
 Schema database to use for this topic
 ---STRINGEND
 
----STRING select schema
-Select Schema
----STRINGEND
-
 ---STRING settings
 Settings
 ---STRINGEND
 
 ---STRING show blobs in autoindex
-Show blobs in autoindex
----STRINGEND
-
----STRING show_blobs_in_autoindex
 Show blobs in autoindex
 ---STRINGEND
 
@@ -156,10 +128,6 @@ Sort order
 
 ---STRING unapprove
 Unapprove
----STRINGEND
-
----STRING view article
-View Article
 ---STRINGEND
 
 ---STRING visible

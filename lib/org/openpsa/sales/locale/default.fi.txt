@@ -42,10 +42,6 @@ Kulu
 Yksikkökulu
 ---STRINGEND
 
----STRING cost structure
-Kustannusrakenne
----STRINGEND
-
 ---STRING cost type
 Kustannustyyppi
 ---STRINGEND
@@ -68,10 +64,6 @@ Luo myyntiprojekti
 
 ---STRING create task
 Luo tehtävä
----STRINGEND
-
----STRING created project "%s"
-Projekti "%s" luotu
 ---STRINGEND
 
 ---STRING created task "%s"
@@ -218,10 +210,6 @@ Myyntiprojekti
 Voitetut myyntiprojektit
 ---STRINGEND
 
----STRING salesprojects: %s
-Myyntiprojektit: %s
----STRINGEND
-
 ---STRING select product
 Valitse tuote
 ---STRINGEND
@@ -254,10 +242,6 @@ Tilaussykli %d suljettu sopimukselle %s (%s)
 Tilaus päättyy
 ---STRINGEND
 
----STRING subscription starts
-Tilaus alkaa
----STRINGEND
-
 ---STRING supplier
 Toimittaja
 ---STRINGEND
@@ -268,10 +252,6 @@ Otsikko
 
 ---STRING total
 Yhteensä
----STRINGEND
-
----STRING total cost
-Kulu yhteensä
 ---STRINGEND
 
 ---STRING unit
