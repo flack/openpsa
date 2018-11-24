@@ -10,6 +10,9 @@
             ],
             'type' => 'text',
             'widget' => 'text',
+            'start_fieldset' => [
+                'title' => 'display settings',
+            ],
         ],
         'show_items_in_feed' => [
             'title' => 'number of items in feed',
