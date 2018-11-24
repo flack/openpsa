@@ -22,10 +22,6 @@ Aufgabe erstellen
 Tagesansicht
 ---STRINGEND
 
----STRING my summary
-Meine Zusammenfassung
----STRINGEND
-
 ---STRING org.openpsa.mypage
 Persönliche Zusammenfassung
 ---STRINGEND

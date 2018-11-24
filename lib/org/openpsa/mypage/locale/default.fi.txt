@@ -18,10 +18,6 @@ Luo henkilö
 Luo tehtävä
 ---STRINGEND
 
----STRING my summary
-Yhteenveto
----STRINGEND
-
 ---STRING now working on
 Nyt työn alla
 ---STRINGEND

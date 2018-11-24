@@ -26,10 +26,6 @@ Day View
 Billable
 ---STRINGEND
 
----STRING my summary
-My summary
----STRINGEND
-
 ---STRING now working on
 Now working on
 ---STRINGEND

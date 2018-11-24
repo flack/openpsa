@@ -6,7 +6,7 @@ $view_types = [
 $formatter = $data['l10n']->get_formatter();
 foreach (array_filter($view_types) as $type) {
     echo "<div class=\"area\">\n";
-    echo "<h2>" . sprintf($data['l10n']->get("updated %s"), $data['l10n']->get($type)) . "</h2>\n";
+    echo "<h2>" . $data['l10n']->get("updated " . $type) . "</h2>\n";
     echo "<ul class=\"updated\">\n";
     foreach ($data[$type] as $document) {
         $class = explode('.', $document->component);
