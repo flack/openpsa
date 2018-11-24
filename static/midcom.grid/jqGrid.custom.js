@@ -309,7 +309,7 @@ var midcom_grid_editable = {
 
         self.add_inline_controls();
         var create_button_parameters = {
-            caption: "",
+            caption: self.options.button_label || "",
             buttonicon: "fa-plus",
             onClickButton: function() {
                 var new_id = 'new_' + self.last_added_row++,
