@@ -341,9 +341,6 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
                 $data['mime'] = $att->mimetype;
                 if ($stat = $att->stat()) {
                     $data['size'] = $stat['size'];
-                } else {
-                    // Workaround for https://github.com/Studio-42/elFinder/issues/2704
-                    $data['size'] = $att->metadata->size;
                 }
             }
         } else {
