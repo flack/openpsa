@@ -6,10 +6,6 @@
 Klicka för att skapa Wiki sida
 ---STRINGEND
 
----STRING edit wikipage
-Ändra Wiki sida
----STRINGEND
-
 ---STRING login to create
 Logga in för att skapa saknad sida
 ---STRINGEND

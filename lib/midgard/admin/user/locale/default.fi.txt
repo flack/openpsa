@@ -46,10 +46,6 @@ Luo käyttäjä
 Kellonaika (%s)
 ---STRINGEND
 
----STRING edit %s
-Muokkaa kohdetta %s
----STRINGEND
-
 ---STRING edit account
 Muokkaa käyttäjätunnusta
 ---STRINGEND

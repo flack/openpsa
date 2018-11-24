@@ -42,10 +42,6 @@ Skapa användare
 nuvarande tid (%s)
 ---STRINGEND
 
----STRING edit %s
-Ändra %s
----STRINGEND
-
 ---STRING edit account
 Editera konto
 ---STRINGEND

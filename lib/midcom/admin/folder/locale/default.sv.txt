@@ -50,10 +50,6 @@ Standard sorterings ordning
 Ta bort katalog
 ---STRINGEND
 
----STRING edit %s
-Ändra '%s'
----STRINGEND
-
 ---STRING edit folder
 Ändra katalog
 ---STRINGEND

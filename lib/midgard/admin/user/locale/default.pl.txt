@@ -47,10 +47,6 @@ Dodaj użytkownika
 Bieżący czas (%s)
 ---STRINGEND
 
----STRING edit %s
-Edytuj %s
----STRINGEND
-
 ---STRING edit account
 Edytuj konto
 ---STRINGEND

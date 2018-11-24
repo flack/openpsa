@@ -26,10 +26,6 @@ Tagesansicht
 Überlappungen nicht zulassen
 ---STRINGEND
 
----STRING edit %s
-%s bearbeiten
----STRINGEND
-
 ---STRING end time
 Endzeit
 ---STRINGEND

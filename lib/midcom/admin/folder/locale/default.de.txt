@@ -50,10 +50,6 @@ Standard-Sortierreihenfolge
 Ordner löschen
 ---STRINGEND
 
----STRING edit %s
-'%s' bearbeiten
----STRINGEND
-
 ---STRING edit folder
 Ordner bearbeiten
 ---STRINGEND

@@ -62,14 +62,6 @@ Näyttöasetukset
 Näytä sivuun liittyvät toiset sivut sisällössä
 ---STRINGEND
 
----STRING edit %s
-Muokkaa sivua %s
----STRINGEND
-
----STRING edit wikipage
-Muokkaa Wiki-sivua
----STRINGEND
-
 ---STRING latest updates in %s
 Viimeisimmät päivitykset wikissä %s
 ---STRINGEND

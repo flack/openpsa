@@ -30,10 +30,6 @@ Päivänäkymä
 Älä salli päällekkäisiä
 ---STRINGEND
 
----STRING edit %s
-Muokkaa %s
----STRINGEND
-
 ---STRING end time
 Päättyy
 ---STRINGEND

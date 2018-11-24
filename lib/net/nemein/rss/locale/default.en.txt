@@ -38,20 +38,12 @@ Default author for items
 Full details
 ---STRINGEND
 
----STRING display items
-Display items as
----STRINGEND
-
 ---STRING edit feed %s
 Edit feed "%s"
 ---STRINGEND
 
 ---STRING feed title
 Feed title
----STRINGEND
-
----STRING feed title display
-Feed title display
 ---STRINGEND
 
 ---STRING feed url

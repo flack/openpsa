@@ -66,14 +66,6 @@ Anzeigeeinstellungen
 Zeige Objekte, die mit dieser Seite verbunden sind
 ---STRINGEND
 
----STRING edit %s
-%s bearbeiten
----STRINGEND
-
----STRING edit wikipage
-Wiki-Seite editieren
----STRINGEND
-
 ---STRING latest updates in %s
 Letzte Updates in %s
 ---STRINGEND

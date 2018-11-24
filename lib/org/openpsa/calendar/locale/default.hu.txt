@@ -22,10 +22,6 @@ Napi nézet
 Átfedés megtiltása
 ---STRINGEND
 
----STRING edit %s
-%s szerkesztése
----STRINGEND
-
 ---STRING end time
 Befejezés időpontja
 ---STRINGEND

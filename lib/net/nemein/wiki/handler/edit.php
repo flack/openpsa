@@ -79,7 +79,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 
         $this->load_controller();
 
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('edit %s'), $this->page->title));
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->page->title));
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->controller,

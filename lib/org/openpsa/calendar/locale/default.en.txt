@@ -30,10 +30,6 @@ Day view
 Don't allow overlapping
 ---STRINGEND
 
----STRING edit %s
-Edit %s
----STRINGEND
-
 ---STRING end time
 End time
 ---STRINGEND

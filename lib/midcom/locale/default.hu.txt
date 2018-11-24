@@ -70,6 +70,10 @@ Le
 Szerkesztés
 ---STRINGEND
 
+---STRING edit %s
+'%s' szerkesztése
+---STRINGEND
+
 ---STRING end date
 Befejezés dátuma
 ---STRINGEND

@@ -50,10 +50,6 @@ Domyślne sortowanie
 Usuń folder
 ---STRINGEND
 
----STRING edit %s
-Edytuj "%s"
----STRINGEND
-
 ---STRING edit folder
 Edytuj folder
 ---STRINGEND

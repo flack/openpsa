@@ -34,20 +34,12 @@ Uutisten oletuskirjoittaja
 Koko uutinen
 ---STRINGEND
 
----STRING display items
-Näytä uutiset muodossa
----STRINGEND
-
 ---STRING edit feed %s
 Muokkaa uutissyötettä "%s"
 ---STRINGEND
 
 ---STRING feed title
 Lähteen otsikko
----STRINGEND
-
----STRING feed title display
-Lähteen otsikon näyttö
 ---STRINGEND
 
 ---STRING feed url

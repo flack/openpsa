@@ -52,7 +52,7 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
             ->get_controller();
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('edit %s'), $this->_event->title));
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_event->title));
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
 

@@ -34,19 +34,11 @@ Standard författare för artiklar
 Alla detaljer
 ---STRINGEND
 
----STRING display items
-Visa objekt som
----STRINGEND
-
 ---STRING edit feed %s
 Ändra feed "%s"
 ---STRINGEND
 
 ---STRING feed title
-Kanalens titel
----STRINGEND
-
----STRING feed title display
 Kanalens titel
 ---STRINGEND
 

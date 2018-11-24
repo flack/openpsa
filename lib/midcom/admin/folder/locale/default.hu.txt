@@ -10,10 +10,6 @@ Alapértelmezett
 Mappa törlése
 ---STRINGEND
 
----STRING edit %s
-'%s' szerkesztése
----STRINGEND
-
 ---STRING folder type
 Mappa típus
 ---STRINGEND

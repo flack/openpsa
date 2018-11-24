@@ -34,20 +34,12 @@ Standard-Verfasser für Einträge
 Alle Details
 ---STRINGEND
 
----STRING display items
-Einträge anzeigen als
----STRINGEND
-
 ---STRING edit feed %s
 Feed "%s" bearbeiten
 ---STRINGEND
 
 ---STRING feed title
 Feed-Titel
----STRINGEND
-
----STRING feed title display
-Feed-Titel für Anzeige
 ---STRINGEND
 
 ---STRING feed url

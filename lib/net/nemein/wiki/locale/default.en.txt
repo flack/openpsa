@@ -66,14 +66,6 @@ Display settings
 Display related to items in page
 ---STRINGEND
 
----STRING edit %s
-Edit %s
----STRINGEND
-
----STRING edit wikipage
-Edit Wiki page
----STRINGEND
-
 ---STRING latest updates in %s
 Latest updates in %s
 ---STRINGEND

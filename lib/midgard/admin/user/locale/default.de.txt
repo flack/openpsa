@@ -54,10 +54,6 @@ Aktuelle Zeit (%s)
 Benutzerkonto löschen
 ---STRINGEND
 
----STRING edit %s
-%s bearbeiten
----STRINGEND
-
 ---STRING edit account
 Benutzerkonto bearbeiten
 ---STRINGEND

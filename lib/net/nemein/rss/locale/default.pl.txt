@@ -34,20 +34,12 @@ Domyślny autor
 Szczegóły
 ---STRINGEND
 
----STRING display items
-Wyświetl elementy jako
----STRINGEND
-
 ---STRING edit feed %s
 Edytuj wsad "%s"
 ---STRINGEND
 
 ---STRING feed title
 Tytuł
----STRINGEND
-
----STRING feed title display
-Wyświetlanie tytułu
 ---STRINGEND
 
 ---STRING feed url

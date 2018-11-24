@@ -54,10 +54,6 @@ Current time (%s)
 Delete account
 ---STRINGEND
 
----STRING edit %s
-Edit %s
----STRINGEND
-
 ---STRING edit account
 Edit account
 ---STRINGEND

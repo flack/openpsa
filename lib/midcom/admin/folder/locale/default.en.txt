@@ -50,10 +50,6 @@ Default sort order
 Delete folder
 ---STRINGEND
 
----STRING edit %s
-Edit '%s'
----STRINGEND
-
 ---STRING edit folder
 Edit folder
 ---STRINGEND

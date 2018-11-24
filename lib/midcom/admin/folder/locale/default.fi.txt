@@ -50,10 +50,6 @@ Oletus
 Poista kansio
 ---STRINGEND
 
----STRING edit %s
-Muokkaa kohdetta '%s'
----STRINGEND
-
 ---STRING edit folder
 Muokkaa kansiota
 ---STRINGEND
