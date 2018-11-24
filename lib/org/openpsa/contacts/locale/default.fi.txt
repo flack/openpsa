@@ -54,10 +54,6 @@ Yhteyshenkilöt
 Maa
 ---STRINGEND
 
----STRING create event
-Luo tapahtuma
----STRINGEND
-
 ---STRING create organization
 Luo yritys
 ---STRINGEND

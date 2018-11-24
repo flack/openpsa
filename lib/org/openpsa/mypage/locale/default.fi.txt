@@ -6,16 +6,8 @@
 %02.2f tuntia (%02.2f laskutettavaa) raportoitu
 ---STRINGEND
 
----STRING create event
-Luo tapahtuma
----STRINGEND
-
 ---STRING create person
 Luo henkilö
----STRINGEND
-
----STRING create task
-Luo tehtävä
 ---STRINGEND
 
 ---STRING now working on

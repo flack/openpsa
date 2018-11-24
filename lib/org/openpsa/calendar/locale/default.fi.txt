@@ -18,10 +18,6 @@ Valitse näytettävät kalenterit
 Luo tapahtuma
 ---STRINGEND
 
----STRING create note
-Luo muistiinpanot
----STRINGEND
-
 ---STRING day view
 Päivänäkymä
 ---STRINGEND

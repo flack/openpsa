@@ -6,16 +6,8 @@
 %02.2f hours (%02.2f billable) reported
 ---STRINGEND
 
----STRING create event
-Create event
----STRINGEND
-
 ---STRING create person
 Create person
----STRINGEND
-
----STRING create task
-Create task
 ---STRINGEND
 
 ---STRING day review

@@ -6,16 +6,8 @@
 %02.2f Arbeitsstunden (%02.2f abrechenbar) gemeldet
 ---STRINGEND
 
----STRING create event
-Termin erstellen
----STRINGEND
-
 ---STRING create person
 Person erstellen
----STRINGEND
-
----STRING create task
-Aufgabe erstellen
 ---STRINGEND
 
 ---STRING day review

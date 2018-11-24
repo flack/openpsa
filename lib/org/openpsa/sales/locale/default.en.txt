@@ -65,24 +65,8 @@ Cost per unit (%)
 Cost type
 ---STRINGEND
 
----STRING create document
-Create document
----STRINGEND
-
----STRING create event
-Create event
----STRINGEND
-
----STRING create note
-Create note
----STRINGEND
-
 ---STRING create salesproject
 Create sales project
----STRINGEND
-
----STRING create task
-Create task
 ---STRINGEND
 
 ---STRING create_offer

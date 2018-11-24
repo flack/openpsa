@@ -86,10 +86,6 @@ Kontakte
 Land
 ---STRINGEND
 
----STRING create event
-Termin erstellen
----STRINGEND
-
 ---STRING create organization
 Organisation erstellen
 ---STRINGEND
