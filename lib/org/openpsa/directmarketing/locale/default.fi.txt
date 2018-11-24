@@ -66,10 +66,6 @@ Sovittaa kaikki
 Mikä tahansa palautuksentunnistus-yhteensopiva
 ---STRINGEND
 
----STRING archival
-Arkistointi
----STRINGEND
-
 ---STRING archived on
 Arkistoitu
 ---STRINGEND
@@ -114,24 +110,12 @@ Parametri
 Ryhmän ominaisuus
 ---STRINGEND
 
----STRING class:group parameters
-Ryhmän parametri
----STRINGEND
-
 ---STRING class:membership
 Jäsenyyden ominaisuus
 ---STRINGEND
 
----STRING class:membership parameters
-Jäsenyyden parametri
----STRINGEND
-
 ---STRING class:person
 Henkilön ominaisuus
----STRINGEND
-
----STRING class:person parameters
-Henkilön parametri
 ---STRINGEND
 
 ---STRING comma
@@ -270,15 +254,11 @@ Lähettäjän osoite
 Linkistä "%s"
 ---STRINGEND
 
----STRING generated on %s by %s
-Luotu %s %s:n toimesta
----STRINGEND
-
----STRING given rule could not be parsed
+---STRING given ruleset could not be parsed
 Annettua sääntöä ei voida ymmärtää
 ---STRINGEND
 
----STRING given rule is empty
+---STRING given ruleset is empty
 Annettua sääntö on tyhjä
 ---STRINGEND
 
@@ -358,14 +338,6 @@ Linkintunnistuksen asetukset
 Linkkistatistiikka
 ---STRINGEND
 
----STRING longtext:generated_from_found_in_adv_rule
-"generated_from" havaittu tehokäyttäjän säännössä, se on automaattisesti poistettu. Ole hyvä ja varmista että sääntö on yhä OK ennen kuin tallennat
----STRINGEND
-
----STRING longtext:wizard_not_available
-Tämän kampanjan sääntöjä ei voida muokata sääntöeditorilla, vaihdettiin tehokäyttäjätilaan
----STRINGEND
-
 ---STRING mail() function (not recommended)
 mail()-funktio (ei suositella)
 ---STRINGEND
@@ -422,16 +394,8 @@ Viestejä lähetetty
 Uusi %s
 ---STRINGEND
 
----STRING new message
-Uusi viesti
----STRINGEND
-
 ---STRING newline
 rivinvaihto
----STRINGEND
-
----STRING no rule given
-Ei sääntöä
 ---STRINGEND
 
 ---STRING no segment
@@ -646,10 +610,6 @@ Vastausosoite
 Raportti viestille %s
 ---STRINGEND
 
----STRING rule generation warning
-Varoitus sääntöä luodessa
----STRINGEND
-
 ---STRING rules wizard
 Sääntövelho
 ---STRINGEND
@@ -680,10 +640,6 @@ Lähetä viesti koeryhmälle
 
 ---STRING send message to whole campaign
 Lähetä viesti kampanjalle
----STRINGEND
-
----STRING send to testers
-Lähetä testaajille
 ---STRINGEND
 
 ---STRING sending messages
@@ -788,9 +744,5 @@ Voit lisätä täällä henkilöitä kampanjaan listana sähköpostiosoitteita
 
 ---STRING you can import vcards here
 Voit lisätä täällä henkilöitä kampanjaan vCard-muodossa
----STRINGEND
-
----STRING you must select "%s" or "%s" for matching
-Sinun täytyy valita "%s" tai "%s" täsmäykseksi
 ---STRINGEND
 

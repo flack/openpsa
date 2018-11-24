@@ -58,10 +58,6 @@ Bereits eingetragen
 Alle kompatiblen Bounce-Detektoren
 ---STRINGEND
 
----STRING archival
-Archiv
----STRINGEND
-
 ---STRING archived on
 Archiviert am
 ---STRINGEND
@@ -106,24 +102,12 @@ Parameter
 Gruppen-Attribut
 ---STRINGEND
 
----STRING class:group parameters
-Gruppen-Parameter
----STRINGEND
-
 ---STRING class:membership
 Mitglieds-Attribut
 ---STRINGEND
 
----STRING class:membership parameters
-Mitglieds-Parameter
----STRINGEND
-
 ---STRING class:person
 Personen-Attribut
----STRINGEND
-
----STRING class:person parameters
-Personen-Parameter
 ---STRINGEND
 
 ---STRING comma
@@ -250,15 +234,11 @@ Absenderadresse
 von Link "%s"
 ---STRINGEND
 
----STRING generated on %s by %s
-Erstellt am %s von %s
----STRINGEND
-
----STRING given rule could not be parsed
+---STRING given ruleset could not be parsed
 Die Regel konnte nicht geparst werden
 ---STRINGEND
 
----STRING given rule is empty
+---STRING given ruleset is empty
 Die Regel ist leer
 ---STRINGEND
 
@@ -334,14 +314,6 @@ Konfiguration des Link-Detektors
 Link-Statistik
 ---STRINGEND
 
----STRING longtext:generated_from_found_in_adv_rule
-"generated_from" in Regel gefunden und automatisch entfernt. Bitte überprüfen sie die Regel, bevor sie die Änderung speichern
----STRINGEND
-
----STRING longtext:wizard_not_available
-Die Regeln dieser Kampagne können nicht im Assistenten bearbeitet werden, wechsle zum erweiterten Modus
----STRINGEND
-
 ---STRING mail() function (not recommended)
 mail()-Funktion (nicht empfohlen)
 ---STRINGEND
@@ -398,16 +370,8 @@ Nachrichten verschickt
 Neue %s
 ---STRINGEND
 
----STRING new message
-Neue Nachricht
----STRINGEND
-
 ---STRING newline
 Zeilenumbruch
----STRINGEND
-
----STRING no rule given
-Keine Regel übergeben
 ---STRINGEND
 
 ---STRING no segment
@@ -606,10 +570,6 @@ Antwortadresse
 Report für Nachricht "%s"
 ---STRINGEND
 
----STRING rule generation warning
-Regelerstellungs-Warnung
----STRINGEND
-
 ---STRING rules wizard
 Regel-Assistent
 ---STRINGEND
@@ -644,10 +604,6 @@ Nachricht an Tester versenden
 
 ---STRING send message to whole campaign
 Nachricht an gesamte Kampagne versenden
----STRINGEND
-
----STRING send to testers
-An Tester versenden
 ---STRINGEND
 
 ---STRING sending messages
@@ -748,10 +704,6 @@ hier können sie einfache E-Mail-Adresslisten importieren
 
 ---STRING you can import vcards here
 Hier können sie vCards zur Kampagne hinzufügen
----STRINGEND
-
----STRING you must select "%s" or "%s" for matching
-Sie müssen "%s" oder "%s" für den Abgleich auswählen
 ---STRINGEND
 
 ---STRING preview

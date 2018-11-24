@@ -38,10 +38,6 @@ Käsiteltyä suodatinta kohteelle %s ei voida asettaa parametriksi
 Poista asetus
 ---STRINGEND
 
----STRING use the buttons below or in toolbar
-Käytä työkalupalkissa tai alla olevia painikkeita
----STRINGEND
-
 ---STRING workgroup private
 Yksityinen työryhmälle
 ---STRINGEND

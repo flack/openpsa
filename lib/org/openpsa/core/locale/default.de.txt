@@ -50,10 +50,6 @@ Der übergebene Filter für %s konnte nicht als Parameter gespeichert werden
 zurücksetzen
 ---STRINGEND
 
----STRING use the buttons below or in toolbar
-Benutzen sie die nachfolgenden Buttons oder die in der Toolbar
----STRINGEND
-
 ---STRING workgroup private
 Privat (Arbeitsgruppe)
 ---STRINGEND

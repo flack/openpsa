@@ -18,24 +18,12 @@ Kampányok
 Csoportok tulajdonságai
 ---STRINGEND
 
----STRING class:group parameters
-Csoportok paraméterei
----STRINGEND
-
 ---STRING class:membership
 Tagok tulajdonságai
 ---STRINGEND
 
----STRING class:membership parameters
-Tagok paraméterei
----STRINGEND
-
 ---STRING class:person
 Személyek tulajdonságai
----STRINGEND
-
----STRING class:person parameters
-Személyek paraméterei
 ---STRINGEND
 
 ---STRING contains
@@ -160,18 +148,6 @@ bármely
 
 ---STRING messages sent
 Elküldött üzenetek
----STRINGEND
-
----STRING new message
-Új üzenet
----STRINGEND
-
----STRING no rule given
-Nincs szabály
----STRINGEND
-
----STRING normal campaign
-Normál kampány
 ---STRINGEND
 
 ---STRING not equals
@@ -316,10 +292,6 @@ Címzettek
 
 ---STRING remove rule
 Szabály eltávolítása
----STRINGEND
-
----STRING rule generation warning
-Szabály létrehozási figyelmeztetés
 ---STRINGEND
 
 ---STRING send message

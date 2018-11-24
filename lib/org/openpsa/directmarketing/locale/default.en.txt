@@ -66,10 +66,6 @@ Matches all
 Any bounce detector compatible
 ---STRINGEND
 
----STRING archival
-Archival
----STRINGEND
-
 ---STRING archived on
 Archived on
 ---STRINGEND
@@ -114,24 +110,12 @@ Parameter
 Groups property
 ---STRINGEND
 
----STRING class:group parameters
-Groups parameter
----STRINGEND
-
 ---STRING class:membership
 Members property
 ---STRINGEND
 
----STRING class:membership parameters
-Members parameter
----STRINGEND
-
 ---STRING class:person
 Persons property
----STRINGEND
-
----STRING class:person parameters
-Persons parameter
 ---STRINGEND
 
 ---STRING comma
@@ -270,16 +254,12 @@ From address
 From link "%s"
 ---STRINGEND
 
----STRING generated on %s by %s
-Generated on %s by %s
+---STRING given ruleset could not be parsed
+Given ruleset could not be parsed
 ---STRINGEND
 
----STRING given rule could not be parsed
-Given rule could not be parsed
----STRINGEND
-
----STRING given rule is empty
-Given rule is empty
+---STRING given ruleset is empty
+Given ruleset is empty
 ---STRINGEND
 
 ---STRING greater than
@@ -358,14 +338,6 @@ Link detector configuration
 Link statistics
 ---STRINGEND
 
----STRING longtext:generated_from_found_in_adv_rule
-"generated_from" found in advanced rule, it has been automatically removed. please review the rule before saving this change
----STRINGEND
-
----STRING longtext:wizard_not_available
-This campaigns rules cannot be edited by the rule wizard, switched to advanced mode
----STRINGEND
-
 ---STRING mail() function (not recommended)
 mail() function (not recommended)
 ---STRINGEND
@@ -422,16 +394,8 @@ Messages sent
 New %s
 ---STRINGEND
 
----STRING new message
-New message
----STRINGEND
-
 ---STRING newline
 newline
----STRINGEND
-
----STRING no rule given
-No rule given
 ---STRINGEND
 
 ---STRING no segment
@@ -646,10 +610,6 @@ Reply to address
 Report for message %s
 ---STRINGEND
 
----STRING rule generation warning
-Rule generation warning
----STRINGEND
-
 ---STRING rules wizard
 Rules wizard
 ---STRINGEND
@@ -684,10 +644,6 @@ Send message to testers
 
 ---STRING send message to whole campaign
 Send message to whole campaign
----STRINGEND
-
----STRING send to testers
-Send to testers
 ---STRINGEND
 
 ---STRING sending messages
@@ -788,9 +744,5 @@ You can import simple lists of email addresses here
 
 ---STRING you can import vcards here
 Here you can import vCards to the campaign
----STRINGEND
-
----STRING you must select "%s" or "%s" for matching
-You must select "%s" or "%s" for matching
 ---STRINGEND
 

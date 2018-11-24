@@ -54,10 +54,6 @@ The handed filter for %s could not be set as parameter
 unset
 ---STRINGEND
 
----STRING use the buttons below or in toolbar
-Use the buttons below or in the toolbar
----STRINGEND
-
 ---STRING workgroup private
 Private to Workgroup
 ---STRINGEND
