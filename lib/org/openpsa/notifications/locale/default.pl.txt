@@ -18,10 +18,6 @@ Dziedziczone
 Brak powiadomienia
 ---STRINGEND
 
----STRING notification preferences
-Preferencje powiadomień
----STRINGEND
-
 ---STRING notification sent to %s
 Powiadomienie wysłane do %s
 ---STRINGEND

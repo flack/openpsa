@@ -2,22 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE fi
 
----STRING %s includes
-%s sisältää
----STRINGEND
-
----STRING %s is
-%s on
----STRINGEND
-
----STRING %s is at least
-%s on vähintään
----STRINGEND
-
----STRING %s is at most
-%s on enintään
----STRINGEND
-
 ---STRING code
 Koodi
 ---STRINGEND
@@ -48,10 +32,6 @@ puolet
 
 ---STRING hour
 tunti
----STRINGEND
-
----STRING list group products
-Listaa tuoteryhmät
 ---STRINGEND
 
 ---STRING material goods
@@ -170,28 +150,12 @@ Tuo tuotteet kannasta
 Kenttäerotin
 ---STRINGEND
 
----STRING if we have subgroups and products in group, what shall we show
-Jos tuoteryhmällä on alaryhmiä ja tuotteita, mitä näytetään?
----STRINGEND
-
----STRING index order for products when browsing groups
-Tuotteiden järjestys tuoteryhmiä selattaessa
----STRINGEND
-
----STRING one line per product
-Yksi tuote per rivi
----STRINGEND
-
 ---STRING product group schema database
 Tuoteryhmien tietokantakuvaus
 ---STRINGEND
 
 ---STRING product schema database
 Tuotteiden tietokantakuvaus
----STRINGEND
-
----STRING products per page
-Tuotteita per sivu
 ---STRINGEND
 
 ---STRING root product group

@@ -18,10 +18,6 @@ Email
 Nincs értesítés
 ---STRINGEND
 
----STRING notification preferences
-Értesítési beállítások
----STRINGEND
-
 ---STRING notification sent to %s
 %s számára értesítés küldve
 ---STRINGEND

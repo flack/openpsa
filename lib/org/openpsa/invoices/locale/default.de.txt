@@ -62,10 +62,6 @@ Kundenkontakt
 Übersicht
 ---STRINGEND
 
----STRING delete invoice
-Rechnung löschen
----STRINGEND
-
 ---STRING due
 Fällig
 ---STRINGEND
@@ -140,10 +136,6 @@ Rechnungsnummer
 
 ---STRING invoiceable reports
 Abrechenbare Stundenberichte
----STRINGEND
-
----STRING invoiced hour reports
-Abgerechnete Stundenberichte
 ---STRINGEND
 
 ---STRING invoicing information
@@ -400,10 +392,6 @@ Es wurde keine Nummer zu einer Rechnung übergeben
 
 ---STRING recalculate_by_reports
 Neuberechnung mittels Stundenberichten
----STRINGEND
-
----STRING invoice sum
-Rechnungssumme
 ---STRINGEND
 
 ---STRING price per unit

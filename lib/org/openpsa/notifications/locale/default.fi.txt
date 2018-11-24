@@ -25,8 +25,3 @@ Ilmoitus lähetetty käyttäjälle %s
 ---STRING org.openpsa.notifications
 Ilmoitusten hallinta
 ---STRINGEND
-
----STRING notification preferences
-Ilmoitusasetukset
----STRINGEND
-

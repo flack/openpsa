@@ -30,10 +30,6 @@ Asiakas
 Asiakasyhteyshenkilö
 ---STRINGEND
 
----STRING delete invoice
-Poista lasku
----STRINGEND
-
 ---STRING due
 Eräpäivä
 ---STRINGEND
@@ -88,10 +84,6 @@ Laskua ei löytynyt
 
 ---STRING invoiceable reports
 Laskutettavat raportit
----STRINGEND
-
----STRING invoiced hour reports
-Laskutetut tuntiraportit
 ---STRINGEND
 
 ---STRING invoicing information

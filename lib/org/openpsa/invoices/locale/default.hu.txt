@@ -26,10 +26,6 @@ Számla létrehozása
 Ügyfél elérhetősége
 ---STRINGEND
 
----STRING delete invoice
-Számla törlése
----STRINGEND
-
 ---STRING invoice
 Számla
 ---STRINGEND

@@ -58,10 +58,6 @@ Customer contact
 Dashboard
 ---STRINGEND
 
----STRING delete invoice
-Delete invoice
----STRINGEND
-
 ---STRING due
 Due date
 ---STRINGEND
@@ -148,10 +144,6 @@ The invoice was not found
 
 ---STRING invoiceable reports
 Billable Reports
----STRINGEND
-
----STRING invoiced hour reports
-Invoiced hour reports
 ---STRINGEND
 
 ---STRING invoicing information
@@ -396,10 +388,6 @@ Recalculate by hour-reports
 
 ---STRING invoice canceled on %s
 Canceled on %s
----STRINGEND
-
----STRING invoice sum
-Invoice sum
 ---STRINGEND
 
 ---STRING price per unit

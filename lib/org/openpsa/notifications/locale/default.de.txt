@@ -18,10 +18,6 @@ Vererbt
 Keine Benachrichtigung
 ---STRINGEND
 
----STRING notification preferences
-Benachrichtigungs-Einstellungen
----STRINGEND
-
 ---STRING notification sent to %s
 Benachrichtigung verschickt an %s
 ---STRINGEND

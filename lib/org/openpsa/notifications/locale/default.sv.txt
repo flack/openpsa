@@ -18,10 +18,6 @@ Epost
 Ingen notifiering
 ---STRINGEND
 
----STRING notification preferences
-Notifieringsinställningar
----STRINGEND
-
 ---STRING notification sent to %s
 Notifierings skickad till
 ---STRINGEND

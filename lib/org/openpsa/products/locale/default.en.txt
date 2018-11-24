@@ -2,22 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
----STRING %s includes
-%s includes
----STRINGEND
-
----STRING %s is
-%s is
----STRINGEND
-
----STRING %s is at least
-%s is at least
----STRINGEND
-
----STRING %s is at most
-%s is at most
----STRINGEND
-
 ---STRING code
 Code
 ---STRINGEND
@@ -66,18 +50,6 @@ half year
 hour
 ---STRINGEND
 
----STRING if we have subgroups and products in group, what shall we show
-If we have subgroups and products in a group, what shall we show?
----STRINGEND
-
----STRING index order for products when browsing groups
-Index order for products when browsing groups
----STRINGEND
-
----STRING list group products
-List group products
----STRINGEND
-
 ---STRING material goods
 Material goods
 ---STRINGEND
@@ -88,10 +60,6 @@ month
 
 ---STRING number of items in feed
 Number of items in feed
----STRINGEND
-
----STRING one line per product
-One line per product
 ---STRINGEND
 
 ---STRING org.openpsa.products
@@ -148,10 +116,6 @@ Product schema database
 
 ---STRING products
 Products
----STRINGEND
-
----STRING products per page
-Products per page
 ---STRINGEND
 
 ---STRING quarter

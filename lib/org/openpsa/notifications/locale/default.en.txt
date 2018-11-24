@@ -18,10 +18,6 @@ Inherited
 No notification
 ---STRINGEND
 
----STRING notification preferences
-Notification preferences
----STRINGEND
-
 ---STRING notification sent to %s
 Notification sent to %s
 ---STRINGEND

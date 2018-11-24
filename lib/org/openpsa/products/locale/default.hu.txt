@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE hu
 
----STRING %s includes
-%s tartalmaz
----STRINGEND
-
 ---STRING code
 Kód
 ---STRINGEND
@@ -129,16 +125,3 @@ Egység
 ---STRING year
 Év
 ---STRINGEND
-
----STRING %s is
-%s
----STRINGEND
-
----STRING %s is at least
-%s a legkevesebb
----STRINGEND
-
----STRING %s is at most
-%s a legtöbb
----STRINGEND
-
