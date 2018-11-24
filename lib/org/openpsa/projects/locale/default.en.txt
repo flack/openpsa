@@ -78,10 +78,6 @@ Create project
 Create task
 ---STRINGEND
 
----STRING create workgroups for this project
-Create workgroups for this project
----STRINGEND
-
 ---STRING current projects
 Current projects
 ---STRINGEND
@@ -136,14 +132,6 @@ Duration
 
 ---STRING edit
 Edit
----STRINGEND
-
----STRING edit project %s
-Edit project %s
----STRINGEND
-
----STRING edit task %s
-Edit task %s
 ---STRINGEND
 
 ---STRING end
@@ -210,32 +198,12 @@ Marked task "%s" closed
 Minimum time slot needed for task bookings
 ---STRINGEND
 
----STRING my organization
-From my organization
----STRINGEND
-
 ---STRING my_tasks
 My tasks
 ---STRINGEND
 
----STRING new project
-New project
----STRINGEND
-
----STRING new task
-New task
----STRINGEND
-
----STRING new task to project %s
-New task to project %s
----STRINGEND
-
 ---STRING no customer
 No Customer
----STRINGEND
-
----STRING no search
-No search
 ---STRINGEND
 
 ---STRING not_started
@@ -264,10 +232,6 @@ Open tasks
 
 ---STRING org.openpsa.projects
 Project management
----STRINGEND
-
----STRING overtime
-Overtime
 ---STRINGEND
 
 ---STRING pending approval by %s
@@ -396,10 +360,6 @@ Task %s
 
 ---STRING task deletion not allowed because of hour reports
 Task deletion not allowed because of hour reports
----STRINGEND
-
----STRING task in
-Task in
 ---STRINGEND
 
 ---STRING task status

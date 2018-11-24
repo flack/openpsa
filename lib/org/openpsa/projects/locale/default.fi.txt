@@ -118,14 +118,6 @@ Kesto
 Muokkaa
 ---STRINGEND
 
----STRING edit project %s
-Muokkaa projektia %s
----STRINGEND
-
----STRING edit task %s
-Muokkaa tehtävää %s
----STRINGEND
-
 ---STRING end
 Päättymisaika
 ---STRINGEND
@@ -190,32 +182,12 @@ Merkitty tehtävä "%s" suljetuksi
 Aikavarauksissä käytettävä pienin hyväksyttävä kesto
 ---STRINGEND
 
----STRING my organization
-Omasta organisaatiosta
----STRINGEND
-
 ---STRING my_tasks
 Minun tehtäväni
 ---STRINGEND
 
----STRING new project
-Uusi projekti
----STRINGEND
-
----STRING new task
-Uusi tehtävä
----STRINGEND
-
----STRING new task to project %s
-Uusi tehtävä projektiin %s
----STRINGEND
-
 ---STRING no customer
 Ei asiakasta
----STRINGEND
-
----STRING no search
-Ei hakua
 ---STRINGEND
 
 ---STRING not_started
@@ -244,10 +216,6 @@ Avoimet tehtävät
 
 ---STRING org.openpsa.projects
 Projektinhallinta
----STRINGEND
-
----STRING overtime
-Myöhässä
 ---STRINGEND
 
 ---STRING pending approval by %s
@@ -364,10 +332,6 @@ Tehtävä
 
 ---STRING task %s
 Tehtävä %s
----STRINGEND
-
----STRING task in
-Tehtävä projektissa
 ---STRINGEND
 
 ---STRING task status

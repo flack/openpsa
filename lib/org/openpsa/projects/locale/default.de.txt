@@ -78,10 +78,6 @@ Projekt anlegen
 Aufgabe anlegen
 ---STRINGEND
 
----STRING create workgroups for this project
-Arbeitsgruppen für dieses Projekt anlegen
----STRINGEND
-
 ---STRING current projects
 Aktuelle Projekte
 ---STRINGEND
@@ -136,14 +132,6 @@ Dauer
 
 ---STRING edit
 Bearbeiten
----STRINGEND
-
----STRING edit project %s
-Projekt %s bearbeiten
----STRINGEND
-
----STRING edit task %s
-Aufgabe %s bearbeiten
 ---STRINGEND
 
 ---STRING end
@@ -210,32 +198,12 @@ Aufgabe "%s" als abgeschlossen markiert
 Kleinste Zeiteinheit für Aufgaben-Buchungen
 ---STRINGEND
 
----STRING my organization
-Von meiner Organisation
----STRINGEND
-
 ---STRING my_tasks
 Meine Aufgaben
 ---STRINGEND
 
----STRING new project
-Neues Projekt
----STRINGEND
-
----STRING new task
-Neue Aufgabe
----STRINGEND
-
----STRING new task to project %s
-Neue Aufgabe zu Projekt %s
----STRINGEND
-
 ---STRING no customer
 Kein Kunde
----STRINGEND
-
----STRING no search
-Keine Suche
 ---STRINGEND
 
 ---STRING not_started
@@ -264,10 +232,6 @@ Offene Aufgaben
 
 ---STRING org.openpsa.projects
 Projekt-Management
----STRINGEND
-
----STRING overtime
-Überstunden
 ---STRINGEND
 
 ---STRING pending approval by %s
@@ -392,10 +356,6 @@ Aufgabe %s
 
 ---STRING task deletion not allowed because of hour reports
 Die Aufgabe kann aufgrund von Stundenberichten nicht gelöscht werden
----STRINGEND
-
----STRING task in
-Aufgabe von
 ---STRINGEND
 
 ---STRING task status

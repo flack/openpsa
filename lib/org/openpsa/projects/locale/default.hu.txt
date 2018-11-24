@@ -110,10 +110,6 @@ Időtartam
 Szerkesztés
 ---STRINGEND
 
----STRING edit task %s
-%s feladat szerkesztése
----STRINGEND
-
 ---STRING end
 Vége
 ---STRINGEND
@@ -166,22 +162,6 @@ Befejezettként megjelöl
 Feladataim
 ---STRINGEND
 
----STRING new project
-Új projekt
----STRINGEND
-
----STRING new task
-Új feladat
----STRINGEND
-
----STRING new task to project %s
-Új feladat %s projekt számára
----STRINGEND
-
----STRING no search
-Nincs keresés
----STRINGEND
-
 ---STRING not_started
 Nincs elkezdve
 ---STRINGEND
@@ -196,10 +176,6 @@ Feladat megnyitása
 
 ---STRING org.openpsa.projects
 Projekt menedzsment
----STRINGEND
-
----STRING overtime
-Túlóra
 ---STRINGEND
 
 ---STRING planned hours
@@ -288,10 +264,6 @@ Feladat
 
 ---STRING task %s
 %s feladat
----STRINGEND
-
----STRING task in
-Feladat
 ---STRINGEND
 
 ---STRING task status

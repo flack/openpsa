@@ -74,7 +74,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         $this->project->require_do('midgard:update');
         $data['controller'] = $this->load_controller();
 
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('edit project %s'), $this->project->get_label()));
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('project')));
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $data['controller'],
