@@ -9,7 +9,8 @@
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
-use midcom\datamanager\extension\compat;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use midcom\datamanager\extension\type\radiocheckselectType;
 
 /**
  * OpenPSA password widget
@@ -25,12 +26,12 @@ class org_openpsa_user_widget_password extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('switch', compat::get_type_name('radiocheckselect'), [
+        $builder->add('switch', radiocheckselectType::class, [
             'type_config' => ['options' => ['generate_password', 'own_password']],
             'data' => 0,
             'label_attr' => ['style' => 'display: none']
         ]);
-        $builder->add('password', 'Symfony\Component\Form\Extension\Core\Type\PasswordType', [
+        $builder->add('password', PasswordType::class, [
             'label_attr' => ['style' => 'display: none']
         ]);
 
