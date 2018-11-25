@@ -76,6 +76,40 @@
                 ],
                 'widget' => 'radiocheckselect',
             ],
+            'archive_enable' => [
+                'title' => 'archive_enable',
+                'storage' => [
+                    'location' => 'configuration',
+                    'domain' => 'net.nehmer.blog',
+                    'name' => 'archive_enable',
+                ],
+                'type' => 'select',
+                'type_config' => [
+                    'options' => [
+                        '1' => 'yes',
+                        '0' => 'no',
+                        '' => 'default setting',
+                    ],
+                ],
+                'widget' => 'radiocheckselect',
+            ],
+            'archive_item_order' => [
+                'title' => 'archive item order',
+                'storage' => [
+                    'location' => 'configuration',
+                    'domain' => 'net.nehmer.blog',
+                    'name' => 'archive_item_order',
+                ],
+                'type' => 'select',
+                'type_config' => [
+                    'options' => [
+                        'ASC' => 'ascending',
+                        'DESC' => 'descending',
+                        '' => 'default setting',
+                    ],
+                ],
+                'widget' => 'radiocheckselect'
+            ],
             'list_from_folders' => [
                 'title' => 'folders',
                 'storage' => [
@@ -141,42 +175,7 @@
                 ],
                 'type' => 'text',
                 'widget' => 'text',
-                'end_fieldset' => '1',
-            ],
-            'archive_enable' => [
-                'title' => 'archive_enable',
-                'storage' => [
-                    'location' => 'configuration',
-                    'domain' => 'net.nehmer.blog',
-                    'name' => 'archive_enable',
-                ],
-                'type' => 'select',
-                'type_config' => [
-                    'options' => [
-                        '1' => 'yes',
-                        '0' => 'no',
-                        '' => 'default setting',
-                    ],
-                ],
-                'widget' => 'radiocheckselect',
-            ],
-            'archive_item_order' => [
-                'title' => 'archive item order',
-                'storage' => [
-                    'location' => 'configuration',
-                    'domain' => 'net.nehmer.blog',
-                    'name' => 'archive_item_order',
-                ],
-                'type' => 'select',
-                'type_config' => [
-                    'options' => [
-                        'ASC' => 'ascending',
-                        'DESC' => 'descending',
-                        '' => 'default setting',
-                    ],
-                ],
-                'widget' => 'radiocheckselect',
-                'end_fieldset' => '1',
+                'end_fieldset' => '2',
             ],
 
             'schemadb' => [
@@ -280,6 +279,7 @@
                     ],
                 ],
                 'widget' => 'radiocheckselect',
+                'end_fieldset' => '1',
             ],
             'show_latest_in_navigation' => [
                 'title' => 'show latest items in navigation',
