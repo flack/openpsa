@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE fi
 
----STRING approve
-Hyväksy
----STRINGEND
-
 ---STRING article
 Artikkeli
 ---STRINGEND
@@ -34,16 +30,8 @@ Luonnin jälkeen kutsuttavan callback-funktion sisältävä snippet-tietue
 Sisältö
 ---STRINGEND
 
----STRING default_schema
-Oletus-tietokantakuvaus uusille artikkeleille
----STRINGEND
-
 ---STRING directory index for %s
 Kansion %s sisällysluettelo
----STRINGEND
-
----STRING display settings
-Artikkelien näkyvyysasetukset
 ---STRINGEND
 
 ---STRING enable_ajax_editing
@@ -74,10 +62,6 @@ Tyyppi
 Näytä kansion nimi sivun otsikossa
 ---STRINGEND
 
----STRING from
-Kansiosta
----STRINGEND
-
 ---STRING hide_navigation
 Piilota artikkelit navigaatiosta
 ---STRINGEND
@@ -106,10 +90,6 @@ Tietokantakuvauksen asetukset
 Tässä kansiossa käytettävä tietokantakuvaus
 ---STRINGEND
 
----STRING settings
-Asetukset
----STRINGEND
-
 ---STRING show blobs in autoindex
 Näytä liitetiedostot automaattisella etusivulla
 ---STRINGEND
@@ -120,10 +100,6 @@ Luodaanko artikkelin URL-nimi automaattisesti?
 
 ---STRING sort_order
 Järjestely
----STRINGEND
-
----STRING unapprove
-Poista hyväksyntä
 ---STRINGEND
 
 ---STRING visible

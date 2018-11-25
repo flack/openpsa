@@ -66,10 +66,6 @@ Sisältö
 Laskeva
 ---STRINGEND
 
----STRING display settings
-Uutisten näyttöasetukset
----STRINGEND
-
 ---STRING edit article
 Muokkaa artikkelia
 ---STRINGEND
@@ -80,10 +76,6 @@ Käytä ajastettua julkaisua
 
 ---STRING first post was made on %s.
 Julkaistu %s.
----STRINGEND
-
----STRING from
-Kansiosta
 ---STRINGEND
 
 ---STRING index settings

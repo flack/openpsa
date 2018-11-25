@@ -14,24 +14,8 @@ Neuen Feed hinzufügen
 Neue Einträge automatisch freigeben
 ---STRINGEND
 
----STRING cancel
-Abbrechen
----STRINGEND
-
----STRING channels
-Einträge nach Kanal sortiert anzeigen
----STRINGEND
-
----STRING combined
-Die Einträge aller Kanäle kombinieren und nach Veröffentlichungsdatum sortieren.
----STRINGEND
-
 ---STRING default author for items
 Standard-Verfasser für Einträge
----STRINGEND
-
----STRING details
-Alle Details
 ---STRINGEND
 
 ---STRING edit feed %s
@@ -64,10 +48,6 @@ Zuletzt abgerufen: %s
 
 ---STRING latest item from %s
 Der neueste Eintrag ist vom %s
----STRINGEND
-
----STRING local
-Lokal speichern
 ---STRINGEND
 
 ---STRING local item
@@ -148,10 +128,6 @@ Neue Feeds abonnieren
 
 ---STRING subscribe feeds for %s
 Feeds für Ordner "%s" abonnieren
----STRINGEND
-
----STRING titles
-Nur Titel
 ---STRINGEND
 
 ---STRING untitled

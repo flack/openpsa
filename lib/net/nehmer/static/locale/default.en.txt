@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
----STRING approve
-Approve
----STRINGEND
-
 ---STRING article
 Article
 ---STRINGEND
@@ -38,16 +34,8 @@ Creation callback snippet for defining site-specific function
 Content
 ---STRINGEND
 
----STRING default_schema
-Default schema for new articles
----STRINGEND
-
 ---STRING directory index for %s
 Directory index for %s
----STRINGEND
-
----STRING display settings
-Article display configuration
 ---STRINGEND
 
 ---STRING enable_ajax_editing
@@ -78,10 +66,6 @@ File Type
 Show folder name in page title
 ---STRINGEND
 
----STRING from
-From
----STRINGEND
-
 ---STRING hide_navigation
 Hide articles from navigation
 ---STRINGEND
@@ -110,10 +94,6 @@ Data schema settings
 Schema database to use for this topic
 ---STRINGEND
 
----STRING settings
-Settings
----STRINGEND
-
 ---STRING show blobs in autoindex
 Show blobs in autoindex
 ---STRINGEND
@@ -124,10 +104,6 @@ Should the article's URL be generated automatically?
 
 ---STRING sort_order
 Sort order
----STRINGEND
-
----STRING unapprove
-Unapprove
 ---STRINGEND
 
 ---STRING visible

@@ -6,10 +6,6 @@
 %02.2f Arbeitsstunden (%02.2f abrechenbar) gemeldet
 ---STRINGEND
 
----STRING create person
-Person erstellen
----STRINGEND
-
 ---STRING day review
 Tagesansicht
 ---STRINGEND
@@ -24,10 +20,6 @@ Vorschau auf Kalenderwoche %s
 
 ---STRING review of week %s
 Übersicht über Kalenderwoche %s
----STRINGEND
-
----STRING updated %s
-%s geändert
 ---STRINGEND
 
 ---STRING updated today

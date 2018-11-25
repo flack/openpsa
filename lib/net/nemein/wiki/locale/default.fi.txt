@@ -50,14 +50,6 @@ Luo uudelleenohjaus "%s"
 Luo wiki-sivu "%s"
 ---STRINGEND
 
----STRING default schema
-Sivujen oletustyyppi
----STRINGEND
-
----STRING display settings
-Näyttöasetukset
----STRINGEND
-
 ---STRING display_related_to
 Näytä sivuun liittyvät toiset sivut sisällössä
 ---STRINGEND
@@ -130,28 +122,12 @@ Sivulle "%s" viittaavat sivut
 Esikatselu
 ---STRINGEND
 
----STRING recipients
-Vastaanottajat
----STRINGEND
-
 ---STRING redirect page
 Sivu jolle ohjataan
 ---STRINGEND
 
 ---STRING redirection
 Uudelleenohjaus
----STRINGEND
-
----STRING related notes
-Asiaan liittyviä muistioita
----STRINGEND
-
----STRING related to
-Liittyy aiheeseen
----STRINGEND
-
----STRING sender
-Lähettäjä
 ---STRINGEND
 
 ---STRING subscribe

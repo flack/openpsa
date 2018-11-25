@@ -50,10 +50,6 @@ Innehåll
 Descending
 ---STRINGEND
 
----STRING display settings
-Nyhets inlägg visnings konfiguration
----STRINGEND
-
 ---STRING edit article
 Ändra Artikel
 ---STRINGEND
@@ -64,10 +60,6 @@ Slå på schemalagd publicering
 
 ---STRING first post was made on %s.
 Första postningen vad gjord %s.
----STRINGEND
-
----STRING from
-Från
 ---STRINGEND
 
 ---STRING index settings

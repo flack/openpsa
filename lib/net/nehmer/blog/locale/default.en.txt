@@ -78,10 +78,6 @@ Disable indexing contents of this folder for full-text search
 Disable resolving PermaLinks to this folder
 ---STRINGEND
 
----STRING display settings
-News item display configuration
----STRINGEND
-
 ---STRING edit article
 Edit Article
 ---STRINGEND
@@ -92,10 +88,6 @@ Enable scheduled publishing
 
 ---STRING first post was made on %s.
 The first posting was made on %s.
----STRINGEND
-
----STRING from
-From
 ---STRINGEND
 
 ---STRING index settings

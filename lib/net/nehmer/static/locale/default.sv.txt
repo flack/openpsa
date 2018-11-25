@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE sv
 
----STRING approve
-Godkänn
----STRINGEND
-
 ---STRING article
 Artikel
 ---STRINGEND
@@ -24,10 +20,6 @@ Index sidan ersätter artikeln vars URL namn är index och innehåller en lista 
 
 ---STRING content
 Innehåll
----STRINGEND
-
----STRING default_schema
-Standard schema för artiklar
 ---STRINGEND
 
 ---STRING directory index for %s
@@ -58,10 +50,6 @@ Filtyp
 Visa mappens namn i sidans titel
 ---STRINGEND
 
----STRING from
-Från
----STRINGEND
-
 ---STRING hide_navigation
 Dölj artiklar från navigation
 ---STRINGEND
@@ -90,10 +78,6 @@ Data schemats inställningar
 Schemadatabas för det här ämnet
 ---STRINGEND
 
----STRING settings
-Inställningar
----STRINGEND
-
 ---STRING show blobs in autoindex
 Visa blobs i autoindex
 ---STRINGEND
@@ -102,20 +86,12 @@ Visa blobs i autoindex
 Sorterings ordning
 ---STRINGEND
 
----STRING unapprove
-Godkänn inte
----STRINGEND
-
 ---STRING visible
 Ska ämnet vara synligt
 ---STRINGEND
 
 ---STRING callback_function
 
----STRINGEND
-
----STRING display settings
-Artikel visnings konfiguration
 ---STRINGEND
 
 ---STRING simple_name_handling

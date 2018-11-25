@@ -6,10 +6,6 @@
 Vis liste over artikler på forsiden?
 ---STRINGEND
 
----STRING approve
-Vis på siden
----STRINGEND
-
 ---STRING auto_approve
 Vis alle nye artikkler automatisk?
 ---STRINGEND
@@ -22,16 +18,8 @@ Dette valget skifter ut førstesiden med en liste av alle artikler som ligger un
 Statisk innhold
 ---STRINGEND
 
----STRING default_schema
-Standardskjema for nye artikler
----STRINGEND
-
 ---STRING directory index for %s
 Emneindex for %s
----STRINGEND
-
----STRING display settings
-Visningsinnstillinger
 ---STRINGEND
 
 ---STRING file lastmodified
@@ -68,14 +56,6 @@ Innstillinger for dataskjema
 
 ---STRING schemadb
 Skjema som skal brukes i denne mappen
----STRINGEND
-
----STRING settings
-Innstillinger
----STRINGEND
-
----STRING unapprove
-Ikke vis på siden
 ---STRINGEND
 
 ---STRING visible

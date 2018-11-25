@@ -250,10 +250,6 @@ Työpuhelin
 %s
 ---STRINGEND
 
----STRING cancel
-Peruuta
----STRINGEND
-
 ---STRING no results
 Haullesi ei löytynyt tuloksia
 ---STRINGEND

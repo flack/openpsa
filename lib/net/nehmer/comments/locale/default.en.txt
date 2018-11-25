@@ -134,10 +134,6 @@ Only new
 Only approved
 ---STRINGEND
 
----STRING to object
-To object
----STRINGEND
-
 ---STRING go to parent object
 Commented object
 ---STRINGEND

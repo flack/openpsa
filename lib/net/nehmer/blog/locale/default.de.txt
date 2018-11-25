@@ -66,20 +66,12 @@ Inhalt
 Absteigend
 ---STRINGEND
 
----STRING display settings
-Konfiguration der Anzeige
----STRINGEND
-
 ---STRING edit article
 Artikel bearbeiten
 ---STRINGEND
 
 ---STRING first post was made on %s.
 Die erste Nachricht wurde am %s veröffentlicht.
----STRINGEND
-
----STRING from
-Von
 ---STRINGEND
 
 ---STRING index settings

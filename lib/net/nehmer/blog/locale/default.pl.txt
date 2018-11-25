@@ -66,10 +66,6 @@ Treść
 Malejąco
 ---STRINGEND
 
----STRING display settings
-Ustawienia wyświetlania
----STRINGEND
-
 ---STRING edit article
 Edytuj
 ---STRINGEND
@@ -80,10 +76,6 @@ Włącz planowanie publikacji
 
 ---STRING first post was made on %s.
 Pierwszy post: %s
----STRINGEND
-
----STRING from
-Z
 ---STRINGEND
 
 ---STRING index settings

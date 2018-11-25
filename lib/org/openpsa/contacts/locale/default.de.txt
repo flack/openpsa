@@ -42,10 +42,6 @@ Zu meinen Kontakten hinzufügen
 Basisdaten
 ---STRINGEND
 
----STRING cancel
-Abbrechen
----STRINGEND
-
 ---STRING categories
 Kategorien
 ---STRINGEND

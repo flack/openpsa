@@ -14,24 +14,8 @@ Lägg till ny kanal
 Godkänn nya artiklar automatiskt
 ---STRINGEND
 
----STRING cancel
-Avbryt
----STRINGEND
-
----STRING channels
-Visa objekt sortterade per kanal
----STRINGEND
-
----STRING combined
-Kombinera objekt från alla kanaler efter publiceringsdatum
----STRINGEND
-
 ---STRING default author for items
 Standard författare för artiklar
----STRINGEND
-
----STRING details
-Alla detaljer
 ---STRINGEND
 
 ---STRING edit feed %s
@@ -64,10 +48,6 @@ Senaste hämtning gjordes %s
 
 ---STRING latest item from %s
 Senaste artikel är från %s
----STRINGEND
-
----STRING local
-Spara lokalt
 ---STRINGEND
 
 ---STRING local item
@@ -116,10 +96,6 @@ Spara
 
 ---STRING subscribe feeds
 Prenumerera på nya feeds
----STRINGEND
-
----STRING titles
-Endast titlar
 ---STRINGEND
 
 ---STRING untitled

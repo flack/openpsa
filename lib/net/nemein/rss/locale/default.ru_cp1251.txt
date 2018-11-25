@@ -6,10 +6,6 @@
 Добавить новую ленту новостей
 ---STRINGEND
 
----STRING cancel
-Отменить
----STRINGEND
-
 ---STRING feed title
 Заголовок ленты новостей
 ---STRINGEND

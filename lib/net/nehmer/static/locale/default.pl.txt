@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE pl
 
----STRING approve
-Zatwierdź
----STRINGEND
-
 ---STRING article
 Artykuł
 ---STRINGEND
@@ -38,16 +34,8 @@ Skrypt zawierający kod funkcji zwrotnej.
 Treść
 ---STRINGEND
 
----STRING default_schema
-Domyślny schemat artykułu
----STRINGEND
-
 ---STRING directory index for %s
 Zawartość folderu %s
----STRINGEND
-
----STRING display settings
-Konfiguracja wyświetlania artykułów
 ---STRINGEND
 
 ---STRING enable_ajax_editing
@@ -78,10 +66,6 @@ Typ pliku
 Pokaż nazwę folderu w tytule strony
 ---STRINGEND
 
----STRING from
-Z
----STRINGEND
-
 ---STRING hide_navigation
 Ukryj artykuły w nawigacji
 ---STRINGEND
@@ -110,10 +94,6 @@ Ustawienia schematów danych.
 Schemat danych folderu.
 ---STRINGEND
 
----STRING settings
-Ustawienia
----STRINGEND
-
 ---STRING show blobs in autoindex
 Pokazuj załączniki w indeksie
 ---STRINGEND
@@ -124,10 +104,6 @@ Automatyczne tworzenie URLi.
 
 ---STRING sort_order
 Kolejność
----STRINGEND
-
----STRING unapprove
-Odtwierdź
 ---STRINGEND
 
 ---STRING visible

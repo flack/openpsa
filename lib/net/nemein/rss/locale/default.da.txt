@@ -6,10 +6,6 @@
 Tilføj ny nyhedskilde
 ---STRINGEND
 
----STRING cancel
-Annulér
----STRINGEND
-
 ---STRING feed title
 Kildetitel
 ---STRINGEND
