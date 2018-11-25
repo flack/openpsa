@@ -26,10 +26,6 @@ Toimitustapa
 Tuoteryhmät
 ---STRINGEND
 
----STRING half
-puolet
----STRINGEND
-
 ---STRING hour
 tunti
 ---STRINGEND
@@ -50,10 +46,6 @@ Syötteen kohteiden lukumäärä
 Tuotetietokanta
 ---STRINGEND
 
----STRING pack
-paketti
----STRINGEND
-
 ---STRING parent group
 Ylempi ryhmä
 ---STRINGEND
@@ -64,10 +56,6 @@ per kappale
 
 ---STRING piece
 kappale
----STRINGEND
-
----STRING pieces
-Kappaletta
 ---STRINGEND
 
 ---STRING price
@@ -146,10 +134,6 @@ Näytä asetukset
 Tuo tuotteet kannasta
 ---STRINGEND
 
----STRING field separator
-Kenttäerotin
----STRINGEND
-
 ---STRING product group schema database
 Tuoteryhmien tietokantakuvaus
 ---STRINGEND
@@ -160,8 +144,4 @@ Tuotteiden tietokantakuvaus
 
 ---STRING root product group
 Juuritason tuoteryhmä
----STRINGEND
-
----STRING schema
-Tietokantakuvaus
 ---STRINGEND

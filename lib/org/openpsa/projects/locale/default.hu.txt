@@ -106,10 +106,6 @@ Nem hagyja jóvá
 Időtartam
 ---STRINGEND
 
----STRING edit
-Szerkesztés
----STRINGEND
-
 ---STRING end
 Vége
 ---STRINGEND
@@ -218,10 +214,6 @@ Időjelentés
 Jelentve
 ---STRINGEND
 
----STRING reporter
-Jelentő
----STRINGEND
-
 ---STRING resources
 Erősforrás
 ---STRINGEND
@@ -248,10 +240,6 @@ Start ideje
 
 ---STRING status
 Állapot
----STRINGEND
-
----STRING subscribe
-Megrendelés
 ---STRINGEND
 
 ---STRING system

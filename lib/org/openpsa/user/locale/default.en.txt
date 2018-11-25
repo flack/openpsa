@@ -38,10 +38,6 @@ Create person
 Current password
 ---STRINGEND
 
----STRING delete account
-Delete account
----STRINGEND
-
 ---STRING enable calendar
 Allow to create events in the Group Calendar
 ---STRINGEND
@@ -128,10 +124,6 @@ Notification settings
 
 ---STRING new password
 New password
----STRINGEND
-
----STRING new password repeat
-Repeat new password
 ---STRINGEND
 
 ---STRING own_password
@@ -278,10 +270,6 @@ No user found with this username and email address
 User management
 ---STRINGEND
 
----STRING organizations
-Organizations
----STRINGEND
-
 ---STRING official
 Official name
 ---STRINGEND
@@ -308,10 +296,6 @@ Person %s saved
 
 ---STRING postcode
 Postcode
----STRINGEND
-
----STRING remove account
-Remove account
 ---STRINGEND
 
 ---STRING street

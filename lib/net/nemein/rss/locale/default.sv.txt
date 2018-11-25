@@ -90,10 +90,6 @@ Hur många RSS objekt ska visas?
 RSS vinsings inställningar
 ---STRINGEND
 
----STRING save
-Spara
----STRINGEND
-
 ---STRING subscribe feeds
 Prenumerera på nya feeds
 ---STRINGEND

@@ -10,10 +10,6 @@ Válasszon megjelenítendő naptárt
 Esemény létrehozása
 ---STRINGEND
 
----STRING day view
-Napi nézet
----STRINGEND
-
 ---STRING dont allow overlapping
 Átfedés megtiltása
 ---STRINGEND
@@ -46,14 +42,6 @@ Helyszín
 Saját
 ---STRINGEND
 
----STRING month view
-Havi nézet
----STRINGEND
-
----STRING next
-Következő
----STRINGEND
-
 ---STRING no event
 Nincs esemény
 ---STRINGEND
@@ -66,10 +54,6 @@ Naptár
 Résztvevők
 ---STRINGEND
 
----STRING previous
-Elöző
----STRINGEND
-
 ---STRING print
 Nyomtatás
 ---STRINGEND
@@ -80,14 +64,6 @@ Kezdés időpontja
 
 ---STRING time
 idő
----STRINGEND
-
----STRING today
-Ma
----STRINGEND
-
----STRING week view
-Heti nézet
 ---STRINGEND
 
 ---STRING available slot

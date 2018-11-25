@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
----STRING default
-Default
----STRINGEND
-
 ---STRING email
 Email
 ---STRINGEND

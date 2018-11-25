@@ -118,10 +118,6 @@ E-Mail-Adresse des Webmasters
 Einstellungen für die RSS-Ausgabe
 ---STRINGEND
 
----STRING save
-Speichern
----STRINGEND
-
 ---STRING subscribe feeds
 Neue Feeds abonnieren
 ---STRINGEND

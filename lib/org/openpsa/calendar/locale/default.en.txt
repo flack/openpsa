@@ -18,10 +18,6 @@ Choose calendars to display
 Create event
 ---STRINGEND
 
----STRING day view
-Day view
----STRINGEND
-
 ---STRING dont allow overlapping
 Don't allow overlapping
 ---STRINGEND
@@ -90,14 +86,6 @@ Me
 Meeting note for %s on %s by %s
 ---STRINGEND
 
----STRING month view
-Month view
----STRINGEND
-
----STRING next
-Next
----STRINGEND
-
 ---STRING no event
 No event
 ---STRINGEND
@@ -112,10 +100,6 @@ Participants
 
 ---STRING people
 People
----STRINGEND
-
----STRING previous
-Previous
 ---STRINGEND
 
 ---STRING print
@@ -140,14 +124,6 @@ Start time
 
 ---STRING time
 time
----STRINGEND
-
----STRING today
-Today
----STRINGEND
-
----STRING week view
-Week view
 ---STRINGEND
 
 ---STRING you have been added to event "%s"

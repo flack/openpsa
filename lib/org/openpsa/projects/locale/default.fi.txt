@@ -114,10 +114,6 @@ Kuvaus
 Kesto
 ---STRINGEND
 
----STRING edit
-Muokkaa
----STRINGEND
-
 ---STRING end
 Päättymisaika
 ---STRINGEND
@@ -286,10 +282,6 @@ Raportoi tunteja
 Raportoitu
 ---STRINGEND
 
----STRING reporter
-Raportoija
----STRINGEND
-
 ---STRING resources
 Resurssit
 ---STRINGEND
@@ -316,10 +308,6 @@ Alkupvm
 
 ---STRING status
 Tila
----STRINGEND
-
----STRING subscribe
-Liity
 ---STRINGEND
 
 ---STRING system

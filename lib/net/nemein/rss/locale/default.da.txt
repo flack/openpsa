@@ -17,8 +17,3 @@ URL for kilde
 ---STRING net.nemein.rss
 RSS news aggregator
 ---STRINGEND
-
----STRING save
-Gem
----STRINGEND
-

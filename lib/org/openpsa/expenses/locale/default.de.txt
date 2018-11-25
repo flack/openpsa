@@ -94,10 +94,6 @@ Aufgabe
 Zeitraum
 ---STRINGEND
 
----STRING total
-Summe
----STRINGEND
-
 ---STRING uninvoiceable
 Nicht abrechenbar
 ---STRINGEND

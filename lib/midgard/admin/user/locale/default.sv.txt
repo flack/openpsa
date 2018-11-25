@@ -174,10 +174,6 @@ Lösenord
 Lösenords längd
 ---STRINGEND
 
----STRING passwords
-Lösenord
----STRINGEND
-
 ---STRING passwords updated and mail sent
 Lösenorden uppdaterade och epost skickat
 ---STRINGEND
@@ -212,10 +208,6 @@ Avsändare
 
 ---STRING short dateformat (%s)
 Kort datumformat (%s)
----STRINGEND
-
----STRING string
-Sträng
 ---STRINGEND
 
 ---STRING subject

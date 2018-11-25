@@ -54,10 +54,6 @@ Raportoi tunteja
 Tehtävä
 ---STRINGEND
 
----STRING total
-Yhteensä
----STRINGEND
-
 ---STRING uninvoiceable
 Ei-laskutettava
 ---STRINGEND

@@ -186,10 +186,6 @@ Passwort
 Passwortlänge
 ---STRINGEND
 
----STRING passwords
-Passwörter
----STRINGEND
-
 ---STRING passwords updated and mail sent
 Die Passwörter wurden aktualisiert und eine Mail verschickt
 ---STRINGEND
@@ -228,10 +224,6 @@ Absender
 
 ---STRING short dateformat (%s)
 Kurzes Datumsformat (%s)
----STRINGEND
-
----STRING string
-String
 ---STRINGEND
 
 ---STRING subject

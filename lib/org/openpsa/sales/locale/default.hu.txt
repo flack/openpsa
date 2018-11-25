@@ -82,10 +82,6 @@ Számlázva
 Számlák
 ---STRINGEND
 
----STRING invoicing information
-Számlázási információ
----STRINGEND
-
 ---STRING invoicing period
 Számlázási időszak
 ---STRINGEND
@@ -154,14 +150,6 @@ Nyereség
 Tevezett
 ---STRINGEND
 
----STRING sales report
-Értékesítési jelentés
----STRINGEND
-
----STRING sales report %s - %s
-%s - %s értékesítési jelentése
----STRINGEND
-
 ---STRING salesproject
 Értékesítési projekt
 ---STRINGEND
@@ -200,10 +188,6 @@ Szállító
 
 ---STRING title
 Cím
----STRINGEND
-
----STRING total
-Összesen
 ---STRINGEND
 
 ---STRING unit

@@ -10,10 +10,6 @@
 %s raderade artiklar
 ---STRINGEND
 
----STRING %s purged
-%s raderat
----STRINGEND
-
 ---STRING %s trash
 %s i papperskorgen
 ---STRINGEND
@@ -108,10 +104,6 @@ Acscading Style Sheet
 
 ---STRING child types of %s
 Undertyper till %s
----STRINGEND
-
----STRING choose action
-Välj funktion
 ---STRINGEND
 
 ---STRING choose the target
@@ -472,10 +464,6 @@ Inte godkänd
 
 ---STRING not inherited
 Inte ärvd
----STRINGEND
-
----STRING object %s
-Objekt %s
 ---STRINGEND
 
 ---STRING object %s approved

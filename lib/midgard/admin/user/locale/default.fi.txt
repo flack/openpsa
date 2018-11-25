@@ -182,10 +182,6 @@ Salasana
 Salasanan pituus
 ---STRINGEND
 
----STRING passwords
-Salasanat
----STRINGEND
-
 ---STRING passwords updated and mail sent
 Salasanat on päivitetty ja posti lähetetty
 ---STRINGEND
@@ -224,10 +220,6 @@ Lähettäjä
 
 ---STRING short dateformat (%s)
 Lyhyt aikamuoto
----STRINGEND
-
----STRING string
-Merkkiketju
 ---STRINGEND
 
 ---STRING subject

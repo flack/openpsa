@@ -130,14 +130,6 @@ Plain text
 Version %s (%s)
 ---STRINGEND
 
----STRING file size
-File size
----STRINGEND
-
----STRING last modified
-Last modified
----STRINGEND
-
 ---STRING creator
 Creator
 ---STRINGEND

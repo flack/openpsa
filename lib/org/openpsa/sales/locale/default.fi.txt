@@ -94,10 +94,6 @@ Laskutettu
 Laskut
 ---STRINGEND
 
----STRING invoicing information
-Laskutustiedot
----STRINGEND
-
 ---STRING invoicing period
 Laskutuskausi
 ---STRINGEND
@@ -178,14 +174,6 @@ Kate
 Tarjottu
 ---STRINGEND
 
----STRING sales report
-Myyntiraportti
----STRINGEND
-
----STRING sales report %s - %s
-Myyntiraportti ajalle %s - %s
----STRINGEND
-
 ---STRING salesproject
 Myyntiprojekti
 ---STRINGEND
@@ -232,10 +220,6 @@ Toimittaja
 
 ---STRING title
 Otsikko
----STRINGEND
-
----STRING total
-Yhteensä
 ---STRINGEND
 
 ---STRING unit

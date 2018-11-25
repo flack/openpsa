@@ -13,11 +13,3 @@ Status
 ---STRING status history
 Historia
 ---STRINGEND
-
----STRING time
-Kellonaika
----STRINGEND
-
----STRING week
-Viikko
----STRINGEND

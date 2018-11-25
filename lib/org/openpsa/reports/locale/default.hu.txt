@@ -26,3 +26,6 @@ Jelentés készítő
 A jelentési kritérium szerint nincs megfelelő eredmény
 ---STRINGEND
 
+---STRING sales report %s - %s
+%s - %s értékesítési jelentése
+---STRINGEND

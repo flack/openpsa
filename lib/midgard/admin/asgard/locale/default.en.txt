@@ -14,10 +14,6 @@
 %s is under type %s.
 ---STRINGEND
 
----STRING %s purged
-%s purged
----STRINGEND
-
 ---STRING %s trash
 %s trash
 ---STRINGEND
@@ -124,10 +120,6 @@ Child types of %s
 
 ---STRING clear all
 Clear all
----STRINGEND
-
----STRING choose action
-Choose action
 ---STRINGEND
 
 ---STRING choose the target
@@ -534,16 +526,8 @@ Not approved
 Not inherited
 ---STRINGEND
 
----STRING object %s
-Object %s
----STRINGEND
-
 ---STRING object %s approved
 Object %s approved
----STRINGEND
-
----STRING object %s has been deleted
-The object %s has been deleted. To undelete it, go to the type's trash.
 ---STRINGEND
 
 ---STRING object %s removed

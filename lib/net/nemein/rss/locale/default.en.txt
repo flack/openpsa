@@ -122,10 +122,6 @@ RSS Feed title (leave empty to use the topic's title)
 Webmaster email address
 ---STRINGEND
 
----STRING save
-Save
----STRINGEND
-
 ---STRING subscribe feeds
 Subscribe new feeds
 ---STRINGEND

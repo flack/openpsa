@@ -130,14 +130,6 @@ Version %s (%s)
 Keine Ergebnisse
 ---STRINGEND
 
----STRING file size
-Dateigröße
----STRINGEND
-
----STRING last modified
-Letzte Bearbeitung
----STRINGEND
-
 ---STRING creator
 Ersteller
 ---STRINGEND

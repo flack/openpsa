@@ -38,10 +38,6 @@ Person erstellen
 Aktuelles Passwort
 ---STRINGEND
 
----STRING delete account
-Benutzerkonto löschen
----STRINGEND
-
 ---STRING enable calendar
 Darf Termine im Gruppenkalender anlegen
 ---STRINGEND
@@ -128,10 +124,6 @@ Benachrichtigungseinstellungen
 
 ---STRING new password
 Neues Passwort
----STRINGEND
-
----STRING new password repeat
-Neues Passwort wiederholen
 ---STRINGEND
 
 ---STRING own_password
@@ -278,10 +270,6 @@ Es wurde kein Benutzer mit diesem Benutzenamen und dieser E-Mail-Adresse gefunde
 Benutzerverwaltung
 ---STRINGEND
 
----STRING organizations
-Organisationen
----STRINGEND
-
 ---STRING official
 Offizieller Name
 ---STRINGEND
@@ -308,10 +296,6 @@ Person %s wurde gespeichert
 
 ---STRING postcode
 PLZ
----STRINGEND
-
----STRING remove account
-Benutzerkonto löschen
 ---STRINGEND
 
 ---STRING street

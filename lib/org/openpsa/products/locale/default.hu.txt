@@ -26,10 +26,6 @@ Szállítása fajtája
 Termék csoportok
 ---STRINGEND
 
----STRING half
-fele
----STRINGEND
-
 ---STRING hour
 óra
 ---STRINGEND
@@ -46,10 +42,6 @@ hónap
 Termék adatbázis
 ---STRINGEND
 
----STRING pack
-csomag
----STRINGEND
-
 ---STRING parent group
 Szülő csoport
 ---STRINGEND
@@ -60,10 +52,6 @@ egységenként
 
 ---STRING piece
 darab
----STRINGEND
-
----STRING pieces
-darabok
 ---STRINGEND
 
 ---STRING price

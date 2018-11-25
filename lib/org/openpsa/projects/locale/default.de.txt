@@ -130,10 +130,6 @@ Nicht genehmigen
 Dauer
 ---STRINGEND
 
----STRING edit
-Bearbeiten
----STRINGEND
-
 ---STRING end
 Ende
 ---STRINGEND
@@ -306,10 +302,6 @@ Arbeitsstunden melden
 Gemeldet
 ---STRINGEND
 
----STRING reporter
-Berichterstatter
----STRINGEND
-
 ---STRING resources
 Ressourcen
 ---STRINGEND
@@ -336,10 +328,6 @@ Anfangszeit
 
 ---STRING status
 Status
----STRINGEND
-
----STRING subscribe
-Abonnieren
 ---STRINGEND
 
 ---STRING system

@@ -179,10 +179,6 @@ Hasło
 Długość
 ---STRINGEND
 
----STRING passwords
-Hasła
----STRINGEND
-
 ---STRING passwords updated and mail sent
 Hasła zmieniono i wysłano powiadomienia
 ---STRINGEND
@@ -217,10 +213,6 @@ Nadawca
 
 ---STRING short dateformat (%s)
 Krótki format (%s)
----STRINGEND
-
----STRING string
-Napis
 ---STRINGEND
 
 ---STRING subject

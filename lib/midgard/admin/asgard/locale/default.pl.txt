@@ -14,10 +14,6 @@
 %s jest podtypem %s
 ---STRINGEND
 
----STRING %s purged
-%s usunięto z kosza
----STRINGEND
-
 ---STRING %s trash
 Kosz %s
 ---STRINGEND
@@ -120,10 +116,6 @@ Zmiany z wersji %s do %s
 
 ---STRING child types of %s
 Typy podrzędne w %s
----STRINGEND
-
----STRING choose action
-Wybierz
 ---STRINGEND
 
 ---STRING choose the target
@@ -510,16 +502,8 @@ Nie zatwierdzone
 Nie dziedziczone
 ---STRINGEND
 
----STRING object %s
-Obiekt %s
----STRINGEND
-
 ---STRING object %s approved
 Obiekt %s został zatwierdzony
----STRINGEND
-
----STRING object %s has been deleted
-Obiekt %s został usunięty. Aby go odzyskać przejdź do Kosza danego typu.
 ---STRINGEND
 
 ---STRING object %s removed

@@ -14,10 +14,6 @@ Basisgruppe für Kontaktlisten
 Kontakt hinzufügen
 ---STRINGEND
 
----STRING person_fieldset
-Person
----STRINGEND
-
 ---STRING both
 Beiden
 ---STRINGEND
@@ -112,14 +108,6 @@ Später entscheiden
 
 ---STRING department
 Abteilung
----STRINGEND
-
----STRING due
-Fälligkeit
----STRINGEND
-
----STRING edit
-Bearbeiten
 ---STRINGEND
 
 ---STRING edit billingdata
@@ -250,10 +238,6 @@ Organisations-Typ
 Organisationen
 ---STRINGEND
 
----STRING other
-andere
----STRINGEND
-
 ---STRING owner group
 Übergeordnete Gruppe
 ---STRINGEND
@@ -296,10 +280,6 @@ Aus meinen Kontakten entfernen
 
 ---STRING salutation
 Anrede
----STRINGEND
-
----STRING save
-Speichern
 ---STRINGEND
 
 ---STRING search

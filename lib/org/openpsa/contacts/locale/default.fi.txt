@@ -78,10 +78,6 @@ Päätä myöhemmin
 Osasto
 ---STRINGEND
 
----STRING edit
-Muokkaa
----STRINGEND
-
 ---STRING email
 Sähköposti
 ---STRINGEND
@@ -253,8 +249,3 @@ Työpuhelin
 ---STRING no results
 Haullesi ei löytynyt tuloksia
 ---STRINGEND
-
----STRING save
-Tallenna
----STRINGEND
-

@@ -161,10 +161,6 @@ Invoiced
 Invoices
 ---STRINGEND
 
----STRING invoicing information
-Invoicing information
----STRINGEND
-
 ---STRING invoicing period
 Invoicing period
 ---STRINGEND
@@ -297,14 +293,6 @@ Profit
 Proposed
 ---STRINGEND
 
----STRING sales report
-Sales report
----STRINGEND
-
----STRING sales report %s - %s
-Sales report for %s - %s
----STRINGEND
-
 ---STRING salesproject
 Sales project
 ---STRINGEND
@@ -387,10 +375,6 @@ Supplier
 
 ---STRING title
 Title
----STRINGEND
-
----STRING total
-Total
 ---STRINGEND
 
 ---STRING unit

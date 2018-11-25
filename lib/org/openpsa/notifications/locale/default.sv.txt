@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE sv
 
----STRING default
-Standard
----STRINGEND
-
 ---STRING email
 Epost
 ---STRINGEND

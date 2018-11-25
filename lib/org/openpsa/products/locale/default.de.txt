@@ -30,16 +30,8 @@ Anzeigeeinstellungen
 Produkte exportieren
 ---STRINGEND
 
----STRING field separator
-Feldtrenner
----STRINGEND
-
 ---STRING groups
 Produktgruppen
----STRINGEND
-
----STRING half
-Hälfte
 ---STRINGEND
 
 ---STRING half-year
@@ -66,10 +58,6 @@ Anzahl der Einträge im Feed
 Produkt-Datenbank
 ---STRINGEND
 
----STRING pack
-Paket
----STRINGEND
-
 ---STRING parent group
 Übergeordnete Gruppe
 ---STRINGEND
@@ -80,10 +68,6 @@ pro Einheit
 
 ---STRING piece
 Stück
----STRINGEND
-
----STRING pieces
-Teile
 ---STRINGEND
 
 ---STRING price
@@ -124,10 +108,6 @@ Quartal
 
 ---STRING root product group
 Oberste Produktgruppe
----STRINGEND
-
----STRING schema
-Schema
 ---STRINGEND
 
 ---STRING service

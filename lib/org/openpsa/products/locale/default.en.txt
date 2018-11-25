@@ -30,16 +30,8 @@ Display Settings
 Export products
 ---STRINGEND
 
----STRING field separator
-Field separator
----STRINGEND
-
 ---STRING groups
 Product groups
----STRINGEND
-
----STRING half
-half
 ---STRINGEND
 
 ---STRING half-year
@@ -66,10 +58,6 @@ Number of items in feed
 Product database
 ---STRINGEND
 
----STRING pack
-package
----STRINGEND
-
 ---STRING parent group
 Parent group
 ---STRINGEND
@@ -80,10 +68,6 @@ per unit
 
 ---STRING piece
 piece
----STRINGEND
-
----STRING pieces
-Pieces
 ---STRINGEND
 
 ---STRING price
@@ -124,10 +108,6 @@ quarter
 
 ---STRING root product group
 Root product group
----STRINGEND
-
----STRING schema
-Schema
 ---STRINGEND
 
 ---STRING service

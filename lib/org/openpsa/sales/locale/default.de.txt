@@ -158,10 +158,6 @@ Abgerechnet
 Rechnungen
 ---STRINGEND
 
----STRING invoicing information
-Rechnungsdaten
----STRINGEND
-
 ---STRING invoicing period
 Rechnungszeitraum
 ---STRINGEND
@@ -298,14 +294,6 @@ Gewinn
 Vorgeschlagen
 ---STRINGEND
 
----STRING sales report
-Verkaufsbericht
----STRINGEND
-
----STRING sales report %s - %s
-Verkaufsbericht für %s - %s
----STRINGEND
-
 ---STRING salesproject
 Verkaufsprojekt
 ---STRINGEND
@@ -384,10 +372,6 @@ Zulieferer
 
 ---STRING title
 Titel
----STRINGEND
-
----STRING total
-Gesamtsumme
 ---STRINGEND
 
 ---STRING unit

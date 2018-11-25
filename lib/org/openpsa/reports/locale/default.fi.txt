@@ -82,6 +82,10 @@ Raportin tyyli
 Pääprojekti/-prosessi
 ---STRINGEND
 
+---STRING sales report %s - %s
+Myyntiraportti ajalle %s - %s
+---STRINGEND
+
 ---STRING scope
 Laajuus
 ---STRINGEND

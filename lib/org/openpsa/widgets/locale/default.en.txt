@@ -2,14 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
----STRING loading
-Loading
----STRINGEND
-
----STRING more
-more
----STRINGEND
-
 ---STRING no person
 No person
 ---STRINGEND
@@ -20,12 +12,4 @@ Status
 
 ---STRING status history
 Status history
----STRINGEND
-
----STRING time
-Time
----STRINGEND
-
----STRING week
-Week
 ---STRINGEND

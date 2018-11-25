@@ -106,14 +106,6 @@ Decide later
 Department
 ---STRINGEND
 
----STRING due
-Due
----STRINGEND
-
----STRING edit
-Edit
----STRINGEND
-
 ---STRING edit billingdata
 Edit billing data
 ---STRINGEND
@@ -242,10 +234,6 @@ Organization type
 Organizations
 ---STRINGEND
 
----STRING other
-Other
----STRINGEND
-
 ---STRING owner group
 Owner Group
 ---STRINGEND
@@ -264,10 +252,6 @@ Person
 
 ---STRING persons
 Persons
----STRINGEND
-
----STRING person_fieldset
-Person
 ---STRINGEND
 
 ---STRING phone
@@ -292,10 +276,6 @@ Remove from my contacts
 
 ---STRING salutation
 Salutation
----STRINGEND
-
----STRING save
-Save
 ---STRINGEND
 
 ---STRING search

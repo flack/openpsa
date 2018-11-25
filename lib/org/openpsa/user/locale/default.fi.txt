@@ -66,10 +66,6 @@ Salli myyntiprojektien luonti
 Uusi salasana
 ---STRINGEND
 
----STRING new password repeat
-Uusi salasana (uudestaan)
----STRINGEND
-
 ---STRING no account
 Ei käyttäjätunnusta
 ---STRINGEND

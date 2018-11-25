@@ -18,10 +18,6 @@ Valitse näytettävät kalenterit
 Luo tapahtuma
 ---STRINGEND
 
----STRING day view
-Päivänäkymä
----STRINGEND
-
 ---STRING dont allow overlapping
 Älä salli päällekkäisiä
 ---STRINGEND
@@ -66,14 +62,6 @@ Minä
 Palaverin %s muistio, kirjoittanut %s %s
 ---STRINGEND
 
----STRING month view
-Kuukausinäkymä
----STRINGEND
-
----STRING next
-Seuraava
----STRINGEND
-
 ---STRING no event
 Ei tapahtumaa
 ---STRINGEND
@@ -88,10 +76,6 @@ Osallistujat
 
 ---STRING people
 Henkilöt
----STRINGEND
-
----STRING previous
-Edellinen
 ---STRINGEND
 
 ---STRING print
@@ -112,12 +96,4 @@ Alkaa
 
 ---STRING time
 klo
----STRINGEND
-
----STRING today
-Tänään
----STRINGEND
-
----STRING week view
-Viikkonäkym
 ---STRINGEND

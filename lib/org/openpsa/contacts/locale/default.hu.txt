@@ -42,10 +42,6 @@ Később dönt
 Osztály
 ---STRINGEND
 
----STRING edit
-Szerkesztés
----STRINGEND
-
 ---STRING email
 Email
 ---STRINGEND

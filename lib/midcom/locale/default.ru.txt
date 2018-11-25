@@ -5,3 +5,7 @@
 ---STRING advanced schema and data settings
 Настройки данных и схемы
 ---STRINGEND
+
+---STRING save
+Сохранить
+---STRINGEND

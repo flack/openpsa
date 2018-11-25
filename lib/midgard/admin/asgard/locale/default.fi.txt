@@ -10,10 +10,6 @@
 %s poistettua kohdetta
 ---STRINGEND
 
----STRING %s purged
-%s poistettu lopullisesti
----STRINGEND
-
 ---STRING %s trash
 Tyypin %s roskakori
 ---STRINGEND
@@ -116,10 +112,6 @@ Version %s muutokset kohteeseen %s
 
 ---STRING child types of %s
 Tyypin %s alatyypit
----STRINGEND
-
----STRING choose action
-Valitse toiminto
 ---STRINGEND
 
 ---STRING choose the target
@@ -506,16 +498,8 @@ Ei hyväksytty
 Ei periydy
 ---STRINGEND
 
----STRING object %s
-Kohde %s
----STRINGEND
-
 ---STRING object %s approved
 Kohde %s hyväksytty
----STRINGEND
-
----STRING object %s has been deleted
-Kohde %s on poistettu. Palauttaaksesi sen mene kyseisen tyypin roskakoriin.
 ---STRINGEND
 
 ---STRING object %s removed

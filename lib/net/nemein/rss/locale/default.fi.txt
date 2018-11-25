@@ -98,10 +98,6 @@ Uutinen syötteessä
 RSS-tulosteen asetukset
 ---STRINGEND
 
----STRING save
-Tallenna
----STRINGEND
-
 ---STRING subscribe feeds
 Tilaa uusia uutissyötteitä
 ---STRINGEND

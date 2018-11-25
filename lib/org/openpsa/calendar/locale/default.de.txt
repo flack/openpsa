@@ -14,10 +14,6 @@ Kalender auswählen
 Termin erstellen
 ---STRINGEND
 
----STRING day view
-Tagesansicht
----STRINGEND
-
 ---STRING dont allow overlapping
 Überlappungen nicht zulassen
 ---STRINGEND
@@ -83,14 +79,6 @@ Ich
 Gesprächsnotiz für %s am %s von %s
 ---STRINGEND
 
----STRING month view
-Monatsansicht
----STRINGEND
-
----STRING next
-Vorwärts
----STRINGEND
-
 ---STRING no event
 Kein Termin
 ---STRINGEND
@@ -101,10 +89,6 @@ Gruppen-Kalender
 
 ---STRING participants
 Teilnehmer
----STRINGEND
-
----STRING previous
-Rückwärts
 ---STRINGEND
 
 ---STRING print
@@ -121,14 +105,6 @@ Anfangszeit
 
 ---STRING time
 Uhrzeit
----STRINGEND
-
----STRING today
-Heute
----STRINGEND
-
----STRING week view
-Wochenansicht
 ---STRINGEND
 
 ---STRING calendar

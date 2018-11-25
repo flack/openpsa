@@ -94,10 +94,6 @@ Element wsadu
 Ustawienia wyświetlania RSS
 ---STRINGEND
 
----STRING save
-Zapisz
----STRINGEND
-
 ---STRING subscribe feeds
 Dodaj wsady
 ---STRINGEND

@@ -6,26 +6,10 @@
 Keine Person
 ---STRINGEND
 
----STRING loading
-Laden
----STRINGEND
-
----STRING more
-mehr
----STRINGEND
-
 ---STRING status
 Status
 ---STRINGEND
 
 ---STRING status history
 Status-Verlauf
----STRINGEND
-
----STRING time
-Uhrzeit
----STRINGEND
-
----STRING week
-Kalenderwoche
 ---STRINGEND

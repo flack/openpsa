@@ -130,10 +130,6 @@ Don't approve
 Duration
 ---STRINGEND
 
----STRING edit
-Edit
----STRINGEND
-
 ---STRING end
 End
 ---STRINGEND
@@ -310,10 +306,6 @@ Report hours
 Reported
 ---STRINGEND
 
----STRING reporter
-Reporter
----STRINGEND
-
 ---STRING resources
 Resources
 ---STRINGEND
@@ -340,10 +332,6 @@ Start time
 
 ---STRING status
 Status
----STRINGEND
-
----STRING subscribe
-Subscribe
 ---STRINGEND
 
 ---STRING system
