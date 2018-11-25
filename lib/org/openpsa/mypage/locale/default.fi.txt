@@ -26,10 +26,6 @@ Viikon %s yhteenveto
 Yhteensä
 ---STRINGEND
 
----STRING updated %s
-Päivitetty %s
----STRINGEND
-
 ---STRING updated today
 Päivitetty tänään
 ---STRINGEND
