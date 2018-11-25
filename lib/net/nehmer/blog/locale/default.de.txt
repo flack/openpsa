@@ -6,10 +6,6 @@
 %s: Kategorie "%s"
 ---STRINGEND
 
----STRING advanced schema and data settings
-Erweiterte Einstellungen zu Schema und Daten
----STRINGEND
-
 ---STRING ajax_enable
 AJAX-basierte on-site-Bearbeitung aktivieren
 ---STRINGEND
@@ -74,10 +70,6 @@ Artikel bearbeiten
 Die erste Nachricht wurde am %s veröffentlicht.
 ---STRINGEND
 
----STRING index settings
-Übersichts-Einstellungen
----STRINGEND
-
 ---STRING index_entries
 Wieviele Einträge sollen auf der Übersichtsseite angezeigt werden
 ---STRINGEND
@@ -122,10 +114,6 @@ RSS 2.0-Feed
 Das Erstellen von Einträgen über entfernte RSS- und ATOM-Feeds zulassen
 ---STRINGEND
 
----STRING schema database
-Pfad zur Schema-Datenbank
----STRINGEND
-
 ---STRING schema settings
 Schema-Einstellungen
 ---STRINGEND
@@ -142,10 +130,6 @@ Wählen Sie hier "Nein", um Feed- und Archiv-Links aus der Navigation auszublend
 Wählen Sie hier "Nein" für de.linkm.newsticker-Kompatibilität
 ---STRINGEND
 
----STRING settings
-Einstellungen
----STRINGEND
-
 ---STRING show latest items in navigation
 Die letzten Einträge in der Navigation anzeigen
 ---STRINGEND
@@ -154,24 +138,12 @@ Die letzten Einträge in der Navigation anzeigen
 Pseudo-Leaves in der Navigation anzeigen
 ---STRINGEND
 
----STRING sort order
-Sortierreihenfolge
----STRINGEND
-
 ---STRING there is a total of %d posts.
 Es sind insgesamt %d Nachrichten vorhanden.
 ---STRINGEND
 
 ---STRING use view prefix in url
 'view' als URL-Präfix verwenden
----STRINGEND
-
----STRING visible
-Ordner-Sichtbarkeit
----STRINGEND
-
----STRING language
-Sprache
 ---STRINGEND
 
 ---STRING enable scheduled publishing

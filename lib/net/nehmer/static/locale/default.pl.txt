@@ -105,7 +105,3 @@ Automatyczne tworzenie URLi.
 ---STRING sort_order
 Kolejność
 ---STRINGEND
-
----STRING visible
-Folder jest widoczny
----STRINGEND

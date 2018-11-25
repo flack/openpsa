@@ -6,10 +6,6 @@
 %s: kategori "%s"
 ---STRINGEND
 
----STRING advanced schema and data settings
-Avancerade schema och data inställningar
----STRINGEND
-
 ---STRING archive
 Arkiv
 ---STRINGEND
@@ -62,16 +58,8 @@ Slå på schemalagd publicering
 Första postningen vad gjord %s.
 ---STRINGEND
 
----STRING index settings
-Index inställningar
----STRINGEND
-
 ---STRING index_entries
 Lista såhär många artiklar på index sidan
----STRINGEND
-
----STRING language
-Språk
 ---STRINGEND
 
 ---STRING link_to_external_url
@@ -110,10 +98,6 @@ RSS 1.0 feed
 RSS 2.0 feed
 ---STRINGEND
 
----STRING schema database
-Sökväg till schema databas
----STRINGEND
-
 ---STRING schema settings
 Schemainställningar
 ---STRINGEND
@@ -122,20 +106,8 @@ Schemainställningar
 Databasschema för artiklar
 ---STRINGEND
 
----STRING settings
-Inställningar
----STRINGEND
-
----STRING show content in index
-Visa hela artiklar i index
----STRINGEND
-
 ---STRING show latest items in navigation
 Visa senaste artiklar i navigering
----STRINGEND
-
----STRING sort order
-Sorterings ordning
 ---STRINGEND
 
 ---STRING there is a total of %d posts.
@@ -144,10 +116,6 @@ Det finns totalt %d postningar.
 
 ---STRING use view prefix in url
 Använd 'view' prefix i url
----STRINGEND
-
----STRING visible
-Ska ämnet vara synligt?
 ---STRINGEND
 
 ---STRING archive item order

@@ -105,8 +105,3 @@ Should the article's URL be generated automatically?
 ---STRING sort_order
 Sort order
 ---STRINGEND
-
----STRING visible
-Should the topic be visible
----STRINGEND
-

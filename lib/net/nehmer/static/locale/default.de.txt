@@ -102,10 +102,6 @@ Soll die URL des Artikels automatisch generiert werden?
 Sortierreihenfolge
 ---STRINGEND
 
----STRING visible
-Ordner-Sichtbarkeit
----STRINGEND
-
 ---STRING folder_in_title
 Ordnername im Seitentitel anzeigen
 ---STRINGEND

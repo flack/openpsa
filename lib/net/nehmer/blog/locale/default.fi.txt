@@ -6,10 +6,6 @@
 %s: kategoria "%s"
 ---STRINGEND
 
----STRING advanced schema and data settings
-Tehokäyttäjän asetukset
----STRINGEND
-
 ---STRING ajax_enable
 Salli sisällön muokkaaminen AJAXilla suoraan sivulla
 ---STRINGEND
@@ -78,20 +74,12 @@ Käytä ajastettua julkaisua
 Julkaistu %s.
 ---STRINGEND
 
----STRING index settings
-Listan asetukset
----STRINGEND
-
 ---STRING index_entries
 Näytä näin monta artikkelia etusivulla
 ---STRINGEND
 
 ---STRING index_info
 Komponentin kansion etusivu.
----STRINGEND
-
----STRING language
-Kieli
 ---STRINGEND
 
 ---STRING latest_info
@@ -122,10 +110,6 @@ Julkaistu %s.
 Lisää aiheesta
 ---STRINGEND
 
----STRING routes
-Reitit
----STRINGEND
-
 ---STRING rss 0.91 feed
 RSS 0.91 -syöte
 ---STRINGEND
@@ -140,10 +124,6 @@ RSS 2.0 -syöte
 
 ---STRING rss_subscription_enable
 Salli uutisten luonti ulkoisista RSS- ja Atom-syötteistä
----STRINGEND
-
----STRING schema database
-Tietokantakuvauksen (schema) snippet-tietue
 ---STRINGEND
 
 ---STRING schema settings
@@ -170,10 +150,6 @@ Aseta kohtaan ei, jos haluat de.linkm.newsticker -yhteensopivuuden
 Asetukset
 ---STRINGEND
 
----STRING show content in index
-Näytä artikkelien sisältö listaussivulla
----STRINGEND
-
 ---STRING show feeds in navigation
 Näytä saatavilla olevat syötteet navigaatiossa
 ---STRINGEND
@@ -186,20 +162,12 @@ Näytä viimeisimmät kohteet navigaatiossa
 Näytä valesivut navigaatiossa
 ---STRINGEND
 
----STRING sort order
-Järjestys
----STRINGEND
-
 ---STRING there is a total of %d posts.
 Yhteensä %s uutista.
 ---STRINGEND
 
 ---STRING use view prefix in url
 Käytä 'view'-etuliitettä osoitteissa
----STRINGEND
-
----STRING visible
-Näytetäänkö kansio
 ---STRINGEND
 
 ---STRING list articles from folders

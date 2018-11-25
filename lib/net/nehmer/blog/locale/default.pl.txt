@@ -6,10 +6,6 @@
 %s: kategoria "%s"
 ---STRINGEND
 
----STRING advanced schema and data settings
-Zaawansowane
----STRINGEND
-
 ---STRING ajax_enable
 Włącz edycję przez AJAX
 ---STRINGEND
@@ -78,20 +74,12 @@ Włącz planowanie publikacji
 Pierwszy post: %s
 ---STRINGEND
 
----STRING index settings
-Ustawienia indeksu
----STRINGEND
-
 ---STRING index_entries
 Liczba pozycji w indeksie
 ---STRINGEND
 
 ---STRING index_info
 Wyświetla indeks wpisów
----STRINGEND
-
----STRING language
-Język
 ---STRINGEND
 
 ---STRING latest_info
@@ -122,10 +110,6 @@ Wysłano %s.
 Artykuły powiązane
 ---STRINGEND
 
----STRING routes
-Routing URLi
----STRINGEND
-
 ---STRING rss 0.91 feed
 RSS 0.91
 ---STRINGEND
@@ -140,10 +124,6 @@ RSS 2.0
 
 ---STRING rss_subscription_enable
 Dodawaj newsy ze zdalnych wsadów RSS i ATOM
----STRINGEND
-
----STRING schema database
-Ścieżka bazy schematów
 ---STRINGEND
 
 ---STRING schema settings
@@ -166,14 +146,6 @@ Wybierz 'Nie' jeśli chcesz ukryć link do Wsadów w nawigacji.
 Wybierz 'Nie' żeby włączyć zgodność z de.linkm.newsticker
 ---STRINGEND
 
----STRING settings
-Ustawienia
----STRINGEND
-
----STRING show content in index
-Pokaż treść artykułów w indeksie
----STRINGEND
-
 ---STRING show feeds in navigation
 Pokaż Wsady w nawigacji
 ---STRINGEND
@@ -186,20 +158,12 @@ Pokaż ostatnie wpisy w nawigacji
 Pokaż pseudo strony w nawigacji
 ---STRINGEND
 
----STRING sort order
-Sortowanie
----STRINGEND
-
 ---STRING there is a total of %d posts.
 %d postów.
 ---STRINGEND
 
 ---STRING use view prefix in url
 Używaj elementu 'view' w URLach
----STRINGEND
-
----STRING visible
-Widoczny?
 ---STRINGEND
 
 ---STRING disable indexing

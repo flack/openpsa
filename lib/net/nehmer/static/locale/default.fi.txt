@@ -102,10 +102,6 @@ Luodaanko artikkelin URL-nimi automaattisesti?
 Järjestely
 ---STRINGEND
 
----STRING visible
-Onko kansio näkyvissä
----STRINGEND
-
 ---STRING autoindex settings
 Automaattisen sisällysluettelon asetukset
 ---STRINGEND

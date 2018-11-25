@@ -86,10 +86,6 @@ Visa blobs i autoindex
 Sorterings ordning
 ---STRINGEND
 
----STRING visible
-Ska ämnet vara synligt
----STRINGEND
-
 ---STRING callback_function
 
 ---STRINGEND

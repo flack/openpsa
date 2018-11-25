@@ -58,10 +58,6 @@ Innstillinger for dataskjema
 Skjema som skal brukes i denne mappen
 ---STRINGEND
 
----STRING visible
-Vis mappe?
----STRINGEND
-
 ---STRING net.nehmer.static
 Vanlige sider
 ---STRINGEND

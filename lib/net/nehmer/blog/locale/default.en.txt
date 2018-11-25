@@ -6,10 +6,6 @@
 %s: category "%s"
 ---STRINGEND
 
----STRING advanced schema and data settings
-Advanced schema and data settings
----STRINGEND
-
 ---STRING ajax_enable
 Enable AJAX on-site editing
 ---STRINGEND
@@ -90,20 +86,12 @@ Enable scheduled publishing
 The first posting was made on %s.
 ---STRINGEND
 
----STRING index settings
-Index settings
----STRINGEND
-
 ---STRING index_entries
 List this many items on index page
 ---STRINGEND
 
 ---STRING index_info
 Prepares index view for component.
----STRINGEND
-
----STRING language
-Language
 ---STRINGEND
 
 ---STRING latest_info
@@ -142,10 +130,6 @@ Posted on %s.
 Related stories
 ---STRINGEND
 
----STRING routes
-Routes
----STRINGEND
-
 ---STRING rss 0.91 feed
 RSS 0.91 feed
 ---STRINGEND
@@ -160,10 +144,6 @@ RSS 2.0 feed
 
 ---STRING rss_subscription_enable
 Enable creating news items from remote RSS and Atom feeds
----STRINGEND
-
----STRING schema database
-Path to the schema database
 ---STRINGEND
 
 ---STRING schema settings
@@ -186,14 +166,6 @@ Set this to "no" if you want to hide feeds link from navigation
 Set to no for de.linkm.newsticker compatibility
 ---STRINGEND
 
----STRING settings
-Settings
----STRINGEND
-
----STRING show content in index
-Show full articles in index
----STRINGEND
-
 ---STRING show feeds in navigation
 Show available feeds in navigation
 ---STRINGEND
@@ -206,10 +178,6 @@ Show latest items in navigation
 Show pseudo leaves in navigation
 ---STRINGEND
 
----STRING sort order
-Sort order
----STRINGEND
-
 ---STRING there is a total of %d posts.
 There is a total of %d posts.
 ---STRINGEND
@@ -217,8 +185,3 @@ There is a total of %d posts.
 ---STRING use view prefix in url
 Use 'view' prefix in url
 ---STRINGEND
-
----STRING visible
-Should the topic be visible
----STRINGEND
-
