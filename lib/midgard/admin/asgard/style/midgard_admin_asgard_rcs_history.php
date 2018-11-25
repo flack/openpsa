@@ -53,6 +53,6 @@ echo $data['rcs_toolbar']->render();
             ?>
             </tbody>
         </table>
-        <input type="submit" name="f_compare" value="<?php echo $data['l10n']->get('compare'); ?>" />
+        <input type="submit" name="f_compare" value="<?php echo $data['l10n']->get('show differences'); ?>" />
     </div>
 </form>

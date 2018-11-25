@@ -42,6 +42,10 @@ Palautus versioon %s epäonnistui, syy %s
 Palautus versioon %s onnistui
 ---STRINGEND
 
+---STRING restore version %s
+Palauta versio %s
+---STRINGEND
+
 ---STRING revision
 Versio
 ---STRINGEND
@@ -52,10 +56,6 @@ Muutoshistoria tietueelle %s
 
 ---STRING show history
 Näytä versiohistoria
----STRINGEND
-
----STRING title
-Otsikko
 ---STRINGEND
 
 ---STRING user

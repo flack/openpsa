@@ -98,20 +98,12 @@ Załączniki
 Załączniki %s "%s"
 ---STRINGEND
 
----STRING back to %s
-Idź do strony "%s"
----STRINGEND
-
 ---STRING back to site
 Powrót do serwisu
 ---STRINGEND
 
 ---STRING cascading style sheet
 Styl CSS
----STRINGEND
-
----STRING changes done in revision %s to %s
-Zmiany z wersji %s do %s
 ---STRINGEND
 
 ---STRING child types of %s
@@ -124,10 +116,6 @@ Wybierz cel
 
 ---STRING code
 Kod
----STRINGEND
-
----STRING compare
-Porównaj
 ---STRINGEND
 
 ---STRING component
@@ -206,10 +194,6 @@ Utworzono %s przez %s
 Utworzono %s
 ---STRINGEND
 
----STRING date
-Data
----STRINGEND
-
 ---STRING delete %s %s
 Usuń %s %s
 ---STRINGEND
@@ -224,10 +208,6 @@ Usunięto %s
 
 ---STRING dependencies
 Zależności
----STRINGEND
-
----STRING differences between %s and %s
-Zmiany między wersją %s i %s
 ---STRINGEND
 
 ---STRING disable rcs
@@ -378,10 +358,6 @@ Ostatnia zmiana: %s przez %s (Wersja %s)
 Biblioteki
 ---STRINGEND
 
----STRING lines
-Linie
----STRINGEND
-
 ---STRING local
 Wartość lokalna
 ---STRINGEND
@@ -392,10 +368,6 @@ Ustawienia lokalizacji
 
 ---STRING manage object
 Zarządzaj obiektem
----STRINGEND
-
----STRING message
-Info
 ---STRINGEND
 
 ---STRING metadata of %s %s
@@ -478,20 +450,12 @@ Szerokość paska nawigacji
 Szerokość w pikselach
 ---STRINGEND
 
----STRING no changes in content
-Brak zmian w treści
----STRINGEND
-
 ---STRING no files
 Brak plików
 ---STRINGEND
 
 ---STRING no title
 Bez nazwy
----STRINGEND
-
----STRING midcom.admin.rcs
-Kontrola wersji
 ---STRINGEND
 
 ---STRING not approved
@@ -566,18 +530,6 @@ Wyrażenie regularne
 Wymagana autentykacja
 ---STRINGEND
 
----STRING restore to version %s failed, reason %s
-Przywrócenie wersji %s nieudane: %s
----STRINGEND
-
----STRING restore to version %s successful
-Przywrócono wersję %s
----STRINGEND
-
----STRING restore version %s
-Przywróć wersję %s
----STRINGEND
-
 ---STRING revised by
 Zmieniony przez
 ---STRINGEND
@@ -592,10 +544,6 @@ Wersja
 
 ---STRING revision comment
 Komentarz do wersji
----STRINGEND
-
----STRING revision history of %s
-Historia wersji %s
 ---STRINGEND
 
 ---STRING search
@@ -614,14 +562,6 @@ Wybierz typy
 Pokaż %s %s potomków
 ---STRINGEND
 
----STRING show differences
-Pokaż zmiany
----STRINGEND
-
----STRING show history
-Pokaż historię
----STRINGEND
-
 ---STRING size
 Rozmiar
 ---STRINGEND
@@ -632,10 +572,6 @@ To jest typ systemowy
 
 ---STRING this type belongs to %s component
 Ten typ należy do komponentu %s
----STRINGEND
-
----STRING title
-Tytuł
 ---STRINGEND
 
 ---STRING trash
@@ -682,10 +618,6 @@ Używaj CodeMirror do edycji kodu
 Używaj TinyMCE do edycji zawartości
 ---STRINGEND
 
----STRING user
-Użytkownik
----STRINGEND
-
 ---STRING user preferences
 Preferencje
 ---STRINGEND
@@ -694,16 +626,8 @@ Preferencje
 Wartość
 ---STRINGEND
 
----STRING version %s
-Wersja %s
----STRINGEND
-
 ---STRING view on site
 Pokaż w serwisie
----STRINGEND
-
----STRING viewing version %s of %s
-%s: wersja %s
 ---STRINGEND
 
 ---STRING xml

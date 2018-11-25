@@ -94,20 +94,12 @@ Liitteet
 %s %s liitteet
 ---STRINGEND
 
----STRING back to %s
-Takaisin sivulle "%s"
----STRINGEND
-
 ---STRING back to site
 Takaisin sivustolle
 ---STRINGEND
 
 ---STRING cascading style sheet
 CSS-tyylitiedosto
----STRINGEND
-
----STRING changes done in revision %s to %s
-Version %s muutokset kohteeseen %s
 ---STRINGEND
 
 ---STRING child types of %s
@@ -120,10 +112,6 @@ Valitse kohde
 
 ---STRING code
 Koodi
----STRINGEND
-
----STRING compare
-Vertaa
 ---STRINGEND
 
 ---STRING component
@@ -202,10 +190,6 @@ Luonut %s %s
 Luotu
 ---STRINGEND
 
----STRING date
-Päivämäärä
----STRINGEND
-
 ---STRING delete %s %s
 Poista %s %s
 ---STRINGEND
@@ -220,10 +204,6 @@ Poistettu päivämäärällä
 
 ---STRING dependencies
 Vaatimukset
----STRINGEND
-
----STRING differences between %s and %s
-Versioiden %s ja %s väliset erot
 ---STRINGEND
 
 ---STRING disable rcs
@@ -374,10 +354,6 @@ Viimeksi muokannut %s %s (muutos %s)
 Kirjastot
 ---STRINGEND
 
----STRING lines
-Rivit
----STRINGEND
-
 ---STRING local
 Paikallinen
 ---STRINGEND
@@ -388,10 +364,6 @@ Kieliasetukset
 
 ---STRING manage object
 Hallinnointi
----STRINGEND
-
----STRING message
-Viesti
 ---STRINGEND
 
 ---STRING metadata of %s %s
@@ -474,20 +446,12 @@ Navigaation leveys
 Navigaation leveys (pikseleinä)
 ---STRINGEND
 
----STRING no changes in content
-Sisällössä ei muutoksia
----STRINGEND
-
 ---STRING no files
 Ei tiedostoja
 ---STRINGEND
 
 ---STRING no title
 Ei otsikkoa
----STRINGEND
-
----STRING midcom.admin.rcs
-Versionhallinta
 ---STRINGEND
 
 ---STRING not approved
@@ -562,18 +526,6 @@ Säännöllinen lauseke MgdSchema-tyyppien valintaan
 Vaadi sisäänkirjautumista
 ---STRINGEND
 
----STRING restore to version %s failed, reason %s
-Palautus versioon %s epäonnistui, syy %s
----STRINGEND
-
----STRING restore to version %s successful
-Palautus versioon %s onnistui
----STRINGEND
-
----STRING restore version %s
-Palauta versio %s
----STRINGEND
-
 ---STRING revised by
 Muokannut
 ---STRINGEND
@@ -588,10 +540,6 @@ Versio
 
 ---STRING revision comment
 Muutoskommentti
----STRINGEND
-
----STRING revision history of %s
-Muutoshistoria kohteelle %s
 ---STRINGEND
 
 ---STRING search
@@ -610,14 +558,6 @@ Valitse tyypit
 Näytä %s %s lapset
 ---STRINGEND
 
----STRING show differences
-Näytä erot
----STRINGEND
-
----STRING show history
-Näytä versiohistoria
----STRINGEND
-
 ---STRING size
 Koko
 ---STRINGEND
@@ -628,10 +568,6 @@ Tämä tyyppi on osa Midgard-julkaisujärjestelmää.
 
 ---STRING this type belongs to %s component
 Tämä tyyppi on osa komponenttia %s.
----STRINGEND
-
----STRING title
-Otsikko
 ---STRINGEND
 
 ---STRING trash
@@ -678,10 +614,6 @@ Käytä CodeMirror-editoria koodin muokkaukseen
 Käytä TinyMCE-editoria sisällönmuokkaamiseen
 ---STRINGEND
 
----STRING user
-Käyttäjä
----STRINGEND
-
 ---STRING user preferences
 Käyttöasetukset
 ---STRINGEND
@@ -690,16 +622,8 @@ Käyttöasetukset
 Arvo
 ---STRINGEND
 
----STRING version %s
-Versio %s
----STRINGEND
-
 ---STRING view on site
 Katso sivustolla
----STRINGEND
-
----STRING viewing version %s of %s
-Versio %s kohteesta %s
 ---STRINGEND
 
 ---STRING xml

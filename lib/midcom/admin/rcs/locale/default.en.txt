@@ -46,6 +46,10 @@ Restore to version %s failed, reason %s
 Restore to version %s was successful
 ---STRINGEND
 
+---STRING restore version %s
+Restore version %s
+---STRINGEND
+
 ---STRING revision
 Revision
 ---STRINGEND
@@ -60,10 +64,6 @@ Show differences
 
 ---STRING show history
 Show revision history
----STRINGEND
-
----STRING title
-Title
 ---STRINGEND
 
 ---STRING user

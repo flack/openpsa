@@ -90,20 +90,12 @@ Dateianhänge
 Dateianhänge von %s "%s"
 ---STRINGEND
 
----STRING back to %s
-zurück zu "%s"
----STRINGEND
-
 ---STRING back to site
 zurück zur Website
 ---STRINGEND
 
 ---STRING cascading style sheet
 Cascading Style Sheet
----STRINGEND
-
----STRING changes done in revision %s to %s
-Änderungen in Revision %s von "%s"
 ---STRINGEND
 
 ---STRING child types of %s
@@ -120,10 +112,6 @@ alles zurücksetzen
 
 ---STRING code
 Code
----STRINGEND
-
----STRING compare
-Vergleichen
 ---STRINGEND
 
 ---STRING component
@@ -202,10 +190,6 @@ Erstellt von %s am %s
 Erstellt am
 ---STRINGEND
 
----STRING date
-Datum
----STRINGEND
-
 ---STRING delete %s %s
 %s "%s" löschen
 ---STRINGEND
@@ -220,10 +204,6 @@ Gelöscht am
 
 ---STRING dependencies
 Abhängigkeiten
----STRINGEND
-
----STRING differences between %s and %s
-Unterschiede zwischen %s und %s
 ---STRINGEND
 
 ---STRING disable rcs
@@ -374,10 +354,6 @@ Zuletzt bearbeitet von %s am %s (Revision %s)
 Bibliotheken
 ---STRINGEND
 
----STRING lines
-Zeilen
----STRINGEND
-
 ---STRING local
 Lokal
 ---STRINGEND
@@ -388,10 +364,6 @@ Spracheinstellungen
 
 ---STRING manage object
 Objekt-Verwaltung
----STRINGEND
-
----STRING message
-Nachricht
 ---STRINGEND
 
 ---STRING metadata of %s %s
@@ -478,24 +450,12 @@ Navigationsbreite
 Navigationsbreite (in Pixeln)
 ---STRINGEND
 
----STRING no changes in content
-Keine Änderungen im Inhalt
----STRINGEND
-
 ---STRING no files
 Keine Dateien vorhanden
 ---STRINGEND
 
----STRING no revisions exist
-Keine Revisionen vorhanden
----STRINGEND
-
 ---STRING no title
 Kein Titel
----STRINGEND
-
----STRING midcom.admin.rcs
-Revisionskontrolle
 ---STRINGEND
 
 ---STRING not approved
@@ -578,18 +538,6 @@ Authentifizierung verlangen
 vom Browser laden
 ---STRINGEND
 
----STRING restore to version %s failed, reason %s
-Die Wiederherstellung der Revision %s ist fehlgeschlagen, Ursache: %s
----STRINGEND
-
----STRING restore to version %s successful
-Die Wiederherstellung der Revision %s war erfolgreich
----STRINGEND
-
----STRING restore version %s
-Revision %s wiederherstellen
----STRINGEND
-
 ---STRING revised by
 Bearbeitet von
 ---STRINGEND
@@ -600,10 +548,6 @@ Bearbeitet am
 
 ---STRING revision
 Revision
----STRINGEND
-
----STRING revision history of %s
-Revisionsgeschichte von %s
 ---STRINGEND
 
 ---STRING run
@@ -642,14 +586,6 @@ Alle %s %s-Elemente anzeigen
 %s %s-Kindelemente anzeigen
 ---STRINGEND
 
----STRING show differences
-Unterschiede anzeigen
----STRINGEND
-
----STRING show history
-Revisionsgeschichte
----STRINGEND
-
 ---STRING size
 Größe
 ---STRINGEND
@@ -660,10 +596,6 @@ Dies ist ein Midgard CMS Core-Typ.
 
 ---STRING this type belongs to %s component
 Dieser Typ gehört zur Komponente %s
----STRINGEND
-
----STRING title
-Titel
 ---STRINGEND
 
 ---STRING trash
@@ -714,10 +646,6 @@ CodeMirror-Editor zum Bearbeiten von Quellcode verwenden
 TinyMCE-Editor zum Bearbeiten von Inhalten verwenden
 ---STRINGEND
 
----STRING user
-Benutzer
----STRINGEND
-
 ---STRING user preferences
 Benutzer-Einstellungen
 ---STRINGEND
@@ -726,16 +654,8 @@ Benutzer-Einstellungen
 Wert
 ---STRINGEND
 
----STRING version %s
-Version %s
----STRINGEND
-
 ---STRING view on site
 Auf der Site anzeigen
----STRINGEND
-
----STRING viewing version %s of %s
-Version %s von %s
 ---STRINGEND
 
 ---STRING xml

@@ -98,20 +98,12 @@ Attachments
 Attachments of %s "%s"
 ---STRINGEND
 
----STRING back to %s
-Back to page "%s"
----STRINGEND
-
 ---STRING back to site
 Back to site
 ---STRINGEND
 
 ---STRING cascading style sheet
 Cascading Style Sheet
----STRINGEND
-
----STRING changes done in revision %s to %s
-Changes done in revision %s to %s
 ---STRINGEND
 
 ---STRING child types of %s
@@ -128,10 +120,6 @@ Choose the target
 
 ---STRING code
 Code
----STRINGEND
-
----STRING compare
-Compare
 ---STRINGEND
 
 ---STRING component
@@ -214,10 +202,6 @@ Created on
 Elements you can use in this Style
 ---STRINGEND
 
----STRING date
-Date
----STRINGEND
-
 ---STRING delete %s %s
 Delete %s "%s"
 ---STRINGEND
@@ -232,10 +216,6 @@ Deleted on
 
 ---STRING dependencies
 Dependencies
----STRINGEND
-
----STRING differences between %s and %s
-Differences between %s and %s
 ---STRINGEND
 
 ---STRING disable rcs
@@ -394,10 +374,6 @@ Last edited by %s on %s (revision %s)
 Libraries
 ---STRINGEND
 
----STRING lines
-Lines
----STRINGEND
-
 ---STRING local
 Local
 ---STRINGEND
@@ -408,10 +384,6 @@ Localisation settings
 
 ---STRING manage object
 Manage object
----STRINGEND
-
----STRING message
-Message
 ---STRINGEND
 
 ---STRING metadata of %s %s
@@ -498,24 +470,12 @@ Navigation width
 Navigation width (in pixels)
 ---STRINGEND
 
----STRING no changes in content
-No changes in content
----STRINGEND
-
 ---STRING no files
 No files
 ---STRINGEND
 
----STRING no revisions exist
-No revisions exist
----STRINGEND
-
 ---STRING no title
 No title
----STRINGEND
-
----STRING midcom.admin.rcs
-Revision control
 ---STRINGEND
 
 ---STRING not approved
@@ -598,18 +558,6 @@ Require authentication
 Restore from browser
 ---STRINGEND
 
----STRING restore to version %s failed, reason %s
-Restore to version %s failed, reason %s
----STRINGEND
-
----STRING restore to version %s successful
-Restore to version %s was successful
----STRINGEND
-
----STRING restore version %s
-Restore version %s
----STRINGEND
-
 ---STRING revised by
 Revised by
 ---STRINGEND
@@ -624,10 +572,6 @@ Revision
 
 ---STRING revision comment
 Revision comment
----STRINGEND
-
----STRING revision history of %s
-Revision history of %s
 ---STRINGEND
 
 ---STRING run
@@ -662,14 +606,6 @@ Show all %s %s entries
 Show %s %s children
 ---STRINGEND
 
----STRING show differences
-Show differences
----STRINGEND
-
----STRING show history
-Show revision history
----STRINGEND
-
 ---STRING shell
 Shell
 ---STRINGEND
@@ -684,10 +620,6 @@ This is a Midgard CMS core type.
 
 ---STRING this type belongs to %s component
 This type belongs to %s component.
----STRINGEND
-
----STRING title
-Title
 ---STRINGEND
 
 ---STRING trash
@@ -738,10 +670,6 @@ Use CodeMirror editor for editing code snippets
 Use TinyMCE editor for editing content
 ---STRINGEND
 
----STRING user
-User
----STRINGEND
-
 ---STRING user preferences
 User preferences
 ---STRINGEND
@@ -750,16 +678,8 @@ User preferences
 Value
 ---STRINGEND
 
----STRING version %s
-Version %s
----STRINGEND
-
 ---STRING view on site
 View on-site
----STRINGEND
-
----STRING viewing version %s of %s
-Version %s of %s
 ---STRINGEND
 
 ---STRING xml

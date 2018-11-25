@@ -34,6 +34,10 @@ Przywrócenie wersji %s nieudane: %s
 Przywrócono wersję %s
 ---STRINGEND
 
+---STRING restore version %s
+Przywróć wersję %s
+---STRINGEND
+
 ---STRING revision
 Wersja
 ---STRINGEND
@@ -69,8 +73,3 @@ Brak zmian w treści
 ---STRING show differences
 Pokaż zmiany
 ---STRINGEND
-
----STRING title
-Tytuł
----STRINGEND
-

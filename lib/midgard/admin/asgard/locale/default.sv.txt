@@ -86,20 +86,12 @@ Bifogade filer
 Bifogade filer för %s "%s"
 ---STRINGEND
 
----STRING back to %s
-Tillbaka till sida %s
----STRINGEND
-
 ---STRING back to site
 Tillbaka will websajt
 ---STRINGEND
 
 ---STRING cascading style sheet
 Acscading Style Sheet
----STRINGEND
-
----STRING changes done in revision %s to %s
-Ändringar gjorda i revision %s till %s
 ---STRINGEND
 
 ---STRING child types of %s
@@ -112,10 +104,6 @@ Välj mål
 
 ---STRING code
 Kod
----STRINGEND
-
----STRING compare
-Jämför
 ---STRINGEND
 
 ---STRING component
@@ -194,10 +182,6 @@ Skapad av %s på %s
 Skapad på
 ---STRINGEND
 
----STRING date
-Datum
----STRINGEND
-
 ---STRING delete %s %s
 Radera %s "%s"
 ---STRINGEND
@@ -208,10 +192,6 @@ Raderad av
 
 ---STRING deleted on
 Raderad på
----STRINGEND
-
----STRING differences between %s and %s
-Skillnader mellan %s och %s
 ---STRINGEND
 
 ---STRING edit %s %s
@@ -354,10 +334,6 @@ JavaScript
 Bibliotek
 ---STRINGEND
 
----STRING lines
-Rader
----STRINGEND
-
 ---STRING local
 Lokal
 ---STRINGEND
@@ -368,10 +344,6 @@ Lokaliserings inställningar
 
 ---STRING manage object
 Hantera objekt
----STRINGEND
-
----STRING message
-Medelande
 ---STRINGEND
 
 ---STRING metadata of %s %s
@@ -442,20 +414,12 @@ Navigerings bredd
 Navigerings bredd (i pixlar)
 ---STRINGEND
 
----STRING no changes in content
-Inga ändringar i innehåll
----STRINGEND
-
 ---STRING no files
 Inga filer
 ---STRINGEND
 
 ---STRING no title
 Ingen titel
----STRINGEND
-
----STRING midcom.admin.rcs
-Revisions kontroll
 ---STRINGEND
 
 ---STRING not approved
@@ -526,18 +490,6 @@ Reguljärt uttryck för val av MgdSchema typ
 Kräv autentisering
 ---STRINGEND
 
----STRING restore to version %s failed, reason %s
-Återställning till versionen %s misslyckades, anledning %s
----STRINGEND
-
----STRING restore to version %s successful
-Återställning av version %s lyckades
----STRINGEND
-
----STRING restore version %s
-Återställ version %s
----STRINGEND
-
 ---STRING revised by
 Granskad av
 ---STRINGEND
@@ -548,10 +500,6 @@ Granskad på
 
 ---STRING revision
 Revision
----STRINGEND
-
----STRING revision history of %s
-Revisions historik av %s
 ---STRINGEND
 
 ---STRING search
@@ -566,14 +514,6 @@ Välj allt
 Välj typerna
 ---STRINGEND
 
----STRING show differences
-Visa skillnader
----STRINGEND
-
----STRING show history
-Visa revisions historik
----STRINGEND
-
 ---STRING size
 Storlek
 ---STRINGEND
@@ -584,10 +524,6 @@ Detta är en Midgard CMS core typ.
 
 ---STRING this type belongs to %s component
 Denna typ tillhör till %s komponenten.
----STRINGEND
-
----STRING title
-Titel
 ---STRINGEND
 
 ---STRING trash
@@ -630,10 +566,6 @@ Använda ändra läge istället för visnings läge som primär hantering av obj
 Använda TinyMCE editor för att ändra innehåll
 ---STRINGEND
 
----STRING user
-Användare
----STRINGEND
-
 ---STRING user preferences
 Användar inställningar
 ---STRINGEND
@@ -642,16 +574,8 @@ Användar inställningar
 Värde
 ---STRINGEND
 
----STRING version %s
-Version %s
----STRINGEND
-
 ---STRING view on site
 Visa på websajt
----STRINGEND
-
----STRING viewing version %s of %s
-Version %s av %s
 ---STRINGEND
 
 ---STRING xml

@@ -149,7 +149,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
             && $object->_use_rcs) {
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $this->_generate_url('rcs', $object),
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('show history', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('show history', 'midcom.admin.rcs'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'history',
                 MIDCOM_TOOLBAR_ENABLED => (substr($handler_id, 0, 25) !== 'object_rcs'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'h',

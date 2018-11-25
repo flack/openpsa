@@ -77,8 +77,3 @@ Keine Änderungen im Inhalt
 ---STRING show differences
 Unterschiede anzeigen
 ---STRINGEND
-
----STRING title
-Titel
----STRINGEND
-
