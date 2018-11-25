@@ -11,7 +11,7 @@ $published = sprintf(
 
 $rating = '';
 if ($data['comment']->rating > 0) {
-    $rating = ', ' . sprintf('rated %s', $data['comment']->rating);
+    $rating = ', ' . sprintf($data['l10n']->get('rated %s'), $data['comment']->rating);
 }
 ?>
 
