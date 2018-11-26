@@ -55,7 +55,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
         if (   $name == 'homepage'
             && !empty($value)
             && $value != $this->homepage) {
-            $this->_url_changed = true;
+            $this->_register_prober = true;
         }
         parent::__set($name, $value);
     }
