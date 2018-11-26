@@ -82,10 +82,6 @@ OPML fil
 Artikel i feed
 ---STRINGEND
 
----STRING rss items to show
-Hur många RSS objekt ska visas?
----STRINGEND
-
 ---STRING rss output settings
 RSS vinsings inställningar
 ---STRINGEND

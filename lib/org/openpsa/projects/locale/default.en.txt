@@ -390,6 +390,26 @@ Work started by %s
 Priority
 ---STRINGEND
 
+---STRING very high
+very high
+---STRINGEND
+
+---STRING high
+high
+---STRINGEND
+
+---STRING average
+average
+---STRINGEND
+
+---STRING low
+low
+---STRINGEND
+
+---STRING very low
+very low
+---STRINGEND
+
 ---STRING only tasks with priority
 Show only Tasks with priority
 ---STRINGEND

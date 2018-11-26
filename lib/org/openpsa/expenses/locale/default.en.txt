@@ -66,6 +66,10 @@ Hour reports for Invoice %s
 next week
 ---STRINGEND
 
+---STRING no description given
+No description given
+---STRINGEND
+
 ---STRING org.openpsa.expenses
 Expense tracking
 ---STRINGEND

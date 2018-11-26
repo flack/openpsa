@@ -702,10 +702,6 @@ Tyyppi
 Uniikit klikkaajat
 ---STRINGEND
 
----STRING unknown class please use advanced editor
-Säännöissä käytetään tuntematonta luokkaa, ole hyvä ja käytä tehokäyttäjän editoria
----STRINGEND
-
 ---STRING unsubscribed between %s - %s
 Peruuttaneita välillä %s - %s
 ---STRINGEND

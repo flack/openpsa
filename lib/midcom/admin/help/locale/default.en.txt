@@ -91,7 +91,7 @@ No routes found
 ---STRINGEND
 
 ---STRING no url methods found
-No URL mehtods found
+No URL methods found
 ---STRINGEND
 
 ---STRING online documentation

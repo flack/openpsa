@@ -146,10 +146,6 @@ Aseta tämä pois päältä mikäli et halua näyttää syötteet-linkkiä navig
 Aseta kohtaan ei, jos haluat de.linkm.newsticker -yhteensopivuuden
 ---STRINGEND
 
----STRING settings
-Asetukset
----STRINGEND
-
 ---STRING show feeds in navigation
 Näytä saatavilla olevat syötteet navigaatiossa
 ---STRINGEND

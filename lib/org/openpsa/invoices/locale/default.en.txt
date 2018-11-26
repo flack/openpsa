@@ -86,7 +86,7 @@ Files
 Go to customer
 ---STRINGEND
 
----STRING go to customer
+---STRING go to deliverable
 Go to deliverable
 ---STRINGEND
 
@@ -180,6 +180,10 @@ Cancelation for invoice %s, item %s
 
 ---STRING canceled by
 Canceled by
+---STRINGEND
+
+---STRING invoice got canceled by %s
+Invoice was canceled by %s
 ---STRINGEND
 
 ---STRING mark_paid

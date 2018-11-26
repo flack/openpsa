@@ -105,6 +105,7 @@ Given name is not "URL-safe", try "%s"'
 
 ---STRING type urlname: name is not "clean", try "%s"
 Given name is not "clean", try '%s'
+---STRINGEND
 
 ---STRING widget privilege: allow
 Allow

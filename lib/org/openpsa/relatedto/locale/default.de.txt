@@ -38,16 +38,8 @@ Notizen zu %s "%s" am %s
 Abgehende Verbindungen
 ---STRINGEND
 
----STRING this is related to
-Verbindungen
----STRINGEND
-
 ---STRING related objects
 Verbundene Objekte
----STRINGEND
-
----STRING related to this
-Hiermit verbunden
 ---STRINGEND
 
 ---STRING view related information

@@ -30,6 +30,10 @@ Add to my contacts
 Basic information
 ---STRINGEND
 
+---STRING both
+Both
+---STRINGEND
+
 ---STRING categories
 Categories
 ---STRINGEND
@@ -280,6 +284,10 @@ Salutation
 
 ---STRING search
 Search
+---STRINGEND
+
+---STRING search in
+Search in
 ---STRINGEND
 
 ---STRING skype name
