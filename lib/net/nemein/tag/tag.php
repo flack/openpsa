@@ -60,10 +60,6 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('net.nemein.tag', 'net.nemein.tag'), sprintf(midcom::get()->i18n->get_string('tag "%s" is not valid. tags may not be empty', 'net.nemein.tag'), $tag), 'info');
             return false;
         }
-        if (!is_string($tag)) {
-            midcom::get()->uimessages->add(midcom::get()->i18n->get_string('net.nemein.tag', 'net.nemein.tag'), sprintf(midcom::get()->i18n->get_string('tag "%s" is not valid. tags must be valid strings', 'net.nemein.tag'), $tag), 'info');
-            return false;
-        }
         if (is_numeric($tag)) {
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('net.nemein.tag', 'net.nemein.tag'), sprintf(midcom::get()->i18n->get_string('tag "%s" is not valid. tags may not be numeric', 'net.nemein.tag'), $tag), 'info');
             return false;

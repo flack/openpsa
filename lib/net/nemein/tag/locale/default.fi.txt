@@ -14,10 +14,6 @@ Merkintä "%s" ei kelpaa. Merkinnät eivät saa olla tyhjiä.
 Merkintä "%s" ei kelpaa. Merkinnät eivät saa olla numeroita.
 ---STRINGEND
 
----STRING tag "%s" is not valid. tags must be valid strings
-Merkintä "%s" ei kelpaa. Merkintöjen täytyy olla merkkijonoja.
----STRINGEND
-
 ---STRING tagged
 Merkitty
 ---STRINGEND
@@ -25,4 +21,3 @@ Merkitty
 ---STRING tag "%s" is not valid. tags may not contain quotes
 Merkintä "%s" ei kelpaa. Merkinnät eivät saa sisältää lainausmerkkejä.
 ---STRINGEND
-

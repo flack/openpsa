@@ -18,11 +18,6 @@ Tag "%s" is not valid. Tags may not be numeric.
 Tag "%s" is not valid. Tags may not contain quotes.
 ---STRINGEND
 
----STRING tag "%s" is not valid. tags must be valid strings
-Tag "%s" is not valid. Tags must be valid strings.
----STRINGEND
-
 ---STRING tagged
 Tagged
 ---STRINGEND
-

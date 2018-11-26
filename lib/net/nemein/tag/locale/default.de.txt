@@ -18,11 +18,6 @@ Das Tag "%s" ist ungültig. Tags dürfen nicht numerisch sein.
 Das Tag "%s" ist ungültig. Tags dürfen keine Anführungszeichen enthalten
 ---STRINGEND
 
----STRING tag "%s" is not valid. tags must be valid strings
-Das Tag "%s" ist ungültig. Tags nur aus einer Zeichenkette bestehen
----STRINGEND
-
 ---STRING tagged
 Getagged
 ---STRINGEND
-

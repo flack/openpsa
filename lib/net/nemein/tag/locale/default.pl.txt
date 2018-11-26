@@ -14,10 +14,6 @@ Tag "%s" jest niepoprawny. Tagi nie mogą być liczbami.
 Tag "%s" jest niepoprawny. Tagi nie mogą zawierać cudzysłowów.
 ---STRINGEND
 
----STRING tag "%s" is not valid. tags must be valid strings
-Tag "%s" jest niepoprawny. Tagi muszą być napisami.
----STRINGEND
-
 ---STRING tagged
 Otagowano
 ---STRINGEND
@@ -25,4 +21,3 @@ Otagowano
 ---STRING net.nemein.tag
 Tagi
 ---STRINGEND
-

@@ -18,11 +18,6 @@ Märkning "%s" är inte giltig. Märkningar för inte vara numeriska.
 Märkning "%s" är inte giltig. Märkningar för inte innehålla citatationstecken.
 ---STRINGEND
 
----STRING tag "%s" is not valid. tags must be valid strings
-Märkning "%s" är inte giltig. Märkningar måste vara giltiga textsträngar.
----STRINGEND
-
 ---STRING tagged
 Märkt
 ---STRINGEND
-
