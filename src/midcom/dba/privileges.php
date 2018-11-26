@@ -76,9 +76,6 @@ trait privileges
         }
         if (is_string($privilege)) {
             $tmp = $this->create_new_privilege_object($privilege, $assignee, $value, $classname);
-            if (!$tmp) {
-                throw new midcom_error('Failed to create the privilege. See debug level log for details.');
-            }
             return $tmp->store();
         }
         throw new midcom_error('Unknown $privilege argument type');
@@ -177,13 +174,12 @@ trait privileges
      * @param mixed $assignee A valid assignee suitable for midcom_core_privilege::set_privilege(). This defaults to the currently
      *     active user if authenticated or to 'EVERYONE' otherwise.
      * @param string $classname An optional class name to which a SELF privilege gets restricted to. Only valid for SELF privileges.
-     * @return midcom_core_privilege The newly created privilege record or false on failure.
+     * @return midcom_core_privilege The newly created privilege record.
      */
     public function create_new_privilege_object($name, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
     {
         if (!$this->can_do('midgard:privileges')) {
-            debug_add('Could not create a new privilege, permission denied.', MIDCOM_LOG_WARN);
-            return false;
+            throw new midcom_error('Could not create a new privilege, permission denied.');
         }
 
         if ($assignee === null) {
@@ -192,16 +188,14 @@ trait privileges
 
         $privilege = new midcom_core_privilege();
         if (!$privilege->set_assignee($assignee)) {
-            debug_add('Failed to set the assignee, aborting.', MIDCOM_LOG_INFO);
-            return false;
+            throw new midcom_error('Failed to set the assignee');
         }
         $privilege->set_object($this);
         $privilege->privilegename = $name;
         $privilege->value = $value;
         $privilege->classname = $classname;
         if (!$privilege->validate()) {
-            debug_add('Failed to validate the newly created privilege.', MIDCOM_LOG_INFO);
-            return false;
+            throw new midcom_error('Failed to validate the newly created privilege.');
         }
         return $privilege;
     }
