@@ -79,8 +79,7 @@ abstract class org_openpsa_mail_backend
             return false;
         }
 
-        if (   is_string($this->error)
-            && !empty($this->error)) {
+        if (!empty($this->error)) {
             return $this->error;
         }
         return 'Unknown error';

@@ -168,12 +168,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             }
         }
 
-        /*
-         * Calendar events always have 'inherited' owner
-         * different bit buckets for calendar events might have different owners.
-         */
-        $this->owner = 0;
-
         //Preserve vCal GUIDs once set
         if (isset($this->old_externalGuid)) {
             $this->externalGuid = $this->old_externalGuid;

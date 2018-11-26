@@ -111,7 +111,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         $this->_parse_query();
 
         midcom::get()->skip_page_style = true;
-        $this->_view = 'foaf';
         $this->_search_qb_persons();
     }
 
@@ -122,8 +121,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      */
     public function _show_search_type($handler_id, array &$data)
     {
-        if (   $this->_view == 'foaf'
-            && !empty($this->_persons)) {
+        if (!empty($this->_persons)) {
             midcom_show_style('foaf-header');
             foreach ($this->_persons as $person) {
                 $data['person'] = $person;
