@@ -44,8 +44,6 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
             $this->_schema = $data['schemadb_to_use'];
         }
 
-        $this->_schema_fields_to_skip = explode(',', $this->_config->get('export_skip_fields'));
-
         return [$schemadb];
     }
 
@@ -65,8 +63,6 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
             $root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
             if (empty($_POST['org_openpsa_products_export_all'])) {
                 $qb->add_constraint('productGroup', '=', $root_group->id);
-                // We have data only from one product group, though this seems to be too late...
-                $this->_schema_fields_to_skip[] = 'productGroup';
             } else {
                 $qb_groups = org_openpsa_products_product_group_dba::new_query_builder();
                 $qb_groups->add_constraint('up', 'INTREE', $root_group->id);

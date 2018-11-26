@@ -35,6 +35,4 @@
 // Use custom rss feeds
 'custom_rss_feeds' => false, // ['title' => 'http://example.com']
 
-'export_skip_fields' => '',
-
 'product_page_title' => '<TOPIC_TITLE>: <PRODUCT_TITLE>',
