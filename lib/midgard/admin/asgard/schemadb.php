@@ -155,7 +155,7 @@ class midgard_admin_asgard_schemadb
             $this->_add_copy_fields();
         }
 
-        return new schemadb(['object' => $this->schema]);
+        return new schemadb(['default' => $this->schema]);
     }
 
     private function _filter_schema_fields($key)

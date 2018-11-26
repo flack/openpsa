@@ -123,7 +123,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_load_schemadb();
 
         // Hide the revision message
-        $field =& $this->schemadb->get('object')->get_field('_rcs_message');
+        $field =& $this->schemadb->get_first()->get_field('_rcs_message');
         $field['hidden'] = true;
 
         $this->datamanager = new datamanager($this->schemadb);
@@ -164,7 +164,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_load_schemadb();
         $dm = new datamanager($this->schemadb);
         $this->controller = $dm
-            ->set_storage($this->_object, 'object')
+            ->set_storage($this->_object, 'default')
             ->get_controller();
         switch ($this->controller->process()) {
             case 'save':
@@ -227,7 +227,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $dm = new datamanager($this->schemadb);
         $this->controller = $dm
             ->set_defaults($this->get_defaults($create_type))
-            ->set_storage($this->_new_object, 'object')
+            ->set_storage($this->_new_object, 'default')
             ->get_controller();
 
         switch ($this->controller->process()) {
@@ -235,7 +235,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 // Reindex the object
                 //$indexer = midcom::get()->indexer;
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
-                $this->_new_object->set_parameter('midcom.helper.datamanager2', 'schema_name', 'default');
 
                 if ($handler_id !== 'object_create_chooser') {
                     return $this->_prepare_relocate($this->_new_object);
@@ -285,7 +284,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         // Allow setting defaults from query string, useful for things like "create event for today" and chooser
         if (   isset($_GET['defaults'])
             && is_array($_GET['defaults'])) {
-            $get_defaults = array_intersect_key($_GET['defaults'], $this->schemadb->get('object')->get('fields'));
+            $get_defaults = array_intersect_key($_GET['defaults'], $this->schemadb->get_first()->get('fields'));
             $defaults = array_merge($defaults, array_map('trim', $get_defaults));
         }
         return $defaults;
@@ -323,7 +322,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             'pre_selected' => true
         ];
 
-        foreach (array_keys($this->schemadb->get('object')->get('fields')) as $field) {
+        foreach (array_keys($this->schemadb->get_first()->get('fields')) as $field) {
             $value = @$object->$field;
             $value = rawurlencode($value);
             $jsdata[$field] = $value;
@@ -383,7 +382,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_load_schemadb();
         $this->datamanager = new datamanager($this->schemadb);
         $this->datamanager
-            ->set_storage($this->_object, 'object')
+            ->set_storage($this->_object, 'default')
             ->get_form();
 
         if (array_key_exists('midgard_admin_asgard_deleteok', $_REQUEST)) {
@@ -444,7 +443,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         $this->_load_schemadb($target['class'], $target['parent'], true);
         // Change the name for the parent field
-        $field =& $this->schemadb->get('object')->get_field($target['parent']);
+        $field =& $this->schemadb->get_first()->get_field($target['parent']);
         $field['title'] = $this->_l10n->get('choose the target');
 
         $dm = new datamanager($this->schemadb);
