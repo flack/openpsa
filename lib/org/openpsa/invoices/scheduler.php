@@ -181,7 +181,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         if ($new_task) {
             $message['content'] .= "\n" . $l10n->get('created new task') . ":\n";
-            $message['content'] .= "{$task->title}\n";
+            $message['content'] .= "{$new_task->title}\n";
         }
 
         $message['content'] .= "\n" . $l10n->get('next run') . ": {$next_run_label}\n\n";
