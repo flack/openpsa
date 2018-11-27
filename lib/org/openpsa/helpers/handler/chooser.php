@@ -47,7 +47,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
     /**
      * The object we're working on, if any
      *
-     * @param midcom_core_dbaobject
+     * @var midcom_core_dbaobject
      */
     private $_object;
 

@@ -18,14 +18,14 @@ class midcom_core_account
     /**
      * The person the account belongs to
      *
-     * @param midcom_db_person
+     * @var midcom_db_person
      */
     private $_person;
 
     /**
      * The current account
      *
-     * @param midgard_user
+     * @var midgard_user
      */
     private $_user;
 

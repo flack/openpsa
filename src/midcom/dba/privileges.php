@@ -170,9 +170,9 @@ trait privileges
      * This call requires the <i>midgard:privileges</i> privilege.
      *
      * @param string $name The name of the privilege to add.
-     * @param int $value The privilege value, this defaults to MIDCOM_PRIVILEGE_ALLOW.
      * @param mixed $assignee A valid assignee suitable for midcom_core_privilege::set_privilege(). This defaults to the currently
      *     active user if authenticated or to 'EVERYONE' otherwise.
+     * @param int $value The privilege value, this defaults to MIDCOM_PRIVILEGE_ALLOW.
      * @param string $classname An optional class name to which a SELF privilege gets restricted to. Only valid for SELF privileges.
      * @return midcom_core_privilege The newly created privilege record.
      */

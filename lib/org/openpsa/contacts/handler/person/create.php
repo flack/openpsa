@@ -19,7 +19,7 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
     /**
      * The person we're working on
      *
-     * @param org_openpsa_contacts_person_dba
+     * @var org_openpsa_contacts_person_dba
      */
     private $_person;
 

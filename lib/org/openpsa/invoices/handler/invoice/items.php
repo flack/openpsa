@@ -20,7 +20,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
     /**
      * The invoice we're working with
      *
-     * @param org_openpsa_invoices_invoice_dba
+     * @var org_openpsa_invoices_invoice_dba
      */
     private $_object = null;
 

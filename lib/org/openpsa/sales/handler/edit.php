@@ -19,7 +19,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     /**
      * The salesproject we're working on
      *
-     * @param org_openpsa_sales_salesproject_dba
+     * @var org_openpsa_sales_salesproject_dba
      */
     private $_salesproject = null;
 

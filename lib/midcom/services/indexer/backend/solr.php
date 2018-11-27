@@ -82,7 +82,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      * Removes the document(s) with the given resource identifier(s) from the index.
      *
      * @param array $RIs The resource identifier(s) of the document(s) that should be deleted.
-     * @return boolean Indicating success.
      */
     public function delete(array $RIs)
     {
@@ -93,8 +92,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
 
     /**
      * Clear the index completely or by constraint.
-     *
-     * @return boolean Indicating success.
      */
     public function delete_all($constraint)
     {

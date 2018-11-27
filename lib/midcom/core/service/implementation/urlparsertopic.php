@@ -58,6 +58,8 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
 
     /**
      * Return current object pointed to by the parse URL
+     *
+     * @return midcom_db_topic
      */
     public function get_current_object()
     {

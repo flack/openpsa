@@ -18,7 +18,6 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
     /**
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean True if the request can be handled, false otherwise.
      */
     private function prepare_dates(array $args, array &$data)
     {

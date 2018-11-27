@@ -330,7 +330,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * one can be found. You should not need to override this, instead, use the
      * HANDLE Phase for further checks.
      *
-     * @param array $argv The argument list
+     * @param Request $request The request object
      * @return boolean Indicating whether the request can be handled by the class, or not.
      */
     public function can_handle(Request $request)

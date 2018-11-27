@@ -40,7 +40,6 @@ class org_openpsa_calendar_vcal
      * Export event in vCalendar format
      *
      * @param org_openpsa_calendar_event_dba $event The event we're working on
-     * @return string vCalendar data
      */
     public function add_event(org_openpsa_calendar_event_dba $event)
     {

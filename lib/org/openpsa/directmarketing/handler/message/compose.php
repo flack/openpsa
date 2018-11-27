@@ -100,7 +100,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
      *
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
-     * @return String               Composed message
      */
     public function _show_compose($handler_id, array &$data)
     {

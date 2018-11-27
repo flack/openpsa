@@ -26,7 +26,7 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Minimum score to count as duplicate
      *
-     * @param integer
+     * @var integer
      */
     private $threshold = 1;
 
