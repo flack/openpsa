@@ -181,7 +181,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         $label = $data['object_reflector']->get_object_label($object);
         $breadcrumb[] = [
             MIDCOM_NAV_URL => self::_generate_url('view', $object->guid),
-            MIDCOM_NAV_NAME => $label,
+            MIDCOM_NAV_NAME => html_entity_decode($label),
         ];
 
         $parent = $object->get_parent();
