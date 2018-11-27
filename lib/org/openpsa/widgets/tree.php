@@ -124,7 +124,7 @@ JSINIT;
 
         $results = $mc->get_rows($value_properties);
         if (count($results) === 0) {
-            return;
+            return $data;
         }
 
         foreach ($results as $guid => $values) {
