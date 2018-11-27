@@ -24,7 +24,6 @@ class org_openpsa_helpers_list
      */
     public static function task_groups(midcom_core_dbaobject $task, $mode = 'id', array $contacts = [])
     {
-        //TODO: Localize something for the empty choice ?
         $ret = [0 => ''];
         self::$_seen = [];
 
@@ -88,8 +87,7 @@ class org_openpsa_helpers_list
         if (is_null($cache)) {
             $cache = [];
             if ($add_all) {
-                //TODO: Localization
-                $cache['all'] = 'all';
+                $cache['all'] = midcom::get()->i18n->get_string('all', 'midcom');
             }
 
             $qb = org_openpsa_projects_project::new_query_builder();
@@ -116,15 +114,13 @@ class org_openpsa_helpers_list
         if (!array_key_exists($array_name, $cache)) {
             $cache[$array_name] = [];
             if ($add_me == 'first') {
-                //TODO: Localization
-                $cache[$array_name][midcom::get()->auth->user->id] = 'me';
+                $cache[$array_name][midcom::get()->auth->user->id] = midcom::get()->i18n->get_string('me', 'org.openpsa.contacts');
             }
 
             $users_groups = midcom::get()->auth->user->list_memberships();
             foreach ($users_groups as $key => $vgroup) {
                 if (is_object($vgroup)) {
                     $cache[$array_name][$key] = $vgroup->name;
-                    //TODO: get the vgroup object based on the key or something, this check fails always.
                     if ($show_members) {
                         $vgroup_members = $vgroup->list_members();
                         foreach ($vgroup_members as $key2 => $person) {
@@ -139,8 +135,7 @@ class org_openpsa_helpers_list
             asort($cache[$array_name]);
 
             if ($add_me == 'last') {
-                //TODO: Localization
-                $cache[$array_name][midcom::get()->auth->user->id] = 'me';
+                $cache[$array_name][midcom::get()->auth->user->id] = midcom::get()->i18n->get_string('me', 'org.openpsa.contacts');
             }
         }
         return $cache[$array_name];

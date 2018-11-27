@@ -196,7 +196,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * Get property name to use as label
      *
      * @return string name of property to use as label (or false on failure)
-     * @todo remove any hardcoded class names/prefixes
      */
     public function get_label_property()
     {
