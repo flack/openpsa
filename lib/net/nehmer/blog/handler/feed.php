@@ -76,7 +76,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         // Prepare the feed (this will also validate the handler_id)
         $this->_create_feed($handler_id);
 
-        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic), $this->_topic->guid);
+        midcom::get()->metadata->set_request_metadata($this->get_last_modified(), $this->_topic->guid);
     }
 
     /**

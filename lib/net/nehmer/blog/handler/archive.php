@@ -71,7 +71,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
         midcom::get()->head->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n->get('archive'));
 
-        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic), $this->_topic->guid);
+        midcom::get()->metadata->set_request_metadata($this->get_last_modified(), $this->_topic->guid);
     }
 
     /**
@@ -323,7 +323,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $this->set_active_leaf($this->_topic->id . '_ARCHIVE_' . $args[0]);
         }
 
-        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic), $this->_topic->guid);
+        midcom::get()->metadata->set_request_metadata($this->get_last_modified(), $this->_topic->guid);
         midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$timeframe}");
     }
 

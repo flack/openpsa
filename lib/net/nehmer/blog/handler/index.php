@@ -68,7 +68,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         $this->_articles = $qb->execute();
 
-        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic), $this->_topic->guid);
+        midcom::get()->metadata->set_request_metadata($this->get_last_modified(), $this->_topic->guid);
 
         if ($qb->get_current_page() > 1) {
             $this->add_breadcrumb(

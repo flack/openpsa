@@ -162,27 +162,4 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         $document->read_metadata_from_object($dm->get_storage()->get_value());
         $indexer->index($document);
     }
-
-    /**
-     * Simple helper, gets the last modified timestamp of the topic combination
-     * specified.
-     *
-     * @param midcom_db_topic $topic The base topic to use.
-     */
-    public static function get_last_modified($topic)
-    {
-        // Get last modified timestamp
-        $qb = midcom_db_article::new_query_builder();
-        // FIXME: use the constraints method below
-        $qb->add_constraint('topic', '=', $topic->id);
-        $qb->add_order('metadata.revised', 'DESC');
-        $qb->set_limit(1);
-
-        $articles = $qb->execute();
-
-        if (array_key_exists(0, $articles)) {
-            return max($topic->metadata->revised, $articles[0]->metadata->revised);
-        }
-        return $topic->metadata->revised;
-    }
 }

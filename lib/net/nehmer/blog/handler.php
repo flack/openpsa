@@ -30,6 +30,26 @@ trait net_nehmer_blog_handler
     }
 
     /**
+     * Simple helper, gets the last modified timestamp of the topic combination
+     * specified.
+     */
+    public function get_last_modified()
+    {
+        // Get last modified timestamp
+        $qb = midcom_db_article::new_query_builder();
+        $this->article_qb_constraints($qb);
+        $qb->add_order('metadata.revised', 'DESC');
+        $qb->set_limit(1);
+
+        $articles = $qb->execute();
+
+        if (array_key_exists(0, $articles)) {
+            return max($this->_topic->metadata->revised, $articles[0]->metadata->revised);
+        }
+        return $this->_topic->metadata->revised;
+    }
+
+    /**
      * Sets the constraints for QB for articles
      *
      * @param midcom_core_querybuilder $qb The QB object
