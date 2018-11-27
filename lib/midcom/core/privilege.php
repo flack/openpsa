@@ -479,7 +479,8 @@ class midcom_core_privilege
             }
             $privilege->value = MIDCOM_PRIVILEGE_INHERIT;
             return $privilege;
-        } elseif (count($result) > 1) {
+        }
+        if (count($result) > 1) {
             debug_add('A DB inconsistency has been detected. There is more than one record for privilege specified. Deleting all excess records after the first one!',
                 MIDCOM_LOG_ERROR);
             debug_print_r('Content Object:', $object);

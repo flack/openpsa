@@ -31,15 +31,10 @@ if (count($history) == 0) {
         echo "                    <td><a href='" . $data['router']->generate('preview', ['guid' => $guid, 'revision' => $rev]) . "'>{$rev}</a></td>\n";
         echo "                    <td>" . $formatter->datetime($history['date']) . "</td>\n";
 
-        if ($history['user']) {
-            if ($user = midcom::get()->auth->get_user($history['user'])) {
-                $person_label = $user->get_storage()->name;
-                echo "                    <td>{$person_label}</td>\n";
-            } elseif ($history['ip']) {
-                echo "                    <td>{$history['ip']}</td>\n";
-            } else {
-                echo "                    <td></td>\n";
-            }
+        if (   $history['user']
+            && $user = midcom::get()->auth->get_user($history['user'])) {
+            $person_label = $user->get_storage()->name;
+            echo "                    <td>{$person_label}</td>\n";
         } elseif ($history['ip']) {
             echo "                    <td>{$history['ip']}</td>\n";
         } else {
