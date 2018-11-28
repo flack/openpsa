@@ -183,7 +183,6 @@ class midcom_application
      *
      * @param string $url                The URL, relative to the Midgard Page, that is to be requested.
      * @param array $config              A key=>value array with any configuration overrides.
-     * @return int                       The ID of the newly created context.
      */
     public function dynamic_load($url, $config = [], $pass_get = false)
     {
@@ -208,7 +207,7 @@ class midcom_application
         $cached = $this->cache->content->check_dl_hit($context->id, $config);
         if ($cached !== false) {
             echo $cached;
-            return $context->id;
+            return;
         }
 
         // Parser Init: Generate arguments and instantiate it.
@@ -241,8 +240,6 @@ class midcom_application
         // Leave Context
         $oldcontext->set_current();
         $this->style->enter_context($oldcontext->id);
-
-        return $context->id;
     }
 
     /**
