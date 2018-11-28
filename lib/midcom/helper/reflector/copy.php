@@ -18,7 +18,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Target
      *
-     * @var mixed        GUID, MgdSchema or MidCOM dba object
+     * @var mixed        MgdSchema or MidCOM dba object
      */
     public $target;
 
@@ -190,17 +190,13 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     }
 
     /**
-     * Resolve MgdSchema object from guid or miscellaneous extended object
+     * Resolve MgdSchema object from midcom object
      *
-     * @param mixed $object    MgdSchema object, GUID or ID
+     * @param mixed $object    MgdSchema or midcom object
      * @return mgdobject|false
      */
     private function resolve_object($object)
     {
-        // Check the type of the requested parent
-        if (mgd_is_guid($object)) {
-            $object = midcom::get()->dbfactory->get_object_by_guid($object);
-        }
         if (!is_object($object)) {
             return false;
         }
@@ -217,12 +213,10 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
     /**
      * Copy an object tree. Both source and parent may be liberally filled. Source can be either
-     * MgdSchema or MidCOM db object or GUID of the object and parent can be
+     * MgdSchema or MidCOM db object of the object and parent can be
      *
      * - MgdSchema object
      * - MidCOM db object
-     * - predefined target array (@see get_target_properties())
-     * - ID or GUID of the object
      * - left empty to copy as a parentless object
      *
      * This method is self-aware and will refuse to perform any infinite loops (e.g. to copy
@@ -231,8 +225,8 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * Eventually this method will return the first root object that was created, i.e. the root
      * of the new tree.
      *
-     * @param mixed $source        GUID or MgdSchema object that will be copied
-     * @param mixed $parent        MgdSchema or MidCOM db object, or GUID of the parent object
+     * @param mixed $source        MidCOM db or MgdSchema object that will be copied
+     * @param mixed $parent        MgdSchema or MidCOM db object
      * @return mixed               False on failure, newly created MgdSchema root object on success
      */
     public function copy_tree($source, $parent)
@@ -284,6 +278,10 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     {
         // Resolve the source object
         $source = $this->resolve_object($source);
+        if (!$source) {
+            $this->errors[] = $this->_l10n->get('failed to get the source object');
+            return false;
+        }
 
         // Duplicate the object
         $class_name = get_class($source);
@@ -487,12 +485,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      */
     public function execute(midcom_core_dbaobject $source)
     {
-        $source = $this->resolve_object($source);
-        if (!$source) {
-            $this->errors[] = $this->_l10n->get('failed to get the source object');
-            return false;
-        }
-
         if ($this->recursive) {
             // Disable execution timeout and memory limit, this can be very intensive
             midcom::get()->disable_limits();
