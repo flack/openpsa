@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\portable\api\mgdobject;
+
 /**
  * The Grand Unified Reflector, copying helper class
  *
@@ -197,10 +199,10 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Resolve MgdSchema object from guid or miscellaneous extended object
      *
-     * @param mixed &$object    MgdSchema object, GUID or ID
-     * @return mixed MgdSchema object or false on failure
+     * @param mixed $object    MgdSchema object, GUID or ID
+     * @return mgdobject|false
      */
-    public static function resolve_object(&$object)
+    private function resolve_object($object)
     {
         // Check the type of the requested parent
         if (mgd_is_guid($object)) {
@@ -240,7 +242,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * @param mixed $parent        MgdSchema or MidCOM db object, predefined array or ID of the parent object
      * @return mixed               False on failure, newly created MgdSchema root object on success
      */
-    public function copy_tree(&$source, &$parent)
+    public function copy_tree($source, $parent)
     {
         // Copy the root object
         $root = $this->copy_object($source, $parent);
@@ -280,15 +282,15 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Copy an object
      *
-     * @param mixed &$source     MgdSchema object for reading the parameters
-     * @param mixed &$parent      MgdSchema parent object
+     * @param mixed $source     MgdSchema object for reading the parameters
+     * @param mixed $parent      MgdSchema parent object
      * @param array $defaults
      * @return boolean Indicating success
      */
-    public function copy_object(&$source, &$parent = null, array $defaults = [])
+    public function copy_object($source, $parent = null, array $defaults = [])
     {
         // Resolve the source object
-        self::resolve_object($source);
+        $source = $this->resolve_object($source);
 
         // Duplicate the object
         $class_name = get_class($source);
@@ -323,7 +325,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
         // Copy the link to parent
         if ($parent) {
-            self::resolve_object($parent);
+            $parent = $this->resolve_object($parent);
 
             if (empty($parent->guid)) {
                 return false;
