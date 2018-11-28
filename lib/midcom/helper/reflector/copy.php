@@ -108,21 +108,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     public $new_objects = [];
 
     /**
-     * New root object
-     */
-    public $new_root_object = null;
-
-    /**
-     * Get the newly created root object
-     *
-     * @return mixed     Lowest level new MgdSchema object
-     */
-    public function get_object()
-    {
-        return $this->new_root_object;
-    }
-
-    /**
      * Get the parent property for overriding it
      *
      * @param mixed $object     MgdSchema object for resolving the parent property
@@ -481,7 +466,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * Dispatches the copy command according to the attributes set
      *
      * @param midcom_core_dbaobject $source
-     * @return boolean Indicating success
+     * @return mgdobject|false
      */
     public function execute(midcom_core_dbaobject $source)
     {
@@ -489,16 +474,16 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             // Disable execution timeout and memory limit, this can be very intensive
             midcom::get()->disable_limits();
 
-            $this->new_root_object = $this->copy_tree($source, $this->target);
+            $new_root_object = $this->copy_tree($source, $this->target);
         } else {
-            $this->new_root_object = $this->copy_object($source, $this->target);
+            $new_root_object = $this->copy_object($source, $this->target);
         }
 
-        if (empty($this->new_root_object->guid)) {
+        if (empty($new_root_object->guid)) {
             $this->errors[] = $this->_l10n->get('failed to get the new root object');
             return false;
         }
 
-        return true;
+        return $new_root_object;
     }
 }

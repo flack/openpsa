@@ -524,13 +524,12 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         } else {
             $copy->recursive = false;
         }
+        $new_object = $copy->execute($this->_object);
 
-        if (!$copy->execute($this->_object)) {
+        if ($new_object === false) {
             debug_print_r('Copying failed with the following errors', $copy->errors, MIDCOM_LOG_ERROR);
             throw new midcom_error('Failed to successfully copy the object. Details in error level log');
         }
-
-        $new_object = $copy->get_object();
 
         if ($this->_request_data['handler_id'] === 'object_copy_tree') {
             midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the root of the new object tree'));
