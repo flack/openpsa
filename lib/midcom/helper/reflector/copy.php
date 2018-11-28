@@ -486,46 +486,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     }
 
     /**
-     * Copy an object tree. Both source and parent may be liberally filled. Source can be either
-     * MgdSchema or MidCOM db object or GUID of the object and parent can be
-     *
-     * - MgdSchema object
-     * - MidCOM db object
-     * - predefined target array (@see get_target_properties())
-     * - ID or GUID of the object
-     * - left empty to copy as a parentless object
-     *
-     * This method is self-aware and will refuse to perform any infinite loops (e.g. to copy
-     * itself to its descendant, copying itself again and again and again).
-     *
-     * Eventually this method will return the first root object that was created, i.e. the root
-     * of the new tree.
-     *
-     * @param mixed $source        GUID or MgdSchema object that will be copied
-     * @param mixed $parent        MgdSchema or MidCOM db object, predefined array or ID of the parent object
-     * @param array $exclude       IDs that will be excluded from the copying
-     * @param boolean $copy_parameters  Switch to determine if the parameters should be copied
-     * @param boolean $copy_metadata    Switch to determine if the metadata should be copied (excluding created and published)
-     * @param boolean $copy_attachments Switch to determine if the attachments should be copied (creates only a new link, doesn't duplicate the content)
-     * @return mixed               False on failure, newly created MgdSchema root object on success
-     */
-    public static function copy_object_tree($source, $parent, $exclude = [], $copy_parameters = true, $copy_metadata = true, $copy_attachments = true)
-    {
-        $copy = new midcom_helper_reflector_copy();
-        $copy->source =& $source;
-        $copy->target =& $parent;
-        $copy->copy_parameters = $copy_parameters;
-        $copy->copy_metadata = $copy_metadata;
-        $copy->copy_attachments = $copy_attachments;
-
-        if (!$copy->execute()) {
-            return false;
-        }
-
-        return $copy->get_object();
-    }
-
-    /**
      * Dispatches the copy command according to the attributes set
      *
      * @return boolean Indicating success
