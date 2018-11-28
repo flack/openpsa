@@ -37,7 +37,7 @@ class midcom_core_account
     private $_old_username;
 
     /**
-     * @param object midgard_person, midcom_db_person or similar
+     * @param object $person midgard_person, midcom_db_person or similar
      */
     public function __construct($person)
     {

@@ -87,7 +87,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Fetch given RSS or Atom feed
      *
-     * @param array Array of normalized feed items
+     * @return net_nemein_rss_parser_item[] Array of normalized feed items
      */
     function fetch()
     {

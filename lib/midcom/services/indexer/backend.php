@@ -33,7 +33,7 @@ interface midcom_services_indexer_backend
      *
      * This will drop the current index.
      *
-     * @param Optional query constraint
+     * @param string $constraint Optional query constraint
      */
     public function delete_all($constraint);
 

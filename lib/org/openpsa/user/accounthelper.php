@@ -48,7 +48,12 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     /**
      * can be called by various handlers
      *
-     * @param string password: leave blank for auto generated
+     * @param string $person_guid
+     * @param string $username
+     * @param string $usermail
+     * @param string $password password: leave blank for auto generated
+     * @param boolean $send_welcome_mail
+     * @return boolean
      */
     public function create_account($person_guid, $username, $usermail, $password = "", $send_welcome_mail = false)
     {

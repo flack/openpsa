@@ -36,6 +36,9 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
      */
     public $include_totals = false;
 
+    /**
+     * @var array
+     */
     public $csv = [];
 
     protected $_schema;

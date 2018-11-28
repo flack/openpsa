@@ -41,8 +41,8 @@ class org_openpsa_contacts_duplicates_merge
      * Depending on modes either all or only future dependencies, this method
      * will go trough all components' interface classes and call a merge method there
      *
-     * @param object Object that data will be merged to
-     * @param object Object that data will be merged from
+     * @param object $obj1 Object that data will be merged to
+     * @param object $obj2 Object that data will be merged from
      */
     public function merge($obj1, $obj2, $merge_mode)
     {

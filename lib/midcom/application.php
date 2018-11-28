@@ -500,7 +500,7 @@ class midcom_application
      * been sent, this will leave you with a partially completed page, so beware.
      *
      * @param string $url    The URL to redirect to, will be preprocessed as outlined above.
-     * @param string $response_code HTTP response code to send with the relocation, from 3xx series
+     * @param int $response_code HTTP response code to send with the relocation, from 3xx series
      */
     public function relocate($url, $response_code = 302)
     {

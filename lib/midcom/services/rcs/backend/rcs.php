@@ -46,7 +46,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     /**
      * Save a new revision
      *
-     * @param object object to be saved
+     * @param object $object object to be saved
      * @return boolean true on success.
      */
     public function update($object, $updatemessage = null)
