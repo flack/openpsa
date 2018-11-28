@@ -77,7 +77,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      *
      * @var boolean
      */
-    public $copy_tree = true;
+    public $recursive = true;
 
     /**
      * Metadata fields that shall be copied
@@ -499,7 +499,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             return false;
         }
 
-        if ($this->copy_tree) {
+        if ($this->recursive) {
             // Disable execution timeout and memory limit, this can be very intensive
             midcom::get()->disable_limits();
 
