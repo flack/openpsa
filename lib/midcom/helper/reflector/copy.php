@@ -239,7 +239,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * of the new tree.
      *
      * @param mixed $source        GUID or MgdSchema object that will be copied
-     * @param mixed $parent        MgdSchema or MidCOM db object, predefined array or ID of the parent object
+     * @param mixed $parent        MgdSchema or MidCOM db object, or GUID of the parent object
      * @return mixed               False on failure, newly created MgdSchema root object on success
      */
     public function copy_tree($source, $parent)
@@ -368,11 +368,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * Copy object data
      *
      * @param string $type        The type of data to copy
-     * @param mixed &$source      MgdSchema object for reading the parameters
-     * @param mixed &$target      MgdSchema object for storing the parameters
+     * @param mixed $source      MgdSchema object for reading the parameters
+     * @param mixed $target      MgdSchema object for storing the parameters
      * @return boolean Indicating success
      */
-    private function _copy_data($type, $source, &$target)
+    private function _copy_data($type, $source, $target)
     {
         $method = 'copy_' . $type;
         if (   !$this->$method($source, $target)
@@ -440,11 +440,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Copy attachments
      *
-     * @param mixed &$source      MgdSchema object for reading the attachments
-     * @param mixed &$target      MgdSchema object for storing the attachments
+     * @param mixed $source      MgdSchema object for reading the attachments
+     * @param mixed $target      MgdSchema object for storing the attachments
      * @return boolean Indicating success
      */
-    public function copy_attachments(&$source, &$target)
+    public function copy_attachments($source, $target)
     {
         $defaults = [
             'parentguid' => $target->guid,
