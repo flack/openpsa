@@ -16,18 +16,11 @@ use midgard\portable\api\mgdobject;
 class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecode
 {
     /**
-     * Source
-     *
-     * @var mixed        GUID, MgdSchema or MidCOM dba object
-     */
-    public $source = null;
-
-    /**
      * Target
      *
      * @var mixed        GUID, MgdSchema or MidCOM dba object
      */
-    public $target = null;
+    public $target;
 
     /**
      * Exclusion list
@@ -489,11 +482,13 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Dispatches the copy command according to the attributes set
      *
+     * @param midcom_core_dbaobject $source
      * @return boolean Indicating success
      */
-    public function execute()
+    public function execute(midcom_core_dbaobject $source)
     {
-        if (!$this->resolve_object($this->source)) {
+        $source = $this->resolve_object($source);
+        if (!$source) {
             $this->errors[] = $this->_l10n->get('failed to get the source object');
             return false;
         }
@@ -502,9 +497,9 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             // Disable execution timeout and memory limit, this can be very intensive
             midcom::get()->disable_limits();
 
-            $this->new_root_object = $this->copy_tree($this->source, $this->target);
+            $this->new_root_object = $this->copy_tree($source, $this->target);
         } else {
-            $this->new_root_object = $this->copy_object($this->source, $this->target);
+            $this->new_root_object = $this->copy_object($source, $this->target);
         }
 
         if (empty($this->new_root_object->guid)) {

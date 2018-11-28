@@ -526,10 +526,9 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         $target = org_openpsa_documents_directory::get_cached($targetDir);
         $source = midcom::get()->dbfactory->get_object_by_guid($source);
         $copy = new midcom_helper_reflector_copy;
-        $copy->source = $source;
         $copy->target = $target;
 
-        if (!$copy->execute()) {
+        if (!$copy->execute($source)) {
             debug_print_r('Copying failed with the following errors', $copy->errors, MIDCOM_LOG_ERROR);
             return false;
         }
