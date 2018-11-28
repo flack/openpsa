@@ -253,7 +253,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         // Add the newly copied object to the exclusion list to prevent infinite loops
-        $this->exclude[] = $this->source->guid;
+        $this->exclude[] = $source->guid;
 
         // Get the children
         $children = midcom_helper_reflector_tree::get_child_objects($source);
