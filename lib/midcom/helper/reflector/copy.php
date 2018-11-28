@@ -49,28 +49,28 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      *
      * @var boolean
      */
-    public $copy_attachments = true;
+    public $attachments = true;
 
     /**
      * Switch for parameters
      *
      * @var boolean
      */
-    public $copy_parameters = true;
+    public $parameters = true;
 
     /**
      * Switch for privileges
      *
      * @var boolean
      */
-    public $copy_privileges = true;
+    public $privileges = true;
 
     /**
      * Switch for metadata
      *
      * @var boolean
      */
-    public $copy_metadata = true;
+    public $metadata = true;
 
     /**
      * Copy the whole tree
@@ -374,12 +374,15 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      */
     private function _copy_data($type, $source, $target)
     {
-        $method = 'copy_' . $type;
-        if (   !$this->$method($source, $target)
-            && $this->halt_on_errors) {
-            $this->errors[] = $this->_l10n->get('failed to copy ' . $type);
-            return false;
+        if ($this->$type) {
+            $method = 'copy_' . $type;
+            if (   !$this->$method($source, $target)
+                && $this->halt_on_errors) {
+                $this->errors[] = $this->_l10n->get('failed to copy ' . $type);
+                return false;
+            }
         }
+
         return true;
     }
 
@@ -392,10 +395,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      */
     public function copy_parameters($source, $target)
     {
-        if (!$this->copy_parameters) {
-            return true;
-        }
-
         $params = $source->list_parameters();
 
         if (count($params) === 0) {

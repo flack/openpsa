@@ -515,10 +515,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         // Copying of parameters, metadata and such
-        $copy->copy_parameters = $formdata['parameters'];
-        $copy->copy_metadata = $formdata['metadata'];
-        $copy->copy_attachments = $formdata['attachments'];
-        $copy->copy_privileges = $formdata['privileges'];
+        $copy->parameters = $formdata['parameters'];
+        $copy->metadata = $formdata['metadata'];
+        $copy->attachments = $formdata['attachments'];
+        $copy->privileges = $formdata['privileges'];
 
         if ($this->_request_data['handler_id'] === 'object_copy_tree') {
             $copy->exclude = array_diff($_POST['all_objects'], $_POST['selected']);
