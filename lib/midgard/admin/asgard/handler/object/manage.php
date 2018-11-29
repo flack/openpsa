@@ -468,13 +468,13 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
 
         // Set the page title
+        $label = $target['reflector']->get_label_property();
         if ($handler_id === 'object_copy_tree') {
-            $data['page_title'] = sprintf($this->_l10n->get('copy %s and its descendants'), $this->_object->{$target['label']});
+            $data['page_title'] = sprintf($this->_l10n->get('copy %s and its descendants'), $this->_object->{$label});
         } else {
-            $data['page_title'] = sprintf($this->_l10n->get('copy %s'), $this->_object->{$target['label']});
+            $data['page_title'] = sprintf($this->_l10n->get('copy %s'), $this->_object->{$label});
         }
 
-        $data['target'] = $target;
         return new midgard_admin_asgard_response($this, '_show_copy');
     }
 

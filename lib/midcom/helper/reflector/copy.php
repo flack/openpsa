@@ -106,9 +106,18 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * @param mixed $object     MgdSchema object for resolving the parent property
      * @return string            Parent property
      */
-    public function get_parent_property($object)
+    private static function get_parent_property($object)
     {
-        return self::get_target_properties($object)['parent'];
+        $parent = midgard_object_class::get_property_parent($object);
+        if (!$parent) {
+            $parent = midgard_object_class::get_property_up($object);
+
+            if (!$parent) {
+                throw new midcom_error('Failed to get the parent property for copying');
+            }
+        }
+
+        return $parent;
     }
 
     /**
@@ -134,21 +143,9 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             'id' => null,
             'parent' => '',
             'class' => $mgdschema_class,
-            'label' => '',
             'reflector' => new midcom_helper_reflector($object),
+            'parent' => self::get_parent_property($mgdschema_object)
         ];
-
-        // Get the class label
-        $target['label'] = $target['reflector']->get_label_property();
-
-        $target['parent'] = midgard_object_class::get_property_parent($mgdschema_object);
-        if (!$target['parent']) {
-            $target['parent'] = midgard_object_class::get_property_up($mgdschema_object);
-
-            if (!$target['parent']) {
-                throw new midcom_error('Failed to get the parent property for copying');
-            }
-        }
 
         // Cache the results
         $targets[$mgdschema_class] = $target;
@@ -278,7 +275,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             $target->$name = $value;
         }
 
-        $parent_property = $this->get_parent_property($source);
+        $parent_property = self::get_parent_property($source);
 
         // Copy the link to parent
         if ($parent) {
