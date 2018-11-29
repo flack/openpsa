@@ -138,28 +138,16 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             'reflector' => new midcom_helper_reflector($object),
         ];
 
-        // Try to get the parent property for determining, which property should be
-        // used to point the parent of the new object. Attachments are a special case.
-        if (!midcom::get()->dbfactory->is_a($object, midcom_db_attachment::class)) {
-            $parent_property = midgard_object_class::get_property_parent($mgdschema_object);
-        } else {
-            $parent_property = 'parentobject';
-        }
-
         // Get the class label
         $target['label'] = $target['reflector']->get_label_property();
 
-        // Try once more to get the parent property, but now try up as a backup
-        if (!$parent_property) {
-            $up_property = midgard_object_class::get_property_up($mgdschema_object);
+        $target['parent'] = midgard_object_class::get_property_parent($mgdschema_object);
+        if (!$target['parent']) {
+            $target['parent'] = midgard_object_class::get_property_up($mgdschema_object);
 
-            if (!$up_property) {
+            if (!$target['parent']) {
                 throw new midcom_error('Failed to get the parent property for copying');
             }
-
-            $target['parent'] = $up_property;
-        } else {
-            $target['parent'] = $parent_property;
         }
 
         // Cache the results
