@@ -347,14 +347,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 return $this->_prepare_relocate($parent);
             }
 
-            $type = $object->__mgdschema_class_name__;
-
-            $class_extends = $this->_config->get('class_extends');
-            if (   is_array($class_extends)
-                && array_key_exists($type, $class_extends)) {
-                $type = $class_extends[$type];
-            }
-            $url = $this->router->generate('type', ['type' => $type]);
+            $url = $this->router->generate('type', ['type' => $object->__mgdschema_class_name__]);
         } else {
             // Redirect persons to user management
             if ($object instanceof midcom_db_person) {
