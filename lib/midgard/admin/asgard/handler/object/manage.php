@@ -439,22 +439,23 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_load_object($args[0]);
 
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
-        $target = midcom_helper_reflector_copy::get_target_properties($this->_object);
+        $parent = midcom_helper_reflector_copy::get_parent_property($this->_object->__object);
 
-        $this->_load_schemadb($target['class'], $target['parent'], true);
+        $this->_load_schemadb(get_class($this->_object), $parent, true);
         // Change the name for the parent field
-        $field =& $this->schemadb->get_first()->get_field($target['parent']);
+        $field =& $this->schemadb->get_first()->get_field($parent);
         $field['title'] = $this->_l10n->get('choose the target');
 
         $dm = new datamanager($this->schemadb);
         $this->controller = $dm->get_controller();
 
         $this->_prepare_request_data();
+        $reflector = new midcom_helper_reflector($this->_object);
 
         // Process the form
         switch ($this->controller->process()) {
             case 'save':
-                $new_object = $this->_process_copy($target);
+                $new_object = $this->_process_copy($parent, $reflector);
                 // Relocate to the newly created object
                 return $this->_prepare_relocate($new_object);
 
@@ -468,11 +469,11 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
 
         // Set the page title
-        $label = $target['reflector']->get_label_property();
+        $label = $reflector->get_object_label($this->_object);
         if ($handler_id === 'object_copy_tree') {
-            $data['page_title'] = sprintf($this->_l10n->get('copy %s and its descendants'), $this->_object->{$label});
+            $data['page_title'] = sprintf($this->_l10n->get('copy %s and its descendants'), $label);
         } else {
-            $data['page_title'] = sprintf($this->_l10n->get('copy %s'), $this->_object->{$label});
+            $data['page_title'] = sprintf($this->_l10n->get('copy %s'), $label);
         }
 
         return new midgard_admin_asgard_response($this, '_show_copy');
@@ -492,25 +493,22 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
     }
 
-    private function _process_copy($target)
+    private function _process_copy($parent, midcom_helper_reflector $reflector)
     {
         $formdata = $this->controller->get_datamanager()->get_content_raw();
-        $target['id'] = $formdata[$target['parent']];
-
+        $id = $formdata[$parent];
         $copy = new midcom_helper_reflector_copy();
 
         // Set the target - if available
-        if (!empty($target['id'])) {
-            $link_properties = $target['reflector']->get_link_properties();
-            $parent = $target['parent'];
+        if (!empty($id)) {
+            $link_properties = $reflector->get_link_properties();
 
             if (empty($link_properties[$parent])) {
                 throw new midcom_error('Failed to construct the target class object');
             }
 
             $class_name = $link_properties[$parent]['class'];
-            $target_object = new $class_name($target['id']);
-            $copy->target = $target_object;
+            $copy->target = new $class_name($id);
         }
 
         // Copying of parameters, metadata and such

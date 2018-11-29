@@ -103,10 +103,10 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Get the parent property for overriding it
      *
-     * @param mixed $object     MgdSchema object for resolving the parent property
+     * @param mgdobject $object  MgdSchema object for resolving the parent property
      * @return string            Parent property
      */
-    private static function get_parent_property($object)
+    public static function get_parent_property(mgdobject $object)
     {
         $parent = midgard_object_class::get_property_parent($object);
         if (!$parent) {
@@ -118,38 +118,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         return $parent;
-    }
-
-    /**
-     * Get the target properties and return an array that is used e.g. in copying
-     *
-     * @param mixed $object     MgdSchema object or MidCOM db object
-     * @return array            id, parent property, class and label of the object
-     */
-    public static function get_target_properties($object)
-    {
-        $mgdschema_class = midcom_helper_reflector::resolve_baseclass($object);
-        $mgdschema_object = new $mgdschema_class($object->guid);
-
-        static $targets = [];
-
-        // Return the cached results
-        if (isset($targets[$mgdschema_class])) {
-            return $targets[$mgdschema_class];
-        }
-
-        // Empty result set for the current class
-        $target = [
-            'id' => null,
-            'parent' => '',
-            'class' => $mgdschema_class,
-            'reflector' => new midcom_helper_reflector($object),
-            'parent' => self::get_parent_property($mgdschema_object)
-        ];
-
-        // Cache the results
-        $targets[$mgdschema_class] = $target;
-        return $targets[$mgdschema_class];
     }
 
     /**
