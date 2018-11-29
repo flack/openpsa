@@ -229,11 +229,10 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (empty($cache[$cache_key])) {
             $ref = new midgard_reflection_property($schema_type);
 
-            $linkfields = [];
-            $linkfields['up'] = midgard_object_class::get_property_up($schema_type);
-            $linkfields['parent'] = midgard_object_class::get_property_parent($schema_type);
-            $object_baseclass = midcom_helper_reflector::resolve_baseclass(get_class($for_object));
-
+            $linkfields = [
+                'up' => midgard_object_class::get_property_up($schema_type),
+                'parent' => midgard_object_class::get_property_parent($schema_type)
+            ];
             $linkfields = array_filter($linkfields);
             $data = [];
             foreach ($linkfields as $link_type => $field) {
@@ -249,7 +248,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     if (empty($info['target'])) {
                         $info['target'] = 'guid';
                     }
-                } elseif (!self::is_same_class($linked_class, $object_baseclass)) {
+                } elseif (!self::is_same_class($linked_class, get_class($for_object))) {
                     // This link points elsewhere
                     continue;
                 }
