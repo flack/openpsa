@@ -101,13 +101,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     public $errors = [];
 
     /**
-     * Newly created objects
-     *
-     * @var array
-     */
-    public $new_objects = [];
-
-    /**
      * Get the parent property for overriding it
      *
      * @param mixed $object     MgdSchema object for resolving the parent property
@@ -326,9 +319,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             $this->errors[] = $this->_l10n->get('failed to create object: ' . midcom_connection::get_error_string());
             return false;
         }
-
-        // Store for later use - if ever needed
-        $this->new_objects[] = $target;
 
         if (   !$this->_copy_data('parameters', $source, $target)
             || !$this->_copy_data('metadata', $source, $target)
