@@ -153,11 +153,6 @@ class loader extends base
     {
         $path = $this->get_path($component, 'inc');
         // Load and parse the global config
-        $data = midcom_baseclasses_components_configuration::read_array_from_file($path);
-        if (!$data) {
-            // Empty defaults
-            $data = [];
-        }
-        return $data;
+        return midcom_baseclasses_components_configuration::read_array_from_file($path);
     }
 }

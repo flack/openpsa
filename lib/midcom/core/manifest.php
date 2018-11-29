@@ -294,13 +294,9 @@ class midcom_core_manifest
         $this->filename = $filename;
         $raw_data = midcom_baseclasses_components_configuration::read_array_from_file($filename);
 
-        if (!is_array($raw_data)) {
-            debug_add("Manifest read from file {$this->filename} does not evaluate properly", MIDCOM_LOG_ERROR);
-        } else {
-            foreach ($raw_data as $field => $value) {
-                if (property_exists($this, $field)) {
-                    $this->$field = $value;
-                }
+        foreach ($raw_data as $field => $value) {
+            if (property_exists($this, $field)) {
+                $this->$field = $value;
             }
         }
         $this->purecode = ($this->purecode == true);

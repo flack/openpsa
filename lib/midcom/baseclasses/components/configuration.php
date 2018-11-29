@@ -110,11 +110,8 @@ class midcom_baseclasses_components_configuration
      * Read a file from disk and evaluate its content as array.
      * This is essentially a simple [$data\n] eval construct.
      *
-     * If the file does not exist, false is returned.
-     *
      * @param string $filename The name of the file that should be parsed.
-     * @return Array The read data or false on failure.
-     * @see read_array_from_snippet()
+     * @return Array The read data
      */
     public static function read_array_from_file($filename)
     {
@@ -122,13 +119,7 @@ class midcom_baseclasses_components_configuration
             return [];
         }
 
-        try {
-            $data = file_get_contents($filename);
-        } catch (Exception $e) {
-            return false;
-        }
-
-        return midcom_helper_misc::parse_config($data);
+        return midcom_helper_misc::parse_config(file_get_contents($filename));
     }
 
     /**
