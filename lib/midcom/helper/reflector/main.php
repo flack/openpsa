@@ -88,29 +88,20 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             throw new midcom_error('Invalid parameter type');
         }
         $classname = get_class($object);
-        $cache_key = $classname;
+        $metadata = false;
 
-        if (!isset(self::$_cache['fieldnames'][$cache_key])) {
-            $metadata = false;
-
-            if (midcom::get()->dbclassloader->is_midcom_db_object($object)) {
-                $classname = $object->__mgdschema_class_name__;
-            } elseif ($object instanceof midcom_helper_metadata) {
-                $metadata = true;
-                $classname = $object->__object->__mgdschema_class_name__;
-            }
-
-            if (is_subclass_of($classname, 'midgard_object')) {
-                $cm = connection::get_em()->getClassMetadata($classname);
-                self::$_cache['fieldnames'][$cache_key] = $cm->get_schema_properties($metadata);
-            } else {
-                // for some strange reason, when this is cached, we get errors from
-                // DateTime objects (at least under PHP 5.5)
-                return array_keys(get_object_vars($object));
-            }
+        if (midcom::get()->dbclassloader->is_midcom_db_object($object)) {
+            $classname = $object->__mgdschema_class_name__;
+        } elseif ($object instanceof midcom_helper_metadata) {
+            $metadata = true;
+            $classname = $object->__object->__mgdschema_class_name__;
         }
 
-        return self::$_cache['fieldnames'][$cache_key];
+        if (is_subclass_of($classname, 'midgard_object')) {
+            $cm = connection::get_em()->getClassMetadata($classname);
+            return $cm->get_schema_properties($metadata);
+        }
+        return array_keys(get_object_vars($object));
     }
 
     /**
