@@ -243,24 +243,25 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             $target->$name = $value;
         }
 
-        $parent_property = self::get_parent_property($source);
+        if ($this->recursive) {
+            $parent_property = self::get_parent_property($source);
 
-        // Copy the link to parent
-        if ($parent) {
-            $parent = $this->resolve_object($parent);
+            // Copy the link to parent
+            if ($parent) {
+                $parent = $this->resolve_object($parent);
 
-            if (empty($parent->guid)) {
-                return false;
+                if (empty($parent->guid)) {
+                    return false;
+                }
+
+                // @TODO: Is there a sure way to determine if the parent is
+                // GUID or is it ID? If so, please change it here.
+                $parent_key = (is_string($source->$parent_property)) ? 'guid' : 'id';
+                $target->$parent_property = $parent->$parent_key;
+            } else {
+                $target->$parent_property = (is_string($source->$parent_property)) ? '' : 0;
             }
-
-            // @TODO: Is there a sure way to determine if the parent is
-            // GUID or is it ID? If so, please change it here.
-            $parent_key = (is_string($source->$parent_property)) ? 'guid' : 'id';
-            $target->$parent_property = $parent->$parent_key;
-        } else {
-            $target->$parent_property = (is_string($source->$parent_property)) ? '' : 0;
         }
-
         if ($name_property = midcom_helper_reflector::get_name_property($target)) {
             $resolver = new midcom_helper_reflector_nameresolver($target);
             $target->$name_property = $resolver->generate_unique_name();
