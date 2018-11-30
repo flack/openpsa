@@ -20,15 +20,6 @@ You can now log in with your normal username and the following password:
 
 __PASSWORD__',
 
-'search_fields' => [
-    'firstname',
-    'lastname',
-    'username',
-    'email',
-    'city',
-    'postcode',
-],
-
 'password_max_age_days' => 30,
 'max_old_passwords' => 3,
 'min_password_length' => 8,
