@@ -31,7 +31,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     private $_datamanager;
 
-    public function __construct()
+    public function _on_initialize()
     {
         $this->_request_data['page'] =& $this->_page;
     }
@@ -111,6 +111,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         midcom::get()->auth->drop_sudo();
         if (count($result) > 0) {
             $this->_page = $result[0];
+            $this->_page->require_do('midgard:read');
             return;
         }
 
