@@ -19,9 +19,6 @@
 // Hide all the leaves from navigation
 'hide_navigation' => false,
 
-// Automatically approve new articles ?
-'auto_approve' => false,
-
 // Set this to false if you want all users to have full control over URL names.
 'simple_name_handling' => true,
 

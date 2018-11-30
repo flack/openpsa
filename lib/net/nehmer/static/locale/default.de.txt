@@ -6,10 +6,6 @@
 Artikel
 ---STRINGEND
 
----STRING auto_approve
-Neue Artikel standardmäßig freigegeben
----STRINGEND
-
 ---STRING autoindex
 Soll für diese Rubrik automatisch eine Index-Seite erstellt werden?
 ---STRINGEND

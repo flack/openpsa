@@ -6,10 +6,6 @@
 Artykuł
 ---STRINGEND
 
----STRING auto_approve
-Automatycznie zatwierdzaj nowe artykuły
----STRINGEND
-
 ---STRING autoindex
 Automatycznie twórz artykuł indeksowy.
 ---STRINGEND

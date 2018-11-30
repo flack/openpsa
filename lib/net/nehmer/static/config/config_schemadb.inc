@@ -120,23 +120,6 @@
                 'title' => 'schema settings'
             ],
         ],
-        'auto_approve' => [
-            'title' => 'auto_approve',
-            'storage' => [
-                'location' => 'configuration',
-                'domain' => 'net.nehmer.static',
-                'name' => 'auto_approve',
-            ],
-            'type' => 'select',
-            'type_config' => [
-                'options' => [
-                    '' => 'default setting',
-                    '1' => 'yes',
-                    '0' => 'no',
-                ],
-            ],
-            'widget' => 'select',
-        ],
         'simple_name_handling' => [
             'title' => 'simple_name_handling',
             'storage' => [

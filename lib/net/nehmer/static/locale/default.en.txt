@@ -6,10 +6,6 @@
 Article
 ---STRINGEND
 
----STRING auto_approve
-Approve new articles by default
----STRINGEND
-
 ---STRING autoindex
 Automatically create an index page for this topic?
 ---STRINGEND

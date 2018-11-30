@@ -6,10 +6,6 @@
 Artikkeli
 ---STRINGEND
 
----STRING auto_approve
-Hyväksy uudet artikkelit oletuksena
----STRINGEND
-
 ---STRING autoindex
 Luo automaattinen sisällysluettelo kansiolle?
 ---STRINGEND

@@ -6,10 +6,6 @@
 Artikel
 ---STRINGEND
 
----STRING auto_approve
-Godkänn nya artiklar automatiskt
----STRINGEND
-
 ---STRING autoindex
 Automatiskt skapa en index sida för det här ämnet?
 ---STRINGEND

@@ -6,10 +6,6 @@
 Vis liste over artikler på forsiden?
 ---STRINGEND
 
----STRING auto_approve
-Vis alle nye artikkler automatisk?
----STRINGEND
-
 ---STRING autoindex-notes
 Dette valget skifter ut førstesiden med en liste av alle artikler som ligger under dette emner.
 ---STRINGEND
