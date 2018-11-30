@@ -86,7 +86,7 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
         $account = new midcom_core_account($person);
 
         // Generate a random password
-        $length = max(8, $this->_config->get('password_minlength'));
+        $length = max(8, $this->_config->get('min_password_length'));
         $password = org_openpsa_user_accounthelper::generate_password($length);
         $account->set_password($password);
         if (!$account->save()) {
