@@ -1,5 +1,3 @@
-'default_workgroup_filter' => 'all',
-
 //Components for which siteconfig should cache URL information
 'siteconfig_components' => [
     'org.openpsa.calendar' => 'org.openpsa.calendar',

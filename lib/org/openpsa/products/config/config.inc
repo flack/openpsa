@@ -19,8 +19,6 @@
 
 'root_group' => 0,
 
-'code_in_title' => false,
-
 // Indexer related
 'index_products' => true, // whether to index products
 'index_groups' => true, // whether to index groups
