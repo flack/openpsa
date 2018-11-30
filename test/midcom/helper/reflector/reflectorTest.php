@@ -257,7 +257,6 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
     public function providerClass_rewrite()
     {
         return [
-            1 => ['org_openpsa_calendar_event_dba', 'org_openpsa_event'],
             3 => ['midgard_snippet', 'midgard_snippet'],
         ];
     }

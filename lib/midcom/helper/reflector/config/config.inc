@@ -9,7 +9,6 @@
  Keyed by the type we wish to replace, value is the type we wish to replace to
 */
 'class_extends' => [
-    'org_openpsa_calendar_event_dba' => 'org_openpsa_event',
     'midgard_person' => 'org_openpsa_person',
     'midgard_group' => 'org_openpsa_organization',
     'org_openpsa_salesproject' => 'org_openpsa_project',

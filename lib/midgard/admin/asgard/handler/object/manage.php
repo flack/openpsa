@@ -264,7 +264,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $parent_property = midgard_object_class::get_property_parent($this->_request_data['current_type']);
             $new_type_reflector = midcom_helper_reflector::get($new_type);
             $link_properties = $new_type_reflector->get_link_properties();
-            $type_to_link_to =  midcom_helper_reflector::class_rewrite(get_class($this->_object));
+            $type_to_link_to = midcom_helper_reflector::class_rewrite($this->_object->__mgdschema_class_name__);
             foreach ($link_properties as $child_property => $link) {
                 $linked_type = midcom_helper_reflector::class_rewrite($link['class']);
                 if (   midcom_helper_reflector::is_same_class($linked_type, $type_to_link_to)
