@@ -42,9 +42,8 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         'outgoing' => []
     ];
 
-    public function __construct()
+    public function _on_initialize()
     {
-        parent::__construct();
         midcom::get()->style->prepend_component_styledir('org.openpsa.relatedto');
     }
 

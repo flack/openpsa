@@ -18,11 +18,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'net_nemein_tag';
 
-    public function __construct($id = null)
-    {
-        $this->_use_rcs = false;
-        parent::__construct($id);
-    }
+    public $_use_rcs = false;
 
     public function get_label()
     {
