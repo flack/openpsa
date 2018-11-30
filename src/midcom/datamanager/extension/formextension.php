@@ -48,8 +48,14 @@ class formextension extends AbstractTypeExtension
         $view->vars['hidden'] = $options['hidden'];
     }
 
+    // Symfony < 4.2 compat
     public function getExtendedType()
     {
         return FormType::class;
+    }
+
+    public static function getExtendedTypes()
+    {
+        return [FormType::class];
     }
 }
