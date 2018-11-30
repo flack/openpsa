@@ -29,11 +29,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     ];
 
     const EMAIL_TEXT = 8000;
-    const SMS = 8001;
-    const MMS = 8002;
-    const CALL = 8003;
-    const SNAILMAIL = 8004;
-    const FAX = 8005;
     const EMAIL_HTML = 8006;
 
     public function _on_created()
@@ -55,19 +50,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     public function get_css_class()
     {
         $class = 'email';
-        switch ($this->orgOpenpsaObtype) {
-            case self::SMS:
-            case self::MMS:
-                $class = 'mobile';
-                break;
-            case self::CALL:
-            case self::FAX:
-                $class = 'telephone';
-                break;
-            case self::SNAILMAIL:
-                $class = 'postal';
-                break;
-        }
         if ($this->sendCompleted) {
             $class .= ' ' . $class . '-completed';
         } elseif ($this->sendStarted) {

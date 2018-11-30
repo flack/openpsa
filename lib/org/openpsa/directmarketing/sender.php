@@ -80,24 +80,11 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         parent::__construct();
         $this->_message = $message;
 
-        switch ($this->_message->orgOpenpsaObtype) {
-            case org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT:
-            case org_openpsa_directmarketing_campaign_message_dba::EMAIL_HTML:
-                $classname = org_openpsa_directmarketing_sender_backend_email::class;
-                break;
-            case org_openpsa_directmarketing_campaign_message_dba::SMS:
-            case org_openpsa_directmarketing_campaign_message_dba::MMS:
-                //not implemented yet
-            case org_openpsa_directmarketing_campaign_message_dba::CALL:
-                //This quite naturally cannot be handled via web
-            case org_openpsa_directmarketing_campaign_message_dba::SNAILMAIL:
-                //While this can in theory be automated we don't do it yet
-            case org_openpsa_directmarketing_campaign_message_dba::FAX:
-                //See above
-            default:
-                throw new midcom_error('unsupported message type');
+        if (   $this->_message->orgOpenpsaObtype != org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT
+            && $this->_message->orgOpenpsaObtype != org_openpsa_directmarketing_campaign_message_dba::EMAIL_HTML) {
+            throw new midcom_error('unsupported message type');
         }
-        $this->_backend = new $classname($config, $this->_message);
+        $this->_backend = new org_openpsa_directmarketing_sender_backend_email($config, $this->_message);
         $this->chunk_size = $this->_config->get('chunk_size');
     }
 

@@ -161,32 +161,11 @@ implements client
                     'schema' => $name
                 ]), [
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('new %s'), $this->_l10n->get($schema->get('description'))),
-                    MIDCOM_TOOLBAR_GLYPHICON => $this->get_messagetype_icon($schema->get('customdata')['org_openpsa_directmarketing_messagetype']),
+                    MIDCOM_TOOLBAR_GLYPHICON => 'envelope-o'
                 ]);
             }
         }
         $this->_view_toolbar->add_items($buttons);
-    }
-
-    private function get_messagetype_icon($type)
-    {
-        $icon = 'envelope-o';
-        switch ($type) {
-            case org_openpsa_directmarketing_campaign_message_dba::SMS:
-            case org_openpsa_directmarketing_campaign_message_dba::MMS:
-                $icon = 'mobile';
-                break;
-            case org_openpsa_directmarketing_campaign_message_dba::CALL:
-                $icon = 'phone';
-                break;
-            case org_openpsa_directmarketing_campaign_message_dba::FAX:
-                $icon = 'fax';
-                break;
-            case org_openpsa_directmarketing_campaign_message_dba::SNAILMAIL:
-                $icon = 'home';
-                break;
-        }
-        return $icon;
     }
 
     /**

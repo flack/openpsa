@@ -84,13 +84,9 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         //This isn't necessary for dynamic-loading, but is nice for "preview".
         midcom::get()->skip_page_style = true;
         debug_add('message type: ' . $this->_message->orgOpenpsaObtype);
-        switch ($this->_message->orgOpenpsaObtype) {
-            case org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT:
-            case org_openpsa_directmarketing_campaign_message_dba::SMS:
-                debug_add('Forcing content type: text/plain');
-                midcom::get()->header('Content-type: text/plain');
-                break;
-            //TODO: Other content type overrides ?
+        if ($this->_message->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT) {
+            debug_add('Forcing content type: text/plain');
+            midcom::get()->header('Content-type: text/plain');
         }
         midcom::get()->auth->drop_sudo();
     }
