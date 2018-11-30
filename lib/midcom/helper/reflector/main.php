@@ -17,7 +17,12 @@ use midgard\portable\api\mgdobject;
 class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 {
     public $mgdschema_class;
+
+    /**
+     * @var midgard_reflection_property
+     */
     protected $_mgd_reflector;
+
     protected $_dummy_object;
 
     private static $_cache = [
@@ -546,9 +551,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     {
         $one = self::resolve_baseclass($class_one);
         $two = self::resolve_baseclass($class_two);
-        return (   $one == $two
-                || self::class_rewrite($one) == $two
-                || $one == self::class_rewrite($two));
+        return ($one == $two);
     }
 
     /**
