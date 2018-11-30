@@ -34,10 +34,6 @@ Sisältö
 Kansion %s sisällysluettelo
 ---STRINGEND
 
----STRING enable_ajax_editing
-Salli sivustolla AJAX-editointi
----STRINGEND
-
 ---STRING file lastmodified
 Viimeksi muokattu
 ---STRINGEND

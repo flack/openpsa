@@ -38,10 +38,6 @@ Treść
 Zawartość folderu %s
 ---STRINGEND
 
----STRING enable_ajax_editing
-Włącz edycję poprzez AJAX
----STRINGEND
-
 ---STRING file lastmodified
 Ostatnia modyfikacja
 ---STRINGEND

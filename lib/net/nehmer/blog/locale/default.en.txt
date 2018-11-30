@@ -6,10 +6,6 @@
 %s: category "%s"
 ---STRINGEND
 
----STRING ajax_enable
-Enable AJAX on-site editing
----STRINGEND
-
 ---STRING archive
 Archive
 ---STRINGEND

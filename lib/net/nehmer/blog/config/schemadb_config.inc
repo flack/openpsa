@@ -228,24 +228,6 @@
                 ],
                 'widget' => 'radiocheckselect',
             ],
-            'ajax_enable' => [
-                'title' => 'ajax_enable',
-                'storage' => [
-                    'location' => 'configuration',
-                    'domain' => 'net.nehmer.blog',
-                    'name' => 'enable_ajax_editing',
-                ],
-                'type' => 'select',
-                'type_config' => [
-                    'options' => [
-                        '1' => 'yes',
-                        '0' => 'no',
-                        '' => 'default setting',
-                    ],
-                ],
-                'widget' => 'radiocheckselect',
-                'hidden' => !midcom::get()->config->get('enable_ajax_editing'),
-            ],
             'rss_subscription_enable' => [
                 'title' => 'rss_subscription_enable',
                 'storage' => [

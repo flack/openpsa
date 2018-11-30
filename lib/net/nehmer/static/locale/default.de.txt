@@ -38,10 +38,6 @@ Inhalt
 Verzeichnis-Index für %s
 ---STRINGEND
 
----STRING enable_ajax_editing
-AJAX-basierte on-site-Bearbeitung aktivieren
----STRINGEND
-
 ---STRING file lastmodified
 Letzte Änderung
 ---STRINGEND

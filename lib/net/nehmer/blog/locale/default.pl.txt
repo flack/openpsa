@@ -6,10 +6,6 @@
 %s: kategoria "%s"
 ---STRINGEND
 
----STRING ajax_enable
-Włącz edycję przez AJAX
----STRINGEND
-
 ---STRING archive
 Archiwum
 ---STRINGEND

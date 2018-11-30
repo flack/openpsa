@@ -475,7 +475,6 @@ class midcom_config implements arrayaccess
         'jquery_ui_version' => '1.12.1',
         'jquery_ui_theme' => null,
         'jquery_load_from_google' => false,
-        'enable_ajax_editing' => false,
 
         /**
          * Sessioning service, disabling the service will help with external caches.

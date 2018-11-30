@@ -25,9 +25,6 @@
 // Set this to false if you want all users to have full control over URL names.
 'simple_name_handling' => true,
 
-// Set this to true if you want to enable on-site AJAX editing
-'enable_ajax_editing' => midcom::get()->config->get('enable_ajax_editing'),
-
 // Creation callback snippet for defining site-specific function
 'callback_snippet' => null,
 

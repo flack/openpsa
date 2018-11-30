@@ -6,10 +6,6 @@
 %s: kategoria "%s"
 ---STRINGEND
 
----STRING ajax_enable
-Salli sisällön muokkaaminen AJAXilla suoraan sivulla
----STRINGEND
-
 ---STRING archive
 Arkisto
 ---STRINGEND

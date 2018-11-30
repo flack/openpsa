@@ -38,10 +38,6 @@ Content
 Directory index for %s
 ---STRINGEND
 
----STRING enable_ajax_editing
-Enable AJAX on-site editing
----STRINGEND
-
 ---STRING file lastmodified
 Last modified date
 ---STRINGEND

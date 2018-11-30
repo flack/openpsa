@@ -26,26 +26,6 @@
             ],
             'widget' => 'select',
         ],
-
-        'enable_ajax_editing' => [
-            'title' => 'enable_ajax_editing',
-            'storage' => [
-                'location' => 'configuration',
-                'domain' => 'net.nehmer.static',
-                'name' => 'enable_ajax_editing',
-            ],
-            'type' => 'select',
-            'type_config' => [
-                'options' => [
-                    '' => 'default setting',
-                    '1' => 'yes',
-                    '0' => 'no',
-                ],
-            ],
-            'widget' => 'select',
-            'hidden' => !midcom::get()->config->get('enable_ajax_editing'),
-        ],
-
         'hide_navigation' => [
             'title' => 'hide_navigation',
             'storage' => [

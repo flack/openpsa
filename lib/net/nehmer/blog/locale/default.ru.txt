@@ -6,10 +6,6 @@
 %s: категория "%s"
 ---STRINGEND
 
----STRING ajax_enable
-Разрешить редактирование с AJAX
----STRINGEND
-
 ---STRING archive
 Архив
 ---STRINGEND
