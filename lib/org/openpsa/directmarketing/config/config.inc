@@ -21,3 +21,4 @@
 'delete_older_per_run' => 1000,
 
 'chunk_size' => 50,
+'token_size' => 15
