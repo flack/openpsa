@@ -396,17 +396,13 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
                 $parent_object->_use_rcs = $orig_rcs;
             }
 
-            // Get parent object
             $parent_property = $config->get('comment_count_cache_to_object_property');
-            if ($config->get('comment_count_cache_to_object_property_metadata')) {
-                $parent_object->metadata->set($parent_property, count($comments));
-            } else {
-                $orig_rcs = $parent_object->_use_rcs;
-                $parent_object->_use_rcs = (boolean) $config->get('comment_count_cache_to_object_use_rcs');
-                $parent_object->$parent_property = count($comments);
-                $parent_object->update();
-                $parent_object->_use_rcs = $orig_rcs;
-            }
+            $orig_rcs = $parent_object->_use_rcs;
+            $parent_object->_use_rcs = (boolean) $config->get('comment_count_cache_to_object_use_rcs');
+            $parent_object->$parent_property = count($comments);
+            $parent_object->update();
+            $parent_object->_use_rcs = $orig_rcs;
+
             midcom::get()->auth->drop_sudo();
         }
     }
