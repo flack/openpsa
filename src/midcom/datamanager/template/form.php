@@ -5,6 +5,11 @@ use Symfony\Component\Form\FormView;
 
 class form extends base
 {
+    private function get_view_renderer()
+    {
+        return new view($this->renderer);
+    }
+
     public function form_start(FormView $view, array $data)
     {
         $attributes = $data['attr'];
@@ -285,12 +290,7 @@ class form extends base
     public function checkbox_widget(FormView $view, array $data)
     {
         if (!empty($data['attr']['readonly'])) {
-            $string = '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/';
-            if ($data['checked']) {
-                $string .= 'ok.png" alt="selected" />';
-            } else {
-                $string .= 'cancel.png" alt="not selected" />';
-            }
+            $string = $this->get_view_renderer()->checkbox_widget($view, $data);
             return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
         }
         $string = '<input type="checkbox"';
@@ -307,15 +307,8 @@ class form extends base
     public function choice_widget_collapsed(FormView $view, array $data)
     {
         if (!empty($data['attr']['readonly']) && empty($view->vars['multiple'])) {
-            if (isset($data['data'])) {
-                $selection = (string) $data['data'];
-                foreach ($data['choices'] as $choice) {
-                    if ($data['is_selected']($choice->value, $selection)) {
-                        return $this->renderer->humanize($choice->label) . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
-                    }
-                }
-            }
-            return '';
+            $string = $this->get_view_renderer()->choice_widget_collapsed($view, $data);
+            return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
         }
         $string = '<select';
         if (   $data['required']
@@ -439,16 +432,10 @@ class form extends base
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
 
         if (!empty($data['attr']['readonly'])) {
-            if (empty($data['value']['date'])) {
-                $date = '0000-00-00';
-                $time = '00:00:00';
-            } else {
-                $date = $data['value']['date']->format('Y-m-d');
-                $time = $data['value']['date']->format('H:i:s');
-            }
-            $string .= $date . $this->renderer->widget($view['date'], ['type' => 'hidden']);
+            $string .= $this->get_view_renderer()->jsdate_widget($view, $data);
+            $string .= $this->renderer->widget($view['date'], ['type' => 'hidden']);
             if (isset($view['time'])) {
-                $string .= ' ' . $time . $this->renderer->widget($view['time'], ['type' => 'hidden']);
+                $string .= $this->renderer->widget($view['time'], ['type' => 'hidden']);
             }
         } else {
             $string .= $this->renderer->widget($view['date'], ['type' => 'hidden']);
