@@ -61,14 +61,6 @@
 class midcom_helper__componentloader
 {
     /**
-     * This indexed array stores the MidCOM paths of all loaded
-     * components. Its elements are used as keys for the cache storage.
-     *
-     * @var Array
-     */
-    private $_loaded = [];
-
-    /**
      * This array contains a list of components that were tried to be loaded.
      * The components are added to this list *even* if the system only tried
      * to load it and failed. This way we protect against duplicate class errors
@@ -82,8 +74,8 @@ class midcom_helper__componentloader
     private $_tried_to_load = [];
 
     /**
-     * This is a part of the component cache. It stores the interface instances
-     * of the different loaded components, indexed by their MidCOM Path.
+     * This stores the interface instances of the different loaded components,
+     * indexed by their MidCOM Path.
      *
      * @var midcom_baseclasses_components_interface[]
      */
@@ -197,7 +189,6 @@ class midcom_helper__componentloader
         $this->_interface_classes[$path] = new $classname();
         $this->_interface_classes[$path]->initialize($path);
 
-        $this->_loaded[] = $path;
         $this->_tried_to_load[$path] = true;
 
         return true;
@@ -216,7 +207,7 @@ class midcom_helper__componentloader
             // MidCOM is "always loaded"
             return true;
         }
-        return in_array($path, $this->_loaded);
+        return array_key_exists($path, $this->_interface_classes);
     }
 
     /**
@@ -300,7 +291,7 @@ class midcom_helper__componentloader
      */
     public function list_loaded_components()
     {
-        return $this->_loaded;
+        return array_keys($this->_interface_classes);
     }
 
     /**
