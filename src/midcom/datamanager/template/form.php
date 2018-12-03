@@ -297,6 +297,17 @@ class form extends base
 
     public function choice_widget_collapsed(FormView $view, array $data)
     {
+        if (!empty($data['attr']['readonly']) && empty($view->vars['multiple'])) {
+            if (isset($data['data'])) {
+                $selection = (string) $data['data'];
+                foreach ($data['choices'] as $choice) {
+                    if ($data['is_selected']($choice->value, $selection)) {
+                        return $this->renderer->humanize($choice->label) . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
+                    }
+                }
+            }
+            return '';
+        }
         $string = '<select';
         if (   $data['required']
             && null === $data['placeholder']
