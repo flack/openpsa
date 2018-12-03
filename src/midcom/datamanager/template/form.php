@@ -291,7 +291,10 @@ class form extends base
     {
         if (!empty($data['attr']['readonly'])) {
             $string = $this->get_view_renderer()->checkbox_widget($view, $data);
-            return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
+            if ($data['checked']) {
+                $string .= $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
+            }
+            return $string;
         }
         $string = '<input type="checkbox"';
         $string .= $this->renderer->block($view, 'widget_attributes');
