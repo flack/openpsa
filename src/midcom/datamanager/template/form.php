@@ -284,6 +284,15 @@ class form extends base
 
     public function checkbox_widget(FormView $view, array $data)
     {
+        if (!empty($data['attr']['readonly'])) {
+            $string = '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/';
+            if ($data['checked']) {
+                $string .= 'ok.png" alt="selected" />';
+            } else {
+                $string .= 'cancel.png" alt="not selected" />';
+            }
+            return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
+        }
         $string = '<input type="checkbox"';
         $string .= $this->renderer->block($view, 'widget_attributes');
         if (isset($data['value'])) {
