@@ -567,6 +567,10 @@ class form extends base
 
     public function tinymce_widget(FormView $view, array $data)
     {
+        if (!empty($data['attr']['readonly'])) {
+            $string = $this->get_view_renderer()->text_widget($view, $data);
+            return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
+        }
         //we set required to false, because tinymce doesn't play well with html5 validation..
         $string = '<textarea' . $this->renderer->block($view, 'widget_attributes', ['required' => false]) . '>' . $data['value'] . '</textarea>';
         return $string . $this->jsinit($data['tinymce_snippet']);
