@@ -547,6 +547,11 @@ class form extends base
 
     public function textarea_widget(FormView $view, array $data)
     {
+        if (!empty($data['attr']['readonly'])) {
+            $view->vars['output_mode'] = 'nl2br';
+            $string = $this->get_view_renderer()->text_widget($view, $data);
+            return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
+        }
         $view->vars['attr'] = [
             'class' => 'longtext',
             'cols' => 50
