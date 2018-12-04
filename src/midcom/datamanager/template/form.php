@@ -587,7 +587,7 @@ class form extends base
         $data['label'] = $this->renderer->humanize($data['label']);
 
         $label_attr = $data['label_attr'];
-        if ($data['required']) {
+        if ($data['required'] && empty($data['attr']['readonly'])) {
             $label_attr['class'] = trim((isset($label_attr['class']) ? $label_attr['class'] : '') . ' required');
             $data['label'] .= ' <span class="field_required_start">*</span>';
         }
