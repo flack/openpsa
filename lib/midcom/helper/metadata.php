@@ -267,30 +267,6 @@ class midcom_helper_metadata
     }
 
     /**
-     * Frontend for setting multiple metadata options
-     *
-     * @param array $properties Array of key => value properties.
-     */
-    function set_multiple($properties)
-    {
-        foreach ($properties as $key => $value) {
-            if (!$this->_set_property($key, $value)) {
-                return false;
-            }
-        }
-
-        if (!$this->__object->guid) {
-            return false;
-        }
-
-        if ($return = $this->__object->update()) {
-            // Update the corresponding cache variables
-            array_map([$this, 'on_update'], array_keys($properties));
-        }
-        return $return;
-    }
-
-    /**
      * Directly set a metadata option.
      *
      * The passed value will be stored using the follow transformations:
