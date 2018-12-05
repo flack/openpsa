@@ -246,6 +246,9 @@ class midcom_helper_metadata
      */
     public function set($key, $value)
     {
+        // Store the RCS mode
+        $rcs_mode = $this->__object->_use_rcs;
+
         if ($return = $this->_set_property($key, $value)) {
             if ($this->__object->guid) {
                 $return = $this->__object->update();
@@ -254,6 +257,8 @@ class midcom_helper_metadata
             // Update the corresponding cache variable
             $this->on_update($key);
         }
+        // Return the original RCS mode
+        $this->__object->_use_rcs = $rcs_mode;
         return $return;
     }
 
@@ -290,9 +295,6 @@ class midcom_helper_metadata
             return false;
         }
 
-        // Store the RCS mode
-        $rcs_mode = $this->__object->_use_rcs;
-
         switch ($key) {
             // Read-only properties
             case 'creator':
@@ -319,8 +321,7 @@ class midcom_helper_metadata
                     $value = new midgard_datetime(gmstrftime('%Y-%m-%d %T', $value));
                 }
                 $this->__metadata->$key = $value;
-                $value = true;
-                break;
+                return true;
 
             case 'approver':
             case 'approved':
@@ -333,19 +334,12 @@ class midcom_helper_metadata
             case 'navnoentry':
             case 'score':
                 $this->__metadata->$key = $value;
-                $value = true;
-                break;
+                return true;
 
             // Fall-back for non-core properties
             default:
-                $value = $this->__object->set_parameter('midcom.helper.metadata', $key, $value);
-                break;
+                return $this->__object->set_parameter('midcom.helper.metadata', $key, $value);
         }
-
-        // Return the original RCS mode
-        $this->__object->_use_rcs = $rcs_mode;
-
-        return $value;
     }
 
     /**
