@@ -208,11 +208,11 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $_REQUEST = $_POST;
     }
 
-    public function submit_dm_form($controller_key, array $formdata, $component, array $args = [])
+    public function submit_dm_form($controller_key, array $formdata, $component, array $args = [], $button = 'save')
     {
         $this->reset_server_vars();
         $data = $this->run_handler($component, $args);
-        $this->set_dm_formdata($data[$controller_key], $formdata);
+        $this->set_dm_formdata($data[$controller_key], $formdata, $button);
 
         try {
             $data = $this->run_handler($component, $args);
@@ -228,11 +228,11 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function submit_dm_no_relocate_form($controller_key, array $formdata, $component, array $args = [])
+    public function submit_dm_no_relocate_form($controller_key, array $formdata, $component, array $args = [], $button = 'save')
     {
         $this->reset_server_vars();
         $data = $this->run_handler($component, $args);
-        $this->set_dm_formdata($data[$controller_key], $formdata);
+        $this->set_dm_formdata($data[$controller_key], $formdata, $button);
         $data = $this->run_handler($component, $args);
 
         $errors = $data[$controller_key]->get_datamanager()->get_form()->getErrors(true);
