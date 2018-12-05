@@ -103,6 +103,13 @@ class midcom_helper_metadata
      */
     private $_datamanager;
 
+    private $field_config = [
+        'readonly' => ['creator', 'created', 'revisor', 'revised', 'locker', 'locked', 'revision', 'size', 'deleted', 'exported', 'imported'],
+        'timebased' => ['created', 'revised', 'published', 'locked', 'approved', 'schedulestart', 'scheduleend', 'exported', 'imported'],
+        'person' => ['creator', 'revisor', 'locker', 'approver'],
+        'other' => ['authors', 'owner', 'hidden', 'navnoentry', 'score', 'revision', 'size', 'deleted']
+    ];
+
     /**
      * This will construct a new metadata object for an existing content object.
      *
@@ -144,7 +151,7 @@ class midcom_helper_metadata
         }
 
         if (!isset($this->_cache[$key])) {
-            $this->_retrieve_value($key);
+            $this->_cache[$key] = $this->_retrieve_value($key);
         }
 
         return $this->_cache[$key];
@@ -165,7 +172,7 @@ class midcom_helper_metadata
         }
 
         if (!isset($this->_cache[$key])) {
-            $this->_retrieve_value($key);
+            $this->_cache[$key] = $this->_retrieve_value($key);
         }
 
         return isset($this->_cache[$key]);
@@ -291,55 +298,32 @@ class midcom_helper_metadata
         if (is_object($value)) {
             $classname = get_class($value);
             debug_add("Can not set metadata '{$key}' property with '{$classname}' object as value", MIDCOM_LOG_WARN);
-
             return false;
         }
 
-        switch ($key) {
-            // Read-only properties
-            case 'creator':
-            case 'created':
-            case 'revisor':
-            case 'revised':
-            case 'locker':
-            case 'locked':
-            case 'revision':
-            case 'size':
-            case 'deleted':
-            case 'exported':
-            case 'imported':
-                midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
-                return false;
-
-            // Writable properties
-            case 'published':
-            case 'schedulestart':
-            case 'scheduleend':
-                if (!is_numeric($value) || $value == 0) {
-                    $value = null;
-                } else {
-                    $value = new midgard_datetime(gmstrftime('%Y-%m-%d %T', $value));
-                }
-                $this->__metadata->$key = $value;
-                return true;
-
-            case 'approver':
-            case 'approved':
-                // Prevent lock changes from creating new revisions
-                $this->__object->_use_rcs = false;
-                // Fall through
-            case 'authors':
-            case 'owner':
-            case 'hidden':
-            case 'navnoentry':
-            case 'score':
-                $this->__metadata->$key = $value;
-                return true;
-
-            // Fall-back for non-core properties
-            default:
-                return $this->__object->set_parameter('midcom.helper.metadata', $key, $value);
+        if (in_array($key, $this->field_config['readonly'])) {
+            midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
+            return false;
         }
+
+        if (in_array($key, ['approver', 'approved'])) {
+            // Prevent lock changes from creating new revisions
+            $this->__object->_use_rcs = false;
+        }
+
+        if (in_array($key, $this->field_config['timebased'])) {
+            if (!is_numeric($value) || $value == 0) {
+                $value = null;
+            } else {
+                $value = new midgard_datetime(gmstrftime('%Y-%m-%d %T', $value));
+            }
+        } elseif (!in_array($key, $this->field_config['other']) && $key !== 'approver') {
+            // Fall-back for non-core properties
+            return $this->__object->set_parameter('midcom.helper.metadata', $key, $value);
+        }
+
+        $this->__metadata->$key = $value;
+        return true;
     }
 
     /**
@@ -383,80 +367,44 @@ class midcom_helper_metadata
      */
     private function _retrieve_value($key)
     {
-        switch ($key) {
-            // Time-based properties
-            case 'created':
-            case 'revised':
-            case 'published':
-            case 'locked':
-            case 'approved':
-            case 'schedulestart':
-            case 'scheduleend':
-            case 'exported':
-            case 'imported':
-                if (isset($this->__metadata->$key)) {
-                    //This is ugly, but seems the only possible way...
-                    if ((string) $this->__metadata->$key === "0001-01-01T00:00:00+00:00") {
-                        $value = 0;
-                    } else {
-                        $value = (int) $this->__metadata->$key->format('U');
-                    }
-                } else {
-                    $value = 0;
-                }
-                break;
-
-            // Person properties
-            case 'creator':
-            case 'revisor':
-            case 'locker':
-            case 'approver':
-                $value = $this->__metadata->$key;
-                if (!$value) {
-                    // Fall back to "Midgard root user" if person is not found
-                    static $root_user_guid = null;
-                    if (!$root_user_guid) {
-                        $mc = new midgard_collector('midgard_person', 'id', 1);
-                        $mc->set_key_property('guid');
-                        $mc->execute();
-                        $guids = $mc->list_keys();
-                        if (empty($guids)) {
-                            $root_user_guid = 'f6b665f1984503790ed91f39b11b5392';
-                        } else {
-                            $root_user_guid = key($guids);
-                        }
-                    }
-
-                    $value = $root_user_guid;
-                }
-                break;
-
-            // Other midgard_metadata properties
-            case 'revision':
-            case 'hidden':
-            case 'navnoentry':
-            case 'size':
-            case 'deleted':
-            case 'score':
-            case 'authors':
-            case 'owner':
-                $value = $this->__metadata->$key;
-                break;
-
-            // Fall-back for non-core properties
-            default:
-                $dm = $this->get_datamanager();
-                if (!$dm->get_schema()->has_field($key)) {
-                    // Fall back to the parameter reader for non-core MidCOM metadata params
-                    $value = $this->__object->get_parameter('midcom.helper.metadata', $key);
-                } else {
-                    $content = $dm->get_content_csv();
-                    $value = $content[$key];
-                }
-
-                break;
+        if (in_array($key, $this->field_config['timebased'])) {
+            // This is ugly, but seems the only possible way...
+            if (   isset($this->__metadata->$key)
+                && (string) $this->__metadata->$key !== "0001-01-01T00:00:00+00:00") {
+                return (int) $this->__metadata->$key->format('U');
+            }
+            return 0;
         }
-        $this->_cache[$key] = $value;
+        if (in_array($key, $this->field_config['person'])) {
+            if (!$this->__metadata->$key) {
+                // Fall back to "Midgard root user" if person is not found
+                static $root_user_guid = null;
+                if (!$root_user_guid) {
+                    $mc = new midgard_collector('midgard_person', 'id', 1);
+                    $mc->set_key_property('guid');
+                    $mc->execute();
+                    $guids = $mc->list_keys();
+                    if (empty($guids)) {
+                        $root_user_guid = 'f6b665f1984503790ed91f39b11b5392';
+                    } else {
+                        $root_user_guid = key($guids);
+                    }
+                }
+
+                return $root_user_guid;
+            }
+            return $this->__metadata->$key;
+        }
+        if (!in_array($key, $this->field_config['other'])) {
+            // Fall-back for non-core properties
+            $dm = $this->get_datamanager();
+            if (!$dm->get_schema()->has_field($key)) {
+                // Fall back to the parameter reader for non-core MidCOM metadata params
+                return $this->__object->get_parameter('midcom.helper.metadata', $key);
+            }
+            return $dm->get_content_csv()[$key];
+        }
+        return $this->__metadata->$key;
     }
 
     /* ------- CONVENIENCE METADATA INTERFACE --------- */
