@@ -160,7 +160,7 @@ abstract class midcom_core_dbaobject
 
         if ($property === 'metadata') {
             if (null === $this->__metadata) {
-                $this->__metadata = $this->get_metadata();
+                $this->__metadata = new midcom_helper_metadata($this);
             }
             return $this->__metadata;
         }
@@ -307,14 +307,6 @@ abstract class midcom_core_dbaobject
         return midcom_baseclasses_core_dbobject::get_by_path($this, $path);
     }
 
-    /**
-     *
-     * @return midcom_helper_metadata
-     */
-    public function get_metadata()
-    {
-        return midcom_helper_metadata::retrieve($this);
-    }
     public function get_parent()
     {
         return midcom::get()->dbfactory->get_parent($this);

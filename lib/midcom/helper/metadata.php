@@ -27,7 +27,7 @@ use midcom\datamanager\datamanager;
  * $nap = new midcom_helper_nav();
  * $node = $nap->get_node($nap->get_current_node());
  *
- * $meta = midcom_helper_metadata::retrieve($node[MIDCOM_NAV_GUID]);
+ * $meta = $node[MIDCOM_NAV_OBJECT]->metadata;
  * echo "Visible : " . $meta->is_visible() . "</br>";
  * echo "Approved : " . $meta->is_approved() . "</br>";
  * echo "Keywords: " . $meta->get('keywords') . "</br>";
@@ -39,8 +39,7 @@ use midcom\datamanager\datamanager;
  * <?php
  * $article = new midcom_db_article($my_article_created_id);
  *
- * $meta = midcom_helper_metadata::retrieve($article);
- * $meta->approve();
+ * $article->metadata->approve();
  * </code>
  *
  * @property integer $schedulestart The time upon which the object should be made visible. 0 for no restriction.
@@ -90,13 +89,6 @@ class midcom_helper_metadata
     private $_cache = [];
 
     /**
-     * The schema database URL to use for this instance.
-     *
-     * @var string
-     */
-    private $_schemadb_path;
-
-    /**
      * Datamanager instance for the given object.
      *
      * @var datamanager
@@ -113,22 +105,12 @@ class midcom_helper_metadata
     /**
      * This will construct a new metadata object for an existing content object.
      *
-     * You must never use this constructor directly, it is considered private
-     * in this respect. Instead, use the retrieve method, which may be called as a
-     * class method.
-     *
-     * You may use objects derived from any MidgardObject will do as well as long
-     * as the parameter call is available normally.
-     *
-     * @param midcom_core_dbaobject $object The MidgardObject to attach to.
-     * @param string $schemadb The URL of the schemadb to use.
-     * @see midcom_helper_metadata::retrieve()
+     * @param midcom_core_dbaobject $object The object to attach to.
      */
-    public function __construct(midcom_core_dbaobject $object, $schemadb)
+    public function __construct(midcom_core_dbaobject $object)
     {
         $this->__metadata = $object->__object->metadata;
         $this->__object = $object;
-        $this->_schemadb_path = $schemadb;
     }
 
     /* ------- BASIC METADATA INTERFACE --------- */
@@ -146,10 +128,6 @@ class midcom_helper_metadata
      */
     public function get($key)
     {
-        if (!$this->__metadata) {
-            return null;
-        }
-
         if (!isset($this->_cache[$key])) {
             $this->_cache[$key] = $this->_retrieve_value($key);
         }
@@ -167,10 +145,6 @@ class midcom_helper_metadata
 
     public function __isset($key)
     {
-        if (!$this->__metadata) {
-            return false;
-        }
-
         if (!isset($this->_cache[$key])) {
             $this->_cache[$key] = $this->_retrieve_value($key);
         }
@@ -203,28 +177,10 @@ class midcom_helper_metadata
      */
     private function load_datamanager()
     {
-        static $schemadbs = [];
-        if (!array_key_exists($this->_schemadb_path, $schemadbs)) {
-            $schemadbs[$this->_schemadb_path] = schemadb::from_path($this->_schemadb_path);
-        }
-        $this->_schemadb = $schemadbs[$this->_schemadb_path];
-        $this->_datamanager = new datamanager($this->_schemadb);
+        $schemadb = schemadb::from_path(midcom::get()->config->get('metadata_schema'));
 
-        $object_schema = $this->find_schemaname($this->_schemadb, $this->__object);
-        $this->_datamanager->set_storage($this->__object, $object_schema);
-    }
-
-    /**
-     * Determine the schema to use for a particular object
-     *
-     * @param schemadb $schemadb The schema DB
-     * @param midcom_core_dbaobject $object the object to work on
-     * @return string The schema name
-     */
-    private function find_schemaname(schemadb $schemadb, midcom_core_dbaobject $object)
-    {
         // Check if we have metadata schema defined in the schemadb specific for the object's schema or component
-        $object_schema = $object->get_parameter('midcom.helper.datamanager2', 'schema_name');
+        $object_schema = $this->__object->get_parameter('midcom.helper.datamanager2', 'schema_name');
         if ($object_schema == '' || !$schemadb->has($object_schema)) {
             $component_schema = str_replace('.', '_', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
             if ($schemadb->has($component_schema)) {
@@ -235,7 +191,8 @@ class midcom_helper_metadata
                 $object_schema = 'metadata';
             }
         }
-        return $object_schema;
+        $this->_datamanager = new datamanager($schemadb);
+        $this->_datamanager->set_storage($this->__object, $object_schema);
     }
 
     public function release_datamanager()
@@ -271,10 +228,6 @@ class midcom_helper_metadata
 
     public function __set($key, $value)
     {
-        if ($key == '_schemadb') {
-            $this->_schemadb = $value;
-            return true;
-        }
         return $this->set($key, $value);
     }
 
@@ -559,7 +512,7 @@ class midcom_helper_metadata
         }
 
         // $object is now populated, too
-        return new self($object, midcom::get()->config->get('metadata_schema'));
+        return new self($object);
     }
 
     /**

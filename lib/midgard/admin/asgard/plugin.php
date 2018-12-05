@@ -82,7 +82,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
             $context = midcom_core_context::get();
 
             // Bind the object to the metadata service
-            midcom::get()->metadata->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object, $context->id);
+            midcom::get()->metadata->bind_metadata_to_object($object, $context->id);
 
             // These toolbars only work with DBA objects as they do ACL checks
             $view_toolbar = midcom::get()->toolbars->get_view_toolbar($context->id);

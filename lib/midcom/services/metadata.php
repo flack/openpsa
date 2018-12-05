@@ -19,11 +19,9 @@ class midcom_services_metadata
 {
     /**
      * The metadata currently available. This array is indexed by context id; each
-     * value consists of a flat array of two metadata objects, the first object being
-     * the Node metadata, the second View metadata. The metadata objects are created
-     * on-demand.
+     * value consists of a metadata object. The metadata objects are created on-demand.
      *
-     * @var Array
+     * @var midcom_helper_metadata[]
      */
     private $_metadata = [];
 
@@ -35,26 +33,6 @@ class midcom_services_metadata
      * @var Array
      */
     private $_page_classes = [];
-
-    /**
-     * Returns the node metadata of the specified context. The metadata
-     * will be created if this is the first request.
-     *
-     * @param int $context_id The context to retrieve the node metadata for, this
-     *     defaults to the current context.
-     */
-    function & get_node_metadata($context_id = null)
-    {
-        if ($context_id === null) {
-            $context_id = midcom_core_context::get()->id;
-        }
-
-        if (!array_key_exists($context_id, $this->_metadata)) {
-            $this->_create_metadata($context_id);
-        }
-
-        return $this->_metadata[$context_id][MIDCOM_METADATA_NODE];
-    }
 
     /**
      * Returns the view metadata of the specified context. The metadata
@@ -71,27 +49,10 @@ class midcom_services_metadata
         }
 
         if (!array_key_exists($context_id, $this->_metadata)) {
-            $this->_create_metadata($context_id);
+            $this->_metadata[$context_id] = null;
         }
 
-        return $this->_metadata[$context_id][MIDCOM_METADATA_VIEW];
-    }
-
-    /**
-     * Creates the node and view metadata for a given context ID.
-     *
-     * @param int $context_id The context ID for which the metadata should be created.
-     */
-    private function _create_metadata($context_id)
-    {
-        $this->_metadata[$context_id] = [];
-        $this->_metadata[$context_id][MIDCOM_METADATA_VIEW] = null;
-        $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = null;
-
-        $topic = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
-        if (!empty($topic->id)) {
-            $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = midcom_helper_metadata::retrieve($topic);
-        }
+        return $this->_metadata[$context_id];
     }
 
     /**
@@ -181,24 +142,24 @@ class midcom_services_metadata
      */
     public function bind_to($object)
     {
-        $this->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object);
+        $this->bind_metadata_to_object($object);
     }
 
     /**
      * Binds object to given metadata type.
      */
-    public function bind_metadata_to_object($metadata_type, $object, $context_id = null)
+    public function bind_metadata_to_object($object, $context_id = null)
     {
         $context = midcom_core_context::get($context_id);
 
-        $this->_metadata[$context->id][$metadata_type] = midcom_helper_metadata::retrieve($object);
-        if (!$this->_metadata[$context->id][$metadata_type]) {
+        $this->_metadata[$context->id] = midcom_helper_metadata::retrieve($object);
+        if (!$this->_metadata[$context->id]) {
             return;
         }
 
         // Update request metadata if appropriate
         $request_metadata = $this->get_request_metadata($context);
-        $edited = $this->_metadata[$context->id][$metadata_type]->get('revised');
+        $edited = $this->_metadata[$context->id]->get('revised');
         if ($edited > $request_metadata['lastmodified']) {
             $this->set_request_metadata($edited, $request_metadata['permalinkguid']);
         }
@@ -363,10 +324,10 @@ class midcom_services_metadata
         if (!$object) {
             // No object given, use object bound to view
             $context_id = midcom_core_context::get()->id;
-            if (empty($this->_metadata[$context_id][MIDCOM_METADATA_VIEW])) {
+            if (empty($this->_metadata[$context_id])) {
                 return '';
             }
-            $object = $this->_metadata[$context_id][MIDCOM_METADATA_VIEW]->object;
+            $object = $this->_metadata[$context_id]->object;
         }
 
         if (empty($object->guid)) {

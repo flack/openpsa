@@ -208,20 +208,6 @@ const MIDCOM_TOOLBAR_OBJECT = 102;
 const MIDCOM_TOOLBAR_ACCESSKEY = 103;
 
 /**
- * Identifier for a node metadata for a request context.
- *
- * @see midcom_services_metadata
- */
-const MIDCOM_METADATA_NODE = 100;
-
-/**
- * Identifier for a view metadata for a request context.
- *
- * @see midcom_services_metadata
- */
-const MIDCOM_METADATA_VIEW = 101;
-
-/**
  * MidCOM Privilege System
  */
 
