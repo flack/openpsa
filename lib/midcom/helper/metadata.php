@@ -531,10 +531,8 @@ class midcom_helper_metadata
      * - Any class derived from MidgardObject, you must only ensure, that the parameter
      *   and guid member functions stays available.
      * - Any valid GUID
-     * - Any NAP object structure, the content object is deduced from MIDCOM_NAV_GUID in
-     *   this case.
      *
-     * @param mixed $source The object to attach to, this may be either a MidgardObject, a GUID or a NAP data structure (node or leaf).
+     * @param mixed $source The object to attach to, this may be either a MidgardObject or a GUID.
      * @return midcom_helper_metadata The created metadata object.
      */
     public static function retrieve($source)
@@ -544,14 +542,6 @@ class midcom_helper_metadata
         if (is_object($source)) {
             $object = $source;
             $guid = $source->guid;
-        } elseif (is_array($source)) {
-            if (   !array_key_exists(MIDCOM_NAV_GUID, $source)
-                || is_null($source[MIDCOM_NAV_GUID])) {
-                debug_print_r('We got an invalid input, cannot return metadata:', $source);
-                return false;
-            }
-            $guid = $source[MIDCOM_NAV_GUID];
-            $object = $source[MIDCOM_NAV_OBJECT];
         } else {
             $guid = $source;
         }
