@@ -99,7 +99,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $classname = $object->__mgdschema_class_name__;
         } elseif ($object instanceof midcom_helper_metadata) {
             $metadata = true;
-            $classname = $object->__object->__mgdschema_class_name__;
+            $classname = $object->object->__mgdschema_class_name__;
         }
 
         if (is_subclass_of($classname, 'midgard_object')) {

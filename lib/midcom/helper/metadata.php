@@ -62,17 +62,15 @@ use midcom\datamanager\datamanager;
  * @property integer $approved The time of approval of the object, or 0 if not approved. Set automatically through approve/unapprove.
  * @property string $approver The person that approved/unapproved the object. Set automatically through approve/unapprove.
  * @property integer $score The object's score for sorting.
+ * @property midcom_core_dbaobject $object Object to which we are attached.
  * @package midcom.helper
  */
 class midcom_helper_metadata
 {
     /**
-     * Object to which we are attached to. This object can be accessed from
-     * the outside, where necessary.
-     *
      * @var midcom_core_dbaobject
      */
-    public $__object;
+    private $__object;
 
     /**
      * Metadata object of the current object

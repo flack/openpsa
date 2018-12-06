@@ -64,7 +64,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
             }
         }
 
-        $this->source = $this->_metadata->__object->guid;
+        $this->source = $this->_metadata->object->guid;
         $this->lang = midcom::get()->i18n->get_content_language();
         // Add language code to RI as well so that different language versions of the object have unique identifiers
         $this->RI = "{$this->source}_{$this->lang}";
@@ -78,7 +78,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
      */
     private function _process_metadata()
     {
-        $this->read_metadata_from_object($this->_metadata->__object);
+        $this->read_metadata_from_object($this->_metadata->object);
         $metadata = $this->_metadata->get_datamanager()->get_content_html();
         foreach ($metadata as $key => $value) {
             switch ($key) {
