@@ -142,15 +142,7 @@ class midcom_services_metadata
      */
     public function bind_to($object)
     {
-        $this->bind_metadata_to_object($object);
-    }
-
-    /**
-     * Binds object to given metadata type.
-     */
-    public function bind_metadata_to_object($object, $context_id = null)
-    {
-        $context = midcom_core_context::get($context_id);
+        $context = midcom_core_context::get();
 
         $this->_metadata[$context->id] = midcom_helper_metadata::retrieve($object);
         if (!$this->_metadata[$context->id]) {
