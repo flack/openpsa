@@ -207,7 +207,6 @@ class midcom_core_urlmethods
             throw new midcom_error_notfound('The requested component is not installed');
         }
         if ($component !== 'midcom') {
-            $componentloader->load_graceful($component);
             $this->_context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
         }
         $path = $componentloader->path_to_snippetpath($component) . '/exec/';
