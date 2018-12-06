@@ -328,9 +328,7 @@ class midcom_services_metadata
         }
 
         $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
-        if (   !$component
-            || !midcom::get()->componentloader->is_installed($component)
-            || !midcom::get()->componentloader->load_graceful($component)) {
+        if (!$component) {
             return '';
         }
 
