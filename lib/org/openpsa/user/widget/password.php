@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use midcom\datamanager\extension\type\radiocheckselectType;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * OpenPSA password widget
@@ -26,17 +27,18 @@ class org_openpsa_user_widget_password extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $config = midcom_baseclasses_components_configuration::get('org.openpsa.user', 'config');
         $builder->add('switch', radiocheckselectType::class, [
             'type_config' => ['options' => ['generate_password', 'own_password']],
             'data' => 0,
             'label_attr' => ['style' => 'display: none']
         ]);
         $builder->add('password', PasswordType::class, [
-            'label_attr' => ['style' => 'display: none']
+            'label_attr' => ['style' => 'display: none'],
+            'constraints' => [new Length(['min' => $config->get('min_password_length')])]
         ]);
 
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.user');
-        $config = midcom_baseclasses_components_configuration::get('org.openpsa.user', 'config');
         self::jsinit('input[type="password"]', $l10n, $config, false);
     }
 
