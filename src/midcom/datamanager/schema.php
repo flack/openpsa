@@ -178,7 +178,7 @@ class schema
                 }
                 if (!empty($options['validation'])) {
                     foreach ($options['validation'] as $rule) {
-                        if (!empty($rule['type']) && $rule['type'] === 'email') {
+                        if (is_array($rule['type']) && $rule['type'] === 'email') {
                             return 'email';
                         }
                     }

@@ -78,6 +78,10 @@ class compat
         $constraints = [];
 
         foreach ((array) $config['validation'] as $rule) {
+            if (is_object($rule)) {
+                $constraints[] = $rule;
+                continue;
+            }
             if ($rule['type'] === 'email') {
                 $constraints[] = new Email();
             } elseif ($rule['type'] === 'regex') {
