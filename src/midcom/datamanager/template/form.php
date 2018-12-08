@@ -552,10 +552,8 @@ class form extends base
             $string = $this->get_view_renderer()->text_widget($view, $data);
             return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
         }
-        $view->vars['attr'] = [
-            'class' => 'longtext',
-            'cols' => 50
-        ];
+        $view->vars['attr']['class'] = 'longtext';
+        $view->vars['attr']['cols'] = 50;
         return '<textarea' . $this->renderer->block($view, 'widget_attributes') . '>' . $data['value'] . '</textarea>';
     }
 

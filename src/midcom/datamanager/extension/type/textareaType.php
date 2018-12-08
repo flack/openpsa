@@ -41,6 +41,12 @@ class textareaType extends base
             ];
             return helper::resolve_options($type_defaults, $value);
         });
+        $resolver->setNormalizer('attr', function (Options $options, $value) {
+            if (!empty($options['widget_config']['height'])) {
+                $value['rows'] = $options['widget_config']['height'];
+            }
+            return $value;
+        });
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
             if (!empty($options['type_config']['forbidden_patterns'])) {
                 $value[] = new validator(['forbidden_patterns' => $options['type_config']['forbidden_patterns']]);
