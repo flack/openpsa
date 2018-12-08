@@ -8,12 +8,9 @@ namespace midcom\datamanager;
 use midcom_error;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Email;
 use midcom;
 use midcom_core_context;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Validator\Constraints\Regex;
 
 /**
  * Experimental schema class
@@ -180,8 +177,8 @@ class schema
                     return 'urlname';
                 }
                 if (!empty($options['validation'])) {
-                    foreach ($options['validation'] as $constraint) {
-                        if ($constraint instanceof Email) {
+                    foreach ($options['validation'] as $rule) {
+                        if (!empty($rule['type']) && $rule['type'] === 'email') {
                             return 'email';
                         }
                     }
@@ -257,21 +254,7 @@ class schema
                     'format' => ''
                 ];
 
-                $rule = array_merge($defaults, $rule);
-                if ($rule['type'] === 'email') {
-                    $validation[] = new Email();
-                } elseif ($rule['type'] === 'regex') {
-                    $r_options = ['pattern' => $rule['format']];
-                    if (!empty($rule['message'])) {
-                        $r_options['message'] = $rule['message'];
-                    }
-                    $validation[] = new Regex($r_options);
-                } else {
-                    throw new midcom_error($rule['type'] . ' validation not implemented yet');
-                }
-            }
-            if ($options['required']) {
-                array_unshift($validation, new NotBlank());
+                $validation[] = array_merge($defaults, $rule);
             }
 
             return $validation;

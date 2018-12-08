@@ -7,6 +7,10 @@ namespace midcom\datamanager\extension;
 
 use midcom;
 use midcom\datamanager\storage\container\dbacontainer;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Regex;
+use midcom_error;
 
 /**
  * Converter for data from old DM2 style schemas
@@ -56,7 +60,7 @@ class compat
             'widget_config' => $config['widget_config'],
             'type_config' => $config['type_config'],
             'required' => $config['required'],
-            'constraints' => $config['validation'],
+            'constraints' => self::build_constraints($config),
             'dm2_type' => $config['type'],
             'dm2_storage' => $config['storage'],
             'start_fieldset' => $config['start_fieldset'],
@@ -67,5 +71,29 @@ class compat
             'storage' => $storage,
             'hidden' => $config['hidden']
         ];
+    }
+
+    private static function build_constraints($config)
+    {
+        $constraints = [];
+
+        foreach ((array) $config['validation'] as $rule) {
+            if ($rule['type'] === 'email') {
+                $constraints[] = new Email();
+            } elseif ($rule['type'] === 'regex') {
+                $r_options = ['pattern' => $rule['format']];
+                if (!empty($rule['message'])) {
+                    $r_options['message'] = $rule['message'];
+                }
+                $constraints[] = new Regex($r_options);
+            } else {
+                throw new midcom_error($rule['type'] . ' validation not implemented yet');
+            }
+        }
+        if ($config['required']) {
+            array_unshift($constraints, new NotBlank());
+        }
+
+        return $constraints;
     }
 }
