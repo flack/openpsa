@@ -55,22 +55,25 @@ class compat
             }
         }
 
-        return [
-            'label' => $config['title'],
-            'widget_config' => $config['widget_config'],
-            'type_config' => $config['type_config'],
-            'required' => $config['required'],
-            'constraints' => self::build_constraints($config),
-            'dm2_type' => $config['type'],
-            'dm2_storage' => $config['storage'],
-            'start_fieldset' => $config['start_fieldset'],
-            'end_fieldset' => $config['end_fieldset'],
-            'index_method' => $config['index_method'],
-            'attr' => ['readonly' => $config['readonly']],
-            'helptext' => $config['helptext'],
-            'storage' => $storage,
-            'hidden' => $config['hidden']
-        ];
+        $settings = $config;
+        $settings['label'] = $config['title'];
+        $settings['dm2_type'] = $config['type'];
+        $settings['dm2_storage'] = $config['storage'];
+        $settings['attr']['readonly'] = $config['readonly'];
+        $settings['constraints'] = self::build_constraints($config);
+        $settings['storage'] = $storage;
+
+        unset($settings['readonly']);
+        unset($settings['type']);
+        unset($settings['customdata']);
+        unset($settings['default']);
+        unset($settings['description']);
+        unset($settings['title']);
+        unset($settings['validation']);
+        unset($settings['widget']);
+        unset($settings['write_privilege']);
+
+        return $settings;
     }
 
     private static function build_constraints($config)

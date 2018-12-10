@@ -138,7 +138,7 @@ class schema
     {
         $resolver = new OptionsResolver();
 
-        $resolver->setDefaults([
+        $resolver->setDefaults(array_merge([
             'title' => '',
             'description' => '',
             'type' => null,
@@ -158,7 +158,7 @@ class schema
             'helptext' => null,
             'write_privilege' => null,
             'customdata' => []
-        ]);
+        ], $config));
 
         $normalize_widget = function (Options $options, $value) {
             if (   $value == 'images'
