@@ -2,6 +2,7 @@
 namespace midcom\datamanager\template;
 
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\ChoiceList\View\ChoiceGroupView;
 
 class form extends base
 {
@@ -379,7 +380,7 @@ class form extends base
     {
         $string = '';
         foreach ($data['choices'] as $index => $choice) {
-            if (is_array($choice)) {
+            if (is_array($choice) || $choice instanceof ChoiceGroupView) {
                 $string .= '<optgroup label="' . $index . '">';
                 $string .= $this->renderer->block($view, 'choice_widget_options', ['choices' => $choice]);
                 $string .= '</optgroup>';
