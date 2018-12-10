@@ -108,6 +108,13 @@ class controller
                 $errors[$child->getName()] = $messages;
             }
         }
+        $messages = '';
+        foreach ($this->form->getErrors() as $error) {
+            $messages .= $error->getMessage();
+        }
+        if (!empty($messages)) {
+            $errors[] = $messages;
+        }
         return $errors;
     }
 
