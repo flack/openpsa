@@ -87,7 +87,7 @@ class delete extends dialog
                 'dialog_text' => null
             ])
             ->setRequired('object')
-            ->setAllowedTypes('object', 'midcom_core_dbaobject')
+            ->setAllowedTypes('object', midcom_core_dbaobject::class)
             ->setNormalizer('label', function ($options, $value) {
                 if ($value === null) {
                     return midcom_helper_reflector::get_object_title($options['object']);
