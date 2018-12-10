@@ -193,6 +193,10 @@ class form extends base
         } else {
             $string .= '<span class="icon no-file"><i class="fa fa-file-o"></i></span>';
         }
+        if (!empty($data['value']['tmpfile'])) {
+            $data['form']['identifier']->vars['value'] = $data['value']['tmpfile'];
+            $data['form']['title']->vars['value'] = $data['value']['title'];
+        }
 
         $string .= '</div><div class="attachment-input">';
         $string .= $this->renderer->row($data['form']['title']);

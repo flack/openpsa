@@ -9,6 +9,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use midcom_db_attachment;
 use midcom_helper_misc;
+use midcom;
 
 /**
  * Experimental blobs transformer
@@ -73,9 +74,15 @@ class blobsTransformer implements DataTransformerInterface
         if (empty($data['file'])) {
             return null;
         }
+
         $title = (!empty($data['title'])) ? $data['title'] : $data['file']['name'];
         $description = (array_key_exists('description', $data)) ? $data['description'] : $title;
         $stat = stat($data['file']['tmp_name']);
+
+        $tmpdir = midcom::get()->config->get('midcom_tempdir');
+        $tmpfile = 'tmpfile-' . md5($data['file']['tmp_name']);
+        move_uploaded_file($data['file']['tmp_name'], $tmpdir . '/' . $tmpfile);
+
         return [
             'filename' => $data['file']['name'],
             'description' => $description,
@@ -92,7 +99,8 @@ class blobsTransformer implements DataTransformerInterface
             'size_y' => '',
             'size_line' => '',
             'object' => $data['object'],
-            'identifier' => $data['identifier']
+            'identifier' => $data['identifier'],
+            'tmpfile' => $tmpfile
         ];
     }
 
@@ -103,7 +111,18 @@ class blobsTransformer implements DataTransformerInterface
         }
         if (!empty($array)) {
             $array['object'] = new \midcom_db_attachment();
-            return $array;
+
+            if (empty($array['file']) && substr($array['identifier'], 0, 8) === 'tmpfile-') {
+                $tmpfile = midcom::get()->config->get('midcom_tempdir') . '/' . $array['identifier'];
+                if (file_exists($tmpfile)) {
+                    $array['file'] = [
+                        'name' => $array['title'] ?: $array['identifier'],
+                        'tmp_name' => $tmpfile,
+                        'type' => 'application/octet-stream'
+                    ];
+                }
+            }
         }
+        return $array;
     }
 }
