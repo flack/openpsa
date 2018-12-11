@@ -5,6 +5,7 @@ use Symfony\Component\Form\FormView;
 use midcom;
 use midcom_helper_formatter;
 use Michelf\MarkdownExtra;
+use Symfony\Component\Form\ChoiceList\View\ChoiceGroupView;
 
 class view extends base
 {
@@ -271,7 +272,13 @@ class view extends base
                 $selection = (string) $data['data'];
             }
             foreach ($data['choices'] as $choice) {
-                if ($data['is_selected']($choice->value, $selection)) {
+                if ($choice instanceof ChoiceGroupView) {
+                    foreach ($choice->choices as $option) {
+                        if ($data['is_selected']($option->value, $selection)) {
+                            return $this->renderer->humanize($option->label);
+                        }
+                    }
+                } elseif ($data['is_selected']($choice->value, $selection)) {
                     return $this->renderer->humanize($choice->label);
                 }
             }
