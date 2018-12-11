@@ -35,11 +35,11 @@ class subformType extends CollectionType
             'prototype' => true,
             'prototype_name' => '__name__',
             'delete_empty' => true,
-            'error_bubbling' => false
+            'error_bubbling' => false,
+            'entry_type' => function (Options $options) {
+                return compat::get_type_name($options['dm2_type']);
+            }
         ]);
-        $resolver->setNormalizer('entry_type', function (Options $options, $value) {
-            return compat::get_type_name($options['dm2_type']);
-        });
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
             $widget_defaults = [
                 'sortable' => false,
