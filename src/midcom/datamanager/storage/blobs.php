@@ -1,7 +1,7 @@
 <?php
 /**
  * @copyright CONTENT CONTROL GmbH, http://www.contentcontrol-berlin.de
-*/
+ */
 
 namespace midcom\datamanager\storage;
 
@@ -57,6 +57,7 @@ class blobs extends delayed
             foreach ($this->value as $identifier => &$data) {
                 $attachment = (array_key_exists($identifier, $existing)) ? $existing[$identifier] : $data['object'];
                 $title = (array_key_exists('title', $data)) ? $data['title'] : null;
+
                 if (!empty($data['file'])) {
                     $filename = midcom_db_attachment::safe_filename($data['file']['name'], true);
                     $title = $title ?: $data['file']['name'];
@@ -77,8 +78,6 @@ class blobs extends delayed
                     if (!$attachment->copy_from_file($data['file']['tmp_name'])) {
                         throw new midcom_error('Failed to copy attachment: ' . midcom_connection::get_error_string());
                     }
-                } elseif ($attachment === null) {
-                    continue;
                 }
                 // No file upload, only title change
                 elseif ($attachment->title != $title) {

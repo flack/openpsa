@@ -8,7 +8,7 @@ namespace midcom\datamanager\storage;
 /**
  * Experimental storage class
  */
-class rcsmessage extends dbanode
+class rcsmessage extends property
 {
     /**
      * {@inheritdoc}
@@ -26,10 +26,5 @@ class rcsmessage extends dbanode
         if (empty($this->config['hidden'])) {
             $this->object->set_rcs_message($value);
         }
-    }
-
-    public function save()
-    {
-        return true;
     }
 }

@@ -7,6 +7,10 @@ namespace midcom\datamanager\extension;
 
 use midcom;
 use midcom\datamanager\storage\container\dbacontainer;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Regex;
+use midcom_error;
 
 /**
  * Converter for data from old DM2 style schemas
@@ -51,21 +55,52 @@ class compat
             }
         }
 
-        return [
-            'label' => $config['title'],
-            'widget_config' => $config['widget_config'],
-            'type_config' => $config['type_config'],
-            'required' => $config['required'],
-            'constraints' => $config['validation'],
-            'dm2_type' => $config['type'],
-            'dm2_storage' => $config['storage'],
-            'start_fieldset' => $config['start_fieldset'],
-            'end_fieldset' => $config['end_fieldset'],
-            'index_method' => $config['index_method'],
-            'attr' => ['readonly' => $config['readonly']],
-            'helptext' => $config['helptext'],
-            'storage' => $storage,
-            'hidden' => $config['hidden']
-        ];
+        $settings = $config;
+        $settings['label'] = $config['title'];
+        $settings['dm2_type'] = $config['type'];
+        $settings['dm2_storage'] = $config['storage'];
+        $settings['attr']['readonly'] = $config['readonly'];
+        $settings['constraints'] = self::build_constraints($config);
+        $settings['storage'] = $storage;
+
+        unset($settings['readonly']);
+        unset($settings['type']);
+        unset($settings['customdata']);
+        unset($settings['default']);
+        unset($settings['description']);
+        unset($settings['title']);
+        unset($settings['validation']);
+        unset($settings['widget']);
+        unset($settings['write_privilege']);
+
+        return $settings;
+    }
+
+    private static function build_constraints($config)
+    {
+        $constraints = [];
+
+        foreach ((array) $config['validation'] as $rule) {
+            if (is_object($rule)) {
+                $constraints[] = $rule;
+                continue;
+            }
+            if ($rule['type'] === 'email') {
+                $constraints[] = new Email();
+            } elseif ($rule['type'] === 'regex') {
+                $r_options = ['pattern' => $rule['format']];
+                if (!empty($rule['message'])) {
+                    $r_options['message'] = $rule['message'];
+                }
+                $constraints[] = new Regex($r_options);
+            } else {
+                throw new midcom_error($rule['type'] . ' validation not implemented yet');
+            }
+        }
+        if ($config['required']) {
+            array_unshift($constraints, new NotBlank());
+        }
+
+        return $constraints;
     }
 }

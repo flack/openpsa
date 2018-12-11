@@ -2,6 +2,7 @@
 namespace midcom\datamanager\template;
 
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\ChoiceList\View\ChoiceGroupView;
 
 class form extends base
 {
@@ -192,6 +193,10 @@ class form extends base
         } else {
             $string .= '<span class="icon no-file"><i class="fa fa-file-o"></i></span>';
         }
+        if (!empty($data['value']['tmpfile'])) {
+            $data['form']['identifier']->vars['value'] = $data['value']['tmpfile'];
+            $data['form']['title']->vars['value'] = $data['value']['title'];
+        }
 
         $string .= '</div><div class="attachment-input">';
         $string .= $this->renderer->row($data['form']['title']);
@@ -379,7 +384,7 @@ class form extends base
     {
         $string = '';
         foreach ($data['choices'] as $index => $choice) {
-            if (is_array($choice)) {
+            if (is_array($choice) || $choice instanceof ChoiceGroupView) {
                 $string .= '<optgroup label="' . $index . '">';
                 $string .= $this->renderer->block($view, 'choice_widget_options', ['choices' => $choice]);
                 $string .= '</optgroup>';
@@ -552,10 +557,8 @@ class form extends base
             $string = $this->get_view_renderer()->text_widget($view, $data);
             return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
         }
-        $view->vars['attr'] = [
-            'class' => 'longtext',
-            'cols' => 50
-        ];
+        $view->vars['attr']['class'] = 'longtext';
+        $view->vars['attr']['cols'] = 50;
         return '<textarea' . $this->renderer->block($view, 'widget_attributes') . '>' . $data['value'] . '</textarea>';
     }
 
