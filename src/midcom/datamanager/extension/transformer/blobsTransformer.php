@@ -79,10 +79,6 @@ class blobsTransformer implements DataTransformerInterface
         $description = (array_key_exists('description', $data)) ? $data['description'] : $title;
         $stat = stat($data['file']['tmp_name']);
 
-        $tmpdir = midcom::get()->config->get('midcom_tempdir');
-        $tmpfile = 'tmpfile-' . md5($data['file']['tmp_name']);
-        move_uploaded_file($data['file']['tmp_name'], $tmpdir . '/' . $tmpfile);
-
         return [
             'filename' => $data['file']['name'],
             'description' => $description,
@@ -100,7 +96,7 @@ class blobsTransformer implements DataTransformerInterface
             'size_line' => '',
             'object' => $data['object'],
             'identifier' => $data['identifier'],
-            'tmpfile' => $tmpfile
+            'tmpfile' => $data['identifier']
         ];
     }
 
@@ -110,9 +106,14 @@ class blobsTransformer implements DataTransformerInterface
             throw new TransformationFailedException('Expected an array.');
         }
         if (!empty($array)) {
-            $array['object'] = new \midcom_db_attachment();
+            $array['object'] = new midcom_db_attachment();
 
-            if (empty($array['file']) && substr($array['identifier'], 0, 8) === 'tmpfile-') {
+            if (!empty($array['file'])) {
+                $array['identifier'] = 'tmpfile-' . md5($array['file']['tmp_name']);
+                $path = midcom::get()->config->get('midcom_tempdir') . '/' . $array['identifier'];
+                move_uploaded_file($array['file']['tmp_name'], $path);
+                $array['file']['tmp_name'] = $path;
+            } elseif (substr($array['identifier'], 0, 8) === 'tmpfile-') {
                 $tmpfile = midcom::get()->config->get('midcom_tempdir') . '/' . $array['identifier'];
                 if (file_exists($tmpfile)) {
                     $array['file'] = [

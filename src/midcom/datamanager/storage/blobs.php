@@ -78,6 +78,7 @@ class blobs extends delayed
                     if (!$attachment->copy_from_file($data['file']['tmp_name'])) {
                         throw new midcom_error('Failed to copy attachment: ' . midcom_connection::get_error_string());
                     }
+                    unlink($data['file']['tmp_name']);
                 }
                 // No file upload, only title change
                 elseif ($attachment->title != $title) {
