@@ -29,7 +29,7 @@ class passwordType extends RepeatedType
         ]);
 
         $resolver->setNormalizer('required', function(Options $options, $value) {
-            return !empty($options['widget_config']['require_password']);
+            return $value || !empty($options['widget_config']['require_password']);
         });
         $resolver->setNormalizer('first_options', function(Options $options, $value) {
             $value['label'] = $options['label'];

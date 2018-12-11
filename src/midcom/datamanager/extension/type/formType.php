@@ -47,7 +47,7 @@ class formType extends base
                 $cb_wrapper = new cb_wrapper($validation);
                 return [new Callback(['callback' => [$cb_wrapper, 'validate']])];
             }
-            return [];
+            return $value;
         });
     }
 

@@ -62,9 +62,9 @@ class jsdateType extends AbstractType
         });
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
             if ($options['type_config']['later_than']) {
-                return [new laterthan($options['type_config']['later_than'])];
+                $value[] = new laterthan($options['type_config']['later_than']);
             }
-            return [];
+            return $value;
         });
     }
 
@@ -97,6 +97,7 @@ class jsdateType extends AbstractType
                 'error_bubbling' => true,
             ];
             if ($options['required']) {
+                $time_options['attr']['required'] = true;
                 $time_options['constraints'] = [new NotBlank()];
             }
 
