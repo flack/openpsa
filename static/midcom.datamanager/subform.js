@@ -42,6 +42,15 @@ function init_subform(id, sortable) {
     if (container.data('index') === 0) {
         add_button.click();
     }
+
+    add_button.on('click', function() {
+        // If there is exactly one file selector, we're probably in some sort of attachment list,
+        // so let's assume the user wants to add a file
+        // (at some point this should probably be made configurable)
+        if ($(this).prev().find('input[type="file"]').length === 1) {
+            $(this).prev().find('input[type="file"]').click();
+        }
+    });
 }
 
 function add_form(container, add_button, delete_button, sortable) {
@@ -52,13 +61,6 @@ function add_form(container, add_button, delete_button, sortable) {
     $(new_form)
         .prepend(delete_button.clone())
         .insertBefore(add_button);
-
-    // If there is exactly one file selector, we're probably in some sort of attachment list,
-    // so let's assume the user wants to add a file
-    // (at some point this should probably be made configurable)
-    if (add_button.prev().find('input[type="file"]').length === 1) {
-        add_button.prev().find('input[type="file"]').click();
-    }
 
     if (   container.data('max-count') > 0
         && container.data('max-count') >= container.find('fieldset').length) {
