@@ -53,6 +53,13 @@ function add_form(container, add_button, delete_button, sortable) {
         .prepend(delete_button.clone())
         .insertBefore(add_button);
 
+    // If there is exactly one file selector, we're probably in some sort of attachment list,
+    // so let's assume the user wants to add a file
+    // (at some point this should probably be made configurable)
+    if (add_button.prev().find('input[type="file"]').length === 1) {
+        add_button.prev().find('input[type="file"]').click();
+    }
+
     if (   container.data('max-count') > 0
         && container.data('max-count') >= container.find('fieldset').length) {
         add_button.detach();
