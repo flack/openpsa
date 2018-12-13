@@ -11,7 +11,9 @@ use midcom_error;
 use Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser;
 
 /**
- * Experimental storage class
+ * Image storage
+ *
+ * Controls a list of images derived from just one (via filter chains)
  */
 class image extends images
 {
@@ -32,13 +34,7 @@ class image extends images
             $attachment = $existing['main'];
         }
         if (!empty($attachment)) {
-            foreach ($this->get_derived_images() as $identifier => $filter_chain) {
-                $derived = $this->get_attachment($this->value['file'], $existing, $identifier);
-                $this->apply_filter($attachment, $filter_chain, $derived);
-                $this->set_imagedata($derived);
-                $this->map[$identifier] = $derived;
-            }
-            return $this->save_attachment_list();
+            return $this->save_derived_images($attachment, $existing);
         }
         return true;
     }
@@ -67,14 +63,7 @@ class image extends images
 
             $attachment = $this->create_main_image($this->value['file'], $existing);
 
-            foreach ($this->get_derived_images() as $identifier => $filter_chain) {
-                $derived = $this->get_attachment($this->value['file'], $existing, $identifier);
-                $this->apply_filter($attachment, $filter_chain, $derived);
-                $this->set_imagedata($derived);
-                $this->map[$identifier] = $derived;
-            }
-
-            return $this->save_attachment_list();
+            return $this->save_derived_images($attachment, $existing);
         }
         if (!empty($this->value['delete'])) {
             $this->map = [];
@@ -84,9 +73,11 @@ class image extends images
     }
 
     /**
-     * @return string[]
+     * @param midcom_db_attachment $source
+     * @param array $existing
+     * @return boolean
      */
-    private function get_derived_images()
+    private function save_derived_images(midcom_db_attachment $source, array $existing)
     {
         $derived = [];
         if (!empty($this->config['type_config']['derived_images'])) {
@@ -95,7 +86,15 @@ class image extends images
         if (!empty($this->config['type_config']['auto_thumbnail'])) {
             $derived['thumbnail'] = "resize({$this->config['type_config']['auto_thumbnail'][0]},{$this->config['type_config']['auto_thumbnail'][1]})";
         }
-        return $derived;
+
+        foreach ($derived as $identifier => $filter_chain) {
+            $target = $this->get_attachment($this->value['file'], $existing, $identifier);
+            $this->apply_filter($source, $filter_chain, $target);
+            $this->set_imagedata($target);
+            $this->map[$identifier] = $target;
+        }
+
+        return $this->save_attachment_list();
     }
 
     private function create_main_image(midcom_db_attachment $input, array $existing)

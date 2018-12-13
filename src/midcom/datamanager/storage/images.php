@@ -11,7 +11,9 @@ use midcom_helper_imagefilter;
 use midgard\portable\api\blob;
 
 /**
- * Experimental storage class
+ * Images storage
+ *
+ * Controls a list of images
  */
 class images extends blobs implements recreateable
 {
