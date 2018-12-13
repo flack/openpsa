@@ -193,8 +193,11 @@ class form extends base
         } else {
             $string .= '<span class="icon no-file"><i class="fa fa-file-o"></i></span>';
         }
-        if (!empty($data['value']['tmpfile'])) {
-            $data['form']['identifier']->vars['value'] = $data['value']['tmpfile'];
+
+        if (empty($data['value']['id'])) {
+            // This is set here because the transformation results are not passed on down
+            // which probably means this has to go into a datamapper at some point
+            $data['form']['identifier']->vars['value'] = $data['value']['identifier'];
             $data['form']['title']->vars['value'] = $data['value']['title'];
         }
 
@@ -494,8 +497,8 @@ class form extends base
         $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<table class="midcom_datamanager_table_photo"><tr><td>';
         $preview_url = null;
-        $values = array_filter($data['value']); // this gets rid of the delete key in case the form was submitted
-        foreach ($values as $identifier => $info) {
+        $objects = $data['value']['objects'];
+        foreach ($objects as $identifier => $info) {
             $preview_url = $info['url'];
             if ($identifier == 'thumbnail') {
                 break;
@@ -507,10 +510,10 @@ class form extends base
 
         $string .= '</td><td>';
 
-        if (!empty($values)) {
+        if (!empty($objects)) {
             $string .= '<label class="midcom_datamanager_photo_label">' . $this->renderer->humanize('delete photo') . ' ' . $this->renderer->widget($data['form']['delete']) . '</label>';
             $string .= '<ul>';
-            foreach ($values as $identifier => $info) {
+            foreach ($objects as $identifier => $info) {
                 if (   $info['size_x']
                     && $info['size_y']) {
                     $size = "{$info['size_x']}&times;{$info['size_y']}";

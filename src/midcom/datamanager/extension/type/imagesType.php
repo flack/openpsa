@@ -10,12 +10,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
-use midcom\datamanager\extension\transformer\blobsTransformer;
+use midcom\datamanager\extension\transformer\blobTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
- * Experimental image type
+ * Images type
+ *
+ * Contrary to what the name suggests, this handles one single image
  */
 class imagesType extends AbstractType
 {
@@ -51,7 +53,7 @@ class imagesType extends AbstractType
         if ($options['widget_config']['sortable']) {
             $builder->add('score', HiddenType::class);
         }
-        $builder->addViewTransformer(new blobsTransformer($options));
+        $builder->addViewTransformer(new blobTransformer($options));
     }
 
     /**

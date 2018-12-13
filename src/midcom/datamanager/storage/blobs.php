@@ -50,51 +50,52 @@ class blobs extends delayed
     public function save()
     {
         $this->map = [];
-        $existing = $this->load();
+        $atts_in_db = $this->load();
 
         if (!empty($this->value)) {
             $guesser = new FileBinaryMimeTypeGuesser;
-            foreach ($this->value as $identifier => &$data) {
-                $attachment = (array_key_exists($identifier, $existing)) ? $existing[$identifier] : $data['object'];
-                $title = (array_key_exists('title', $data)) ? $data['title'] : null;
+            foreach ($this->value as $identifier => $att) {
+                if (!is_a($att, midcom_db_attachment::class)) {
+                    continue;
+                }
 
-                if (!empty($data['file'])) {
-                    $filename = midcom_db_attachment::safe_filename($data['file']['name'], true);
-                    $title = $title ?: $data['file']['name'];
-                    $mimetype = $guesser->guess($data['file']['tmp_name']);
-                    if (!$attachment->id) {
-                        $this->prepare_attachment($attachment, $filename, $title, $mimetype);
-                        if (is_integer($identifier)) {
-                            $identifier = md5(time() . $data['file']['name'] . $data['file']['tmp_name']);
-                        }
+                $db_att = (array_key_exists($identifier, $atts_in_db)) ? $atts_in_db[$identifier] : null;
+
+                // new upload case
+                if ($att->id === 0) {
+                    $filename = midcom_db_attachment::safe_filename($att->name, true);
+                    $title = $att->title ?: $att->name;
+                    $source = $att->location;
+                    $mimetype = $guesser->guess($source);
+
+                    if (empty($db_att)) {
+                        $db_att = $att;
+                        $this->create_attachment($db_att, $filename, $title, $mimetype);
+                        $identifier = md5(time() . $db_att->name . $source);
                     } else {
-                        if ($attachment->name != $filename) {
-                            $filename = $this->generate_unique_name($filename);
-                        }
-                        $attachment->name = $filename;
-                        $attachment->title = $title;
-                        $attachment->mimetype = $mimetype;
+                        $db_att->name = $filename;
+                        $db_att->title = $title;
+                        $db_att->mimetype = $mimetype;
                     }
-                    if (!$attachment->copy_from_file($data['file']['tmp_name'])) {
+                    if (!$db_att->copy_from_file($source)) {
                         throw new midcom_error('Failed to copy attachment: ' . midcom_connection::get_error_string());
                     }
-                    unlink($data['file']['tmp_name']);
+                    unlink($source);
                 }
                 // No file upload, only title change
-                elseif ($attachment->title != $title) {
-                    $attachment->title = $title;
-                    $attachment->update();
+                elseif ($db_att->title != $att->title) {
+                    $db_att->title = $att->title;
+                    $db_att->update();
                 }
-                $this->map[$identifier] = $attachment;
-                $data['identifier'] = $identifier;
+                $this->map[$identifier] = $db_att;
                 if (!empty($this->config['widget_config']['sortable'])) {
-                    $attachment->metadata->score = (int) $data['score'];
-                    $attachment->update();
+                    $db_att->metadata->score = (int) $att->metadata->score;
+                    $db_att->update();
                 }
             }
         }
         //delete attachments which are no longer in map
-        foreach (array_diff_key($existing, $this->map) as $attachment) {
+        foreach (array_diff_key($atts_in_db, $this->map) as $attachment) {
             $attachment->delete();
         }
 
@@ -181,7 +182,7 @@ class blobs extends delayed
      * @param string $mimetype
      * @throws midcom_error
      */
-    protected function prepare_attachment($attachment, $filename, $title, $mimetype)
+    protected function create_attachment($attachment, $filename, $title, $mimetype)
     {
         $attachment->name = $this->generate_unique_name($filename);
         $attachment->title = $title;

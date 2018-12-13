@@ -32,14 +32,19 @@ class images extends blobs implements recreateable
         if (!parent::save()) {
             return false;
         }
-        foreach ($this->value as $data) {
-            $attachment = $this->map[$data['identifier']];
+
+        $description = '';
+        foreach ($this->value as $key => $attachment) {
+            if ($key === 'description') {
+                $description = $attachment;
+                continue;
+            }
             if (!empty($this->config['type_config']['filter_chain'])) {
                 $this->apply_filter($attachment, $this->config['type_config']['filter_chain']);
             }
             $this->set_imagedata($attachment);
             if (!empty($this->config['widget_config']['show_description'])) {
-                $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'description', $data['description']);
+                $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'description', $description);
             }
         }
         return true;
@@ -64,7 +69,7 @@ class images extends blobs implements recreateable
      * @param string $filterchain The midcom_helper_imagefilter filter chain to apply
      * @param midcom_db_attachment $target The attachment where the changes should be saved
      */
-    protected function apply_filter(midcom_db_attachment $source, $filterchain, $target = null)
+    protected function apply_filter(midcom_db_attachment $source, $filterchain, midcom_db_attachment $target = null)
     {
         if ($target === null) {
             $target = $source;

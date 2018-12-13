@@ -211,11 +211,11 @@ class view extends base
 
     public function image_widget(FormView $view, array $data)
     {
-        if (!array_key_exists('main', $data['value'])) {
+        if (!array_key_exists('main', $data['value']['objects'])) {
             $ret = "";
             if (!empty($data['value'])) {
                 $ret .= $this->renderer->humanize('could not figure out which image to show, listing files') . "<ul>";
-                foreach ($data['value'] as $info) {
+                foreach ($data['value']['objects'] as $info) {
                     $ret .= "<li><a href='{$info['url']}'>{$info['filename']}</a></li>";
                 }
                 $ret .= "</ul>";
@@ -225,27 +225,27 @@ class view extends base
 
         $identifier = 'main';
         $linkto = false;
-        if (array_key_exists('view', $data['value'])) {
+        if (array_key_exists('view', $data['value']['objects'])) {
             $identifier = 'view';
             $linkto = 'main';
-        } elseif (array_key_exists('thumbnail', $data['value'])) {
+        } elseif (array_key_exists('thumbnail', $data['value']['objects'])) {
             $identifier = 'thumbnail';
             $linkto = 'main';
-        } elseif (array_key_exists('archival', $data['value'])) {
+        } elseif (array_key_exists('archival', $data['value']['objects'])) {
             $linkto = 'archival';
         }
 
-        $img = $data['value'][$identifier];
+        $img = $data['value']['objects'][$identifier];
         $return = '<div class="midcom_helper_datamanager2_type_photo">';
         $img_tag = "<img src='{$img['url']}' {$img['size_line']} class='photo {$identifier}' />";
         if ($linkto) {
-            $linked = $data['value'][$linkto];
+            $linked = $data['value']['objects'][$linkto];
             $return .= "<a href='{$linked['url']}' target='_blank' class='{$linkto} {$linked['mimetype']}'>{$img_tag}</a>";
         } else {
             $return .= $img_tag;
         }
-        if (array_key_exists('archival', $data['value'])) {
-            $arch = $data['value']['archival'];
+        if (array_key_exists('archival', $data['value']['objects'])) {
+            $arch = $data['value']['objects']['archival'];
             $return .= "<br/><a href='{$arch['url']}' target='_blank' class='archival {$arch['mimetype']}'>" . $this->renderer->humanize('archived image') . '</a>';
         }
         return $return . '</div>';
