@@ -85,8 +85,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
             $dm->set_storage($data['folder'], 'default');
         }
         $controller = $dm->get_controller();
-
-        if ($controller->process() == 'cancel') {
+        if ($controller->process() === 'cancel') {
             midcom::get()->head->add_jsonload("top.tinymce.activeEditor.windowManager.close();");
         }
         return $controller;

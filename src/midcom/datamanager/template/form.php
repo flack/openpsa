@@ -464,7 +464,7 @@ class form extends base
         $string = '<div' . $this->renderer->block($view, 'widget_container_attributes', ['attr' => ['class' => 'image-container']]) . '>';
         $string .= '<table><tr><td>';
 
-        if (!empty($data['value'])) {
+        if (!empty($data['value']['object'])) {
             if (empty($view->vars['value']['url'])) {
                 $view->vars['value']['url'] = \midcom_db_attachment::get_url($data['value']['object']);
             }

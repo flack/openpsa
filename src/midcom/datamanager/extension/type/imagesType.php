@@ -49,7 +49,7 @@ class imagesType extends AbstractType
         if ($options['widget_config']['show_description']) {
             $builder->add('description', textType::class);
         }
-        $builder->add('identifier', HiddenType::class, ['data' => 'file']);
+        $builder->add('identifier', HiddenType::class);
         if ($options['widget_config']['sortable']) {
             $builder->add('score', HiddenType::class);
         }

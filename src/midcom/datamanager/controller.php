@@ -73,6 +73,9 @@ class controller
         }
         if ($operation == self::SAVE) {
             $storage->save();
+            // This is necessary to get GUIDs and such for dependent objects if the form
+            // is displayed again (i.e. no relocate after save)
+            $this->dm->set_storage($storage->get_value());
         }
 
         if (in_array($operation, [self::CANCEL, self::SAVE])) {
