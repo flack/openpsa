@@ -60,12 +60,12 @@ class imageType extends AbstractType
         $builder->addViewTransformer(new imageTransformer($options));
         $builder->add('file', FileType::class, ['required' => false]);
         if ($options['widget_config']['show_title']) {
-            $builder->add('title', textType::class);
+            $builder->add('title', textType::class, ['required' => false]);
         }
         $builder->add('delete', CheckboxType::class, ['attr' => [
             "class" => "midcom_datamanager_photo_checkbox"
         ], "required" => false ]);
-        $builder->add('identifier', HiddenType::class, ['data' => 'file']);
+        $builder->add('identifier', HiddenType::class);
 
         $head = midcom::get()->head;
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/image.css');

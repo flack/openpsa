@@ -507,7 +507,6 @@ class form extends base
         if (!empty($preview_url)) {
             $string .= '<img src="' . $preview_url . '" class="preview-image">';
         }
-
         $string .= '</td><td>';
 
         if (!empty($objects)) {
@@ -526,11 +525,22 @@ class form extends base
             $string .= '</ul>';
         }
         $string .= $this->renderer->widget($data['form']['file']);
+
+        if (!empty($objects['file'])) {
+            // This is set here because the transformation results are not passed on down
+            // which probably means this has to go into a datamapper at some point
+            $data['form']['identifier']->vars['value'] = $objects['file']['identifier'];
+            if (array_key_exists('title', $view->children)) {
+                $data['form']['title']->vars['value'] = $objects['file']['title'];
+            }
+        }
+
         if (array_key_exists('title', $view->children)) {
             $view->children['title']->vars['attr']['placeholder'] = $this->renderer->humanize('title');
             $string .= $this->renderer->widget($view->children['title']);
         }
         $string .= '</td></tr></table></div>';
+        $string .= $this->renderer->row($data['form']['identifier']);
 
         return $string . $this->jsinit('init_image_widget("' . $view->vars['id'] .'");');
     }

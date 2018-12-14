@@ -34,16 +34,15 @@ class imageTransformer extends blobTransformer
         if (empty($array)) {
             return null;
         }
-
         $result = [];
 
-        if (!empty($array['objects'])) {
+        if (   !empty($array['file'])
+            || !empty($array['identifier']) && substr($array['identifier'], 0, 8) === 'tmpfile-') {
+            $result['file'] = parent::reverseTransform($array);
+        } elseif (!empty($array['objects'])) {
             foreach ($array['objects'] as $key => $value) {
                 $result[$key] = parent::reverseTransform($value);
             }
-        }
-        if (!empty($array['file'])) {
-            $result['file'] = parent::reverseTransform($array);
         }
         if (!empty($array['delete'])) {
             $result['delete'] = $array['delete'];
