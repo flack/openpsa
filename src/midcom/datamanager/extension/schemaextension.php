@@ -19,7 +19,7 @@ class schemaextension extends AbstractExtension
     {
         return [
             new type\autocompleteType,
-            new type\blobsType,
+            new type\downloadsType,
             new type\codemirrorType,
             new type\imagesType,
             new type\jsdateType,

@@ -161,8 +161,7 @@ class schema
         ], $config));
 
         $normalize_widget = function (Options $options, $value) {
-            if (   $value == 'images'
-                || $value == 'downloads') {
+            if ($value == 'images') {
                 return 'subform';
             }
 

@@ -17,7 +17,7 @@ use midcom;
  *
  * Contrary to what the name suggests, this handles one single attachment
  */
-class blobsType extends AbstractType
+class attachmentType extends AbstractType
 {
     /**
      * {@inheritdoc}
