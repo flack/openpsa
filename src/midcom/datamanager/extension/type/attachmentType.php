@@ -28,7 +28,10 @@ class attachmentType extends AbstractType
         $builder->add('file', FileType::class, ['required' => false]);
         $builder->add('identifier', HiddenType::class);
         $builder->addViewTransformer(new blobTransformer($options));
-        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
+
+        $head = midcom::get()->head;
+        $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/attachment.js');
     }
 
     /**
@@ -36,6 +39,6 @@ class attachmentType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'blobs';
+        return 'attachment';
     }
 }

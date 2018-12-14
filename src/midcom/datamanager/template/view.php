@@ -108,7 +108,7 @@ class view extends base
         return $string . '</div></div>';
     }
 
-    public function blobs_row(FormView $view, array $data)
+    public function attachment_row(FormView $view, array $data)
     {
         if (empty($data['value']['url'])) {
             return '';

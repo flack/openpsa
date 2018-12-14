@@ -29,7 +29,7 @@ class csv extends base
         return $this->renderer->block($view, 'form_rows');
     }
 
-    public function blobs_widget(FormView $view, array $data)
+    public function attachment_widget(FormView $view, array $data)
     {
         if (!empty($data['value']['url'])) {
             return $data['value']['url'];

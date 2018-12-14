@@ -172,7 +172,7 @@ class form extends base
         return $string;
     }
 
-    public function blobs_row(FormView $view, array $data)
+    public function attachment_row(FormView $view, array $data)
     {
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<legend>';
@@ -206,7 +206,7 @@ class form extends base
         $string .= $this->renderer->row($data['form']['file']);
         $string .= $this->renderer->row($data['form']['identifier']);
         $string .= '</div></div>';
-
+        $string .= $this->jsinit('dm_attachment_init("' . $data['form']['file']->vars['id'] . '")');
         return $string . '</fieldset>';
     }
 

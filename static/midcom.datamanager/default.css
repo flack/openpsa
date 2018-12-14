@@ -345,6 +345,11 @@ form.datamanager2 .attachment-preview .no-file
     opacity: .3
 }
 
+form.datamanager2 .attachment-preview .unsaved-file
+{
+    opacity: .4
+}
+
 .CodeMirror .activeline
 {
     background-color: #f5f5f5;
