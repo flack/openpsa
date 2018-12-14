@@ -2,6 +2,7 @@
 namespace midcom\datamanager\template;
 
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\ChoiceList\View\ChoiceGroupView;
 
 class csv extends base
 {
@@ -70,9 +71,20 @@ class csv extends base
 
     public function choice_widget_collapsed(FormView $view, array $data)
     {
-        if (!empty($data['data'])) {
+        if (isset($data['data'])) {
+            if (!empty($view->vars['multiple'])) {
+                $selection = $data['data'];
+            } else {
+                $selection = (string) $data['data'];
+            }
             foreach ($data['choices'] as $choice) {
-                if ($data['is_selected']($choice->value, (string) $data['data'])) {
+                if ($choice instanceof ChoiceGroupView) {
+                    foreach ($choice->choices as $option) {
+                        if ($data['is_selected']($option->value, $selection)) {
+                            return $this->renderer->humanize($option->label);
+                        }
+                    }
+                } elseif ($data['is_selected']($choice->value, $selection)) {
                     return $this->renderer->humanize($choice->label);
                 }
             }
