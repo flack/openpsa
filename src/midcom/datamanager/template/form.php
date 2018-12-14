@@ -195,8 +195,8 @@ class form extends base
         }
 
         if (empty($data['value']['id'])) {
-            // This is set here because the transformation results are not passed on down
-            // which probably means this has to go into a datamapper at some point
+            // if we're rendering a temporary file that means there was a validation error or something
+            // Since we can't set the data on the submitted form directly, we do it here
             $data['form']['identifier']->vars['value'] = $data['value']['identifier'];
             $data['form']['title']->vars['value'] = $data['value']['title'];
         }
@@ -527,8 +527,8 @@ class form extends base
         $string .= $this->renderer->widget($data['form']['file']);
 
         if (!empty($objects['file'])) {
-            // This is set here because the transformation results are not passed on down
-            // which probably means this has to go into a datamapper at some point
+            // if we're rendering an uploaded file that means there was a validation error or something
+            // Since we can't set the data on the submitted form directly, we do it here
             $data['form']['identifier']->vars['value'] = $objects['file']['identifier'];
             if (array_key_exists('title', $view->children)) {
                 $data['form']['title']->vars['value'] = $objects['file']['title'];

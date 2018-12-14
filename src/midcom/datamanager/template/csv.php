@@ -50,16 +50,16 @@ class csv extends base
 
     public function image_widget(FormView $view, array $data)
     {
-        if (empty($data['value'])) {
+        if (empty($data['value']['objects'])) {
             return '';
         }
-        if (array_key_exists('archival', $data['value'])) {
-            return $data['value']['archival']['url'];
+        if (array_key_exists('archival', $data['value']['objects'])) {
+            return $data['value']['objects']['archival']['url'];
         }
-        if (array_key_exists('main', $data['value'])) {
-            return $data['value']['main']['url'];
+        if (array_key_exists('main', $data['value']['objects'])) {
+            return $data['value']['objects']['main']['url'];
         }
-        $img = reset($data['value']);
+        $img = reset($data['value']['objects']);
         return $img['url'];
     }
 
