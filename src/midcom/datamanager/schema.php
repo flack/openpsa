@@ -161,10 +161,6 @@ class schema
         ], $config));
 
         $normalize_widget = function (Options $options, $value) {
-            if ($value == 'images') {
-                return 'subform';
-            }
-
             if ($value == 'text') {
                 if (!empty($options['widget_config']['hideinput'])) {
                     return PasswordType::class;

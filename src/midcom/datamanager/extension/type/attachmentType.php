@@ -7,10 +7,13 @@ namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use midcom\datamanager\extension\transformer\blobTransformer;
+use midcom\datamanager\extension\transformer\attachmentTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use midcom;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\Options;
+use midcom\datamanager\extension\helper;
 
 /**
  * Attachment type.
@@ -22,12 +25,36 @@ class attachmentType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setNormalizer('widget_config', function (Options $options, $value) {
+            $widget_defaults = [
+                'map_action_elements' => false,
+                'show_title' => true,
+                'show_description' => false,
+                'sortable' => false
+            ];
+            return helper::resolve_options($widget_defaults, $value);
+        });
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title', textType::class);
-        $builder->add('file', FileType::class, ['required' => false]);
+        $builder->add('file', FileType::class);
+        if ($options['widget_config']['show_title']) {
+            $builder->add('title', textType::class);
+        }
+        if ($options['widget_config']['show_description']) {
+            $builder->add('description', textType::class);
+        }
         $builder->add('identifier', HiddenType::class);
-        $builder->addViewTransformer(new blobTransformer($options));
+        if ($options['widget_config']['sortable']) {
+            $builder->add('score', HiddenType::class);
+        }
+        $builder->addViewTransformer(new attachmentTransformer($options));
 
         $head = midcom::get()->head;
         $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");

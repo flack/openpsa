@@ -150,16 +150,6 @@ class form extends base
         return $string . '</div>';
     }
 
-    public function images_row(FormView $view, array $data)
-    {
-        $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
-        $string .= '<legend>';
-        $string .= (!empty($data['value']['filename'])) ? $data['value']['filename'] : $this->renderer->humanize('add new file');
-        $string .= '</legend>';
-        $string .= $this->renderer->widget($view);
-        return $string . '</fieldset>';
-    }
-
     public function repeated_row(FormView $view, array $data)
     {
         $string = '';
@@ -181,7 +171,11 @@ class form extends base
 
         $string .= '<div class="attachment-container">';
         $string .= '<div class="attachment-preview">';
-        if (!empty($data['value']['filename'])) {
+        if (!empty($data['value']['size_x']) && !empty($data['value']['size_y'])) {
+            $string .= '<a href="' . $data['value']['url'] . '" target="_blank"><img src="' . $data['value']['url'] . '" class="preview-image">';
+            $size = "{$data['value']['size_x']}&times;{$data['value']['size_y']}";
+            $string .= "<br><span title=\"{$data['value']['guid']}\">{$size}, {$data['value']['formattedsize']}</span></a>";
+        } elseif (!empty($data['value']['filename'])) {
             $parts = explode('.', $data['value']['filename']);
             $ext = '';
             if (count($parts) > 1) {
@@ -195,9 +189,10 @@ class form extends base
         }
 
         $string .= '</div><div class="attachment-input">';
-        $string .= $this->renderer->row($data['form']['title']);
-        $string .= $this->renderer->row($data['form']['file']);
-        $string .= $this->renderer->row($data['form']['identifier']);
+        foreach ($view->children as $child) {
+            $string .= $this->renderer->row($child);
+        }
+
         $string .= '</div></div>';
         $string .= $this->jsinit('dm_attachment_init("' . $data['form']['file']->vars['id'] . '")');
         return $string . '</fieldset>';
@@ -450,39 +445,6 @@ class form extends base
             $string .= $data['jsinit'];
         }
         return $string . '</fieldset>';
-    }
-
-    public function images_widget(FormView $view, array $data)
-    {
-        $string = '<div' . $this->renderer->block($view, 'widget_container_attributes', ['attr' => ['class' => 'image-container']]) . '>';
-        $string .= '<table><tr><td>';
-
-        if (!empty($data['value']['object'])) {
-            if (empty($view->vars['value']['url'])) {
-                $view->vars['value']['url'] = \midcom_db_attachment::get_url($data['value']['object']);
-            }
-            $string .= '<a href="' . $view->vars['value']['url'] . '" target="_new"><img src="' . $view->vars['value']['url'] . '" class="preview-image">';
-
-            if (   $data['value']['size_x']
-                && $data['value']['size_y']) {
-                $size = "{$data['value']['size_x']}&times;{$data['value']['size_y']}";
-            } else {
-                $size = $this->renderer->humanize('unknown');
-            }
-            $string .= "<br><span title=\"{$data['value']['guid']}\">{$size}, {$data['value']['formattedsize']}</span></a>";
-        }
-
-        $string .= '</td><td>';
-
-        foreach ($view->children as $child) {
-            $options = [];
-            if ($child->vars['name'] == 'title') {
-                $options = ['value' => $data['value']['title']];
-            }
-            $string .= $this->renderer->row($child, $options);
-        }
-
-        return $string . '</td></tr></table></div>';
     }
 
     public function image_widget(FormView $view, array $data)

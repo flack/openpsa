@@ -71,20 +71,6 @@ ul
     font-weight: bold;
     display: block;
 }
-.image-container table
-{
-    border-collapse: collapse;
-    width: 100%
-}
-.image-container table tr
-{
-    vertical-align: top;
-}
-
-.image-container table td
-{
-    padding: 5px;
-}
 
 form.datamanager2 .element_subform fieldset
 {
@@ -99,42 +85,41 @@ form.datamanager2 .element_subform fieldset legend
     font-weight: normal
 }
 
-.image-container table td:first-child
-{
-    width: 125px;
-}
-
-.attachment-container .attachment-preview
+form.datamanager2 .attachment-container .attachment-preview
 {
     width: 109px;
+    padding: .5em;
 }
 
-.image-container table td .element,
-.attachment-container .attachment-input .element
-{
-    display: flex
-}
-
-.image-container table td .element label,
-.attachment-container .attachment-input label
-{
-    width: 8em;
-}
-
-.image-container table a
+.attachment-container .attachment-preview a
 {
     text-decoration: none;
     color: #204a87;
     font-size: smaller;
 }
 
-form.datamanager2 .input .attachment-container
+
+.attachment-container .attachment-input .element
 {
-    display: block;
+    display: flex
 }
 
-.image-container table .input,
-.image-container table .input .shorttext,
+.attachment-container .attachment-input label
+{
+    width: 8em;
+}
+
+form.datamanager2 .input .attachment-container
+{
+    display: flex;
+}
+
+.attachment-container .attachment-input,
+.attachment-container .attachment-input .input
+{
+    flex-basis: 100%;
+}
+
 .attachment-container .attachment-input .input .shorttext
 {
     width: 100%;

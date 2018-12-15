@@ -9,9 +9,9 @@ namespace midcom\datamanager\test;
 
 use openpsa_testcase;
 use midcom;
-use midcom\datamanager\extension\transformer\blobTransformer;
+use midcom\datamanager\extension\transformer\attachmentTransformer;
 
-class blobTransformerTest extends openpsa_testcase
+class attachmentTransformerTest extends openpsa_testcase
 {
     /**
      * @dataProvider provider_transform
@@ -21,7 +21,7 @@ class blobTransformerTest extends openpsa_testcase
         $config = [
             'widget_config' => ['show_description' => false]
         ];
-        $transformer = new blobTransformer($config);
+        $transformer = new attachmentTransformer($config);
         $this->assertEquals($expected, $transformer->transform($input));
     }
 
@@ -33,7 +33,7 @@ class blobTransformerTest extends openpsa_testcase
         $config = [
             'widget_config' => ['show_description' => false]
         ];
-        $transformer = new blobTransformer($config);
+        $transformer = new attachmentTransformer($config);
         $this->assertEquals($expected, $transformer->reverseTransform($input));
     }
 
@@ -78,7 +78,7 @@ class blobTransformerTest extends openpsa_testcase
         $config = [
             'widget_config' => ['show_description' => false]
         ];
-        $transformer = new blobTransformer($config);
+        $transformer = new attachmentTransformer($config);
 
         $path = midcom::get()->config->get('midcom_tempdir') . '/test';
         file_put_contents($path, 'test');
@@ -132,7 +132,7 @@ class blobTransformerTest extends openpsa_testcase
         $config = [
             'widget_config' => ['show_description' => false]
         ];
-        $transformer = new blobTransformer($config);
+        $transformer = new attachmentTransformer($config);
 
         $path = midcom::get()->config->get('midcom_tempdir') . '/tmpfile-9dc7ded0fb8f77a341cda2ebd4a698df';
         file_put_contents($path, 'test');

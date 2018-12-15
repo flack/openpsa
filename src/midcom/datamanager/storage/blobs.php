@@ -93,6 +93,9 @@ class blobs extends delayed
                     $db_att->metadata->score = (int) $att->metadata->score;
                     $db_att->update();
                 }
+                if (!empty($this->config['widget_config']['show_description'])) {
+                    $db_att->set_parameter('midcom.helper.datamanager2.type.blobs', 'description', $this->value['description']);
+                }
             }
         }
         //delete attachments which are no longer in map

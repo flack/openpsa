@@ -15,7 +15,7 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 /**
  * Experimental blobs transformer
  */
-class blobTransformer implements DataTransformerInterface
+class attachmentTransformer implements DataTransformerInterface
 {
     protected $config;
 

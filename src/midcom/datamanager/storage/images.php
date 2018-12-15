@@ -35,19 +35,14 @@ class images extends blobs implements recreateable
             return false;
         }
 
-        $description = '';
         foreach ($this->value as $key => $attachment) {
             if ($key === 'description') {
-                $description = $attachment;
                 continue;
             }
             if (!empty($this->config['type_config']['filter_chain'])) {
                 $this->apply_filter($attachment, $this->config['type_config']['filter_chain']);
             }
             $this->set_imagedata($attachment);
-            if (!empty($this->config['widget_config']['show_description'])) {
-                $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'description', $description);
-            }
         }
         return true;
     }

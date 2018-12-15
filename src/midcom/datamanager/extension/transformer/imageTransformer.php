@@ -10,7 +10,7 @@ namespace midcom\datamanager\extension\transformer;
  *
  * This handles multiple attachments because of filter chains and such
  */
-class imageTransformer extends blobTransformer
+class imageTransformer extends attachmentTransformer
 {
     public function transform($input)
     {
