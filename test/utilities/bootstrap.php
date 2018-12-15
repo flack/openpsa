@@ -45,6 +45,7 @@ openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR);
 openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs');
 openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/themes');
 openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache');
+openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/tmp');
 openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs');
 openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs');
 
@@ -64,6 +65,9 @@ if (empty($GLOBALS['midcom_config_local']['midcom_services_rcs_root'])) {
 }
 if (empty($GLOBALS['midcom_config_local']['cache_base_directory'])) {
     $GLOBALS['midcom_config_local']['cache_base_directory'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/';
+}
+if (empty($GLOBALS['midcom_config_local']['midcom_tempdir'])) {
+    $GLOBALS['midcom_config_local']['midcom_tempdir'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/tmp/';
 }
 if (   empty($GLOBALS['midcom_config_local']['log_filename'])
     || !file_exists(dirname($GLOBALS['midcom_config_local']['log_filename']))) {
