@@ -26,6 +26,11 @@ abstract class container implements node, \ArrayAccess, \Iterator
     protected $schema;
 
     /**
+     * @var string
+     */
+    private $last_operation;
+
+    /**
      * @return boolean
      */
     abstract public function lock();
@@ -39,6 +44,16 @@ abstract class container implements node, \ArrayAccess, \Iterator
      * @return boolean
      */
     abstract public function is_locked();
+
+    public function get_last_operation()
+    {
+        return $this->last_operation;
+    }
+
+    public function set_last_operation($operation)
+    {
+        $this->last_operation = $operation;
+    }
 
     public function __get($name)
     {

@@ -9,6 +9,7 @@ use midcom;
 use midcom_connection;
 use midcom_error;
 use Symfony\Component\Form\Form;
+use midcom\datamanager\storage\container\dbacontainer;
 
 /**
  * Experimental controller class
@@ -73,9 +74,6 @@ class controller
         }
         if ($operation == self::SAVE) {
             $storage->save();
-            // This is necessary to get GUIDs and such for dependent objects if the form
-            // is displayed again (i.e. no relocate after save)
-            $this->dm->set_storage($storage->get_value());
         }
 
         if (in_array($operation, [self::CANCEL, self::SAVE])) {
@@ -83,6 +81,7 @@ class controller
         } else {
             $storage->lock();
         }
+        $storage->set_last_operation($operation);
 
         return $operation;
     }
@@ -136,6 +135,14 @@ class controller
             midcom::get()->style->data['handler'] = $this;
             midcom::get()->style->show_midcom('midcom_datamanager_unlock');
         } else {
+            if ($storage instanceof dbacontainer && $this->form->isSubmitted()) {
+                // This is most likely a form submission without relocate
+                if ($storage->get_last_operation() === self::SAVE) {
+                    // This gets GUIDs and such for new-created dependent objects
+                    $this->dm->set_storage($storage->get_value(), $this->dm->get_schema()->get_name());
+                }
+            }
+
             $renderer = $this->dm->get_renderer('form');
             echo $renderer->block($renderer->get_view(), 'form');
         }
