@@ -33,7 +33,6 @@ class blobTransformer implements DataTransformerInterface
             throw new UnexpectedTypeException($input, midcom_db_attachment::class);
         }
 
-        $stats = $input->stat();
         $description = $input->title;
         if (!empty($this->config['widget_config']['show_description'])) {
             $description = $input->get_parameter('midcom.helper.datamanager2.type.blobs', 'description');
@@ -42,8 +41,10 @@ class blobTransformer implements DataTransformerInterface
         // Check for nonpersistent entries (which we mainly get in when there's a validation error)
         if (empty($input->guid)) {
             $identifier = substr($input->location, strlen(midcom::get()->config->get('midcom_tempdir')) + 1);
+            $stats = stat($input->location);
         } else {
             $identifier = $input->guid;
+            $stats = $input->stat();
         }
 
         return [
@@ -72,12 +73,14 @@ class blobTransformer implements DataTransformerInterface
         if (empty($array)) {
             return null;
         }
+
         $title = $array['title'];
 
         if (!empty($array['file'])) {
             $attachment = new midcom_db_attachment;
             $attachment->name = $array['file']['name'];
-            $attachment->location = midcom::get()->config->get('midcom_tempdir') . '/tmpfile-' . md5($array['file']['tmp_name']);
+            $attachment->mimetype = $array['file']['type'];
+            $attachment->location = midcom::get()->config->get('midcom_tempdir') . '/tmpfile-' . md5(implode('', $array['file']));
             if (empty($title)) {
                 $title = $attachment->name;
             }
