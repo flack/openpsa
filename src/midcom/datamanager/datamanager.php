@@ -215,10 +215,14 @@ class datamanager
     /**
      *
      * @param string $name
+     * @param boolean $reset
      * @return Form
      */
-    public function get_form($name = null)
+    public function get_form($name = null, $reset = false)
     {
+        if ($reset) {
+            $this->form = null;
+        }
         if ($name == null) {
             $name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
             // Replace the dots in the component name with underscores

@@ -24,6 +24,9 @@ class imageTransformer extends blobTransformer
                 $result[$key] = $value;
             } else {
                 $result['objects'][$key] = parent::transform($value);
+                if ($key === 'file') {
+                    $result['identifier'] = $result['objects'][$key]['identifier'];
+                }
             }
         }
         return $result;
@@ -35,7 +38,6 @@ class imageTransformer extends blobTransformer
             return null;
         }
         $result = [];
-
         if (   !empty($array['file'])
             || !empty($array['identifier']) && substr($array['identifier'], 0, 8) === 'tmpfile-') {
             $result['file'] = parent::reverseTransform($array);

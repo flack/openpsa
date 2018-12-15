@@ -9,6 +9,7 @@ use midcom_core_dbaobject;
 use midcom\datamanager\schema;
 use midcom\datamanager\storage\transientnode;
 use midcom\datamanager\storage\node;
+use midcom\datamanager\storage\blobs;
 
 /**
  * Experimental storage baseclass
@@ -126,5 +127,16 @@ class dbacontainer extends container
         foreach ($this->fields as $node) {
             $node->save();
         }
+    }
+
+    public function move_uploaded_files()
+    {
+        $total_moved = 0;
+        foreach ($this->fields as $node) {
+            if ($node instanceof blobs) {
+                $total_moved += $node->move_uploaded_files();
+            }
+        }
+        return $total_moved;
     }
 }

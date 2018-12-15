@@ -29,6 +29,7 @@ class blobTransformer implements DataTransformerInterface
         if (empty($input)) {
             return null;
         }
+
         if (! $input instanceof midcom_db_attachment) {
             throw new UnexpectedTypeException($input, midcom_db_attachment::class);
         }
@@ -80,16 +81,16 @@ class blobTransformer implements DataTransformerInterface
             $attachment = new midcom_db_attachment;
             $attachment->name = $array['file']['name'];
             $attachment->mimetype = $array['file']['type'];
-            $attachment->location = midcom::get()->config->get('midcom_tempdir') . '/tmpfile-' . md5(implode('', $array['file']));
+            $attachment->location = $array['file']['tmp_name'];
+
             if (empty($title)) {
                 $title = $attachment->name;
             }
-            move_uploaded_file($array['file']['tmp_name'], $attachment->location);
         } elseif (substr($array['identifier'], 0, 8) === 'tmpfile-') {
             $tmpfile = midcom::get()->config->get('midcom_tempdir') . '/' . $array['identifier'];
             if (file_exists($tmpfile)) {
                 $attachment = new midcom_db_attachment;
-                $attachment->name = $array['title'] ?: $array['identifier'];
+                $attachment->name = $title ?: $array['identifier'];
                 $attachment->location = $tmpfile;
             }
         } elseif (!empty($array['object'])) {

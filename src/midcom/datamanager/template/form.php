@@ -194,13 +194,6 @@ class form extends base
             $string .= '<span class="icon no-file"><i class="fa fa-file-o"></i></span>';
         }
 
-        if (empty($data['value']['id'])) {
-            // if we're rendering a temporary file that means there was a validation error or something
-            // Since we can't set the data on the submitted form directly, we do it here
-            $data['form']['identifier']->vars['value'] = $data['value']['identifier'];
-            $data['form']['title']->vars['value'] = $data['value']['title'];
-        }
-
         $string .= '</div><div class="attachment-input">';
         $string .= $this->renderer->row($data['form']['title']);
         $string .= $this->renderer->row($data['form']['file']);
@@ -525,15 +518,6 @@ class form extends base
             $string .= '</ul>';
         }
         $string .= $this->renderer->widget($data['form']['file']);
-
-        if (!empty($objects['file'])) {
-            // if we're rendering an uploaded file that means there was a validation error or something
-            // Since we can't set the data on the submitted form directly, we do it here
-            $data['form']['identifier']->vars['value'] = $objects['file']['identifier'];
-            if (array_key_exists('title', $view->children)) {
-                $data['form']['title']->vars['value'] = $objects['file']['title'];
-            }
-        }
 
         if (array_key_exists('title', $view->children)) {
             $view->children['title']->vars['attr']['placeholder'] = $this->renderer->humanize('title');

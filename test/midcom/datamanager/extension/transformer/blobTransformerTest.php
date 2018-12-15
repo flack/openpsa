@@ -80,36 +80,29 @@ class blobTransformerTest extends openpsa_testcase
         ];
         $transformer = new blobTransformer($config);
 
-        $source_path = midcom::get()->config->get('midcom_tempdir') . '/test';
-        $file = [
-            'error' => 0,
-            'name' => 'test.txt',
-            'type' => 'text/plain',
-            'tmp_name' => $source_path,
-            'size' => 4
-        ];
-        $identifier = md5(implode('', $file));
-
-        $target_path = midcom::get()->config->get('midcom_tempdir') . '/tmpfile-' . $identifier;
-        file_put_contents($source_path, 'test');
+        $path = midcom::get()->config->get('midcom_tempdir') . '/test';
+        file_put_contents($path, 'test');
+        $time = time();
 
         $input = [
             'title' => null,
             'identifier' => null,
-            'file' => $file
+            'file' => [
+                'error' => 0,
+                'name' => 'test.txt',
+                'type' => 'text/plain',
+                'tmp_name' => $path,
+                'size' => 4
+            ]
         ];
 
         $rt_expected = new \midcom_db_attachment();
         $rt_expected->name = 'test.txt';
         $rt_expected->title = 'test.txt';
         $rt_expected->mimetype = 'text/plain';
-        $rt_expected->location = $target_path;
+        $rt_expected->location = $path;
 
         $this->assertEquals($rt_expected, $transformer->reverseTransform($input));
-
-        // move_uploaded_file fails on our fake upload, so we do it manually
-        rename($source_path, $target_path);
-        $time = time();
 
         $t_expected = [
             'object' => $rt_expected,
@@ -128,7 +121,7 @@ class blobTransformerTest extends openpsa_testcase
             'size_y' => null,
             'size_line' => null,
             'score' => 0,
-            'identifier' => 'tmpfile-' . $identifier,
+            'identifier' => 'test',
         ];
 
         $this->assertEquals($t_expected, $transformer->transform($rt_expected));

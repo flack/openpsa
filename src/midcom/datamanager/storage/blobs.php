@@ -10,6 +10,7 @@ use midcom_db_attachment;
 use midcom_helper_reflector_nameresolver;
 use midcom_error;
 use midcom_connection;
+use midcom;
 
 /**
  * Experimental storage class
@@ -109,6 +110,33 @@ class blobs extends delayed
         }
 
         return $this->save_attachment_list();
+    }
+
+    public function move_uploaded_files()
+    {
+        $total_moved = 0;
+
+        foreach ($this->value as $identifier => $att) {
+            if (!is_a($att, midcom_db_attachment::class)) {
+                continue;
+            }
+            if ($att->id !== 0) {
+                continue;
+            }
+            $prefix = midcom::get()->config->get('midcom_tempdir') . '/tmpfile-';
+            if (substr($att->location, 0, strlen($prefix)) === $prefix) {
+                continue;
+            }
+            $total_moved++;
+
+            $source = $att->location;
+            $att->location = $prefix . md5(time() . $att->name . $source);
+            $att->title = $att->name;
+
+            move_uploaded_file($source, $att->location);
+        }
+
+        return $total_moved;
     }
 
     /**

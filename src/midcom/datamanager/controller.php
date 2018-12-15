@@ -10,6 +10,7 @@ use midcom_connection;
 use midcom_error;
 use Symfony\Component\Form\Form;
 use midcom\datamanager\storage\container\dbacontainer;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * Experimental controller class
@@ -136,15 +137,30 @@ class controller
             midcom::get()->style->show_midcom('midcom_datamanager_unlock');
         } else {
             if ($storage instanceof dbacontainer && $this->form->isSubmitted()) {
-                // This is most likely a form submission without relocate
+                // This is either a save without relocate or a validation error
                 if ($storage->get_last_operation() === self::SAVE) {
-                    // This gets GUIDs and such for new-created dependent objects
+                    // Get GUIDs and such for new-created dependent objects
                     $this->dm->set_storage($storage->get_value(), $this->dm->get_schema()->get_name());
+                } elseif (   !$this->form->isValid()
+                          && $storage->move_uploaded_files() > 0) {
+                    $form = $this->dm->get_form($this->form->getName(), true);
+                    $this->copy_errors($this->form, $form);
                 }
             }
 
             $renderer = $this->dm->get_renderer('form');
             echo $renderer->block($renderer->get_view(), 'form');
+        }
+    }
+
+    private function copy_errors(FormInterface $from, FormInterface $to)
+    {
+        foreach ($from->getErrors() as $error) {
+            $to->addError($error);
+        }
+
+        foreach ($from->all() as $key => $child) {
+            $this->copy_errors($child, $to->get($key));
         }
     }
 
