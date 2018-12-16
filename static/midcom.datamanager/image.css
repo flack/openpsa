@@ -2,14 +2,21 @@
     width: 100%;
 }
 
-.delete > .midcom_datamanager_table_photo{
-    opacity: 0.5;
+.midcom_datamanager_table_photo .unsaved-file {
+    opacity: .7
+}
+
+.midcom_datamanager_table_photo .delete {
+    opacity: .5;
+    pointer-events: none;
 }
 
 .midcom_datamanager_photo_checkbox{
-    float:right;
+    float: right;
 }
 
 .midcom_datamanager_photo_label{
     float: right;
+    position: relative;
+    top: -.5em;
 }
