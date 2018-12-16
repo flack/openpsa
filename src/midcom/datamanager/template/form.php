@@ -451,16 +451,20 @@ class form extends base
     {
         $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<table class="midcom_datamanager_table_photo"><tr><td>';
-        $preview_url = null;
+        $preview = null;
         $objects = $data['value']['objects'];
         foreach ($objects as $identifier => $info) {
-            $preview_url = $info['url'];
+            $preview = $info;
             if ($identifier == 'thumbnail') {
                 break;
             }
         }
-        if (!empty($preview_url)) {
-            $string .= '<img src="' . $preview_url . '" class="preview-image">';
+        if (!empty($preview)) {
+            if ($preview['id'] === 0) {
+                $preview['url'] = \midcom_connection::get('self') . 'midcom-exec-midcom.datamanager/preview-tmpfile.php?identifier=' . substr($preview['identifier'], strlen('tmpfile-'));
+            }
+
+            $string .= '<img src="' . $preview['url'] . '" class="preview-image">';
         }
         $string .= '</td><td>';
 
