@@ -40,13 +40,12 @@ class subformType extends CollectionType
                 return compat::get_type_name($options['dm2_type']);
             }
         ]);
-        $resolver->setNormalizer('type_config', function (Options $options, $value) {
-            $widget_defaults = [
+        helper::add_normalizers($resolver, [
+            'type_config' => [
                 'sortable' => false,
                 'max_count' => 0
-            ];
-            return helper::resolve_options($widget_defaults, $value);
-        });
+            ]
+        ]);
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
             $validation = [];
             if ($options['type_config']['max_count'] > 0) {

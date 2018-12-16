@@ -64,7 +64,7 @@ class radiocheckselectType extends ChoiceType
                 'multiple_storagemode' => 'serialized',
                 'multiple_separator' => '|'
             ];
-            return helper::resolve_options($type_defaults, $value);
+            return helper::normalize($type_defaults, $value);
         });
     }
 

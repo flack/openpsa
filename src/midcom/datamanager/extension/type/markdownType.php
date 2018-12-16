@@ -40,14 +40,13 @@ class markdownType extends TextareaType
             'attr' => $map_attr,
         ]);
 
-        $resolver->setNormalizer('type_config', function (Options $options, $value) {
-            $type_defaults = [
+        helper::add_normalizers($resolver, [
+            'type_config' => [
                 'output_mode' => 'html',
                 'specialchars_quotes' => ENT_QUOTES,
                 'specialchars_charset' => 'UTF-8'
-            ];
-            return helper::resolve_options($type_defaults, $value);
-        });
+            ]
+        ]);
     }
 
     /**

@@ -40,6 +40,14 @@ class jsdateType extends AbstractType
         $resolver->setDefaults([
             'error_bubbling' => false
         ]);
+        helper::add_normalizers($resolver, [
+            'type_config' => [
+                'storage_type' => self::ISO,
+                'min_date' => null,
+                'max_date' => null,
+                'later_than' => null
+            ]
+        ]);
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
             $widget_defaults = [
                 'showOn' => 'both',
@@ -49,16 +57,7 @@ class jsdateType extends AbstractType
                 'maxyear' => ($options['type_config']['storage_type'] == self::UNIXTIME) ? 2030 : 9999,
                 'minyear' => ($options['type_config']['storage_type'] == self::UNIXTIME) ? 1970 : 0,
             ];
-            return helper::resolve_options($widget_defaults, $value);
-        });
-        $resolver->setNormalizer('type_config', function (Options $options, $value) {
-            $type_defaults = [
-                'storage_type' => self::ISO,
-                'min_date' => null,
-                'max_date' => null,
-                'later_than' => null
-            ];
-            return helper::resolve_options($type_defaults, $value);
+            return helper::normalize($widget_defaults, $value);
         });
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
             if ($options['type_config']['later_than']) {

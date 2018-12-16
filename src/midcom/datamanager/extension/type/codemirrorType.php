@@ -51,19 +51,16 @@ class codemirrorType extends TextareaType
             'config' => $get_config
         ]);
 
-        $resolver->setNormalizer('widget_config', function (Options $options, $value) {
-            $widget_defaults = [
+        helper::add_normalizers($resolver, [
+            'widget_config' => [
                 'enabled' => true,
                 'language' => 'php',
-            ];
-            return helper::resolve_options($widget_defaults, $value);
-        });
-        $resolver->setNormalizer('type_config', function (Options $options, $value) {
-            $type_defaults = [
+            ],
+            'type_config' => [
                 'modes' => ['xml', 'javascript', 'css', 'clike', 'php'],
-            ];
-            return helper::resolve_options($type_defaults, $value);
-        });
+            ]
+        ]);
+
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
             if ($options['dm2_type'] == 'php') {
                 $value[] = new php;

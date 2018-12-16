@@ -66,15 +66,14 @@ class selectType extends ChoiceType
                 'multiple_storagemode' => 'serialized',
                 'multiple_separator' => '|'
             ];
-            return helper::resolve_options($type_defaults, $value);
+            return helper::normalize($type_defaults, $value);
         });
-        $resolver->setNormalizer('widget_config', function (Options $options, $value) {
-            $widget_defaults = [
+        helper::add_normalizers($resolver, [
+            'widget_config' => [
                 'height' => 6,
                 'jsevents' => []
-            ];
-            return helper::resolve_options($widget_defaults, $value);
-        });
+            ]
+        ]);
     }
 
     /**

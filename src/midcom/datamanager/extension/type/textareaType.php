@@ -29,8 +29,8 @@ class textareaType extends base
         parent::configureOptions($resolver);
 
         $resolver->setDefault('constraints', []);
-        $resolver->setNormalizer('type_config', function (Options $options, $value) {
-            $type_defaults = [
+        helper::add_normalizers($resolver, [
+            'type_config' => [
                 'output_mode' => 'html',
                 'specialchars_quotes' => ENT_QUOTES,
                 'specialchars_charset' => 'UTF-8',
@@ -38,9 +38,8 @@ class textareaType extends base
                 'maxlength' => 0,
                 'purify' => false,
                 'purify_config' => []
-            ];
-            return helper::resolve_options($type_defaults, $value);
-        });
+            ]
+        ]);
         $resolver->setNormalizer('attr', function (Options $options, $value) {
             if (!empty($options['widget_config']['height'])) {
                 $value['rows'] = $options['widget_config']['height'];

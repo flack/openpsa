@@ -39,15 +39,14 @@ class privilegeType extends RadioType
             'expanded' => true,
         ]);
 
-        $resolver->setNormalizer('type_config', function (Options $options, $value) {
-            $type_defaults = [
+        helper::add_normalizers($resolver, [
+            'type_config' => [
                 'classname' => '',
                 'assignee' => null,
                 'privilege_name' => null,
                 'privilege' => null
-            ];
-            return helper::resolve_options($type_defaults, $value);
-        });
+            ]
+        ]);
     }
 
     /**

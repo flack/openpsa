@@ -27,16 +27,15 @@ class urlnameType extends textType
             'write_privilege' => ['privilege' => 'midcom:urlname']
         ]);
 
-        $resolver->setNormalizer('type_config', function (Options $options, $value) {
-            $type_defaults = [
+        helper::add_normalizers($resolver, [
+            'type_config' => [
                 'allow_catenate' => false,
                 'allow_unclean' => false,
                 'title_field' => 'title',
                 'purify' => false,
                 'purify_config' => []
-            ];
-            return helper::resolve_options($type_defaults, $value);
-        });
+            ]
+        ]);
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
             $validator_options = [
                 'allow_catenate' => $options['type_config']['allow_catenate'],

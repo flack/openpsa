@@ -12,7 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use midcom;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\Options;
 use midcom\datamanager\extension\helper;
 
 /**
@@ -27,15 +26,14 @@ class attachmentType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setNormalizer('widget_config', function (Options $options, $value) {
-            $widget_defaults = [
+        helper::add_normalizers($resolver, [
+            'widget_config' => [
                 'map_action_elements' => false,
                 'show_title' => true,
                 'show_description' => false,
                 'sortable' => false
-            ];
-            return helper::resolve_options($widget_defaults, $value);
-        });
+            ]
+        ]);
     }
 
     /**

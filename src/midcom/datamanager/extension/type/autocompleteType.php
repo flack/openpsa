@@ -63,7 +63,7 @@ class autocompleteType extends AbstractType
                 $value = array_merge($config[$value['clever_class']], $value);
             }
 
-            return helper::resolve_options($widget_defaults, $value);
+            return helper::normalize($widget_defaults, $value);
         });
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
             $type_defaults = [
@@ -76,7 +76,7 @@ class autocompleteType extends AbstractType
                 'multiple_separator' => '|'
             ];
 
-            $resolved = helper::resolve_options($type_defaults, $value);
+            $resolved = helper::normalize($type_defaults, $value);
             if (empty($resolved['constraints']) && !empty($options['widget_config']['constraints'])) {
                 $resolved['constraints'] = $options['widget_config']['constraints'];
             }

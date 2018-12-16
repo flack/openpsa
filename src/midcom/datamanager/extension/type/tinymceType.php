@@ -46,6 +46,10 @@ class tinymceType extends TextareaType
             'config' => $get_config
         ]);
 
+        helper::add_normalizers($resolver, [
+            'type_config' => []
+        ]);
+
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
             $widget_defaults = [
                 'mode' => 'exact',
@@ -54,13 +58,7 @@ class tinymceType extends TextareaType
                 'use_imagepopup' => true,
                 'mce_config_snippet' => null
             ];
-            return helper::resolve_options($widget_defaults, $value);
-        });
-        $resolver->setNormalizer('type_config', function (Options $options, $value) {
-            $type_defaults = [
-
-            ];
-            return helper::resolve_options($type_defaults, $value);
+            return helper::normalize($widget_defaults, $value);
         });
     }
 

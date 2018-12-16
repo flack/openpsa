@@ -30,20 +30,17 @@ class imageType extends AbstractType
         $resolver->setDefaults([
             'error_bubbling' => false
         ]);
-        $resolver->setNormalizer('widget_config', function (Options $options, $value) {
-            $widget_defaults = [
+        helper::add_normalizers($resolver, [
+            'widget_config' => [
                 'map_action_elements' => false,
                 'show_title' => true
-            ];
-            return helper::resolve_options($widget_defaults, $value);
-        });
-        $resolver->setNormalizer('type_config', function (Options $options, $value) {
-            $type_defaults = [
+            ],
+            'type_config' => [
                 'derived_images' => [],
                 'filter_chain' => null
-            ];
-            return helper::resolve_options($type_defaults, $value);
-        });
+            ]
+        ]);
+
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
             if ($options['required']) {
                 return [new constraint()];
