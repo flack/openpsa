@@ -8,6 +8,11 @@ php:
   - 7.2
   - 7.3
 
+
+matrix:
+  allow_failures:
+  - php: 7.3
+
 before_script:
   - ./test/travis.sh
 

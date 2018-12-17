@@ -82,7 +82,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         if (empty($text)) {
             return $fulltag;
         }
-        $target = ucfirst(strtolower(preg_replace('/[\s-,.\']+/', "_", $text)));
+        $target = ucfirst(strtolower(preg_replace('/[\s\-,.\']+/', "_", $text)));
         $url = "http://en.wikipedia.org/wiki/{$target}";
         return "<a href=\"{$url}\" class=\"wikipedia\">{$text}</a>{$after}";
     }
