@@ -483,6 +483,7 @@ class form extends base
             }
             $string .= '</ul>';
         }
+        $string .= $this->renderer->errors($data['form']['file']);
         $string .= $this->renderer->widget($data['form']['file']);
 
         if (array_key_exists('title', $view->children)) {

@@ -72,6 +72,7 @@ class imageTransformerTest extends openpsa_testcase
                        'size_line' => null,
                        'score' => 0,
                        'identifier' => $att->guid,
+                       'file' => null
                    ]
                ]
            ]]

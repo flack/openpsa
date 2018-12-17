@@ -13,10 +13,10 @@ use midcom\datamanager\extension\helper;
 use midcom;
 use midcom\datamanager\extension\transformer\imageTransformer;
 use midcom\datamanager\validation\image as constraint;
+use Symfony\Component\Validator\Constraints\Image as sf_constraint;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-
 /**
  * Experimental image type
  */
@@ -27,9 +27,6 @@ class imageType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'error_bubbling' => false
-        ]);
         helper::add_normalizers($resolver, [
             'widget_config' => [
                 'map_action_elements' => false,
@@ -43,11 +40,10 @@ class imageType extends AbstractType
         ]);
 
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
-            $constraint = new constraint([
-                'required' => $options['required'],
-                'config' => $options['type_config']
-            ]);
-            return [$constraint];
+            if ($options['required']) {
+                return [new constraint(['config' => $options['type_config']])];
+            }
+            return [];
         });
     }
 
@@ -57,7 +53,10 @@ class imageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addViewTransformer(new imageTransformer($options));
-        $builder->add('file', FileType::class, ['required' => false]);
+        $builder->add('file', FileType::class, [
+            'required' => false,
+            'constraints' => [new sf_constraint]
+        ]);
         if ($options['widget_config']['show_title']) {
             $builder->add('title', textType::class, ['required' => false]);
         }

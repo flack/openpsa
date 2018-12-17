@@ -11,6 +11,7 @@ use midcom_error;
 use Symfony\Component\Form\Form;
 use midcom\datamanager\storage\container\dbacontainer;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Experimental controller class
@@ -62,7 +63,7 @@ class controller
                 midcom::get()->uimessages->add($l10n->get('midcom.datamanager'), sprintf($l10n->get('failed to unlock, reason %s'), midcom_connection::get_error_string()), 'error');
             }
         } elseif (!$this->form->isSubmitted()) {
-            $this->form->handleRequest();
+            $this->form->handleRequest(Request::createFromGlobals());
             if (   $this->form->isSubmitted()
                 && $button = $this->form->getClickedButton()) {
                 $operation = $button->getConfig()->getOption('operation');

@@ -11,6 +11,7 @@ use midcom_db_attachment;
 use midcom_helper_misc;
 use midcom;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Experimental blobs transformer
@@ -43,9 +44,11 @@ class attachmentTransformer implements DataTransformerInterface
         if (empty($input->guid)) {
             $identifier = substr($input->location, strlen(midcom::get()->config->get('midcom_tempdir')) + 1);
             $stats = stat($input->location);
+            $file = new UploadedFile($input->location, $input->name);
         } else {
             $identifier = $input->guid;
             $stats = $input->stat();
+            $file = null;
         }
 
         return [
@@ -65,7 +68,8 @@ class attachmentTransformer implements DataTransformerInterface
             'size_line' => $input->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_line'),
             'object' => $input,
             'score' => $input->metadata->score,
-            'identifier' => $identifier
+            'identifier' => $identifier,
+            'file' => $file
         ];
     }
 
@@ -77,11 +81,11 @@ class attachmentTransformer implements DataTransformerInterface
 
         $title = $array['title'];
 
-        if (!empty($array['file'])) {
+        if (!empty($array['file']) && $array['file'] instanceof UploadedFile) {
             $attachment = new midcom_db_attachment;
-            $attachment->name = $array['file']['name'];
-            $attachment->mimetype = $array['file']['type'];
-            $attachment->location = $array['file']['tmp_name'];
+            $attachment->name = $array['file']->getClientOriginalName();
+            $attachment->mimetype = $array['file']->getMimeType();
+            $attachment->location = $array['file']->getPathname();
 
             if (empty($title)) {
                 $title = $attachment->name;

@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use midcom;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use midcom\datamanager\extension\helper;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * Attachment type.
@@ -41,7 +42,7 @@ class attachmentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('file', FileType::class);
+        $builder->add('file', FileType::class, ['constraints' => [new File()]]);
         if ($options['widget_config']['show_title']) {
             $builder->add('title', textType::class);
         }

@@ -10,6 +10,7 @@ namespace midcom\datamanager\test;
 use openpsa_testcase;
 use midcom;
 use midcom\datamanager\extension\transformer\attachmentTransformer;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class attachmentTransformerTest extends openpsa_testcase
 {
@@ -69,6 +70,7 @@ class attachmentTransformerTest extends openpsa_testcase
                'size_line' => null,
                'score' => 0,
                'identifier' => $att->guid,
+               'file' => null
            ]]
         ];
     }
@@ -83,17 +85,12 @@ class attachmentTransformerTest extends openpsa_testcase
         $path = midcom::get()->config->get('midcom_tempdir') . '/test';
         file_put_contents($path, 'test');
         $time = time();
+        $file = new UploadedFile($path, 'test.txt');
 
         $input = [
             'title' => null,
             'identifier' => null,
-            'file' => [
-                'error' => 0,
-                'name' => 'test.txt',
-                'type' => 'text/plain',
-                'tmp_name' => $path,
-                'size' => 4
-            ]
+            'file' => $file
         ];
 
         $rt_expected = new \midcom_db_attachment();
@@ -122,6 +119,7 @@ class attachmentTransformerTest extends openpsa_testcase
             'size_line' => null,
             'score' => 0,
             'identifier' => 'test',
+            'file' => $file
         ];
 
         $this->assertEquals($t_expected, $transformer->transform($rt_expected));
@@ -143,6 +141,7 @@ class attachmentTransformerTest extends openpsa_testcase
             'identifier' => 'tmpfile-9dc7ded0fb8f77a341cda2ebd4a698df',
             'file' => null
         ];
+        $file = new UploadedFile($path, 'test.txt');
 
         $rt_expected = new \midcom_db_attachment();
         $rt_expected->name = 'test.txt';
@@ -169,6 +168,7 @@ class attachmentTransformerTest extends openpsa_testcase
             'size_line' => null,
             'score' => 0,
             'identifier' => 'tmpfile-9dc7ded0fb8f77a341cda2ebd4a698df',
+            'file' => $file
         ];
 
         $this->assertEquals($t_expected, $transformer->transform($rt_expected));

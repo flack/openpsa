@@ -23,6 +23,7 @@ use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use midcom\datamanager\storage\recreateable;
 use midcom\datamanager\extension\type\formType;
 use midcom\datamanager\extension\type\toolbarType;
+use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
 
 /**
  * Experimental datamanager class
@@ -97,6 +98,7 @@ class datamanager
 
             $fb->addExtension(new schemaextension())
                 ->addExtension(new CoreExtension())
+                ->addExtension(new HttpFoundationExtension())
                 ->addExtension(new CsrfExtension(new CsrfTokenManager, $translator));
 
             $fb->addExtension(new ValidatorExtension($vb->getValidator()));

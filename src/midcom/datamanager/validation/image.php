@@ -13,6 +13,4 @@ class image extends base
      * @var array
      */
     public $config = [];
-
-    public $required = false;
 }
