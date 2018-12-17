@@ -78,7 +78,7 @@ class compat
 
     private static function build_constraints($config)
     {
-        $constraints = [];
+        $constraints = !empty($config['constraints']) ? $config['constraints'] : [];
 
         foreach ((array) $config['validation'] as $rule) {
             if (is_object($rule)) {
