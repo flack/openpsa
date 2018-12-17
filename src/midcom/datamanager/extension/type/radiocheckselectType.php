@@ -73,7 +73,7 @@ class radiocheckselectType extends ChoiceType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['multiple']) {
+        if ($options['multiple'] && $options['dm2_type'] != 'mnrelation') {
             $builder->addModelTransformer(new multipleTransformer($options));
         }
         parent::buildForm($builder, $options);
