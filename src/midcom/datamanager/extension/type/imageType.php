@@ -12,7 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
 use midcom;
 use midcom\datamanager\extension\transformer\imageTransformer;
-use midcom\datamanager\validation\photo as constraint;
+use midcom\datamanager\validation\image as constraint;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -36,16 +36,18 @@ class imageType extends AbstractType
                 'show_title' => true
             ],
             'type_config' => [
+                'do_not_save_archival' => true,
                 'derived_images' => [],
                 'filter_chain' => null
             ]
         ]);
 
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
-            if ($options['required']) {
-                return [new constraint()];
-            }
-            return [];
+            $constraint = new constraint([
+                'required' => $options['required'],
+                'config' => $options['type_config']
+            ]);
+            return [$constraint];
         });
     }
 
