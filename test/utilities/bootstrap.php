@@ -25,8 +25,7 @@ define('OPENPSA2_UNITTEST_OUTPUT_DIR', OPENPSA_TEST_ROOT . '__output');
 
 function openpsa_test_create_dir($dir)
 {
-    if (   !is_dir($dir)
-        && !mkdir($dir)) {
+    if (!is_dir($dir) && !mkdir($dir)) {
         throw new Exception('could not create directory ' . $dir);
     }
 }
@@ -97,7 +96,11 @@ $_SERVER = [
     'SCRIPT_NAME' => 'unittest-run'
 ];
 
-//Clean up residue cache entries from previous runs
+// Clean up residue cache entries from previous runs
 midcom::get()->cache->invalidate_all();
-//disable output buffering
+// If the test's config accesses midcom::get() in some way, components
+// may have already been loaded into memory. So load them again to be sure we have
+// the most current set
+midcom::get()->componentloader->load_all_manifests();
+// disable output buffering
 midcom::get()->cache->content->enable_live_mode();
