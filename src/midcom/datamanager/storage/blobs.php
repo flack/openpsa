@@ -119,7 +119,7 @@ class blobs extends delayed
     {
         $total_moved = 0;
 
-        foreach ($this->value as $identifier => $att) {
+        foreach ($this->value as $att) {
             if (!is_a($att, midcom_db_attachment::class)) {
                 continue;
             }

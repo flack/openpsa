@@ -55,7 +55,8 @@ class imageType extends AbstractType
         $builder->addViewTransformer(new imageTransformer($options));
         $builder->add('file', FileType::class, [
             'required' => false,
-            'constraints' => [new sf_constraint]
+            'constraints' => [new sf_constraint],
+            'attr' => ['accept' => 'image/*']
         ]);
         if ($options['widget_config']['show_title']) {
             $builder->add('title', textType::class, ['required' => false]);
