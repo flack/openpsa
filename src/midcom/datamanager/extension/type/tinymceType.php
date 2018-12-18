@@ -14,19 +14,18 @@ use midcom_helper_misc;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\helper;
+use Symfony\Component\Form\AbstractType;
 
 /**
- * Experimental textarea type
+ * tinyMCE type
  */
-class tinymceType extends TextareaType
+class tinymceType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
-
         $map_attr = function (Options $options, $value) {
             if ($value === null) {
                 $value = [];
@@ -69,8 +68,6 @@ class tinymceType extends TextareaType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-
         midcom::get()->head->enable_jquery();
         midcom::get()->head->add_jsfile($options['config']->get('tinymce_url') . '/tinymce.min.js');
     }
@@ -80,8 +77,6 @@ class tinymceType extends TextareaType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        parent::buildView($view, $form, $options);
-
         $config = $this->get_configuration($options);
         $tiny_options = [
             'config' => $config,

@@ -13,19 +13,18 @@ use midcom;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use midcom\datamanager\extension\helper;
+use Symfony\Component\Form\AbstractType;
 
 /**
  * Experimental markdown type
  */
-class markdownType extends TextareaType
+class markdownType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
-
         $map_attr = function (Options $options, $value) {
             if ($value === null) {
                 $value = [];
@@ -54,8 +53,6 @@ class markdownType extends TextareaType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-
         $head = midcom::get()->head;
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/simplemde/simplemde.min.css');

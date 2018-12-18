@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use midcom\datamanager\extension\subscriber\purifySubscriber;
 
 /**
- * Experimental textarea type
+ * Text input type
  */
 class textType extends base
 {

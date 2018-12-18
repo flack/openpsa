@@ -14,11 +14,12 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\helper;
 use midcom\datamanager\validation\php;
+use Symfony\Component\Form\AbstractType;
 
 /**
  * Experimental codemirror type
  */
-class codemirrorType extends TextareaType
+class codemirrorType extends AbstractType
 {
     /**
      * Widget version
@@ -30,8 +31,6 @@ class codemirrorType extends TextareaType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
-
         $map_attr = function (Options $options, $value) {
             if ($value === null) {
                 $value = [];
@@ -74,8 +73,6 @@ class codemirrorType extends TextareaType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-
         if ($options['widget_config']['enabled']) {
             $prefix = MIDCOM_STATIC_URL . '/midcom.datamanager/codemirror-' . $this->version;
             midcom::get()->head->enable_jquery();
@@ -99,7 +96,6 @@ class codemirrorType extends TextareaType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        parent::buildView($view, $form, $options);
         if ($options['widget_config']['enabled']) {
             $view->vars['codemirror_snippet'] = \midcom_helper_misc::get_snippet_content_graceful($options['config']->get('codemirror_config_snippet'));
         }
