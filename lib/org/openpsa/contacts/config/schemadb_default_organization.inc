@@ -199,7 +199,6 @@
             'widget' => 'autocomplete',
             'widget_config' => [
                 'clever_class' => 'group',
-                'id_field' => 'id',
             ],
         ],
         'notes' => [

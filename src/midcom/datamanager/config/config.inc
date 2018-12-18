@@ -77,7 +77,7 @@
             ['metadata.published' => 'ASC'],
         ],
         'id_field' => 'id',
-        'generate_path_for' => 'name',
+        'categorize_by_parent_label' => true,
     ],
     'task' => [
         'class'       => 'org_openpsa_projects_task_dba',

@@ -32,7 +32,6 @@
             'widget' => 'autocomplete',
             'widget_config' => [
                 'clever_class' => 'group',
-                'id_field' => 'id',
             ],
         ],
         'email' => [
@@ -68,7 +67,7 @@
             'widget_config' => [
                 'class' => 'midcom_db_person',
                 'id_field' => 'id',
-                'titefield' => 'name',
+                'titlefield' => 'name',
                 'searchfields' => [
                     'lastname',
                     'firstname',

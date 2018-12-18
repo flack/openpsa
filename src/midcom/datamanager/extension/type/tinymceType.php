@@ -47,7 +47,9 @@ class tinymceType extends TextareaType
         ]);
 
         helper::add_normalizers($resolver, [
-            'type_config' => []
+            'type_config' => [
+                'output_mode' => 'html'
+            ]
         ]);
 
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {

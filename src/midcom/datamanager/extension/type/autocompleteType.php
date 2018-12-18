@@ -50,7 +50,8 @@ class autocompleteType extends AbstractType
                 'categorize_by_parent_label' => false,
                 'searchfields' => [],
                 'min_chars' => 2,
-                'sortable' => false
+                'sortable' => false,
+                'clever_class' => null
             ];
 
             if (!empty($value['clever_class'])) {
