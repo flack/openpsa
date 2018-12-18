@@ -36,4 +36,5 @@ function init_image_widget(id) {
     if (image_container.find('input[type="file"]')[0].files.length > 0) {
         image_container.find('input[type="file"]').trigger('change');
     }
+    image_container.find('.midcom_datamanager_photo_checkbox').trigger('change');
 }
