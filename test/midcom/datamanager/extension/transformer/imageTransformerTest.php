@@ -14,27 +14,34 @@ use midcom\datamanager\extension\transformer\imageTransformer;
 class imageTransformerTest extends openpsa_testcase
 {
     /**
+     * @return imageTransformer
+     */
+    private function get_transformer()
+    {
+        $config = [
+            'widget_config' => [
+                'show_description' => false,
+                'show_title' => true
+            ]
+        ];
+        return new imageTransformer($config);
+    }
+
+    /**
      * @dataProvider provider_transform
      */
     public function test_transform($input, $expected)
     {
-        $config = [
-            'widget_config' => ['show_description' => false]
-        ];
-        $transformer = new imageTransformer($config);
+        $transformer = $this->get_transformer();
         $this->assertEquals($expected, $transformer->transform($input));
     }
-
 
     /**
      * @dataProvider provider_transform
      */
     public function test_reverseTransform($expected, $input)
     {
-        $config = [
-            'widget_config' => ['show_description' => false]
-        ];
-        $transformer = new imageTransformer($config);
+        $transformer = $this->get_transformer();
         $this->assertEquals($expected, $transformer->reverseTransform($input));
     }
 

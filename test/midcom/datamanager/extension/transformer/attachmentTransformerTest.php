@@ -15,14 +15,25 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class attachmentTransformerTest extends openpsa_testcase
 {
     /**
+     * @return attachmentTransformer
+     */
+    private function get_transformer()
+    {
+        $config = [
+            'widget_config' => [
+                'show_description' => false,
+                'show_title' => true
+            ]
+        ];
+        return new attachmentTransformer($config);
+    }
+
+    /**
      * @dataProvider provider_transform
      */
     public function test_transform($input, $expected)
     {
-        $config = [
-            'widget_config' => ['show_description' => false]
-        ];
-        $transformer = new attachmentTransformer($config);
+        $transformer = $this->get_transformer();
         $this->assertEquals($expected, $transformer->transform($input));
     }
 
@@ -31,10 +42,7 @@ class attachmentTransformerTest extends openpsa_testcase
      */
     public function test_reverseTransform($expected, $input)
     {
-        $config = [
-            'widget_config' => ['show_description' => false]
-        ];
-        $transformer = new attachmentTransformer($config);
+        $transformer = $this->get_transformer();
         $this->assertEquals($expected, $transformer->reverseTransform($input));
     }
 
@@ -77,10 +85,7 @@ class attachmentTransformerTest extends openpsa_testcase
 
     public function test_upload()
     {
-        $config = [
-            'widget_config' => ['show_description' => false]
-        ];
-        $transformer = new attachmentTransformer($config);
+        $transformer = $this->get_transformer();
 
         $path = midcom::get()->config->get('midcom_tempdir') . '/test';
         file_put_contents($path, 'test');
@@ -127,10 +132,7 @@ class attachmentTransformerTest extends openpsa_testcase
 
     public function test_upload_from_tmpfile()
     {
-        $config = [
-            'widget_config' => ['show_description' => false]
-        ];
-        $transformer = new attachmentTransformer($config);
+        $transformer = $this->get_transformer();
 
         $path = midcom::get()->config->get('midcom_tempdir') . '/tmpfile-9dc7ded0fb8f77a341cda2ebd4a698df';
         file_put_contents($path, 'test');
