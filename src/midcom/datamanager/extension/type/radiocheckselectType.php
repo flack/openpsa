@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\transformer\multipleTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use midcom\datamanager\extension\helper;
+use midcom\datamanager\extension\choicelist\loader;
 
 /**
  * Experimental select type
@@ -25,29 +26,20 @@ class radiocheckselectType extends ChoiceType
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
-        $map_options = function (Options $options) {
-            $return_options = [];
-            if (!empty($options['type_config']['options'])) {
-                foreach ($options['type_config']['options'] as $key => $value) {
-                    //symfony expects only strings
-                    $return_options[(string)$value] = (string)$key;
-                }
-            } elseif (isset($options['type_config']['option_callback'])) {
-                $classname = $options['type_config']['option_callback'];
-                $callback = new $classname($options['type_config']['option_callback_arg']);
-                foreach ($callback->list_all() as $key => $value) {
-                    //symfony expects only strings
-                    $return_options[(string)$value] = (string)$key;
-                }
+
+        $choice_loader = function (Options $options) {
+            if (!empty($options['choices'])) {
+                return null;
             }
-            return $return_options;
+            return new loader($options['type_config']);
         };
+
         $map_multiple = function (Options $options) {
             return !empty($options['type_config']['allow_multiple']);
         };
 
         $resolver->setDefaults([
-            'choices' => $map_options,
+            'choice_loader' => $choice_loader,
             'expanded' => true,
             'multiple' => $map_multiple,
             'placeholder' => false
