@@ -3,29 +3,27 @@
  * @copyright CONTENT CONTROL GmbH, http://www.contentcontrol-berlin.de
  */
 
-namespace midcom\datamanager\extension\type;
+namespace midcom\datamanager\extension;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType as base;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
-use midcom\datamanager\extension\helper;
 use midcom\datamanager\validation\pattern as validator;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Form\FormBuilderInterface;
 use midcom\datamanager\extension\subscriber\purifySubscriber;
+use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
- * Text input type
+ * Text extension
  */
-class textType extends base
+class textExtension extends AbstractTypeExtension
 {
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
-
         $resolver->setDefault('constraints', []);
         helper::add_normalizers($resolver, [
             'type_config' => [
@@ -51,9 +49,19 @@ class textType extends base
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-        if ($options['type_config']['purify']) {
+        if (!empty($options['type_config']['purify'])) {
             $builder->addEventSubscriber(new purifySubscriber($options['type_config']['purify_config']));
         }
+    }
+
+    // Symfony < 4.2 compat
+    public function getExtendedType()
+    {
+        return TextType::class;
+    }
+
+    public static function getExtendedTypes()
+    {
+        return [TextType::class];
     }
 }

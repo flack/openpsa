@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\Options;
 use midcom\datamanager\extension\helper;
 use midcom\datamanager\validation\urlname as validator;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Experimental urlname type
@@ -21,10 +22,7 @@ class urlnameType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'constraints' => [],
-            'write_privilege' => ['privilege' => 'midcom:urlname']
-        ]);
+        $resolver->setDefault('write_privilege', ['privilege' => 'midcom:urlname']);
 
         helper::add_normalizers($resolver, [
             'type_config' => [
@@ -35,6 +33,7 @@ class urlnameType extends AbstractType
                 'purify_config' => []
             ]
         ]);
+
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
             $validator_options = [
                 'allow_catenate' => $options['type_config']['allow_catenate'],
@@ -50,6 +49,6 @@ class urlnameType extends AbstractType
 
     public function getParent()
     {
-        return textType::class;
+        return TextType::class;
     }
 }

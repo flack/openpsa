@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\transformer\otherTransformer;
 use midcom\datamanager\extension\transformer\multipleTransformer;
 use midcom\datamanager\extension\helper;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Experimental other type
@@ -50,7 +51,7 @@ class otherType extends AbstractType
             'type_config' => $options['type_config'],
             'widget_config' => $options['widget_config'],
         ]);
-        $builder->add('other', textType::class, ['label' => 'widget select: other value']);
+        $builder->add('other', TextType::class, ['label' => 'widget select: other value']);
     }
 
 

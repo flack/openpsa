@@ -14,6 +14,7 @@ use midcom;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use midcom\datamanager\extension\helper;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Attachment type.
@@ -44,10 +45,10 @@ class attachmentType extends AbstractType
     {
         $builder->add('file', FileType::class, ['constraints' => [new File()], 'required' => false]);
         if ($options['widget_config']['show_title']) {
-            $builder->add('title', textType::class);
+            $builder->add('title', TextType::class);
         }
         if ($options['widget_config']['show_description']) {
-            $builder->add('description', textType::class);
+            $builder->add('description', TextType::class);
         }
         $builder->add('identifier', HiddenType::class);
         if ($options['widget_config']['sortable']) {

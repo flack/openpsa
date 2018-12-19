@@ -20,6 +20,7 @@ use midcom\datamanager\validation\laterthan;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Experimental jsdate type
@@ -82,7 +83,7 @@ class jsdateType extends AbstractType
         }
 
         $builder->add('date', DateType::class, $date_options);
-        $builder->add('input', textType::class, $input_options);
+        $builder->add('input', TextType::class, $input_options);
 
         if ($options['widget_config']['show_time']) {
             $pattern = '[0-2][0-9]:[0-5][0-9]';

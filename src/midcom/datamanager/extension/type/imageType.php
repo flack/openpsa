@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints\Image as sf_constraint;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 /**
  * Experimental image type
  */
@@ -59,7 +60,7 @@ class imageType extends AbstractType
             'attr' => ['accept' => 'image/*']
         ]);
         if ($options['widget_config']['show_title']) {
-            $builder->add('title', textType::class, ['required' => false]);
+            $builder->add('title', TextType::class, ['required' => false]);
         }
         $builder->add('delete', CheckboxType::class, ['attr' => [
             "class" => "midcom_datamanager_photo_checkbox"
