@@ -40,7 +40,8 @@ class extension extends AbstractExtension
     {
         return [
             new formExtension,
-            new buttonExtension
+            new buttonExtension,
+            new textareaExtension
         ];
     }
 }

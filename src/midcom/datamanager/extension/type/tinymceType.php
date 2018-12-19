@@ -26,30 +26,9 @@ class tinymceType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $map_attr = function (Options $options, $value) {
-            if ($value === null) {
-                $value = [];
-            }
-            $value['rows'] = !empty($options['widget_config']['height']) ? $options['widget_config']['height'] : 6;
-            $value['cols'] = !empty($options['widget_config']['width']) ? $options['widget_config']['width'] : 50;
-
-            return $value;
-        };
-
-        $get_config = function (Options $options, $value) {
+        $resolver->setDefault('config', function (Options $options) {
             return \midcom_baseclasses_components_configuration::get('midcom.datamanager', 'config');
-        };
-
-        $resolver->setDefaults([
-            'attr' => $map_attr,
-            'config' => $get_config
-        ]);
-
-        helper::add_normalizers($resolver, [
-            'type_config' => [
-                'output_mode' => 'html'
-            ]
-        ]);
+        });
 
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
             $widget_defaults = [

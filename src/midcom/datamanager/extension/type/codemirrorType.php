@@ -56,6 +56,7 @@ class codemirrorType extends AbstractType
                 'language' => 'php',
             ],
             'type_config' => [
+                'output_mode' => 'code',
                 'modes' => ['xml', 'javascript', 'css', 'clike', 'php'],
             ]
         ]);
