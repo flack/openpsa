@@ -76,6 +76,14 @@ class schemaType extends AbstractType
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'form';
+    }
+
+    /**
      * Provide fully qualified type names
      *
      * @param string $shortname
