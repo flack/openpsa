@@ -21,7 +21,7 @@ use midcom\datamanager\extension\transformer\multipleTransformer;
 use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use midcom\datamanager\storage\recreateable;
-use midcom\datamanager\extension\type\formType;
+use midcom\datamanager\extension\type\schemaType;
 use midcom\datamanager\extension\type\toolbarType;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
 
@@ -242,7 +242,7 @@ class datamanager
             $config = [
                 'schema' => $this->schema
             ];
-            $builder = self::get_factory()->createNamedBuilder($name, formType::class, $this->storage, $config);
+            $builder = self::get_factory()->createNamedBuilder($name, schemaType::class, $this->storage, $config);
 
             $config = [
                 'operations' => $this->schema->get('operations'),

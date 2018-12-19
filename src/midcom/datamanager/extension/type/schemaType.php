@@ -7,7 +7,6 @@ namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Form\Extension\Core\Type\FormType as base;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Callback;
 use midcom\datamanager\validation\callback as cb_wrapper;
@@ -18,19 +17,18 @@ use midcom_error;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\AbstractType;
 
 /**
- * Experimental form type
+ * Schema form type
  */
-class formType extends base
+class schemaType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
-
         $resolver
             ->setRequired('schema')
             ->setAllowedTypes('schema', schema::class)
@@ -61,7 +59,6 @@ class formType extends base
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
         if (!array_key_exists('data', $options)) {
             // This happens when we are in the nested case
             // @todo Figure out why
@@ -76,14 +73,6 @@ class formType extends base
 
             $builder->add($field, $this->get_type_name($config['widget']), $this->get_settings($config, $storage));
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return base::class;
     }
 
     /**
