@@ -15,20 +15,18 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Extension\Core\EventListener\ResizeFormListener;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Validator\Constraints\Count;
-use midcom\datamanager\extension\compat;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\AbstractType;
 
 /**
- * Experimental images type
+ * Subform type
  */
-class subformType extends CollectionType
+class subformType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
         $resolver->setDefaults([
             'allow_add' => true,
             'allow_delete' => true,
@@ -36,9 +34,6 @@ class subformType extends CollectionType
             'prototype_name' => '__name__',
             'delete_empty' => true,
             'error_bubbling' => false,
-            'entry_type' => function (Options $options) {
-                return compat::get_type_name($options['dm2_type']);
-            }
         ]);
         helper::add_normalizers($resolver, [
             'type_config' => [
@@ -78,8 +73,6 @@ class subformType extends CollectionType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-
         $builder->addEventSubscriber(new ResizeFormListener($options['entry_type'], ['widget_config' => $options['widget_config']]));
 
         $head = midcom::get()->head;
@@ -95,7 +88,6 @@ class subformType extends CollectionType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        parent::buildView($view, $form, $options);
         $view->vars['max_count'] = $options['type_config']['max_count'];
         $view->vars['sortable'] = ($options['widget_config']['sortable']) ? 'true' : 'false';
     }
@@ -113,6 +105,6 @@ class subformType extends CollectionType
      */
     public function getParent()
     {
-        return FormType::class;
+        return CollectionType::class;
     }
 }
