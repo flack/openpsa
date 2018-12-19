@@ -15,7 +15,7 @@ use midcom\datamanager\extension\helper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
- * Experimental other type
+ * Select + alternative text input type
  */
 class otherType extends AbstractType
 {
@@ -28,7 +28,7 @@ class otherType extends AbstractType
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
             $type_defaults = [
                 'options' => [],
-                'allow_other' => false,
+                'allow_other' => true,
                 'allow_multiple' => ($options['dm2_type'] == 'mnrelation'),
                 'require_corresponding_option' => true,
                 'multiple_storagemode' => 'serialized',

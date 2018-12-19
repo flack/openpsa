@@ -14,19 +14,18 @@ use midcom\datamanager\extension\helper;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use midcom\datamanager\extension\choicelist\loader;
+use Symfony\Component\Form\AbstractType;
 
 /**
- * Experimental select type
+ * Select type
  */
-class selectType extends ChoiceType
+class selectType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
-
         $choice_loader = function (Options $options) {
             if (!empty($options['choices'])) {
                 return null;
@@ -70,11 +69,9 @@ class selectType extends ChoiceType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['type_config']['allow_multiple'] && $options['dm2_type'] == 'select') {
+        if ($options['multiple'] && !empty($options['dm2_type']) && $options['dm2_type'] != 'mnrelation') {
             $builder->addModelTransformer(new multipleTransformer($options));
         }
-
-        parent::buildForm($builder, $options);
     }
 
     /**
@@ -82,10 +79,14 @@ class selectType extends ChoiceType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        parent::buildView($view, $form, $options);
-        if ($options['type_config']['allow_multiple']) {
+        if ($options['multiple']) {
             $view->vars['attr']['size'] = max(1, $options['widget_config']['height']);
         }
         $view->vars['attr'] = array_merge($view->vars['attr'], $options['widget_config']['jsevents']);
+    }
+
+    public function getParent()
+    {
+        return ChoiceType::class;
     }
 }
