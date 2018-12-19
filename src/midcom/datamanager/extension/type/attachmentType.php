@@ -42,7 +42,7 @@ class attachmentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('file', FileType::class, ['constraints' => [new File()]]);
+        $builder->add('file', FileType::class, ['constraints' => [new File()], 'required' => false]);
         if ($options['widget_config']['show_title']) {
             $builder->add('title', textType::class);
         }
