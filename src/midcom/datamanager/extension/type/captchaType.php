@@ -15,19 +15,18 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\AbstractType;
 
 /**
  * Experimental captcha type
  */
-class captchaType extends textType
+class captchaType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
-
         $resolver->setDefault('mapped', false);
     }
 
@@ -53,6 +52,14 @@ class captchaType extends textType
     {
         $session_key = md5($form->getName() . '_session_key');
         $view->vars['captcha_url'] = midcom_connection::get_url('self') . 'midcom-exec-midcom.datamanager/captcha.php/' . $session_key;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return textType::class;
     }
 
     /**

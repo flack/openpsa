@@ -9,19 +9,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 use midcom\datamanager\extension\helper;
 use midcom\datamanager\validation\urlname as validator;
+use Symfony\Component\Form\AbstractType;
 
 /**
  * Experimental urlname type
  */
-class urlnameType extends textType
+class urlnameType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
-
         $resolver->setDefaults([
             'constraints' => [],
             'write_privilege' => ['privilege' => 'midcom:urlname']
@@ -47,5 +46,10 @@ class urlnameType extends textType
             $value[] = new validator($validator_options);
             return $value;
         });
+    }
+
+    public function getParent()
+    {
+        return textType::class;
     }
 }
