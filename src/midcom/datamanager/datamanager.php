@@ -7,7 +7,7 @@ namespace midcom\datamanager;
 
 use Symfony\Component\Form\FormFactoryBuilder;
 use Symfony\Component\Form\Extension\Core\CoreExtension;
-use midcom\datamanager\extension\schemaextension;
+use midcom\datamanager\extension\extension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -96,7 +96,7 @@ class datamanager
 
             $vb->setTranslator($translator);
 
-            $fb->addExtension(new schemaextension())
+            $fb->addExtension(new extension())
                 ->addExtension(new CoreExtension())
                 ->addExtension(new HttpFoundationExtension())
                 ->addExtension(new CsrfExtension(new CsrfTokenManager, $translator));

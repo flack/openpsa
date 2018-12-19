@@ -10,7 +10,7 @@ use Symfony\Component\Form\AbstractExtension;
 /**
  * Experimental extension class
  */
-class schemaextension extends AbstractExtension
+class extension extends AbstractExtension
 {
     /**
      * {@inheritdoc}
@@ -38,6 +38,9 @@ class schemaextension extends AbstractExtension
      */
     protected function loadTypeExtensions()
     {
-        return [new formextension, new buttonextension];
+        return [
+            new formExtension,
+            new buttonExtension
+        ];
     }
 }

@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 /**
  * Experimental extension class
  */
-class buttonextension extends AbstractTypeExtension
+class buttonExtension extends AbstractTypeExtension
 {
     /**
      * {@inheritdoc}

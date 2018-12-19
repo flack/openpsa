@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 /**
  * Experimental extension class
  */
-class formextension extends AbstractTypeExtension
+class formExtension extends AbstractTypeExtension
 {
     /**
      * {@inheritdoc}
