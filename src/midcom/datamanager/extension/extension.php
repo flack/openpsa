@@ -41,6 +41,7 @@ class extension extends AbstractExtension
         return [
             new formExtension,
             new buttonExtension,
+            new textExtension,
             new textareaExtension
         ];
     }

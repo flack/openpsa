@@ -10,18 +10,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\AbstractTypeExtension;
 
 /**
  * Textarea extension
  */
-class textareaExtension extends textExtension
+class textareaExtension extends AbstractTypeExtension
 {
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
         $map_attr = function (Options $options, $value) {
             if ($value === null) {
                 $value = [];
