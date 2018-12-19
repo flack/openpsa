@@ -32,9 +32,7 @@ class transientnode implements node
      */
     public function set_value($value)
     {
-        if (empty($this->config['hidden'])) {
-            $this->value = $value;
-        }
+        $this->value = $value;
     }
 
     public function save()

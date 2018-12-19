@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Experimental extension class
@@ -32,7 +33,10 @@ class formExtension extends AbstractTypeExtension
             'end_fieldset' => null,
             'helptext' => null,
             'storage' => null,
-            'hidden' => false
+            'hidden' => false,
+            'disabled' => function(Options $options) {
+                return !empty($options['hidden']);
+            }
         ]);
     }
 

@@ -23,8 +23,6 @@ class rcsmessage extends property
      */
     public function set_value($value)
     {
-        if (empty($this->config['hidden'])) {
-            $this->object->set_rcs_message($value);
-        }
+        $this->object->set_rcs_message($value);
     }
 }

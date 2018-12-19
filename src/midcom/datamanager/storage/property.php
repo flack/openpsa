@@ -40,9 +40,6 @@ class property extends dbanode
      */
     public function set_value($value)
     {
-        if (!empty($this->config['hidden'])) {
-            return;
-        }
         if ($this->config['type'] === 'urlname') {
             $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
 
