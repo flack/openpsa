@@ -341,7 +341,7 @@ class form extends base
         return $string . '</select>';
     }
 
-    public function radiocheckselect_widget(FormView $view, array $data)
+    public function privilege_widget(FormView $view, array $data)
     {
         if (isset($view->vars['effective_value'])) {
             if ($view->vars['effective_value']) {

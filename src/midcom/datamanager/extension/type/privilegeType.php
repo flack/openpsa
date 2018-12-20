@@ -5,37 +5,31 @@
 
 namespace midcom\datamanager\extension\type;
 
-use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use midcom;
 use midcom_core_user;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use midcom\datamanager\storage\container\dbacontainer;
 use midcom\datamanager\extension\helper;
+use Symfony\Component\Form\AbstractType;
 
 /**
  * Experimental privilege type
  */
-class privilegeType extends RadioType
+class privilegeType extends AbstractType
 {
-    protected $defaultChoices = [
-        'widget privilege: allow' => MIDCOM_PRIVILEGE_ALLOW,
-        'widget privilege: deny' => MIDCOM_PRIVILEGE_DENY,
-        'widget privilege: inherit' => MIDCOM_PRIVILEGE_INHERIT,
-    ];
-
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $map_privilege = function (Options $options) {
-            return $this->defaultChoices;
-        };
         $resolver->setDefaults([
-            'choices' => $map_privilege,
+            'choices' => [
+                'widget privilege: allow' => MIDCOM_PRIVILEGE_ALLOW,
+                'widget privilege: deny' => MIDCOM_PRIVILEGE_DENY,
+                'widget privilege: inherit' => MIDCOM_PRIVILEGE_INHERIT,
+            ],
             'expanded' => true,
         ]);
 
@@ -54,11 +48,10 @@ class privilegeType extends RadioType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        parent::buildView($view, $form, $options);
         $view->vars['effective_value'] = $this->get_effective_value($options['type_config'], $form);
     }
 
-    protected function get_effective_value(array $options, FormInterface $form)
+    private function get_effective_value(array $options, FormInterface $form)
     {
         $data = $form->getParent()->getData();
         if ($data instanceof dbacontainer) {
