@@ -11,8 +11,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Callback;
 use midcom\datamanager\validation\callback as cb_wrapper;
 use midcom\datamanager\schema;
-use midcom\datamanager\storage\container\dbacontainer;
-use midcom;
 use midcom_error;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -109,27 +107,13 @@ class schemaType extends AbstractType
      */
     private function get_settings(array $config, $storage)
     {
-        if ($config['write_privilege'] !== null) {
-            if (   array_key_exists('group', $config['write_privilege'])
-                && !midcom::get()->auth->is_group_member($config['write_privilege']['group'])) {
-                $config['readonly'] = true;
-            }
-            if (   array_key_exists('privilege', $config['write_privilege'])
-                && $storage instanceof dbacontainer
-                && !$storage->get_value()->can_do($config['write_privilege']['privilege'])) {
-                $config['readonly'] = true;
-            }
-        }
-
         $settings = $config;
         $settings['label'] = $config['title'];
         $settings['dm2_type'] = $config['type'];
         $settings['dm2_storage'] = $config['storage'];
-        $settings['attr']['readonly'] = $config['readonly'];
         $settings['constraints'] = $this->build_constraints($config);
         $settings['storage'] = $storage;
 
-        unset($settings['readonly']);
         unset($settings['type']);
         unset($settings['customdata']);
         unset($settings['default']);
@@ -137,7 +121,6 @@ class schemaType extends AbstractType
         unset($settings['title']);
         unset($settings['validation']);
         unset($settings['widget']);
-        unset($settings['write_privilege']);
 
         return $settings;
     }

@@ -66,7 +66,7 @@ abstract class base
         $attributes = $view->vars['attr'];
         $attributes['id'] = $data['id'];
         $attributes['name'] = $data['full_name'];
-        if (!empty($attributes['readonly'])) {
+        if (!empty($view->vars['readonly'])) {
             $attributes['readonly'] = 'readonly';
         }
         if ($data['disabled']) {

@@ -198,7 +198,7 @@ class form extends base
     public function form_widget_simple(FormView $view, array $data)
     {
         $type = isset($data['type']) ? $data['type'] : 'text';
-        if (!empty($data['attr']['readonly']) && $type !== 'hidden') {
+        if ($view->vars['readonly'] && $type !== 'hidden') {
             return $data['value'] . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
         }
 
@@ -267,7 +267,7 @@ class form extends base
     public function radio_widget(FormView $view, array $data)
     {
         $string = '<input type="radio"';
-        if (!empty($view->vars['attr']['readonly'])) {
+        if ($view->vars['readonly']) {
             $view->vars['attr']['disabled'] = true;
         }
         $string .= $this->renderer->block($view, 'widget_attributes');
@@ -282,7 +282,7 @@ class form extends base
 
     public function checkbox_widget(FormView $view, array $data)
     {
-        if (!empty($data['attr']['readonly'])) {
+        if ($view->vars['readonly']) {
             $string = $this->get_view_renderer()->checkbox_widget($view, $data);
             if ($data['checked']) {
                 $string .= $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
@@ -302,7 +302,7 @@ class form extends base
 
     public function choice_widget_collapsed(FormView $view, array $data)
     {
-        if (!empty($data['attr']['readonly']) && empty($view->vars['multiple'])) {
+        if ($view->vars['readonly'] && empty($view->vars['multiple'])) {
             $string = $this->get_view_renderer()->choice_widget_collapsed($view, $data);
             return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
         }
@@ -427,7 +427,7 @@ class form extends base
     {
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
 
-        if (!empty($data['attr']['readonly'])) {
+        if ($view->vars['readonly']) {
             $string .= $this->get_view_renderer()->jsdate_widget($view, $data);
             $string .= $this->renderer->widget($view['date'], ['type' => 'hidden']);
             if (isset($view['time'])) {
@@ -513,7 +513,7 @@ class form extends base
 
     public function textarea_widget(FormView $view, array $data)
     {
-        if (!empty($data['attr']['readonly'])) {
+        if ($view->vars['readonly']) {
             $view->vars['output_mode'] = 'nl2br';
             $string = $this->get_view_renderer()->text_widget($view, $data);
             return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
@@ -531,7 +531,7 @@ class form extends base
 
     public function tinymce_widget(FormView $view, array $data)
     {
-        if (!empty($data['attr']['readonly'])) {
+        if ($view->vars['readonly']) {
             $string = $this->get_view_renderer()->text_widget($view, $data);
             return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
         }
@@ -551,7 +551,7 @@ class form extends base
         $data['label'] = $this->renderer->humanize($data['label']);
 
         $label_attr = $data['label_attr'];
-        if ($data['required'] && empty($data['attr']['readonly'])) {
+        if ($data['required'] && !$view->vars['readonly']) {
             $label_attr['class'] = trim((isset($label_attr['class']) ? $label_attr['class'] : '') . ' required');
             $data['label'] .= ' <span class="field_required_start">*</span>';
         }
