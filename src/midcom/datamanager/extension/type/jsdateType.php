@@ -36,8 +36,6 @@ class jsdateType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
-
         $resolver->setDefaults([
             'error_bubbling' => false
         ]);

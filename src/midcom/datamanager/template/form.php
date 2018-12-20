@@ -153,10 +153,7 @@ class form extends base
     public function repeated_row(FormView $view, array $data)
     {
         $string = '';
-        foreach ($view->children as $name => $child) {
-            if ($name === 'first' && !empty($view->vars['errors'])) {
-                $view->children['first']->vars['errors'] = $view->vars['errors'];
-            }
+        foreach ($view->children as $child) {
             $string .= $this->form_row($child, $data);
         }
         return $string;

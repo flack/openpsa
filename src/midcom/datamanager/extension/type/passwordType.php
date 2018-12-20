@@ -8,21 +8,21 @@ namespace midcom\datamanager\extension\type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType as sf_type;
 
 /**
- * Experimental password type
+ * Password type
  */
-class passwordType extends RepeatedType
+class passwordType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        parent::configureOptions($resolver);
-
         $resolver->setDefaults([
-            'type' => 'Symfony\Component\Form\Extension\Core\Type\PasswordType',
+            'type' => sf_type::class,
             'invalid_message' => 'passwords do not match',
             'first_options' => ['label' => 'password', 'always_empty' => false],
             'second_options' => ['label' => '(confirm)', 'always_empty' => false],
@@ -35,5 +35,10 @@ class passwordType extends RepeatedType
             $value['label'] = $options['label'];
             return $value;
         });
+    }
+
+    public function getParent()
+    {
+        return RepeatedType::class;
     }
 }
