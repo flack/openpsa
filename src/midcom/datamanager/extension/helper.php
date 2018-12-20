@@ -30,9 +30,4 @@ class helper
         $resolver->setDefaults($defaults);
         return $resolver->resolve($values);
     }
-
-    public static function merge_defaults(array $defaults, array $values)
-    {
-        return array_merge($defaults, $values);
-    }
 }

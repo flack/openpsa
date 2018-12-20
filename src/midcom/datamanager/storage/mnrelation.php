@@ -8,7 +8,6 @@ namespace midcom\datamanager\storage;
 use midcom;
 use midcom_error;
 use midcom_connection;
-use midcom\datamanager\extension\helper;
 
 /**
  * Experimental storage class
@@ -30,7 +29,7 @@ class mnrelation extends delayed
             'sortable_sort_order' => 'DESC',
             'additional_fields' => [],
         ];
-        $this->config['type_config'] = helper::merge_defaults($defaults, $this->config['type_config']);
+        $this->config['type_config'] = array_merge($defaults, $this->config['type_config']);
     }
 
     /**

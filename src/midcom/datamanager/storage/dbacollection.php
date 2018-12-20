@@ -8,7 +8,6 @@ namespace midcom\datamanager\storage;
 use midcom;
 use midcom_error;
 use midcom_connection;
-use midcom\datamanager\extension\helper;
 use midcom\datamanager\storage\container\dbacontainer;
 use midcom\datamanager\schema;
 use midgard\portable\storage\connection;
@@ -32,7 +31,7 @@ class dbacollection extends delayed
             'master_is_id' => false,
             'schema' => null
         ];
-        $this->config['type_config'] = helper::merge_defaults($defaults, $this->config['type_config']);
+        $this->config['type_config'] = array_merge($defaults, $this->config['type_config']);
         $this->schema = new schema($this->config['type_config']['schema']);
     }
 
