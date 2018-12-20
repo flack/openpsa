@@ -52,6 +52,10 @@ class datamanager_form extends base
     {
     }
 
+    public function password_row(FormView $view, array $data)
+    {
+    }
+
     public function toolbar_row(FormView $view, array $data)
     {
     }
