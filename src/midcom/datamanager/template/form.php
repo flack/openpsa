@@ -52,8 +52,7 @@ class form extends base
                 $child->setRendered();
                 continue;
             }
-            if (    array_key_exists('start_fieldset', $child->vars)
-                && $child->vars['start_fieldset'] !== null) {
+            if ($child->vars['start_fieldset'] !== null) {
                 if (!empty($child->vars['start_fieldset']['css_group'])) {
                     $class = $child->vars['start_fieldset']['css_group'];
                 } else {
@@ -65,8 +64,7 @@ class form extends base
                 }
             }
             $string .= $this->renderer->row($child);
-            if (    array_key_exists('end_fieldset', $child->vars)
-                && $child->vars['end_fieldset'] !== null) {
+            if ($child->vars['end_fieldset'] !== null) {
                 $end_fieldsets = max(1, (int) $child->vars['end_fieldset']);
                 for ($i = 0; $i < $end_fieldsets; $i++) {
                     $string .= '</fieldset>';
@@ -152,6 +150,7 @@ class form extends base
 
     public function repeated_row(FormView $view, array $data)
     {
+        $view->children['second']->vars['label'] = $this->renderer->humanize($view->children['first']->vars['label']) . ' ' . $this->renderer->humanize($view->children['second']->vars['label']);
         $string = '';
         foreach ($view->children as $child) {
             $string .= $this->form_row($child, $data);
@@ -215,16 +214,6 @@ class form extends base
             $string .= ' value="' . $this->escape($data['value']) . '"';
         }
         return $string . ' />';
-    }
-
-    public function password_widget(FormView $view, array $data)
-    {
-        // when we come from RepeatedType, type is missing, so we add it
-        $data['type'] = 'password';
-        if ($data['name'] === 'first') {
-            $view->parent->children['second']->vars['label'] = $this->renderer->humanize($view->vars['label']) . ' ' . $this->renderer->humanize($view->parent->children['second']->vars['label']);
-        }
-        return $this->form_widget_simple($view, $data);
     }
 
     public function button_widget(FormView $view, array $data)
