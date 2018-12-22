@@ -123,13 +123,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     private function _add_to(array &$array, midcom_core_dbaobject $object, $time)
     {
         $date = date('Y-m-d', $time);
-        if (!array_key_exists($date, $array)) {
-            $array[$date] = [];
-        }
-        if (!array_key_exists($time, $array[$date])) {
-            $array[$date][$time] = [];
-        }
-        $array[$date][$time][$object->guid] = $object;
+        $array = array_replace_recursive($array, [$date => [$time => [$object->guid => $object]]]);
     }
 
     /**

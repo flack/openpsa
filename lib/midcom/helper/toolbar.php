@@ -356,12 +356,8 @@ class midcom_helper_toolbar
             MIDCOM_TOOLBAR_POST_HIDDENARGS => [],
             MIDCOM_TOOLBAR_ACCESSKEY => null
         ];
-        // we can't use array_merge unfortunately, because the constants are numeric..
-        foreach ($defaults as $key => $value) {
-            if (!array_key_exists($key, $item)) {
-                $item[$key] = $value;
-            }
-        }
+
+        $item = array_replace($defaults, $item);
 
         if (   !empty($item[MIDCOM_TOOLBAR_ACCESSKEY])
             && !array_key_exists($item[MIDCOM_TOOLBAR_ACCESSKEY], $used_access_keys)) {
