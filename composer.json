@@ -35,7 +35,7 @@
         "paragonie/random_compat": "^2.0",
         "phpspec/php-diff": "^1.0.2",
         "sabre/vobject" : "^4.1.6",
-        "simplepie/simplepie": "^1.5",
+        "simplepie/simplepie": "^1.5.1",
         "studio-42/elfinder": "> 2.1.42",
         "swiftmailer/swiftmailer": "^5.2.0",
         "symfony/config": "~2.5 | ~3.4 | ^4.0",
@@ -50,7 +50,7 @@
         "symfony/routing": "~3.4 | ^4.0",
         "symfony/security-csrf": "~2.5 | ~3.4 | ^4.0",
         "symfony/translation": "~2.3 | ~3.4 | ^4.0",
-        "symfony/validator": "~2.8 | ~3.4 | ^4.0",
+        "symfony/validator": "~2.8.9 | ~3.4 | ^4.0",
         "symfony/yaml": "~3.4 | ^4.0"
     },
     "scripts": {
