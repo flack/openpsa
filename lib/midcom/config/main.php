@@ -262,7 +262,7 @@
  *
  * @package midcom
  */
-class midcom_config implements arrayaccess
+class midcom_config implements ArrayAccess
 {
     private $_default_config = [
         // Authentication configuration

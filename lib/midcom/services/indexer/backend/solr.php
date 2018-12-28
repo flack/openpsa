@@ -135,9 +135,9 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             return false;
         }
 
-        $document = new DomDocument;
+        $document = new DOMDocument;
         $document->loadXML((string) $response->getBody());
-        $xquery = new DomXPath($document);
+        $xquery = new DOMXPath($document);
         $result = [];
 
         $num = $xquery->query('/response/result')->item(0);
@@ -220,7 +220,7 @@ class midcom_services_indexer_solrDocumentFactory
     /**
      * The xml document to post.
      *
-     * @var DomDocument
+     * @var DOMDocument
      */
     private $xml;
 
@@ -232,7 +232,7 @@ class midcom_services_indexer_solrDocumentFactory
 
     public function reset()
     {
-        $this->xml = new DomDocument('1.0', 'UTF-8');
+        $this->xml = new DOMDocument('1.0', 'UTF-8');
     }
 
     /**

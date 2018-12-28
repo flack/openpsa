@@ -20,7 +20,7 @@ class org_openpsa_mypage_handlerTest extends openpsa_testcase
         $viewer = new org_openpsa_mypage_viewer($topic, $config);
         $handler = new org_openpsa_mypage_handler_workingon();
         $handler->initialize($viewer, $viewer->get_router());
-        $handler->prepare_timestamps(new Datetime('2011-10-26'));
+        $handler->prepare_timestamps(new DateTime('2011-10-26'));
         $this->assertEquals('2011-10-26', $viewer->_request_data['this_day']);
         $this->assertEquals(mktime(0, 0, 0, 10, 26, 2011), $viewer->_request_data['day_start']);
         $this->assertEquals(mktime(23, 59, 59, 10, 26, 2011), $viewer->_request_data['day_end']);
