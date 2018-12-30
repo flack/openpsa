@@ -7,16 +7,18 @@ namespace midcom\datamanager\storage;
 
 use Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser;
 use midcom_db_attachment;
-use midcom_helper_reflector_nameresolver;
 use midcom_error;
 use midcom_connection;
 use midcom;
+use midcom\datamanager\helper\attachment;
 
 /**
  * Experimental storage class
  */
 class blobs extends delayed
 {
+    use attachment;
+
     /**
      *
      * @var midcom_db_attachment[]
@@ -143,28 +145,6 @@ class blobs extends delayed
     }
 
     /**
-     * Make sure we have unique filename
-     */
-    protected function generate_unique_name($filename)
-    {
-        $filename = midcom_db_attachment::safe_filename($filename, true);
-        $attachment = new midcom_db_attachment;
-        $attachment->name = $filename;
-        $attachment->parentguid = $this->object->guid;
-
-        $resolver = new midcom_helper_reflector_nameresolver($attachment);
-        if (!$resolver->name_is_unique()) {
-            debug_add("Name '{$attachment->name}' is not unique, trying to generate", MIDCOM_LOG_INFO);
-            $ext = '';
-            if (preg_match('/^(.*)(\..*?)$/', $filename, $ext_matches)) {
-                $ext = $ext_matches[2];
-            }
-            $filename = $resolver->generate_unique_name('name', $ext);
-        }
-        return $filename;
-    }
-
-    /**
      *
      * @return boolean
      */
@@ -203,25 +183,5 @@ class blobs extends delayed
             }
         }
         return $map;
-    }
-
-    /**
-     *
-     * @param midcom_db_attachment $attachment
-     * @param string $filename
-     * @param string $title
-     * @param string $mimetype
-     * @throws midcom_error
-     */
-    protected function create_attachment($attachment, $filename, $title, $mimetype)
-    {
-        $attachment->name = $this->generate_unique_name($filename);
-        $attachment->title = $title;
-        $attachment->mimetype = $mimetype;
-        $attachment->parentguid = $this->object->guid;
-
-        if (!$attachment->create()) {
-            throw new midcom_error('Failed to create attachment: ' . \midcom_connection::get_error_string());
-        }
     }
 }
