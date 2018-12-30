@@ -5,62 +5,92 @@
 
 namespace midcom\datamanager\storage;
 
-use midcom_error;
-use midcom_db_attachment;
-use midcom_helper_imagefilter;
+use midcom\datamanager\helper\imagefilter;
 
 /**
  * Images storage
  *
  * Controls a list of images
  */
-class images extends image
+class images extends blobs implements recreateable
 {
     public function recreate()
     {
-        $attachments = $this->load();
-        foreach ($attachments as $attachment) {
-            if (!empty($this->config['type_config']['filter_chain'])) {
-                $this->apply_filter($attachment, $this->config['type_config']['filter_chain']);
+        $this->map = [];
+        $map = $this->load();
+
+        foreach ($map as $identifier => &$images) {
+            $filter = new imagefilter($this->config['type_config']);
+            $images = $filter->process($images['main'], $images);
+
+            foreach ($images as $name => $image) {
+                $this->map[$identifier . $name . ':' . $image->guid] = $image;
             }
-            $this->set_imagedata($attachment);
         }
-        return true;
+        return $this->save_image_map($map) && $this->save_attachment_list();
+    }
+
+    public function load()
+    {
+        $results = parent::load();
+        $grouped = [];
+
+        $identifiers = [];
+        if ($raw_list = $this->object->get_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->config['name']}")) {
+            $identifiers = explode(',', $raw_list);
+        } else {
+            // Reconstruct from blobs data
+            foreach (array_keys($results) as $identifier) {
+                $identifiers[] = $identifier . ':' . substr($identifier, 0, 32) . ':main';
+            }
+        }
+
+        foreach ($identifiers as $item) {
+            list($identifier, $images_identifier, $images_name) = explode(':', $item);
+
+            if (array_key_exists($identifier, $results)) {
+                if (!array_key_exists($images_identifier, $grouped)) {
+                    $grouped[$images_identifier] = [];
+                }
+                $grouped[$images_identifier][$images_name] = $results[$identifier];
+            }
+        }
+
+        return $grouped;
     }
 
     public function save()
     {
-        if (!parent::save()) {
-            return false;
-        }
+        $this->map = [];
+        $map = $this->load();
 
-        foreach ($this->value as $key => $attachment) {
-            if ($key === 'description') {
-                continue;
+        foreach ($this->value as $identifier => $images) {
+            if (!empty($images['file'])) {
+                if (is_numeric($identifier)) {
+                    $identifier = md5(time() . $images['file']->name . $images['file']->location);
+                }
+                $images['file']->parentguid = $this->object->guid;
+                $existing = array_key_exists($identifier, $map) ? $map[$identifier] : [];
+                $filter = new imagefilter($this->config['type_config']);
+                $map[$identifier] = $filter->process($images['file'], $existing);
             }
-            if (!empty($this->config['type_config']['filter_chain'])) {
-                $this->apply_filter($attachment, $this->config['type_config']['filter_chain']);
+            foreach ($map[$identifier] as $name => $image) {
+                $this->map[$identifier . $name . ':' . $image->guid] = $image;
             }
-            $this->set_imagedata($attachment);
         }
-        return true;
+        return $this->save_image_map($map) && $this->save_attachment_list();
     }
 
-    /**
-     * Applies a filter chain
-     *
-     * @param midcom_db_attachment $source The image to apply to
-     * @param string $filterchain The midcom_helper_imagefilter filter chain to apply
-     * @param midcom_db_attachment $target The attachment where the changes should be saved
-     */
-    private function apply_filter(midcom_db_attachment $source, $filterchain)
+    private function save_image_map(array $map)
     {
-        $filter = new midcom_helper_imagefilter($source);
-        if (!empty($filterchain)) {
-            $filter->process_chain($filterchain);
+        $list = [];
+
+        foreach ($map as $identifier => $derived) {
+            foreach (array_keys($derived) as $name) {
+                $list[] = $identifier . $name . ':' . $identifier . ':' . $name;
+            }
         }
-        if (!$filter->write($source)) {
-            throw new midcom_error("Failed to update image '{$source->guid}'");
-        }
+
+        return $this->object->set_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->config['name']}", implode(',', $list));
     }
 }

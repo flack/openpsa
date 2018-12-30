@@ -8,6 +8,7 @@ namespace midcom\datamanager\helper;
 use midcom_helper_imagefilter;
 use midcom_db_attachment;
 use midcom_error;
+use midgard\portable\api\blob;
 
 /**
  * Image filter
@@ -24,21 +25,51 @@ class imagefilter
     /**
      * @var array
      */
-    private $images;
+    private $images = [];
 
-    public function __construct(array $config)
+    /**
+     * @var boolean
+     */
+    private $save_archival = false;
+
+    public function __construct(array $config, $save_archival = false)
     {
         $this->config = $config;
+        $this->save_archival = $save_archival;
     }
 
     public function process(midcom_db_attachment $source, array $existing)
     {
-        $this->images = [
-            'main' => $this->create_main_image($source, $existing)
-        ];
+        if ($this->save_archival) {
+            $path = $source->location;
+            $attachment = $this->get_attachment($source, $existing, 'archival');
+            if (!$attachment->copy_from_file($path)) {
+                throw new midcom_error('Failed to copy attachment');
+            }
+            $this->images['archival'] = $attachment;
+        }
+
+        $this->images['main'] = $this->create_main_image($source, $existing);
 
         $this->create_derived_images($existing);
+
+        foreach ($this->images as $attachment) {
+            $this->set_imagedata($attachment);
+        }
+
         return $this->images;
+    }
+
+    private function set_imagedata(midcom_db_attachment $attachment)
+    {
+        $blob = new blob($attachment->__object);
+        $path = $blob->get_path();
+
+        if ($data = @getimagesize($path)) {
+            $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_x', $data[0]);
+            $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_y', $data[1]);
+            $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_line', $data[3]);
+        }
     }
 
     private function create_main_image(midcom_db_attachment $input, array $existing)

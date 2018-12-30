@@ -5,10 +5,7 @@
 
 namespace midcom\datamanager\storage;
 
-use midcom_error;
-use midcom_db_attachment;
 use midcom\datamanager\helper\imagefilter;
-use midgard\portable\api\blob;
 
 /**
  * Image storage
@@ -51,20 +48,8 @@ class image extends blobs implements recreateable
         if (!empty($this->value['file'])) {
             $this->value['file']->parentguid = $this->object->guid;
             $existing = $this->load();
-            $filter = new imagefilter($this->config['type_config']);
+            $filter = new imagefilter($this->config['type_config'], $this->save_archival);
             $this->map = $filter->process($this->value['file'], $existing);
-            if ($this->save_archival) {
-                $source = $this->value['file']->location;
-                $attachment = $this->get_attachment($this->value['file'], $existing, 'archival');
-                if (!$attachment->copy_from_file($source)) {
-                    throw new midcom_error('Failed to copy attachment');
-                }
-                $this->map['archival'] = $attachment;
-            }
-
-            foreach ($this->map as $attachment) {
-                $this->set_imagedata($attachment);
-            }
 
             return $this->save_attachment_list();
         }
@@ -73,17 +58,5 @@ class image extends blobs implements recreateable
             return $this->save_attachment_list();
         }
         return true;
-    }
-
-    protected function set_imagedata(midcom_db_attachment $attachment)
-    {
-        $blob = new blob($attachment->__object);
-        $path = $blob->get_path();
-
-        if ($data = @getimagesize($path)) {
-            $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_x', $data[0]);
-            $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_y', $data[1]);
-            $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_line', $data[3]);
-        }
     }
 }

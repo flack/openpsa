@@ -18,6 +18,6 @@ class imagesType extends subformType
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
-        $resolver->setDefault('entry_type', attachmentType::class);
+        $resolver->setDefault('entry_type', imageType::class);
     }
 }

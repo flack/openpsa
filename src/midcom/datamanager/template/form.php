@@ -194,6 +194,22 @@ class form extends base
         return $string . '</fieldset>';
     }
 
+    public function image_row(FormView $view, array $data)
+    {
+        if (!in_array('subform', $view->parent->vars['block_prefixes'])) {
+            return $this->form_row($view, $data);
+        }
+
+        $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        $string .= '<legend>';
+        $string .= (!empty($data['value']['objects']['main']['filename'])) ? $data['value']['objects']['main']['filename'] : $this->renderer->humanize('add new file');
+        $string .= '</legend>';
+
+        $string .= $this->renderer->widget($view);
+
+        return $string . '</fieldset>';
+    }
+
     public function form_widget_simple(FormView $view, array $data)
     {
         $type = isset($data['type']) ? $data['type'] : 'text';
@@ -438,7 +454,7 @@ class form extends base
         $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<table class="midcom_datamanager_table_photo"><tr><td>';
         $preview = null;
-        $objects = $data['value']['objects'];
+        $objects = isset($data['value']['objects']) ? $data['value']['objects'] : [];
         foreach ($objects as $identifier => $info) {
             $preview = $info;
             if ($identifier == 'thumbnail') {
