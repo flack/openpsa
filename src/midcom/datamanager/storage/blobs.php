@@ -73,6 +73,7 @@ class blobs extends delayed
 
                     if (empty($db_att)) {
                         $db_att = $att;
+                        $db_att->parentguid = $this->object->guid;
                         $this->create_attachment($db_att, $filename, $title, $mimetype);
                         $identifier = md5(time() . $db_att->name . $source);
                     } else {
