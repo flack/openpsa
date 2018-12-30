@@ -28,6 +28,8 @@ class imageType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setDefault('error_bubbling', false);
+
         helper::add_normalizers($resolver, [
             'widget_config' => [
                 'map_action_elements' => false,
