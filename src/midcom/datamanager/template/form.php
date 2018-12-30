@@ -167,11 +167,7 @@ class form extends base
 
         $string .= '<div class="attachment-container">';
         $string .= '<div class="attachment-preview">';
-        if (!empty($data['value']['size_x']) && !empty($data['value']['size_y'])) {
-            $string .= '<a href="' . $data['value']['url'] . '" target="_blank"><img src="' . $data['value']['url'] . '" class="preview-image">';
-            $size = "{$data['value']['size_x']}&times;{$data['value']['size_y']}";
-            $string .= "<br><span title=\"{$data['value']['guid']}\">{$size}, {$data['value']['formattedsize']}</span></a>";
-        } elseif (!empty($data['value']['filename'])) {
+        if (!empty($data['value']['filename'])) {
             $parts = explode('.', $data['value']['filename']);
             $ext = '';
             if (count($parts) > 1) {
