@@ -12,11 +12,11 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-$ip_sudo = midcom::get()->auth->require_admin_or_ip('midcom.services.indexer');
-
 if (midcom::get()->config->get('indexer_backend') === false) {
     throw new midcom_error('No indexer backend has been defined. Aborting.');
 }
+
+$ip_sudo = midcom::get()->auth->require_admin_or_ip('midcom.services.indexer');
 
 //check if language is passed - if not take the current-one
 $language = midcom::get()->i18n->get_current_language();
@@ -64,16 +64,15 @@ while (!is_null($nodeid)) {
     echo "Processing node #{$nodeid}, {$node[MIDCOM_NAV_FULLURL]}: ";
     //pass the node-id & the language
     $post_variables = ['nodeid' => $nodeid, 'language' => $language];
-    $post_string = 'nodeid=' . $nodeid . '&language=' . $language;
-    $response = $http_client->post($reindex_topic_uri, $post_variables, ['User-Agent' => 'midcom-exec-midcom/reindex.php']);
+    $response = $http_client->post($reindex_topic_uri, $post_variables, ['User-Agent' => __FILE__]);
     if ($response === false) {
         // returned with failure
         echo "failure.\n   Background processing failed, error: {$http_client->error}\n";
-        echo "Url: " . $reindex_topic_uri . "?" . $post_string . "\n";
+        echo "Url: " . $reindex_topic_uri . "?" . http_build_query($post_variables) . "\n";
     } elseif (!preg_match("#(\n|\r\n)Reindex complete for node http.*\s*</pre>\s*$#", $response)) {
         // Does not end with 'Reindex complete for node...'
         echo "failure.\n   Background reindex returned unexpected data:\n---\n{$response}\n---\n";
-        echo "Url: " . $reindex_topic_uri . "?" . $post_string . "\n\n";
+        echo "Url: " . $reindex_topic_uri . "?" . http_build_query($post_variables) . "\n\n";
     } else {
         // Background reindex ok
         echo "OK.\n";
@@ -89,9 +88,6 @@ while (!is_null($nodeid)) {
     $nodes = array_merge($nodes, $children);
     $nodeid = array_shift($nodes);
 }
-
-debug_add('Enabling script abort through client again.');
-ignore_user_abort(false);
 
 if ($ip_sudo) {
     midcom::get()->auth->drop_sudo();
