@@ -78,17 +78,22 @@ abstract class midcom_services_indexer_client
         return $this->_indexer->index($this->new_document($object));
     }
 
-    public function add_query($name, midcom_core_querybuilder $qb, $schemadb)
+    /**
+     * @param string $name
+     * @param midcom_core_querybuilder $qb
+     * @param midcom\datamanager\datamanager $dm datamanager (or schemadb in dm2)
+     */
+    public function add_query($name, midcom_core_querybuilder $qb, $dm)
     {
-        $this->_queries[$name] = [$qb, $schemadb];
+        $this->_queries[$name] = [$qb, $dm];
     }
 
     public function reindex()
     {
-        foreach ($this->_queries as $name => list($qb, $schemadb)) {
+        foreach ($this->_queries as $name => list($qb, $dm)) {
             $results = $qb->execute();
             if (!empty($results)) {
-                $documents = $this->process_results($name, $results, $schemadb);
+                $documents = $this->process_results($name, $results, $dm);
                 if (!empty($documents)) {
                     $this->_indexer->index($documents);
                 }
@@ -112,11 +117,11 @@ abstract class midcom_services_indexer_client
     /**
      *
      * @param string $name
-     * @param array $results
-     * @param mixed $schemadb
+     * @param midcom_core_dbaobject[] $results
+     * @param midcom\datamanager\datamanager $dm datamanager (or schemadb in dm2)
      * @return midcom_services_indexer_document[]
      */
-    abstract public function process_results($name, array $results, $schemadb);
+    abstract public function process_results($name, array $results, $dm);
 
     /**
      *
