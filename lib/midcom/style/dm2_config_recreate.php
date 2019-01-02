@@ -5,17 +5,17 @@ echo "<pre>\n";
 foreach ($this->data['objects'] as $object) {
     $type = get_class($object);
     if (!isset($this->data['datamanagers'][$type])) {
-        printf(midcom::get()->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'No datamanager defined') . "\n";
+        echo sprintf(midcom::get()->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'No datamanager defined') . "\n";
         continue;
     }
 
     if (   !$object->can_do('midgard:update')
         || !$object->can_do('midgard:attachments')) {
-        printf(midcom::get()->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'Insufficient privileges') . "\n";
+        echo sprintf(midcom::get()->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'Insufficient privileges') . "\n";
         continue;
     }
 
-    printf(midcom::get()->i18n->get_string('recreating object %s %s', 'midcom'), $type, $object->guid) . ': ';
+    echo sprintf(midcom::get()->i18n->get_string('recreating object %s %s', 'midcom'), $type, $object->guid) . ': ';
     $this->data['datamanagers'][$type]->set_storage($object);
     if (!$this->data['datamanagers'][$type]->recreate()) {
         echo "SKIPPED\n";
