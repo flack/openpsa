@@ -23,7 +23,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     /**
      * Some object
      *
-     * @var midgard_object
+     * @var midgard\portable\api\mgdobject
      */
     protected $_object = null;
 
@@ -71,7 +71,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
     /**
      *
-     * @param midgard_object $object
+     * @param midgard\portable\api\mgdobject $object
      * @return midcom_helper_reflector_tree
      */
     protected function _get_reflector($object)

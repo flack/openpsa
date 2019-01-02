@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\portable\api\mgdobject;
+
 /**
  * <b>How to write database class definitions:</b>
  *
@@ -69,7 +71,7 @@ class midcom_services_dbclassloader
             return true;
         }
 
-        return is_a($object, 'midgard_object');
+        return is_a($object, mgdobject::class);
     }
 
     /**

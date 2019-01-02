@@ -80,7 +80,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Get rendered path for object
      *
-     * @param midgard_object $object The object to get path for
+     * @param midgard\portable\api\mgdobject $object The object to get path for
      * @param string $separator the string used to separate path components
      * @return string resolved path
      */
@@ -101,7 +101,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Get path components for object
      *
-     * @param midgard_object $object The object to get path for
+     * @param midgard\portable\api\mgdobject $object The object to get path for
      * @return array path components
      */
     public static function resolve_path_parts($object)
@@ -139,7 +139,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * NOTE: since this might fall back to pure MgdSchema never trust that MidCOM DBA features
      * are available, check for is_callable/method_exists first !
      *
-     * @param midgard_object $object the object to get parent for
+     * @param midgard\portable\api\mgdobject $object the object to get parent for
      */
     public static function get_parent($object)
     {
@@ -170,7 +170,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Get children of given object
      *
-     * @param midgard_object $object object to get children for
+     * @param midgard\portable\api\mgdobject $object object to get children for
      * @param boolean $deleted whether to get (only) deleted or not-deleted objects
      * @return array multidimensional array (keyed by classname) of objects or false on failure
      */

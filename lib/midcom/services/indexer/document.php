@@ -602,7 +602,7 @@ class midcom_services_indexer_document
     /**
      * Tries to resolve created, revised, author, editor and creator for the document from Midgard object
      *
-     * @param midgard_object $object object to use as source for the info
+     * @param midgard\portable\api\mgdobject $object object to use as source for the info
      */
     public function read_metadata_from_object($object)
     {

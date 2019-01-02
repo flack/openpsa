@@ -8,6 +8,7 @@
 
 use midgard\portable\storage\connection;
 use midgard\portable\api\error\exception as mgd_exception;
+use midgard\portable\api\mgdobject;
 
 /**
  * Wrapper for Midgard-related functionality
@@ -234,7 +235,7 @@ class midcom_connection
             $classnames = connection::get_em()->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
 
             self::$_data['schema_types'] = array_filter($classnames, function($input) {
-                return is_subclass_of($input, 'midgard_object');
+                return is_subclass_of($input, mgdobject::class);
             });
         }
         return self::$_data['schema_types'];
