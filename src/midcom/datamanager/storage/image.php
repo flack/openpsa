@@ -18,22 +18,18 @@ class image extends blobs implements recreateable
 
     public function recreate()
     {
-        $this->map = [];
-
         $existing = $this->load();
         if (array_key_exists('archival', $existing)) {
-            $this->map['archival'] = $existing['archival'];
-            $this->value['file'] = $this->map['archival'];
-            $attachment = $this->create_main_image($this->value['file'], $existing);
+            $attachment = $existing['archival'];
         } elseif (array_key_exists('main', $existing)) {
-            $this->map['main'] = $existing['main'];
-            $this->value['file'] = $existing['main'];
             $attachment = $existing['main'];
+        } else {
+            return true;
         }
-        if (!empty($attachment)) {
-            return $this->save_derived_images($attachment, $existing);
-        }
-        return true;
+
+        $filter = new imagefilter($this->config['type_config'], $this->save_archival);
+        $this->map = $filter->process($attachment, $existing);
+        return $this->save_attachment_list();
     }
 
     /**
