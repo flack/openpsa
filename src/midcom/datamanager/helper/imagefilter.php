@@ -120,7 +120,6 @@ class imagefilter
 
     /**
      * @param array $existing
-     * @return boolean
      */
     private function create_derived_images(array $existing)
     {

@@ -16,15 +16,18 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     public $string_previous = 'previous';
     protected $_midcom_qb;
     protected $_midcom_qb_count;
-    protected $_pager_id = false;
+    protected $_pager_id;
     protected $_prefix = '';
     private $_offset = 0;
-    private $count = false;
+    private $count;
     private $_count_mode;
     private $_current_page = 1;
 
     public function __construct($classname, $pager_id)
     {
+        if (empty($pager_id)) {
+            throw new midcom_error('pager_id is not set (needed for distinguishing different instances on same request)');
+        }
         parent::__construct();
 
         $this->_pager_id = $pager_id;
@@ -44,10 +47,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     protected function _sanity_check()
     {
-        if (empty($this->_pager_id)) {
-            debug_add('this->_pager_id is not set (needed for distinguishing different instances on same request)', MIDCOM_LOG_WARN);
-            return false;
-        }
         if ($this->results_per_page < 1) {
             debug_add('this->results_per_page is set to ' . $this->results_per_page . ', aborting', MIDCOM_LOG_WARN);
             return false;

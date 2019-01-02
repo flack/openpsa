@@ -29,7 +29,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      * @param array $extra Array with the possible extra-properties
      * @return mixed The newly-created relatedto object or false on failure
      */
-    public static function create($from_obj, $from_component, $to_obj, $to_component, $status = false, $extra = false)
+    public static function create($from_obj, $from_component, $to_obj, $to_component, $status = null, array $extra = [])
     {
         if (   !is_object($from_obj)
             || !is_object($to_obj)) {
@@ -59,10 +59,8 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             return $db_rel;
         }
 
-        if (!empty($extra)) {
-            foreach ($extra as $extra_key => $extra_value) {
-                $rel->$extra_key = $extra_value;
-            }
+        foreach ($extra as $extra_key => $extra_value) {
+            $rel->$extra_key = $extra_value;
         }
 
         if (!$rel->create()) {
