@@ -10,14 +10,6 @@ delete:
     path: /delete/{guid}/
     defaults: { _controller: 'org_openpsa_relatedto_handler_relatedto::delete' }
 
-ajax_object:
-    path: /ajax/{mode}/{guid}/
-    defaults: { _controller: 'org_openpsa_relatedto_handler_relatedto::ajax' }
-
-ajax:
-    path: /ajax/{mode}/
-    defaults: { _controller: 'org_openpsa_relatedto_handler_relatedto::ajax' }
-
 journal_entry_list:
     path: /journalentry/list/{time}/
     defaults: { _controller: 'org_openpsa_relatedto_handler_journal_list::list' }

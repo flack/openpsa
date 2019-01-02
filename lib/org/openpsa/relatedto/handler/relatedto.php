@@ -437,48 +437,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_ajax($handler_id, array $args, array &$data)
-    {
-        midcom::get()->auth->require_valid_user();
-        $response = new midcom_response_xml;
-        $response->result = false;
-
-        //Request mode switch
-        $this->_mode = $args[0];
-        $this->_object = false;
-        if (isset($args[1])) {
-            try {
-                $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[1]);
-                if (!($this->_object instanceof org_openpsa_relatedto_dba)) {
-                    $response->status = "method '{$this->_mode}' requires guid of a link object as an argument";
-                }
-            } catch (midcom_error $e) {
-                $response->status = "method '{$this->_mode}' requires guid of a link object as an argument";
-            }
-        }
-        switch ($this->_mode) {
-            case 'deny':
-                $this->_object->status = org_openpsa_relatedto_dba::NOTRELATED;
-                $response->result = $this->_object->update();
-                $response->status = 'error:' . midcom_connection::get_error_string();
-                break;
-            case 'confirm':
-                $this->_object->status = org_openpsa_relatedto_dba::CONFIRMED;
-                $response->result = $this->_object->update();
-                $response->status = 'error:' . midcom_connection::get_error_string();
-                break;
-            default:
-                $response->status = "method '{$this->_mode}' not supported";
-                break;
-        }
-        return $response;
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
