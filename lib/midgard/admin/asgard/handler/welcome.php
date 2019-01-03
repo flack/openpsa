@@ -86,7 +86,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         }
 
         if (isset($_REQUEST['revised_after'])) {
-            $data['revised_after'] = date('Y-m-d H:i:s\Z', $_REQUEST['revised_after']);
+            $data['revised_after'] = date('Y-m-d', $_REQUEST['revised_after']);
 
             $data['type_filter'] = null;
             if (   isset($_REQUEST['type_filter'])
@@ -100,7 +100,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         } elseif (class_exists('midcom_helper_activitystream_activity_dba')) {
             $objects = $this->_load_activities();
         } else {
-            $data['revised_after'] = date('Y-m-d H:i:s\Z', mktime(0, 0, 0, date('m'), date('d') - 1, date('Y')));
+            $data['revised_after'] = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') - 1, date('Y')));
             $objects = $this->_list_revised($data['revised_after']);
         }
 

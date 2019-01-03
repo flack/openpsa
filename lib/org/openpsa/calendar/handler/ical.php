@@ -39,7 +39,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
 
         $qb->add_constraint('up', '=', $root_event->id);
         // Display events two weeks back
-        $qb->add_constraint('start', '>', mktime(0, 0, 0, date('n'), date('j') - 14, date('Y')));
+        $qb->add_constraint('start', '>', strtotime('14 days ago'));
         $qb->add_order('start', 'ASC');
         $this->_request_data['events'] = $qb->execute();
     }

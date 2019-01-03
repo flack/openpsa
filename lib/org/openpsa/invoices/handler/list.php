@@ -77,12 +77,12 @@ implements client
             case 'overdue':
                 $qb->add_constraint('sent', '>', 0);
                 $qb->add_constraint('paid', '=', 0);
-                $qb->add_constraint('due', '<=', mktime(0, 0, 0, date('n'), date('j') - 1, date('Y')));
+                $qb->add_constraint('due', '<=', strtotime('yesterday'));
                 break;
             case 'open':
                 $qb->add_constraint('sent', '>', 0);
                 $qb->add_constraint('paid', '=', 0);
-                $qb->add_constraint('due', '>', mktime(0, 0, 0, date('n'), date('j') - 1, date('Y')));
+                $qb->add_constraint('due', '>', strtotime('yesterday'));
                 break;
         }
 

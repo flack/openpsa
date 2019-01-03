@@ -178,9 +178,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
     private function _check_timerange()
     {
-        //Force types
-        $this->start = (int)$this->start;
-        $this->end = (int)$this->end;
         if (   !$this->start
             || !$this->end) {
             debug_add('Event must have start and end timestamps');
@@ -192,18 +189,8 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
          * Force start and end seconds to 1 and 0 respectively
          * (to avoid stupid one second overlaps)
          */
-        $this->start = mktime(date('G', $this->start),
-                              date('i', $this->start),
-                              1,
-                              date('n', $this->start),
-                              date('j', $this->start),
-                              date('Y', $this->start));
-        $this->end = mktime(date('G', $this->end),
-                            date('i', $this->end),
-                            0,
-                            date('n', $this->end),
-                            date('j', $this->end),
-                            date('Y', $this->end));
+        $this->start = floor($this->start / 60) * 60 + 1;
+        $this->end = (floor($this->end / 60) * 60);
 
         if ($this->end < $this->start) {
             debug_add('Event cannot end before it starts, aborting');

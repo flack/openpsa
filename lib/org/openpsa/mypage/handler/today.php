@@ -95,13 +95,13 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
     {
         $indexer = midcom::get()->indexer;
 
-        $start = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+        $start = strtotime('today');
         $query = '__TOPIC_URL:"' . midcom::get()->get_host_name() . '*"';
         $filter = new midcom_services_indexer_filter_date('__EDITED', $start, 0);
         $data['today'] = $indexer->query($query, $filter);
 
-        $start = mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));
-        $end = mktime(23, 59, 59, date('m'), date('d') - 1, date('Y'));
+        $start = strtotime('yesterday');
+        $end = strtotime('today') - 1;
         $query = '__TOPIC_URL:"' . midcom::get()->get_host_name() . '*"';
         $filter = new midcom_services_indexer_filter_date('__EDITED', $start, $end);
         $data['yesterday'] = $indexer->query($query, $filter);

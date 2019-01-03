@@ -12,14 +12,11 @@ $type_choices = ['any' => $data['l10n']->get('any')] + $type_choices;
 
 $revised_after_choices = [];
 
-// 1 day
-$date = mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));
+$date = strtotime('1 day ago today');
 $revised_after_choices[$date] = $data['l10n']->get('1 day');
-// 1 week
-$date = mktime(0, 0, 0, date('m'), date('d') - 6, date('Y'));
+$date = strtotime('1 week ago today');
 $revised_after_choices[$date] = $data['l10n']->get('1 week');
-// 1 month
-$date = mktime(0, 0, 0, date('m') - 1, date('d'), date('Y'));
+$date = strtotime('1 month ago today');
 $revised_after_choices[$date] = $data['l10n']->get('1 month');
 ?>
 
@@ -49,7 +46,7 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
                     foreach ($revised_after_choices as $value => $label) {
                         $selected = '';
                         if (   isset($data['revised_after'])
-                            && $data['revised_after'] == date('Y-m-d H:i:s\Z', $value)) {
+                            && $data['revised_after'] == date('Y-m-d', $value)) {
                             $selected = ' selected="selected"';
                         }
                         echo "<option value=\"{$value}\"{$selected}>{$label}</option>\n";

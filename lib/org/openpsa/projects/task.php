@@ -227,9 +227,9 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             $this->start = min(time(), $this->end - 1);
         }
 
-        //Reset start and end to start/end of day
-        $this->start = mktime(0, 0, 0, date('n', $this->start), date('j', $this->start), date('Y', $this->start));
-        $this->end = mktime(23, 59, 59, date('n', $this->end), date('j', $this->end), date('Y', $this->end));
+        // Reset start and end to start/end of day
+        $this->start = strtotime('today', $this->start);
+        $this->end = strtotime('tomorrow', $this->end) - 1;
 
         if ($this->start > $this->end) {
             debug_add("start ({$this->start}) is greater than end ({$this->end}), aborting", MIDCOM_LOG_ERROR);

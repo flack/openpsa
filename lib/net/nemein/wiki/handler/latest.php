@@ -88,7 +88,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         $this->_max_pages = $this->_config->get('latest_count');
 
         // Start by looking for items within last two weeks
-        $from = mktime(0, 0, 0, date('m'), date('d') - 14, date('Y'));
+        $from = strtotime('14 days ago');
         $this->_seek_updated($from);
 
         $i = 0;
@@ -96,7 +96,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
                && $i < 20) {
             // Expand seek by another two weeks
             $to = $from;
-            $from = mktime(0, 0, 0, date('m', $to), date('d', $to) - 14, date('Y', $to));
+            $from = strtotime('14 days ago', $to);
             $this->_seek_updated($from, $to);
             $i++;
         }

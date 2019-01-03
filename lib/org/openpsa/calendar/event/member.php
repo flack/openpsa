@@ -184,11 +184,11 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         }
 
         // Make sure each date between start and end has at least a dummy event
-        $stamp = mktime(0, 0, 1, date('m', $start), date('d', $start), date('Y', $start));
+        $stamp = strtotime('today', $start) + 1;
         while ($stamp <= $end) {
             $ymd = date('Ymd', $stamp);
             debug_add("making sure date {$ymd} has at least one event");
-            $stamp = mktime(0, 0, 1, date('m', $stamp), date('d', $stamp)+1, date('Y', $stamp));
+            $stamp = strtotime('tomorrow', $stamp) + 1;
             if (array_key_exists($ymd, $events_by_date)) {
                 continue;
             }

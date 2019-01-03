@@ -15,7 +15,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
 
     public function set_cutoff($days)
     {
-        $this->_cutoff = mktime(23, 59, 59, date('n'), date('j') - $days, date('Y'));
+        $this->_cutoff = strtotime($days . ' days ago');
     }
 
     public function get_cutoff()
