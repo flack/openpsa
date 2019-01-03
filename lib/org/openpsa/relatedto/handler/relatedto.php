@@ -15,15 +15,17 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 {
     /**
      * The object we're working with
+     *
+     * @var midcom_core_dbaobject
      */
-    private $_object = null;
+    private $_object;
 
     /**
      * The mode we're in
      *
      * @var string
      */
-    private $_mode = null;
+    private $_mode;
 
     /**
      * The sort order
@@ -37,10 +39,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      *
      * @var array
      */
-    private $_links = [
-        'incoming' => [],
-        'outgoing' => []
-    ];
+    private $_links = [];
 
     public function _on_initialize()
     {
@@ -60,19 +59,11 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             $this->_sort = $args[2];
         }
 
-        switch ($this->_mode) {
-            case 'in':
-                $this->_get_object_links($this->_links['incoming'], $this->_object, true);
-                break;
-            case 'out':
-                $this->_get_object_links($this->_links['outgoing'], $this->_object, false);
-                break;
-            case 'both':
-                $this->_get_object_links($this->_links['incoming'], $this->_object, true);
-                $this->_get_object_links($this->_links['outgoing'], $this->_object, false);
-                break;
-            default:
-                throw new midcom_error('Mode ' . $this->_mode . ' not supported');
+        if ($this->_mode !== 'in') {
+            $this->_links['outgoing'] = $this->_get_object_links(true);
+        }
+        if ($this->_mode !== 'out') {
+            $this->_links['incoming'] = $this->_get_object_links(false);
         }
 
         $this->_prepare_request_data();
@@ -111,18 +102,18 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * Get object's relatedtos
      *
-     * @param array &$arr
-     * @param midcom_core_dbaobject $obj
      * @param boolean $inbound True means toGuid == $obj->guid, false fromGuid == $obj->guid
+     * @return array
      */
-    private function _get_object_links(array &$arr, midcom_core_dbaobject $obj, $inbound = true)
+    private function _get_object_links($inbound = true)
     {
+        $arr = [];
         if ($inbound) {
             $object_prefix = 'from';
-            $mc = org_openpsa_relatedto_dba::new_collector('toGuid', $obj->guid);
+            $mc = org_openpsa_relatedto_dba::new_collector('toGuid', $this->_object->guid);
         } else {
             $object_prefix = 'to';
-            $mc = org_openpsa_relatedto_dba::new_collector('fromGuid', $obj->guid);
+            $mc = org_openpsa_relatedto_dba::new_collector('fromGuid', $this->_object->guid);
         }
 
         $mc->add_value_property($object_prefix . 'Guid');
@@ -152,6 +143,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             $to_arr['sort_time'] = $this->_get_object_links_sort_time($to_arr['other_obj']);
             $arr[] = $to_arr;
         }
+        return $arr;
     }
 
     /**

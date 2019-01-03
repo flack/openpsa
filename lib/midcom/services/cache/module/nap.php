@@ -192,7 +192,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * @param mixed $data The data to store.
      * @param int $timeout how long the data should live in the cache.
      */
-    public function put_node($key, $data, $timeout = false)
+    public function put_node($key, $data, $timeout = 0)
     {
         if ($this->_cache === null) {
             return;
@@ -215,7 +215,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * @param mixed $data The data to store.
      * @param int $timeout how long the data should live in the cache.
      */
-    public function put_guid($guid, $data, $timeout = false)
+    public function put_guid($guid, $data, $timeout = 0)
     {
         if ($this->_cache === null) {
             return;
@@ -236,7 +236,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * @param string $guid The key to look up.
      * @param int $timeout how long the data should live in the cache.
      */
-    public function get_guid($guid, $timeout = false)
+    public function get_guid($guid, $timeout = 0)
     {
         if ($this->_cache === null) {
             return;
@@ -258,7 +258,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * @param mixed $data The data to store.
      * @param int $timeout how long the data should live in the cache.
      */
-    public function put_leaves($key, $data, $timeout = false)
+    public function put_leaves($key, $data, $timeout = 0)
     {
         if ($this->_cache === null) {
             return;

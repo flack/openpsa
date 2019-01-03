@@ -165,9 +165,6 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         }
 
         $method = '_batch_' . $args[0];
-        if (!method_exists($this, $method)) {
-            throw new midcom_error('Unknown action');
-        }
 
         $qb = midcom_db_person::new_query_builder();
         $qb->add_constraint('guid', 'IN', $_POST['midgard_admin_user']);

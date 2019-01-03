@@ -29,6 +29,7 @@ task-list-subtask:
 task-list:
     path: /task/list/{status}/
     defaults: { _controller: 'org_openpsa_projects_handler_task_list::list' }
+    requirements: {action: 'open|closed|current|invoiceable|invoiced'}
 
 task-list-user:
     path: /task/list/

@@ -123,8 +123,6 @@ implements client
                 $this->qb->add_constraint('invoicedHours', '>', 0);
                 $this->provider->add_order('end', 'DESC');
                 break;
-            default:
-                throw new midcom_error("Filter {$args[0]} not recognized");
         }
         $this->set_active_leaf($this->_topic->id . ':tasks_' . $args[0]);
         $this->add_filters($args[0]);

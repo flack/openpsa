@@ -5,6 +5,7 @@ user_list:
 user_batch:
     path: /batch/{action}/
     defaults: { _controller: 'midgard_admin_user_handler_list::batch' }
+    requirements: {action: 'groupadd|passwords|removeaccount'}
 
 user_password_email:
     path: /password/email/

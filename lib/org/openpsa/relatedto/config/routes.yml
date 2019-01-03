@@ -1,10 +1,12 @@
 render_sort:
     path: /render/{guid}/{mode}/{sort}/
     defaults: { _controller: 'org_openpsa_relatedto_handler_relatedto::render' }
+    requirements: { mode: 'in|out|both' }
 
 render:
     path: /render/{guid}/{mode}/
     defaults: { _controller: 'org_openpsa_relatedto_handler_relatedto::render' }
+    requirements: { mode: 'in|out|both' }
 
 delete:
     path: /delete/{guid}/
