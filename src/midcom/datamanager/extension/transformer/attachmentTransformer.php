@@ -82,6 +82,10 @@ class attachmentTransformer implements DataTransformerInterface
         $title = ($this->config['widget_config']['show_title']) ? $array['title'] : '';
 
         if (!empty($array['file']) && $array['file'] instanceof UploadedFile) {
+            if ($array['file']->getError() !== UPLOAD_ERR_OK) {
+                return null;
+            }
+
             $attachment = new midcom_db_attachment;
             $attachment->name = $array['file']->getClientOriginalName();
             $attachment->mimetype = $array['file']->getMimeType();
