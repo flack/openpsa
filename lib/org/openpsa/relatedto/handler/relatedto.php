@@ -437,6 +437,37 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
+    public function _handler_ajax($handler_id, array $args, array &$data)
+    {
+        midcom::get()->auth->require_valid_user();
+
+        $response = new midcom_response_xml;
+        $response->result = false;
+
+        try {
+            $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[1]);
+            if (!($this->_object instanceof org_openpsa_relatedto_dba)) {
+                $response->status = "method requires guid of a link object as an argument";
+            }
+        } catch (midcom_error $e) {
+            $response->status = "error: " . $e->getMessage();
+        } finally {
+            if (!empty($response->status)) {
+                return $response;
+            }
+        }
+        $this->_object->status = $args[0] == 'deny' ? org_openpsa_relatedto_dba::NOTRELATED : org_openpsa_relatedto_dba::CONFIRMED;
+        $response->result = $this->_object->update();
+        $response->status = 'error:' . midcom_connection::get_error_string();
+
+        return $response;
+    }
+
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
