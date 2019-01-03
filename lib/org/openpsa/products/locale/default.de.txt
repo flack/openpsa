@@ -142,14 +142,6 @@ Typ
 Einheit
 ---STRINGEND
 
----STRING updated %s
-Aktualisiert am %S
----STRINGEND
-
----STRING updated products
-Aktualisierte Produkte
----STRINGEND
-
 ---STRING year
 Jahr
 ---STRINGEND

@@ -97,26 +97,5 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         $this->_request_data['schemadb_product'] = schemadb::from_path($this->_config->get('schemadb_product'));
 
         $this->_populate_node_toolbar();
-
-        if ($this->_config->get('custom_rss_feeds')) {
-            $feeds = $this->_config->get('custom_rss_feeds');
-            if (!empty($feeds)) {
-                foreach ($feeds as $title => $url) {
-                    midcom::get()->head->add_link_head([
-                        'rel'   => 'alternate',
-                        'type'  => 'application/rss+xml',
-                        'title' => $this->_l10n->get($title),
-                        'href'  => $url,
-                    ]);
-                }
-            }
-        } else {
-            midcom::get()->head->add_link_head([
-                'rel'   => 'alternate',
-                'type'  => 'application/rss+xml',
-                'title' => $this->_l10n->get('updated products'),
-                'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
-            ]);
-        }
     }
 }

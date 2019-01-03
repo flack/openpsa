@@ -142,14 +142,6 @@ Type
 Unit
 ---STRINGEND
 
----STRING updated %s
-updated %s
----STRINGEND
-
----STRING updated products
-Updated products
----STRINGEND
-
 ---STRING year
 year
 ---STRINGEND

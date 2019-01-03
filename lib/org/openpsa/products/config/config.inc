@@ -30,7 +30,4 @@
 // default schema to use when exporting products
 'csv_export_schema' => 'default',
 
-// Use custom rss feeds
-'custom_rss_feeds' => false, // ['title' => 'http://example.com']
-
 'product_page_title' => '<TOPIC_TITLE>: <PRODUCT_TITLE>',

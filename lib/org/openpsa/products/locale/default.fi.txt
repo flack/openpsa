@@ -114,14 +114,6 @@ Tyyppi
 Yksikkö
 ---STRINGEND
 
----STRING updated %s
-päivitetty %s
----STRINGEND
-
----STRING updated products
-Päivitetyt tuotteet
----STRINGEND
-
 ---STRING year
 vuosi
 ---STRINGEND

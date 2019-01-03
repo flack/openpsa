@@ -54,22 +54,6 @@ view_product_raw:
     path: /product/raw/{guid}/
     defaults: { _controller: 'org_openpsa_products_handler_product_view::view' }
 
-updated_products:
-    path: /updated/{n}/
-    defaults: { _controller: 'org_openpsa_products_handler_product_latest::updated' }
-
-updated_products_intree:
-    path: /updated/{productgroup}/{n}/
-    defaults: { _controller: 'org_openpsa_products_handler_product_latest::updated' }
-
-updated_products_feed:
-    path: /rss.xml/
-    defaults: { _controller: 'org_openpsa_products_handler_product_latest::feed' }
-
-updated_products_feed_intree:
-    path: /rss/{productgroup}/{rss_xml}/
-    defaults: { _controller: 'org_openpsa_products_handler_product_latest::feed' }
-
 export_product_csv:
     path: /export/product/csv/
     defaults: { _controller: 'org_openpsa_products_handler_product_csv::csv' }
