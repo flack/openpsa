@@ -209,13 +209,11 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $data = [];
 
         $handler = midcom::get()->componentloader->get_interface_class($component);
-        if (empty($handler->_context_data[midcom_core_context::get()->id]['handler'])) {
+        $viewer = $handler->get_viewer(new midcom_db_topic);
+        if ($viewer === null) {
             return $data;
         }
-
-        /** @var midcom_baseclasses_components_request $request */
-        $request =& $handler->_context_data[midcom_core_context::get()->id]['handler'];
-        $routes = $request->get_router()->getRouteCollection()->all();
+        $routes = $viewer->get_router()->getRouteCollection()->all();
         foreach ($routes as $request_handler_id => $route) {
             $details = [];
 

@@ -151,74 +151,20 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     // ===================== COMPONENT INTERFACE ======================
 
     /**
-     * This variable holds the context-specific data during processing.
-     * It is indexed first by context ID and second by a string key. Currently
-     * defined keys are:
-     *
-     * - <i>config</i> holds the configuration for this context
-     * - <i>handler</i> The class handling the request.
-     */
-    public $_context_data = [];
-
-    /**
-     * Configures the component for usage. The configuration is merged, and,
-     * if necessary, an existing handler object is purged.
-     *
-     * @param mixed $configuration A configuration data list, suitable for merging with a
-     *     midcom_helper_configuration object.
-     * @param int $contextid The ID of the context we are associated with.
-     */
-    public function configure($configuration, $contextid)
-    {
-        // Initialize the context data
-        $this->_context_data[$contextid] = [
-            'config' => $this->_config,
-            'handler' => null
-        ];
-
-        $this->_context_data[$contextid]['config']->store($configuration, false);
-    }
-
-    /**
-     * Relays the can_handle call to the component, instantiating a new site
-     * class. It will execute can_handle of that class, returning its result
-     * to MidCOM.
+     * Get the component's viewer
      *
      * @param midcom_db_topic $current_object The topic in question.
-     * @param Request $request
-     * @param int $contextid The id of the context we are operating in.
-     * @return boolean True, if the component can handle the request, false otherwise.
+     * @return midcom_baseclasses_components_request|null
      */
-    public function can_handle($current_object, Request $request, $contextid)
+    public function get_viewer(midcom_db_topic $current_object)
     {
-        $data =& $this->_context_data[$contextid];
+        $this->_config->store_from_object($current_object, $this->_component);
         $loader = midcom::get()->componentloader;
-        $class = $loader->path_to_prefix($this->_component) . '_' . $this->_site_class_suffix;
-        $data['handler'] = new $class($current_object, $data['config']);
-        if ($data['handler'] instanceof midcom_baseclasses_components_request) {
-            $data['handler']->initialize($this->_component);
+        $class_name = $loader->path_to_prefix($this->_component) . '_' . $this->_site_class_suffix;
+        if (!class_exists($class_name)) {
+            return null;
         }
-        return $data['handler']->can_handle($request);
-    }
-
-    /**
-     * Relays the handle call to the component.
-     *
-     * @return midcom_response|boolean True, if the component successfully handle the request, false otherwise.
-     */
-    public function handle()
-    {
-        return $this->_context_data[midcom_core_context::get()->id]['handler']->handle();
-    }
-
-    /**
-     * Relays the show content call to the component, invoking output.
-     *
-     * @param int $contextid The id of the context we are operating in.
-     */
-    public function show_content($contextid)
-    {
-        $this->_context_data[$contextid]['handler']->show();
+        return new $class_name($current_object, $this->_config, $this->_component);
     }
 
     // ===================== NAP INTERFACE ======================

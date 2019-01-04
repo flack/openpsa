@@ -17,7 +17,7 @@ class org_openpsa_mypage_handlerTest extends openpsa_testcase
     {
         $topic = $this->get_component_node('org.openpsa.mypage');
         $config = midcom_baseclasses_components_configuration::get('org.openpsa.mypage', 'config');
-        $viewer = new org_openpsa_mypage_viewer($topic, $config);
+        $viewer = new org_openpsa_mypage_viewer($topic, $config, 'org.openpsa.mypage');
         $handler = new org_openpsa_mypage_handler_workingon();
         $handler->initialize($viewer, $viewer->get_router());
         $handler->prepare_timestamps(new DateTime('2011-10-26'));

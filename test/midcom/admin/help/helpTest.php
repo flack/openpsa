@@ -66,6 +66,11 @@ class midcom_admin_help_helpTest extends openpsa_testcase
                         'subject' => 'net.nehmer.blog style elements',
                         'lang' => 'en'
                     ],
+                    'handlers' => [
+                        'path' => '/handlers',
+                        'subject' => 'URL Handlers',
+                        'lang' => 'en'
+                    ]
                 ]
             ]
         ];

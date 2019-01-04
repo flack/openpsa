@@ -291,23 +291,13 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @param midcom_db_topic $topic The topic we are working on
      * @param midcom_helper_configuration $config The currently active configuration.
+     * @param string $component The name of the component.
      */
-    final public function __construct(midcom_db_topic $topic, $config)
+    final public function __construct(midcom_db_topic $topic, midcom_helper_configuration $config, $component)
     {
         $this->_topic = $topic;
         $this->_config = $config;
-    }
-
-    /**
-     * Initializes the request handler class, called by the component interface after
-     * instantiation.
-     *
-     * @param string $component The name of the component.
-     */
-    public function initialize($component)
-    {
         $this->_component = $component;
-        midcom_core_context::get()->set_custom_key('request_data', $this->_request_data);
 
         $this->_request_data['config'] = $this->_config;
         $this->_request_data['topic'] = null;
@@ -448,6 +438,8 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     public function handle()
     {
+        midcom_core_context::get()->set_custom_key('request_data', $this->_request_data);
+
         // Init
         $handler = $this->_handler['handler'][0];
 

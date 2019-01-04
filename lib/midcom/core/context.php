@@ -345,12 +345,10 @@ class midcom_core_context
         // Get component interface class
         $component_interface = midcom::get()->componentloader->get_interface_class($path);
 
-        // Load configuration
-        $config = $this->_loadconfig($this->id, $topic)->get_all();
-        $component_interface->configure($config, $this->id);
+        $viewer = $component_interface->get_viewer($topic);
 
         // Make can_handle check
-        if (!$component_interface->can_handle($topic, $request, $this->id)) {
+        if (!$viewer->can_handle($request)) {
             debug_add("Component {$path} in {$topic->name} declared unable to handle request.", MIDCOM_LOG_INFO);
 
             // We couldn't fetch a node due to access restrictions
@@ -366,9 +364,10 @@ class midcom_core_context
 
         $this->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $this->parser->get_current_object());
         $this->set_key(MIDCOM_CONTEXT_URLTOPICS, $this->parser->get_objects());
-        $this->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$component_interface, 'show_content']);
+        $this->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
 
-        $response = $component_interface->handle();
+        $response = $viewer->handle();
+
         if (!is_object($response)) {
             $response = new midcom_response_styled($this);
         }
@@ -387,29 +386,5 @@ class midcom_core_context
         if (!midcom::get()->skip_page_style) {
             midcom_show_style('style-finish');
         }
-    }
-
-    /**
-     * Load the configuration for a given object.
-     *
-     * This is a small wrapper function that retrieves all local configuration data
-     * attached to $topic. The assigned component is used to determine which
-     * parameter domain has to be used.
-     *
-     * @param int $context_id The context ID
-     * @param midcom_db_topic $topic      The node from which to load the configuration.
-     * @return midcom_helper_configuration The newly constructed configuration object.
-     */
-    private function _loadconfig($context_id, midcom_db_topic $topic)
-    {
-        static $configs = [];
-        $cache_key = $context_id . '::' . $topic->guid;
-
-        if (!isset($configs[$cache_key])) {
-            $path = $this->get_key(MIDCOM_CONTEXT_COMPONENT);
-            $configs[$cache_key] = new midcom_helper_configuration($topic, $path);
-        }
-
-        return $configs[$cache_key];
     }
 }
