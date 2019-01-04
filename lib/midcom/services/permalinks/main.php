@@ -157,7 +157,7 @@ class midcom_services_permalinks
             }
             $prefix = $node[MIDCOM_NAV_FULLURL];
         } else {
-            $prefix = midcom_connection::get('prefix');
+            $prefix = midcom_connection::get_url('prefix');
         }
 
         $interface = midcom::get()->componentloader->get_interface_class($component);

@@ -1,6 +1,6 @@
 <?php
-$prefix = midcom_connection::get_url('self');
 $item = $data['result'];
+$url = midcom_db_attachment::get_url($item);
 $mime_icon = null;
 $item_type = "image";
 
@@ -21,10 +21,10 @@ switch ($item->mimetype) {
 <?php
 if ($item_type == "image") {
     ?>
-    <a href='&(prefix);midcom-serveattachmentguid-&(item.guid);/&(item.name);'>
-        <img src='&(prefix);midcom-serveattachmentguid-&(item.guid);/&(item.name);' height='54' align='texttop' />
+    <a href='&(url);'>
+        <img src='&(url);' height='54' align='texttop' />
     </a>
-    <a href='&(prefix);midcom-serveattachmentguid-&(item.guid);/&(item.name);'>
+    <a href='&(url);'>
         <span title="name">&(item.name);</span>
     </a>
 <?php
@@ -32,7 +32,7 @@ if ($item_type == "image") {
 } else {
     ?>
     <img src="&(mime_icon);" alt="&(item.mimetype);" align='texttop'/>
-    <a href='&(prefix);midcom-serveattachmentguid-&(item.guid);/&(item.name);'>
+    <a href='&(url);'>
         <span title="name">&(item.name);</span>
     </a>
 <?php

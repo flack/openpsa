@@ -1,3 +1,7 @@
+<?php
+$url = $data['router']->generate('import_simpleemails', ['guid' => $data['campaign']->guid]);
+?>
+
 <div class="main">
     <h1><?php printf($data['l10n']->get('import subscribers to "%s"'), $data['campaign']->title); ?></h1>
 
@@ -6,7 +10,7 @@
         <?php echo $data['l10n']->get('you can also write the addresses to the text field'); ?>.
     </p>
 
-    <form enctype="multipart/form-data" action="<?php echo midcom_connection::get_url('uri'); ?>" method="post" class="datamanager datamanager2">
+    <form enctype="multipart/form-data" action="&(url);" method="post" class="datamanager datamanager2">
         <label for="org_openpsa_directmarketing_import_upload">
             <span class="field_text"><?php echo $data['l10n']->get('file to import'); ?></span>
             <input type="file" class="fileselector" name="org_openpsa_directmarketing_import_upload" id="org_openpsa_directmarketing_import_upload" />

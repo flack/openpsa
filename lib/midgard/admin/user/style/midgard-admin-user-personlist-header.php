@@ -19,12 +19,12 @@
 
 <?php
 if (count($data['persons']) > 0) {
-            $action_uri = midcom_connection::get_url('uri');
-            if (isset($_REQUEST['midgard_admin_user_search'])) {
-                $action_uri .= "?midgard_admin_user_search=" . $_REQUEST['midgard_admin_user_search'];
-            }
+    $action_uri = $data['router']->generate('user_list');
+    if (isset($_REQUEST['midgard_admin_user_search'])) {
+        $action_uri .= "?midgard_admin_user_search=" . $_REQUEST['midgard_admin_user_search'];
+    }
 
-            $data['enabled'] = 0; ?>
+    $data['enabled'] = 0; ?>
     <form method="post" id="midgard_admin_user_batch_process" action="&(action_uri);">
     <table class="midgard_admin_user_search_results">
         <thead>

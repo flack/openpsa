@@ -370,7 +370,7 @@ class midcom_helper_misc
         $path_array = explode('/', $theme);
 
         //get the page if there is one
-        $page = midcom_connection::get('page_style');
+        $page = midcom_connection::get_url('page_style');
         $substyle = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_SUBSTYLE);
         //check if we have elements for the sub-styles
         while (!empty($path_array)) {

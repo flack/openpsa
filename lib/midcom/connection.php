@@ -195,26 +195,6 @@ class midcom_connection
         }
     }
 
-    /**
-     * Getter for various environment-related variables.
-     *
-     * @param string $key The key to look up
-     * @return mixed The found value or null
-     */
-    public static function get($key)
-    {
-        switch ($key) {
-            case 'uri':
-            case 'self':
-            case 'prefix':
-            case 'page_style':
-            case 'argv':
-                return self::get_url($key);
-            default:
-                return self::_get($key);
-        }
-    }
-
     private static function _get($key)
     {
         if (isset(self::$_data[$key])) {
@@ -244,10 +224,9 @@ class midcom_connection
     /**
      * Get various pieces of information extracted from the URL
      *
-     * @return mixed The data for the requested key or false if it doesn't exist
-     * @todo this should maybe check the key for validity
+     * @return mixed The data for the requested key or null if it doesn't exist
      */
-    static function get_url($key)
+    public static function get_url($key)
     {
         static $parsed = false;
         if (!$parsed) {

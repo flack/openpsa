@@ -133,7 +133,7 @@ class midcom_core_urlmethods
             midcom::get()->cache->invalidate_all();
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('MidCOM', 'midcom'), midcom::get()->i18n->get_string("cache invalidation successful", 'midcom'), 'info');
 
-            $url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : midcom_connection::get('self');
+            $url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : midcom_connection::get_url('self');
             return new midcom_response_relocate($url);
         }
         if ($value == 'nocache') {

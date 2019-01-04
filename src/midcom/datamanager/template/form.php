@@ -459,7 +459,7 @@ class form extends base
         }
         if (!empty($preview)) {
             if ($preview['id'] === 0) {
-                $preview['url'] = \midcom_connection::get('self') . 'midcom-exec-midcom.datamanager/preview-tmpfile.php?identifier=' . substr($preview['identifier'], strlen('tmpfile-'));
+                $preview['url'] = \midcom_connection::get_url('self') . 'midcom-exec-midcom.datamanager/preview-tmpfile.php?identifier=' . substr($preview['identifier'], strlen('tmpfile-'));
             }
 
             $string .= '<img src="' . $preview['url'] . '" class="preview-image">';

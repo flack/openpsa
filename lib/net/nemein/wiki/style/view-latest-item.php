@@ -5,7 +5,7 @@ $history = $data['history'];
 
 $version_string = "<a href=\"{$prefix}__ais/rcs/preview/{$page->guid}/{$data['version']}\">{$data['version']}</a>";
 
-$url = midcom_connection::get_url('self') . "midcom-permalink-{$page->guid}";
+$url = midcom::get()->permalinks->create_permalink($page->guid);
 $formatter = $data['l10n']->get_formatter();
 ?>
 <tr>
