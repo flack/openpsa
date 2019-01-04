@@ -75,8 +75,8 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
 
             //we always write all the leaves to cache and filter for ACLs after the fact
             midcom::get()->auth->request_sudo('midcom.helper.nav');
-            if ($interface = $this->get_component_interface($this->object)) {
-                $leaves = $interface->get_leaves();
+            if ($nap = $this->get_component_nap($this->object)) {
+                $leaves = $nap->get_leaves();
             }
             midcom::get()->auth->drop_sudo();
         }
@@ -152,15 +152,15 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
         }
 
         // Retrieve a NAP instance
-        $interface = $this->get_component_interface($topic);
-        if (!$interface) {
+        $nap = $this->get_component_nap($topic);
+        if (!$nap) {
             return null;
         }
 
         // Get the node data and verify this is a node that actually has any relevant NAP
         // information. Internal components which don't have
         // a NAP interface yet return null here, to be exempt from any NAP processing.
-        $data = $interface->get_node();
+        $data = $nap->get_node();
         if (is_null($data)) {
             debug_add("The component '{$topic->component}' did return null for the topic {$topic->id}, indicating no NAP information is available.");
             return null;
@@ -208,15 +208,16 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
 
     /**
      * @param midcom_db_topic $topic
-     * @return midcom_baseclasses_components_interface
+     * @return midcom_baseclasses_components_navigation
      */
-    private function get_component_interface($topic)
+    private function get_component_nap($topic)
     {
         $interface = midcom::get()->componentloader->get_interface_class($topic->component);
-        if (!$interface->set_object($topic)) {
+        $nap = $interface->get_nap_instance();
+        if (!$nap->set_object($topic)) {
             debug_add("Could not set the NAP instance of '{$topic->component}' to the topic {$topic->id}.", MIDCOM_LOG_ERROR);
             return null;
         }
-        return $interface;
+        return $nap;
     }
 }

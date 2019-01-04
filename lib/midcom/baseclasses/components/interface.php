@@ -126,6 +126,13 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
     protected $_nap_class_suffix = 'navigation';
 
     /**
+     * The NAP interface instance from the component, initialized on demand.
+     *
+     * @var midcom_baseclasses_components_navigation
+     */
+    private $_nap_instance;
+
+    /**
      * Class suffix used when constructing the on-site handler class.
      * It is appended to the component class prefix, f.x. resulting in
      * net_nehmer_static_viewer (as a default).
@@ -165,73 +172,18 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
         return new $class_name($current_object, $this->_config, $this->_component);
     }
 
-    // ===================== NAP INTERFACE ======================
-
     /**
-     * The NAP interface instance from the component, initialized on demand.
+     * Returns an instance of the NAP interface class
      *
-     * @var midcom_baseclasses_components_navigation
+     * @return midcom_baseclasses_components_navigation
      */
-    private $_nap_instance = null;
-
-    /**
-     * Checks, whether an instance of the NAP interface class has already been created
-     * and creates it if not.
-     *
-     * This check is only done during the set_object calls, which will always be the
-     * first calls in a sequence of NAP calls. (For performance reasons.)
-     */
-    private function _check_nap_instance()
+    public function get_nap_instance()
     {
         if (is_null($this->_nap_instance)) {
             $class_name = self::get_classname($this->_component, $this->_nap_class_suffix);
             $this->_nap_instance = new $class_name($this->_component);
         }
-    }
-
-    /**
-     * Relays the set_object call to the nap instance. Checks if the NAP instance has already
-     * been created beforehand.
-     *
-     * @param midcom_db_topic $object The midcom_db_topic that should be processed.
-     * @return boolean Indicating success.
-     */
-    public function set_object($object)
-    {
-        $this->_check_nap_instance();
-        return $this->_nap_instance->set_object($object);
-    }
-
-    /**
-     * Relays the get_node call to the NAP instance.
-     *
-     * @return Array A NAP compliant NODE structure.
-     */
-    public function get_node()
-    {
-        $this->_check_nap_instance();
-        return $this->_nap_instance->get_node();
-    }
-
-    /**
-     * Relays the get_leaves call to the NAP instance.
-     *
-     * @return Array An Array of NAP compliant leaf structures.
-     */
-    public function get_leaves()
-    {
-        $this->_check_nap_instance();
-        return $this->_nap_instance->get_leaves();
-    }
-
-    /**
-     * Returns the currently selected leaf of the request.
-     *
-     * @return int The active leaf ID out of the component data storage.
-     */
-    public function get_current_leaf()
-    {
-        return midcom_baseclasses_components_configuration::get($this->_component, 'active_leaf');
+        return $this->_nap_instance;
     }
 
     // ===================== COMMAND EXECUTION HANDLER ======================
