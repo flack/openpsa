@@ -335,11 +335,8 @@ class midcom_core_context
      * @param Request $request
      * @return midcom_response
      */
-    public function handle(midcom_db_topic $topic, Request $request = null)
+    public function handle(midcom_db_topic $topic, Request $request)
     {
-        if ($request === null) {
-            $request = Request::createFromGlobals();
-        }
         $request->attributes->set('argv', $this->parser->argv);
 
         $path = $topic->component;

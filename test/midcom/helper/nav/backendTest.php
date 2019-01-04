@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * OpenPSA testcase
  *
@@ -53,7 +55,7 @@ class midcom_helper_backendTest extends openpsa_testcase
 
         $context->parser->parse([$child_topic_name, $article_name]);
         $context->parser->get_object();
-        $context->handle($child_topic);
+        $context->handle($child_topic, Request::createFromGlobals());
         $backend = new midcom_helper_nav_backend($context->id);
 
         $this->assertEquals($root_topic->id, $backend->get_root_node());
