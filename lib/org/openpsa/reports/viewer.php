@@ -13,7 +13,7 @@
  *
  * @package org.openpsa.reports
  */
-class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
+class org_openpsa_reports_viewer extends midcom_baseclasses_components_viewer
 {
     public function _on_initialize()
     {

@@ -13,7 +13,7 @@
  *
  * @package net.nehmer.comments
  */
-class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
+class net_nehmer_comments_viewer extends midcom_baseclasses_components_viewer
 {
     public static function add_head_elements()
     {

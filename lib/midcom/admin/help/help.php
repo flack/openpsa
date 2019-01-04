@@ -210,9 +210,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         $handler = midcom::get()->componentloader->get_interface_class($component);
         $viewer = $handler->get_viewer(new midcom_db_topic);
-        if ($viewer === null) {
-            return $data;
-        }
         $routes = $viewer->get_router()->getRouteCollection()->all();
         foreach ($routes as $request_handler_id => $route) {
             $details = [];

@@ -13,7 +13,7 @@
  *
  * @package org.openpsa.directmarketing
  */
-class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_request
+class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_viewer
 {
     /**
      * Populates the node toolbar depending on the user's rights.

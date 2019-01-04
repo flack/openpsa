@@ -13,7 +13,7 @@
  *
  * @package org.openpsa.mypage
  */
-class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
+class org_openpsa_mypage_viewer extends midcom_baseclasses_components_viewer
 {
     public function _on_handle($handler_id, array $args)
     {

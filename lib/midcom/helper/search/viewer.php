@@ -11,7 +11,7 @@
  *
  * @package midcom.helper.search
  */
-class midcom_helper_search_viewer extends midcom_baseclasses_components_request
+class midcom_helper_search_viewer extends midcom_baseclasses_components_viewer
 {
     public function _on_handle($handler_id, array $args)
     {

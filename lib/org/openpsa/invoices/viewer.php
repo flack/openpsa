@@ -13,7 +13,7 @@ use midcom\grid\grid;
  *
  * @package org.openpsa.invoices
  */
-class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
+class org_openpsa_invoices_viewer extends midcom_baseclasses_components_viewer
 {
     public function _on_handle($handler, array $args)
     {

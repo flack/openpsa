@@ -181,14 +181,9 @@ class midcom_helper__componentloader
             return false;
         }
 
-        $classname = $this->path_to_prefix($path) . '_interface';
-        if (!class_exists($classname)) {
-            debug_add("Class {$classname} does not exist.", MIDCOM_LOG_CRIT);
-            return false;
-        }
-        $this->_interface_classes[$path] = new $classname();
+        $classname = midcom_baseclasses_components_interface::get_classname($path);
+        $this->_interface_classes[$path] = new $classname;
         $this->_interface_classes[$path]->initialize($path);
-
         $this->_tried_to_load[$path] = true;
 
         return true;

@@ -13,7 +13,7 @@ use midcom\datamanager\datamanager;
  *
  * @package net.nemein.wiki
  */
-class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
+class net_nemein_wiki_viewer extends midcom_baseclasses_components_viewer
 {
     public function _on_handle($handler_id, array $args)
     {

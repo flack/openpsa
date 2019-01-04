@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.expenses
  */
-class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
+class org_openpsa_expenses_viewer extends midcom_baseclasses_components_viewer
 {
     public function _on_handle($handler, array $args)
     {

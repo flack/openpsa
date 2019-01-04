@@ -18,7 +18,7 @@
  *
  * @package midcom.baseclasses
  */
-abstract class midcom_baseclasses_components_navigation extends midcom_baseclasses_components_base
+class midcom_baseclasses_components_navigation extends midcom_baseclasses_components_base
 {
     /**
      * The topic for which we are handling a request.
@@ -32,7 +32,7 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
      *
      * @param string $component The name of the component.
      */
-    public function initialize($component)
+    public function __construct($component)
     {
         $this->_component = $component;
 

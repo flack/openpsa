@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Router;
 
 /**
  * Execution handler subclass, to be used with the request switch
- * in midcom_baseclasses_components_request.
+ * in midcom_baseclasses_components_viewer.
  *
  * Use the various event handlers to customize startup.
  *
@@ -57,7 +57,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * The request class that has invoked this handler instance.
      *
      * @deprecated
-     * @var midcom_baseclasses_components_request
+     * @var midcom_baseclasses_components_viewer
      */
     var $_master = null;
 
@@ -101,9 +101,9 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * during runtime based on the system defaults and all parameters attached to the
      * topic <i>we're currently operating on.</i>
      *
-     * @param midcom_baseclasses_components_request $master The request class
+     * @param midcom_baseclasses_components_viewer $master The request class
      */
-    public function initialize(midcom_baseclasses_components_request $master, Router $router)
+    public function initialize(midcom_baseclasses_components_viewer $master, Router $router)
     {
         $this->_master = $master;
         $this->router = $router;

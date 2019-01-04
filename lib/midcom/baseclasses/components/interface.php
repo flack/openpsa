@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * Baseclass to use for the component interface in MidCOM.
  *
@@ -116,7 +114,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @see midcom_helper__componentloader
  * @see midcom_core_manifest
  */
-abstract class midcom_baseclasses_components_interface extends midcom_baseclasses_components_base
+class midcom_baseclasses_components_interface extends midcom_baseclasses_components_base
 {
     /**
      * Class suffix used when constructing the NAP handler class.
@@ -136,9 +134,15 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      */
     protected $_site_class_suffix = 'viewer';
 
-    // END OF COMPONENT STATE VARIABLES
-
-    // ===================== INITIALIZATION (startup) INTERFACE ======================
+    public static function get_classname($component, $suffix = 'interface')
+    {
+        $loader = midcom::get()->componentloader;
+        $class_name = $loader->path_to_prefix($component) . '_' . $suffix;
+        if (!class_exists($class_name)) {
+            $class_name = 'midcom_baseclasses_components_' . $suffix;
+        }
+        return $class_name;
+    }
 
     /**
      * Initializes the component.
@@ -148,22 +152,16 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
         $this->_component = $component;
     }
 
-    // ===================== COMPONENT INTERFACE ======================
-
     /**
      * Get the component's viewer
      *
      * @param midcom_db_topic $current_object The topic in question.
-     * @return midcom_baseclasses_components_request|null
+     * @return midcom_baseclasses_components_viewer
      */
     public function get_viewer(midcom_db_topic $current_object)
     {
         $this->_config->store_from_object($current_object, $this->_component);
-        $loader = midcom::get()->componentloader;
-        $class_name = $loader->path_to_prefix($this->_component) . '_' . $this->_site_class_suffix;
-        if (!class_exists($class_name)) {
-            return null;
-        }
+        $class_name = self::get_classname($this->_component, $this->_site_class_suffix);
         return new $class_name($current_object, $this->_config, $this->_component);
     }
 
@@ -186,12 +184,8 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     private function _check_nap_instance()
     {
         if (is_null($this->_nap_instance)) {
-            $loader = midcom::get()->componentloader;
-            $class = $loader->path_to_prefix($this->_component) . "_{$this->_nap_class_suffix}";
-            $this->_nap_instance = new $class();
-            if ($this->_nap_instance instanceof midcom_baseclasses_components_navigation) {
-                $this->_nap_instance->initialize($this->_component);
-            }
+            $class_name = self::get_classname($this->_component, $this->_nap_class_suffix);
+            $this->_nap_instance = new $class_name($this->_component);
         }
     }
 

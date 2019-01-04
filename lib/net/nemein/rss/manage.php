@@ -21,7 +21,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         $this->_request_data['node'] = $this->_topic;
     }
 
-    public static function register_plugin(midcom_baseclasses_components_request $viewer)
+    public static function register_plugin(midcom_baseclasses_components_viewer $viewer)
     {
         try {
             $viewer->register_plugin_namespace('__feeds', ['rss' => ['class' => __CLASS__]]);

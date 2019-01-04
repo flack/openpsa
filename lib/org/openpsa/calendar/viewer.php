@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.calendar
  */
-class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
+class org_openpsa_calendar_viewer extends midcom_baseclasses_components_viewer
 {
     /**
      * Add common elements and settings

@@ -14,7 +14,7 @@ use midcom\datamanager\schemadb;
  *
  * @package net.nehmer.static
  */
-class net_nehmer_static_viewer extends midcom_baseclasses_components_request
+class net_nehmer_static_viewer extends midcom_baseclasses_components_viewer
 {
     /**
      * Initialize the request switch and the content topic.

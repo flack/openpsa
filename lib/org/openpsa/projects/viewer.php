@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.projects
  */
-class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
+class org_openpsa_projects_viewer extends midcom_baseclasses_components_viewer
 {
     public function _on_handle($handler, array $args)
     {

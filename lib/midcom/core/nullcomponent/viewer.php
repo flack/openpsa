@@ -11,7 +11,7 @@
  *
  * @package midcom.core.nullcomponent
  */
-class midcom_core_nullcomponent_viewer extends midcom_baseclasses_components_request
+class midcom_core_nullcomponent_viewer extends midcom_baseclasses_components_viewer
 {
     /**
      * Initialize the request switch and the content topic.

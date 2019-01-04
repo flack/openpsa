@@ -14,7 +14,7 @@ use midcom\datamanager\schemadb;
  *
  * @package org.openpsa.products
  */
-class org_openpsa_products_viewer extends midcom_baseclasses_components_request
+class org_openpsa_products_viewer extends midcom_baseclasses_components_viewer
 {
     /**
      * Indexes a product

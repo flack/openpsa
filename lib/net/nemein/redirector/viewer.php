@@ -11,7 +11,7 @@
  *
  * @package net.nemein.redirector
  */
-class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
+class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
 {
     /**
      * Initialization script, which sets the request switches
