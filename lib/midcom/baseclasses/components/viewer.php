@@ -316,14 +316,12 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
     }
 
     /**
-     * CAN_HANDLE Phase interface, checks against all registered handlers if a valid
-     * one can be found. You should not need to override this, instead, use the
-     * HANDLE Phase for further checks.
+     * Checks against all registered handlers if a valid one can be found.
      *
      * @param Request $request The request object
-     * @return boolean Indicating whether the request can be handled by the class, or not.
+     * @return array|false Handler data or null on failure
      */
-    public function can_handle(Request $request)
+    public function get_handler(Request $request)
     {
         $argv = $request->attributes->get('argv', []);
         $prefix = midcom_core_context::get()->parser->get_url();
@@ -343,12 +341,13 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
         } else {
             $url = '/' . implode('/', $argv) . '/';
         }
-        $this->router->getContext()->fromRequest($request);
+        $this->router->getContext()
+            ->fromRequest($request)
+            ->setBaseUrl(substr($prefix, 0, -1));
         try {
             $result = $this->router->match($url);
-            $this->router->getContext()->setBaseUrl(substr($prefix, 0, -1));
             $this->_prepare_handler($result);
-            return true;
+            return $this->_handler;
         } catch (ResourceNotFoundException $e) {
             // No match
             return false;
@@ -425,6 +424,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
         }
 
         $request['handler'][0]->initialize($this, $this->router);
+        midcom_core_context::get()->set_custom_key('request_data', $this->_request_data);
     }
 
     /**
@@ -438,8 +438,6 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      */
     public function handle()
     {
-        midcom_core_context::get()->set_custom_key('request_data', $this->_request_data);
-
         // Init
         $handler = $this->_handler['handler'][0];
 
@@ -460,16 +458,6 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
             // We're not using a plugin handler, so call the general handle event handler
             $this->_on_handle($this->_handler['_route'], $this->_handler['args']);
         }
-        $method = "_handler_{$this->_handler['handler'][1]}";
-        $result = $handler->$method($this->_handler['_route'], $this->_handler['args'], $this->_request_data);
-
-        if ($handler instanceof midcom_baseclasses_components_handler) {
-            $handler->populate_breadcrumb_line();
-        }
-
-        $this->_on_handled($this->_handler['_route'], $this->_handler['args']);
-
-        return $result;
     }
 
     /**
@@ -517,10 +505,6 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      * @param array $args The argument list.
      */
     public function _on_handle($handler, array $args)
-    {
-    }
-
-    public function _on_handled($handler, array $args)
     {
     }
 

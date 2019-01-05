@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
+use midcom\httpkernel\kernel;
 
 /**
  * MidCOM context handling
@@ -326,52 +327,21 @@ class midcom_core_context
     }
 
     /**
-     * Check whether a given component is able to handle the current request.
-     *
-     * After the local configuration is retrieved from the object in question the
-     * component will be asked if it can handle the request. If so, the interface class will be returned to the caller
-     *
      * @param midcom_db_topic $topic The node that is currently being tested.
      * @param Request $request
      * @return midcom_response
      */
     public function handle(midcom_db_topic $topic, Request $request)
     {
-        $request->attributes->set('argv', $this->parser->argv);
-
-        $path = $topic->component;
-        $this->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
-
-        // Get component interface class
-        $component_interface = midcom::get()->componentloader->get_interface_class($path);
-
-        $viewer = $component_interface->get_viewer($topic);
-
-        // Make can_handle check
-        if (!$viewer->can_handle($request)) {
-            debug_add("Component {$path} in {$topic->name} declared unable to handle request.", MIDCOM_LOG_INFO);
-
-            // We couldn't fetch a node due to access restrictions
-            if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED) {
-                throw new midcom_error_forbidden(midcom::get()->i18n->get_string('access denied', 'midcom'));
-            }
-            throw new midcom_error_notfound("This page is not available on this server.");
-        }
-
         // Initialize context
-        $prefix = $this->parser->get_url();
-        $this->set_key(MIDCOM_CONTEXT_ANCHORPREFIX, $prefix);
-
-        $this->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $this->parser->get_current_object());
+        $this->set_key(MIDCOM_CONTEXT_ANCHORPREFIX, $this->parser->get_url());
+        $this->set_key(MIDCOM_CONTEXT_COMPONENT, $topic->component);
+        $this->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $topic);
         $this->set_key(MIDCOM_CONTEXT_URLTOPICS, $this->parser->get_objects());
-        $this->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
 
-        $response = $viewer->handle();
+        $request->attributes->set('context', $this);
 
-        if (!is_object($response)) {
-            $response = new midcom_response_styled($this);
-        }
-        return $response;
+        return kernel::get()->handle($request);
     }
 
     public function show()
@@ -381,7 +351,7 @@ class midcom_core_context
         }
 
         $callback = $this->get_key(MIDCOM_CONTEXT_SHOWCALLBACK);
-        call_user_func($callback, $this->id);
+        call_user_func($callback);
 
         if (!midcom::get()->skip_page_style) {
             midcom_show_style('style-finish');
