@@ -25,13 +25,29 @@ class midcom_response_styled extends midcom_response
      */
     private $context;
 
+    private $output;
+
     public function __construct(midcom_core_context $context, $root_element = 'ROOT')
     {
         $this->context = $context;
         $this->root_element = $root_element;
+        parent::__construct();
+    }
+
+    public function getContent()
+    {
+        if ($this->output === null) {
+            $this->output = $this->render();
+        }
+        return $this->output;
     }
 
     public function send()
+    {
+        echo $this->getContent();
+    }
+
+    private function render()
     {
         // Retrieve Metadata
         $nav = new midcom_helper_nav();
@@ -63,8 +79,8 @@ class midcom_response_styled extends midcom_response
         } else {
             midcom_show_style($this->root_element);
         }
-        ob_end_flush();
 
         midcom::get()->style->leave_context();
+        return ob_get_clean();
     }
 }

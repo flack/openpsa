@@ -368,6 +368,10 @@ class midcom_application
      *
      * It executes the content_handler that has been determined during the handle
      * phase. It fetches the content_handler from the Component Loader class cache.
+     *
+     * @param midcom_core_context $context
+     * @param boolean $include_template
+     * @param midcom_response $response
      */
     private function _output(midcom_core_context $context, $include_template, midcom_response $response)
     {
