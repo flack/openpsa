@@ -178,7 +178,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
     private function _show_list($direction)
     {
-        if (count($this->_links[$direction]) < 1) {
+        if (empty($this->_links[$direction])) {
             return;
         }
         $this->_request_data['direction'] = $direction;
