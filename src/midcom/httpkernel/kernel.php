@@ -68,8 +68,8 @@ class kernel implements EventSubscriberInterface
         $viewer = $component_interface->get_viewer($topic);
 
         // Make can_handle check
-        $handler = $viewer->get_handler($request);
-        if (!$handler) {
+        $result = $viewer->get_handler($request);
+        if (!$result) {
             debug_add("Component {$topic->component} in {$topic->name} declared unable to handle request.", MIDCOM_LOG_INFO);
 
             // We couldn't fetch a node due to access restrictions
@@ -79,11 +79,15 @@ class kernel implements EventSubscriberInterface
             throw new midcom_error_notfound("This page is not available on this server.");
         }
 
-        $controller = $handler['handler'];
-        $controller[1] = '_handler_' . $controller[1];
-        $request->attributes->set('_controller', $controller);
-        $request->attributes->set('handler_id', $handler['_route']);
-        $request->attributes->set('args', $handler['args']);
+        foreach ($result as $key => $value) {
+            if ($key === 'handler') {
+                $key = '_controller';
+                $value[1] = '_handler_' . $value[1];
+            } elseif ($key === '_route') {
+                $key = 'handler_id';
+            }
+            $request->attributes->set($key, $value);
+        }
         $request->attributes->set('data', '__request_data__');
 
         $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
