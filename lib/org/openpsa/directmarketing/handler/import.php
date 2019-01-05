@@ -86,9 +86,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      *
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_index($handler_id, array $args, array &$data)
+    public function _handler_index($handler_id, array $args)
     {
         $this->_prepare_handler($args);
 
@@ -103,9 +102,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      *
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_simpleemails($handler_id, array $args, array &$data)
+    public function _handler_simpleemails($handler_id, array $args)
     {
         $this->_prepare_handler($args);
 
@@ -180,9 +178,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      *
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_vcards($handler_id, array $args, array &$data)
+    public function _handler_vcards($handler_id, array $args)
     {
         $this->_prepare_handler($args);
 

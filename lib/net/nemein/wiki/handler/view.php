@@ -146,11 +146,10 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($args, &$data)
     {
         if (count($args) == 0) {
             $this->_load_page('index');
@@ -259,11 +258,10 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_raw($handler_id, $args, &$data)
+    public function _handler_raw($args, &$data)
     {
         $this->_load_page($args[0], false);
         midcom::get()->skip_page_style = true;
@@ -281,11 +279,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_subscribe($handler_id, array $args, array &$data)
+    public function _handler_subscribe(array $args)
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
@@ -329,11 +325,10 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_whatlinks($handler_id, $args, &$data)
+    public function _handler_whatlinks($args, &$data)
     {
         $this->_load_page($args[0], false);
 

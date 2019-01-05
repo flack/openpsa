@@ -14,11 +14,10 @@
 class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_handler
 {
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_notfound($handler_id, array $args, array &$data)
+    public function _handler_notfound(array $args, array &$data)
     {
         $data['wikiword'] = $args[0];
         $qb = net_nemein_wiki_wikipage::new_query_builder();

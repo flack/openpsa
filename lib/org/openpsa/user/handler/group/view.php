@@ -37,11 +37,10 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_view($handler_id, array $args, array &$data)
+    public function _handler_view(array $args, array &$data)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class);
 

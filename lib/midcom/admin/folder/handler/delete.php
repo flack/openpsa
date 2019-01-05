@@ -15,12 +15,8 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 {
     /**
      * Handler for folder deletion.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete()
     {
         $this->_topic->require_do('midcom.admin.folder:topic_management');
 

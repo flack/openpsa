@@ -64,11 +64,9 @@ implements client
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_frontpage($handler_id, array $args, array &$data)
+    public function _handler_frontpage(array &$data)
     {
         midcom::get()->auth->require_valid_user();
 

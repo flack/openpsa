@@ -361,10 +361,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_welcome($handler_id, array $args, array &$data)
+    public function _handler_welcome($handler_id, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 

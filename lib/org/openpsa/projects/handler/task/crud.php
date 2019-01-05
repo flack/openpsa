@@ -27,11 +27,9 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     /**
      * Generates an object creation view.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create(array $args)
     {
         $this->mode = 'create';
         $this->task = new org_openpsa_projects_task_dba;
@@ -84,11 +82,10 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     /**
      * Generates an object update view.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_update($handler_id, array $args, array &$data)
+    public function _handler_update(array $args, array &$data)
     {
         $this->task = new org_openpsa_projects_task_dba($args[0]);
         $this->task->require_do('midgard:update');
@@ -130,11 +127,9 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     /**
      * Displays an object delete confirmation view.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete(array $args)
     {
         $this->task = new org_openpsa_projects_task_dba($args[0]);
 

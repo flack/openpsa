@@ -16,11 +16,9 @@ use midcom\datamanager\helper\autocomplete;
 class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_components_handler
 {
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_add($handler_id, array $args, array &$data)
+    public function _handler_add(array $args)
     {
         $target = org_openpsa_contacts_person_dba::get_cached($args[0]);
 
@@ -35,11 +33,9 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_remove($handler_id, array $args, array &$data)
+    public function _handler_remove(array $args)
     {
         $target = org_openpsa_contacts_person_dba::get_cached($args[0]);
 
@@ -50,11 +46,9 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list(array &$data)
     {
         midcom::get()->skip_page_style = true;
 

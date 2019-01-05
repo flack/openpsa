@@ -78,11 +78,9 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_latest($handler_id, array $args, array &$data)
+    public function _handler_latest(array &$data)
     {
         $data['latest_pages'] = [];
         $this->_max_pages = $this->_config->get('latest_count');

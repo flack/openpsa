@@ -42,13 +42,11 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
 
     /**
      *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_welcome($handler_id, array $args, array &$data)
+    public function _handler_welcome(array &$data)
     {
-        $this->_request_data['topic'] = $this->_topic;
+        $data['topic'] = $this->_topic;
     }
 
     /**
@@ -114,11 +112,10 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     /**
      * Checks if a button of the admin toolbar was pressed.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_moderate_ajax($handler_id, array $args, array &$data)
+    public function _handler_moderate_ajax(array $args, array &$data)
     {
         $this->_verify_post_data();
 
@@ -165,11 +162,10 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
 
     /**
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_moderate($handler_id, array $args, array &$data)
+    public function _handler_moderate(array $args, array &$data)
     {
         $data['handler'] = $args[0];
 

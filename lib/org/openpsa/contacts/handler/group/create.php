@@ -54,11 +54,9 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create(array $args)
     {
         $this->_type = $args[0];
 

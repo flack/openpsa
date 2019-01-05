@@ -87,11 +87,9 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_updates($handler_id, array $args, array &$data)
+    public function _handler_updates(array &$data)
     {
         $indexer = midcom::get()->indexer;
 

@@ -40,11 +40,10 @@ implements client
     /**
      * Handler for listing users
      *
-     * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list(array $args, array &$data)
     {
         $auth = midcom::get()->auth;
         if (!$auth->can_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class)) {
@@ -86,11 +85,10 @@ implements client
     /**
      * Lists users in JSON format
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_json($handler_id, array $args, array &$data)
+    public function _handler_json(array $args, array &$data)
     {
         midcom::get()->skip_page_style = true;
         $data['provider'] = $this->_provider;

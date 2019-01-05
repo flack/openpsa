@@ -17,11 +17,9 @@ use midcom\datamanager\controller;
 class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_components_handler
 {
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(array &$data)
     {
         $data['directory']->require_do('midgard:update');
 

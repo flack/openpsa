@@ -20,11 +20,9 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     /**
      * Displays a campaign edit view.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(array $args)
     {
         $campaign = $this->load_campaign($args[0]);
         $campaign->require_do('midgard:update');
@@ -39,11 +37,9 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete(array $args)
     {
         $campaign = $this->load_campaign($args[0]);
         $workflow = $this->get_workflow('delete', ['object' => $campaign]);

@@ -14,11 +14,9 @@
 class org_openpsa_user_handler_group_notifications extends midcom_baseclasses_components_handler
 {
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_notifications($handler_id, array $args, array &$data)
+    public function _handler_notifications(array $args)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 

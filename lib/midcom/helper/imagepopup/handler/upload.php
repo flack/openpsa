@@ -15,11 +15,10 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
 {
     /**
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_upload($handler_id, array $args, array &$data)
+    public function _handler_upload(array $args, array &$data)
     {
         // Get the file
         reset($_FILES);

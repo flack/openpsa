@@ -24,11 +24,10 @@ class org_openpsa_projects_handler_project_view extends midcom_baseclasses_compo
     /**
      * Generates an object view.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_read($handler_id, array $args, array &$data)
+    public function _handler_read(array $args, array &$data)
     {
         $this->project = new org_openpsa_projects_project($args[0]);
 

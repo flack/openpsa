@@ -39,12 +39,8 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     /**
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified
      * dates.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_autoindex($handler_id, array $args, array &$data)
+    public function _handler_autoindex()
     {
         // Get last modified timestamp
         $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id, false);

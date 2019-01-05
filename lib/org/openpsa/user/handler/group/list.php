@@ -16,11 +16,9 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
     /**
      * Handle the group listing (used in dynamic load)
      *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list(array &$data)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class);
 

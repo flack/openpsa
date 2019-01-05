@@ -20,11 +20,9 @@ implements client
     private $_sales_url;
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list(array &$data)
     {
         midcom::get()->auth->require_valid_user();
         $siteconfig = org_openpsa_core_siteconfig::get_instance();

@@ -25,11 +25,9 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
     /**
      * Trash view
      *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_trash($handler_id, array $args, array &$data)
+    public function _handler_trash(array &$data)
     {
         midcom::get()->auth->require_admin_user();
 
@@ -73,11 +71,10 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
     /**
      * Trash view
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_trash_type($handler_id, array $args, array &$data)
+    public function _handler_trash_type(array $args, array &$data)
     {
         midcom::get()->auth->require_admin_user();
 

@@ -305,11 +305,10 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_report($handler_id, array $args, array &$data)
+    public function _handler_report(array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -361,14 +360,12 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_status($handler_id, array $args, array &$data)
+    public function _handler_status(array $args)
     {
-        $data['message_obj'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        $sender = new org_openpsa_directmarketing_sender($data['message_obj']);
+        $message_obj = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
+        $sender = new org_openpsa_directmarketing_sender($message_obj);
         $result = $sender->get_status();
         $response = new midcom_response_json;
         $response->members = $result[0];

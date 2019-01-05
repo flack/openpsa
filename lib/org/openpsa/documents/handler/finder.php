@@ -19,11 +19,9 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_view($handler_id, array $args, array &$data)
+    public function _handler_view(array &$data)
     {
         $prefix = '/' . $this->_component . '/elFinder-2.1.41/';
         org_openpsa_widgets_contact::add_head_elements();
@@ -87,12 +85,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         $this->bind_view_to_object($this->_request_data['directory']);
     }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_connector($handler_id, array $args, array &$data)
+    public function _handler_connector()
     {
         $options = [
             'roots' => [
@@ -108,11 +101,9 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_goto($handler_id, array $args, array &$data)
+    public function _handler_goto(array $args)
     {
         $parts = explode('_', $args[0]);
         $guid = base64_decode($parts[1]);

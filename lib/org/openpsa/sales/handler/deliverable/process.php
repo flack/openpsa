@@ -30,11 +30,9 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
     /**
      * Processes a deliverable.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_process($handler_id, array $args, array &$data)
+    public function _handler_process(array $args)
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             throw new midcom_error_forbidden('Only POST requests are allowed here.');

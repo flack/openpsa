@@ -18,10 +18,8 @@ class midcom_admin_folder_handler_approvals extends midcom_baseclasses_component
      * the content folder.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_approval($handler_id, array $args, array &$data)
+    public function _handler_approval($handler_id)
     {
         if (   !array_key_exists('guid', $_REQUEST)
             || !array_key_exists('return_to', $_REQUEST)) {

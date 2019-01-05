@@ -66,12 +66,8 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 
     /**
      * the base handler that should be pointed to by the routes
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_process($handler_id, array $args, array &$data)
+    public function _handler_process()
     {
         $this->_init();
         return $this->_process_request();

@@ -23,11 +23,9 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Phase for showing the list of campaigns
      *
-     * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list(array $args)
     {
         midcom::get()->auth->require_valid_user();
         $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
@@ -119,11 +117,10 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Handle the unsubscribe phase
      *
-     * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_unsubscribe($handler_id, array $args, array &$data)
+    public function _handler_unsubscribe(array $args, array &$data)
     {
         midcom::get()->auth->request_sudo($this->_component);
 
@@ -154,11 +151,9 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Support the AJAX request for unsubscribing from a campaign
      *
-     * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_unsubscribe_ajax($handler_id, array $args, array &$data)
+    public function _handler_unsubscribe_ajax(array $args)
     {
         midcom::get()->auth->request_sudo($this->_component);
         $membership = new org_openpsa_directmarketing_campaign_member_dba($args[0]);

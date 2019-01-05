@@ -31,11 +31,9 @@ abstract class midcom_baseclasses_components_handler_configuration_recreate exte
     /**
      * Handler for regenerating all derived images used in the folder.
      *
-     * @param string $handler_id    Name of the handler
-     * @param array  $args          Variable arguments
      * @param array  &$data          Miscellaneous output data
      */
-    public function _handler_recreate($handler_id, array $args, array &$data)
+    public function _handler_recreate(array &$data)
     {
         $this->_topic->require_do('midgard:update');
         $this->_topic->require_do('midcom:component_config');

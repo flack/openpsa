@@ -14,11 +14,9 @@
 class org_openpsa_reports_handler_common extends midcom_baseclasses_components_handler
 {
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_frontpage($handler_id, array $args, array &$data)
+    public function _handler_frontpage(array &$data)
     {
         midcom::get()->auth->require_valid_user();
         $data['available_components'] = org_openpsa_reports_viewer::get_available_generators();
@@ -30,11 +28,9 @@ class org_openpsa_reports_handler_common extends midcom_baseclasses_components_h
     /**
      * Delete the given report and redirect to front page
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_delete_report($handler_id, array $args, array &$data)
+    public function _handler_delete_report(array $args)
     {
         $report = new org_openpsa_reports_query_dba($args[0]);
         $report->delete();
@@ -43,12 +39,8 @@ class org_openpsa_reports_handler_common extends midcom_baseclasses_components_h
 
     /**
      * The CSV handlers return a posted variable with correct headers
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_csv($handler_id, array $args, array &$data)
+    public function _handler_csv()
     {
         if (!isset($_POST['org_openpsa_reports_csv'])) {
             throw new midcom_error('Variable org_openpsa_reports_csv not set in _POST');

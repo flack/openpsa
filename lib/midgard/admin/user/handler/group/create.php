@@ -22,11 +22,9 @@ class midgard_admin_user_handler_group_create extends midcom_baseclasses_compone
     }
 
     /**
-     * @param string $handler_id Name of the used handler
-     * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create(array &$data)
     {
         $group = new midcom_db_group;
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_group'));

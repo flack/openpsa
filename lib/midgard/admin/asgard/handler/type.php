@@ -109,11 +109,10 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     /**
      * Object editing view
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_type($handler_id, array $args, array &$data)
+    public function _handler_type(array $args, array &$data)
     {
         $this->type = $args[0];
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');

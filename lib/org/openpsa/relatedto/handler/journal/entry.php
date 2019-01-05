@@ -36,7 +36,7 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
             ->get_controller();
     }
 
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create(array $args)
     {
         $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         $entry= new org_openpsa_relatedto_journal_entry_dba();
@@ -48,7 +48,7 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
         return $workflow->run();
     }
 
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(array $args, array &$data)
     {
         $entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
         $data['controller'] = $this->load_controller($entry);
@@ -64,7 +64,7 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
         return $workflow->run();
     }
 
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete(array $args)
     {
         $journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
         $workflow = $this->get_workflow('delete', ['object' => $journal_entry]);

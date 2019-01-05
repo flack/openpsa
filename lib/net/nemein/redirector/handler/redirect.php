@@ -14,11 +14,9 @@ class net_nemein_redirector_handler_redirect extends midcom_baseclasses_componen
     /**
      * Process the redirect request
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_redirect($handler_id, array $args, array &$data)
+    public function _handler_redirect(array $args)
     {
         $mc = net_nemein_redirector_tinyurl_dba::new_collector('node', $this->_topic->guid);
         $mc->add_constraint('name', '=', $args[0]);
@@ -54,11 +52,9 @@ class net_nemein_redirector_handler_redirect extends midcom_baseclasses_componen
     /**
      * Process the index request
      *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_index($handler_id, array $args, array &$data)
+    public function _handler_index(array &$data)
     {
         // Get the topic link and relocate accordingly
         $data['url'] = net_nemein_redirector_viewer::topic_links_to($data);

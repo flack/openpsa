@@ -20,11 +20,9 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
     }
 
     /**
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
+     * @return midcom_response_relocate
      */
-    public function _handler_frontpage($handler_id, array $args, array &$data)
+    public function _handler_frontpage()
     {
         $selected_time = time();
         $view = $this->_config->get('start_view');
@@ -40,11 +38,10 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_day($handler_id, array $args, array &$data)
+    public function _handler_day(array $args, array &$data)
     {
         $date = new DateTime($args[0]);
         $data['calendar_options'] = $this->get_calendar_options();
@@ -56,11 +53,9 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
     /**
      * Calendar view
      *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
+     * @param array &$data Public request data, passed by reference
      */
-    public function _handler_calendar($handler_id, array $args, array &$data)
+    public function _handler_calendar(array &$data)
     {
         $root_event = org_openpsa_calendar_interface::find_root_event();
         $workflow = $this->get_workflow('datamanager');

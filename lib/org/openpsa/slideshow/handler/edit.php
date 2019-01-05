@@ -33,11 +33,9 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     /**
      * Handler for recreating derived images
      *
-     * @param string $handler_id Name of the used handler
-     * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method
      */
-    public function _handler_recreate_folder_thumbnails($handler_id, array $args, array &$data)
+    public function _handler_recreate_folder_thumbnails(array &$data)
     {
         $mc = midcom_db_topic::new_collector('up', $data['topic']->id);
         if ($subfolder_guids = $mc->get_values('guid')) {
@@ -53,12 +51,8 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
 
     /**
      * Handler for recreating derived images
-     *
-     * @param string $handler_id Name of the used handler
-     * @param array $args Array containing the variable arguments passed to the handler
-     * @param array &$data Data passed to the show method
      */
-    public function _handler_recreate($handler_id, array $args, array &$data)
+    public function _handler_recreate()
     {
         $qb = org_openpsa_slideshow_image_dba::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
@@ -86,11 +80,9 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     /**
      * Handler for edit page
      *
-     * @param string $handler_id Name of the used handler
-     * @param array $args Array containing the variable arguments passed to the handler
-     * @param  &$data Data passed to the show method
+     * @param array &$data Data passed to the show method
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(array &$data)
     {
         $qb = org_openpsa_slideshow_image_dba::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
@@ -127,12 +119,8 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
 
     /**
      * Handler editing AJAX requests
-     *
-     * @param string $handler_id Name of the used handler
-     * @param array $args Array containing the variable arguments passed to the handler
-     * @param array &$data Data passed to the show method
      */
-    public function _handler_edit_ajax($handler_id, array $args, array &$data)
+    public function _handler_edit_ajax()
     {
         $this->_validate_request();
 

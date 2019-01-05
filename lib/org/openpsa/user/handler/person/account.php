@@ -34,11 +34,10 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     private $account;
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create(array $args, array &$data)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 
@@ -88,11 +87,9 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_su($handler_id, array $args, array &$data)
+    public function _handler_su(array $args)
     {
         if (!midcom::get()->config->get('auth_allow_trusted')) {
             throw new midcom_error_forbidden('Trusted logins are disabled by configuration');
@@ -112,11 +109,9 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(array $args)
     {
         if (!$this->load_person($args[0])) {
             // Account needs to be created first, relocate
@@ -172,11 +167,9 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete(array $args)
     {
         if (!$this->load_person($args[0])) {
             // Account needs to be created first, relocate

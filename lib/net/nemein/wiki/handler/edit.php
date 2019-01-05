@@ -68,11 +68,9 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     /**
      * Check the edit request
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(array $args)
     {
         $this->page = $this->load_page($args[0]);
         $this->page->require_do('midgard:update');
@@ -118,11 +116,9 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_change($handler_id, array $args, array &$data)
+    public function _handler_change(array $args)
     {
         if (empty($_POST['change_to'])) {
             throw new midcom_error_forbidden('Only POST requests are allowed here.');

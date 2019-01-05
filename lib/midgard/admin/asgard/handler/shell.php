@@ -16,11 +16,9 @@ use midcom\datamanager\datamanager;
 class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_handler
 {
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_shell($handler_id, array $args, array &$data)
+    public function _handler_shell(array &$data)
     {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 

@@ -16,11 +16,9 @@ use Doctrine\ORM\Query\Expr\Join;
 class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_components_handler
 {
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @return midcom_response_relocate
      */
-    public function _handler_redirect($handler_id, array $args, array &$data)
+    public function _handler_redirect()
     {
         $date = date('Y-m-d');
         return new midcom_response_relocate($this->router->generate('weekreview', ['date' => $date]));
@@ -127,11 +125,10 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_review($handler_id, array $args, array &$data)
+    public function _handler_review(array $args, array &$data)
     {
         // Get start and end times
         $date = new DateTime($args[0]);

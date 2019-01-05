@@ -94,10 +94,9 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
      * Handle the listing phase
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list($handler_id, array &$data)
     {
         $data['view_title'] = $this->_l10n->get('groups');
 

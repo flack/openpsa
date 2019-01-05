@@ -14,11 +14,9 @@
 class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_components_handler
 {
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @return midcom_response_json
      */
-    public function _handler_update_member_title($handler_id, array $args, array &$data)
+    public function _handler_update_member_title()
     {
         $response = new midcom_response_json;
         $response->status = false;
@@ -40,11 +38,10 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_members($handler_id, array $args, array &$data)
+    public function _handler_members(array $args, array &$data)
     {
         $data['group'] = new org_openpsa_contacts_group_dba($args[0]);
         $qb = new org_openpsa_qbpager(midcom_db_member::class, 'group_members');
@@ -74,11 +71,10 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_subgroups($handler_id, array $args, array &$data)
+    public function _handler_subgroups(array $args, array &$data)
     {
         $group = new org_openpsa_contacts_group_dba($args[0]);
         $qb = org_openpsa_contacts_group_dba::new_query_builder();

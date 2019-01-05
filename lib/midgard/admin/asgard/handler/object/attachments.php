@@ -294,11 +294,9 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Handler for confirming file deleting for the requested file
      *
-     * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler
-     * @param array &$data Data passed to the show method
      */
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete(array $args)
     {
         $this->prepare_object($args[0]);
 

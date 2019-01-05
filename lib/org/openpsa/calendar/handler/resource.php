@@ -15,22 +15,18 @@ class org_openpsa_calendar_handler_resource extends midcom_baseclasses_component
 {
     /**
      * Handle the creation phase
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create()
     {
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('resource')));
         $resource = new org_openpsa_calendar_resource_dba();
 
         // Load the controller instance
-        $data['controller'] = datamanager::from_schemadb($this->_config->get('schemadb_resource'))
+        $controller = datamanager::from_schemadb($this->_config->get('schemadb_resource'))
             ->set_storage($resource)
             ->get_controller();
 
-        $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
+        $workflow = $this->get_workflow('datamanager', ['controller' => $controller]);
         return $workflow->run();
     }
 }

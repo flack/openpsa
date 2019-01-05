@@ -33,11 +33,10 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_object($handler_id, array $args, array &$data)
+    public function _handler_object(array $args, array &$data)
     {
         $this->object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         $this->object_url = midcom::get()->permalinks->create_permalink($this->object->guid);
@@ -87,11 +86,10 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list(array $args, array &$data)
     {
         //set the start-constraints for journal-entries
         $time_span = 7 * 24 * 60 * 60; //7 days
@@ -128,11 +126,9 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_xml($handler_id, array $args, array &$data)
+    public function _handler_xml(array &$data)
     {
         $this->qb = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
         $this->qb->add_order('followUp');

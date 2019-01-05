@@ -27,11 +27,10 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_send_bg($handler_id, array $args, array &$data)
+    public function _handler_send_bg(array $args, array &$data)
     {
         midcom::get()->auth->request_sudo($this->_component);
 
@@ -135,11 +134,10 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_send($handler_id, array $args, array &$data)
+    public function _handler_send(array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
         //Load message

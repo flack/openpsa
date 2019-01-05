@@ -45,11 +45,10 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
     /**
      * The handler for the index view.
      *
-     * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
      * @param array &$data The local request data.
      */
-    public function _handler_index($handler_id, array $args, array &$data)
+    public function _handler_index(array $args, array &$data)
     {
         $this->prepare_dates($args, $data);
 

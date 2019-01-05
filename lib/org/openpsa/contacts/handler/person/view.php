@@ -163,11 +163,10 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_group_memberships($handler_id, array $args, array &$data)
+    public function _handler_group_memberships(array $args, array &$data)
     {
         // Check if we get the person
         $data['person'] = new org_openpsa_contacts_person_dba($args[0]);

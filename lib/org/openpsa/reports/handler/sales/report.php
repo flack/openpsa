@@ -96,13 +96,12 @@ implements client
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_generator($handler_id, array $args, array &$data)
+    public function _handler_generator(array $args, array &$data)
     {
-        parent::_handler_generator($handler_id, $args, $data);
+        parent::_handler_generator($args, $data);
 
         $data['invoices'] = [];
 

@@ -81,10 +81,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      * Handler for folder editing. Checks for the permissions and folder integrity.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit($handler_id)
     {
         $this->_topic->require_do('midcom.admin.folder:topic_management');
         $this->_handler_id = $handler_id;

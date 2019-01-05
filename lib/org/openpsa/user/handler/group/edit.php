@@ -23,11 +23,9 @@ class org_openpsa_user_handler_group_edit extends midcom_baseclasses_components_
     private $group;
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(array $args)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
         $this->group = new midcom_db_group($args[0]);

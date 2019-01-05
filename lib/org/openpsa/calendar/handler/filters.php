@@ -18,11 +18,9 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
     /**
      * Handle the request for editing contact list
      *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
+     * @param array &$data Public request data, passed by reference
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(array &$data)
     {
         midcom::get()->auth->require_valid_user();
         midcom::get()->head->set_pagetitle($this->_l10n->get('choose calendars'));

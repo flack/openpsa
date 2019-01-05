@@ -23,11 +23,9 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     /**
      * Marks comment as possible abuse
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_abuse($handler_id, array $args, array &$data)
+    public function _handler_abuse(array $args)
     {
         $this->load_comment($args[0], false);
         $moderators = $this->_config->get('moderators');
@@ -62,11 +60,9 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     /**
      * Marks comment as not abuse
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_not_abuse($handler_id, array $args, array &$data)
+    public function _handler_not_abuse(array $args)
     {
         $this->load_comment($args[0]);
         $this->_comment->report_not_abuse();
@@ -76,11 +72,9 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     /**
      * Marks comment as confirmed abuse
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_confirm_abuse($handler_id, array $args, array &$data)
+    public function _handler_confirm_abuse(array $args)
     {
         $this->load_comment($args[0]);
         $this->_comment->confirm_abuse();
@@ -93,11 +87,9 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     /**
      * Marks comment as confirmed junk
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_confirm_junk($handler_id, array $args, array &$data)
+    public function _handler_confirm_junk(array $args)
     {
         $this->load_comment($args[0]);
         $this->_comment->confirm_junk();

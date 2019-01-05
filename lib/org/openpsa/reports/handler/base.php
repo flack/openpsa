@@ -18,11 +18,10 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     protected $module;
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_generator($handler_id, array $args, array &$data)
+    public function _handler_generator(array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -36,11 +35,9 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     abstract public function _show_generator($handler_id, array &$data);
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_generator_get($handler_id, array $args, array &$data)
+    public function _handler_generator_get(array &$data)
     {
         midcom::get()->auth->require_valid_user();
         if (   !array_key_exists('org_openpsa_reports_query_data', $_REQUEST)
@@ -49,8 +46,8 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         }
 
         // NOTE: This array must be a same format as we get from DM get_array() method
-        $this->_request_data['query_data'] = $_REQUEST['org_openpsa_reports_query_data'];
-        $this->_request_data['filename'] = 'get';
+        $data['query_data'] = $_REQUEST['org_openpsa_reports_query_data'];
+        $data['filename'] = 'get';
 
         $this->_handler_generator_style();
     }
@@ -77,11 +74,10 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_query_form($handler_id, array $args, array &$data)
+    public function _handler_query_form(array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 

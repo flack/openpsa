@@ -154,12 +154,8 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
 
     /**
      * Auto-generate passwords on the fly
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_passwords($handler_id, array $args, array &$data)
+    public function _handler_passwords()
     {
         midcom::get()->skip_page_style = true;
     }

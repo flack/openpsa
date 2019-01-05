@@ -212,9 +212,8 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_history($handler_id, array $args, array &$data)
+    public function _handler_history($handler_id, array $args)
     {
         // Check if the comparison request is valid
         if (    !empty($_GET['first']) && !empty($_GET['last'])
@@ -315,11 +314,9 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     /**
      * Restore to diff
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_restore($handler_id, array $args, array &$data)
+    public function _handler_restore(array $args)
     {
         $this->load_object($args[0]);
 

@@ -18,11 +18,10 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
     /**
      * Handler for deleted objects
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_deleted($handler_id, array $args, array &$data)
+    public function _handler_deleted(array $args, array &$data)
     {
         $data['guid'] = $args[0];
         $data['view_title'] = $this->_l10n->get('object deleted');

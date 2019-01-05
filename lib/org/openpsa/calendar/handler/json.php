@@ -26,12 +26,8 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
 
     /**
      * JSON view
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_json($handler_id, array $args, array &$data)
+    public function _handler_json()
     {
         midcom::get()->auth->require_valid_user();
         $this->root_event = org_openpsa_calendar_interface::find_root_event();

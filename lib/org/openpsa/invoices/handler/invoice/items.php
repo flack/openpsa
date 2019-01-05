@@ -25,11 +25,10 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
     private $_object = null;
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_items($handler_id, array $args, array &$data)
+    public function _handler_items(array $args, array &$data)
     {
         $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
 
@@ -103,11 +102,9 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_itemedit($handler_id, array $args, array &$data)
+    public function _handler_itemedit(array $args)
     {
         $this->_verify_post_data();
 
@@ -160,11 +157,10 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @throws midcom_error
+     * @return midcom_response_json
      */
-    public function _handler_itemposition($handler_id, array $args, array &$data)
+    public function _handler_itemposition()
     {
         $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
         $item->position = $_POST['position'];
@@ -176,11 +172,9 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_recalculation($handler_id, array $args, array &$data)
+    public function _handler_recalculation(array $args)
     {
         $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
         $this->_object->_recalculate_invoice_items();

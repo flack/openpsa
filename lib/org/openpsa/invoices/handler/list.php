@@ -151,11 +151,10 @@ implements client
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_json($handler_id, array $args, array &$data)
+    public function _handler_json(array $args, array &$data)
     {
         midcom::get()->skip_page_style = true;
         $this->_list_type = $args[0];
@@ -165,11 +164,10 @@ implements client
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_dashboard($handler_id, array $args, array &$data)
+    public function _handler_dashboard(array $args, array &$data)
     {
         $this->prepare_toolbar(false);
 
@@ -183,7 +181,7 @@ implements client
             ]));
         }
 
-        $this->_request_data['customer'] = $this->_customer;
+        $data['customer'] = $this->_customer;
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('dashboard'));
     }
@@ -278,11 +276,10 @@ implements client
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_customer($handler_id, array $args, array &$data)
+    public function _handler_customer(array $args, array &$data)
     {
         try {
             $this->_customer = new org_openpsa_contacts_group_dba($args[0]);
@@ -337,11 +334,10 @@ implements client
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_deliverable($handler_id, array $args, array &$data)
+    public function _handler_deliverable(array $args, array &$data)
     {
         // We're displaying invoices of a specific deliverable
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);

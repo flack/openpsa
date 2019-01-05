@@ -28,12 +28,8 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
 
     /**
      * Generates an object creation view.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create()
     {
         $this->mode = 'create';
         midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_projects_project::class);
@@ -64,11 +60,10 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     /**
      * Generates an object update view.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_update($handler_id, array $args, array &$data)
+    public function _handler_update(array $args, array &$data)
     {
         $this->project = new org_openpsa_projects_project($args[0]);
         $this->project->require_do('midgard:update');
@@ -86,11 +81,9 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     /**
      * Displays an object delete confirmation view.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete(array $args)
     {
         $this->project = new org_openpsa_projects_project($args[0]);
 

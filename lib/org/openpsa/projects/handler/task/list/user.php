@@ -18,11 +18,10 @@ class org_openpsa_projects_handler_task_list_user extends org_openpsa_projects_h
     protected $show_status_controls = true;
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list(array $args, array &$data)
     {
         $this->prepare_request_data('my_tasks');
 

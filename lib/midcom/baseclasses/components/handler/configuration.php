@@ -50,12 +50,8 @@ class midcom_baseclasses_components_handler_configuration extends midcom_basecla
 
     /**
      * Generic handler for all the DM2 based configuration requests
-     *
-     * @param string $handler_id    Name of the handler
-     * @param array  $args          Variable arguments
-     * @param array  &$data          Miscellaneous output data
      */
-    public function _handler_config($handler_id, array $args, array &$data)
+    public function _handler_config()
     {
         // Require corresponding ACLs
         $this->_topic->require_do('midgard:update');

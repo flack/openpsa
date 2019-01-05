@@ -56,11 +56,10 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
     /**
      * Displays a group create view.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create(array $args, array &$data)
     {
         $up = (int) $args[0];
 

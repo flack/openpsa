@@ -28,11 +28,10 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
     /**
      * Displays an article edit view.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(array $args, array &$data)
     {
         $this->article = new midcom_db_article($args[0]);
 
@@ -82,11 +81,9 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
     /**
      * Handles article deletion
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete(array $args)
     {
         $this->article = new midcom_db_article($args[0]);
         if ($this->article->topic !== $this->_topic->id) {

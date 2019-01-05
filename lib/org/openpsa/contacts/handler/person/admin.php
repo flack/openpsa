@@ -39,11 +39,9 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     /**
      * Displays a contact edit view.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(array $args)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
         $this->_contact->require_do('midgard:update');
@@ -65,11 +63,9 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete(array $args)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
         $workflow = $this->get_workflow('delete', ['object' => $this->_contact]);

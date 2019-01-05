@@ -18,11 +18,9 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
     use org_openpsa_mypage_handler;
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_view($handler_id, array $args, array &$data)
+    public function _handler_view(array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -119,11 +117,10 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @throws midcom_error
+     * @return midcom_response_relocate
      */
-    public function _handler_set($handler_id, array $args, array &$data)
+    public function _handler_set()
     {
         if (!array_key_exists('task', $_POST)) {
             throw new midcom_error('No task specified.');

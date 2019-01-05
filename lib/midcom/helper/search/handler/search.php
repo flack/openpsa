@@ -19,10 +19,8 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      * It uses the handler ID to distinguish between basic and advanced search forms.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_searchform($handler_id, array $args, array &$data)
+    public function _handler_searchform($handler_id)
     {
         $this->prepare_formdata($handler_id);
         $this->populate_toolbar();
@@ -92,11 +90,9 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     /**
      * Queries the information from the index and prepares to display the result page.
      *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_result($handler_id, array $args, array &$data)
+    public function _handler_result(array &$data)
     {
         $this->prepare_query_data();
         // If we don't have a query string, relocate to empty search form
@@ -268,11 +264,9 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     /**
      * Prepare OpenSearch data file for browser search bar integration.
      *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_opensearchdescription($handler_id, array $args, array &$data)
+    public function _handler_opensearchdescription(array &$data)
     {
         midcom::get()->cache->content->content_type("application/opensearchdescription+xml; charset=UTF-8");
         midcom::get()->skip_page_style = true;

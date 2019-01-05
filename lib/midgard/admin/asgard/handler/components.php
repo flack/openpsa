@@ -60,11 +60,9 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
     /**
      * Component list view
      *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list(array &$data)
     {
         $data['view_title'] = $this->_l10n->get('components');
 
@@ -102,11 +100,10 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
     /**
      * Component display
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_component($handler_id, array $args, array &$data)
+    public function _handler_component(array $args, array &$data)
     {
         $data['component'] = $args[0];
         if (!midcom::get()->componentloader->is_installed($data['component'])) {

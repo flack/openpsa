@@ -97,11 +97,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     /**
      * Looks up the user's default mode and redirects there. This is mainly useful for links from outside Asgard
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_open($handler_id, array $args, array &$data)
+    public function _handler_open(array $args, array &$data)
     {
         $relocate = $this->router->generate('object_' . $data['default_mode'], ['guid' => $args[0]]);
         return new midcom_response_relocate($relocate);

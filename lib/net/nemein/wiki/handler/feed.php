@@ -14,11 +14,9 @@
 class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
 {
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_rss($handler_id, array $args, array &$data)
+    public function _handler_rss(array &$data)
     {
         $data['nap'] = new midcom_helper_nav();
         $data['node'] = $data['nap']->get_node($this->_topic->id);

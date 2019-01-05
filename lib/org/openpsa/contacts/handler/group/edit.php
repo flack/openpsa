@@ -31,11 +31,9 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
     private $_group;
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(array $args)
     {
         $this->_group = new org_openpsa_contacts_group_dba($args[0]);
         $this->_group->require_do('midgard:update');

@@ -40,11 +40,9 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     /**
      * The handler for the list view
      *
-     * @param mixed $handler_id the array key from the request array
-     * @param array $args the arguments given to the handler
      * @param array &$data The local request data.
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list(array &$data)
     {
         $data['mode'] = 'full';
         $data['view_title'] = $data['l10n']->get('hour reports');
@@ -58,11 +56,10 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     /**
      * The handler for the task list view
      *
-     * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
      * @param array &$data The local request data.
      */
-    public function _handler_task($handler_id, array $args, array &$data)
+    public function _handler_task(array $args, array &$data)
     {
         $task = new org_openpsa_projects_task_dba($args[0]);
         $this->qb->add_constraint('task', '=', $task->id);
@@ -88,11 +85,10 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     /**
      * The handler for the invoice list view
      *
-     * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
      * @param array &$data The local request data.
      */
-    public function _handler_invoice($handler_id, array $args, array &$data)
+    public function _handler_invoice(array $args, array &$data)
     {
         $invoice = new org_openpsa_invoices_invoice_dba($args[0]);
         $this->qb->add_constraint('invoice', '=', $invoice->id);

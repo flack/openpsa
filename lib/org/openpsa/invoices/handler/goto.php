@@ -14,11 +14,9 @@
 class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_handler
 {
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @return midcom_response_relocate
      */
-    public function _handler_goto($handler_id, array $args, array &$data)
+    public function _handler_goto()
     {
         if (!isset($_GET['query'])) {
             return $this->fail($this->_l10n->get('no invoice number was handed over'));

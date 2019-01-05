@@ -89,11 +89,10 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
     /**
      * Looks up a deliverable to display.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_add($handler_id, array $args, array &$data)
+    public function _handler_add(array $args, array &$data)
     {
         if (   !array_key_exists('product', $_POST)
             && !array_key_exists('org_openpsa_sales', $_POST)) {

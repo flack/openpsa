@@ -15,12 +15,7 @@
  */
 class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_components_handler
 {
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_sidebyside($handler_id, array $args, array &$data)
+    public function _handler_sidebyside()
     {
         $this->_request_data['notfound'] = false;
         $this->_request_data['person1'] = false;

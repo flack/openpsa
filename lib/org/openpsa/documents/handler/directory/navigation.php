@@ -54,11 +54,9 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_navigation($handler_id, array $args, array &$data)
+    public function _handler_navigation(array &$data)
     {
         $root_topic = $this->_topic;
         while ($root_topic->up && $root_topic->get_parent()->component == $this->_component) {

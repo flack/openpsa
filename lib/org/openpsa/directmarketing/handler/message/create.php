@@ -27,11 +27,10 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
     /**
      * Displays an message create view.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create(array $args, array &$data)
     {
         $data['campaign'] = $this->load_campaign($args[0]);
         $data['campaign']->require_do('midgard:create');

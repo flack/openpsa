@@ -34,11 +34,9 @@ class org_openpsa_user_handler_person_privileges extends midcom_baseclasses_comp
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_privileges($handler_id, array $args, array &$data)
+    public function _handler_privileges(array $args)
     {
         $person = new midcom_db_person($args[0]);
         $person->require_do('midgard:privileges');

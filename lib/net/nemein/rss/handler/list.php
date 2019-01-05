@@ -14,11 +14,9 @@
 class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
 {
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_opml($handler_id, array $args, array &$data)
+    public function _handler_opml(array &$data)
     {
         midcom::get()->cache->content->content_type("text/xml; charset=UTF-8");
         midcom::get()->skip_page_style = true;
@@ -50,11 +48,9 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list(array &$data)
     {
         $qb = net_nemein_rss_feed_dba::new_query_builder();
         $qb->add_order('title');

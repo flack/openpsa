@@ -24,11 +24,9 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     private $_salesproject = null;
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(array $args)
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
         $this->_salesproject->require_do('midgard:update');
@@ -46,11 +44,9 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_new($handler_id, array $args, array &$data)
+    public function _handler_new(array $args)
     {
         midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_sales_salesproject_dba::class);
 
@@ -96,11 +92,9 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete(array $args)
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
         $workflow = $this->get_workflow('delete', [

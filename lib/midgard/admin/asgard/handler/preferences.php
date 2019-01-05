@@ -41,11 +41,10 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
     /**
      * Handle the preference request
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_preferences($handler_id, array $args, array &$data)
+    public function _handler_preferences(array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -118,12 +117,8 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
 
     /**
      * AJAX backend for saving data on the fly
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_ajax($handler_id, array $args, array &$data)
+    public function _handler_ajax()
     {
         $this->_person = new midcom_db_person(midcom_connection::get_user());
         $this->_person->require_do('midgard:update');

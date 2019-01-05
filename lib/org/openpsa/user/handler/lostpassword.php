@@ -25,11 +25,9 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
     private $_success = false;
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_lostpassword($handler_id, array $args, array &$data)
+    public function _handler_lostpassword(array &$data)
     {
         $mode = $this->_config->get('lostpassword_mode');
         if ($mode == 'none') {

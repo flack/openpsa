@@ -26,13 +26,11 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_search($handler_id, array $args, array &$data)
+    public function _handler_search(array &$data)
     {
-        $this->_request_data['results'] = [];
+        $data['results'] = [];
         if (array_key_exists('query', $_GET)) {
             // Figure out where we are
             $nap = new midcom_helper_nav();
@@ -50,7 +48,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
             // TODO: Metadata support
 
             // Run the search
-            $this->_request_data['results'] = $indexer->query($query, $filter);
+            $data['results'] = $indexer->query($query, $filter);
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.documents/layout.css");

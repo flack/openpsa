@@ -23,11 +23,10 @@ class org_openpsa_user_handler_person_edit extends midcom_baseclasses_components
     private $person;
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(array $args, array &$data)
     {
         $this->person = new org_openpsa_contacts_person_dba($args[0]);
 

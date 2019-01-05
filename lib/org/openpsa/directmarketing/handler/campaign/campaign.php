@@ -89,8 +89,11 @@ implements client
 
     /**
      * Looks up an campaign to display.
+     *
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
-    public function _handler_view($handler_id, array $args, array &$data)
+    public function _handler_view(array $args, array &$data)
     {
         $this->_campaign = $this->load_campaign($args[0]);
 
@@ -171,11 +174,10 @@ implements client
     /**
      * Displays campaign members.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_members($handler_id, array $args, array &$data)
+    public function _handler_members(array $args, array &$data)
     {
         $this->_campaign = $this->load_campaign($args[0]);
 

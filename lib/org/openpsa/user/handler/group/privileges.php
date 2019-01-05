@@ -34,11 +34,9 @@ class org_openpsa_user_handler_group_privileges extends midcom_baseclasses_compo
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_privileges($handler_id, array $args, array &$data)
+    public function _handler_privileges(array $args)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 

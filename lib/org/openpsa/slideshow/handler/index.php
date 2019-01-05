@@ -16,11 +16,9 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
     /**
      * Handler for listing users
      *
-     * @param string $handler_id Name of the used handler
-     * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method
      */
-    public function _handler_index($handler_id, array $args, array &$data)
+    public function _handler_index(array &$data)
     {
         $qb = org_openpsa_slideshow_image_dba::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
@@ -74,11 +72,9 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
     /**
      * Handler for listing users
      *
-     * @param string $handler_id Name of the used handler
-     * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method
      */
-    public function _handler_subfolders($handler_id, array $args, array &$data)
+    public function _handler_subfolders(array &$data)
     {
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('component', '=', $this->_component);

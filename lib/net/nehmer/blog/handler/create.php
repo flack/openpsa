@@ -28,11 +28,10 @@ class net_nehmer_blog_handler_create extends midcom_baseclasses_components_handl
      *
      * If create privileges apply, we relocate to the created article
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create(array $args, array &$data)
     {
         $this->_topic->require_do('midgard:create');
 

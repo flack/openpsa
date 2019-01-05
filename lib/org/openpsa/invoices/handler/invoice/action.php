@@ -51,11 +51,9 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @return midcom_response_relocate|midcom_response_json
      */
-    public function _handler_create_cancelation($handler_id, array $args, array &$data)
+    public function _handler_create_cancelation()
     {
         // can be canceled?
         if (!$this->invoice->is_cancelable()) {
@@ -117,11 +115,9 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @return midcom_response_relocate|midcom_response_json
      */
-    public function _handler_create_pdf($handler_id, array $args, array &$data)
+    public function _handler_create_pdf()
     {
         $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
         try {
@@ -133,11 +129,9 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @return midcom_response_relocate|midcom_response_json
      */
-    public function _handler_send_by_mail($handler_id, array $args, array &$data)
+    public function _handler_send_by_mail()
     {
         $customerCard = org_openpsa_widgets_contact::get($this->invoice->customerContact);
         $contactDetails = $customerCard->contact_details;
@@ -181,15 +175,13 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
             return $this->reply(false, sprintf($this->_l10n->get('unable to deliver mail: %s'), $mail->get_error_message()));
         }
         $this->invoice->set_parameter($this->_component, 'sent_by_mail', time());
-        return $this->_handler_mark_sent($handler_id, $args, $data);
+        return $this->_handler_mark_sent($args, $data);
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @return midcom_response_relocate|midcom_response_json
      */
-    public function _handler_mark_paid($handler_id, array $args, array &$data)
+    public function _handler_mark_paid()
     {
         if (!$this->invoice->paid) {
             $this->invoice->paid = time();
@@ -201,11 +193,9 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @return midcom_response_relocate|midcom_response_json
      */
-    public function _handler_mark_sent($handler_id, array $args, array &$data)
+    public function _handler_mark_sent()
     {
         if (!$this->invoice->sent) {
             $this->invoice->sent = time();

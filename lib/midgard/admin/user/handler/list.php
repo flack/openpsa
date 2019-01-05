@@ -42,11 +42,9 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     }
 
     /**
-     * @param string $handler_id Name of the used handler
-     * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list(array &$data)
     {
         // See what fields we want to use in the search
         $data['search_fields'] = $this->_config->get('search_fields');
@@ -149,11 +147,10 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     }
 
     /**
-     * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method
      */
-    public function _handler_batch($handler_id, array $args, array &$data)
+    public function _handler_batch(array $args, array &$data)
     {
         $relocate_url = $this->router->generate('user_list');
         if (!empty($_GET)) {
@@ -274,11 +271,9 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     /**
      * Batch process password form
      *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_password_email($handler_id, array $args, array &$data)
+    public function _handler_password_email(array &$data)
     {
         // Set page title and default variables
         $data['view_title'] = $this->_l10n->get('batch generate passwords');

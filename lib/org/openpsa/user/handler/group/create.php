@@ -23,11 +23,9 @@ class org_openpsa_user_handler_group_create extends midcom_baseclasses_component
     private $group;
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @return midcom_response
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create()
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
         $this->group = new midcom_db_group();

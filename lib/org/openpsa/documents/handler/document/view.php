@@ -117,11 +117,9 @@ implements client
     /**
      * Displays older versions of the document
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_versions($handler_id, array $args, array &$data)
+    public function _handler_versions(array $args)
     {
         $this->_document = $this->_load_document($args[0]);
         $this->_provider = new provider($this, 'local');
@@ -144,11 +142,10 @@ implements client
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_view($handler_id, array $args, array &$data)
+    public function _handler_view(array $args, array &$data)
     {
         // Get the requested document object
         $this->_document = $this->_load_document($args[0]);

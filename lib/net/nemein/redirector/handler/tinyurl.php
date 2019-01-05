@@ -83,10 +83,9 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      * Create a new TinyURL
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create($handler_id, array &$data)
     {
         $this->_topic->require_do('midgard:create');
 
@@ -139,11 +138,9 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Delete an existing TinyURL
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete(array $args)
     {
         $this->_tinyurl = $this->_get_item($args[0]);
         $workflow = $this->get_workflow('delete', ['object' => $this->_tinyurl]);
@@ -154,10 +151,9 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      * List TinyURLs
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list($handler_id, array &$data)
     {
         // Get the topic link and relocate accordingly
         $data['url'] = net_nemein_redirector_viewer::topic_links_to($data);

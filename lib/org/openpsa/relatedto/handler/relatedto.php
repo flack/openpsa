@@ -47,11 +47,9 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_render($handler_id, array $args, array &$data)
+    public function _handler_render(array $args)
     {
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         $this->_mode = $args[1];
@@ -425,11 +423,9 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_ajax($handler_id, array $args, array &$data)
+    public function _handler_ajax(array $args)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -456,11 +452,9 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete(array $args)
     {
         midcom::get()->auth->require_valid_user();
 
