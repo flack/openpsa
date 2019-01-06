@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Handle the requests for approving objects.
  *
@@ -19,14 +21,14 @@ class midcom_admin_folder_handler_approvals extends midcom_baseclasses_component
      *
      * @param mixed $handler_id The ID of the handler.
      */
-    public function _handler_approval($handler_id)
+    public function _handler_approval(Request $request, $handler_id)
     {
-        if (   !array_key_exists('guid', $_REQUEST)
-            || !array_key_exists('return_to', $_REQUEST)) {
+        if (   !$request->request->has('guid')
+            || !$request->request->has('return_to')) {
             throw new midcom_error('Cannot process approval request, request is incomplete.');
         }
 
-        $object = midcom::get()->dbfactory->get_object_by_guid($_REQUEST['guid']);
+        $object = midcom::get()->dbfactory->get_object_by_guid($request->request->get('guid'));
         $object->require_do('midcom:approve');
 
         if ($handler_id == 'approve') {
@@ -35,6 +37,6 @@ class midcom_admin_folder_handler_approvals extends midcom_baseclasses_component
             $object->metadata->unapprove();
         }
 
-        return new midcom_response_relocate($_REQUEST['return_to']);
+        return new midcom_response_relocate($request->request->get('return_to'));
     }
 }

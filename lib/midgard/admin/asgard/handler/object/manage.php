@@ -365,7 +365,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, $guid, array &$data)
+    public function _handler_delete(Request $request, $handler_id, $guid, array &$data)
     {
         $this->_load_object($guid);
         $this->_object->require_do('midgard:delete');
@@ -377,11 +377,9 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             ->set_storage($this->_object, 'default')
             ->get_form();
 
-        if (array_key_exists('midgard_admin_asgard_deleteok', $_REQUEST)) {
+        if ($request->request->has('midgard_admin_asgard_deleteok')) {
             // Deletion confirmed.
-            if (array_key_exists('midgard_admin_asgard_disablercs', $_REQUEST)) {
-                $this->_object->_use_rcs = false;
-            }
+            $this->_object->_use_rcs = !$request->request->getBoolean('midgard_admin_asgard_disablercs');
 
             if (!$this->_object->delete_tree()) {
                 throw new midcom_error("Failed to delete object {$guid}, last Midgard error was: " . midcom_connection::get_error_string());
@@ -390,7 +388,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             return $this->_prepare_relocate($this->_object, 'delete');
         }
 
-        if (array_key_exists('midgard_admin_asgard_deletecancel', $_REQUEST)) {
+        if ($request->request->has('midgard_admin_asgard_deletecancel')) {
             return $this->_prepare_relocate($this->_object);
         }
 

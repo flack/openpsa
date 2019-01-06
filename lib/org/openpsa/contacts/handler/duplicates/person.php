@@ -24,9 +24,9 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
         $this->_request_data['person2'] = false;
         $this->_request_data['loop_i'] = 0;
 
-        if (isset($_REQUEST['org_openpsa_contacts_handler_duplicates_person_loop_i'])) {
-            $this->_request_data['loop_i'] = $_REQUEST['org_openpsa_contacts_handler_duplicates_person_loop_i'];
-            if (isset($_REQUEST['org_openpsa_contacts_handler_duplicates_person_decide_later'])) {
+        if ($request->request->has('org_openpsa_contacts_handler_duplicates_person_loop_i')) {
+            $this->_request_data['loop_i'] = $request->request->getInt('org_openpsa_contacts_handler_duplicates_person_loop_i');
+            if ($request->request->has('org_openpsa_contacts_handler_duplicates_person_decide_later')) {
                 $this->_request_data['loop_i']++;
             }
         }

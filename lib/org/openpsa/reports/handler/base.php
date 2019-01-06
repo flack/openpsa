@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Baseclass for reports handler, provides some common methods
@@ -37,16 +38,16 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     /**
      * @param array &$data The local request data.
      */
-    public function _handler_generator_get(array &$data)
+    public function _handler_generator_get(Request $request, array &$data)
     {
         midcom::get()->auth->require_valid_user();
-        if (   !array_key_exists('org_openpsa_reports_query_data', $_REQUEST)
-            || !is_array($_REQUEST['org_openpsa_reports_query_data'])) {
-            throw new midcom_error('query data not present or invalid');
-        }
 
         // NOTE: This array must be a same format as we get from DM get_array() method
-        $data['query_data'] = $_REQUEST['org_openpsa_reports_query_data'];
+        $data['query_data'] = $request->query->get('org_openpsa_reports_query_data');
+
+        if (empty($data['query_data'])) {
+            throw new midcom_error('query data not present or invalid');
+        }
         $data['filename'] = 'get';
 
         $this->_handler_generator_style();

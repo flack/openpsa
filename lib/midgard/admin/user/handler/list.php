@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * @package midgard.admin.user
@@ -46,13 +47,13 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     /**
      * @param array &$data Data passed to the show method
      */
-    public function _handler_list(array &$data)
+    public function _handler_list(Request $request, array &$data)
     {
         // See what fields we want to use in the search
         $data['search_fields'] = $this->_config->get('search_fields');
         $data['list_fields'] = $this->_config->get('list_fields');
 
-        $this->_list_persons();
+        $this->_list_persons($request->query);
 
         // Used in many checks, keys are IDs, values objects
         $data['groups'] = [];
@@ -69,20 +70,20 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         return new midgard_admin_asgard_response($this, '_show_list');
     }
 
-    private function _list_persons()
+    private function _list_persons(ParameterBag $query)
     {
         $qb = midcom_db_person::new_query_builder();
         $qb->add_order('lastname');
         $qb->add_order('firstname');
 
-        if (isset($_REQUEST['midgard_admin_user_search'])) {
+        if ($search = $query->get('midgard_admin_user_search')) {
             // Run the person-seeking QB
             $qb->begin_group('OR');
             foreach ($this->_request_data['search_fields'] as $field) {
                 if ($field == 'username') {
-                    midcom_core_account::add_username_constraint($qb, 'LIKE', "{$_REQUEST['midgard_admin_user_search']}%");
+                    midcom_core_account::add_username_constraint($qb, 'LIKE', "{$search}%");
                 } else {
-                    $qb->add_constraint($field, 'LIKE', "{$_REQUEST['midgard_admin_user_search']}%");
+                    $qb->add_constraint($field, 'LIKE', "{$search}%");
                 }
             }
             $qb->end_group();

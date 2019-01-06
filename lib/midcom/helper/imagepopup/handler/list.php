@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * This handler shows the attachments attached to object $object.
@@ -26,7 +27,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
      * @param array &$data The local request data.
      * @param string $guid The object GUID
      */
-    public function _handler_list($handler_id, $filetype, array &$data, $guid = null)
+    public function _handler_list(Request $request, $handler_id, $filetype, array &$data, $guid = null)
     {
         midcom::get()->cache->content->no_cache();
         midcom::get()->auth->require_valid_user();
@@ -58,7 +59,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
             case 'list_unified':
                 $data['list_type'] = 'unified';
                 $data['list_title'] = $this->_l10n->get('unified search');
-                $data['query'] = (array_key_exists('query', $_REQUEST) ? $_REQUEST['query'] : '');
+                $data['query'] = $request->query->get('query', '');
                 break;
         }
 

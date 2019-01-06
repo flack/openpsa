@@ -87,12 +87,11 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             $data['revised_after'] = date('Y-m-d', $request->request->get('revised_after'));
 
             $data['type_filter'] = null;
-            if (   isset($_REQUEST['type_filter'])
-                && $_REQUEST['type_filter'] != 'any') {
-                $data['type_filter'] = $_REQUEST['type_filter'];
+            if ($request->query->get('type_filter', 'any') != 'any') {
+                $data['type_filter'] = $request->query->get('type_filter');
             }
 
-            $data['only_mine'] = !empty($_REQUEST['only_mine']);
+            $data['only_mine'] = $request->query->getBoolean('only_mine');
 
             $objects = $this->_list_revised($data['revised_after'], $data['type_filter'], $data['only_mine']);
         } elseif (class_exists('midcom_helper_activitystream_activity_dba')) {

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Comments view handler.
  *
  * This handler is a single handler which displays the thread for a given object GUID.
- * It checks for various commands in $_REQUEST during startup and processes them
+ * It checks for various commands in the request during startup and processes them
  * if applicable. It relocates to the same page to prevent duplicate request runs.
  *
  * @package net.nehmer.comments
