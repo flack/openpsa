@@ -128,7 +128,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
                 throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());
             }
         } else {
-            $item = new org_openpsa_invoices_invoice_item_dba($request->request->getIn('id'));
+            $item = new org_openpsa_invoices_invoice_item_dba($request->request->getInt('id'));
             if (!$item->delete()) {
                 throw new midcom_error('Failed to delete item: ' . midcom_connection::get_error_string());
             }

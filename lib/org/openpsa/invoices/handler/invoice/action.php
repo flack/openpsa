@@ -175,7 +175,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
             return $this->reply(false, sprintf($this->_l10n->get('unable to deliver mail: %s'), $mail->get_error_message()));
         }
         $this->invoice->set_parameter($this->_component, 'sent_by_mail', time());
-        return $this->_handler_mark_sent($args, $data);
+        return $this->_handler_mark_sent();
     }
 
     /**
