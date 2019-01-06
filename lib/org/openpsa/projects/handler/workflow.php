@@ -43,7 +43,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
             return new midcom_response_relocate($url);
         }
         //NOTE: This header might not be trustworthy...
-        return new midcom_response_relocate($_SERVER['HTTP_REFERER']);
+        return new midcom_response_relocate($request->server->get('HTTP_REFERER'));
     }
 
     private function run($action, $identifier)

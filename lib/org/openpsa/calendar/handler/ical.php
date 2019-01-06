@@ -8,6 +8,7 @@
 
 use Sabre\VObject\Reader;
 use Doctrine\ORM\Query\Expr\Join;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Calendar ical handler
@@ -61,13 +62,13 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * @param string $username The username
      * @param array &$data The local request data.
      */
-    public function _handler_user_events($username, array &$data)
+    public function _handler_user_events(Request $request, $username, array &$data)
     {
         midcom::get()->auth->require_valid_user('basic');
 
         $username = $this->_strip_extension($username);
         $data['person'] = $this->_find_person_by_name($username);
-        if (!empty($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
+        if ($request->getMethod() === 'PUT') {
             $this->update(file_get_contents('php://input'));
         }
 

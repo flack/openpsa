@@ -9,14 +9,14 @@
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Comments view handler.
  *
  * This handler is a single handler which displays the thread for a given object GUID.
  * It checks for various commands in $_REQUEST during startup and processes them
- * if applicable. It relocates to the same page (using $_SERVER info) to prevent
- * duplicate request runs.
+ * if applicable. It relocates to the same page to prevent duplicate request runs.
  *
  * @package net.nehmer.comments
  */
@@ -123,7 +123,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     /**
      * Initializes a DM for posting.
      */
-    private function _init_post_controller()
+    private function _init_post_controller(Request $request)
     {
         $this->_load_schemadb();
 
@@ -134,12 +134,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 
         $this->_new_comment = new net_nehmer_comments_comment();
         $this->_new_comment->objectguid = $this->_objectguid;
-        //Proxy check
-        if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
-            $this->_new_comment->ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
-        } else {
-            $this->_new_comment->ip = $_SERVER['REMOTE_ADDR'];
-        }
+        $this->_new_comment->ip = $request->getClientIp();
 
         if (midcom::get()->auth->user) {
             $this->_new_comment->status = net_nehmer_comments_comment::NEW_USER;
@@ -168,7 +163,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      * @param string $guid The object's GUID
      * @param string $view The custom view identifier
      */
-    public function _handler_comments($handler_id, array &$data, $guid, $view = null)
+    public function _handler_comments(Request $request, $handler_id, array &$data, $guid, $view = null)
     {
         $this->_objectguid = $guid;
         midcom::get()->cache->content->register($this->_objectguid);
@@ -196,8 +191,8 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 
         if (   midcom::get()->auth->user
             || $this->_config->get('allow_anonymous')) {
-            $this->_init_post_controller();
-            $this->_process_post();
+            $this->_init_post_controller($request);
+            $this->_process_post($request);
             // This might exit.
         }
         if ($this->_comments) {
@@ -212,8 +207,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         $this->_prepare_request_data();
         midcom::get()->metadata->set_request_metadata($this->_get_last_modified(), $this->_objectguid);
 
-        if (   isset($_SERVER['HTTP_X_REQUESTED_WITH'])
-            && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+        if ($request->isXmlHttpRequest()) {
             midcom::get()->skip_page_style = true;
         }
     }
@@ -221,7 +215,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     /**
      * Checks if a new post has been submitted.
      */
-    private function _process_post()
+    private function _process_post(Request $request)
     {
         if (   !midcom::get()->auth->user
             && !midcom::get()->auth->request_sudo('net.nehmer.comments')) {
@@ -257,7 +251,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                 if (!midcom::get()->auth->user) {
                     midcom::get()->auth->drop_sudo();
                 }
-                $this->_relocate_to_self();
+                midcom::get()->relocate($request->getRequestUri());
                 // This will exit();
         }
     }
@@ -273,16 +267,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         return array_reduce($this->_comments, function ($carry, net_nehmer_comments_comment $item) {
             return max($item->metadata->revised, $carry);
         }, 0);
-    }
-
-    /**
-     * This is a shortcut for midcom::get()->relocate which relocates to the very same page we
-     * are viewing right now, including all GET parameters we had in the original request.
-     * We do this by taking the $_SERVER['REQUEST_URI'] variable.
-     */
-    private function _relocate_to_self()
-    {
-        midcom::get()->relocate($_SERVER['REQUEST_URI']);
     }
 
     /**

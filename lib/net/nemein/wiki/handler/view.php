@@ -279,10 +279,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _handler_subscribe(Request $request, $wikipage)
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            throw new midcom_error_forbidden('Only POST requests are allowed here.');
-        }
-
         midcom::get()->auth->require_valid_user();
 
         $this->_load_page($wikipage, false);

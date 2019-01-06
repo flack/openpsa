@@ -13,6 +13,7 @@ whatlinks:
 subscribe:
     path: /subscribe/{wikipage}/
     defaults: { _controller: 'net_nemein_wiki_handler_view::subscribe' }
+    methods: [POST]
 
 create_by_word:
     path: /create/
