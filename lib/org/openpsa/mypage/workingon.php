@@ -26,17 +26,17 @@ class org_openpsa_mypage_workingon
     /**
      * Task being worked on
      */
-    public $task = null;
+    public $task;
 
     /**
      * The description for the current hour report
      */
-    public $description = null;
+    public $description;
 
     /**
      * Person working on the task
      */
-    protected $person = null;
+    protected $person;
 
     /**
      * If hour report is invoiceable

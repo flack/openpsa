@@ -23,7 +23,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      *
      * @var midcom_core_dbaobject
      */
-    private $_object = null;
+    private $_object;
 
     /**
      * Some newly created object

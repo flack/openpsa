@@ -21,7 +21,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
      *
      * @var object
      */
-    private $_linked_object = null;
+    private $_linked_object;
 
     /**
      * @param org_openpsa_invoices_billing_data_dba $bd

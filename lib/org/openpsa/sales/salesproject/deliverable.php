@@ -57,7 +57,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
      *
      * @var string
      */
-    private $_deliverable_html = null;
+    private $_deliverable_html;
 
     /**
      * Flag that controls if parent' price and cost need re-calculated if the current

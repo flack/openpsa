@@ -21,7 +21,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      *
      * @var midcom_core_dbaobject
      */
-    private $_object = null;
+    private $_object;
 
     /**
      * Files in the current object
@@ -35,7 +35,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      *
      * @var midcom_db_attachment
      */
-    private $_file = null;
+    private $_file;
 
     public function _on_initialize()
     {

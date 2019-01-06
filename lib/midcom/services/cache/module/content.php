@@ -79,7 +79,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var int
      */
-    private $_expires = null;
+    private $_expires;
 
     /**
      * The time of the last modification, set during auto-header-completion.
@@ -169,14 +169,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var Doctrine\Common\Cache\CacheProvider
      */
-    private $_meta_cache = null;
+    private $_meta_cache;
 
     /**
      * A cache backend used to store the actual cached pages.
      *
      * @var Doctrine\Common\Cache\CacheProvider
      */
-    private $_data_cache = null;
+    private $_data_cache;
 
     /**
      * GUIDs loaded per context in this request

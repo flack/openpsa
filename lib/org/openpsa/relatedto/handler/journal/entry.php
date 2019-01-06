@@ -18,7 +18,7 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
     /**
      * Contains the object the journal_entry is bind to
      */
-    private $_current_object = null;
+    private $_current_object;
 
     public function _on_initialize()
     {

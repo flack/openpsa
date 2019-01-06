@@ -69,8 +69,8 @@ class midcom_helper_configuration
      * @ignore
      */
     private $_object_stored = false;
-    private $_object = null;
-    private $_path = null;
+    private $_object;
+    private $_path;
 
     /**
      * The constructor initializes the global configuration.

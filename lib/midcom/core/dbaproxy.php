@@ -20,7 +20,7 @@ class midcom_core_dbaproxy
      *
      * @var object
      */
-    private $__object = null;
+    private $__object;
 
     /**
      * MidCOM DBA classname

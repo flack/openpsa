@@ -25,7 +25,7 @@ class midcom_baseclasses_components_navigation extends midcom_baseclasses_compon
      *
      * @var midcom_db_topic
      */
-    protected $_topic = null;
+    protected $_topic;
 
     /**
      * Initialize the NAP class, sets all state variables.

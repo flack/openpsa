@@ -21,7 +21,7 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
      *
      * @var org_openpsa_products_product_group_dba
      */
-    private $_group = null;
+    private $_group;
 
     /**
      * @param string $schema

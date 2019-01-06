@@ -16,7 +16,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
     public $argv = [];
     private $argv_original = [];
 
-    private $current_object = null;
+    private $current_object;
 
     private $url = '';
 

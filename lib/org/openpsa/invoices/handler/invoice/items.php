@@ -24,7 +24,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
      *
      * @var org_openpsa_invoices_invoice_dba
      */
-    private $_object = null;
+    private $_object;
 
     /**
      * @param string $guid The invoice GUID

@@ -25,7 +25,7 @@ implements client
      *
      * @var org_openpsa_directmarketing_campaign_dba
      */
-    private $_campaign = null;
+    private $_campaign;
 
     /**
      *

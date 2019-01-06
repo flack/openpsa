@@ -34,7 +34,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      *
      * @var midcom_db_topic
      */
-    private $_node = null;
+    private $_node;
 
     /**
      * Initializes the class with a given feed

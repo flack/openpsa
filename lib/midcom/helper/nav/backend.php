@@ -127,7 +127,7 @@ class midcom_helper_nav_backend
      *
      * @var midcom_services_cache_module_nap
      */
-    private $_nap_cache = null;
+    private $_nap_cache;
 
     /**
      * This array holds the node path from the URL. First value at key 0 is

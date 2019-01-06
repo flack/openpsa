@@ -25,7 +25,7 @@ class midcom_core_group
      *
      * @var midgard_group
      */
-    protected $_storage = null;
+    protected $_storage;
 
     /**
      * Name of the group

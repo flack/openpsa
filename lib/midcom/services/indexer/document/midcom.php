@@ -32,7 +32,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
      *
      * @var midcom_helper_metadata
      */
-    protected $_metadata = null;
+    protected $_metadata;
 
     /**
      * The constructor initializes the content object, loads the metadata object

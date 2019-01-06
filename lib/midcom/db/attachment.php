@@ -32,7 +32,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      *
      * @var resource
      */
-    private $_open_handle = null;
+    private $_open_handle;
 
     /**
      * Internal tracking state variable, true if the attachment has a handle opened in write mode

@@ -25,7 +25,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      *
      * @var midgard\portable\api\mgdobject
      */
-    protected $_object = null;
+    protected $_object;
 
     /**
      * Object path to the current object.

@@ -42,7 +42,7 @@ class midcom_services_auth
      *
      * @var midcom_core_user
      */
-    public $user = null;
+    public $user;
 
     /**
      * Admin user level state. This is true if the currently authenticated user is an
@@ -60,7 +60,7 @@ class midcom_services_auth
      *
      * @var midcom_services_auth_acl
      */
-    public $acl = null;
+    public $acl;
 
     /**
      * Internal cache of all loaded groups, indexed by their identifiers.
@@ -101,14 +101,14 @@ class midcom_services_auth
      *
      * @var midcom_services_auth_backend
      */
-    private $backend = null;
+    private $backend;
 
     /**
      * The authentication frontend we should use by default.
      *
      * @var midcom_services_auth_frontend
      */
-    private $frontend = null;
+    private $frontend;
 
     /**
      * Initialize the service:

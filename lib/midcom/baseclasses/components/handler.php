@@ -43,7 +43,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      *
      * @var midcom_db_topic
      */
-    var $_topic = null;
+    var $_topic;
 
     /**
      * Request specific data storage area. Registered in the component context
@@ -59,7 +59,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * @deprecated
      * @var midcom_baseclasses_components_viewer
      */
-    var $_master = null;
+    var $_master;
 
     /**
      * The node toolbar for the current request context. Not available during the can_handle
@@ -68,7 +68,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * @var midcom_helper_toolbar
      * @see midcom_services_toolbars
      */
-    var $_node_toolbar = null;
+    var $_node_toolbar;
 
     /**
      * The view toolbar for the current request context. Not available during the can_handle
@@ -77,7 +77,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * @var midcom_helper_toolbar
      * @see midcom_services_toolbars
      */
-    var $_view_toolbar = null;
+    var $_view_toolbar;
 
     /**
      * @var \Symfony\Component\Routing\Router

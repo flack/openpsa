@@ -38,7 +38,7 @@ class fi_protie_navigation
      *
      * @var midcom_helper_nav
      */
-    private $_nap = null;
+    private $_nap;
 
     /**
      * Stores the navigation access point history or in other words path to the current point.
@@ -52,7 +52,7 @@ class fi_protie_navigation
      *
      * @var integer
      */
-    public $root_id = null;
+    public $root_id;
 
     /**
      * Number of the parsed level
@@ -116,7 +116,7 @@ class fi_protie_navigation
      *
      * @var integer
      */
-    public $root_object_id = null;
+    public $root_object_id;
 
     /**
      * CSS class for styling the lists

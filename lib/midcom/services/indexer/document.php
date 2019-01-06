@@ -59,7 +59,7 @@ class midcom_services_indexer_document
      *
      * @var midcom_services_i18n
      */
-    protected $_i18n = null;
+    protected $_i18n;
 
     /**
      * This is the score of this document. Only populated on resultset documents,
@@ -156,7 +156,7 @@ class midcom_services_indexer_document
      *
      * @var midcom_db_person
      */
-    public $creator = null;
+    public $creator;
 
     /**
      * The MidgardPerson who modified the object the last time.
@@ -165,7 +165,7 @@ class midcom_services_indexer_document
      *
      * @var midcom_db_person
      */
-    public $editor = null;
+    public $editor;
 
     /**
      * The title of the document

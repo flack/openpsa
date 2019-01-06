@@ -22,7 +22,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     /**
      * The "index" to use (Solr has single index but we add this as query constraint as necessary
      */
-    private $_index_name = null;
+    private $_index_name;
 
     /**
      * The xml factory class
@@ -215,7 +215,7 @@ class midcom_services_indexer_solrDocumentFactory
     /**
      * The "index" to use (Solr has single index but we add this as query constraint as necessary
      */
-    private $_index_name = null;
+    private $_index_name;
 
     /**
      * The xml document to post.

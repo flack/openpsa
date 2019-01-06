@@ -24,7 +24,7 @@ abstract class midcom_services_auth_backend
     /**
      * @var midcom_services_auth
      */
-    protected $auth = null;
+    protected $auth;
 
     /**
      * The constructor should do only basic initialization.

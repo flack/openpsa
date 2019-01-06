@@ -209,14 +209,14 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      *
      * @var midcom_db_topic
      */
-    public $_topic = null;
+    public $_topic;
 
     /**
      * The current configuration.
      *
      * @var midcom_helper_configuration
      */
-    public $_config = null;
+    public $_config;
 
     /**
      * Request specific data storage area. Registered in the component context
@@ -233,7 +233,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      * @var midcom_helper_toolbar
      * @see midcom_services_toolbars
      */
-    public $_node_toolbar = null;
+    public $_node_toolbar;
 
     /**
      * The view toolbar for the current request context. Not available during the can_handle
@@ -242,7 +242,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      * @var midcom_helper_toolbar
      * @see midcom_services_toolbars
      */
-    public $_view_toolbar = null;
+    public $_view_toolbar;
 
     /**
      * This variable keeps track of the registered plugin namespaces. It maps namespace
@@ -282,7 +282,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      *
      * @var Array
      */
-    public $_handler = null;
+    public $_handler;
 
     /**
      * Initializes the class, only basic variable assignment.

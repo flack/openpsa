@@ -20,7 +20,7 @@ class org_openpsa_mail_message
     private $_headers;
 
     private $_body;
-    private $_html_body = null;
+    private $_html_body;
 
     /**
      *

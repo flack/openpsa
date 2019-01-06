@@ -18,14 +18,14 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
      *
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
-    private $_deliverable = null;
+    private $_deliverable;
 
     /**
      * The invoice we're working on
      *
      * @var org_openpsa_invoices_invoice_dba
      */
-    private $_invoice = null;
+    private $_invoice;
 
     /**
      */

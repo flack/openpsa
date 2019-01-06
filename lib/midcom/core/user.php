@@ -73,7 +73,7 @@ class midcom_core_user
      *
      * @var midcom_core_group[]
      */
-    private $_all_groups = null;
+    private $_all_groups;
 
     /**
      * Lists all groups in which a user is an immediate member.
@@ -87,7 +87,7 @@ class midcom_core_user
      *
      * @var midcom_core_group[]
      */
-    private $_direct_groups = null;
+    private $_direct_groups;
 
     /**
      * All groups the user is a member in, ordered by their inheritance chain.
@@ -102,7 +102,7 @@ class midcom_core_user
      *
      * @var array
      */
-    private $_inheritance_chains = null;
+    private $_inheritance_chains;
 
     /**
      * List of all privileges assigned to that user. It is to be considered read-only.
@@ -113,7 +113,7 @@ class midcom_core_user
      *
      * @var Array
      */
-    private $_privileges = null;
+    private $_privileges;
 
     /**
      * List of all privileges assigned to that user based on the class he is accessing. It is to
@@ -126,7 +126,7 @@ class midcom_core_user
      *
      * @var Array
      */
-    private $_per_class_privileges = null;
+    private $_per_class_privileges;
 
     /**
      * The identification string used to internally identify the user uniquely

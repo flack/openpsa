@@ -81,7 +81,7 @@ class org_openpsa_widgets_calendar_event
      *
      * @var org_openpsa_calendar_event_dba
      */
-    var $event = null;
+    var $event;
 
     public function __construct($event = null)
     {

@@ -24,7 +24,7 @@ implements client
      *
      * @var org_openpsa_documents_document_dba
      */
-    private $_document = null;
+    private $_document;
 
     /**
      * @var datamanager

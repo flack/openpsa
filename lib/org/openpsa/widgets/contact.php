@@ -36,21 +36,21 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      *
      * @var string
      */
-    public $link = null;
+    public $link;
 
     /**
      * Optional HTML to be placed into the card
      *
      * @var string
      */
-    public $extra_html = null;
+    public $extra_html;
 
     /**
      * Optional HTML to be placed into the card (before any other output in the DIV)
      *
      * @var string
      */
-    public $prefix_html = null;
+    public $prefix_html;
 
     /**
      * Whether to show person's groups in a list

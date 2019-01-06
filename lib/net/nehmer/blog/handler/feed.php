@@ -24,14 +24,14 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      *
      * @var Array
      */
-    private $_articles = null;
+    private $_articles;
 
     /**
      * The feedcreator instance used.
      *
      * @var UniversalFeedCreator
      */
-    private $_feed = null;
+    private $_feed;
 
     /**
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified

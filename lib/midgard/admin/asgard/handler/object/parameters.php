@@ -18,7 +18,7 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
      *
      * @var midcom_core_dbaobject
      */
-    private $_object = null;
+    private $_object;
 
     /**
      * Simple helper which references all important members to the request data listing

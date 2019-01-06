@@ -28,7 +28,7 @@ class midcom_helper_imagefilter
      *
      * @var string
      */
-    private $_filename = null;
+    private $_filename;
 
     /**
      * The quality to use for JPEG manipulation, this is not

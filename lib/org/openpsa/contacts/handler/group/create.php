@@ -28,7 +28,7 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
      *
      * @var org_openpsa_contacts_group_dba
      */
-    private $_group = null;
+    private $_group;
 
     /**
      * The parent group, if any

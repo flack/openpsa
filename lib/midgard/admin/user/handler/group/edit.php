@@ -15,7 +15,7 @@ use midcom\datamanager\datamanager;
  */
 class midgard_admin_user_handler_group_edit extends midcom_baseclasses_components_handler
 {
-    private $_group = null;
+    private $_group;
 
     public function _on_initialize()
     {

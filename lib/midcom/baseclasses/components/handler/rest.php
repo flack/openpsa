@@ -26,7 +26,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      *
      * @var array
      */
-    protected $_response = null;
+    protected $_response;
 
     /**
      * the response status

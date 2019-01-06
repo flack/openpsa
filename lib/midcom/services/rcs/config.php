@@ -21,7 +21,7 @@ class midcom_services_rcs_config
      *
      * @var array
      */
-    private $config = null;
+    private $config;
 
     /**
      * Constructor

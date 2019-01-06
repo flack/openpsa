@@ -30,7 +30,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      *
      * @var midcom_db_snippet
      */
-    private $snippet = null;
+    private $snippet;
 
     /**
      * The singleton siteconfig instance

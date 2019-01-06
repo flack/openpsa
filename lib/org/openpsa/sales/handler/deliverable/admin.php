@@ -24,7 +24,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      *
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
-    private $_deliverable = null;
+    private $_deliverable;
 
     /**
      * @return \midcom\datamanager\controller

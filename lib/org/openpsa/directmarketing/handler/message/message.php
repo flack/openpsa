@@ -20,7 +20,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
      *
      * @var org_openpsa_directmarketing_campaign_message_dba
      */
-    private $_message = null;
+    private $_message;
 
     /**
      * @var org_openpsa_directmarketing_campaign_dba

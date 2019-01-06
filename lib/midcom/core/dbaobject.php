@@ -43,14 +43,14 @@ abstract class midcom_core_dbaobject
      *
      * @var midgard\portable\api\mgdobject MgdSchema object
      */
-    public $__object = null;
+    public $__object;
 
     /**
      * Metadata object
      *
      * @var midcom_helper_metadata MidCOM metadata object
      */
-    private $__metadata = null;
+    private $__metadata;
 
     /**
      * Should the revision control system be enabled for object updates
@@ -80,7 +80,7 @@ abstract class midcom_core_dbaobject
      * @access private
      * @var string
      */
-    var $_activitystream_verb = null;
+    var $_activitystream_verb;
 
     /**
      * Should it be allowed to automatically generate unique name in case of clash

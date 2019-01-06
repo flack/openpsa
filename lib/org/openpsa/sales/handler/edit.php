@@ -21,7 +21,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      *
      * @var org_openpsa_sales_salesproject_dba
      */
-    private $_salesproject = null;
+    private $_salesproject;
 
     /**
      * @param string $guid The salesproject GUID

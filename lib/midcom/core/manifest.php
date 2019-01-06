@@ -228,7 +228,7 @@ class midcom_core_manifest
      *
      * This member is only populated on demand by the get_translated_name() function.
      */
-    public $name_translated = null;
+    public $name_translated;
 
     /**
      * If this is true, it is a pure-code component, otherwise it is a full blown
@@ -264,7 +264,7 @@ class midcom_core_manifest
      *
      * @var array
      */
-    public $watches = null;
+    public $watches;
 
     /**
      * Custom place to extend the schema.

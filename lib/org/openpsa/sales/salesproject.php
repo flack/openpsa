@@ -69,7 +69,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
     /**
      * Shorthand access for contact members
      */
-    private $_contacts = null;
+    private $_contacts;
 
     public function refresh()
     {
