@@ -9,6 +9,7 @@
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
 use midcom\datamanager\schemadb;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Object management interface
@@ -425,7 +426,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_copy($handler_id, $guid, array &$data)
+    public function _handler_copy(Request $request, $handler_id, $guid, array &$data)
     {
         // Get the object that will be copied
         $this->_load_object($guid);
@@ -451,7 +452,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         // Process the form
         switch ($this->controller->process()) {
             case 'save':
-                $new_object = $this->_process_copy($parent, $reflector);
+                $new_object = $this->_process_copy($request, $parent, $reflector);
                 // Relocate to the newly created object
                 return $this->_prepare_relocate($new_object);
 
@@ -489,7 +490,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
     }
 
-    private function _process_copy($parent, midcom_helper_reflector $reflector)
+    private function _process_copy(Request $request, $parent, midcom_helper_reflector $reflector)
     {
         $formdata = $this->controller->get_datamanager()->get_content_raw();
         $copy = new midcom_helper_reflector_copy();
@@ -512,7 +513,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 $class_name = $link_properties[$parent]['class'];
                 $copy->target = new $class_name($formdata[$parent]);
             }
-            $copy->exclude = array_diff($_POST['all_objects'], $_POST['selected']);
+            $copy->exclude = array_diff($request->request->get('all_objects'), $request->request->get('selected'));
         } else {
             $copy->recursive = false;
         }

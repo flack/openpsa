@@ -7,6 +7,8 @@
  */
 
 use midcom\datamanager\schemadb;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * org.openpsa.directmarketing campaign handler and viewer class.
@@ -103,15 +105,15 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param string $handler_id Name of the request handler
      * @param string $guid The object's GUID
      */
-    public function _handler_simpleemails($handler_id, $guid)
+    public function _handler_simpleemails(Request $request, $handler_id, $guid)
     {
         $this->_prepare_handler($guid);
 
         // Update the breadcrumb line
         $this->_update_breadcrumb($handler_id, $guid);
 
-        if (array_key_exists('org_openpsa_directmarketing_import_separator', $_POST)) {
-            switch ($_POST['org_openpsa_directmarketing_import_separator']) {
+        if ($request->request->has('org_openpsa_directmarketing_import_separator')) {
+            switch ($request->request->get('org_openpsa_directmarketing_import_separator')) {
                 case 'N':
                     $separator = "\n";
                     break;
@@ -127,13 +129,12 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             // Initialize the raw contact data
             $contacts_raw = '';
 
-            if (is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'])) {
-                $contacts_raw = file_get_contents($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']);
+            $file = $request->files->get('org_openpsa_directmarketing_import_upload');
+            if ($file && $file instanceof UploadedFile) {
+                $contacts_raw = file_get_contents($file->getPathname());
             }
 
-            if (isset($_POST['org_openpsa_directmarketing_import_textarea'])) {
-                $contacts_raw .= $_POST['org_openpsa_directmarketing_import_textarea'];
-            }
+            $contacts_raw .= $request->request->get('org_openpsa_directmarketing_import_textarea', '');
 
             if ($contacts_raw) {
                 $importer = new org_openpsa_directmarketing_importer_simpleemails($this->_schemadbs, ['separator' => $separator]);
@@ -179,14 +180,14 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param string $handler_id Name of the request handler
      * @param string $guid The object's GUID
      */
-    public function _handler_vcards($handler_id, $guid)
+    public function _handler_vcards(Request $request, $handler_id, $guid)
     {
         $this->_prepare_handler($guid);
 
         // Update the breadcrumb line
         $this->_update_breadcrumb($handler_id, $guid);
 
-        if (   array_key_exists('org_openpsa_directmarketing_import', $_POST)
+        if (   $request->request->has('org_openpsa_directmarketing_import')
             && is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'])) {
             $importer = new org_openpsa_directmarketing_importer_vcards($this->_schemadbs);
             $this->_run_import($importer, $_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']);
@@ -215,18 +216,18 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param string $guid The object's GUID
      * @param array &$data Public request data, passed by reference
      */
-    public function _handler_csv_select($handler_id, $guid, array &$data)
+    public function _handler_csv_select(Request $request, $handler_id, $guid, array &$data)
     {
         $this->_prepare_handler($guid);
 
         // Update the breadcrumb
         $this->_update_breadcrumb($handler_id, $guid);
 
-        if (array_key_exists('org_openpsa_directmarketing_import_separator', $_POST)) {
+        if ($request->request->has('org_openpsa_directmarketing_import_separator')) {
             $data['time_start'] = time();
 
             $data['rows'] = [];
-            $data['separator'] = $_POST['org_openpsa_directmarketing_import_separator'];
+            $data['separator'] = $request->request->get('org_openpsa_directmarketing_import_separator');
             if ($data['separator'] != ';') {
                 $data['separator'] = ',';
             }
@@ -284,13 +285,13 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param string $guid The object's GUID
      * @param array &$data Public request data, passed by reference
      */
-    public function _handler_csv($handler_id, $guid, array &$data)
+    public function _handler_csv(Request $request, $handler_id, $guid, array &$data)
     {
-        if (!array_key_exists('org_openpsa_directmarketing_import_separator', $_POST)) {
+        if (!$request->request->has('org_openpsa_directmarketing_import_separator')) {
             throw new midcom_error('No CSV separator specified.');
         }
 
-        if (!file_exists($_POST['org_openpsa_directmarketing_import_tmp_file'])) {
+        if (!file_exists($request->request->get('org_openpsa_directmarketing_import_tmp_file'))) {
             throw new midcom_error('No CSV file available.');
         }
 
@@ -301,11 +302,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
         $data['rows'] = [];
         $config = [
-            'fields' => $_POST['org_openpsa_directmarketing_import_csv_field'],
-            'separator' => $_POST['org_openpsa_directmarketing_import_separator'],
+            'fields' => $request->request->get('org_openpsa_directmarketing_import_csv_field'),
+            'separator' => $request->request->get('org_openpsa_directmarketing_import_separator'),
         ];
         $importer = new org_openpsa_directmarketing_importer_csv($this->_schemadbs, $config);
-        $this->_run_import($importer, $_POST['org_openpsa_directmarketing_import_tmp_file']);
+        $this->_run_import($importer, $request->request->get('org_openpsa_directmarketing_import_tmp_file'));
 
         return $this->show('show-import-status');
     }

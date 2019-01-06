@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Wikipage view handler
@@ -276,7 +277,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     /**
      * @param string $wikipage The page's name
      */
-    public function _handler_subscribe($wikipage)
+    public function _handler_subscribe(Request $request, $wikipage)
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
@@ -290,8 +291,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         $user = midcom::get()->auth->user->get_storage();
 
-        if (   array_key_exists('target', $_POST)
-            && $_POST['target'] == 'folder') {
+        if ($request->request->get('target') == 'folder') {
             // We're subscribing to the whole wiki
             $object = $this->_topic;
             $target = sprintf($this->_l10n->get('whole wiki %s'), $this->_topic->extra);
@@ -300,7 +300,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $target = sprintf($this->_l10n->get('page %s'), $this->_page->title);
         }
 
-        if (array_key_exists('subscribe', $_POST)) {
+        if ($request->request->has('subscribe')) {
             // Subscribe to page
             $object->set_parameter('net.nemein.wiki:watch', $user->guid, time());
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('subscribed to changes in %s'), $target));

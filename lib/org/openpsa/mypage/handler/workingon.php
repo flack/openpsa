@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\helper\autocomplete;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Mypage "now working on"
@@ -120,28 +121,25 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      * @throws midcom_error
      * @return midcom_response_relocate
      */
-    public function _handler_set()
+    public function _handler_set(Request $request)
     {
-        if (!array_key_exists('task', $_POST)) {
+        $task = $request->request->get('task');
+        if (!$task) {
             throw new midcom_error('No task specified.');
         }
 
-        $relocate = '';
-        if (array_key_exists('url', $_POST)) {
-            $relocate = $_POST['url'];
-        }
-
         // Handle "not working on anything"
-        if ($_POST['action'] == 'stop') {
-            $_POST['task'] = '';
+        if ($request->request->get('action') == 'stop') {
+            $task = '';
         }
 
         // Set the "now working on" status
         $workingon = new org_openpsa_mypage_workingon();
-        if (!$workingon->set($_POST['task'])) {
-            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.mypage'),  'Failed to set "working on" parameter to "' . $_POST['task'] . '", reason ' . midcom_connection::get_error_string(), 'error');
+        if (!$workingon->set($task)) {
+            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.mypage'),  'Failed to set "working on" parameter to "' . $task . '", reason ' . midcom_connection::get_error_string(), 'error');
         }
 
+        $relocate = $request->request->get('url', '');
         return new midcom_response_relocate($relocate . "workingon/");
     }
 }

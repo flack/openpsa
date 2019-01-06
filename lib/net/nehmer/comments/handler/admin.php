@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Comments welcome page handler
@@ -115,11 +116,17 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      * @param string $status The moderation status
      * @param array &$data The local request data.
      */
-    public function _handler_moderate_ajax($status, array &$data)
+    public function _handler_moderate_ajax(Request $request, $status, array &$data)
     {
-        $this->_verify_post_data();
+        if (   !$request->request->has('action')
+            || !$request->request->has('guid')) {
+            throw new midcom_error_notfound('Incomplete POST data');
+        }
+        if ($request->request->get('action') !== 'action_delete') {
+            throw new midcom_error_notfound('Unsupported action');
+        }
 
-        $comment = new net_nehmer_comments_comment($_POST['guid']);
+        $comment = new net_nehmer_comments_comment($request->request->get('guid'));
         if (!$comment->delete()) {
             throw new midcom_error("Failed to delete comment GUID '{$_REQUEST['guid']}': " . midcom_connection::get_error_string());
         }
@@ -133,17 +140,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
             $this->_init_display_datamanager();
         }
         midcom::get()->skip_page_style = true;
-    }
-
-    private function _verify_post_data()
-    {
-        if (   !array_key_exists('action', $_POST)
-            || !array_key_exists('guid', $_POST)) {
-            throw new midcom_error_notfound('Incomplete POST data');
-        }
-        if ($_POST['action'] !== 'action_delete') {
-            throw new midcom_error_notfound('Unsupported action');
-        }
     }
 
     /**

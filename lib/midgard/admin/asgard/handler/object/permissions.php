@@ -9,6 +9,7 @@
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Permissions interface
@@ -258,7 +259,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, $guid, array &$data)
+    public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
     {
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $this->_object->require_do('midgard:privileges');
@@ -267,8 +268,9 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         // Load possible additional component privileges
         $this->_load_component_privileges();
 
-        if (!empty($_POST)) {
-            $formdata = reset($_POST);
+        if ($request->request->count() > 0) {
+            $formdata = $request->request->all();
+            $formdata = reset($formdata);
             $this->additional_assignee = $formdata['add_assignee'];
         }
 

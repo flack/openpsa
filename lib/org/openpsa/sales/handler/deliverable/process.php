@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Deliverable processing class
  *
@@ -32,7 +34,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
      *
      * @param string $guid The deliverable GUID
      */
-    public function _handler_process($guid)
+    public function _handler_process(Request $request, $guid)
     {
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
@@ -42,7 +44,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
         ];
 
         foreach ($supported_operations as $operation) {
-            if (array_key_exists($operation, $_POST)) {
+            if ($request->request->has($operation)) {
                 if (!$this->_deliverable->$operation()) {
                     throw new midcom_error('Operation failed. Last Midgard error was: ' . midcom_connection::get_error_string());
                 }

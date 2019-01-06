@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Projects task resourcing handler
  *
@@ -18,7 +20,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      *
      * @var org_openpsa_projects_task_dba
      */
-    private $_task = null;
+    private $_task;
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -53,17 +55,21 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_resourcing($handler_id, $guid, array &$data)
+    public function _handler_resourcing(Request $request, $handler_id, $guid, array &$data)
     {
         $this->_task = new org_openpsa_projects_task_dba($guid);
         $this->_task->require_do('midgard:create');
 
-        if (   array_key_exists('org_openpsa_projects_prospects', $_POST)
-            && $_POST['save']) {
+        if ($request->request->has('cancel')) {
+            return new midcom_response_relocate($this->router->generate('task_view', ['guid' => $guid]));
+        }
+
+        if (   $request->request->has('save')
+            && $prospects = $request->request->get('org_openpsa_projects_prospects')) {
             $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
-            $qb->add_constraint('guid', 'IN', array_keys($_POST['org_openpsa_projects_prospects']));
+            $qb->add_constraint('guid', 'IN', array_keys($prospects));
             foreach ($qb->execute() as $prospect) {
-                $slots = $_POST['org_openpsa_projects_prospects'][$prospect->guid];
+                $slots = $prospects[$prospect->guid];
                 $update_prospect = false;
                 foreach ($slots as $slotdata) {
                     if (empty($slotdata['used'])) {
@@ -94,10 +100,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
                     debug_add('Failed to update prospect: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 }
             }
-            return new midcom_response_relocate($this->router->generate('task_view', ['guid' => $this->_task->guid]));
-        }
-        if (!empty($_POST['cancel'])) {
-            return new midcom_response_relocate($this->router->generate('task_view', ['guid' => $this->_task->guid]));
+            return new midcom_response_relocate($this->router->generate('task_view', ['guid' => $guid]));
         }
 
         $this->_prepare_request_data($handler_id);
@@ -105,7 +108,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $this->bind_view_to_object($this->_task);
 
         org_openpsa_projects_viewer::add_breadcrumb_path($data['task'], $this);
-        $this->add_breadcrumb($this->router->generate('task_resourcing', ['guid' => $this->_task->guid]), $this->_l10n->get('resourcing'));
+        $this->add_breadcrumb($this->router->generate('task_resourcing', ['guid' => $guid]), $this->_l10n->get('resourcing'));
 
         return $this->show('show-task-resourcing');
     }

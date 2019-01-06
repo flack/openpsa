@@ -7,6 +7,8 @@
  */
 
 use midcom\grid\grid;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Invoice item handler
@@ -104,29 +106,29 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
     /**
      * @param string $guid The invoice GUID
      */
-    public function _handler_itemedit($guid)
+    public function _handler_itemedit(Request $request, $guid)
     {
-        $this->_verify_post_data();
+        $this->_verify_post_data($request->request);
 
         $invoice = new org_openpsa_invoices_invoice_dba($guid);
 
-        if ($_POST['oper'] == 'edit') {
-            if (strpos($_POST['id'], 'new_') === 0) {
+        if ($request->request->get('oper') == 'edit') {
+            if (strpos($request->request->get('id'), 'new_') === 0) {
                 $item = new org_openpsa_invoices_invoice_item_dba();
                 $item->invoice = $invoice->id;
                 $item->create();
             } else {
-                $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
+                $item = new org_openpsa_invoices_invoice_item_dba($request->request->getInt('id'));
             }
-            $item->units = (float) str_replace(',', '.', $_POST['quantity']);
-            $item->pricePerUnit = (float) str_replace(',', '.', $_POST['price']);
-            $item->description = $_POST['description'];
+            $item->units = (float) str_replace(',', '.', $request->request->get('quantity'));
+            $item->pricePerUnit = (float) str_replace(',', '.', $request->request->get('price'));
+            $item->description = $request->request->get('description');
 
             if (!$item->update()) {
                 throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());
             }
         } else {
-            $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
+            $item = new org_openpsa_invoices_invoice_item_dba($request->request->getIn('id'));
             if (!$item->delete()) {
                 throw new midcom_error('Failed to delete item: ' . midcom_connection::get_error_string());
             }
@@ -137,22 +139,18 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
             'price' => $item->pricePerUnit,
             'description' => $item->description,
             'position' => $item->position,
-            'oldid' => $_POST['id']
+            'oldid' => $request->request->get('id')
         ];
         return new midcom_response_json($result);
     }
 
-    private function _verify_post_data()
+    private function _verify_post_data(ParameterBag $post)
     {
-        if (   empty($_POST['oper'])
-            || !isset($_POST['id'])
-            || !isset($_POST['description'])
-            || !isset($_POST['price'])
-            || !isset($_POST['quantity'])) {
-            throw new midcom_error('Incomplete POST data');
+        if (!in_array($post->get('oper'), ['edit', 'del'])) {
+            throw new midcom_error('Invalid operation "' . $post->get('oper') . '"');
         }
-        if (!in_array($_POST['oper'], ['edit', 'del'])) {
-            throw new midcom_error('Invalid operation "' . $_POST['oper'] . '"');
+        if (!$post->has('id') || !$post->has('description') || !$post->has('price') || !$post->has('quantity')) {
+            throw new midcom_error('Incomplete POST data');
         }
     }
 
@@ -160,10 +158,10 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
      * @throws midcom_error
      * @return midcom_response_json
      */
-    public function _handler_itemposition()
+    public function _handler_itemposition(Request $request)
     {
-        $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
-        $item->position = $_POST['position'];
+        $item = new org_openpsa_invoices_invoice_item_dba($request->request->getInt('id'));
+        $item->position = $request->request->getInt('position');
 
         if (!$item->update()) {
             throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());

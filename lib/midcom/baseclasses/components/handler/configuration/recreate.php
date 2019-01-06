@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Batch image recreation
  *
@@ -33,12 +35,12 @@ abstract class midcom_baseclasses_components_handler_configuration_recreate exte
      *
      * @param array  &$data          Miscellaneous output data
      */
-    public function _handler_recreate(array &$data)
+    public function _handler_recreate(Request $request, array &$data)
     {
         $this->_topic->require_do('midgard:update');
         $this->_topic->require_do('midcom:component_config');
 
-        if (!array_key_exists('midcom_baseclasses_components_handler_configuration_recreateok', $_POST)) {
+        if (!$request->request->has('midcom_baseclasses_components_handler_configuration_recreateok')) {
             return new midcom_response_relocate('config/');
         }
 

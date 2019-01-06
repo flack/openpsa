@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * @package midgard.admin.user
  */
@@ -150,13 +152,13 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
      * @param string $action The requested action
      * @param array &$data Data passed to the show method
      */
-    public function _handler_batch($action, array &$data)
+    public function _handler_batch(Request $request, $action, array &$data)
     {
         $relocate_url = $this->router->generate('user_list');
         if (!empty($_GET)) {
             $relocate_url .= '?' . http_build_query($_GET);
         }
-        if (empty($_POST['midgard_admin_user']) || !is_array($_POST['midgard_admin_user'])) {
+        if (empty($request->request->get('midgard_admin_user'))) {
             midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), $this->_l10n->get('empty selection'));
             return new midcom_response_relocate($relocate_url);
         }
@@ -164,27 +166,27 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         $method = '_batch_' . $action;
 
         $qb = midcom_db_person::new_query_builder();
-        $qb->add_constraint('guid', 'IN', $_POST['midgard_admin_user']);
+        $qb->add_constraint('guid', 'IN', $request->request->get('midgard_admin_user'));
         $this->_persons = $qb->execute();
         foreach ($this->_persons as $person) {
-            $this->$method($person);
+            $this->$method($request, $person);
         }
         return new midcom_response_relocate($relocate_url);
     }
 
-    private function _batch_groupadd(midcom_db_person $person)
+    private function _batch_groupadd(Request $request, midcom_db_person $person)
     {
-        if (isset($_POST['midgard_admin_user_group'])) {
+        if ($request->request->has('midgard_admin_user_group')) {
             $member = new midcom_db_member();
             $member->uid = $person->id;
-            $member->gid = (int) $_POST['midgard_admin_user_group'];
+            $member->gid = $request->request->getInt('midgard_admin_user_group');
             if ($member->create()) {
                 midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('user %s added to group'), $person->name));
             }
         }
     }
 
-    private function _batch_removeaccount(midcom_db_person $person)
+    private function _batch_removeaccount(Request $request, midcom_db_person $person)
     {
         if (!$this->_config->get('allow_manage_accounts')) {
             return;
@@ -199,7 +201,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     /**
      * Internal helper for processing the batch change of passwords
      */
-    private function _batch_passwords(midcom_db_person $person)
+    private function _batch_passwords(Request $request, midcom_db_person $person)
     {
         // Set the mail commo parts
         $mail = new org_openpsa_mail();
@@ -237,8 +239,8 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         // Get a new password
         $password = midgard_admin_user_plugin::generate_password(8);
 
-        $mail->body = $_POST['body'];
-        $mail->subject = $_POST['subject'];
+        $mail->body = $request->request->get('body');
+        $mail->subject = $request->request->get('subject');
         $now = time();
         $mail->parameters = [
             'PASSWORD' => $password,

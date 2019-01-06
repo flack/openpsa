@@ -8,6 +8,7 @@
 
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * org.openpsa.calendar site interface class.
@@ -61,20 +62,16 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
      *
      * @param string $guid The object's GUID
      */
-    public function _handler_move($guid)
+    public function _handler_move(Request $request, $guid)
     {
-        if (empty($_POST['start'])) {
+        if (!$request->request->get('start')) {
             throw new midcom_error('Incomplete request');
         }
         $event = new org_openpsa_calendar_event_dba($guid);
         $event->require_do('midgard:update');
-        $start = strtotime($_POST['start']);
+        $start = strtotime($request->request->get('start'));
         //workaround for https://github.com/fullcalendar/fullcalendar/issues/3037
-        if (empty($_POST['end'])) {
-            $end = $event->end + ($start - $event->start);
-        } else {
-            $end = strtotime($_POST['end']);
-        }
+        $end = $request->request->get('end', $event->end + ($start - $event->start));
         $event->start = $start;
         $event->end = $end;
         if (!$event->update()) {

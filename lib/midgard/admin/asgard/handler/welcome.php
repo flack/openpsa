@@ -7,6 +7,7 @@
  */
 
 use midcom\grid\provider;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Welcome interface
@@ -71,20 +72,19 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      *
      * @param array &$data The local request data.
      */
-    public function _handler_welcome(array &$data)
+    public function _handler_welcome(Request $request, array &$data)
     {
         $data['schema_types'] = array_diff(midcom_connection::get_schema_types(), $this->_config->get('skip_in_filter'));
 
         $data['view_title'] = $this->_l10n->get('asgard');
 
-        if (    !empty($_POST['action'])
-             && !empty($_POST['entries'])) {
-            $method_name = "_mass_{$_POST['action']}";
-            $this->$method_name($_POST['entries']);
+        if ($request->request->has('action') && $request->request->has('entries')) {
+            $method_name = '_mass_' . $request->request->get('action');
+            $this->$method_name($request->request->get('entries'));
         }
 
-        if (isset($_REQUEST['revised_after'])) {
-            $data['revised_after'] = date('Y-m-d', $_REQUEST['revised_after']);
+        if ($request->request->has('revised_after')) {
+            $data['revised_after'] = date('Y-m-d', $request->request->get('revised_after'));
 
             $data['type_filter'] = null;
             if (   isset($_REQUEST['type_filter'])

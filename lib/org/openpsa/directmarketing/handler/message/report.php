@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @package org.openpsa.directmarketing
@@ -287,14 +288,14 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $array['tokens'][$link->token]++;
     }
 
-    private function _create_campaign_from_link($identifier)
+    private function _create_campaign_from_link(Request $request, $identifier)
     {
-        $rules = org_openpsa_directmarketing_campaign_ruleresolver::parse($_POST['oo_dirmar_rule_' . $identifier]);
+        $rules = org_openpsa_directmarketing_campaign_ruleresolver::parse($request->request->get('oo_dirmar_rule_' . $identifier));
         $campaign = new org_openpsa_directmarketing_campaign_dba();
         $campaign->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_dba::TYPE_SMART;
         $campaign->rules = $rules;
         $campaign->description = $rules['comment'];
-        $campaign->title = sprintf($this->_l10n->get('from link "%s"'), $_POST['oo_dirmar_label_' . $identifier]);
+        $campaign->title = sprintf($this->_l10n->get('from link "%s"'), $request->request->get('oo_dirmar_label_' . $identifier));
         $campaign->testers[midcom_connection::get_user()] = true;
         $campaign->node = $this->_topic->id;
         if (!$campaign->create()) {
@@ -308,7 +309,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_report($guid, array &$data)
+    public function _handler_report(Request $request, $guid, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -322,9 +323,9 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $this->_campaign = $this->load_campaign($this->_message->campaign);
         $data['campaign'] = $this->_campaign;
 
-        if (   isset($_POST['oo_dirmar_userule'])
-            && !empty($_POST['oo_dirmar_rule_' . $_POST['oo_dirmar_userule']])) {
-            return $this->_create_campaign_from_link($_POST['oo_dirmar_userule']);
+        $identifier = $request->request->get('oo_dirmar_userule');
+        if ($request->request->has('oo_dirmar_rule_' . $identifier)) {
+            return $this->_create_campaign_from_link($request, $identifier);
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");

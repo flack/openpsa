@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 /**
  * Attachment editing interface
  *
@@ -40,45 +43,45 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/attachments/layout.css');
     }
 
-    private function _process_file_upload($uploaded_file)
+    private function _process_file_upload(UploadedFile $file)
     {
         if (is_null($this->_file)) {
-            $local_filename = midcom_db_attachment::safe_filename($uploaded_file['name']);
+            $local_filename = midcom_db_attachment::safe_filename($file->getClientOriginalName());
             $local_file = $this->_get_file($local_filename, true);
         } else {
             $local_file = $this->_file;
         }
 
-        if ($local_file->mimetype != $uploaded_file['type']) {
-            $local_file->mimetype = $uploaded_file['type'];
+        if ($local_file->mimetype != $file->getMimeType()) {
+            $local_file->mimetype = $file->getMimeType();
             $local_file->update();
         }
 
-        if (!$local_file->copy_from_file($uploaded_file['tmp_name'])) {
+        if (!$local_file->copy_from_file($file->getPathname())) {
             return false;
         }
         return $local_file->name;
     }
 
-    private function _process_form()
+    private function _process_form(Request $request)
     {
-        if (!isset($_POST['midgard_admin_asgard_save'])) {
+        if (!$request->request->has('midgard_admin_asgard_save')) {
             return false;
         }
 
         // Check if we have an uploaded file
-        if (   isset($_FILES['midgard_admin_asgard_file'])
-            && is_uploaded_file($_FILES['midgard_admin_asgard_file']['tmp_name'])) {
-            return $this->_process_file_upload($_FILES['midgard_admin_asgard_file']);
+        $file = $request->files->get('midgard_admin_asgard_file');
+        if ($file && $file instanceof UploadedFile) {
+            return $this->_process_file_upload($file);
         }
 
         if (is_null($this->_file)) {
-            if (empty($_POST['midgard_admin_asgard_filename'])) {
+            if (!$request->request->has('midgard_admin_asgard_filename')) {
                 return false;
             }
 
             // We're creating a new file
-            $local_filename = midcom_db_attachment::safe_filename($_POST['midgard_admin_asgard_filename']);
+            $local_filename = midcom_db_attachment::safe_filename($request->request->get('midgard_admin_asgard_filename'));
             $local_file = $this->_get_file($local_filename, true);
         } else {
             $local_file = $this->_file;
@@ -86,15 +89,16 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         $needs_update = false;
 
-        if (   !empty($_POST['midgard_admin_asgard_filename'])
-            && $local_file->name != $_POST['midgard_admin_asgard_filename']) {
-            $local_file->name = $_POST['midgard_admin_asgard_filename'];
+        $filename = $request->request->get('midgard_admin_asgard_filename');
+        if (!empty($filename) && $local_file->name != $filename) {
+            $local_file->name = $filename;
             $needs_update = true;
         }
 
-        if (   !empty($_POST['midgard_admin_asgard_mimetype'])
-            && $local_file->mimetype != $_POST['midgard_admin_asgard_mimetype']) {
-            $local_file->mimetype = $_POST['midgard_admin_asgard_mimetype'];
+        $mimetype = $request->request->get('midgard_admin_asgard_mimetype');
+        if (   !empty($mimetype)
+            && $local_file->mimetype != $mimetype) {
+            $local_file->mimetype = $mimetype;
             $needs_update = true;
         }
 
@@ -104,10 +108,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         }
 
         // We should always store at least an empty string so it can be edited later
-        $contents = '';
-        if (!empty($_POST['midgard_admin_asgard_contents'])) {
-            $contents = $_POST['midgard_admin_asgard_contents'];
-        }
+        $contents = $request->request->get('midgard_admin_asgard_contents', '');
 
         if (!$local_file->copy_from_memory($contents)) {
             return false;
@@ -187,11 +188,11 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * @param string $guid The object's GUID
      * @param array &$data Data passed to the show method
      */
-    public function _handler_create($handler_id, $guid, array &$data)
+    public function _handler_create(Request $request, $handler_id, $guid, array &$data)
     {
         $this->prepare_object($guid);
 
-        if ($filename = $this->_process_form()) {
+        if ($filename = $this->_process_form($request)) {
             return $this->relocate_to_file($filename);
         }
 
@@ -232,7 +233,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * @param string $filename The filename
      * @param array &$data Data passed to the show method
      */
-    public function _handler_edit($handler_id, $guid, $filename, array &$data)
+    public function _handler_edit(Request $request, $handler_id, $guid, $filename, array &$data)
     {
         $this->prepare_object($guid);
 
@@ -241,7 +242,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->_file->require_do('midgard:update');
         $this->bind_view_to_object($this->_file);
 
-        $filename = $this->_process_form();
+        $filename = $this->_process_form($request);
         if (   $filename
             && $filename != $data['filename']) {
             return $this->relocate_to_file($filename);

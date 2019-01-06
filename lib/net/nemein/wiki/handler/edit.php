@@ -9,6 +9,7 @@
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Wikipage edit handler
@@ -118,9 +119,9 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     /**
      * @param string $wikipage The page's name
      */
-    public function _handler_change($wikipage)
+    public function _handler_change(Request $request, $wikipage)
     {
-        if (empty($_POST['change_to'])) {
+        if (!$request->request->has('change_to')) {
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
@@ -128,7 +129,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $this->page->require_do('midgard:update');
 
         // Change schema to redirect
-        $this->page->set_parameter('midcom.helper.datamanager2', 'schema_name', $_POST['change_to']);
+        $this->page->set_parameter('midcom.helper.datamanager2', 'schema_name', $request->request->get('change_to'));
 
         // Redirect to editing
         return new midcom_response_relocate("edit/{$this->page->name}/");

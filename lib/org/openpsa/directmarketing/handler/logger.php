@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * org.openpsa.directmarketing campaign handler and viewer class.
  * @package org.openpsa.directmarketing
@@ -16,15 +18,15 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * Logs a bounce from bounce_detector.php for POSTed token, marks the send receipt
      * and the campaign member as bounced.
      */
-    public function _handler_bounce()
+    public function _handler_bounce(Request $request)
     {
-        if (empty($_POST['token'])) {
+        if (!$request->request->has('token')) {
             throw new midcom_error('Token not present in POST or empty');
         }
         $this->_request_data['update_status'] = ['receipts' => [], 'members' => []];
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
-        $ret = $this->_qb_token_receipts($_POST['token']);
+        $ret = $this->_qb_token_receipts($request->request->get('token'));
         //While in theory we should have only one token lets use foreach just to be sure
         foreach ($ret as $receipt) {
             //Mark receipt as bounced
@@ -93,21 +95,23 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * Logs a link click from link_detector.php for POSTed token, binds to person
      * and creates received and read receipts as well
      */
-    public function _handler_link()
+    public function _handler_link(Request $request)
     {
-        if (empty($_POST['token'])) {
+        $token = $request->request->get('token');
+        $link = $request->request->get('link');
+        if (!$token) {
             throw new midcom_error('Token not present in POST or empty');
         }
-        if (empty($_POST['link'])) {
+        if (!$link) {
             throw new midcom_error('Link not present in POST or empty');
         }
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
-        $ret = $this->_qb_token_receipts($_POST['token']);
+        $ret = $this->_qb_token_receipts($token);
 
         //While in theory we should have only one token lets use foreach just to be sure
         foreach ($ret as $receipt) {
-            $this->_create_link_receipt($receipt, $_POST['token'], $_POST['link']);
+            $this->_create_link_receipt($receipt, $token, $link);
         }
 
         midcom::get()->auth->drop_sudo();

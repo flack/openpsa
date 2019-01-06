@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Comments moderation handler
  *
@@ -25,7 +27,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      *
      * @param string $guid The comment's GUID
      */
-    public function _handler_abuse($guid)
+    public function _handler_abuse(Request $request, $guid)
     {
         $this->load_comment($guid, false);
         $moderators = $this->_config->get('moderators');
@@ -54,7 +56,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
                 org_openpsa_notifications::notify('net.nehmer.comments:report_abuse', $moderator_guid, $message);
             }
         }
-        return $this->reply();
+        return $this->reply($request);
     }
 
     /**
@@ -62,11 +64,11 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      *
      * @param string $guid The comment's GUID
      */
-    public function _handler_not_abuse($guid)
+    public function _handler_not_abuse(Request $request, $guid)
     {
         $this->load_comment($guid);
         $this->_comment->report_not_abuse();
-        return $this->reply();
+        return $this->reply($request);
     }
 
     /**
@@ -74,14 +76,14 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      *
      * @param string $guid The comment's GUID
      */
-    public function _handler_confirm_abuse($guid)
+    public function _handler_confirm_abuse(Request $request, $guid)
     {
         $this->load_comment($guid);
         $this->_comment->confirm_abuse();
 
         $indexer = midcom::get()->indexer;
         $indexer->delete($this->_comment->guid);
-        return $this->reply();
+        return $this->reply($request);
     }
 
     /**
@@ -89,14 +91,14 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      *
      * @param string $guid The comment's GUID
      */
-    public function _handler_confirm_junk($guid)
+    public function _handler_confirm_junk(Request $request, $guid)
     {
         $this->load_comment($guid);
         $this->_comment->confirm_junk();
 
         $indexer = midcom::get()->indexer;
         $indexer->delete($this->_comment->guid);
-        return $this->reply();
+        return $this->reply($request);
     }
 
     private function load_comment($identifier, $require_moderation_privilege = true)
@@ -111,16 +113,12 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         }
     }
 
-    private function reply()
+    private function reply(Request $request)
     {
         if ($this->_comment->_sudo_requested) {
             midcom::get()->auth->drop_sudo();
         }
 
-        if (isset($_POST['return_url'])) {
-            return new midcom_response_relocate($_POST['return_url']);
-        }
-
-        return new midcom_response_relocate('');
+        return new midcom_response_relocate($request->request->get('return_url', ''));
     }
 }

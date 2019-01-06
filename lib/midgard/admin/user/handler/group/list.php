@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * List groups
  *
@@ -41,20 +43,20 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_move($handler_id, $guid, array &$data)
+    public function _handler_move(Request $request, $handler_id, $guid, array &$data)
     {
         $data['group'] = new midcom_db_group($guid);
 
-        if (isset($_POST['f_cancel'])) {
-            return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $data['group']->guid]));
+        if ($request->request->has('f_cancel')) {
+            return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $guid]));
         }
 
-        if (isset($_POST['f_submit'])) {
-            $data['group']->owner = (int) $_POST['midgard_admin_user_move_group'];
+        if ($request->request->has('f_submit')) {
+            $data['group']->owner = $request->request->getInt('midgard_admin_user_move_group');
 
             if ($data['group']->update()) {
                 midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), $this->_l10n_midcom->get('updated'));
-                return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $data['group']->guid]));
+                return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $guid]));
             }
             debug_add('Failed to update the group, last error was '. midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_print_r('We operated on this object', $data['group'], MIDCOM_LOG_ERROR);

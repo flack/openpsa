@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
+
 /**
  * invoice projects invoicing handler
  *
@@ -29,10 +32,10 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
      */
     private $_customers = [];
 
-    private function _generate_invoice()
+    private function _generate_invoice(ParameterBag $post)
     {
         $invoice = new org_openpsa_invoices_invoice_dba();
-        $invoice->customer = (int) $_POST['org_openpsa_invoices_invoice_customer'];
+        $invoice->customer = $post->getInt('org_openpsa_invoices_invoice_customer');
         $invoice->number = $invoice->generate_invoice_number();
         $invoice->owner = midcom_connection::get_user();
         $invoice->vat = $invoice->get_default('vat');
@@ -43,7 +46,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         }
 
         // create invoice_items
-        $ids = array_keys(array_filter($_POST['org_openpsa_invoices_invoice_tasks']));
+        $ids = array_keys(array_filter($post->get('org_openpsa_invoices_invoice_tasks')));
         foreach ($ids as $task_id) {
             $task = $this->_tasks[$task_id];
 
@@ -58,8 +61,8 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
             }
             $item->invoice = $invoice->id;
             $item->description = $task->title;
-            $item->pricePerUnit = (float) $_POST['org_openpsa_invoices_invoice_tasks_price'][$task_id];
-            $item->units = (float) $_POST['org_openpsa_invoices_invoice_tasks_units'][$task_id];
+            $item->pricePerUnit = (float) $post->get('org_openpsa_invoices_invoice_tasks_price')[$task_id];
+            $item->units = (float) $post->get('org_openpsa_invoices_invoice_tasks_units')[$task_id];
             $item->create();
 
             // Connect invoice to the tasks involved
@@ -68,7 +71,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         return $invoice;
     }
 
-    public function _handler_uninvoiced()
+    public function _handler_uninvoiced(Request $request)
     {
         midcom::get()->auth->require_valid_user();
         midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class);
@@ -96,8 +99,8 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         }
 
         // Check if we're sending an invoice here
-        if (array_key_exists('org_openpsa_invoices_invoice', $_POST)) {
-            if ($invoice = $this->_generate_invoice()) {
+        if ($request->request->has('org_openpsa_invoices_invoice')) {
+            if ($invoice = $this->_generate_invoice($request->request)) {
                 return new midcom_response_relocate($this->router->generate('invoice', ['guid' => $invoice->guid]));
             }
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('failed to create invoice, reason') . midcom_connection::get_error_string(), 'error');

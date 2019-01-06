@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Feed management class.
@@ -63,7 +64,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _handler_subscribe($handler_id, array &$data)
+    public function _handler_subscribe(Request $request, $handler_id, array &$data)
     {
         $this->_topic->require_do('midgard:create');
 
@@ -72,8 +73,9 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $data['feeds_updated'] = [];
 
         // Single feed addition
-        if (!empty($_POST['net_nemein_rss_manage_newfeed']['url'])) {
-            $this->_subscribe_feed($_POST['net_nemein_rss_manage_newfeed']['url']);
+        $post = $request->request->get('net_nemein_rss_manage_newfeed');
+        if (!empty($post['url'])) {
+            $this->_subscribe_feed($post['url']);
             // TODO: display error messages
             // TODO: redirect user to edit page if creation succeeded
 

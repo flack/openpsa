@@ -7,6 +7,8 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Hour report CRUD handler
@@ -107,15 +109,14 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     /**
      * executes passed action for passed reports & relocates to passed url
      */
-    public function _handler_batch()
+    public function _handler_batch(Request $request)
     {
-        if (!empty($_POST['entries'])) {
+        if ($entries = $request->request->get('entries')) {
             $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
-            $qb->add_constraint('id', 'IN', $_POST['entries']);
+            $qb->add_constraint('id', 'IN', $entries);
 
-            $_POST['action'] = str_replace('uninvoiceable', 'invoiceable', $_POST['action']);
-            $value = $this->parse_input($_POST);
-            $field = $_POST['action'];
+            $field = str_replace('uninvoiceable', 'invoiceable', $request->request->get('action'));
+            $value = $this->parse_input($request->request, $field);
             foreach ($qb->execute() as $hour_report) {
                 if ($hour_report->$field != $value) {
                     $hour_report->$field = $value;
@@ -124,21 +125,22 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             }
         }
 
-        $relocate = isset($_POST['relocate_url']) ? $_POST['relocate_url'] : $this->router->generate('index');
+        $relocate = $request->request->get('relocate_url', $this->router->generate('index'));
         return new midcom_response_relocate($relocate);
     }
 
-    private function parse_input(array $input)
+    private function parse_input(ParameterBag $input, $action)
     {
-        if (!in_array($input['action'], ['invoiceable', 'invoice', 'task'])) {
-            throw new midcom_error('passed action ' . $input['action'] . ' is unknown');
+        if (!in_array($action, ['invoiceable', 'invoice', 'task'])) {
+            throw new midcom_error('passed action ' . $action . ' is unknown');
         }
-        if ($input['action'] == 'invoiceable') {
-            return !empty($input['value']);
+        if ($action == 'invoiceable') {
+            return $input->getBoolean('value');
         }
-        if (empty($input['selection'])) {
+        $selection = $input->get('selection');
+        if (empty($selection)) {
             return 0;
         }
-        return (int) array_pop($input['selection']);
+        return (int) array_pop($selection);
     }
 }

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * org.openpsa.contacts group handler and viewer class.
  *
@@ -16,17 +18,16 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
     /**
      * @return midcom_response_json
      */
-    public function _handler_update_member_title()
+    public function _handler_update_member_title(Request $request)
     {
         $response = new midcom_response_json;
         $response->status = false;
 
-        if (   !empty($_POST['guid'])
-            && array_key_exists('title', $_POST)) {
+        if ($request->request->has('guid') && $request->request->has('title')) {
             try {
-                $member = new midcom_db_member($_POST['guid']);
+                $member = new midcom_db_member($request->request->get('guid'));
                 $member->require_do('midgard:update');
-                $member->extra = $_POST['title'];
+                $member->extra = $request->request->get('title');
                 $response->status = $member->update();
             } catch (midcom_error $e) {
                 $e->log();

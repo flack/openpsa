@@ -8,6 +8,7 @@
 
 use midcom\grid\provider\client;
 use midcom\grid\provider;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * directmarketing campaign rules handler
@@ -89,19 +90,19 @@ implements client
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit_query($guid, array &$data)
+    public function _handler_edit_query(Request $request, $guid, array &$data)
     {
         $this->_campaign = $this->load_campaign($guid);
         $this->_campaign->require_do('midgard:update');
         $data['campaign'] = $this->_campaign;
 
         // PONDER: Locking ?
-        if (!empty($_POST['midcom_helper_datamanager2_cancel'])) {
+        if ($request->request->has('midcom_helper_datamanager2_cancel')) {
             return new midcom_response_relocate($this->router->generate('view_campaign', ['guid' => $guid]));
         }
 
         //check if it should be saved
-        if (!empty($_POST['midcom_helper_datamanager2_save'])) {
+        if ($request->request->has('midcom_helper_datamanager2_save')) {
             try {
                 $rules = $this->_load_rules();
             } catch (midcom_error $e) {

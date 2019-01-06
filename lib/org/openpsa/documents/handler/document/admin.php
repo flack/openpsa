@@ -8,6 +8,7 @@
 
 use midcom\datamanager\controller;
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Document handler class.
@@ -91,7 +92,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit($guid, array &$data)
+    public function _handler_edit(Request $request, $guid, array &$data)
     {
         $this->_document = $this->_load_document($guid);
         $this->_document->require_do('midgard:update');
@@ -99,7 +100,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         $this->_controller = $this->load_controller();
 
         if (   $data['enable_versioning']
-            && !empty($_POST)) {
+            && $request->request->count() > 0) {
             $this->_backup_attachment();
         }
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));

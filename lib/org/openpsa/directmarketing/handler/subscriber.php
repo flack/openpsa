@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * org.openpsa.directmarketing campaign handler and viewer class.
  * @package org.openpsa.directmarketing
@@ -25,18 +27,18 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      *
      * @param string $person The person's GUID
      */
-    public function _handler_list($person)
+    public function _handler_list(Request $request, $person)
     {
         midcom::get()->auth->require_valid_user();
         $this->_request_data['person'] = new org_openpsa_contacts_person_dba($person);
 
-        if (array_key_exists('add_to_campaign', $_POST)) {
+        if ($add_to = $request->request->get('add_to_campaign')) {
             // Add person to campaign
             try {
-                $campaign = new org_openpsa_directmarketing_campaign_dba($_POST['add_to_campaign']);
+                $campaign = new org_openpsa_directmarketing_campaign_dba($add_to);
             } catch (midcom_error $e) {
                 // FIXME: More informative error message
-                $this->notify('Failed adding person %s to campaign %s', $_POST['add_to_campaign'], 'error');
+                $this->notify('Failed adding person %s to campaign %s', $add_to, 'error');
                 return;
             }
 

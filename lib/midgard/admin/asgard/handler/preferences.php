@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Preferences interface
@@ -118,7 +119,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
     /**
      * AJAX backend for saving data on the fly
      */
-    public function _handler_ajax()
+    public function _handler_ajax(Request $request)
     {
         $this->_person = new midcom_db_person(midcom_connection::get_user());
         $this->_person->require_do('midgard:update');
@@ -126,7 +127,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
         // Patch for Midgard ACL problem of setting person's own parameters
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
-        foreach ($_POST as $key => $value) {
+        foreach ($request->request->all() as $key => $value) {
             if (is_array($value)) {
                 $value = serialize($value);
             }

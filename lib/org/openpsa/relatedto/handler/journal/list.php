@@ -7,6 +7,8 @@
  */
 
 use midcom\grid\grid;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * journal entry list handler
@@ -128,15 +130,15 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
     /**
      * @param array &$data The local request data.
      */
-    public function _handler_xml(array &$data)
+    public function _handler_xml(Request $request, array &$data)
     {
         $this->qb = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
         $this->qb->add_order('followUp');
-        $this->_prepare_journal_query();
+        $this->_prepare_journal_query($request->request);
 
         //show the corresponding object of the entry
         $data['show_object'] = true;
-        $data['show_closed'] = array_key_exists('show_closed', $_POST);
+        $data['show_closed'] = $request->request->getBoolean('show_closed');
         $data['page'] = 1;
 
         $data['entries'] = $this->qb->execute();
@@ -171,10 +173,10 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         return $this->show('show_entries_xml');
     }
 
-    private function _prepare_journal_query()
+    private function _prepare_journal_query(ParameterBag $post)
     {
-        if (array_key_exists('journal_entry_constraints', $_POST)) {
-            foreach ($_POST['journal_entry_constraints'] as $constraint) {
+        if ($constraints = $post->get('journal_entry_constraints')) {
+            foreach ($constraints as $constraint) {
                 //"type-cast" for closed because it will be passed as string
                 if ($constraint['property'] == 'closed') {
                     $constraint['value'] = ($constraint['value'] != 'false');
@@ -183,10 +185,10 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
             }
         }
         //check if there is a page & rows - parameter passed - if add them to qb
-        if (array_key_exists('page', $_POST) && array_key_exists('rows', $_POST)) {
-            $this->_request_data['page'] = $_POST['page'];
-            $this->qb->set_limit((int)$_POST['rows']);
-            $offset = ((int)$_POST['page'] - 1) * (int)$_POST['rows'];
+        if ($post->has('page') && $post->has('rows')) {
+            $this->_request_data['page'] = $post->get('page');
+            $this->qb->set_limit($post->getInt('rows'));
+            $offset = ($post->getInt('page') - 1) * $post->getInt('rows');
             $this->qb->set_offset($offset);
         }
     }

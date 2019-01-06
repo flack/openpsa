@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Sort navigation order.
  *
@@ -18,21 +20,21 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
     /**
      * Set the score.
      */
-    private function _process_order_form()
+    private function _process_order_form(Request $request)
     {
-        if (isset($_POST['f_navorder'])) {
-            $this->_topic->set_parameter('midcom.helper.nav', 'navorder', $_POST['f_navorder']);
+        if ($request->request->has('f_navorder')) {
+            $this->_topic->set_parameter('midcom.helper.nav', 'navorder', $request->request->get('f_navorder'));
         }
 
         // Form has been handled if cancel has been pressed
-        if (isset($_POST['f_cancel'])) {
+        if ($request->request->has('f_cancel')) {
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('cancelled'));
             midcom::get()->relocate('');
             // This will exit
         }
 
         // If the actual score list hasn't been posted, return
-        if (!isset($_POST['f_submit'])) {
+        if (!$request->request->has('f_submit')) {
             return;
         }
 
@@ -41,13 +43,13 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         $success = true;
 
         $count = 0;
-        foreach ($_POST['sortable'] as $type_items) {
+        foreach ($request->request->get('sortable') as $type_items) {
             // Total number of the entries
             $count += count($type_items);
         }
 
         // Loop through the sortables and store the new score
-        foreach ($_POST['sortable'] as $array) {
+        foreach ($request->request->get('sortable') as $array) {
             foreach ($array as $identifier => $i) {
                 $score_r = $count - (int) $i;
 
@@ -99,9 +101,10 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
     /**
      * Handler for setting the sort order
      *
+     * @param Request $request
      * @param array &$data The local request data.
      */
-    public function _handler_order(array &$data)
+    public function _handler_order(Request $request, array &$data)
     {
         $this->_topic->require_do('midgard:update');
 
@@ -109,7 +112,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         midcom::get()->cache->content->no_cache();
 
         // Process the form
-        $this->_process_order_form();
+        $this->_process_order_form($request);
 
         // Skip the page style on AJAX form handling
         if (isset($_GET['ajax'])) {

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Common handlers
  *
@@ -40,9 +42,9 @@ class org_openpsa_reports_handler_common extends midcom_baseclasses_components_h
     /**
      * The CSV handlers return a posted variable with correct headers
      */
-    public function _handler_csv()
+    public function _handler_csv(Request $request)
     {
-        if (!isset($_POST['org_openpsa_reports_csv'])) {
+        if (!$request->request->has('org_openpsa_reports_csv')) {
             throw new midcom_error('Variable org_openpsa_reports_csv not set in _POST');
         }
 

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Move handler.
  *
@@ -24,10 +26,11 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
      * Handler for folder move. Checks for updating permissions, initializes
      * the move and the content topic itself. Handles also the sent form.
      *
+     * @param Request $request
      * @param string $guid The object GUID
      * @param array &$data The local request data.
      */
-    public function _handler_move($guid, array &$data)
+    public function _handler_move(Request $request, $guid, array &$data)
     {
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
 
@@ -38,9 +41,9 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
 
         $this->_object->require_do('midgard:update');
 
-        if (isset($_POST['move_to'])) {
+        if ($request->request->has('move_to')) {
             try {
-                $target = new midcom_db_topic((int) $_POST['move_to']);
+                $target = new midcom_db_topic((int) $request->request->get('move_to'));
                 $this->_move_object($target);
                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('moved %s to %s'), $this->_topic->get_label(), $target->get_label()));
             } catch (midcom_error $e) {

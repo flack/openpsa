@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Undelete/purge interface
  *
@@ -74,7 +76,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
      * @param string $type The MgdSchema type
      * @param array &$data The local request data.
      */
-    public function _handler_trash_type($type, array &$data)
+    public function _handler_trash_type(Request $request, $type, array &$data)
     {
         midcom::get()->auth->require_admin_user();
 
@@ -88,12 +90,12 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         $data['reflector'] = midcom_helper_reflector::get($data['type']);
         $data['label_property'] = $data['reflector']->get_label_property();
 
-        if (   isset($_POST['undelete'])
-            && is_array($_POST['undelete'])) {
-            if (isset($_POST['purge'])) {
-                $this->_purge();
+        if ($request->request->has('undelete')) {
+            $guids = $request->request->get('undelete');
+            if ($request->request->has('purge')) {
+                $this->_purge($guids);
             } else {
-                $this->_undelete();
+                $this->_undelete($guids);
             }
             return new midcom_response_relocate($this->router->generate('trash_type', ['type' => $type]));
         }
@@ -115,13 +117,13 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         return new midgard_admin_asgard_response($this, '_show_trash_type');
     }
 
-    private function _purge()
+    private function _purge(array $guids)
     {
         $purged_size = 0;
 
         if (!$this->_request_data['midcom_dba_classname']) {
             // No DBA class for the type, use plain Midgard undelete API
-            foreach ($_POST['undelete'] as $guid) {
+            foreach ($guids as $guid) {
                 $qb = new midgard_query_builder($this->type);
                 $qb->add_constraint('guid', '=', $guid);
                 $qb->include_deleted();
@@ -133,7 +135,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             }
         } else {
             // Delegate purging to DBA
-            $purged_size = midcom_baseclasses_core_dbobject::purge($_POST['undelete'], $this->type);
+            $purged_size = midcom_baseclasses_core_dbobject::purge($guids, $this->type);
         }
 
         if ($purged_size) {
@@ -141,10 +143,10 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         }
     }
 
-    private function _undelete()
+    private function _undelete(array $guids)
     {
         // Delegate undeletion to DBA
-        $undeleted_size = midcom_baseclasses_core_dbobject::undelete($_POST['undelete']);
+        $undeleted_size = midcom_baseclasses_core_dbobject::undelete($guids);
         if ($undeleted_size > 0) {
             midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s undeleted'), midcom_helper_misc::filesize_to_string($undeleted_size)), 'info');
         }

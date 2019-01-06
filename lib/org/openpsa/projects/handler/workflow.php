@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * org.openpsa.projects workflow handler and viewer class.
  *
@@ -28,18 +30,17 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     /**
      * @param string $guid The object's GUID
      */
-    public function _handler_post($guid)
+    public function _handler_post(Request $request, $guid)
     {
         midcom::get()->auth->require_valid_user();
-        //Look for action among POST variables, then load main handler...
-        if (   empty($_POST['org_openpsa_projects_workflow_action'])
-            || !is_array($_POST['org_openpsa_projects_workflow_action'])) {
+        $action = $request->request->get('org_openpsa_projects_workflow_action');
+        if (empty($action)) {
             throw new midcom_error('Incomplete request');
         }
-        $this->run(key($_POST['org_openpsa_projects_workflow_action']), $guid);
+        $this->run(key($action), $guid);
 
-        if (isset($_POST['org_openpsa_projects_workflow_action_redirect'])) {
-            return new midcom_response_relocate($_POST['org_openpsa_projects_workflow_action_redirect']);
+        if ($url = $request->request->get('org_openpsa_projects_workflow_action_redirect')) {
+            return new midcom_response_relocate($url);
         }
         //NOTE: This header might not be trustworthy...
         return new midcom_response_relocate($_SERVER['HTTP_REFERER']);

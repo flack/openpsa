@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
+
 /**
  * Edit handler
  *
@@ -120,16 +123,16 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     /**
      * Handler editing AJAX requests
      */
-    public function _handler_edit_ajax()
+    public function _handler_edit_ajax(Request $request)
     {
-        $this->_validate_request();
+        $this->_validate_request($request->request);
 
         $this->_response = new midcom_response_json;
         $this->_response->title = $this->_l10n->get($this->_component);
 
         $function = '_process_' . $this->_operation;
         try {
-            $this->$function();
+            $this->$function($request->request);
             $this->_response->success = true;
         } catch (midcom_error $e) {
             $this->_response->success = false;
@@ -139,13 +142,13 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         return $this->_response;
     }
 
-    private function _process_create()
+    private function _process_create(ParameterBag $post)
     {
         $image = new org_openpsa_slideshow_image_dba();
         $image->topic = $this->_topic->id;
-        $image->title = $_POST['title'];
-        $image->description = $_POST['description'];
-        $image->position = $_POST['position'];
+        $image->title = $post->get('title');
+        $image->description = $post->get('description');
+        $image->position = $post->getInt('position');
 
         if (!$image->create()) {
             throw new midcom_error('Failed to create image: ' . midcom_connection::get_error_string());
@@ -157,24 +160,24 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         }
     }
 
-    private function _process_update()
+    private function _process_update(ParameterBag $post)
     {
-        $image = new org_openpsa_slideshow_image_dba($_POST['guid']);
+        $image = new org_openpsa_slideshow_image_dba($post->get('guid'));
         if ($image->topic !== $this->_topic->id) {
             throw new midcom_error_forbidden('Image does not belong to this topic');
         }
-        $image->title = $_POST['title'];
-        $image->description = $_POST['description'];
-        $image->position = $_POST['position'];
+        $image->title = $post->get('title');
+        $image->description = $post->get('description');
+        $image->position = $post->getInt('position');
 
         if (!$image->update()) {
             throw new midcom_error('Failed to update image: ' . midcom_connection::get_error_string());
         }
     }
 
-    private function _process_batch_update()
+    private function _process_batch_update(ParameterBag $post)
     {
-        $items = json_decode($_POST['items']);
+        $items = json_decode($post->get('items'));
         foreach ($items as $item) {
             $image = new org_openpsa_slideshow_image_dba($item->guid);
             if ($image->topic !== $this->_topic->id) {
@@ -190,9 +193,9 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         }
     }
 
-    private function _process_delete()
+    private function _process_delete(ParameterBag $post)
     {
-        $guids = explode('|', $_POST['guids']);
+        $guids = explode('|', $post->get('guids'));
         if (empty($guids)) {
             return;
         }
@@ -206,36 +209,34 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         }
     }
 
-    private function _validate_request()
+    private function _validate_request(ParameterBag $post)
     {
-        if (empty($_POST['operation'])) {
+        $this->_operation = $post->get('operation');
+        if (empty($this->_operation)) {
             throw new midcom_error('Invalid request');
         }
-        $this->_operation = $_POST['operation'];
 
         switch ($this->_operation) {
             case 'batch_update':
-                if (!isset($_POST['items'])) {
+                if (!$post->has('items')) {
                     throw new midcom_error('Invalid request');
                 }
                 break;
             case 'update':
-                if (!isset($_POST['guid'])) {
+                if (!$post->has('guid')) {
                     throw new midcom_error('Invalid request');
                 }
                 //Fall-through
             case 'create':
-                if (   !isset($_POST['title'])
-                    || !isset($_POST['description'])
-                    || !isset($_POST['position'])) {
+                if (!$post->has('title') || !$post->has('description') || !$post->has('position')) {
                     throw new midcom_error('Invalid request');
                 }
                 break;
             case 'delete':
-                 if (empty($_POST['guids'])) {
-                     throw new midcom_error('Invalid request');
-                 }
-                 break;
+                if (!$post->has('guids')) {
+                    throw new midcom_error('Invalid request');
+                }
+                break;
             default:
                 throw new midcom_error('Invalid request');
         }

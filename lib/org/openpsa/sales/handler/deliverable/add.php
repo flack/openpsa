@@ -9,6 +9,7 @@
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Deliverable creation class
@@ -92,21 +93,21 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
      * @param string $guid The deliverable GUID
      * @param array &$data The local request data.
      */
-    public function _handler_add($guid, array &$data)
+    public function _handler_add(Request $request, $guid, array &$data)
     {
-        if (   !array_key_exists('product', $_POST)
-            && !array_key_exists('org_openpsa_sales', $_POST)) {
+        if (   !$request->request->has('product')
+            && !$request->request->has('org_openpsa_sales')) {
             throw new midcom_error('No product specified, aborting.');
         }
 
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($guid);
         $this->_salesproject->require_do('midgard:create');
 
-        if (array_key_exists('org_openpsa_sales', $_POST)) {
-            $selection = json_decode($_POST['org_openpsa_sales']['product']['selection']);
+        if ($request->request->has('org_openpsa_sales')) {
+            $selection = json_decode($request->request->get('org_openpsa_sales')['product']['selection']);
             $product_id = current($selection);
         } else {
-            $product_id = (int) $_POST['product'];
+            $product_id = $request->request->getInt('product');
         }
         $this->_product = new org_openpsa_products_product_dba($product_id);
 

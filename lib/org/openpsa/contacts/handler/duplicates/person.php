@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Duplicates handler
  *
@@ -15,7 +17,7 @@
  */
 class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_components_handler
 {
-    public function _handler_sidebyside()
+    public function _handler_sidebyside(Request $request)
     {
         $this->_request_data['notfound'] = false;
         $this->_request_data['person1'] = false;
@@ -28,7 +30,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                 $this->_request_data['loop_i']++;
             }
         }
-        $this->process_submit();
+        $this->process_submit($request);
 
         $this->load_next();
 
@@ -89,14 +91,14 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
         }
     }
 
-    private function process_submit()
+    private function process_submit(Request $request)
     {
-        if (   !empty($_POST['org_openpsa_contacts_handler_duplicates_person_keep'])
-            && !empty($_POST['org_openpsa_contacts_handler_duplicates_person_options'])
-            && count($_POST['org_openpsa_contacts_handler_duplicates_person_options']) == 2) {
-            $option1 = new org_openpsa_contacts_person_dba($_POST['org_openpsa_contacts_handler_duplicates_person_options'][1]);
-            $option2 = new org_openpsa_contacts_person_dba($_POST['org_openpsa_contacts_handler_duplicates_person_options'][2]);
-            $keep = key($_POST['org_openpsa_contacts_handler_duplicates_person_keep']);
+        $keep = $request->request->get('org_openpsa_contacts_handler_duplicates_person_keep');
+        $options = $request->request->get('org_openpsa_contacts_handler_duplicates_person_options');
+        if (!empty($keep) && count($options) == 2) {
+            $option1 = new org_openpsa_contacts_person_dba($options[1]);
+            $option2 = new org_openpsa_contacts_person_dba($options[2]);
+            $keep = key($keep);
             if ($keep == 'both') {
                 $option1->require_do('midgard:update');
                 $option2->require_do('midgard:update');
