@@ -45,7 +45,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
      * @param array &$data The local request data.
      * @param string $guid The person GUID
      */
-    public function _handler_preferences(array &$data, $guid = null)
+    public function _handler_preferences(Request $request, array &$data, $guid = null)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -60,10 +60,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
             ->set_storage($this->_person)
             ->get_controller();
 
-        $return_page = '__mfa/asgard/';
-        if (isset($_GET['return_uri'])) {
-            $return_page = $_GET['return_uri'];
-        }
+        $return_page = $request->query->get('return_uri', '__mfa/asgard/');
         // Process the requested form
         switch ($data['controller']->process()) {
             case 'save':

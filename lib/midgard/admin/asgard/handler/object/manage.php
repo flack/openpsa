@@ -200,7 +200,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create(Request $request, $handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
@@ -226,7 +226,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         $dm = new datamanager($this->schemadb);
         $this->controller = $dm
-            ->set_defaults($this->get_defaults($create_type))
+            ->set_defaults($this->get_defaults($request, $create_type))
             ->set_storage($this->_new_object, 'default')
             ->get_controller();
 
@@ -256,7 +256,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
     }
 
-    private function get_defaults($new_type)
+    private function get_defaults(Request $request, $new_type)
     {
         $defaults = [];
         if ($this->_object) {
@@ -282,9 +282,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         // Allow setting defaults from query string, useful for things like "create event for today" and chooser
-        if (   isset($_GET['defaults'])
-            && is_array($_GET['defaults'])) {
-            $get_defaults = array_intersect_key($_GET['defaults'], $this->schemadb->get_first()->get('fields'));
+        if ($request->query->has('defaults')) {
+            $get_defaults = array_intersect_key($request->query->get('defaults'), $this->schemadb->get_first()->get('fields'));
             $defaults = array_merge($defaults, array_map('trim', $get_defaults));
         }
         return $defaults;

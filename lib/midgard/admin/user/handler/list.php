@@ -155,8 +155,8 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     public function _handler_batch(Request $request, $action, array &$data)
     {
         $relocate_url = $this->router->generate('user_list');
-        if (!empty($_GET)) {
-            $relocate_url .= '?' . http_build_query($_GET);
+        if ($request->query->count() > 0) {
+            $relocate_url .= '?' . $request->getQueryString();
         }
         if (empty($request->request->get('midgard_admin_user'))) {
             midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), $this->_l10n->get('empty selection'));

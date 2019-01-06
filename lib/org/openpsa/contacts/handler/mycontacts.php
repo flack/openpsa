@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\helper\autocomplete;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * My Contacts handler
@@ -18,17 +19,14 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
     /**
      * @param string $guid The object's GUID
      */
-    public function _handler_add($guid)
+    public function _handler_add(Request $request, $guid)
     {
         $target = org_openpsa_contacts_person_dba::get_cached($guid);
 
         $mycontacts = new org_openpsa_contacts_mycontacts;
         $mycontacts->add($target->guid);
 
-        $return_url = $this->router->generate('person_view', ['guid' => $target->guid]);
-        if (!empty($_GET['return_url'])) {
-            $return_url = $_GET['return_url'];
-        }
+        $return_url = $request->query->get('return_url', $this->router->generate('person_view', ['guid' => $guid]));
         return new midcom_response_relocate($return_url);
     }
 

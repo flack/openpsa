@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * org.openpsa.documents search handler and viewer class.
@@ -28,10 +29,10 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
     /**
      * @param array &$data The local request data.
      */
-    public function _handler_search(array &$data)
+    public function _handler_search(Request $request, array &$data)
     {
         $data['results'] = [];
-        if (array_key_exists('query', $_GET)) {
+        if ($request->query->has('query')) {
             // Figure out where we are
             $nap = new midcom_helper_nav();
             $node = $nap->get_node($nap->get_current_node());
@@ -40,7 +41,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
             $indexer = midcom::get()->indexer;
 
             // Add the search parameters
-            $query = $_GET['query'];
+            $query = $request->query->get('query');
 
             $filter = new midcom_services_indexer_filter_chained;
             $filter->add_filter(new midcom_services_indexer_filter_string('__TOPIC_URL', '"' . $node[MIDCOM_NAV_FULLURL] . '*"'));

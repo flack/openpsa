@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Invoice goto Handler
  *
@@ -16,13 +18,13 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
     /**
      * @return midcom_response_relocate
      */
-    public function _handler_goto()
+    public function _handler_goto(Request $request)
     {
-        if (!isset($_GET['query'])) {
+        if (!$request->query->has('query')) {
             return $this->fail($this->_l10n->get('no invoice number was handed over'));
         }
 
-        $invoicenumber = (int) $_GET['query'] ;
+        $invoicenumber = $request->query->getInt('query');
 
         if ($invoice = org_openpsa_invoices_invoice_dba::get_by_number($invoicenumber)) {
             return new midcom_response_relocate($this->router->generate('invoice', ['guid' => $invoice->guid]));

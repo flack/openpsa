@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Search handler
  *
@@ -20,10 +22,10 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      *
      * @param mixed $handler_id The ID of the handler.
      */
-    public function _handler_searchform($handler_id)
+    public function _handler_searchform(Request $request, $handler_id)
     {
         $this->prepare_formdata($handler_id);
-        $this->populate_toolbar();
+        $this->populate_toolbar($request);
         return $this->show('search_form');
     }
 
@@ -92,7 +94,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      *
      * @param array &$data The local request data.
      */
-    public function _handler_result(array &$data)
+    public function _handler_result(Request $request, array &$data)
     {
         $this->prepare_query_data();
         // If we don't have a query string, relocate to empty search form
@@ -120,18 +122,16 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         }
 
         $this->process_results($result);
-        $this->populate_toolbar();
+        $this->populate_toolbar($request);
     }
 
-    private function populate_toolbar()
+    private function populate_toolbar(Request $request)
     {
         $other_type = ($this->_request_data['type'] == 'advanced') ? 'basic' : 'advanced';
         $this->_request_data['params'] = '';
-        if (!empty($_GET)) {
-            $this->_request_data['params'] = '?';
-            $params = $_GET;
-            $params['type'] = $other_type;
-            $this->_request_data['params'] .= http_build_query($params);
+        if ($request->query->count() > 0) {
+            $request->query->set('type', $other_type);
+            $this->_request_data['params'] = '?' . $request->getQueryString();
         }
 
         $url = '';

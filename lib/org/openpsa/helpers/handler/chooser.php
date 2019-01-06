@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Chooser create handler
@@ -60,7 +61,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      * @param string $dbaclass The DBA class
      * @param array &$data The local request data.
      */
-    public function _handler_create($dbaclass, array &$data)
+    public function _handler_create(Request $request, $dbaclass, array &$data)
     {
         $this->_dbaclass = $dbaclass;
         midcom::get()->auth->require_user_do('midgard:create', null, $dbaclass);
@@ -68,7 +69,8 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
 
         $this->_load_component_node();
 
-        $this->_controller = $this->load_controller();
+        $defaults = $request->query->get('defaults', []);
+        $this->_controller = $this->load_controller($defaults);
 
         switch ($this->_controller->process()) {
             case 'save':
@@ -87,10 +89,8 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         midcom::get()->skip_page_style = true;
     }
 
-    private function load_controller()
+    private function load_controller(array $defaults)
     {
-        $defaults = empty($_GET['defaults']) ? [] : $_GET['defaults'];
-
         return datamanager::from_schemadb($this->_get_schemadb_snippet())
             ->set_defaults($defaults)
             ->set_storage($this->_object)

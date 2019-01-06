@@ -7,6 +7,7 @@
  */
 
 use Doctrine\ORM\Query\Expr\Join;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @package org.openpsa.calendar
@@ -27,12 +28,12 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
     /**
      * JSON view
      */
-    public function _handler_json()
+    public function _handler_json(Request $request)
     {
         midcom::get()->auth->require_valid_user();
         $this->root_event = org_openpsa_calendar_interface::find_root_event();
-        $this->load_events($_GET['start'], $_GET['end']);
-        $this->add_holidays($_GET['start'], $_GET['end']);
+        $this->load_events($request->query->get('start'), $request->query->get('end'));
+        $this->add_holidays($request->query->get('start'), $request->query->get('end'));
         return new midcom_response_json(array_values($this->events));
     }
 

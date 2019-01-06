@@ -160,13 +160,13 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * @param string $guid The token
      * @param string $url The URL
      */
-    public function _handler_redirect($token, $url = null)
+    public function _handler_redirect(Request $request, $token, $url = null)
     {
         if (!empty($url)) {
             //Due to the way browsers handle the URLs this form only works for root pages
             $target = $url;
-        } elseif (!empty($_GET['link'])) {
-            $target = $_GET['link'];
+        } elseif ($request->query->has('link')) {
+            $target = $request->query->get('link');
         } else {
             throw new midcom_error('Target not present in address or GET, or is empty');
         }

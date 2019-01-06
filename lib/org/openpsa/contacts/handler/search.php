@@ -7,6 +7,8 @@
  */
 
 use midcom\datamanager\helper\autocomplete;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * org.openpsa.contacts search handler and viewer class.
@@ -66,15 +68,13 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      */
     private $_query_mode = 'person';
 
-    private function _parse_query()
+    private function _parse_query(ParameterBag $query)
     {
-        if (!isset($_GET['query'])) {
+        if (!$query->has('query')) {
             return;
         }
-        if (isset($_GET['query_mode'])) {
-            $this->_query_mode = $_GET['query_mode'];
-        }
-        $this->_query_string = trim($_GET['query']);
+        $this->_query_mode = $query->get('query_mode', $this->_query_mode);
+        $this->_query_string = trim($query->get('query'));
         //Convert asterisks to correct wildcard
         $this->_query_string_processed = str_replace('*', '%', $this->_query_string);
 
@@ -101,9 +101,9 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         }
     }
 
-    public function _handler_search_type()
+    public function _handler_search_type(Request $request)
     {
-        $this->_parse_query();
+        $this->_parse_query($request->query);
 
         midcom::get()->skip_page_style = true;
         $this->_search_qb_persons();
@@ -130,10 +130,10 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _handler_search($handler_id, array &$data)
+    public function _handler_search(Request $request, $handler_id, array &$data)
     {
         $this->_query_mode = 'both';
-        $this->_parse_query();
+        $this->_parse_query($request->query);
 
         if ($this->_query_mode != 'person') {
             $this->_search_qb_groups();
@@ -210,7 +210,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     }
 
     /**
-     * Queries all Contacts objects for $_GET['query']
+     * Queries all Contacts objects for the query
      *
      * Displays style element 'search-empty' if no results at all
      * can be found

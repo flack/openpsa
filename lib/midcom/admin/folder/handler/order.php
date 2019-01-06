@@ -18,6 +18,11 @@ use Symfony\Component\HttpFoundation\Request;
 class midcom_admin_folder_handler_order extends midcom_baseclasses_components_handler
 {
     /**
+     * @var boolean
+     */
+    private $ajax = false;
+
+    /**
      * Set the score.
      */
     private function _process_order_form(Request $request)
@@ -114,8 +119,9 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // Process the form
         $this->_process_order_form($request);
 
+        $this->ajax = $request->query->has('ajax');
         // Skip the page style on AJAX form handling
-        if (isset($_GET['ajax'])) {
+        if ($this->ajax) {
             midcom::get()->skip_page_style = true;
         } else {
             // Add the view to breadcrumb trail
@@ -162,7 +168,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             MIDCOM_NAVORDER_SCORE => $this->_l10n->get('by score'),
         ];
 
-        if (!isset($_GET['ajax'])) {
+        if (!$this->ajax) {
             midcom_show_style('midcom-admin-folder-order-start');
         }
 
@@ -175,7 +181,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             midcom_show_style('midcom-admin-folder-order-type');
         }
 
-        if (!isset($_GET['ajax'])) {
+        if (!$this->ajax) {
             midcom_show_style('midcom-admin-folder-order-end');
         }
     }

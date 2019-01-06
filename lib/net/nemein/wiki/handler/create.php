@@ -9,6 +9,7 @@
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Wikipage creation handler
@@ -103,18 +104,18 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
      * @param array &$data The local request data.
      * @param string $schema The DM schema
      */
-    public function _handler_create(array &$data, $schema = null)
+    public function _handler_create(Request $request, array &$data, $schema = null)
     {
         // Initialize sessioning first
         $data['session'] = new midcom_services_session();
 
-        if (!array_key_exists('wikiword', $_GET)) {
+        if (!$request->query->has('wikiword')) {
             if (!$data['session']->exists('wikiword')) {
                 throw new midcom_error_notfound('No wiki word given');
             }
             $this->_wikiword = $data['session']->get('wikiword');
         } else {
-            $this->_wikiword = $_GET['wikiword'];
+            $this->_wikiword = $request->query->get('wikiword');
             $data['session']->set('wikiword', $this->_wikiword);
         }
 

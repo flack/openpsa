@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Welcome interface
  *
@@ -112,7 +114,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
      * @param string $type The MgdSchema type
      * @param array &$data The local request data.
      */
-    public function _handler_type($type, array &$data)
+    public function _handler_type(Request $request, $type, array &$data)
     {
         $this->type = $type;
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
@@ -120,8 +122,8 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             throw new midcom_error_notfound("MgdSchema type '{$type}' not installed.");
         }
 
-        if (isset($_GET['search'])) {
-            $data['search_results'] = $this->_search($_GET['search']);
+        if ($request->query->has('search')) {
+            $data['search_results'] = $this->_search($request->query->get('search'));
 
             // If there is exactly one result, go there directly
             if (count($data['search_results']) == 1) {
