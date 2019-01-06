@@ -19,7 +19,7 @@ class midcom_admin_folder_handler_approvalsTest extends openpsa_testcase
 
         $node = self::get_component_node('net.nehmer.static');
 
-        $_REQUEST = [
+        $_POST = [
             'guid' => $node->guid,
             'return_to' => 'TEST'
         ];
@@ -35,7 +35,7 @@ class midcom_admin_folder_handler_approvalsTest extends openpsa_testcase
 
         $node = self::get_component_node('net.nehmer.static');
 
-        $_REQUEST = [
+        $_POST = [
             'guid' => $node->guid,
             'return_to' => 'TEST'
         ];

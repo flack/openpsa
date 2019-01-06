@@ -23,7 +23,7 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $_REQUEST = ['org_openpsa_reports_query_data' => ['mimetype' => 'text/html']];
+        $_GET = ['org_openpsa_reports_query_data' => ['mimetype' => 'text/html']];
 
         $data = $this->run_handler('org.openpsa.reports', ['invoices', 'get']);
         $this->assertEquals('invoices_report_get', $data['handler_id']);

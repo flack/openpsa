@@ -27,7 +27,7 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $_REQUEST = ['org_openpsa_reports_query_data' => [
+        $_GET = ['org_openpsa_reports_query_data' => [
             'mimetype' => 'text/html',
             'end' => time() + 10000,
             'start' => time() - 10000,
