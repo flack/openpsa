@@ -53,7 +53,7 @@ class org_openpsa_projects_workflow
         return 'on_hold';
     }
 
-    public static function render_status_control($task)
+    public static function render_status_control(org_openpsa_projects_task_dba $task)
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         if ($task->status < org_openpsa_projects_task_status_dba::COMPLETED) {

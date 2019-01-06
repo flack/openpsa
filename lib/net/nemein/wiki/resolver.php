@@ -20,12 +20,12 @@ class net_nemein_wiki_resolver
      */
     private $_topic;
 
-    public function __construct($topic = null)
+    public function __construct($topic)
     {
         $this->_topic = $topic;
     }
 
-    public function generate_page_url($wikipage)
+    public function generate_page_url(net_nemein_wiki_wikipage $wikipage)
     {
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($wikipage->topic);

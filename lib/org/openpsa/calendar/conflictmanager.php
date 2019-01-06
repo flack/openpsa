@@ -82,7 +82,7 @@ class org_openpsa_calendar_conflictmanager
         return $message . '</ul>';
     }
 
-    private function _add_event_constraints($qb, $fieldname = 'eid')
+    private function _add_event_constraints(midcom_core_querybuilder $qb, $fieldname = 'eid')
     {
         $qb->add_constraint($fieldname . '.busy', '<>', false);
         if ($this->_event->id) {
@@ -182,7 +182,7 @@ class org_openpsa_calendar_conflictmanager
         return [];
     }
 
-    private function _process_resource($member, array &$modified_events, $rob_tentative)
+    private function _process_resource(org_openpsa_calendar_event_resource_dba $member, array &$modified_events, $rob_tentative)
     {
         if ($this->is_processed('resources', $member->event, $member->resource)) {
             return;
@@ -215,7 +215,7 @@ class org_openpsa_calendar_conflictmanager
         }
     }
 
-    private function _process_participant($member, array &$modified_events, $rob_tentative)
+    private function _process_participant(org_openpsa_calendar_event_member_dba $member, array &$modified_events, $rob_tentative)
     {
         if ($this->is_processed('participants', $member->eid, $member->uid)) {
             return;

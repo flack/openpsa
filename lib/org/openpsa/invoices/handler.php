@@ -68,7 +68,7 @@ trait org_openpsa_invoices_handler
         }
     }
 
-    public function add_next_previous($object, $urlprefix)
+    public function add_next_previous(org_openpsa_invoices_invoice_dba $object, $urlprefix)
     {
         if ($object->number > 1) {
             $mc = org_openpsa_invoices_invoice_dba::new_collector();
