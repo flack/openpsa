@@ -14,11 +14,10 @@
 class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_components_handler
 {
     /**
-     *
-     * @param array $args The argument list.
      * @param array &$data The local request data.
+     * @param string $guid The object GUID
      */
-    public function _handler_upload(array $args, array &$data)
+    public function _handler_upload(array &$data, $guid = null)
     {
         // Get the file
         reset($_FILES);
@@ -34,7 +33,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         // Get the data
         $temp_name = $temp['tmp_name'];
         $mimetype = $temp['type'];
-        $parentguid = (!empty($args[0])) ? $args[0] : $this->_topic->guid;
+        $parentguid = $guid ?: $this->_topic->guid;
 
         // Set modified filename
         $filename = $this->get_modify_filename($temp['name']);

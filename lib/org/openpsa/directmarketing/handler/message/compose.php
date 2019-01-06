@@ -41,15 +41,15 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     /**
      * Phase for composing a message
      *
-     * @param string $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
+     * @param string $guid The object's GUID
+     * @param string $person The person's GUID
      */
-    public function _handler_compose($handler_id, array $args, array &$data)
+    public function _handler_compose(array &$data, $guid, $person = null)
     {
         midcom::get()->auth->request_sudo($this->_component);
         //Load message
-        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
+        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $data['campaign'] = $this->load_campaign($this->_message->campaign);
 
         $this->_load_datamanager();
@@ -67,8 +67,8 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         $data['message'] = $this->_message;
         $data['message_dm'] = $this->_datamanager;
 
-        if ($handler_id === 'compose4person') {
-            $data['person'] = new org_openpsa_contacts_person_dba($args[1]);
+        if ($person !== null) {
+            $data['person'] = new org_openpsa_contacts_person_dba($person);
             $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
             $qb->add_constraint('person', '=', $data['person']->id);
             $memberships = $qb->execute();

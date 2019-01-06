@@ -25,12 +25,12 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
     private $_object = null;
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The invoice GUID
      * @param array &$data The local request data.
      */
-    public function _handler_items(array $args, array &$data)
+    public function _handler_items($guid, array &$data)
     {
-        $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
+        $this->_object = new org_openpsa_invoices_invoice_dba($guid);
 
         $data['entries'] = [];
 
@@ -102,13 +102,13 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The invoice GUID
      */
-    public function _handler_itemedit(array $args)
+    public function _handler_itemedit($guid)
     {
         $this->_verify_post_data();
 
-        $invoice = new org_openpsa_invoices_invoice_dba($args[0]);
+        $invoice = new org_openpsa_invoices_invoice_dba($guid);
 
         if ($_POST['oper'] == 'edit') {
             if (strpos($_POST['id'], 'new_') === 0) {
@@ -172,13 +172,13 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The invoice GUID
      */
-    public function _handler_recalculation(array $args)
+    public function _handler_recalculation($guid)
     {
-        $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
-        $this->_object->_recalculate_invoice_items();
+        $object = new org_openpsa_invoices_invoice_dba($guid);
+        $object->_recalculate_invoice_items();
 
-        return new midcom_response_relocate($this->router->generate('invoice_items', ['guid' => $this->_object->guid]));
+        return new midcom_response_relocate($this->router->generate('invoice_items', ['guid' => $guid]));
     }
 }

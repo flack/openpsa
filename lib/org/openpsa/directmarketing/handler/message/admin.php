@@ -28,12 +28,12 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     /**
      * Displays a message edit view.
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit(array $args, array &$data)
+    public function _handler_edit($guid, array &$data)
     {
-        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
+        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $this->_message->require_do('midgard:update');
 
         $data['campaign'] = $this->load_campaign($this->_message->campaign);
@@ -48,11 +48,11 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($guid)
     {
-        $message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
+        $message = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $campaign = new org_openpsa_directmarketing_campaign_dba($message->campaign);
         $workflow = $this->get_workflow('delete', [
             'object' => $message,
@@ -64,12 +64,12 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     /**
      * Handle the message copying interface
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_copy(array $args)
+    public function _handler_copy($guid)
     {
         $this->_topic->require_do('midgard:create');
-        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
+        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $this->load_campaign($this->_message->campaign);
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('copy message'));

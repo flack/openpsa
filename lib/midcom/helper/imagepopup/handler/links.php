@@ -30,10 +30,10 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $filetype The file type
      * @param array &$data The local request data.
      */
-    public function _handler_links(array $args, array &$data)
+    public function _handler_links($filetype, array &$data)
     {
         midcom::get()->cache->content->no_cache();
         midcom::get()->auth->require_valid_user();
@@ -42,7 +42,7 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
         $data['nav'] = new fi_protie_navigation;
         $data['nav']->follow_all = true;
         $data['list_type'] = 'links';
-        $data['filetype'] = $args[0];
+        $data['filetype'] = $filetype;
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/styling.css");
         org_openpsa_widgets_tree::add_head_elements();

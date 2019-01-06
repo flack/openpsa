@@ -22,10 +22,11 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $filetype The file type
      * @param array &$data The local request data.
+     * @param string $guid The object GUID
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list($handler_id, $filetype, array &$data, $guid = null)
     {
         midcom::get()->cache->content->no_cache();
         midcom::get()->auth->require_valid_user();
@@ -33,12 +34,12 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
         $this->add_stylesheet(MIDCOM_STATIC_URL ."/midcom.helper.imagepopup/styling.css", 'screen');
 
-        $data['filetype'] = $args[0];
+        $data['filetype'] = $filetype;
         $data['object'] = null;
         $data['folder'] = $this->_topic;
 
-        if (isset($args[1])) {
-            $data['object'] = midcom::get()->dbfactory->get_object_by_guid($args[1]);
+        if (isset($guid)) {
+            $data['object'] = midcom::get()->dbfactory->get_object_by_guid($guid);
         }
 
         switch ($handler_id) {

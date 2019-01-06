@@ -41,15 +41,15 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
     /**
      * Handle the preference request
      *
-     * @param array $args The argument list.
      * @param array &$data The local request data.
+     * @param string $guid The person GUID
      */
-    public function _handler_preferences(array $args, array &$data)
+    public function _handler_preferences(array &$data, $guid = null)
     {
         midcom::get()->auth->require_valid_user();
 
-        if (isset($args[0])) {
-            $this->_person = new midcom_db_person($args[0]);
+        if (isset($guid)) {
+            $this->_person = new midcom_db_person($guid);
         } else {
             $this->_person = new midcom_db_person(midcom_connection::get_user());
         }

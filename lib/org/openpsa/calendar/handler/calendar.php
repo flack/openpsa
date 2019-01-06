@@ -38,12 +38,12 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $timestamp The timestamp
      * @param array &$data The local request data.
      */
-    public function _handler_day(array $args, array &$data)
+    public function _handler_day($timestamp, array &$data)
     {
-        $date = new DateTime($args[0]);
+        $date = new DateTime($timestamp);
         $data['calendar_options'] = $this->get_calendar_options();
         $data['calendar_options']['defaultDate'] = $date->format('Y-m-d');
         $data['date'] = $date;

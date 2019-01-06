@@ -112,10 +112,10 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     /**
      * Checks if a button of the admin toolbar was pressed.
      *
-     * @param array $args The argument list.
+     * @param string $status The moderation status
      * @param array &$data The local request data.
      */
-    public function _handler_moderate_ajax(array $args, array &$data)
+    public function _handler_moderate_ajax($status, array &$data)
     {
         $this->_verify_post_data();
 
@@ -126,7 +126,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
 
         midcom::get()->cache->invalidate($comment->objectguid);
 
-        $this->_request_data['handler'] = $args[0];
+        $this->_request_data['handler'] = $status;
         $comments = $this->_load_comments();
         if (!empty($comments)) {
             $data['comment'] = end($comments);
@@ -161,13 +161,12 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     }
 
     /**
-     *
-     * @param array $args The argument list.
+     * @param string $status The moderation status
      * @param array &$data The local request data.
      */
-    public function _handler_moderate(array $args, array &$data)
+    public function _handler_moderate($status, array &$data)
     {
-        $data['handler'] = $args[0];
+        $data['handler'] = $status;
 
         $data['comments'] = $this->_load_comments();
         if (!empty($data['comments'])) {

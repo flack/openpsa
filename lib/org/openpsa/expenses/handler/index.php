@@ -19,13 +19,10 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    private function prepare_dates(array $args, array &$data)
+    private function prepare_dates($requested_time, array &$data)
     {
-        if (isset($args[0])) {
-            $requested_time = $args[0];
-        } else {
-            $requested_time = date('Y-m-d');
-        }
+        $requested_time = $requested_time ?: date('Y-m-d');
+
         $date = new DateTime($requested_time);
         $offset = $date->format('N') - 1;
 
@@ -45,12 +42,12 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
     /**
      * The handler for the index view.
      *
-     * @param array $args the arguments given to the handler
      * @param array &$data The local request data.
+     * @param string $timestamp The timestamp
      */
-    public function _handler_index(array $args, array &$data)
+    public function _handler_index(array &$data, $timestamp = null)
     {
-        $this->prepare_dates($args, $data);
+        $this->prepare_dates($timestamp, $data);
 
         $hours_mc = org_openpsa_expenses_hour_report_dba::new_collector();
         $this->add_list_filter($hours_mc);

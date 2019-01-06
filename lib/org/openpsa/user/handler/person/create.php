@@ -67,16 +67,16 @@ class org_openpsa_user_handler_person_create extends midcom_baseclasses_componen
     }
 
     /**
-     * @param array $args The argument list.
      * @param array &$data The local request data.
+     * @param string $guid The group GUID
      */
-    public function _handler_create(array $args, array &$data)
+    public function _handler_create(array &$data, $guid = null)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 
-        if (count($args) > 0) {
+        if ($guid !== null) {
             // Get the organization
-            $this->_group = new midcom_db_group($args[0]);
+            $this->_group = new midcom_db_group($guid);
             $this->_group->require_do('midgard:create');
         }
         $this->_person = new midcom_db_person;

@@ -47,12 +47,12 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
 
     /**
      * @param string $handler_id Name of the used handler
-     * @param array $args Array containing the variable arguments passed to the handler
+     * @param string $guid The object's GUID
      * @param array &$data Data passed to the show method
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit($handler_id, $guid, array &$data)
     {
-        $this->_group = new midcom_db_group($args[0]);
+        $this->_group = new midcom_db_group($guid);
         $this->_group->require_do('midgard:update');
 
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_group'));

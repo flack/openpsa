@@ -109,15 +109,15 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     /**
      * Object editing view
      *
-     * @param array $args The argument list.
+     * @param string $type The MgdSchema type
      * @param array &$data The local request data.
      */
-    public function _handler_type(array $args, array &$data)
+    public function _handler_type($type, array &$data)
     {
-        $this->type = $args[0];
+        $this->type = $type;
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         if (!midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type)) {
-            throw new midcom_error_notfound("MgdSchema type '{$args[0]}' not installed.");
+            throw new midcom_error_notfound("MgdSchema type '{$type}' not installed.");
         }
 
         if (isset($_GET['search'])) {
@@ -144,7 +144,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
         // Set the breadcrumb data
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get('midgard.admin.asgard'));
-        $this->add_breadcrumb($this->router->generate('type', ['type' => $this->type]), $data['view_title']);
+        $this->add_breadcrumb($this->router->generate('type', ['type' => $type]), $data['view_title']);
         return new midgard_admin_asgard_response($this, '_show_type');
     }
 

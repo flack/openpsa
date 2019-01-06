@@ -23,12 +23,12 @@ class org_openpsa_user_handler_person_view extends midcom_baseclasses_components
     private $_person;
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The person GUID
      * @param array &$data The local request data.
      */
-    public function _handler_view(array $args, array &$data)
+    public function _handler_view($guid, array &$data)
     {
-        $this->_person = new org_openpsa_contacts_person_dba($args[0]);
+        $this->_person = new org_openpsa_contacts_person_dba($guid);
         $data['view'] = datamanager::from_schemadb($this->_config->get('schemadb_person'))
             ->set_storage($this->_person);
 

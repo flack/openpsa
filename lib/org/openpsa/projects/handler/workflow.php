@@ -14,20 +14,21 @@
 class org_openpsa_projects_handler_workflow extends midcom_baseclasses_components_handler
 {
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
+     * @param string $action The requested action
      */
-    public function _handler_action(array $args)
+    public function _handler_action($guid, $action)
     {
         midcom::get()->auth->require_valid_user();
-        $this->run($args[1], $args[0]);
+        $this->run($action, $guid);
         //TODO: return ajax status
         return new midcom_response_json;
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_post(array $args)
+    public function _handler_post($guid)
     {
         midcom::get()->auth->require_valid_user();
         //Look for action among POST variables, then load main handler...
@@ -35,7 +36,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
             || !is_array($_POST['org_openpsa_projects_workflow_action'])) {
             throw new midcom_error('Incomplete request');
         }
-        $this->run(key($_POST['org_openpsa_projects_workflow_action']), $args[0]);
+        $this->run(key($_POST['org_openpsa_projects_workflow_action']), $guid);
 
         if (isset($_POST['org_openpsa_projects_workflow_action_redirect'])) {
             return new midcom_response_relocate($_POST['org_openpsa_projects_workflow_action_redirect']);

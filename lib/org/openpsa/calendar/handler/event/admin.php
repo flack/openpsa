@@ -16,13 +16,6 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_components_handler
 {
-    /**
-     * The event we're working on
-     *
-     * @var org_openpsa_calendar_event_dba
-     */
-    private $_event;
-
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
@@ -31,27 +24,26 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
     /**
      * Handle the editing phase
      *
-     * @param array $args           Variable arguments
+     * @param string $guid The object's GUID
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_edit(array $args, array &$data)
+    public function _handler_edit($guid, array &$data)
     {
-        // Get the event
-        $this->_event = new org_openpsa_calendar_event_dba($args[0]);
-        $this->_event->require_do('midgard:update');
+        $event = new org_openpsa_calendar_event_dba($guid);
+        $event->require_do('midgard:update');
 
-        $conflictmanager = new org_openpsa_calendar_conflictmanager($this->_event, $this->_l10n);
+        $conflictmanager = new org_openpsa_calendar_conflictmanager($event, $this->_l10n);
         $schemadb = schemadb::from_path($this->_config->get('schemadb'));
         foreach ($schemadb->all() as $schema) {
             $schema->set('validation', [['callback' => [$conflictmanager, 'validate_form']]]);
         }
         $dm = new datamanager($schemadb);
         $data['controller'] = $dm
-            ->set_storage($this->_event)
+            ->set_storage($event)
             ->get_controller();
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_event->title));
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $event->title));
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
 
@@ -67,14 +59,14 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
     /**
      * Handle AJAX move
      *
-     * @param array $args Variable arguments
+     * @param string $guid The object's GUID
      */
-    public function _handler_move(array $args)
+    public function _handler_move($guid)
     {
         if (empty($_POST['start'])) {
             throw new midcom_error('Incomplete request');
         }
-        $event = new org_openpsa_calendar_event_dba($args[0]);
+        $event = new org_openpsa_calendar_event_dba($guid);
         $event->require_do('midgard:update');
         $start = strtotime($_POST['start']);
         //workaround for https://github.com/fullcalendar/fullcalendar/issues/3037
@@ -94,13 +86,12 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
     /**
      * Handle the delete phase
      *
-     * @param array $args Variable arguments
+     * @param string $guid The object's GUID
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($guid)
     {
-        // Get the event
-        $this->_event = new org_openpsa_calendar_event_dba($args[0]);
-        $workflow = $this->get_workflow('delete', ['object' => $this->_event]);
+        $event = new org_openpsa_calendar_event_dba($guid);
+        $workflow = $this->get_workflow('delete', ['object' => $event]);
         return $workflow->run();
     }
 }

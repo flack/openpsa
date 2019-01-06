@@ -146,17 +146,12 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     }
 
     /**
-     * @param array $args The argument list.
      * @param array &$data The local request data.
+     * @param string $wikipage The page's name
      */
-    public function _handler_view($args, &$data)
+    public function _handler_view(&$data, $wikipage = 'index')
     {
-        if (count($args) == 0) {
-            $this->_load_page('index');
-        } else {
-            $this->_load_page($args[0]);
-        }
-
+        $this->_load_page($wikipage);
         $this->_load_datamanager();
 
         if ($this->_datamanager->get_schema()->get_name() == 'redirect') {
@@ -258,12 +253,12 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $wikipage The page's name
      * @param array &$data The local request data.
      */
-    public function _handler_raw($args, &$data)
+    public function _handler_raw($wikipage, &$data)
     {
-        $this->_load_page($args[0], false);
+        $this->_load_page($wikipage, false);
         midcom::get()->skip_page_style = true;
         $this->_load_datamanager();
 
@@ -279,9 +274,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $wikipage The page's name
      */
-    public function _handler_subscribe(array $args)
+    public function _handler_subscribe($wikipage)
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
@@ -289,7 +284,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         midcom::get()->auth->require_valid_user();
 
-        $this->_load_page($args[0], false);
+        $this->_load_page($wikipage, false);
 
         midcom::get()->auth->request_sudo('net.nemein.wiki');
 
@@ -325,12 +320,12 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $wikipage The page's name
      * @param array &$data The local request data.
      */
-    public function _handler_whatlinks($args, &$data)
+    public function _handler_whatlinks($wikipage, &$data)
     {
-        $this->_load_page($args[0], false);
+        $this->_load_page($wikipage, false);
 
         $this->_load_datamanager();
 

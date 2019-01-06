@@ -33,16 +33,16 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_object(array $args, array &$data)
+    public function _handler_object($guid, array &$data)
     {
-        $this->object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
+        $this->object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $this->object_url = midcom::get()->permalinks->create_permalink($this->object->guid);
 
         $this->qb = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
-        $this->qb->add_constraint('linkGuid', '=', $args[0]);
+        $this->qb->add_constraint('linkGuid', '=', $guid);
         $this->qb->add_order('followUp', 'DESC');
         $data['entries'] = $this->qb->execute();
 
@@ -55,7 +55,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
             $this->add_breadcrumb($this->object_url, $ref->get_object_label($this->object));
         }
         $this->add_breadcrumb(
-            $this->router->generate('render', ['guid' => $this->object->guid, 'mode' => 'both']),
+            $this->router->generate('render', ['guid' => $guid, 'mode' => 'both']),
             $this->_l10n->get('view related information')
         );
         $this->add_breadcrumb("", $this->_l10n->get('journal entries'));
@@ -86,10 +86,10 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
     }
 
     /**
-     * @param array $args The argument list.
+     * @param int $time Timestamp
      * @param array &$data The local request data.
      */
-    public function _handler_list(array $args, array &$data)
+    public function _handler_list($time, array &$data)
     {
         //set the start-constraints for journal-entries
         $time_span = 7 * 24 * 60 * 60; //7 days
@@ -105,7 +105,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
             [
                 'property' => 'followUp',
                 'operator' => '<',
-                'value' => $args[0] + $time_span,
+                'value' => $time + $time_span,
             ],
             [
                 'property' => 'followUp',

@@ -65,13 +65,12 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      * Looks up a contact to display.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_view($handler_id, array $args, array &$data)
+    public function _handler_view($handler_id, $guid, array &$data)
     {
-        $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
-
+        $this->_contact = new org_openpsa_contacts_person_dba($guid);
         $this->_load_datamanager();
 
         $data['person_rss_url'] = $this->_contact->get_parameter('net.nemein.rss', 'url');
@@ -163,13 +162,12 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_group_memberships(array $args, array &$data)
+    public function _handler_group_memberships($guid, array &$data)
     {
-        // Check if we get the person
-        $data['person'] = new org_openpsa_contacts_person_dba($args[0]);
+        $data['person'] = new org_openpsa_contacts_person_dba($guid);
 
         $qb = org_openpsa_contacts_member_dba::new_query_builder();
         $qb->add_constraint('uid', '=', $data['person']->id);

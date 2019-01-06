@@ -184,12 +184,12 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * Handler for creating new attachments
      *
      * @param string $handler_id Name of the used handler
-     * @param array $args Array containing the variable arguments passed to the handler
+     * @param string $guid The object's GUID
      * @param array &$data Data passed to the show method
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create($handler_id, $guid, array &$data)
     {
-        $this->prepare_object($args[0]);
+        $this->prepare_object($guid);
 
         if ($filename = $this->_process_form()) {
             return $this->relocate_to_file($filename);
@@ -228,14 +228,15 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     /**
      * @param string $handler_id Name of the used handler
-     * @param array $args Array containing the variable arguments passed to the handler
+     * @param string $guid The object's GUID
+     * @param string $filename The filename
      * @param array &$data Data passed to the show method
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit($handler_id, $guid, $filename, array &$data)
     {
-        $this->prepare_object($args[0]);
+        $this->prepare_object($guid);
 
-        $data['filename'] = $args[1];
+        $data['filename'] = $filename;
         $this->_file = $this->_get_file($data['filename']);
         $this->_file->require_do('midgard:update');
         $this->bind_view_to_object($this->_file);
@@ -294,13 +295,12 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Handler for confirming file deleting for the requested file
      *
-     * @param array $args Array containing the variable arguments passed to the handler
+     * @param string $guid The object's GUID
+     * @param string $filename The filename
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($guid, $filename)
     {
-        $this->prepare_object($args[0]);
-
-        $filename = $args[1];
+        $this->prepare_object($guid);
         $file = $this->_get_file($filename);
 
         $workflow = $this->get_workflow('delete', [

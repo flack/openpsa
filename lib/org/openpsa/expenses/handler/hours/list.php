@@ -56,23 +56,23 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     /**
      * The handler for the task list view
      *
-     * @param array $args the arguments given to the handler
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_task(array $args, array &$data)
+    public function _handler_task($guid, array &$data)
     {
-        $task = new org_openpsa_projects_task_dba($args[0]);
+        $task = new org_openpsa_projects_task_dba($guid);
         $this->qb->add_constraint('task', '=', $task->id);
 
         $data['mode'] = 'task';
         $data['view_title'] = sprintf($data['l10n']->get("list_hours_task %s"), $task->title);
         $this->breadcrumb_title = $task->get_label();
 
-        $this->prepare_request_data('task/', $task->guid . '/');
+        $this->prepare_request_data('task/', $guid . '/');
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         if ($projects_url = $siteconfig->get_node_full_url('org.openpsa.projects')) {
             $this->_view_toolbar->add_item([
-                MIDCOM_TOOLBAR_URL => $projects_url . "task/{$task->guid}/",
+                MIDCOM_TOOLBAR_URL => $projects_url . "task/{$guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show task'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'calendar-check-o',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'g',
@@ -85,23 +85,23 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     /**
      * The handler for the invoice list view
      *
-     * @param array $args the arguments given to the handler
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_invoice(array $args, array &$data)
+    public function _handler_invoice($guid, array &$data)
     {
-        $invoice = new org_openpsa_invoices_invoice_dba($args[0]);
+        $invoice = new org_openpsa_invoices_invoice_dba($guid);
         $this->qb->add_constraint('invoice', '=', $invoice->id);
 
         $data['mode'] = 'invoice';
         $data['view_title'] = sprintf($data['l10n']->get("list_hours_invoice %s"), $invoice->get_label());
         $this->breadcrumb_title = $data['view_title'];
 
-        $this->prepare_request_data('invoice/', $invoice->guid . '/');
+        $this->prepare_request_data('invoice/', $guid . '/');
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         if ($invoices_url = $siteconfig->get_node_full_url('org.openpsa.invoices')) {
             $this->_view_toolbar->add_item([
-                MIDCOM_TOOLBAR_URL => $invoices_url . "invoice/{$invoice->guid}/",
+                MIDCOM_TOOLBAR_URL => $invoices_url . "invoice/{$guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show invoice'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'file-text-o',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'g',

@@ -18,25 +18,24 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
     /**
      * Handler for deleted objects
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_deleted(array $args, array &$data)
+    public function _handler_deleted($guid, array &$data)
     {
-        $data['guid'] = $args[0];
         $data['view_title'] = $this->_l10n->get('object deleted');
 
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
 
         if (midcom::get()->auth->admin) {
-            $this->prepare_admin_view();
+            $this->prepare_admin_view($guid);
         }
 
         $this->add_breadcrumb("", $data['view_title']);
         return new midgard_admin_asgard_response($this, '_show_deleted');
     }
 
-    private function prepare_admin_view()
+    private function prepare_admin_view($guid)
     {
         $type = connection::get_em()
             ->createQuery('SELECT r.typename from midgard:midgard_repligard r WHERE r.guid = ?1')
@@ -47,7 +46,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
 
         $qb = midcom::get()->dbfactory->new_query_builder($dba_type);
         $qb->include_deleted();
-        $qb->add_constraint('guid', '=', $this->_request_data['guid']);
+        $qb->add_constraint('guid', '=', $guid);
 
         $this->_request_data['object'] = $qb->get_result(0);
 

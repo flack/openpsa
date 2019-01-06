@@ -90,28 +90,28 @@ implements client
     /**
      * Looks up an campaign to display.
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_view(array $args, array &$data)
+    public function _handler_view($guid, array &$data)
     {
-        $this->_campaign = $this->load_campaign($args[0]);
+        $this->_campaign = $this->load_campaign($guid);
 
         $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_campaign'));
         $this->_datamanager->set_storage($this->_campaign);
 
-        $this->_request_data['campaign'] = $this->_campaign;
-        $this->_request_data['datamanager'] = $this->_datamanager;
+        $data['campaign'] = $this->_campaign;
+        $data['datamanager'] = $this->_datamanager;
 
         org_openpsa_widgets_contact::add_head_elements();
         $this->_populate_toolbar();
 
         $provider = new provider($this);
-        $data['grid'] = $provider->get_grid('list_members_' . $this->_campaign->guid);
+        $data['grid'] = $provider->get_grid('list_members_' . $guid);
 
         // Populate calendar events for the campaign
         $this->bind_view_to_object($this->_campaign, $this->_datamanager->get_schema()->get_name());
-        midcom::get()->metadata->set_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
+        midcom::get()->metadata->set_request_metadata($this->_campaign->metadata->revised, $guid);
         midcom::get()->head->set_pagetitle($this->_campaign->title);
         $data['view_campaign'] = $this->_datamanager->get_content_html();
 
@@ -174,12 +174,12 @@ implements client
     /**
      * Displays campaign members.
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_members(array $args, array &$data)
+    public function _handler_members($guid, array &$data)
     {
-        $this->_campaign = $this->load_campaign($args[0]);
+        $this->_campaign = $this->load_campaign($guid);
 
         midcom::get()->skip_page_style = true;
 

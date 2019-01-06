@@ -33,6 +33,7 @@ deliverable_add:
 deliverable_process:
     path: /deliverable/process/{guid}/
     defaults: { _controller: 'org_openpsa_sales_handler_deliverable_process::process' }
+    methods: [POST]
 
 deliverable_edit:
     path: /deliverable/edit/{guid}/

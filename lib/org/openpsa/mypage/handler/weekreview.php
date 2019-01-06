@@ -125,13 +125,13 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $date The requested date
      * @param array &$data The local request data.
      */
-    public function _handler_review(array $args, array &$data)
+    public function _handler_review($date, array &$data)
     {
         // Get start and end times
-        $date = new DateTime($args[0]);
+        $date = new DateTime($date);
         $data['requested_time'] = (int) $date->format('U');
 
         $offset = $date->format('N') - 1;

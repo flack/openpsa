@@ -1,4 +1,4 @@
 chooser_create:
-    path: /chooser/create/{args_0}/
+    path: /chooser/create/{dbaclass}/
     defaults: { _controller: 'org_openpsa_helpers_handler_chooser::create' }
 

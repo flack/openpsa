@@ -42,12 +42,12 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The salesproject GUID
      * @return midcom_response
      */
-    public function _handler_create(array $args)
+    public function _handler_create($guid)
     {
-        $this->salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
+        $this->salesproject = new org_openpsa_sales_salesproject_dba($guid);
         $this->salesproject->require_do('midgard:update');
         $this->offer = $this->prepare_offer();
         return $this->run_form();
@@ -73,12 +73,12 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The offer GUID
      * @return midcom_response
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($guid)
     {
-        $offer = new org_openpsa_sales_salesproject_offer_dba($args[0]);
+        $offer = new org_openpsa_sales_salesproject_offer_dba($guid);
         $salesproject = $offer->get_parent();
         $offer->require_do('midgard:delete');
         $offer->delete();
@@ -86,12 +86,12 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The offer GUID
      * @return midcom_response
      */
-    public function _handler_edit(array $args)
+    public function _handler_edit($guid)
     {
-        $this->offer = new org_openpsa_sales_salesproject_offer_dba($args[0]);
+        $this->offer = new org_openpsa_sales_salesproject_offer_dba($guid);
         $this->salesproject = $this->offer->get_parent();
         $this->salesproject->require_do('midgard:update');
         return $this->run_form();

@@ -117,11 +117,11 @@ implements client
     /**
      * Displays older versions of the document
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_versions(array $args)
+    public function _handler_versions($guid)
     {
-        $this->_document = $this->_load_document($args[0]);
+        $this->_document = $this->_load_document($guid);
         $this->_provider = new provider($this, 'local');
         $this->_provider->add_order('created', 'DESC');
     }
@@ -142,13 +142,13 @@ implements client
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_view(array $args, array &$data)
+    public function _handler_view($guid, array &$data)
     {
         // Get the requested document object
-        $this->_document = $this->_load_document($args[0]);
+        $this->_document = $this->_load_document($guid);
 
         // Get number of older versions
         $data['document_versions'] = $this->get_qb()->count();

@@ -38,12 +38,12 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
      * Handle the moving of a group phase
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_move($handler_id, array $args, array &$data)
+    public function _handler_move($handler_id, $guid, array &$data)
     {
-        $data['group'] = new midcom_db_group($args[0]);
+        $data['group'] = new midcom_db_group($guid);
 
         if (isset($_POST['f_cancel'])) {
             return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $data['group']->guid]));

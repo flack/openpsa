@@ -13,7 +13,7 @@ view-comments-nonempty:
     requirements: { guid: '[0-9a-f]{21,80}' }
 
 view-comments-custom:
-    path: /comment/{guid}/{args_1}/
+    path: /comment/{guid}/{view}/
     defaults: { _controller: 'net_nehmer_comments_handler_view::comments' }
     requirements: { guid: '[0-9a-f]{21,80}' }
 

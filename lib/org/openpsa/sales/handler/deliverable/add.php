@@ -89,17 +89,17 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
     /**
      * Looks up a deliverable to display.
      *
-     * @param array $args The argument list.
+     * @param string $guid The deliverable GUID
      * @param array &$data The local request data.
      */
-    public function _handler_add(array $args, array &$data)
+    public function _handler_add($guid, array &$data)
     {
         if (   !array_key_exists('product', $_POST)
             && !array_key_exists('org_openpsa_sales', $_POST)) {
             throw new midcom_error('No product specified, aborting.');
         }
 
-        $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
+        $this->_salesproject = new org_openpsa_sales_salesproject_dba($guid);
         $this->_salesproject->require_do('midgard:create');
 
         if (array_key_exists('org_openpsa_sales', $_POST)) {

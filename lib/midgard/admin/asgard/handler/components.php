@@ -100,22 +100,22 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
     /**
      * Component display
      *
-     * @param array $args The argument list.
+     * @param string $component The component name
      * @param array &$data The local request data.
      */
-    public function _handler_component(array $args, array &$data)
+    public function _handler_component($component, array &$data)
     {
-        $data['component'] = $args[0];
-        if (!midcom::get()->componentloader->is_installed($data['component'])) {
-            throw new midcom_error_notfound("Component {$data['component']} is not installed.");
+        $data['component'] = $component;
+        if (!midcom::get()->componentloader->is_installed($component)) {
+            throw new midcom_error_notfound("Component {$component} is not installed.");
         }
 
-        $data['component_data'] = $this->_load_component_data($data['component'], midcom::get()->componentloader->manifests[$data['component']]);
+        $data['component_data'] = $this->_load_component_data($component, midcom::get()->componentloader->manifests[$component]);
 
         $data['view_title'] = $data['component_data']['title'];
 
         $data['asgard_toolbar']->add_item([
-            MIDCOM_TOOLBAR_URL => $this->router->generate('components_configuration', ['component' => $data['component']]),
+            MIDCOM_TOOLBAR_URL => $this->router->generate('components_configuration', ['component' => $component]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
             MIDCOM_TOOLBAR_GLYPHICON => 'wrench',
         ]);

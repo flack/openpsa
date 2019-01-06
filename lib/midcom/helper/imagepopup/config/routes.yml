@@ -11,7 +11,7 @@ open:
     defaults: { _controller: 'midcom_helper_imagepopup_handler_links::open' }
 
 open_noobject:
-    path: /open/{args_0}/
+    path: /open/{filetype}/
     defaults: { _controller: 'midcom_helper_imagepopup_handler_links::open' }
 
 list_folder:

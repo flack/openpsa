@@ -37,19 +37,19 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     /**
      * Generates an object creation view.
      *
-     * @param array $args The argument list.
+     * @param string $company The recipient's GUID
      */
-    public function _handler_create(array $args)
+    public function _handler_create($company = null)
     {
         $this->mode = 'create';
         midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class);
 
-        if (count($args) == 1) {
+        if ($company !== null) {
             // We're creating invoice for chosen customer
             try {
-                $this->customer = new org_openpsa_contacts_group_dba($args[0]);
+                $this->customer = new org_openpsa_contacts_group_dba($company);
             } catch (midcom_error $e) {
-                $contact = new org_openpsa_contacts_person_dba($args[0]);
+                $contact = new org_openpsa_contacts_person_dba($company);
                 $this->contact_id = $contact->id;
             }
         }
@@ -66,11 +66,11 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     /**
      * Generates an object update view.
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_update(array $args)
+    public function _handler_update($guid)
     {
-        $this->invoice = new org_openpsa_invoices_invoice_dba($args[0]);
+        $this->invoice = new org_openpsa_invoices_invoice_dba($guid);
         $this->invoice->require_do('midgard:update');
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('invoice')));
@@ -94,13 +94,13 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     /**
      * Displays an object delete confirmation view.
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($guid)
     {
-        $this->invoice = new org_openpsa_invoices_invoice_dba($args[0]);
+        $invoice = new org_openpsa_invoices_invoice_dba($guid);
 
-        $workflow = $this->get_workflow('delete', ['object' => $this->invoice]);
+        $workflow = $this->get_workflow('delete', ['object' => $invoice]);
         return $workflow->run();
     }
 

@@ -68,12 +68,12 @@ implements client
     /**
      * Displays campaign members.
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_query(array $args, array &$data)
+    public function _handler_query($guid, array &$data)
     {
-        $this->_campaign = $this->load_campaign($args[0]);
+        $this->_campaign = $this->load_campaign($guid);
         $this->_campaign->require_do('midgard:update');
         $this->rules = $this->_load_rules();
 
@@ -86,18 +86,18 @@ implements client
     /**
      * Displays an campaign edit view.
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit_query(array $args, array &$data)
+    public function _handler_edit_query($guid, array &$data)
     {
-        $this->_campaign = $this->load_campaign($args[0]);
+        $this->_campaign = $this->load_campaign($guid);
         $this->_campaign->require_do('midgard:update');
         $data['campaign'] = $this->_campaign;
 
         // PONDER: Locking ?
         if (!empty($_POST['midcom_helper_datamanager2_cancel'])) {
-            return new midcom_response_relocate($this->router->generate('view_campaign', ['guid' => $this->_campaign->guid]));
+            return new midcom_response_relocate($this->router->generate('view_campaign', ['guid' => $guid]));
         }
 
         //check if it should be saved
@@ -116,7 +116,7 @@ implements client
                 $this->_campaign->schedule_update_smart_campaign_members();
 
                 //Save ok, relocate
-                return new midcom_response_relocate($this->router->generate('view_campaign', ['guid' => $this->_campaign->guid]));
+                return new midcom_response_relocate($this->router->generate('view_campaign', ['guid' => $guid]));
             }
             //Save failed
             midcom::get()->uimessages->add($this->_component, sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
@@ -132,7 +132,7 @@ implements client
                 ],
             ],
             [
-                MIDCOM_TOOLBAR_URL => $this->router->generate('edit_campaign_query', ['guid' => $this->_campaign->guid]),
+                MIDCOM_TOOLBAR_URL => $this->router->generate('edit_campaign_query', ['guid' => $guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit rules'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'filter',
                 MIDCOM_TOOLBAR_OPTIONS  => [

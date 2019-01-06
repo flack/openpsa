@@ -34,14 +34,14 @@ class org_openpsa_user_handler_group_privileges extends midcom_baseclasses_compo
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_privileges(array $args)
+    public function _handler_privileges($guid)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 
         // Check if we get the group
-        $group = new midcom_db_group($args[0]);
+        $group = new midcom_db_group($guid);
         $group->require_do('midgard:privileges');
 
         midcom::get()->head->set_pagetitle($this->_l10n->get("permissions"));

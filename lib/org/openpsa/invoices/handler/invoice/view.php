@@ -28,12 +28,12 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
      * Generates an object view.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_read($handler_id, array $args, array &$data)
+    public function _handler_read($handler_id, $guid, array &$data)
     {
-        $this->invoice = new org_openpsa_invoices_invoice_dba($args[0]);
+        $this->invoice = new org_openpsa_invoices_invoice_dba($guid);
         $dm = $this->load_datamanager();
 
         $data['object'] = $this->invoice;
@@ -43,7 +43,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         $this->populate_toolbar($handler_id);
         $this->update_breadcrumb($handler_id);
 
-        midcom::get()->metadata->set_request_metadata($this->invoice->metadata->revised, $this->invoice->guid);
+        midcom::get()->metadata->set_request_metadata($this->invoice->metadata->revised, $guid);
         $this->bind_view_to_object($this->invoice, $dm->get_schema()->get_name());
         midcom::get()->head->set_pagetitle($this->_l10n->get('invoice') . ' ' . $this->invoice->get_label());
 

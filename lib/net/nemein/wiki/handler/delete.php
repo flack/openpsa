@@ -16,11 +16,11 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
     use net_nemein_wiki_handler;
 
     /**
-     * @param array $args The argument list.
+     * @param string $wikipage The page's name
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($wikipage)
     {
-        $page = $this->load_page($args[0]);
+        $page = $this->load_page($wikipage);
         $workflow = $this->get_workflow('delete', ['object' => $page]);
         return $workflow->run();
     }

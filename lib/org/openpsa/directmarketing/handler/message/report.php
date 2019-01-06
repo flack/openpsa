@@ -305,14 +305,14 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_report(array $args, array &$data)
+    public function _handler_report($guid, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
-        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
+        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $data['message'] = $this->_message;
 
         $data['message_array'] = datamanager::from_schemadb($this->_config->get('schemadb_message'))
@@ -329,21 +329,21 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
-        $this->add_breadcrumb($this->router->generate('message_view', ['guid' => $this->_message->guid]), $this->_message->title);
+        $this->add_breadcrumb($this->router->generate('message_view', ['guid' => $guid]), $this->_message->title);
         $this->add_breadcrumb(
-            $this->router->generate('message_report', ['guid' => $this->_message->guid]),
+            $this->router->generate('message_report', ['guid' => $guid]),
             sprintf($this->_l10n->get('report for message %s'), $this->_message->title)
         );
 
         $buttons = [
             [
-                MIDCOM_TOOLBAR_URL => $this->router->generate('message_view', ['guid' => $this->_message->guid]),
+                MIDCOM_TOOLBAR_URL => $this->router->generate('message_view', ['guid' => $guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
                 MIDCOM_TOOLBAR_GLYPHICON => 'eject',
             ],
             [
                 MIDCOM_TOOLBAR_URL => $this->router->generate('compose4person', [
-                    'guid' => $this->_message->guid,
+                    'guid' => $guid,
                     'person' => midcom::get()->auth->user->guid
                 ]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('preview message'),
@@ -360,11 +360,11 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_status(array $args)
+    public function _handler_status($guid)
     {
-        $message_obj = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
+        $message_obj = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $sender = new org_openpsa_directmarketing_sender($message_obj);
         $result = $sender->get_status();
         $response = new midcom_response_json;

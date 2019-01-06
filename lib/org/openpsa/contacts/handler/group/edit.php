@@ -17,13 +17,6 @@ use midcom\datamanager\datamanager;
 class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_components_handler
 {
     /**
-     * What type of group are we dealing with, organization or group?
-     *
-     * @var string
-     */
-    private $_type;
-
-    /**
      * The group we're working on
      *
      * @var org_openpsa_contacts_group_dba
@@ -31,23 +24,23 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
     private $_group;
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_edit(array $args)
+    public function _handler_edit($guid)
     {
-        $this->_group = new org_openpsa_contacts_group_dba($args[0]);
+        $this->_group = new org_openpsa_contacts_group_dba($guid);
         $this->_group->require_do('midgard:update');
 
         if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
-            $this->_type = 'group';
+            $type = 'group';
         } else {
-            $this->_type = 'organization';
+            $type = 'organization';
         }
 
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_group'))
-            ->set_storage($this->_group, $this->_type);
+            ->set_storage($this->_group, $type);
 
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get($this->_type)));
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get($type)));
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $dm->get_controller(),

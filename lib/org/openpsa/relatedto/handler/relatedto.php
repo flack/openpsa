@@ -47,15 +47,15 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
+     * @param string $mode The mode
+     * @param string $sort The sort order
      */
-    public function _handler_render(array $args)
+    public function _handler_render($guid, $mode, $sort = 'default')
     {
-        $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
-        $this->_mode = $args[1];
-        if (isset($args[2])) {
-            $this->_sort = $args[2];
-        }
+        $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
+        $this->_mode = $mode;
+        $this->_sort = $sort;
 
         if ($this->_mode !== 'in') {
             $this->_links['outgoing'] = $this->_get_object_links(true);
@@ -423,9 +423,10 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
+     * @param string $mode The mode
      */
-    public function _handler_ajax(array $args)
+    public function _handler_ajax($guid, $mode)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -433,7 +434,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $response->result = false;
 
         try {
-            $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[1]);
+            $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
             if (!($this->_object instanceof org_openpsa_relatedto_dba)) {
                 $response->status = "method requires guid of a link object as an argument";
             }
@@ -444,7 +445,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                 return $response;
             }
         }
-        $this->_object->status = $args[0] == 'deny' ? org_openpsa_relatedto_dba::NOTRELATED : org_openpsa_relatedto_dba::CONFIRMED;
+        $this->_object->status = $mode == 'deny' ? org_openpsa_relatedto_dba::NOTRELATED : org_openpsa_relatedto_dba::CONFIRMED;
         $response->result = $this->_object->update();
         $response->status = 'error:' . midcom_connection::get_error_string();
 
@@ -452,21 +453,21 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($guid)
     {
         midcom::get()->auth->require_valid_user();
 
         $response = new midcom_response_xml;
 
         try {
-            $relation = new org_openpsa_relatedto_dba($args[0]);
+            $relation = new org_openpsa_relatedto_dba($guid);
             $response->result = $relation->delete();
             $response->status = 'Last message: ' . midcom_connection::get_error_string();
         } catch (midcom_error $e) {
             $response->result = false;
-            $response->status = "Object '{$args[0]}' could not be loaded, error:" . $e->getMessage();
+            $response->status = "Object '{$guid}' could not be loaded, error:" . $e->getMessage();
         }
 
         return $response;

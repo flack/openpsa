@@ -40,10 +40,10 @@ implements client
     /**
      * Handler for listing users
      *
-     * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method
+     * @param string $guid Group GUID
      */
-    public function _handler_list(array $args, array &$data)
+    public function _handler_list(array &$data, $guid = null)
     {
         $auth = midcom::get()->auth;
         if (!$auth->can_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class)) {
@@ -53,11 +53,11 @@ implements client
 
         $data['provider_url'] = $this->router->generate('user_list_json');
         $grid_id = 'org_openpsa_user_grid';
-        if (count($args) == 1) {
+        if ($guid !== null) {
             $grid_id = 'org_openpsa_members_grid';
-            $this->_group = new org_openpsa_contacts_group_dba($args[0]);
+            $this->_group = new org_openpsa_contacts_group_dba($guid);
             $data['group'] = $this->_group;
-            $data['provider_url'] .= 'members/' . $this->_group->guid . '/';
+            $data['provider_url'] .= 'members/' . $guid . '/';
         }
 
         $data['grid'] = $this->_provider->get_grid($grid_id);
@@ -85,15 +85,15 @@ implements client
     /**
      * Lists users in JSON format
      *
-     * @param array $args The argument list.
      * @param array &$data The local request data.
+     * @param string $guid The group GUID
      */
-    public function _handler_json(array $args, array &$data)
+    public function _handler_json(array &$data, $guid = null)
     {
         midcom::get()->skip_page_style = true;
         $data['provider'] = $this->_provider;
-        if (count($args) == 1) {
-            $this->_group = new org_openpsa_contacts_group_dba($args[0]);
+        if ($guid !== null) {
+            $this->_group = new org_openpsa_contacts_group_dba($guid);
         }
 
         return $this->show('users-grid-json');

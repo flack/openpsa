@@ -145,12 +145,12 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $component The component name
      * @param array &$data The local request data.
      */
-    public function _handler_view($handler_id, array $args, array &$data)
+    public function _handler_view($handler_id, $component, array &$data)
     {
-        $data['name'] = $args[0];
+        $data['name'] = $component;
         if (!midcom::get()->componentloader->is_installed($data['name'])) {
             throw new midcom_error_notfound("Component {$data['name']} was not found.");
         }
@@ -348,20 +348,21 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
+     * @param string $component The component name
+     * @param string $folder The topic GUID
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit($handler_id, array &$data, $component, $folder = null)
     {
-        $data['name'] = $args[0];
+        $data['name'] = $component;
         if (!midcom::get()->componentloader->is_installed($data['name'])) {
             throw new midcom_error_notfound("Component {$data['name']} was not found.");
         }
 
         if ($handler_id == 'components_configuration_edit_folder') {
-            $data['folder'] = new midcom_db_topic($args[1]);
+            $data['folder'] = new midcom_db_topic($folder);
             if ($data['folder']->component != $data['name']) {
-                throw new midcom_error_notfound("Folder {$args[1]} not found for configuration.");
+                throw new midcom_error_notfound("Folder {$folder} not found for configuration.");
             }
 
             $data['folder']->require_do('midgard:update');

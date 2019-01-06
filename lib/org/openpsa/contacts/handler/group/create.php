@@ -54,15 +54,16 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $type The type
+     * @param string $guid The parent GUID
      */
-    public function _handler_create(array $args)
+    public function _handler_create($type, $guid = null)
     {
-        $this->_type = $args[0];
+        $this->_type = $type;
 
-        if (count($args) > 1) {
+        if (!empty($guid)) {
             // Get the parent organization
-            $this->_parent_group = new org_openpsa_contacts_group_dba($args[1]);
+            $this->_parent_group = new org_openpsa_contacts_group_dba($guid);
             $this->_parent_group->require_do('midgard:create');
         } else {
             // This is a root level organization, require creation permissions under the component root group

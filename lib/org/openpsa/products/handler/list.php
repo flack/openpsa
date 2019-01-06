@@ -110,16 +110,15 @@ implements client
     }
 
     /**
-     * @param mixed $handler_id the array key from the request array
-     * @param array $args the arguments given to the handler
      * @param array &$data The local request data.
+     * @param string $guid The object's GUID
      */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list(array &$data, $guid = null)
     {
         $data['data_url'] = 'json/';
-        if ($handler_id === 'list_group') {
-            $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
-            $data['data_url'] .= $data['group']->guid . '/';
+        if ($guid !== null) {
+            $data['group'] = new org_openpsa_products_product_group_dba($guid);
+            $data['data_url'] .= $guid . '/';
 
             $this->datamanager = new datamanager($data['schemadb_group']);
             $this->datamanager->set_storage($data['group']);
@@ -186,14 +185,13 @@ implements client
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
+     * @param string $guid The object's GUID
      */
-    public function _handler_json($handler_id, array $args, array &$data)
+    public function _handler_json(array &$data, $guid = null)
     {
-        if ($handler_id === 'list_json_group') {
-            $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
+        if ($guid !== null) {
+            $data['group'] = new org_openpsa_products_product_group_dba($guid);
         }
         midcom::get()->skip_page_style = true;
         $data['provider'] = $this->provider;

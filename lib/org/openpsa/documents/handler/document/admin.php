@@ -88,12 +88,12 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit(array $args, array &$data)
+    public function _handler_edit($guid, array &$data)
     {
-        $this->_document = $this->_load_document($args[0]);
+        $this->_document = $this->_load_document($guid);
         $this->_document->require_do('midgard:update');
 
         $this->_controller = $this->load_controller();
@@ -147,12 +147,12 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($guid)
     {
-        $this->_document = $this->_load_document($args[0]);
-        $workflow = $this->get_workflow('delete', ['object' => $this->_document]);
+        $document = $this->_load_document($guid);
+        $workflow = $this->get_workflow('delete', ['object' => $document]);
         return $workflow->run();
     }
 }

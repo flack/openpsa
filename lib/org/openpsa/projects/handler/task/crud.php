@@ -27,21 +27,22 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     /**
      * Generates an object creation view.
      *
-     * @param array $args The argument list.
+     * @param string $type The parent type
+     * @param string $guid The parent GUID
      */
-    public function _handler_create(array $args)
+    public function _handler_create($type = null, $guid = null)
     {
         $this->mode = 'create';
         $this->task = new org_openpsa_projects_task_dba;
         $defaults = [
             'manager' => midcom_connection::get_user()
         ];
-        if (count($args) > 0) {
-            if ($args[0] == 'project') {
-                $parent = new org_openpsa_projects_project($args[1]);
+        if ($guid !== null) {
+            if ($type == 'project') {
+                $parent = new org_openpsa_projects_project($guid);
                 $defaults['project'] = $parent->id;
-            } elseif ($args[0] == 'task') {
-                $parent = new org_openpsa_projects_task_dba($args[1]);
+            } else {
+                $parent = new org_openpsa_projects_task_dba($guid);
                 $defaults['project'] = $parent->project;
                 $defaults['up'] = $parent->id;
             }
@@ -82,12 +83,12 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     /**
      * Generates an object update view.
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_update(array $args, array &$data)
+    public function _handler_update($guid, array &$data)
     {
-        $this->task = new org_openpsa_projects_task_dba($args[0]);
+        $this->task = new org_openpsa_projects_task_dba($guid);
         $this->task->require_do('midgard:update');
         $data['controller'] = $this->load_controller();
 
@@ -127,15 +128,15 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     /**
      * Displays an object delete confirmation view.
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($guid)
     {
-        $this->task = new org_openpsa_projects_task_dba($args[0]);
+        $task = new org_openpsa_projects_task_dba($guid);
 
-        $options = ['object' => $this->task];
+        $options = ['object' => $task];
         try {
-            $parent = new org_openpsa_projects_project($this->task->project);
+            $parent = new org_openpsa_projects_project($task->project);
             $options['success_url'] = $this->router->generate('project', ['guid' => $parent->guid]);
         } catch (midcom_error $e) {
             $e->log();

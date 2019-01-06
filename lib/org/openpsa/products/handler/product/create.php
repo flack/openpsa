@@ -51,19 +51,14 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
     /**
      * Displays an product create view.
      *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
+     * @param string $schema DM schema
+     * @param string $group The product group GUID (or ID apparently)
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create(array &$data, $schema, $group = null)
     {
-        $this->find_parent($args);
+        $this->find_parent($group);
         $this->_product = new org_openpsa_products_product_dba();
-        if ($handler_id == 'create_product') {
-            $schema = $args[0];
-        } else {
-            $schema = $args[1];
-        }
 
         $data['controller'] = $this->load_controller($schema);
 
@@ -74,11 +69,11 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
         return $workflow->run();
     }
 
-    private function find_parent($args)
+    private function find_parent($group)
     {
-        if (mgd_is_guid($args[0])) {
+        if (mgd_is_guid($group)) {
             $qb2 = org_openpsa_products_product_group_dba::new_query_builder();
-            $qb2->add_constraint('guid', '=', $args[0]);
+            $qb2->add_constraint('guid', '=', $group);
             $up_group = $qb2->execute();
             if (count($up_group)) {
                 //We just pick the first category here
@@ -91,9 +86,9 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
                     $this->parent = $up_group[0];
                 }
             }
-        } elseif ((int) $args[0] > 0) {
+        } elseif ((int) $group > 0) {
             try {
-                $this->parent = new org_openpsa_products_product_group_dba((int) $args[0]);
+                $this->parent = new org_openpsa_products_product_group_dba((int) $group);
             } catch (midcom_error $e) {
                 $e->log();
             }

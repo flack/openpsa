@@ -27,21 +27,23 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
+     * @param integer $batch_number the batch number
+     * @param string $job The AT entry's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_send_bg(array $args, array &$data)
+    public function _handler_send_bg($guid, $batch_number, $job, array &$data)
     {
         midcom::get()->auth->request_sudo($this->_component);
 
         //Load message
-        $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
+        $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($guid);
         // TODO: Check that campaign is in this topic
 
         $this->load_datamanager($data['message']);
 
-        $data['batch_number'] = $args[1];
-        midcom_services_at_entry_dba::get_cached($args[2]);
+        $data['batch_number'] = $batch_number;
+        midcom_services_at_entry_dba::get_cached($job);
 
         ignore_user_abort();
         midcom::get()->skip_page_style = true;
@@ -134,17 +136,17 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_send(array $args, array &$data)
+    public function _handler_send($guid, array &$data)
     {
         midcom::get()->auth->require_valid_user();
         //Load message
-        $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
+        $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $data['campaign'] = $this->load_campaign($data['message']->campaign);
 
-        $this->add_breadcrumb($this->router->generate('message_view', ['guid' => $data['message']->guid]), $data['message']->title);
+        $this->add_breadcrumb($this->router->generate('message_view', ['guid' => $guid]), $data['message']->title);
         $this->add_breadcrumb("", $this->_l10n->get('send'));
 
         $this->load_datamanager($data['message']);

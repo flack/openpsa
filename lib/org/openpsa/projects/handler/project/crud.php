@@ -60,12 +60,12 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     /**
      * Generates an object update view.
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_update(array $args, array &$data)
+    public function _handler_update($guid, array &$data)
     {
-        $this->project = new org_openpsa_projects_project($args[0]);
+        $this->project = new org_openpsa_projects_project($guid);
         $this->project->require_do('midgard:update');
         $data['controller'] = $this->load_controller();
 
@@ -81,13 +81,13 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     /**
      * Displays an object delete confirmation view.
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($guid)
     {
-        $this->project = new org_openpsa_projects_project($args[0]);
+        $project = new org_openpsa_projects_project($guid);
 
-        $workflow = $this->get_workflow('delete', ['object' => $this->project]);
+        $workflow = $this->get_workflow('delete', ['object' => $project]);
         return $workflow->run();
     }
 

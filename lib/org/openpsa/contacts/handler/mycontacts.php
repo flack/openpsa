@@ -16,11 +16,11 @@ use midcom\datamanager\helper\autocomplete;
 class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_components_handler
 {
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_add(array $args)
+    public function _handler_add($guid)
     {
-        $target = org_openpsa_contacts_person_dba::get_cached($args[0]);
+        $target = org_openpsa_contacts_person_dba::get_cached($guid);
 
         $mycontacts = new org_openpsa_contacts_mycontacts;
         $mycontacts->add($target->guid);
@@ -33,11 +33,11 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_remove(array $args)
+    public function _handler_remove($guid)
     {
-        $target = org_openpsa_contacts_person_dba::get_cached($args[0]);
+        $target = org_openpsa_contacts_person_dba::get_cached($guid);
 
         $mycontacts = new org_openpsa_contacts_mycontacts;
         $mycontacts->remove($target->guid);

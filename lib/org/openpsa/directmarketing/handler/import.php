@@ -31,15 +31,15 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     private $_import_success = false;
 
-    private function _prepare_handler(array $args)
+    private function _prepare_handler($guid)
     {
         midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class);
 
         // Try to load the correct campaign
-        $this->_request_data['campaign'] = $this->load_campaign($args[0]);
+        $this->_request_data['campaign'] = $this->load_campaign($guid);
 
         $this->_view_toolbar->add_item([
-            MIDCOM_TOOLBAR_URL => $this->router->generate('view_campaign', ['guid' => $this->_request_data['campaign']->guid]),
+            MIDCOM_TOOLBAR_URL => $this->router->generate('view_campaign', ['guid' => $guid]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
             MIDCOM_TOOLBAR_GLYPHICON => 'eject',
         ]);
@@ -60,12 +60,12 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Update the breadcrumb line
      *
-     * @param String $handler_id
-     * @param array $args
+     * @param string $handler_id
+     * @param string $guid The object's GUID
      */
-    private function _update_breadcrumb($handler_id, $args)
+    private function _update_breadcrumb($handler_id, $guid)
     {
-        $this->add_breadcrumb($this->router->generate('import_main', ['guid' => $args[0]]), $this->_l10n->get('import subscribers'));
+        $this->add_breadcrumb($this->router->generate('import_main', ['guid' => $guid]), $this->_l10n->get('import subscribers'));
 
         switch ($handler_id) {
             case 'import_simpleemails':
@@ -84,15 +84,15 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Phase for selecting the import type
      *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
+     * @param string $handler_id Name of the request handler
+     * @param string $guid The object's GUID
      */
-    public function _handler_index($handler_id, array $args)
+    public function _handler_index($handler_id, $guid)
     {
-        $this->_prepare_handler($args);
+        $this->_prepare_handler($guid);
 
         // Update the breadcrumb line
-        $this->_update_breadcrumb($handler_id, $args);
+        $this->_update_breadcrumb($handler_id, $guid);
 
         return $this->show('show-import-index');
     }
@@ -100,15 +100,15 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Phase for importing simple email addresses
      *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
+     * @param string $handler_id Name of the request handler
+     * @param string $guid The object's GUID
      */
-    public function _handler_simpleemails($handler_id, array $args)
+    public function _handler_simpleemails($handler_id, $guid)
     {
-        $this->_prepare_handler($args);
+        $this->_prepare_handler($guid);
 
         // Update the breadcrumb line
-        $this->_update_breadcrumb($handler_id, $args);
+        $this->_update_breadcrumb($handler_id, $guid);
 
         if (array_key_exists('org_openpsa_directmarketing_import_separator', $_POST)) {
             switch ($_POST['org_openpsa_directmarketing_import_separator']) {
@@ -176,15 +176,15 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Phase for importing vcards
      *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
+     * @param string $handler_id Name of the request handler
+     * @param string $guid The object's GUID
      */
-    public function _handler_vcards($handler_id, array $args)
+    public function _handler_vcards($handler_id, $guid)
     {
-        $this->_prepare_handler($args);
+        $this->_prepare_handler($guid);
 
         // Update the breadcrumb line
-        $this->_update_breadcrumb($handler_id, $args);
+        $this->_update_breadcrumb($handler_id, $guid);
 
         if (   array_key_exists('org_openpsa_directmarketing_import', $_POST)
             && is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'])) {
@@ -211,16 +211,16 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Phase for importing CSV. This interface lets user to define what the fields of the CSV represent
      *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
+     * @param String $handler_id Name of the request handler
+     * @param string $guid The object's GUID
+     * @param array &$data Public request data, passed by reference
      */
-    public function _handler_csv_select($handler_id, array $args, array &$data)
+    public function _handler_csv_select($handler_id, $guid, array &$data)
     {
-        $this->_prepare_handler($args);
+        $this->_prepare_handler($guid);
 
         // Update the breadcrumb
-        $this->_update_breadcrumb($handler_id, $args);
+        $this->_update_breadcrumb($handler_id, $guid);
 
         if (array_key_exists('org_openpsa_directmarketing_import_separator', $_POST)) {
             $data['time_start'] = time();
@@ -280,11 +280,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Handle the CSV import phase
      *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
+     * @param string $handler_id Name of the request handler
+     * @param string $guid The object's GUID
+     * @param array &$data Public request data, passed by reference
      */
-    public function _handler_csv($handler_id, array $args, array &$data)
+    public function _handler_csv($handler_id, $guid, array &$data)
     {
         if (!array_key_exists('org_openpsa_directmarketing_import_separator', $_POST)) {
             throw new midcom_error('No CSV separator specified.');
@@ -294,10 +294,10 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             throw new midcom_error('No CSV file available.');
         }
 
-        $this->_prepare_handler($args);
+        $this->_prepare_handler($guid);
 
         // Update the breadcrumb
-        $this->_update_breadcrumb($handler_id, $args);
+        $this->_update_breadcrumb($handler_id, $guid);
 
         $data['rows'] = [];
         $config = [

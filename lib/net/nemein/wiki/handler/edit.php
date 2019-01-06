@@ -68,11 +68,11 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     /**
      * Check the edit request
      *
-     * @param array $args The argument list.
+     * @param string $wikipage The page's name
      */
-    public function _handler_edit(array $args)
+    public function _handler_edit($wikipage)
     {
-        $this->page = $this->load_page($args[0]);
+        $this->page = $this->load_page($wikipage);
         $this->page->require_do('midgard:update');
 
         $this->load_controller();
@@ -116,15 +116,15 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $wikipage The page's name
      */
-    public function _handler_change(array $args)
+    public function _handler_change($wikipage)
     {
         if (empty($_POST['change_to'])) {
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
-        $this->page = $this->load_page($args[0]);
+        $this->page = $this->load_page($wikipage);
         $this->page->require_do('midgard:update');
 
         // Change schema to redirect

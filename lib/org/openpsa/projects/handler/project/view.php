@@ -24,12 +24,12 @@ class org_openpsa_projects_handler_project_view extends midcom_baseclasses_compo
     /**
      * Generates an object view.
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_read(array $args, array &$data)
+    public function _handler_read($guid, array &$data)
     {
-        $this->project = new org_openpsa_projects_project($args[0]);
+        $this->project = new org_openpsa_projects_project($guid);
 
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_project'))
             ->set_storage($this->project);
@@ -42,7 +42,7 @@ class org_openpsa_projects_handler_project_view extends midcom_baseclasses_compo
         org_openpsa_projects_viewer::add_breadcrumb_path($this->project, $this);
 
         // Let MidCOM know about the object
-        midcom::get()->metadata->set_request_metadata($this->project->metadata->revised, $this->project->guid);
+        midcom::get()->metadata->set_request_metadata($this->project->metadata->revised, $guid);
         $this->bind_view_to_object($this->project, $dm->get_schema()->get_name());
 
         grid::add_head_elements();

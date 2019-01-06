@@ -62,6 +62,7 @@ task-new:
 task-new-2:
     path: /task/new/{type}/{guid}/
     defaults: { _controller: 'org_openpsa_projects_handler_task_crud::create' }
+    requirements: {type: 'project|task'}
 
 task_view:
     path: /task/{guid}/

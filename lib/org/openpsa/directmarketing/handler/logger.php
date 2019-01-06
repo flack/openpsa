@@ -153,15 +153,14 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * Duplicates link_detector.php functionality in part (to avoid extra apache configurations)
      * and handles the logging mentioned above as well.
      *
-     * @param array $args The argument list.
+     * @param string $guid The token
+     * @param string $url The URL
      */
-    public function _handler_redirect(array $args)
+    public function _handler_redirect($token, $url = null)
     {
-        $token = $args[0];
-
-        if (count($args) == 2 && !empty($args[1])) {
+        if (!empty($url)) {
             //Due to the way browsers handle the URLs this form only works for root pages
-            $target = $args[1];
+            $target = $url;
         } elseif (!empty($_GET['link'])) {
             $target = $_GET['link'];
         } else {

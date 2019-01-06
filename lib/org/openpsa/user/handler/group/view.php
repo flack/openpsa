@@ -37,14 +37,14 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_view(array $args, array &$data)
+    public function _handler_view($guid, array &$data)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class);
 
-        $this->_group = new midcom_db_group($args[0]);
+        $this->_group = new midcom_db_group($guid);
         $data['group'] = $this->_group;
 
         $data['view'] = $this->load_datamanager();
@@ -56,31 +56,31 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];
         if ($this->_group->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button($this->router->generate('group_edit', ['guid' => $this->_group->guid]), [
+            $buttons[] = $workflow->get_button($this->router->generate('group_edit', ['guid' => $guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]);
         }
         if ($this->_group->can_do('midgard:delete')) {
             $delete_workflow = $this->get_workflow('delete', ['object' => $this->_group]);
-            $buttons[] = $delete_workflow->get_button($this->router->generate('group_delete', ['guid' => $this->_group->guid]));
+            $buttons[] = $delete_workflow->get_button($this->router->generate('group_delete', ['guid' => $guid]));
         }
 
         if ($this->_group->can_do('midgard:privileges')) {
-            $buttons[] = $workflow->get_button($this->router->generate('group_privileges', ['guid' => $this->_group->guid]), [
+            $buttons[] = $workflow->get_button($this->router->generate('group_privileges', ['guid' => $guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
                 MIDCOM_TOOLBAR_GLYPHICON => 'shield',
             ]);
         }
 
         if ($this->_group->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button($this->router->generate('group_notifications', ['guid' => $this->_group->guid]), [
+            $buttons[] = $workflow->get_button($this->router->generate('group_notifications', ['guid' => $guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
                 MIDCOM_TOOLBAR_GLYPHICON => 'bell-o',
             ]);
         }
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class)) {
-            $buttons[] = $workflow->get_button($this->router->generate('user_create_group', ['guid' => $this->_group->guid]), [
+            $buttons[] = $workflow->get_button($this->router->generate('user_create_group', ['guid' => $guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'user',
             ]);

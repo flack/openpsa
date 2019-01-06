@@ -35,7 +35,7 @@ search:
     defaults: { _controller: 'org_openpsa_documents_handler_search::search' }
 
 finder-goto:
-    path: /connector/goto/{args_0}/
+    path: /connector/goto/{hash}/
     defaults: { _controller: 'org_openpsa_documents_handler_finder::goto' }
 
 finder-connector:

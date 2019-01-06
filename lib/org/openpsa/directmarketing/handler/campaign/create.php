@@ -25,9 +25,9 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
     /**
      * Displays an campaign create view.
      *
-     * @param array $args The argument list.
+     * @param string $schema The schema to use
      */
-    public function _handler_create(array $args)
+    public function _handler_create($schema)
     {
         midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_directmarketing_campaign_dba::class);
 
@@ -35,7 +35,7 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
         $this->_campaign->node = $this->_topic->id;
 
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_campaign'));
-        $dm->set_storage($this->_campaign, $args[0]);
+        $dm->set_storage($this->_campaign, $schema);
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($dm->get_schema()->get('description'))));
 

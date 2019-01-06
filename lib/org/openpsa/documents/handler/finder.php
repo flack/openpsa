@@ -101,11 +101,11 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $hash elFinder hash
      */
-    public function _handler_goto(array $args)
+    public function _handler_goto($hash)
     {
-        $parts = explode('_', $args[0]);
+        $parts = explode('_', $hash);
         $guid = base64_decode($parts[1]);
         $url = midcom::get()->permalinks->resolve_permalink($guid);
         if (!$url) {

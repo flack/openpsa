@@ -97,12 +97,12 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     /**
      * Looks up the user's default mode and redirects there. This is mainly useful for links from outside Asgard
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_open(array $args, array &$data)
+    public function _handler_open($guid, array &$data)
     {
-        $relocate = $this->router->generate('object_' . $data['default_mode'], ['guid' => $args[0]]);
+        $relocate = $this->router->generate('object_' . $data['default_mode'], ['guid' => $guid]);
         return new midcom_response_relocate($relocate);
     }
 
@@ -110,12 +110,12 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * Object display
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_view($handler_id, array $args, array &$data)
+    public function _handler_view($handler_id, $guid, array &$data)
     {
-        $this->_load_object($args[0]);
+        $this->_load_object($guid);
 
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
@@ -150,12 +150,12 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * Object editing view
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit($handler_id, $guid, array &$data)
     {
-        $this->_load_object($args[0]);
+        $this->_load_object($guid);
 
         $this->_object->require_do('midgard:update');
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
@@ -362,12 +362,12 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * Object display
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete($handler_id, $guid, array &$data)
     {
-        $this->_load_object($args[0]);
+        $this->_load_object($guid);
         $this->_object->require_do('midgard:delete');
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
@@ -384,7 +384,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             }
 
             if (!$this->_object->delete_tree()) {
-                throw new midcom_error("Failed to delete object {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
+                throw new midcom_error("Failed to delete object {$guid}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
             return $this->_prepare_relocate($this->_object, 'delete');
@@ -422,13 +422,13 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * Copy handler
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_copy($handler_id, array $args, array &$data)
+    public function _handler_copy($handler_id, $guid, array &$data)
     {
         // Get the object that will be copied
-        $this->_load_object($args[0]);
+        $this->_load_object($guid);
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         if ($handler_id === 'object_copy_tree') {

@@ -34,11 +34,11 @@ class org_openpsa_user_handler_person_privileges extends midcom_baseclasses_comp
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The person GUID
      */
-    public function _handler_privileges(array $args)
+    public function _handler_privileges($guid)
     {
-        $person = new midcom_db_person($args[0]);
+        $person = new midcom_db_person($guid);
         $person->require_do('midgard:privileges');
 
         midcom::get()->head->set_pagetitle($this->_l10n->get("permissions"));

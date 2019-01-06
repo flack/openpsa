@@ -24,11 +24,11 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     private $_salesproject = null;
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The salesproject GUID
      */
-    public function _handler_edit(array $args)
+    public function _handler_edit($guid)
     {
-        $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
+        $this->_salesproject = new org_openpsa_sales_salesproject_dba($guid);
         $this->_salesproject->require_do('midgard:update');
 
         $schemadb = schemadb::from_path($this->_config->get('schemadb_salesproject'));
@@ -44,9 +44,9 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The customer GUID
      */
-    public function _handler_new(array $args)
+    public function _handler_new($guid = null)
     {
         midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_sales_salesproject_dba::class);
 
@@ -58,15 +58,15 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         ];
         $schemadb = schemadb::from_path($this->_config->get('schemadb_salesproject'));
 
-        if (!empty($args[0])) {
+        if (!empty($guid)) {
             $field =& $schemadb->get('default')->get_field('customer');
             try {
-                $customer = new org_openpsa_contacts_group_dba($args[0]);
+                $customer = new org_openpsa_contacts_group_dba($guid);
                 $field['type_config']['options'] = [0 => '', $customer->id => $customer->official];
 
                 $defaults['customer'] = $customer->id;
             } catch (midcom_error $e) {
-                $customer = new org_openpsa_contacts_person_dba($args[0]);
+                $customer = new org_openpsa_contacts_person_dba($guid);
                 $defaults['customerContact'] = $customer->id;
                 $field['type_config']['options'] = org_openpsa_helpers_list::task_groups(new org_openpsa_sales_salesproject_dba, 'id', [$customer->id => true]);
             }
@@ -92,11 +92,11 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The salesproject GUID
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($guid)
     {
-        $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
+        $this->_salesproject = new org_openpsa_sales_salesproject_dba($guid);
         $workflow = $this->get_workflow('delete', [
             'object' => $this->_salesproject,
             'recursive' => true

@@ -401,14 +401,14 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $component The component name
      * @param array &$data The local request data.
      */
-    public function _handler_component($handler_id, array $args, array &$data)
+    public function _handler_component($handler_id, $component, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
-        $data['component'] = $args[0];
+        $data['component'] = $component;
 
         if (!midcom::get()->componentloader->is_installed($data['component'])) {
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
@@ -444,15 +444,16 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $component The component name
+     * @param string $help_id The help ID
      * @param array &$data The local request data.
      */
-    public function _handler_help($handler_id, array $args, array &$data)
+    public function _handler_help($handler_id, $component, $help_id, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
-        $data['help_id'] = $args[1];
-        $data['component'] = $args[0];
+        $data['help_id'] = $help_id;
+        $data['component'] = $component;
         if (!midcom::get()->componentloader->is_installed($data['component'])) {
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }

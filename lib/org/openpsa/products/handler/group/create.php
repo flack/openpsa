@@ -56,12 +56,13 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
     /**
      * Displays a group create view.
      *
-     * @param array $args The argument list.
+     * @param int $group The parent group
+     * @param string $schema DM schema
      * @param array &$data The local request data.
      */
-    public function _handler_create(array $args, array &$data)
+    public function _handler_create($group, $schema, array &$data)
     {
-        $up = (int) $args[0];
+        $up = (int) $group;
 
         if ($up == 0) {
             midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_products_product_group_dba::class);
@@ -73,7 +74,7 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
         $this->_group = new org_openpsa_products_product_group_dba();
         $this->_group->up = $up;
 
-        $data['controller'] = $this->load_controller($args[1], $up);
+        $data['controller'] = $this->load_controller($schema, $up);
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $data['controller'],

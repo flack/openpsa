@@ -53,14 +53,19 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
             ->get_controller();
     }
 
-    public function _handler_edit(array $args, array &$data)
+    /**
+     * @param string $guid The invoice GUID
+     * @param array &$data Request data
+     * @return midcom_response
+     */
+    public function _handler_edit($guid, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
-        $this->_linked_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
+        $this->_linked_object = midcom::get()->dbfactory->get_object_by_guid($guid);
 
         $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
-        $qb_billing_data->add_constraint('linkGuid', '=', $this->_linked_object->guid);
+        $qb_billing_data->add_constraint('linkGuid', '=', $guid);
         $billing_data = $qb_billing_data->execute();
         if (count($billing_data) > 0) {
             $mode = 'edit';
@@ -68,7 +73,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         } else {
             $mode = 'create';
             $bd = new org_openpsa_invoices_billing_data_dba;
-            $bd->linkGuid = $this->_linked_object->guid;
+            $bd->linkGuid = $guid;
         }
 
         $data['controller'] = $this->load_controller($bd);
@@ -90,11 +95,11 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($guid)
     {
-        $billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
+        $billing_data = new org_openpsa_invoices_billing_data_dba($guid);
         $this->_linked_object = midcom::get()->dbfactory->get_object_by_guid($billing_data->linkGuid);
 
         $workflow = $this->get_workflow('delete', [

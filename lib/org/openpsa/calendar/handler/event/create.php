@@ -23,9 +23,9 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
      */
     private $root_event;
 
-    private function load_controller(org_openpsa_calendar_conflictmanager $conflictmanager, array $args)
+    private function load_controller(org_openpsa_calendar_conflictmanager $conflictmanager, $resource)
     {
-        $resource = (isset($args[0])) ? $args[0] : midcom::get()->auth->user->guid;
+        $resource = $resource ?: midcom::get()->auth->user->guid;
         $event = new org_openpsa_calendar_event_dba();
         $event->up = $this->root_event->id;
 
@@ -63,10 +63,10 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
     /**
      * Handle the creation phase
      *
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
+     * @param array &$data Public request data, passed by reference
+     * @param string $resource The resource we're working with
      */
-    public function _handler_create(array $args, array &$data)
+    public function _handler_create(array &$data, $resource = null)
     {
         $this->root_event = org_openpsa_calendar_interface::find_root_event();
         $this->root_event->require_do('midgard:create');
@@ -76,7 +76,7 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
 
         $conflictmanager = new org_openpsa_calendar_conflictmanager(new org_openpsa_calendar_event_dba, $this->_l10n);
         // Load the controller instance
-        $data['controller'] = $this->load_controller($conflictmanager, $args);
+        $data['controller'] = $this->load_controller($conflictmanager, $resource);
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
         $response = $workflow->run();

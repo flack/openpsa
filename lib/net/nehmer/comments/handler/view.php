@@ -164,12 +164,13 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      * On successful processing we relocate once to ourself.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
+     * @param string $guid The object's GUID
+     * @param string $view The custom view identifier
      */
-    public function _handler_comments($handler_id, array $args, array &$data)
+    public function _handler_comments($handler_id, array &$data, $guid, $view = null)
     {
-        $this->_objectguid = $args[0];
+        $this->_objectguid = $guid;
         midcom::get()->cache->content->register($this->_objectguid);
 
         if ($handler_id == 'view-comments-nonempty') {
@@ -203,10 +204,9 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             $this->_init_display_datamanager();
         }
 
-        if (   $handler_id == 'view-comments-custom'
-            && count($args) > 1) {
+        if ($handler_id == 'view-comments-custom') {
             midcom::get()->skip_page_style = true;
-            $this->custom_view = $args[1];
+            $this->custom_view = $view;
         }
 
         $this->_prepare_request_data();

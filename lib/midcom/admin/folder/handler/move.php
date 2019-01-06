@@ -24,12 +24,12 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
      * Handler for folder move. Checks for updating permissions, initializes
      * the move and the content topic itself. Handles also the sent form.
      *
-     * @param array $args The argument list.
+     * @param string $guid The object GUID
      * @param array &$data The local request data.
      */
-    public function _handler_move(array $args, array &$data)
+    public function _handler_move($guid, array &$data)
     {
-        $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
 
         if (   !is_a($this->_object, midcom_db_topic::class)
             && !is_a($this->_object, midcom_db_article::class)) {

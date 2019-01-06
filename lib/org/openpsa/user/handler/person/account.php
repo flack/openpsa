@@ -34,15 +34,15 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     private $account;
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The person GUID
      * @param array &$data The local request data.
      */
-    public function _handler_create(array $args, array &$data)
+    public function _handler_create($guid, array &$data)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 
         // Check if we get the person
-        $this->person = new midcom_db_person($args[0]);
+        $this->person = new midcom_db_person($guid);
         $this->person->require_do('midgard:update');
 
         $this->account = new midcom_core_account($this->person);
@@ -87,14 +87,14 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid person GUID
      */
-    public function _handler_su(array $args)
+    public function _handler_su($guid)
     {
         if (!midcom::get()->config->get('auth_allow_trusted')) {
             throw new midcom_error_forbidden('Trusted logins are disabled by configuration');
         }
-        $this->person = new midcom_db_person($args[0]);
+        $this->person = new midcom_db_person($guid);
         $this->person->require_do($this->_component . ':su');
 
         $this->account = new midcom_core_account($this->person);
@@ -109,13 +109,13 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The person GUID
      */
-    public function _handler_edit(array $args)
+    public function _handler_edit($guid)
     {
-        if (!$this->load_person($args[0])) {
+        if (!$this->load_person($guid)) {
             // Account needs to be created first, relocate
-            return new midcom_response_relocate($this->router->generate('account_create', ['guid' => $this->person->guid]));
+            return new midcom_response_relocate($this->router->generate('account_create', ['guid' => $guid]));
         }
 
         // if there is no password set (due to block), show ui-message for info
@@ -131,7 +131,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
 
         if ($this->person->can_do('midgard:update')) {
             $delete = $this->get_workflow('delete', ['object' => $this->person]);
-            $workflow->add_dialog_button($delete, $this->router->generate('account_delete', ['guid' => $this->person->guid]));
+            $workflow->add_dialog_button($delete, $this->router->generate('account_delete', ['guid' => $guid]));
         }
 
         $response = $workflow->run();
@@ -167,13 +167,13 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The person GUID
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($guid)
     {
-        if (!$this->load_person($args[0])) {
+        if (!$this->load_person($guid)) {
             // Account needs to be created first, relocate
-            return new midcom_response_relocate($this->router->generate('user_view', ['guid' => $this->person->guid]));
+            return new midcom_response_relocate($this->router->generate('user_view', ['guid' => $guid]));
         }
 
         $workflow = new delete(['object' => $this->person]);
@@ -183,6 +183,6 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
             }
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_l10n->get('account')));
         }
-        return new midcom_response_relocate($this->router->generate('user_view', ['guid' => $this->person->guid]));
+        return new midcom_response_relocate($this->router->generate('user_view', ['guid' => $guid]));
     }
 }

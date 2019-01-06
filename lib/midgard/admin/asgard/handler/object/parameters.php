@@ -33,12 +33,12 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
      * Object editing view
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit($handler_id, $guid, array &$data)
     {
-        $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
+        $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:parameters');
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');

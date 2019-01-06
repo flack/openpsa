@@ -41,17 +41,12 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
+     * @param string $date The requested date
      */
-    public function _handler_today($handler_id, array $args, array &$data)
+    public function _handler_today(array &$data, $date = 'now')
     {
-        if ($handler_id == 'today') {
-            $data['requested_time'] = new DateTime;
-        } else {
-            $data['requested_time'] = new DateTime($args[0]);
-        }
+        $data['requested_time'] = new DateTime($date);
 
         $this->prepare_timestamps($data['requested_time']);
 

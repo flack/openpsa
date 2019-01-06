@@ -14,19 +14,18 @@
 class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
 {
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
+     * @param string $guid The object's GUID
      */
-    public function _handler_fetch($handler_id, array $args, array &$data)
+    public function _handler_fetch(array &$data, $guid = null)
     {
         $this->_topic->require_do('midgard:create');
         midcom::get()->cache->content->enable_live_mode();
 
         midcom::get()->disable_limits();
         $data['error'] = '';
-        if ($handler_id == 'feeds_fetch') {
-            $data['feed'] = new net_nemein_rss_feed_dba($args[0]);
+        if ($guid !== null) {
+            $data['feed'] = new net_nemein_rss_feed_dba($guid);
 
             $fetcher = new net_nemein_rss_fetch($data['feed']);
             $data['items'] = $fetcher->import();
@@ -47,27 +46,23 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
             }
         }
 
-        $this->_update_breadcrumb_line($handler_id);
+        $this->_update_breadcrumb_line($guid);
         return $this->show('net-nemein-rss-feed-fetch');
     }
 
     /**
      * Update the context so that we get a complete breadcrumb line towards the current location.
-     *
-     * @param string $handler_id The current handler's ID
      */
-    private function _update_breadcrumb_line($handler_id)
+    private function _update_breadcrumb_line($guid)
     {
         $this->add_breadcrumb($this->router->generate('feeds_list'), $this->_l10n->get('manage feeds'));
 
-        switch ($handler_id) {
-            case 'feeds_fetch_all':
-                $this->add_breadcrumb($this->router->generate('feeds_fetch_all'), $this->_l10n->get('refresh all feeds'));
-                break;
-            case 'feeds_fetch':
-                $this->add_breadcrumb($this->router->generate('feeds_list', ['guid' => $this->_request_data['feed']->guid]), $this->_l10n->get('refresh feed'));
-                break;
+        if ($guid === null) {
+            $this->add_breadcrumb($this->router->generate('feeds_fetch_all'), $this->_l10n->get('refresh all feeds'));
+        } else {
+            $this->add_breadcrumb($this->router->generate('feeds_list', ['guid' => $guid]), $this->_l10n->get('refresh feed'));
         }
+
         net_nemein_rss_manage::add_toolbar_buttons($this->_node_toolbar);
     }
 }

@@ -18,27 +18,23 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
      *
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
-    private $_deliverable = null;
+    private $_deliverable;
 
     /**
      * The salesproject the deliverable is connected to
      *
      * @var org_openpsa_sales_salesproject_dba
      */
-    private $_salesproject = null;
+    private $_salesproject;
 
     /**
      * Processes a deliverable.
      *
-     * @param array $args The argument list.
+     * @param string $guid The deliverable GUID
      */
-    public function _handler_process(array $args)
+    public function _handler_process($guid)
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            throw new midcom_error_forbidden('Only POST requests are allowed here.');
-        }
-
-        $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
+        $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
 
         $supported_operations = [

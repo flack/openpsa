@@ -14,11 +14,11 @@
 class org_openpsa_user_handler_person_delete extends midcom_baseclasses_components_handler
 {
     /**
-     * @param array $args The argument list.
+     * @param string $guid The person GUID
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete($guid)
     {
-        $person = new midcom_db_person($args[0]);
+        $person = new midcom_db_person($guid);
         if ($person->id != midcom_connection::get_user()) {
             midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
         }

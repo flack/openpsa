@@ -38,12 +38,12 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_members(array $args, array &$data)
+    public function _handler_members($guid, array &$data)
     {
-        $data['group'] = new org_openpsa_contacts_group_dba($args[0]);
+        $data['group'] = new org_openpsa_contacts_group_dba($guid);
         $qb = new org_openpsa_qbpager(midcom_db_member::class, 'group_members');
         $qb->add_constraint('gid', '=', $data['group']->id);
         $qb->results_per_page = 10;
@@ -71,12 +71,12 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_subgroups(array $args, array &$data)
+    public function _handler_subgroups($guid, array &$data)
     {
-        $group = new org_openpsa_contacts_group_dba($args[0]);
+        $group = new org_openpsa_contacts_group_dba($guid);
         $qb = org_openpsa_contacts_group_dba::new_query_builder();
         $qb->add_constraint('owner', '=', $group->id);
         $data['results'] = $qb->execute();

@@ -100,11 +100,10 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      * @param array &$data The local request data.
+     * @param string $schema The DM schema
      */
-    public function _handler_create($handler_id, array $args, array &$data)
+    public function _handler_create(array &$data, $schema = null)
     {
         // Initialize sessioning first
         $data['session'] = new midcom_services_session();
@@ -121,11 +120,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
 
         $this->_topic->require_do('midgard:create');
 
-        if ($handler_id == 'create_by_word_schema') {
-            $schema = $args[0];
-        } else {
-            $schema = $this->_config->get('default_schema');
-        }
+        $schema = $schema ?: $this->_config->get('default_schema');
 
         $schemadb = schemadb::from_path($this->_config->get('schemadb'));
         if (!$schemadb->has($schema)) {

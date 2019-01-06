@@ -95,12 +95,12 @@ implements client
     /**
      * Handler for listing group members
      *
-     * @param array $args Array containing the variable arguments passed to the handler
+     * @param string $guid The object's GUID
      * @param array &$data Data passed to the show method
      */
-    public function _handler_view(array $args, array &$data)
+    public function _handler_view($guid, array &$data)
     {
-        $this->group = new org_openpsa_contacts_group_dba($args[0]);
+        $this->group = new org_openpsa_contacts_group_dba($guid);
         $data['group'] = $this->group;
 
         if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
@@ -166,13 +166,13 @@ implements client
     /**
      * Lists group members in JSON format
      *
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_json(array $args, array &$data)
+    public function _handler_json($guid, array &$data)
     {
         midcom::get()->skip_page_style = true;
-        $data['group'] = new org_openpsa_contacts_group_dba($args[0]);
+        $data['group'] = new org_openpsa_contacts_group_dba($guid);
         $data['provider'] = new provider($this);
 
         return $this->show('show-group-json');

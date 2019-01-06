@@ -50,12 +50,12 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * Display possible available resources
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_resourcing($handler_id, array $args, array &$data)
+    public function _handler_resourcing($handler_id, $guid, array &$data)
     {
-        $this->_task = new org_openpsa_projects_task_dba($args[0]);
+        $this->_task = new org_openpsa_projects_task_dba($guid);
         $this->_task->require_do('midgard:create');
 
         if (   array_key_exists('org_openpsa_projects_prospects', $_POST)
@@ -111,12 +111,12 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_list_prospects(array $args, array &$data)
+    public function _handler_list_prospects($guid, array &$data)
     {
-        $this->_task = new org_openpsa_projects_task_dba($args[0]);
+        $this->_task = new org_openpsa_projects_task_dba($guid);
         $this->_task->require_do('midgard:create');
 
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
@@ -131,12 +131,12 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_prospect_slots(array $args, array &$data)
+    public function _handler_prospect_slots($guid, array &$data)
     {
-        $data['prospect'] = new org_openpsa_projects_task_resource_dba($args[0]);
+        $data['prospect'] = new org_openpsa_projects_task_resource_dba($guid);
         $data['person'] = new org_openpsa_contacts_person_dba($data['prospect']->person);
         $this->_task = new org_openpsa_projects_task_dba($data['prospect']->task);
         $this->_task->require_do('midgard:create');

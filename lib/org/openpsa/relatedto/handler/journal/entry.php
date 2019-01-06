@@ -36,9 +36,13 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
             ->get_controller();
     }
 
-    public function _handler_create(array $args)
+    /**
+     * @param string $guid The object's GUID
+     * @return midcom_response
+     */
+    public function _handler_create($guid)
     {
-        $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
+        $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $entry= new org_openpsa_relatedto_journal_entry_dba();
         $entry->linkGuid = $this->_current_object->guid;
 
@@ -48,9 +52,14 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
         return $workflow->run();
     }
 
-    public function _handler_edit(array $args, array &$data)
+    /**
+     * @param string $guid The object's GUID
+     * @param array &$data Request data
+     * @return midcom_response
+     */
+    public function _handler_edit($guid, array &$data)
     {
-        $entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
+        $entry = new org_openpsa_relatedto_journal_entry_dba($guid);
         $data['controller'] = $this->load_controller($entry);
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('journal entry')));
@@ -58,15 +67,19 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
         $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
         if ($entry->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', ['object' => $entry]);
-            $url = $this->router->generate('journal_entry_delete', ['guid' => $entry->guid ]);
+            $url = $this->router->generate('journal_entry_delete', ['guid' => $guid ]);
             $workflow->add_dialog_button($delete, $url);
         }
         return $workflow->run();
     }
 
-    public function _handler_delete(array $args)
+    /**
+     * @param string $guid The object's GUID
+     * @return midcom_response
+     */
+    public function _handler_delete($guid)
     {
-        $journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
+        $journal_entry = new org_openpsa_relatedto_journal_entry_dba($guid);
         $workflow = $this->get_workflow('delete', ['object' => $journal_entry]);
         return $workflow->run();
     }

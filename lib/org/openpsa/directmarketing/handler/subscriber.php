@@ -23,12 +23,12 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Phase for showing the list of campaigns
      *
-     * @param array $args           Variable arguments
+     * @param string $person The person's GUID
      */
-    public function _handler_list(array $args)
+    public function _handler_list($person)
     {
         midcom::get()->auth->require_valid_user();
-        $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
+        $this->_request_data['person'] = new org_openpsa_contacts_person_dba($person);
 
         if (array_key_exists('add_to_campaign', $_POST)) {
             // Add person to campaign
@@ -117,14 +117,14 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Handle the unsubscribe phase
      *
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
+     * @param string $member The member GUID
+     * @param array &$data Public request data, passed by reference
      */
-    public function _handler_unsubscribe(array $args, array &$data)
+    public function _handler_unsubscribe($member, array &$data)
     {
         midcom::get()->auth->request_sudo($this->_component);
 
-        $data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
+        $data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($member);
         $data['campaign'] = $this->load_campaign($data['membership']->campaign);
 
         $data['membership']->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
@@ -151,12 +151,12 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Support the AJAX request for unsubscribing from a campaign
      *
-     * @param array $args           Variable arguments
+     * @param string $member The member GUID
      */
-    public function _handler_unsubscribe_ajax(array $args)
+    public function _handler_unsubscribe_ajax($member)
     {
         midcom::get()->auth->request_sudo($this->_component);
-        $membership = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
+        $membership = new org_openpsa_directmarketing_campaign_member_dba($member);
         $this->load_campaign($membership->campaign);
         $membership->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
         $unsubscribe_status = $membership->update();

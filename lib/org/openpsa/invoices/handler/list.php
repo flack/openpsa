@@ -151,23 +151,22 @@ implements client
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $type The list type
      * @param array &$data The local request data.
      */
-    public function _handler_json(array $args, array &$data)
+    public function _handler_json($type, array &$data)
     {
         midcom::get()->skip_page_style = true;
-        $this->_list_type = $args[0];
+        $this->_list_type = $type;
         $data['provider'] = new provider($this);
 
         return $this->show('show-grid-json');
     }
 
     /**
-     * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_dashboard(array $args, array &$data)
+    public function _handler_dashboard(array &$data)
     {
         $this->prepare_toolbar(false);
 
@@ -276,27 +275,27 @@ implements client
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The customer GUID
      * @param array &$data The local request data.
      */
-    public function _handler_customer(array $args, array &$data)
+    public function _handler_customer($guid, array &$data)
     {
         try {
-            $this->_customer = new org_openpsa_contacts_group_dba($args[0]);
+            $this->_customer = new org_openpsa_contacts_group_dba($guid);
         } catch (midcom_error $e) {
-            $this->_customer = new org_openpsa_contacts_person_dba($args[0]);
+            $this->_customer = new org_openpsa_contacts_person_dba($guid);
         }
         $data['customer'] = $this->_customer;
         $buttons = [];
         if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)) {
             $workflow = $this->get_workflow('datamanager');
-            $buttons[] = $workflow->get_button($this->router->generate('invoice_new', ['company' => $this->_customer->guid]), [
+            $buttons[] = $workflow->get_button($this->router->generate('invoice_new', ['company' => $guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'plus',
             ]);
 
             if ($this->_customer->can_do('midgard:create')) {
-                $buttons[] = $workflow->get_button($this->router->generate('billing_data', ['guid' => $this->_customer->guid]), [
+                $buttons[] = $workflow->get_button($this->router->generate('billing_data', ['guid' => $guid]), [
                     MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('edit billingdata', 'org.openpsa.contacts'),
                     MIDCOM_TOOLBAR_OPTIONS => ['data-refresh-opener' => 'false'],
                     MIDCOM_TOOLBAR_GLYPHICON => 'address-card'
@@ -306,7 +305,7 @@ implements client
 
         if ($this->_request_data['contacts_url']) {
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => $this->_request_data['contacts_url'] . (is_a($this->_customer, org_openpsa_contacts_group_dba::class) ? 'group' : 'person') . "/{$this->_customer->guid}/",
+                MIDCOM_TOOLBAR_URL => $this->_request_data['contacts_url'] . (is_a($this->_customer, org_openpsa_contacts_group_dba::class) ? 'group' : 'person') . "/{$guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'user',
             ];
@@ -334,13 +333,13 @@ implements client
     }
 
     /**
-     * @param array $args The argument list.
+     * @param string $guid The deliverable GUID
      * @param array &$data The local request data.
      */
-    public function _handler_deliverable(array $args, array &$data)
+    public function _handler_deliverable($guid, array &$data)
     {
         // We're displaying invoices of a specific deliverable
-        $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
+        $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);
         $data['deliverable'] = $this->_deliverable;
         $salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
         $this->_customer = $salesproject->get_customer();
@@ -349,7 +348,7 @@ implements client
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         if ($sales_url = $siteconfig->get_node_full_url('org.openpsa.sales')) {
             $this->_view_toolbar->add_item([
-                MIDCOM_TOOLBAR_URL => $sales_url . "deliverable/{$this->_deliverable->guid}/",
+                MIDCOM_TOOLBAR_URL => $sales_url . "deliverable/{$guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to deliverable'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'money',
             ]);

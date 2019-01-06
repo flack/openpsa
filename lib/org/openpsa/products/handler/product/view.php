@@ -49,16 +49,16 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
      * Looks up a product to display.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
+     * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_view($handler_id, array $args, array &$data)
+    public function _handler_view($handler_id, $guid, array &$data)
     {
-        if (preg_match('/_raw$/', $handler_id)) {
+        if ($handler_id === 'view_product_raw') {
             midcom::get()->skip_page_style = true;
         }
 
-        $this->_load_product($handler_id, $args);
+        $this->_load_product($handler_id, $guid);
 
         $data['datamanager'] = new datamanager($data['schemadb_product']);
         $data['datamanager']->set_storage($this->_product);
@@ -94,10 +94,10 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         return $this->show('product_view');
     }
 
-    private function _load_product($handler_id, array $args)
+    private function _load_product($handler_id, $guid)
     {
         $qb = org_openpsa_products_product_dba::new_query_builder();
-        $qb->add_constraint('guid', '=', $args[0]);
+        $qb->add_constraint('guid', '=', $guid);
 
         if ($this->_config->get('enable_scheduling')) {
             /* List products that either have no defined end-of-market dates

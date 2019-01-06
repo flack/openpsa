@@ -23,11 +23,11 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     /**
      * Marks comment as possible abuse
      *
-     * @param array $args The argument list.
+     * @param string $guid The comment's GUID
      */
-    public function _handler_abuse(array $args)
+    public function _handler_abuse($guid)
     {
-        $this->load_comment($args[0], false);
+        $this->load_comment($guid, false);
         $moderators = $this->_config->get('moderators');
         if (   $this->_comment->report_abuse()
             && $moderators) {
@@ -60,11 +60,11 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     /**
      * Marks comment as not abuse
      *
-     * @param array $args The argument list.
+     * @param string $guid The comment's GUID
      */
-    public function _handler_not_abuse(array $args)
+    public function _handler_not_abuse($guid)
     {
-        $this->load_comment($args[0]);
+        $this->load_comment($guid);
         $this->_comment->report_not_abuse();
         return $this->reply();
     }
@@ -72,11 +72,11 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     /**
      * Marks comment as confirmed abuse
      *
-     * @param array $args The argument list.
+     * @param string $guid The comment's GUID
      */
-    public function _handler_confirm_abuse(array $args)
+    public function _handler_confirm_abuse($guid)
     {
-        $this->load_comment($args[0]);
+        $this->load_comment($guid);
         $this->_comment->confirm_abuse();
 
         $indexer = midcom::get()->indexer;
@@ -87,11 +87,11 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     /**
      * Marks comment as confirmed junk
      *
-     * @param array $args The argument list.
+     * @param string $guid The comment's GUID
      */
-    public function _handler_confirm_junk(array $args)
+    public function _handler_confirm_junk($guid)
     {
-        $this->load_comment($args[0]);
+        $this->load_comment($guid);
         $this->_comment->confirm_junk();
 
         $indexer = midcom::get()->indexer;

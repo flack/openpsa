@@ -30,12 +30,12 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
 
     /**
      * @param string $handler_id Name of the used handler
-     * @param array $args Array containing the variable arguments passed to the handler
+     * @param string $guid The object's GUID
      * @param array &$data Data passed to the show method
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit($handler_id, $guid, array &$data)
     {
-        $this->person = new midcom_db_person($args[0]);
+        $this->person = new midcom_db_person($guid);
         $this->person->require_do('midgard:update');
         $this->account = new midcom_core_account($this->person);
 
@@ -107,12 +107,12 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
 
     /**
      * @param string $handler_id Name of the used handler
-     * @param array $args Array containing the variable arguments passed to the handler
+     * @param string $guid The object's GUID
      * @param array &$data Data passed to the show method
      */
-    public function _handler_delete($handler_id, array $args, array &$data)
+    public function _handler_delete($handler_id, $guid, array &$data)
     {
-        $this->person = new midcom_db_person($args[0]);
+        $this->person = new midcom_db_person($guid);
         $this->person->require_do('midgard:update');
         $this->account = new midcom_core_account($this->person);
 

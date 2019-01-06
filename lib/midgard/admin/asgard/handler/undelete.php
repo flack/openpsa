@@ -71,20 +71,20 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
     /**
      * Trash view
      *
-     * @param array $args The argument list.
+     * @param string $type The MgdSchema type
      * @param array &$data The local request data.
      */
-    public function _handler_trash_type(array $args, array &$data)
+    public function _handler_trash_type($type, array &$data)
     {
         midcom::get()->auth->require_admin_user();
 
-        $this->type = $args[0];
+        $this->type = $type;
 
-        $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($this->type);
+        $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($type);
 
-        $dummy = new $this->type;
+        $dummy = new $type;
         $data['midcom_dba_classname'] = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);
-        $data['type'] = $this->type;
+        $data['type'] = $type;
         $data['reflector'] = midcom_helper_reflector::get($data['type']);
         $data['label_property'] = $data['reflector']->get_label_property();
 
@@ -95,7 +95,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             } else {
                 $this->_undelete();
             }
-            return new midcom_response_relocate($this->router->generate('trash_type', ['type' => $this->type]));
+            return new midcom_response_relocate($this->router->generate('trash_type', ['type' => $type]));
         }
 
         $qb = new org_openpsa_qbpager_direct($data['type'], "{$data['type']}_trash");
@@ -107,10 +107,10 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
         // Set the breadcrumb data
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
-        $this->add_breadcrumb($this->router->generate('trash_type', ['type' => $this->type]), $data['view_title']);
+        $this->add_breadcrumb($this->router->generate('trash_type', ['type' => $type]), $data['view_title']);
         $this->add_breadcrumb(
             "",
-            sprintf($this->_l10n->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($data['type']))
+            sprintf($this->_l10n->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($type))
         );
         return new midgard_admin_asgard_response($this, '_show_trash_type');
     }

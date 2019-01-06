@@ -147,10 +147,10 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     }
 
     /**
-     * @param array $args Array containing the variable arguments passed to the handler
+     * @param string $action The requested action
      * @param array &$data Data passed to the show method
      */
-    public function _handler_batch(array $args, array &$data)
+    public function _handler_batch($action, array &$data)
     {
         $relocate_url = $this->router->generate('user_list');
         if (!empty($_GET)) {
@@ -161,7 +161,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
             return new midcom_response_relocate($relocate_url);
         }
 
-        $method = '_batch_' . $args[0];
+        $method = '_batch_' . $action;
 
         $qb = midcom_db_person::new_query_builder();
         $qb->add_constraint('guid', 'IN', $_POST['midgard_admin_user']);
