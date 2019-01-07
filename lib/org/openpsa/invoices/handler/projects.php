@@ -162,7 +162,8 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
                         $data['default_price'] = $this->_config->get('default_hourly_price');
                         $data['invoiceable_units'] = $task->invoiceableHours;
                     } else {
-                        $data['default_price'] = '';
+                        $data['default_price'] = 0;
+                        $data['invoiceable_units'] = 0;
                     }
                 }
                 midcom_show_style('show-projects-customer-task');
