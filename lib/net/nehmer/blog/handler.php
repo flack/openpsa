@@ -100,7 +100,7 @@ trait net_nehmer_blog_handler
     }
 
     /**
-     * @param midgard_query_builder $qb
+     * @param midcom_core_querybuilder $qb
      * @param string $category
      */
     public function apply_category_constraint($qb, $category)

@@ -162,7 +162,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * and handles the logging mentioned above as well.
      *
      * @param Request $request The request object
-     * @param string $guid The token
+     * @param string $token The token
      * @param string $url The URL
      */
     public function _handler_redirect(Request $request, $token, $url = null)
