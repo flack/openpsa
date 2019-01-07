@@ -206,19 +206,19 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
             // Perform a simple check for existing organization. More complicated duplicate checking is best left to the o.o.contacts duplicate checker
 
             $qb = org_openpsa_contacts_group_dba::new_query_builder();
-
-            if (   array_key_exists('company_id', $this->_schemadbs['organization']['default']->fields)
+            $schema = $this->_schemadbs['organization']->get('default');
+            if (   $schema->has_field('company_id')
                 && !empty($subscriber['organization']['company_id'])) {
                 // Imported data has a company id, we use that instead of name
-                $qb->add_constraint($this->_schemadbs['organization']['default']->fields['company_id']['storage']['location'], '=', $subscriber['organization']['company_id']);
+                $qb->add_constraint($schema->get_field('company_id')['storage']['location'], '=', $subscriber['organization']['company_id']);
             } else {
                 // Seek by official name
                 $qb->add_constraint('official', '=', $subscriber['organization']['official']);
 
-                if (   array_key_exists('city', $this->_schemadbs['organization']['default']->fields)
+                if (   $schema->has_field('city')
                     && !empty($subscriber['organization']['city'])) {
                     // Imported data has a city, we use also that for matching
-                    $qb->add_constraint($this->_schemadbs['organization']['default']->fields['city']['storage']['location'], '=', $subscriber['organization']['city']);
+                    $qb->add_constraint($schema->get_field('city')['storage']['location'], '=', $subscriber['organization']['city']);
                 }
             }
 
