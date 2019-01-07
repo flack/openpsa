@@ -116,13 +116,6 @@ class midcom_helper_nav_backend
     private $_loaded_leaves = [];
 
     /**
-     * The systemwide component loader instance
-     *
-     * @var midcom_helper__componentloader
-     */
-    private $_loader;
-
-    /**
      * The NAP cache store
      *
      * @var midcom_services_cache_module_nap
@@ -156,7 +149,6 @@ class midcom_helper_nav_backend
     public function __construct($context = 0)
     {
         $this->_nap_cache = midcom::get()->cache->nap;
-        $this->_loader = midcom::get()->componentloader;
 
         if (!midcom::get()->auth->admin) {
             $this->_user_id = midcom::get()->auth->acl->get_user_id();
