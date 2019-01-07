@@ -17,7 +17,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
 
     /**
      * @param string $requested_time
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     private function prepare_dates($requested_time, array &$data)
     {
@@ -42,7 +42,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
     /**
      * The handler for the index view.
      *
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @param string $timestamp The timestamp
      */
     public function _handler_index(array &$data, $timestamp = null)

@@ -64,7 +64,7 @@ implements client
     }
 
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_frontpage(array &$data)
     {

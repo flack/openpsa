@@ -42,7 +42,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
      * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_move(Request $request, $handler_id, $guid, array &$data)
     {
@@ -75,7 +75,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
      * Show the moving of a group phase
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_move($handler_id, array &$data)
     {
@@ -97,7 +97,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
      * Handle the listing phase
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_list($handler_id, array &$data)
     {
@@ -117,7 +117,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
      * Show the group listing
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_list($handler_id, array &$data)
     {
@@ -133,7 +133,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
      * Internal helper for showing the groups recursively
      *
      * @param int $id
-     * @param array &$data
+     * @param array $data
      */
     public static function list_groups($id, &$data, $move = false)
     {

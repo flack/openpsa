@@ -14,7 +14,7 @@
 class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
 {
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_opml(array &$data)
     {
@@ -30,7 +30,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_opml($handler_id, array &$data)
     {
@@ -48,7 +48,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
     }
 
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_list(array &$data)
     {
@@ -64,7 +64,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_list($handler_id, array &$data)
     {

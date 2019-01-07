@@ -30,7 +30,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      * @param string $guid The object's GUID
      * @param integer $batch_number the batch number
      * @param string $job The AT entry's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_send_bg($guid, $batch_number, $job, array &$data)
     {
@@ -53,7 +53,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_send_bg($handler_id, array &$data)
     {
@@ -137,7 +137,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
 
     /**
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_send($guid, array &$data)
     {
@@ -159,7 +159,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_send($handler_id, array &$data)
     {

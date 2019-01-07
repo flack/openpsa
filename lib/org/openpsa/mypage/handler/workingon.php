@@ -19,7 +19,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
     use org_openpsa_mypage_handler;
 
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_view(array &$data)
     {

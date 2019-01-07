@@ -129,7 +129,7 @@ implements client
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_versions($handler_id, array &$data)
     {
@@ -143,7 +143,7 @@ implements client
 
     /**
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_view($guid, array &$data)
     {

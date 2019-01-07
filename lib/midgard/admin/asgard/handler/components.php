@@ -60,7 +60,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
     /**
      * Component list view
      *
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_list(array &$data)
     {
@@ -78,7 +78,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      * Shows the loaded components
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_list($handler_id, array &$data)
     {
@@ -101,7 +101,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      * Component display
      *
      * @param string $component The component name
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_component($component, array &$data)
     {
@@ -131,7 +131,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      * Shows the loaded component
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_component($handler_id, array &$data)
     {

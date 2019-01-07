@@ -65,7 +65,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {

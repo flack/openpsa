@@ -38,7 +38,7 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
 
     /**
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_view($guid, array &$data)
     {

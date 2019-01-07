@@ -28,7 +28,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
 
     /**
      * @param string $guid The invoice GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_items($guid, array &$data)
     {

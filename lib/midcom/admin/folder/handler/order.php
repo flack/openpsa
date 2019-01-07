@@ -109,7 +109,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
      * Handler for setting the sort order
      *
      * @param Request $request The request object
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_order(Request $request, array &$data)
     {
@@ -156,7 +156,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
      * Show the sorting
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_order($handler_id, array &$data)
     {

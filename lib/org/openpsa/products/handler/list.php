@@ -110,7 +110,7 @@ implements client
     }
 
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @param string $guid The object's GUID
      */
     public function _handler_list(array &$data, $guid = null)
@@ -185,7 +185,7 @@ implements client
     }
 
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @param string $guid The object's GUID
      */
     public function _handler_json(array &$data, $guid = null)

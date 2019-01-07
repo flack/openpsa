@@ -45,7 +45,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
     }
 
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_list(array &$data)
     {
@@ -61,7 +61,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_list($handler_id, array &$data)
     {

@@ -34,7 +34,7 @@ abstract class midcom_baseclasses_components_handler_configuration_recreate exte
      * Handler for regenerating all derived images used in the folder.
      *
      * @param Request $request The request object
-     * @param array &$data Miscellaneous output data
+     * @param array $data Miscellaneous output data
      */
     public function _handler_recreate(Request $request, array &$data)
     {

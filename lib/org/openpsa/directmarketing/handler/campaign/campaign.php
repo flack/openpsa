@@ -91,7 +91,7 @@ implements client
      * Looks up an campaign to display.
      *
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_view($guid, array &$data)
     {
@@ -175,7 +175,7 @@ implements client
      * Displays campaign members.
      *
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_members($guid, array &$data)
     {

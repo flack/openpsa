@@ -29,7 +29,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
      *
      * @param Request $request The request object
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_edit(Request $request, $guid, array &$data)
     {

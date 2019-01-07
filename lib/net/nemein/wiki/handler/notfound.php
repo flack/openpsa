@@ -15,7 +15,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
 {
     /**
      * @param string $wikiword The page's name
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_notfound($wikiword, array &$data)
     {

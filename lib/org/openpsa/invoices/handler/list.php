@@ -152,7 +152,7 @@ implements client
 
     /**
      * @param string $type The list type
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_json($type, array &$data)
     {
@@ -164,7 +164,7 @@ implements client
     }
 
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_dashboard(array &$data)
     {
@@ -188,7 +188,7 @@ implements client
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_dashboard($handler_id, array &$data)
     {
@@ -276,7 +276,7 @@ implements client
 
     /**
      * @param string $guid The customer GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_customer($guid, array &$data)
     {
@@ -322,7 +322,7 @@ implements client
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_customer($handler_id, array &$data)
     {
@@ -334,7 +334,7 @@ implements client
 
     /**
      * @param string $guid The deliverable GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_deliverable($guid, array &$data)
     {
@@ -362,7 +362,7 @@ implements client
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_deliverable($handler_id, array &$data)
     {

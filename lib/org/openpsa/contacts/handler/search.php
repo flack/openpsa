@@ -112,7 +112,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_search_type($handler_id, array &$data)
     {
@@ -129,7 +129,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     /**
      * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_search(Request $request, $handler_id, array &$data)
     {
@@ -217,7 +217,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      * can be found
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_search($handler_id, array &$data)
     {

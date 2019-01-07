@@ -43,7 +43,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
      * Handle the preference request
      *
      * @param Request $request The request object
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @param string $guid The person GUID
      */
     public function _handler_preferences(Request $request, array &$data, $guid = null)
@@ -82,7 +82,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
      * Show the preferences page
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_preferences($handler_id, array &$data)
     {

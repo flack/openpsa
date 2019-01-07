@@ -187,7 +187,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * @param Request $request The request object
      * @param string $handler_id Name of the used handler
      * @param string $guid The object's GUID
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _handler_create(Request $request, $handler_id, $guid, array &$data)
     {
@@ -215,7 +215,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     /**
      * @param string $handler_id Name of the used handler
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _show_create($handler_id, array &$data)
     {
@@ -233,7 +233,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * @param string $handler_id Name of the used handler
      * @param string $guid The object's GUID
      * @param string $filename The filename
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _handler_edit(Request $request, $handler_id, $guid, $filename, array &$data)
     {
@@ -283,7 +283,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * Show the editing view for the requested style
      *
      * @param string $handler_id Name of the used handler
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _show_edit($handler_id, array &$data)
     {

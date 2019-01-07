@@ -46,7 +46,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
     /**
      * @param Request $request The request object
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _handler_list(Request $request, array &$data)
     {
@@ -101,7 +101,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
      * Internal helper for showing the groups recursively
      *
      * @param int $id
-     * @param array &$data
+     * @param array $data
      * @param int $level
      */
     private function list_groups_for_select($id, &$data, $level)
@@ -135,7 +135,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
     /**
      * @param string $handler_id Name of the used handler
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _show_list($handler_id, array &$data)
     {
@@ -153,7 +153,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     /**
      * @param Request $request The request object
      * @param string $action The requested action
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _handler_batch(Request $request, $action, array &$data)
     {
@@ -278,7 +278,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     /**
      * Batch process password form
      *
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_password_email(array &$data)
     {
@@ -303,7 +303,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
      * Show the batch password change form
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_password_email($handler_id, array &$data)
     {

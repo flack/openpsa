@@ -31,7 +31,7 @@ class net_nehmer_blog_handler_create extends midcom_baseclasses_components_handl
      *
      * @param Request $request The request object
      * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_create(Request $request, array $args, array &$data)
     {

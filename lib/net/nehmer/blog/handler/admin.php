@@ -31,7 +31,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      *
      * @param Request $request The request object
      * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_edit(Request $request, array $args, array &$data)
     {

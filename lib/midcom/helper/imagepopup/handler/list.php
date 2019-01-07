@@ -25,7 +25,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
      * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param string $filetype The file type
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @param string $guid The object GUID
      */
     public function _handler_list(Request $request, $handler_id, $filetype, array &$data, $guid = null)
@@ -110,7 +110,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_list($handler_id, array &$data)
     {

@@ -85,7 +85,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      *
      * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_create(Request $request, $handler_id, array &$data)
     {
@@ -112,7 +112,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_edit(Request $request, $handler_id, array $args, array &$data)
     {
@@ -155,7 +155,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      * List TinyURLs
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_list($handler_id, array &$data)
     {
@@ -179,7 +179,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      * Show the list of TinyURLs
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_list($handler_id, array &$data)
     {

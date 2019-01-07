@@ -34,7 +34,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      *
      * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @param string $schema The schema to use
      * @param string $guid Invoice or task GUID
      */

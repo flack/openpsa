@@ -47,7 +47,7 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
      * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
     {
@@ -85,7 +85,7 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
      * Output the style element for metadata editing
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_edit($handler_id, array &$data)
     {

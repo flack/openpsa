@@ -147,7 +147,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     }
 
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @param string $wikipage The page's name
      */
     public function _handler_view(&$data, $wikipage = 'index')
@@ -255,7 +255,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
     /**
      * @param string $wikipage The page's name
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_raw($wikipage, &$data)
     {
@@ -318,7 +318,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
     /**
      * @param string $wikipage The page's name
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_whatlinks($wikipage, &$data)
     {

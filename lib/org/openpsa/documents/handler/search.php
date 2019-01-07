@@ -28,7 +28,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
 
     /**
      * @param Request $request The request object
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_search(Request $request, array &$data)
     {
@@ -79,7 +79,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_search($handler_id, array &$data)
     {

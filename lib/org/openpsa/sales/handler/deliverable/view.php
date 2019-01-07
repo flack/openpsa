@@ -66,7 +66,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
      * Looks up a deliverable to display.
      *
      * @param string $guid The deliverable GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_view($guid, array &$data)
     {
@@ -122,7 +122,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
      * Shows the loaded deliverable.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_view($handler_id, array &$data)
     {

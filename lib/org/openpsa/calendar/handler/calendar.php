@@ -39,7 +39,7 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
 
     /**
      * @param string $timestamp The timestamp
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_day($timestamp, array &$data)
     {
@@ -53,7 +53,7 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
     /**
      * Calendar view
      *
-     * @param array &$data Public request data, passed by reference
+     * @param array $data Public request data, passed by reference
      */
     public function _handler_calendar(array &$data)
     {

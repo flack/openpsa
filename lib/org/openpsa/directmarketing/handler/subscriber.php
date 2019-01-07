@@ -70,7 +70,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * Show the list of existing campaigns
      *
      * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
+     * @param array $data          Public request data, passed by reference
      */
     public function _show_list($handler_id, array &$data)
     {
@@ -121,7 +121,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * Handle the unsubscribe phase
      *
      * @param string $member The member GUID
-     * @param array &$data Public request data, passed by reference
+     * @param array $data Public request data, passed by reference
      */
     public function _handler_unsubscribe($member, array &$data)
     {
@@ -140,7 +140,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * Show the unsubscribe action
      *
      * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
+     * @param array $data          Public request data, passed by reference
      */
     public function _show_unsubscribe($handler_id, array &$data)
     {
@@ -178,7 +178,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      *
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
+     * @param array $data          Public request data, passed by reference
      */
     public function _handler_unsubscribe_all($handler_id, array $args, array &$data)
     {
@@ -213,7 +213,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * Show the unsubscribe status for unsubscribe all
      *
      * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
+     * @param array $data          Public request data, passed by reference
      */
     public function _show_unsubscribe_all($handler_id, array &$data)
     {

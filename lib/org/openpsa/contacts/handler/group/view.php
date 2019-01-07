@@ -81,7 +81,7 @@ implements client
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_view($handler_id, array &$data)
     {
@@ -96,7 +96,7 @@ implements client
      * Handler for listing group members
      *
      * @param string $guid The object's GUID
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _handler_view($guid, array &$data)
     {
@@ -167,7 +167,7 @@ implements client
      * Lists group members in JSON format
      *
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_json($guid, array &$data)
     {

@@ -30,7 +30,7 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
      * @param Request $request The request object
      * @param string $handler_id Name of the request handler
      * @param string $guid The object's GUID
-     * @param array &$data Public request data, passed by reference
+     * @param array $data Public request data, passed by reference
      */
     public function _handler_event(Request $request, $handler_id, $guid, array &$data)
     {
@@ -98,7 +98,7 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
      * Show a single event
      *
      * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
+     * @param array $data          Public request data, passed by reference
      */
     public function _show_event($handler_id, array &$data)
     {

@@ -36,7 +36,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
 
     /**
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_object($guid, array &$data)
     {
@@ -89,7 +89,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
 
     /**
      * @param int $time Timestamp
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_list($time, array &$data)
     {
@@ -129,7 +129,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
 
     /**
      * @param Request $request The request object
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_xml(Request $request, array &$data)
     {

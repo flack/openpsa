@@ -87,7 +87,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      *
      * @param Request $request The request object
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_update(Request $request, $guid, array &$data)
     {

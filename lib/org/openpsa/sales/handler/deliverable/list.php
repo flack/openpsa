@@ -55,7 +55,7 @@ implements client
 
     /**
      * @param string $guid The product GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_product($guid, array &$data)
     {

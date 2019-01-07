@@ -162,7 +162,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      *
      * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @param string $guid The object's GUID
      * @param string $view The custom view identifier
      */
@@ -278,7 +278,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      * Display the comment list and the submit-comment form.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_comments($handler_id, array &$data)
     {

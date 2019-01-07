@@ -23,7 +23,7 @@ class org_openpsa_projects_handler_task_list_project extends org_openpsa_project
 
     /**
      * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_list(array $args, array &$data)
     {
@@ -39,7 +39,7 @@ class org_openpsa_projects_handler_task_list_project extends org_openpsa_project
 
     /**
      * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_json(array $args, array &$data)
     {

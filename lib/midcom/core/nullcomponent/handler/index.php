@@ -16,7 +16,7 @@ class midcom_core_nullcomponent_handler_index extends midcom_baseclasses_compone
     /**
      * The handler for the index article.
      *
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_index(array &$data)
     {

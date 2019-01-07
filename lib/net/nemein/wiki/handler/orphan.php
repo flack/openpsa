@@ -14,7 +14,7 @@
 class net_nemein_wiki_handler_orphan extends midcom_baseclasses_components_handler
 {
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_orphan(array &$data)
     {

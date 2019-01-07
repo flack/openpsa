@@ -132,7 +132,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
      * Looks up a salesproject to display.
      *
      * @param string $guid The salesproject GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_view($guid, array &$data)
     {
@@ -184,7 +184,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
      * Shows the loaded salesproject.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_view($handler_id, array &$data)
     {

@@ -16,7 +16,7 @@ use Doctrine\ORM\Query\Expr\Join;
 class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_components_handler
 {
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_frontpage(array &$data)
     {

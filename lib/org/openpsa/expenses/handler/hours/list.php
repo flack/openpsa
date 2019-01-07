@@ -40,7 +40,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     /**
      * The handler for the list view
      *
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_list(array &$data)
     {
@@ -57,7 +57,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      * The handler for the task list view
      *
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_task($guid, array &$data)
     {
@@ -86,7 +86,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      * The handler for the invoice list view
      *
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_invoice($guid, array &$data)
     {

@@ -164,7 +164,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * Show the import phase of email addresses
      *
      * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
+     * @param array $data          Public request data, passed by reference
      */
     public function _show_simpleemails($handler_id, array &$data)
     {
@@ -200,7 +200,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * Show the vcard import interface
      *
      * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
+     * @param array $data          Public request data, passed by reference
      */
     public function _show_vcards($handler_id, array &$data)
     {
@@ -217,7 +217,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param Request $request The request object
      * @param String $handler_id Name of the request handler
      * @param string $guid The object's GUID
-     * @param array &$data Public request data, passed by reference
+     * @param array $data Public request data, passed by reference
      */
     public function _handler_csv_select(Request $request, $handler_id, $guid, array &$data)
     {
@@ -267,7 +267,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * Show the CSV selection phase where user defines which field in CSV corresponds to which schema fields
      *
      * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
+     * @param array $data          Public request data, passed by reference
      */
     public function _show_csv_select($handler_id, array &$data)
     {
@@ -287,7 +287,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param Request $request The request object
      * @param string $handler_id Name of the request handler
      * @param string $guid The object's GUID
-     * @param array &$data Public request data, passed by reference
+     * @param array $data Public request data, passed by reference
      */
     public function _handler_csv(Request $request, $handler_id, $guid, array &$data)
     {

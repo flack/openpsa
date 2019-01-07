@@ -86,14 +86,14 @@ use Symfony\Component\Routing\Router;
  *  * Exec handler example, with Docblock:
  *  * @param mixed $handler_id The ID of the handler.
  *  * @param array $args The argument list.
- *  * @param array &$data The local request data.
+ *  * @param array $data The local request data.
  *  {@*}
  * public function _handler_xxx ($handler_id, array $args, array &$data) {}
  *
  * /**
  *  * Show handler example, with Docblock:
  *  * @param mixed $handler_id The ID of the handler.
- *  * @param array &$data The local request data.
+ *  * @param array $data The local request data.
  *  {@*}
  * public function _show_xxx ($handler_id, array &$data) {}
  * </code>

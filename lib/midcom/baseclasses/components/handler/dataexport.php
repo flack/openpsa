@@ -52,7 +52,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @return midcom\datamanager\schemadb[]
      */
     abstract public function _load_schemadbs($handler_id, array &$args, array &$data);
@@ -60,7 +60,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @return array
      */
     abstract public function _load_data($handler_id, array &$args, array &$data);
@@ -68,7 +68,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_csv($handler_id, array $args, array &$data)
     {
@@ -108,7 +108,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_csv($handler_id, array &$data)
     {

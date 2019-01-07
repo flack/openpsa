@@ -88,7 +88,7 @@ implements client
 
     /**
      * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_list(array $args, array &$data)
     {
@@ -131,7 +131,7 @@ implements client
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_list($handler_id, array &$data)
     {

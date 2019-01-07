@@ -147,7 +147,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param string $component The component name
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_view($handler_id, $component, array &$data)
     {
@@ -166,7 +166,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
     /**
      * @param string $handler_id Name of the used handler
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _show_view($handler_id, array &$data)
     {
@@ -350,7 +350,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     /**
      * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @param string $component The component name
      * @param string $folder The topic GUID
      */
@@ -450,7 +450,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
     /**
      * @param string $handler_id Name of the used handler
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _show_edit($handler_id, array &$data)
     {

@@ -92,7 +92,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
      *
      * @param Request $request The request object
      * @param string $guid The deliverable GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_add(Request $request, $guid, array &$data)
     {

@@ -26,7 +26,7 @@ class org_openpsa_user_handler_person_edit extends midcom_baseclasses_components
     /**
      * @param Request $request The request object
      * @param string $guid The person GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_edit(Request $request, $guid, array &$data)
     {

@@ -31,7 +31,7 @@ interface org_openpsa_directmarketing_sender_backend
     /**
      * Validate results before send
      *
-     * @param array &$results Array of member objects
+     * @param array $results Array of member objects
      * @return boolean Indicating success
      */
     public function check_results(array &$results);

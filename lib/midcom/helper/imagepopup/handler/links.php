@@ -31,7 +31,7 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
 
     /**
      * @param string $filetype The file type
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_links($filetype, array &$data)
     {
@@ -56,7 +56,7 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_links($handler_id, array &$data)
     {

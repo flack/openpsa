@@ -27,7 +27,7 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
      *
      * @param Request $request The request object
      * @param string $guid The object's GUID
-     * @param array &$data          Public request data, passed by reference
+     * @param array $data          Public request data, passed by reference
      */
     public function _handler_edit(Request $request, $guid, array &$data)
     {

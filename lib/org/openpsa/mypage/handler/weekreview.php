@@ -126,7 +126,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
     /**
      * @param string $date The requested date
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_review($date, array &$data)
     {
@@ -179,7 +179,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_review($handler_id, array &$data)
     {

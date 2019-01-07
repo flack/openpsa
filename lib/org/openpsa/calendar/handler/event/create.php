@@ -66,7 +66,7 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
      * Handle the creation phase
      *
      * @param Request $request The request object
-     * @param array &$data Public request data, passed by reference
+     * @param array $data Public request data, passed by reference
      * @param string $resource The resource we're working with
      */
     public function _handler_create(Request $request, array &$data, $resource = null)

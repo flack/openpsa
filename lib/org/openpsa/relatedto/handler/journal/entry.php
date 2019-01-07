@@ -57,7 +57,7 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
     /**
      * @param Request $request The request object
      * @param string $guid The object's GUID
-     * @param array &$data Request data
+     * @param array $data Request data
      * @return midcom_response
      */
     public function _handler_edit(Request $request, $guid, array &$data)

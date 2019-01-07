@@ -25,7 +25,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
     /**
      * @param array $args The argument list.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_generator(array $args, array &$data)
     {
@@ -201,7 +201,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_generator($handler_id, array &$data)
     {

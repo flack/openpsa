@@ -60,7 +60,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      * the current topic.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_autoindex($handler_id, array &$data)
     {

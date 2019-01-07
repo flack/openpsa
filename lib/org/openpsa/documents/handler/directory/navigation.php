@@ -41,7 +41,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
      *
      * @param array $topic_array - array which contains the topics for the tree
      * @param midcom_db_topic $root_topic - root topic of the tree
-     * @param array &$tree_array - array which contains the tree
+     * @param array $tree_array - array which contains the tree
      */
     private function _tree_array_build(array $topic_array, midcom_db_topic $root_topic, array &$tree_array)
     {
@@ -54,7 +54,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
     }
 
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_navigation(array &$data)
     {
@@ -77,7 +77,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_navigation($handler_id, array &$data)
     {

@@ -19,7 +19,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
      * Handler for deleted objects
      *
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_deleted($guid, array &$data)
     {
@@ -79,7 +79,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
      * Output the style element for deleted objects
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_deleted($handler_id, array &$data)
     {

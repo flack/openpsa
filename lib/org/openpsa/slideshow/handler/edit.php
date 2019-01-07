@@ -36,7 +36,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     /**
      * Handler for recreating derived images
      *
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _handler_recreate_folder_thumbnails(array &$data)
     {
@@ -83,7 +83,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     /**
      * Handler for edit page
      *
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _handler_edit(array &$data)
     {

@@ -162,7 +162,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * Renders the selected view
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_render($handler_id, array &$data)
     {
@@ -210,7 +210,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * Renders single link line
      *
      * @param array $link The necessary link information
-     * @param object &$other_obj The link target
+     * @param object $other_obj The link target
      */
     private function _render_line(array $link, &$other_obj)
     {

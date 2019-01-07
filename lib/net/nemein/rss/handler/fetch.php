@@ -14,7 +14,7 @@
 class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
 {
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @param string $guid The object's GUID
      */
     public function _handler_fetch(array &$data, $guid = null)

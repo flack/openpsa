@@ -69,7 +69,7 @@ class org_openpsa_user_handler_person_create extends midcom_baseclasses_componen
 
     /**
      * @param Request $request The request object
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @param string $guid The group GUID
      */
     public function _handler_create(Request $request, array &$data, $guid = null)

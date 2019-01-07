@@ -71,7 +71,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      * Object editing view
      *
      * @param Request $request The request object
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_welcome(Request $request, array &$data)
     {
@@ -256,7 +256,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      * Shows the loaded object in editor.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_welcome($handler_id, array &$data)
     {

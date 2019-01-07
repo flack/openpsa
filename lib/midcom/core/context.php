@@ -292,7 +292,7 @@ class midcom_core_context
      * </code>
      *
      * @param mixed $key        The key associated to the value.
-     * @param mixed &$value    The value to store. (This is stored by-reference!)
+     * @param mixed $value    The value to store. (This is stored by-reference!)
      * @param string $component The component associated to the key.
      * @see get_custom_key()
      */

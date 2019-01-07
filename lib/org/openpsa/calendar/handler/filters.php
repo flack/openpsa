@@ -20,7 +20,7 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
      * Handle the request for editing contact list
      *
      * @param Request $request The request object
-     * @param array &$data Public request data, passed by reference
+     * @param array $data Public request data, passed by reference
      */
     public function _handler_edit(Request $request, array &$data)
     {

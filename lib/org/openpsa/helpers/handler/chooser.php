@@ -60,7 +60,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
     /**
      * @param Request $request The request object
      * @param string $dbaclass The DBA class
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_create(Request $request, $dbaclass, array &$data)
     {
@@ -158,7 +158,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_create($handler_id, array &$data)
     {

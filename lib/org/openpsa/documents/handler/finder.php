@@ -19,7 +19,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
     }
 
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_view(array &$data)
     {

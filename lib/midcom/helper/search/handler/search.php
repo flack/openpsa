@@ -73,7 +73,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     /**
      * Expand arrays of custom rules to end of query
      *
-     * @param string &$final_query reference to the query string to be passed on to the indexer.
+     * @param string $final_query reference to the query string to be passed on to the indexer.
      * @param mixed $terms array or string to append
      */
     private function append_terms_recursive(&$final_query, $terms)
@@ -94,7 +94,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      * Queries the information from the index and prepares to display the result page.
      *
      * @param Request $request The request object
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_result(Request $request, array &$data)
     {
@@ -252,7 +252,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      * Displays the resultset.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_result($handler_id, array &$data)
     {
@@ -266,7 +266,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     /**
      * Prepare OpenSearch data file for browser search bar integration.
      *
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_opensearchdescription(array &$data)
     {

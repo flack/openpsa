@@ -25,7 +25,7 @@ class org_openpsa_projects_handler_project_view extends midcom_baseclasses_compo
      * Generates an object view.
      *
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_read($guid, array &$data)
     {

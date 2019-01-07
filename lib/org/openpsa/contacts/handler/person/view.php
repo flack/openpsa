@@ -66,7 +66,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      *
      * @param mixed $handler_id The ID of the handler.
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_view($handler_id, $guid, array &$data)
     {
@@ -163,7 +163,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
     /**
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_group_memberships($guid, array &$data)
     {
@@ -186,7 +186,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_group_memberships($handler_id, array &$data)
     {

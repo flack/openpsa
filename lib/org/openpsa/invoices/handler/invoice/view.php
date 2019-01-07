@@ -29,7 +29,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
      *
      * @param mixed $handler_id The ID of the handler.
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_read($handler_id, $guid, array &$data)
     {

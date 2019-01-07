@@ -33,7 +33,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
      * @param Request $request The request object
      * @param string $handler_id Name of the used handler
      * @param string $guid The object's GUID
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
     {
@@ -81,7 +81,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
 
     /**
      * @param string $handler_id Name of the used handler
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _show_edit($handler_id, array &$data)
     {
@@ -111,7 +111,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
      * @param Request $request The request object
      * @param string $handler_id Name of the used handler
      * @param string $guid The object's GUID
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _handler_delete(Request $request, $handler_id, $guid, array &$data)
     {
@@ -147,7 +147,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
 
     /**
      * @param string $handler_id Name of the used handler
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _show_delete($handler_id, array &$data)
     {
@@ -167,7 +167,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
      * Auto-generate passwords on the fly
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_passwords($handler_id, array &$data)
     {

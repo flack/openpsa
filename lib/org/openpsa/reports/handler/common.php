@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_reports_handler_common extends midcom_baseclasses_components_handler
 {
     /**
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_frontpage(array &$data)
     {
@@ -58,7 +58,7 @@ class org_openpsa_reports_handler_common extends midcom_baseclasses_components_h
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_csv($handler_id, array &$data)
     {

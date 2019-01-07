@@ -43,7 +43,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
 
     /**
      *
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_welcome(array &$data)
     {
@@ -53,7 +53,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_welcome($handler_id, array &$data)
     {
@@ -115,7 +115,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      *
      * @param Request $request The request object
      * @param string $status The moderation status
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_moderate_ajax(Request $request, $status, array &$data)
     {
@@ -146,7 +146,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_moderate_ajax($handler_id, array &$data)
     {
@@ -159,7 +159,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
 
     /**
      * @param string $status The moderation status
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_moderate($status, array &$data)
     {
@@ -180,7 +180,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_moderate($handler_id, array &$data)
     {

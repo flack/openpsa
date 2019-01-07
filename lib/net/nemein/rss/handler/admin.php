@@ -63,7 +63,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
     /**
      * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_subscribe(Request $request, $handler_id, array &$data)
     {
@@ -119,7 +119,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
      * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
     {

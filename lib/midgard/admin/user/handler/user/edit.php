@@ -55,7 +55,7 @@ class midgard_admin_user_handler_user_edit extends midcom_baseclasses_components
      * @param Request $request The request object
      * @param string $handler_id Name of the used handler
      * @param string $guid The object's GUID
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
     {
@@ -85,7 +85,7 @@ class midgard_admin_user_handler_user_edit extends midcom_baseclasses_components
 
     /**
      * @param string $handler_id Name of the used handler
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _show_edit($handler_id, array &$data)
     {

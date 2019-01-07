@@ -27,7 +27,7 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
 
     /**
      * @param Request $request The request object
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_lostpassword(Request $request, array &$data)
     {
@@ -127,7 +127,7 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
      * Shows either the username change dialog or a success message.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _show_lostpassword($handler_id, array &$data)
     {

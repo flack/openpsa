@@ -31,7 +31,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      *
      * @param Request $request The request object
      * @param string $guid The object's GUID
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      */
     public function _handler_edit(Request $request, $guid, array &$data)
     {

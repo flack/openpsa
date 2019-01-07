@@ -39,7 +39,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      * Static method other plugins may use
      *
      * @param string $title     Page title
-     * @param array &$data      Local request data
+     * @param array $data      Local request data
      */
     public static function prepare_plugin($title, array &$data)
     {

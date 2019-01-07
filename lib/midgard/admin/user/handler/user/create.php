@@ -24,7 +24,7 @@ class midgard_admin_user_handler_user_create extends midcom_baseclasses_componen
 
     /**
      * @param Request $request The request object
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _handler_create(Request $request, array &$data)
     {
@@ -51,7 +51,7 @@ class midgard_admin_user_handler_user_create extends midcom_baseclasses_componen
 
     /**
      * @param string $handler_id Name of the used handler
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      */
     public function _show_create($handler_id, array &$data)
     {

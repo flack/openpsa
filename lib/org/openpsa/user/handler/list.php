@@ -40,7 +40,7 @@ implements client
     /**
      * Handler for listing users
      *
-     * @param array &$data Data passed to the show method
+     * @param array $data Data passed to the show method
      * @param string $guid Group GUID
      */
     public function _handler_list(array &$data, $guid = null)
@@ -85,7 +85,7 @@ implements client
     /**
      * Lists users in JSON format
      *
-     * @param array &$data The local request data.
+     * @param array $data The local request data.
      * @param string $guid The group GUID
      */
     public function _handler_json(array &$data, $guid = null)
