@@ -41,6 +41,8 @@ class org_openpsa_reports_handler_common extends midcom_baseclasses_components_h
 
     /**
      * The CSV handlers return a posted variable with correct headers
+     *
+     * @param Request $request The request object
      */
     public function _handler_csv(Request $request)
     {

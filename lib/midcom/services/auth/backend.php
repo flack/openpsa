@@ -42,6 +42,7 @@ abstract class midcom_services_auth_backend
      * system to load a login session. At the end of the successful execution of this
      * function, you have to populate the $session and $user members accordingly.
      *
+     * @param Request $request The request object
      * @return boolean|array Return clientip, userid and timeout if the login session was successfully loaded, false
      *     otherwise.
      */
@@ -75,7 +76,7 @@ abstract class midcom_services_auth_backend
     /**
      * Checks for a running login session.
      *
-     * @param Request $request
+     * @param Request $request The request object
      * @return boolean|midcom_core_user
      */
     public function check_for_active_login_session(Request $request)

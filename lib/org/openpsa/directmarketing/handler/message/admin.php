@@ -29,6 +29,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     /**
      * Displays a message edit view.
      *
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
@@ -49,6 +50,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_delete(Request $request, $guid)
@@ -65,6 +67,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     /**
      * Handle the message copying interface
      *
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_copy(Request $request, $guid)

@@ -255,6 +255,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
     /**
      * Object editing view
      *
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param string $guid The object's GUID
      * @param array &$data The local request data.

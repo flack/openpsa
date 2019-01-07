@@ -55,6 +55,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The invoice GUID
      * @param array &$data Request data
      * @return midcom_response
@@ -96,6 +97,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_delete(Request $request, $guid)

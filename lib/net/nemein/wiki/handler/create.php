@@ -101,6 +101,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
     }
 
     /**
+     * @param Request $request The request object
      * @param array &$data The local request data.
      * @param string $schema The DM schema
      */

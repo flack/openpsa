@@ -32,6 +32,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
     /**
      * Processes a deliverable.
      *
+     * @param Request $request The request object
      * @param string $guid The deliverable GUID
      */
     public function _handler_process(Request $request, $guid)

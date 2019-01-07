@@ -46,6 +46,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
     /**
      * Displays an article create view.
      *
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      */

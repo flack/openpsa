@@ -55,6 +55,7 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
     }
 
     /**
+     * @param Request $request The request object
      * @param string $type The type
      * @param string $guid The parent GUID
      */

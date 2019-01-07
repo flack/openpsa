@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_handler
 {
     /**
+     * @param Request $request The request object
      * @param array &$data The local request data.
      */
     public function _handler_shell(Request $request, array &$data)

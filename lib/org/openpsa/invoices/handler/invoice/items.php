@@ -104,6 +104,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The invoice GUID
      */
     public function _handler_itemedit(Request $request, $guid)
@@ -155,6 +156,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
     }
 
     /**
+     * @param Request $request The request object
      * @throws midcom_error
      * @return midcom_response_json
      */

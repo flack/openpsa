@@ -22,6 +22,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
     private $_search_results = [];
 
     /**
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param string $filetype The file type
      * @param array &$data The local request data.

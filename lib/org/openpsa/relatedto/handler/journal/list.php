@@ -128,6 +128,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
     }
 
     /**
+     * @param Request $request The request object
      * @param array &$data The local request data.
      */
     public function _handler_xml(Request $request, array &$data)

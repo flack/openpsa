@@ -102,6 +102,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Phase for importing simple email addresses
      *
+     * @param Request $request The request object
      * @param string $handler_id Name of the request handler
      * @param string $guid The object's GUID
      */
@@ -177,6 +178,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Phase for importing vcards
      *
+     * @param Request $request The request object
      * @param string $handler_id Name of the request handler
      * @param string $guid The object's GUID
      */
@@ -212,6 +214,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Phase for importing CSV. This interface lets user to define what the fields of the CSV represent
      *
+     * @param Request $request The request object
      * @param String $handler_id Name of the request handler
      * @param string $guid The object's GUID
      * @param array &$data Public request data, passed by reference
@@ -281,6 +284,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Handle the CSV import phase
      *
+     * @param Request $request The request object
      * @param string $handler_id Name of the request handler
      * @param string $guid The object's GUID
      * @param array &$data Public request data, passed by reference

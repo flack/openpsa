@@ -73,6 +73,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
     /**
      * Trash view
      *
+     * @param Request $request The request object
      * @param string $type The MgdSchema type
      * @param array &$data The local request data.
      */

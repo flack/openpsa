@@ -61,6 +61,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
     }
 
     /**
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
@@ -115,6 +116,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
     }
 
     /**
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
@@ -146,6 +148,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
     /**
      * Displays a delete confirmation view.
      *
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_delete(Request $request, $guid)

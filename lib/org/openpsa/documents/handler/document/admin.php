@@ -45,6 +45,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     }
 
     /**
+     * @param Request $request The request object
      * @param array &$data The local request data.
      */
     public function _handler_create(Request $request, array &$data)
@@ -89,6 +90,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
@@ -148,6 +150,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_delete(Request $request, $guid)

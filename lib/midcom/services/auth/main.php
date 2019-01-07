@@ -135,6 +135,8 @@ class midcom_services_auth
     /**
      * Checks if the current authentication fronted has new credentials
      * ready. If yes, it processes the login accordingly. Otherwise look for existing session
+     *
+     * @param Request $request The request object
      */
     public function check_for_login_session(Request $request)
     {

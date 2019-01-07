@@ -35,6 +35,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     private $account;
 
     /**
+     * @param Request $request The request object
      * @param string $guid The person GUID
      * @param array &$data The local request data.
      */
@@ -110,6 +111,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The person GUID
      */
     public function _handler_edit(Request $request, $guid)

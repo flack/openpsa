@@ -118,6 +118,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
     }
 
     /**
+     * @param Request $request The request object
      * @throws midcom_error
      * @return midcom_response_relocate
      */

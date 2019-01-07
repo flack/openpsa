@@ -26,6 +26,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
      * Handler for folder metadata. Checks for updating permissions, initializes
      * the metadata and the content topic itself. Handles also the sent form.
      *
+     * @param Request $request The request object
      * @param string $guid The object GUID
      */
     public function _handler_metadata(Request $request, $guid)

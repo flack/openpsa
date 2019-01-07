@@ -69,6 +69,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     /**
      * Check the edit request
      *
+     * @param Request $request The request object
      * @param string $wikipage The page's name
      */
     public function _handler_edit(Request $request, $wikipage)
@@ -117,6 +118,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     }
 
     /**
+     * @param Request $request The request object
      * @param string $wikipage The page's name
      */
     public function _handler_change(Request $request, $wikipage)

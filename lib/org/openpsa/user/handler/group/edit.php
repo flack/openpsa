@@ -24,6 +24,7 @@ class org_openpsa_user_handler_group_edit extends midcom_baseclasses_components_
     private $group;
 
     /**
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_edit(Request $request, $guid)

@@ -59,6 +59,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      *
      * HTTP-Basic authenticated, requires valid user, normal ACL restrictions apply
      *
+     * @param Request $request The request object
      * @param string $username The username
      * @param array &$data The local request data.
      */

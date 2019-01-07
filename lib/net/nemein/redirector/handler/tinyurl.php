@@ -83,6 +83,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Create a new TinyURL
      *
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
@@ -108,6 +109,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Edit an existing TinyURL
      *
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
@@ -139,6 +141,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Delete an existing TinyURL
      *
+     * @param Request $request The request object
      * @param array $args The argument list.
      */
     public function _handler_delete(Request $request, array $args)

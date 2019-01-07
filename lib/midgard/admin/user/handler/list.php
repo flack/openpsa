@@ -45,6 +45,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     }
 
     /**
+     * @param Request $request The request object
      * @param array &$data Data passed to the show method
      */
     public function _handler_list(Request $request, array &$data)
@@ -150,6 +151,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     }
 
     /**
+     * @param Request $request The request object
      * @param string $action The requested action
      * @param array &$data Data passed to the show method
      */
@@ -201,6 +203,8 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
     /**
      * Internal helper for processing the batch change of passwords
+     *
+     * @param Request $request The request object
      */
     private function _batch_passwords(Request $request, midcom_db_person $person)
     {

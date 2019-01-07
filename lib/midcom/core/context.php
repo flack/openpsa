@@ -311,7 +311,7 @@ class midcom_core_context
      * The URL of the component that is used to handle the request is obtained automatically.
      * If the handler hook returns false (i.e. handling failed), it will produce an error page.
      *
-     * @param Request $request
+     * @param Request $request The request object
      * @return midcom_response
      */
     public function run(Request $request)
@@ -328,7 +328,7 @@ class midcom_core_context
 
     /**
      * @param midcom_db_topic $topic The node that is currently being tested.
-     * @param Request $request
+     * @param Request $request The request object
      * @return midcom_response
      */
     public function handle(midcom_db_topic $topic, Request $request)

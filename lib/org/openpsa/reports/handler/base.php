@@ -36,6 +36,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     abstract public function _show_generator($handler_id, array &$data);
 
     /**
+     * @param Request $request The request object
      * @param array &$data The local request data.
      */
     public function _handler_generator_get(Request $request, array &$data)
@@ -75,6 +76,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     }
 
     /**
+     * @param Request $request The request object
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */

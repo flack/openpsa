@@ -32,6 +32,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     /**
      * Displays the report creation view.
      *
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      * @param string $schema The schema to use
@@ -66,6 +67,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     /**
      * Looks up an hour_report to edit.
      *
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param string $guid The object's GUID
      */
@@ -90,6 +92,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     /**
      * The delete handler.
      *
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_delete(Request $request, $guid)
@@ -108,6 +111,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
     /**
      * executes passed action for passed reports & relocates to passed url
+     *
+     * @param Request $request The request object
      */
     public function _handler_batch(Request $request)
     {

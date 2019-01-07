@@ -184,6 +184,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Handler for creating new attachments
      *
+     * @param Request $request The request object
      * @param string $handler_id Name of the used handler
      * @param string $guid The object's GUID
      * @param array &$data Data passed to the show method
@@ -228,6 +229,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     }
 
     /**
+     * @param Request $request The request object
      * @param string $handler_id Name of the used handler
      * @param string $guid The object's GUID
      * @param string $filename The filename
@@ -296,6 +298,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Handler for confirming file deleting for the requested file
      *
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      * @param string $filename The filename
      */

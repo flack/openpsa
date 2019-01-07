@@ -58,6 +58,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
     }
 
     /**
+     * @param Request $request The request object
      * @param string $dbaclass The DBA class
      * @param array &$data The local request data.
      */

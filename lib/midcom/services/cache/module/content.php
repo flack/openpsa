@@ -308,6 +308,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * Note, that HTTP GET is <b>not</b> checked this way, as GET requests can be
      * safely distinguished by their URL.
+     *
+     * @param Request $request The request object
      */
     private function _check_hit(Request $request)
     {
@@ -375,6 +377,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     /**
      * Start the output cache. Call this before any output
      * is made. MidCOM's startup sequence will automatically do this.
+     *
+     * @param Request $request The request object
      */
     public function start_caching(Request $request)
     {
@@ -612,6 +616,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * If the midcom configuration option cache_uncached is set or the corresponding runtime function
      * has been called, the cache file will not be written, but the header stuff will be added like
      * usual to allow for browser-side caching.
+     *
+     * @param Request $request The request object
      */
     public function finish_caching(Request $request)
     {

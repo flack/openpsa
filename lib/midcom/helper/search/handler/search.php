@@ -20,6 +20,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      *
      * It uses the handler ID to distinguish between basic and advanced search forms.
      *
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      */
     public function _handler_searchform(Request $request, $handler_id)
@@ -92,6 +93,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     /**
      * Queries the information from the index and prepares to display the result page.
      *
+     * @param Request $request The request object
      * @param array &$data The local request data.
      */
     public function _handler_result(Request $request, array &$data)

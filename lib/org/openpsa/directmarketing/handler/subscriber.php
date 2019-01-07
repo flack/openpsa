@@ -25,6 +25,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Phase for showing the list of campaigns
      *
+     * @param Request $request The request object
      * @param string $person The person's GUID
      */
     public function _handler_list(Request $request, $person)

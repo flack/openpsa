@@ -62,6 +62,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     /**
      * Displays a deliverable edit view.
      *
+     * @param Request $request The request object
      * @param string $guid The deliverable GUID
      * @param array &$data The local request data.
      */
@@ -127,6 +128,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The deliverable GUID
      */
     public function _handler_delete(Request $request, $guid)

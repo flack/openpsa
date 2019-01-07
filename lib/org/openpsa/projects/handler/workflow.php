@@ -28,6 +28,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_post(Request $request, $guid)

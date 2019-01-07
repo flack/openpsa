@@ -26,6 +26,7 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
     /**
      * Displays an campaign create view.
      *
+     * @param Request $request The request object
      * @param string $schema The schema to use
      */
     public function _handler_create(Request $request, $schema)

@@ -46,6 +46,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     /**
      * Displays an article edit view.
      *
+     * @param Request $request The request object
      * @param array $args The argument list.
      */
     public function _handler_edit(Request $request, array $args)
@@ -87,6 +88,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     /**
      * Displays an article delete confirmation view.
      *
+     * @param Request $request The request object
      * @param array $args The argument list.
      */
     public function _handler_delete(Request $request, array $args)

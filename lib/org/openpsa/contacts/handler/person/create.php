@@ -25,6 +25,7 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
     private $_person;
 
     /**
+     * @param Request $request The request object
      * @param string $guid The organization's GUID
      */
     public function _handler_create(Request $request, $guid = null)

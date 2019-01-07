@@ -25,6 +25,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     /**
      * Marks comment as possible abuse
      *
+     * @param Request $request The request object
      * @param string $guid The comment's GUID
      */
     public function _handler_abuse(Request $request, $guid)
@@ -62,6 +63,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     /**
      * Marks comment as not abuse
      *
+     * @param Request $request The request object
      * @param string $guid The comment's GUID
      */
     public function _handler_not_abuse(Request $request, $guid)
@@ -74,6 +76,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     /**
      * Marks comment as confirmed abuse
      *
+     * @param Request $request The request object
      * @param string $guid The comment's GUID
      */
     public function _handler_confirm_abuse(Request $request, $guid)
@@ -89,6 +92,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     /**
      * Marks comment as confirmed junk
      *
+     * @param Request $request The request object
      * @param string $guid The comment's GUID
      */
     public function _handler_confirm_junk(Request $request, $guid)

@@ -29,6 +29,8 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
 
     /**
      * Generates an object creation view.
+     *
+     * @param Request $request The request object
      */
     public function _handler_create(Request $request)
     {
@@ -61,6 +63,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     /**
      * Generates an object update view.
      *
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
@@ -82,6 +85,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     /**
      * Displays an object delete confirmation view.
      *
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_delete(Request $request, $guid)

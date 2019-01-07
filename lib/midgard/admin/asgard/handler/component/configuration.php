@@ -348,6 +348,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     }
 
     /**
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      * @param string $component The component name

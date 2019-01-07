@@ -275,6 +275,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     }
 
     /**
+     * @param Request $request The request object
      * @param string $wikipage The page's name
      */
     public function _handler_subscribe(Request $request, $wikipage)

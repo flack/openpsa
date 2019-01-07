@@ -35,6 +35,7 @@ class org_openpsa_user_handler_person_privileges extends midcom_baseclasses_comp
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The person GUID
      */
     public function _handler_privileges(Request $request, $guid)

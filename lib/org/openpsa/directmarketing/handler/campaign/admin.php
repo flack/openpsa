@@ -21,6 +21,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     /**
      * Displays a campaign edit view.
      *
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_edit(Request $request, $guid)
@@ -38,6 +39,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_delete(Request $request, $guid)

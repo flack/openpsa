@@ -43,6 +43,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The salesproject GUID
      * @return midcom_response
      */
@@ -87,6 +88,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The offer GUID
      * @return midcom_response
      */

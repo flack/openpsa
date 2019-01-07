@@ -51,6 +51,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     /**
      * Display possible available resources
      *
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param string $guid The object's GUID
      * @param array &$data The local request data.

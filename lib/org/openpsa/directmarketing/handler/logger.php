@@ -17,6 +17,8 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
     /**
      * Logs a bounce from bounce_detector.php for POSTed token, marks the send receipt
      * and the campaign member as bounced.
+     *
+     * @param Request $request The request object
      */
     public function _handler_bounce(Request $request)
     {
@@ -94,6 +96,8 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
     /**
      * Logs a link click from link_detector.php for POSTed token, binds to person
      * and creates received and read receipts as well
+     *
+     * @param Request $request The request object
      */
     public function _handler_link(Request $request)
     {
@@ -157,6 +161,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * Duplicates link_detector.php functionality in part (to avoid extra apache configurations)
      * and handles the logging mentioned above as well.
      *
+     * @param Request $request The request object
      * @param string $guid The token
      * @param string $url The URL
      */

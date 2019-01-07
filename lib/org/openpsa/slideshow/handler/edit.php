@@ -122,6 +122,8 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
 
     /**
      * Handler editing AJAX requests
+     *
+     * @param Request $request The request object
      */
     public function _handler_edit_ajax(Request $request)
     {

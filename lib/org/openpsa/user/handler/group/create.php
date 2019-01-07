@@ -24,6 +24,7 @@ class org_openpsa_user_handler_group_create extends midcom_baseclasses_component
     private $group;
 
     /**
+     * @param Request $request The request object
      * @return midcom_response
      */
     public function _handler_create(Request $request)

@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_components_handler
 {
     /**
+     * @param Request $request The request object
      * @return midcom_response_json
      */
     public function _handler_update_member_title(Request $request)

@@ -113,6 +113,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     /**
      * Checks if a button of the admin toolbar was pressed.
      *
+     * @param Request $request The request object
      * @param string $status The moderation status
      * @param array &$data The local request data.
      */

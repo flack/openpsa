@@ -127,6 +127,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     }
 
     /**
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */

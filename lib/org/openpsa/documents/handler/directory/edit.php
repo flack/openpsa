@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_components_handler
 {
     /**
+     * @param Request $request The request object
      * @param array &$data The local request data.
      */
     public function _handler_edit(Request $request, array &$data)

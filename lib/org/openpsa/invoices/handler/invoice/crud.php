@@ -38,6 +38,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     /**
      * Generates an object creation view.
      *
+     * @param Request $request The request object
      * @param string $company The recipient's GUID
      */
     public function _handler_create(Request $request, $company = null)
@@ -67,6 +68,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     /**
      * Generates an object update view.
      *
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_update(Request $request, $guid)
@@ -95,6 +97,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     /**
      * Displays an object delete confirmation view.
      *
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_delete(Request $request, $guid)

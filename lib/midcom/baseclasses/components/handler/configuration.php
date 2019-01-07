@@ -51,6 +51,8 @@ class midcom_baseclasses_components_handler_configuration extends midcom_basecla
 
     /**
      * Generic handler for all the DM2 based configuration requests
+     *
+     * @param Request $request The request object
      */
     public function _handler_config(Request $request)
     {

@@ -18,6 +18,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
     use net_nemein_wiki_handler;
 
     /**
+     * @param Request $request The request object
      * @param string $wikipage The page's name
      */
     public function _handler_delete(Request $request, $wikipage)

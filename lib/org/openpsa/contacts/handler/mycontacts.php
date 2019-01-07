@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_components_handler
 {
     /**
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_add(Request $request, $guid)

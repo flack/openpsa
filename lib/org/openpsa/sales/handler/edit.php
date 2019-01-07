@@ -25,6 +25,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     private $_salesproject;
 
     /**
+     * @param Request $request The request object
      * @param string $guid The salesproject GUID
      */
     public function _handler_edit(Request $request, $guid)
@@ -45,6 +46,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The customer GUID
      */
     public function _handler_new(Request $request, $guid = null)
@@ -93,6 +95,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     }
 
     /**
+     * @param Request $request The request object
      * @param string $guid The salesproject GUID
      */
     public function _handler_delete(Request $request, $guid)

@@ -39,6 +39,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
     /**
      * Handle the moving of a group phase
      *
+     * @param Request $request The request object
      * @param mixed $handler_id The ID of the handler.
      * @param string $guid The object's GUID
      * @param array &$data The local request data.

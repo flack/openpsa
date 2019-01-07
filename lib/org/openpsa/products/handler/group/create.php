@@ -57,6 +57,7 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
     /**
      * Displays a group create view.
      *
+     * @param Request $request The request object
      * @param int $group The parent group
      * @param string $schema DM schema
      * @param array &$data The local request data.

@@ -25,6 +25,7 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
     /**
      * Handle the editing phase
      *
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      * @param array &$data          Public request data, passed by reference
      */
@@ -60,6 +61,7 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
     /**
      * Handle AJAX move
      *
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_move(Request $request, $guid)
@@ -83,6 +85,7 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
     /**
      * Handle the delete phase
      *
+     * @param Request $request The request object
      * @param string $guid The object's GUID
      */
     public function _handler_delete(Request $request, $guid)
