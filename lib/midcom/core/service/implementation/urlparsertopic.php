@@ -25,24 +25,17 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
 
     public function tokenize($url)
     {
-        static $tokenized = [];
-        $original_url = $url;
-        if (isset($tokenized[$original_url])) {
-            return $tokenized[$original_url];
-        }
-
-        $tokenized[$original_url] = [];
+        $tokenized = [];
         if (strlen(midcom_connection::get_url('prefix')) > 1) {
-            // FIXME: Replace only the first instance, there might be others matching the same string
-            $url = str_replace(midcom_connection::get_url('prefix') . "/", '/', $url);
+            $url = preg_replace(preg_quote(midcom_connection::get_url('prefix') . '/'), '/', $url, 1);
         }
         $url = trim($url, '/');
         if ($url != '') {
             $argv_tmp = explode('/', $url);
-            $tokenized[$original_url] = array_filter($argv_tmp);
+            $tokenized = array_filter($argv_tmp);
         }
 
-        return $tokenized[$original_url];
+        return $tokenized;
     }
 
     /**
