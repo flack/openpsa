@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * org.openpsa.contacts person create handler.
@@ -26,7 +27,7 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
     /**
      * @param string $guid The organization's GUID
      */
-    public function _handler_create($guid = null)
+    public function _handler_create(Request $request, $guid = null)
     {
         midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class);
 
@@ -53,7 +54,7 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
             'controller' => $dm->get_controller(),
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)

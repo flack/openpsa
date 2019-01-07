@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Metadata editor.
@@ -47,7 +48,7 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, $guid, array &$data)
+    public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
     {
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $this->_object->require_do('midgard:update');
@@ -62,7 +63,7 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
         $this->_controller = datamanager::from_schemadb(midcom::get()->config->get('metadata_schema'))
             ->set_storage($this->_object, 'metadata')
             ->get_controller();
-        switch ($this->_controller->process()) {
+        switch ($this->_controller->handle($request)) {
             case 'save':
                 // Reindex the object
                 //$indexer = midcom::get()->indexer;

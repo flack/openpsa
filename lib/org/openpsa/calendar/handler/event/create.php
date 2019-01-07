@@ -81,7 +81,7 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
         $data['controller'] = $this->load_controller($request->query, $conflictmanager, $resource);
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
-        $response = $workflow->run();
+        $response = $workflow->run($request);
         if ($workflow->get_state() == 'save') {
             $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
             $indexer->index($data['controller']->get_datamanager());

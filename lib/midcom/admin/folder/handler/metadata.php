@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Metadata editor.
  *
@@ -26,7 +28,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
      *
      * @param string $guid The object GUID
      */
-    public function _handler_metadata($guid)
+    public function _handler_metadata(Request $request, $guid)
     {
         $this->object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $this->object->require_do('midgard:update');
@@ -42,7 +44,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
             'controller' => $this->object->metadata->get_datamanager()->get_controller(),
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback()

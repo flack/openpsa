@@ -72,7 +72,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         $defaults = $request->query->get('defaults', []);
         $this->_controller = $this->load_controller($defaults);
 
-        switch ($this->_controller->process()) {
+        switch ($this->_controller->handle($request)) {
             case 'save':
                 $this->_post_create_actions();
                 //TODO: indexing

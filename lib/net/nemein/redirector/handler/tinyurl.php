@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @package net.nemein.redirector
@@ -85,7 +86,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _handler_create($handler_id, array &$data)
+    public function _handler_create(Request $request, $handler_id, array &$data)
     {
         $this->_topic->require_do('midgard:create');
 
@@ -95,7 +96,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
         // Load the controller
         $data['controller'] = $this->load_controller();
 
-        if ($data['controller']->process() == 'save') {
+        if ($data['controller']->handle($request) == 'save') {
             return new midcom_response_relocate("edit/{$this->_tinyurl->name}");
         }
 
@@ -111,7 +112,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, array $args, array &$data)
+    public function _handler_edit(Request $request, $handler_id, array $args, array &$data)
     {
         $this->_tinyurl = $this->_get_item($args[0]);
         $this->_tinyurl->require_do('midgard:update');
@@ -120,7 +121,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
         $data['controller'] = $this->load_controller();
         $data['tinyurl'] = $this->_tinyurl;
 
-        switch ($data['controller']->process()) {
+        switch ($data['controller']->handle($request)) {
             case 'save':
                 midcom::get()->uimessages->add($this->_l10n->get('net.nemein.redirector'), $this->_l10n_midcom->get('saved'));
                 // Fall through
@@ -140,11 +141,11 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      *
      * @param array $args The argument list.
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete(Request $request, array $args)
     {
         $this->_tinyurl = $this->_get_item($args[0]);
         $workflow = $this->get_workflow('delete', ['object' => $this->_tinyurl]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**

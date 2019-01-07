@@ -66,7 +66,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('move %s'), $object_label));
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
-        return $this->get_workflow('viewer')->run();
+        return $this->get_workflow('viewer')->run($request);
     }
 
     public function show_tree(midcom_db_topic $folder = null, $tree_disabled = false)

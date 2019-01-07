@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Product editing class
@@ -29,7 +30,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit($guid, array &$data)
+    public function _handler_edit(Request $request, $guid, array &$data)
     {
         $this->_group = new org_openpsa_products_product_group_dba($guid);
 
@@ -44,7 +45,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)

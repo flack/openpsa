@@ -50,20 +50,26 @@ class controller
         $this->form = $dm->get_form($name);
     }
 
-    public function process()
+    /**
+     * Process the form
+     *
+     * @param Request $request
+     * @return string The processing result
+     */
+    public function handle(Request $request)
     {
         // we add the stylesheet regardless of processing result, since save does not automatically mean relocate...
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.datamanager/default.css");
         $operation = self::EDIT;
 
         $storage = $this->dm->get_storage();
-        if (!empty($_REQUEST['midcom_datamanager_unlock'])) {
+        if ($request->request->has('midcom_datamanager_unlock')) {
             if (!$storage->unlock()) {
                 $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
                 midcom::get()->uimessages->add($l10n->get('midcom.datamanager'), sprintf($l10n->get('failed to unlock, reason %s'), midcom_connection::get_error_string()), 'error');
             }
         } elseif (!$this->form->isSubmitted()) {
-            $this->form->handleRequest(Request::createFromGlobals());
+            $this->form->handleRequest($request);
             if (   $this->form->isSubmitted()
                 && $button = $this->form->getClickedButton()) {
                 $operation = $button->getConfig()->getOption('operation');
@@ -86,6 +92,17 @@ class controller
         $storage->set_last_operation($operation);
 
         return $operation;
+    }
+
+    /**
+     * Process the form (request object will be created on the fly)
+     *
+     * @deprecated Use handle() instead
+     * @return string
+     */
+    public function process()
+    {
+        return $this->handle(Request::createFromGlobals());
     }
 
     /**

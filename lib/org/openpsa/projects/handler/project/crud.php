@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Projects create/update/delete project handler
@@ -29,7 +30,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     /**
      * Generates an object creation view.
      */
-    public function _handler_create()
+    public function _handler_create(Request $request)
     {
         $this->mode = 'create';
         midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_projects_project::class);
@@ -44,7 +45,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
             'controller' => $this->load_controller($defaults),
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)
@@ -63,7 +64,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_update($guid, array &$data)
+    public function _handler_update(Request $request, $guid, array &$data)
     {
         $this->project = new org_openpsa_projects_project($guid);
         $this->project->require_do('midgard:update');
@@ -75,7 +76,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**
@@ -83,12 +84,12 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      *
      * @param string $guid The object's GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $project = new org_openpsa_projects_project($guid);
 
         $workflow = $this->get_workflow('delete', ['object' => $project]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     private function load_controller(array $defaults = [])

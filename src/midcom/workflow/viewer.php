@@ -11,6 +11,7 @@ namespace midcom\workflow;
 use midcom_response_styled;
 use midcom_core_context;
 use midcom;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @package midcom.workflow
@@ -27,7 +28,7 @@ class viewer extends dialog
         ];
     }
 
-    public function run()
+    public function run(Request $request)
     {
         $context = midcom_core_context::get();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');

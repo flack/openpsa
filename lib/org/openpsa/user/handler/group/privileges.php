@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * org.openpsa.user group handler and viewer class.
@@ -36,7 +37,7 @@ class org_openpsa_user_handler_group_privileges extends midcom_baseclasses_compo
     /**
      * @param string $guid The object's GUID
      */
-    public function _handler_privileges($guid)
+    public function _handler_privileges(Request $request, $guid)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 
@@ -47,6 +48,6 @@ class org_openpsa_user_handler_group_privileges extends midcom_baseclasses_compo
         midcom::get()->head->set_pagetitle($this->_l10n->get("permissions"));
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $this->load_controller($group)]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

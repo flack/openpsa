@@ -8,6 +8,7 @@
 
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * org.openpsa.calendar site interface class.
@@ -30,7 +31,7 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
      * @param string $guid The object's GUID
      * @param array &$data Public request data, passed by reference
      */
-    public function _handler_event($handler_id, $guid, array &$data)
+    public function _handler_event(Request $request, $handler_id, $guid, array &$data)
     {
         // Get the requested event object
         $data['event'] = new org_openpsa_calendar_event_dba($guid);
@@ -77,7 +78,7 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
         org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $data['event'], $this->_component, $relatedto_button_settings);
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('event %s'), $data['event']->title));
-        return $this->get_workflow('viewer')->run();
+        return $this->get_workflow('viewer')->run($request);
     }
 
     private function load_datamanager()

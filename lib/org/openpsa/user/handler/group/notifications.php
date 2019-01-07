@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * org.openpsa.contacts group handler class.
  *
@@ -16,7 +18,7 @@ class org_openpsa_user_handler_group_notifications extends midcom_baseclasses_co
     /**
      * @param string $guid The object's GUID
      */
-    public function _handler_notifications($guid)
+    public function _handler_notifications(Request $request, $guid)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 
@@ -31,6 +33,6 @@ class org_openpsa_user_handler_group_notifications extends midcom_baseclasses_co
             ->set_storage($group);
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $dm->get_controller()]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

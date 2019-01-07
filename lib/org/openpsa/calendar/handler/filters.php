@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Calendar filters handler
@@ -20,7 +21,7 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
      *
      * @param array &$data Public request data, passed by reference
      */
-    public function _handler_edit(array &$data)
+    public function _handler_edit(Request $request, array &$data)
     {
         midcom::get()->auth->require_valid_user();
         midcom::get()->head->set_pagetitle($this->_l10n->get('choose calendars'));
@@ -34,7 +35,7 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
             ->get_controller();
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
-        $response = $workflow->run();
+        $response = $workflow->run($request);
         if ($workflow->get_state() == 'save') {
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
             midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh();');

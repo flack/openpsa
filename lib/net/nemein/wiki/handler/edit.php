@@ -71,7 +71,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      *
      * @param string $wikipage The page's name
      */
-    public function _handler_edit($wikipage)
+    public function _handler_edit(Request $request, $wikipage)
     {
         $this->page = $this->load_page($wikipage);
         $this->page->require_do('midgard:update');
@@ -94,7 +94,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
             $workflow->add_post_button("change/{$this->page->name}/", $label, ['change_to' => $name]);
         }
 
-        $response = $workflow->run();
+        $response = $workflow->run($request);
 
         if ($workflow->get_state() == 'preview') {
             $this->add_preview();

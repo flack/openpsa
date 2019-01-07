@@ -119,14 +119,14 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, $guid, array &$data)
+    public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
     {
         $data['feed'] = new net_nemein_rss_feed_dba($guid);
         $data['feed']->require_do('midgard:update');
 
         $this->_load_controller($data);
 
-        switch ($data['controller']->process()) {
+        switch ($data['controller']->handle($request)) {
             case 'save':
                 // TODO: Fetch the feed here?
                 // *** FALL-THROUGH ***
@@ -148,14 +148,14 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
      *
      * @param string $guid The object's GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $feed = new net_nemein_rss_feed_dba($guid);
         $workflow = $this->get_workflow('delete', [
             'object' => $feed,
             'success_url' => $this->router->generate('feeds_list')
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**

@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * n.n.blog create page handler
@@ -31,7 +32,7 @@ class net_nehmer_blog_handler_create extends midcom_baseclasses_components_handl
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_create(array $args, array &$data)
+    public function _handler_create(Request $request, array $args, array &$data)
     {
         $this->_topic->require_do('midgard:create');
 
@@ -59,7 +60,7 @@ class net_nehmer_blog_handler_create extends midcom_baseclasses_components_handl
             'save_callback' => [$this, 'save_callback']
         ]);
 
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)

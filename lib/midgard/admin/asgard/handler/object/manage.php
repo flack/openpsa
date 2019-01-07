@@ -154,7 +154,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit($handler_id, $guid, array &$data)
+    public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
     {
         $this->_load_object($guid);
 
@@ -166,7 +166,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->controller = $dm
             ->set_storage($this->_object, 'default')
             ->get_controller();
-        switch ($this->controller->process()) {
+        switch ($this->controller->handle($request)) {
             case 'save':
                 // Reindex the object
                 //$indexer = midcom::get()->indexer;
@@ -230,7 +230,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             ->set_storage($this->_new_object, 'default')
             ->get_controller();
 
-        switch ($this->controller->process()) {
+        switch ($this->controller->handle($request)) {
             case 'save':
                 // Reindex the object
                 //$indexer = midcom::get()->indexer;
@@ -447,7 +447,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $reflector = new midcom_helper_reflector($this->_object);
 
         // Process the form
-        switch ($this->controller->process()) {
+        switch ($this->controller->handle($request)) {
             case 'save':
                 $new_object = $this->_process_copy($request, $parent, $reflector);
                 // Relocate to the newly created object

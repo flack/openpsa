@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @package org.openpsa.calendar
@@ -16,7 +17,7 @@ class org_openpsa_calendar_handler_resource extends midcom_baseclasses_component
     /**
      * Handle the creation phase
      */
-    public function _handler_create()
+    public function _handler_create(Request $request)
     {
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('resource')));
         $resource = new org_openpsa_calendar_resource_dba();
@@ -27,6 +28,6 @@ class org_openpsa_calendar_handler_resource extends midcom_baseclasses_component
             ->get_controller();
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $controller]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

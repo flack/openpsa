@@ -8,6 +8,7 @@
 
 use midcom\datamanager\controller;
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Product management handler
@@ -27,7 +28,7 @@ class org_openpsa_products_handler_product_admin extends midcom_baseclasses_comp
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_update($guid, array &$data)
+    public function _handler_update(Request $request, $guid, array &$data)
     {
         $this->product = new org_openpsa_products_product_dba($guid);
         $this->product->require_do('midgard:update');
@@ -43,7 +44,7 @@ class org_openpsa_products_handler_product_admin extends midcom_baseclasses_comp
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)
@@ -63,10 +64,10 @@ class org_openpsa_products_handler_product_admin extends midcom_baseclasses_comp
      *
      * @param string $guid The object's GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $this->product = new org_openpsa_products_product_dba($guid);
         $workflow = $this->get_workflow('delete', ['object' => $this->product]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * group creation class
@@ -24,13 +25,13 @@ class midgard_admin_user_handler_group_create extends midcom_baseclasses_compone
     /**
      * @param array &$data Data passed to the show method
      */
-    public function _handler_create(array &$data)
+    public function _handler_create(Request $request, array &$data)
     {
         $group = new midcom_db_group;
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_group'));
         $dm->set_storage($group);
         $data['controller'] = $dm->get_controller();
-        switch ($data['controller']->process()) {
+        switch ($data['controller']->handle($request)) {
             case 'save':
                 // Show confirmation for the group
                 midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('group %s saved'), $group->name));

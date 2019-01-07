@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\storage\container\container;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Lost Password handler class
@@ -27,7 +28,7 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
     /**
      * @param array &$data The local request data.
      */
-    public function _handler_lostpassword(array &$data)
+    public function _handler_lostpassword(Request $request, array &$data)
     {
         $mode = $this->_config->get('lostpassword_mode');
         if ($mode == 'none') {
@@ -38,7 +39,7 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
             ->set_storage(null, $mode)
             ->get_controller();
 
-        switch ($data['controller']->process()) {
+        switch ($data['controller']->handle($request)) {
             case 'save':
                 $this->_reset_password($data['controller']->get_form_values());
                 $data['processing_msg'] = $this->_l10n->get('password reset, mail sent.');

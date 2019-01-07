@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Shell interface
@@ -18,14 +19,14 @@ class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_h
     /**
      * @param array &$data The local request data.
      */
-    public function _handler_shell(array &$data)
+    public function _handler_shell(Request $request, array &$data)
     {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $controller = datamanager::from_schemadb($this->_config->get('schemadb_shell'))
             ->get_controller();
 
-        switch ($controller->process()) {
+        switch ($controller->handle($request)) {
             case 'save':
                 $data['code'] = $controller->get_form_values()['code'];
                 break;

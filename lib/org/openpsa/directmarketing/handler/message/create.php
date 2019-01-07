@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Direct marketing page handler
@@ -31,7 +32,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
      * @param string $schema The schema to use
      * @param array &$data The local request data.
      */
-    public function _handler_create($campaign, $schema, array &$data)
+    public function _handler_create(Request $request, $campaign, $schema, array &$data)
     {
         $data['campaign'] = $this->load_campaign($campaign);
         $data['campaign']->require_do('midgard:create');
@@ -48,7 +49,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
             'controller' => $dm->get_controller(),
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback()

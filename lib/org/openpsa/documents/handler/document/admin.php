@@ -47,7 +47,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     /**
      * @param array &$data The local request data.
      */
-    public function _handler_create(array &$data)
+    public function _handler_create(Request $request, array &$data)
     {
         $data['directory']->require_do('midgard:create');
 
@@ -63,16 +63,16 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         $this->_controller = $this->load_controller($defaults);
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('create document'));
-        return $this->run_workflow();
+        return $this->run_workflow($request);
     }
 
-    private function run_workflow()
+    private function run_workflow(Request $request)
     {
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->_controller,
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     private function _load_document($guid)
@@ -104,7 +104,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
             $this->_backup_attachment();
         }
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));
-        return $this->run_workflow();
+        return $this->run_workflow($request);
     }
 
     public function save_callback(controller $controller)
@@ -150,10 +150,10 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     /**
      * @param string $guid The object's GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $document = $this->_load_document($guid);
         $workflow = $this->get_workflow('delete', ['object' => $document]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

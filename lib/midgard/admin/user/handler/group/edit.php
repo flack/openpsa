@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Edit a group
@@ -50,7 +51,7 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
      * @param string $guid The object's GUID
      * @param array &$data Data passed to the show method
      */
-    public function _handler_edit($handler_id, $guid, array &$data)
+    public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
     {
         $this->_group = new midcom_db_group($guid);
         $this->_group->require_do('midgard:update');
@@ -68,7 +69,7 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
             }
         }
         $data['controller'] = $dm->get_controller();
-        switch ($data['controller']->process()) {
+        switch ($data['controller']->handle($request)) {
             case 'save':
                 // Show confirmation for the group
                 midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));

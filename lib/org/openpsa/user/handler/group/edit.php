@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Edit group class for user management
@@ -25,7 +26,7 @@ class org_openpsa_user_handler_group_edit extends midcom_baseclasses_components_
     /**
      * @param string $guid The object's GUID
      */
-    public function _handler_edit($guid)
+    public function _handler_edit(Request $request, $guid)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
         $this->group = new midcom_db_group($guid);
@@ -40,7 +41,7 @@ class org_openpsa_user_handler_group_edit extends midcom_baseclasses_components_
             'controller' => $controller,
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback()

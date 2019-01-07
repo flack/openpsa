@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * n.n.static admin page handler
@@ -47,7 +48,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      *
      * @param array $args The argument list.
      */
-    public function _handler_edit(array $args)
+    public function _handler_edit(Request $request, array $args)
     {
         $this->article = new midcom_db_article($args[0]);
 
@@ -69,7 +70,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             'controller' => $this->load_controller(),
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)
@@ -88,13 +89,13 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      *
      * @param array $args The argument list.
      */
-    public function _handler_delete(array $args)
+    public function _handler_delete(Request $request, array $args)
     {
         $this->article = new midcom_db_article($args[0]);
         if ($this->article->topic !== $this->_topic->id) {
             throw new midcom_error_forbidden('Article does not belong to this topic');
         }
         $workflow = $this->get_workflow('delete', ['object' => $this->article]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

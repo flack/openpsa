@@ -66,7 +66,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         midcom::get()->head->set_pagetitle($data['list_title']);
 
         if ($data['list_type'] != 'unified') {
-            $data['form'] = $this->load_controller($data);
+            $data['form'] = $this->load_controller($request, $data);
         } elseif ($data['query'] != '') {
             $this->_run_search($data);
         }
@@ -78,7 +78,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         midcom::get()->style->prepend_component_styledir('midcom.helper.imagepopup');
     }
 
-    private function load_controller(array $data)
+    private function load_controller(Request $request, array $data)
     {
         $dm = datamanager::from_schemadb($this->_config->get('schemadb'));
         if ($data['list_type'] == 'page') {
@@ -87,7 +87,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
             $dm->set_storage($data['folder'], 'default');
         }
         $controller = $dm->get_controller();
-        if ($controller->process() === 'cancel') {
+        if ($controller->handle($request) === 'cancel') {
             midcom::get()->head->add_jsonload("top.tinymce.activeEditor.windowManager.close();");
         }
         return $controller;

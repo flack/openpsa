@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * directmarketing edit/delete campaign handler
@@ -22,7 +23,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      *
      * @param string $guid The object's GUID
      */
-    public function _handler_edit($guid)
+    public function _handler_edit(Request $request, $guid)
     {
         $campaign = $this->load_campaign($guid);
         $campaign->require_do('midgard:update');
@@ -33,16 +34,16 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit campaign'));
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $dm->get_controller()]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**
      * @param string $guid The object's GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $campaign = $this->load_campaign($guid);
         $workflow = $this->get_workflow('delete', ['object' => $campaign]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

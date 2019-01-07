@@ -1,4 +1,6 @@
 <?php
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * @package org.openpsa.user
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
@@ -16,11 +18,11 @@ class org_openpsa_user_handler_group_delete extends midcom_baseclasses_component
     /**
      * @param string $guid The object's GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
         $group = new midcom_db_group($guid);
         $workflow = $this->get_workflow('delete', ['object' => $group]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

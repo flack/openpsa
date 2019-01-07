@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * midcom.datamanager based configuration
@@ -51,7 +52,7 @@ class midcom_baseclasses_components_handler_configuration extends midcom_basecla
     /**
      * Generic handler for all the DM2 based configuration requests
      */
-    public function _handler_config()
+    public function _handler_config(Request $request)
     {
         // Require corresponding ACLs
         $this->_topic->require_do('midgard:update');
@@ -65,7 +66,7 @@ class midcom_baseclasses_components_handler_configuration extends midcom_basecla
                 'midcom_baseclasses_components_handler_configuration_recreateok' => true,
             ]);
         }
-        $response = $workflow->run();
+        $response = $workflow->run($request);
 
         if ($workflow->get_state() == 'save') {
             midcom::get()->uimessages->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('configuration saved'));

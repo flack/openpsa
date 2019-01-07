@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Wikipage delete handler
  *
@@ -18,10 +20,10 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
     /**
      * @param string $wikipage The page's name
      */
-    public function _handler_delete($wikipage)
+    public function _handler_delete(Request $request, $wikipage)
     {
         $page = $this->load_page($wikipage);
         $workflow = $this->get_workflow('delete', ['object' => $page]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

@@ -9,6 +9,7 @@
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Projects edit/delete deliverable handler
@@ -64,7 +65,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      * @param string $guid The deliverable GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit($guid, array &$data)
+    public function _handler_edit(Request $request, $guid, array &$data)
     {
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);
         $this->_deliverable->require_do('midgard:update');
@@ -78,7 +79,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)
@@ -128,7 +129,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     /**
      * @param string $guid The deliverable GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);
         $salesproject = $deliverable->get_parent();
@@ -136,6 +137,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             'object' => $deliverable,
             'success_url' => $this->router->generate('salesproject_view', ['guid' => $salesproject->guid])
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

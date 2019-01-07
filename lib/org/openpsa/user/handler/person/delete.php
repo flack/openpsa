@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Delete person class for user management
  *
@@ -16,7 +18,7 @@ class org_openpsa_user_handler_person_delete extends midcom_baseclasses_componen
     /**
      * @param string $guid The person GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $person = new midcom_db_person($guid);
         if ($person->id != midcom_connection::get_user()) {
@@ -24,6 +26,6 @@ class org_openpsa_user_handler_person_delete extends midcom_baseclasses_componen
         }
 
         $workflow = $this->get_workflow('delete', ['object' => $person]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

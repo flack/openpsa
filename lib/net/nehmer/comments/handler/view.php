@@ -222,7 +222,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             throw new midcom_error('We were anonymous but could not acquire SUDO privileges, aborting');
         }
 
-        switch ($this->_post_controller->process()) {
+        switch ($this->_post_controller->handle($request)) {
             case 'save':
                 // Check against comment spam
                 $this->_new_comment->check_spam($this->_config);

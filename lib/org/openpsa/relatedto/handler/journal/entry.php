@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * journal entry handler
@@ -40,7 +41,7 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
      * @param string $guid The object's GUID
      * @return midcom_response
      */
-    public function _handler_create($guid)
+    public function _handler_create(Request $request, $guid)
     {
         $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $entry= new org_openpsa_relatedto_journal_entry_dba();
@@ -49,7 +50,7 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
         midcom::get()->head->set_pagetitle($this->_l10n->get('add journal entry'));
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $this->load_controller($entry)]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**
@@ -57,7 +58,7 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
      * @param array &$data Request data
      * @return midcom_response
      */
-    public function _handler_edit($guid, array &$data)
+    public function _handler_edit(Request $request, $guid, array &$data)
     {
         $entry = new org_openpsa_relatedto_journal_entry_dba($guid);
         $data['controller'] = $this->load_controller($entry);
@@ -70,17 +71,17 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
             $url = $this->router->generate('journal_entry_delete', ['guid' => $guid ]);
             $workflow->add_dialog_button($delete, $url);
         }
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**
      * @param string $guid The object's GUID
      * @return midcom_response
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $journal_entry = new org_openpsa_relatedto_journal_entry_dba($guid);
         $workflow = $this->get_workflow('delete', ['object' => $journal_entry]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

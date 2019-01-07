@@ -8,6 +8,7 @@
 
 use midcom\datamanager\controller;
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * org.openpsa.contacts group handler and viewer class.
@@ -26,7 +27,7 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
     /**
      * @param string $guid The object's GUID
      */
-    public function _handler_edit($guid)
+    public function _handler_edit(Request $request, $guid)
     {
         $this->_group = new org_openpsa_contacts_group_dba($guid);
         $this->_group->require_do('midgard:update');
@@ -46,7 +47,7 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
             'controller' => $dm->get_controller(),
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)

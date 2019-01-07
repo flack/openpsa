@@ -10,6 +10,7 @@ namespace midcom\workflow;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use midcom;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Workflow base class
@@ -110,5 +111,5 @@ abstract class dialog
     /**
      * @return \midcom_response
      */
-    abstract public function run();
+    abstract public function run(Request $request);
 }

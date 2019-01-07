@@ -37,7 +37,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param string $schema The schema to use
      * @param string $guid Invoice or task GUID
      */
-    public function _handler_create($handler_id, array &$data, $schema, $guid = null)
+    public function _handler_create(Request $request, $handler_id, array &$data, $schema, $guid = null)
     {
         $report = new org_openpsa_expenses_hour_report_dba();
 
@@ -60,7 +60,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($dm->get_schema()->get('description'))));
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**
@@ -69,7 +69,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param string $guid The object's GUID
      */
-    public function _handler_edit($handler_id, $guid)
+    public function _handler_edit(Request $request, $handler_id, $guid)
     {
         $report = new org_openpsa_expenses_hour_report_dba($guid);
         $dm = $this->load_datamanager($report);
@@ -84,7 +84,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             ]);
             $workflow->add_dialog_button($delete, $this->router->generate('hours_delete', ['guid' => $guid]));
         }
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**
@@ -92,7 +92,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      *
      * @param string $guid The object's GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $hour_report = new org_openpsa_expenses_hour_report_dba($guid);
         $options = ['object' => $hour_report];
@@ -103,7 +103,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         } catch (midcom_error $e) {
             $e->log();
         }
-        return $this->get_workflow('delete', $options)->run();
+        return $this->get_workflow('delete', $options)->run($request);
     }
 
     /**

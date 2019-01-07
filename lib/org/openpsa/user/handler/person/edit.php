@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Edit person class for user management
@@ -26,7 +27,7 @@ class org_openpsa_user_handler_person_edit extends midcom_baseclasses_components
      * @param string $guid The person GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit($guid, array &$data)
+    public function _handler_edit(Request $request, $guid, array &$data)
     {
         $this->person = new org_openpsa_contacts_person_dba($guid);
 
@@ -44,7 +45,7 @@ class org_openpsa_user_handler_person_edit extends midcom_baseclasses_components
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback()

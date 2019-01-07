@@ -9,6 +9,7 @@
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Create person class for user management
@@ -70,7 +71,7 @@ class org_openpsa_user_handler_person_create extends midcom_baseclasses_componen
      * @param array &$data The local request data.
      * @param string $guid The group GUID
      */
-    public function _handler_create(array &$data, $guid = null)
+    public function _handler_create(Request $request, array &$data, $guid = null)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 
@@ -88,7 +89,7 @@ class org_openpsa_user_handler_person_create extends midcom_baseclasses_componen
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)

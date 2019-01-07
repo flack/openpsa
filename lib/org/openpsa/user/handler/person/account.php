@@ -9,6 +9,7 @@
 use midcom\workflow\delete;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Account management class.
@@ -37,7 +38,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
      * @param string $guid The person GUID
      * @param array &$data The local request data.
      */
-    public function _handler_create($guid, array &$data)
+    public function _handler_create(Request $request, $guid, array &$data)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 
@@ -55,7 +56,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         $data['controller'] = $this->load_controller();
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
-        $response = $workflow->run();
+        $response = $workflow->run($request);
 
         if (   $workflow->get_state() == 'save'
             && $this->create_account($this->person, $data["controller"]->get_form_values())) {
@@ -111,7 +112,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     /**
      * @param string $guid The person GUID
      */
-    public function _handler_edit($guid)
+    public function _handler_edit(Request $request, $guid)
     {
         if (!$this->load_person($guid)) {
             // Account needs to be created first, relocate
@@ -134,7 +135,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
             $workflow->add_dialog_button($delete, $this->router->generate('account_delete', ['guid' => $guid]));
         }
 
-        $response = $workflow->run();
+        $response = $workflow->run($request);
         if ($workflow->get_state() == 'save') {
             $this->update_account($controller);
         }

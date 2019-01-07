@@ -62,7 +62,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
 
         $return_page = $request->query->get('return_uri', '__mfa/asgard/');
         // Process the requested form
-        switch ($data['controller']->process()) {
+        switch ($data['controller']->handle($request)) {
             case 'save':
                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('preferences saved'));
                 return new midcom_response_relocate($return_page);

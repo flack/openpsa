@@ -11,6 +11,7 @@ use midcom\datamanager\schemadb;
 use midcom\datamanager\schema;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Invoice create/update/delete handler
@@ -39,7 +40,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
      *
      * @param string $company The recipient's GUID
      */
-    public function _handler_create($company = null)
+    public function _handler_create(Request $request, $company = null)
     {
         $this->mode = 'create';
         midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class);
@@ -60,7 +61,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
             'controller' => $this->load_controller(),
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**
@@ -68,7 +69,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
      *
      * @param string $guid The object's GUID
      */
-    public function _handler_update($guid)
+    public function _handler_update(Request $request, $guid)
     {
         $this->invoice = new org_openpsa_invoices_invoice_dba($guid);
         $this->invoice->require_do('midgard:update');
@@ -78,7 +79,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
             'controller' => $this->load_controller(),
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)
@@ -96,12 +97,12 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
      *
      * @param string $guid The object's GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $invoice = new org_openpsa_invoices_invoice_dba($guid);
 
         $workflow = $this->get_workflow('delete', ['object' => $invoice]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     private function load_controller()

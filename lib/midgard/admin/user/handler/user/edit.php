@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @package midgard.admin.user
@@ -55,7 +56,7 @@ class midgard_admin_user_handler_user_edit extends midcom_baseclasses_components
      * @param string $guid The object's GUID
      * @param array &$data Data passed to the show method
      */
-    public function _handler_edit($handler_id, $guid, array &$data)
+    public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
     {
         $person = new midcom_db_person($guid);
         $person->require_do('midgard:update');
@@ -63,7 +64,7 @@ class midgard_admin_user_handler_user_edit extends midcom_baseclasses_components
         $dm->set_storage($person);
         $data['controller'] = $dm->get_controller();
 
-        switch ($data['controller']->process()) {
+        switch ($data['controller']->handle($request)) {
             case 'save':
                 // Show confirmation for the user
                 midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('person %s saved'), $person->name));

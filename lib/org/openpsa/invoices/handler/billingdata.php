@@ -8,6 +8,7 @@
 
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Billing data handlers
@@ -58,7 +59,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
      * @param array &$data Request data
      * @return midcom_response
      */
-    public function _handler_edit($guid, array &$data)
+    public function _handler_edit(Request $request, $guid, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -91,13 +92,13 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get($mode . ' %s'), $this->_l10n->get('billing data')));
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/invoices.js');
 
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**
      * @param string $guid The object's GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $billing_data = new org_openpsa_invoices_billing_data_dba($guid);
         $this->_linked_object = midcom::get()->dbfactory->get_object_by_guid($billing_data->linkGuid);
@@ -106,7 +107,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
             'object' => $billing_data,
             'success_url' => $this->get_relocate_url()
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     private function get_relocate_url()

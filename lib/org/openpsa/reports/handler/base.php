@@ -78,7 +78,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_query_form(array $args, array &$data)
+    public function _handler_query_form(Request $request, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -93,7 +93,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         $data['controller'] = $this->load_datamanager($data['query'])->get_controller();
 
         // Process the form
-        switch ($data['controller']->process()) {
+        switch ($data['controller']->handle($request)) {
             case 'save':
                 // Relocate to report view
                 return new midcom_response_relocate($this->module . '/' . $this->_request_data['query']->guid . "/");

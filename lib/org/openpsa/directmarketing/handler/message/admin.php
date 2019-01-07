@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * directmarketing edit/delete message handler
@@ -31,7 +32,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_edit($guid, array &$data)
+    public function _handler_edit(Request $request, $guid, array &$data)
     {
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $this->_message->require_do('midgard:update');
@@ -44,13 +45,13 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit message'));
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $dm->get_controller()]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**
      * @param string $guid The object's GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $message = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $campaign = new org_openpsa_directmarketing_campaign_dba($message->campaign);
@@ -58,7 +59,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             'object' => $message,
             'success_url' => $this->router->generate('view_campaign', ['guid' => $campaign->guid])
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**
@@ -66,7 +67,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      *
      * @param string $guid The object's GUID
      */
-    public function _handler_copy($guid)
+    public function _handler_copy(Request $request, $guid)
     {
         $this->_topic->require_do('midgard:create');
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);
@@ -79,7 +80,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             'controller' => $dm->get_controller(),
             'save_callback' => [$this, 'copy_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function copy_callback(controller $controller)

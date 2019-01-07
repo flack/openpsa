@@ -9,6 +9,7 @@
 use midcom\datamanager\controller;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Projects create/update/delete task handler
@@ -30,7 +31,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      * @param string $type The parent type
      * @param string $guid The parent GUID
      */
-    public function _handler_create($type = null, $guid = null)
+    public function _handler_create(Request $request, $type = null, $guid = null)
     {
         $this->mode = 'create';
         $this->task = new org_openpsa_projects_task_dba;
@@ -64,7 +65,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             'controller' => $this->load_controller($defaults),
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)
@@ -86,7 +87,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      * @param string $guid The object's GUID
      * @param array &$data The local request data.
      */
-    public function _handler_update($guid, array &$data)
+    public function _handler_update(Request $request, $guid, array &$data)
     {
         $this->task = new org_openpsa_projects_task_dba($guid);
         $this->task->require_do('midgard:update');
@@ -98,7 +99,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     private function load_controller(array $defaults = [])
@@ -130,7 +131,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      *
      * @param string $guid The object's GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $task = new org_openpsa_projects_task_dba($guid);
 
@@ -143,6 +144,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         }
 
         $workflow = $this->get_workflow('delete', $options);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

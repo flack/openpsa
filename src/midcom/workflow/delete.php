@@ -14,6 +14,7 @@ use midcom_core_dbaobject;
 use midcom_response_relocate;
 use midcom_connection;
 use midcom;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Helper class for manipulating toolbars
@@ -124,10 +125,10 @@ class delete extends dialog
         ];
     }
 
-    public function run()
+    public function run(Request $request)
     {
         $this->object->require_do('midgard:delete');
-        $url = (!empty($_POST['referrer'])) ? $_POST['referrer'] : $this->success_url;
+        $url = $request->request->get('referrer', $this->success_url);
         if ($this->get_state() === static::CONFIRMED) {
             $method = $this->recursive ? 'delete_tree' : 'delete';
             $message = ['title' => $this->l10n_midcom->get('midcom'), 'type' => 'info'];

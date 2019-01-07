@@ -9,6 +9,7 @@
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
 use midcom\datamanager\schemadb;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @package midgard.admin.user
@@ -33,7 +34,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
      * @param string $guid The object's GUID
      * @param array &$data Data passed to the show method
      */
-    public function _handler_edit($handler_id, $guid, array &$data)
+    public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
     {
         $this->person = new midcom_db_person($guid);
         $this->person->require_do('midgard:update');
@@ -47,7 +48,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
         ]);
         $data['controller'] = $dm->get_controller();
 
-        switch ($data['controller']->process()) {
+        switch ($data['controller']->handle($request)) {
             case 'save':
                 $this->save_account($data['controller']);
                 // Show confirmation for the user
@@ -110,7 +111,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
      * @param string $guid The object's GUID
      * @param array &$data Data passed to the show method
      */
-    public function _handler_delete($handler_id, $guid, array &$data)
+    public function _handler_delete(Request $request, $handler_id, $guid, array &$data)
     {
         $this->person = new midcom_db_person($guid);
         $this->person->require_do('midgard:update');
@@ -122,7 +123,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
         $dm = new datamanager($schemadb);
         $data['controller'] = $dm->get_controller();
 
-        switch ($data['controller']->process()) {
+        switch ($data['controller']->handle($request)) {
             case 'delete':
                 $this->account->delete();
                 // Show confirmation for the user

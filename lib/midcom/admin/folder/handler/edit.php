@@ -9,6 +9,7 @@
 use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Handle the folder editing requests
@@ -82,7 +83,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      *
      * @param mixed $handler_id The ID of the handler.
      */
-    public function _handler_edit($handler_id)
+    public function _handler_edit(Request $request, $handler_id)
     {
         $this->_topic->require_do('midcom.admin.folder:topic_management');
         $this->_handler_id = $handler_id;
@@ -111,7 +112,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             'controller' => $this->_controller,
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback()

@@ -8,6 +8,7 @@
 
 use midcom\datamanager\controller;
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Directory create handler.
@@ -30,7 +31,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
     /**
      * @param array &$data The local request data.
      */
-    public function _handler_create(array &$data)
+    public function _handler_create(Request $request, array &$data)
     {
         $data['directory']->require_do('midgard:create');
 
@@ -40,7 +41,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
             'controller' => $this->load_controller(),
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)

@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * n.n.static create page handler
@@ -48,7 +49,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      */
-    public function _handler_create($handler_id, array $args)
+    public function _handler_create(Request $request, $handler_id, array $args)
     {
         $this->_topic->require_do('midgard:create');
         $this->article = new midcom_db_article();
@@ -67,7 +68,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
             'controller' => $controller,
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)

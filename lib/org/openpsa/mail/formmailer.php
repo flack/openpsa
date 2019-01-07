@@ -8,6 +8,7 @@
 
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Helper class for constructing simple formmailers for embedding directly into a page.
@@ -70,12 +71,14 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
         }
     }
 
-    public function process()
+    public function process(Request $request = null)
     {
+        $request = $request ?: Request::createFromGlobals();
+
         $dm = new datamanager($this->_schemadb);
         $controller = $dm->get_controller();
 
-        switch ($controller->process()) {
+        switch ($controller->handle($request)) {
             case 'save':
                 $this->_send_form($controller->get_datamanager()->get_content_csv());
                 break;

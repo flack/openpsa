@@ -48,7 +48,7 @@ abstract class midcom_baseclasses_components_handler_configuration_recreate exte
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('recreate images for folder %s'), $data['topic']->extra));
         $workflow = $this->get_workflow('viewer');
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**

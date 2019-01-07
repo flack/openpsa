@@ -8,6 +8,7 @@
 
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * org.openpsa.contacts person handler and viewer class.
@@ -36,7 +37,7 @@ class org_openpsa_user_handler_person_privileges extends midcom_baseclasses_comp
     /**
      * @param string $guid The person GUID
      */
-    public function _handler_privileges($guid)
+    public function _handler_privileges(Request $request, $guid)
     {
         $person = new midcom_db_person($guid);
         $person->require_do('midgard:privileges');
@@ -44,6 +45,6 @@ class org_openpsa_user_handler_person_privileges extends midcom_baseclasses_comp
         midcom::get()->head->set_pagetitle($this->_l10n->get("permissions"));
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $this->load_controller($person)]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

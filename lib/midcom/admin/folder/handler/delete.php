@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Handle the folder deleting requests
  *
@@ -16,7 +18,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
     /**
      * Handler for folder deletion.
      */
-    public function _handler_delete()
+    public function _handler_delete(Request $request)
     {
         $this->_topic->require_do('midcom.admin.folder:topic_management');
 
@@ -28,6 +30,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             'recursive' => true,
             'success_url' => $upper_node[MIDCOM_NAV_ABSOLUTEURL]
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

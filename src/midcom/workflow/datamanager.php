@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use midcom_core_context;
 use midcom;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @package midcom.workflow
@@ -55,12 +56,12 @@ class datamanager extends dialog
         ];
     }
 
-    public function run()
+    public function run(Request $request)
     {
         $context = midcom_core_context::get();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
         midcom::get()->style->append_styledir(__DIR__ . '/style');
-        $this->state = $this->controller->process();
+        $this->state = $this->controller->handle($request);
 
         if ($this->state == controller::SAVE) {
             $url = '';

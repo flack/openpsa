@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Product database create group handler
@@ -60,7 +61,7 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
      * @param string $schema DM schema
      * @param array &$data The local request data.
      */
-    public function _handler_create($group, $schema, array &$data)
+    public function _handler_create(Request $request, $group, $schema, array &$data)
     {
         $up = (int) $group;
 
@@ -80,7 +81,7 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)

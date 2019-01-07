@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Sales offer handler creates pdf offers
@@ -45,12 +46,12 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
      * @param string $guid The salesproject GUID
      * @return midcom_response
      */
-    public function _handler_create($guid)
+    public function _handler_create(Request $request, $guid)
     {
         $this->salesproject = new org_openpsa_sales_salesproject_dba($guid);
         $this->salesproject->require_do('midgard:update');
         $this->offer = $this->prepare_offer();
-        return $this->run_form();
+        return $this->run_form($request);
     }
 
     private function prepare_offer()
@@ -89,15 +90,15 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
      * @param string $guid The offer GUID
      * @return midcom_response
      */
-    public function _handler_edit($guid)
+    public function _handler_edit(Request $request, $guid)
     {
         $this->offer = new org_openpsa_sales_salesproject_offer_dba($guid);
         $this->salesproject = $this->offer->get_parent();
         $this->salesproject->require_do('midgard:update');
-        return $this->run_form();
+        return $this->run_form($request);
     }
 
-    private function run_form()
+    private function run_form(Request $request)
     {
         $this->load_pdf_builder();
 
@@ -117,7 +118,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('create_offer'));
         $wf = new midcom\workflow\datamanager(['controller' => $controller]);
-        $response = $wf->run();
+        $response = $wf->run($request);
         if ($wf->get_state() == 'save') {
             try {
                 $output_filename = $this->_l10n->get('offer_filename_prefix') . '-' . $this->salesproject->code . '.pdf';

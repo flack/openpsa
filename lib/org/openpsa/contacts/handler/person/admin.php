@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Contacts edit/delete person handler
@@ -41,7 +42,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      *
      * @param string $guid The object's GUID
      */
-    public function _handler_edit($guid)
+    public function _handler_edit(Request $request, $guid)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($guid);
         $this->_contact->require_do('midgard:update');
@@ -52,7 +53,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
             'controller' => $this->load_controller(),
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)
@@ -65,10 +66,10 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     /**
      * @param string $guid The object's GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $contact = new org_openpsa_contacts_person_dba($guid);
         $workflow = $this->get_workflow('delete', ['object' => $contact]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

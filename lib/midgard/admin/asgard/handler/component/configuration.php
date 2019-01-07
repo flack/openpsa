@@ -8,6 +8,7 @@
 
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Component configuration handler
@@ -352,7 +353,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
      * @param string $component The component name
      * @param string $folder The topic GUID
      */
-    public function _handler_edit($handler_id, array &$data, $component, $folder = null)
+    public function _handler_edit(Request $request, $handler_id, array &$data, $component, $folder = null)
     {
         $data['name'] = $component;
         if (!midcom::get()->componentloader->is_installed($data['name'])) {
@@ -374,7 +375,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
         $this->_controller = $this->load_controller();
 
-        switch ($this->_controller->process()) {
+        switch ($this->_controller->handle($request)) {
             case 'save':
                 $this->_save_configuration($data);
                 // *** FALL-THROUGH ***

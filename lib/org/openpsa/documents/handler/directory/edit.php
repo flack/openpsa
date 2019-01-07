@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * org.openpsa.documents document handler and viewer class.
@@ -19,7 +20,7 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
     /**
      * @param array &$data The local request data.
      */
-    public function _handler_edit(array &$data)
+    public function _handler_edit(Request $request, array &$data)
     {
         $data['directory']->require_do('midgard:update');
 
@@ -33,7 +34,7 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
             'controller' => $controller,
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)

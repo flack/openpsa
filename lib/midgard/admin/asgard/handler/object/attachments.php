@@ -299,7 +299,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * @param string $guid The object's GUID
      * @param string $filename The filename
      */
-    public function _handler_delete($guid, $filename)
+    public function _handler_delete(Request $request, $guid, $filename)
     {
         $this->prepare_object($guid);
         $file = $this->_get_file($filename);
@@ -309,6 +309,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             'label' => $filename,
             'success_url' => $this->router->generate('object_attachments', ['guid' => $this->_object->guid])
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

@@ -124,7 +124,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)

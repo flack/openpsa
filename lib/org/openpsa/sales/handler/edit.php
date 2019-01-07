@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Salesproject edit/create/delete handler
@@ -26,7 +27,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     /**
      * @param string $guid The salesproject GUID
      */
-    public function _handler_edit($guid)
+    public function _handler_edit(Request $request, $guid)
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($guid);
         $this->_salesproject->require_do('midgard:update');
@@ -40,13 +41,13 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('salesproject')));
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $dm->get_controller()]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     /**
      * @param string $guid The customer GUID
      */
-    public function _handler_new($guid = null)
+    public function _handler_new(Request $request, $guid = null)
     {
         midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_sales_salesproject_dba::class);
 
@@ -83,7 +84,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
             'controller' => $dm->get_controller(),
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback()
@@ -94,13 +95,13 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     /**
      * @param string $guid The salesproject GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($guid);
         $workflow = $this->get_workflow('delete', [
             'object' => $this->_salesproject,
             'recursive' => true
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }

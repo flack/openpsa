@@ -145,7 +145,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
             'controller' => $data['controller'],
             'save_callback' => [$this, 'save_callback']
         ]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 
     public function save_callback(controller $controller)

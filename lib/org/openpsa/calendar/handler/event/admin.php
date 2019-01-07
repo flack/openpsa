@@ -28,7 +28,7 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
      * @param string $guid The object's GUID
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_edit($guid, array &$data)
+    public function _handler_edit(Request $request, $guid, array &$data)
     {
         $event = new org_openpsa_calendar_event_dba($guid);
         $event->require_do('midgard:update');
@@ -48,7 +48,7 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
 
-        $response = $workflow->run();
+        $response = $workflow->run($request);
         if ($workflow->get_state() == 'save') {
             $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
             $indexer->index($data['controller']->get_datamanager());
@@ -85,10 +85,10 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
      *
      * @param string $guid The object's GUID
      */
-    public function _handler_delete($guid)
+    public function _handler_delete(Request $request, $guid)
     {
         $event = new org_openpsa_calendar_event_dba($guid);
         $workflow = $this->get_workflow('delete', ['object' => $event]);
-        return $workflow->run();
+        return $workflow->run($request);
     }
 }
