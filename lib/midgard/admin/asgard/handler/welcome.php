@@ -98,7 +98,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         } elseif (class_exists('midcom_helper_activitystream_activity_dba')) {
             $objects = $this->_load_activities();
         } else {
-            $data['revised_after'] = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') - 1, date('Y')));
+            $data['revised_after'] = date('Y-m-d', strtotime('yesterday'));
             $objects = $this->_list_revised($data['revised_after']);
         }
 

@@ -534,7 +534,7 @@ class midcom_helper__styleloader
      * the end of the styledir queue.
      *
      * @param string $dirname path of style directory within midcom.
-     * @throws midcom exception if directory does not exist.
+     * @throws midcom_error exception if directory does not exist.
      */
     function append_styledir($dirname)
     {
@@ -564,7 +564,7 @@ class midcom_helper__styleloader
      * Append the styledir of a component to the queue of styledirs.
      *
      * @param string $component Component name
-     * @throws midcom exception if directory does not exist.
+     * @throws midcom_error exception if directory does not exist.
      */
     function append_component_styledir($component)
     {

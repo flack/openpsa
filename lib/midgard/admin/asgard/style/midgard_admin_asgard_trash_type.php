@@ -1,10 +1,7 @@
 <?php
-$label = $data['label_property'];
 echo "<h2>";
 printf($data['l10n']->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($data['type']));
 echo "</h2>";
-
-$shown = [];
 
 function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = '', $enable_undelete = true)
 {

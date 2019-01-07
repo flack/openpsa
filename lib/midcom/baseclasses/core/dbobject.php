@@ -724,7 +724,7 @@ class midcom_baseclasses_core_dbobject
             debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$guid} not granted for the current user.", MIDCOM_LOG_ERROR);
             return false;
         }
-        $object->__object->get_by_guid((string) $guid);
+        $object->__object->get_by_guid($guid);
 
         if ($object->id != 0) {
             $object->_on_loaded();

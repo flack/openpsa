@@ -16,7 +16,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
     use org_openpsa_expenses_handler;
 
     /**
-     * @param array $args The argument list.
+     * @param string $requested_time
      * @param array &$data The local request data.
      */
     private function prepare_dates($requested_time, array &$data)

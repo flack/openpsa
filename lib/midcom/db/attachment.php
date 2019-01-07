@@ -47,7 +47,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     /**
      * @return string Parent GUID
      */
-    public static function get_parent_guid_uncached_static($guid, $classname = __CLASS__)
+    public static function get_parent_guid_uncached_static($guid)
     {
         $mc = new midgard_collector('midgard_attachment', 'guid', $guid);
         $mc->set_key_property('parentguid');

@@ -28,8 +28,6 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
 
     private function _prepare_save()
     {
-        //Make sure our hours property is a float
-        $this->hours = (float) $this->hours;
         $this->hours = round($this->hours, 2);
 
         //Make sure date is set

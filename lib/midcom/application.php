@@ -350,8 +350,8 @@ class midcom_application
      * If the parsing process doesn't find any component that declares to be able to
      * handle the request, an HTTP 404 - Not Found error is triggered.
      *
-     * @param Request $request The request object
      * @param midcom_core_context $context
+     * @param Request $request The request object
      * @return midcom_response
      */
     private function _process(midcom_core_context $context, Request $request)

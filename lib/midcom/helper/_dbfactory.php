@@ -352,7 +352,7 @@ class midcom_helper__dbfactory
     private function _get_parent_guid_uncached_static($object_guid, $class_name)
     {
         if (method_exists($class_name, 'get_parent_guid_uncached_static')) {
-            return ['', call_user_func([$class_name, 'get_parent_guid_uncached_static'], $object_guid, $class_name)];
+            return ['', $class_name::get_parent_guid_uncached_static($object_guid)];
         }
 
         $class_name = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($class_name);
