@@ -55,7 +55,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         $this->membership_mode = $this->_config->get('csv_export_memberships');
 
         if ($this->membership_mode == 'all') {
-            $this->_include_guid = true;
+            $this->include_guid = true;
         }
 
         foreach ($members as $member) {
