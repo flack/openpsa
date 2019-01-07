@@ -142,7 +142,7 @@ class midcom_application
         $context->parser = $this->serviceloader->load(midcom_core_service_urlparser::class);
         $context->parser->parse(midcom_connection::get_url('argv'));
 
-        $response = $this->_process($context);
+        $response = $this->_process($context, $this->request);
         $this->_output($context, !$this->skip_page_style, $response);
     }
 
@@ -197,9 +197,12 @@ class midcom_application
         $oldcontext = midcom_core_context::get();
         $context = new midcom_core_context(null, $oldcontext->get_key(MIDCOM_CONTEXT_ROOTTOPIC));
         $uri = midcom_connection::get_url('self') . $url;
+        $request = $this->request->duplicate(null, null, []);
         if ($pass_get) {
             // Include GET parameters into cache URL
             $uri .= '?GET=' . serialize($this->request->query->all());
+        } else {
+            $request->query->replace([]);
         }
         $context->set_key(MIDCOM_CONTEXT_URI, $uri);
 
@@ -216,7 +219,7 @@ class midcom_application
         $context->parser->parse($argv);
 
         try {
-            $response = $this->_process($context);
+            $response = $this->_process($context, $request);
         } catch (midcom_error $e) {
             if ($e instanceof midcom_error_notfound || $e instanceof midcom_error_forbidden) {
                 $e->log();
@@ -350,14 +353,14 @@ class midcom_application
      * @param midcom_core_context $context
      * @return midcom_response
      */
-    private function _process(midcom_core_context $context)
+    private function _process(midcom_core_context $context, Request $request)
     {
         $urlmethods = new midcom_core_urlmethods($context);
         if ($response = $urlmethods->process()) {
             return $response;
         }
 
-        return $context->run($this->request);
+        return $context->run($request);
     }
 
     /**
