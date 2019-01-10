@@ -336,10 +336,9 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
             $this->_load_plugin($namespace, $name);
         }
 
-        if (empty($argv)) {
-            $url = '/';
-        } else {
-            $url = '/' . implode('/', $argv) . '/';
+        $url = '/';
+        if (!empty($argv)) {
+            $url .= implode('/', $argv) . '/';
         }
         $this->router->getContext()
             ->fromRequest($request)

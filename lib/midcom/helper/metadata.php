@@ -284,7 +284,7 @@ class midcom_helper_metadata
      *
      * @param string $key The key that was updated. Leave empty for a complete update by the Datamanager.
      */
-    private function on_update($key = false)
+    private function on_update($key = null)
     {
         if ($key) {
             unset($this->_cache[$key]);

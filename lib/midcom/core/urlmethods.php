@@ -136,11 +136,10 @@ class midcom_core_urlmethods
             $url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : midcom_connection::get_url('self');
             return new midcom_response_relocate($url);
         }
-        if ($value == 'nocache') {
-            midcom::get()->cache->content->no_cache();
-        } else {
+        if ($value !== 'nocache') {
             throw new midcom_error_notfound("Invalid cache request URL.");
         }
+        midcom::get()->cache->content->no_cache();
     }
 
     private function _process_logout($value)

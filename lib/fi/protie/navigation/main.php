@@ -305,12 +305,10 @@ class fi_protie_navigation
             if ($this->component_name_to_class) {
                 $classes[] = str_replace('.', '_', $item[MIDCOM_NAV_COMPONENT]);
             }
-        } else {
+        } elseif ($item[MIDCOM_NAV_ID] === $this->_nap->get_current_leaf()) {
             // Place the corresponding css class for the currently active leaf)
-            if ($item[MIDCOM_NAV_ID] === $this->_nap->get_current_leaf()) {
-                $classes[] = $this->css_active;
-                $classes[] = $this->css_selected;
-            }
+            $classes[] = $this->css_active;
+            $classes[] = $this->css_selected;
         }
 
         if ($this->has_children_to_class) {

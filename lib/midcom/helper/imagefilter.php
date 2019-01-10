@@ -527,17 +527,18 @@ class midcom_helper_imagefilter
             return;
         }
 
-        if ($x == 0) {
-            $geo = "x{$y}>";
-        } elseif ($y == 0) {
-            $geo = "{$x}x>";
-        } else {
-            $geo = "{$x}x{$y}>";
+        $geo = '';
+        if ($x != 0) {
+            $geo .= $x;
         }
-        $geo = "-geometry " . escapeshellarg($geo);
+        $geo .= 'x';
+        if ($y != 0) {
+            $geo .= $y;
+        }
+        $geo .= '>';
 
-        $cmd = midcom::get()->config->get('utility_imagemagick_base') . "mogrify {$this->_quality} {$geo} "
-            . escapeshellarg($this->_filename);
+        $cmd = midcom::get()->config->get('utility_imagemagick_base') . "mogrify {$this->_quality} -geometry "
+            . escapeshellarg($geo) . ' ' . escapeshellarg($this->_filename);
 
         $this->_run_command($cmd);
     }

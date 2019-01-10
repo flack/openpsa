@@ -30,14 +30,13 @@ if ($data['max_pages'] > 1) {
         if ($i == $data['page']) {
             echo "$i ";
         } else {
-            $page = urlencode($i);
-            $url = "{$prefix}{$querystring}&page={$page}";
+            $url = "{$prefix}{$querystring}&page={$i}";
             echo "<a href='{$url}'>${i}</a> ";
         }
     }
 
     if ($data['page'] < $data['max_pages']) {
-        $page = urlencode($data['page'] + 1);
+        $page = $data['page'] + 1;
         $url = "{$prefix}{$querystring}&page={$page}";
         $desc = $data['l10n']->get('next page');
         echo "&nbsp;&nbsp;&nbsp;<a href='{$url}'>{$desc} &rArr;</a>";

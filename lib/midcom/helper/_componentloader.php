@@ -329,9 +329,9 @@ class midcom_helper__componentloader
         foreach ($config->get('midcom_components', []) as $path) {
             if (!file_exists($path . '/config/manifest.inc')) {
                 debug_add('No manifest found in path ' . $path . ', skipping', MIDCOM_LOG_ERROR);
-            } else {
-                $manifests[] = new midcom_core_manifest($path . '/config/manifest.inc');
+                continue;
             }
+            $manifests[] = new midcom_core_manifest($path . '/config/manifest.inc');
         }
 
         return $manifests;

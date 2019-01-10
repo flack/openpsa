@@ -119,10 +119,10 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         }
 
         if (strlen(trim($this->attachment->title)) > 0) {
-            $this->title =  "{$this->attachment->title} ({$this->attachment->name})";
+            $this->title = "{$this->attachment->title} ({$this->attachment->name})";
             $this->content .= "\n{$this->attachment->title}\n{$this->attachment->name}";
         } else {
-            $this->title =  $this->attachment->name;
+            $this->title = $this->attachment->name;
             $this->content .= "\n{$this->attachment->name}";
         }
 

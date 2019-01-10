@@ -163,14 +163,10 @@ class midcom_services_i18n
                 $option = array_shift($params);
                 continue;
             }
-            if ($option_params[0] == "q") {
-                $q = $option_params[1];
-                if (!is_numeric($q)) {
-                    $q = 1.0;
-                } else {
-                    //make sure that 0.0 <= $q <= 1.0
-                    $q = max(0.0, min(1.0, $q));
-                }
+            if (   $option_params[0] == "q"
+                && is_numeric($option_params[1])) {
+                // make sure that 0.0 <= $q <= 1.0
+                $q = max(0.0, min(1.0, $option_params[1]));
             }
             $option = array_shift($params);
         }
