@@ -35,7 +35,7 @@ class midcom_response_relocate extends midcom_response
             if ($prefix == '') {
                 $prefix = '/';
             }
-            $this->url =  "{$prefix}{$this->url}";
+            $this->url = "{$prefix}{$this->url}";
             debug_add("This is a relative URL from the local site, prepending anchor prefix: {$this->url}");
         }
         $location = "Location: {$this->url}";

@@ -565,7 +565,7 @@ class midcom_helper_toolbar
         foreach ($visible_items as $i => $item) {
             $output .= '<li class="';
             if ($i == 0) {
-                $output .= $first_class .  ' ';
+                $output .= $first_class . ' ';
             } elseif ($i == $last) {
                 $output .= 'last_item ';
             }

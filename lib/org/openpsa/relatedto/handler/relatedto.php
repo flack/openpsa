@@ -302,7 +302,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             //Calendar node found, render a better view
             $this->_request_data['raw_url'] = $url . 'event/raw/' . $other_obj->guid . '/';
             $workflow = $this->get_workflow('viewer');
-            $title = '<a href="' . $url . 'event/' . $other_obj->guid .  '/" ' . $workflow->render_attributes() . '>' . $title . "</a>\n";
+            $title = '<a href="' . $url . 'event/' . $other_obj->guid . '/" ' . $workflow->render_attributes() . '>' . $title . "</a>\n";
         }
 
         $this->_request_data['title'] = $title;
@@ -326,7 +326,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $title = $other_obj->title;
 
         if ($url = $this->get_node_url('org.openpsa.projects')) {
-            $title = '<a href="' . $url . $type . '/' . $other_obj->guid  . '/" target="task_' . $other_obj->guid . '">' . $title . "</a>\n";
+            $title = '<a href="' . $url . $type . '/' . $other_obj->guid . '/" target="task_' . $other_obj->guid . '">' . $title . "</a>\n";
         }
         $this->_request_data['title'] = $title;
         $this->_request_data['type'] = $type;
@@ -344,7 +344,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $title = $other_obj->title;
 
         if ($url = $this->get_node_url('org.openpsa.sales')) {
-            $title = '<a href="' . $url . 'salesproject/' . $other_obj->guid  . '/" target="salesproject_' . $other_obj->guid . '">' . $title . "</a>\n";
+            $title = '<a href="' . $url . 'salesproject/' . $other_obj->guid . '/" target="salesproject_' . $other_obj->guid . '">' . $title . "</a>\n";
         }
 
         $this->_request_data['title'] = $title;
@@ -362,7 +362,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $title = $this->_i18n->get_string('invoice', 'org.openpsa.invoices') . ' ' . $other_obj->get_label();
 
         if ($url = $this->get_node_url('org.openpsa.invoices')) {
-            $title = '<a href="' . $url . 'invoice/' . $other_obj->guid  . '/" target="invoice_' . $other_obj->guid . '">' . $title . "</a>\n";
+            $title = '<a href="' . $url . 'invoice/' . $other_obj->guid . '/" target="invoice_' . $other_obj->guid . '">' . $title . "</a>\n";
         }
         $this->_request_data['title'] = $title;
 

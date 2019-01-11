@@ -214,9 +214,6 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     private function _validate_request(ParameterBag $post)
     {
         $this->_operation = $post->get('operation');
-        if (empty($this->_operation)) {
-            throw new midcom_error('Invalid request');
-        }
 
         switch ($this->_operation) {
             case 'batch_update':

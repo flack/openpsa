@@ -91,7 +91,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
 
         //Set some List-xxx headers to avoid auto-replies and in general to be a good netizen
         $mail->headers['List-Id'] = "<{$this->_message->guid}@{$_SERVER['SERVER_NAME']}>";
-        $mail->headers['List-Unsubscribe'] =  '<' . $member->get_unsubscribe_url() . '>';
+        $mail->headers['List-Unsubscribe'] = '<' . $member->get_unsubscribe_url() . '>';
 
         debug_add('mail->from: ' . $mail->from . ', mail->to: ' . $mail->to . ', mail->subject: ' . $mail->subject);
         switch ($this->_message->orgOpenpsaObtype) {

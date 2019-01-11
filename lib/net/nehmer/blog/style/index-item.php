@@ -13,12 +13,12 @@ $published = sprintf($data['l10n']->get('posted on %s.'), "<abbr title=\"" . str
 
 if (array_key_exists('ajax_comments_enable', $data)) {
     $published .= ' <a href="#switch_comments" onClick="showAjaxComments(this, \''.$data['article']->guid.'\'); return false;">'
-                    .sprintf($data['l10n']->get('%s comments'), net_nehmer_comments_comment::count_by_objectguid($data['article']->guid))
-                    ."</a>.";
+                    . sprintf($data['l10n']->get('%s comments'), net_nehmer_comments_comment::count_by_objectguid($data['article']->guid))
+                    . "</a>.";
 } elseif (array_key_exists('comments_enable', $data)) {
     $published .= " <a href=\"{$data['local_view_url']}#net_nehmer_comments_{$data['article']->guid}\">"
-                    .sprintf($data['l10n']->get('%s comments'), net_nehmer_comments_comment::count_by_objectguid($data['article']->guid))
-                    ."</a>.";
+                    . sprintf($data['l10n']->get('%s comments'), net_nehmer_comments_comment::count_by_objectguid($data['article']->guid))
+                    . "</a>.";
 }
 ?>
 

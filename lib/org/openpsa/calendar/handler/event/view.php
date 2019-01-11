@@ -59,7 +59,7 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
             MIDCOM_TOOLBAR_URL => 'javascript:window.print()',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('print'),
             MIDCOM_TOOLBAR_GLYPHICON => 'print',
-            MIDCOM_TOOLBAR_OPTIONS  => ['rel' => 'directlink']
+            MIDCOM_TOOLBAR_OPTIONS => ['rel' => 'directlink']
         ];
 
         $relatedto_button_settings = null;
@@ -68,10 +68,10 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
             $user = midcom::get()->auth->user->get_storage();
             $date = $this->_l10n->get_formatter()->date();
             $relatedto_button_settings = [
-                'wikinote'      => [
+                'wikinote' => [
                     'component' => 'net.nemein.wiki',
-                    'node'  => false,
-                    'wikiword'  => str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('wiki_title_skeleton')), $data['event']->title, $date, $user->name)),
+                    'node' => false,
+                    'wikiword' => str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('wiki_title_skeleton')), $data['event']->title, $date, $user->name)),
                 ],
             ];
         }

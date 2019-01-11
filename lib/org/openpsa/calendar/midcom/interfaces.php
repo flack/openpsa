@@ -99,7 +99,7 @@ implements midcom_services_permalinks_resolver
         $root_event = self::find_root_event();
 
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
-        $qb->add_constraint('up', '=',  $root_event->id);
+        $qb->add_constraint('up', '=', $root_event->id);
         $dm = datamanager::from_schemadb($config->get('schemadb'));
 
         $indexer = new org_openpsa_calendar_midcom_indexer($topic, $indexer);

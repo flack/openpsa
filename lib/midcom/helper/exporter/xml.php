@@ -60,7 +60,7 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
      */
     public function array2data(array $array, $root_node = 'array', $prefix = '')
     {
-        $data  = "{$prefix}<{$root_node}>\n";
+        $data = "{$prefix}<{$root_node}>\n";
 
         foreach ($array as $key => $field) {
             if (is_numeric($key)) {

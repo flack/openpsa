@@ -34,12 +34,12 @@ $item->date = (int) $data['article']->metadata->published;
 $item->description = '';
 
 if ($data['article']->abstract != '') {
-    $item->description .= '<div class="abstract">' .  $view['abstract']. '</div>';
+    $item->description .= '<div class="abstract">' . $view['abstract'] . '</div>';
 }
 
 if (   array_key_exists('image', $view)
     && $data['config']->get('rss_use_image')) {
-    $item->description .= "\n<div class=\"image\">" . $view['image'] .'</div>';
+    $item->description .= "\n<div class=\"image\">" . $view['image'] . '</div>';
 }
 
 if ($data['config']->get('rss_use_content')) {

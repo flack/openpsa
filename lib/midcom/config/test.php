@@ -14,7 +14,7 @@
 class midcom_config_test
 {
     const OK = 0;
-    const WARNING =  1;
+    const WARNING = 1;
     const ERROR = 2;
 
     private $messages = [

@@ -60,7 +60,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     private function _check_page_vars()
     {
         $page_var = $this->_prefix . 'page';
-        $results_var =  $this->_prefix . 'results';
+        $results_var = $this->_prefix . 'results';
         if (!empty($_REQUEST[$page_var])) {
             debug_add("{$page_var} has value: {$_REQUEST[$page_var]}");
             $this->_current_page = (int)$_REQUEST[$page_var];

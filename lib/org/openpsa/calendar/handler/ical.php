@@ -202,7 +202,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
                 }
             }
             // Only display the requested user as participant
-            $event->participants[$data['person']->id] =  true;
+            $event->participants[$data['person']->id] = true;
             // Always force busy in this view
             $event->busy = true;
             $encoder->add_event($event);

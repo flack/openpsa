@@ -91,11 +91,7 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
             $label = "#{$object->id}";
         }
 
-        if ($this->copy_tree) {
-            $checked = ' checked="checked"';
-        } else {
-            $checked = '';
-        }
+        $checked = ($this->copy_tree) ? ' checked="checked"' : '';
 
         if ($this->inputs) {
             // This value is used for compiling the exclusion list: if the object is found from this list, but not from the selection list,

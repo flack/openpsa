@@ -84,7 +84,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb->add_constraint('token', '=', $token);
         $qb->add_constraint('orgOpenpsaObtype', '=', $type);
-        $ret =  $qb->execute();
+        $ret = $qb->execute();
         debug_print_r("_qb_token_receipts({$token}) returned", $ret);
         if (empty($ret)) {
             midcom::get()->auth->drop_sudo();

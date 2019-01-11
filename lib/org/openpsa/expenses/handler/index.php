@@ -116,7 +116,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
             }
 
             $date_identifier = date('Y-m-d', $row['date']);
-            $row_identifier = $task->id . '-' .  $row['person'];
+            $row_identifier = $task->id . '-' . $row['person'];
 
             if (!isset($reports[$row_identifier])) {
                 try {

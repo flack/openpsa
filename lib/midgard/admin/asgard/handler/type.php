@@ -104,8 +104,8 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         }
 
         $help = new midcom_admin_help_help();
-        $this->_request_data['help'] =  $help->get_help_contents('asgard_'.$this->type, $help_component);
-        $this->_request_data['component'] =  $component;
+        $this->_request_data['help'] = $help->get_help_contents('asgard_'.$this->type, $help_component);
+        $this->_request_data['component'] = $component;
     }
 
     /**

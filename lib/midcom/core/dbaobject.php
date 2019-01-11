@@ -536,7 +536,7 @@ abstract class midcom_core_dbaobject
     }
     public function enable_rcs()
     {
-        $this->_use_rcs  = true;
+        $this->_use_rcs = true;
     }
     public function set_rcs_message($msg)
     {

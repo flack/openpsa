@@ -68,7 +68,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $tagstring = self::resolve_tagname($tagname);
         $tag = net_nemein_tag_tag_dba::get_by_tag($tagstring);
         if (!$tag) {
-            $tag =  new net_nemein_tag_tag_dba();
+            $tag = new net_nemein_tag_tag_dba();
             $tag->tag = $tagstring;
             $tag->url = $url;
             if (!$tag->create()) {
@@ -77,7 +77,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                 return;
             }
         }
-        $link =  new net_nemein_tag_link_dba();
+        $link = new net_nemein_tag_link_dba();
         $link->tag = $tag->id;
         $link->context = self::resolve_context($tagname);
         $link->value = self::resolve_value($tagname);

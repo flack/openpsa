@@ -275,7 +275,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                     && !$data['datamanager']->get_schema('default')->get_field('categories')['type_config']['allow_multiple']) {
                     $qb->add_constraint('extra1', '=', (string) $data['category']);
                 } else {
-                    $qb->add_constraint('extra1', 'LIKE', "%|{$this->_request_data['category']}|%");
+                    $qb->add_constraint('extra1', 'LIKE', "%|{$data['category']}|%");
                 }
                 //Fall-through
 
@@ -290,9 +290,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             case 'archive-month':
                 $this->_set_startend_from_month($args[0], $args[1]);
                 break;
-
-            default:
-                throw new midcom_error("The request handler {$handler_id} is not supported.");
         }
 
         $qb->add_constraint('metadata.published', '>=', $this->_start->format('Y-m-d H:i:s'));
@@ -369,9 +366,9 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         }
 
         $now = new DateTime();
-        $this->_start = new DateTime("{$year}-" . sprintf('%02d', $month) .  "-01 00:00:00");
+        $this->_start = new DateTime("{$year}-" . sprintf('%02d', $month) . "-01 00:00:00");
         if ($this->_start > $now) {
-            throw new midcom_error_notfound("The month '{$year}-" . sprintf('%02d', $month) .  "' is in the future, no archive available.");
+            throw new midcom_error_notfound("The month '{$year}-" . sprintf('%02d', $month) . "' is in the future, no archive available.");
         }
 
         if ($month == 12) {
@@ -382,7 +379,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $endmonth = $month + 1;
         }
 
-        $this->_end = new DateTime("{$endyear}-" . sprintf('%02d', $endmonth) .  "-01 00:00:00");
+        $this->_end = new DateTime("{$endyear}-" . sprintf('%02d', $endmonth) . "-01 00:00:00");
     }
 
     /**

@@ -84,8 +84,8 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $campaign_data['next_message'] = false;
         // Find "next message" and if present use its sendStarted as constraint for this query
         $qb_messages = org_openpsa_directmarketing_campaign_message_dba::new_query_builder();
-        $qb_messages->add_constraint('campaign', '=',  $this->_message->campaign);
-        $qb_messages->add_constraint('id', '<>',  $this->_message->id);
+        $qb_messages->add_constraint('campaign', '=', $this->_message->campaign);
+        $qb_messages->add_constraint('id', '<>', $this->_message->id);
         $qb_messages->add_constraint('sendStarted', '>', $first_send);
         $qb_messages->add_order('sendStarted', 'DESC');
         $qb_messages->set_limit(1);

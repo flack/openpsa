@@ -377,13 +377,13 @@ class midcom_helper_misc
             $theme_path = implode('/', $path_array);
             $candidates = [];
             if ($substyle) {
-                $candidates[] =  $theme_root . $theme_path .  "/style/{$substyle}/{$element_name}.php";
+                $candidates[] = $theme_root . $theme_path . "/style/{$substyle}/{$element_name}.php";
             }
             if ($page) {
-                $candidates[] =  $theme_root . $theme_path .  "/style{$page}/{$element_name}.php";
+                $candidates[] = $theme_root . $theme_path . "/style{$page}/{$element_name}.php";
             }
 
-            $candidates[] = $theme_root . $theme_path .  "/style/{$element_name}.php";
+            $candidates[] = $theme_root . $theme_path . "/style/{$element_name}.php";
 
             foreach (array_filter($candidates, 'file_exists') as $candidate) {
                 return file_get_contents($candidate);

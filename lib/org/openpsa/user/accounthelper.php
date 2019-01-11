@@ -149,14 +149,13 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $account = $this->_get_account();
         if (!empty($new_password)) {
             //check if the new encrypted password was already used
-            if (   $this->check_password_reuse($new_password, true)
-                && $this->check_password_strength($new_password, true)) {
-                    $this->_save_old_password();
-                    $account->set_password($new_password);
-                } else {
-                    $this->errstr = "password strength too low";
-                    return false;
-                }
+            if (   !$this->check_password_reuse($new_password, true)
+                || !$this->check_password_strength($new_password, true)) {
+                $this->errstr = "password strength too low";
+                return false;
+            }
+            $this->_save_old_password();
+            $account->set_password($new_password);
         }
 
         $account->set_username($username);

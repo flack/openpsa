@@ -116,9 +116,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
                 $this->_feed->title = sprintf($this->_l10n->get('%s category %s'), $this->_feed->title, $this->_request_data['category']);
                 $this->_feed->syndicationURL = "{$this->_feed->link}feeds/category/{$this->_request_data['category']}";
                 break;
-
-            default:
-                throw new midcom_error("The feed handler {$handler_id} is unsupported");
         }
     }
 

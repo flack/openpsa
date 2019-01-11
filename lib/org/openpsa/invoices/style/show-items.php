@@ -5,14 +5,14 @@ $grid = $data['grid'];
 $grid->set_option('editurl', $data['router']->generate('invoice_item_edit', ['guid' => $data['invoice']->guid]));
 $grid->set_option('pager', '#p_' . $grid->get_identifier());
 
-$grid->set_column('position', $data['l10n']->get('position'),  'hidden: true');
+$grid->set_column('position', $data['l10n']->get('position'), 'hidden: true');
 $grid->set_column('deliverable', midcom::get()->i18n->get_string('agreement', 'org.openpsa.projects'), 'fixed: true, align: "center", width: 40, sortable: false');
 $grid->set_column('task', midcom::get()->i18n->get_string('task', 'org.openpsa.projects'), 'fixed: true, align: "center", width: 40, sortable: false');
 $grid->set_column('description', $data['l10n_midcom']->get('description'), 'editable: true, edittype: "textarea", sortable: false');
 $grid->set_column('price', $data['l10n']->get('price'), 'align: "right", width: 40, formatter: "number", sortable: false, editable: true');
 $grid->set_column('quantity', $data['l10n']->get('quantity'), 'align: "right", width: 30, formatter: "number", sortable: false, editable: true');
 $grid->set_column('sum', $data['l10n']->get('sum'), 'align: "right", width: 60, formatter: "number", sortable: false, summaryType: "sum"');
-$grid->set_column('actions', '',  'width: 65, fixed: true, sortable: false, title: false');
+$grid->set_column('actions', '', 'width: 65, fixed: true, sortable: false, title: false');
 
 $grid_id = $grid->get_identifier();
 ?>

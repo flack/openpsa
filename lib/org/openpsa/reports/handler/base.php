@@ -105,9 +105,9 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         }
 
         if ($data['query']->id) {
-            $breadcrumb_label =  sprintf($this->_l10n->get('edit report %s'), $data['query']->title);
+            $breadcrumb_label = sprintf($this->_l10n->get('edit report %s'), $data['query']->title);
         } else {
-            $breadcrumb_label =  $this->_l10n->get('define custom report');
+            $breadcrumb_label = $this->_l10n->get('define custom report');
         }
         $this->add_breadcrumb("", $breadcrumb_label);
 

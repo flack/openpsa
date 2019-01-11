@@ -444,7 +444,7 @@ class midcom_helper__styleloader
 
         $current_context = midcom_core_context::get()->id;
         foreach ($this->_styledirs[$current_context] as $path) {
-            $filename = $path .  "/{$_element}.php";
+            $filename = $path . "/{$_element}.php";
             if (file_exists($filename)) {
                 $this->_snippets[$filename] = file_get_contents($filename);
                 return $this->_snippets[$filename];
@@ -644,7 +644,7 @@ class midcom_helper__styleloader
         /* then the contextstyle */
         $this->_styledirs[$current_context][count($this->_styledirs[$current_context])] = $component_style;
 
-        $this->_styledirs[$current_context] =  array_merge($this->_styledirs[$current_context], $this->_styledirs_append[$current_context]);
+        $this->_styledirs[$current_context] = array_merge($this->_styledirs[$current_context], $this->_styledirs_append[$current_context]);
     }
 
     /**

@@ -77,7 +77,7 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
             echo '<select class="filter_input" onchange="document.forms[\'' . $this->name . '_filter\'].submit();" name="' . $this->name . '">';
 
             foreach ($options as $option) {
-                echo '<option value="' .  $option['id'] . '"';
+                echo '<option value="' . $option['id'] . '"';
                 if ($option['selected'] == true) {
                     echo " selected=\"selected\"";
                 }
@@ -109,12 +109,11 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
 
         $options = [];
         foreach ($data as $id => $title) {
-            $option = [
+            $options[] = [
                 'id' => $id,
                 'title' => $title,
                 'selected' => in_array($id, $this->_selection)
             ];
-            $options[] = $option;
         }
         return $options;
     }

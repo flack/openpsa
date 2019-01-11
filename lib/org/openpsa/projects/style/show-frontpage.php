@@ -69,9 +69,9 @@ $formatter = $data['l10n']->get_formatter();
             echo "        <td class=\"numeric\"><span title=\"" . $data['l10n']->get('on_hold') . "\">{$task_count['on_hold']}</span></td>\n";
             echo "        <td class=\"numeric\"><span title=\"" . $data['l10n']->get('closed') . "\">{$task_count['closed']}</span></td>\n";
             echo "        <td class=\"numeric\"> " ;
-            echo "            <span title=\"" . $data['l10n']->get('reported') .  "\">" . round($hours['reportedHours'], 2) . "</span>";
+            echo "            <span title=\"" . $data['l10n']->get('reported') . "\">" . round($hours['reportedHours'], 2) . "</span>";
             if ($hours['plannedHours'] > 0) {
-                echo          " / <span title=\"" . $data['l10n']->get('planned hours') .  "\">" . round($hours['plannedHours'], 2) . "</span>";
+                echo          " / <span title=\"" . $data['l10n']->get('planned hours') . "\">" . round($hours['plannedHours'], 2) . "</span>";
             }
             echo "        </td>\n";
 

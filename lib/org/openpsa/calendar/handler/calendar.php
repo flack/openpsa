@@ -64,7 +64,7 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
             $buttons[] = $workflow->get_button('#', [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'plus',
-                MIDCOM_TOOLBAR_OPTIONS  => [
+                MIDCOM_TOOLBAR_OPTIONS => [
                     'id' => 'openpsa_calendar_add_event',
                 ]
             ]);
@@ -84,7 +84,7 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
             MIDCOM_TOOLBAR_URL => '#',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to'),
             MIDCOM_TOOLBAR_GLYPHICON => 'calendar',
-            MIDCOM_TOOLBAR_OPTIONS  => [
+            MIDCOM_TOOLBAR_OPTIONS => [
                 'rel' => 'directlink',
                 'id' => 'date-navigation',
             ]

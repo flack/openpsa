@@ -75,7 +75,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         foreach ($qb->iterate() as $obj) {
             $stats['found']++;
             if (!$obj->purge()) {
-                $stats['errors'][] = "Failed to purge {$obj->guid}, deleted: {$obj->metadata->deleted},  revised: {$obj->metadata->revised}. errstr: " . midcom_connection::get_error_string();
+                $stats['errors'][] = "Failed to purge {$obj->guid}, deleted: {$obj->metadata->deleted}, revised: {$obj->metadata->revised}. errstr: " . midcom_connection::get_error_string();
                 debug_print_r('Purge failed for object', $obj);
                 continue;
             }

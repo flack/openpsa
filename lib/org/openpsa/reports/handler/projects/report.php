@@ -154,7 +154,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         if (array_key_exists($matching, $rows)) {
             $rows[$matching]['rows'][] = $new_row;
             $rows[$matching]['total_hours'] += $new_row['hour']->hours;
-            return true;
         } else {
             $rows[$matching] = [
                 'sort' => $sort,

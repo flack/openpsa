@@ -86,7 +86,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         }
 
         $filename = $this->_generate_rcs_filename($object->guid);
-        $rcsfilename =  "{$filename},v";
+        $rcsfilename = "{$filename},v";
 
         if (!file_exists($rcsfilename)) {
             // The methods return basically what the RCS unix level command returns, so nonzero value is error and zero is ok...
@@ -121,7 +121,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         // , must become . to work. Therefore this:
         str_replace(',', '.', $revision);
 
-        $this->exec('co -q -f -r' . escapeshellarg(trim($revision)) .  " {$filepath} 2>/dev/null");
+        $this->exec('co -q -f -r' . escapeshellarg(trim($revision)) . " {$filepath} 2>/dev/null");
 
         $data = $this->rcs_readfile($this->_guid);
 
@@ -262,7 +262,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             if ($message_array[0] != 'Object') {
                 $history['user'] = $message_array[0];
             }
-            $history['ip']   = $message_array[1];
+            $history['ip'] = $message_array[1];
             $history['message'] = $message_array[2];
         }
         return $history;

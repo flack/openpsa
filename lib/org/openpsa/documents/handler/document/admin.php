@@ -131,7 +131,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
             $prefix = $node[MIDCOM_NAV_ABSOLUTEURL];
         }
 
-        return $prefix  . "document/" . $this->_document->guid . "/";
+        return $prefix . "document/" . $this->_document->guid . "/";
     }
 
     /**

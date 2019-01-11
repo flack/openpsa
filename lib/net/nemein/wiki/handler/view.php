@@ -244,7 +244,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                     }
                 }
             }
-            $toc .= "<li class='{$heading_tag}'><a href='#{$anchor}'>" . strip_tags($heading) .  "</a>";
+            $toc .= "<li class='{$heading_tag}'><a href='#{$anchor}'>" . strip_tags($heading) . "</a>";
         }
         for ($i = $current_list_level; $i > 0; $i--) {
             $toc .= "</li>\n</ol>\n";

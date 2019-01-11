@@ -4,11 +4,7 @@ $length = 8;
 $max_amount = 100;
 $max_length = 16;
 
-if (isset($_GET['f_submit'])) {
-    $no_similars = false;
-} else {
-    $no_similars = true;
-}
+$no_similars = !isset($_GET['f_submit']);
 
 extract($_GET);
 

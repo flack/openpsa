@@ -185,11 +185,11 @@ class org_openpsa_mail_message
 
             $swift_att = false;
             // we got a file path
-            if (isset($att['file']) && strlen($att['file']) > 0) {
+            if (!empty($att['file'])) {
                 $swift_att = Swift_Attachment::fromPath($att['file'], $att['mimetype']);
             }
             // we got the contents (bytes)
-            elseif (isset($att['content']) && strlen($att['content']) > 0) {
+            elseif (!empty($att['content'])) {
                 $swift_att = Swift_Attachment::newInstance($att['content'], $att['name'], $att['mimetype']);
             }
 

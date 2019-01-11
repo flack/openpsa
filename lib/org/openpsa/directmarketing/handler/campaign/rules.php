@@ -129,7 +129,7 @@ implements client
                 MIDCOM_TOOLBAR_URL => "#",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('advanced rule editor'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'cogs',
-                MIDCOM_TOOLBAR_OPTIONS  => [
+                MIDCOM_TOOLBAR_OPTIONS => [
                     'id' => 'openpsa_dirmar_edit_query_advanced',
                 ],
             ],
@@ -137,7 +137,7 @@ implements client
                 MIDCOM_TOOLBAR_URL => $this->router->generate('edit_campaign_query', ['guid' => $guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit rules'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'filter',
-                MIDCOM_TOOLBAR_OPTIONS  => [
+                MIDCOM_TOOLBAR_OPTIONS => [
                     'id' => 'openpsa_dirmar_edit_query',
                 ],
             ]

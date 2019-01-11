@@ -479,7 +479,7 @@ class org_openpsa_contacts_duplicates_check
     {
         debug_add($message);
         if ($output) {
-            echo $indent . 'INFO: ' . $message  . "<br/>\n";
+            echo $indent . 'INFO: ' . $message . "<br/>\n";
             flush();
         }
     }

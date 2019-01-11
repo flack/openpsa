@@ -72,12 +72,7 @@ class org_openpsa_core_acl_synchronizer
                 // Clear old ACLs applying to others than current user or selected owner group
                 if (   $privilege->assignee != midcom::get()->auth->user->id
                     && $privilege->assignee != $owner_id) {
-                    if (is_array($privilege->assignee)) {
-                        $assignee_key = $privilege->assignee['identifier'];
-                    } else {
-                        $assignee_key = $privilege->assignee;
-                    }
-                    debug_add("Removing privilege {$privilege->privilegename} from {$assignee_key}");
+                    debug_add("Removing privilege {$privilege->privilegename} from {$privilege->assignee}");
                     $object->unset_privilege($privilege->privilegename, $privilege->assignee);
                 }
             }

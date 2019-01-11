@@ -47,7 +47,7 @@ class midcom_helper__dbfactory
 
             throw new midcom_error_midgard($e, $guid);
         }
-        $person_class =  midcom::get()->config->get('person_class');
+        $person_class = midcom::get()->config->get('person_class');
         if (   get_class($tmp) == 'midgard_person'
             && $person_class != 'midgard_person') {
             $tmp = new $person_class($guid);
@@ -419,7 +419,7 @@ class midcom_helper__dbfactory
                 && $reflector->get_link_target($parent_property)) {
                 $target_class = $reflector->get_link_name($parent_property);
                 if ($target_class == 'midgard_person') {
-                    $person_class =  midcom::get()->config->get('person_class');
+                    $person_class = midcom::get()->config->get('person_class');
                     if ($person_class != 'midgard_person') {
                         $target_class = $person_class;
                     }

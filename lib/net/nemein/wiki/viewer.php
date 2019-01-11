@@ -41,7 +41,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_viewer
                 MIDCOM_TOOLBAR_POST => true,
                 MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                     $action => 1,
-                    'target'      => 'folder',
+                    'target' => 'folder',
                 ]
             ]);
         }

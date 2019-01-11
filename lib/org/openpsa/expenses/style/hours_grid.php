@@ -37,7 +37,7 @@ foreach ($data['hours'] as $report) {
             $approved_text = $projects_l10n->get('not approved');
             $icon = 'times';
         }
-        $entry['approved'] =  "<i class='fa fa-{$icon}' title='{$approved_text}'></i>";
+        $entry['approved'] = "<i class='fa fa-{$icon}' title='{$approved_text}'></i>";
     }
 
     $entry['index_description'] = $report->description;
