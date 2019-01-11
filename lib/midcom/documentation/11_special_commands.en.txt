@@ -41,25 +41,10 @@ a single argument will be taken.
 The scripts executed need to do their own permission checks, they will work with
 the credentials of the current MidCOM instance unconditionally.
 
-Example: http://$host/midcom-exec-midcom/update_storage.php
+Example: http://$host/midcom-exec-midcom/purge_deleted.php
 
 <b>string cache</b>
 
 May take one of the following values: "invalidate" will clear the cache of the
 current site, "nocache" will bypass the cache for the current request by
 calling $this->cache->content->no_cache();
-
-<b>mixed log</b>
-
-Shows the contents of the current debuglog. You have to enable this interface
-by setting the config option <i>log_tailurl_enable</i> to true.
-Note, that this method is using the debug log path
-of the current MidCOM logger automatically, it is not possible to switch to
-another logfile dynamically due to security reasons. The parameter can be
-either "all" which will yield the complete log (beware of huge logfiles), or
-an integer, which is the number of lines counting from the file backwards you
-want to display (this uses the systems tail command via exec).
-
-NOTE: This function is limited by PHP's memory limit, as the (f)passthru
-functions are really intelligent and try to load the complete file into memory
-instead streaming it to the client.
