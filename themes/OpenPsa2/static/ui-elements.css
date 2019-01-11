@@ -521,7 +521,7 @@ dl.campaigns dt.unsubscribed {
     float: left;
     width: 160px;
     height: 80px;
-    overflow: hidden;
+    overflow: auto;
     font-size: smaller;
 }
 #container div.vcard div.n
