@@ -194,7 +194,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('campaign.node', '=', $this->_topic->id);
         $qb->add_constraint('person', '=', $data['person']->id);
-        // FIXME: Use NOT IN
         $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
         $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
 

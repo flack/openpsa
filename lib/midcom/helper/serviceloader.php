@@ -58,7 +58,6 @@ class midcom_helper_serviceloader
         if (!array_key_exists($service, class_implements($implementation_class))) {
             throw new midcom_error("Class {$implementation_class} does not implement {$service}");
         }
-        // TODO: Also run the check method of the class itself
 
         return true;
     }

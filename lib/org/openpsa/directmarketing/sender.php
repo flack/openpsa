@@ -418,7 +418,6 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         } else {
             debug_add('REAL mode, adding constraints');
             //Fail safe way, exclude those we know we do not want, in case some wanted members have incorrect type...
-            // FIXME: use NOT IN
             $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
             $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
             $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::BOUNCED);

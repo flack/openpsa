@@ -187,7 +187,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $data['display_related_to'] = $this->_config->get('display_related_to');
 
         // Replace wikiwords
-        // TODO: We should somehow make DM2 do this so it would also work in AJAX previews
         $parser = new net_nemein_wiki_parser($this->_page);
         $data['wikipage_view']['content'] = $parser->get_markdown($data['wikipage_view']['content']);
         if ($this->_config->get('autogenerate_toc')) {

@@ -416,8 +416,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $child_classes[] = $schema_type;
         }
 
-        // TODO: handle exceptions
-
         //make sure children of the same type come out on top
         if ($key = array_search($this->mgdschema_class, $child_classes)) {
             unset($child_classes[$key]);

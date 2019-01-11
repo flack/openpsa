@@ -51,8 +51,6 @@
  *
  * NB: You cannot change this in another style element or in a _show() function in a component.
  *
- * @todo Document Style Inheritance
- *
  * @package midcom.helper
  */
 class midcom_helper__styleloader
