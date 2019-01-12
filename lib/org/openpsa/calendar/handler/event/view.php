@@ -62,8 +62,6 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
             MIDCOM_TOOLBAR_OPTIONS => ['rel' => 'directlink']
         ];
 
-        $relatedto_button_settings = null;
-
         if (midcom::get()->auth->user) {
             $user = midcom::get()->auth->user->get_storage();
             $date = $this->_l10n->get_formatter()->date();
@@ -74,9 +72,9 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
                     'wikiword' => str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('wiki_title_skeleton')), $data['event']->title, $date, $user->name)),
                 ],
             ];
+            org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $data['event'], $this->_component, $relatedto_button_settings);
         }
         $this->_view_toolbar->add_items($buttons);
-        org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $data['event'], $this->_component, $relatedto_button_settings);
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('event %s'), $data['event']->title));
         return $this->get_workflow('viewer')->run($request);

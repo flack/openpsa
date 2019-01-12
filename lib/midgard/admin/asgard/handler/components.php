@@ -34,11 +34,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
             MIDCOM_TOOLBAR_GLYPHICON => 'wrench',
         ]);
 
-        $component_array['toolbar']->add_item([
-            MIDCOM_TOOLBAR_URL => "__ais/help/{$name}/",
-            MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('midcom.admin.help', 'midcom.admin.help'),
-            MIDCOM_TOOLBAR_GLYPHICON => 'question',
-        ]);
+        $component_array['toolbar']->add_help_item($name);
 
         return $component_array;
     }
