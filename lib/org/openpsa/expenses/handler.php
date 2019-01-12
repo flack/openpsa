@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\datamanager\schemadb;
-
 /**
  * Handler addons
  *
@@ -15,21 +13,6 @@ use midcom\datamanager\schemadb;
  */
 trait org_openpsa_expenses_handler
 {
-    /**
-     * Populates the node toolbar depending on the user's rights.
-     */
-    public function populate_view_toolbar($prefix = '', $suffix = '')
-    {
-        $schemadb = schemadb::from_path($this->_config->get('schemadb_hours'));
-        $workflow = $this->get_workflow('datamanager');
-        foreach ($schemadb->all() as $name => $schema) {
-            $create_url = "hours/create/{$prefix}{$name}/{$suffix}";
-            $this->_view_toolbar->add_item($workflow->get_button($create_url, [
-                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schema->get('description'))),
-                MIDCOM_TOOLBAR_GLYPHICON => 'plus',
-            ]));
-        }
-    }
 
     /**
      * Apply user filters to hour lists

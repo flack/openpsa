@@ -8,6 +8,7 @@
 
 use midcom\datamanager\helper\autocomplete;
 use midcom\grid\grid;
+use midcom\datamanager\schemadb;
 
 /**
  * @package org.openpsa.expenses
@@ -130,7 +131,15 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
         $this->add_breadcrumb('', $this->breadcrumb_title);
 
-        $this->populate_view_toolbar($prefix, $suffix);
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_hours'));
+        $workflow = $this->get_workflow('datamanager');
+        foreach ($schemadb->all() as $name => $schema) {
+            $create_url = "hours/create/{$prefix}{$name}/{$suffix}";
+            $this->_view_toolbar->add_item($workflow->get_button($create_url, [
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schema->get('description'))),
+                MIDCOM_TOOLBAR_GLYPHICON => 'plus',
+            ]));
+        }
     }
 
     /**
