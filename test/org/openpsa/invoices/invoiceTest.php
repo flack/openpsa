@@ -99,12 +99,7 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         $report2->invoiceable = false;
         $report2->update();
 
-        $invoice->_recalculate_invoice_items([$task1->id]);
-        $invoice->refresh();
-        $this->assertEquals(30, $invoice->sum);
-        $this->assertEquals(2, $this->_count_invoice_items($invoice->id));
-
-        $invoice->_recalculate_invoice_items([$task2->id]);
+        $invoice->_recalculate_invoice_items();
         $invoice->refresh();
         $this->assertEquals(20, $invoice->sum);
         $this->assertEquals(2, $this->_count_invoice_items($invoice->id));

@@ -211,31 +211,23 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
     /**
      * Create & recalculate existing invoice_items by tasks
-     *
-     * @param array $tasks array containing the task id's to recalculate for - if empty all tasks will be recalculated
      */
-    public function _recalculate_invoice_items($tasks = [], $skip_invoice_update = false)
+    public function _recalculate_invoice_items()
     {
-        $result_items = [];
         $result_tasks = [];
 
         //get hour_reports for this invoice - mc ?
         $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $qb->add_constraint('invoice', '=', $this->id);
-        $qb->add_constraint('invoiceable', '=', true);
-        if (!empty($tasks)) {
-            $qb->add_constraint('task', 'IN', $tasks);
-            //if there is a task passed it must be calculated even
-            //if it doesn't have associated hour_reports
-            $result_tasks = array_fill_keys($tasks, 0);
-        }
 
         // sums up the hours of hour_reports for each task
         foreach ($qb->execute() as $hour_report) {
             if (!array_key_exists($hour_report->task, $result_tasks)) {
                 $result_tasks[$hour_report->task] = 0;
             }
-            $result_tasks[$hour_report->task] += $hour_report->hours;
+            if ($hour_report->invoiceable) {
+                $result_tasks[$hour_report->task] += $hour_report->hours;
+            }
         }
 
         foreach ($result_tasks as $task_id => $hours) {
@@ -261,16 +253,14 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
                 $invoice_item->description = $task->title;
             }
 
-            $invoice_item->skip_invoice_update = $skip_invoice_update;
-
             $invoice_item->update();
-            $result_items[] = $invoice_item;
         }
-        return $result_items;
     }
 
     /**
      * Get corresponding invoice_items indexed by GUID
+     *
+     * @return org_openpsa_invoices_invoice_item_dba[]
      */
     public function get_invoice_items()
     {
@@ -318,6 +308,9 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
     /**
      * Get invoice_item for the passed task id, if there is no item it will return a newly created one
+     *
+     * @param integer $task_id
+     * @return org_openpsa_invoices_invoice_item_dba
      */
     private function _probe_invoice_item_for_task($task_id)
     {
