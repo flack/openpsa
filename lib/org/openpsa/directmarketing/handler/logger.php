@@ -72,18 +72,17 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
     }
 
     /**
-     * QB search for message receipts with given token and type
+     * QB search for message receipts with given token
      *
      * @param string $token token string
-     * @param int $type receipt type, defaults to org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT
      * @return org_openpsa_directmarketing_campaign_messagereceipt_dba[]
      */
-    private function _qb_token_receipts($token, $type = org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT)
+    private function _qb_token_receipts($token)
     {
         debug_add("Looking for token '{$token}' in sent receipts");
         $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb->add_constraint('token', '=', $token);
-        $qb->add_constraint('orgOpenpsaObtype', '=', $type);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
         $ret = $qb->execute();
         debug_print_r("_qb_token_receipts({$token}) returned", $ret);
         if (empty($ret)) {

@@ -91,10 +91,7 @@ class org_openpsa_mypage_workingon
     {
         $description = trim($_POST['description']);
         midcom::get()->auth->request_sudo('org.openpsa.mypage');
-        $invoiceable = false;
-        if (isset($_POST['invoiceable']) && $_POST['invoiceable'] == 'true') {
-            $invoiceable = true;
-        }
+        $invoiceable = (isset($_POST['invoiceable']) && $_POST['invoiceable'] == 'true');
         if ($this->task) {
             // We were previously working on another task. Report hours
             // Generate a message
@@ -129,7 +126,7 @@ class org_openpsa_mypage_workingon
      *
      * @return boolean
      */
-    private function _report_hours($description, $invoiceable = false)
+    private function _report_hours($description, $invoiceable)
     {
         $hour_report = new org_openpsa_expenses_hour_report_dba();
         $hour_report->invoiceable = $invoiceable;

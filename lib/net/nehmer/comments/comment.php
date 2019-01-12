@@ -306,7 +306,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         return $log_entries;
     }
 
-    private function _log_moderation($action = 'marked_spam', $reporter = null, $extra = null)
+    private function _log_moderation($action = 'marked_spam', $reporter = null)
     {
         if ($reporter === null) {
             if (midcom::get()->auth->user) {
@@ -328,10 +328,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             1 => str_replace(':', '_', $_SERVER['REMOTE_ADDR']),
             2 => $browser
         ];
-
-        if ($extra !== null) {
-            $log_details[] = $extra;
-        }
 
         $this->set_parameter('net.nehmer.comments:moderation_log', implode(':', $log_action), implode(':', $log_details));
     }

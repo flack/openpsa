@@ -19,7 +19,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
      * @param array $tree_array - array which contains tree (built by _tree_array_build)
      * @param string $link_url - contains the link for the item
      */
-    private function _show_navigation_tree($tree_array, $link_url = "")
+    private function _show_navigation_tree($tree_array, $link_url)
     {
         foreach (array_filter($tree_array, 'is_array') as $tree) {
             $this->_request_data["name"] = $tree["topic"]->extra;

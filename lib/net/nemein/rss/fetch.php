@@ -495,9 +495,9 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      *
      * @param midgard_article $article Imported article
      */
-    private function _parse_tags($article, $field = 'content')
+    private function _parse_tags($article)
     {
-        $html_tags = org_openpsa_httplib_helpers::get_anchor_values($article->$field, 'tag');
+        $html_tags = org_openpsa_httplib_helpers::get_anchor_values($article->content, 'tag');
         $tags = [];
 
         if (count($html_tags) > 0) {

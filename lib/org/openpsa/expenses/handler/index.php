@@ -149,7 +149,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
         return array_values($reports);
     }
 
-    private function _get_list_link($label, $date = null, $task_guid = null, $person_id = null)
+    private function _get_list_link($label, $date, $task_guid, $person_id = null)
     {
         if ($task_guid !== null) {
             $url = $this->router->generate('list_hours_task', ['guid' => $task_guid]);

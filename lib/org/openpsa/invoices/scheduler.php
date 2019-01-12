@@ -70,6 +70,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         $tasks_completed = [];
         $tasks_not_completed = [];
+        $new_task = null;
 
         if ($product->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE) {
             // Close previous task(s)
@@ -90,7 +91,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
             // Create task for the duration of this cycle
             $task_title = sprintf('%s %s', $this->_deliverable->title, $this->get_cycle_identifier($this_cycle_start));
-            $this->create_task($this_cycle_start, $next_cycle_start - 1, $task_title, $last_task);
+            $new_task = $this->create_task($this_cycle_start, $next_cycle_start - 1, $task_title, $last_task);
         }
 
         // TODO: Warehouse management: create new order
@@ -104,7 +105,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             return false;
         }
         if ($send_invoice) {
-            $this->_notify_owner($calculator, $cycle_number, $next_cycle_start, $this_cycle_amount, $tasks_completed, $tasks_not_completed);
+            $this->_notify_owner($calculator, $cycle_number, $next_cycle_start, $this_cycle_amount, $tasks_completed, $tasks_not_completed, $new_task);
         }
         return true;
     }
@@ -130,7 +131,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         return true;
     }
 
-    private function _notify_owner($calculator, $cycle_number, $next_run, $invoiced_sum, $tasks_completed, $tasks_not_completed, $new_task = null)
+    private function _notify_owner($calculator, $cycle_number, $next_run, $invoiced_sum, $tasks_completed, $tasks_not_completed, $new_task)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $message = [];

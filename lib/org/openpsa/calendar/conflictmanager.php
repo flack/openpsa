@@ -82,7 +82,7 @@ class org_openpsa_calendar_conflictmanager
         return $message . '</ul>';
     }
 
-    private function _add_event_constraints(midcom_core_querybuilder $qb, $fieldname = 'eid')
+    private function _add_event_constraints(midcom_core_querybuilder $qb, $fieldname)
     {
         $qb->add_constraint($fieldname . '.busy', '<>', false);
         if ($this->_event->id) {
