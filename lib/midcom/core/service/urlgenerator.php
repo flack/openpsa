@@ -13,5 +13,5 @@
  */
 interface midcom_core_service_urlgenerator
 {
-    public function from_string($string, $replacer = '-');
+    public function from_string($string);
 }

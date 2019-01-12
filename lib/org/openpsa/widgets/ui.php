@@ -95,12 +95,12 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
      * @param string $guid The GUID, if any
      * @param array $tabdata Any custom tabs the handler wants to add
      */
-    public static function render_tabs($guid = null, $tabdata = [])
+    public static function render_tabs($guid, array $tabdata)
     {
         $uipage = self::get_config_value('ui_page');
         $prefix = midcom_connection::get_url('self') . $uipage . '/';
 
-        if (null !== $guid) {
+        if (!empty($guid)) {
             //pass the urls & titles for the tabs
             $tabdata[] = [
                'url' => '__mfa/org.openpsa.relatedto/journalentry/' . $guid . '/',

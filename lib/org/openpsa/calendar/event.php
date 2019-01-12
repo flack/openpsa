@@ -410,13 +410,10 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     /**
      * Returns a string describing the event and its participants
      */
-    public function details_text($display_title = true, $nl = "\n")
+    public function details_text($nl)
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
         $str = '';
-        if ($display_title) {
-            $str .= sprintf($l10n->get('title: %s') . $nl, $this->title);
-        }
         $str .= sprintf($l10n->get('location: %s') . $nl, $this->location);
         $str .= sprintf($l10n->get('time: %s') . $nl, $l10n->get_formatter()->timeframe($this->start, $this->end));
         $str .= sprintf($l10n->get('participants: %s') . $nl, $this->implode_members($this->participants));

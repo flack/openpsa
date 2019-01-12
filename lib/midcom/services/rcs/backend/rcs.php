@@ -433,9 +433,8 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      *
      * @param string $oldest_revision id of the oldest revision
      * @param string $latest_revision id of the latest revision
-     * @return array array with the original value, the new value and a diff -u
      */
-    public function get_diff($oldest_revision, $latest_revision, $renderer_style = 'inline')
+    public function get_diff($oldest_revision, $latest_revision)
     {
         $oldest = $this->get_revision($oldest_revision);
         $newest = $this->get_revision($latest_revision);
@@ -463,25 +462,14 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
                 $lines1 = explode("\n", $oldest_value);
                 $lines2 = explode("\n", $newest[$attribute]);
 
-                $options = [];
-                $diff = new Diff($lines1, $lines2, $options);
-                if ($renderer_style == 'unified') {
-                    $renderer = new Diff_Renderer_Text_Unified;
-                } else {
-                    $renderer = new midcom_services_rcs_renderer_html_sidebyside(['old' => $oldest_revision, 'new' => $latest_revision]);
-                }
+                $renderer = new midcom_services_rcs_renderer_html_sidebyside(['old' => $oldest_revision, 'new' => $latest_revision]);
 
                 if ($lines1 != $lines2) {
+                    $diff = new Diff($lines1, $lines2);
                     // Run the diff
                     $return[$attribute]['diff'] = $diff->render($renderer);
-                    if ($renderer_style == 'unified') {
-                        $return[$attribute]['diff'] = htmlspecialchars($return[$attribute]['diff']);
-                    }
-
-                    if ($renderer_style == 'inline') {
-                        // Modify the output for nicer rendering
-                        $return[$attribute]['diff'] = strtr($return[$attribute]['diff'], $repl);
-                    }
+                    // Modify the output for nicer rendering
+                    $return[$attribute]['diff'] = strtr($return[$attribute]['diff'], $repl);
                 }
             }
         }

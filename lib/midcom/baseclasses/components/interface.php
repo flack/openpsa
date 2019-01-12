@@ -208,15 +208,12 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * this component, as it is theoretically possible for components to drop configuration
      * information on other topics as well.
      *
-     * @param midcom_db_topic $topic The topic which should be queried, omit to
-     *     get the systemwide defaults.
+     * @param midcom_db_topic $topic The topic which should be queried
      * @return midcom_helper_configuration MidCOM configuration object
      */
-    public function get_config_for_topic($topic = null)
+    public function get_config_for_topic($topic)
     {
-        if ($topic !== null) {
-            $this->_config->store_from_object($topic, $this->_component);
-        }
+        $this->_config->store_from_object($topic, $this->_component);
         return $this->_config;
     }
 

@@ -223,34 +223,24 @@ class midcom_core_context
      * A complete example can be found with set_custom_key.
      *
      * @param int $key    The requested key
-     * @param string $component    The component name
      * @return mixed      The requested value, which is returned by Reference!
      * @see get_key()
      * @see set_custom_key()
      */
-    public function & get_custom_key($key, $component = null)
+    public function & get_custom_key($key)
     {
-        if (null === $component) {
-            $component = $this->_data[MIDCOM_CONTEXT_COMPONENT];
-        }
-
-        if (!$this->has_custom_key($key, $component)) {
-            debug_add("Requested Key ID {$key} for the component {$component} is invalid.", MIDCOM_LOG_ERROR);
+        if (!$this->has_custom_key($key)) {
+            debug_add("Requested custom key {$key} is invalid.", MIDCOM_LOG_ERROR);
             $result = false;
             return $result;
         }
 
-        return $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$component][$key];
+        return $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$key];
     }
 
-    public function has_custom_key($key, $component = null)
+    public function has_custom_key($key)
     {
-        if (null === $component) {
-            $component = $this->_data[MIDCOM_CONTEXT_COMPONENT];
-        }
-
-        return (   array_key_exists($component, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA])
-                && array_key_exists($key, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$component]));
+        return (array_key_exists($key, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA]));
     }
 
     /**
@@ -293,16 +283,11 @@ class midcom_core_context
      *
      * @param mixed $key        The key associated to the value.
      * @param mixed $value    The value to store. (This is stored by-reference!)
-     * @param string $component The component associated to the key.
      * @see get_custom_key()
      */
-    public function set_custom_key($key, &$value, $component = null)
+    public function set_custom_key($key, &$value)
     {
-        if (null === $component) {
-            $component = $this->_data[MIDCOM_CONTEXT_COMPONENT];
-        }
-
-        $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$component][$key] =& $value;
+        $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$key] =& $value;
     }
 
     /**

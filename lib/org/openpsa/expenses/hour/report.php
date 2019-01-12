@@ -54,7 +54,7 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
 
     public function _on_updating()
     {
-        $this->modify_hours_by_time_slot(false);
+        $this->modify_hours_by_time_slot();
         return $this->_prepare_save();
     }
 
@@ -92,7 +92,7 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
      * Checks if hour report is invoiceable and rounds according to the
      * time slot defined by task or config (at minimum, one slot is counted).
      */
-    public function modify_hours_by_time_slot($update = true)
+    public function modify_hours_by_time_slot()
     {
         if ($this->invoiceable) {
             $task = new org_openpsa_projects_task_dba($this->task);
@@ -104,9 +104,6 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
                 }
             }
             $this->hours = max(1, round($this->hours / $time_slot)) * $time_slot;
-            if ($update) {
-                $this->update();
-            }
         }
     }
 

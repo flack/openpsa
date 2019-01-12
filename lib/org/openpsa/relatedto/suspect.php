@@ -14,7 +14,7 @@
 class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_purecode
 {
     /**
-     * Query all installed components for objects related to given object
+     * Query all specific component for objects related to given object
      *
      * If optional $defaults (org_openpsa_relatedto_dba object) is given
      * it's used to fill default values for link objects returned.
@@ -26,30 +26,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      * The see org.openpsa.projects for an example of how the component interface method
      * org_openpsa_relatedto_find_suspects() should work.
      */
-    public static function find_links_object(midcom_core_dbaobject $object, $defaults = false)
-    {
-        $ret = [];
-        $components = array_keys(midcom::get()->componentloader->manifests);
-        //Check all installed components
-        foreach ($components as $component) {
-            if ($component == 'midcom') {
-                //Skip midcom core
-                continue;
-            }
-            $ret = array_merge($ret, self::find_links_object_component($object, $component, $defaults));
-        }
-
-        //TODO: Filter out duplicates (not likely but theoretically possible)
-
-        return $ret;
-    }
-
-    /**
-     * Query all specific component for objects related to given object
-     *
-     * See org_openpsa_relatedto_suspect::find_links_object() for details
-     */
-    public static function find_links_object_component(midcom_core_dbaobject $object, $component, $defaults = false)
+    public static function find_links_object_component(midcom_core_dbaobject $object, $component, org_openpsa_relatedto_dba $defaults)
     {
         $ret = [];
 
@@ -87,7 +64,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      *
      * Tries to be smart about the direction (inbound vs outbound) properties
      */
-    public static function defaults_helper(org_openpsa_relatedto_dba $link, $defaults, $component = false, $obj = false)
+    public static function defaults_helper(org_openpsa_relatedto_dba $link, org_openpsa_relatedto_dba $defaults, $component, midcom_core_dbaobject $obj)
     {
         $properties = ['fromClass', 'toClass', 'fromGuid', 'toGuid', 'fromComponent', 'toComponent', 'status', 'toExtra', 'toExtra'];
         foreach ($properties as $property) {
@@ -97,31 +74,27 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
                 $link->$property = $defaults->$property;
             }
         }
-        if ($component) {
-            debug_add('$component given, guessing direction');
-            if (   empty($link->toComponent)
-                && !empty($link->fromComponent)) {
-                debug_add("Setting property 'toComponent' to '{$component}'");
-                $link->toComponent = $component;
-            } else {
-                debug_add("Setting property 'fromComponent' to '{$component}'");
-                $link->fromComponent = $component;
-            }
+
+        if (   empty($link->toComponent)
+            && !empty($link->fromComponent)) {
+            debug_add("Setting property 'toComponent' to '{$component}'");
+            $link->toComponent = $component;
+        } else {
+            debug_add("Setting property 'fromComponent' to '{$component}'");
+            $link->fromComponent = $component;
         }
-        if (is_object($obj)) {
-            debug_add('$obj given, guessing direction');
-            if (   empty($link->toGuid)
-                && !empty($link->fromGuid)) {
-                $link->toClass = get_class($obj);
-                $link->toGuid = $obj->guid;
-                debug_add("Setting property 'toGuid' to '{$link->toGuid}'");
-                debug_add("Setting property 'toClass' to '{$link->toClass}'");
-            } else {
-                $link->fromClass = get_class($obj);
-                $link->fromGuid = $obj->guid;
-                debug_add("Setting property 'fromGuid' to '{$link->fromGuid}'");
-                debug_add("Setting property 'fromClass' to '{$link->fromClass}'");
-            }
+
+        if (   empty($link->toGuid)
+            && !empty($link->fromGuid)) {
+            $link->toClass = get_class($obj);
+            $link->toGuid = $obj->guid;
+            debug_add("Setting property 'toGuid' to '{$link->toGuid}'");
+            debug_add("Setting property 'toClass' to '{$link->toClass}'");
+        } else {
+            $link->fromClass = get_class($obj);
+            $link->fromGuid = $obj->guid;
+            debug_add("Setting property 'fromGuid' to '{$link->fromGuid}'");
+            debug_add("Setting property 'fromClass' to '{$link->fromClass}'");
         }
     }
 }

@@ -226,16 +226,11 @@ class midcom_core_querybuilder extends midcom_core_query
      * Get result by its index
      *
      * @param int $key      Requested index in result set
-     * @param string $mode  Execution mode: normal (default), unchecked, notwindowed
      * @return mixed        False on failure (key does not exist), object given to constructor on success
      */
-    public function get_result($key, $mode = null)
+    public function get_result($key)
     {
-        if ($mode == 'unchecked') {
-            $results = $this->execute_unchecked();
-        } else {
-            $results = $this->execute();
-        }
+        $results = $this->execute();
 
         if (!isset($results[$key])) {
             return false;

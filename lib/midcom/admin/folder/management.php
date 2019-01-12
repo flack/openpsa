@@ -36,10 +36,9 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     /**
      * List names of the non-purecore components
      *
-     * @param string $parent_component  Name of the parent component, which will pop the item first on the list
      * @return array containing names of the components
      */
-    public static function get_component_list($parent_component = '')
+    public static function get_component_list()
     {
         $components = [];
 
@@ -65,16 +64,6 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         // Sort the components in alphabetical order (by key i.e. component class name)
         asort($components);
 
-        // Set the parent component to be the first if applicable
-        if (   $parent_component !== ''
-            && array_key_exists($parent_component, $components)) {
-            $temp = [];
-            $temp[$parent_component] = $components[$parent_component];
-            unset($components[$parent_component]);
-
-            $components = array_merge($temp, $components);
-        }
-
         return $components;
     }
 
@@ -83,7 +72,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
      *
      * @return array Containing a list of components
      */
-    public static function list_components($parent_component = '', $all = false)
+    public static function list_components($current_selection)
     {
         $list = [];
 
@@ -97,8 +86,8 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         $excluded = midcom::get()->config->get('component_listing_excluded', []);
 
         foreach (self::get_component_list() as $component => $details) {
-            if ($component !== $parent_component && !$all) {
-                    if (!empty($allowed) && !in_array($component, $allowed)) {
+            if ($component !== $current_selection) {
+                if (!empty($allowed) && !in_array($component, $allowed)) {
                     continue;
                 }
 

@@ -321,6 +321,6 @@ class view extends base
         if (isset($view['time'])) {
             $time_format = (isset($data['value']['seconds'])) ? 'medium' : 'short';
         }
-        return midcom::get()->i18n->get_l10n()->get_formatter()->date($data['value']['date'], 'medium', $time_format);
+        return midcom::get()->i18n->get_l10n()->get_formatter()->datetime($data['value']['date'], 'medium', $time_format);
     }
 }

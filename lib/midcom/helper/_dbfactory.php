@@ -93,7 +93,7 @@ class midcom_helper__dbfactory
      * @return midcom_core_collector The initialized instance of the collector.
      * @see midcom_core_collector
      */
-    public function new_collector($classname, $domain = null, $value = null)
+    public function new_collector($classname, $domain, $value)
     {
         return new midcom_core_collector($classname, $domain, $value);
     }

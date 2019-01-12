@@ -70,7 +70,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
      * @param array $label_fields  Object properties to show in the label (will be shown space separated)
      * @return array
      */
-    public static function list_groups($up = 0, $prefix = '', $keyproperty = 'id', $order_by_score = false, $label_fields = ['code', 'title'])
+    public static function list_groups($up, $prefix, $keyproperty, $order_by_score = false, array $label_fields = ['code', 'title'])
     {
         static $result_cache = [];
 

@@ -32,7 +32,7 @@ implements midcom_services_permalinks_resolver
      *
      * Currently handles persons
      */
-    public function org_openpsa_relatedto_find_suspects(midcom_core_dbaobject $object, $defaults, array &$links_array)
+    public function org_openpsa_relatedto_find_suspects(midcom_core_dbaobject $object, org_openpsa_relatedto_dba $defaults, array &$links_array)
     {
         switch (true) {
             case $object instanceof midcom_db_person:
@@ -51,7 +51,7 @@ implements midcom_services_permalinks_resolver
      * Current rule: all participants of event must be either manager, contact or resource in task
      * that overlaps in time with the event.
      */
-    private function _find_suspects_event(midcom_core_dbaobject $object, $defaults, array &$links_array)
+    private function _find_suspects_event(midcom_core_dbaobject $object, org_openpsa_relatedto_dba $defaults, array &$links_array)
     {
         if (   !is_array($object->participants)
             || count($object->participants) < 1) {
@@ -90,7 +90,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Used by org_openpsa_relatedto_find_suspects to in case the given object is a person
      */
-    private function _find_suspects_person(midcom_core_dbaobject $object, $defaults, array &$links_array)
+    private function _find_suspects_person(midcom_core_dbaobject $object, org_openpsa_relatedto_dba $defaults, array &$links_array)
     {
         //List all projects and tasks given person is involved with
         $mc = org_openpsa_projects_task_resource_dba::new_collector('person', $object->id);

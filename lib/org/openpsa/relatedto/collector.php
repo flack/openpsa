@@ -217,11 +217,11 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      * @param string $component A component name to further narrow down the results
      * @return midcom_core_dbaobject[] DBA objects
      */
-    public function get_related_objects($component = null)
+    public function get_related_objects()
     {
         $entries = [];
 
-        $guids = $this->get_related_guids($component);
+        $guids = $this->get_related_guids();
 
         if (count($guids) == 0) {
             return $entries;
@@ -243,12 +243,8 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      * @param string $component A component name to further narrow down the results
      * @return array Array of GUIDs
      */
-    public function get_related_guids($component = null)
+    public function get_related_guids()
     {
-        if ($component) {
-            $this->add_constraint($this->_other_prefix . 'Component', '=', $component);
-        }
-
         $this->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
 
         return array_values($this->get_values($this->_other_prefix . 'Guid'));

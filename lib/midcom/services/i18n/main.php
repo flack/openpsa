@@ -426,20 +426,13 @@ class midcom_services_i18n
     /**
      * Converts the given string to the current site charset.
      *
-     * The charset should be specified explicitly, as autodetection is very
-     * very error prone (though sometimes you don't have a choice).
-     *
      * @param string $string The string to convert.
-     * @param string $charset The charset in which string currently is, omit this parameter to use mb_detect_encoding (error prone!)
      * @return string The converted string.
      */
-    public function convert_to_current_charset($string, $charset = null)
+    public function convert_to_current_charset($string)
     {
-        if (is_null($charset)) {
-            // Try to detect source encoding.
-            $charset = mb_detect_encoding($string, "UTF-8, UTF-7, ASCII, ISO-8859-15");
-            debug_add("mb_detect_encoding got {$charset}");
-        }
+        $charset = mb_detect_encoding($string, "UTF-8, UTF-7, ASCII, ISO-8859-15");
+        debug_add("mb_detect_encoding got {$charset}");
         return $this->iconv($charset, $this->_current_charset, $string);
     }
 

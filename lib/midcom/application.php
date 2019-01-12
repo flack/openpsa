@@ -154,8 +154,7 @@ class midcom_application
      * trailing .html from the argument list before actually parsing it.
      *
      * It tries to load the component referenced with the URL $url and executes
-     * it as if it was used as primary component. Additional configuration parameters
-     * can be appended through the parameter $config.
+     * it as if it was used as primary component.
      *
      * This is only possible if the system is in the Page-Style output phase. It
      * cannot be used within code-init or during the output phase of another
@@ -171,20 +170,11 @@ class midcom_application
      * midcom::get()->dynamic_load("/midcom-substyle-{$substyle}/{$blog}");
      * </code>
      *
-     * Results of dynamic_loads are cached, by default with the system cache strategy
-     * but you can specify separate cache strategy for the DL in the config array like so
-     * <code>
-     * midcom::get()->dynamic_load("/midcom-substyle-{$substyle}/{$newsticker}", ['cache_module_content_caching_strategy' => 'public'])
-     * </code>
-     *
-     * You can use only less specific strategy than the global strategy, ie basically you're limited to 'memberships' and 'public' as
-     * values if the global strategy is 'user' and to 'public' the global strategy is 'memberships', failure to adhere to this
-     * rule will result to weird cache behavior.
+     * Results of dynamic_loads are cached with the system cache strategy
      *
      * @param string $url                The URL, relative to the Midgard Page, that is to be requested.
-     * @param array $config              A key=>value array with any configuration overrides.
      */
-    public function dynamic_load($url, $config = [], $pass_get = false)
+    public function dynamic_load($url)
     {
         debug_add("Dynamic load of URL {$url}");
 
@@ -197,17 +187,10 @@ class midcom_application
         $oldcontext = midcom_core_context::get();
         $context = new midcom_core_context(null, $oldcontext->get_key(MIDCOM_CONTEXT_ROOTTOPIC));
         $uri = midcom_connection::get_url('self') . $url;
-        $request = $this->request->duplicate(null, null, []);
-        if ($pass_get) {
-            // Include GET parameters into cache URL
-            $uri .= '?GET=' . serialize($this->request->query->all());
-        } else {
-            $request->query->replace([]);
-        }
         $context->set_key(MIDCOM_CONTEXT_URI, $uri);
 
         $context->set_current();
-        $cached = $this->cache->content->check_dl_hit($context->id, $config);
+        $cached = $this->cache->content->check_dl_hit($context->id);
         if ($cached !== false) {
             echo $cached;
             return;
@@ -218,6 +201,7 @@ class midcom_application
         $argv = $context->parser->tokenize($url);
         $context->parser->parse($argv);
 
+        $request = $this->request->duplicate([], null, []);
         try {
             $response = $this->_process($context, $request);
         } catch (midcom_error $e) {
@@ -238,7 +222,7 @@ class midcom_application
         $dl_cache_data = ob_get_contents();
         ob_end_flush();
         /* Cache DL the content */
-        $this->cache->content->store_dl_content($context->id, $config, $dl_cache_data);
+        $this->cache->content->store_dl_content($context->id, $dl_cache_data);
 
         // Leave Context
         $oldcontext->set_current();
@@ -267,16 +251,9 @@ class midcom_application
      * If expires is set to -1, no expires header gets sent.
      *
      * @param midcom_db_attachment $attachment    The attachment to be delivered.
-     * @param int $expires HTTP-Expires timeout in seconds, set this to 0 for uncacheable pages, or to -1 for no Expire header.
      */
-    public function serve_attachment(midcom_db_attachment $attachment, $expires = -1)
+    public function serve_attachment(midcom_db_attachment $attachment)
     {
-        // Sanity check expires
-        if (   !is_int($expires)
-            || $expires < -1) {
-            throw new midcom_error("\$expires has to be a positive integer or zero or -1, is now {$expires}.");
-        }
-
         // Doublecheck that this is registered
         $this->cache->content->register($attachment->guid);
 
@@ -286,27 +263,17 @@ class midcom_application
         $etag = md5("{$last_modified}{$attachment->name}{$attachment->mimetype}{$attachment->guid}");
         $response->setEtag($etag);
 
-        if ($expires == 0 || !$response->isNotModified($this->request)) {
+        if (!$response->isNotModified($this->request)) {
             $response->prepare($this->request);
-
-            if ($expires > 0) {
-                // If custom expiry now+expires is set use that
-                $this->cache->content->expires(time() + $expires);
-            }
 
             if ($this->config->get('attachment_xsendfile_enable')) {
                 BinaryFileResponse::trustXSendfileTypeHeader();
                 $response->headers->set('X-Sendfile-Type', 'X-Sendfile');
             }
         }
-        if ($expires == 0) {
-            // expires set to 0 means disable cache, so we shall
-            $this->cache->content->no_cache($response);
-        } else {
-            $this->cache->content->cache_control_headers($response);
-            // Store metadata in cache so _check_hit() can help us
-            $this->cache->content->write_meta_cache('A-' . $etag, $etag);
-        }
+        $this->cache->content->cache_control_headers($response);
+        // Store metadata in cache so _check_hit() can help us
+        $this->cache->content->write_meta_cache('A-' . $etag, $etag);
         $response->send();
 
         debug_add("End of MidCOM run: " . $this->request->server->get('REQUEST_URI'));

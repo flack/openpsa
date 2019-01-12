@@ -240,7 +240,7 @@ abstract class midcom_core_query
      * @param string $operator One of 'OR' or 'AND' denoting the logical operation with which all
      *     constraints in the group are concatenated.
      */
-    public function begin_group($operator = 'OR')
+    public function begin_group($operator)
     {
         if (!$this->_query->begin_group($operator)) {
             debug_add("Failed to execute begin_group {$operator}", MIDCOM_LOG_ERROR);

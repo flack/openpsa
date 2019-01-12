@@ -136,7 +136,7 @@ class org_openpsa_mypage_workingon
         $hour_report->description = $description;
         $hour_report->hours = $this->time / 3600;
         //apply minimum_time_slot
-        $hour_report->modify_hours_by_time_slot(false);
+        $hour_report->modify_hours_by_time_slot();
 
         if (!$hour_report->create()) {
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf(midcom::get()->i18n->get_string('reporting %f hours to task %s failed, reason %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title, midcom_connection::get_error_string()), 'error');

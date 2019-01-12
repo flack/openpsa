@@ -306,55 +306,36 @@ class midcom_helper_misc
      * Returns the first instance of a given component on the site.
      *
      * @param string $component The component name
-     * @param integer $node_id Node ID of parent topic
-     * @param midcom_helper_nav $nap
      * @return array NAP array of the first component instance found
      */
-    public static function find_node_by_component($component, $node_id = null, midcom_helper_nav $nap = null)
+    public static function find_node_by_component($component)
     {
         static $cache = [];
 
-        $cache_node = $node_id;
-        if (is_null($cache_node)) {
-            $cache_node = 0;
-        }
-        $cache_key = $cache_node . '::' . $component;
+        if (!array_key_exists($component, $cache)) {
+            $cache[$component] = null;
 
-        if (array_key_exists($cache_key, $cache)) {
-            return $cache[$cache_key];
-        }
-
-        if (null === $nap) {
             $nap = new midcom_helper_nav;
-        }
-
-        if (is_null($node_id)) {
             $node_id = $nap->get_root_node();
-
             $root_node = $nap->get_node($node_id);
+
             if ($root_node[MIDCOM_NAV_COMPONENT] == $component) {
-                $cache[$cache_key] = $root_node;
-                return $root_node;
+                $cache[$component] = $root_node;
+            } else {
+                $qb = midcom_db_topic::new_query_builder();
+                $qb->add_constraint('component', '=', $component);
+                $qb->add_constraint('name', '<>', '');
+                $qb->add_constraint('up', 'INTREE', $node_id);
+                $qb->set_limit(1);
+                $topics = $qb->execute();
+
+                if (count($topics) === 1) {
+                    $cache[$component] = $nap->get_node($topics[0]->id);
+                }
             }
         }
 
-        // Otherwise, go with QB
-        $qb = midcom_db_topic::new_query_builder();
-        $qb->add_constraint('component', '=', $component);
-        $qb->add_constraint('name', '<>', '');
-        $qb->add_constraint('up', 'INTREE', $node_id);
-        $qb->set_limit(1);
-        $topics = $qb->execute();
-
-        if (count($topics) == 0) {
-            $cache[$cache_key] = null;
-            return null;
-        }
-
-        $node = $nap->get_node($topics[0]->id);
-        $cache[$cache_key] = $node;
-
-        return $node;
+        return $cache[$component];
     }
 
     /**
@@ -362,9 +343,8 @@ class midcom_helper_misc
      * Tries to resolve path according to theme-name & page
      *
      * @param string $element_name
-     * @param string $theme_root
      */
-    public static function get_element_content($element_name, $theme_root = OPENPSA2_THEME_ROOT)
+    public static function get_element_content($element_name)
     {
         $theme = midcom::get()->config->get('theme');
         $path_array = explode('/', $theme);
@@ -377,16 +357,18 @@ class midcom_helper_misc
             $theme_path = implode('/', $path_array);
             $candidates = [];
             if ($substyle) {
-                $candidates[] = $theme_root . $theme_path . "/style/{$substyle}/{$element_name}.php";
+                $candidates[] = '/' . $substyle . '/' . $element_name;
             }
             if ($page) {
-                $candidates[] = $theme_root . $theme_path . "/style{$page}/{$element_name}.php";
+                $candidates[] = $page . '/' . $element_name;
             }
+            $candidates[] = '/' . $element_name;
 
-            $candidates[] = $theme_root . $theme_path . "/style/{$element_name}.php";
-
-            foreach (array_filter($candidates, 'file_exists') as $candidate) {
-                return file_get_contents($candidate);
+            foreach ($candidates as $candidate) {
+                $filename = OPENPSA2_THEME_ROOT . $theme_path . '/style' . $candidate . '.php';
+                if (file_exists($filename)) {
+                    return file_get_contents($filename);
+                }
             }
 
             //remove last theme part
@@ -400,15 +382,14 @@ class midcom_helper_misc
      * Iterate through possible page directories in style-tree and check if the page exists (as a folder).
      *
      * @param string $page_name
-     * @param string $theme_root
      */
-    public static function check_page_exists($page_name, $theme_root = OPENPSA2_THEME_ROOT)
+    public static function check_page_exists($page_name)
     {
         $path_array = explode('/', midcom::get()->config->get('theme'));
 
         while (!empty($path_array)) {
             $theme_path = implode('/', $path_array);
-            if (is_dir($theme_root . $theme_path . '/style/' . $page_name)) {
+            if (is_dir(OPENPSA2_THEME_ROOT . $theme_path . '/style/' . $page_name)) {
                 return true;
             }
             array_pop($path_array);

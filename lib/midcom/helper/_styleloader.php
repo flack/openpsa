@@ -340,13 +340,11 @@ class midcom_helper__styleloader
      *
      * @param string $preparsed The element's content as executable code
      * @param string $path the element's name
-     * @param array $data Request date, if you don't want to use the global data
      * @throws midcom_error
      */
-    public function render($preparsed, $path, array $data = [])
+    public function render($preparsed, $path)
     {
-        if (   empty($data)
-            && midcom_core_context::get()->has_custom_key('request_data')) {
+        if (midcom_core_context::get()->has_custom_key('request_data')) {
             $data =& midcom_core_context::get()->get_custom_key('request_data');
         }
 

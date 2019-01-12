@@ -80,15 +80,14 @@ class org_openpsa_helpers_list
     /**
      * List tasks user can see
      */
-    public static function projects($add_all = false)
+    public static function projects()
     {
         //Only query once per request
         static $cache = null;
         if (is_null($cache)) {
-            $cache = [];
-            if ($add_all) {
-                $cache['all'] = midcom::get()->i18n->get_string('all', 'midcom');
-            }
+            $cache = [
+                'all' => midcom::get()->i18n->get_string('all', 'midcom')
+            ];
 
             $qb = org_openpsa_projects_project::new_query_builder();
             $qb->add_order('title');

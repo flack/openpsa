@@ -122,7 +122,7 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         return $this->_create_invoice($cycle_number);
     }
 
-    private function _create_invoice($cycle_number = null)
+    private function _create_invoice($cycle_number)
     {
         $salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
         $invoice = new org_openpsa_invoices_invoice_dba();

@@ -88,14 +88,14 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                 $message['title'] = sprintf($l10n->get('event "%s" was updated'), $event->title);
                 $message['abstract'] = sprintf($l10n->get('event "%s" (%s) was updated'), $event->title, $timeframe);
                 $message['content'] = sprintf($l10n->get('event "%s" was modified, updated information below.') . "{$nl}{$nl}", $event->title);
-                $message['content'] .= $event->details_text(false, $nl);
+                $message['content'] .= $event->details_text($nl);
                 break;
                 //Participant was added to the event
             case 'add':
                 $message['title'] = sprintf($l10n->get('you have been added to event "%s"'), $event->title);
                 $message['abstract'] = sprintf($l10n->get('you have been added to event "%s" (%s)'), $event->title, $timeframe);
                 $message['content'] = sprintf($l10n->get('you have been added to event "%s" participants list, event information below.') . "{$nl}{$nl}", $event->title);
-                $message['content'] .= $event->details_text(false, $nl);
+                $message['content'] .= $event->details_text($nl);
                 break;
                 //Participant was removed from event
             case 'remove':

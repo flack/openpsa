@@ -102,9 +102,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Displays previous/next selector
      */
-    function show_previousnext($acl_checks = false)
+    function show_previousnext()
     {
-        $page_count = $this->count_pages($acl_checks);
+        $page_count = $this->count_pages();
         //Skip the header in case we only have one page
         if ($page_count <= 1) {
             return;
@@ -127,10 +127,10 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         echo "\n</div>\n";
     }
 
-    public function get_pages($acl_checks = false)
+    public function get_pages()
     {
         $pages = [];
-        $page_count = $this->count_pages($acl_checks);
+        $page_count = $this->count_pages();
 
         if ($page_count < 1) {
             return $pages;
@@ -214,17 +214,17 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Displays page selector
      */
-    public function show_pages($acl_checks = false)
+    public function show_pages()
     {
-        $this->show('pages', ['pages' => $this->get_pages($acl_checks)]);
+        $this->show('pages', ['pages' => $this->get_pages()]);
     }
 
     /**
      * Displays page selector as list
      */
-    function show_pages_as_list($acl_checks = false)
+    function show_pages_as_list()
     {
-        $this->show('pages_as_list', ['pages' => $this->get_pages($acl_checks)]);
+        $this->show('pages_as_list', ['pages' => $this->get_pages()]);
     }
 
     /**
@@ -265,19 +265,14 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Returns number of total pages for query
      *
-     * By default returns a number of pages without any ACL checks, checked
-     * count is available but is much slower.
+     * By default returns a number of pages without any ACL checks
      */
-    function count_pages($acl_checks = false)
+    private function count_pages()
     {
         if (!$this->_sanity_check()) {
             return false;
         }
-        if (!$acl_checks) {
-            $this->count_unchecked();
-        } else {
-            $this->count();
-        }
+        $this->count_unchecked();
         return ceil($this->count / $this->results_per_page);
     }
 

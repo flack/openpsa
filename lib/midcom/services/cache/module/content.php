@@ -191,12 +191,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     /**
      * Generate a valid cache identifier for a context of the current request
      */
-    private function generate_request_identifier($context, $customdata = null)
+    private function generate_request_identifier($context)
     {
         // Cache the request identifier so that it doesn't change between start and end of request
         static $identifier_cache = [];
         if (isset($identifier_cache[$context])) {
-            // FIXME: Use customdata here, too
             return $identifier_cache[$context];
         }
 
@@ -206,11 +205,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
         $identifier_source = 'CACHE:' . $module_name;
 
-        if (!isset($customdata['cache_module_content_caching_strategy'])) {
-            $cache_strategy = midcom::get()->config->get('cache_module_content_caching_strategy');
-        } else {
-            $cache_strategy = $customdata['cache_module_content_caching_strategy'];
-        }
+        $cache_strategy = midcom::get()->config->get('cache_module_content_caching_strategy');
 
         switch ($cache_strategy) {
             case 'memberships':
@@ -234,13 +229,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         $identifier_source .= ';URL=' . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI);
-        // check_dl_hit needs to take config changes into account...
-        if (!is_null($customdata)) {
-            $identifier_source .= ';' . serialize($customdata);
-        }
 
         debug_add("Generating context {$context} request-identifier from: {$identifier_source}");
-        debug_print_r('$customdata was: ', $customdata);
 
         $identifier_cache[$context] = 'R-' . md5($identifier_source);
         return $identifier_cache[$context];
@@ -750,12 +740,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_meta_cache->saveMultiple($to_save);
     }
 
-    public function check_dl_hit($context, $dl_config)
+    public function check_dl_hit($context)
     {
         if ($this->_no_cache) {
             return false;
         }
-        $dl_request_id = 'DL' . $this->generate_request_identifier($context, $dl_config);
+        $dl_request_id = 'DL' . $this->generate_request_identifier($context);
         $dl_content_id = $this->_meta_cache->fetch($dl_request_id);
         if ($dl_content_id === false) {
             return false;
@@ -764,13 +754,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         return $this->_data_cache->fetch($dl_content_id);
     }
 
-    public function store_dl_content($context, $dl_config, $dl_cache_data)
+    public function store_dl_content($context, $dl_cache_data)
     {
         if (   $this->_no_cache
             || $this->_uncached) {
             return;
         }
-        $dl_request_id = 'DL' . $this->generate_request_identifier($context, $dl_config);
+        $dl_request_id = 'DL' . $this->generate_request_identifier($context);
         $dl_content_id = 'DLC-' . md5($dl_cache_data);
 
         if (!is_null($this->_expires)) {

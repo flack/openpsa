@@ -68,9 +68,9 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * @param string $guid The GUID of the object to bind to.
      * @return net_nehmer_comments_comment[] List of applicable comments.
      */
-    public static function list_by_objectguid($guid, $limit = false, $order = 'ASC', $paging = false, $status = false)
+    public static function list_by_objectguid($guid, $limit = false, $order = 'ASC', $paging = false)
     {
-        $qb = self::_prepare_query($guid, $status, $paging, $limit);
+        $qb = self::_prepare_query($guid, $paging, $limit);
         $qb->add_order('metadata.published', $order);
 
         if ($paging !== false) {
@@ -88,9 +88,9 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * @param string $guid The GUID of the object to bind to.
      * @return net_nehmer_comments_comment[] List of applicable comments.
      */
-    public static function list_by_objectguid_filter_anonymous($guid, $limit = false, $order = 'ASC', $paging = false, $status = false)
+    public static function list_by_objectguid_filter_anonymous($guid, $limit = false, $order = 'ASC', $paging = false)
     {
-        $qb = self::_prepare_query($guid, $status, $paging, $limit);
+        $qb = self::_prepare_query($guid, $paging, $limit);
         $qb->add_order('metadata.published', $order);
         $qb->add_constraint('author', '<>', '');
         $qb->add_constraint('content', '<>', '');
@@ -108,9 +108,9 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      *
      * @return int Number of comments matching a given result.
      */
-    public static function count_by_objectguid($guid, $status = false)
+    public static function count_by_objectguid($guid)
     {
-        $qb = self::_prepare_query($guid, $status);
+        $qb = self::_prepare_query($guid);
         return $qb->count_unchecked();
     }
 
@@ -121,15 +121,15 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      *
      * @return int Number of comments matching a given result.
      */
-    public static function count_by_objectguid_filter_anonymous($guid, $status = false)
+    public static function count_by_objectguid_filter_anonymous($guid)
     {
-        $qb = self::_prepare_query($guid, $status);
+        $qb = self::_prepare_query($guid);
         $qb->add_constraint('author', '<>', '');
         $qb->add_constraint('content', '<>', '');
         return $qb->count_unchecked();
     }
 
-    private static function _prepare_query($guid, $status, $paging = false, $limit = false)
+    private static function _prepare_query($guid, $paging = false, $limit = false)
     {
         if ($paging !== false) {
             $qb = new org_openpsa_qbpager(net_nehmer_comments_comment::class, 'net_nehmer_comments_comment');
@@ -141,11 +141,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             }
         }
 
-        if (!is_array($status)) {
-            $status = net_nehmer_comments_comment::get_default_status();
-        }
-
-        $qb->add_constraint('status', 'IN', $status);
+        $qb->add_constraint('status', 'IN', self::get_default_status());
         $qb->add_constraint('objectguid', '=', $guid);
 
         return $qb;
@@ -306,7 +302,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         return $log_entries;
     }
 
-    private function _log_moderation($action = 'marked_spam', $reporter = null)
+    private function _log_moderation($action, $reporter = null)
     {
         if ($reporter === null) {
             if (midcom::get()->auth->user) {

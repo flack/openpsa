@@ -208,7 +208,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         echo '<li><a class="expand-type-children" href="?show_all_' . $type . '=1">' . $icon . ' ' . sprintf($this->_l10n->get('show all %s %s entries'), $total, $ref->get_class_label()) . '</a></li>';
     }
 
-    protected function _draw_element($object, $label, $level = 0, $autoexpand = false)
+    protected function _draw_element($object, $label, $level, $autoexpand = false)
     {
         $ref = $this->_get_reflector($object);
 

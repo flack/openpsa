@@ -33,17 +33,12 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
      *
      * @param string $html HTML to parse
      * @param string $relation Relation (rel) or reverse relation (rev) of the link tag to fetch
-     * @param string $type Type (type) of the link tag to fetch (defaults to null, meaning all types of the link relation)
      * @return array Links matching given criteria as arrays containing keys title, href and optionally hreflang
      */
-    public static function get_link_values($html, $relation, $type = null)
+    public static function get_link_values($html, $relation)
     {
         $crawler = new Crawler($html);
         $nodes = $crawler->filter('head link[rel="' . $relation . '"]');
-
-        if (!is_null($type)) {
-            $nodes = $nodes->filter('[type="' . $type . '"]');
-        }
 
         return $nodes->each(function(Crawler $node, $i) {
             $tag = ['title' => false, 'href' => false, 'hreflang' => false];

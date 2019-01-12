@@ -59,11 +59,10 @@ class midcom_services_metadata
      * Sets the class of the current page for a context
      *
      * @param string $page_class The class that should be used for the page
-     * @param int $context_id The context ID for which the page class should be set.
      */
-    function set_page_class($page_class, $context_id = null)
+    function set_page_class($page_class)
     {
-        $context = midcom_core_context::get($context_id);
+        $context = midcom_core_context::get();
 
         // Append current topic to page class if enabled
         if (midcom::get()->config->get('page_class_include_component')) {
@@ -82,12 +81,11 @@ class midcom_services_metadata
     /**
      * Gets the CSS class of the current page of a context
      *
-     * @param int $context_id The context ID for the page class.
      * @return string The page class
      */
-    public function get_page_class($context_id = null)
+    public function get_page_class()
     {
-        $context = midcom_core_context::get($context_id);
+        $context = midcom_core_context::get();
 
         if (array_key_exists($context->id, $this->_page_classes)) {
             return $this->_page_classes[$context->id];
@@ -307,27 +305,19 @@ class midcom_services_metadata
      *
      * @return string Open Graph Protocol type
      */
-    public function get_opengraph_type_default($object = null)
+    public function get_opengraph_type_default()
     {
         if (!midcom::get()->config->get('metadata_opengraph')) {
             return '';
         }
 
-        if (!$object) {
-            // No object given, use object bound to view
-            $context_id = midcom_core_context::get()->id;
-            if (empty($this->_metadata[$context_id])) {
-                return '';
-            }
-            $object = $this->_metadata[$context_id]->object;
-        }
-
-        if (empty($object->guid)) {
-            // Non-persistent or non-Midgard object
+        $context = midcom_core_context::get();
+        if (empty($this->_metadata[$context->id])) {
             return '';
         }
+        $object = $this->_metadata[$context->id]->object;
 
-        $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
+        $component = $context->get_key(MIDCOM_CONTEXT_COMPONENT);
         if (!$component) {
             return '';
         }

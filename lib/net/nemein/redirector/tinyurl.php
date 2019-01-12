@@ -59,12 +59,8 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
     /**
      * Trim a tiny url
      */
-    public static function generate($chars = null, $length = 6)
+    public static function generate()
     {
-        if (!$chars) {
-            $chars = '23456789abcdefghjkmnopqrstuvwxyz';
-        }
-
-        return midcom_helper_misc::random_string($length, $chars);
+        return midcom_helper_misc::random_string(6, '23456789abcdefghjkmnopqrstuvwxyz');
     }
 }

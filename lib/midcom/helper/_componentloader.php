@@ -303,7 +303,7 @@ class midcom_helper__componentloader
 
         if (!is_array($manifests)) {
             debug_add('Cache miss, generating component manifest cache now.');
-            $manifests = $this->get_manifests();
+            $manifests = $this->get_manifests(midcom::get()->config);
             midcom::get()->cache->memcache->put('MISC', 'midcom.componentloader.manifests', $manifests);
         }
         array_map([$this, '_register_manifest'], $manifests);
@@ -312,13 +312,10 @@ class midcom_helper__componentloader
     /**
      * This function is called from the class manifest loader in case of a cache miss.
      *
-     * @param midcom_config $config The configuration object (useful for calling this function without initializing midcom)
+     * @param midcom_config $config The configuration object
      */
-    public function get_manifests(midcom_config $config = null)
+    public function get_manifests(midcom_config $config)
     {
-        if ($config === null) {
-            $config = midcom::get()->config;
-        }
         $manifests = [];
 
         foreach ($config->get('builtin_components', []) as $path) {
@@ -363,18 +360,14 @@ class midcom_helper__componentloader
      * is set to true, an empty array is added implicitly.
      *
      * @param string $component The custom data component index to look for.
-     * @param boolean $showempty Set this flag to true to get an (empty) entry for all components which
-     *     don't have customdata applicable to the component index given. This is disabled by default.
      * @return Array All found component data indexed by known components.
      */
-    public function get_all_manifest_customdata($component, $showempty = false)
+    public function get_all_manifest_customdata($component)
     {
         $result = [];
         foreach ($this->manifests as $manifest) {
             if (array_key_exists($component, $manifest->customdata)) {
                 $result[$manifest->name] = $manifest->customdata[$component];
-            } elseif ($showempty) {
-                $result[$manifest->name] = [];
             }
         }
         return $result;

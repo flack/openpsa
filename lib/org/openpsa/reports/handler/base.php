@@ -164,10 +164,11 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     /**
      * Convert midcom acl identifier to array of person ids
      */
-    protected function _expand_resource($resource_id, $ret = [])
+    protected function _expand_resource($resource_id)
     {
         debug_add('Got resource_id: ' . $resource_id);
         $dba_obj = midcom::get()->auth->get_assignee($resource_id);
+        $ret = [];
 
         switch (get_class($dba_obj)) {
             case midcom_core_group::class:

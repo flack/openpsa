@@ -135,10 +135,10 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.css");
     }
 
-    public static function add_button(midcom_helper_toolbar $toolbar, $guid, $mode = 'both')
+    public static function add_button(midcom_helper_toolbar $toolbar, $guid)
     {
         $toolbar->add_item([
-            MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/render/{$guid}/{$mode}/",
+            MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/render/{$guid}/both/",
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view related information', 'org.openpsa.relatedto'),
             MIDCOM_TOOLBAR_GLYPHICON => 'paperclip',
         ]);
@@ -202,16 +202,9 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         ];
     }
 
-    public static function common_node_toolbar_buttons(midcom_helper_toolbar $toolbar, $bind_object, $calling_component, $buttons = 'default')
+    public static function common_node_toolbar_buttons(midcom_helper_toolbar $toolbar, $bind_object, $calling_component, array $buttons)
     {
         self::add_header_files();
-        if ($buttons == 'default') {
-            $buttons = self::common_toolbar_buttons_defaults();
-        }
-        if (!is_array($buttons)) {
-            //Invalid buttons given
-            return;
-        }
         $workflow = new midcom\workflow\datamanager;
         $toolbar_buttons = [];
         foreach ($buttons as $mode => $data) {

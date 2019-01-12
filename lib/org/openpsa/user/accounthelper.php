@@ -186,7 +186,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     public static function generate_password($length = 0)
     {
-        // We should do this by listening to /dev/urandom
         // Safety
         if ($length == 0) {
             $length = 8;

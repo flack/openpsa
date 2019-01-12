@@ -182,7 +182,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
     /**
      * Copy tasks of one object to another object
      */
-    public function copy_tags($from, $to, $component = null)
+    public function copy_tags($from, $to)
     {
         if (   !is_object($from)
             || !is_object($to)) {
@@ -190,7 +190,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         }
 
         $tags = self::get_object_tags($from);
-        return self::tag_object($to, $tags, $component);
+        return self::tag_object($to, $tags);
     }
 
     /**
@@ -532,10 +532,9 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      *
      * @param string $from Tag to move from
      * @param string $to Tag to move to
-     * @param boolean $delete Whether to delete the from tag
      * @return boolean indicating success
      */
-    public static function merge_tags($from, $to, $delete = true)
+    public static function merge_tags($from, $to)
     {
         $from_tag = net_nemein_tag_tag_dba::get_by_tag($from);
         if (!$from_tag) {
@@ -558,10 +557,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             $tag_link->update();
         }
 
-        if ($delete) {
-            return $from_tag->delete();
-        }
-
-        return true;
+        return $from_tag->delete();
     }
 }

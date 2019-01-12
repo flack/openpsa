@@ -131,7 +131,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
                 return null;
             }
 
-            midcom::get()->cache->nap->put_node($data[MIDCOM_NAV_ID], $data);
+            $this->get_cache()->put_node($data[MIDCOM_NAV_ID], $data);
             debug_add("Added the ID {$data[MIDCOM_NAV_ID]} to the cache.");
         }
 

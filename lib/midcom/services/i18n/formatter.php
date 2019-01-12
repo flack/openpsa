@@ -35,23 +35,23 @@ class midcom_services_i18n_formatter
         return $formatter->format($value);
     }
 
-    public function date($value = null, $dateformat = 'medium', $timeformat = 'none')
+    public function date($value = null, $dateformat = 'medium')
+    {
+        return $this->datetime($value, $dateformat, IntlDateFormatter::NONE);
+    }
+
+    public function time($value = null, $timeformat = 'short')
+    {
+        return $this->datetime($value, IntlDateFormatter::NONE, $timeformat);
+    }
+
+    public function datetime($value = null, $dateformat = 'medium', $timeformat = 'short')
     {
         if ($value === null) {
             $value = time();
         }
         $formatter = new IntlDateFormatter($this->get_locale(), $this->constant($dateformat), $this->constant($timeformat));
         return $formatter->format($value);
-    }
-
-    public function time($value = null, $dateformat = 'none', $timeformat = 'short')
-    {
-        return $this->date($value, $dateformat, $timeformat);
-    }
-
-    public function datetime($value = null, $dateformat = 'medium', $timeformat = 'short')
-    {
-        return $this->date($value, $dateformat, $timeformat);
     }
 
     public function customdate($value, $pattern)

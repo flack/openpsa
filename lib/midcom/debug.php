@@ -88,7 +88,7 @@ class midcom_debug
         return $this->_loglevel;
     }
 
-    public function log_php_error($loglevel = MIDCOM_LOG_DEBUG)
+    public function log_php_error($loglevel)
     {
         $error = error_get_last();
         if (!empty($error['message'])) {
@@ -274,7 +274,7 @@ class midcom_debug
      * @param string $message    The message to be logged
      * @param int $loglevel        The log level
      */
-    public function print_dump_mem($message, $loglevel = MIDCOM_LOG_DEBUG)
+    public function print_dump_mem($message, $loglevel)
     {
         if (!$this->check_level($loglevel)) {
             return;

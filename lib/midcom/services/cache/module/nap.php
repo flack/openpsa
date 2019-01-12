@@ -190,9 +190,8 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      *
      * @param string $key The key to look up.
      * @param mixed $data The data to store.
-     * @param int $timeout how long the data should live in the cache.
      */
-    public function put_node($key, $data, $timeout = 0)
+    public function put_node($key, $data)
     {
         if ($this->_cache === null) {
             return;
@@ -204,8 +203,8 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             $result = [];
         }
         $result[$lang_id] = $data;
-        $this->_cache->save("{$this->_prefix}-{$key}", $result, $timeout);
-        $this->_cache->save($this->_prefix . '-' . $data[MIDCOM_NAV_GUID], $result, $timeout);
+        $this->_cache->save("{$this->_prefix}-{$key}", $result);
+        $this->_cache->save($this->_prefix . '-' . $data[MIDCOM_NAV_GUID], $result);
     }
 
     /**
@@ -213,9 +212,8 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      *
      * @param string $guid The key to store.
      * @param mixed $data The data to store.
-     * @param int $timeout how long the data should live in the cache.
      */
-    public function put_guid($guid, $data, $timeout = 0)
+    public function put_guid($guid, $data)
     {
         if ($this->_cache === null) {
             return;
@@ -227,16 +225,15 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             $result = [];
         }
         $result[$lang_id] = $data;
-        $this->_cache->save($this->_prefix . '-' . $guid, $result, $timeout);
+        $this->_cache->save($this->_prefix . '-' . $guid, $result);
     }
 
     /**
      * Get a given array by GUID from the cache.
      *
      * @param string $guid The key to look up.
-     * @param int $timeout how long the data should live in the cache.
      */
-    public function get_guid($guid, $timeout = 0)
+    public function get_guid($guid)
     {
         if ($this->_cache === null) {
             return;
@@ -256,9 +253,8 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      *
      * @param string $key The key to look up.
      * @param mixed $data The data to store.
-     * @param int $timeout how long the data should live in the cache.
      */
-    public function put_leaves($key, $data, $timeout = 0)
+    public function put_leaves($key, $data)
     {
         if ($this->_cache === null) {
             return;
@@ -270,6 +266,6 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             $result = [];
         }
         $result[$lang_id] = $data;
-        $this->_cache->save("{$this->_prefix}-{$key}", $result, $timeout);
+        $this->_cache->save("{$this->_prefix}-{$key}", $result);
     }
 }

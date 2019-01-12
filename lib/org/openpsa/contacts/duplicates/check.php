@@ -406,10 +406,9 @@ class org_openpsa_contacts_duplicates_check
      *
      * @return array array of groups with their possible duplicates
      */
-    function check_all_groups($threshold = 1)
+    function check_all_groups()
     {
         $this->p_map = []; //Make sure this is clean before starting
-        $this->threshold = $threshold;
 
         midcom::get()->disable_limits();
 
@@ -423,7 +422,7 @@ class org_openpsa_contacts_duplicates_check
     }
 
 
-    public function mark_all($output = false)
+    public function mark_all($output)
     {
         $this->mark_all_persons($output);
         $this->mark_all_groups($output);
@@ -432,7 +431,7 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Find all duplicate persons and mark them
      */
-    function mark_all_persons($output = false)
+    function mark_all_persons($output)
     {
         $time_start = time();
         $this->output($output, 'Starting with persons');
@@ -455,7 +454,7 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Find all duplicate groups and mark them
      */
-    function mark_all_groups($output = false)
+    function mark_all_groups($output)
     {
         $time_start = time();
         $this->output($output, 'Starting with groups');

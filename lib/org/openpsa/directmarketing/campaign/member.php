@@ -140,7 +140,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
     /**
      * Creates a message receipt of type.
      */
-    public function create_receipt($message_id, $type, $token, array $parameters = [])
+    public function create_receipt($message_id, $type, $token, array $parameters)
     {
         $receipt = new org_openpsa_directmarketing_campaign_messagereceipt_dba();
         $receipt->orgOpenpsaObtype = $type;

@@ -13,12 +13,11 @@
  */
 class midcom_core_service_implementation_urlgeneratori18n implements midcom_core_service_urlgenerator
 {
-    public function from_string($string, $replacer = '-')
+    public function from_string($string)
     {
         if (empty($string)) {
             return '';
         }
-        // TODO: sanity-check $replacer ?
-        return midgardmvc_helper_urlize::string($string, $replacer);
+        return midgardmvc_helper_urlize::string($string, '-');
     }
 }

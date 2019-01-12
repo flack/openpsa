@@ -173,7 +173,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         return true;
     }
 
-    private function _render_name($fallback_image = 'address-card-o')
+    private function _render_name($fallback_image)
     {
         $name = "<span class=\"given-name\">{$this->contact_details['firstname']}</span> <span class=\"family-name\">{$this->contact_details['lastname']}</span>";
 
@@ -198,7 +198,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         return $name;
     }
 
-    public function get_image($type, $fallback = 'address-card-o')
+    public function get_image($type, $fallback)
     {
         $attachments = org_openpsa_helpers::get_dm2_attachments($this->person, 'photo');
         if (!empty($attachments[$type])) {
@@ -233,7 +233,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         // The name sequence
         $inline_string .= "<span class=\"n\">";
-        $inline_string .= $this->_render_name();
+        $inline_string .= $this->_render_name('address-card-o');
         $inline_string .= "</span>";
 
         $inline_string .= "</span>";

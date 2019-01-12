@@ -201,11 +201,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * Copy an object
      *
      * @param mixed $source     MgdSchema object for reading the parameters
-     * @param mixed $parent      MgdSchema parent object
+     * @param mixed $parent      MgdSchema parent object (or null)
      * @param array $defaults
      * @return boolean Indicating success
      */
-    public function copy_object($source, $parent = null, array $defaults = [])
+    public function copy_object($source, $parent, array $defaults = [])
     {
         // Resolve the source object
         $source = $this->resolve_object($source);

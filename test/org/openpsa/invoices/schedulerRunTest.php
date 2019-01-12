@@ -164,7 +164,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
     private function _verify_at_entry($values)
     {
         $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'midcom_services_at_entry_dba');
-        $at_entries = $mc->get_related_objects('midcom.services.at');
+        $mc->add_constraint('fromComponent', '=', 'midcom.services.at');
+        $at_entries = $mc->get_related_objects();
         $this->register_objects($at_entries);
 
         $this->assertCount(1, $at_entries);

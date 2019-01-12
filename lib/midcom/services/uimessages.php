@@ -175,13 +175,8 @@ class midcom_services_uimessages
     /**
      * Show the message stack via simple html only
      */
-    public function show_simple($prefer_fancy = false)
+    public function show_simple()
     {
-        if (   $prefer_fancy
-            && midcom::get()->auth->can_user_do('midcom:ajax', null, midcom_services_uimessages::class)) {
-            return $this->show();
-        }
-
         if (count($this->_message_stack->peekAll()) > 0) {
             echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
 

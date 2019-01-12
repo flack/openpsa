@@ -82,7 +82,7 @@ class org_openpsa_projects_workflow
      * @param integer $target_person The person ID, if any
      * @param string $comment The status comment, if any
      */
-    public static function create_status($task, $status_type, $target_person = 0, $comment = '')
+    public static function create_status($task, $status_type, $target_person, $comment = '')
     {
         debug_print_function_stack('create_status called from: ');
         $status = new org_openpsa_projects_task_status_dba();

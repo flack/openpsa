@@ -43,13 +43,11 @@ class org_openpsa_directmarketing_campaign_messagereceipt_dba extends midcom_cor
      * @param string $token
      * @return boolean indicating whether token is free or not (true for free == not present)
      */
-    public static function token_is_free($token, $type = self::SENT)
+    public static function token_is_free($token)
     {
         $qb = new midgard_query_builder('org_openpsa_campaign_message_receipt');
         $qb->add_constraint('token', '=', $token);
-        if ($type) {
-            $qb->add_constraint('orgOpenpsaObtype', '=', $type);
-        }
+        $qb->add_constraint('orgOpenpsaObtype', '=', self::SENT);
         return ($qb->count() == 0);
     }
 }
