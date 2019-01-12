@@ -228,11 +228,6 @@ class midcom_core_collector extends midcom_core_query
         return $this->_query->destroy();
     }
 
-    public function set_key_property($property, $value = null)
-    {
-        throw new midcom_error("Switching key properties is not allowed.");
-    }
-
     public function add_value_property($property)
     {
         if (!$this->_query->add_value_property($property)) {
