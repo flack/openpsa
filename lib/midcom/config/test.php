@@ -173,7 +173,7 @@ class midcom_config_test
         }
     }
 
-    private function check_for_utility($testname, $fail_code, $fail_recommendations)
+    private function check_for_utility($testname, $fail_code, $fail_recommendations, $recommendations = '&nbsp;')
     {
         $executable = midcom::get()->config->get("utility_{$testname}");
         if (is_null($executable)) {
@@ -183,7 +183,7 @@ class midcom_config_test
         } else {
             exec("which {$executable}", $output, $exitcode);
             if ($exitcode == 0) {
-                $this->add($testname, self::OK);
+                $this->add($testname, self::OK, $recommendations);
             } else {
                 $this->add($testname, $fail_code, "The utility {$testname} is not correctly configured: File ({$executable}) not found. {$fail_recommendations}");
             }
