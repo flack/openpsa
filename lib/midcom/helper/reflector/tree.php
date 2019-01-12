@@ -87,15 +87,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     public static function resolve_path($object, $separator = ' &gt; ')
     {
         $parts = self::resolve_path_parts($object);
-        $d = count($parts);
-        $ret = '';
-        foreach ($parts as $part) {
-            $ret .= $part['label'];
-            if (--$d) {
-                $ret .= $separator;
-            }
-        }
-        return $ret;
+        return implode($separator, array_column($parts, 'label'));
     }
 
     /**
