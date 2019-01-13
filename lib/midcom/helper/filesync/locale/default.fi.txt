@@ -1,8 +1,0 @@
----# MidCOM String Database
----VERSION 2.1.0
----LANGUAGE fi
-
----STRING midcom.helper.filesync
-Sivuston tiedostojärjestelmän synkronisoija
----STRINGEND
-

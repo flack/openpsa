@@ -386,7 +386,6 @@ class midcom_config implements ArrayAccess
             'lib/midcom/helper/imagepopup',
             'lib/midcom/helper/reflector',
             'lib/midcom/helper/search',
-            'lib/midcom/helper/filesync',
             'lib/midcom/services/at',
             'lib/midgard/admin/user',
             'lib/midgard/admin/asgard',
