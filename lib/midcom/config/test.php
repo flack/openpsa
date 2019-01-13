@@ -195,15 +195,7 @@ class midcom_config_test
         echo '<table>';
 
         $this->print_section('MidCOM ' . midcom::get_version(), $this->messages['midcom']);
-
-        $version = 'PHP ' . PHP_VERSION;
-        $server_software = explode(' ', $_SERVER['SERVER_SOFTWARE']);
-        $apache = explode('/', $server_software[0]);
-        if (!empty($apache)) {
-            $version .= ' (' . ucfirst($apache[0]) . ' ' . $apache[1] . ')';
-        }
-
-        $this->print_section($version, $this->messages['php']);
+        $this->print_section($_SERVER['SERVER_SOFTWARE'], $this->messages['php']);
         $this->print_section('External Utilities', $this->messages['external']);
 
         echo '</table>';
