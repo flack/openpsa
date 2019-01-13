@@ -9,6 +9,7 @@
 use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Sales offer handler creates pdf offers
@@ -45,7 +46,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
     /**
      * @param Request $request The request object
      * @param string $guid The salesproject GUID
-     * @return midcom_response
+     * @return Response
      */
     public function _handler_create(Request $request, $guid)
     {
@@ -76,7 +77,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
 
     /**
      * @param string $guid The offer GUID
-     * @return midcom_response
+     * @return Response
      */
     public function _handler_delete($guid)
     {
@@ -90,7 +91,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
     /**
      * @param Request $request The request object
      * @param string $guid The offer GUID
-     * @return midcom_response
+     * @return Response
      */
     public function _handler_edit(Request $request, $guid)
     {

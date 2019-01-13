@@ -432,7 +432,6 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      * Before doing anything, it will call the _on_handle event handler to allow for
      * generic request preparation.
      *
-     * @return midcom_response|null The response object (or null in the case of old-style handlers)
      * @see _on_handle()
      */
     public function handle()

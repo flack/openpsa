@@ -9,6 +9,7 @@
 use midgard\portable\api\blob;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -319,7 +320,7 @@ class midcom_application
      *
      * @param midcom_core_context $context
      * @param Request $request The request object
-     * @return midcom_response
+     * @return Response
      */
     private function _process(midcom_core_context $context, Request $request)
     {
@@ -342,9 +343,9 @@ class midcom_application
      *
      * @param midcom_core_context $context
      * @param boolean $include_template
-     * @param midcom_response $response
+     * @param Response $response
      */
-    private function _output(midcom_core_context $context, $include_template, midcom_response $response)
+    private function _output(midcom_core_context $context, $include_template, Response $response)
     {
         // Enter Context
         $oldcontext = midcom_core_context::get();

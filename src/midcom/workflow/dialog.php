@@ -11,6 +11,7 @@ namespace midcom\workflow;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use midcom;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Workflow base class
@@ -109,7 +110,7 @@ abstract class dialog
     abstract public function get_button_config();
 
     /**
-     * @return \midcom_response
+     * @return Response
      */
     abstract public function run(Request $request);
 }

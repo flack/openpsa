@@ -8,6 +8,7 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use midcom\httpkernel\kernel;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * MidCOM context handling
@@ -297,7 +298,7 @@ class midcom_core_context
      * If the handler hook returns false (i.e. handling failed), it will produce an error page.
      *
      * @param Request $request The request object
-     * @return midcom_response
+     * @return Response
      */
     public function run(Request $request)
     {
@@ -314,7 +315,7 @@ class midcom_core_context
     /**
      * @param midcom_db_topic $topic The node that is currently being tested.
      * @param Request $request The request object
-     * @return midcom_response
+     * @return Response
      */
     public function handle(midcom_db_topic $topic, Request $request)
     {

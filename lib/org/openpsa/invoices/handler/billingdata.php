@@ -9,6 +9,7 @@
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Billing data handlers
@@ -58,7 +59,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
      * @param Request $request The request object
      * @param string $guid The invoice GUID
      * @param array $data Request data
-     * @return midcom_response
+     * @return Response
      */
     public function _handler_edit(Request $request, $guid, array &$data)
     {

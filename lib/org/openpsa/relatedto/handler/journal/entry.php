@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * journal entry handler
@@ -40,7 +41,7 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
     /**
      * @param Request $request The request object
      * @param string $guid The object's GUID
-     * @return midcom_response
+     * @return Response
      */
     public function _handler_create(Request $request, $guid)
     {
@@ -58,7 +59,7 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
      * @param Request $request The request object
      * @param string $guid The object's GUID
      * @param array $data Request data
-     * @return midcom_response
+     * @return Response
      */
     public function _handler_edit(Request $request, $guid, array &$data)
     {
@@ -79,7 +80,7 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
     /**
      * @param Request $request The request object
      * @param string $guid The object's GUID
-     * @return midcom_response
+     * @return Response
      */
     public function _handler_delete(Request $request, $guid)
     {

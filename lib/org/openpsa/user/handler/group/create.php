@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Create group class for user management
@@ -25,7 +26,7 @@ class org_openpsa_user_handler_group_create extends midcom_baseclasses_component
 
     /**
      * @param Request $request The request object
-     * @return midcom_response
+     * @return Response
      */
     public function _handler_create(Request $request)
     {
