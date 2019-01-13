@@ -212,35 +212,6 @@ html > body #content #login #openid_url
   height: 96px;
 }
 
-#bottom #retrieve,
-#bottom #version
-{
-  padding-top: 60px;
-}
-
-#bottom #retrieve
-{
-  float: left;
-  padding-left: 50px;
-}
-
-#bottom #retrieve a
-{
-  color: #ffffff;
-}
-
-#bottom #version
-{
-  color: #9a5500;
-  padding-right: 30px;
-  float: right;
-}
-#bottom #version a
-{
-  color: #9a5500;
-  text-decoration: none;
-}
-
 /* Footer Elements */
 
 #footer

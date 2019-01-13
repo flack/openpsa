@@ -32,7 +32,6 @@ midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/sty
             </div>
 
             <div id="bottom">
-                <div id="version">Midgard <?php echo substr(mgd_version(), 0, 5); ?></div>
             </div>
 
             <div id="footer">
