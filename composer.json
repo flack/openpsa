@@ -39,6 +39,7 @@
         "studio-42/elfinder": "> 2.1.42",
         "swiftmailer/swiftmailer": "^5.2.0",
         "symfony/config": "~2.5 | ~3.4 | ^4.0",
+        "symfony/console" : ">=2.6.0",
         "symfony/css-selector": "~2.6 | ~3.4 | ^4.0",
         "symfony/dom-crawler": "~2.6 | ~3.4 | ^4.0",
         "symfony/event-dispatcher": "~3.4 | ^4.0",
@@ -77,6 +78,9 @@
             "dev-master": "9.5.x-dev"
         }
     },
+    "bin" : [
+        "bin/midcom"
+    ],
     "autoload": {
         "classmap": ["lib"],
         "psr-0": {

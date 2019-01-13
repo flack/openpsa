@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+
+//Some fiddling to get autoloader...
+$path = dirname(dirname(dirname(__DIR__))) . '/autoload.php'; // installed as dependency
+if (!file_exists($path)) {
+    $path = dirname(__DIR__) . '/vendor/autoload.php'; // installed as root package
+}
+if (!file_exists($path)) {
+    throw new \Exception('Composer autoloader could not be found');
+}
+require_once $path;
+
+if (!defined('OPENPSA_PROJECT_BASEDIR')) {
+    define('OPENPSA_PROJECT_BASEDIR', dirname(dirname($path)) . '/');
+}
+
+use midcom\console\application;
+
+$console = new application();
+$console->run();
