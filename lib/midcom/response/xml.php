@@ -18,7 +18,6 @@ class midcom_response_xml extends midcom_response
      */
     public function send()
     {
-        midcom::get()->skip_page_style = true;
         midcom::get()->cache->content->content_type('text/xml');
         midcom::get()->header('Content-type: text/xml; charset=' . $this->encoding, $this->code);
 

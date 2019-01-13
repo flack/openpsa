@@ -65,18 +65,16 @@ class midcom_response_styled extends midcom_response
             $this->context->set_key(MIDCOM_CONTEXT_PAGETITLE, $meta[MIDCOM_NAV_NAME]);
         }
 
-        if (   $this->context->id == 0
-            && !midcom::get()->skip_page_style) {
-            // Let metadata service add its meta tags
-            midcom::get()->metadata->populate_meta_head();
-        }
-
         midcom::get()->style->enter_context($this->context->id);
 
         ob_start();
         if (midcom::get()->skip_page_style) {
             $this->context->show();
         } else {
+            if ($this->context->id == 0) {
+                // Let metadata service add its meta tags
+                midcom::get()->metadata->populate_meta_head();
+            }
             midcom_show_style($this->root_element);
         }
 
