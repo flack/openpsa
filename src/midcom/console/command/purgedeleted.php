@@ -23,9 +23,10 @@ class purgedeleted extends Command
 {
     protected function configure()
     {
+        $config = new \midcom_config;
         $this->setName('midcom:purgedeleted')
             ->setDescription('Purge deleted objects')
-            ->addOption('days', null, InputOption::VALUE_REQUIRED, 'Grace period in days', '25')
+            ->addOption('days', null, InputOption::VALUE_REQUIRED, 'Grace period in days', $config->get('cron_purge_deleted_after'))
             ->addOption('chunksize', null, InputOption::VALUE_REQUIRED, 'Maximum number of objects purged per class at once (use 0 to disable limit)', '50');
     }
 
