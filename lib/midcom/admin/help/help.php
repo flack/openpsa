@@ -384,6 +384,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     public function _show_welcome($handler_id, array &$data)
     {
         midcom_show_style('midcom_admin_help_header');
+        midcom_show_style('midcom_admin_help_about');
         $list_types = ['components', 'libraries'];
 
         foreach ($list_types as $list_type) {

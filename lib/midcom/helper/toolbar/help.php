@@ -32,13 +32,11 @@ class midcom_helper_toolbar_help extends midcom_helper_toolbar
     {
         $workflow = new midcom\workflow\viewer;
         $buttons = [
-            [
-                MIDCOM_TOOLBAR_URL => "__ais/help/{$this->component}/",
+            $workflow->get_button("__ais/help/{$this->component}/", [
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('component help', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'h',
-                MIDCOM_TOOLBAR_OPTIONS => ['target' => '_blank'],
                 MIDCOM_TOOLBAR_GLYPHICON => 'question',
-            ],
+            ]),
             [
                 MIDCOM_TOOLBAR_URL => "http://midgard-project.org/midcom/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('online documentation', 'midcom.admin.help'),
@@ -57,7 +55,7 @@ class midcom_helper_toolbar_help extends midcom_helper_toolbar
                 MIDCOM_TOOLBAR_OPTIONS => ['target' => '_blank'],
                 MIDCOM_TOOLBAR_GLYPHICON => 'bug',
             ],
-            $workflow->get_button(midcom_connection::get_url('self') . "midcom-exec-midcom/about.php", [
+            $workflow->get_button('__ais/help/', [
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('about midgard', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'info',
             ])

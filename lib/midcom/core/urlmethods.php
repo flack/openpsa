@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
 /**
  * Matches the given context to a handler or to one of the central URL methods.
  * URL methods are handled directly from here, handlers are passed back to
@@ -95,6 +97,16 @@ class midcom_core_urlmethods
                 }
             }
         }
+    }
+
+    private function _process_config($value)
+    {
+        if ($value !== 'test') {
+            throw new midcom_error_notfound("Invalid value.");
+        }
+        return new StreamedResponse(function() {
+            midcom::get()->style->show_midcom('config-test');
+        });
     }
 
     private function _process_serveattachmentguid($value)

@@ -48,7 +48,7 @@ class midcom_helper_toolbar_host extends midcom_helper_toolbar
                 MIDCOM_TOOLBAR_GLYPHICON => 'refresh',
             ];
             $workflow = new midcom\workflow\viewer;
-            $buttons[] = $workflow->get_button(midcom_connection::get_url('self') . "midcom-exec-midcom/config-test.php", [
+            $buttons[] = $workflow->get_button(midcom_connection::get_url('self') . "midcom-config-test", [
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('test settings', 'midcom'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'wrench',
             ]);
