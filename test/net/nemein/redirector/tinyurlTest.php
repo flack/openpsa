@@ -17,7 +17,6 @@ class net_nemein_redirector_tinyurlTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nemein.redirector');
         $tinyurl = new net_nemein_redirector_tinyurl_dba();
-        $tinyurl->_use_activitystream = false;
         $tinyurl->_use_rcs = false;
         $name = net_nemein_redirector_tinyurl_dba::generate();
 

@@ -30,8 +30,7 @@ class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_compon
             $member->uid = $this->_object->id;
             $member->gid = $group->id;
 
-            // deactivating activitystream and RCS entries generation (performance)
-            $member->_use_activitystream = false;
+            // deactivating RCS entry generation (performance)
             $member->_use_rcs = false;
             $member->create();
         }

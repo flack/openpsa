@@ -6,7 +6,7 @@
 * _Otsikko_ on se nimi, joka näytetään navigaatiossa.
 * _Kansion tyyppi_ on komponentin valinta. Yleisin tyyppi on nimeltään _Normaali sisältö_ (_net.nehmer.static_), mutta riippuen asennuksesta käytettävissä voi olla useita eri toimintoja, kuten
   - Uutiskansio (_net.nehmer.blog_)
-  - Valokuvagalleria (_org.routamc.gallery_)
+  - Valokuvagalleria (_org.openpsa.slideshow_)
   - Sivukartta (_de.linkm.sitemap_)
 * _Ulkoasupohjaa voidaan käyttää määrittelemään se, mille sisältö näyttää. Ulkoasupohjat ovat lähestulkoon aina kustomoitu erikseen jokaista sivustoa varten. Jos sinun tarvitsee käyttää erillisiä ulkoasupohjia, sivuston ylläpitäjän tulisi tiedottaa sinua tästä.
 * _Navigaation järjestys_ on kansion navigation järjestelemistä varten. Tämä voidaan jättää kohtaan _Oletus_.

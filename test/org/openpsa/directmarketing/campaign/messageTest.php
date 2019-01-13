@@ -21,7 +21,6 @@ class org_openpsa_directmarketing_campaign_messageTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
         $message = new org_openpsa_directmarketing_campaign_message_dba();
-        $message->_use_activitystream = false;
         $message->_use_rcs = false;
 
         $stat = $message->create();

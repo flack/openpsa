@@ -27,7 +27,6 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $deliverable->salesproject = $this->_salesproject->id;
         $deliverable->plannedUnits = 2.5;
         $deliverable->pricePerUnit = 100;
-        $deliverable->_use_activitystream = false;
         $deliverable->_use_rcs = false;
 
         $stat = $deliverable->create();

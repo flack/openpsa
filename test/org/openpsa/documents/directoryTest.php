@@ -21,7 +21,6 @@ class org_openpsa_documents_directoryTest extends openpsa_testcase
 
         $directory = new org_openpsa_documents_directory();
         $directory->name = 'TEST_' . __CLASS__ . time();
-        $directory->_use_activitystream = false;
         $directory->_use_rcs = false;
 
         $stat = $directory->create();

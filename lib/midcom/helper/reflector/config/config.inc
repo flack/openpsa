@@ -69,8 +69,6 @@
     'org_openpsa_organization',
     /* Replicator subscriptions have their own specific admin UI */
     'midcom_helper_replicator_subscription',
-    /* Activities are shown in their own Activity Stream view */
-    'midcom_helper_activitystream_activity',
 ],
 // Classes that should always be listed as root class (mainly workaround for schema bugs)
 'root_class_exceptions_forceroot' => [

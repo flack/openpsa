@@ -60,27 +60,11 @@ abstract class midcom_core_dbaobject
     public $_use_rcs = true;
 
     /**
-     * Should the Activity Log be enabled for object actions
-     *
-     * @var boolean
-     */
-    public $_use_activitystream = true;
-
-    /**
      * Change message used for RCS and the Activity Log summary
      *
      * @var string
      */
     private $_rcs_message = false;
-
-    /**
-     * Verb to use for Activity Log. Should be an URL conforming to activitystrea.ms specification.
-     * If left blank then this will come from the DBA action performed (update, create)
-     *
-     * @access private
-     * @var string
-     */
-    var $_activitystream_verb;
 
     /**
      * Should it be allowed to automatically generate unique name in case of clash

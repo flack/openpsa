@@ -25,7 +25,6 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
     {
         $person = new midcom_db_person();
         $person->_use_rcs = false;
-        $person->_use_activitystream = false;
         $person->extra = substr('p_' . time(), 0, 11);
         $username = uniqid(__CLASS__ . '-user-');
 
@@ -317,7 +316,6 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
     {
         $presets = [
             '_use_rcs' => false,
-            '_use_activitystream' => false,
         ];
         $data = array_merge($presets, $data);
         $object = self::prepare_object($classname, $data);
@@ -367,7 +365,6 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         foreach ($results as $result) {
             $result->_use_rcs = false;
-            $result->_use_activitystream = false;
             $result->delete();
             $result->purge();
         }
@@ -436,7 +433,6 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $queue = array_reverse($queue);
         while (!empty($queue)) {
             $object = array_pop($queue);
-            $object->_use_activitystream = false;
             $object->_use_rcs = false;
             try {
                 $stat = $object->refresh();

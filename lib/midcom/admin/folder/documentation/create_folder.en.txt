@@ -6,7 +6,7 @@ Creating folders
 * _Title_ is the name, which will be shown in the navigation.
 * _Folder type_ is the selection for [MidCOM components|component]. You will be offered the same type of the component as the parent is as a default, but - depending on the installation - there are usually many different functionalities, such as
   - News feed (_net.nehmer.blog_)
-  - Photo gallery (_org.routamc.gallery_)
+  - Photo gallery (_org.openpsa.slideshow_)
   - Sitemap (_de.linkm.sitemap_)
 * _Style template_ can be used to define the way content will be presented. Style templates are almost always customized to the needs of the site and you should be informed by your site manager if there is any need for using customized templates.
 * _Order of navigation items_ is to choose the navigational order. This can be left to _default sort order_.

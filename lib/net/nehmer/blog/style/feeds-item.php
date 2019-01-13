@@ -55,14 +55,4 @@ if (count($categories) > 1) {
     $item->category = $categories[1];
 }
 
-if (midcom::get()->componentloader->is_installed('org.routamc.positioning')) {
-    // Attach coordinates to the item if available
-    $object_position = new org_routamc_positioning_object($data['article']);
-    $coordinates = $object_position->get_coordinates();
-    if (!is_null($coordinates)) {
-        $item->lat = $coordinates['latitude'];
-        $item->long = $coordinates['longitude'];
-    }
-}
-
 $data['feedcreator']->addItem($item);

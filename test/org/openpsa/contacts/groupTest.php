@@ -19,7 +19,6 @@ class org_openpsa_contacts_groupTest extends openpsa_testcase
         $group = new org_openpsa_contacts_group_dba();
         $time = time();
         $group->name = 'TEST NAME' . $time;
-        $group->_use_activitystream = false;
         $group->_use_rcs = false;
 
         $stat = $group->create();

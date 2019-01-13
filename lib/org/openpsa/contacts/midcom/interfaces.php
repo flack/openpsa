@@ -175,28 +175,6 @@ implements midcom_services_permalinks_resolver
     {
         $data = $this->_get_data_from_url($group->homepage);
 
-        // Use the data we got
-        if (   midcom::get()->componentloader->is_installed('org.routamc.positioning')
-            && array_key_exists('icbm', $data)) {
-            // We know where the group is located
-            $icbm_parts = explode(',', $data['icbm']);
-            if (count($icbm_parts) == 2) {
-                $latitude = (float) $icbm_parts[0];
-                $longitude = (float) $icbm_parts[1];
-                if (   abs($latitude) < 90
-                    && abs($longitude) < 180) {
-                    $location = new org_routamc_positioning_location_dba();
-                    $location->date = time();
-                    $location->latitude = $latitude;
-                    $location->longitude = $longitude;
-                    $location->relation = org_routamc_positioning_location_dba::RELATION_LOCATED;
-                    $location->parent = $group->guid;
-                    $location->parentclass = org_openpsa_contacts_group_dba::class;
-                    $location->parentcomponent = 'org.openpsa.contacts';
-                    $location->create();
-                }
-            }
-        }
         // TODO: We can use a lot of other data too
         if (array_key_exists('hcards', $data)) {
             // Process those hCard values that are interesting for us
@@ -212,17 +190,6 @@ implements midcom_services_permalinks_resolver
     private function _check_person_url(org_openpsa_contacts_person_dba $person)
     {
         $data = $this->_get_data_from_url($person->homepage);
-
-        if (midcom::get()->componentloader->is_installed('org.routamc.positioning')) {
-            // Use the data we got
-            if (array_key_exists('georss_url', $data)) {
-                // GeoRSS subscription is a good way to keep track of person's location
-                $person->set_parameter('org.routamc.positioning:georss', 'georss_url', $data['georss_url']);
-            } elseif (array_key_exists('icbm', $data)) {
-                // Instead of using the ICBM position data directly we can subscribe to it so we get modifications too
-                $person->set_parameter('org.routamc.positioning:html', 'icbm_url', $person->homepage);
-            }
-        }
 
         if (array_key_exists('rss_url', $data)) {
             // Instead of using the ICBM position data directly we can subscribe to it so we get modifications too

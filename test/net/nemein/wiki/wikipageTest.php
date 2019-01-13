@@ -18,7 +18,6 @@ class net_nemein_wiki_wikipageTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('net.nemein.wiki');
         $timestamp = time();
         $page = new net_nemein_wiki_wikipage();
-        $page->_use_activitystream = false;
         $page->_use_rcs = false;
 
         $topic = $this->get_component_node('net.nemein.wiki');

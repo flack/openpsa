@@ -101,23 +101,6 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         }
     }
 
-    private function _list_positions_between(array &$data_array, $person, $from, $to)
-    {
-        if (!midcom::get()->componentloader->is_installed('org.routamc.positioning')) {
-            return false;
-        }
-
-        // List user's position reports
-        $qb = org_routamc_positioning_log_dba::new_query_builder();
-        $qb->add_constraint('date', '>=', $from);
-        $qb->add_constraint('date', '<=', $to);
-        $qb->add_constraint('person', '=', $person);
-
-        foreach ($qb->execute() as $position) {
-            $this->_add_to($data_array, $position, $position->date);
-        }
-    }
-
     private function _add_to(array &$array, midcom_core_dbaobject $object, $time)
     {
         $date = date('Y-m-d', $time);
@@ -153,7 +136,6 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $this->_list_events_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
         $this->_list_hour_reports_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
         $this->_list_task_statuses_between($data['review_data'], midcom::get()->auth->user, $data['week_start'], $data['week_end']);
-        $this->_list_positions_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
 
         // Arrange by date/time
         ksort($data['review_data']);
@@ -238,9 +220,6 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
                             break;
                         case org_openpsa_projects_task_status_dba::class:
                             midcom_show_style('weekreview-day-item-task-status');
-                            break;
-                        case org_routamc_positioning_log_dba::class:
-                            midcom_show_style('weekreview-day-item-position');
                             break;
                     }
                 }

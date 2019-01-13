@@ -18,7 +18,6 @@ class org_openpsa_calendar_eventTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
         $event = new org_openpsa_calendar_event_dba();
-        $event->_use_activitystream = false;
         $event->_use_rcs = false;
 
         $stat = $event->create();

@@ -26,7 +26,6 @@ class midcom_db_topicTest extends openpsa_testcase
 
         $topic = new midcom_db_topic();
         $topic->topic = self::$_parent->id;
-        $topic->_use_activitystream = false;
         $topic->_use_rcs = false;
         $stat = $topic->create();
         $this->assertTrue($stat, midcom_connection::get_error_string());

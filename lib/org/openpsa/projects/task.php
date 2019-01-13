@@ -296,7 +296,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
         if ($update) {
             $this->_use_rcs = false;
-            $this->_use_activitystream = false;
             $this->_skip_acl_refresh = true;
             $this->_skip_parent_refresh = true;
             $stat = $this->update();

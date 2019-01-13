@@ -23,7 +23,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_attachment';
 
-    public $_use_activitystream = false;
     public $_use_rcs = false;
 
     /**

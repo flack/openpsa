@@ -18,7 +18,6 @@ class org_openpsa_contacts_personTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
         $person = new org_openpsa_contacts_person_dba();
         $person->lastname = 'TEST PERSON ' . __CLASS__;
-        $person->_use_activitystream = false;
         $person->_use_rcs = false;
 
         $stat = $person->create();

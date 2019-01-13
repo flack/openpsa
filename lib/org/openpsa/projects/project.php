@@ -258,7 +258,6 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         if ($update_required) {
             debug_add("Some project information needs to be updated, skipping RCS");
             $this->_use_rcs = false;
-            $this->_use_activitystream = false;
             return $this->update();
         }
         debug_add("All project information is up-to-date");

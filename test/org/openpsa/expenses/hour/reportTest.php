@@ -26,7 +26,6 @@ class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.projects');
         $report = new org_openpsa_expenses_hour_report_dba();
-        $report->_use_activitystream = false;
         $report->_use_rcs = false;
 
         $report->task = self::$_task->id;

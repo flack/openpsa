@@ -95,8 +95,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             $data['only_mine'] = $request->query->getBoolean('only_mine');
 
             $objects = $this->_list_revised($data['revised_after'], $data['type_filter'], $data['only_mine']);
-        } elseif (class_exists('midcom_helper_activitystream_activity_dba')) {
-            $objects = $this->_load_activities();
         } else {
             $data['revised_after'] = date('Y-m-d', strtotime('yesterday'));
             $objects = $this->_list_revised($data['revised_after']);
@@ -116,33 +114,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
         $this->_populate_toolbar();
         return new midgard_admin_asgard_response($this, '_show_welcome');
-    }
-
-    private function _load_activities()
-    {
-        $objects = [];
-        $activities = midcom_helper_activitystream_activity_dba::get($this->_config->get('last_visited_size'));
-        foreach ($activities as $activity) {
-            try {
-                $object = midcom::get()->dbfactory->get_object_by_guid($activity->target);
-            } catch (midcom_error $e) {
-                if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED) {
-                    // TODO: Visualize deleted objects somehow
-                }
-                continue;
-            }
-            try {
-                $actor = midcom_db_person::get_cached($activity->actor);
-            } catch (midcom_error $e) {
-                $actor = null;
-            }
-
-            $objects[] = [
-                'object' => $object,
-                'revisor' => $actor
-            ];
-        }
-        return $objects;
     }
 
     private function _prepare_tabledata(array $objects)

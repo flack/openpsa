@@ -19,7 +19,6 @@ class org_openpsa_products_product_groupTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.products');
         $group = new org_openpsa_products_product_group_dba();
         $group->code = 'TEST-100' . $time;
-        $group->_use_activitystream = false;
         $group->_use_rcs = false;
         $stat = $group->create();
         $this->assertTrue($stat);

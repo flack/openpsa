@@ -22,10 +22,5 @@ class net_nemein_wiki_link_dba extends midcom_core_dbaobject
     /**
      * @inheritdoc
      */
-    public $_use_activitystream = false;
-
-    /**
-     * @inheritdoc
-     */
     public $_use_rcs = false;
 }

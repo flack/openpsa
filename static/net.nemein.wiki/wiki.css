@@ -91,22 +91,6 @@ div.net_nemein_wiki_wikipage ol.midcom_helper_toc_formatter li ol
     margin-top: .3em;
 }
 
-/* Centralize included photos */
-div.net_nemein_wiki_wikipage div.org_routamc_photostream_photo
-{
-    text-align: center;
-}
-div.net_nemein_wiki_wikipage div.org_routamc_photostream_photo img
-{
-    border: none;
-}
-div.net_nemein_wiki_wikipage div.org_routamc_photostream_photo h3
-{
-    margin-top: 0px;
-    font-weight: normal;
-    font-style: italic;
-}
-
 /* Styles for note, tip & warning copied from M-P.org */
 div.net_nemein_wiki_wikipage div.tip, div.net_nemein_wiki_wikipage div.note, div.net_nemein_wiki_wikipage div.warning
 {

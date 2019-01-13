@@ -21,7 +21,6 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
     public $__mgdschema_class_name__ = 'org_openpsa_campaign_member';
 
     public $_use_rcs = false;
-    public $_use_activitystream = false;
 
     const NORMAL = 9000;
     const TESTER = 9001;

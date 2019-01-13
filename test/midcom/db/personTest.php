@@ -18,14 +18,12 @@ class midcom_db_personTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('midcom.core');
 
         $person = new midcom_db_person();
-        $person->_use_activitystream = false;
         $person->_use_rcs = false;
         $stat = $person->create();
         $this->assertTrue($stat);
         $this->register_object($person);
 
         $person = new midcom_db_person($person->guid);
-        $person->_use_activitystream = false;
         $person->_use_rcs = false;
         $this->assertEquals('person #' . $person->id, $person->name);
         $this->assertEquals('person #' . $person->id, $person->rname);

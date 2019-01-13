@@ -22,7 +22,6 @@ class midcom_db_parameter extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_parameter';
 
-    public $_use_activitystream = false;
     public $_use_rcs = false;
 
     public function get_parent_guid_uncached()

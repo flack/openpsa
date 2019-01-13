@@ -220,7 +220,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             $this->units = $units;
             $this->uninvoiceableUnits = $uninvoiceableUnits;
             $this->_use_rcs = false;
-            $this->_use_activitystream = false;
 
             if (!$this->update()) {
                 debug_add("Agreement #{$this->id} couldn't be saved to disk, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);

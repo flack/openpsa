@@ -29,7 +29,6 @@ class midcom_db_articleTest extends openpsa_testcase
         $this->assertFalse($stat, midcom_connection::get_error_string());
 
         $article = new midcom_db_article();
-        $article->_use_activitystream = false;
         $article->_use_rcs = false;
         $article->topic = self::$_topic->id;
         $stat = $article->create();

@@ -112,7 +112,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         }
 
         $this->_feed->latestfetch = time();
-        $this->_feed->_use_activitystream = false;
         $this->_feed->_use_rcs = false;
         $this->_feed->update();
 
@@ -186,7 +185,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         }
 
         $article->allow_name_catenate = true;
-        $article->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
         $article->set_rcs_message(sprintf(midcom::get()->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $title, $this->_feed->title));
 
         $values = [
@@ -231,7 +229,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         if ($article_date > $this->_feed->latestupdate) {
             // Cache "latest updated" time to feed
             $this->_feed->latestupdate = $article_date;
-            $this->_feed->_use_activitystream = false;
             $this->_feed->_use_rcs = false;
             $this->_feed->update();
         }

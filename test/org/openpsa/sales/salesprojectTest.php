@@ -18,7 +18,6 @@ class org_openpsa_sales_salesprojectTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $salesproject = new org_openpsa_sales_salesproject_dba();
-        $salesproject->_use_activitystream = false;
         $salesproject->_use_rcs = false;
 
         $stat = $salesproject->create();

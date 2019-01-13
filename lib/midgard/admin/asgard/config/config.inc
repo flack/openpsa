@@ -69,7 +69,6 @@
 // List of types we don't list on latest objects
 'skip_in_filter' => [
     'midgard_parameter',
-    'midcom_helper_activitystream_activity',
     'midcom_core_privilege_db',
     'midcom_services_at_entry_db',
 ],

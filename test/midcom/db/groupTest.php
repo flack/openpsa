@@ -18,7 +18,6 @@ class midcom_db_groupTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('midcom.core');
 
         $group = new midcom_db_group();
-        $group->_use_activitystream = false;
         $group->_use_rcs = false;
         $stat = $group->create();
         $this->assertTrue($stat);

@@ -22,7 +22,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_eventmember';
 
-    public $_use_activitystream = false;
     public $_use_rcs = false;
 
     public $notify_person = true;

@@ -88,7 +88,6 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
             $parent = new org_openpsa_documents_directory($parent);
             $parent->_use_rcs = false;
-            $parent->_use_activitystream = false;
             $parent->update();
 
             midcom::get()->auth->drop_sudo();
