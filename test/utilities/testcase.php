@@ -164,7 +164,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                 $this->assertEquals([], $data[$controller_key]->formmanager->form->_errors, 'Form validation failed');
             }
             $this->assertInstanceOf(midcom_response_relocate::class, $data['__openpsa_testcase_response'], 'Form did not relocate');
-            return $data['__openpsa_testcase_response']->url;
+            return $data['__openpsa_testcase_response']->getTargetUrl();
         } catch (openpsa_test_relocate $e) {
             $url = $e->getMessage();
             $url = preg_replace('/^\//', '', $url);
@@ -220,7 +220,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                 $this->assertEquals([], $data[$controller_key]->get_errors(), 'Form validation failed');
             }
             $this->assertInstanceOf(midcom_response_relocate::class, $data['__openpsa_testcase_response'], 'Form did not relocate');
-            return $data['__openpsa_testcase_response']->url;
+            return $data['__openpsa_testcase_response']->getTargetUrl();
         } catch (openpsa_test_relocate $e) {
             $url = $e->getMessage();
             $url = preg_replace('/^\//', '', $url);
@@ -271,7 +271,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                 $data['__openpsa_testcase_response'] = null;
             }
             $this->assertInstanceOf(midcom_response_relocate::class, $data['__openpsa_testcase_response'], 'handler did not relocate');
-            $url = $data['__openpsa_testcase_response']->url;
+            $url = $data['__openpsa_testcase_response']->getTargetUrl();
         } catch (openpsa_test_relocate $e) {
             $url = $e->getMessage();
         }

@@ -65,9 +65,6 @@ class midcom_compat_environment
         if (!defined('OPENPSA2_UNITTEST_RUN')) {
             header($string, $replace, $http_response_code);
         } else {
-            if (preg_match('/^Location: (.*?)$/', $string, $matches)) {
-                throw new openpsa_test_relocate($matches[1], $http_response_code);
-            }
             self::$_headers[] = [
                 'value' => $string,
                 'replace' => $replace,

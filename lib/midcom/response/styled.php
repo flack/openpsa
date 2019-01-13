@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Wrapper for style(engine)d responses
  *
  * @package midcom
  */
-class midcom_response_styled extends midcom_response
+class midcom_response_styled extends Response
 {
     /**
      *

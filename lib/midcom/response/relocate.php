@@ -6,44 +6,40 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 /**
  * Wrapper for HTTP relocate responses
  *
  * @package midcom
  */
-class midcom_response_relocate extends midcom_response
+class midcom_response_relocate extends RedirectResponse
 {
-    /**
-     * The URL to redirect to
-     *
-     * @var string The URL to redirect to
-     */
-    public $url;
-
-    public function __construct($url, $code = 302)
+    public function setTargetUrl($url)
     {
-        $this->url = $url;
-        $this->code = $code;
-    }
-
-    public function send()
-    {
-        if (   $this->url == ''
-            || (   substr($this->url, 0, 1) != "/")
-                && !preg_match('|^https?://|', $this->url)) {
+        if (   substr($url, 0, 1) != "/"
+            && !preg_match('|^https?://|', $url)) {
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             if ($prefix == '') {
                 $prefix = '/';
             }
-            $this->url = "{$prefix}{$this->url}";
-            debug_add("This is a relative URL from the local site, prepending anchor prefix: {$this->url}");
+            $url = $prefix . $url;
+            debug_add("This is a relative URL from the local site, prepending anchor prefix: {$url}");
         }
-        $location = "Location: {$this->url}";
+        return parent::setTargetUrl($url);
+    }
+
+    public function send()
+    {
+        if (defined('OPENPSA2_UNITTEST_RUN')) {
+            throw new openpsa_test_relocate($this->targetUrl, $this->getStatusCode());
+        }
 
         midcom::get()->cache->content->no_cache();
+        debug_add("Relocating to {$this->targetUrl}");
+        parent::send();
 
-        debug_add("Relocating to {$location}");
-        midcom::get()->header($location, $this->code);
         midcom::get()->finish();
+        return $this; // in reality this is unreachable
     }
 }
