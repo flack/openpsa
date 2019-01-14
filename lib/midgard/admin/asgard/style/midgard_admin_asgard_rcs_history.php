@@ -29,25 +29,25 @@ echo $data['rcs_toolbar']->render();
             <?php
             $i = 0;
 
-            foreach ($history as $rev => $history) {
-                $link = $data['router']->generate('object_rcs_preview', ['guid' => $guid, 'revision' => $rev]);
+            foreach ($history as $number => $revision) {
+                $link = $data['router']->generate('object_rcs_preview', ['guid' => $guid, 'revision' => $number]);
                 $i++;
                 echo "                <tr id=\"midgard_admin_asgard_rcs_version_compare_{$i}_row\">\n";
-                echo "                    <td><input type=\"radio\" name=\"first\" value=\"{$rev}\" />\n";
-                echo "                    <td><input type=\"radio\" name=\"last\" value=\"{$rev}\" />\n";
-                echo "                    <td><span style=\"display: none;\">" . substr($rev, 2) . "</span><a href='{$link}'>{$rev}</a></td>\n";
-                echo "                    <td><span style=\"display: none;\">{$history['date']}</span>" . strftime('%x %X Z', $history['date']) . "</td>\n";
+                echo "                    <td><input type=\"radio\" name=\"first\" value=\"{$number}\" />\n";
+                echo "                    <td><input type=\"radio\" name=\"last\" value=\"{$number}\" />\n";
+                echo "                    <td><span style=\"display: none;\">" . substr($number, 2) . "</span><a href='{$link}'>{$number}</a></td>\n";
+                echo "                    <td><span style=\"display: none;\">{$revision['date']}</span>" . strftime('%x %X Z', $revision['date']) . "</td>\n";
                 echo "                    <td>";
 
-                if (   $history['user']
-                    && $user = midcom::get()->auth->get_user($history['user'])) {
+                if (   $revision['user']
+                    && $user = midcom::get()->auth->get_user($revision['user'])) {
                     echo $user->get_storage()->name;
-                } elseif ($history['ip']) {
-                    echo $history['ip'];
+                } elseif ($revision['ip']) {
+                    echo $revision['ip'];
                 }
                 echo "</td>\n";
-                echo "                    <td>{$history['lines']}</td>\n";
-                echo "                    <td>{$history['message']}</td>\n";
+                echo "                    <td>{$revision['lines']}</td>\n";
+                echo "                    <td>{$revision['message']}</td>\n";
                 echo "                </tr>\n";
             }
             ?>

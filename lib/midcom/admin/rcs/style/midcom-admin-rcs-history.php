@@ -24,24 +24,24 @@ if (count($history) == 0) {
             <tbody>
             <?php
             $formatter = $data['l10n']->get_formatter();
-    foreach ($history as $rev => $history) {
+    foreach ($history as $number => $revision) {
         echo "                <tr>\n";
-        echo "                    <td><input type=\"radio\" name=\"first\" value=\"{$rev}\" />\n";
-        echo "                    <td><input type=\"radio\" name=\"last\" value=\"{$rev}\" />\n";
-        echo "                    <td><a href='" . $data['router']->generate('preview', ['guid' => $guid, 'revision' => $rev]) . "'>{$rev}</a></td>\n";
-        echo "                    <td>" . $formatter->datetime($history['date']) . "</td>\n";
+        echo "                    <td><input type=\"radio\" name=\"first\" value=\"{$number}\" />\n";
+        echo "                    <td><input type=\"radio\" name=\"last\" value=\"{$number}\" />\n";
+        echo "                    <td><a href='" . $data['router']->generate('preview', ['guid' => $guid, 'revision' => $number]) . "'>{$number}</a></td>\n";
+        echo "                    <td>" . $formatter->datetime($revision['date']) . "</td>\n";
 
-        if (   $history['user']
-            && $user = midcom::get()->auth->get_user($history['user'])) {
+        if (   $revision['user']
+            && $user = midcom::get()->auth->get_user($revision['user'])) {
             $person_label = $user->get_storage()->name;
             echo "                    <td>{$person_label}</td>\n";
-        } elseif ($history['ip']) {
-            echo "                    <td>{$history['ip']}</td>\n";
+        } elseif ($revision['ip']) {
+            echo "                    <td>{$revision['ip']}</td>\n";
         } else {
             echo "                    <td></td>\n";
         }
-        echo "                    <td>{$history['lines']}</td>\n";
-        echo "                    <td>{$history['message']}</td>\n";
+        echo "                    <td>{$revision['lines']}</td>\n";
+        echo "                    <td>{$revision['message']}</td>\n";
         echo "                    <td></td>\n";
         echo "                </tr>\n";
     } ?>
