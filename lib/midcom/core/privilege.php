@@ -110,7 +110,7 @@ class midcom_core_privilege
 
     public function __set($property, $value)
     {
-        return $this->__privilege[$property] = $value;
+        $this->__privilege[$property] = $value;
     }
 
     public function __isset($property)

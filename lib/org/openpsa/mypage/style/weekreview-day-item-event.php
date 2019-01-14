@@ -15,12 +15,12 @@ if (!empty($data['calendar_node'])) {
     </td>
     <td>
         <?php
-        echo "{$event_label}";
+        echo $event_label;
         ?>
     </td>
     <td>
         <?php
-        echo "{$event->location}";
+        echo $event->location;
         ?>
     </td>
     <td>&nbsp;</td>

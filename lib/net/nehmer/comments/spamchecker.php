@@ -35,7 +35,7 @@ class net_nehmer_comments_spamchecker
         $header .= "Connection: close\r\n\r\n";
         $header .= $data;
 
-        fputs($fp, $header, strlen($header));
+        fwrite($fp, $header, strlen($header));
 
         while (!feof($fp)) {
             $buf .= fgets($fp, 128);

@@ -295,7 +295,7 @@ class midcom_core_manifest
         $raw_data = midcom_baseclasses_components_configuration::read_array_from_file($filename);
 
         foreach ($raw_data as $field => $value) {
-            if (property_exists($this, $field)) {
+            if (property_exists(__CLASS__, $field)) {
                 $this->$field = $value;
             }
         }

@@ -620,7 +620,7 @@ class midcom_services_auth
 
         if (isset($param->id)) {
             $id = $param->id;
-        } elseif (!is_string($id) && !is_integer($id)) {
+        } elseif (!is_string($id) && !is_int($id)) {
             debug_print_type('The passed argument was an object of an unsupported type:', $param, MIDCOM_LOG_WARN);
             debug_print_r('Complete object dump:', $param);
             return false;
@@ -654,7 +654,7 @@ class midcom_services_auth
 
         if (isset($param->id)) {
             $id = $param->id;
-        } elseif (!is_string($id) && !is_integer($id)) {
+        } elseif (!is_string($id) && !is_int($id)) {
             debug_print_type('The group identifier is of an unsupported type:', $param, MIDCOM_LOG_WARN);
             debug_print_r('Complete dump:', $param);
             return false;

@@ -160,7 +160,7 @@ abstract class midcom_core_dbaobject
      */
     public function __set($property, $value)
     {
-        return $this->__object->$property = $value;
+        $this->__object->$property = $value;
     }
 
     /**

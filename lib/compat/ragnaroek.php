@@ -36,7 +36,7 @@ function _midcom_headers_sent()
  */
 function midcom_show_style($param)
 {
-    return midcom::get()->style->show($param);
+    midcom::get()->style->show($param);
 }
 
 class_alias(midcom_baseclasses_components_viewer::class, 'midcom_baseclasses_components_request');

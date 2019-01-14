@@ -92,11 +92,9 @@ class midcom_core_dbaproxy
      */
     public function __set($property, $value)
     {
-        if (!$this->_load_object()) {
-            return null;
+        if ($this->_load_object()) {
+            $this->__object->$property = $value;
         }
-
-        return $this->__object->$property = $value;
     }
 
     /**

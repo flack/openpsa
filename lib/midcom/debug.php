@@ -132,7 +132,7 @@ class midcom_debug
 
         //find the proper caller
         $prefix .= $this->_get_caller();
-        fputs($file, $prefix . trim($message) . "\n");
+        fwrite($file, $prefix . trim($message) . "\n");
         fclose($file);
     }
 
@@ -148,17 +148,15 @@ class midcom_debug
 
         while ($bt) {
             $caller = array_shift($bt);
-            if (   array_key_exists('class', $caller)
-                && $caller['class'] == midcom_debug::class) {
-                continue;
-            }
+            if (   !array_key_exists('class', $caller)
+                || $caller['class'] != midcom_debug::class) {
+                if (   !array_key_exists('function', $bt[0])
+                    || $bt[0]['function'] != 'require') {
+                    $caller = array_shift($bt);
+                }
 
-            if (   !array_key_exists('function', $bt[0])
-                || $bt[0]['function'] != 'require') {
-                $caller = array_shift($bt);
+                break;
             }
-
-            break;
         }
 
         if (array_key_exists('class', $caller)) {

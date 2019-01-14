@@ -81,9 +81,9 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
     {
         if (empty($items)) {
             $items = $this->_list_items($this->root_node);
-        }
-        if (empty($items)) {
-            return;
+            if (empty($items)) {
+                return;
+            }
         }
 
         $identifier = 't_' . md5('org_openpsa_widgets_treemenu_' . $this->_object_class);

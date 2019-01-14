@@ -217,7 +217,6 @@ class org_openpsa_contacts_duplicates_merge
         $qb->add_constraint('domain', '=', 'org.openpsa.contacts.duplicates:possible_duplicate');
         $qb->add_order('name', 'ASC');
         $qb->set_limit(1);
-        $results = $qb->execute();
-        return (!empty($results));
+        return $qb->count() > 0;
     }
 }

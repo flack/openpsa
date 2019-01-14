@@ -42,10 +42,10 @@ class org_openpsa_helpers_list
         if (empty($contacts)) {
             $task->get_members();
             $contacts = $task->contacts;
-        }
 
-        if (empty($contacts)) {
-            return $ret;
+            if (empty($contacts)) {
+                return $ret;
+            }
         }
 
         $mc = midcom_db_member::new_collector();

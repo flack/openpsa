@@ -145,8 +145,7 @@ class midcom_helper_reflector_nameresolver
     public function name_is_unique()
     {
         // Get current name and sanity-check
-        $name_copy = $this->get_object_name();
-        if (empty($name_copy)) {
+        if (empty($this->get_object_name())) {
             // We do not check for empty names, and do not consider them to be unique
             return false;
         }

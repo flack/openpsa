@@ -129,11 +129,9 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
     {
         midcom_show_style('midcom_helper_imagepopup_search_result_start');
 
-        if (count($this->_search_results) > 0) {
-            foreach ($this->_search_results as $result) {
-                $this->_request_data['result'] = $result;
-                midcom_show_style('midcom_helper_imagepopup_search_result_item');
-            }
+        foreach ($this->_search_results as $result) {
+            $this->_request_data['result'] = $result;
+            midcom_show_style('midcom_helper_imagepopup_search_result_item');
         }
 
         midcom_show_style('midcom_helper_imagepopup_search_result_end');

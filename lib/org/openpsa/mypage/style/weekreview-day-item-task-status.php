@@ -39,7 +39,7 @@ try {
     </td>
     <td class="multivalue">
         <?php
-        echo "{$message}";
+        echo $message;
         ?>
     </td>
     <td>&nbsp;</td>

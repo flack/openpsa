@@ -85,10 +85,11 @@ class midcom_services_toolbars
             // This is auth service looping because it instantiates classes for magic privileges!
             return;
         }
+
         $initialized = true;
         if (   !midcom::get()->auth->user
             || !midcom::get()->config->get('toolbars_enable_centralized')
-            || !midcom::get()->auth->can_user_do('midcom:centralized_toolbar', null, $this)) {
+            || !midcom::get()->auth->can_user_do('midcom:centralized_toolbar', null, __CLASS__)) {
             return;
         }
 

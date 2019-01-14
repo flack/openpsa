@@ -477,9 +477,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     public function is_blocked()
     {
-        $block_param = $this->_person->get_parameter("org_openpsa_user_blocked_account", "account_password");
-
-        return (!empty($block_param));
+        return !empty($this->_person->get_parameter("org_openpsa_user_blocked_account", "account_password"));
     }
 
     public static function get_person_by_formdata($data)

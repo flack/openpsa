@@ -226,7 +226,7 @@ class midcom_helper_metadata
 
     public function __set($key, $value)
     {
-        return $this->set($key, $value);
+        $this->set($key, $value);
     }
 
     /**

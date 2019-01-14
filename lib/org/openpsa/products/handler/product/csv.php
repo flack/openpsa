@@ -32,7 +32,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
             if (!strpos(midcom_connection::get_url('uri'), '/', strlen(midcom_connection::get_url('uri')) - 2)) {
                 $schemaname = "/{$schemaname}";
             }
-            midcom::get()->relocate(midcom_connection::get_url('uri') . "{$schemaname}");
+            midcom::get()->relocate(midcom_connection::get_url('uri') . $schemaname);
             // This will exit
         } else {
             $data['schemadb_to_use'] = $this->_config->get('csv_export_schema');

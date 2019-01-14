@@ -113,13 +113,11 @@ implements client
             $qb->get_current_group()->add('m.gid = :gid');
         }
 
-        if (!empty($search)) {
-            foreach ($search as $field => $value) {
-                if ($field == 'username') {
-                    midcom_core_account::add_username_constraint($qb, 'LIKE', $value . '%');
-                } else {
-                    $qb->add_constraint($field, 'LIKE', $value . '%');
-                }
+        foreach ($search as $field => $value) {
+            if ($field == 'username') {
+                midcom_core_account::add_username_constraint($qb, 'LIKE', $value . '%');
+            } else {
+                $qb->add_constraint($field, 'LIKE', $value . '%');
             }
         }
 

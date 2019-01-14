@@ -43,11 +43,7 @@ class midcom_db_group extends midcom_core_dbaobject
     public function _on_loaded()
     {
         if (empty($this->official)) {
-            $this->official = $this->name;
-        }
-
-        if (empty($this->official)) {
-            $this->official = "Group #{$this->id}";
+            $this->official = $this->name ?: "Group #{$this->id}";
         }
     }
 

@@ -123,8 +123,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      */
     public function node_exists($component)
     {
-        $guid = $this->get_node_guid($component);
-        return !empty($guid);
+        return !empty($this->get_node_guid($component));
     }
 
     /**

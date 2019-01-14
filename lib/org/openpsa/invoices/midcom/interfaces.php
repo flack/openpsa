@@ -35,11 +35,9 @@ implements midcom_services_permalinks_resolver
         $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
         $qb_billing_data->add_constraint('linkGuid', '=', $object->guid);
         $result = $qb_billing_data->execute();
-        if (count($result) > 0) {
-            foreach ($result as $billing_data) {
-                debug_add("Delete billing data with guid:" . $billing_data->guid . " for object with guid:" . $object->guid);
-                $billing_data->delete();
-            }
+        foreach ($result as $billing_data) {
+            debug_add("Delete billing data with guid:" . $billing_data->guid . " for object with guid:" . $object->guid);
+            $billing_data->delete();
         }
         midcom::get()->auth->drop_sudo();
     }

@@ -162,11 +162,11 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
 
             $nap = new midcom_helper_nav();
             $data['node'] = $nap->resolve_guid($node_guid);
-        }
-        if (empty($data['node'])) {
-            //Invalid node given/found
-            debug_add("data['node'] is invalid", MIDCOM_LOG_ERROR);
-            return false;
+            if (empty($data['node'])) {
+                //Invalid node given/found
+                debug_add("data['node'] is invalid", MIDCOM_LOG_ERROR);
+                return false;
+            }
         }
 
         $related_to = new org_openpsa_relatedto_dba();

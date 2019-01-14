@@ -17,7 +17,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         <?php if (!empty($view['image'])) {
     ?>
             <div style="float: right; padding: 5px;">&(view['image']:h);</div>
-        <?php 
+        <?php
 } ?>
 
         &(view["content"]:h);
@@ -26,12 +26,11 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     <p class="permalink" style="display: none;"><a href="&(permalink);" rel="bookmark" rev="canonical"><?php $data['l10n_midcom']->show('permalink'); ?></a></p>
 
     <?php
-    $without_pipes = str_replace('|', '', $data['article']->extra3);
-    if (!empty($without_pipes)) {
+    $relateds = array_filter(explode('|', $data['article']->extra3));
+    if (!empty($relateds)) {
         echo "<h2>{$data['l10n']->get('related stories')}</h2>\n";
         echo "<ul class=\"related\">\n";
-        $relateds = explode('|', $data['article']->extra3);
-        foreach (array_filter($relateds) as $related) {
+        foreach ($relateds as $related) {
             try {
                 $article = new midcom_db_article($related);
                 echo "<li><a href=\"" . midcom::get()->permalinks->create_permalink($article->guid) . "\">{$article->title}</a></li>\n";

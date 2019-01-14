@@ -14,7 +14,7 @@ if ($data['projects_url']) {
     </td>
     <td>
         <?php
-        echo "{$task_label}";
+        echo $task_label;
         ?>
     </td>
     <td>&(hour_report->description);</td>

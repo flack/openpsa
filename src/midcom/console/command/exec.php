@@ -44,9 +44,9 @@ class exec extends Command
         if (is_array($get)) {
             foreach ($get as $data) {
                 $input_data = explode('=', $data);
-                if (sizeof($input_data) == 1) {
+                if (count($input_data) == 1) {
                     $_GET[] = $input_data;
-                } elseif (sizeof($input_data) == 2) {
+                } elseif (count($input_data) == 2) {
                     $_GET[$input_data[0]] = $input_data[1];
                 } else {
                     throw new \RuntimeException('Could not parse input ' . $data);

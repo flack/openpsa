@@ -92,7 +92,7 @@ class midcom_application
      */
     public function __set($key, $value)
     {
-        return midcom::get()->$key = $value;
+        midcom::get()->$key = $value;
     }
 
     /**

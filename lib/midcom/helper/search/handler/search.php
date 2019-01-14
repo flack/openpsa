@@ -83,7 +83,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
                 $this->append_terms_recursive($final_query, $term);
             }
         } elseif (is_string($terms)) {
-            $final_query .= "{$terms}";
+            $final_query .= $terms;
         } else {
             debug_add('Don\'t know how to handle terms of type: ' . gettype($terms), MIDCOM_LOG_ERROR);
             debug_print_r('$terms', $terms);

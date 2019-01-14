@@ -52,7 +52,7 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
             $item = new FeedItem();
             $item->title = $wikipage->title;
             if ($wikipage->name == 'index') {
-                $item->link = "{$node[MIDCOM_NAV_FULLURL]}";
+                $item->link = $node[MIDCOM_NAV_FULLURL];
             } else {
                 $item->link = "{$node[MIDCOM_NAV_FULLURL]}{$wikipage->name}/";
             }

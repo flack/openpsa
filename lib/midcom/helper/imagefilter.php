@@ -186,8 +186,8 @@ class midcom_helper_imagefilter
             midcom::get()->uimessages->add('midcom.helper.imagefilter', "ImageMagick is not available, can't process commands", 'error');
             return false;
         }
-        if (!is_writeable($filename)) {
-            debug_add("The File {$filename} is not writeable.", MIDCOM_LOG_ERROR);
+        if (!is_writable($filename)) {
+            debug_add("The File {$filename} is not writable.", MIDCOM_LOG_ERROR);
             return false;
         }
         if (   !empty($this->_filename)
