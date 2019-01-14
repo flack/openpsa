@@ -199,62 +199,51 @@ class midcom_services_i18n_l10n
                 if ($string == '') {
                     continue;
                 }
-                if (substr($string, 0, 3) == '---') {
-                    // this is a command
-                    if (strlen($string) < 4) {
-                        $line++; // Array is 0-indexed
-                        throw new midcom_error("L10n DB SYNTAX ERROR: An incorrect command was detected at {$filename}:{$line}");
-                    }
-
-                    $command = preg_replace('/^---(.+?) .+/', '$1', $string);
-
-                    switch ($command) {
-                        case '#':
-                            // Skip
-                            break;
-
-                        case 'VERSION':
-                            if ($version != '') {
-                                $line++; // Array is 0-indexed
-                                throw new midcom_error("L10n DB SYNTAX ERROR: A second VERSION tag has been detected at {$filename}:{$line}");
-                            }
-                            $version = substr($string, 11);
-                            break;
-
-                        case 'LANGUAGE':
-                            if ($language != '') {
-                                $line++; // Array is 0-indexed
-                                throw new midcom_error("L10n DB SYNTAX ERROR: A second LANGUAGE tag has been detected at {$filename}:{$line}");
-                            }
-                            $language = substr($string, 12);
-                            break;
-
-                        case 'STRING':
-                            $string_data = '';
-                            $string_key = substr($string, 10);
-                            $instring = true;
-                            break;
-
-                        default:
-                            $line++; // Array is 0-indexed
-                            throw new midcom_error("L10n DB SYNTAX ERROR: Unknown command '{$command}' at {$filename}:{$line}");
-                    }
-                } else {
-                    $line++; // Array is 0-indexed
-                    throw new midcom_error("L10n DB SYNTAX ERROR: Invalid line at {$filename}:{$line}");
+                if (substr($string, 0, 3) != '---') {
+                    throw $this->error("Invalid line", $filename, $line);
                 }
+                // this is a command
+                if (strlen($string) < 4) {
+                    throw $this->error("An incorrect command was detected", $filename, $line);
+                }
+
+                $command = preg_replace('/^---(.+?) .+/', '$1', $string);
+
+                switch ($command) {
+                    case '#':
+                        // Skip
+                        break;
+
+                    case 'VERSION':
+                        if ($version != '') {
+                            throw $this->error("A second VERSION tag has been detected", $filename, $line);
+                        }
+                        $version = substr($string, 11);
+                        break;
+
+                    case 'LANGUAGE':
+                        if ($language != '') {
+                            throw $this->error("A second LANGUAGE tag has been detected", $filename, $line);
+                        }
+                        $language = substr($string, 12);
+                        break;
+
+                    case 'STRING':
+                        $string_data = '';
+                        $string_key = substr($string, 10);
+                        $instring = true;
+                        break;
+
+                    default:
+                        throw $this->error("Unknown command '{$command}'", $filename, $line);
+                }
+            } elseif ($string == '---STRINGEND') {
+                $instring = false;
+                $stringtable[$string_key] = $string_data;
+            } elseif ($string_data == '') {
+                $string_data .= $string;
             } else {
-                // Within a string value
-                if ($string == '---STRINGEND') {
-                    $instring = false;
-                    $stringtable[$string_key] = $string_data;
-                } else {
-                    if ($string_data == '') {
-                        $string_data .= $string;
-                    } else {
-                        $string_data .= "\n{$string}";
-                    }
-                }
+                $string_data .= "\n{$string}";
             }
         }
 
@@ -270,6 +259,12 @@ class midcom_services_i18n_l10n
 
         ksort($stringtable, SORT_STRING);
         return $stringtable;
+    }
+
+    private function error($message, $filename, $line)
+    {
+        $line++; // Array is 0-indexed
+        return new midcom_error('L10n DB SYNTAX ERROR: ' .  $message . ' at ' . $filename . ' ' . $line);
     }
 
     /**
