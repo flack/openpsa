@@ -107,15 +107,9 @@ class midcom_helper_misc
             $data = file_get_contents($filename);
         } else {
             $snippet = new midgard_snippet();
-            try {
-                $stat = $snippet->get_by_path($path);
-            } catch (Exception $e) {
-                debug_add($e->getMessage(), MIDCOM_LOG_ERROR);
-            } finally {
-                if (empty($stat)) {
-                    $cached_snippets[$path] = null;
-                    return null;
-                }
+            if (!$snippet->get_by_path($path)) {
+                $cached_snippets[$path] = null;
+                return null;
             }
             if (isset(midcom::get()->cache->content)) {
                 midcom::get()->cache->content->register($snippet->guid);
@@ -261,7 +255,8 @@ class midcom_helper_misc
         if ($size >= 1048576) {
             // More than a meg
             return sprintf("%01.1f", $size / 1048576) . " MB";
-        } elseif ($size >= 1024) {
+        }
+        if ($size >= 1024) {
             // More than a kilo
             return sprintf("%01.1f", $size / 1024) . " KB";
         }

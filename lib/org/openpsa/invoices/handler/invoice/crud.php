@@ -233,7 +233,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         if ($this->customer) {
             $dummy->customer = $this->customer->id;
             $defaults['customer'] = $this->customer->id;
-        } else if ($this->contact_id) {
+        } elseif ($this->contact_id) {
             $dummy->customerContact = $this->contact_id;
             $defaults['customerContact'] = $this->contact_id;
         }

@@ -379,13 +379,11 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
                     $default_shown = true;
                     $cards_to_show[] = $cardname;
                 }
-            } else {
-                if (    $customer->$property
-                    || ($customer->street && !$inherited_cards_only && !$default_shown)) {
-                    $inherited_cards_only = false;
-                    $multiple_addresses = true;
-                    $cards_to_show[] = $cardname;
-                }
+            } elseif (    $customer->$property
+                      || ($customer->street && !$inherited_cards_only && !$default_shown)) {
+                $inherited_cards_only = false;
+                $multiple_addresses = true;
+                $cards_to_show[] = $cardname;
             }
         }
 

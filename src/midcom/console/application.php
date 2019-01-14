@@ -47,9 +47,9 @@ class application extends base_application
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $_SERVER['SERVER_NAME'] = $input->getParameterOption(array('--servername', '-s'), null);
+        $_SERVER['SERVER_NAME'] = $input->getParameterOption(['--servername', '-s'], null);
         $_SERVER['HTTP_HOST'] = $_SERVER['SERVER_NAME'];
-        $_SERVER['SERVER_PORT'] = $input->getParameterOption(array('--port', '-p'), null);
+        $_SERVER['SERVER_PORT'] = $input->getParameterOption(['--port', '-p'], null);
         $_SERVER['REMOTE_PORT'] = $_SERVER['SERVER_PORT'];
 
         if ($_SERVER['SERVER_PORT'] == 443) {
@@ -88,7 +88,7 @@ class application extends base_application
             define('OPENPSA2_PREFIX', '/');
         }
 
-        $server_defaults = array(
+        $server_defaults = [
             'HTTP_HOST' => __FILE__,
             'SERVER_NAME' => __FILE__,
             'SERVER_SOFTWARE' => __CLASS__,
@@ -98,7 +98,7 @@ class application extends base_application
             'REQUEST_URI' => '/',
             'REQUEST_TIME' => time(),
             'REMOTE_PORT' => '80'
-        );
+        ];
         $_SERVER = array_merge($server_defaults, $_SERVER);
     }
 

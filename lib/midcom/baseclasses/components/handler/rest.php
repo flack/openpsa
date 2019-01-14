@@ -40,7 +40,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      *
      * @var midcom_core_dbaobject
      */
-    protected $_object = false;
+    protected $_object;
 
     /**
      * the request mode (get, create, update, delete)

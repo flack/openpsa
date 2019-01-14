@@ -9,14 +9,12 @@ if ($data['feed']->can_do('midgard:update')) {
 }
 echo "    <ul class=\"details\">\n";
 
-switch ($data['topic']->component) {
-    case 'net.nehmer.blog':
-        $qb = midcom_db_article::new_query_builder();
-        $qb->add_constraint('topic', '=', $data['topic']->id);
-        $qb->add_constraint('extra1', 'LIKE', "%|{$data['feed_category']}|%");
-        $data['feed_items'] = $qb->count_unchecked();
-        echo "        <li><a href=\"{$topic_prefix}category/{$data['feed_category']}/\">" . sprintf($data['l10n']->get('%s items'), $data['feed_items']) . "</a></li>\n";
-        break;
+if ($data['topic']->component == 'net.nehmer.blog') {
+    $qb = midcom_db_article::new_query_builder();
+    $qb->add_constraint('topic', '=', $data['topic']->id);
+    $qb->add_constraint('extra1', 'LIKE', "%|{$data['feed_category']}|%");
+    $data['feed_items'] = $qb->count_unchecked();
+    echo "        <li><a href=\"{$topic_prefix}category/{$data['feed_category']}/\">" . sprintf($data['l10n']->get('%s items'), $data['feed_items']) . "</a></li>\n";
 }
 $formatter = $data['l10n']->get_formatter();
 if ($data['feed']->latestupdate) {

@@ -200,9 +200,9 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         }
         if ($translated === $string) {
             $translated = $this->_l10n->get($string);
-        }
-        if ($translated === $string) {
-            $translated = $this->_l10n_midcom->get($string);
+            if ($translated === $string) {
+                $translated = $this->_l10n_midcom->get($string);
+            }
         }
         return $translated;
     }

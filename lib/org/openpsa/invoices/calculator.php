@@ -112,12 +112,12 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
             $cancelation_ids = $invoice_mc->get_values('cancelationInvoice');
 
             $suspects = array_diff($suspects, $cancelation_ids);
+            // check which suspects are left
+            if (count($suspects) > 0) {
+                return new org_openpsa_invoices_invoice_dba(array_pop($suspects));
+            }
         }
 
-        // check which suspects are left
-        if (count($suspects) > 0) {
-            return new org_openpsa_invoices_invoice_dba(array_pop($suspects));
-        }
         // Nothing found, create a new invoice
         return $this->_create_invoice($cycle_number);
     }

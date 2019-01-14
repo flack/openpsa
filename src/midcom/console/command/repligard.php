@@ -69,13 +69,13 @@ class repligard extends Command
     private function create_connection(InputInterface $input, OutputInterface $output)
     {
         $config = \midgard_connection::get_instance()->config;
-        $defaults = array(
+        $defaults = [
             'username' => $config->dbuser,
             'password' => $config->dbpass,
             'host' => $config->host,
             'dbtype' => $config->dbtype,
             'dbname' => $config->database
-        );
+        ];
 
         $dialog = $this->getHelperSet()->get('question');
 
@@ -98,7 +98,7 @@ class repligard extends Command
     private function _confirm(InputInterface $input, OutputInterface $output, $question, $default = false)
     {
         $question = '<question>' . $question;
-        $options = array(true => 'y', false => 'n');
+        $options = [true => 'y', false => 'n'];
         foreach ($options as $value => &$option) {
             if ($value == $default) {
                 $option = strtoupper($option);

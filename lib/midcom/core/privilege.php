@@ -298,7 +298,8 @@ class midcom_core_privilege
             if ($this->assignee != 'SELF') {
                 debug_add("The classname parameter was specified without having the magic assignee SELF set, this is invalid.", MIDCOM_LOG_INFO);
                 return false;
-            } elseif (!class_exists($this->classname)) {
+            }
+            if (!class_exists($this->classname)) {
                 debug_add("The class '{$this->classname}' is not found, the SELF magic assignee with class restriction is invalid therefore.", MIDCOM_LOG_INFO);
                 return false;
             }
@@ -562,7 +563,7 @@ class midcom_core_privilege
             // This is a temporary object only, try to load the real object first. If it is not found,
             // exit silently, as this is the desired final state.
             $object = $this->get_object();
-            $privilege = $this->get_privilege($object, $this->privilegename, $this->assignee, $this->classname);
+            $privilege = self::get_privilege($object, $this->privilegename, $this->assignee, $this->classname);
             if (!empty($privilege->__guid)) {
                 if (!$privilege->drop()) {
                     return false;
@@ -581,7 +582,7 @@ class midcom_core_privilege
         }
 
         $object = $this->get_object();
-        $privilege = $this->get_privilege($object, $this->privilegename, $this->assignee, $this->classname);
+        $privilege = self::get_privilege($object, $this->privilegename, $this->assignee, $this->classname);
         if (!empty($privilege->__guid)) {
             $privilege->value = $this->value;
             if (!$privilege->store()) {

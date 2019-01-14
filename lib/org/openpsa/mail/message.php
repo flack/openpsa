@@ -65,13 +65,11 @@ class org_openpsa_mail_message
             if (array_key_exists(strtolower($name), $headers_setter_map)) {
                 $setter = $headers_setter_map[strtolower($name)];
                 $this->_message->$setter($value);
-            } else {
+            } elseif ($msg_headers->has($name)) {
                 // header already exists => just set a new value
-                if ($msg_headers->has($name)) {
-                    $msg_headers->get($name)->setValue($value);
-                } else {
-                    $msg_headers->addTextHeader($name, $value);
-                }
+                $msg_headers->get($name)->setValue($value);
+            } else {
+                $msg_headers->addTextHeader($name, $value);
             }
         }
 

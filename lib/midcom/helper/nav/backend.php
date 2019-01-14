@@ -184,14 +184,13 @@ class midcom_helper_nav_backend
 
         $lastgood = null;
         foreach ($node_path_candidates as $topic) {
-            if ($this->_loadNodeData($topic) == MIDCOM_ERROK) {
-                $this->_node_path[] = $topic->id;
-                $lastgood = $topic->id;
-            } else {
+            if ($this->_loadNodeData($topic) !== MIDCOM_ERROK) {
                 // Node is hidden behind an undescendable one
                 $this->_current = $lastgood;
                 return;
             }
+            $this->_node_path[] = $topic->id;
+            $lastgood = $topic->id;
         }
     }
 

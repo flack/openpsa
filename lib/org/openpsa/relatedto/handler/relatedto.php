@@ -440,14 +440,13 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             }
         } catch (midcom_error $e) {
             $response->status = "error: " . $e->getMessage();
-        } finally {
-            if (!empty($response->status)) {
-                return $response;
-            }
         }
-        $this->_object->status = $mode == 'deny' ? org_openpsa_relatedto_dba::NOTRELATED : org_openpsa_relatedto_dba::CONFIRMED;
-        $response->result = $this->_object->update();
-        $response->status = 'error:' . midcom_connection::get_error_string();
+
+        if (empty($response->status)) {
+            $this->_object->status = $mode == 'deny' ? org_openpsa_relatedto_dba::NOTRELATED : org_openpsa_relatedto_dba::CONFIRMED;
+            $response->result = $this->_object->update();
+            $response->status = 'error:' . midcom_connection::get_error_string();
+        }
 
         return $response;
     }

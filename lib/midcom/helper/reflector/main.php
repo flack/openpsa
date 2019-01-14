@@ -280,7 +280,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 $icon = 'users';
                 break;
             case (strpos($type, 'person') !== false):
-            case (strpos($type, 'member') !== false):
                 $icon = 'user-o';
                 break;
             case (strpos($type, 'event') !== false):

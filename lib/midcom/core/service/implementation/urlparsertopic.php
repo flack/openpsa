@@ -93,10 +93,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
             $qb->add_constraint('name', '=', $this->argv[0]);
             $qb->add_constraint('up', '=', $this->get_current_object()->id);
 
-            if ($qb->count() > 0) {
-                // Set to current topic
-                $this->objects[$object_url] = $qb->get_result(0);
-            } else {
+            if ($qb->count() == 0) {
                 // last load returned ACCESS DENIED, no sense to dig deeper
                 if ($qb->denied > 0) {
                     midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
@@ -104,6 +101,8 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
                 // allow for handler switches to work
                 return false;
             }
+            // Set to current topic
+            $this->objects[$object_url] = $qb->get_result(0);
         }
         // Remove this component from path
         array_shift($this->argv);

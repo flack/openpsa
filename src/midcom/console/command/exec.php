@@ -72,7 +72,7 @@ class exec extends Command
 
         $context = \midcom_core_context::get();
         $context->parser = \midcom::get()->serviceloader->load('midcom_core_service_urlparser');
-        $context->parser->parse(array('midcom-exec-' . $this->_component, $this->_filename));
+        $context->parser->parse(['midcom-exec-' . $this->_component, $this->_filename]);
 
         $resolver = new \midcom_core_urlmethods($context);
         $resolver->process();
