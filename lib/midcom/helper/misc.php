@@ -68,56 +68,59 @@ class midcom_helper_misc
     public static function get_snippet_content_graceful($path)
     {
         static $cached_snippets = [];
-        if (array_key_exists($path, $cached_snippets)) {
-            return $cached_snippets[$path];
+
+        if (!array_key_exists($path, $cached_snippets)) {
+            if (substr($path, 0, 5) == 'file:') {
+                $cached_snippets[$path] = self::load_from_file($path);
+            } elseif (substr($path, 0, 5) == 'conf:') {
+                $cached_snippets[$path] = self::load(midcom::get()->config->get('midcom_config_basedir') . '/midcom' . substr($path, 5));
+            } else {
+                $cached_snippets[$path] = self::load_from_snippet($path);
+            }
         }
 
-        if (substr($path, 0, 5) == 'file:') {
-            $filename = MIDCOM_ROOT . substr($path, 5);
-            if (!file_exists($filename)) {
-                // try in src
-                $filename = preg_replace('/\/lib\/?$/', '/src', MIDCOM_ROOT) . substr($path, 5);
-            }
+        return $cached_snippets[$path];
+    }
+
+    private static function load_from_snippet($path)
+    {
+        $snippet = new midgard_snippet();
+        if (!$snippet->get_by_path($path)) {
+            return null;
+        }
+        if (isset(midcom::get()->cache->content)) {
+            midcom::get()->cache->content->register($snippet->guid);
+        }
+        return $snippet->code;
+    }
+
+    private static function load_from_file($path)
+    {
+        $filename = MIDCOM_ROOT . substr($path, 5);
+        if (!file_exists($filename)) {
+            // try in src
+            $filename = preg_replace('/\/lib\/?$/', '/src', MIDCOM_ROOT) . substr($path, 5);
             if (!file_exists($filename)) {
                 //If we can't find the file in-tree, we look for out-of-tree components before giving up
-                $found = false;
                 $filename = substr($path, 6);
                 if (preg_match('|.+?/.+?/.+?/|', $filename)) {
                     $component_name = preg_replace('|(.+?)/(.+?)/(.+?)/.+|', '$1.$2.$3', $filename);
                     if (midcom::get()->componentloader->is_installed($component_name)) {
                         $filename = substr($filename, strlen($component_name));
                         $filename = midcom::get()->componentloader->path_to_snippetpath($component_name) . $filename;
-                        if (file_exists($filename)) {
-                            $found = true;
-                        }
                     }
                 }
-                if (!$found) {
-                    $cached_snippets[$path] = null;
-                    return null;
-                }
             }
-            $data = file_get_contents($filename);
-        } elseif (substr($path, 0, 5) == 'conf:') {
-            $filename = midcom::get()->config->get('midcom_config_basedir') . '/midcom' . substr($path, 5);
-            if (!file_exists($filename)) {
-                $cached_snippets[$path] = null;
-                return null;
-            }
-            $data = file_get_contents($filename);
-        } else {
-            $snippet = new midgard_snippet();
-            if (!$snippet->get_by_path($path)) {
-                $cached_snippets[$path] = null;
-                return null;
-            }
-            if (isset(midcom::get()->cache->content)) {
-                midcom::get()->cache->content->register($snippet->guid);
-            }
-            $data = $snippet->code;
         }
-        $cached_snippets[$path] = $data;
-        return $data;
+        return self::load($filename);
+    }
+
+    private static function load($filename)
+    {
+        if (!file_exists($filename)) {
+            return null;
+        }
+        return file_get_contents($filename);
     }
 
     /**
