@@ -275,39 +275,27 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     public function find_links_in_content()
     {
         // Seek wiki page links inside page content
-        // TODO: Simplify
         $matches = [];
         $links = [];
         preg_match_all($this->_config->get('wikilink_regexp'), $this->_page->content, $matches);
         foreach ($matches[1] as $match_key => $match) {
             $fulltext = $match;
             $after = $matches[2][$match_key] ?: '';
+
             // See what kind of tag we have hit
-            switch (true) {
-                // NOTE: This logic must be kept consistent with $this->replace_wikiwords()
-                // Ignore markdown tags
-                case (preg_match("/[\(:\[]/", $after)):
-                    // TODO: should by str match (array) instead
-                    continue 2;
-
-                // Ignore escaped tag [!!text]
-                case (preg_match("/^\!\!(.*)/", $fulltext)):
-                    continue 2;
-
+            // NOTE: This logic must be kept consistent with $this->replace_wikiwords()
+            // Ignore markdown tags and escaped tag [!!text]
+            if (!preg_match("/[\(:\[]/", $after) && !preg_match("/^\!\!(.*)/", $fulltext)) {
                 // MediaWiki-style link [wikipage|label]
-                case (preg_match("/^(.*?)\|(.*?)$/i", $fulltext, $parts)):
+                if (preg_match("/^(.*?)\|(.*?)$/i", $fulltext, $parts)) {
                     $links[$parts[1]] = $parts[2];
-                    break;
+                }
                 // Ignore macros [something: <data>] (for example [abbr: BOFH - Bastard Operator From Hell] or [photo: <GUID>])
-                case (   preg_match('/^(.*?): (.*)/', $fulltext, $macro_parts)
-                      && method_exists($this, "_run_macro_{$macro_parts[1]}")):
-                    continue 2;
-
-                // MediaWiki-style link [wikipage] (no text)
-                // TODO: it is possible that this wasn't originally intended to be default, but the if/elseif tree was complex and this ended up being resolved as the last else
-                default:
+                elseif (   !preg_match('/^(.*?): (.*)/', $fulltext, $macro_parts)
+                        || !method_exists($this, "_run_macro_{$macro_parts[1]}")) {
+                    // MediaWiki-style link [wikipage] (no text)
                     $links[$fulltext] = $fulltext;
-                    break;
+                }
             }
         }
 
