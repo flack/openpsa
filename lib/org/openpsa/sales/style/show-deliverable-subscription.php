@@ -126,6 +126,27 @@ if (   $data['product']
                 }
                 ?>
         </div>
+        <?php
+        $tabs = [];
+        if (   $data['invoices_url']
+            && $data['deliverable']->invoiced > 0) {
+            $tabs[] = [
+                'url' => $data['invoices_url'] . "list/deliverable/{$data['deliverable']->guid}/",
+                'title' => midcom::get()->i18n->get_string('invoices', 'org.openpsa.invoices'),
+            ];
+        }
+
+        if (   $data['projects_url']
+            && $data['deliverable']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
+            && $data['product']
+            && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE) {
+            $tabs[] = [
+                'url' => $data['projects_url'] . "task/list/agreement/{$data['deliverable']->id}/",
+                'title' => midcom::get()->i18n->get_string('tasks', 'org.openpsa.projects'),
+            ];
+        }
+        org_openpsa_widgets_ui::render_tabs($data['deliverable']->guid, $tabs);
+        ?>
     </div>
 
     <aside>
@@ -139,9 +160,9 @@ if (   $data['product']
         <?php
             } ?>
 
-        <div class="at area">
         <?php
         if ($at_entries = $data['deliverable']->get_at_entries()) {
+            echo '<div class="at area">';
             echo "<h2>" . $data['l10n']->get('next run') . "</h2>\n";
             echo "<table>\n";
             echo "    <thead>\n";
@@ -185,32 +206,9 @@ if (   $data['product']
                 </form>
                 <?php
             }
+            echo '</div>';
         }
+        midcom_show_style('show-offers');
         ?>
-        </div>
     </aside>
-	</div>
-    <div class="wide">
-    <?php
-    $tabs = [];
-    if (   $data['invoices_url']
-        && $data['deliverable']->invoiced > 0) {
-        $tabs[] = [
-            'url' => $data['invoices_url'] . "list/deliverable/{$data['deliverable']->guid}/",
-            'title' => midcom::get()->i18n->get_string('invoices', 'org.openpsa.invoices'),
-        ];
-    }
-
-    if (   $data['projects_url']
-        && $data['deliverable']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
-        && $data['product']
-        && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE) {
-        $tabs[] = [
-            'url' => $data['projects_url'] . "task/list/agreement/{$data['deliverable']->id}/",
-            'title' => midcom::get()->i18n->get_string('tasks', 'org.openpsa.projects'),
-        ];
-    }
-    org_openpsa_widgets_ui::render_tabs($data['deliverable']->guid, $tabs);
-    ?>
-    </div>
 </div>

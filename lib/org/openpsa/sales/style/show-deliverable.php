@@ -113,22 +113,7 @@ if (   $data['product']
                 }
                 ?>
 	    </div>
-    </div>
-
-    <aside>
-        <?php if ($data['product']) {
-                ?>
-        <div class="products area">
-            <?php
-            echo "<h2>" . $data['l10n']->get('product') . "</h2>\n";
-                echo $data['product']->render_link() . "\n"; ?>
-        </div>
-        <?php
-            } ?>
-    </aside>
-	</div>
-    <div class="wide">
-    <?php
+     <?php
     $tabs = [];
     if (   $data['invoices_url']
         && $data['deliverable']->invoiced > 0) {
@@ -149,5 +134,21 @@ if (   $data['product']
     }
     org_openpsa_widgets_ui::render_tabs($data['deliverable']->guid, $tabs);
     ?>
+    </div>
+
+    <aside>
+        <?php if ($data['product']) {
+                ?>
+        <div class="products area">
+            <?php
+            echo "<h2>" . $data['l10n']->get('product') . "</h2>\n";
+                echo $data['product']->render_link() . "\n"; ?>
+        </div>
+        <?php
+            }
+        midcom_show_style('show-offers');
+        ?>
+    </aside>
+
     </div>
 </div>

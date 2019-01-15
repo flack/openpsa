@@ -78,6 +78,13 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
             ->set_storage($this->_deliverable)
             ->get_content_html();
 
+        if ($this->_config->get('sales_pdfbuilder_class')) {
+            $qb = org_openpsa_sales_salesproject_offer_dba::new_query_builder();
+            $qb->add_constraint('deliverables', 'LIKE', 'a:%{%:' . $this->_deliverable->id . ';%');
+            $qb->add_order('metadata.revised', 'DESC');
+            $data['offers'] = $qb->execute();
+        }
+
         $this->add_breadcrumb_path();
 
         $this->_prepare_request_data();
