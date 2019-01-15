@@ -62,7 +62,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
     public static function get_by_number($number)
     {
-        $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+        $qb = self::new_query_builder();
         $qb->add_constraint('number', '=', $number);
         $result = $qb->execute();
         if (count($result) == 1) {
@@ -199,7 +199,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
      */
     public function get_canceled_invoice()
     {
-        $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+        $qb = self::new_query_builder();
         $qb->add_constraint('cancelationInvoice', '=', $this->id);
         $results = $qb->execute();
 

@@ -56,7 +56,7 @@ class midcom_core_dbaproxy
     private function _load_object()
     {
         if ($this->__tried_to_load) {
-            return (null !== $this->__object);
+            return null !== $this->__object;
         }
 
         $this->__tried_to_load = true;

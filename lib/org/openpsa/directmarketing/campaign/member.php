@@ -67,7 +67,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
             $qb->add_constraint('id', '<>', $this->id);
         }
 
-        return ($qb->count() == 0);
+        return $qb->count() == 0;
     }
 
     public function _on_creating()

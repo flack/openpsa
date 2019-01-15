@@ -36,7 +36,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
 
         // Check for duplicates
-        $qb = net_nemein_wiki_wikipage::new_query_builder();
+        $qb = self::new_query_builder();
         $qb->add_constraint('topic', '=', $this->topic);
         $qb->add_constraint('title', '=', $this->title);
         if ($qb->count() > 0) {

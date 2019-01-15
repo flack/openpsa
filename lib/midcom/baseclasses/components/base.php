@@ -73,7 +73,7 @@ abstract class midcom_baseclasses_components_base
 
     public function __isset($field)
     {
-        return (in_array($field, ['_i18n', '_l10n', '_l10n_midcom', '_config']));
+        return in_array($field, ['_i18n', '_l10n', '_l10n_midcom', '_config']);
     }
 
     public function set_active_leaf($leaf_id)

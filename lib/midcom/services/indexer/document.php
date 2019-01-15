@@ -558,7 +558,7 @@ class midcom_services_indexer_document
      */
     public function is_a($document_type)
     {
-        return (strpos($this->type, $document_type) === 0);
+        return strpos($this->type, $document_type) === 0;
     }
 
     /**

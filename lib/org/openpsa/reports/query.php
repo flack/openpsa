@@ -31,7 +31,7 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
     public function _on_loaded()
     {
         if (!$this->orgOpenpsaObtype) {
-            $this->orgOpenpsaObtype = org_openpsa_reports_query_dba::OBTYPE_REPORT_TEMPORARY;
+            $this->orgOpenpsaObtype = self::OBTYPE_REPORT_TEMPORARY;
         }
         if (!$this->extension) {
             $this->extension = '.html';

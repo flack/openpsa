@@ -27,7 +27,7 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
      */
     public function _on_creating()
     {
-        return (!$this->duplicate_names());
+        return !$this->duplicate_names();
     }
 
     /**
@@ -35,7 +35,7 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
      */
     public function _on_updating()
     {
-        return (!$this->duplicate_names());
+        return !$this->duplicate_names();
     }
 
     /**
@@ -53,7 +53,7 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
 
         $mc->execute();
 
-        return (count($mc->list_keys()) > 0);
+        return !empty($mc->list_keys());
     }
 
     /**

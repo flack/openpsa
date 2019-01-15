@@ -82,7 +82,7 @@ class org_openpsa_contacts_list_dba extends midcom_core_dbaobject
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $this->id);
         $qb->add_constraint('uid.guid', '=', $guid);
-        return ($qb->count() > 0);
+        return $qb->count() > 0;
     }
 
     public function list_members()

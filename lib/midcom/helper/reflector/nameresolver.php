@@ -60,7 +60,7 @@ class midcom_helper_reflector_nameresolver
             return false;
         }
         $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
-        return ($name_copy === $generator->from_string($name_copy));
+        return $name_copy === $generator->from_string($name_copy);
     }
 
     /**
@@ -78,7 +78,7 @@ class midcom_helper_reflector_nameresolver
             // empty name is not url-safe
             return false;
         }
-        return ($name_copy === rawurlencode($name_copy));
+        return $name_copy === rawurlencode($name_copy);
     }
 
     /**

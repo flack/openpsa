@@ -295,7 +295,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             $location = strtoupper(substr($name, 0, 1) . '/' . substr($name, 1, 1) . '/') . $name;
 
             // Check uniqueness
-            $qb = midcom_db_attachment::new_query_builder();
+            $qb = self::new_query_builder();
             $qb->add_constraint('location', '=', $location);
             $result = $qb->count_unchecked();
 

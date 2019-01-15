@@ -225,6 +225,6 @@ class midcom_core_account
         $qb->add_constraint('login', '=', $this->get_username());
         $qb->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
         $qb->add_constraint('guid', '<>', $this->_user->guid);
-        return ($qb->count() == 0);
+        return $qb->count() == 0;
     }
 }

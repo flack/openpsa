@@ -550,7 +550,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     {
         $one = self::resolve_baseclass($class_one);
         $two = self::resolve_baseclass($class_two);
-        return ($one == $two);
+        return $one == $two;
     }
 
     /**

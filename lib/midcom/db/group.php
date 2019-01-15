@@ -88,6 +88,6 @@ class midcom_db_group extends midcom_core_dbaobject
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $this->id);
         $qb->add_constraint('uid', '=', $person->id);
-        return ($qb->count() > 0);
+        return $qb->count() > 0;
     }
 }

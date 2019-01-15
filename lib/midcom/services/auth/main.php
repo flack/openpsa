@@ -332,7 +332,7 @@ class midcom_services_auth
 
     public function is_component_sudo()
     {
-        return ($this->_component_sudo > 0);
+        return $this->_component_sudo > 0;
     }
 
     /**

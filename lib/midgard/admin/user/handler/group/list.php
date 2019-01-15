@@ -197,6 +197,6 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
         $qb = midcom_db_group::new_query_builder();
         $qb->add_constraint('id', '=', $id);
         $qb->add_constraint('owner', 'INTREE', $owner);
-        return ($qb->count() > 0);
+        return $qb->count() > 0;
     }
 }

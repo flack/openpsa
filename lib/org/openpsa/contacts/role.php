@@ -54,7 +54,7 @@ class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
             $qb->add_constraint('id', '<>', $this->id);
         }
 
-        return ($qb->count() == 0);
+        return $qb->count() == 0;
     }
 
     public function _on_creating()

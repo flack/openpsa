@@ -48,7 +48,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         }
 
         // Check for duplicates
-        $qb = org_openpsa_products_product_group_dba::new_query_builder();
+        $qb = self::new_query_builder();
         $qb->add_constraint('code', '=', $code);
 
         if ($this->id) {
@@ -57,7 +57,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
 
         $qb->add_constraint('up', '=', $this->up);
 
-        return ($qb->count() > 0);
+        return $qb->count() > 0;
     }
 
     /**
@@ -91,7 +91,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
             }
         }
         if (mgd_is_guid($up)) {
-            $group = new org_openpsa_products_product_group_dba($up);
+            $group = new self($up);
             $up = $group->id;
         }
 
@@ -107,7 +107,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
             }
         }
 
-        $mc = org_openpsa_products_product_group_dba::new_collector('up', (int)$up);
+        $mc = self::new_collector('up', (int)$up);
         if ($order_by_score) {
             $mc->add_order('metadata.score', 'DESC');
         }

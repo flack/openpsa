@@ -165,9 +165,9 @@ class midcom_core_privilege
             case 'EVERYONE':
                 return true;
             case 'ANONYMOUS':
-                return ($user_id == 'EVERYONE' || $user_id == 'ANONYMOUS');
+                return in_array($user_id, ['EVERYONE', 'ANONYMOUS']);
             case 'USERS':
-                return ($user_id != 'ANONYMOUS' && $user_id != 'EVERYONE');
+                return !in_array($user_id, ['EVERYONE', 'ANONYMOUS']);
             default:
                 if ($this->__privilege['assignee'] == $user_id) {
                     return true;
@@ -227,7 +227,7 @@ class midcom_core_privilege
         if ($assignee === null) {
             $assignee = $this->assignee;
         }
-        return (in_array($assignee, ['SELF', 'EVERYONE', 'USERS', 'ANONYMOUS', 'OWNER']));
+        return in_array($assignee, ['SELF', 'EVERYONE', 'USERS', 'ANONYMOUS', 'OWNER']);
     }
 
     /**

@@ -63,7 +63,7 @@ class midcom_services_rcs_config
      */
     public function use_rcs()
     {
-        return (!empty($this->config['midcom_services_rcs_enable']));
+        return !empty($this->config['midcom_services_rcs_enable']);
     }
 
     /**

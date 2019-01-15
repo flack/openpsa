@@ -601,7 +601,7 @@ class midcom_helper_nav_backend
         }
         $this->_load_leaves(self::$_nodes[$node_id]);
 
-        return (array_key_exists($leaf_id, $this->_leaves));
+        return array_key_exists($leaf_id, $this->_leaves);
     }
 
     /**

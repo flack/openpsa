@@ -58,7 +58,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
             debug_add("Sanity check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
             return false;
         }
-        $qb = net_nemein_tag_link_dba::new_query_builder();
+        $qb = self::new_query_builder();
         if ($this->id) {
             $qb->add_constraint('id', '<>', $this->id);
         }

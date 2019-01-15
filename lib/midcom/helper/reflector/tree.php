@@ -428,7 +428,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             && $ref->get_midgard_type($property) === MGD_TYPE_GUID) {
             return true;
         }
-        return (midcom_helper_reflector::is_same_class($link_class, $schema_type));
+        return midcom_helper_reflector::is_same_class($link_class, $schema_type);
     }
 
     /**

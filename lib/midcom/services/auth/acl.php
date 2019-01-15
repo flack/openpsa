@@ -427,7 +427,7 @@ class midcom_services_auth_acl
      */
     public function privilege_exists($name)
     {
-        return (array_key_exists($name, self::$_default_privileges));
+        return array_key_exists($name, self::$_default_privileges);
     }
 
     public function can_do_byclass($privilege, $user, $class)
@@ -479,7 +479,7 @@ class midcom_services_auth_acl
             return false;
         }
 
-        return ($full_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
+        return $full_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW;
     }
 
     /**

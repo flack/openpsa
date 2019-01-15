@@ -60,7 +60,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
      */
     public function check_db($check_status = true)
     {
-        $mc = org_openpsa_relatedto_dba::new_collector('toGuid', $this->toGuid);
+        $mc = self::new_collector('toGuid', $this->toGuid);
         $mc->add_constraint('fromClass', '=', $this->fromClass);
         $mc->add_constraint('toClass', '=', $this->toClass);
         $mc->add_constraint('fromGuid', '=', $this->fromGuid);

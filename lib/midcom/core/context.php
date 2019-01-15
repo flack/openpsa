@@ -241,7 +241,7 @@ class midcom_core_context
 
     public function has_custom_key($key)
     {
-        return (array_key_exists($key, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA]));
+        return array_key_exists($key, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA]);
     }
 
     /**

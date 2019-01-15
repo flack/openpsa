@@ -28,7 +28,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
     public static function get_by_tag($tag)
     {
         if (!empty($tag)) {
-            $qb = net_nemein_tag_tag_dba::new_query_builder();
+            $qb = self::new_query_builder();
             $qb->add_constraint('tag', '=', $tag);
             $results = $qb->execute();
             if (!empty($results)) {
@@ -77,7 +77,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
 
     private function _check_duplicates()
     {
-        $qb = net_nemein_tag_tag_dba::new_query_builder();
+        $qb = self::new_query_builder();
         if ($this->id) {
             $qb->add_constraint('id', '<>', $this->id);
         }

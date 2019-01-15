@@ -83,7 +83,7 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
         }
 
         // Check for duplicates
-        $qb = org_openpsa_products_product_dba::new_query_builder();
+        $qb = self::new_query_builder();
         $qb->add_constraint('code', '=', $code);
 
         if (!empty($this->id)) {
@@ -92,6 +92,6 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
         // Make sure the product is in the same product group
         $qb->add_constraint('productGroup', '=', $this->productGroup);
 
-        return ($qb->count() == 0);
+        return $qb->count() == 0;
     }
 }

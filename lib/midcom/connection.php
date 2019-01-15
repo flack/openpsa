@@ -156,7 +156,7 @@ class midcom_connection
         }
         $qb = new midgard_query_builder('midgard_user');
         $qb->add_constraint('person', '=', $person->guid);
-        return ($qb->count() > 0);
+        return $qb->count() > 0;
     }
 
     /**

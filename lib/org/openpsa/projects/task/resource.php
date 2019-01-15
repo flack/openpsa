@@ -26,7 +26,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
     private function find_duplicates()
     {
-        $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
+        $qb = self::new_query_builder();
         $qb->add_constraint('person', '=', (int)$this->person);
         $qb->add_constraint('task', '=', (int)$this->task);
         $qb->add_constraint('orgOpenpsaObtype', '=', (int)$this->orgOpenpsaObtype);
@@ -35,12 +35,12 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
             $qb->add_constraint('id', '<>', (int)$this->id);
         }
 
-        return ($qb->count() > 0);
+        return $qb->count() > 0;
     }
 
     public function _on_creating()
     {
-        return (!$this->find_duplicates());
+        return !$this->find_duplicates();
     }
 
     /**
@@ -147,6 +147,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
     public function _on_updating()
     {
-        return (!$this->find_duplicates());
+        return !$this->find_duplicates();
     }
 }

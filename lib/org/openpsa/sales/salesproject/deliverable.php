@@ -256,7 +256,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     public function end_subscription()
     {
-        $this->state = org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED;
+        $this->state = self::STATE_INVOICED;
         if (!$this->update()) {
             return false;
         }
@@ -293,7 +293,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
         if ($this->update()) {
             // Update sales project if it doesn't have any open deliverables
-            $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
+            $qb = self::new_query_builder();
             $qb->add_constraint('salesproject', '=', $this->salesproject);
             $qb->add_constraint('state', '<>', self::STATE_DECLINED);
             if ($qb->count() == 0) {

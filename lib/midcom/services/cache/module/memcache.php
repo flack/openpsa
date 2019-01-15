@@ -74,7 +74,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
 
     public function is_operational()
     {
-        return ($this->_cache && !empty($this->_cache->memcache_operational));
+        return !empty($this->_cache->memcache_operational);
     }
 
     /**
