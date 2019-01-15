@@ -144,7 +144,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         }
         $customer = $salesproject->get_customer();
         $l10n = $this->_i18n->get_l10n('org.openpsa.sales');
-        if (is_null($next_run)) {
+        if ($next_run === null) {
             $next_run_label = $l10n->get('no more cycles');
         } else {
             $next_run_label = $l10n->get_formatter()->date($next_run);
@@ -274,7 +274,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             $cycle_time = $this->calculate_cycle_next($cycle_time);
         }
 
-        if (!is_null($months)) {
+        if ($months !== null) {
             $end_time = mktime(date('H', $cycle_time), date('m', $cycle_time), date('i', $cycle_time), date('m', $cycle_time) + $months, date('d', $cycle_time), date('Y', $cycle_time));
         }
 

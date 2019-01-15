@@ -66,7 +66,7 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
         $class = get_class($this);
         echo "ERROR ({$class}): {$message}\n";
         debug_add($message, MIDCOM_LOG_ERROR);
-        if (!is_null($var)) {
+        if ($var !== null) {
             debug_print_r('Passed argument: ', $var);
         }
     }

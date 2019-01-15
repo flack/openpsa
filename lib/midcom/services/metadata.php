@@ -107,7 +107,7 @@ class midcom_services_metadata
     public function get_object_classes($object, $existing_classes = null)
     {
         $css_classes = [];
-        if (!is_null($existing_classes)) {
+        if ($existing_classes !== null) {
             $css_classes[] = $existing_classes;
         }
 

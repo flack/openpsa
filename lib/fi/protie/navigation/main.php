@@ -190,7 +190,7 @@ class fi_protie_navigation
         $this->_nap = new midcom_helper_nav();
         $this->get_node_path();
 
-        if (!is_null($id)) {
+        if ($id !== null) {
             $this->root_id = $id;
         }
     }

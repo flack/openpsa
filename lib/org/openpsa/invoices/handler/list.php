@@ -61,7 +61,7 @@ implements client
     public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
         $qb = org_openpsa_invoices_invoice_dba::new_collector();
-        if (!is_null($field)) {
+        if ($field !== null) {
             $qb->add_order($field, $direction);
         }
 

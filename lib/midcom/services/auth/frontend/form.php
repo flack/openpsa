@@ -118,7 +118,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
     {
         // Determine login message
         $login_warning = '';
-        if (!is_null(midcom::get()->auth->user)) {
+        if (midcom::get()->auth->user !== null) {
             // The user has insufficient privileges
             $login_warning = midcom::get()->i18n->get_string('login message - insufficient privileges', 'midcom');
         } elseif ($this->auth_credentials_found) {

@@ -228,16 +228,16 @@ class midcom_helper_toolbar
     public function add_help_item($help_id, $component = null, $label = null, $anchor = null, $before = -1)
     {
         $uri = "__ais/help/";
-        if (!is_null($component)) {
+        if ($component !== null) {
             $uri .= $component . '/';
         }
         $uri .= $help_id . '/';
 
-        if (!is_null($anchor)) {
+        if ($anchor !== null) {
             $uri .= "#{$anchor}";
         }
 
-        if (is_null($label)) {
+        if ($label === null) {
             $label = midcom::get()->i18n->get_string('help', 'midcom.admin.help');
         }
 
@@ -484,7 +484,7 @@ class midcom_helper_toolbar
     {
         $index = $this->_check_index($index, false);
 
-        if (is_null($index)) {
+        if ($index === null) {
             return false;
         }
 
@@ -500,7 +500,7 @@ class midcom_helper_toolbar
     {
         $index = $this->_check_index($index, false);
 
-        if (is_null($index)) {
+        if ($index === null) {
             return false;
         }
 
@@ -551,10 +551,10 @@ class midcom_helper_toolbar
 
         // List header
         $output = '<ul';
-        if (!is_null($this->class_style)) {
+        if ($this->class_style !== null) {
             $output .= " class='{$this->class_style}'";
         }
-        if (!is_null($this->id_style)) {
+        if ($this->id_style !== null) {
             $output .= " id='{$this->id_style}'";
         }
         $output .= '>';
@@ -643,10 +643,10 @@ class midcom_helper_toolbar
         }
         $output .= '>';
 
-        if (!is_null($item[MIDCOM_TOOLBAR_GLYPHICON])) {
+        if ($item[MIDCOM_TOOLBAR_GLYPHICON] !== null) {
             $class = 'fa fa-' . $item[MIDCOM_TOOLBAR_GLYPHICON];
             $output .= "<i class='{$class}'></i>";
-        } elseif (!is_null($item[MIDCOM_TOOLBAR_ICON])) {
+        } elseif ($item[MIDCOM_TOOLBAR_ICON] !== null) {
             $url = MIDCOM_STATIC_URL . '/' . $item[MIDCOM_TOOLBAR_ICON];
             $output .= "<img src='{$url}' alt=\"{$item[MIDCOM_TOOLBAR_HELPTEXT]}\" />";
         }
@@ -665,12 +665,12 @@ class midcom_helper_toolbar
     {
         $attributes = ($item[MIDCOM_TOOLBAR_ENABLED]) ? $item[MIDCOM_TOOLBAR_OPTIONS] : [];
 
-        if (!is_null($item[MIDCOM_TOOLBAR_HELPTEXT])) {
+        if ($item[MIDCOM_TOOLBAR_HELPTEXT] !== null) {
             $attributes['title'] = $item[MIDCOM_TOOLBAR_HELPTEXT];
         }
 
         if (   $item[MIDCOM_TOOLBAR_ENABLED]
-            && !is_null($item[MIDCOM_TOOLBAR_ACCESSKEY])) {
+            && $item[MIDCOM_TOOLBAR_ACCESSKEY] !== null) {
             $attributes['class'] = 'accesskey';
             $attributes['accesskey'] = $item[MIDCOM_TOOLBAR_ACCESSKEY];
         }
@@ -697,7 +697,7 @@ class midcom_helper_toolbar
             $output .= '>';
         }
 
-        if (!is_null($item[MIDCOM_TOOLBAR_GLYPHICON])) {
+        if ($item[MIDCOM_TOOLBAR_GLYPHICON] !== null) {
             $class = 'fa fa-' . $item[MIDCOM_TOOLBAR_GLYPHICON];
             $output .= "<i class='{$class}'></i>";
         } elseif ($item[MIDCOM_TOOLBAR_ICON]) {
@@ -765,7 +765,7 @@ class midcom_helper_toolbar
             $url = $index;
             debug_add("Translating the URL '{$url}' into an index.");
             $index = $this->get_index_from_url($url);
-            if (is_null($index)) {
+            if ($index === null) {
                 debug_add("Invalid URL '{$url}', URL not found.", MIDCOM_LOG_ERROR);
 
                 if ($raise_error) {

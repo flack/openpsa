@@ -430,7 +430,7 @@ class midcom_helper_nav
             $breadcrumb_data = array_slice($breadcrumb_data, $skip_levels);
         }
 
-        $class = is_null($class) ? '' : ' class="' . $class . '"';
+        $class = $class === null ? '' : ' class="' . $class . '"';
         while (current($breadcrumb_data) !== false) {
             $data = current($breadcrumb_data);
             $entry = htmlspecialchars($data[MIDCOM_NAV_NAME]);

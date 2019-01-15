@@ -202,7 +202,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
             }
 
             // no response has been set
-            if (is_null($this->_response)) {
+            if ($this->_response === null) {
                 $this->_stop('Could not handle request, unknown method', 405);
             }
         } catch (midcom_error $e) {

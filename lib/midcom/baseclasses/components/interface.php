@@ -179,7 +179,7 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      */
     public function get_nap_instance()
     {
-        if (is_null($this->_nap_instance)) {
+        if ($this->_nap_instance === null) {
             $class_name = self::get_classname($this->_component, $this->_nap_class_suffix);
             $this->_nap_instance = new $class_name($this->_component);
         }

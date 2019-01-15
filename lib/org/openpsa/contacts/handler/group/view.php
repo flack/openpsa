@@ -189,7 +189,7 @@ implements client
             ->where('m.gid = :gid')
             ->setParameter('gid', $this->_request_data['group']->id);
 
-        if (!is_null($field)) {
+        if ($field !== null) {
             $qb->add_order($field, $direction);
         }
         $qb->add_order('lastname');

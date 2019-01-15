@@ -89,11 +89,11 @@ class midcom_helper_configuration
      */
     public function __construct($param1, $param2 = null)
     {
-        if (!is_null($param2)) {
+        if ($param2 !== null) {
             $this->_object = $param1;
             $this->_path = $param2;
             $this->_store_from_object(true);
-        } elseif (!is_null($param1)) {
+        } elseif ($param1 !== null) {
             $this->_global = $param1;
             $this->_merged = $param1;
         }

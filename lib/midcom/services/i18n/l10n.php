@@ -325,7 +325,7 @@ class midcom_services_i18n_l10n
      */
     function string_exists($string, $language = null)
     {
-        if (is_null($language)) {
+        if ($language === null) {
             $language = $this->_language;
         }
 
@@ -367,7 +367,7 @@ class midcom_services_i18n_l10n
      */
     public function get($string, $language = null)
     {
-        if (is_null($language)) {
+        if ($language === null) {
             $language = $this->_language;
         }
 

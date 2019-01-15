@@ -508,9 +508,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     public function check_login_attempts($component = null)
     {
         $stat = true;
-        if (is_null($component)) {
-            $component = "org.openpsa.user";
-        }
+        $component = $component ?: "org.openpsa.user";
 
         //max-attempts allowed & timeframe
         $max_attempts = midcom_baseclasses_components_configuration::get($component, 'config')->get('max_password_attempts');

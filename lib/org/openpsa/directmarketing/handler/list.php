@@ -30,7 +30,7 @@ implements client
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $qb->add_constraint('node', '=', $this->_topic->id);
         $qb->add_constraint('archived', '=', 0);
-        if (!is_null($field)) {
+        if ($field !== null) {
             $qb->add_order($field, $direction);
         }
         $qb->add_order('metadata.created', $this->_config->get('campaign_list_order'));

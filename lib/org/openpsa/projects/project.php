@@ -249,7 +249,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
             $new_status = $this->_find_status($this->_status_map[$this->status_type], $status_types);
         }
 
-        if (   !is_null($new_status)
+        if (   $new_status !== null
             && $this->status != $new_status) {
             $this->status = $new_status;
             $update_required = true;

@@ -33,7 +33,7 @@ class midcom_helper_reflector_nameresolver
      */
     public function get_object_name($name_property = null)
     {
-        if (is_null($name_property)) {
+        if ($name_property === null) {
             $name_property = midcom_helper_reflector::get_name_property($this->_object);
         }
         if (    empty($name_property)

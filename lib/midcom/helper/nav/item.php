@@ -95,7 +95,7 @@ abstract class midcom_helper_nav_item
      */
     public function is_object_visible()
     {
-        if (is_null($this->get_data())) {
+        if ($this->get_data() === null) {
             debug_add('Got a null value as napdata, so this object does not have any NAP info, so we cannot display it.');
             return false;
         }

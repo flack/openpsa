@@ -40,7 +40,7 @@ class midcom_services_rcs
      */
     public function __construct($config = null)
     {
-        if (is_null($config)) {
+        if ($config === null) {
             $config = midcom::get()->config;
         }
 

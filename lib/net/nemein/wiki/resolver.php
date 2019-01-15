@@ -43,7 +43,7 @@ class net_nemein_wiki_resolver
     private function _list_wiki_nodes($node, $prefix = '')
     {
         static $nap = null;
-        if (is_null($nap)) {
+        if ($nap === null) {
             $nap = new midcom_helper_nav();
         }
 

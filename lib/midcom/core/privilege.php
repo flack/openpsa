@@ -92,7 +92,7 @@ class midcom_core_privilege
             $this->__privilege = array_merge($this->__privilege, $src);
         } else {
             $this->_load($src);
-            if (!is_null($src)) {
+            if ($src !== null) {
                 $this->_sync_from_db_object();
             }
         }
@@ -125,7 +125,7 @@ class midcom_core_privilege
      */
     public function get_object()
     {
-        if (is_null($this->__cached_object)) {
+        if ($this->__cached_object === null) {
             try {
                 $this->__cached_object = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
             } catch (midcom_error $e) {
@@ -475,7 +475,7 @@ class midcom_core_privilege
             $privilege->set_object($object);
             $privilege->set_assignee($assignee);
             $privilege->privilegename = $name;
-            if (!is_null($classname)) {
+            if ($classname !== null) {
                 $privilege->classname = $classname;
             }
             $privilege->value = MIDCOM_PRIVILEGE_INHERIT;

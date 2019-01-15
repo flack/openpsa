@@ -139,7 +139,7 @@ class midcom_helper_misc
     public static function get_snippet_content($path)
     {
         $data = self::get_snippet_content_graceful($path);
-        if (is_null($data)) {
+        if ($data === null) {
             throw new midcom_error("Could not load the contents of the snippet {$path}: Snippet does not exist.");
         }
         return $data;

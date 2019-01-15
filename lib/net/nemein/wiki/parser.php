@@ -249,10 +249,10 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         }
         $resolver = new net_nemein_wiki_resolver($this->_page->topic);
         $wikipage_match = $resolver->path_to_wikipage($wikilink);
-        if (is_null($wikipage_match['wikipage'])) {
+        if ($wikipage_match['wikipage'] === null) {
             // No page matched, link to creation
             $folder = $wikipage_match['folder'];
-            if (is_null($wikipage_match['folder'])) {
+            if ($wikipage_match['folder'] === null) {
                 $folder = $wikipage_match['latest_parent'];
             }
 

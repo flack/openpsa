@@ -26,7 +26,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      */
     public static function tag_object($object, $tags, $component = null)
     {
-        if (is_null($component)) {
+        if ($component === null) {
             $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
         $existing_tags = net_nemein_tag_handler::get_object_tags($object);
@@ -263,7 +263,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
         $mc = net_nemein_tag_link_dba::new_collector('fromClass', $class);
 
-        if (!is_null($user)) {
+        if ($user !== null) {
             // TODO: User metadata.authors?
             $mc->add_constraint('metadata.creator', '=', $user->guid);
         }

@@ -225,7 +225,7 @@ implements client
 
     public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
-        if (!is_null($field)) {
+        if ($field !== null) {
             $this->qb->add_order($field, $direction);
         }
         $this->qb->add_order('priority', 'ASC');

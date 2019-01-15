@@ -38,7 +38,7 @@ class midcom_baseclasses_components_configuration
             self::_initialize($component);
         }
 
-        if (is_null($key)) {
+        if ($key === null) {
             return self::$_data[$component];
         }
         return self::$_data[$component][$key];

@@ -49,7 +49,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
 
     public static function get_instance()
     {
-        if (is_null(self::$instance)) {
+        if (self::$instance === null) {
             self::$instance = new self;
         }
 

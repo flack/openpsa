@@ -73,7 +73,7 @@ class midcom_core_group
      */
     public function __construct($id)
     {
-        if (is_null($id)) {
+        if ($id === null) {
             throw new midcom_error('The class midcom_core_group is not default constructible.');
         }
 
@@ -194,7 +194,7 @@ class midcom_core_group
      */
     public function get_privileges()
     {
-        if (is_null($this->_storage)) {
+        if ($this->_storage === null) {
             return [];
         }
         return midcom_core_privilege::get_self_privileges($this->_storage->guid);

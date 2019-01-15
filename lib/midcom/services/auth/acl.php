@@ -359,7 +359,7 @@ class midcom_services_auth_acl
 
             self::$_default_magic_class_privileges[$class] = $privs;
         }
-        $dmcp_user = is_null($user) ? 'ANONYMOUS' : 'USERS';
+        $dmcp_user = $user === null ? 'ANONYMOUS' : 'USERS';
         return array_merge(
             self::$_default_magic_class_privileges[$class]['EVERYONE'],
             self::$_default_magic_class_privileges[$class][$dmcp_user]
@@ -398,7 +398,7 @@ class midcom_services_auth_acl
         $user_id = 'ANONYMOUS';
 
         // TODO: Clean if/else shorthands, make sure this works correctly for magic assignees as well
-        if (is_null($user)) {
+        if ($user === null) {
             if ($this->auth->user) {
                 $user_id = $this->auth->user->id;
             }
@@ -441,7 +441,7 @@ class midcom_services_auth_acl
         $user_privileges = [];
         $user_per_class_privileges = [];
 
-        if (!is_null($user)) {
+        if ($user !== null) {
             $user_privileges = $user->get_privileges();
         }
 
@@ -454,7 +454,7 @@ class midcom_services_auth_acl
             }
 
             $default_magic_class_privileges = $this->_get_class_magic_privileges($class, $user);
-            if (!is_null($user)) {
+            if ($user !== null) {
                 $user_per_class_privileges = $this->_get_user_per_class_privileges($class, $user);
             }
         }
@@ -598,7 +598,7 @@ class midcom_services_auth_acl
             }
         }
 
-        if (!is_null($content_privilege)) {
+        if ($content_privilege !== null) {
             self::$_content_privileges_cache[$cache_id][$privilegename] = ($content_privilege->value == MIDCOM_PRIVILEGE_ALLOW);
             return true;
         }

@@ -126,7 +126,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
             $data = $this->load_data();
             midcom::get()->auth->drop_sudo();
 
-            if (is_null($data)) {
+            if ($data === null) {
                 debug_add('We got null for this node, so we do not have any NAP information, returning null directly.');
                 return null;
             }
@@ -161,7 +161,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
         // information. Internal components which don't have
         // a NAP interface yet return null here, to be exempt from any NAP processing.
         $data = $nap->get_node();
-        if (is_null($data)) {
+        if ($data === null) {
             debug_add("The component '{$topic->component}' did return null for the topic {$topic->id}, indicating no NAP information is available.");
             return null;
         }

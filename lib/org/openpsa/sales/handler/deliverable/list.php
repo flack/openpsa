@@ -25,7 +25,7 @@ implements client
     public function get_qb($field = null, $direction = 'ASC', array $search = [])
     {
         $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('product', $this->_product->id);
-        if (!is_null($field)) {
+        if ($field !== null) {
             $mc->add_order($field, $direction);
         }
 

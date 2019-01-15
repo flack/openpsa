@@ -260,8 +260,8 @@ class midcom_exception_handler
                 } else {
                     $line .= '::';
                 }
-                $line .= $frame['function'];
-            } elseif (array_key_exists('function', $frame)) {
+            }
+            if (array_key_exists('function', $frame)) {
                 $line .= $frame['function'];
             } else {
                 $line .= 'require, include or eval';
@@ -318,7 +318,7 @@ class midcom_error_forbidden extends midcom_error
 {
     public function __construct($message = null, $code = MIDCOM_ERRFORBIDDEN)
     {
-        if (is_null($message)) {
+        if ($message === null) {
             $message = midcom::get()->i18n->get_string('access denied', 'midcom');
         }
         parent::__construct($message, $code);
@@ -342,7 +342,7 @@ class midcom_error_midgard extends midcom_error
         //catch last error which might be from dbaobject
         $last_error = midcom_connection::get_error();
 
-        if (!is_null($id)) {
+        if ($id !== null) {
             if ($last_error === MGD_ERR_NOT_EXISTS) {
                 $code = MIDCOM_ERRNOTFOUND;
                 $message = "The object with identifier {$id} was not found.";

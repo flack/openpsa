@@ -116,7 +116,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     public function __get($property)
     {
         if ($property == 'deliverable_html') {
-            if (is_null($this->_deliverable_html)) {
+            if ($this->_deliverable_html === null) {
                 $this->_generate_html();
             }
             return $this->_deliverable_html;

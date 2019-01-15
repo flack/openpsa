@@ -8,7 +8,7 @@ if (!empty($workingon->invoiceable)) {
 }
 $current_task = '';
 $default_text = '';
-if (!is_null($workingon->task)) {
+if ($workingon->task !== null) {
     $current_task = '[' . $workingon->task->guid . ']';
     $default_text = $workingon->task->get_label();
 }

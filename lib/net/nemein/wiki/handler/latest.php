@@ -21,7 +21,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
      */
     private function _seek_updated($from, $to = null)
     {
-        if (is_null($to)) {
+        if ($to === null) {
             $to = time();
         }
 

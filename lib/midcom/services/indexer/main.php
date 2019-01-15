@@ -61,7 +61,7 @@ class midcom_services_indexer implements EventSubscriberInterface
             return;
         }
 
-        if (is_null($backend)) {
+        if ($backend === null) {
             $class = midcom::get()->config->get('indexer_backend');
             if (strpos($class, '_') === false) {
                 // Built-in backend called using the shorthand notation

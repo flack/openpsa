@@ -671,7 +671,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public static function get_object_title($object, $title_property = null)
     {
-        if (is_null($title_property)) {
+        if ($title_property === null) {
             $title_property = self::get_title_property($object);
         }
         if (   empty($title_property)

@@ -291,7 +291,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         debug_add("Returning File content of handle {$handle}");
         $max = 4194304;
         $close = false;
-        if (is_null($handle)) {
+        if ($handle === null) {
             $handle = $this->attachment->open('r');
             $close = true;
         }

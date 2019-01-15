@@ -84,7 +84,7 @@ class org_openpsa_helpers_list
     {
         //Only query once per request
         static $cache = null;
-        if (is_null($cache)) {
+        if ($cache === null) {
             $cache = [
                 'all' => midcom::get()->i18n->get_string('all', 'midcom')
             ];

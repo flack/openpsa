@@ -50,7 +50,7 @@ implements client
                 'campaign' => $this->_campaign->id
             ]);
 
-        if (!is_null($field)) {
+        if ($field !== null) {
             $query->add_order($field, $direction);
         }
         // Set the order

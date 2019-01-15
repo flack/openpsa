@@ -36,7 +36,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      */
     public function __construct($index_name = null)
     {
-        if (is_null($index_name)) {
+        if ($index_name === null) {
             $this->_index_name = midcom::get()->config->get('indexer_index_name');
             if ($this->_index_name == 'auto') {
                 $this->_index_name = midcom_connection::get_unique_host_name();

@@ -462,7 +462,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function expires($timestamp)
     {
-        if (   is_null($this->_expires)
+        if (   $this->_expires === null
             || $this->_expires > $timestamp) {
             $this->_expires = $timestamp;
         }
@@ -686,7 +686,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        if (!is_null($this->_expires)) {
+        if ($this->_expires !== null) {
             $lifetime = $this->_expires - time();
         } else {
             // Use default expiry for cache entry, most components don't bother calling expires() properly
@@ -763,7 +763,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $dl_request_id = 'DL' . $this->generate_request_identifier($context);
         $dl_content_id = 'DLC-' . md5($dl_cache_data);
 
-        if (!is_null($this->_expires)) {
+        if ($this->_expires !== null) {
             $lifetime = $this->_expires - time();
         } else {
             // Use default expiry for cache entry, most components don't bother calling expires() properly
@@ -885,7 +885,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             } else {
                 $response->setPublic();
             }
-            if (!is_null($this->_expires)) {
+            if ($this->_expires !== null) {
                 $expires = $this->_expires;
                 $max_age = $this->_expires - time();
             } else {

@@ -326,7 +326,7 @@ class midcom_helper_nav_backend
             $leaf->fullurl = $fullprefix . $leaf->relativeurl;
             $leaf->absoluteurl = $absoluteprefix . $leaf->relativeurl;
 
-            if (is_null($leaf->guid)) {
+            if ($leaf->guid === null) {
                 $leaf->permalink = $leaf->fullurl;
             } else {
                 $leaf->permalink = midcom::get()->permalinks->create_permalink($leaf->guid);

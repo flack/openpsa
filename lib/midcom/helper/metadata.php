@@ -162,7 +162,7 @@ class midcom_helper_metadata
      */
     public function get_datamanager()
     {
-        if (is_null($this->_datamanager)) {
+        if ($this->_datamanager === null) {
             $this->load_datamanager();
         }
 
@@ -195,7 +195,7 @@ class midcom_helper_metadata
 
     public function release_datamanager()
     {
-        if (!is_null($this->_datamanager)) {
+        if ($this->_datamanager !== null) {
             $this->_datamanager = null;
         }
     }
@@ -497,7 +497,7 @@ class midcom_helper_metadata
             $guid = $source;
         }
 
-        if (   is_null($object)
+        if (   $object === null
             && mgd_is_guid($guid)) {
             try {
                 $object = midcom::get()->dbfactory->get_object_by_guid($guid);

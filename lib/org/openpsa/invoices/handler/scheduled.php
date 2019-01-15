@@ -45,7 +45,7 @@ implements client
         $qb->add_constraint('method', '=', 'new_subscription_cycle');
         $qb->add_constraint('component', '=', 'org.openpsa.sales');
         $qb->add_constraint('status', '=', midcom_services_at_entry_dba::SCHEDULED);
-        if (!is_null($field)) {
+        if ($field !== null) {
             $qb->add_order($field, $direction);
         }
 

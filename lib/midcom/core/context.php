@@ -87,7 +87,7 @@ class midcom_core_context
             $this->_data[MIDCOM_CONTEXT_ROOTTOPIC] = $node;
         }
 
-        if (is_null($id)) {
+        if ($id === null) {
             $id = count(self::$_contexts);
         }
         $this->id = $id;
@@ -112,7 +112,7 @@ class midcom_core_context
      */
     public static function & get($id = null)
     {
-        if (is_null($id)) {
+        if ($id === null) {
             $id = self::$_currentcontext;
             if (!isset(self::$_contexts[$id])) {
                 self::$_contexts[$id] = new self($id);

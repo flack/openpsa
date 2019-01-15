@@ -58,7 +58,7 @@ if (   !empty($_SERVER['PHP_AUTH_USER'])
     $http_client->basicauth['password'] = $_SERVER['PHP_AUTH_PW'];
 }
 
-while (!is_null($nodeid)) {
+while ($nodeid !== null) {
     // Reindex the node...
     $node = $nap->get_node($nodeid);
     echo "Processing node #{$nodeid}, {$node[MIDCOM_NAV_FULLURL]}: ";

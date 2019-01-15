@@ -449,7 +449,7 @@ class midcom_application
     {
         $this->cache->content->register_sent_header($header);
 
-        if (!is_null($response_code)) {
+        if ($response_code !== null) {
             // Send the HTTP response code as requested
             _midcom_header($header, true, $response_code);
         } else {

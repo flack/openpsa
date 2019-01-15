@@ -214,7 +214,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             return [];
         }
 
-        if (is_null($this->_history)) {
+        if ($this->_history === null) {
             $filepath = $this->_generate_rcs_filename($this->_guid);
             $this->_history = $this->rcs_gethistory($filepath);
         }

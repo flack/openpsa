@@ -242,7 +242,7 @@ class midcom_core_user
      */
     public function list_memberships()
     {
-        if (is_null($this->_direct_groups)) {
+        if ($this->_direct_groups === null) {
             $this->_load_direct_groups();
         }
         return $this->_direct_groups;
@@ -257,7 +257,7 @@ class midcom_core_user
      */
     function list_all_memberships()
     {
-        if (is_null($this->_all_groups)) {
+        if ($this->_all_groups === null) {
             $this->_load_all_groups();
         }
         return $this->_all_groups;
@@ -303,7 +303,7 @@ class midcom_core_user
      */
     public function get_first_group_guid()
     {
-        if (!is_null($this->_direct_groups)) {
+        if ($this->_direct_groups !== null) {
             if (empty($this->_direct_groups)) {
                 // User is not member of any groups
                 return false;
@@ -337,7 +337,7 @@ class midcom_core_user
      */
     private function _load_all_groups()
     {
-        if (is_null($this->_direct_groups)) {
+        if ($this->_direct_groups === null) {
             $this->_load_direct_groups();
         }
 
@@ -351,7 +351,7 @@ class midcom_core_user
              * FIXME: Parent group members should inherit permissions from
              * the child groups, not the other way around!!!
             $parent = $group->get_parent_group();
-            while (!is_null($parent))
+            while ($parent !== null)
             {
                 $this->_all_groups[$parent->id] = $parent;
                 array_unshift($inheritance_chain, $parent->id);
@@ -376,7 +376,7 @@ class midcom_core_user
         if (!array_key_exists($this->id, $cache)) {
             debug_add("Loading privileges for user {$this->name} ({$this->id})");
 
-            if (is_null($this->_all_groups)) {
+            if ($this->_all_groups === null) {
                 $this->_load_all_groups();
             }
 
@@ -452,7 +452,7 @@ class midcom_core_user
      */
     public function is_in_group($group)
     {
-        if (is_null($this->_all_groups)) {
+        if ($this->_all_groups === null) {
             $this->_load_all_groups();
         }
 

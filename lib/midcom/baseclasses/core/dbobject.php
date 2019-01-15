@@ -129,7 +129,8 @@ class midcom_baseclasses_core_dbobject
     public static function create_pre_checks(midcom_core_dbaobject $object)
     {
         $parent = $object->get_parent();
-        if (!is_null($parent)) {
+
+        if ($parent !== null) {
             // Attachments are a special case
             if ($object instanceof midcom_db_attachment) {
                 if (   !$parent->can_do('midgard:attachments')
@@ -255,7 +256,7 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (!is_null(midcom::get()->auth->user)) {
+        if (midcom::get()->auth->user !== null) {
             // Default the authors to current user
             if (empty($object->metadata->authors)) {
                 $object->metadata->set('authors', "|" . midcom::get()->auth->user->guid . "|");

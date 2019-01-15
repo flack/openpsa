@@ -268,7 +268,7 @@ class midcom_services_auth
         if ($this->_component_sudo) {
             return true;
         }
-        if (is_null($user)) {
+        if ($user === null) {
             $user =& $this->user;
         }
 
@@ -298,7 +298,7 @@ class midcom_services_auth
             return false;
         }
 
-        if (is_null($domain)) {
+        if ($domain === null) {
             $domain = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
             debug_add("Domain was not supplied, falling back to '{$domain}' which we got from the current component context.");
         }
@@ -352,8 +352,8 @@ class midcom_services_auth
             return true;
         }
         // Default parameter
-        if (is_null($user)) {
-            if (is_null($this->user)) {
+        if ($user === null) {
+            if ($this->user === null) {
                 // not authenticated
                 return false;
             }
@@ -370,7 +370,7 @@ class midcom_services_auth
      */
     public function is_valid_user()
     {
-        return (!is_null($this->user));
+        return $this->user !== null;
     }
 
     /**
@@ -706,7 +706,7 @@ class midcom_services_auth
      */
     public function logout()
     {
-        if (is_null($this->user)) {
+        if ($this->user === null) {
             debug_add('The backend has no authenticated user set, so we should be fine');
         } else {
             $this->backend->logout($this->user);

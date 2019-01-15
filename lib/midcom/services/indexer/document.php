@@ -423,7 +423,7 @@ class midcom_services_indexer_document
     private function add_person($name, $person)
     {
         if (!is_object($person)) {
-            if (!is_null($person)) {
+            if ($person !== null) {
                 debug_print_r("Warning, person is not an object:", $person, MIDCOM_LOG_INFO);
             }
             $this->add_text($name, '');

@@ -137,7 +137,7 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
             throw new midcom_error('Failed to create invoice, ' . midcom_connection::get_error_string());
         }
         // Register the cycle number for reporting purposes
-        if (!is_null($cycle_number)) {
+        if ($cycle_number !== null) {
             $invoice->set_parameter('org.openpsa.sales', 'cycle_number', $cycle_number);
         }
         return $invoice;

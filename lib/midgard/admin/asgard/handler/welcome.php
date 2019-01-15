@@ -23,7 +23,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
         // List installed MgdSchema types and convert to DBA classes
         foreach ($this->_request_data['schema_types'] as $schema_type) {
-            if (   !is_null($type)
+            if (   $type !== null
                 && $schema_type != $type) {
                 // Skip
                 continue;

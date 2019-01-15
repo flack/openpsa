@@ -39,7 +39,7 @@ implements client
         $resolver->resolve($this->rules);
         $query = $resolver->get_mc();
 
-        if (!is_null($field)) {
+        if ($field !== null) {
             $query->add_order($field, $direction);
         }
         // Set the order

@@ -45,7 +45,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     private function _process_file_upload(UploadedFile $file)
     {
-        if (is_null($this->_file)) {
+        if ($this->_file === null) {
             $local_filename = midcom_db_attachment::safe_filename($file->getClientOriginalName());
             $local_file = $this->_get_file($local_filename, true);
         } else {
@@ -75,7 +75,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             return $this->_process_file_upload($file);
         }
 
-        if (is_null($this->_file)) {
+        if ($this->_file === null) {
             if (!$request->request->has('midgard_admin_asgard_filename')) {
                 return false;
             }

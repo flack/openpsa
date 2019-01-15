@@ -37,7 +37,7 @@ $indexer->delete_all();
 
 debug_dump_mem("Initial Memory Usage");
 
-while (!is_null($nodeid)) {
+while ($nodeid !== null) {
     // Reindex the node...
     $node = $nap->get_node($nodeid);
 

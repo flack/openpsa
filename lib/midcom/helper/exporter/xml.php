@@ -71,7 +71,7 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
                 $data .= $this->object2data($field, "{$prefix}    ");
             } elseif (is_array($field)) {
                 $data .= $this->array2data($field, $key, "{$prefix}    ") . "\n";
-            } elseif (is_numeric($field) || is_null($field) || is_bool($field)) {
+            } elseif (is_numeric($field) || $field === null || is_bool($field)) {
                 $data .= "{$prefix}    <{$key}>{$field}</{$key}>\n";
             } else {
                 // String
@@ -110,7 +110,7 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
             if (is_array($val)) {
                 $root_node = isset($object->{$key}) ? $this->_get_classname($object->{$key}) : "array";
                 $data .= $this->array2data($val, $root_node, "    ");
-            } elseif (is_numeric($val) || is_null($val) || is_bool($val)) {
+            } elseif (is_numeric($val) || $val === null || is_bool($val)) {
                 $data .= "{$prefix}    <{$key}>{$val}</{$key}>\n";
             } else {
                 $data .= "{$prefix}    <{$key}><![CDATA[{$val}]]></{$key}>\n";

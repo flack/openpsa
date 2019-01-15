@@ -157,7 +157,7 @@ class midcom_services_i18n
     {
         $q = 1.0;
         $option = array_shift($params);
-        while (!is_null($option)) {
+        while ($option !== null) {
             $option_params = explode("=", $option);
             if (count($option_params) != 2) {
                 $option = array_shift($params);
@@ -305,7 +305,7 @@ class midcom_services_i18n
      */
     public function get_string($stringid, $component = null, $database = 'default')
     {
-        if (is_null($component)) {
+        if ($component === null) {
             $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
 

@@ -148,7 +148,7 @@ class org_openpsa_widgets_calendar_event
             $rendered_event .= "    <div class=\"location\">{$this->location}</div>\n";
         }
 
-        if (!is_null($this->event)) {
+        if ($this->event !== null) {
             $rendered_event .= "    <span class=\"uid\" style=\"display: none;\">{$this->event->guid}</span>\n";
         }
         $rendered_event .= "</{$element}>\n";

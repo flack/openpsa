@@ -50,7 +50,7 @@ class org_openpsa_mypage_workingon
      */
     public function __construct(midcom_db_person $person = null)
     {
-        if (is_null($person)) {
+        if ($person === null) {
             midcom::get()->auth->require_valid_user();
             $this->person = midcom::get()->auth->user->get_storage();
         } else {

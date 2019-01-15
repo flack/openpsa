@@ -19,7 +19,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
     public function _on_initialize()
     {
         // Match /
-        if (   is_null($this->_config->get('redirection_type'))
+        if (   $this->_config->get('redirection_type') === null
             || (   $this->_topic->can_do('net.nemein.redirector:noredirect')
                 && !$this->_config->get('admin_redirection'))) {
             $this->_request_switch['redirect'] = [

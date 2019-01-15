@@ -176,7 +176,7 @@ class midcom_config_test
     private function check_for_utility($testname, $fail_code, $fail_recommendations, $recommendations = '&nbsp;')
     {
         $executable = midcom::get()->config->get("utility_{$testname}");
-        if (is_null($executable)) {
+        if ($executable === null) {
             $this->add($testname, $fail_code, "The path to the utility {$testname} is not configured. {$fail_recommendations}");
         } elseif (!exec('which which')) {
             $this->add('which', self::ERROR, "The 'which' utility cannot be found.");
