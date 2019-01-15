@@ -11,7 +11,7 @@ while ($time < $data['week_end']) {
     $data['grid']->set_column($date_identifier, $formatter->customdate($time, 'E'), 'fixed: true, headerTitle: "' . $formatter->date($time) . '" , width: 40, summaryType: calculate_subtotal, align: "right"', 'float');
     // Hop to next day
     $date_columns[] = $date_identifier;
-    $time = $time + 3600 * 24;
+    $time += 3600 * 24;
 }
 $data['grid']->set_option('footerrow', true)
     ->set_option('grouping', true)

@@ -115,7 +115,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
                 $qb = org_openpsa_contacts_person_dba::new_query_builder();
                 $qb->add_constraint('email', '=', $subscriber['person']['email']);
                 $persons = $qb->execute_unchecked();
-                if (count($persons) > 0) {
+                if (!empty($persons)) {
                     // Match found, use it
                     $person = $persons[0];
                 }
@@ -127,7 +127,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
                 $qb = org_openpsa_contacts_person_dba::new_query_builder();
                 $qb->add_constraint('handphone', '=', $subscriber['person']['handphone']);
                 $persons = $qb->execute_unchecked();
-                if (count($persons) > 0) {
+                if (!empty($persons)) {
                     // Match found, use it
                     $person = $persons[0];
                 }
@@ -163,7 +163,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
         $qb->add_constraint('campaign', '=', $campaign->id);
         $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         $members = $qb->execute_unchecked();
-        if (count($members) > 0) {
+        if (!empty($members)) {
             // User is or has been subscriber earlier, update status
             $member = $members[0];
 
@@ -223,7 +223,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
             }
 
             $organizations = $qb->execute_unchecked();
-            if (count($organizations) > 0) {
+            if (!empty($organizations)) {
                 // Match found, use it
                 $organization = array_shift($organizations);
             }
@@ -249,7 +249,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
         $qb->add_constraint('uid', '=', $person->id);
         $qb->add_constraint('gid', '=', $organization->id);
         $members = $qb->execute_unchecked();
-        if (count($members) > 0) {
+        if (!empty($members)) {
             // Match found, use it
             $member = $members[0];
         } else {

@@ -33,7 +33,7 @@ trait org_openpsa_sales_handler
         if ($notify) {
             $notification_entry = null;
 
-            if (count($entry_keys) == 0) {
+            if (empty($entry_keys)) {
                 $notification_entry = new midcom_services_at_entry_dba();
                 $notification_entry->create();
                 //relatedto from notification to deliverable

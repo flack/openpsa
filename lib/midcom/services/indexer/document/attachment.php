@@ -118,7 +118,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
                 break;
         }
 
-        if (strlen(trim($this->attachment->title)) > 0) {
+        if (!empty(trim($this->attachment->title))) {
             $this->title = "{$this->attachment->title} ({$this->attachment->name})";
             $this->content .= "\n{$this->attachment->title}\n{$this->attachment->name}";
         } else {
@@ -267,7 +267,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      */
     private function process_mime_binary()
     {
-        if (strlen(trim($this->title)) > 0) {
+        if (!empty(trim($this->title))) {
             $this->abstract = $this->attachment->name;
         }
     }

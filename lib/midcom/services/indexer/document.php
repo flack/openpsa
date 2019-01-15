@@ -570,7 +570,7 @@ class midcom_services_indexer_document
      */
     protected function _set_type($type)
     {
-        if (strlen($this->type) == 0) {
+        if (empty($this->type)) {
             $this->type = $type;
         } else {
             $this->type .= "_{$type}";

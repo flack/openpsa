@@ -184,7 +184,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         $this->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
         $relations = $this->get_rows([$key]);
 
-        if (count($relations) == 0) {
+        if (empty($relations)) {
             return $entries;
         }
 
@@ -223,7 +223,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
         $guids = $this->get_related_guids();
 
-        if (count($guids) == 0) {
+        if (empty($guids)) {
             return $entries;
         }
 

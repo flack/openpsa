@@ -439,7 +439,7 @@ class midcom_services_toolbars
         echo "    <div class=\"items\">\n";
 
         foreach (array_reverse($this->_toolbars[$context_id], true) as $identifier => $toolbar) {
-            if (count($toolbar->items) == 0) {
+            if (empty($toolbar->items)) {
                 continue;
             }
             switch ($identifier) {

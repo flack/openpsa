@@ -87,7 +87,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         $query->add_constraint('parentguid', '=', $parentguid);
         $entry = $query->execute();
 
-        if (count($entry) == 0) {
+        if (empty($entry)) {
             throw new midcom_error_notfound("There is no match in database " . midcom_connection::get_error_string());
         }
         if (count($entry) == 1) {

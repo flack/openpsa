@@ -4,7 +4,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 <div class="file-manager">
     <div class="filelist">
         <?php
-        if (count($data['files']) > 0) {
+        if (!empty($data['files'])) {
             echo "<table class=\"attachments table_widget\" id=\"attachment_table\">\n";
             echo "    <thead>\n";
             echo "        <tr>\n";

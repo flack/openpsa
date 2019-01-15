@@ -111,11 +111,11 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
                 } else {
                     $cycles = $scheduler->calculate_cycles();
                 }
-                $value = $value + ($deliverable->price * $cycles) + $deliverable->invoiced;
-                $cost = $cost + ($deliverable->cost * $cycles);
+                $value += ($deliverable->price * $cycles) + $deliverable->invoiced;
+                $cost += $deliverable->cost * $cycles;
             } else {
-                $value = $value + $deliverable->price;
-                $cost = $cost + $deliverable->cost;
+                $value += $deliverable->price;
+                $cost += $deliverable->cost;
                 if ($deliverable->invoiceByActualUnits) {
                     $value = $value + $deliverable->invoiced;
                 }

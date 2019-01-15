@@ -113,7 +113,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
     public function _show_latest($handler_id, array &$data)
     {
         $data['wikiname'] = $this->_topic->extra;
-        if (count($data['latest_pages']) > 0) {
+        if (!empty($data['latest_pages'])) {
             krsort($data['latest_pages']);
             $dates_shown = [];
             midcom_show_style('view-latest-header');

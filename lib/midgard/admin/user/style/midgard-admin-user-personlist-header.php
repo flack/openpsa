@@ -18,7 +18,7 @@
 </form>
 
 <?php
-if (count($data['persons']) > 0) {
+if (!empty($data['persons'])) {
     $action_uri = $data['router']->generate('user_list');
     if (isset($_REQUEST['midgard_admin_user_search'])) {
         $action_uri .= "?midgard_admin_user_search=" . $_REQUEST['midgard_admin_user_search'];

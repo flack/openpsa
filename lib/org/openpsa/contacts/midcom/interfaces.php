@@ -112,7 +112,7 @@ implements midcom_services_permalinks_resolver
             // We have a feed URL, but we should check if it is GeoRSS as well
             $items = net_nemein_rss_fetch::raw_fetch($data['rss_url'])->get_items();
 
-            if (   count($items) > 0
+            if (   !empty($items)
                 && (   $items[0]->get_latitude()
                     || $items[0]->get_longitude())) {
                 // This is a GeoRSS feed
@@ -128,7 +128,7 @@ implements midcom_services_permalinks_resolver
             }
         }
 
-        if (count($hcards) > 0) {
+        if (!empty($hcards)) {
             // We have found hCard data here
             $data['hcards'] = $hcards;
         }

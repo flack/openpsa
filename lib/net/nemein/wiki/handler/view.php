@@ -110,7 +110,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         midcom::get()->auth->request_sudo($this->_component);
         $result = $qb->execute();
         midcom::get()->auth->drop_sudo();
-        if (count($result) > 0) {
+        if (!empty($result)) {
             $this->_page = $result[0];
             $this->_page->require_do('midgard:read');
             return;
@@ -134,7 +134,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $qb->add_constraint('topic', '=', $this->_topic->id);
             $qb->add_constraint('title', '=', $wikiword);
             $result = $qb->execute();
-            if (count($result) > 0) {
+            if (!empty($result)) {
                 // This wiki page actually exists, so go there as "Permanent Redirect"
                 midcom::get()->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}{$result[0]->name}/", 301);
             }
@@ -160,7 +160,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $qb->add_constraint('topic.component', '=', 'net.nemein.wiki');
             $qb->add_constraint('name', '=', $this->_page->url);
             $result = $qb->execute();
-            if (count($result) == 0) {
+            if (empty($result)) {
                 // No matching redirection page found, relocate to editing
                 // TODO: Add UI message
                 return new midcom_response_relocate("edit/{$this->_page->name}/");

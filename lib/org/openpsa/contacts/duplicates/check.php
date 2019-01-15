@@ -160,7 +160,7 @@ class org_openpsa_contacts_duplicates_check
                     $person1_memberships = $this->load_memberships($person1['id']);
                     $person2_memberships = $this->load_memberships($person2['id']);
                     $matches = array_intersect($person1_memberships, $person2_memberships);
-                    if (count($matches) > 0) {
+                    if (!empty($matches)) {
                         $ret['fname_lname_company_match'] = true;
                         $ret['p'] += (count($matches) * 0.5);
                     }

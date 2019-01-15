@@ -27,7 +27,7 @@ class net_nemein_redirector_handler_redirect extends midcom_baseclasses_componen
         $results = $mc->list_keys();
 
         // No results found
-        if (count($results) === 0) {
+        if (empty($results)) {
             throw new midcom_error_notfound($args[0] . ' could not be found');
         }
 

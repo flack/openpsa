@@ -129,7 +129,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         $items = $this->fetch();
 
-        if (count($items) == 0) {
+        if (empty($items)) {
             // This feed didn't return any items, skip
             return [];
         }
@@ -293,7 +293,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $qb->add_constraint('topic', '=', $this->_feed->node);
         $qb->add_constraint($this->_guid_property, '=', substr($guid, 0, 255));
         $articles = $qb->execute();
-        if (count($articles) > 0) {
+        if (!empty($articles)) {
             // This item has been imported already earlier. Update
             return $articles[0];
         }
@@ -442,7 +442,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $person_qb = midcom_db_person::new_query_builder();
             $person_qb->add_constraint('email', '=', $author_info['email']);
             $persons = $person_qb->execute();
-            if (count($persons) > 0) {
+            if (!empty($persons)) {
                 return $persons[0];
             }
         }
@@ -463,7 +463,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 $person_qb->add_constraint('firstname', '=', $firstname);
                 $person_qb->add_constraint('lastname', '=', $lastname);
                 $persons = $person_qb->execute();
-                if (count($persons) > 0) {
+                if (!empty($persons)) {
                     return $persons[0];
                 }
             }
@@ -497,7 +497,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $html_tags = org_openpsa_httplib_helpers::get_anchor_values($article->content, 'tag');
         $tags = [];
 
-        if (count($html_tags) > 0) {
+        if (!empty($html_tags)) {
             foreach ($html_tags as $html_tag) {
                 if (!$html_tag['value']) {
                     // No actual tag specified, skip

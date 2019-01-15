@@ -317,7 +317,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     {
         $params = $source->list_parameters();
 
-        if (count($params) === 0) {
+        if (empty($params)) {
             return true;
         }
 

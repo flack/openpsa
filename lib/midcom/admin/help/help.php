@@ -136,7 +136,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     {
         // Schemas
         $this->_request_data['mgdschemas'] = midcom::get()->dbclassloader->get_component_classes($component);
-        if (count($this->_request_data['mgdschemas'])) {
+        if (!empty($this->_request_data['mgdschemas'])) {
             $files['mgdschemas'] = [
                 'path' => '/mgdschemas',
                 'subject' => $this->_l10n->get('help_mgdschemas'),
@@ -146,7 +146,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         // URL Methods
         $this->_request_data['urlmethods'] = $this->read_url_methods($component);
-        if (count($this->_request_data['urlmethods'])) {
+        if (!empty($this->_request_data['urlmethods'])) {
             $files['urlmethods'] = [
                 'path' => '/urlmethods',
                 'subject' => $this->_l10n->get('help_urlmethods'),
@@ -162,7 +162,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         // handlers
         $this->_request_data['request_switch_info'] = $this->read_component_handlers($component);
-        if (count($this->_request_data['request_switch_info'])) {
+        if (!empty($this->_request_data['request_switch_info'])) {
             $files['handlers'] = [
                 'path' => '/handlers',
                 'subject' => $this->_l10n->get('help_handlers'),
@@ -349,9 +349,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
 
         if ($handler_id == 'help') {
-            if (   $this->_request_data['help_id'] == 'handlers'
-                || $this->_request_data['help_id'] == 'urlmethods'
-                || $this->_request_data['help_id'] == 'mgdschemas') {
+            if (in_array($this->_request_data['help_id'], ['handlers', 'urlmethods', 'mgdschemas'])) {
                 $this->add_breadcrumb("", $this->_l10n->get($this->_request_data['help_id']));
             } else {
                 $this->add_breadcrumb("", $this->get_help_title($this->_request_data['help_id'], $this->_request_data['component']));

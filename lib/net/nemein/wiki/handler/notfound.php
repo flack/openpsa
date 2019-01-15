@@ -24,7 +24,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
         $qb->add_constraint('topic', '=', $this->_topic->id);
         $qb->add_constraint('title', '=', $wikiword);
         $result = $qb->execute();
-        if (count($result) > 0) {
+        if (!empty($result)) {
             // This wiki page actually exists, so go there as "Permanent Redirect"
             return new midcom_response_relocate("{$result[0]->name}/", 301);
         }

@@ -102,7 +102,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         if (!is_array($rules)) {
             throw new midcom_error('given ruleset could not be parsed');
         }
-        if (count($rules) == 0) {
+        if (empty($rules)) {
             throw new midcom_error('given ruleset is empty');
         }
         return $rules;

@@ -213,10 +213,7 @@ class midgard_admin_asgard_schemadb
 
     private function _add_int_field($key)
     {
-        if (   $key == 'start'
-            || $key == 'end'
-            || $key == 'added'
-            || $key == 'date') {
+        if (in_array($key, ['start', 'end', 'added', 'date'])) {
             // We can safely assume that INT fields called start and end store unixtimes
             $this->schema['fields'][$key] = [
                 'title'       => $key,

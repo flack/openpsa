@@ -34,7 +34,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
             midcom::get()->auth->request_sudo('midcom.services.at');
             $qbret = $qb->execute();
             midcom::get()->auth->drop_sudo();
-            if (count($qbret) == 0) {
+            if (empty($qbret)) {
                 break;
             }
             $this->process_entry($qbret[0]);

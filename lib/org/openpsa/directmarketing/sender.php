@@ -318,8 +318,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         debug_add("Recursion level is {$level}, limit is {$this->_chunk_max_recurse}");
         /* Make sure we still have results left, if not just recurse...
          (basically this is to avoid returning an empty array when everything is otherwise ok) */
-        if (   count($results) == 0
-            && ($level < $this->_chunk_max_recurse)) {
+        if (empty($results) && ($level < $this->_chunk_max_recurse)) {
             debug_add('All our results got filtered, recursing for another round');
             $this->_chunk_num++;
             return $this->_qb_single_chunk($level + 1);

@@ -174,7 +174,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
     public function show_login_form()
     {
         // Store the submitted form if the session expired, but user wants to save the data
-        if (count($_POST) > 0) {
+        if (!empty($_POST)) {
             $data =& midcom_core_context::get()->get_custom_key('request_data');
 
             $data['restored_form_data'] = [];

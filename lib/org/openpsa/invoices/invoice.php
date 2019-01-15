@@ -203,7 +203,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         $qb->add_constraint('cancelationInvoice', '=', $this->id);
         $results = $qb->execute();
 
-        if (count($results) == 0) {
+        if (empty($results)) {
             return false;
         }
         return $results[0];
@@ -320,7 +320,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         $qb_invoice_item->add_constraint('task', '=', $task_id);
 
         $invoice_items = $qb_invoice_item->execute();
-        if (count($invoice_items) == 0) {
+        if (empty($invoice_items)) {
             $invoice_item = new org_openpsa_invoices_invoice_item_dba();
             $invoice_item->task = $task_id;
             $invoice_item->invoice = $this->id;

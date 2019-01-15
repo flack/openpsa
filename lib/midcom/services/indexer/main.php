@@ -118,7 +118,7 @@ class midcom_services_indexer implements EventSubscriberInterface
         if (!is_array($documents)) {
             $documents = [$documents];
         }
-        if (count($documents) == 0) {
+        if (empty($documents)) {
             // Nothing to do.
             return true;
         }
@@ -149,7 +149,7 @@ class midcom_services_indexer implements EventSubscriberInterface
             return true;
         }
         $RIs = (array) $RIs;
-        if (count($RIs) == 0) {
+        if (empty($RIs)) {
             // Nothing to do.
             return true;
         }

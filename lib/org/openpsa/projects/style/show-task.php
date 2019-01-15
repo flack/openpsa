@@ -48,7 +48,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
     <div class="bookings">
         <?php
         echo "<h2>" . $data['l10n']->get('booked times') . "</h2>\n";
-        if (count($data['task_bookings']['confirmed']) > 0) {
+        if (!empty($data['task_bookings']['confirmed'])) {
             echo "<ul>\n";
             foreach ($data['task_bookings']['confirmed'] as $booking) {
                 echo "<li>";
@@ -111,7 +111,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         echo '</div>';
     }
 
-    if (count($task->resources) > 0) {
+    if (!empty($task->resources)) {
         echo '<div class="area">';
         echo "<h2>" . $data['l10n']->get('resources') . "</h2>\n";
         foreach (array_keys($task->resources) as $contact_id) {
@@ -121,7 +121,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         echo "</div>\n";
     }
 
-    if (count($task->contacts) > 0) {
+    if (!empty($task->contacts)) {
         echo '<div class="area">';
         echo "<h2>" . $data['l10n']->get('contacts') . "</h2>\n";
         foreach (array_keys($task->contacts) as $contact_id) {

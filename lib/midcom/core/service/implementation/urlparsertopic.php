@@ -79,7 +79,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
      */
     public function get_object()
     {
-        if (count($this->argv) == 0) {
+        if (empty($this->argv)) {
             // No arguments left
             return false;
         }
@@ -130,7 +130,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
      */
     public function get_variable($namespace)
     {
-        if (count($this->argv) == 0) {
+        if (empty($this->argv)) {
             return false;
         }
 

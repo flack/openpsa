@@ -355,7 +355,7 @@ class midcom_helper_head
      */
     public function print_jsonload()
     {
-        if (count($this->_jsonload) > 0) {
+        if (!empty($this->_jsonload)) {
             $calls = implode("; ", $this->_jsonload);
             echo " onload=\"$calls\" ";
         }

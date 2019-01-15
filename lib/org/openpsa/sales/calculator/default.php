@@ -165,7 +165,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         $last_invoice = $qb->execute_unchecked();
         midcom::get()->auth->drop_sudo();
 
-        if (count($last_invoice) == 0) {
+        if (empty($last_invoice)) {
             $previous = 0;
         } else {
             $previous = $last_invoice[0]->number;

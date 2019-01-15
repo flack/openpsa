@@ -110,7 +110,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
 
     public static function get_sum(array $constraints)
     {
-        if (count($constraints) == 0) {
+        if (empty($constraints)) {
             throw new midcom_error('Invalid constraints given');
         }
 

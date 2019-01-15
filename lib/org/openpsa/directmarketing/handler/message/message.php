@@ -104,7 +104,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             MIDCOM_TOOLBAR_URL => $this->router->generate('test_send_message', ['guid' => $this->_message->guid]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to testers"),
             MIDCOM_TOOLBAR_GLYPHICON => 'paper-plane-o',
-            MIDCOM_TOOLBAR_ENABLED => (count($this->_campaign->testers) > 0),
+            MIDCOM_TOOLBAR_ENABLED => !empty($this->_campaign->testers),
         ];
 
         $mc = org_openpsa_campaign_member::new_collector('campaign', $this->_campaign->id);
@@ -117,7 +117,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             MIDCOM_TOOLBAR_URL => $this->router->generate('send_message', ['guid' => $this->_message->guid]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to whole campaign"),
             MIDCOM_TOOLBAR_GLYPHICON => 'paper-plane',
-            MIDCOM_TOOLBAR_ENABLED => (count($keys) > 0 && $this->_message->can_do('midgard:update')),
+            MIDCOM_TOOLBAR_ENABLED => (!empty($keys) && $this->_message->can_do('midgard:update')),
             MIDCOM_TOOLBAR_OPTIONS => [
                 'onclick' => "return confirm('" . $this->_l10n->get('are you sure you wish to send this to the whole campaign') . "')",
             ]

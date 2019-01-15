@@ -2,7 +2,7 @@
 $history = $data['history'];
 $guid = $data['guid'];
 
-if (count($history) == 0) {
+if (empty($history)) {
     echo $data['l10n']->get('no revisions exist');
     return;
 }

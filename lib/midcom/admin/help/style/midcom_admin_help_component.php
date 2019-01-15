@@ -1,5 +1,5 @@
 <?php
-if (count($data['help_files']) > 0) {
+if (!empty($data['help_files'])) {
     echo "<h2>" . $data['l10n']->get('toc') . "</h2>\n";
 
     echo "<ul>\n";

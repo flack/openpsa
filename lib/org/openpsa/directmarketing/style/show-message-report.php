@@ -63,7 +63,7 @@ if ($data['message']->sendStarted == 0) {
   </tbody>
 </table>
 <?php
-    if (count($report['link_data']['counts']) > 0) {
+    if (!empty($report['link_data']['counts'])) {
         echo "\n<h3>" . $l10n->get('link statistics') . "</h3>\n";
         midcom_show_style('show-message-report-links-header');
         $data['use_link_data'] = $report['link_data'];

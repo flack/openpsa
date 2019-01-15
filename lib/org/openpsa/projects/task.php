@@ -373,7 +373,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             //Only get proposed status objects here if are not over that phase
             $mc->add_constraint('type', '<>', org_openpsa_projects_task_status_dba::PROPOSED);
         }
-        if (count($this->resources) > 0) {
+        if (!empty($this->resources)) {
             //Do not ever set status to declined if we still have resources left
             $mc->add_constraint('type', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         }

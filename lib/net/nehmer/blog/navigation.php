@@ -128,7 +128,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             $qb->set_limit(1);
             $result = $qb->execute_unchecked();
 
-            if (count($result) == 0) {
+            if (empty($result)) {
                 return $leaves;
             }
 
@@ -140,7 +140,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
                     MIDCOM_NAV_URL => "archive/year/{$year}/",
                     MIDCOM_NAV_NAME => $year,
                 ];
-                $year = $year + 1;
+                $year += 1;
             }
             $leaves = array_reverse($leaves);
         }

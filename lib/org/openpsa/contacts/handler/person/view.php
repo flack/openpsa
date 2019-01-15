@@ -190,8 +190,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     public function _show_group_memberships($handler_id, array &$data)
     {
-        if (   count($data['organizations']) == 0
-            && count($data['groups']) == 0) {
+        if (!empty($data['organizations']) && empty($data['groups'])) {
             midcom_show_style('show-person-groups-empty');
         } else {
             $this->_show_memberships('organizations');

@@ -639,7 +639,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
          */
 
         // Generate E-Tag header.
-        if (strlen($cache_data) == 0) {
+        if (empty($cache_data)) {
             $etag = md5(serialize($this->_sent_headers));
         } else {
             $etag = md5($cache_data);

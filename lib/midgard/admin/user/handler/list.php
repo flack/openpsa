@@ -62,7 +62,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         // Used in select
         $data['groups_for_select'] = [];
 
-        if (count($this->_persons) > 0) {
+        if (!empty($this->_persons)) {
             $this->list_groups_for_select(0, $data, 0);
         }
 
@@ -117,7 +117,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         $groupdata = $mc->get_rows(['name', 'official', 'id', 'guid']);
 
         // Hide empty groups
-        if (count($groupdata) === 0) {
+        if (empty($groupdata)) {
             return;
         }
 

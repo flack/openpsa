@@ -371,7 +371,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
             $property = $cardname . 'Street';
 
-            if (count($cards_to_show) == 0) {
+            if (empty($cards_to_show)) {
                 if ($customer->$property) {
                     $inherited_cards_only = false;
                     $cards_to_show[] = $cardname;

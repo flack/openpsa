@@ -150,7 +150,7 @@ class midcom_core_querybuilder extends midcom_core_query
             } else {
                 if ($offset) {
                     $resultset = array_slice($resultset, $offset);
-                    $size = $size - $offset;
+                    $size -= $offset;
                     $offset = 0;
                 }
 

@@ -11,7 +11,7 @@ if (isset($data['feed'])) {
 
 }
 
-if (count($data['items']) == 0) {
+if (empty($data['items'])) {
     echo '<p>' . $data['l10n']->get('no items found in feed') . "</p>\n";
     if (!empty($data['error'])) {
         echo "<p class=\"error\">{$data['error']}</p>\n";

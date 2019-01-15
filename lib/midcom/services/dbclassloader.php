@@ -105,7 +105,7 @@ class midcom_services_dbclassloader
             'org.openpsa.hour' => 'org.openpsa.projects'
         ];
 
-        while (count($class_parts) > 0) {
+        while (!empty($class_parts)) {
             $component = implode('.', $class_parts);
             if (array_key_exists($component, $component_map)) {
                 $component = $component_map[$component];

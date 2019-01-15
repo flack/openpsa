@@ -164,7 +164,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             $message['content'] .= $url . 'invoice/' . $invoice->guid . "/\n\n";
         }
 
-        if (count($tasks_completed) > 0) {
+        if (!empty($tasks_completed)) {
             $message['content'] .= "\n" . $l10n->get('tasks completed') . ":\n";
 
             foreach ($tasks_completed as $task) {
@@ -172,7 +172,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             }
         }
 
-        if (count($tasks_not_completed) > 0) {
+        if (!empty($tasks_not_completed)) {
             $message['content'] .= "\n" . $l10n->get('tasks not completed') . ":\n";
 
             foreach ($tasks_not_completed as $task) {

@@ -196,9 +196,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $this->html_body = preg_replace("/\n\r|\r\n|\r/", "\n", $this->html_body);
 
         //Try to translate HTML-only body to plaintext as well
-        if (   strlen($this->body) == 0
-            && strlen($this->html_body) > 0
-            && !$this->allow_only_html) {
+        if (empty($this->body) && !empty($this->html_body) && !$this->allow_only_html) {
             $this->body = $this->html2text($this->html_body);
         }
 

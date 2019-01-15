@@ -35,7 +35,7 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title u
     echo '<h2>' . $data['l10n']->get('testers') . '</h2>';
 
     $data['campaign']->get_testers();
-    if (count($data['campaign']->testers) > 0) {
+    if (!empty($data['campaign']->testers)) {
         $testers = [];
         foreach (array_keys($data['campaign']->testers) as $id) {
             $person = org_openpsa_widgets_contact::get($id);

@@ -1,7 +1,7 @@
 <h1><?php echo $data['view_title']; ?></h1>
 
 <?php
-if (count($data['orphans']) > 0) {
+if (!empty($data['orphans'])) {
     ?>
     <ul>
     <?php

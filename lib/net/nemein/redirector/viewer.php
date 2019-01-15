@@ -85,7 +85,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
                 $nodes = $nap->list_nodes($nap->get_current_node());
 
                 // Subnodes not found, fall through to configuration
-                if (count($nodes) == 0) {
+                if (empty($nodes)) {
                     break;
                 }
 

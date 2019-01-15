@@ -1,6 +1,6 @@
 <?php
 echo "<h1>" . $data['l10n']->get('urlmethods') . "</h1>\n";
-if (count($data['urlmethods']) > 0) {
+if (!empty($data['urlmethods'])) {
     $i = 0;
     foreach ($data['urlmethods'] as $file => $method_info) {
         $id = basename($method_info['url'], ".php");

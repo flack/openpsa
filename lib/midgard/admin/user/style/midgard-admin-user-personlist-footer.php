@@ -1,5 +1,5 @@
 <?php
-if (count($data['persons']) > 0) {
+if (!empty($data['persons'])) {
     ?>
         </tbody>
         <tfoot>

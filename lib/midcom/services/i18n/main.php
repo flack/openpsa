@@ -366,7 +366,7 @@ class midcom_services_i18n
         foreach ($languages as $identifier => &$language) {
             $localname = Intl::getLanguageBundle()->getLanguageName($identifier, null, $identifier);
             if ($localname != $language) {
-                $language = $language . ' (' . $localname . ')';
+                $language .= ' (' . $localname . ')';
             }
         }
         return $languages;
@@ -385,8 +385,7 @@ class midcom_services_i18n
     private function iconv($source_charset, $destination_charset, $string)
     {
         $result = @iconv($source_charset, $destination_charset, $string);
-        if (   $result === false
-            && strlen($string) > 0) {
+        if ($result === false && !empty($string)) {
             debug_add("Iconv returned failed to convert a string, returning an empty string.", MIDCOM_LOG_WARN);
             debug_print_r("Tried to convert this string from {$source_charset} to {$destination_charset}:", $string);
             midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);

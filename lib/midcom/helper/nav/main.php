@@ -344,7 +344,7 @@ class midcom_helper_nav
         // function call.
         $unprocessed_node_ids = [$this->get_root_node()];
 
-        while (count($unprocessed_node_ids) > 0) {
+        while (!empty($unprocessed_node_ids)) {
             $node_id = array_shift($unprocessed_node_ids);
 
             // Check leaves of this node first.

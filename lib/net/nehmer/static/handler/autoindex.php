@@ -66,7 +66,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     {
         midcom_show_style('autoindex-start');
 
-        if (count($this->_index_entries) > 0) {
+        if (!empty($this->_index_entries)) {
             foreach ($this->_index_entries as $filename => $thedata) {
                 $data['filename'] = $filename;
                 $data['data'] = $thedata;

@@ -1,6 +1,6 @@
 <?php
 echo "<h1>" . $data['l10n']->get('handlers') . "</h1>\n";
-if (count($data['request_switch_info']) > 0) {
+if (!empty($data['request_switch_info'])) {
     echo "<p>" . $data['l10n']->get('available urls') . "</p>\n";
 
     echo "<dl>\n";

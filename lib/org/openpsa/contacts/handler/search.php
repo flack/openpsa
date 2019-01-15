@@ -147,12 +147,10 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             return $this->_prepare_json_reply();
         }
 
-        if (   count($this->_groups) == 1
-            && count($this->_persons) == 0) {
+        if (empty($this->_persons) && count($this->_groups) == 1) {
             return new midcom_response_relocate($this->router->generate('group_view', ['guid' => $this->_groups[0]->guid]));
         }
-        if (   count($this->_groups) == 0
-            && count($this->_persons) == 1) {
+        if (empty($this->_groups) && count($this->_persons) == 1) {
             return new midcom_response_relocate($this->router->generate('person_view', ['guid' => $this->_persons[0]->guid]));
         }
 
@@ -225,29 +223,31 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
         midcom_show_style('search-header');
 
-        if (   count($this->_groups) == 0
-            && count($this->_persons) == 0
-            && $this->_query_string) {
+        $found = false;
+        if (!empty($this->_groups)) {
+            $found = true;
+            midcom_show_style('search-groups-header');
+            foreach ($this->_groups as $group) {
+                $data['group'] = $group;
+                midcom_show_style('search-groups-item');
+            }
+            midcom_show_style('search-groups-footer');
+        }
+
+        if (!empty($this->_persons)) {
+            $found = true;
+            midcom_show_style('search-persons-header');
+            foreach ($this->_persons as $person) {
+                $data['person'] = $person;
+                midcom_show_style('search-persons-item');
+            }
+            midcom_show_style('search-persons-footer');
+        }
+
+
+        if (!$found && $this->_query_string) {
             //No results at all (from any of the queries)
             midcom_show_style('search-empty');
-        } else {
-            if (count($this->_groups) > 0) {
-                midcom_show_style('search-groups-header');
-                foreach ($this->_groups as $group) {
-                    $data['group'] = $group;
-                    midcom_show_style('search-groups-item');
-                }
-                midcom_show_style('search-groups-footer');
-            }
-
-            if (count($this->_persons) > 0) {
-                midcom_show_style('search-persons-header');
-                foreach ($this->_persons as $person) {
-                    $data['person'] = $person;
-                    midcom_show_style('search-persons-item');
-                }
-                midcom_show_style('search-persons-footer');
-            }
         }
 
         midcom_show_style('search-footer');

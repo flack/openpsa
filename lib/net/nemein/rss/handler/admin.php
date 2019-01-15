@@ -42,7 +42,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $qb->add_constraint('node', '=', $this->_topic->id);
         $qb->add_constraint('url', '=', $feed_url);
         $feeds = $qb->execute();
-        if (count($feeds) == 0) {
+        if (empty($feeds)) {
             $feed = new net_nemein_rss_feed_dba();
             $feed->node = $this->_topic->id;
             $feed->url = $feed_url;

@@ -122,12 +122,7 @@ JSINIT;
             $mc->add_order($field);
         }
 
-        $results = $mc->get_rows($value_properties);
-        if (count($results) === 0) {
-            return $data;
-        }
-
-        foreach ($results as $guid => $values) {
+        foreach ($mc->get_rows($value_properties) as $guid => $values) {
             $entry = ['guid' => $guid];
 
             foreach ($this->title_fields as $field) {

@@ -3,7 +3,7 @@ use Michelf\MarkdownExtra;
 
 echo "<h1>" . sprintf($data['l10n']->get('mgdschemas in %s'), midcom::get()->i18n->get_string($data['component'], $data['component'])) . "</h1>\n";
 
-if (count($data['mgdschemas']) > 0) {
+if (!empty($data['mgdschemas'])) {
     echo "<dl>\n";
     foreach ($data['properties'] as $schema => $properties) {
         echo "<dt id=\"{$schema}\">{$schema}</dt>\n";

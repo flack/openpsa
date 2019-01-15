@@ -51,7 +51,7 @@ class midcom_core_setup
         $qb->add_constraint('component', '<>', '');
         $topics = $qb->execute();
 
-        if (count($topics) > 0) {
+        if (!empty($topics)) {
             return $topics[0];
         }
         if (!$autocreate) {

@@ -89,7 +89,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
             $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
             $qb->add_constraint('linkGuid', '=', $contact->guid);
             $billing_data = $qb->execute();
-            if (count($billing_data) == 0) {
+            if (empty($billing_data)) {
                 return false;
             }
 

@@ -16,7 +16,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         <?php
         $help = new midcom_admin_help_help();
         $files = $help->list_files($data['component'], true);
-        if (count($files) > 0) {
+        if (!empty($files)) {
             echo "<h3>" . midcom::get()->i18n->get_string('component help', 'midcom.admin.help') . "</h3>\n";
             echo "<ul>\n";
             foreach ($files as $identifier => $filedata) {

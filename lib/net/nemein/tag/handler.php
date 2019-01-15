@@ -269,7 +269,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         }
 
         $links = $mc->get_values('tag');
-        if (count($links) == 0) {
+        if (empty($links)) {
             return $tags;
         }
 
@@ -278,7 +278,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                 $tag_mc = net_nemein_tag_tag_dba::new_collector('id', $tag_id);
                 $tag_mc->add_constraint('metadata.navnoentry', '=', 0);
                 $tag_names = $tag_mc->get_values('tag');
-                if (count($tag_names) == 0) {
+                if (empty($tag_names)) {
                     // No such tag in DB
                     continue;
                 }

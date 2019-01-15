@@ -129,8 +129,7 @@ class net_nemein_wiki_resolver
          that is populated only once, and even then only the
          first time we encounter a namespaced wikilink */
         static $folder_tree = [];
-        if (   count($folder_tree) == 0
-            || $force_resolve_folder_tree) {
+        if (empty($folder_tree) || $force_resolve_folder_tree) {
             $folder_tree = $this->_resolve_folder_tree($force_as_root);
         }
 

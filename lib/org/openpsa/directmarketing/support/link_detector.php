@@ -72,7 +72,7 @@ if (substr($logger, 0, strlen("file://")) == "file://") {
         fwrite($fh, "$token $link\n");
         fclose($fh);
     }
-} elseif (preg_match('/https?:\/\//', $logger)) {
+} elseif (preg_match('/^https?:\/\//', $logger)) {
     $client = new org_openpsa_httplib();
     $client->post($logger, ["token" => $token, "link" => $link]);
 } else {

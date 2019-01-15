@@ -88,7 +88,7 @@ foreach ($data['invoices'] as $invoice) {
     $entries[] = $entry;
 }
 
-if (count($cancelations) > 0) {
+if (!empty($cancelations)) {
     foreach ($entries as &$entry) {
         if (in_array($entry['id'], $cancelations)) {
             $entry['status'] = 'canceled';

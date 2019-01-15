@@ -268,7 +268,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
         $linkfields = $this->_get_link_fields($schema_type, $for_object);
 
-        if (count($linkfields) === 0) {
+        if (empty($linkfields)) {
             debug_add("Class '{$schema_type}' has no valid link properties pointing to class '" . get_class($for_object) . "', this should not happen here", MIDCOM_LOG_ERROR);
             return false;
         }

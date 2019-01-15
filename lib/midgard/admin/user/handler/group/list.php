@@ -147,7 +147,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
         $groups = $mc->get_rows(['name', 'official', 'id']);
 
         // Hide empty groups
-        if (count($groups) === 0) {
+        if (empty($groups)) {
             return;
         }
 

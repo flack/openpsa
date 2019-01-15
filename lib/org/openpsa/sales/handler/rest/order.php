@@ -33,7 +33,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         $qb->add_constraint('customerContact', '=', $person->id);
         $results = $qb->execute();
 
-        if (count($results) > 0) {
+        if (!empty($results)) {
             return array_pop($results);
         }
 

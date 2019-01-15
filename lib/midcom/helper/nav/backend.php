@@ -363,7 +363,7 @@ class midcom_helper_nav_backend
         $subnodes = self::$_nodes[$parent_node]->get_subnodes();
 
         // No results, return an empty array
-        if (count($subnodes) === 0) {
+        if (empty($subnodes)) {
             $listed[$cache_identifier] = [];
             return $listed[$cache_identifier];
         }

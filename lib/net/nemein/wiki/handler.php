@@ -20,7 +20,7 @@ trait net_nemein_wiki_handler
         $qb->add_constraint('name', '=', $wikiword);
         $result = $qb->execute();
 
-        if (count($result) > 0) {
+        if (!empty($result)) {
             return $result[0];
         }
         throw new midcom_error_notfound('The page "' . $wikiword . '" could not be found.');

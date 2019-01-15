@@ -71,7 +71,7 @@ class midcom_db_parameter extends midcom_core_dbaobject
             $mc->execute();
             $parameters = $mc->list_keys();
 
-            if (count($parameters) > 0) {
+            if (!empty($parameters)) {
                 $parameter_cache[$cache_key] = key($parameters);
             }
         }

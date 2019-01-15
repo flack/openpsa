@@ -3,7 +3,7 @@
      <div id="content_expenses">
 
 <?php
-if (count($data['hours']) > 0) {
+if (!empty($data['hours'])) {
     $invoiceable_hours = $data['hours']['total_invoiceable'];
     $uninvoiceable_hours = $data['hours']['total_uninvoiceable'];
     $total_hours = $invoiceable_hours + $uninvoiceable_hours;

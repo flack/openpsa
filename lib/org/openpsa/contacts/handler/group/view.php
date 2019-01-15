@@ -120,7 +120,7 @@ implements client
             $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
             $qb_billing_data->add_constraint('linkGuid', '=', $this->group->guid);
             $billing_data = $qb_billing_data->execute();
-            if (count($billing_data) > 0) {
+            if (!empty($billing_data)) {
                 $this->_request_data['billing_data'] = $billing_data[0];
             }
             // This handler uses Ajax, include the handler javascripts
@@ -219,7 +219,7 @@ implements client
         $entry['index_homepage'] = $user->homepage;
         if (!empty($user->homepage)) {
             $url = $user->homepage;
-            if (!preg_match('/https?:\/\//', $url)) {
+            if (!preg_match('/^https?:\/\//', $url)) {
                 $url = 'http://' . $user->homepage;
             }
             $entry['homepage'] = '<a href="' . $url . '">' . $user->homepage . '</a>';

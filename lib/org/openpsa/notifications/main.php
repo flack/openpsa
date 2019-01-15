@@ -102,7 +102,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
 
         // If user has preference for this message, we use that
         $personal_preferences = $recipient->list_parameters('org.openpsa.notifications');
-        if (   count($personal_preferences) > 0
+        if (   !empty($personal_preferences)
             && array_key_exists("{$component}:{$action}", $personal_preferences)) {
             return $personal_preferences[$action];
         }
@@ -119,7 +119,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         $qb->add_constraint('name', '=', "{$component}:{$action}");
         $group_preferences = $qb->execute();
 
-        if (count($group_preferences) > 0) {
+        if (!empty($group_preferences)) {
             return $group_preferences[0]->value;
         }
 

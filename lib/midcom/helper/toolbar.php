@@ -544,7 +544,7 @@ class midcom_helper_toolbar
             return !$item[MIDCOM_TOOLBAR_HIDDEN];
         });
 
-        if (count($visible_items) == 0) {
+        if (empty($visible_items)) {
             debug_add('Tried to render an empty toolbar, returning an empty string.');
             return '';
         }

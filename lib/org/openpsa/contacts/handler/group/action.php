@@ -59,7 +59,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
     public function _show_members($handler_id, array &$data)
     {
         $results = $data['members_qb']->execute();
-        if (count($results) > 0) {
+        if (!empty($results)) {
             midcom_show_style('show-group-persons-header');
             foreach ($results as $member) {
                 $this->_request_data['member'] = $member;
@@ -90,7 +90,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
      */
     public function _show_subgroups($handler_id, array &$data)
     {
-        if (count($data['results']) > 0) {
+        if (!empty($data['results'])) {
             midcom_show_style('show-group-subgroups-header');
             foreach ($data['results'] as $subgroup) {
                 $this->_request_data['subgroup'] = $subgroup;

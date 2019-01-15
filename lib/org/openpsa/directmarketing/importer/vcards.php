@@ -23,7 +23,7 @@ class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmark
 
         while ($card = $reader->getNext()) {
             $contact = $this->_parse_vcard($card);
-            if (count($contact['person']) > 0) {
+            if (!empty($contact['person'])) {
                 // We have parsed some contact info.
                 $parsed[] = $contact;
             }

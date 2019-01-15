@@ -9,7 +9,7 @@ $parameter_toolbar->add_item([
 ]);
 echo $parameter_toolbar->render();
 
-if (count($data['parameters']) > 0) {
+if (!empty($data['parameters'])) {
     echo "<table class=\"midgard_admin_asgard_object_parameters\">\n";
     echo "    <thead>\n";
     echo "        <tr>\n";

@@ -177,7 +177,7 @@ class midcom_services_uimessages
      */
     public function show_simple()
     {
-        if (count($this->_message_stack->peekAll()) > 0) {
+        if (!empty($this->_message_stack->peekAll())) {
             echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
 
             foreach ($this->get_messages() as $message) {

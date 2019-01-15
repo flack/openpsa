@@ -39,7 +39,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
             $message['title'] = sprintf($this->_l10n->get('comment %s reported as abuse'), $this->_comment->title);
             $message['content'] = '';
             $logs = $this->_comment->get_logs();
-            if (count($logs) > 0) {
+            if (!empty($logs)) {
                 $message['content'] .= $this->_l10n->get('moderation history').":\n\n";
                 foreach ($logs as $time => $log) {
                     $reported = $this->_l10n->get_formatter()->datetime(strtotime("{$time}Z"));

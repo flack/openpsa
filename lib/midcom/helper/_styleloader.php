@@ -185,7 +185,7 @@ class midcom_helper__styleloader
         $current_style = 0;
 
         $path_array = array_filter(explode('/', $path));
-        if (count($path_array) > 0) {
+        if (!empty($path_array)) {
             $current_style = $rootstyle;
         }
 
@@ -408,7 +408,7 @@ class midcom_helper__styleloader
      */
     private function _find_element_in_scope($_element)
     {
-        if (count($this->_scope) > 0) {
+        if (!empty($this->_scope)) {
             $src = "{$this->_scope[0]}/{$_element}";
 
             if (array_key_exists($src, $this->_styles)) {
@@ -495,7 +495,7 @@ class midcom_helper__styleloader
                 $parts = explode('/', str_replace('theme:/', '', $style));
 
                 foreach ($parts as &$part) {
-                    $theme_dir = $theme_dir . '/' . $part;
+                    $theme_dir .= '/' . $part;
                     $part = $theme_dir;
                 }
                 foreach (array_reverse(array_filter($parts, 'is_dir')) as $dirname) {
@@ -598,7 +598,7 @@ class midcom_helper__styleloader
         $context = midcom_core_context::get();
         $current_style = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE);
 
-        if (strlen($current_style) > 0) {
+        if (!empty($current_style)) {
             $newsub = $current_style . '/' . $newsub;
         }
 
@@ -617,7 +617,7 @@ class midcom_helper__styleloader
         $context = midcom_core_context::get();
         $current_style = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE);
 
-        if (strlen($current_style) > 0) {
+        if (!empty($current_style)) {
             $newsub .= "/" . $current_style;
         }
         debug_add("Updating Component Context Substyle from $current_style to $newsub");
