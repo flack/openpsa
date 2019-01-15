@@ -154,25 +154,23 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     private function html2text($html)
     {
-        //Convert various newlines to unix ones
-        $text = preg_replace('/\x0a\x0d|\x0d\x0a|\x0d/', "\n", $html);
-        //convert <br/> tags to newlines
-        $text = preg_replace("/<br\s*\\/?>/i", "\n", $text);
-        //strip all remaining tags
-        $text = strip_tags($text);
+        // strip all tags except br
+        $text = strip_tags($html, '<br>');
 
-        //Decode entities
+        // Decode entities
         $text = html_entity_decode($text, ENT_QUOTES);
 
-        //Trim whitespace from end of lines
-        $text = preg_replace("/[ \t\f]+$/m", '', $text);
-        //Trim whitespace from beginning of lines
-        $text = preg_replace("/^[ \t\f]+/m", '', $text);
-        //Convert multiple concurrent spaces to one
-        $text = preg_replace("/[ \t\f]+/", ' ', $text);
-        //Strip extra linebreaks
-        $text = preg_replace("/\n{3,}/", "\n\n", $text);
-        //Wrap to RFC width
+        $converters = [
+            '/\x0a\x0d|\x0d\x0a|\x0d/' => "\n", // Convert various newlines to unix ones
+            "/<br\s*\\/?>/i", "\n", // convert <br/> tags to newlines
+            "/[ \t\f]+$/m" => '', // Trim whitespace from end of lines
+            "/^[ \t\f]+/m", '', // Trim whitespace from beginning of lines
+            "/[ \t\f]+/" => ' ', // Convert multiple concurrent spaces to one
+            "/\n{3,}/" => "\n\n", // Strip extra linebreaks
+        ];
+        $text = preg_replace(array_keys($converters), array_values($converters), $text);
+
+        // Wrap to RFC width
         $text = wordwrap($text, 72, "\n");
 
         return trim($text);

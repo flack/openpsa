@@ -73,19 +73,23 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
         $title = $this->_config->get('product_page_title');
 
+        $replacements = [
+            '<PRODUCT_CODE>' => $this->_product->code,
+            '<PRODUCT_TITLE>' => $this->_product->title,
+            '<TOPIC_TITLE>' => $this->_topic->extra
+        ];
         if (strstr($title, '<PRODUCTGROUP')) {
             try {
                 $productgroup = new org_openpsa_products_product_group_dba($this->_product->productGroup);
-                $title = str_replace('<PRODUCTGROUP_TITLE>', $productgroup->title, $title);
-                $title = str_replace('<PRODUCTGROUP_CODE>', $productgroup->code, $title);
+                $replacements['<PRODUCTGROUP_TITLE>'] = $productgroup->title;
+                $replacements['<PRODUCTGROUP_CODE>'] = $productgroup->code;
             } catch (midcom_error $e) {
-                $title = str_replace(['<PRODUCTGROUP_TITLE>', '<PRODUCTGROUP_CODE>'], '', $title);
+                $replacements['<PRODUCTGROUP_TITLE>'] = '';
+                $replacements['<PRODUCTGROUP_CODE>'] = '';
             }
         }
+        $title = str_replace(array_keys($replacements), array_values($replacements), $title);
 
-        $title = str_replace('<PRODUCT_CODE>', $this->_product->code, $title);
-        $title = str_replace('<PRODUCT_TITLE>', $this->_product->title, $title);
-        $title = str_replace('<TOPIC_TITLE>', $this->_topic->extra, $title);
         org_openpsa_widgets_ui::enable_ui_tab();
         org_openpsa_widgets_tree::add_head_elements();
         midcom::get()->head->set_pagetitle($title);

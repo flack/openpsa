@@ -475,9 +475,7 @@ class midcom_core_privilege
             $privilege->set_object($object);
             $privilege->set_assignee($assignee);
             $privilege->privilegename = $name;
-            if ($classname !== null) {
-                $privilege->classname = $classname;
-            }
+            $privilege->classname = $classname;
             $privilege->value = MIDCOM_PRIVILEGE_INHERIT;
             return $privilege;
         }
