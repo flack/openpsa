@@ -130,18 +130,23 @@ class datamanager
      * @param string $schema
      * @return \midcom\datamanager\datamanager
      */
-    public function set_storage(midcom_core_dbaobject $storage = null, $schema = null)
+    public function set_storage(midcom_core_dbaobject $storage = null, $schemaname = null)
     {
-        if (   $schema === null
+        if (   $schemaname === null
             && !empty($storage->id)) {
-            $schema = $storage->get_parameter('midcom.helper.datamanager2', 'schema_name');
+            $schemaname = $storage->get_parameter('midcom.helper.datamanager2', 'schema_name');
         }
 
-        if ($schema && !$this->schemadb->has($schema)) {
-            debug_add("Given schema name {$schema} was not found, reverting to default.", MIDCOM_LOG_INFO);
-            $schema = null;
+        if ($schemaname && !$this->schemadb->has($schemaname)) {
+            debug_add("Given schema name {$schemaname} was not found, reverting to default.", MIDCOM_LOG_INFO);
+            $schemaname = null;
         }
-        $this->schema = ($schema) ? $this->schemadb->get($schema) : $this->schemadb->get_first();
+
+        $schema = ($schemaname) ? $this->schemadb->get($schemaname) : $this->schemadb->get_first();
+        if ($this->schema !== null && $this->schema->get_name() !== $schema->get_name()) {
+            $this->form = null;
+        }
+        $this->schema = $schema;
 
         $defaults = array_merge($this->schema->get_defaults(), $this->defaults);
 
@@ -150,7 +155,9 @@ class datamanager
         } else {
             $this->storage = new storage\container\dbacontainer($this->schema, $storage, $defaults);
         }
-        $this->form = null;
+        if ($this->form !== null) {
+            $this->form->setData($this->storage);
+        }
 
         return $this;
     }
