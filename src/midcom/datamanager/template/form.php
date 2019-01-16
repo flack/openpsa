@@ -24,12 +24,12 @@ class form extends base
             $attributes['enctype'] = 'multipart/form-data';
         }
 
-        return '<form' . $this->attributes($attributes) . '>';
+        return '<form ' . $this->attributes($attributes) . '>';
     }
 
     public function form_errors(FormView $view, array $data)
     {
-        $string = '';
+        $errors = [];
         foreach ($data['errors'] as $error) {
             $params = $error->getMessageParameters();
             $message = $error->getMessage();
@@ -38,10 +38,10 @@ class form extends base
                     $message = str_replace($param, $this->renderer->humanize($param), $message);
                 }
             }
-            $string .= '<div class="field_error">' . $this->renderer->humanize($message) . '</div>';
+            $errors[] = '<div class="field_error">' . $this->renderer->humanize($message) . '</div>';
         }
 
-        return $string;
+        return implode('', $errors);
     }
 
     public function form_rows(FormView $view, array $data)
@@ -66,9 +66,7 @@ class form extends base
             $string .= $this->renderer->row($child);
             if ($child->vars['end_fieldset'] !== null) {
                 $end_fieldsets = max(1, (int) $child->vars['end_fieldset']);
-                for ($i = 0; $i < $end_fieldsets; $i++) {
-                    $string .= '</fieldset>';
-                }
+                $string .= str_repeat('</fieldset>', $end_fieldsets);
             }
         }
         return $string;
@@ -160,7 +158,7 @@ class form extends base
 
     public function attachment_row(FormView $view, array $data)
     {
-        $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<legend>';
         $string .= (!empty($data['value']['filename'])) ? $data['value']['filename'] : $this->renderer->humanize('add new file');
         $string .= '</legend>';
@@ -168,12 +166,7 @@ class form extends base
         $string .= '<div class="attachment-container">';
         $string .= '<div class="attachment-preview">';
         if (!empty($data['value']['filename'])) {
-            $parts = explode('.', $data['value']['filename']);
-            $ext = '';
-            if (count($parts) > 1) {
-                $ext = end($parts);
-            }
-
+            $ext = pathinfo($data['value']['filename'], PATHINFO_EXTENSION);;
             $string .= '<a href="' . $data['value']['url'] . '" target="_blank" class="icon" title="' . $data['value']['filename'] . '">';
             $string .= '<i class="fa fa-file-o"></i><span class="extension">' . $ext . '</span></a>';
         } else {
@@ -196,7 +189,7 @@ class form extends base
             return $this->form_row($view, $data);
         }
 
-        $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<legend>';
         $string .= (!empty($data['value']['objects']['main']['filename'])) ? $data['value']['objects']['main']['filename'] : $this->renderer->humanize('add new file');
         $string .= '</legend>';
@@ -215,17 +208,16 @@ class form extends base
 
         if (!empty($data['attr']['class'])) {
             $view->vars['attr']['class'] = $data['attr']['class'];
-        } elseif ($type == 'text' || $type == 'password' || $type == 'email' || $type == 'url') {
+        } elseif (in_array($type, ['text', 'password', 'email', 'url'])) {
             $view->vars['attr']['class'] = 'shorttext';
         }
 
-        $string = '<input type="' . $type . '"';
-        $string .= $this->renderer->block($view, 'widget_attributes');
         if (   !empty($data['value'])
             || is_numeric($data['value'])) {
-            $string .= ' value="' . $this->escape($data['value']) . '"';
+            $view->vars['attr']['value'] = $data['value'];
         }
-        return $string . ' />';
+        $view->vars['attr']['type'] = $type;
+        return '<input ' . $this->renderer->block($view, 'widget_attributes') . ' />';
     }
 
     public function button_widget(FormView $view, array $data)
@@ -234,6 +226,7 @@ class form extends base
         if (!$data['label']) {
             $data['label'] = $data['name'];
         }
+
         return '<button type="' . $type . '" ' . $this->renderer->block($view, 'button_attributes') . '>' . $this->renderer->humanize($data['label']) . '</button>';
     }
 
@@ -265,20 +258,25 @@ class form extends base
         return $string . $this->jsinit($jsinit);
     }
 
+    protected function prepare_widget_attributes($type, FormView $view, array $data)
+    {
+        $view->vars['attr']['type'] = $type;
+        if (isset($data['value'])) {
+            $view->vars['attr']['value'] = $data['value'];
+        }
+        if ($data['checked']) {
+            $view->vars['attr']['checked'] = 'checked';
+        }
+    }
+
     public function radio_widget(FormView $view, array $data)
     {
-        $string = '<input type="radio"';
+        $this->prepare_widget_attributes('radio', $view, $data);
         if ($view->vars['readonly']) {
             $view->vars['attr']['disabled'] = true;
         }
-        $string .= $this->renderer->block($view, 'widget_attributes');
-        if (isset($data['value'])) {
-            $string .= ' value="' . $data['value'] . '"';
-        }
-        if ($data['checked']) {
-            $string .= ' checked="checked"';
-        }
-        return $string . ' />';
+
+        return '<input ' . $this->renderer->block($view, 'widget_attributes') . ' />';
     }
 
     public function checkbox_widget(FormView $view, array $data)
@@ -290,15 +288,9 @@ class form extends base
             }
             return $string;
         }
-        $string = '<input type="checkbox"';
-        $string .= $this->renderer->block($view, 'widget_attributes');
-        if (isset($data['value'])) {
-            $string .= ' value="' . $data['value'] . '"';
-        }
-        if ($data['checked']) {
-            $string .= ' checked="checked"';
-        }
-        return $string . ' />';
+        $this->prepare_widget_attributes('checkbox', $view, $data);
+
+        return '<input ' . $this->renderer->block($view, 'widget_attributes') . ' />';
     }
 
     public function choice_widget_collapsed(FormView $view, array $data)
@@ -307,7 +299,7 @@ class form extends base
             $string = $this->get_view_renderer()->choice_widget_collapsed($view, $data);
             return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
         }
-        $string = '<select';
+        $string = '<select ';
         if (   $data['required']
             && null === $data['placeholder']
             && $data['placeholder_in_choices'] === false
@@ -316,7 +308,7 @@ class form extends base
         }
 
         if ($data['multiple']) {
-            $string .= ' multiple="multiple"';
+            $view->vars['attr']['multiple'] = 'multiple';
         }
 
         $string .= $this->renderer->block($view, 'widget_attributes', ['required' => $data['required']]) . '>';
@@ -378,13 +370,11 @@ class form extends base
                 $string .= $this->renderer->block($view, 'choice_widget_options', ['choices' => $choice]);
                 $string .= '</optgroup>';
             } else {
-                $string .= '<option value="' . $choice->value . '"';
+                $choice->attr['value'] = $choice->value;
                 if ($data['is_selected']($choice->value, $data['value'])) {
-                    $string .= ' selected="selected"';
+                    $choice->attr['selected'] = 'selected';
                 }
-                if (!empty($choice->attr)) {
-                    $string .= ' ' . $this->attributes($choice->attr);
-                }
+                $string .= '<option ' . $this->attributes($choice->attr);
                 $string .= '>' . $this->renderer->humanize($choice->label) . '</option>';
             }
         }
@@ -393,7 +383,7 @@ class form extends base
 
     public function other_widget(FormView $view, array $data)
     {
-        $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= $this->renderer->widget($view->children['select']);
         $string .= $this->renderer->humanize($view->children['other']->vars['label']) . ': ' . $this->renderer->widget($view->children['other'], ['attr' => ['class' => 'other']]);
         return $string . '</fieldset>';
@@ -426,7 +416,7 @@ class form extends base
 
     public function jsdate_widget(FormView $view, array $data)
     {
-        $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
 
         if ($view->vars['readonly']) {
             $string .= $this->get_view_renderer()->jsdate_widget($view, $data);
@@ -438,7 +428,7 @@ class form extends base
             $string .= $this->renderer->widget($view['date'], ['type' => 'hidden']);
             $string .= $this->renderer->widget($view['input'], ['attr' => ['class' => 'jsdate']]);
             if (isset($view['time'])) {
-                $string .= ' '. $this->renderer->widget($view['time']);
+                $string .= ' ' . $this->renderer->widget($view['time']);
             }
             $string .= $data['jsinit'];
         }
@@ -447,7 +437,7 @@ class form extends base
 
     public function image_widget(FormView $view, array $data)
     {
-        $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        $string = '<div ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<table class="midcom_datamanager_table_photo"><tr><td>';
         $preview = null;
         $objects = isset($data['value']['objects']) ? $data['value']['objects'] : [];
@@ -521,12 +511,12 @@ class form extends base
         }
         $view->vars['attr']['class'] = 'longtext';
         $view->vars['attr']['cols'] = 50;
-        return '<textarea' . $this->renderer->block($view, 'widget_attributes') . '>' . $data['value'] . '</textarea>';
+        return '<textarea ' . $this->renderer->block($view, 'widget_attributes') . '>' . $data['value'] . '</textarea>';
     }
 
     public function markdown_widget(FormView $view, array $data)
     {
-        $string = '<textarea' . $this->renderer->block($view, 'widget_attributes', ['required' => false]) . '>' . $data['value'] . '</textarea>';
+        $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes', ['required' => false]) . '>' . $data['value'] . '</textarea>';
         return $string . $this->jsinit('var simplemde = new SimpleMDE({ element: document.getElementById("' . $view->vars['id'] . '"), status: false });');
     }
 
@@ -537,7 +527,7 @@ class form extends base
             return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
         }
         //we set required to false, because tinymce doesn't play well with html5 validation..
-        $string = '<textarea' . $this->renderer->block($view, 'widget_attributes', ['required' => false]) . '>' . $data['value'] . '</textarea>';
+        $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes', ['required' => false]) . '>' . $data['value'] . '</textarea>';
         return $string . $this->jsinit($data['tinymce_snippet']);
     }
 
@@ -559,6 +549,6 @@ class form extends base
         if (!$data['compound']) {
             $label_attr['for'] = $data['id'];
         }
-        return '<label' . $this->attributes($label_attr) . '><span class="field_text">' . $data['label'] . '</span></label>';
+        return '<label ' . $this->attributes($label_attr) . '><span class="field_text">' . $data['label'] . '</span></label>';
     }
 }

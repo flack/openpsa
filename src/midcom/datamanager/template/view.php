@@ -69,9 +69,7 @@ class view extends base
             if (    array_key_exists('end_fieldset', $child->vars)
                 && $child->vars['end_fieldset'] !== null) {
                 $end_fieldsets = max(1, (int) $child->vars['end_fieldset']);
-                for ($i = 0; $i < $end_fieldsets; $i++) {
-                    $string .= '</div>';
-                }
+                $string .= str_repeat('</div>', $end_fieldsets);
             }
         }
         return $string;
@@ -126,7 +124,7 @@ class view extends base
         if (!$data['label']) {
             $data['label'] = $data['name'];
         }
-        return '<div' . $this->attributes($label_attr) . '>' . $this->renderer->humanize($data['label']) . '</div>';
+        return '<div ' . $this->attributes($label_attr) . '>' . $this->renderer->humanize($data['label']) . '</div>';
     }
 
     public function subform_widget(FormView $view, array $data)
@@ -134,7 +132,7 @@ class view extends base
         if (empty($view->vars['data'])) {
             return '';
         }
-        $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        $string = '<div ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= $this->renderer->block($view, 'form_rows');
         $string .= $this->renderer->rest($view);
         return $string . '</div>';

@@ -41,7 +41,7 @@ abstract class base
 
     public function form_widget_compound(FormView $view, array $data)
     {
-        $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        $string = '<div ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         if (!$view->parent && $data['errors']) {
             $string .= $this->renderer->errors($view);
         }
@@ -119,7 +119,7 @@ abstract class base
 
     public function attributes(array $attributes, $autoescape = false)
     {
-        $string = '';
+        $rendered = [];
         foreach ($attributes as $name => $value) {
             if ($value === false) {
                 continue;
@@ -130,16 +130,13 @@ abstract class base
             if ($autoescape) {
                 $value = $this->escape($value);
             }
-            $string .= sprintf(' %s="%s"', $name, $value);
+            $rendered[] = sprintf('%s="%s"', $name, $value);
         }
-        return $string;
+        return implode(' ', $rendered);
     }
 
     public function jsinit($code)
     {
-        $string = '<script type="text/javascript">';
-        $string .= '$(document).ready(function(){';
-        $string .= $code . '});';
-        return $string . '</script>';
+        return "<script>\$(document).ready(function() { $code });</script>";
     }
 }
