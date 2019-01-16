@@ -444,7 +444,7 @@ class midcom_config implements ArrayAccess
         'metadata_lock_timeout' => 60,    // Time in minutes
         'staging2live_staging' => false,
 
-        // Set the DM2 schema used by the Metadata Service
+        // Set the datamanager schema used by the Metadata Service
         'metadata_schema' => 'file:/midcom/config/metadata_default.inc',
 
         // Map MidCOM metadata properties to HTML meta tags

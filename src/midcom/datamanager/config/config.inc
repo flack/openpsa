@@ -116,7 +116,7 @@
          *
          * DEVELOPERS: If you change these defaults remember to bump DefinitionRev
          */
-        'DefinitionID' => 'DM2 Default definition set',
+        'DefinitionID' => 'Datamanager Default definition set',
         'DefinitionRev' => 3,
         /* NOTE: You must use transitional doctype if you want to use <a name> (see html_purify_HTMLDefinition below) */
         'Doctype' => 'XHTML 1.0 Transitional',

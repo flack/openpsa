@@ -129,7 +129,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
     }
 
     /**
-     * Go trough DM2 types array for attachments
+     * Go trough datamanager types array for attachments
      *
      * @return array
      */

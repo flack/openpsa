@@ -60,7 +60,7 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
             $this->_topic->require_do('midgard.admin.asgard:topic_management');
         }
 
-        // Load the DM2 controller instance
+        // Load the controller instance
         $this->_controller = datamanager::from_schemadb(midcom::get()->config->get('metadata_schema'))
             ->set_storage($this->_object, 'metadata')
             ->get_controller();

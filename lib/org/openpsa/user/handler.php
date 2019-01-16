@@ -16,7 +16,7 @@ use midcom\datamanager\storage\container\container;
 trait org_openpsa_user_handler
 {
     /**
-     * Create account based on data from DM2
+     * Create account based on data from datamanager
      *
      * @param midcom_db_person $person The person we're working on
      * @param container $formdata The form data

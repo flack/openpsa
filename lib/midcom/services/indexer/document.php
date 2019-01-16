@@ -672,7 +672,7 @@ class midcom_services_indexer_document
      */
     private function read_authorname($id)
     {
-        // Check for imploded_wrapped DM2 select storage.
+        // Check for imploded_wrapped datamanager storage.
         if (strpos($id, '|') !== false) {
             $id_arr = array_filter(explode('|', $id));
             // Find first non-empty value in the array and use that

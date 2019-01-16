@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Helper class for constructing simple formmailers for embedding directly into a page.
  *
- * Available form fields can be controlled by a DM2 schema
+ * Available form fields can be controlled by a datamanager schema
  *
  * Example:
  * <code>

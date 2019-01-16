@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_handler
 {
     /**
-     * DM2 controller instance
+     * Controller instance
      *
      * @var controller
      */
