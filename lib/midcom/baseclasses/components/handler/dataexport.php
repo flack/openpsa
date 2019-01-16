@@ -138,9 +138,10 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                 $row[] = $title;
             }
         }
-        $this->_print_row($row);
+        $output = fopen("php://output", 'w');
+        $this->_print_row($row, $output);
 
-        $this->_dump_rows();
+        $this->_dump_rows($output);
 
         if ($this->include_totals) {
             $row = [];
@@ -153,8 +154,9 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                     $row[] = $value;
                 }
             }
-            $this->_print_row($row);
+            $this->_print_row($row, $output);
         }
+        fclose($output);
         // restart ob to keep MidCOM happy
         ob_start();
     }
@@ -178,18 +180,18 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
     }
 
-    private function _dump_rows()
+    private function _dump_rows($output)
     {
         reset($this->_datamanagers);
         $first_type = key($this->_datamanagers);
         // Output each row
         foreach ($this->_rows as $num => $row) {
-            $output = [];
+            $data = [];
             foreach ($this->_datamanagers as $type => $datamanager) {
                 if (!array_key_exists($type, $row)) {
                     debug_add("row #{$num} does not have {$type} set", MIDCOM_LOG_INFO);
-                    $target_size = count($datamanager->get_schema($this->schemas[$type])->get('fields')) + count($output);
-                    $output = array_pad($output, $target_size, '');
+                    $target_size = count($datamanager->get_schema($this->schemas[$type])->get('fields')) + count($data);
+                    $data = array_pad($data, $target_size, '');
                     continue;
                 }
                 $object =& $row[$type];
@@ -198,7 +200,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
                 if (   $this->include_guid
                     && $type == $first_type) {
-                    $output[] = $object->guid;
+                    $data[] = $object->guid;
                 }
 
                 $csvdata = $datamanager->get_content_csv();
@@ -207,19 +209,17 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                         && $config['type'] == 'number') {
                         $this->_totals[$type . '-' . $fieldname] += $csvdata[$fieldname];
                     }
-                    $output[] = $csvdata[$fieldname];
+                    $data[] = $csvdata[$fieldname];
                 }
             }
-            $this->_print_row($output);
+            $this->_print_row($data, $output);
         }
     }
 
-    private function _print_row(array $row)
+    private function _print_row(array $row, $output)
     {
         $row = array_map([$this, 'encode_csv'], $row);
-        echo implode($this->csv['s'], $row);
-        echo $this->csv['nl'];
-        flush();
+        fputcsv($output, $row, $this->csv['s'], $this->csv['q']);
     }
 
     private function _init_csv_variables()
@@ -227,14 +227,9 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         // FIXME: Use global configuration
         $this->csv['s'] = $this->_config->get('csv_export_separator') ?: ';';
         $this->csv['q'] = $this->_config->get('csv_export_quote') ?: '"';
-        if (empty($this->csv['d'])) {
-            $this->csv['d'] = $this->_l10n_midcom->get('decimal point');
-        }
-        if ($this->csv['s'] == $this->csv['d']) {
-            throw new midcom_error("CSV decimal separator (configured as '{$this->csv['d']}') may not be the same as field separator (configured as '{$this->csv['s']}')");
-        }
-        $this->csv['nl'] = $this->_config->get('csv_export_newline') ?: "\n";
+        $this->csv['mimetype'] = $this->_config->get('csv_export_content_type') ?: 'application/csv';
         $this->csv['charset'] = $this->_config->get('csv_export_charset');
+
         if (empty($this->csv['charset'])) {
             // Default to ISO-LATIN-15 (Latin-1 with EURO sign etc)
             $this->csv['charset'] = 'ISO-8859-15';
@@ -244,7 +239,6 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                 $this->csv['charset'] = 'UTF-8';
             }
         }
-        $this->csv['mimetype'] = $this->_config->get('csv_export_content_type') ?: 'application/csv';
     }
 
     private function encode_csv($data)
@@ -258,23 +252,6 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             }
         }
         /* END: Quick'n'Dirty on-the-fly charset conversion */
-
-        if (is_numeric($data)) {
-            // Decimal point format
-            $data = str_replace('.', $this->csv['d'], $data);
-        }
-
-        // Strings and numbers beginning with zero are quoted
-        if (   !empty($data)
-            && (   !is_numeric($data)
-                || preg_match('/^[0+]/', $data))) {
-            // Make sure we have only newlines in data
-            $data = preg_replace("/\n\r|\r\n|\r/", "\n", $data);
-            // Escape quotes (PONDER: make configurable between doubling the character and escaping)
-            $data = str_replace($this->csv['q'], $this->csv['q'] . $this->csv['q'], $data);
-            // Quote
-            $data = "{$this->csv['q']}{$data}{$this->csv['q']}";
-        }
 
         return $data;
     }

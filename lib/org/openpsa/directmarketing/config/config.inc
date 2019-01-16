@@ -10,7 +10,6 @@
 'csv_export_memberships' => 'first', // Valid values 'first', 'last' and 'all', controls what membership/group data is exported, experiment.
 'csv_export_separator' => ';',
 'csv_export_quote' => '"',
-'csv_export_newline' => "\n",
 'csv_export_content_type' => 'application/csv',
 'csv_import_check_duplicates' => true,
 'navi_order' => 'ASC',
