@@ -16,6 +16,7 @@ use midcom;
 use midcom_error;
 use midcom_helper_nav;
 use midcom_services_indexer_client;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Redinex command
@@ -32,16 +33,17 @@ class reindex extends Command
     protected function configure()
     {
         $this->setName('midcom:reindex')
-            ->setDescription('Reindex');
+            ->setDescription('Reindex')
+            ->addOption('nodeid', null, InputOption::VALUE_OPTIONAL, 'Start node (root if empty)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (empty($input->getParameterOption(['--servername', '-s'], null))) {
-            throw new midcom_error('Please specify host name (with --servername or -s)');
-        }
         if (midcom::get()->config->get('indexer_backend') === false) {
             throw new midcom_error('No indexer backend has been defined. Aborting.');
+        }
+        if (empty($input->getParameterOption(['--servername', '-s'], null))) {
+            throw new midcom_error('Please specify host name (with --servername or -s)');
         }
 
         $dialog = $this->getHelperSet()->get('question');
@@ -57,22 +59,22 @@ class reindex extends Command
 
         $nap = new midcom_helper_nav();
         $nodes = [];
-        $nodeid = $nap->get_root_node();
-
-        $output->writeln('Dropping the index...');
-        midcom::get()->indexer->delete_all();
+        $nodeid = $input->getOption('nodeid') ?: $nap->get_root_node();
 
         while ($nodeid !== null) {
             // Reindex the node...
             $node = $nap->get_node($nodeid);
 
-            $output->writeln("Processing Node {$node[MIDCOM_NAV_FULLURL]}...");
+            $output->write("Processing Node {$node[MIDCOM_NAV_FULLURL]}...");
+            if (!midcom::get()->indexer->delete_all("__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}")) {
+                $output->writeln("\n<error>Failed to remove documents from index.</error>");
+            }
             $interface = midcom::get()->componentloader->get_interface_class($node[MIDCOM_NAV_COMPONENT]);
             $stat = $interface->reindex($node[MIDCOM_NAV_OBJECT]);
             if (is_a($stat, midcom_services_indexer_client::class)) {
                 $stat->reindex();
             } elseif ($stat === false) {
-                $output->writeln("<error>Failed to reindex the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.</error>");
+                $output->writeln("\n<error>Failed to reindex the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.</error>");
             }
 
             // Retrieve all child nodes and append them to $nodes:
@@ -82,6 +84,7 @@ class reindex extends Command
             }
             $nodes = array_merge($nodes, $children);
             $nodeid = array_shift($nodes);
+            $output->writeln("Done");
         }
 
         $output->writeln('Reindex complete');
