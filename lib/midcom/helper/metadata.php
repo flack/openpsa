@@ -86,13 +86,6 @@ class midcom_helper_metadata
      */
     private $_cache = [];
 
-    /**
-     * Datamanager instance for the given object.
-     *
-     * @var datamanager
-     */
-    private $_datamanager;
-
     private $field_config = [
         'readonly' => ['creator', 'created', 'revisor', 'revised', 'locker', 'locked', 'revision', 'size', 'deleted', 'exported', 'imported'],
         'timebased' => ['created', 'revised', 'published', 'locked', 'approved', 'schedulestart', 'scheduleend', 'exported', 'imported'],
@@ -162,19 +155,6 @@ class midcom_helper_metadata
      */
     public function get_datamanager()
     {
-        if ($this->_datamanager === null) {
-            $this->load_datamanager();
-        }
-
-        return $this->_datamanager;
-    }
-
-    /**
-     * Loads the datamanager for this instance. This will patch the schema in case we
-     * are dealing with an article.
-     */
-    private function load_datamanager()
-    {
         $schemadb = schemadb::from_path(midcom::get()->config->get('metadata_schema'));
 
         // Check if we have metadata schema defined in the schemadb specific for the object's schema or component
@@ -189,15 +169,8 @@ class midcom_helper_metadata
                 $object_schema = 'metadata';
             }
         }
-        $this->_datamanager = new datamanager($schemadb);
-        $this->_datamanager->set_storage($this->__object, $object_schema);
-    }
-
-    public function release_datamanager()
-    {
-        if ($this->_datamanager !== null) {
-            $this->_datamanager = null;
-        }
+        $dm = new datamanager($schemadb);
+        return $dm->set_storage($this->__object, $object_schema);
     }
 
     /**

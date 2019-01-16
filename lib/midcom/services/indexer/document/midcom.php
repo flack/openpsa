@@ -79,7 +79,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
     private function _process_metadata()
     {
         $this->read_metadata_from_object($this->_metadata->object);
-        $metadata = $this->_metadata->get_datamanager()->get_content_html();
+        $metadata = $this->read_metadata();
         foreach ($metadata as $key => $value) {
             switch ($key) {
                 /**
@@ -100,7 +100,21 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
                     break;
             }
         }
-        $this->_metadata->release_datamanager();
+    }
+
+    /**
+     * Usually, documents are processed in batches, and constructing the dm for each
+     * document is pretty wasteful, so we keep the instance around and reuse it
+     *
+     * @return array
+     */
+    private function read_metadata()
+    {
+        static $meta_dm;
+        if ($meta_dm === null) {
+            $meta_dm = $this->_metadata->get_datamanager();
+        }
+        return $meta_dm->set_storage($this->_metadata->object)->get_content_html();
     }
 
     /**
