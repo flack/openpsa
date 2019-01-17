@@ -17,6 +17,7 @@ use midcom\console\command\purgedeleted;
 use midcom\console\command\blobdircleanup;
 use midcom\console\command\repligard;
 use midcom\console\command\reindex;
+use midcom\console\command\cron;
 
 /**
  * OpenPSA CLI command runner
@@ -118,6 +119,7 @@ class application extends base_application
         $this->add(new repligard);
         $this->add(new blobdircleanup);
         $this->add(new reindex);
+        $this->add(new cron);
     }
 
     private function _process_dir($exec_dir, $component)
