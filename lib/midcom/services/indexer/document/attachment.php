@@ -297,7 +297,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         }
         $content = fread($handle, $max);
         if ($close) {
-            fclose($handle);
+            $this->attachment->close();
         }
         return $content;
     }
@@ -317,7 +317,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         $out = fopen($tmpname, 'w');
         stream_copy_to_stream($in, $out);
         fclose($out);
-        fclose($in);
+        $this->attachment->close();
         return $tmpname;
     }
 }

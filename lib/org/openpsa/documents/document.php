@@ -227,7 +227,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
             stream_copy_to_stream($original_handle, $backup_handle);
 
-            fclose($original_handle);
+            $original_attachment->close();
 
             // Copy attachment parameters
             if ($params = $original_attachment->list_parameters()) {

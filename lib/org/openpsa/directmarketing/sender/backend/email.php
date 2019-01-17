@@ -153,7 +153,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
                 /* PONDER: Should we cache the content somehow so that we only need to read it once per request ??
                  We would save some file opens at the expense of keeping the contents in memory (potentially very expensive) */
                 $att['content'] = stream_get_contents($fp);
-                fclose($fp);
+                $attachment->close();
                 debug_add("adding attachment '{$attachment->name}' from field '{$field}' to attachments array");
                 $attachments[] = $att;
             }
