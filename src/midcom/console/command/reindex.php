@@ -65,7 +65,7 @@ class reindex extends Command
             // Reindex the node...
             $node = $nap->get_node($nodeid);
 
-            $output->write("Processing Node {$node[MIDCOM_NAV_FULLURL]}...");
+            $output->write("Processing Node #$nodeid, {$node[MIDCOM_NAV_FULLURL]}...");
             if (!midcom::get()->indexer->delete_all("__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}")) {
                 $output->writeln("\n<error>Failed to remove documents from index.</error>");
             }
