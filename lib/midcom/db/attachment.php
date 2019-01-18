@@ -91,6 +91,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         if (!$handle) {
             debug_add("Failed to open attachment with mode {$mode}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+            return false;
         }
 
         $this->_open_write_mode = ($mode{0} != 'r');
