@@ -18,6 +18,7 @@ use midcom\console\command\blobdircleanup;
 use midcom\console\command\repligard;
 use midcom\console\command\reindex;
 use midcom\console\command\cron;
+use midcom;
 
 /**
  * OpenPSA CLI command runner
@@ -29,7 +30,7 @@ class application extends base_application
     /**
      * @inheritDoc
      */
-    public function __construct($name = 'midcom\console', $version = '9.1+git')
+    public function __construct($name = 'midcom\console', $version = midcom::VERSION)
     {
         parent::__construct($name, $version);
 

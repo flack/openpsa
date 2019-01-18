@@ -18,7 +18,7 @@ class midcom
      *
      * @var string
      */
-    private static $_version = '9.5.0+git';
+    const VERSION = '9.5.0+git';
 
     /**
      * Main application singleton
@@ -119,10 +119,5 @@ class midcom
             self::$_services[$name] = new $service_class;
         }
         return self::$_services[$name];
-    }
-
-    public static function get_version()
-    {
-        return self::$_version;
     }
 }

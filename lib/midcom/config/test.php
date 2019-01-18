@@ -194,7 +194,7 @@ class midcom_config_test
     {
         echo '<table>';
 
-        $this->print_section('MidCOM ' . midcom::get_version(), $this->messages['midcom']);
+        $this->print_section('MidCOM ' . midcom::VERSION, $this->messages['midcom']);
         $this->print_section($_SERVER['SERVER_SOFTWARE'], $this->messages['php']);
         $this->print_section('External Utilities', $this->messages['external']);
 
