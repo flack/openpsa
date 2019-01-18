@@ -126,8 +126,8 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
             $this->content .= "\n{$this->attachment->name}";
         }
 
-        if (strlen($this->content) > 200) {
-            $this->abstract = substr($this->content, 0, 200) . ' ...';
+        if (mb_strlen($this->content) > 200) {
+            $this->abstract = mb_substr($this->content, 0, 200) . ' ...';
         } else {
             $this->abstract = $this->content;
         }
