@@ -23,7 +23,7 @@ class org_openpsa_projects_midcom_indexer extends client
         if (is_a($object, org_openpsa_projects_task_dba::class)) {
             $values = $dm->get_content_html();
             $document->abstract = $values['start'] . ' - ' . $values['end'] . ', ' . $values['status'];
-            $document->abstract .= ' ' . substr($values['description'], 0, 200);
+            $document->abstract .= ' ' . mb_substr($values['description'], 0, 200);
         }
     }
 }

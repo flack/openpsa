@@ -210,8 +210,8 @@ class document extends midcom_services_indexer_document_midcom
 
         if ($this->abstract == '') {
             $this->abstract = $this->html2text($this->content);
-            if (strlen($this->abstract) > 200) {
-                $this->abstract = substr($this->abstract, 0, 200) . ' ...';
+            if (mb_strlen($this->abstract) > 200) {
+                $this->abstract = mb_substr($this->abstract, 0, 200) . ' ...';
             }
         }
     }

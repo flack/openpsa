@@ -65,7 +65,7 @@ $body_class = " class='{$data['body_class']}'";
                 // Mangle long words to avoid them blowing up the report
                 foreach ($target_label_parts as $part) {
                     if (strlen($part) > 30) {
-                        $part = "<span title='{$part}'>" . substr($part, 0, 12) . '...' . substr($part, -12) . '</span>';
+                        $part = "<span title='{$part}'>" . mb_substr($part, 0, 12) . '...' . mb_substr($part, -12) . '</span>';
                     }
                     $target_label_new .= $part . ' ';
                 }

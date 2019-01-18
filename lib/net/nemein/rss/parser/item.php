@@ -30,7 +30,7 @@ class net_nemein_rss_parser_item extends SimplePie_Item
             $date = $this->get_date('U');
             if (!empty($description)) {
                 // Use 20 first characters from the description as title
-                $title = substr(strip_tags($this->_decode($description)), 0, 20) . '...';
+                $title = mb_substr(strip_tags($this->_decode($description)), 0, 20) . '...';
             } elseif (!empty($date)) {
                 // Use publication date as title
                 $title = $l10n->get_formatter()->date($date);
