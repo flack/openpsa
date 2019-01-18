@@ -34,8 +34,6 @@ class application extends base_application
         parent::__construct($name, $version);
 
         $this->getDefinition()
-            ->addOption(new InputOption('--config', '-c', InputOption::VALUE_REQUIRED, 'Config name (mgd2 only)'));
-        $this->getDefinition()
             ->addOption(new InputOption('--servername', '-s', InputOption::VALUE_REQUIRED, 'HTTP server name', 'localhost'));
         $this->getDefinition()
             ->addOption(new InputOption('--port', '-p', InputOption::VALUE_REQUIRED, 'HTTP server port', '80'));
