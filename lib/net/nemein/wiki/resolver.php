@@ -133,7 +133,7 @@ class net_nemein_wiki_resolver
             $folder_tree = $this->_resolve_folder_tree($force_as_root);
         }
 
-        if (substr($path, 0, 1) != '/') {
+        if ($path[0] != '/') {
             // This is a relative path, expand to full path
             foreach ($folder_tree as $prefix => $folder) {
                 if ($folder[MIDCOM_NAV_ID] == $this->_topic) {

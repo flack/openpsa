@@ -293,7 +293,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         for ($i = 0; $i < $max_tries; $i++) {
             $name = strtolower(md5(uniqid('', true)));
-            $location = strtoupper(substr($name, 0, 1) . '/' . substr($name, 1, 1) . '/') . $name;
+            $location = strtoupper($name[0] . '/' . $name[1]) . '/' . $name;
 
             // Check uniqueness
             $qb = self::new_query_builder();

@@ -34,7 +34,7 @@ abstract class midcom_helper_exporter
         $fields = midcom_helper_reflector::get_object_fieldnames($object);
 
         foreach ($fields as $key) {
-            if (substr($key, 0, 1) == '_') {
+            if ($key[0] == '_') {
                 // Remove private fields
                 continue;
             }
@@ -60,7 +60,7 @@ abstract class midcom_helper_exporter
         $fields = midcom_helper_reflector::get_object_fieldnames($object);
         foreach ($fields as $field_name) {
             // skip private fields.
-            if (substr($field_name, 0, 1) == '_') {
+            if ($field_name[0] == '_') {
                 continue;
             }
 

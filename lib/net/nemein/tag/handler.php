@@ -485,11 +485,12 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $tags = [];
         $current_tag = '';
         $quote_open = false;
-        for ($i = 0; $i < (strlen($tags_string) + 1); $i++) {
-            $char = substr($tags_string, $i, 1);
+        $strlen = strlen($tags_string);
+        for ($i = 0; $i < $strlen; $i++) {
+            $char = $tags_string[$i];
             if (   (   $char == ' '
                     && !$quote_open)
-                || $i == strlen($tags_string)) {
+                || $i == $strlen) {
                 $tags[] = $current_tag;
                 $current_tag = '';
                 continue;

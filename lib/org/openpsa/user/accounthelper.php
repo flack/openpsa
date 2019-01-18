@@ -344,7 +344,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         for ($i = 0; $i < strlen($password); $i++) {
             $repeated = true;
             for ($j = 0; $j < $plen && ($j + $i + $plen) < strlen($password); $j++) {
-                if (   (substr($password, $j + $i, 1) == substr($password, $j + $i + $plen, 1))
+                if (   $password[$j + $i] == $password[$j + $i + $plen]
                     && $repeated) {
                         $repeated = true;
                     } else {
@@ -357,7 +357,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             if ($repeated) {
                 $i += $plen - 1;
             } else {
-                $result .= substr($password, $i, 1);
+                $result .= $password[$i];
             }
         }
         return $result;
