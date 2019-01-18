@@ -63,8 +63,9 @@ class midcom_services_indexer_solrDocumentFactory
             $field_record = $document->get_field_record($field_name);
             $field = $this->xml->createElement('field');
             $field->setAttribute('name', $field_record['name']);
-            // Escape entities etc to prevent Solr from throwing a hissy fit
-            $field->nodeValue = htmlspecialchars($field_record['content']);
+            // remove control characters (except \n)
+            $value = preg_replace('/[\x00-\x09\x0B-\x1F\x7F]/', '', $field_record['content']);
+            $field->appendChild($this->xml->createCDATASection($value));
             $element->appendChild($field);
         }
     }
