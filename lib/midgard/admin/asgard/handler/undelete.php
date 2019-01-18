@@ -37,10 +37,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
         $data['types'] = [];
         foreach (midcom_connection::get_schema_types() as $type) {
-            if (substr($type, 0, 2) == '__') {
-                continue;
-            }
-
             // Objects that don't have metadata should not be shown in trash.
             if (!midgard_reflector_object::has_metadata_class($type)) {
                 debug_add("{$type} has no metadata, skipping");

@@ -461,10 +461,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $root_classes = [];
         $types = array_diff(midcom_connection::get_schema_types(), $root_exceptions_notroot);
         foreach ($types as $schema_type) {
-            if (substr($schema_type, 0, 2) == '__') {
-                continue;
-            }
-
             // Class extensions mapping
             $schema_type = midcom_helper_reflector::class_rewrite($schema_type);
 
