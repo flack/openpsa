@@ -115,7 +115,8 @@ class midcom_services_indexer implements EventSubscriberInterface
             return true;
         }
 
-        if (!is_array($documents)) {
+        $batch = is_array($documents);
+        if (!$batch) {
             $documents = [$documents];
         }
         if (empty($documents)) {
@@ -131,6 +132,9 @@ class midcom_services_indexer implements EventSubscriberInterface
             $this->_backend->index($documents);
             return true;
         } catch (Exception $e) {
+            if ($batch) {
+                throw $e;
+            }
             debug_add("Indexing error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
             return false;
         }

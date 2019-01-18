@@ -17,6 +17,8 @@ use midcom_error;
 use midcom_helper_nav;
 use midcom_services_indexer_client;
 use Symfony\Component\Console\Input\InputOption;
+use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Redinex command
@@ -72,7 +74,13 @@ class reindex extends Command
             $interface = midcom::get()->componentloader->get_interface_class($node[MIDCOM_NAV_COMPONENT]);
             $stat = $interface->reindex($node[MIDCOM_NAV_OBJECT]);
             if (is_a($stat, midcom_services_indexer_client::class)) {
-                $stat->reindex();
+                try {
+                    $stat->reindex();
+                } catch (RequestException $e) {
+                    $crawler = new Crawler($e->getResponse()->getBody()->getContents());
+                    $body = $crawler->filter('body')->html();
+                    $output->writeln("\n<error>" . strip_tags($body) . '</error>');
+                }
             } elseif ($stat === false) {
                 $output->writeln("\n<error>Failed to reindex the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.</error>");
             }
