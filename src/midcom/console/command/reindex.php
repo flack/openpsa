@@ -11,7 +11,6 @@ namespace midcom\console\command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 use midcom;
 use midcom_error;
 use midcom_helper_nav;
@@ -19,6 +18,7 @@ use midcom_services_indexer_client;
 use Symfony\Component\Console\Input\InputOption;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\DomCrawler\Crawler;
+use midcom\console\loginhelper;
 
 /**
  * Redinex command
@@ -32,36 +32,34 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class reindex extends Command
 {
+    use loginhelper;
+
     protected function configure()
     {
         $this->setName('midcom:reindex')
             ->setDescription('Reindex')
-            ->addOption('nodeid', 'n', InputOption::VALUE_OPTIONAL, 'Start node (root if empty)');
+            ->addOption('id', 'i', InputOption::VALUE_OPTIONAL, 'Start node (root if empty)');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output)
     {
         if (midcom::get()->config->get('indexer_backend') === false) {
             throw new midcom_error('No indexer backend has been defined. Aborting.');
         }
+
         if (empty($input->getParameterOption(['--servername', '-s'], null))) {
             throw new midcom_error('Please specify host name (with --servername or -s)');
         }
 
         $dialog = $this->getHelperSet()->get('question');
-        $username = $dialog->ask($input, $output, new Question('<question>Username:</question> '));
-        $pw_question = new Question('<question>Password:</question> ');
-        $pw_question->setHidden(true);
-        $pw_question->setHiddenFallback(false);
-        $password = $dialog->ask($input, $output, $pw_question);
-        if (!midcom::get()->auth->login($username, $password)) {
-            throw new \RuntimeException('Login failed');
-        }
-        midcom::get()->auth->require_admin_user();
+        $this->require_admin($dialog, $input, $output);
+    }
 
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $nap = new midcom_helper_nav();
         $nodes = [];
-        $nodeid = $input->getOption('nodeid') ?: $nap->get_root_node();
+        $nodeid = $input->getOption('id') ?: $nap->get_root_node();
 
         while ($nodeid !== null) {
             // Reindex the node...
@@ -77,9 +75,13 @@ class reindex extends Command
                 try {
                     $stat->reindex();
                 } catch (RequestException $e) {
-                    $crawler = new Crawler($e->getResponse()->getBody()->getContents());
-                    $body = $crawler->filter('body')->html();
-                    $output->writeln("\n<error>" . strip_tags($body) . '</error>');
+                    if ($e->hasResponse()) {
+                        $crawler = new Crawler($e->getResponse()->getBody()->getContents());
+                        $body = $crawler->filter('body')->html();
+                        $output->writeln("\n<error>" . strip_tags($body) . '</error>');
+                    } else {
+                        $output->writeln("\n<error>" . $e->getMessage() . '</error>');
+                    }
                 }
             } elseif ($stat === false) {
                 $output->writeln("\n<error>Failed to reindex the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.</error>");

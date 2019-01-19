@@ -12,7 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
+use midcom\console\loginhelper;
 
 /**
  * Purge deleted objects
@@ -21,6 +21,8 @@ use Symfony\Component\Console\Question\Question;
  */
 class purgedeleted extends Command
 {
+    use loginhelper;
+
     protected function configure()
     {
         $config = new \midcom_config;
@@ -30,19 +32,14 @@ class purgedeleted extends Command
             ->addOption('chunksize', 'c', InputOption::VALUE_REQUIRED, 'Maximum number of objects purged per class at once (use 0 to disable limit)', '50');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getHelperSet()->get('question');
-        $username = $dialog->ask($input, $output, new Question('<question>Username:</question> '));
-        $pw_question = new Question('<question>Password:</question> ');
-        $pw_question->setHidden(true);
-        $pw_question->setHiddenFallback(false);
-        $password = $dialog->ask($input, $output, $pw_question);
-        if (!\midcom::get()->auth->login($username, $password)) {
-            throw new \RuntimeException('Login failed');
-        }
-        \midcom::get()->auth->require_admin_user();
+        $this->require_admin($dialog, $input, $output);
+    }
 
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $handler = new \midcom_cron_purgedeleted;
         $handler->set_cutoff((int) $input->getOption('days'));
         $chunk_size = (int) $input->getOption('chunksize');

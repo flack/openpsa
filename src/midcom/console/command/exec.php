@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
+use midcom\console\loginhelper;
 
 /**
  * CLI wrapper for midcom-exec calls
@@ -22,6 +22,8 @@ use Symfony\Component\Console\Question\Question;
  */
 class exec extends Command
 {
+    use loginhelper;
+
     private $_component;
 
     private $_filename;
@@ -35,6 +37,14 @@ class exec extends Command
         $this->setDescription('Run midcom-exec script ' . $this->_filename)
             ->addArgument('get', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Additional GET parameters (key=value pairs, space-separated)')
             ->addOption('login', 'l', InputOption::VALUE_NONE, 'Use Midgard authorization');
+    }
+
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        if ($input->getOption('login')) {
+            $dialog = $this->getHelperSet()->get('question');
+            $this->login($dialog, $input, $output);
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -56,17 +66,6 @@ class exec extends Command
 
         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
             $output->writeln('Running ' . $this->_component . '/' . $this->_filename);
-        }
-        if ($input->getOption('login')) {
-            $dialog = $this->getHelperSet()->get('question');
-            $username = $dialog->ask($input, $output, new Question('<question>Username:</question> '));
-            $pw_question = new Question('<question>Password:</question> ');
-            $pw_question->setHidden(true);
-            $pw_question->setHiddenFallback(false);
-            $password = $dialog->ask($input, $output, $pw_question);
-            if (!\midcom::get()->auth->login($username, $password)) {
-                throw new \RuntimeException('Login failed');
-            }
         }
         \midcom::get()->auth->request_sudo($this->_component);
 
