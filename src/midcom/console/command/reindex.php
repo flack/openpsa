@@ -36,7 +36,7 @@ class reindex extends Command
     {
         $this->setName('midcom:reindex')
             ->setDescription('Reindex')
-            ->addOption('nodeid', null, InputOption::VALUE_OPTIONAL, 'Start node (root if empty)');
+            ->addOption('nodeid', 'n', InputOption::VALUE_OPTIONAL, 'Start node (root if empty)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

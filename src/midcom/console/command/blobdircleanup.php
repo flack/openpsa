@@ -42,8 +42,7 @@ class blobdircleanup extends Command
     {
         $this->setName('midcom:blobdircleanup')
             ->setDescription('Cleanup the blobdir')
-            ->addOption('dir', null, InputOption::VALUE_OPTIONAL, 'The blobdir path', '')
-            ->addOption('dry', null, InputOption::VALUE_NONE, 'If set, files and attachments will not be deleted');
+            ->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files and attachments will not be deleted');
     }
 
     public function check_dir($outerDir)
@@ -78,7 +77,7 @@ class blobdircleanup extends Command
         $qb = \midcom_db_attachment::new_query_builder();
         $qb->add_constraint("location", "=", $location);
         $attachments = $qb->execute();
-        if (count($attachments) === 0) {
+        if (empty($attachments)) {
             return false;
         }
         if (count($attachments) === 1) {
@@ -115,10 +114,7 @@ class blobdircleanup extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dir = $input->getOption("dir");
-        if (empty($dir)) {
-            $dir = \midgard_connection::get_instance()->config->blobdir;
-        }
+        $dir = \midgard_connection::get_instance()->config->blobdir;
         if (!is_dir($dir)) {
             $output->writeln("<comment>Unable to detect blobdir</comment>");
             return;
