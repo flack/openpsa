@@ -10,9 +10,6 @@ namespace midcom\httpkernel;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use midcom;
-use midcom_connection;
-use midcom_error_forbidden;
-use midcom_error_notfound;
 use midcom_response_styled;
 use midcom_baseclasses_components_handler;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -24,6 +21,7 @@ use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpFoundation\RequestStack;
+use midcom\routing\resolver;
 
 /**
  * @package midcom.httpkernel
@@ -59,63 +57,15 @@ class kernel implements EventSubscriberInterface
     public function on_request(GetResponseEvent $event)
     {
         $request = $event->getRequest();
-        $context = $request->attributes->get('context');
-        $topic = $this->find_topic($context);
+        $resolver = new resolver($request);
 
-        $request->attributes->set('argv', $context->parser->argv);
-
-        // Get component interface class
-        $component_interface = midcom::get()->componentloader->get_interface_class($topic->component);
-        $viewer = $component_interface->get_viewer($topic);
-
-        // Make can_handle check
-        $result = $viewer->get_handler($request);
-        if (!$result) {
-            debug_add("Component {$topic->component} in {$topic->name} declared unable to handle request.", MIDCOM_LOG_INFO);
-
-            // We couldn't fetch a node due to access restrictions
-            if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED) {
-                throw new midcom_error_forbidden(midcom::get()->i18n->get_string('access denied', 'midcom'));
-            }
-            throw new midcom_error_notfound("This page is not available on this server.");
+        if ($response = $resolver->process_midcom()) {
+            $event->setResponse($response);
+            return;
         }
 
-        foreach ($result as $key => $value) {
-            if ($key === 'handler') {
-                $key = '_controller';
-                $value[1] = '_handler_' . $value[1];
-            } elseif ($key === '_route') {
-                $key = 'handler_id';
-            }
-            $request->attributes->set($key, $value);
-        }
+        $resolver->process_component();
         $request->attributes->set('data', '__request_data__');
-
-        $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
-        $viewer->handle();
-    }
-
-    /**
-     * @param \midcom_core_context $context
-     * @throws \midcom_error
-     * @return \midcom_db_topic
-     */
-    private function find_topic(\midcom_core_context $context)
-    {
-        do {
-            $topic = $context->parser->get_current_object();
-            if (empty($topic)) {
-                throw new \midcom_error('Root node missing.');
-            }
-        } while ($context->parser->get_object() !== false);
-
-        // Initialize context
-        $context->set_key(MIDCOM_CONTEXT_ANCHORPREFIX, $context->parser->get_url());
-        $context->set_key(MIDCOM_CONTEXT_COMPONENT, $topic->component);
-        $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $topic);
-        $context->set_key(MIDCOM_CONTEXT_URLTOPICS, $context->parser->get_objects());
-
-        return $topic;
     }
 
     public function on_arguments(FilterControllerArgumentsEvent $event)

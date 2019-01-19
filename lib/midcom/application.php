@@ -325,10 +325,6 @@ class midcom_application
      */
     private function _process(midcom_core_context $context, Request $request)
     {
-        $urlmethods = new midcom_core_urlmethods($context);
-        if ($response = $urlmethods->process()) {
-            return $response;
-        }
         $request->attributes->set('context', $context);
 
         return kernel::get()->handle($request);

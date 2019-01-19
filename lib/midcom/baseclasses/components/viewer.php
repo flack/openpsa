@@ -10,6 +10,7 @@ use midcom\routing\loader;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
+use midcom\routing\resolver;
 
 /**
  * Base class to encapsulate the component's routing, instantiated by the MidCOM
@@ -359,28 +360,11 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      */
     public function get_router($component = null)
     {
-        $loader = new loader;
-        $cache = true;
-        $resource = $this->_component;
-        if ($component) {
-            $resource = $component;
-        } elseif (!empty($this->_request_switch)) {
-            $resource = $this->_request_switch;
-            $cache = false;
+        if ($component === null) {
+            return resolver::get_router($this->_component, $this->_request_switch);
         }
-        if ($cache) {
-            $config = [
-                'cache_dir' => midcom::get()->config->get('cache_base_directory') . 'routing',
-                'matcher_cache_class' => 'loader__' . str_replace('.', '_', $resource),
-                'generator_cache_class' => 'generator__' . str_replace('.', '_', $resource)
-            ];
-        } else {
-            $config = [];
-        }
-
-        return new Router($loader, $resource, $config);
+        return resolver::get_router($component);
     }
-
 
     /**
      * Prepares the handler callback for execution.
