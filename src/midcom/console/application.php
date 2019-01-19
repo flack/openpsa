@@ -39,31 +39,18 @@ class application extends base_application
         $this->getDefinition()
             ->addOption(new InputOption('--port', '-p', InputOption::VALUE_REQUIRED, 'HTTP server port', '80'));
 
-        $this->_prepare_environment();
-        $this->_add_default_commands();
+        $this->add(new exec);
+        $this->add(new purgedeleted);
+        $this->add(new repligard);
+        $this->add(new blobdircleanup);
+        $this->add(new reindex);
+        $this->add(new cron);
     }
 
     /**
      * @inheritDoc
      */
     public function doRun(InputInterface $input, OutputInterface $output)
-    {
-        $_SERVER['SERVER_NAME'] = $input->getParameterOption(['--servername', '-s'], null);
-        $_SERVER['HTTP_HOST'] = $_SERVER['SERVER_NAME'];
-        $_SERVER['SERVER_PORT'] = $input->getParameterOption(['--port', '-p'], null);
-        $_SERVER['REMOTE_PORT'] = $_SERVER['SERVER_PORT'];
-
-        if ($_SERVER['SERVER_PORT'] == 443) {
-            $_SERVER['HTTPS'] = 'on';
-        }
-
-        // This makes sure that existing auth and cache instances get overridden
-        \midcom::init();
-
-        parent::doRun($input, $output);
-    }
-
-    private function _prepare_environment()
     {
         // we need the to register the mgdschema classes before starting midcom,
         if (!\midcom_connection::setup(OPENPSA_PROJECT_BASEDIR)) {
@@ -89,45 +76,29 @@ class application extends base_application
             define('OPENPSA2_PREFIX', '/');
         }
 
+        $port = $input->getParameterOption(['--port', '-p'], '80');
+        $servername = $input->getParameterOption(['--servername', '-s'], __FILE__);
+
         $server_defaults = [
-            'HTTP_HOST' => __FILE__,
-            'SERVER_NAME' => __FILE__,
+            'HTTP_HOST' => $servername,
+            'SERVER_NAME' => $servername,
             'SERVER_SOFTWARE' => __CLASS__,
             'HTTP_USER_AGENT' => $this->getName(),
-            'SERVER_PORT' => '80',
+            'SERVER_PORT' => $port,
             'REMOTE_ADDR' => '127.0.0.1',
             'REQUEST_URI' => '/',
             'REQUEST_TIME' => time(),
-            'REMOTE_PORT' => '80'
+            'REMOTE_PORT' => $port
         ];
         $_SERVER = array_merge($server_defaults, $_SERVER);
-    }
 
-    private function _add_default_commands()
-    {
-        $this->_process_dir(MIDCOM_ROOT . '/midcom/exec', 'midcom');
-
-        // we retrieve the manifests directly here, because we might get them
-        // from the wrong cache (--servername does not apply here yet)
-        $loader = new \midcom_helper__componentloader;
-        foreach ($loader->get_manifests(new \midcom_config) as $manifest) {
-            $exec_dir = dirname(dirname($manifest->filename)) . '/exec';
-            $this->_process_dir($exec_dir, $manifest->name);
+        if ($_SERVER['SERVER_PORT'] == 443) {
+            $_SERVER['HTTPS'] = 'on';
         }
-        $this->add(new purgedeleted);
-        $this->add(new repligard);
-        $this->add(new blobdircleanup);
-        $this->add(new reindex);
-        $this->add(new cron);
-    }
 
-    private function _process_dir($exec_dir, $component)
-    {
-        if (is_dir($exec_dir)) {
-            foreach (glob($exec_dir . '/*.php') as $file) {
-                $command = substr(basename($file), 0, -4);
-                $this->add(new exec($component . ':' . $command));
-            }
-        }
+        // This makes sure that existing auth and cache instances get overridden
+        midcom::init();
+
+        parent::doRun($input, $output);
     }
 }

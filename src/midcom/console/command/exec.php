@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use midcom\console\loginhelper;
+use midcom;
 
 /**
  * CLI wrapper for midcom-exec calls
@@ -24,17 +25,11 @@ class exec extends Command
 {
     use loginhelper;
 
-    private $_component;
-
-    private $_filename;
-
     protected function configure()
     {
-        $parts = explode(':', $this->getName());
-        $this->_component = $parts[0];
-        $this->_filename = $parts[1] . '.php';
-
-        $this->setDescription('Run midcom-exec script ' . $this->_filename)
+        $this->setName('midcom:exec')
+            ->setDescription('Runs a script in midcom context')
+            ->addArgument('file', InputArgument::OPTIONAL, 'The file to run (leave empty to list available files)')
             ->addArgument('get', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Additional GET parameters (key=value pairs, space-separated)')
             ->addOption('login', 'l', InputOption::VALUE_NONE, 'Use Midgard authorization');
     }
@@ -45,10 +40,6 @@ class exec extends Command
             $dialog = $this->getHelperSet()->get('question');
             $this->login($dialog, $input, $output);
         }
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
         $get = $input->getArgument('get');
 
         if (is_array($get)) {
@@ -63,18 +54,50 @@ class exec extends Command
                 }
             }
         }
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $file = $input->getArgument('file');
+
+        if (empty($file)) {
+            $this->list_files($output);
+            return;
+        }
+
+        if (!file_exists(OPENPSA_PROJECT_BASEDIR . $file)) {
+            throw new \midcom_error('File not found');
+        }
 
         if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-            $output->writeln('Running ' . $this->_component . '/' . $this->_filename);
+            $output->writeln('Running ' . $file);
         }
-        \midcom::get()->auth->request_sudo($this->_component);
 
-        $context = \midcom_core_context::get();
-        $context->parser = \midcom::get()->serviceloader->load('midcom_core_service_urlparser');
-        $context->parser->parse(['midcom-exec-' . $this->_component, $this->_filename]);
+        midcom::get()->auth->request_sudo('midcom.exec');
+        midcom::get()->cache->content->enable_live_mode();
 
-        $resolver = new \midcom_core_urlmethods($context);
-        $resolver->process();
-        \midcom::get()->auth->drop_sudo();
+        require OPENPSA_PROJECT_BASEDIR . $file;
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    private function list_files(OutputInterface $output)
+    {
+        $output->writeln("\n<comment>Available exec files:</comment>\n");
+
+        $loader = midcom::get()->componentloader;
+        foreach (array_keys($loader->manifests) as $name) {
+            $exec_dir = $loader->path_to_snippetpath($name) . '/exec';
+
+            if (is_dir($exec_dir)) {
+                foreach (glob($exec_dir . '/*.php') as $file) {
+                    $path = preg_replace('/^' . preg_quote(OPENPSA_PROJECT_BASEDIR, '/') . '/', '', $file);
+                    $parts = pathinfo($path);
+                    $path = '  <info>' . $parts['dirname'] . '/</info>' . $parts['filename'] . '<info>.' . $parts['extension'] . '</info>';
+
+                    $output->writeln($path);
+                }
+            }
+        }
     }
 }
