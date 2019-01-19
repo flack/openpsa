@@ -155,8 +155,10 @@ class datamanager
         } else {
             $this->storage = new storage\container\dbacontainer($this->schema, $storage, $defaults);
         }
-        if ($this->form !== null) {
+        if ($this->form !== null && !$this->form->isSubmitted()) {
             $this->form->setData($this->storage);
+        } else {
+            $this->form = null;
         }
 
         return $this;
