@@ -77,7 +77,13 @@ class exec extends Command
         midcom::get()->auth->request_sudo('midcom.exec');
         midcom::get()->cache->content->enable_live_mode();
 
-        require OPENPSA_PROJECT_BASEDIR . $file;
+        try {
+            require OPENPSA_PROJECT_BASEDIR . $file;
+        } catch (\midcom_error_forbidden $e) {
+            $dialog = $this->getHelperSet()->get('question');
+            $this->login($dialog, $input, $output);
+            require OPENPSA_PROJECT_BASEDIR . $file;
+        }
 
         midcom::get()->auth->drop_sudo();
     }
