@@ -162,9 +162,9 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
 
         $converters = [
             '/\x0a\x0d|\x0d\x0a|\x0d/' => "\n", // Convert various newlines to unix ones
-            "/<br\s*\\/?>/i", "\n", // convert <br/> tags to newlines
+            "/<br\s*\\/?>/i" => "\n", // convert <br/> tags to newlines
             "/[ \t\f]+$/m" => '', // Trim whitespace from end of lines
-            "/^[ \t\f]+/m", '', // Trim whitespace from beginning of lines
+            "/^[ \t\f]+/m" => '', // Trim whitespace from beginning of lines
             "/[ \t\f]+/" => ' ', // Convert multiple concurrent spaces to one
             "/\n{3,}/" => "\n\n", // Strip extra linebreaks
         ];
