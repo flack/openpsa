@@ -497,8 +497,8 @@ class midcom_services_auth
     /**
      * Validates that there is an authenticated user.
      *
-     * If this is not the case, the regular login page is shown automatically, see
-     * show_login_page() for details.
+     * If this is not the case, midcom_error_forbidden is thrown, or a
+     * basic auth challenge is triggered
      *
      * If the check is successful, the function returns silently.
      *
@@ -508,11 +508,10 @@ class midcom_services_auth
     {
         if (!$this->is_valid_user()) {
             debug_print_function_stack("require_valid_user called at this level");
-            if ($method == 'basic') {
-                $this->_http_basic_auth();
-            } else {
-                $this->show_login_page();
+            if ($method !== 'basic') {
+                throw new midcom_error_forbidden(null, MIDCOM_ERRAUTH);
             }
+            $this->_http_basic_auth();
             // This will exit.
         }
     }

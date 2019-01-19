@@ -123,8 +123,8 @@ class midcom_exception_handler
                 break;
 
             case MIDCOM_ERRAUTH:
-                $header = "HTTP/1.0 401 Unauthorized";
-                $title = "Unauthorized";
+                midcom::get()->auth->show_login_page();
+                // this will exit
                 break;
 
             case MIDCOM_ERRCRIT:
