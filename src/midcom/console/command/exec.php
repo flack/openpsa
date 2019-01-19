@@ -28,6 +28,7 @@ class exec extends Command
     protected function configure()
     {
         $this->setName('midcom:exec')
+            ->setAliases(['exec'])
             ->setDescription('Runs a script in midcom context')
             ->addArgument('file', InputArgument::OPTIONAL, 'The file to run (leave empty to list available files)')
             ->addArgument('get', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Additional GET parameters (key=value pairs, space-separated)')

@@ -37,6 +37,7 @@ class reindex extends Command
     protected function configure()
     {
         $this->setName('midcom:reindex')
+            ->setAliases(['reindex'])
             ->setDescription('Reindex')
             ->addOption('id', 'i', InputOption::VALUE_OPTIONAL, 'Start node (root if empty)');
     }

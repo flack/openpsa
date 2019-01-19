@@ -41,6 +41,7 @@ class blobdircleanup extends Command
     protected function configure()
     {
         $this->setName('midcom:blobdircleanup')
+            ->setAliases(['blobdircleanup'])
             ->setDescription('Cleanup the blobdir')
             ->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files and attachments will not be deleted');
     }

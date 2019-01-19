@@ -50,6 +50,7 @@ class cron extends Command
     protected function configure()
     {
         $this->setName('midcom:cron')
+            ->setAliases(['cron'])
             ->setDescription('Checks all component manifests for cron jobs and runs them sequentially')
             ->addArgument('type', InputArgument::OPTIONAL, 'Recurrence (minute, hour, or day)', 'minute')
             ->addOption('job', 'j', InputOption::VALUE_REQUIRED, 'Run only this job');

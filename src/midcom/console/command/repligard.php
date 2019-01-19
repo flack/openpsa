@@ -33,6 +33,7 @@ class repligard extends Command
     protected function configure()
     {
         $this->setName('midcom:repligard')
+            ->setAliases(['repligard'])
             ->setDescription('Clean up repligard table');
     }
 
