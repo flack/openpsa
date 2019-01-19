@@ -67,12 +67,10 @@
  * <code>
  * 'name' => 'net.nehmer.static',
  * 'purecode' => false,
- * 'version' => 1,
- * 'privileges' =>  Array
- * (
+ * 'privileges' =>  [
  *     'read' => MIDCOM_PRIVILEGE_ALLOW,
  *     'write' => [MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW]
- * ),
+ * ],
  * 'class_mapping' => ['mgdschema_classname' => 'midcom_classname'],
  * </code>
  *

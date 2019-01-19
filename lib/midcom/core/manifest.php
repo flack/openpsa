@@ -25,36 +25,27 @@
  * <code>
  * 'name' => 'net.nehmer.static',
  * 'purecode' => false,
- * 'version' => 15,
- * 'privileges' => Array
- * (
+ * 'privileges' => [
  *     'read' => MIDCOM_PRIVILEGE_ALLOW,
  *     'write' => [MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW]
- * ),
+ * ],
  * 'class_mapping' => ['mgdschema_classname' => 'midcom_classname'],
- * 'watches' => Array
- * (
- *     Array
- *     (
+ * 'watches' => [
+ *     [
  *         'classes' => null,
  *         'operations' => MIDCOM_OPERATION_DBA_UPDATE,
- *     ),
- *     Array
- *     (
- *         'classes' => Array
- *             (
+ *     ],
+ *     [
+ *         'classes' => [
  *                 'midcom_db_article',
  *                 'midcom_db_topic',
- *             ),
- *         'operations' =>
- *               MIDCOM_OPERATION_DBA_CREATE
- *             | MIDCOM_OPERATION_DBA_DELETE,
- *     ),
- * ),
- * 'customdata' => Array
- * (
+ *         ],
+ *         'operations' => MIDCOM_OPERATION_DBA_CREATE | MIDCOM_OPERATION_DBA_DELETE,
+ *     ],
+ * ],
+ * 'customdata' => [
  *     'componentname' => $config_array
- * ),
+ * ],
  * </code>
  *
  * As you can see, most of these settings mainly match the configuration options you
