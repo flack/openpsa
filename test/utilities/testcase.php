@@ -10,6 +10,7 @@ use midcom\datamanager\controller;
 use midcom\datamanager\engine;
 use midcom\datamanager\renderer;
 use Symfony\Component\HttpFoundation\Request;
+use midcom\httpkernel\kernel;
 
 /**
  * Base class for unittests, provides some helper methods
@@ -87,19 +88,19 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $component = $topic;
             $topic = $this->get_component_node($component);
         }
-        $root = $topic;
-        while ($root->get_parent()) {
-            $root = $root->get_parent();
-        }
 
-        $context = new midcom_core_context(null, $root);
+        $context = new midcom_core_context(null, $topic);
         $context->set_current();
         $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $topic->name . '/' . implode('/', $args) . '/');
 
         // Parser Init: Generate arguments and instantiate it.
         $context->parser = midcom::get()->serviceloader->load('midcom_core_service_urlparser');
         $context->parser->parse($args);
-        $result = $context->handle($topic, Request::createFromGlobals());
+
+        $request = Request::createFromGlobals();
+        $request->attributes->set('context', $context);
+
+        $result = kernel::get()->handle($request);
 
         $this->assertTrue($result !== false, $component . ' handle returned false on ./' . implode('/', $args) . '/');
         $data = $context->get_custom_key('request_data');

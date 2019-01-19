@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
+use midcom\httpkernel\kernel;
 
 /**
  * OpenPSA testcase
@@ -54,8 +55,12 @@ class midcom_helper_backendTest extends openpsa_testcase
         $context->parser = new midcom_core_service_implementation_urlparsertopic;
 
         $context->parser->parse([$child_topic_name, $article_name]);
-        $context->parser->get_object();
-        $context->handle($child_topic, Request::createFromGlobals());
+        $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $child_topic);
+
+        $request = Request::create("/$child_topic_name/$article_name/");
+        $request->attributes->set('context', $context);
+        kernel::get()->handle($request);
+
         $backend = new midcom_helper_nav_backend($context->id);
 
         $this->assertEquals($root_topic->id, $backend->get_root_node());

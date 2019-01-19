@@ -291,45 +291,6 @@ class midcom_core_context
         $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$key] =& $value;
     }
 
-    /**
-     * Handle a request.
-     *
-     * The URL of the component that is used to handle the request is obtained automatically.
-     * If the handler hook returns false (i.e. handling failed), it will produce an error page.
-     *
-     * @param Request $request The request object
-     * @return Response
-     */
-    public function run(Request $request)
-    {
-        do {
-            $object = $this->parser->get_current_object();
-            if (empty($object)) {
-                throw new midcom_error('Root node missing.');
-            }
-        } while ($this->parser->get_object() !== false);
-
-        return $this->handle($object, $request);
-    }
-
-    /**
-     * @param midcom_db_topic $topic The node that is currently being tested.
-     * @param Request $request The request object
-     * @return Response
-     */
-    public function handle(midcom_db_topic $topic, Request $request)
-    {
-        // Initialize context
-        $this->set_key(MIDCOM_CONTEXT_ANCHORPREFIX, $this->parser->get_url());
-        $this->set_key(MIDCOM_CONTEXT_COMPONENT, $topic->component);
-        $this->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $topic);
-        $this->set_key(MIDCOM_CONTEXT_URLTOPICS, $this->parser->get_objects());
-
-        $request->attributes->set('context', $this);
-
-        return kernel::get()->handle($request);
-    }
-
     public function show()
     {
         if (!midcom::get()->skip_page_style) {

@@ -60,11 +60,12 @@ class kernel implements EventSubscriberInterface
     {
         $request = $event->getRequest();
         $context = $request->attributes->get('context');
+        $topic = $this->find_topic($context);
+
         $request->attributes->set('argv', $context->parser->argv);
-        $topic = $context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
+
         // Get component interface class
         $component_interface = midcom::get()->componentloader->get_interface_class($topic->component);
-
         $viewer = $component_interface->get_viewer($topic);
 
         // Make can_handle check
@@ -92,6 +93,29 @@ class kernel implements EventSubscriberInterface
 
         $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
         $viewer->handle();
+    }
+
+    /**
+     * @param \midcom_core_context $context
+     * @throws \midcom_error
+     * @return \midcom_db_topic
+     */
+    private function find_topic(\midcom_core_context $context)
+    {
+        do {
+            $topic = $context->parser->get_current_object();
+            if (empty($topic)) {
+                throw new \midcom_error('Root node missing.');
+            }
+        } while ($context->parser->get_object() !== false);
+
+        // Initialize context
+        $context->set_key(MIDCOM_CONTEXT_ANCHORPREFIX, $context->parser->get_url());
+        $context->set_key(MIDCOM_CONTEXT_COMPONENT, $topic->component);
+        $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $topic);
+        $context->set_key(MIDCOM_CONTEXT_URLTOPICS, $context->parser->get_objects());
+
+        return $topic;
     }
 
     public function on_arguments(FilterControllerArgumentsEvent $event)

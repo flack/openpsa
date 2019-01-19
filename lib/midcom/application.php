@@ -10,6 +10,7 @@ use midgard\portable\api\blob;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use midcom\httpkernel\kernel;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -328,8 +329,9 @@ class midcom_application
         if ($response = $urlmethods->process()) {
             return $response;
         }
+        $request->attributes->set('context', $context);
 
-        return $context->run($request);
+        return kernel::get()->handle($request);
     }
 
     /**
