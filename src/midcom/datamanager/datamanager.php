@@ -87,12 +87,8 @@ class datamanager
             $translator->addLoader('xlf', new XliffFileLoader);
 
             $vb = Validation::createValidatorBuilder();
-            $rc = new \ReflectionClass($vb);
-            $path = dirname($rc->getFileName());
-            $translator->addResource('xlf', $path . '/Resources/translations/validators.' . $lang . '.xlf', $lang);
-            $rc = new \ReflectionClass($fb);
-            $path = dirname($rc->getFileName());
-            $translator->addResource('xlf', $path . '/Resources/translations/validators.' . $lang . '.xlf', $lang);
+            self::add_translation_resource($translator, $vb);
+            self::add_translation_resource($translator, $fb);
 
             $vb->setTranslator($translator);
 
@@ -106,6 +102,14 @@ class datamanager
             self::$factory = $fb->getFormFactory();
         }
         return self::$factory;
+    }
+
+    private static function add_translation_resource(Translator $translator, $object)
+    {
+        $rc = new \ReflectionClass($object);
+        $path = dirname($rc->getFileName());
+        $lang = $translator->getLocale();
+        $translator->addResource('xlf', $path . '/Resources/translations/validators.' . $lang . '.xlf', $lang);
     }
 
     public static function from_schemadb($path)
@@ -137,31 +141,38 @@ class datamanager
             $schemaname = $storage->get_parameter('midcom.helper.datamanager2', 'schema_name');
         }
 
-        if ($schemaname && !$this->schemadb->has($schemaname)) {
-            debug_add("Given schema name {$schemaname} was not found, reverting to default.", MIDCOM_LOG_INFO);
-            $schemaname = null;
-        }
-
-        $schema = ($schemaname) ? $this->schemadb->get($schemaname) : $this->schemadb->get_first();
-        if ($this->schema !== null && $this->schema->get_name() !== $schema->get_name()) {
-            $this->form = null;
-        }
-        $this->schema = $schema;
+        $this->set_schema($schemaname);
 
         $defaults = array_merge($this->schema->get_defaults(), $this->defaults);
-
         if ($storage === null) {
             $this->storage = new storage\container\nullcontainer($this->schema, $defaults);
         } else {
             $this->storage = new storage\container\dbacontainer($this->schema, $storage, $defaults);
         }
-        if ($this->form !== null && !$this->form->isSubmitted()) {
-            $this->form->setData($this->storage);
-        } else {
-            $this->form = null;
+
+        if ($this->form !== null) {
+            if ($this->form->isSubmitted()) {
+                $this->form = null;
+            } else {
+                $this->form->setData($this->storage);
+            }
         }
 
         return $this;
+    }
+
+    private function set_schema($name)
+    {
+        if ($name && !$this->schemadb->has($name)) {
+            debug_add("Given schema name {$name} was not found, reverting to default.", MIDCOM_LOG_INFO);
+            $name = null;
+        }
+
+        $schema = ($name) ? $this->schemadb->get($name) : $this->schemadb->get_first();
+        if ($this->schema !== null && $this->schema->get_name() !== $schema->get_name()) {
+            $this->form = null;
+        }
+        $this->schema = $schema;
     }
 
     /**
@@ -172,6 +183,9 @@ class datamanager
     {
         if ($name) {
             return $this->schemadb->get($name);
+        }
+        if ($this->schema === null) {
+            $this->set_schema($name);
         }
         return $this->schema;
     }
@@ -246,10 +260,8 @@ class datamanager
 
         if (   $this->form === null
             || $this->form->getName() != $name) {
-            $this->get_storage();
-
             $config = [
-                'schema' => $this->schema
+                'schema' => $this->get_schema()
             ];
             $builder = self::get_factory()->createNamedBuilder($name, schemaType::class, null, $config);
 
@@ -260,7 +272,7 @@ class datamanager
             $builder->add('form_toolbar', toolbarType::class, $config);
 
             $this->form = $builder->getForm()
-                ->setData($this->storage);
+                ->setData($this->get_storage());
         }
         return $this->form;
     }
