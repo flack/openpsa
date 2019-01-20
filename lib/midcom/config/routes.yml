@@ -1,0 +1,35 @@
+serve_attachment:
+    path: /midcom-serveattachmentguid-{guid}/{filename}
+    defaults: { _controller: 'midcom_core_urlmethods::process_serveattachmentguid', filename: null }
+
+serve_attachment_compat:
+    path: /midcom-serveattachmentguid-{guid}/
+    defaults: { _controller: 'midcom_core_urlmethods::process_serveattachmentguid' }
+
+resolve_permalink:
+    path: /midcom-permalink-{guid}
+    defaults: { _controller: 'midcom_core_urlmethods::process_permalink' }
+
+cache:
+    path: /midcom-cache-{action}
+    defaults: { _controller: 'midcom_core_urlmethods::process_cache' }
+    requirements: { action: 'invalidate|nocache'}
+
+logout:
+    path: /midcom-logout-{url}
+    defaults: { _controller: 'midcom_core_urlmethods::process_logout' }
+    requirements: { url: '.*'}
+
+login:
+    path: /midcom-login-{url}
+    defaults: { _controller: 'midcom_core_urlmethods::process_login' }
+    requirements: { url: '.*'}
+
+exec:
+    path: /midcom-exec-{component}/{filename}
+    defaults: { _controller: 'midcom_core_urlmethods::process_exec' }
+
+config:
+    path: /midcom-config-test
+    defaults: { _controller: 'midcom_core_urlmethods::process_config' }
+

@@ -11,11 +11,11 @@ namespace midcom\routing;
 use Symfony\Component\HttpFoundation\Request;
 use midcom;
 use midcom_core_context;
-use midcom_core_urlmethods;
 use midcom_connection;
 use midcom_error_forbidden;
 use midcom_error_notfound;
 use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
  * @package midcom.routing
@@ -58,8 +58,43 @@ class resolver
     {
         $context = $this->request->attributes->get('context');
 
-        $urlmethods = new midcom_core_urlmethods($context);
-        return $urlmethods->process();
+        if ($url = $this->find_urlmethod($context)) {
+            $router = resolver::get_router('midcom');
+            $router->getContext()
+                ->fromRequest($this->request);
+
+            try {
+                $result = $router->match($url);
+            } catch (ResourceNotFoundException $e) {
+                throw new midcom_error_notfound('This URL method is unknown.');
+            }
+
+            foreach ($result as $key => $value) {
+                $this->request->attributes->set($key, $value);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private function find_urlmethod(midcom_core_context $context)
+    {
+        while (($tmp = $context->parser->get_variable('midcom')) !== false) {
+            foreach ($tmp as $key => $value) {
+                if ($key == 'substyle') {
+                    $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $value);
+                    debug_add("Substyle '$value' selected");
+                } else {
+                    $url = "/midcom-$key-$value";
+                    if (!empty($context->parser->argv)) {
+                        $url .= '/' . implode('/', $context->parser->argv);
+                    }
+
+                    return $url;
+                }
+            }
+        }
+        return false;
     }
 
     /**

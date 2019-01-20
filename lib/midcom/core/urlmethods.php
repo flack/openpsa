@@ -7,21 +7,17 @@
  */
 
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Matches the given context to a handler or to one of the central URL methods.
- * URL methods are handled directly from here, handlers are passed back to
- * midcom_application
+ * MidCOM URL methods.
  *
- * <b>URL METHODS</b>
+ * See individual methods for documentation.
  *
- * The following URL parameters are recognized and are
- * executed before any component processing is done. They all belong to the
- * domain "midcom", e.g. they are executed like this: midcom-$name-$value.
+ * <b>midcom-substyle-{stylename}</b>
  *
- * <b>string substyle</b>
- *
- * This will set a substyle to the current component, which is appended to the
+ * Different from the methods in this class, "substyle" does not produce a response.
+ * Instead, it will set a substyle to the current component, which is appended to the
  * style selected by the component at the moment the component style is loaded.
  * The methods substyle_(append|prepend)'s work on the basis of this value then.
  *
@@ -31,91 +27,27 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  * The substyle URL switch is most useful in conjunction with
  * midcom_application::dynamic_load().
  *
- * <b>GUID serveattachmentguid</b>
- *
- * This method will serve the attachment denoted by the given ID/GUID.
- * It uses the default expiration time of serve_attachment (see there).
- *
- * <b>GUID permalink</b>
- *
- * This will resolve the given GUID into the MidCOM NAP tree, relocating to the
- * URL corresponding to the node/leaf. The Permalink can be created by using the
- * key MIDCOM_NAV_PERMALINK of any NAP data array. Upon resolving it, MidCOM will
- * relocate to the automatically computed MIDCOM_NAV_FULLURL.
- *
- * <b>string exec</b>
- *
- * Allows you to execute certain php files directly, in full MidCOM context.
- * The argument is the name of the component, which holds the script to be
- * executed. Script files are searched in the subdirectory "exec" of the component.
- * If you use "midcom" as component name, MidCOM core scripts, located in
- * lib/midcom/exec will be accessible. The next argument on the command line must
- * be the name of the script file. Accessing subdirectories is not possible, only
- * a single argument will be taken.
- *
- * The scripts executed need to do their own permission checks, they will work with
- * the credentials of the current MidCOM instance unconditionally.
- *
- * Example: http://$host/midcom-exec-midcom/update_storage.php
- *
- * <b>string cache</b>
- *
- * May take one of the following values: "invalidate" will clear the cache of the
- * current site, "nocache" will bypass the cache for the current request by
- * calling midcom::get()->cache->content->no_cache();
- *
  * @package midcom
  */
 class midcom_core_urlmethods
 {
-    /**
-     * The context we're working on
-     *
-     * @var midcom_core_context
-     */
-    private $_context;
-
-    public function __construct(midcom_core_context $context)
+    public function process_config()
     {
-        $this->_context = $context;
-    }
-
-    public function process()
-    {
-        while (($tmp = $this->_context->parser->get_variable('midcom')) !== false) {
-            foreach ($tmp as $key => $value) {
-                if ($key == 'substyle') {
-                    $this->_context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $value);
-                    debug_add("Substyle '$value' selected");
-                } else {
-                    $method_name = '_process_' . $key;
-                    if (!method_exists($this, $method_name)) {
-                        debug_add("Unknown URL method: {$key} => {$value}", MIDCOM_LOG_WARN);
-                        throw new midcom_error_notfound("This URL method is unknown.");
-                    }
-                    return $this->$method_name($value);
-                }
-            }
-        }
-    }
-
-    private function _process_config($value)
-    {
-        if ($value !== 'test') {
-            throw new midcom_error_notfound("Invalid value.");
-        }
         return new StreamedResponse(function() {
             midcom::get()->style->show_midcom('config-test');
         });
     }
 
-    private function _process_serveattachmentguid($value)
+    /**
+     * This method will serve the attachment denoted by the given ID/GUID.
+     * It uses the default expiration time of serve_attachment (see there).
+     *
+     * @param string $guid
+     * @throws midcom_error_notfound
+     */
+    public function process_serveattachmentguid($guid)
     {
-        if (count($this->_context->parser->argv) > 1) {
-            debug_add('Too many arguments remaining for serve_attachment.', MIDCOM_LOG_ERROR);
-        }
-
-        $attachment = new midcom_db_attachment($value);
+        $attachment = new midcom_db_attachment($guid);
         if (!$attachment->can_do('midgard:autoserve_attachment')) {
             throw new midcom_error_notfound('Failed to access attachment: Autoserving denied.');
         }
@@ -123,9 +55,19 @@ class midcom_core_urlmethods
         midcom::get()->serve_attachment($attachment);
     }
 
-    private function _process_permalink($value)
+    /**
+     * This will resolve the given GUID into the MidCOM NAP tree, relocating to the
+     * URL corresponding to the node/leaf. The Permalink can be created by using the
+     * key MIDCOM_NAV_PERMALINK of any NAP data array. Upon resolving it, MidCOM will
+     * relocate to the automatically computed MIDCOM_NAV_FULLURL.
+     *
+     * @param string $guid
+     * @throws midcom_error_notfound
+     * @return midcom_response_relocate
+     */
+    public function process_permalink($guid)
     {
-        $destination = midcom::get()->permalinks->resolve_permalink($value);
+        $destination = midcom::get()->permalinks->resolve_permalink($guid);
         if ($destination === null) {
             throw new midcom_error_notfound("This Permalink is unknown.");
         }
@@ -134,101 +76,101 @@ class midcom_core_urlmethods
         return new midcom_response_relocate($destination, 302);
     }
 
-    private function _process_cache($value)
+    /**
+     * May take one of the following values:
+     *
+     * - "invalidate" will clear the cache of the current site
+     * - "nocache" will bypass the cache for the current request by
+     *   calling midcom::get()->cache->content->no_cache();
+     *
+     * @param string $action
+     * @return midcom_response_relocate
+     */
+    public function process_cache(Request $request, $action)
     {
-        if ($value == 'invalidate') {
-            if (!in_array($_SERVER['REMOTE_ADDR'], midcom::get()->config->get('indexer_reindex_allowed_ips', []))) {
+        if ($action == 'invalidate') {
+            if (!in_array($request->getClientIp(), midcom::get()->config->get('indexer_reindex_allowed_ips', []))) {
                 midcom::get()->auth->require_valid_user('basic');
                 midcom::get()->auth->require_admin_user();
             }
             midcom::get()->cache->content->enable_live_mode();
             midcom::get()->cache->invalidate_all();
-            midcom::get()->uimessages->add(midcom::get()->i18n->get_string('MidCOM', 'midcom'), midcom::get()->i18n->get_string("cache invalidation successful", 'midcom'), 'info');
+            $l10n = midcom::get()->i18n->get_l10n('midcom');
+            midcom::get()->uimessages->add($l10n->get('MidCOM'), $l10n->get('cache invalidation successful'), 'info');
 
-            $url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : midcom_connection::get_url('self');
+            $url = $request->server->get('HTTP_REFERER') ?: midcom_connection::get_url('self');
             return new midcom_response_relocate($url);
         }
-        if ($value !== 'nocache') {
-            throw new midcom_error_notfound("Invalid cache request URL.");
-        }
         midcom::get()->cache->content->no_cache();
     }
 
-    private function _process_logout($value)
+    public function process_logout(Request $request, $url)
     {
-        // rest of URL used as redirect
-        $redirect_to = $this->_get_remaining_url($value);
-
         midcom::get()->cache->content->no_cache();
         midcom::get()->auth->logout();
-        return new midcom_response_relocate($redirect_to);
+        return $this->redirect($request, $url);
     }
 
-    private function _process_login($value)
+    public function process_login(Request $request, $url)
     {
-        // rest of URL used as redirect
-        $redirect_to = $this->_get_remaining_url($value);
-
         if (midcom::get()->auth->is_valid_user()) {
-            return new midcom_response_relocate($redirect_to);
+            return $this->redirect($request, $url);
         }
         midcom::get()->auth->show_login_page();
         // This will exit
     }
 
-    private function _get_remaining_url($value)
+    private function redirect(Request $request, $redirect_to)
     {
-        $redirect_to = '';
-        if (   !empty($value)
-            || !empty($this->_context->parser->argv)) {
-            $redirect_to = "{$value}/" . implode('/', $this->_context->parser->argv);
-            $redirect_to = preg_replace('%^(.*?):/([^/])%', '\\1://\\2', $redirect_to);
+        if (!empty($request->server->get('QUERY_STRING'))) {
+            $redirect_to .= '?' . $request->getQueryString();
         }
-
-        if (!empty($_SERVER['QUERY_STRING'])) {
-            $redirect_to .= "?{$_SERVER['QUERY_STRING']}";
-        }
-        return $redirect_to;
+        return new midcom_response_relocate($redirect_to);
     }
 
     /**
-     * Execute any given Script in the current MidCOM context. All files have to be
-     * in $component_dir/exec directly, otherwise the script will not execute.
+     * Allows you to execute certain php files directly, in full MidCOM context.
+     * The argument is the name of the component, which holds the script to be
+     * executed. Script files are searched in the subdirectory "exec" of the component.
+     * If you use "midcom" as component name, MidCOM core scripts, located in
+     * lib/midcom/exec will be accessible. The next argument on the command line must
+     * be the name of the script file. Accessing subdirectories is not possible, only
+     * a single argument will be taken.
      *
-     * The script's name is taken from the current argv[0].
+     * The scripts executed need to do their own permission checks, they will work with
+     * the credentials of the current MidCOM instance unconditionally.
+     *
+     * Example: http://$host/midcom-exec-midcom/reindex.php
      *
      * The script file is executed in the cache's live mode to allow for long running
      * scripts (just produce any output regularly, or Apache will kill you after ~ 2 mins.).
      *
      * The remaining arguments will be placed into the global $argv.
      *
+     * @param Request $request
      * @param string $component The component to look in ("midcom" uses core scripts)
+     * @param string $filename
      * @see midcom_services_cache_module_content::enable_live_mode()
      */
-    private function _process_exec($component)
+    public function process_exec(Request $request, $component, $filename)
     {
-        // Sanity checks
-        if (count($this->_context->parser->argv) < 1) {
-            throw new midcom_error_notfound("Script exec path invalid, need at least one argument.");
-        }
-
         // Build the path
         $componentloader = midcom::get()->componentloader;
         if (!$componentloader->is_installed($component)) {
             throw new midcom_error_notfound('The requested component is not installed');
         }
+        $context = $request->attributes->get('context');
         if ($component !== 'midcom') {
-            $this->_context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
+            $context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
         }
-        $path = $componentloader->path_to_snippetpath($component) . '/exec/';
-        $path .= $this->_context->parser->argv[0];
+        $path = $componentloader->path_to_snippetpath($component) . '/exec/' . $filename;
 
         if (!is_file($path)) {
             throw new midcom_error_notfound("File not found.");
         }
 
         // collect remaining arguments and put them to global vars.
-        $GLOBALS['argv'] = $this->_context->parser->argv;
+        $GLOBALS['argv'] = $context->parser->argv;
         array_shift($GLOBALS['argv']);
 
         midcom::get()->cache->content->enable_live_mode();

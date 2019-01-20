@@ -59,8 +59,7 @@ class kernel implements EventSubscriberInterface
         $request = $event->getRequest();
         $resolver = new resolver($request);
 
-        if ($response = $resolver->process_midcom()) {
-            $event->setResponse($response);
+        if ($resolver->process_midcom()) {
             return;
         }
 
