@@ -57,19 +57,12 @@ class schemaType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (!array_key_exists('data', $options)) {
-            // This happens when we are in the nested case
-            // @todo Figure out why
-            $options['data'] = null;
-        }
-        $storage = $options['data'];
-
         foreach ($options['schema']->get('fields') as $field => $config) {
             if ($config['widget'] === 'csrf') {
                 continue;
             }
 
-            $builder->add($field, $this->get_type_name($config['widget']), $this->get_settings($config, $storage));
+            $builder->add($field, $this->get_type_name($config['widget']), $this->get_settings($config));
         }
     }
 
@@ -102,27 +95,17 @@ class schemaType extends AbstractType
      * Convert schema config to type settings
      *
      * @param array $config
-     * @param mixed $storage
      * @return array
      */
-    private function get_settings(array $config, $storage)
+    private function get_settings(array $config)
     {
         $settings = $config;
         $settings['label'] = $config['title'];
         $settings['dm2_type'] = $config['type'];
-        $settings['dm2_storage'] = $config['storage'];
         $settings['constraints'] = $this->build_constraints($config);
-        $settings['storage'] = $storage;
 
-        unset($settings['type']);
-        unset($settings['customdata']);
-        unset($settings['default']);
-        unset($settings['description']);
-        unset($settings['title']);
-        unset($settings['validation']);
-        unset($settings['widget']);
-
-        return $settings;
+        $remove = ['type', 'customdata', 'default', 'description', 'title', 'validation', 'widget'];
+        return array_diff_key($settings, array_flip($remove));
     }
 
     private function build_constraints($config)

@@ -39,8 +39,7 @@ class urlnameType extends AbstractType
                 'allow_catenate' => $options['type_config']['allow_catenate'],
                 'allow_unclean' => $options['type_config']['allow_unclean'],
                 'title_field' => $options['type_config']['title_field'],
-                'storage' => $options['storage'],
-                'property' => $options['dm2_storage'],
+                'property' => $options['storage'],
             ];
             $value[] = new validator($validator_options);
             return $value;

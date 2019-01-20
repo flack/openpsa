@@ -251,7 +251,7 @@ class datamanager
             $config = [
                 'schema' => $this->schema
             ];
-            $builder = self::get_factory()->createNamedBuilder($name, schemaType::class, $this->storage, $config);
+            $builder = self::get_factory()->createNamedBuilder($name, schemaType::class, null, $config);
 
             $config = [
                 'operations' => $this->schema->get('operations'),
@@ -259,7 +259,8 @@ class datamanager
             ];
             $builder->add('form_toolbar', toolbarType::class, $config);
 
-            $this->form = $builder->getForm();
+            $this->form = $builder->getForm()
+                ->setData($this->storage);
         }
         return $this->form;
     }

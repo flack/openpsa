@@ -28,13 +28,12 @@ class formExtension extends AbstractTypeExtension
             'widget_config' => [],
             'type_config' => [],
             'dm2_type' => null,
-            'dm2_storage' => null,
+            'storage' => null,
             'index_method' => 'auto',
             'index_merge_with_content' => true,
             'start_fieldset' => null,
             'end_fieldset' => null,
             'helptext' => null,
-            'storage' => null,
             'hidden' => false,
             'readonly' => false,
             'write_privilege' => null,
@@ -64,7 +63,7 @@ class formExtension extends AbstractTypeExtension
             if (array_key_exists('privilege', $options['write_privilege'])) {
                 $storage = $form->getParent()->getData();
                 if (   $storage instanceof dbacontainer
-                    && (true || !$storage->get_value()->can_do($options['write_privilege']['privilege']))) {
+                    && (!$storage->get_value()->can_do($options['write_privilege']['privilege']))) {
                     $view->vars['readonly'] = true;
                 }
             }

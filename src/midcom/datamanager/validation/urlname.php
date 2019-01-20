@@ -12,6 +12,5 @@ class urlname extends Constraint
     public $allow_unclean = false;
     public $allow_catenate = false;
     public $title_field = 'title';
-    public $storage;
     public $property;
 }

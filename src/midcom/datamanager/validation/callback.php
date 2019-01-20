@@ -28,10 +28,11 @@ class callback
                 $result = call_user_func($entry['callback'], $this->to_array($form->getData()));
                 if (is_array($result)) {
                     foreach ($result as $field => $message) {
-                        $context->buildViolation($message)
-                        // There might be a nice way to do this, but I have no idea what it could be...
-                        ->atPath('children[' . $field . '].data')
-                        ->addViolation();
+                        $context
+                            ->buildViolation($message)
+                            // There might be a nice way to do this, but I have no idea what it could be...
+                            ->atPath('children[' . $field . '].data')
+                            ->addViolation();
                     }
                 }
             }

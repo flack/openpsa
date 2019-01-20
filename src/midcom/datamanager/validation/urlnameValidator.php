@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use midcom;
 use midcom_helper_reflector_nameresolver;
+use midcom\datamanager\storage\container\dbacontainer;
 
 class urlnameValidator extends ConstraintValidator
 {
@@ -21,7 +22,12 @@ class urlnameValidator extends ConstraintValidator
         $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
         $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
 
-        $copy = clone $constraint->storage->get_value();
+        $data = $this->context->getRoot()->getData();
+        if (!$data instanceof dbacontainer) {
+            throw new \midcom_error('invalid storage, can only validate DBA objects');
+        }
+
+        $copy = clone $data->get_value();
         $property = $constraint->property['location'];
         $copy->{$property} = $value;
         $resolver = new midcom_helper_reflector_nameresolver($copy);
