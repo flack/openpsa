@@ -96,6 +96,10 @@ $_SERVER = [
     'SCRIPT_NAME' => 'unittest-run'
 ];
 
+// This is a bit awkward, but makes life simpler until we've transitioned more fully to the
+// httpkernel infrastructure
+$GLOBALS['kernel'] = midcom::init();
+
 // Clean up residue cache entries from previous runs
 midcom::get()->cache->invalidate_all();
 // If the test's config accesses midcom::get() in some way, components

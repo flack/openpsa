@@ -7,6 +7,11 @@
  */
 
 use midcom\events\dispatcher;
+use Symfony\Component\HttpKernel\Controller\ControllerResolver;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+use Symfony\Component\HttpKernel\HttpKernel;
+use Symfony\Component\HttpFoundation\RequestStack;
+use midcom\httpkernel\subscriber;
 
 /**
  * @package midcom
@@ -62,6 +67,10 @@ class midcom
         'uimessages' => midcom_services_uimessages::class,
     ];
 
+    /**
+     * @throws midcom_error
+     * @return \Symfony\Component\HttpKernel\HttpKernel
+     */
     public static function init()
     {
         ///////////////////////////////////
@@ -87,9 +96,16 @@ class midcom
             define('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../var/themes/');
         }
 
+        self::$_services['dispatcher'] = new dispatcher;
+        self::$_services['dispatcher']->addSubscriber(new subscriber);
+        $c_resolver = new ControllerResolver;
+        $a_resolver = new ArgumentResolver;
+        $kernel = new HttpKernel(self::$_services['dispatcher'], $c_resolver, new RequestStack, $a_resolver);
+
         // Instantiate the MidCOM main class
-        self::$_application = new midcom_application();
+        self::$_application = new midcom_application($kernel);
         self::$_application->initialize();
+        return $kernel;
     }
 
     /**

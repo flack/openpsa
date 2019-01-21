@@ -9,7 +9,6 @@
 namespace midcom\httpkernel;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use midcom;
 use midcom_response_styled;
 use midcom_baseclasses_components_handler;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -17,19 +16,13 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\FilterControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Controller\ControllerResolver;
-use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
-use Symfony\Component\HttpKernel\HttpKernel;
-use Symfony\Component\HttpFoundation\RequestStack;
 use midcom\routing\resolver;
 
 /**
  * @package midcom.httpkernel
  */
-class kernel implements EventSubscriberInterface
+class subscriber implements EventSubscriberInterface
 {
-    private static $kernel;
-
     public static function getSubscribedEvents()
     {
         return [
@@ -41,19 +34,8 @@ class kernel implements EventSubscriberInterface
     }
 
     /**
-     * @return HttpKernel
+     * @param GetResponseEvent $event
      */
-    public static function get()
-    {
-        if (self::$kernel === null) {
-            midcom::get()->dispatcher->addSubscriber(new static);
-            $c_resolver = new ControllerResolver;
-            $a_resolver = new ArgumentResolver;
-            self::$kernel = new HttpKernel(midcom::get()->dispatcher, $c_resolver, new RequestStack, $a_resolver);
-        }
-        return self::$kernel;
-    }
-
     public function on_request(GetResponseEvent $event)
     {
         $request = $event->getRequest();

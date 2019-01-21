@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use midcom\httpkernel\kernel;
+use Symfony\Component\HttpKernel\HttpKernel;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -60,6 +62,11 @@ class midcom_application
     private $request;
 
     /**
+     * @var HttpKernel
+     */
+    private $httpkernel;
+
+    /**
      * Set this variable to true during the handle phase of your component to
      * not show the site's style around the component output. This is mainly
      * targeted at XML output like RSS feeds and similar things. The output
@@ -74,8 +81,9 @@ class midcom_application
      */
     public $skip_page_style = false;
 
-    public function __construct()
+    public function __construct(HttpKernel $httpkernel)
     {
+        $this->httpkernel = $httpkernel;
         midcom_compat_environment::initialize();
         midcom_exception_handler::register();
     }
@@ -133,8 +141,6 @@ class midcom_application
      * Initialize the URL parser and process the request.
      *
      * This function must be called before any output starts.
-     *
-     * @see _process()
      */
     public function codeinit()
     {
@@ -144,7 +150,10 @@ class midcom_application
         $context->parser = $this->serviceloader->load(midcom_core_service_urlparser::class);
         $context->parser->parse(midcom_connection::get_url('argv'));
 
-        $response = $this->_process($context, $this->request);
+        $this->request->attributes->set('context', $context);
+
+        $response = $this->httpkernel->handle($this->request);
+
         $this->_output($context, !$this->skip_page_style, $response);
     }
 
@@ -204,8 +213,9 @@ class midcom_application
         $context->parser->parse($argv);
 
         $request = $this->request->duplicate([], null, []);
+        $request->attributes->set('context', $context);
         try {
-            $response = $this->_process($context, $request);
+            $response = $this->httpkernel->handle($request, HttpKernelInterface::SUB_REQUEST);
         } catch (midcom_error $e) {
             if ($e instanceof midcom_error_notfound || $e instanceof midcom_error_forbidden) {
                 $e->log();
@@ -300,34 +310,6 @@ class midcom_application
 
         debug_add("End of MidCOM run: " . $this->request->server->get('REQUEST_URI'));
         _midcom_stop_request();
-    }
-
-    /**
-     * Process the request
-     *
-     * Basically this method will parse the URL and search for a component that can
-     * handle the request. If one is found, it will process the request, if not, it
-     * will report an error, depending on the situation.
-     *
-     * Details: The logic will traverse the node tree, and for the last node it will load
-     * the component that is responsible for it. This component gets the chance to
-     * accept the request, which is basically a call to can_handle. If the component
-     * declares to be able to handle the call, its handle function is executed. Depending
-     * if the handle was successful or not, it will either display an HTTP error page or
-     * prepares the content handler to display the content later on.
-     *
-     * If the parsing process doesn't find any component that declares to be able to
-     * handle the request, an HTTP 404 - Not Found error is triggered.
-     *
-     * @param midcom_core_context $context
-     * @param Request $request The request object
-     * @return Response
-     */
-    private function _process(midcom_core_context $context, Request $request)
-    {
-        $request->attributes->set('context', $context);
-
-        return kernel::get()->handle($request);
     }
 
     /**

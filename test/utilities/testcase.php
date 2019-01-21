@@ -10,7 +10,6 @@ use midcom\datamanager\controller;
 use midcom\datamanager\engine;
 use midcom\datamanager\renderer;
 use Symfony\Component\HttpFoundation\Request;
-use midcom\httpkernel\kernel;
 
 /**
  * Base class for unittests, provides some helper methods
@@ -100,7 +99,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $request = Request::createFromGlobals();
         $request->attributes->set('context', $context);
 
-        $result = kernel::get()->handle($request);
+        $result = $GLOBALS['kernel']->handle($request);
 
         $this->assertTrue($result !== false, $component . ' handle returned false on ./' . implode('/', $args) . '/');
         $data = $context->get_custom_key('request_data');

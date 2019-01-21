@@ -7,7 +7,6 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
-use midcom\httpkernel\kernel;
 
 /**
  * OpenPSA testcase
@@ -59,7 +58,7 @@ class midcom_helper_backendTest extends openpsa_testcase
 
         $request = Request::create("/$child_topic_name/$article_name/");
         $request->attributes->set('context', $context);
-        kernel::get()->handle($request);
+        $GLOBALS['kernel']->handle($request);
 
         $backend = new midcom_helper_nav_backend($context->id);
 
