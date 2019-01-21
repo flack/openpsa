@@ -6,10 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use Symfony\Component\HttpFoundation\Request;
-use midcom\httpkernel\kernel;
-use Symfony\Component\HttpFoundation\Response;
-
 /**
  * MidCOM context handling
  *
