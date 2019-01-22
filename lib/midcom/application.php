@@ -148,9 +148,7 @@ class midcom_application
 
         $this->request->attributes->set('context', $context);
 
-        $response = $this->httpkernel->handle($this->request);
-
-        $this->_output($context, !$this->skip_page_style, $response);
+        $this->httpkernel->handle($this->request)->send();
     }
 
     /**
@@ -197,6 +195,8 @@ class midcom_application
         $context->set_key(MIDCOM_CONTEXT_URI, $uri);
 
         $context->set_current();
+        debug_add("Entering Context {$context->id} (old Context: {$oldcontext->id})");
+
         $cached = $this->cache->content->check_dl_hit($context->id);
         if ($cached !== false) {
             echo $cached;
@@ -210,8 +210,9 @@ class midcom_application
 
         $request = $this->request->duplicate([], null, []);
         $request->attributes->set('context', $context);
+
         try {
-            $response = $this->httpkernel->handle($request, HttpKernelInterface::SUB_REQUEST);
+            $response = $this->httpkernel->handle($request, HttpKernelInterface::SUB_REQUEST, false);
         } catch (midcom_error $e) {
             if ($e instanceof midcom_error_notfound || $e instanceof midcom_error_forbidden) {
                 $e->log();
@@ -225,14 +226,17 @@ class midcom_application
         // Start another buffer for caching DL results
         ob_start();
 
-        $this->_output($context, false, $response);
+        $backup = $this->skip_page_style;
+        $this->skip_page_style = true;
+        $response->send();
+        $this->skip_page_style = $backup;
 
         $dl_cache_data = ob_get_contents();
         ob_end_flush();
         /* Cache DL the content */
         $this->cache->content->store_dl_content($context->id, $dl_cache_data);
 
-        // Leave Context
+        debug_add("Leaving Context {$context->id} (new Context: {$oldcontext->id})");
         $oldcontext->set_current();
         $this->style->enter_context($oldcontext->id);
     }
@@ -255,40 +259,6 @@ class midcom_application
 
         debug_add("End of MidCOM run: " . $this->request->server->get('REQUEST_URI'));
         _midcom_stop_request();
-    }
-
-    /**
-     * Execute the output callback.
-     *
-     * Launches the output of the currently selected component. It is collected in an output buffer
-     * to allow for relocates from style elements.
-     *
-     * It executes the content_handler that has been determined during the handle
-     * phase. It fetches the content_handler from the Component Loader class cache.
-     *
-     * @param midcom_core_context $context
-     * @param boolean $include_template
-     * @param Response $response
-     */
-    private function _output(midcom_core_context $context, $include_template, Response $response)
-    {
-        // Enter Context
-        $oldcontext = midcom_core_context::get();
-        if ($oldcontext->id != $context->id) {
-            debug_add("Entering Context {$context->id} (old Context: {$oldcontext->id})");
-            $context->set_current();
-        }
-
-        $backup = $this->skip_page_style;
-        $this->skip_page_style = !$include_template;
-        $response->send();
-        $this->skip_page_style = $backup;
-
-        // Leave Context
-        if ($oldcontext->id != $context->id) {
-            debug_add("Leaving Context {$context->id} (new Context: {$oldcontext->id})");
-            $oldcontext->set_current();
-        }
     }
 
     /* *************************************************************************
