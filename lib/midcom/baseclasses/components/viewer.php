@@ -325,7 +325,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
     public function get_handler(Request $request)
     {
         $argv = $request->attributes->get('argv', []);
-        $prefix = midcom_core_context::get()->parser->get_url();
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         // Check if we need to start up a plugin.
         if (   count($argv) > 1
