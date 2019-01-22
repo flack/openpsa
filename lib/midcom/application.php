@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midgard\portable\api\blob;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -237,57 +235,6 @@ class midcom_application
         // Leave Context
         $oldcontext->set_current();
         $this->style->enter_context($oldcontext->id);
-    }
-
-    /**
-     * Deliver a blob to the client. It will add the following HTTP Headers:
-     *
-     * - Cache-Control: public max-age=$expires
-     * - Expires: GMT Date $now+$expires
-     * - Last-Modified: GMT Date of the last modified timestamp of the Attachment
-     * - Content-Length: The Length of the Attachment in Bytes
-     * - Accept-Ranges: none
-     *
-     * This should enable caching of browsers for Navigation images and so on. You can
-     * influence the expiration of the served attachment with the parameter $expires.
-     * It is the time in seconds till the client should refetch the file. The default
-     * for this is 24 hours. If you set it to "0" caching will be prohibited by
-     * changing the sent headers like this:
-     *
-     * - Pragma: no-cache
-     * - Cache-Control: no-cache
-     * - Expires: Current GMT Date
-     *
-     * If expires is set to -1, no expires header gets sent.
-     *
-     * @param midcom_db_attachment $attachment    The attachment to be delivered.
-     */
-    public function serve_attachment(midcom_db_attachment $attachment)
-    {
-        // Doublecheck that this is registered
-        $this->cache->content->register($attachment->guid);
-
-        $blob = new blob($attachment->__object);
-        $response = new BinaryFileResponse($blob->get_path());
-        $last_modified = (int) $response->getLastModified()->format('U');
-        $etag = md5("{$last_modified}{$attachment->name}{$attachment->mimetype}{$attachment->guid}");
-        $response->setEtag($etag);
-
-        if (!$response->isNotModified($this->request)) {
-            $response->prepare($this->request);
-
-            if ($this->config->get('attachment_xsendfile_enable')) {
-                BinaryFileResponse::trustXSendfileTypeHeader();
-                $response->headers->set('X-Sendfile-Type', 'X-Sendfile');
-            }
-        }
-        $this->cache->content->cache_control_headers($response);
-        // Store metadata in cache so _check_hit() can help us
-        $this->cache->content->write_meta_cache('A-' . $etag, $etag);
-        $response->send();
-
-        debug_add("End of MidCOM run: " . $this->request->server->get('REQUEST_URI'));
-        _midcom_stop_request();
     }
 
     /**

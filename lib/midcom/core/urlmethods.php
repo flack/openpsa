@@ -8,6 +8,8 @@
 
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use midgard\portable\api\blob;
 
 /**
  * MidCOM URL methods.
@@ -40,19 +42,39 @@ class midcom_core_urlmethods
 
     /**
      * This method will serve the attachment denoted by the given ID/GUID.
-     * It uses the default expiration time of serve_attachment (see there).
+     * It should enable caching of browsers for Navigation images and so on.
      *
      * @param string $guid
      * @throws midcom_error_notfound
      */
-    public function process_serveattachmentguid($guid)
+    public function process_serveattachmentguid(Request $request, $guid)
     {
         $attachment = new midcom_db_attachment($guid);
         if (!$attachment->can_do('midgard:autoserve_attachment')) {
             throw new midcom_error_notfound('Failed to access attachment: Autoserving denied.');
         }
 
-        midcom::get()->serve_attachment($attachment);
+        // Doublecheck that this is registered
+        midcom::get()->cache->content->register($attachment->guid);
+
+        $blob = new blob($attachment->__object);
+        $response = new BinaryFileResponse($blob->get_path());
+        $last_modified = (int) $response->getLastModified()->format('U');
+        $etag = md5("{$last_modified}{$attachment->name}{$attachment->mimetype}{$attachment->guid}");
+        $response->setEtag($etag);
+
+        if (!$response->isNotModified($request)) {
+            $response->prepare($request);
+
+            if (midcom::get()->config->get('attachment_xsendfile_enable')) {
+                BinaryFileResponse::trustXSendfileTypeHeader();
+                $response->headers->set('X-Sendfile-Type', 'X-Sendfile');
+            }
+        }
+        midcom::get()->cache->content->cache_control_headers($response);
+        // Store metadata in cache so _check_hit() can help us
+        midcom::get()->cache->content->write_meta_cache('A-' . $etag, $etag);
+        return $response;
     }
 
     /**
