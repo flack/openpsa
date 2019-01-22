@@ -375,23 +375,4 @@ class midcom_helper_misc
 
         return false;
     }
-
-    /**
-     * Iterate through possible page directories in style-tree and check if the page exists (as a folder).
-     *
-     * @param string $page_name
-     */
-    public static function check_page_exists($page_name)
-    {
-        $path_array = explode('/', midcom::get()->config->get('theme'));
-
-        while (!empty($path_array)) {
-            $theme_path = implode('/', $path_array);
-            if (is_dir(OPENPSA2_THEME_ROOT . $theme_path . '/style/' . $page_name)) {
-                return true;
-            }
-            array_pop($path_array);
-        }
-        return false;
-    }
 }
