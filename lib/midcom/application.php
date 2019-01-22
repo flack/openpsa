@@ -10,7 +10,6 @@ use midgard\portable\api\blob;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
@@ -61,7 +60,7 @@ class midcom_application
     private $request;
 
     /**
-     * @var HttpKernel
+     * @var HttpKernelInterface
      */
     private $httpkernel;
 
@@ -80,7 +79,7 @@ class midcom_application
      */
     public $skip_page_style = false;
 
-    public function __construct(HttpKernel $httpkernel)
+    public function __construct(HttpKernelInterface $httpkernel)
     {
         $this->httpkernel = $httpkernel;
         midcom_compat_environment::initialize();
