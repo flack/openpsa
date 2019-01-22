@@ -174,7 +174,7 @@ class midcom_core_urlmethods
      * @param string $filename
      * @see midcom_services_cache_module_content::enable_live_mode()
      */
-    public function process_exec(Request $request, $component, $filename)
+    public function process_exec(Request $request, $component, $filename, $argv)
     {
         // Build the path
         $componentloader = midcom::get()->componentloader;
@@ -192,8 +192,7 @@ class midcom_core_urlmethods
         }
 
         // collect remaining arguments and put them to global vars.
-        $GLOBALS['argv'] = $context->parser->argv;
-        array_shift($GLOBALS['argv']);
+        $GLOBALS['argv'] = explode('/', $argv);
 
         midcom::get()->cache->content->enable_live_mode();
 

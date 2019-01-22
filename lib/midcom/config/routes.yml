@@ -26,8 +26,9 @@ login:
     requirements: { url: '.*'}
 
 exec:
-    path: /midcom-exec-{component}/{filename}
-    defaults: { _controller: 'midcom_core_urlmethods::process_exec' }
+    path: /midcom-exec-{component}/{filename}/{argv}
+    defaults: { _controller: 'midcom_core_urlmethods::process_exec', argv: '' }
+    requirements: { argv: '.*'}
 
 config:
     path: /midcom-config-test
