@@ -223,16 +223,12 @@ class midcom_application
             throw $e;
         }
 
-        // Start another buffer for caching DL results
-        ob_start();
-
         $backup = $this->skip_page_style;
         $this->skip_page_style = true;
-        $response->send();
+        $dl_cache_data = $response->getContent();
         $this->skip_page_style = $backup;
+        echo $dl_cache_data;
 
-        $dl_cache_data = ob_get_contents();
-        ob_end_flush();
         /* Cache DL the content */
         $this->cache->content->store_dl_content($context->id, $dl_cache_data);
 
