@@ -1,8 +1,8 @@
 $(document).ready(function() {
     $('.content-area')
-        .on('click', 'a[href]', function(event) {
+        .on('click', 'a[href], .preview-image', function(event) {
             event.preventDefault();
-            var url = $(this).attr('href'),
+            var url = $(this).attr('href') || $(this).attr('src'),
                 title = '';
 
             if ($(this).parent('td').length > 0) {
