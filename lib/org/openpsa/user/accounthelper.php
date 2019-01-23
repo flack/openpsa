@@ -25,7 +25,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @var midcom_core_account
      */
-    protected $account;
+    private $account;
 
     public $errstr;
 
