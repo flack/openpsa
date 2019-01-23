@@ -175,7 +175,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $style = new midcom_db_style();
         $style->name = $style_name;
 
-        if ($inherited = midcom_core_context::get()->parser->get_inherited_style()) {
+        if ($inherited = midcom_core_context::get()->get_inherited_style()) {
             $style->up = midcom::get()->style->get_style_id_from_path($inherited);
             debug_add("Style inherited from {$inherited}");
         }

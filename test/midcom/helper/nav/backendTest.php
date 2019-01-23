@@ -51,9 +51,8 @@ class midcom_helper_backendTest extends openpsa_testcase
 
         $context = new midcom_core_context(null, $root_topic);
         $context->set_current();
-        $context->parser = new midcom_core_service_implementation_urlparsertopic;
 
-        $context->parser->parse([$child_topic_name, $article_name]);
+        $context->set_key(MIDCOM_CONTEXT_URI, "/$child_topic_name/$article_name/");
         $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $child_topic);
 
         $request = Request::create("/$child_topic_name/$article_name/");

@@ -10,7 +10,6 @@ namespace midcom\routing;
 
 use Symfony\Component\HttpFoundation\Request;
 use midcom;
-use midcom_core_context;
 use midcom_connection;
 use midcom_error_forbidden;
 use midcom_error_notfound;
@@ -28,11 +27,23 @@ class resolver
     private $request;
 
     /**
+     * @var parser
+     */
+    private $parser;
+
+    /**
+     * @var \midcom_core_context
+     */
+    private $context;
+
+    /**
      * @param Request $request
      */
     public function __construct(Request $request)
     {
         $this->request = $request;
+        $this->context = $request->attributes->get('context');
+        $this->parser = new parser($this->context);
     }
 
     /**
@@ -60,9 +71,7 @@ class resolver
      */
     public function process_midcom()
     {
-        $context = $this->request->attributes->get('context');
-
-        if ($url = $this->find_urlmethod($context)) {
+        if ($url = $this->parser->find_urlmethod()) {
             $router = resolver::get_router('midcom');
             $router->getContext()
                 ->fromRequest($this->request);
@@ -77,26 +86,6 @@ class resolver
                 $this->request->attributes->set($key, $value);
             }
             return true;
-        }
-        return false;
-    }
-
-    private function find_urlmethod(midcom_core_context $context)
-    {
-        while (($tmp = $context->parser->get_variable('midcom')) !== false) {
-            foreach ($tmp as $key => $value) {
-                if ($key == 'substyle') {
-                    $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $value);
-                    debug_add("Substyle '$value' selected");
-                } else {
-                    $url = "/midcom-$key-$value";
-                    if (!empty($context->parser->argv)) {
-                        $url .= '/' . implode('/', $context->parser->argv);
-                    }
-
-                    return $url;
-                }
-            }
         }
         return false;
     }
@@ -121,10 +110,8 @@ class resolver
      */
     public function process_component()
     {
-        $context = $this->request->attributes->get('context');
-
-        $topic = $this->find_topic($context);
-        $this->request->attributes->set('argv', $context->parser->argv);
+        $topic = $this->parser->find_topic();
+        $this->request->attributes->set('argv', $this->parser->argv);
 
         // Get component interface class
         $component_interface = midcom::get()->componentloader->get_interface_class($topic->component);
@@ -141,7 +128,7 @@ class resolver
             }
             throw new midcom_error_notfound("This page is not available on this server.");
         }
-        $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
+        $this->context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
 
         foreach ($result as $key => $value) {
             if ($key === 'handler') {
@@ -153,28 +140,5 @@ class resolver
             $this->request->attributes->set($key, $value);
         }
         $viewer->handle();
-    }
-
-    /**
-     * @param midcom_core_context $context
-     * @throws \midcom_error
-     * @return \midcom_db_topic
-     */
-    private function find_topic(midcom_core_context $context)
-    {
-        do {
-            $topic = $context->parser->get_current_object();
-            if (empty($topic)) {
-                throw new \midcom_error('Root node missing.');
-            }
-        } while ($context->parser->get_object() !== false);
-
-        // Initialize context
-        $context->set_key(MIDCOM_CONTEXT_ANCHORPREFIX, $context->parser->get_url());
-        $context->set_key(MIDCOM_CONTEXT_COMPONENT, $topic->component);
-        $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $topic);
-        $context->set_key(MIDCOM_CONTEXT_URLTOPICS, $context->parser->get_objects());
-
-        return $topic;
     }
 }

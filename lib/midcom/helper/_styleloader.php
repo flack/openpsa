@@ -465,7 +465,7 @@ class midcom_helper__styleloader
         // should this be cached somehow?
         if ($topic->style) {
             $_st = $this->get_style_id_from_path($topic->style);
-        } elseif ($inherited = midcom_core_context::get()->parser->get_inherited_style()) {
+        } elseif ($inherited = midcom_core_context::get()->get_inherited_style()) {
             // get user defined style inherited from topic tree
             $_st = $this->get_style_id_from_path($inherited);
         } else {
@@ -488,7 +488,7 @@ class midcom_helper__styleloader
                 }
             }
         } else {
-            $style = $topic->style ?: midcom_core_context::get()->parser->get_inherited_style();
+            $style = $topic->style ?: midcom_core_context::get()->get_inherited_style();
             if (   is_string($style)
                 && strpos($style, 'theme:') === 0) {
                 $theme_dir = OPENPSA2_THEME_ROOT . midcom::get()->config->get('theme') . '/style';

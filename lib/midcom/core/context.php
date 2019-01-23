@@ -62,13 +62,6 @@ class midcom_core_context
     public $id;
 
     /**
-     * The context's URL parser instance
-     *
-     * @var midcom_core_service_urlparser
-     */
-    public $parser;
-
-    /**
      * Create and prepare a new component context.
      *
      * @param int $id Explicitly specify the ID for context creation (used during construction), this parameter is usually omitted.
@@ -135,6 +128,21 @@ class midcom_core_context
     public static function get_all()
     {
         return self::$_contexts;
+    }
+
+    /**
+     * Returns inherited style (if any)
+     */
+    public function get_inherited_style()
+    {
+        $to_check = array_reverse($this->get_key(MIDCOM_CONTEXT_URLTOPICS));
+        $to_check[] = $this->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
+        foreach ($to_check as $object) {
+            if ($object instanceof midcom_db_topic && $object->styleInherit && $object->style) {
+                return $object->style;
+            }
+        }
+        return false;
     }
 
     /**

@@ -90,11 +90,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         $context = new midcom_core_context(null, $topic);
         $context->set_current();
-        $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $topic->name . '/' . implode('/', $args) . '/');
-
-        // Parser Init: Generate arguments and instantiate it.
-        $context->parser = midcom::get()->serviceloader->load('midcom_core_service_urlparser');
-        $context->parser->parse($args);
+        $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . implode('/', $args) . '/');
 
         $request = Request::createFromGlobals();
         $request->attributes->set('context', $context);

@@ -7,7 +7,6 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
@@ -141,11 +140,7 @@ class midcom_application
     public function codeinit()
     {
         $context = midcom_core_context::get();
-
-        // Parse the URL
-        $context->parser = $this->serviceloader->load(midcom_core_service_urlparser::class);
-        $context->parser->parse(midcom_connection::get_url('argv'));
-
+        $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('uri'));
         $this->request->attributes->set('context', $context);
 
         $this->httpkernel->handle($this->request)->send();
@@ -202,11 +197,6 @@ class midcom_application
             echo $cached;
             return;
         }
-
-        // Parser Init: Generate arguments and instantiate it.
-        $context->parser = $this->serviceloader->load(midcom_core_service_urlparser::class);
-        $argv = $context->parser->tokenize($url);
-        $context->parser->parse($argv);
 
         $request = $this->request->duplicate([], null, []);
         $request->attributes->set('context', $context);
