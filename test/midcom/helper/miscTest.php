@@ -11,13 +11,13 @@
  *
  * @package openpsa.test
  */
-class midcom_core_service_implementation_urlgeneratori18nTest extends openpsa_testcase
+class midcom_helper_miscTest extends openpsa_testcase
 {
-    public function test_from_string()
+    public function test_urlize()
     {
-        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
-        $clean1 = $generator->from_string('foobar & barfoo');
-        $clean2 = $generator->from_string($clean1);
+        $clean1 = midcom_helper_misc::urlize('foobar & barfoo');
+        $clean2 = midcom_helper_misc::urlize($clean1);
+        $this->assertEquals('foobar-barfoo', $clean1);
         $this->assertEquals($clean1, $clean2);
     }
 }

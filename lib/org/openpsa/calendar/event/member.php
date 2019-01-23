@@ -117,12 +117,11 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             || $type == 'remove') {
             // TODO: Create iCal export with correct delete commands
         } else {
-            $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
             $encoder = new org_openpsa_calendar_vcal;
             $encoder->add_event($event);
             $message['attachments'] = [
                 [
-                    'name' => $generator->from_string(sprintf('%s on %s', $event->title, date('Ymd_Hi', $event->start))) . '.ics',
+                    'name' => midcom_helper_misc::urlize(sprintf('%s on %s', $event->title, date('Ymd_Hi', $event->start))) . '.ics',
                     'mimetype' => 'text/calendar',
                     'content' => (string) $encoder,
                 ],

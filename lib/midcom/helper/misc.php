@@ -37,6 +37,18 @@ class midcom_helper_misc
     }
 
     /**
+     * @param string $input
+     * @return string
+     */
+    public static function urlize($input)
+    {
+        if (empty($input)) {
+            return '';
+        }
+        return midgardmvc_helper_urlize::string($input, '-');
+    }
+
+    /**
      * Turn midcom config files into PHP arrays
      *
      * @param string $data The data to parse

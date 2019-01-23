@@ -45,7 +45,6 @@ class parser
         $this->context = $context;
         $url = $this->context->get_key(MIDCOM_CONTEXT_URI);
 
-        $argv = [];
         $prefix_length = strlen(midcom_connection::get_url('prefix'));
         if (   $prefix_length > 1
             && substr($url, 0, $prefix_length) == midcom_connection::get_url('prefix')) {
@@ -53,11 +52,10 @@ class parser
         }
         $url = trim($url, '/');
         if ($url != '') {
-            $argv_tmp = explode('/', $url);
-            $argv = array_filter($argv_tmp);
+            $argv = explode('/', $url);
+            $this->argv = array_filter($argv);
         }
 
-        $this->argv = $argv;
         $this->url = '';
     }
 

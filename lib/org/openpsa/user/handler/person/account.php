@@ -80,8 +80,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
             $defaults['username'] = preg_replace('/@.*/', '', $this->person->email);
         } else {
             // Otherwise use cleaned up firstname.lastname
-            $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
-            $defaults['username'] = $generator->from_string($this->person->firstname) . '.' . $generator->from_string($this->person->lastname);
+            $defaults['username'] = midcom_helper_misc::urlize($this->person->firstname) . '.' . midcom_helper_misc::urlize($this->person->lastname);
         }
         return datamanager::from_schemadb($this->_config->get($schemadb))
             ->set_defaults($defaults)

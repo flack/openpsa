@@ -198,8 +198,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         // Safety, make sure we have sane name (the allow_catenate was set earlier, so this will not clash
         if (empty($article->name)) {
-            $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
-            $values['name'] = $generator->from_string($title);
+            $values['name'] = midcom_helper_misc::urlize($title);
         }
 
         $categories = $item->get_categories();

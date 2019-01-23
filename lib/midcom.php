@@ -60,7 +60,6 @@ class midcom
         'metadata' => midcom_services_metadata::class,
         'permalinks' => midcom_services_permalinks::class,
         'rcs' => midcom_services_rcs::class,
-        'serviceloader' => midcom_helper_serviceloader::class,
         'session' => midcom_services__sessioning::class,
         'style' => midcom_helper__styleloader::class,
         'toolbars' => midcom_services_toolbars::class,

@@ -412,9 +412,6 @@ class midcom_config implements ArrayAccess
         'toolbars_simple_css_path' => null,
         'toolbars_enable_centralized' => true,
 
-        // Service implementation defaults
-        'service_midcom_core_service_urlgenerator' => midcom_core_service_implementation_urlgeneratori18n::class,
-
         // Public attachment caching directives
         'attachment_cache_enabled' => false,
         'attachment_cache_root' => '/var/lib/midgard/vhosts/example.net/80/midcom-static/blobs',

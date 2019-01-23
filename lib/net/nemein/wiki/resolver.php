@@ -91,10 +91,9 @@ class net_nemein_wiki_resolver
             'latest_parent' => null,
             'remaining_path' => $path,
         ];
-        $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
 
         $levels = explode('/', $path);
-        $path = implode('/', array_map([$generator, 'from_string'], $levels));
+        $path = implode('/', array_map([midcom_helper_misc::class, 'urlize'], $levels));
 
         midcom::get()->auth->request_sudo('net.nemein.wiki');
         if (count($levels) == 1) {

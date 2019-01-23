@@ -12,7 +12,6 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * Main controlling instance of the MidCOM Framework
  *
- * @property midcom_helper_serviceloader $serviceloader
  * @property midcom_services_i18n $i18n
  * @property midcom_helper__componentloader $componentloader
  * @property midcom_services_dbclassloader $dbclassloader

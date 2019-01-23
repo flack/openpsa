@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use midcom;
 use midcom_helper_reflector_nameresolver;
+use midcom_helper_misc;
 use midcom\datamanager\storage\container\dbacontainer;
 
 class urlnameValidator extends ConstraintValidator
@@ -19,7 +20,6 @@ class urlnameValidator extends ConstraintValidator
             return;
         }
 
-        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
         $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
 
         $data = $this->context->getRoot()->getData();
@@ -34,9 +34,9 @@ class urlnameValidator extends ConstraintValidator
 
         $message = null;
         if (!$resolver->name_is_safe($property)) {
-            $message = sprintf($l10n->get('type urlname: name is not "URL-safe", try "%s"'), $generator->from_string($value));
+            $message = sprintf($l10n->get('type urlname: name is not "URL-safe", try "%s"'), midcom_helper_misc::urlize($value));
         } elseif (!$constraint->allow_unclean && !$resolver->name_is_clean($property)) {
-            $message = sprintf($l10n->get('type urlname: name is not "clean", try "%s"'), $generator->from_string($value));
+            $message = sprintf($l10n->get('type urlname: name is not "clean", try "%s"'), midcom_helper_misc::urlize($value));
         } elseif (!$constraint->allow_catenate && !$resolver->name_is_unique()) {
             $message = sprintf($l10n->get('type urlname: name is already taken, try "%s"'), $resolver->generate_unique_name());
         }

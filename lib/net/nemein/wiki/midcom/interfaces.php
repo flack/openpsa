@@ -67,8 +67,7 @@ implements midcom_services_permalinks_resolver
             debug_add('given node is not valid', MIDCOM_LOG_ERROR);
             return false;
         }
-        $generator = midcom::get()->serviceloader->load(midcom_core_service_urlgenerator::class);
-        $wikiword_name = $generator->from_string($wikiword);
+        $wikiword_name = midcom_helper_misc::urlize($wikiword);
         $qb = new midgard_query_builder('midgard_article');
         $qb->add_constraint('topic', '=', $node[MIDCOM_NAV_OBJECT]->id);
         $qb->add_constraint('name', '=', $wikiword_name);
