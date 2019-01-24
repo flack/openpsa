@@ -61,29 +61,22 @@ class midcom_services_session
     /**
      * Constructs a session object.
      *
-     * The constructor has three semantics:
-     *
      * The default constructor will create a sessioning object within the domain
      * of the current context's component. This will be sufficient for almost all
      * actual uses of the sessions.
      *
-     * If passed an integer argument, it will use the context indicated by this
-     * parameter as a default domain.
+     * If passed a string argument, this value is used as a domain. This
+     * is useful for components that need sessioning while under dynamic_load
+     * conditions or while used as a library.
      *
-     * Finally, if passed a string argument, this value is used as a domain. This
-     * is useful for components that need sessioning while under <i>dynamic_load</i>
-     * conditions or while used as a <i>library</i>.
-     *
-     * @param mixed $context    Either null or a context ID (uses the context's component) or an explicit domain.
+     * @param string $domain An explicit domain.
      */
-    public function __construct($context = null)
+    public function __construct($domain = null)
     {
-        if (   $context === null
-            || is_numeric($context)) {
-            $this->_domain = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_COMPONENT);
-        } else {
-            $this->_domain = $context;
+        if ($domain === null) {
+            $domain = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
+        $this->_domain = $domain;
 
         $this->_sessioning = midcom::get()->session;
     }

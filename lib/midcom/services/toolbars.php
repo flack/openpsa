@@ -122,90 +122,68 @@ class midcom_services_toolbars
     }
 
     /**
-     * Returns the host toolbar of the specified context. The toolbars
-     * will be created if this is the first request.
+     * Returns the host toolbar of the current context.
+     * The toolbar will be created if this is the first request.
      *
-     * @param int $context_id The context to retrieve the node toolbar for, this
-     *     defaults to the current context.
      * @return midcom_helper_toolbar_host
      */
-    function get_host_toolbar($context_id = null)
+    function get_host_toolbar()
     {
-        return $this->_get_toolbar($context_id, MIDCOM_TOOLBAR_HOST);
+        return $this->_get_toolbar(MIDCOM_TOOLBAR_HOST);
     }
 
     /**
-     * Returns the node toolbar of the specified context. The toolbars
-     * will be created if this is the first request.
+     * Returns the node toolbar of the current context.
+     * The toolbar will be created if this is the first request.
      *
-     * @param int $context_id The context to retrieve the node toolbar for, this
-     *     defaults to the current context.
      * @return midcom_helper_toolbar_node
      */
-    public function get_node_toolbar($context_id = null)
+    public function get_node_toolbar()
     {
-        return $this->_get_toolbar($context_id, MIDCOM_TOOLBAR_NODE);
+        return $this->_get_toolbar(MIDCOM_TOOLBAR_NODE);
     }
 
     /**
-     * Returns the view toolbar of the specified context. The toolbars
-     * will be created if this is the first request.
+     * Returns the view toolbar of the current context.
+     * The toolbar will be created if this is the first request.
      *
-     * @param int $context_id The context to retrieve the view toolbar for, this
-     *     defaults to the current context.
      * @return midcom_helper_toolbar_view
      */
-    public function get_view_toolbar($context_id = null)
+    public function get_view_toolbar()
     {
-        return $this->_get_toolbar($context_id, MIDCOM_TOOLBAR_VIEW);
+        return $this->_get_toolbar(MIDCOM_TOOLBAR_VIEW);
     }
 
     /**
-     * Returns the help toolbar of the specified context. The toolbars
-     * will be created if this is the first request.
+     * Returns the help toolbar of the current context.
+     * The toolbar will be created if this is the first request.
      *
-     * @param int $context_id The context to retrieve the help toolbar for, this
-     *     defaults to the current context.
      * @return midcom_helper_toolbar_help
      */
-    public function get_help_toolbar($context_id = null)
+    public function get_help_toolbar()
     {
-        return $this->_get_toolbar($context_id, MIDCOM_TOOLBAR_HELP);
+        return $this->_get_toolbar(MIDCOM_TOOLBAR_HELP);
     }
 
     /**
-     *
-     * @param integer $context_id
      * @param string $identifier
      * @return midcom_helper_toolbar
      */
-    private function _get_toolbar($context_id, $identifier)
+    private function _get_toolbar($identifier)
     {
-        if ($context_id === null) {
-            $context_id = midcom_core_context::get()->id;
+        $context = midcom_core_context::get();
+
+        if (!array_key_exists($context->id, $this->_toolbars)) {
+            $component = $context->get_key(MIDCOM_CONTEXT_COMPONENT);
+            $topic = $context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
+
+            $this->_toolbars[$context->id][MIDCOM_TOOLBAR_HELP] = new midcom_helper_toolbar_help($component);
+            $this->_toolbars[$context->id][MIDCOM_TOOLBAR_HOST] = new midcom_helper_toolbar_host;
+            $this->_toolbars[$context->id][MIDCOM_TOOLBAR_NODE] = new midcom_helper_toolbar_node($topic);
+            $this->_toolbars[$context->id][MIDCOM_TOOLBAR_VIEW] = new midcom_helper_toolbar_view;
         }
 
-        if (!array_key_exists($context_id, $this->_toolbars)) {
-            $this->_create_toolbars($context_id);
-        }
-
-        return $this->_toolbars[$context_id][$identifier];
-    }
-
-    /**
-     * Creates the node and view toolbars for a given context ID.
-     *
-     * @param int $context_id The context ID for which the toolbars should be created.
-     */
-    private function _create_toolbars($context_id)
-    {
-        $component = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_COMPONENT);
-        $topic = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
-
-        $this->_toolbars[$context_id][MIDCOM_TOOLBAR_HELP] = new midcom_helper_toolbar_help($component);
-        $this->_toolbars[$context_id][MIDCOM_TOOLBAR_HOST] = new midcom_helper_toolbar_host;
-        $this->_toolbars[$context_id][MIDCOM_TOOLBAR_NODE] = new midcom_helper_toolbar_node($topic);
-        $this->_toolbars[$context_id][MIDCOM_TOOLBAR_VIEW] = new midcom_helper_toolbar_view;
+        return $this->_toolbars[$context->id][$identifier];
     }
 
     /**
@@ -213,15 +191,10 @@ class midcom_services_toolbars
      *
      * @param string $identifier
      * @param midcom_helper_toolbar $toolbar
-     * @param int $context_id The context to retrieve the help toolbar for, this
-     *     defaults to the current context.
      */
-    function add_toolbar($identifier, midcom_helper_toolbar $toolbar, $context_id = null)
+    function add_toolbar($identifier, midcom_helper_toolbar $toolbar)
     {
-        if ($context_id === null) {
-            $context_id = midcom_core_context::get()->id;
-        }
-
+        $context_id = midcom_core_context::get()->id;
         $this->_toolbars[$context_id][$identifier] = $toolbar;
     }
 
@@ -260,22 +233,18 @@ class midcom_services_toolbars
     }
 
     /**
-     * Renders the specified toolbar for the indicated context.
+     * Renders the specified toolbar for the current context.
      *
      * If the toolbar is undefined, an empty string is returned.
      *
      * @param int $toolbar_identifier The toolbar identifier constant (one of
      *     MIDCOM_TOOLBAR_NODE or MIDCOM_TOOLBAR_VIEW etc.)
-     * @param int $context_id The context to retrieve the node toolbar for, this
-     *     defaults to the current context.
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    function _render_toolbar($toolbar_identifier, $context_id = null)
+    function _render_toolbar($toolbar_identifier)
     {
-        if ($context_id === null) {
-            $context_id = midcom_core_context::get()->id;
-        }
+        $context_id = midcom_core_context::get()->id;
 
         if (!array_key_exists($context_id, $this->_toolbars)) {
             return '';
@@ -285,142 +254,121 @@ class midcom_services_toolbars
     }
 
     /**
-     * Renders the node toolbar for the indicated context. If the toolbar is undefined,
+     * Renders the node toolbar for the current context. If the toolbar is undefined,
      * an empty string is returned. If you want to show the toolbar directly, look for
      * the show_xxx_toolbar methods.
      *
-     * @param int $context_id The context to retrieve the node toolbar for, this
-     *     defaults to the current context.
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    public function render_node_toolbar($context_id = null)
+    public function render_node_toolbar()
     {
-        return $this->_render_toolbar(MIDCOM_TOOLBAR_NODE, $context_id);
+        return $this->_render_toolbar(MIDCOM_TOOLBAR_NODE);
     }
 
     /**
-     * Renders the view toolbar for the indicated context. If the toolbar is undefined,
+     * Renders the view toolbar for the current context. If the toolbar is undefined,
      * an empty string is returned. If you want to show the toolbar directly, look for
      * the show_xxx_toolbar methods.
      *
-     * @param int $context_id The context to retrieve the node toolbar for, this
-     *     defaults to the current context.
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    public function render_view_toolbar($context_id = null)
+    public function render_view_toolbar()
     {
-        return $this->_render_toolbar(MIDCOM_TOOLBAR_VIEW, $context_id);
+        return $this->_render_toolbar(MIDCOM_TOOLBAR_VIEW);
     }
 
     /**
-     * Renders the host toolbar for the indicated context. If the toolbar is undefined,
+     * Renders the host toolbar for the current context. If the toolbar is undefined,
      * an empty string is returned. If you want to show the toolbar directly, look for
      * the show_xxx_toolbar methods.
      *
-     * @param int $context_id The context to retrieve the node toolbar for, this
-     *     defaults to the current context.
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    public function render_host_toolbar($context_id = null)
+    public function render_host_toolbar()
     {
-        return $this->_render_toolbar(MIDCOM_TOOLBAR_HOST, $context_id);
+        return $this->_render_toolbar(MIDCOM_TOOLBAR_HOST);
     }
 
     /**
-     * Renders the help toolbar for the indicated context. If the toolbar is undefined,
+     * Renders the help toolbar for the current context. If the toolbar is undefined,
      * an empty string is returned. If you want to show the toolbar directly, look for
      * the show_xxx_toolbar methods.
      *
-     * @param int $context_id The context to retrieve the node toolbar for, this
-     *     defaults to the current context.
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    public function render_help_toolbar($context_id = null)
+    public function render_help_toolbar()
     {
-        return $this->_render_toolbar(MIDCOM_TOOLBAR_HELP, $context_id);
+        return $this->_render_toolbar(MIDCOM_TOOLBAR_HELP);
     }
 
     /**
-     * Displays the node toolbar for the indicated context. If the toolbar is undefined,
+     * Displays the node toolbar for the current context. If the toolbar is undefined,
      * an empty string is returned.
      *
-     * @param int $context_id The context to retrieve the node toolbar for, this
-     *     defaults to the current context.
      * @see midcom_helper_toolbar::render()
      */
-    function show_node_toolbar($context_id = null)
+    function show_node_toolbar()
     {
         if (!$this->_centralized_mode) {
-            echo $this->render_node_toolbar($context_id);
+            echo $this->render_node_toolbar();
         }
     }
 
     /**
-     * Displays the host toolbar for the indicated context. If the toolbar is undefined,
+     * Displays the host toolbar for the current context. If the toolbar is undefined,
      * an empty string is returned.
      *
-     * @param int $context_id The context to retrieve the node toolbar for, this
-     *     defaults to the current context.
      * @see midcom_helper_toolbar::render()
      */
-    function show_host_toolbar($context_id = null)
+    function show_host_toolbar()
     {
         if (!$this->_centralized_mode) {
-            echo $this->render_host_toolbar($context_id);
+            echo $this->render_host_toolbar();
         }
     }
 
     /**
-     * Displays the view toolbar for the indicated context. If the toolbar is undefined,
+     * Displays the view toolbar for the current context. If the toolbar is undefined,
      * an empty string is returned.
      *
-     * @param int $context_id The context to retrieve the node toolbar for, this
-     *     defaults to the current context.
      * @see midcom_helper_toolbar::render()
      */
-    public function show_view_toolbar($context_id = null)
+    public function show_view_toolbar()
     {
         if (!$this->_centralized_mode) {
-            echo $this->render_view_toolbar($context_id);
+            echo $this->render_view_toolbar();
         }
     }
 
     /**
-     * Displays the help toolbar for the indicated context. If the toolbar is undefined,
+     * Displays the help toolbar for the current context. If the toolbar is undefined,
      * an empty string is returned.
      *
-     * @param int $context_id The context to retrieve the node toolbar for, this
-     *     defaults to the current context.
      * @see midcom_helper_toolbar::render()
      */
-    function show_help_toolbar($context_id = null)
+    function show_help_toolbar()
     {
         if (!$this->_centralized_mode) {
-            echo $this->render_help_toolbar($context_id);
+            echo $this->render_help_toolbar();
         }
     }
 
     /**
-     * Displays the combined MidCOM toolbar system
+     * Displays the combined MidCOM toolbar system for the current context.
      *
-     * @param int $context_id The context to retrieve the node toolbar for, this
-     *     defaults to the current context.
      * @see midcom_helper_toolbar::render()
      */
-    public function show($context_id = null)
+    public function show()
     {
         if (!$this->_enable_centralized) {
             return;
         }
 
-        if (null === $context_id) {
-            $context_id = midcom_core_context::get()->id;
-        }
-
+        $context_id = midcom_core_context::get()->id;
         $this->_centralized_mode = true;
 
         $enable_drag = false;

@@ -42,23 +42,16 @@ class midcom_helper_nav
     /**
      * The context ID we're associated with.
      *
-     * @var int
+     * @var midcom_core_context
      */
-    private $_contextid;
+    private $context;
 
     /**
-     * Create a NAP instance for the given context. If unspecified, it
-     * uses the currently active context which should be sufficient
-     * in most cases.
-     *
-     * @param int $contextid    The id of the context you want to navigate.
+     * Create a NAP instance for the currently active context
      */
-    public function __construct($contextid = -1)
+    public function __construct()
     {
-        if ($contextid == -1) {
-            $contextid = midcom_core_context::get()->id;
-        }
-        $this->_contextid = $contextid;
+        $this->context = midcom_core_context::get();
         $this->_backend = $this->_get_backend();
     }
 
@@ -74,14 +67,13 @@ class midcom_helper_nav
      */
     private function _get_backend()
     {
-        if (!isset(self::$_backends[$this->_contextid])) {
-            $context = midcom_core_context::get($this->_contextid);
-            $root = $context->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
-            $urltopics = $context->get_key(MIDCOM_CONTEXT_URLTOPICS);
-            self::$_backends[$this->_contextid] = new midcom_helper_nav_backend($root, $urltopics);
+        if (!isset(self::$_backends[$this->context->id])) {
+            $root = $this->context->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
+            $urltopics = $this->context->get_key(MIDCOM_CONTEXT_URLTOPICS);
+            self::$_backends[$this->context->id] = new midcom_helper_nav_backend($root, $urltopics);
         }
 
-        return self::$_backends[$this->_contextid];
+        return self::$_backends[$this->context->id];
     }
 
     /* The following methods are just interfaces to midcom_helper_nav_backend */
@@ -513,7 +505,7 @@ class midcom_helper_nav
      */
     public function get_breadcrumb_data($id = null)
     {
-        $prefix = midcom_core_context::get($this->_contextid)->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = $this->context->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $result = [];
 
         if (!$id) {
