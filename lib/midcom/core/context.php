@@ -25,14 +25,19 @@ class midcom_core_context
      *
      * @var midcom_core_context[]
      */
-    private static $_contexts = [];
+    private static $contexts = [];
 
     /**
      * Contains the ID of the currently active context
      *
      * @var int
      */
-    private static $_currentcontext = 0;
+    private static $current = 0;
+
+    /**
+     * @var midcom_core_context[]
+     */
+    private static $stack = [];
 
     /**
      * The context's data
@@ -77,18 +82,36 @@ class midcom_core_context
         }
 
         if ($id === null) {
-            $id = count(self::$_contexts);
+            $id = count(self::$contexts);
         }
         $this->id = $id;
-        self::$_contexts[$id] =& $this;
+        self::$contexts[$id] = $this;
     }
 
     /**
-     * Marks context as current
+     * @param string $url
+     * @param midcom_db_topic $topic
+     * @return midcom_core_context
      */
-    public function set_current()
+    public static function enter($url = null, midcom_db_topic $topic = null)
     {
-        self::$_currentcontext = $this->id;
+        if (!empty(self::$contexts)) {
+            array_push(self::$stack, self::get());
+        }
+        $context = new static(null, $topic);
+        self::$current = $context->id;
+        if ($url !== null) {
+            $context->set_key(MIDCOM_CONTEXT_URI, $url);
+        }
+        return $context;
+    }
+
+    public static function leave()
+    {
+        if (!empty(self::$stack)) {
+            $previous = array_pop(self::$stack);
+            self::$current = $previous->id;
+        }
     }
 
     /**
@@ -99,24 +122,23 @@ class midcom_core_context
      * @param int $id The context ID, if any
      * @return midcom_core_context The requested context, or false if not found
      */
-    public static function & get($id = null)
+    public static function get($id = null)
     {
         if ($id === null) {
-            $id = self::$_currentcontext;
-            if (!isset(self::$_contexts[$id])) {
-                self::$_contexts[$id] = new self($id);
+            $id = self::$current;
+            if (!isset(self::$contexts[$id])) {
+                self::$contexts[$id] = new self($id);
             }
-            return self::$_contexts[$id];
+            return self::$contexts[$id];
         }
 
         if (   $id < 0
-            || $id >= count(self::$_contexts)) {
+            || $id >= count(self::$contexts)) {
             debug_add("Could not get invalid context $id.", MIDCOM_LOG_WARN);
-            $ret = false;
-            return $ret;
+            return false;
         }
 
-        return self::$_contexts[$id];
+        return self::$contexts[$id];
     }
 
     /**
@@ -127,7 +149,7 @@ class midcom_core_context
      */
     public static function get_all()
     {
-        return self::$_contexts;
+        return self::$contexts;
     }
 
     /**
@@ -262,7 +284,7 @@ class midcom_core_context
      *
      * Note, that if you are working from a library like the datamanager is, you
      * cannot override the component association done by the system. Instead you
-     * should add your libraries name (like midcom.helper.datamanager) as a prefix,
+     * should add your libraries name (like midcom.datamanager) as a prefix,
      * separated by a dot. I know, that this is not really an elegant solution and
      * that it actually breaks with the encapsulation I want, but I don't have a
      * better solution yet.

@@ -88,9 +88,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $topic = $this->get_component_node($component);
         }
 
-        $context = new midcom_core_context(null, $topic);
-        $context->set_current();
-        $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . implode('/', $args) . '/');
+        $context = midcom_core_context::enter(midcom_connection::get_url('self') . implode('/', $args) . '/', $topic);
 
         $request = Request::createFromGlobals();
         $request->attributes->set('context', $context);
@@ -390,8 +388,8 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
     {
         $this->reset_server_vars();
 
-        if (midcom_core_context::get()->id != 0) {
-            midcom_core_context::get(0)->set_current();
+        while (midcom_core_context::get()->id != 0) {
+            midcom_core_context::leave();
         }
 
         if (!midcom::get()->config->get('auth_allow_sudo')) {

@@ -200,15 +200,13 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
     private function show($name, $data)
     {
-        $context = new midcom_core_context;
-        $old = midcom_core_context::get();
-        $context->set_current();
+        $context = midcom_core_context::enter();
         $context->set_custom_key('request_data', $data);
         midcom::get()->style->prepend_component_styledir($this->_component);
         midcom::get()->style->enter_context($context->id);
         midcom_show_style('show_' . $name);
         midcom::get()->style->leave_context();
-        $old->set_current();
+        midcom_core_context::leave();
     }
 
     /**

@@ -118,8 +118,7 @@ class midcom_application
         $this->cache->content->start_caching($this->request);
 
         // Initialize Context Storage
-        $context = new midcom_core_context(0);
-        $context->set_current();
+        midcom_core_context::enter(midcom_connection::get_url('uri'));
         // Initialize the UI message stack from session
         $this->uimessages->initialize();
     }
@@ -180,20 +179,17 @@ class midcom_application
         if (substr($url, -5) == '.html') {
             $url = substr($url, 0, -5);
         }
+        $url = midcom_connection::get_url('self') . $url;
 
         // Determine new Context ID and set current context,
         // enter that context and prepare its data structure.
         $oldcontext = midcom_core_context::get();
-        $context = new midcom_core_context(null, $oldcontext->get_key(MIDCOM_CONTEXT_ROOTTOPIC));
-        $uri = midcom_connection::get_url('self') . $url;
-        $context->set_key(MIDCOM_CONTEXT_URI, $uri);
-
-        $context->set_current();
-        debug_add("Entering Context {$context->id} (old Context: {$oldcontext->id})");
+        $context = midcom_core_context::enter($url, $oldcontext->get_key(MIDCOM_CONTEXT_ROOTTOPIC));
 
         $cached = $this->cache->content->check_dl_hit($context->id);
         if ($cached !== false) {
             echo $cached;
+            midcom_core_context::leave();
             return;
         }
 
@@ -205,8 +201,7 @@ class midcom_application
         } catch (midcom_error $e) {
             if ($e instanceof midcom_error_notfound || $e instanceof midcom_error_forbidden) {
                 $e->log();
-                // Leave Context
-                $oldcontext->set_current();
+                midcom_core_context::leave();
                 return;
             }
             throw $e;
@@ -221,8 +216,7 @@ class midcom_application
         /* Cache DL the content */
         $this->cache->content->store_dl_content($context->id, $dl_cache_data);
 
-        debug_add("Leaving Context {$context->id} (new Context: {$oldcontext->id})");
-        $oldcontext->set_current();
+        midcom_core_context::leave();
         $this->style->enter_context($oldcontext->id);
     }
 

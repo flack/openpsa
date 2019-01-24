@@ -49,10 +49,7 @@ class midcom_helper_backendTest extends openpsa_testcase
         $leaf_id = $child_topic->id . '-' . $article->id;
         midcom_baseclasses_components_configuration::set($child_topic->component, 'active_leaf', $article->id);
 
-        $context = new midcom_core_context(null, $root_topic);
-        $context->set_current();
-
-        $context->set_key(MIDCOM_CONTEXT_URI, "/$child_topic_name/$article_name/");
+        $context = midcom_core_context::enter("/$child_topic_name/$article_name/", $root_topic);
         $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $child_topic);
 
         $request = Request::create("/$child_topic_name/$article_name/");
