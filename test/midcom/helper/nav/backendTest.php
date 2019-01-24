@@ -18,8 +18,7 @@ class midcom_helper_backendTest extends openpsa_testcase
     public function test_singlenode()
     {
         $root_topic = $this->create_object(midcom_db_topic::class, ['component' => 'midcom.core.nullcomponent']);
-        $context = new midcom_core_context(null, $root_topic);
-        $backend = new midcom_helper_nav_backend($context->id);
+        $backend = new midcom_helper_nav_backend($root_topic, []);
         $this->assertEquals($root_topic->id, $backend->get_root_node());
         $this->assertEquals($root_topic->id, $backend->get_current_node());
         $this->assertEquals([$root_topic->id], $backend->get_node_path());
@@ -56,7 +55,7 @@ class midcom_helper_backendTest extends openpsa_testcase
         $request->attributes->set('context', $context);
         $GLOBALS['kernel']->handle($request);
 
-        $backend = new midcom_helper_nav_backend($context->id);
+        $backend = new midcom_helper_nav_backend($root_topic, [$child_topic]);
 
         $this->assertEquals($root_topic->id, $backend->get_root_node());
         $this->assertEquals($child_topic->id, $backend->get_current_node());

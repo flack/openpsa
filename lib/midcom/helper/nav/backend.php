@@ -144,9 +144,10 @@ class midcom_helper_nav_backend
      * It will initialize Root Topic, Current Topic and all cache arrays.
      * The constructor retrieves all initialization data from the component context.
      *
-     * @param int $context    The Context ID for which to create NAP data for, defaults to 0
+     * @param midcom_db_topic $root
+     * @param midcom_db_topic[] $urltopics
      */
-    public function __construct($context = 0)
+    public function __construct(midcom_db_topic $root, array $urltopics)
     {
         $this->_nap_cache = midcom::get()->cache->nap;
 
@@ -154,14 +155,13 @@ class midcom_helper_nav_backend
             $this->_user_id = midcom::get()->auth->acl->get_user_id();
         }
 
-        $root = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
         $this->_root = $root->id;
         $this->_current = $this->_root;
 
         if (empty($root->id)) {
             $this->_loadNodeData($root);
         } else {
-            $this->init_topics($root, $context);
+            $this->init_topics($root, $urltopics);
         }
     }
 
@@ -172,12 +172,12 @@ class midcom_helper_nav_backend
      * known good node will be used instead for the current node.
      *
      * @param midcom_db_topic $root
-     * @param integer $context
+     * @param midcom_db_topic[] $urltopics
      */
-    private function init_topics(midcom_db_topic $root, $context)
+    private function init_topics(midcom_db_topic $root, array $urltopics)
     {
         $node_path_candidates = [$root];
-        foreach (midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_URLTOPICS) as $topic) {
+        foreach ($urltopics as $topic) {
             $node_path_candidates[] = $topic;
             $this->_current = $topic->id;
         }

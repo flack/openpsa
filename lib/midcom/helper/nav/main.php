@@ -75,7 +75,10 @@ class midcom_helper_nav
     private function _get_backend()
     {
         if (!isset(self::$_backends[$this->_contextid])) {
-            self::$_backends[$this->_contextid] = new midcom_helper_nav_backend($this->_contextid);
+            $context = midcom_core_context::get($this->_contextid);
+            $root = $context->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
+            $urltopics = $context->get_key(MIDCOM_CONTEXT_URLTOPICS);
+            self::$_backends[$this->_contextid] = new midcom_helper_nav_backend($root, $urltopics);
         }
 
         return self::$_backends[$this->_contextid];
