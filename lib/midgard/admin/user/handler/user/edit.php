@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midgard_admin_user_handler_user_edit extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     public function _on_initialize()
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.user/usermgmt.css');
@@ -80,7 +82,7 @@ class midgard_admin_user_handler_user_edit extends midcom_baseclasses_components
         $this->_prepare_toolbar($data, $handler_id, $person);
         $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb("", $data['view_title']);
-        return new midgard_admin_asgard_response($this, '_show_edit');
+        return $this->get_response();
     }
 
     /**

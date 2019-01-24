@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     /**
      * Current loaded object
      *
@@ -201,7 +203,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->_add_jscripts();
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        return new midgard_admin_asgard_response($this, '_show_create');
+        return $this->get_response();
     }
 
     private function relocate_to_file($filename)
@@ -276,7 +278,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        return new midgard_admin_asgard_response($this, '_show_edit');
+        return $this->get_response();
     }
 
     /**

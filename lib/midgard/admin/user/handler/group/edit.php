@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midgard_admin_user_handler_group_edit extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     private $_group;
 
     public function _on_initialize()
@@ -99,7 +101,7 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
             MIDCOM_TOOLBAR_GLYPHICON => 'folder',
         ]);
         midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
-        return new midgard_admin_asgard_response($this, '_show_edit');
+        return $this->get_response();
     }
 
     /**

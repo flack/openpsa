@@ -15,6 +15,8 @@ use midgard\portable\storage\connection;
  */
 class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     /**
      * Handler for deleted objects
      *
@@ -32,7 +34,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         }
 
         $this->add_breadcrumb("", $data['view_title']);
-        return new midgard_admin_asgard_response($this, '_show_deleted');
+        return $this->get_response();
     }
 
     private function prepare_admin_view($guid)

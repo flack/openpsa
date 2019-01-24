@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     private $type = '';
 
     public function _on_initialize()
@@ -52,7 +54,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         // Set the breadcrumb data
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb($this->router->generate('trash'), $this->_l10n->get('trash'));
-        return new midgard_admin_asgard_response($this, '_show_trash');
+        return $this->get_response();
     }
 
     /**
@@ -111,7 +113,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             "",
             sprintf($this->_l10n->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($type))
         );
-        return new midgard_admin_asgard_response($this, '_show_trash_type');
+        return $this->get_response();
     }
 
     private function _purge(array $guids)

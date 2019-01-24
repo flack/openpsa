@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midgard_admin_user_handler_user_account extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     private $person;
 
     private $account;
@@ -76,7 +78,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
         $this->add_breadcrumb($this->router->generate('user_edit', ['guid' => $this->person->guid]), $this->person->name);
         $this->add_breadcrumb("", $data['view_title']);
 
-        return new midgard_admin_asgard_response($this, '_show_edit');
+        return $this->get_response();
     }
 
     /**
@@ -142,7 +144,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
         $this->add_breadcrumb($this->router->generate('user_edit', ['guid' => $this->person->guid]), $this->person->name);
         $this->add_breadcrumb("", $data['view_title']);
 
-        return new midgard_admin_asgard_response($this, '_show_delete');
+        return $this->get_response();
     }
 
     /**

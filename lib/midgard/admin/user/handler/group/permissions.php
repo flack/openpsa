@@ -11,6 +11,8 @@
  */
 class midgard_admin_user_handler_group_permissions extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     private $_group;
 
     public function _on_initialize()
@@ -67,7 +69,7 @@ class midgard_admin_user_handler_group_permissions extends midcom_baseclasses_co
         $data['view_title'] = sprintf($this->_l10n->get('folders of %s'), $this->_group->official);
 
         $this->_update_breadcrumb();
-        return new midgard_admin_asgard_response($this, '_show_folders');
+        return $this->get_response();
     }
 
     /**

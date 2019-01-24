@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midgard_admin_user_handler_group_list extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     public function _on_initialize()
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.user/usermgmt.css');
@@ -68,7 +70,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
         $data['view_title'] = sprintf($this->_l10n->get('move %s'), $data['group']->official);
 
         $this->_update_breadcrumb($handler_id);
-        return new midgard_admin_asgard_response($this, '_show_move');
+        return $this->get_response();
     }
 
     /**
@@ -110,7 +112,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
         ]);
 
         $this->_update_breadcrumb($handler_id);
-        return new midgard_admin_asgard_response($this, '_show_list');
+        return $this->get_response();
     }
 
     /**

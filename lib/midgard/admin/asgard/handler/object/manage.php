@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     /**
      * Some object
      *
@@ -133,7 +135,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
         $this->_prepare_request_data();
-        return new midgard_admin_asgard_response($this, '_show_view');
+        return $this->get_response();
     }
 
     /**
@@ -180,7 +182,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         $this->_prepare_request_data();
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        return new midgard_admin_asgard_response($this, '_show_edit');
+        return $this->get_response();
     }
 
     /**
@@ -254,7 +256,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         $this->_prepare_request_data();
         if ($handler_id !== 'object_create_chooser') {
-            return new midgard_admin_asgard_response($this, '_show_create');
+            return $this->get_response();
         }
     }
 
@@ -398,7 +400,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
         $this->_prepare_request_data();
         $this->_add_jscripts();
-        return new midgard_admin_asgard_response($this, '_show_delete');
+        return $this->get_response();
     }
 
     /**
@@ -474,7 +476,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $data['page_title'] = sprintf($this->_l10n->get('copy %s'), $label);
         }
 
-        return new midgard_admin_asgard_response($this, '_show_copy');
+        return $this->get_response();
     }
 
     /**

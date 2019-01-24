@@ -13,6 +13,8 @@
  */
 class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     /**
      * The object we're working on
      *
@@ -52,7 +54,7 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
 
         $this->_prepare_request_data();
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        return new midgard_admin_asgard_response($this, '_show_edit');
+        return $this->get_response();
     }
 
     /**

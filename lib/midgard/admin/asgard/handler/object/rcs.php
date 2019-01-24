@@ -15,6 +15,8 @@
  */
 class midgard_admin_asgard_handler_object_rcs extends midcom_services_rcs_handler
 {
+    use midgard_admin_asgard_handler;
+
     protected $style_prefix = 'midgard_admin_asgard_rcs_';
 
     protected $url_prefix = '__mfa/asgard/object/rcs/';
@@ -32,9 +34,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_services_rcs_handle
 
     protected function handler_callback($handler_id)
     {
-        $parts = explode('_', $handler_id);
-        $mode = end($parts);
-        return new midgard_admin_asgard_response($this, '_show_' . $mode);
+        return $this->get_response();
     }
 
     /**

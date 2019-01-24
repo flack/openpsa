@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     private function _list_revised($since, $type = null, $only_mine = false)
     {
         $classes = [];
@@ -113,7 +115,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         ];
 
         $this->_populate_toolbar();
-        return new midgard_admin_asgard_response($this, '_show_welcome');
+        return $this->get_response();
     }
 
     private function _prepare_tabledata(array $objects)

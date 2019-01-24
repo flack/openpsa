@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     private $type;
 
     private function _prepare_qb($dummy_object)
@@ -148,7 +150,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         // Set the breadcrumb data
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb($this->router->generate('type', ['type' => $type]), $data['view_title']);
-        return new midgard_admin_asgard_response($this, '_show_type');
+        return $this->get_response();
     }
 
     private function _prepare_toolbar(&$data)

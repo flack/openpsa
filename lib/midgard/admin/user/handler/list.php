@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  */
 class midgard_admin_user_handler_list extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     private $_persons = [];
 
     public function _on_initialize()
@@ -68,7 +70,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
         $this->add_breadcrumb($this->router->generate('user_list'), $data['view_title']);
         $this->_prepare_toolbar($data);
-        return new midgard_admin_asgard_response($this, '_show_list');
+        return $this->get_response();
     }
 
     private function _list_persons(ParameterBag $query)

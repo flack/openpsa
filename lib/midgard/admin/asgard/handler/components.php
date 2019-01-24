@@ -13,6 +13,8 @@
  */
 class midgard_admin_asgard_handler_components extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     public function _on_initialize()
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/components.css');
@@ -67,7 +69,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         // Set the breadcrumb data
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('components'), $this->_l10n->get('components'));
-        return new midgard_admin_asgard_response($this, '_show_list');
+        return $this->get_response();
     }
 
     /**
@@ -120,7 +122,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('components'), $this->_l10n->get('components'));
         $this->add_breadcrumb('', $data['component_data']['title']);
-        return new midgard_admin_asgard_response($this, '_show_component');
+        return $this->get_response();
     }
 
     /**

@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     /**
      * The object whose permissions we handle
      *
@@ -288,7 +290,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         $this->_prepare_request_data();
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        return new midgard_admin_asgard_response($this, '_show_edit');
+        return $this->get_response();
     }
 
     /**

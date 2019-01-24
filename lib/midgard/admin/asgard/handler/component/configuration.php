@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midgard_admin_asgard_handler_component_configuration extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     private $_controller;
 
     public function _on_initialize()
@@ -161,7 +163,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         $data['view_title'] = sprintf($this->_l10n->get('configuration for %s'), $data['name']);
         $this->_prepare_toolbar($handler_id);
         $this->_prepare_breadcrumbs($handler_id);
-        return new midgard_admin_asgard_response($this, '_show_view');
+        return $this->get_response();
     }
 
     /**
@@ -399,7 +401,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             $this->_prepare_breadcrumbs($handler_id);
         }
 
-        return new midgard_admin_asgard_response($this, '_show_edit');
+        return $this->get_response();
     }
 
     private function _save_configuration(array $data)

@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_handler
 {
+    use midgard_admin_asgard_handler;
+
     /**
      * @param Request $request The request object
      * @param array $data The local request data.
@@ -48,7 +50,7 @@ class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_h
         // Set the breadcrumb data
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('shell'), $data['view_title']);
-        return new midgard_admin_asgard_response($this, '_show_shell');
+        return $this->get_response();
     }
 
     private function _prepare_toolbar()
