@@ -28,13 +28,6 @@ class midcom_core_context
     private static $contexts = [];
 
     /**
-     * Contains the ID of the currently active context
-     *
-     * @var int
-     */
-    private static $current = 0;
-
-    /**
      * @var midcom_core_context[]
      */
     private static $stack = [];
@@ -69,10 +62,9 @@ class midcom_core_context
     /**
      * Create and prepare a new component context.
      *
-     * @param int $id Explicitly specify the ID for context creation (used during construction), this parameter is usually omitted.
      * @param midcom_db_topic $node Root node of the context
      */
-    public function __construct($id = null, midcom_db_topic $node = null)
+    public function __construct(midcom_db_topic $node = null)
     {
         if (isset($_SERVER['REQUEST_URI'])) {
             $this->_data[MIDCOM_CONTEXT_URI] = $_SERVER['REQUEST_URI'];
@@ -81,11 +73,8 @@ class midcom_core_context
             $this->_data[MIDCOM_CONTEXT_ROOTTOPIC] = $node;
         }
 
-        if ($id === null) {
-            $id = count(self::$contexts);
-        }
-        $this->id = $id;
-        self::$contexts[$id] = $this;
+        $this->id = count(self::$contexts);
+        self::$contexts[] = $this;
     }
 
     /**
@@ -95,11 +84,8 @@ class midcom_core_context
      */
     public static function enter($url = null, midcom_db_topic $topic = null)
     {
-        if (!empty(self::$contexts)) {
-            array_push(self::$stack, self::get());
-        }
-        $context = new static(null, $topic);
-        self::$current = $context->id;
+        $context = new static($topic);
+        array_push(self::$stack, $context);
         if ($url !== null) {
             $context->set_key(MIDCOM_CONTEXT_URI, $url);
         }
@@ -109,36 +95,23 @@ class midcom_core_context
     public static function leave()
     {
         if (!empty(self::$stack)) {
-            $previous = array_pop(self::$stack);
-            self::$current = $previous->id;
+            array_pop(self::$stack);
         }
     }
 
     /**
-     * Get context, either the current one or one designated by ID
+     * Get the current context
      *
-     * If the current context is requested and doesn't exist for some reason, it is automatically created
+     * If it doesn't exist for some reason, it is automatically created
      *
-     * @param int $id The context ID, if any
      * @return midcom_core_context The requested context, or false if not found
      */
-    public static function get($id = null)
+    public static function get()
     {
-        if ($id === null) {
-            $id = self::$current;
-            if (!isset(self::$contexts[$id])) {
-                self::$contexts[$id] = new self($id);
-            }
-            return self::$contexts[$id];
+        if (empty(self::$stack)) {
+            self::enter();
         }
-
-        if (   $id < 0
-            || $id >= count(self::$contexts)) {
-            debug_add("Could not get invalid context $id.", MIDCOM_LOG_WARN);
-            return false;
-        }
-
-        return self::$contexts[$id];
+        return end(self::$stack);
     }
 
     /**
