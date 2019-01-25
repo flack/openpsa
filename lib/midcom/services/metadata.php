@@ -334,11 +334,6 @@ class midcom_services_metadata
      */
     public function set_request_metadata($lastmodified, $permalinkguid)
     {
-        if (   is_object($lastmodified)
-            && $lastmodified instanceof midgard_datetime) {
-            // Midgard2 compatibility
-            $lastmodified = $lastmodified->format('U');
-        }
         $context = midcom_core_context::get();
 
         $context->set_key(MIDCOM_CONTEXT_LASTMODIFIED, $lastmodified);
@@ -364,12 +359,6 @@ class midcom_services_metadata
             'permalinkguid' => $context->get_key(MIDCOM_CONTEXT_PERMALINKGUID),
             'permalink' => midcom::get()->permalinks->create_permalink($context->get_key(MIDCOM_CONTEXT_PERMALINKGUID)),
         ];
-
-        if (   is_object($meta['lastmodified'])
-            && $meta['lastmodified'] instanceof midgard_datetime) {
-            // Midgard2 compatibility
-            $meta['lastmodified'] = $meta['lastmodified']->format('U');
-        }
 
         return $meta;
     }
