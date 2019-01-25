@@ -217,7 +217,6 @@ class midcom_application
         $this->cache->content->store_dl_content($context->id, $dl_cache_data);
 
         midcom_core_context::leave();
-        $this->style->enter_context($oldcontext->id);
     }
 
     /**
