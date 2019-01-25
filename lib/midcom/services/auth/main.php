@@ -507,7 +507,6 @@ class midcom_services_auth
     public function require_valid_user($method = 'form')
     {
         if (!$this->is_valid_user()) {
-            debug_print_function_stack("require_valid_user called at this level");
             if ($method !== 'basic') {
                 throw new midcom_error_forbidden(null, MIDCOM_ERRAUTH);
             }
