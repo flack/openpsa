@@ -53,7 +53,11 @@ class parser
         $url = trim($url, '/');
         if ($url != '') {
             $argv = explode('/', $url);
-            $this->argv = array_filter($argv);
+            foreach ($argv as $val) {
+                if ($val !== '') {
+                    $this->argv[] = $val;
+                }
+            }
         }
 
         $this->url = '';
