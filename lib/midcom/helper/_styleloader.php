@@ -79,7 +79,7 @@ class midcom_helper__styleloader
     /**
      * Context stack
      *
-     * @var array
+     * @var midcom_core_context[]
      */
     private $_context = [];
 
@@ -648,24 +648,24 @@ class midcom_helper__styleloader
      * and $_snippetdir are adjusted.
      *
      * @todo check documentation
-     * @param int $context    The context to enter
+     * @param midcom_core_context $context The context to enter
      */
-    public function enter_context($context)
+    public function enter_context(midcom_core_context $context)
     {
         // set new context and topic
         array_unshift($this->_context, $context); // push into context stack
 
-        $this->_topic = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
+        $this->_topic = $context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
         // Prepare styledir stacks
-        if (!isset($this->_styledirs[$context])) {
-            $this->_styledirs[$context] = [];
+        if (!isset($this->_styledirs[$context->id])) {
+            $this->_styledirs[$context->id] = [];
         }
-        if (!isset($this->_styledirs_prepend[$context])) {
-            $this->_styledirs_prepend[$context] = [];
+        if (!isset($this->_styledirs_prepend[$context->id])) {
+            $this->_styledirs_prepend[$context->id] = [];
         }
-        if (!isset($this->_styledirs_append[$context])) {
-            $this->_styledirs_append[$context] = [];
+        if (!isset($this->_styledirs_append[$context->id])) {
+            $this->_styledirs_append[$context->id] = [];
         }
 
         if (   $this->_topic
@@ -692,8 +692,8 @@ class midcom_helper__styleloader
         }
         array_shift($this->_context);
 
-        $previous_context = (empty($this->_context)) ? 0 : $this->_context[0];
-        $this->_topic = midcom_core_context::get($previous_context)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
+        $previous_context = (empty($this->_context)) ? midcom_core_context::get() : $this->_context[0];
+        $this->_topic = $previous_context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
         $this->_snippetdir = $this->_get_component_snippetdir();
     }

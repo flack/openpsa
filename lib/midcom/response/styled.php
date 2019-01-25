@@ -67,7 +67,7 @@ class midcom_response_styled extends Response
             $this->context->set_key(MIDCOM_CONTEXT_PAGETITLE, $meta[MIDCOM_NAV_NAME]);
         }
 
-        midcom::get()->style->enter_context($this->context->id);
+        midcom::get()->style->enter_context($this->context);
 
         ob_start();
         if (midcom::get()->skip_page_style) {
