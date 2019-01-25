@@ -133,10 +133,10 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
     public static function generate_salesproject_number()
     {
         // TODO: Make configurable
-        $year = date('Y', time());
+        $year = date('Y');
         $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
         $qb->add_order('metadata.created', 'DESC');
-        $qb->add_constraint('start', '>=', mktime(0, 0, 1, 1, 1, $year));
+        $qb->add_constraint('metadata.created', '>=', $year . '-01-01 00:00:00');
         $previous = $qb->count_unchecked();
 
         return sprintf('%d-%04d', $year, $previous + 1);
