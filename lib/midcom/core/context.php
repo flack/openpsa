@@ -17,15 +17,9 @@
 class midcom_core_context
 {
     /**
-     * Holds the component context information.
-     *
-     * This is an array of arrays, the outer one indexed by context IDs, the
-     * inner one indexed by context keys. Only valid of the system has left
-     * the code-init phase.
-     *
-     * @var midcom_core_context[]
+     * @var int
      */
-    private static $contexts = [];
+    private static $counter = 0;
 
     /**
      * @var midcom_core_context[]
@@ -45,7 +39,7 @@ class midcom_core_context
         MIDCOM_CONTEXT_COMPONENT => null,
         MIDCOM_CONTEXT_SUBSTYLE => null,
         MIDCOM_CONTEXT_PAGETITLE => "",
-        MIDCOM_CONTEXT_LASTMODIFIED => null,
+        MIDCOM_CONTEXT_LASTMODIFIED => 0,
         MIDCOM_CONTEXT_PERMALINKGUID => null,
         MIDCOM_CONTEXT_CUSTOMDATA => [],
         MIDCOM_CONTEXT_URLTOPICS => [],
@@ -73,8 +67,7 @@ class midcom_core_context
             $this->_data[MIDCOM_CONTEXT_ROOTTOPIC] = $node;
         }
 
-        $this->id = count(self::$contexts);
-        self::$contexts[] = $this;
+        $this->id = self::$counter++;
     }
 
     /**
@@ -95,7 +88,15 @@ class midcom_core_context
     public static function leave()
     {
         if (!empty(self::$stack)) {
-            array_pop(self::$stack);
+            $left = array_pop(self::$stack);
+
+            if (!empty(self::$stack)) {
+                $entered = end(self::$stack);
+                $lastmod_child = $left->get_key(MIDCOM_CONTEXT_LASTMODIFIED);
+                if ($lastmod_child > $entered->get_key(MIDCOM_CONTEXT_LASTMODIFIED)) {
+                    $entered->set_key(MIDCOM_CONTEXT_LASTMODIFIED, $lastmod_child);
+                }
+            }
         }
     }
 
@@ -112,17 +113,6 @@ class midcom_core_context
             self::enter();
         }
         return end(self::$stack);
-    }
-
-    /**
-     * Returns the complete context data array
-     *
-     * @todo This should be removed and places using this rewritten
-     * @return midcom_core_context[] All contexts
-     */
-    public static function get_all()
-    {
-        return self::$contexts;
     }
 
     /**
@@ -246,14 +236,11 @@ class midcom_core_context
     /**
      * Store arbitrary, component-specific information in the component context
      *
-     * This method allows you to get custom data to a given context.
+     * This method allows you to get custom data to the current context.
      * The system will automatically associate this data with the component from the
      * currently active context. You cannot access the custom data of any other
-     * component this way, it is private to the context. You may attach information
-     * to other contexts, which will be associated with the current component, so
-     * you have a clean namespace independently from which component or context you
-     * are operating of. All calls honor references of passed data, so you can use
-     * this for central controlling objects.
+     * component this way, it is private to the context. All calls honor references
+     * of passed data, so you can use this for central controlling objects.
      *
      * Note, that if you are working from a library like the datamanager is, you
      * cannot override the component association done by the system. Instead you
