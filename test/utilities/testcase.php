@@ -100,7 +100,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $data['__openpsa_testcase_response'] = $result;
 
         // added to simulate http uri composition
-        $_SERVER['REQUEST_URI'] = $context->get_key(MIDCOM_CONTEXT_URI);
+        $_SERVER['REQUEST_URI'] = '/' . $topic->name . $context->get_key(MIDCOM_CONTEXT_URI);
 
         return $data;
     }
