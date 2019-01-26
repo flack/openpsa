@@ -146,6 +146,9 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder saved'));
 
         // Get the relocation url
+        if (midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC)->id === $this->edit_topic->id) {
+            return $prefix;
+        }
         return preg_replace("/{$old_name}\/\$/", "{$this->edit_topic->name}/", $prefix);
     }
 
