@@ -61,7 +61,8 @@ class midcom_core_setup
         $runner = new midcom_config_test;
         $runner->check();
         if ($runner->get_status() === midcom_config_test::ERROR) {
-            $runner->show();
+            midcom_core_context::get()->set_key(MIDCOM_CONTEXT_ROOTTOPIC, new midcom_db_topic);
+            midcom::get()->style->show_midcom('config-test');
             midcom::get()->finish();
         }
         $topic = new midcom_db_topic;
