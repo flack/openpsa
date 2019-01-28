@@ -240,6 +240,11 @@ class form extends base
         return $this->renderer->block($view, 'form_widget_simple', ['type' => isset($data['type']) ? $data['type'] : "email"]);
     }
 
+    public function password_widget(FormView $view, array $data)
+    {
+        return $this->renderer->block($view, 'form_widget_simple', ['type' => isset($data['type']) ? $data['type'] : "password"]);
+    }
+
     public function url_widget(FormView $view, array $data)
     {
         return $this->renderer->block($view, 'form_widget_simple', ['type' => isset($data['type']) ? $data['type'] : "url"]);
