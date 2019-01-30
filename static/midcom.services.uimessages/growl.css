@@ -9,7 +9,7 @@
     font-size: 12px;
     font-weight: normal;
     text-align: left;
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 30%;
 }
