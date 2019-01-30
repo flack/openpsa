@@ -7,13 +7,14 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper_backendTest extends openpsa_testcase
+class midcom_helper_nav_backendTest extends openpsa_testcase
 {
     public function test_singlenode()
     {
@@ -53,7 +54,7 @@ class midcom_helper_backendTest extends openpsa_testcase
 
         $request = Request::create("/$child_topic_name/$article_name/");
         $request->attributes->set('context', $context);
-        $GLOBALS['kernel']->handle($request);
+        $GLOBALS['kernel']->handle($request, KernelInterface::SUB_REQUEST);
 
         $backend = new midcom_helper_nav_backend($root_topic, [$child_topic]);
 

@@ -157,8 +157,6 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             $this->_print_row($row, $output);
         }
         fclose($output);
-        // restart ob to keep MidCOM happy
-        ob_start();
     }
 
     /**

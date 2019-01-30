@@ -8,6 +8,9 @@
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * This is the Output Caching Engine of MidCOM. It will intercept page output,
@@ -106,13 +109,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private $_content_type = 'text/html';
 
     /**
-     * Internal flag indicating whether the output buffering is active.
-     *
-     * @var boolean
-     */
-    private $_obrunning = false;
-
-    /**
      * This flag is true if the live mode has been activated. This prevents the
      * cache processing at the end of the request.
      *
@@ -187,6 +183,159 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * Forced headers
      */
     private $_force_headers = [];
+
+    /**
+     * @param GetResponseEvent $event
+     */
+    public function on_request(GetResponseEvent $event)
+    {
+        if ($event->isMasterRequest()) {
+            $request = $event->getRequest();
+            /* Load and start up the cache system, this might already end the request
+             * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
+             */
+            if ($response = $this->_check_hit($request)) {
+                $event->setResponse($response);
+            }
+        }
+    }
+
+    /**
+     * This function holds the cache hit check mechanism. It searches the requested
+     * URL in the cache database. If found, it checks, whether the cache page has
+     * expired. If not, the response is returned. In all other cases this method simply
+     * returns void.
+     *
+     * The midcom-cache URL methods are handled before checking for a cache hit.
+     *
+     * Also, any HTTP POST request will automatically circumvent the cache so that
+     * any component can process the request. It will set no_cache automatically
+     * to avoid any cache pages being overwritten by, for example, search results.
+     *
+     * Note, that HTTP GET is <b>not</b> checked this way, as GET requests can be
+     * safely distinguished by their URL.
+     *
+     * @param Request $request The request object
+     * @return void|Response
+     */
+    private function _check_hit(Request $request)
+    {
+        foreach (midcom_connection::get_url('argv') as $arg) {
+            if (in_array($arg, ["midcom-cache-invalidate", "midcom-cache-nocache"])) {
+                // Don't cache these.
+                debug_add("X-MidCOM-cache: " . $arg . " uncached");
+                return;
+            }
+        }
+
+        if (!$request->isMethodCacheable()) {
+            debug_add('Request method is not cacheable, setting no_cache');
+            $this->no_cache();
+            return;
+        }
+
+        // Check for uncached operation
+        if ($this->_uncached) {
+            debug_add("Uncached mode");
+            return;
+        }
+
+        // Check that we have cache for the identifier
+        $request_id = $this->generate_request_identifier(0);
+        // Load metadata for the content identifier connected to current request
+        $content_id = $this->_meta_cache->fetch($request_id);
+        if ($content_id === false) {
+            debug_add("MISS {$request_id}");
+            // We have no information about content cached for this request
+            return;
+        }
+        debug_add("HIT {$request_id}");
+
+        $data = $this->_meta_cache->fetch($content_id);
+        if ($data === false) {
+            debug_add("MISS meta_cache {$content_id}");
+            // Content cache data is missing
+            return;
+        }
+
+        if (!isset($data['last_modified'])) {
+            debug_add('Current page is in cache, but has insufficient information', MIDCOM_LOG_INFO);
+            return;
+        }
+
+        debug_add("X-MidCOM-meta-cache: HIT {$content_id}");
+
+        $response = new Response;
+        $this->apply_headers($response, $data['sent_headers']);
+        $response->setEtag($data['etag']);
+        $response->setLastModified(DateTime::createFromFormat('U', $data['last_modified']));
+        if (!$response->isNotModified($request)) {
+            $content = $this->_data_cache->fetch($content_id);
+            if ($content === false) {
+                debug_add("Current page is in not in the data cache, possible ghost read.", MIDCOM_LOG_WARN);
+                return;
+            }
+            $response->setContent($content);
+        }
+        return $response;
+    }
+
+    /**
+     * This completes the output caching, post-processes it and updates the cache databases accordingly.
+     *
+     * The first step is to check against _no_cache pages, which will be delivered immediately
+     * without any further post processing. Afterwards, the system will complete the sent
+     * headers by adding all missing headers. Note, that E-Tag will be generated always
+     * automatically, you must not set this in your component.
+     *
+     * If the midcom configuration option cache_uncached is set or the corresponding runtime function
+     * has been called, the cache file will not be written, but the header stuff will be added like
+     * usual to allow for browser-side caching.
+     *
+     * @param FilterResponseEvent $event The request object
+     */
+    public function on_response(FilterResponseEvent $event)
+    {
+        if ($this->_no_cache || !$event->isMasterRequest()) {
+            return;
+        }
+        $response = $event->getResponse();
+        if ($response instanceof BinaryFileResponse) {
+            return;
+        }
+
+        $request = $event->getRequest();
+        $cache_data = $response->getContent();
+
+        // Generate E-Tag header.
+        if (empty($cache_data)) {
+            $etag = md5(serialize($this->_sent_headers));
+        } else {
+            $etag = md5($cache_data);
+        }
+
+        $response->setEtag($etag);
+
+        // Register additional Headers around the current output request
+        // It has been sent already during calls to content_type
+        $this->register_sent_header('Content-Type', $this->_content_type);
+        $this->complete_sent_headers($response);
+
+        $response->prepare($request);
+
+        /**
+         * WARNING:
+         *   Stuff below here is executed *after* we have flushed output,
+         *   so here we should only write out our caches but do nothing else
+         */
+         if ($this->_uncached) {
+             debug_add('Not writing cache file, we are in uncached operation mode.');
+             return;
+         }
+         $content_id = 'C-' . $etag;
+         $this->write_meta_cache($content_id, $etag);
+         $this->_data_cache->save($content_id, $cache_data);
+    }
 
     /**
      * Generate a valid cache identifier for a context of the current request
@@ -282,102 +431,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             throw new midcom_error($name . ' is not valid, try ' . implode(', ', $allowed));
         }
         return $strategy;
-    }
-
-    /**
-     * This function holds the cache hit check mechanism. It searches the requested
-     * URL in the cache database. If found, it checks, whether the cache page has
-     * expired. If not, the cached page is delivered to the client and processing
-     * ends. In all other cases this method simply returns.
-     *
-     * The midcom-cache URL methods are handled before checking for a cache hit.
-     *
-     * Also, any HTTP POST request will automatically circumvent the cache so that
-     * any component can process the request. It will set no_cache automatically
-     * to avoid any cache pages being overwritten by, for example, search results.
-     *
-     * Note, that HTTP GET is <b>not</b> checked this way, as GET requests can be
-     * safely distinguished by their URL.
-     *
-     * @param Request $request The request object
-     */
-    private function _check_hit(Request $request)
-    {
-        foreach (midcom_connection::get_url('argv') as $arg) {
-            if (in_array($arg, ["midcom-cache-invalidate", "midcom-cache-nocache"])) {
-                // Don't cache these.
-                debug_add("X-MidCOM-cache: " . $arg . " uncached");
-                return;
-            }
-        }
-
-        if (!$request->isMethodCacheable()) {
-            debug_add('Request method is not cacheable, setting no_cache');
-            $this->no_cache();
-            return;
-        }
-
-        // Check for uncached operation
-        if ($this->_uncached) {
-            debug_add("Uncached mode");
-            return;
-        }
-
-        // Check that we have cache for the identifier
-        $request_id = $this->generate_request_identifier(0);
-        // Load metadata for the content identifier connected to current request
-        $content_id = $this->_meta_cache->fetch($request_id);
-        if ($content_id === false) {
-            debug_add("MISS {$request_id}");
-            // We have no information about content cached for this request
-            return;
-        }
-        debug_add("HIT {$request_id}");
-
-        $data = $this->_meta_cache->fetch($content_id);
-        if ($data === false) {
-            debug_add("MISS meta_cache {$content_id}");
-            // Content cache data is missing
-            return;
-        }
-
-        if (!isset($data['last_modified'])) {
-            debug_add('Current page is in cache, but has insufficient information', MIDCOM_LOG_INFO);
-            return;
-        }
-
-        debug_add("X-MidCOM-meta-cache: HIT {$content_id}");
-
-        $response = new Response;
-        $this->apply_headers($response, $data['sent_headers']);
-        $response->setEtag($data['etag']);
-        $response->setLastModified(DateTime::createFromFormat('U', $data['last_modified']));
-        if (!$response->isNotModified($request)) {
-            $content = $this->_data_cache->fetch($content_id);
-            if ($content === false) {
-                debug_add("Current page is in not in the data cache, possible ghost read.", MIDCOM_LOG_WARN);
-                return;
-            }
-            $response->setContent($content);
-        }
-        $response->send();
-        _midcom_stop_request();
-    }
-
-    /**
-     * Start the output cache. Call this before any output
-     * is made. MidCOM's startup sequence will automatically do this.
-     *
-     * @param Request $request The request object
-     */
-    public function start_caching(Request $request)
-    {
-        // Note, that check_hit might _midcom_stop_request().
-        $this->_check_hit($request);
-
-        ob_implicit_flush(0);
-        ob_start();
-        $this->_obrunning = true;
     }
 
     /**
@@ -508,21 +561,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         $this->_live_mode = true;
         $this->no_cache();
-
-        if ($this->_obrunning) {
-            // Flush any remaining output buffer.
-            // We do this only if there is actually content in the output buffer. If not, we won't
-            // send anything, so that you can still send HTTP Headers after enabling the live mode.
-            // Check is for nonzero and non-false
-            Response::closeOutputBuffers(0, ob_get_length() > 0);
-            $this->_obrunning = false;
-        }
-    }
-
-    public function disable_ob()
-    {
-        Response::closeOutputBuffers(0, false);
-        $this->_obrunning = false;
+        Response::closeOutputBuffers(0, ob_get_length() > 0);
     }
 
     /**
@@ -596,88 +635,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     }
 
     /**
-     * This completes the output caching, post-processes it and updates the cache databases accordingly.
-     *
-     * The first step is to check against _no_cache pages, which will be delivered immediately
-     * without any further post processing. Afterwards, the system will complete the sent
-     * headers by adding all missing headers. Note, that E-Tag will be generated always
-     * automatically, you must not set this in your component.
-     *
-     * If the midcom configuration option cache_uncached is set or the corresponding runtime function
-     * has been called, the cache file will not be written, but the header stuff will be added like
-     * usual to allow for browser-side caching.
-     *
-     * @param Request $request The request object
-     */
-    public function finish_caching(Request $request)
-    {
-        // make it safe to call this multiple times
-        // done this way since it's slightly less hacky than mucking about with the cache->_modules etc
-        static $run_count = 0;
-        if (++$run_count > 1) {
-            return;
-        }
-
-        if ($this->_no_cache) {
-            if ($this->_obrunning) {
-                if (ob_get_contents()) {
-                    ob_end_flush();
-                } elseif (ob_get_level()) {
-                    ob_end_clean();
-                }
-            }
-            return;
-        }
-
-        $cache_data = ob_get_contents();
-        $this->_obrunning = false;
-
-        /**
-         * WARNING:
-         *   From here on anything added to content is not included in cached
-         *   data, so make sure nothing content-wise is added after this
-         */
-
-        // Generate E-Tag header.
-        if (empty($cache_data)) {
-            $etag = md5(serialize($this->_sent_headers));
-        } else {
-            $etag = md5($cache_data);
-        }
-
-        $response = new Response;
-        $response->setEtag($etag);
-
-        // Register additional Headers around the current output request
-        // It has been sent already during calls to content_type
-        $this->register_sent_header('Content-Type', $this->_content_type);
-        $this->complete_sent_headers($response);
-        //we need to run this after complete_sent_headers, since it's used for content-length calculation
-        ob_end_clean();
-
-        if (!$response->isNotModified($request)) {
-            $response->setContent($cache_data);
-        }
-        $response->prepare($request);
-        $response->send();
-
-        /**
-         * WARNING:
-         *   Stuff below here is executed *after* we have flushed output,
-         *   so here we should only write out our caches but do nothing else
-         */
-        if ($this->_uncached) {
-            debug_add('Not writing cache file, we are in uncached operation mode.');
-            return;
-        }
-        $content_id = 'C-' . $etag;
-        $this->write_meta_cache($content_id, $etag);
-        $this->_data_cache->save($content_id, $cache_data);
-    }
-
-    /**
      * Writes meta-cache entry from context data using given content id
-     * Used to be part of finish_caching, but needed by serve-attachment method in midcom_application as well
+     * Used to be part of on_request, but needed by serve-attachment method in midcom_core_urlmethods as well
      */
     public function write_meta_cache($content_id, $etag)
     {
@@ -817,7 +776,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             /* TODO: Doublecheck the way this is handled, now we just don't send it
              * if headers_strategy implies caching */
             if (!in_array($this->_headers_strategy, ['public', 'private'])) {
-                $response->headers->set("Content-Length", ob_get_length());
+                $response->headers->set("Content-Length", strlen($response->getContent()));
                 $this->register_sent_header('Content-Length', $response->headers->get('Content-Length'));
             }
         }

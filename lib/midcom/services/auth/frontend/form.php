@@ -150,9 +150,6 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
 
     private function generate_http_response()
     {
-        // Drop any output buffer first.
-        midcom::get()->cache->content->disable_ob();
-
         if (midcom::get()->config->get('auth_login_form_httpcode') == 200) {
             _midcom_header('HTTP/1.0 200 OK');
         } else {

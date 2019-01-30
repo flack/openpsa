@@ -8,6 +8,7 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -112,15 +113,15 @@ class midcom_application
         $this->componentloader->load_all_manifests();
         $this->auth->check_for_login_session($this->request);
 
-        /* Load and start up the cache system, this might already end the request
-         * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
-         */
-        $this->cache->content->start_caching($this->request);
-
         // Initialize Context Storage
-        midcom_core_context::enter(midcom_connection::get_url('uri'));
+        $context = midcom_core_context::enter(midcom_connection::get_url('uri'));
+        $this->request->attributes->set('context', $context);
+
         // Initialize the UI message stack from session
         $this->uimessages->initialize();
+
+        $this->dispatcher->addListener(KernelEvents::REQUEST, [$this->cache->content, 'on_request'], 10);
+        $this->dispatcher->addListener(KernelEvents::RESPONSE, [$this->cache->content, 'on_response'], 10);
     }
 
     /* *************************************************************************
@@ -137,10 +138,6 @@ class midcom_application
      */
     public function codeinit()
     {
-        $context = midcom_core_context::get();
-        $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('uri'));
-        $this->request->attributes->set('context', $context);
-
         $this->httpkernel->handle($this->request)->send();
     }
 
@@ -229,9 +226,6 @@ class midcom_application
      */
     public function finish()
     {
-        // Shutdown content-cache (ie flush content to user :)
-        $this->cache->content->finish_caching($this->request);
-
         // Shutdown rest of the caches
         $this->cache->shutdown();
 
