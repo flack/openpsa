@@ -81,7 +81,7 @@ class midcom_services_uimessages
      */
     public function initialize()
     {
-        if (midcom::get()->auth->can_user_do('midcom:ajax', null, midcom_services_uimessages::class)) {
+        if (midcom::get()->auth->can_user_do('midcom:ajax', null, static::class)) {
             midcom::get()->head->enable_jquery();
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
             midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/effect.min.js');

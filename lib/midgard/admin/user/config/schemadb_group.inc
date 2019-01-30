@@ -117,7 +117,7 @@
             'type_config' => [
                 'privilege_name' => 'midcom:ajax',
                 'assignee'       => 'SELF',
-                'classname'      => 'midcom_services_uimessages',
+                'classname'      => get_class(midcom::get()->uimessages),
             ],
             'widget'      => 'privilege',
             'storage'     => null,
