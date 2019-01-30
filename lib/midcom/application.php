@@ -179,7 +179,7 @@ class midcom_application
         if (substr($url, -5) == '.html') {
             $url = substr($url, 0, -5);
         }
-        $url = midcom_connection::get_url('self') . $url;
+        $url = midcom_connection::get_url('prefix') . $url;
 
         // Determine new Context ID and set current context,
         // enter that context and prepare its data structure.
