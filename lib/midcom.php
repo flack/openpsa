@@ -135,4 +135,21 @@ class midcom
         }
         return self::$_services[$name];
     }
+
+    /**
+     * Register a service class
+     *
+     * (Experimental, use with caution)
+     *
+     * @param string $name
+     * @param string $class
+     * @throws midcom_error
+     */
+    public static function register_service_class($name, $class)
+    {
+        if (isset(self::$_services[$name])) {
+            throw new midcom_error("Can't change service $name after initialization");
+        }
+        self::$_service_classes[$name] = $class;
+    }
 }
