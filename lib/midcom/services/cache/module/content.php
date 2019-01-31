@@ -47,13 +47,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
  * does neither invalidate the cache or drop the page that would have been delivered
  * normally from the cache. If you change the content, you need to do that yourself.
  *
- * HTTP 304 Not Modified support is built into this module, and it will kill the
- * output buffer and send a 304 reply if applicable.
- *
- * <b>Internal notes</b>
- *
- * This module's startup code will exit with _midcom_stop_request() in case of
- * a cache hit, and it will enclose the entire request using PHP's output buffering.
+ * HTTP 304 Not Modified support is built into this module, and will send a 304 reply if applicable.
  *
  * <b>Module configuration (see also midcom_config)</b>
  *
@@ -107,14 +101,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * @var string
      */
     private $_content_type = 'text/html';
-
-    /**
-     * This flag is true if the live mode has been activated. This prevents the
-     * cache processing at the end of the request.
-     *
-     * @var boolean
-     */
-    private $_live_mode = false;
 
     /**
      * Set this to true if you want to inhibit storage of the generated pages in
@@ -546,9 +532,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
     /**
      * Put the cache into a "live mode". This will disable the
-     * cache during runtime, correctly flushing the output buffer and sending cache
-     * control headers. You will not be able to send any additional headers after
-     * executing this call therefore you should adjust the headers in advance.
+     * cache during runtime, correctly flushing the output buffer (if it's not empty)
+     * and sending cache control headers.
      *
      * The midcom-exec URL handler of the core will automatically enable live mode.
      *
@@ -556,12 +541,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function enable_live_mode()
     {
-        if ($this->_live_mode) {
-            debug_add('Cannot enter live mode twice, ignoring request.', MIDCOM_LOG_WARN);
-            return;
-        }
-
-        $this->_live_mode = true;
         $this->no_cache();
         Response::closeOutputBuffers(0, ob_get_length() > 0);
     }
