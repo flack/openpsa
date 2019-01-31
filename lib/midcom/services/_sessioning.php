@@ -73,7 +73,7 @@ class midcom_services__sessioning extends Session
      *
      * Returns null if the key
      * is non-existent. Note, that this is not necessarily a valid non-existence
-     * check, as the sessioning system does allow null values. Use the exists function
+     * check, as the sessioning system does allow null values. Use the has function
      * if unsure.
      *
      * @param string $key        The key to query.
@@ -82,7 +82,9 @@ class midcom_services__sessioning extends Session
      */
     public function get($key, $default = null)
     {
-        midcom::get()->cache->content->no_cache();
+        if ($this->has($key)) {
+            midcom::get()->cache->content->no_cache();
+        }
         return parent::get($key, $default);
     }
 

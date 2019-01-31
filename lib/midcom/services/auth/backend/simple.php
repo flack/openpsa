@@ -53,12 +53,11 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         }
 
         $this->session = new midcom_services_session($this->_cookie_id);
-        $userid = $this->session->get('userid');
-        if (empty($userid)) {
+        if (!$this->session->exists('userid')) {
             return false;
         }
         return [
-            'userid' => $userid,
+            'userid' => $this->session->get('userid'),
             'clientip' => $this->session->get('clientip'),
             'timestamp' => $this->session->get('timestamp')
         ];
