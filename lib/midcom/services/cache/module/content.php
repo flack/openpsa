@@ -223,7 +223,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         foreach (midcom_connection::get_url('argv') as $arg) {
             if (in_array($arg, ["midcom-cache-invalidate", "midcom-cache-nocache"])) {
                 // Don't cache these.
-                debug_add("X-MidCOM-cache: " . $arg . " uncached");
+                debug_add("uncached: $arg");
                 return;
             }
         }
@@ -263,7 +263,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        debug_add("X-MidCOM-meta-cache: HIT {$content_id}");
+        debug_add("HIT {$content_id}");
 
         $response = new Response;
         $this->apply_headers($response, $data['sent_headers']);
@@ -277,6 +277,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             }
             $response->setContent($content);
         }
+        // disable cache writing in on_response
+        $this->_no_cache = true;
         return $response;
     }
 
