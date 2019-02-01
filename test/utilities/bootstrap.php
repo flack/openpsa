@@ -18,6 +18,7 @@ if (   !class_exists('\PHPUnit_Framework_TestCase')
 }
 
 require_once __DIR__ . '/testcase.php';
+require_once __DIR__ . '/mock/sessioning.php';
 require_once __DIR__ . '/helpers.php';
 
 define('OPENPSA2_UNITTEST_RUN', true);
