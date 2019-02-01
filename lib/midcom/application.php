@@ -66,8 +66,7 @@ class midcom_application
      * not show the site's style around the component output. This is mainly
      * targeted at XML output like RSS feeds and similar things. The output
      * handler of the site, excluding the style-init/-finish tags will be executed
-     * immediately after the handle phase, and midcom->finish() is called
-     * automatically afterwards, thus ending the request.
+     * immediately after the handle phase
      *
      * Changing this flag after the handle phase or for dynamically loaded
      * components won't change anything.

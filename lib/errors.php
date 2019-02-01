@@ -59,7 +59,8 @@ class midcom_exception_handler
 
         if (PHP_SAPI !== 'cli') {
             $this->show($httpcode, $message);
-            // This will exit
+            debug_add("Error Page output finished, exiting now");
+            return;
         }
         throw $e;
     }
@@ -146,10 +147,6 @@ class midcom_exception_handler
         if (!$style->show_midcom('midcom_error_' . $httpcode)) {
             $style->show_midcom('midcom_error');
         }
-
-        debug_add("Error Page output finished, exiting now");
-        midcom::get()->cache->content->no_cache();
-        midcom::get()->finish();
     }
 
     /**

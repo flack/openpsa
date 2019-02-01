@@ -29,8 +29,6 @@ class midcom_response_xml extends midcom_response
         }
 
         echo "</response>\n";
-
-        midcom::get()->finish();
     }
 
     private function _render_tag($field, $value)

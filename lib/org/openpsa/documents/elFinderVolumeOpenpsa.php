@@ -17,10 +17,6 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     {
         // elfinder tmp detection doesn't work on OS X
         $this->tmpPath = midcom::get()->config->get('midcom_tempdir');
-        // elfinder calls exit(), so we need to make sure we write caches
-        register_shutdown_function(function () {
-            midcom::get()->finish();
-        });
     }
 
     /**

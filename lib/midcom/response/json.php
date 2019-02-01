@@ -28,7 +28,5 @@ class midcom_response_json extends midcom_response
 
         $exporter = new midcom_helper_exporter_json();
         echo $exporter->array2data($this->_data);
-
-        midcom::get()->finish();
     }
 }
