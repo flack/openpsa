@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * User interface messaging service
  *
@@ -70,17 +72,26 @@ class midcom_services_uimessages
      */
     public $uimessage_holder = 'body';
 
-    public function __construct()
+    /**
+     * @return \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface
+     */
+    private function get_message_stack()
     {
-        $this->_message_stack = midcom::get()->session->getFlashBag();
+        if (!$this->_message_stack) {
+            $this->_message_stack = midcom::get()->session->getFlashBag();
+        }
+        return $this->_message_stack;
     }
 
     /**
      * Initialize the message stack on service start-up. Reads older unshown
      * messages from user session.
      */
-    public function initialize()
+    public function initialize(Request $request)
     {
+        if ($request->hasPreviousSession()) {
+            $this->get_message_stack();
+        }
         if (midcom::get()->auth->can_user_do('midcom:ajax', null, static::class)) {
             midcom::get()->head->enable_jquery();
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
@@ -124,16 +135,18 @@ class midcom_services_uimessages
             'type'    => $type,
         ];
         // Append to message stack
-        $this->_message_stack->add($type, json_encode($msg));
+        $this->get_message_stack()->add($type, json_encode($msg));
         return true;
     }
 
     public function get_messages()
     {
         $result = [];
-        foreach ($this->_message_stack->all() as $messages) {
-            foreach ($messages as $message) {
-                $result[] = $message;
+        if ($this->_message_stack) {
+            foreach ($this->_message_stack->all() as $messages) {
+                foreach ($messages as $message) {
+                    $result[] = $message;
+                }
             }
         }
         return $result;
@@ -146,6 +159,9 @@ class midcom_services_uimessages
      */
     public function show($show_simple = false)
     {
+        if (!$this->_message_stack) {
+            return;
+        }
         if (   $show_simple
             || !midcom::get()->auth->can_user_do('midcom:ajax', null, static::class)) {
             $this->show_simple();
@@ -177,7 +193,7 @@ class midcom_services_uimessages
      */
     public function show_simple()
     {
-        if (!empty($this->_message_stack->peekAll())) {
+        if ($this->_message_stack && !empty($this->_message_stack->peekAll())) {
             echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
 
             foreach ($this->get_messages() as $message) {

@@ -96,6 +96,8 @@ $_SERVER = [
     'SCRIPT_NAME' => 'unittest-run'
 ];
 
+midcom::register_service_class('session', mock_sessioning::class);
+
 // This is a bit awkward, but makes life simpler until we've transitioned more fully to the
 // httpkernel infrastructure
 $GLOBALS['kernel'] = midcom::init();

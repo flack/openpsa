@@ -118,7 +118,7 @@ class midcom_application
         $this->request->attributes->set('context', $context);
 
         // Initialize the UI message stack from session
-        $this->uimessages->initialize();
+        $this->uimessages->initialize($this->request);
 
         $this->dispatcher->addListener(KernelEvents::REQUEST, [$this->cache->content, 'on_request'], 10);
         $this->dispatcher->addListener(KernelEvents::RESPONSE, [$this->cache->content, 'on_response'], 10);
