@@ -70,9 +70,7 @@ if (isset($this->data['midcom_services_auth_access_denied_message'])) {
   </div>
  </div>
 <script type="text/javascript">
-document.cookie = "cookietest=success;path=" + MIDCOM_PAGE_PREFIX;
-if (document.cookie.indexOf("cookietest=") == -1)
-{
+if (!navigator.cookieEnabled) {
     document.getElementById('cookie_warning').style.display = 'block';
 }
 </script>
