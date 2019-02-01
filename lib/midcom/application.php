@@ -219,16 +219,10 @@ class midcom_application
     /**
      * Exit from the framework, execute after all output has been made.
      *
-     * Does all necessary clean-up work. Must be called after output is completed as
-     * the last call of any MidCOM Page.
-     *
      * <b>WARNING:</b> Anything done after calling this method will be lost.
      */
     public function finish()
     {
-        // Shutdown rest of the caches
-        $this->cache->shutdown();
-
         debug_add("End of MidCOM run: " . $this->request->server->get('REQUEST_URI'));
         _midcom_stop_request();
     }

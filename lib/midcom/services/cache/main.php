@@ -44,17 +44,9 @@ class midcom_services_cache implements EventSubscriberInterface
     /**
      * List of all loaded modules, indexed by their class name.
      *
-     * @var Array
+     * @var midcom_services_cache_module[]
      */
     private $_modules = [];
-
-    /**
-     * List of all modules in the order they need to be unloaded. This is a FILO queue, the
-     * module loaded first is unloaded last.
-     *
-     * @var Array
-     */
-    private $_unload_queue = [];
 
     /**
      * Cache service startup. It initializes all cache modules configured in the
@@ -113,24 +105,12 @@ class midcom_services_cache implements EventSubscriberInterface
     }
 
     /**
-     * Shuts all cache modules down. The content module is explicitly stopped as the
-     * last module for clear content cache handling (it might _midcom_stop_request()).
-     */
-    public function shutdown()
-    {
-        foreach ($this->_unload_queue as $name) {
-            $this->_modules[$name]->shutdown();
-        }
-        midcom::get()->dispatcher->removeSubscriber($this);
-    }
-
-    /**
      * Load the specified cache module (if not already loaded), add it to the _modules array
      * and assign it to a member variable named after the module.
      *
      * @param string $name The name of the cache module to load.
      */
-    function load_module($name)
+    private function load_module($name)
     {
         if (isset($this->_modules[$name])) {
             return;
@@ -145,7 +125,6 @@ class midcom_services_cache implements EventSubscriberInterface
         $this->_modules[$name] = new $classname();
         $this->_modules[$name]->initialize();
         $this->$name =& $this->_modules[$name];
-        array_unshift($this->_unload_queue, $name);
     }
 
     /**
@@ -156,9 +135,9 @@ class midcom_services_cache implements EventSubscriberInterface
      */
     public function invalidate_all()
     {
-        foreach ($this->_unload_queue as $name) {
+        foreach ($this->_modules as $name => $module) {
             debug_add("Invalidating the cache module {$name} completely.");
-            $this->_modules[$name]->invalidate_all();
+            $module->invalidate_all();
         }
         array_map('unlink', glob(midcom::get()->config->get('cache_base_directory') . 'routing/*'));
         connection::invalidate_cache();
@@ -185,13 +164,13 @@ class midcom_services_cache implements EventSubscriberInterface
             return;
         }
 
-        foreach ($this->_unload_queue as $name) {
+        foreach ($this->_modules as $name => $module) {
             if ($name == $skip_module) {
                 debug_add("We have to skip the cache module {$name}.");
                 continue;
             }
             debug_add("Invalidating the cache module {$name} for GUID {$guid}.");
-            $this->_modules[$name]->invalidate($guid, $object);
+            $module->invalidate($guid, $object);
         }
     }
 }

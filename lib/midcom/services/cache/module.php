@@ -10,7 +10,7 @@ use Doctrine\Common\Cache;
 
 /**
  * This is the base class for the MidCOM cache modules. It provides a basic infrastructure
- * for building your own caching service, providing hooks for initialization and shutdown.
+ * for building your own caching service, providing hooks for initialization.
  *
  * It provides convenience methods to start up the cache module, for example for the creation
  * of a cache backend instance. There is no specific initialization done during startup, to
@@ -44,14 +44,6 @@ abstract class midcom_services_cache_module
     {
         $this->_prefix = get_class($this) . $_SERVER['SERVER_NAME'];
         $this->_on_initialize();
-    }
-
-    /**
-     * Shuts the module down. This will call the corresponding event handler
-     */
-    public function shutdown()
-    {
-        $this->_on_shutdown();
     }
 
     /**
@@ -147,15 +139,6 @@ abstract class midcom_services_cache_module
      * might go into the content cache.
      */
     public function _on_initialize()
-    {
-    }
-
-    /**
-     * Shutdown handler, called during midcom_application::finish(). Note, that for example
-     * the page cache will not use this cleanup handler, as it produces a complete html page
-     * based on a previous request.
-     */
-    public function _on_shutdown()
     {
     }
 
