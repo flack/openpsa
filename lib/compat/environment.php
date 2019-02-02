@@ -40,18 +40,12 @@ class midcom_compat_environment
     private function _httpd_setup()
     {
         /*
-         * Second, make sure the URLs not having query string (or midcom-xxx- -method signature)
+         * make sure the URLs not having query string (or midcom-xxx- -method signature)
          * have trailing slash or some extension in the "filename".
          *
          * This makes life much, much better when making static copies for whatever reason
-         *
-         * 2008-09-26: Now also rewrites urls ending in .html to end with trailing slash.
          */
         $redirect_test_uri = (string)$_SERVER['REQUEST_URI'];
-        if (   !isset($_SERVER['MIDCOM_COMPAT_REDIR'])
-            || (bool)$_SERVER['MIDCOM_COMPAT_REDIR'] !== false) {
-            $redirect_test_uri = preg_replace('/\.html$/', '', $redirect_test_uri);
-        }
         if (   !preg_match('%\?|/$|midcom-.+-|/.*\.[^/]+$%', $redirect_test_uri)
             && (empty($_POST))) {
             $response = new RedirectResponse($redirect_test_uri . '/', 301);
