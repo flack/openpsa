@@ -265,7 +265,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      *
      * By default returns a number of pages without any ACL checks
      */
-    private function count_pages()
+    public function count_pages()
     {
         if (!$this->_sanity_check()) {
             return false;
