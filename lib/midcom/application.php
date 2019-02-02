@@ -175,15 +175,15 @@ class midcom_application
         $oldcontext = midcom_core_context::get();
         $context = midcom_core_context::enter($url, $oldcontext->get_key(MIDCOM_CONTEXT_ROOTTOPIC));
 
-        $cached = $this->cache->content->check_dl_hit($context->id);
+        $request = $this->request->duplicate([], null, []);
+        $request->attributes->set('context', $context);
+
+        $cached = $this->cache->content->check_dl_hit($request);
         if ($cached !== false) {
             echo $cached;
             midcom_core_context::leave();
             return;
         }
-
-        $request = $this->request->duplicate([], null, []);
-        $request->attributes->set('context', $context);
 
         try {
             $response = $this->httpkernel->handle($request, HttpKernelInterface::SUB_REQUEST, false);
@@ -203,7 +203,7 @@ class midcom_application
         echo $dl_cache_data;
 
         /* Cache DL the content */
-        $this->cache->content->store_dl_content($context->id, $dl_cache_data);
+        $this->cache->content->store_dl_content($context->id, $dl_cache_data, $request);
 
         midcom_core_context::leave();
     }

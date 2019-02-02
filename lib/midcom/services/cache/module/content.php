@@ -227,7 +227,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         // Check that we have cache for the identifier
-        $request_id = $this->generate_request_identifier(0);
+        $request_id = $this->generate_request_identifier($request);
         // Load metadata for the content identifier connected to current request
         $content_id = $this->_meta_cache->fetch($request_id);
         if ($content_id === false) {
@@ -321,15 +321,16 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
              return;
          }
          $content_id = 'C-' . $etag;
-         $this->write_meta_cache($content_id, $etag);
+         $this->write_meta_cache($content_id, $etag, $request);
          $this->_data_cache->save($content_id, $cache_data);
     }
 
     /**
      * Generate a valid cache identifier for a context of the current request
      */
-    private function generate_request_identifier($context)
+    private function generate_request_identifier(Request $request)
     {
+        $context = $request->attributes->get('context')->id;
         // Cache the request identifier so that it doesn't change between start and end of request
         static $identifier_cache = [];
         if (isset($identifier_cache[$context])) {
@@ -365,8 +366,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 break;
         }
 
-        $identifier_source .= ';URL=' . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI);
-
+        $identifier_source .= ';URL=' . $request->getRequestUri();
         debug_add("Generating context {$context} request-identifier from: {$identifier_source}");
 
         $identifier_cache[$context] = 'R-' . md5($identifier_source);
@@ -474,9 +474,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @see no_cache()
      */
-    public function uncached()
+    public function uncached($uncached = true)
     {
-        $this->_uncached = true;
+        $this->_uncached = $uncached;
     }
 
     /**
@@ -619,7 +619,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * Writes meta-cache entry from context data using given content id
      * Used to be part of on_request, but needed by serve-attachment method in midcom_core_urlmethods as well
      */
-    public function write_meta_cache($content_id, $etag)
+    public function write_meta_cache($content_id, $etag, Request $request)
     {
         if (   $this->_uncached
             || $this->_no_cache) {
@@ -634,8 +634,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         // Construct cache identifier
-        $context = midcom_core_context::get()->id;
-        $request_id = $this->generate_request_identifier($context);
+        $request_id = $this->generate_request_identifier($request);
 
         $entries = [
             $request_id => $content_id,
@@ -649,6 +648,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_meta_cache->saveMultiple($entries, $lifetime);
 
         // Cache where the object have been
+        $context = midcom_core_context::get()->id;
         $this->store_context_guid_map($context, $content_id, $request_id);
     }
 
@@ -680,12 +680,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_meta_cache->saveMultiple($to_save);
     }
 
-    public function check_dl_hit($context)
+    public function check_dl_hit(Request $request)
     {
         if ($this->_no_cache) {
             return false;
         }
-        $dl_request_id = 'DL' . $this->generate_request_identifier($context);
+        $dl_request_id = 'DL' . $this->generate_request_identifier($request);
         $dl_content_id = $this->_meta_cache->fetch($dl_request_id);
         if ($dl_content_id === false) {
             return false;
@@ -694,13 +694,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         return $this->_data_cache->fetch($dl_content_id);
     }
 
-    public function store_dl_content($context, $dl_cache_data)
+    public function store_dl_content($context, $dl_cache_data, Request $request)
     {
         if (   $this->_no_cache
             || $this->_uncached) {
             return;
         }
-        $dl_request_id = 'DL' . $this->generate_request_identifier($context);
+        $dl_request_id = 'DL' . $this->generate_request_identifier($request);
         $dl_content_id = 'DLC-' . md5($dl_cache_data);
 
         if ($this->_expires !== null) {
