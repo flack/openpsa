@@ -89,8 +89,6 @@ class midcom_exception_handler
      *
      * For a list of the allowed HTTP codes see the MIDCOM_ERR... constants
      *
-     * <b>Note:</b> This function will call _midcom_stop_request() after it is finished.
-     *
      * @param int $httpcode        The error code to send.
      * @param string $message    The message to print.
      */
@@ -104,7 +102,8 @@ class midcom_exception_handler
         if (_midcom_headers_sent()) {
             debug_add("Generate-Error was called after sending the HTTP Headers!", MIDCOM_LOG_ERROR);
             debug_add("Unexpected Error: {$httpcode} - {$message}", MIDCOM_LOG_ERROR);
-            _midcom_stop_request("Unexpected Error, this should display an HTTP {$httpcode} - " . htmlentities($message));
+            echo "Unexpected Error, this should display an HTTP {$httpcode} - " . htmlentities($message);
+            return;
         }
 
         switch ($httpcode) {
