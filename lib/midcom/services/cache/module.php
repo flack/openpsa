@@ -132,17 +132,6 @@ abstract class midcom_services_cache_module
     }
 
     /**
-     * Startup handler, called during service start up at the start of the request.
-     * You may, as it is required for the content cache, intercept requests. Terminate
-     * the requests with _midcom_stop_request() if you produce a complete output based on a previous request
-     * (page cache) of midcom_application::finish() if you produce regular output that
-     * might go into the content cache.
-     */
-    public function _on_initialize()
-    {
-    }
-
-    /**
      * Invalidate the cache completely, dropping all entries. The default implementation will
      * drop all entries from all registered cache backends using CacheProvider::flushAll().
      * Override this function if this behavior doesn't suit your needs.
@@ -154,6 +143,11 @@ abstract class midcom_services_cache_module
             $backend->flushAll();
         }
     }
+
+    /**
+     * Startup handler, called during service start up at the start of the request.
+     */
+    abstract public function _on_initialize();
 
     /**
      * Invalidate all cache objects related to the given GUID.
