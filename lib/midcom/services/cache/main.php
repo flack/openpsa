@@ -147,17 +147,13 @@ class midcom_services_cache implements EventSubscriberInterface
      * Invalidates all cache records associated with a given content object.
      *
      * @param mixed $guid This is either a GUID or a MidgardObject, in which case the Guid is auto-determined.
-     * @param string $skip_module If specified, the module mentioned here is skipped during invalidation.
-     *     This option <i>should</i> be avoided by component authors at all costs, it is there for
-     *     optimizations within the core cache modules (which sometimes need to invalidate only other
-     *     modules, and invalidate themselves implicitly).
      */
-    public function invalidate($guid, $skip_module = '')
+    public function invalidate($guid)
     {
         $object = null;
         if (is_object($guid)) {
             $object = $guid;
-            $guid = $guid->guid;
+            $guid = $object->guid;
         }
         if (empty($guid)) {
             debug_add("Called for empty GUID, ignoring invalidation request.");
@@ -165,10 +161,6 @@ class midcom_services_cache implements EventSubscriberInterface
         }
 
         foreach ($this->_modules as $name => $module) {
-            if ($name == $skip_module) {
-                debug_add("We have to skip the cache module {$name}.");
-                continue;
-            }
             debug_add("Invalidating the cache module {$name} for GUID {$guid}.");
             $module->invalidate($guid, $object);
         }
