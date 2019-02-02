@@ -120,7 +120,7 @@ class midcom_application
         $this->uimessages->initialize($this->request);
 
         $this->dispatcher->addListener(KernelEvents::REQUEST, [$this->cache->content, 'on_request'], 10);
-        $this->dispatcher->addListener(KernelEvents::RESPONSE, [$this->cache->content, 'on_response'], 10);
+        $this->dispatcher->addListener(KernelEvents::RESPONSE, [$this->cache->content, 'on_response'], -10);
     }
 
     /* *************************************************************************
@@ -143,9 +143,6 @@ class midcom_application
     /**
      * Dynamically execute a subrequest and insert its output in place of the
      * function call.
-     *
-     * <b>Important Note</b> As with the Midgard Parser, dynamic_load strips a
-     * trailing .html from the argument list before actually parsing it.
      *
      * It tries to load the component referenced with the URL $url and executes
      * it as if it was used as primary component.
@@ -171,10 +168,6 @@ class midcom_application
     public function dynamic_load($url)
     {
         debug_add("Dynamic load of URL {$url}");
-
-        if (substr($url, -5) == '.html') {
-            $url = substr($url, 0, -5);
-        }
         $url = midcom_connection::get_url('prefix') . $url;
 
         // Determine new Context ID and set current context,
