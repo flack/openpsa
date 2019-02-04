@@ -159,7 +159,7 @@ class parser
             if ($qb->count() == 0) {
                 // last load returned ACCESS DENIED, no sense to dig deeper
                 if ($qb->denied > 0) {
-                    midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
+                    throw new \midcom_error_forbidden;
                 }
                 // allow for handler switches to work
                 return;

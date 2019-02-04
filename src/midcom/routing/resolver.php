@@ -121,11 +121,6 @@ class resolver
         $result = $viewer->get_handler($this->request);
         if (!$result) {
             debug_add("Component {$topic->component} in {$topic->name} declared unable to handle request.", MIDCOM_LOG_INFO);
-
-            // We couldn't fetch a node due to access restrictions
-            if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED) {
-                throw new midcom_error_forbidden(midcom::get()->i18n->get_string('access denied', 'midcom'));
-            }
             throw new midcom_error_notfound("This page is not available on this server.");
         }
         $this->context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
