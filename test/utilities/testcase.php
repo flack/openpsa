@@ -11,6 +11,7 @@ use midcom\datamanager\engine;
 use midcom\datamanager\renderer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Base class for unittests, provides some helper methods
@@ -207,6 +208,10 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
     {
         $this->reset_server_vars();
         $data = $this->run_handler($component, $args);
+        if (   array_key_exists('__openpsa_testcase_response', $data)
+            && $data['__openpsa_testcase_response'] instanceof RedirectResponse) {
+            $this->fail('Handler relocated to ' . $data['__openpsa_testcase_response']->getTargetUrl() . ' during form setup');
+        }
         $this->set_dm_formdata($data[$controller_key], $formdata, $button);
 
         try {
@@ -214,7 +219,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             if (array_key_exists($controller_key, $data)) {
                 $this->assertEquals([], $data[$controller_key]->get_errors(), 'Form validation failed');
             }
-            $this->assertInstanceOf(midcom_response_relocate::class, $data['__openpsa_testcase_response'], 'Form did not relocate');
+            $this->assertInstanceOf(RedirectResponse::class, $data['__openpsa_testcase_response'], 'Form did not relocate');
             return $data['__openpsa_testcase_response']->getTargetUrl();
         } catch (openpsa_test_relocate $e) {
             $url = $e->getMessage();
