@@ -86,8 +86,8 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             $this->$method_name($request->request->get('entries'));
         }
 
-        if ($request->request->has('revised_after')) {
-            $data['revised_after'] = date('Y-m-d', $request->request->get('revised_after'));
+        if ($request->query->has('revised_after')) {
+            $data['revised_after'] = date('Y-m-d', $request->query->get('revised_after'));
 
             $data['type_filter'] = null;
             if ($request->query->get('type_filter', 'any') != 'any') {
