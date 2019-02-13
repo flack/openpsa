@@ -76,12 +76,14 @@ dd tr:nth-child(even) td
 {
     background: #eed;
 }
+dd td
+{
+    padding: .4em;
+}
 dd td.property
 {
     width: 200px;
-    padding: 3px 5px 3px 3px;
     text-align:right;
-    border-right: solid 1px black;
     vertical-align: top;
     font-weight: bold;
     font-size:0.9em
@@ -97,11 +99,16 @@ dd td span.mgdtype
     color: #666;
 }
 
-dd th.description
+dd td.description
 {
-    text-align:left;
-    border-right: solid 1px black;
+    white-space: pre-line;
 }
+dd td.description div.proplink
+{
+    font-style: italic;
+    color: #666;
+}
+
 div.components h2
 {
     font-size: 1.2em;
