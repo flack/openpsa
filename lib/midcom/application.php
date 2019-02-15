@@ -107,7 +107,7 @@ class midcom_application
     public function initialize()
     {
         $this->request = Request::createFromGlobals();
-        $this->debug->log("Start of MidCOM run" . $this->request->server->get('REQUEST_URI', ''));
+        $this->debug->log("Start of MidCOM run " . $this->request->server->get('REQUEST_URI', ''));
         $this->request->setSession($this->session);
         $this->componentloader->load_all_manifests();
         $this->auth->check_for_login_session($this->request);
