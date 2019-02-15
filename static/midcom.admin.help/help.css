@@ -86,16 +86,16 @@ dd td.property
     text-align:right;
     vertical-align: top;
     font-weight: bold;
-    font-size:0.9em
 }
 dd td p
 {
     margin: 0px;
 }
 
-dd td span.mgdtype
+dd td.mgdtype
 {
-    font-weight:normal;
+    white-space: nowrap;
+    vertical-align: top;
     color: #666;
 }
 

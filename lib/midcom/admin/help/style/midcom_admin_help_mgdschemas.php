@@ -10,6 +10,7 @@ if (!empty($data['mgdschemas'])) {
         echo "        <tbody>\n";
         echo "            <tr>\n";
         echo "                <th class='property'>" . $data['l10n']->get('property') . "</th>\n";
+        echo "                <th class='mgdtype'>" . midcom::get()->i18n->get_string('type', 'midgard.admin.asgard') . "</th>\n";
         echo "                <th>" . $data['l10n']->get('description') . "</th>\n";
         echo "            </tr>\n";
 
@@ -23,7 +24,8 @@ if (!empty($data['mgdschemas'])) {
             }
 
             echo "            <tr>\n";
-            echo "                <td class='property'><span class='mgdtype'>{$val['midgard_type']}</span> {$propname}</td>\n";
+            echo "                <td class='property'>{$propname}</td>\n";
+            echo "                <td class='mgdtype'>{$val['midgard_type']}</td>\n";
             echo "                <td class='description'><p>" . trim($description) . "<p></td>\n";
             echo "            </tr>\n";
         }
