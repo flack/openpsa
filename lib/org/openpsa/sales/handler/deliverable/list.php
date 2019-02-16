@@ -46,9 +46,9 @@ implements client
             'salesproject' => "<a href='{$salesproject_link}'>" . $salesproject->title . "</a>",
             'unit' => org_openpsa_sales_viewer::get_unit_option($deliverable->unit),
             'state' => $deliverable->state,
-            'type' => $deliverable->invoiceByActualUnits,
+            'fixedPrice' => !$deliverable->invoiceByActualUnits,
             'pricePerUnit' => $deliverable->pricePerUnit,
-            'units' => $deliverable->units,
+            'units' => $deliverable->invoiceByActualUnits ? $deliverable->units : $deliverable->plannedUnits,
             'invoiced' => $deliverable->invoiced
         ];
     }

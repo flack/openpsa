@@ -7,10 +7,6 @@ $state_options = [
     org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED => $data['l10n']->get('delivered'),
     org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED => $data['l10n']->get('invoiced')
 ];
-$type_options = [
-    'true' => $data['l10n']->get('invoice by actual units'),
-    'false' => midcom::get()->i18n->get_string('fixed price', 'org.openpsa.reports')
-];
 $grid = $data['grid'];
 ?>
 <div class="org_openpsa_sales full-width crop-height">
@@ -22,9 +18,9 @@ $grid->set_select_column('state', $data['l10n']->get('state'), 'width: 60', $sta
 if ($data['product']->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
     $grid->set_column('unit', $data['l10n']->get('invoicing period'), 'width: 60');
 }
-$grid->set_select_column('type', midcom::get()->i18n->get_string('type', 'midgard.admin.asgard'), 'width: 100', $type_options);
 $grid->set_column('pricePerUnit', $data['l10n']->get('price per unit'), 'width: 50, template: "number"');
 $grid->set_column('units', $data['l10n']->get('units'), 'width: 40, template: "number"');
+$grid->set_column('fixedPrice', midcom::get()->i18n->get_string('fixed price', 'org.openpsa.reports'), 'width: 40, align: "center", formatter: "checkbox"');
 $grid->set_column('invoiced', $data['l10n']->get('invoiced'), 'width: 50, template: "number", summaryType: "sum"');
 
 $grid->set_option('loadonce', true)
