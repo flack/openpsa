@@ -27,15 +27,15 @@ $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/widgets/mouse.min.js');
 $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/widgets/draggable.min.js');
 $head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/ui.js');
 $head->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
-
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$context = midcom_core_context::get();
+$prefix = $context->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-toolbar' : '';
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo midcom::get()->i18n->get_current_language(); ?>">
     <head>
     <meta charset="UTF-8">
-    <title><?php echo midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE); ?> (<?php echo $data['l10n']->get('asgard for'); ?> <(title)>)</title>
+    <title><?php echo $context->get_key(MIDCOM_CONTEXT_PAGETITLE); ?> (<?php echo $data['l10n']->get('asgard for'); ?> <(title)>)</title>
         <link rel="shortcut icon" href="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/favicon.ico" />
         <?php
         $head->print_head_elements();
@@ -114,7 +114,10 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                     </div>
 
                     <div id="content-text">
-						<(content)>
+                    <?php
+                    $callback = $context->get_key(MIDCOM_CONTEXT_SHOWCALLBACK);
+                    call_user_func($callback);
+                    ?>
                     </div>
                     <div id="object_metadata">
                         <?php
