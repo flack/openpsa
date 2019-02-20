@@ -17,7 +17,6 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             echo "    </thead>\n";
             echo "    <tbody>\n";
             foreach ($data['files'] as $file) {
-                $mime_icon = midcom_helper_misc::get_mime_icon($file->mimetype);
                 $workflow = new midcom\workflow\delete(['object' => $file, 'label' => $file->name]);
                 $revisor = midcom::get()->auth->get_user($file->metadata->revisor);
                 $class = '';
@@ -41,7 +40,6 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 echo "<tr>\n";
                 echo "  <td{$class}>\n";
                 echo "    <a href=\"{$edit_link}\">\n";
-                echo "      <img src=\"{$mime_icon}\" width=\"16\" height=\"16\"/>\n";
                 echo "        {$file->name}\n";
                 echo "    </a>\n ";
                 echo "  </td>\n";

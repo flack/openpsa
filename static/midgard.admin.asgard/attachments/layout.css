@@ -82,6 +82,42 @@ form textarea
     width: 90%;
 }
 
+div.file-manager .icon .thumb
+{
+    position: relative;
+    opacity: .5;
+    transition: opacity .3s;
+    margin-right: .5em;
+}
+div.file-manager .icon a:hover .thumb
+{
+    opacity: .9
+}
+
+div.file-manager .icon i
+{
+    font-size: 52px;
+    color: rgba(0, 0, 0, .7);
+}
+
+div.file-manager .icon .extension
+{
+    color: white;
+    background-color: #d41f2a;
+    position: absolute;
+    right: -2px;
+    bottom: 4px;
+    padding: 0 .25em;
+    text-transform: uppercase;
+    font-size: 11px;
+    border-radius: 1px;
+}
+
+div.file-manager .icon .no-file
+{
+    opacity: .3
+}
+
 div.file-manager div.main form.urlform a img
 {
     border: none;
