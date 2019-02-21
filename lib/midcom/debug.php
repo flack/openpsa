@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Doctrine\Common\Util\Debug;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\CliDumper;
 
 /**
  * This is a debugger class.
@@ -184,12 +185,10 @@ class midcom_debug
             return;
         }
 
-        // This is mainly for midgard objects, because print_r on Entities can
-        // choke the system pretty badly
-        ob_start();
-        Debug::dump($variable);
-        $varstring = ob_get_contents();
-        ob_end_clean();
+        $cloner = new VarCloner();
+        $dumper = new CliDumper();
+
+        $varstring = $dumper->dump($cloner->cloneVar($variable), true);
 
         $this->log(trim($message) . ' ' . $varstring, $loglevel);
     }
