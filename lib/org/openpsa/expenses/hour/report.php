@@ -26,6 +26,16 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
 
     public $_skip_parent_refresh = false;
 
+    private $old_task;
+
+    public function __set($property, $value)
+    {
+        if ($property == 'task' && $value != $this->task) {
+            $this->old_task = $this->task;
+        }
+        parent::__set($property, $value);
+    }
+
     private function _prepare_save()
     {
         $this->hours = round($this->hours, 2);
@@ -72,20 +82,29 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
 
     private function _update_parent($start = false)
     {
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
         try {
             $parent = new org_openpsa_projects_task_dba($this->task);
             $parent->update_cache();
-        } catch (midcom_error $e) {
-            return false;
-        }
-        if ($start) {
-            org_openpsa_projects_workflow::start($parent, $this->person);
-            //Add person to resources if necessary
-            $parent->get_members();
-            if (!array_key_exists($this->person, $parent->resources)) {
-                $parent->add_members('resources', [$this->person]);
+
+            if ($this->old_task) {
+                $oldparent = new org_openpsa_projects_task_dba($this->old_task);
+                $oldparent->update_cache();
             }
+
+            if ($start) {
+                org_openpsa_projects_workflow::start($parent, $this->person);
+                //Add person to resources if necessary
+                $parent->get_members();
+                if (!array_key_exists($this->person, $parent->resources)) {
+                    $parent->add_members('resources', [$this->person]);
+                }
+            }
+        } catch (midcom_error $e) {
+            $e->log();
         }
+
+        midcom::get()->auth->drop_sudo();
     }
 
     /**

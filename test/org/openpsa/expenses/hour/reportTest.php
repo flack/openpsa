@@ -13,6 +13,9 @@
  */
 class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
 {
+    /**
+     * @var org_openpsa_projects_task_dba
+     */
     protected static $_task;
     protected static $_project;
 
@@ -70,8 +73,26 @@ class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
         $this->assertEquals(self::$_task->guid, $parent->guid);
     }
 
-    public function tearDown()
+    public function test_move()
     {
-        self::delete_linked_objects(org_openpsa_expenses_hour_report_dba::class, 'task', self::$_task->id);
+        $task2 = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => self::$_project->id]);
+
+        $report = $this->create_object(org_openpsa_expenses_hour_report_dba::class, [
+            'task' => self::$_task->id,
+            'hours' => 2.5,
+            'invoiceable' => true
+        ]);
+
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
+
+        self::$_task->refresh();
+        $this->assertEquals(2.5, self::$_task->invoiceableHours);
+
+        $report->task = $task2->id;
+        $report->update();
+        self::$_task->refresh();
+        $this->assertEquals(0, self::$_task->invoiceableHours);
+
+        midcom::get()->auth->drop_sudo();
     }
 }
