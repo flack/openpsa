@@ -327,7 +327,6 @@ class org_openpsa_projects_workflow
         $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $qb->add_constraint('task', '=', $task->id);
         $qb->add_constraint('invoice', '=', 0);
-        $qb->add_constraint('invoiceable', '=', true);
 
         // Check how the agreement deals with hour reports
         try {
@@ -343,7 +342,7 @@ class org_openpsa_projects_workflow
         foreach ($qb->execute() as $report) {
             $report->invoice = $invoice->id;
             $report->_skip_parent_refresh = true;
-            if ($report->update()) {
+            if ($report->update() && $report->invoiceable) {
                 $hours_marked += $report->hours;
             }
         }

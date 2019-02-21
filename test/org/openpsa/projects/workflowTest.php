@@ -194,6 +194,8 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
             'hours' => 15
         ];
         $report = $this->create_object(org_openpsa_expenses_hour_report_dba::class, $report_attributes);
+        unset($report_attributes['invoiceable']);
+        $report2 = $this->create_object(org_openpsa_expenses_hour_report_dba::class, $report_attributes);
 
         $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);
         $result = org_openpsa_projects_workflow::mark_invoiced(self::$_task, $invoice);
@@ -201,6 +203,8 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         $this->assertEquals(15, $result);
         $report->refresh();
         $this->assertEquals($invoice->id, $report->invoice);
+        $report2->refresh();
+        $this->assertEquals($invoice->id, $report2->invoice);
     }
 
     public function tearDown()
