@@ -77,28 +77,12 @@
             ],
             'widget' => 'autocomplete',
             'widget_config' => [
-                'class'       => 'org_openpsa_products_product_dba',
-                'id_field'     => 'id',
-                'constraints' => [
-                	[
-                        'field' => 'delivery',
-                        'op' => '=',
-                        'value' => org_openpsa_products_product_dba::DELIVERY_SINGLE
-                    ],
-                ],
-                'searchfields'  => [
-                    'code',
-                    'title'
-                ],
-                'result_headers' => [
-                	[
-                        'name' => 'code',
-                    ],
-                ],
-                'orders'        => [
-                    ['title'    => 'ASC'],
-                    ['code'    => 'ASC'],
-                ],
+                'clever_class' => 'product',
+                'constraints' => [[
+                    'field' => 'delivery',
+                    'op' => '=',
+                    'value' => org_openpsa_products_product_dba::DELIVERY_SINGLE
+                ]],
             ],
             'required' => true
         ],
@@ -250,28 +234,12 @@
             ],
             'widget' => 'autocomplete',
             'widget_config' => [
-                'class'       => 'org_openpsa_products_product_dba',
-                'id_field'     => 'id',
-                'constraints' => [
-                	[
-                        'field' => 'delivery',
-                        'op' => '=',
-                        'value' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
-                    ],
-                ],
-                'searchfields'  => [
-                    'code',
-                    'title'
-                ],
-                'result_headers' => [
-                	[
-                        'name' => 'code',
-                    ],
-                ],
-                'orders'        => [
-                    ['title'    => 'ASC'],
-                    ['code'    => 'ASC'],
-                ],
+                'clever_class' => 'product',
+                'constraints' => [[
+                    'field' => 'delivery',
+                    'op' => '=',
+                    'value' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
+                ]],
             ],
             'required' => true
         ],

@@ -105,6 +105,22 @@
             ['number' => 'ASC'],
         ],
     ],
+    'product' => [
+        'class'       => 'org_openpsa_products_product_dba',
+        'id_field'     => 'id',
+        'searchfields'  => [
+            'code',
+            'title'
+        ],
+        'result_headers' => [[
+            'name' => 'code',
+        ]],
+        'orders'        => [
+            ['title'    => 'ASC'],
+            ['code'    => 'ASC'],
+        ],
+        'categorize_by_parent_label' => true,
+    ]
 ],
 
 'html_purify_config' => [
