@@ -119,6 +119,8 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
 
         $this->encoding = $this->_i18n->get_current_charset();
 
+        $backend_params['swift_plugins'] = $this->_config->get('swift_plugins');
+
         $this->_backend = org_openpsa_mail_backend::get($backend, $backend_params);
 
         $this->headers['X-Originating-IP'] = '[' . $_SERVER['REMOTE_ADDR'] . ']';

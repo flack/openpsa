@@ -16,11 +16,11 @@ class org_openpsa_mail_backend_mail_sendmail extends org_openpsa_mail_backend
     public function __construct(array $params)
     {
         $transport = Swift_SendmailTransport::newInstance($params['sendmail_path'] . " " . $params['sendmail_args']);
-        $this->_mail = Swift_Mailer::newInstance($transport);
+        $this->prepare_mailer($transport, $params);
     }
 
     public function mail(org_openpsa_mail_message $message)
     {
-        return $this->_mail->send($message->get_message());
+        return $this->mailer->send($message->get_message());
     }
 }

@@ -22,11 +22,11 @@ class org_openpsa_mail_backend_mail_smtp extends org_openpsa_mail_backend
         if (isset($params['password'])) {
             $transport->setPassword($params['password']);
         }
-        $this->_mail = Swift_Mailer::newInstance($transport);
+        $this->prepare_mailer($transport, $params);
     }
 
     public function mail(org_openpsa_mail_message $message)
     {
-        return $this->_mail->send($message->get_message());
+        return $this->mailer->send($message->get_message());
     }
 }

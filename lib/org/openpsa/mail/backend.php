@@ -15,7 +15,7 @@ abstract class org_openpsa_mail_backend
 {
     public $error = false;
 
-    protected $_mail;
+    protected $mailer;
 
     abstract public function __construct(array $params);
 
@@ -49,6 +49,16 @@ abstract class org_openpsa_mail_backend
             throw new midcom_error('All configured backends failed to load');
         }
         return self::_load_backend($implementation, $params);
+    }
+
+    protected function prepare_mailer(Swift_Transport $transport, array $params)
+    {
+        $this->mailer = Swift_Mailer::newInstance($transport);
+        if (!empty($params['swift_plugins'])) {
+            foreach ($params['swift_plugins'] as $plugin) {
+                $this->mailer->registerPlugin($plugin);
+            }
+        }
     }
 
     private static function _load_backend($backend, array $params)

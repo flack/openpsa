@@ -21,6 +21,8 @@
     'sendmail_args' => '-bs',
 ],
 
+'swift_plugins' => [],
+
 'schemadb_formmailer' => 'file:/org/openpsa/mail/config/schemadb_formmailer.inc',
 'formmailer_from' => 'formmailer@openpsa2.org',
 'formmailer_to' => '',
