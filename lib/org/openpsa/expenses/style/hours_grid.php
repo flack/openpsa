@@ -22,20 +22,23 @@ foreach ($data['hours'] as $report) {
     }
 
     if ($data['mode'] != 'invoice') {
-        if ($report->invoice) {
-            $entry['category'] = 2;
-        } elseif ($report->invoiceable) {
-            $entry['category'] = 1;
-        } else {
+        if (!$report->invoiceable) {
             $entry['category'] = 0;
+        } elseif ($report->invoice) {
+            $entry['category'] = 2;
+        } else {
+            $entry['category'] = 1;
         }
     } else {
         if ($report->is_approved()) {
             $approved_text = $projects_l10n->get('approved');
             $icon = 'check';
-        } else {
+        } elseif ($report->invoiceable) {
             $approved_text = $projects_l10n->get('not approved');
             $icon = 'times';
+        } else {
+            $approved_text = $data['l10n']->get('uninvoiceable');
+            $icon = 'ban';
         }
         $entry['approved'] = "<i class='fa fa-{$icon}' title='{$approved_text}'></i>";
     }

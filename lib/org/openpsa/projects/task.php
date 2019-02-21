@@ -338,11 +338,12 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
                 $hours['approved'] += $report_hours;
             }
 
-            if ($report_data['invoice']) {
-                $hours['invoiced'] += $report_hours;
-            } elseif (   $report_data['invoiceable']
-                      && ($report_data['isapproved'] || !$invoice_approved_only)) {
-                $hours['invoiceable'] += $report_hours;
+            if ($report_data['invoiceable']) {
+                if ($report_data['invoice']) {
+                    $hours['invoiced'] += $report_hours;
+                } elseif ($report_data['isapproved'] || !$invoice_approved_only) {
+                    $hours['invoiceable'] += $report_hours;
+                }
             }
         }
         return $hours;
