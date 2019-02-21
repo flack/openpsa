@@ -277,10 +277,6 @@ class midcom_debug
             return;
         }
 
-        if (!function_exists('memory_get_usage')) {
-            return false;
-        }
-
         static $lastmem = 0;
         $curmem = memory_get_usage();
         $delta = $curmem - $lastmem;
