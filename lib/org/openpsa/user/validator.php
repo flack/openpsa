@@ -48,7 +48,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
 
         $accounthelper = new org_openpsa_user_accounthelper();
         if($fields['password']['switch'] && !$accounthelper->check_password_strength($fields['password']['password'])){
-            $result = ['password' => midcom::get()->i18n->get_string('password weak')];
+            $result = ['password' => midcom::get()->i18n->get_string('password weak', 'org.openpsa.user')];
         }
 
         if (is_array($result)) {
@@ -162,10 +162,10 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
 
         $accounthelper = new org_openpsa_user_accounthelper($user);
         if (!$accounthelper->check_password_reuse($fields['new_password'])){
-            $result['password'] = midcom::get()->i18n->get_string('password was already used');
+            $result['password'] = midcom::get()->i18n->get_string('password was already used', 'org.openpsa.user');
         }
         if (!$accounthelper->check_password_strength($fields['new_password'])){
-            $result['password'] = midcom::get()->i18n->get_string('password weak');
+            $result['password'] = midcom::get()->i18n->get_string('password weak', 'org.openpsa.user');
         }
         if (!empty($result)) {
             return $result;
