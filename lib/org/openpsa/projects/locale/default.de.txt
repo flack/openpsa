@@ -342,10 +342,6 @@ Aufgabe
 Aufgabe %s
 ---STRINGEND
 
----STRING task deletion not allowed because of hour reports
-Die Aufgabe kann aufgrund von Stundenberichten nicht gelöscht werden
----STRINGEND
-
 ---STRING task status
 Aufgaben-Status
 ---STRINGEND

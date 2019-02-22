@@ -346,10 +346,6 @@ Task
 Task %s
 ---STRINGEND
 
----STRING task deletion not allowed because of hour reports
-Task deletion not allowed because of hour reports
----STRINGEND
-
 ---STRING task status
 Task status
 ---STRINGEND

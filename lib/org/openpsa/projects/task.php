@@ -133,12 +133,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     public function _on_deleting()
     {
         $this->update_cache(false);
-        if ($this->reportedHours > 0) {
-            midcom_connection::set_error(MGD_ERR_HAS_DEPENDANTS);
-            midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), midcom::get()->i18n->get_string('task deletion not allowed because of hour reports', 'org.openpsa.projects'), 'warning');
-            return false;
-        }
-
         return parent::_on_deleting();
     }
 

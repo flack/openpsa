@@ -349,7 +349,3 @@ Tee tehtävää %s
 ---STRING work started by %s
 Työn aloittanut %s
 ---STRINGEND
-
----STRING task deletion not allowed because of hour reports
-Tehtävän poisto ei ole mahdollinen koska siinä on tuntiraportteja
----STRINGEND
