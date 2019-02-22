@@ -162,6 +162,7 @@ ul.ui-autocomplete
     box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.25);
     max-height: 100%; /* for IE < 9 & Opera */
     max-height: calc(100% - 6px);
+    max-width: 30%;
 }
 
 ul.ui-autocomplete .ui-menu-item a.ui-state-focus
