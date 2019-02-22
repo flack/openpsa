@@ -1,4 +1,3 @@
-
 ---# MidCOM String Database
 ---VERSION 2.1.0
 ---LANGUAGE de
@@ -307,7 +306,7 @@ Abgebrochene Verkaufsprojekte
 ---STRINGEND
 
 ---STRING salesprojects won
-Abgeschlossene Verkaufsprojekte
+Beauftragte Verkaufsprojekte
 ---STRINGEND
 
 ---STRING salesprojects delivered
@@ -387,7 +386,7 @@ Gewichteter Wert
 ---STRINGEND
 
 ---STRING won
-Abgeschlossen
+Beauftragt
 ---STRINGEND
 
 ---STRING salesprojects lost
