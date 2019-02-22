@@ -33,10 +33,6 @@ Click here for details:
 %s
 ---STRINGEND
 
----STRING canceled
-Canceled
----STRINGEND
-
 ---STRING code
 Project code
 ---STRINGEND
@@ -299,10 +295,6 @@ Sales projects
 
 ---STRING salesprojects active
 Active sales projects
----STRINGEND
-
----STRING salesprojects canceled
-Canceled sales projects
 ---STRINGEND
 
 ---STRING salesprojects delivered

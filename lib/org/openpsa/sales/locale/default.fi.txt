@@ -18,10 +18,6 @@ Käynnissä
 Lisää tuote
 ---STRINGEND
 
----STRING canceled
-Peruuntunut
----STRINGEND
-
 ---STRING code
 Projektinumero
 ---STRINGEND
@@ -236,10 +232,6 @@ Painotettu arvo
 
 ---STRING won
 Voitettu
----STRINGEND
-
----STRING salesprojects canceled
-Peruuntuneet myyntiprojektit
 ---STRINGEND
 
 ---STRING salesprojects delivered

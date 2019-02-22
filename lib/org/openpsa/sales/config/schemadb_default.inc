@@ -33,7 +33,6 @@
             'type_config' => [
                 'options' => [
                     org_openpsa_sales_salesproject_dba::STATE_ACTIVE    => 'active',
-                    org_openpsa_sales_salesproject_dba::STATE_CANCELED  => 'canceled',
                     org_openpsa_sales_salesproject_dba::STATE_LOST      => 'lost',
                     org_openpsa_sales_salesproject_dba::STATE_WON       => 'won',
                     org_openpsa_sales_salesproject_dba::STATE_DELIVERED => 'delivered',

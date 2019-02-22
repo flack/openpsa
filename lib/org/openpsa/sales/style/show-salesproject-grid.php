@@ -4,7 +4,6 @@ $rows = [];
 
 $state_labels = [
     org_openpsa_sales_salesproject_dba::STATE_LOST => $data['l10n']->get('lost'),
-    org_openpsa_sales_salesproject_dba::STATE_CANCELED => $data['l10n']->get('canceled'),
     org_openpsa_sales_salesproject_dba::STATE_ACTIVE => $data['l10n']->get('active'),
     org_openpsa_sales_salesproject_dba::STATE_WON => $data['l10n']->get('won'),
     org_openpsa_sales_salesproject_dba::STATE_DELIVERED => $data['l10n']->get('delivered'),

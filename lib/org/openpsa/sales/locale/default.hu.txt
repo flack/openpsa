@@ -18,10 +18,6 @@ Aktív
 Szállítás hozzáadása
 ---STRINGEND
 
----STRING canceled
-Visszavont
----STRINGEND
-
 ---STRING code
 Projekt kód
 ---STRINGEND

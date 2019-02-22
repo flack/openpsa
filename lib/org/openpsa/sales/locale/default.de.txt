@@ -33,10 +33,6 @@ Klicken Sie hier für weitere Informationen:
 %s
 ---STRINGEND
 
----STRING canceled
-Abgebrochen
----STRINGEND
-
 ---STRING code
 Projekt-Code
 ---STRINGEND
@@ -299,10 +295,6 @@ Verkaufsprojekte
 
 ---STRING salesprojects active
 Aktive Verkaufsprojekte
----STRINGEND
-
----STRING salesprojects canceled
-Abgebrochene Verkaufsprojekte
 ---STRINGEND
 
 ---STRING salesprojects won
