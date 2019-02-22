@@ -271,7 +271,6 @@ implements client
         if ($this->is_single_project) {
             $entry['invoiced_hours'] = $task->invoicedHours;
         }
-        $entry['approved_hours'] = $task->approvedHours;
         $entry['reported_hours'] = $task->reportedHours;
 
         return $entry;

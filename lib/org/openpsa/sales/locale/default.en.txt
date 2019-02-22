@@ -145,10 +145,6 @@ Introduction
 Invoice
 ---STRINGEND
 
----STRING invoice approved only
-Invoice only approved units
----STRINGEND
-
 ---STRING invoice by actual units
 Invoice by actual units
 ---STRINGEND

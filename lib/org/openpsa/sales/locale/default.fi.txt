@@ -78,10 +78,6 @@ Arvioitu toimituspäivä
 Laskuta
 ---STRINGEND
 
----STRING invoice approved only
-Laskuta vain hyväksytyt
----STRINGEND
-
 ---STRING invoice by actual units
 Laskuta toteutuneen mukaan
 ---STRINGEND

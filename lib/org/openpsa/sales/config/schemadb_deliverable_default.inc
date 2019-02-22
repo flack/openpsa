@@ -129,12 +129,6 @@
             'storage' => 'invoiceByActualUnits',
             'type'    => 'boolean',
             'widget'  => 'checkbox',
-        ],
-        'invoiceApprovedOnly' => [
-            'title'   => 'invoice approved only',
-            'storage' => 'invoiceApprovedOnly',
-            'type'    => 'boolean',
-            'widget'  => 'checkbox',
         ]
     ]
 ],
@@ -284,12 +278,6 @@
         'invoiceByActualUnits' => [
             'title'   => 'invoice by actual units',
             'storage' => 'invoiceByActualUnits',
-            'type'    => 'boolean',
-            'widget'  => 'checkbox',
-        ],
-        'invoiceApprovedOnly' => [
-            'title'   => 'invoice approved only',
-            'storage' => 'invoiceApprovedOnly',
             'type'    => 'boolean',
             'widget'  => 'checkbox',
         ],

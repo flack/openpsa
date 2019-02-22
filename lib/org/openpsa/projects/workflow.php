@@ -328,17 +328,6 @@ class org_openpsa_projects_workflow
         $qb->add_constraint('task', '=', $task->id);
         $qb->add_constraint('invoice', '=', 0);
 
-        // Check how the agreement deals with hour reports
-        try {
-            $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->agreement);
-            if ($deliverable->invoiceApprovedOnly) {
-                // The agreement allows invoicing only approved hours, therefore don't mark unapproved
-                $qb->add_constraint('metadata.isapproved', '=', true);
-            }
-        } catch (midcom_error $e) {
-            $e->log();
-        }
-
         foreach ($qb->execute() as $report) {
             $report->invoice = $invoice->id;
             $report->_skip_parent_refresh = true;

@@ -21,7 +21,6 @@
  * @property integer $customer
  * @property integer $manager
  * @property float $reportedHours
- * @property float $approvedHours
  * @property float $invoicedHours
  * @property float $invoiceableHours
  * @property boolean $hoursInvoiceableDefault Are hours invoiceable by default ?
@@ -278,7 +277,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $stat = true;
 
         $this->reportedHours = $hours['reported'];
-        $this->approvedHours = $hours['approved'];
         $this->invoicedHours = $hours['invoiced'];
         $this->invoiceableHours = $hours['invoiceable'];
 
@@ -302,24 +300,14 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     {
         $hours = [
             'reported'    => 0,
-            'approved'    => 0,
             'invoiced'    => 0,
             'invoiceable' => 0,
         ];
-
-        // Check agreement for invoiceability rules
-        try {
-            $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->get_agreement());
-            $invoice_approved_only = $agreement->invoiceApprovedOnly;
-        } catch (midcom_error $e) {
-            $invoice_approved_only = false;
-        }
 
         $report_mc = org_openpsa_expenses_hour_report_dba::new_collector('task', $this->id);
         $report_mc->add_value_property('hours');
         $report_mc->add_value_property('invoice');
         $report_mc->add_value_property('invoiceable');
-        $report_mc->add_value_property('metadata.isapproved');
         $report_mc->execute();
 
         foreach ($report_mc->list_keys() as $guid => $empty) {
@@ -328,14 +316,10 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
             $hours['reported'] += $report_hours;
 
-            if ($report_data['isapproved']) {
-                $hours['approved'] += $report_hours;
-            }
-
             if ($report_data['invoiceable']) {
                 if ($report_data['invoice']) {
                     $hours['invoiced'] += $report_hours;
-                } elseif ($report_data['isapproved'] || !$invoice_approved_only) {
+                } else {
                     $hours['invoiceable'] += $report_hours;
                 }
             }

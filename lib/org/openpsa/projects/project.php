@@ -28,7 +28,6 @@
  * @property integer $status Current project status
  * @property float $plannedHours
  * @property float $reportedHours
- * @property float $approvedHours
  * @property float $invoicedHours
  * @property float $invoiceableHours
  * @property integer $orgOpenpsaAccesstype Shortcut for various ACL scenarios

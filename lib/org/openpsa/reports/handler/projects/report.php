@@ -48,7 +48,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             $qb_hr->add_constraint('invoiceable', '=', (bool) $this->_request_data['query_data']['invoiceable_filter']);
         }
 
-        $this->_apply_filter($qb_hr, 'approved', 'metadata.isapproved', false);
         $this->_apply_filter($qb_hr, 'invoiced', 'invoice', 0);
 
         if ($this->_request_data['query_data']['resource'] != 'all') {

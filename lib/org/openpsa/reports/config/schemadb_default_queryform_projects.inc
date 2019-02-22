@@ -115,20 +115,6 @@
             'widget'      => 'radiocheckselect',
             'default'       => -1,
         ],
-        'approved_filter' => [
-            'title'   => 'show approved',
-            'storage'      => 'parameter',
-            'type'      => 'select',
-            'type_config' => [
-                 'options' => [
-                     -1    => 'both',
-                     0     => 'only not approved',
-                     1     => 'only approved',
-                 ],
-            ],
-            'widget'      => 'radiocheckselect',
-            'default'       => -1,
-        ],
         'invoiced_filter' => [
             'title'   => 'show invoiced',
             'storage'      => 'parameter',

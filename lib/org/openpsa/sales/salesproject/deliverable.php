@@ -23,7 +23,6 @@
  * @property string $unit
  * @property float $pricePerUnit
  * @property boolean $invoiceByActualUnits
- * @property boolean $invoiceApprovedOnly
  * @property boolean $continuous
  * @property float $cost Actual cost of the delivery
  * @property float $plannedCost Original planned cost

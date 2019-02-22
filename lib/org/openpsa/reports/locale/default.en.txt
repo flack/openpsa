@@ -70,20 +70,12 @@ No results
 No results matching the report criteria were found.
 ---STRINGEND
 
----STRING only approved
-Only approved
----STRINGEND
-
 ---STRING only invoiceable
 Only billable
 ---STRINGEND
 
 ---STRING only invoiced
 Only invoiced
----STRINGEND
-
----STRING only not approved
-Only not approved
 ---STRINGEND
 
 ---STRING only not invoiced
@@ -128,10 +120,6 @@ Save query for future
 
 ---STRING scope
 Scope
----STRINGEND
-
----STRING show approved
-Show approved
 ---STRINGEND
 
 ---STRING show invoiceable

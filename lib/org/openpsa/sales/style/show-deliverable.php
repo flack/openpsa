@@ -92,10 +92,6 @@ if (   $data['product']
                               ?>
                     <ul>
                         <li><?php echo $data['l10n']->get('invoice by actual units'); ?></li>
-                        <?php
-                        if ($data['deliverable']->invoiceApprovedOnly) {
-                            echo "<li>" . $data['l10n']->get('invoice approved only') . "</li>\n";
-                        } ?>
                     </ul>
                     <?php
                           } ?>

@@ -142,10 +142,6 @@ Einleitung
 Rechnung
 ---STRINGEND
 
----STRING invoice approved only
-Nur bestätigte Arbeitsstunden abrechnen
----STRINGEND
-
 ---STRING invoice by actual units
 Tatsächliche Stückzahl abrechnen
 ---STRINGEND

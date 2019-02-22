@@ -66,10 +66,6 @@ Várható átadás
 Számla
 ---STRINGEND
 
----STRING invoice approved only
-Csak a jóváhagyott egységek számlázása
----STRINGEND
-
 ---STRING invoice by actual units
 Aktuális egységek számlázása
 ---STRINGEND

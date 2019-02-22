@@ -66,20 +66,12 @@ Keine Ergebnisse
 Es wurden keine Ergebnisse zu diesen Suchkriterien gefunden
 ---STRINGEND
 
----STRING only approved
-nur genehmigte
----STRINGEND
-
 ---STRING only invoiceable
 nur abrechenbare
 ---STRINGEND
 
 ---STRING only invoiced
 nur abgerechnete
----STRINGEND
-
----STRING only not approved
-nur nicht genehmigte
 ---STRINGEND
 
 ---STRING only not invoiced
@@ -124,10 +116,6 @@ Report speichern
 
 ---STRING scope
 Eingrenzung
----STRINGEND
-
----STRING show approved
-Genehmigte anzeigen
 ---STRINGEND
 
 ---STRING show invoiceable

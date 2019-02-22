@@ -1,5 +1,4 @@
 <?php
-$projects_l10n = midcom::get()->i18n->get_l10n('org.openpsa.projects');
 $action_target_url = $data['router']->generate('hours_task_action');
 $invoice_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
 $footer_data = ['hours' => 0];
@@ -30,17 +29,7 @@ foreach ($data['hours'] as $report) {
             $entry['category'] = 1;
         }
     } else {
-        if ($report->is_approved()) {
-            $approved_text = $projects_l10n->get('approved');
-            $icon = 'check';
-        } elseif ($report->invoiceable) {
-            $approved_text = $projects_l10n->get('not approved');
-            $icon = 'times';
-        } else {
-            $approved_text = $data['l10n']->get('uninvoiceable');
-            $icon = 'ban';
-        }
-        $entry['approved'] = "<i class='fa fa-{$icon}' title='{$approved_text}'></i>";
+        $entry['invoiceable'] = $report->invoiceable;
     }
 
     $entry['index_description'] = $report->description;
@@ -94,8 +83,8 @@ $export_fields['hours'] = $data['l10n']->get('hours');
 $data['grid']->set_column('description', $data['l10n']->get('description'), "width: 250, classes: 'multiline'", 'string');
 $data['grid']->set_column('hours', $data['l10n']->get('hours'), "width: 50, align: 'right', formatter: 'number', summaryType: 'sum'");
 if ($data['mode'] == 'invoice') {
-    $export_fields['approved'] = $data['l10n']->get('approved');
-    $data['grid']->set_column('approved', $projects_l10n->get('approved'), "width: 20, align: 'center', fixed: true");
+    $export_fields['invoiceable'] = $data['l10n']->get('invoiceable');
+    $data['grid']->set_column('invoiceable', $data['l10n']->get('invoiceable'), "width: 20, align: 'center', formatter: 'checkbox', fixed: true");
 } else {
     $export_fields['category'] = $data['l10n']->get('category');
     $export_fields['invoice'] = $data['l10n']->get('invoice');

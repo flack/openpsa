@@ -34,20 +34,12 @@ Ei tuloksia
 Raportin kriteerejä vastaavia tuloksia ei löytynyt.
 ---STRINGEND
 
----STRING only approved
-Vain hyväksytyt
----STRINGEND
-
 ---STRING only invoiceable
 Vain laskutettavat
 ---STRINGEND
 
 ---STRING only invoiced
 Vain laskutetut
----STRINGEND
-
----STRING only not approved
-Vain hyväksymättömät
 ---STRINGEND
 
 ---STRING only not invoiced
@@ -88,10 +80,6 @@ Myyntiraportti ajalle %s - %s
 
 ---STRING scope
 Laajuus
----STRINGEND
-
----STRING show approved
-Näytä hyväksytyt
 ---STRINGEND
 
 ---STRING show invoiceable

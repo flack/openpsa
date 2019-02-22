@@ -29,7 +29,6 @@
         <!-- Caches for various values that otherwise would have to be queried runtime -->
         <property name="plannedHours" type="float"/>
         <property name="reportedHours" type="float"/>
-        <property name="approvedHours" type="float"/>
         <property name="invoicedHours" type="float"/>
         <property name="invoiceableHours" type="float"/>
 
@@ -74,7 +73,6 @@
 
         <!-- Caches for various values that otherwise would have to be queried runtime -->
         <property name="reportedHours" type="float"/>
-        <property name="approvedHours" type="float"/>
         <property name="invoicedHours" type="float"/>
         <property name="invoiceableHours" type="float"/>
 

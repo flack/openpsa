@@ -55,7 +55,6 @@
         <property name="unit" type="string"/>
         <property name="pricePerUnit" type="float"/>
         <property name="invoiceByActualUnits" type="boolean"/>
-        <property name="invoiceApprovedOnly" type="boolean"/>
         <property name="continuous" type="boolean"/>
 
         <property name="cost" type="float">
