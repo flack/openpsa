@@ -50,6 +50,11 @@ $grid->set_footer_data($footer_data);
 <?php $grid->render(); ?>
 </div>
 
-<script type="text/javascript">
-    bind_invoice_actions('<?php echo $classes; ?>', '<?php echo $invoices_url; ?>');
+<script>
+midcom_grid_row_actions.init({
+    identifier: '<?= $grid->get_identifier(); ?>',
+    url: '<?= $invoices_url; ?>invoice/action/',
+    actions: ['mark_sent', 'send_by_mail', 'mark_paid'],
+    totals_field: 'sum'
+});
 </script>

@@ -17,6 +17,8 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
     private $invoice;
 
+    private $old_status;
+
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
@@ -25,6 +27,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         }
         $this->invoice = new org_openpsa_invoices_invoice_dba((int) $_POST['id']);
         $this->invoice->require_do('midgard:update');
+        $this->old_status = $this->invoice->get_status();
     }
 
     private function reply($success, $message)
@@ -40,14 +43,16 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
             return new midcom_response_relocate($this->router->generate('invoice', ['guid' => $this->invoice->guid]));
         }
 
-        $result = [
+        return new midcom_response_json([
             'success' => $success,
             'action' => $this->render_invoice_actions($this->invoice),
-            'due' => strftime('%Y-%m-%d', $this->invoice->due),
             'new_status' => $this->invoice->get_status(),
-            'message' => $message
-        ];
-        return new midcom_response_json($result);
+            'old_status' => $this->old_status,
+            'message' => $message,
+            'updated' => [
+                ['due', strftime('%Y-%m-%d', $this->invoice->due)]
+            ]
+        ]);
     }
 
     /**
