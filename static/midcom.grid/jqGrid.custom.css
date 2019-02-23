@@ -170,6 +170,11 @@ a.ui-jqgrid-titlebar-maximize span
     cursor: pointer;
     text-decoration: underline
 }
+.row-actions .ui-jqgrid table button[disabled]:hover
+{
+    cursor: wait;
+    text-decoration: none
+}
 
 .row-actions .ui-jqgrid table button i
 {
@@ -179,7 +184,7 @@ a.ui-jqgrid-titlebar-maximize span
     margin-right: .3em
 }
 
-div.org_openpsa_invoices table button:hover i
+div.org_openpsa_invoices table button:not([disabled]):hover i
 {
     opacity: 1;
 }

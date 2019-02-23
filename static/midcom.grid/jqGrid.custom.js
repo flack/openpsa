@@ -740,6 +740,7 @@ var midcom_grid_row_actions = {
     },
 
     process: function(button, action, config) {
+        button.attr('disabled', 'disabled');
         var id = button.parent().parent().attr('id');
         $.post(config.url + action + '/', {id: id}, function(data) {
             if (data.success !== false) {
