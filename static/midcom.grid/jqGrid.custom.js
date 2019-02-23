@@ -742,36 +742,37 @@ var midcom_grid_row_actions = {
     process: function(button, action, config) {
         var id = button.parent().parent().attr('id');
         $.post(config.url + action + '/', {id: id}, function(data) {
-            if (data.success === false) {
-                $.midcom_services_uimessage_add(data.message);
-                return;
-            }
-            var old_grid = button.closest('.ui-jqgrid-btable'),
-                regex = new RegExp(data.old_status),
-                row_data = old_grid.getRowData(id),
-                new_grid = $('#' + old_grid.attr('id').replace(regex, data.new_status));
+            if (data.success !== false) {
+                var old_grid = button.closest('.ui-jqgrid-btable'),
+                    regex = new RegExp(data.old_status),
+                    row_data = old_grid.getRowData(id),
+                    new_grid = $('#' + old_grid.attr('id').replace(regex, data.new_status));
 
-            old_grid.delRowData(id);
-            midcom_grid_row_actions.update_totals(old_grid, config);
+                old_grid.delRowData(id);
+                midcom_grid_row_actions.update_totals(old_grid, config);
 
-            if (new_grid.length < 1) {
-                // Grid is not present yet, reload
-                window.location.reload();
-                return;
+                if (new_grid.length < 1) {
+                    // Grid is not present yet, reload
+                    window.location.reload();
+                    return;
+                }
+
+                if (new_grid.jqGrid('getGridParam', 'datatype') === 'local') {
+                    row_data.action = data.action;
+                    data.updated.forEach(function(item) {
+                        row_data[item[0]] = item[1];
+                    });
+                    new_grid.addRowData(row_data.id, row_data, "last");
+                    midcom_grid_row_actions.update_totals(new_grid, config);
+                } else {
+                    new_grid.trigger('reloadGrid');
+                }
+                $(window).trigger('resize');
             }
 
-            if (new_grid.jqGrid('getGridParam', 'datatype') === 'local') {
-                row_data.action = data.action;
-                data.updated.forEach(function(item) {
-                    row_data[item[0]] = item[1];
-                });
-                new_grid.addRowData(row_data.id, row_data, "last");
-                midcom_grid_row_actions.update_totals(new_grid, config);
-            } else {
-                new_grid.trigger('reloadGrid');
-            }
-            $(window).trigger('resize');
-            $.midcom_services_uimessage_add(data.message);
+            data.messages.forEach(function(message) {
+                $.midcom_services_uimessage_add(message);
+            });
         })
             .fail(function(response) {
                 if (response.status === 403) {

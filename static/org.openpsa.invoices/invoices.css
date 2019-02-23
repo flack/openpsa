@@ -8,24 +8,6 @@ div.org_openpsa_invoices
     box-shadow: 1px 3px 5px #aaa;
 }
 
-div.org_openpsa_invoices table button i
-{
-    color: #5d81b0;
-    opacity: .7;
-    transition: opacity .2s;
-    margin-right: .3em
-}
-
-div.org_openpsa_invoices table button:hover i
-{
-    opacity: 1;
-}
-
-div.org_openpsa_invoices table button.mark_paid i
-{
-    color: #76d41a;
-}
-
 div.org_openpsa_invoices_invoice #tabs
 {
     margin-top: 1em;
@@ -39,18 +21,6 @@ div.org_openpsa_invoices_invoice span.bad
 div.org_openpsa_invoices_invoice .hours
 {
     margin-top: 1em
-}
-
-div.org_openpsa_invoices table button
-{
-    background: transparent;
-    border: none;
-    padding: 0;
-}
-div.org_openpsa_invoices table button:hover
-{
-    cursor: pointer;
-    text-decoration: underline
 }
 
 .input_description

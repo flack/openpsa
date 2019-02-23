@@ -139,4 +139,20 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
             midcom_show_style('show-deliverable');
         }
     }
+
+    /**
+     * @param string $guid
+     * @throws midcom_error
+     * @return midcom_response_relocate
+     */
+    public function _handler_run_cycle($guid)
+    {
+        $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);
+
+        if (!$this->_deliverable->run_cycle()) {
+            throw new midcom_error('Operation failed. Last Midgard error was: ' . midcom_connection::get_error_string());
+        }
+        // Get user back to the sales project
+        return new midcom_response_relocate($this->router->generate('deliverable_view', ['guid' => $this->_deliverable->guid]));
+    }
 }

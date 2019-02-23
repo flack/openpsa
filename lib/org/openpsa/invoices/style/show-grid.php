@@ -46,7 +46,7 @@ if ($data['list_type'] != 'paid') {
 $grid->set_footer_data($footer_data);
 ?>
 
-<div class="org_openpsa_invoices <?php echo $classes ?> full-width crop-height">
+<div class="org_openpsa_invoices <?php echo $classes ?> full-width crop-height row-actions">
 <?php $grid->render(); ?>
 </div>
 

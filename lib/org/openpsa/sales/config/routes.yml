@@ -27,13 +27,19 @@ salesproject_view:
     path: /salesproject/{guid}/
     defaults: { _controller: 'org_openpsa_sales_handler_view::view' }
 
+salesproject_deliverable_action:
+    path: /salesproject/action/{action}/
+    defaults: { _controller: 'org_openpsa_sales_handler_view::action' }
+    requirements: { action: 'decline|order|deliver|invoice|run_cycle' }
+    methods: [POST]
+
 deliverable_add:
     path: /deliverable/add/{guid}/
     defaults: { _controller: 'org_openpsa_sales_handler_deliverable_add::add' }
 
-deliverable_process:
-    path: /deliverable/process/{guid}/
-    defaults: { _controller: 'org_openpsa_sales_handler_deliverable_process::process' }
+deliverable_run_cycle:
+    path: /deliverable/run_cycle/{guid}/
+    defaults: { _controller: 'org_openpsa_sales_handler_deliverable_view::run_cycle' }
     methods: [POST]
 
 deliverable_edit:

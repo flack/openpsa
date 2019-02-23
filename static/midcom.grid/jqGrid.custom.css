@@ -158,3 +158,38 @@ a.ui-jqgrid-titlebar-maximize span
 {
     margin-left: 1em
 }
+
+.row-actions .ui-jqgrid table button
+{
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+.row-actions .ui-jqgrid table button:hover
+{
+    cursor: pointer;
+    text-decoration: underline
+}
+
+.row-actions .ui-jqgrid table button i
+{
+    color: #5d81b0;
+    opacity: .7;
+    transition: opacity .2s;
+    margin-right: .3em
+}
+
+div.org_openpsa_invoices table button:hover i
+{
+    opacity: 1;
+}
+
+.row-actions .ui-jqgrid table button i.fa-check
+{
+    color: #76d41a;
+}
+
+.row-actions .ui-jqgrid table button i.fa-ban
+{
+    color: #ee2b2b;
+}

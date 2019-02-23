@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\helper\autocomplete;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Salesproject display class
@@ -176,7 +177,10 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             if (!array_key_exists($deliverable->get_state(), $this->deliverables)) {
                 $this->deliverables[$deliverable->get_state()] = [];
             }
-            $this->deliverables[$deliverable->get_state()][] = $deliverable;
+            $this->deliverables[$deliverable->get_state()][] = [
+                'object' => $deliverable,
+                'actions' => $this->render_actions($deliverable)
+            ];
         }
     }
 
@@ -200,5 +204,71 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         }
 
         midcom_show_style('show-salesproject-deliverables-footer');
+    }
+
+    private function render_actions(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
+    {
+        $actions = '';
+        switch ($deliverable->get_state()) {
+            case 'proposed':
+                $actions .= '<button class="order"><i class="fa fa-check"></i>' . $this->_l10n->get('mark ordered') . '</button> ';
+                $actions .= '<button class="decline"><i class="fa fa-ban"></i>' . $this->_l10n->get('mark declined') . '</button>';
+                return $actions;
+            case 'started':
+            case 'ordered':
+                if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
+                    $entries = $deliverable->get_at_entries();
+                    if (   $entries
+                        && $entries[0]->status == midcom_services_at_entry_dba::SCHEDULED
+                        && midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)) {
+                        return '<button class="run_cycle"><i class="fa fa-refresh"></i>' . $this->_l10n->get('generate now') . '</button>';
+                    }
+                } elseif ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED) {
+                    return '<button class="deliver"><i class="fa fa-check"></i>' . $this->_l10n->get('mark delivered') . '</button>';
+                }
+                break;
+            case 'delivered':
+                if (   $deliverable->orgOpenpsaObtype != org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
+                    && midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)) {
+                    $client_class = $this->_config->get('calculator');
+                    $client = new $client_class();
+                    $client->run($deliverable);
+
+                    if ($client->get_price() > 0) {
+                        return '<button class="invoice"><i class="fa fa-file-text-o"></i>' . sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('invoice')) . '</button>';
+                    }
+                }
+                break;
+        }
+        return '';
+    }
+
+    public function _handler_action(Request $request, $action)
+    {
+        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($request->request->getInt('id'));
+        $deliverable->require_do('midgard:update');
+        $old_state = $deliverable->get_state();
+        $success = $deliverable->$action();
+        $deliverable->refresh();
+
+        if (!$success) {
+            $messages = [
+                'message' => 'Operation failed. Last Midgard error was: ' . midcom_connection::get_error_string()
+            ];
+        } else {
+            $messages = [];
+            foreach (midcom::get()->uimessages->get_messages() as $msg) {
+                $messages[] = json_decode($msg, true);
+            }
+        }
+
+        return new midcom_response_json([
+            'success' => $success,
+            'action' => $this->render_actions($deliverable),
+            'new_status' => $deliverable->get_state(),
+            'old_status' => $old_state,
+            'messages' => $messages,
+            'updated' => []
+        ]);
     }
 }

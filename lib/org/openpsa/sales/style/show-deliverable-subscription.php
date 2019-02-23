@@ -194,8 +194,7 @@ if (   $data['product']
             if (   $at_entries[0]->status == midcom_services_at_entry_dba::SCHEDULED
                 && midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)) {
                 $label = $data['l10n']->get('generate now');
-                $process_link = $data['router']->generate('deliverable_process', ['guid' => $data['deliverable']->guid]);
-                $relocate = $data['router']->generate('deliverable_view', ['guid' => $data['deliverable']->guid]);
+                $process_link = $data['router']->generate('deliverable_run_cycle', ['guid' => $data['deliverable']->guid]);
                 ?>
                 <form method="post" action="&(process_link);">
                 <p><input type="submit" class="run_cycle" name="run_cycle" value="&(label);" /></p>
