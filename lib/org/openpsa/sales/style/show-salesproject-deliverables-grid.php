@@ -53,6 +53,6 @@ midcom_grid_row_actions.init({
     identifier: '<?= $grid->get_identifier(); ?>',
     url: '&(prefix);salesproject/action/',
     actions: ['decline', 'order', 'deliver', 'invoice', 'run_cycle'],
-    totals_field: 'sum'
+    totals_field: 'price'
 });
 </script>
