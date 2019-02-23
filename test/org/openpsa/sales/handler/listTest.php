@@ -30,9 +30,6 @@ class org_openpsa_sales_handler_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.sales', ['list', 'lost']);
         $this->assertEquals('list_state', $data['handler_id']);
 
-        $data = $this->run_handler('org.openpsa.sales', ['list', 'canceled']);
-        $this->assertEquals('list_state', $data['handler_id']);
-
         $data = $this->run_handler('org.openpsa.sales', ['list', 'active']);
         $this->assertEquals('list_state', $data['handler_id']);
 

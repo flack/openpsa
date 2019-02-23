@@ -104,10 +104,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
     private function _add_state_constraint($state, midcom_core_query $qb)
     {
         $code = 'org_openpsa_sales_salesproject_dba::STATE_' . strtoupper($state);
-        if (!defined($code)) {
-            throw new midcom_error('Unknown list type ' . $state);
-        }
-
         $qb->add_constraint('state', '=', constant($code));
     }
 

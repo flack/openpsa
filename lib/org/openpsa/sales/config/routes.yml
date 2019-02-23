@@ -1,6 +1,7 @@
 list_state:
     path: /list/{state}/
     defaults: { _controller: 'org_openpsa_sales_handler_list::list' }
+    requirements: { state: 'lost|active|won|delivered|invoiced|closed'}
 
 list_customer:
     path: /list/customer/{guid}/
