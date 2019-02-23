@@ -46,7 +46,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
 
     //org.openpsa.sales salesproject states
     const STATE_LOST = 11000;
-    const STATE_CANCELED = 11001;
     const STATE_ACTIVE = 11050;
     const STATE_WON = 11100;
     const STATE_DELIVERED = 11200;
