@@ -65,11 +65,7 @@ foreach ($data['salesprojects'] as $salesproject) {
         $row['owner'] = '';
     }
 
-    $row['closeest'] = '';
-
-    if ($salesproject->closeEst) {
-        $row['closeest'] = date("Y-m-d", $salesproject->closeEst);
-    }
+    $row['created'] = date("Y-m-d", $salesproject->metadata->created);
 
     $row['value'] = $salesproject->value;
 
@@ -84,14 +80,15 @@ foreach ($data['salesprojects'] as $salesproject) {
 <div class="org_openpsa_sales full-width crop-height <?php echo $data['mode']; ?>">
 
 <?php
-$grid->set_column('title', $data['l10n']->get('title'), 'width: 100, classes: "ui-ellipsis"', 'string');
+$grid
+    ->set_column('created', $data['l10n']->get('created'), 'width: 95, align: "right", formatter: "date", fixed: true')
+    ->set_column('title', $data['l10n']->get('title'), 'width: 100, classes: "ui-ellipsis"', 'string');
 if ($data['mode'] != 'customer') {
     $grid->set_column('customer', $data['l10n']->get('customer'), 'width: 80, classes: "ui-ellipsis"', 'string');
 }
 $grid->set_column('customerContact', $data['l10n']->get('customer contact'), 'width: 80, classes: "ui-ellipsis"', 'string');
 $grid->set_select_column('state', $data['l10n']->get('state'), 'hidden: true', $state_labels);
 $grid->set_column('owner', $data['l10n']->get('owner'), 'width: 70, classes: "ui-ellipsis"', 'string')
-    ->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 95, align: "right", formatter: "date", fixed: true')
     ->set_column('value', $data['l10n']->get('value'), 'width: 60, summaryType: "sum", template: "number"');
 if ($data['mode'] == 'active') {
     $grid->set_column('probability', $data['l10n']->get('probability'), 'width: 55, fixed: true, align: "right"')
@@ -138,6 +135,7 @@ midcom_grid_csv.add({
       id: '&(grid_id);',
       filename: '&(filename);',
       fields: {
+          created: '<?php echo $data['l10n']->get('created'); ?>',
           index_title: '<?php echo $data['l10n']->get('title'); ?>',
           <?php
           if ($data['mode'] != 'customer') {
@@ -146,7 +144,6 @@ midcom_grid_csv.add({
           <?php
 } ?>
           index_owner: '<?php echo $data['l10n']->get('owner'); ?>',
-          closeest: '<?php echo $data['l10n']->get('estimated closing date'); ?>',
           value: '<?php echo $data['l10n']->get('value'); ?>',
           <?php if ($data['mode'] == 'active') {
     ?>
