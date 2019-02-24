@@ -35,6 +35,15 @@ class org_openpsa_projects_handler_task_list_agreement extends org_openpsa_proje
         $this->add_filters('agreement');
         $data['table-heading'] = 'agreement tasks';
 
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        if ($sales_url = $siteconfig->get_node_full_url('org.openpsa.sales')) {
+            $this->_view_toolbar->add_item([
+                MIDCOM_TOOLBAR_URL => "{$sales_url}deliverable/{$deliverable->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('agreement'),
+                MIDCOM_TOOLBAR_GLYPHICON => 'money',
+            ]);
+        }
+
         return $this->show('show-task-grid');
     }
 }
