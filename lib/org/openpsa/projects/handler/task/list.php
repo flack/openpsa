@@ -268,9 +268,6 @@ implements client
         $entry['end'] = strftime('%Y-%m-%d', $task->end);
 
         $entry['planned_hours'] = $task->plannedHours;
-        if ($this->is_single_project) {
-            $entry['invoiced_hours'] = $task->invoicedHours;
-        }
         $entry['reported_hours'] = $task->reportedHours;
 
         return $entry;

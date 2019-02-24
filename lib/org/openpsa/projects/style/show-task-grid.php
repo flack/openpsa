@@ -51,8 +51,7 @@ if ($data['view_identifier'] != 'my_tasks') {
 $grid->set_column('planned_hours', $data['l10n']->get('planned hours'), 'width: 55, template: "number", summaryType:"sum", fixed: true')
     ->set_column('reported_hours', $data['l10n']->get('reported'), 'width: 55, template: "number", summaryType:"sum", fixed: true');
 if ($data['is_single_project']) {
-    $grid->set_column('invoiced_hours', $data['l10n']->get('invoiced'), 'width: 55, template: "number", summaryType:"sum", fixed: true')
-        ->set_column('status', $data['l10n']->get('status'), 'width: 100, classes: "ui-ellipsis"', 'float');
+    $grid->set_column('status', $data['l10n']->get('status'), 'width: 100, classes: "ui-ellipsis"', 'float');
     if ($data['view_identifier'] !== 'subtasks') {
         $grid->set_option('caption', $data['l10n']->get($data['view_identifier']));
     }
