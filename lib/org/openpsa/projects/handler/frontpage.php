@@ -43,6 +43,7 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
             ->addSelect('CASE WHEN (c.customer IS NULL OR c.customer = 0) THEN 1 ELSE 0 END as HIDDEN nocustomer')
             ->addOrderBy('nocustomer')
             ->addOrderBy('o.official');
+        $project_qb->add_constraint('status', '>', 0);
         $project_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
         $project_qb->add_order('end');
 
