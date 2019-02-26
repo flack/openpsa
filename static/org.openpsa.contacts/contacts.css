@@ -27,7 +27,7 @@
 .person-details .avatar
 {
     width: 33%;
-    max-width: 200px;
+    max-width: 12vw;
     text-align: right;
 }
 
