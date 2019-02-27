@@ -3,8 +3,8 @@ $(document).ready(function() {
         event.preventDefault();
         var button = $(this),
             dialog = $('<div class="midcom-delete-dialog">'),
-            spinner = $('<div class="spinner"><i class="fa fa-pulse fa-spinner"></i></div>');
-            text = button.data('dialog-text');
+            spinner = $('<div class="spinner"><i class="fa fa-pulse fa-spinner"></i></div>'),
+            text = button.data('dialog-text'),
             action = button.attr('href') || button.data('action'),
             options = {
                 title:  button.data('dialog-heading'),
@@ -121,6 +121,10 @@ $(document).ready(function() {
             .appendTo($('body'))
             .dialog(options);
     });
+    $('body').on('click', '.midcom-workflow-dialog .ui-dialog-buttonpane .ui-button', function() {
+        $(this).closest('.ui-dialog-buttonpane').find('.ui-button')
+            .addClass('ui-state-disabled');
+    });
 });
 
 function create_dialog(control, title, url) {
@@ -128,7 +132,7 @@ function create_dialog(control, title, url) {
         $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
     }
 
-    var dialog, iframe, spinner
+    var dialog, iframe, spinner,
         config = {
             dialogClass: 'midcom-workflow-dialog',
             buttons: [],
@@ -175,8 +179,8 @@ function create_dialog(control, title, url) {
                    + ' height="100%"'
                    + ' scrolling="auto" />')
             .on('load', function() {
-                $(this).css('visibility', 'visible');
                 spinner.hide();
+                $(this).css('visibility', 'visible');
             });
 
         dialog = $('<div id="midcom-dialog"></div>')
