@@ -77,7 +77,7 @@ class application extends base_application
         }
 
         $port = $input->getParameterOption(['--port', '-p'], '80');
-        $servername = $input->getParameterOption(['--servername', '-s'], uniqid('midcom_console'));
+        $servername = $input->getParameterOption(['--servername', '-s'], \midcom_helper_misc::urlize(__FILE__));
 
         $server_defaults = [
             'HTTP_HOST' => $servername,
