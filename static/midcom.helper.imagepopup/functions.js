@@ -26,7 +26,7 @@ $(document).ready(function() {
             },
             extensions: ['glyph'],
             glyph: {
-                preset: "awesome4",
+                preset: "awesome4"
             }
         });
     }

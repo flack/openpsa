@@ -98,7 +98,6 @@ form.datamanager2 .attachment-container .attachment-preview
     font-size: smaller;
 }
 
-
 .attachment-container .attachment-input .element
 {
     display: flex
@@ -124,9 +123,14 @@ form.datamanager2 .input .attachment-container
 {
     width: 100%;
 }
+form.datamanager2 > .form > .form_toolbar
+{
+    margin-bottom: 3em;
+}
 
-#files table .new {
-	margin-top:7px;
+#files table .new
+{
+    margin-top:7px;
 }
 
 #files table th
@@ -140,5 +144,5 @@ form.datamanager2 .input .attachment-container
 
 .search-form
 {
-	margin: 10px 0 10px 0;
+    margin: 10px 0 10px 0;
 }
