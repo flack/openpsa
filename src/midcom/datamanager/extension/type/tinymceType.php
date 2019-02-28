@@ -49,6 +49,7 @@ class tinymceType extends AbstractType
     {
         midcom::get()->head->enable_jquery();
         midcom::get()->head->add_jsfile($options['config']->get('tinymce_url') . '/tinymce.min.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/tinymce.custom.js');
     }
 
     /**
@@ -63,10 +64,9 @@ class tinymceType extends AbstractType
             'elements' => $view->vars['id'],
             'local_config' => $options['widget_config']['local_config'],
             'language' => midcom::get()->i18n->get_current_language(),
-            'img' => ($options['widget_config']['use_imagepopup'])? $this->_get_image_popup($form) : '',
+            'img' => ($options['widget_config']['use_imagepopup']) ? $this->get_image_popup($form) : '',
         ];
-        $snippet = $this->_get_snippet($tiny_options);
-        $view->vars['tinymce_snippet'] = $snippet;
+        $view->vars['tinymce_snippet'] = $this->get_snippet($tiny_options);
     }
 
     /**
@@ -100,7 +100,7 @@ class tinymceType extends AbstractType
         return $config;
     }
 
-    private function _get_snippet($tiny_configuration)
+    private function get_snippet(array $tiny_configuration)
     {
         $config = $tiny_configuration['config'];
         $local_config = $tiny_configuration['local_config'];
@@ -130,9 +130,11 @@ EOT;
      *
      * @param FormInterface $form
      */
-    private function _get_image_popup(FormInterface $form)
+    private function get_image_popup(FormInterface $form)
     {
+        $hostname = midcom::get()->get_host_name();
         $prefix = \midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $upload_url = $prefix . '__ais/imagepopup/upload/image/';
         $suffix = '';
         $imagepopup_url = $prefix . '__ais/imagepopup/open/';
 
@@ -155,6 +157,9 @@ file_picker_callback: function(callback, value, meta) {
         }
     });
 },
+imagetools_cors_hosts: ['{$hostname}'],
+setup: imagetools_functions.setup,
+images_upload_handler: imagetools_functions.images_upload_handler('{$upload_url}'),
 IMG;
         return $img;
     }
