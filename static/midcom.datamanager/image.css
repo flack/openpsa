@@ -1,5 +1,5 @@
-.midcom_datamanager_table_photo{
-    width: 100%;
+.midcom_datamanager_table_photo {
+    width: calc(100% - 40px);
 }
 
 .midcom_datamanager_table_photo .unsaved-file {
