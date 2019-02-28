@@ -136,7 +136,7 @@ EOT;
         $prefix = \midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $upload_url = $prefix . '__ais/imagepopup/upload/image/';
         $suffix = '';
-        $imagepopup_url = $prefix . '__ais/imagepopup/open/';
+        $url = $prefix . '__ais/imagepopup/open/';
 
         $data = $form->getParent()->getData();
         if ($object = $data->get_value()) {
@@ -145,21 +145,10 @@ EOT;
 
         $title = midcom::get()->i18n->get_l10n()->get('file picker');
         $img = <<<IMG
-file_picker_callback: function(callback, value, meta) {
-    tinymce.activeEditor.windowManager.open({
-        title: "{$title}",
-        url: "{$imagepopup_url}" + meta.filetype + '/' + "{$suffix}",
-        width: 800,
-        height: 600
-    }, {
-        oninsert: function(url, meta) {
-            callback(url, meta);
-        }
-    });
-},
+file_picker_callback: tiny.filepicker('$title', '$url', '$suffix'),
 imagetools_cors_hosts: ['{$hostname}'],
-setup: imagetools_functions.setup,
-images_upload_handler: imagetools_functions.images_upload_handler('{$upload_url}'),
+setup: tiny.imagetools.setup,
+images_upload_handler: tiny.imagetools.upload_handler('$upload_url'),
 IMG;
         return $img;
     }
