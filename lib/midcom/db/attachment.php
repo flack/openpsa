@@ -149,7 +149,11 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public static function safe_filename($filename, $force_single_extension = true)
     {
-        $filename = basename(trim($filename));
+        // we could use basename() here, except that it swallows multibyte chars at the
+        // beginning of the string if we run in e.g. C locale..
+        $parts = explode('/', trim($filename));
+        $filename = end($parts);
+
         if ($force_single_extension) {
             $regex = '/^(.*)(\..*?)$/';
         } else {
