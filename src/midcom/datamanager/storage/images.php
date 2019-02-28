@@ -74,8 +74,10 @@ class images extends blobs implements recreateable
                 $filter = new imagefilter($this->config['type_config']);
                 $map[$identifier] = $filter->process($images['file'], $existing);
             }
-            foreach ($map[$identifier] as $name => $image) {
-                $this->map[$identifier . $name . ':' . $image->guid] = $image;
+            if (!empty($map[$identifier])) {
+                foreach ($map[$identifier] as $name => $image) {
+                    $this->map[$identifier . $name . ':' . $image->guid] = $image;
+                }
             }
         }
         return $this->save_image_map($map) && $this->save_attachment_list();
