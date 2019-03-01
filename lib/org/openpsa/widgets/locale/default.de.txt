@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE de
 
+---STRING more
+mehr
+---STRINGEND
+
 ---STRING no person
 Keine Person
 ---STRINGEND
