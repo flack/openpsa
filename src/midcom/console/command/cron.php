@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use midcom;
 use midcom_error;
 use midcom_services_cron;
-use midcom_baseclasses_components_cron_handler;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
