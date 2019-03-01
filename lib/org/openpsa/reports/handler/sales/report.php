@@ -111,6 +111,7 @@ implements client
 
         $provider = new provider($this, 'local');
         $data['grid'] = $provider->get_grid('deliverable_report_grid');
+        org_openpsa_widgets_contact::add_head_elements();
     }
 
     /**
