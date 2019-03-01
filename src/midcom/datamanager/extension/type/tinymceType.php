@@ -141,14 +141,14 @@ EOT;
         $data = $form->getParent()->getData();
         if ($object = $data->get_value()) {
             $suffix = $object->guid . '/';
+            $upload_url .= $suffix;
         }
 
-        $title = midcom::get()->i18n->get_l10n()->get('file picker');
+        $title = midcom::get()->i18n->get_l10n('midcom.helper.imagepopup')->get('file picker');
         $img = <<<IMG
 file_picker_callback: tiny.filepicker('$title', '$url', '$suffix'),
 imagetools_cors_hosts: ['{$hostname}'],
-setup: tiny.imagetools.setup,
-images_upload_handler: tiny.imagetools.upload_handler('$upload_url'),
+images_upload_handler: tiny.image_upload_handler('$upload_url'),
 IMG;
         return $img;
     }

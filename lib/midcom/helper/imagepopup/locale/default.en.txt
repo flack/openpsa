@@ -6,6 +6,10 @@
 Files
 ---STRINGEND
 
+---STRING file picker
+File Picker
+---STRINGEND
+
 ---STRING folder attachments
 Folder attachments
 ---STRINGEND
