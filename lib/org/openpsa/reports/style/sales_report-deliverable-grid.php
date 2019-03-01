@@ -15,14 +15,14 @@ $grid->set_option('loadonce', true)
     'showSummaryOnHide' => true
 ]);
 
-$grid->set_column('invoice', $invoices_l10n->get('invoice number'), 'align: "center", fixed: true', 'integer');
+$grid->set_column('invoice', $invoices_l10n->get('invoice number'), 'width: 85, align: "center", fixed: true', 'integer');
 if ($data['handler_id'] != 'deliverable_report') {
-    $grid->set_column('owner', $sales_l10n->get('owner'), '', 'string');
+    $grid->set_column('owner', $sales_l10n->get('owner'), 'width: 80', 'string');
 }
 $grid->set_column('customer', $sales_l10n->get('customer'));
-$grid->set_column('salesproject', $sales_l10n->get('salesproject'));
-$grid->set_column('product', $sales_l10n->get('product'));
-$grid->set_column('item', $invoices_l10n->get('invoice items'));
+$grid->set_column('salesproject', $sales_l10n->get('salesproject'), 'width: 100');
+$grid->set_column('product', $sales_l10n->get('product'), 'width: 90');
+$grid->set_column('item', $invoices_l10n->get('invoice items'), 'width: 200');
 $grid->set_column('amount', $invoices_l10n->get('sum'), 'width: 70, template: "number", summaryType: "sum", fixed: true');
 
 $grid->set_footer_data($footer_data);
