@@ -135,7 +135,7 @@ implements client
      */
     public function _show_list($handler_id, array &$data)
     {
-        midcom_show_style('show-priority-filter');
+        midcom_show_style('show-task-filter');
         midcom_show_style('show-task-grid');
     }
 
@@ -276,9 +276,6 @@ implements client
     protected function add_filters($identifier)
     {
         $qf = new org_openpsa_core_queryfilter('org_openpsa_task_list_' . $identifier);
-        $p_filter = new org_openpsa_core_filter_select('priority', '<=', $this->_request_data['priority_array']);
-        $p_filter->set_label($this->_l10n->get('only tasks with priority'));
-        $qf->add_filter($p_filter);
         $date_filter = new org_openpsa_core_filter_timeframe('timeframe', 'start', 'end');
         $date_filter->set_label($this->_l10n->get("timeframe"));
         $qf->add_filter($date_filter);

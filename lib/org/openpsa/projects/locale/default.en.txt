@@ -405,7 +405,3 @@ low
 ---STRING very low
 very low
 ---STRINGEND
-
----STRING only tasks with priority
-Show only Tasks with priority
----STRINGEND

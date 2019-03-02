@@ -405,7 +405,3 @@ gering
 ---STRING very low
 sehr gering
 ---STRINGEND
-
----STRING only tasks with priority
-Nur Aufgaben mit Priorität
----STRINGEND
