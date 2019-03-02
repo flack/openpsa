@@ -107,7 +107,7 @@ if ($invoice->cancelationInvoice) {
               <td class="numeric" colspan="3"><?php echo $formatter->number($invoice->sum); ?></td>
            </tr>
            <tr class="secondary">
-              <td><?php echo $data['l10n']->get('vat'); ?> (&(view['vat']:h);):</td>
+              <td><?php echo $data['l10n']->get('vat sum'); ?> (&(view['vat']:h);):</td>
               <td class="numeric" colspan="3"><?php echo $formatter->number(($invoice->sum / 100) * $invoice->vat); ?></td>
            </tr>
            <tr class="primary">
