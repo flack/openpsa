@@ -1601,7 +1601,7 @@ a.ui-button:active,
     color: white;
 }
 
-.normal .ui-jqgrid-view .ui-state-default,
+.normal .ui-jqgrid-view .ui-jqgrid-labels .ui-state-default,
 .fc-view .ui-widget-header
 {
     background: #5282bc; /* Old browsers */
