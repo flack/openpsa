@@ -54,6 +54,10 @@ Invoiced
 List view
 ---STRINGEND
 
+---STRING list_hours_project %s
+Hour reports for Project "%s"
+---STRINGEND
+
 ---STRING list_hours_task %s
 Hour reports for Task "%s"
 ---STRINGEND
@@ -88,6 +92,10 @@ Report hours
 
 ---STRING show invoice
 Show invoice
+---STRINGEND
+
+---STRING show project
+Show project
 ---STRINGEND
 
 ---STRING show task

@@ -6,6 +6,10 @@ list_hours_task:
     path: /hours/task/{guid}/
     defaults: { _controller: 'org_openpsa_expenses_handler_hours_list::task' }
 
+list_hours_project:
+    path: /hours/project/{guid}/
+    defaults: { _controller: 'org_openpsa_expenses_handler_hours_list::project' }
+
 list_hours_invoice:
     path: /hours/invoice/{guid}/
     defaults: { _controller: 'org_openpsa_expenses_handler_hours_list::invoice' }

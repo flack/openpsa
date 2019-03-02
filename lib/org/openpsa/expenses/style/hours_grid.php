@@ -109,7 +109,7 @@ $data['grid']->set_footer_data($footer_data);
 ?>
 <h1>&(data['view_title']);</h1>
 <?php
-if ($data['mode'] == 'full') {
+if ($data['mode'] == 'full' || $data['mode'] == 'project') {
     midcom_show_style('hours_filters');
 }
 ?>

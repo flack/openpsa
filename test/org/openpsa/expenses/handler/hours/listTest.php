@@ -13,13 +13,30 @@
  */
 class org_openpsa_expenses_handler_hours_listTest extends openpsa_testcase
 {
+    protected static $project;
+
     protected static $_task;
 
     public static function setUpBeforeClass()
     {
-        $project = self::create_class_object(org_openpsa_projects_project::class);
-        self::$_task = self::create_class_object(org_openpsa_projects_task_dba::class, ['project' => $project->id]);
+        self::$project = self::create_class_object(org_openpsa_projects_project::class);
+        self::$_task = self::create_class_object(org_openpsa_projects_task_dba::class, ['project' => self::$project->id]);
+        self::create_class_object(org_openpsa_expenses_hour_report_dba::class, [
+            'task' => self::$_task->id
+        ]);
         self::create_user(true);
+    }
+
+    public function testHandler_list_hours_project()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.expenses');
+
+        $data = $this->run_handler('org.openpsa.expenses', ['hours', 'project', self::$project->guid]);
+        $this->assertEquals('list_hours_project', $data['handler_id']);
+
+        $this->show_handler($data);
+
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_list_hours_task()

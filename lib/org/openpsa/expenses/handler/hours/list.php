@@ -60,14 +60,48 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      * @param string $guid The object's GUID
      * @param array $data The local request data.
      */
+    public function _handler_project($guid, array &$data)
+    {
+        $project = new org_openpsa_projects_project($guid);
+        $this->qb->add_constraint('task.project', '=', $project->id);
+
+        $data['mode'] = 'project';
+        $data['view_title'] = sprintf($data['l10n']->get("list_hours_project %s"), $project->title);
+
+        $this->breadcrumb_title = $project->title;
+        $this->add_list_filter($this->qb, true);
+        $this->prepare_request_data();
+
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        if ($projects_url = $siteconfig->get_node_full_url('org.openpsa.projects')) {
+            $this->_view_toolbar->add_item([
+                MIDCOM_TOOLBAR_URL => $projects_url . "project/{$guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show project'),
+                MIDCOM_TOOLBAR_GLYPHICON => 'tasks',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'p',
+            ]);
+        }
+
+        return $this->show_list($data);
+    }
+
+    /**
+     * The handler for the task list view
+     *
+     * @param string $guid The object's GUID
+     * @param array $data The local request data.
+     */
     public function _handler_task($guid, array &$data)
     {
         $task = new org_openpsa_projects_task_dba($guid);
+        $project = new org_openpsa_projects_project($task->project);
         $this->qb->add_constraint('task', '=', $task->id);
 
         $data['mode'] = 'task';
         $data['view_title'] = sprintf($data['l10n']->get("list_hours_task %s"), $task->title);
-        $this->breadcrumb_title = $task->get_label();
+
+        $this->add_breadcrumb($this->router->generate('list_hours_project', ['guid' => $project->guid]), $project->title);
+        $this->breadcrumb_title = $task->title;
 
         $this->prepare_request_data('task/', $guid . '/');
         $siteconfig = org_openpsa_core_siteconfig::get_instance();

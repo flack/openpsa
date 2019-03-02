@@ -50,6 +50,10 @@ Abgerechnet
 Listenansicht
 ---STRINGEND
 
+---STRING list_hours_project %s
+Stundenberichte für Projekt "%s"
+---STRINGEND
+
 ---STRING list_hours_task %s
 Stundenberichte für Aufgabe "%s"
 ---STRINGEND
@@ -80,6 +84,10 @@ Arbeitsstunden melden
 
 ---STRING show invoice
 Rechnung anzeigen
+---STRINGEND
+
+---STRING show project
+Projekt anzeigen
 ---STRINGEND
 
 ---STRING show task
