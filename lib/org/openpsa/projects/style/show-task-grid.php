@@ -72,5 +72,5 @@ midcom_grid_footer.set_field('&(grid_id);', 'reported_hours', 'sum');
 midcom_grid_footer.set_field('&(grid_id);', 'invoiced_hours', 'sum');
 midcom_grid_footer.set_field('&(grid_id);', 'reported', 'sum');
 
-$('#&(grid_id);').jqGrid('filterToolbar', {defaultSearch: 'cn'});
+$('#&(grid_id);').jqGrid('filterToolbar');
 </script>

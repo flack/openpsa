@@ -21,6 +21,9 @@ var midcom_jqgrid_presets = {
 
 $.jgrid.defaults = $.extend($.jgrid.defaults, midcom_jqgrid_presets);
 
+$.jgrid.search.searchOnEnter = false;
+$.jgrid.search.defaultSearch = 'cn';
+
 var midcom_grid_resize = {
     timer: false,
     containment: '#content-text',
