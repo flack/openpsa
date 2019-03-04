@@ -524,15 +524,15 @@ input#org_openpsa_search_query
     padding-right: 1.2em;
 }
 
-#org_openpsa_toolbar ul.navigation_toolbar li.disabled
-{
-    opacity: .5
-}
-
 .org_openpsa_toolbar ul.midcom_toolbar li
 {
   display: inline-block;
   padding: 0
+}
+
+#org_openpsa_toolbar ul.navigation_toolbar li.disabled
+{
+    opacity: .5
 }
 
 .org_openpsa_toolbar ul.midcom_toolbar li form
@@ -601,6 +601,23 @@ input#org_openpsa_search_query
 {
   border: none;
   vertical-align: bottom;
+}
+
+#org_openpsa_toolbar ul.navigation_toolbar li > *
+{
+    display: flex;
+    align-items: baseline;
+}
+
+#org_openpsa_toolbar ul.navigation_toolbar li i
+{
+    align-self: end;
+}
+
+#org_openpsa_toolbar ul.navigation_toolbar li:last-child i
+{
+    order: 2;
+    padding-left: .2em
 }
 
 .org_openpsa_toolbar ul.view_toolbar li
