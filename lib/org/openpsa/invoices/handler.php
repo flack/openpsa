@@ -71,6 +71,7 @@ trait org_openpsa_invoices_handler
     public function add_next_previous(org_openpsa_invoices_invoice_dba $object, $urlprefix)
     {
         $items = [];
+        $url = '';
         if ($object->number > 1) {
             $mc = org_openpsa_invoices_invoice_dba::new_collector();
             $mc->add_constraint('number', '<', $object->number);
@@ -79,15 +80,18 @@ trait org_openpsa_invoices_handler
             $results = $mc->list_keys();
 
             if (!empty($results)) {
-                $items[] = [
-                    MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
-                    MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'p',
-                ];
+                $url = $urlprefix . key($results) . '/';
             }
         }
+        $items[] = [
+            MIDCOM_TOOLBAR_URL => $url,
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
+            MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
+            MIDCOM_TOOLBAR_ACCESSKEY => 'p',
+            MIDCOM_TOOLBAR_ENABLED => !empty($url)
+        ];
 
+        $url = '';
         if (($object->number + 1) < $object->generate_invoice_number()) {
             $mc = org_openpsa_invoices_invoice_dba::new_collector();
             $mc->add_constraint('number', '>', $object->number);
@@ -96,14 +100,16 @@ trait org_openpsa_invoices_handler
             $results = $mc->list_keys();
 
             if (!empty($results)) {
-                $items[] = [
-                    MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
-                    MIDCOM_TOOLBAR_GLYPHICON => 'chevron-right',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                ];
+                $url = $urlprefix . key($results) . '/';
             }
         }
+        $items[] = [
+            MIDCOM_TOOLBAR_URL => $url,
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
+            MIDCOM_TOOLBAR_GLYPHICON => 'chevron-right',
+            MIDCOM_TOOLBAR_ACCESSKEY => 'n',
+            MIDCOM_TOOLBAR_ENABLED => !empty($url)
+        ];
         org_openpsa_widgets_ui::add_navigation_toolbar($items);
     }
 }

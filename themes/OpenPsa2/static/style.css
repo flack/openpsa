@@ -524,6 +524,10 @@ input#org_openpsa_search_query
     padding-right: 1.2em;
 }
 
+#org_openpsa_toolbar ul.navigation_toolbar li.disabled
+{
+    opacity: .5
+}
 
 .org_openpsa_toolbar ul.midcom_toolbar li
 {
@@ -539,6 +543,7 @@ input#org_openpsa_search_query
 }
 
 .org_openpsa_toolbar ul.midcom_toolbar li > a,
+.org_openpsa_toolbar ul.midcom_toolbar li.disabled > abbr,
 .org_openpsa_toolbar ul.midcom_toolbar li button
 {
   display: inline-block;
@@ -551,7 +556,8 @@ input#org_openpsa_search_query
   line-height: 16px;
 }
 
-#container .org_openpsa_toolbar ul.midcom_toolbar li > a
+#container .org_openpsa_toolbar ul.midcom_toolbar li > a,
+#container .org_openpsa_toolbar ul.midcom_toolbar li.disabled > abbr
 {
   text-decoration: none !important;
 }
@@ -603,7 +609,7 @@ input#org_openpsa_search_query
     padding-left: 3px
 }
 
-.org_openpsa_toolbar ul.midcom_toolbar li.disabled
+.org_openpsa_toolbar ul.view_toolbar li.disabled
 {
   display: none;
 }
