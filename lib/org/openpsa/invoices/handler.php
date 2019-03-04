@@ -70,6 +70,7 @@ trait org_openpsa_invoices_handler
 
     public function add_next_previous(org_openpsa_invoices_invoice_dba $object, $urlprefix)
     {
+        $items = [];
         if ($object->number > 1) {
             $mc = org_openpsa_invoices_invoice_dba::new_collector();
             $mc->add_constraint('number', '<', $object->number);
@@ -78,12 +79,12 @@ trait org_openpsa_invoices_handler
             $results = $mc->list_keys();
 
             if (!empty($results)) {
-                $this->_view_toolbar->add_item([
+                $items[] = [
                     MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
                     MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'p',
-                ]);
+                ];
             }
         }
 
@@ -95,13 +96,14 @@ trait org_openpsa_invoices_handler
             $results = $mc->list_keys();
 
             if (!empty($results)) {
-                $this->_view_toolbar->add_item([
+                $items[] = [
                     MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
                     MIDCOM_TOOLBAR_GLYPHICON => 'chevron-right',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                ]);
+                ];
             }
         }
+        org_openpsa_widgets_ui::add_navigation_toolbar($items);
     }
 }

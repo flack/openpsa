@@ -131,4 +131,14 @@ $(document).ready(
 </script>
 JSINIT;
     }
+
+    /**
+     * @param array $items
+     */
+    public static function add_navigation_toolbar(array $items)
+    {
+        $toolbar = new midcom_helper_toolbar('midcom_toolbar navigation_toolbar');
+        $toolbar->add_items($items);
+        midcom::get()->toolbars->add_toolbar('navigation', $toolbar);
+    }
 }

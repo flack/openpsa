@@ -486,18 +486,26 @@ input#org_openpsa_search_query
     position: relative;
     z-index: 10;
     font-size: 11px;
+    display: flex;
 }
 
 #content .org_openpsa_toolbar
 {
     background: #cccec9;
-    background: linear-gradient(to bottom, #cccec9 0%, #bcbfbb 76%, #b1b5b4 93%, #b3b7b6 100%);
+    background: linear-gradient(to bottom, #cccec9 0%, #bcbfbb 82%, #b1b5b4 97%, #b3b7b6 100%);
     box-shadow: 0 -2px 7px rgba(0, 0, 0, 0.1) inset;
+}
+
+#org_openpsa_toolbar
+{
+    border-top: 1px solid #eeeee7;
+    border-bottom: 1px solid #a2a2a3;
 }
 
 #org_openpsa_toolbar:hover
 {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid #929293;
 }
 
 .org_openpsa_toolbar ul.midcom_toolbar
@@ -505,20 +513,17 @@ input#org_openpsa_search_query
   margin: 0;
   padding: 0;
   list-style-type: none;
-  overflow: hidden;
   padding: 0.2em 0.4em 0.2em 0;
 }
 
-#org_openpsa_toolbar ul.midcom_toolbar
+#org_openpsa_toolbar ul.navigation_toolbar
 {
-    border-bottom: 1px solid #a2a2a3;
-    border-top: 1px solid #eeeee7;
+    position: absolute;
+    right: 0;
+    z-index: 12;
+    padding-right: 1.2em;
 }
 
-#org_openpsa_toolbar:hover ul.midcom_toolbar
-{
-    border-bottom: 1px solid #929293;
-}
 
 .org_openpsa_toolbar ul.midcom_toolbar li
 {
@@ -608,10 +613,15 @@ input#org_openpsa_search_query
   border: none;
 }
 
+.org_openpsa_toolbar #toolbar_dropdown
+{
+    position: relative;
+}
+
 .org_openpsa_toolbar #toolbar_dropdown.expanded ul
 {
   position: absolute;
-  right: 0;
+  left: 0;
   top: 4px;
   width: auto;
   height: auto;

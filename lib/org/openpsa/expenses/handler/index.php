@@ -78,24 +78,22 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
     {
         $week_start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
         $week_end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
-        $buttons = [
-            [
-                MIDCOM_TOOLBAR_URL => $this->router->generate('list_hours') . '?date[from]=' . $week_start . '&date[to]=' . $week_end,
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('list view'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'list',
-            ],
-            [
-                MIDCOM_TOOLBAR_URL => $this->router->generate('index_timestamp', ['timestamp' => $previous_week]),
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous week'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
-            ],
-            [
-                MIDCOM_TOOLBAR_URL => $this->router->generate('index_timestamp', ['timestamp' => $next_week]),
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next week'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'chevron-right',
-            ]
-        ];
-        $this->_view_toolbar->add_items($buttons);
+
+        $this->_view_toolbar->add_item([
+            MIDCOM_TOOLBAR_URL => $this->router->generate('list_hours') . '?date[from]=' . $week_start . '&date[to]=' . $week_end,
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('list view'),
+            MIDCOM_TOOLBAR_GLYPHICON => 'list',
+        ]);
+
+        org_openpsa_widgets_ui::add_navigation_toolbar([[
+            MIDCOM_TOOLBAR_URL => $this->router->generate('index_timestamp', ['timestamp' => $previous_week]),
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous week'),
+            MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
+        ], [
+            MIDCOM_TOOLBAR_URL => $this->router->generate('index_timestamp', ['timestamp' => $next_week]),
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next week'),
+            MIDCOM_TOOLBAR_GLYPHICON => 'chevron-right',
+        ]]);
     }
 
     /**

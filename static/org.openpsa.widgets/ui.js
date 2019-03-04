@@ -72,7 +72,7 @@ var org_openpsa_layout = {
             .appendTo('#org_openpsa_toolbar > ul.view_toolbar'),
 
             dropdown = container.find('ul.midcom_toolbar'),
-            toolbarWidth = $('#org_openpsa_toolbar').width(),
+            toolbarWidth = $('#org_openpsa_toolbar').width() - $('#org_openpsa_toolbar .navigation_toolbar').width(),
             over = false;
 
         $('#org_openpsa_toolbar > .view_toolbar > li:not(#toolbar_dropdown)').each(function() {

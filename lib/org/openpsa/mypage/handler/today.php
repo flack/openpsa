@@ -20,24 +20,20 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 
     private function _populate_toolbar()
     {
-        $buttons = [
-            [
-                MIDCOM_TOOLBAR_URL => $this->router->generate('weekreview', ['date' => $this->_request_data['this_day']]),
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('week review'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'list',
-            ],
-            [
-                MIDCOM_TOOLBAR_URL => $this->router->generate('day', ['date' => $this->_request_data['prev_day']]),
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
-            ],
-            [
-                MIDCOM_TOOLBAR_URL => $this->router->generate('day', ['date' => $this->_request_data['next_day']]),
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'chevron-right',
-            ]
-        ];
-        $this->_view_toolbar->add_items($buttons);
+        $this->_view_toolbar->add_item([
+            MIDCOM_TOOLBAR_URL => $this->router->generate('weekreview', ['date' => $this->_request_data['this_day']]),
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('week review'),
+            MIDCOM_TOOLBAR_GLYPHICON => 'list',
+        ]);
+        org_openpsa_widgets_ui::add_navigation_toolbar([[
+            MIDCOM_TOOLBAR_URL => $this->router->generate('day', ['date' => $this->_request_data['prev_day']]),
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
+            MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
+        ], [
+            MIDCOM_TOOLBAR_URL => $this->router->generate('day', ['date' => $this->_request_data['next_day']]),
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
+            MIDCOM_TOOLBAR_GLYPHICON => 'chevron-right',
+        ]]);
     }
 
     /**
