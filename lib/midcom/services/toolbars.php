@@ -246,7 +246,7 @@ class midcom_services_toolbars
     {
         $context_id = midcom_core_context::get()->id;
 
-        if (!array_key_exists($context_id, $this->_toolbars)) {
+        if (empty($this->_toolbars[$context_id][$toolbar_identifier])) {
             return '';
         }
 
