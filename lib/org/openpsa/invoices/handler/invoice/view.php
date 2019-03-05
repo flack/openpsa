@@ -88,11 +88,6 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
             ]);
         }
 
-        if ($this->invoice->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', ['object' => $this->invoice]);
-            $buttons[] = $workflow->get_button($this->router->generate('invoice_delete', ['guid' => $this->invoice->guid]));
-        }
-
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => $this->router->generate('invoice_items', ['guid' => $this->invoice->guid]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit invoice items'),

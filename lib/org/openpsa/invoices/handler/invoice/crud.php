@@ -81,6 +81,14 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
             'controller' => $this->load_controller(),
             'save_callback' => [$this, 'save_callback']
         ]);
+        if ($this->invoice->can_do('midgard:delete')) {
+            $delete = $this->get_workflow('delete', [
+                'object' => $this->invoice,
+                'label' => $this->_l10n->get('invoice')
+            ]);
+            $workflow->add_dialog_button($delete, $this->router->generate('invoice_delete', ['guid' => $guid]));
+        }
+
         return $workflow->run($request);
     }
 
