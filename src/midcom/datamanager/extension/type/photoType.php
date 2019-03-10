@@ -22,7 +22,7 @@ class photoType extends AbstractType
         helper::add_normalizers($resolver, [
             'widget_config' => [
                 'map_action_elements' => false,
-                'show_title' => true,
+                'show_title' => false,
                 'show_description' => false
             ],
             'type_config' => [
