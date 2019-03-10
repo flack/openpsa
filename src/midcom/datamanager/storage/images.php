@@ -24,7 +24,7 @@ class images extends blobs implements recreateable
             $images = $filter->process($images['main'], $images);
 
             foreach ($images as $name => $image) {
-                $this->map[$identifier . $name . ':' . $image->guid] = $image;
+                $this->map[$identifier . $name] = $image;
             }
         }
         return $this->save_image_map($map) && $this->save_attachment_list();
@@ -78,7 +78,7 @@ class images extends blobs implements recreateable
             }
             if (!empty($map[$identifier])) {
                 foreach ($map[$identifier] as $name => $image) {
-                    $this->map[$identifier . $name . ':' . $image->guid] = $image;
+                    $this->map[$identifier . $name] = $image;
                 }
             }
 
