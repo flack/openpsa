@@ -23,7 +23,8 @@ class photoType extends AbstractType
             'widget_config' => [
                 'map_action_elements' => false,
                 'show_title' => false,
-                'show_description' => false
+                'show_description' => false,
+                'sortable' => false
             ],
             'type_config' => [
                 'do_not_save_archival' => false,

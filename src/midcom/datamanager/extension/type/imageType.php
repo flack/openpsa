@@ -34,7 +34,8 @@ class imageType extends AbstractType
             'widget_config' => [
                 'map_action_elements' => false,
                 'show_title' => true,
-                'show_description' => false
+                'show_description' => false,
+                'sortable' => false
             ],
             'type_config' => [
                 'do_not_save_archival' => true,
@@ -68,6 +69,11 @@ class imageType extends AbstractType
         if ($options['widget_config']['show_description']) {
             $builder->add('description', TextType::class, ['required' => false]);
         }
+
+        if ($options['widget_config']['sortable']) {
+            $builder->add('score', HiddenType::class);
+        }
+
         $builder->add('delete', CheckboxType::class, ['attr' => [
             "class" => "midcom_datamanager_photo_checkbox"
         ], "required" => false ]);

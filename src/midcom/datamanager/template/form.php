@@ -486,6 +486,9 @@ class form extends base
             $view->children['description']->vars['attr']['placeholder'] = $this->renderer->humanize('description');
             $string .= $this->renderer->widget($view->children['description']);
         }
+        if (array_key_exists('score', $view->children)) {
+            $string .= $this->renderer->widget($view->children['score']);
+        }
         $string .= '</td></tr></table></div>';
         $string .= $this->renderer->row($data['form']['identifier']);
 

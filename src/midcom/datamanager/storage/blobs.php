@@ -106,15 +106,6 @@ class blobs extends delayed
             $attachment->delete();
         }
 
-        if (!empty($this->config['widget_config']['sortable'])) {
-            uasort($this->map, function ($a, $b) {
-                if ($a->metadata->score == $b->metadata->score) {
-                    return strnatcasecmp($a->name, $b->name);
-                }
-                return $b->metadata->score - $a->metadata->score;
-            });
-        }
-
         return $this->save_attachment_list();
     }
 
@@ -151,6 +142,15 @@ class blobs extends delayed
      */
     protected function save_attachment_list()
     {
+        if (!empty($this->config['widget_config']['sortable'])) {
+            uasort($this->map, function ($a, $b) {
+                if ($a->metadata->score == $b->metadata->score) {
+                    return strnatcasecmp($a->name, $b->name);
+                }
+                return $b->metadata->score - $a->metadata->score;
+            });
+        }
+
         $list = [];
 
         foreach ($this->map as $identifier => $attachment) {

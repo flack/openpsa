@@ -45,15 +45,18 @@ class images extends blobs implements recreateable
             }
         }
 
+        $map = [];
         foreach ($identifiers as $item) {
             list($identifier, $images_identifier, $images_name) = explode(':', $item);
-
-            if (array_key_exists($identifier, $results)) {
-                if (!array_key_exists($images_identifier, $grouped)) {
-                    $grouped[$images_identifier] = [];
-                }
-                $grouped[$images_identifier][$images_name] = $results[$identifier];
+            $map[$identifier] = [$images_identifier, $images_name];
+        }
+        // we iterate over results since that takes sorting into account
+        foreach ($results as $identifier => $image) {
+            list($images_identifier, $images_name) = $map[$identifier];
+            if (!array_key_exists($images_identifier, $grouped)) {
+                $grouped[$images_identifier] = [];
             }
+            $grouped[$images_identifier][$images_name] = $image;
         }
 
         return $grouped;
@@ -87,8 +90,12 @@ class images extends blobs implements recreateable
                     $images['main']->title = $images['title'];
                     $images['main']->update();
                 }
+                if (!empty($this->config['widget_config']['sortable'])) {
+                    $images['main']->update();
+                }
             }
         }
+
         return $this->save_image_map($map) && $this->save_attachment_list();
     }
 

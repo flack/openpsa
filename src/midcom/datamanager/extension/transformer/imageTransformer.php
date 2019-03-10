@@ -17,11 +17,10 @@ class imageTransformer extends attachmentTransformer
         if ($input === null) {
             return [];
         }
-
         $result = ['objects' => []];
 
         foreach ($input as $key => $value) {
-            if ($key === 'delete' || $key === 'description' || $key == 'title') {
+            if ($key === 'delete' || $key === 'description' || $key == 'title' || $key == 'score') {
                 $result[$key] = $value;
             } else {
                 $result['objects'][$key] = parent::transform($value);
@@ -46,12 +45,16 @@ class imageTransformer extends attachmentTransformer
         if (empty($array)) {
             return null;
         }
+
         $result = [];
         if (   !empty($array['file'])
             || !empty($array['identifier']) && substr($array['identifier'], 0, 8) === 'tmpfile-') {
             $result['file'] = parent::reverseTransform($array);
         } elseif (!empty($array['objects'])) {
             foreach ($array['objects'] as $key => $value) {
+                if (array_key_exists('score', $array)) {
+                    $value['score'] = $array['score'];
+                }
                 $result[$key] = parent::reverseTransform($value);
             }
         }
@@ -63,6 +66,9 @@ class imageTransformer extends attachmentTransformer
         }
         if (!empty($this->config['widget_config']['show_title'])) {
             $result['title'] = $array['title'];
+        }
+        if (!empty($this->config['widget_config']['sortable'])) {
+            $result['score'] = $array['score'];
         }
         return $result;
     }

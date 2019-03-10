@@ -56,13 +56,25 @@ class image extends blobs implements recreateable
             $stat = $this->save_attachment_list();
         }
 
-        if (   (array_key_exists('description', $this->value) || array_key_exists('title', $this->value))
-            && $main = $this->get_main()) {
-            if (array_key_exists('description', $this->value)) {
-                $main->set_parameter('midcom.helper.datamanager2.type.blobs', 'description', $this->value['description']);
+        $check_fields = ['description', 'title', 'score'];
+
+        if (array_intersect_key(array_keys($check_fields), $this->value)) {
+            $main = $this->get_main();
+            $needs_update = false;
+            foreach ($check_fields as $field) {
+                if (array_key_exists($field, $this->value)) {
+                    if ($field === 'description') {
+                        $main->set_parameter('midcom.helper.datamanager2.type.blobs', 'description', $this->value['description']);
+                    } elseif ($field === 'title') {
+                        $needs_update = $needs_update || $main->title != $this->value['title'];
+                        $main->title = $this->value['title'];
+                    } elseif ($field === 'score') {
+                        $needs_update = $needs_update || $main->metadata->score != $this->value['score'];
+                        $main->metadata->score = (int) $this->value['score'];
+                    }
+                }
             }
-            if (array_key_exists('title', $this->value) && $main->title != $this->value['title']) {
-                $main->title = $this->value['title'];
+            if ($needs_update) {
                 $main->update();
             }
         }
