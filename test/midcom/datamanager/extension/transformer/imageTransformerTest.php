@@ -59,7 +59,7 @@ class imageTransformerTest extends openpsa_testcase
 
         return [
            [null, []],
-           [['main' => $att], [
+           [['main' => $att, 'title' => 'test'], [
                'objects' => [
                    'main' => [
                        'object' => $att,
@@ -81,7 +81,8 @@ class imageTransformerTest extends openpsa_testcase
                        'identifier' => $att->guid,
                        'file' => null
                    ]
-               ]
+               ],
+               'title' => 'test'
            ]]
         ];
     }

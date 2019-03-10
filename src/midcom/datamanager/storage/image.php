@@ -41,18 +41,47 @@ class image extends blobs implements recreateable
             //delete?
         }
 
+        if (!empty($this->value['delete'])) {
+            $this->map = [];
+            return $this->save_attachment_list();
+        }
+
+        $stat = true;
         if (!empty($this->value['file'])) {
             $this->value['file']->parentguid = $this->object->guid;
             $existing = $this->load();
             $filter = new imagefilter($this->config['type_config'], $this->save_archival);
             $this->map = $filter->process($this->value['file'], $existing);
 
-            return $this->save_attachment_list();
+            $stat = $this->save_attachment_list();
         }
-        if (!empty($this->value['delete'])) {
-            $this->map = [];
-            return $this->save_attachment_list();
+
+        if (   (array_key_exists('description', $this->value) || array_key_exists('title', $this->value))
+            && $main = $this->get_main()) {
+            if (array_key_exists('description', $this->value)) {
+                $main->set_parameter('midcom.helper.datamanager2.type.blobs', 'description', $this->value['description']);
+            }
+            if (array_key_exists('title', $this->value) && $main->title != $this->value['title']) {
+                $main->title = $this->value['title'];
+                $main->update();
+            }
         }
-        return true;
+
+        return $stat;
+    }
+
+    /**
+     * @return \midcom_db_attachment
+     */
+    private function get_main()
+    {
+        if (!empty($this->map['main'])) {
+            return $this->map['main'];
+        }
+        $items = $this->load();
+        if (!empty($items['main'])) {
+            return $items['main'];
+        }
+        return false;
     }
 }

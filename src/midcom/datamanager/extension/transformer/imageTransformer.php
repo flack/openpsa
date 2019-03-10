@@ -19,13 +19,22 @@ class imageTransformer extends attachmentTransformer
         }
 
         $result = ['objects' => []];
+
         foreach ($input as $key => $value) {
-            if ($key === 'delete' || $key === 'description') {
+            if ($key === 'delete' || $key === 'description' || $key == 'title') {
                 $result[$key] = $value;
             } else {
                 $result['objects'][$key] = parent::transform($value);
                 if ($key === 'file') {
                     $result['identifier'] = $result['objects'][$key]['identifier'];
+                }
+                if ($key === 'main') {
+                    if (!empty($this->config['widget_config']['show_title'])) {
+                        $result['title'] = $result['objects'][$key]['title'];
+                    }
+                    if (!empty($this->config['widget_config']['show_description'])) {
+                        $result['description'] = $result['objects'][$key]['description'];
+                    }
                 }
             }
         }
@@ -51,6 +60,9 @@ class imageTransformer extends attachmentTransformer
         }
         if (!empty($this->config['widget_config']['show_description'])) {
             $result['description'] = $array['description'];
+        }
+        if (!empty($this->config['widget_config']['show_title'])) {
+            $result['title'] = $array['title'];
         }
         return $result;
     }

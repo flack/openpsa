@@ -471,7 +471,7 @@ class form extends base
                 } else {
                     $size = 'unknown';
                 }
-                $string .= "<li title=\"{$info['guid']}\"><a href='{$info['url']}' target='_new'>{$size}:</a> {$info['formattedsize']}</li>";
+                $string .= "<li title=\"{$info['guid']}\">{$size}: <a href='{$info['url']}' target='_new'>{$info['formattedsize']}</a></li>";
             }
             $string .= '</ul>';
         }
@@ -481,6 +481,10 @@ class form extends base
         if (array_key_exists('title', $view->children)) {
             $view->children['title']->vars['attr']['placeholder'] = $this->renderer->humanize('title');
             $string .= $this->renderer->widget($view->children['title']);
+        }
+        if (array_key_exists('description', $view->children)) {
+            $view->children['description']->vars['attr']['placeholder'] = $this->renderer->humanize('description');
+            $string .= $this->renderer->widget($view->children['description']);
         }
         $string .= '</td></tr></table></div>';
         $string .= $this->renderer->row($data['form']['identifier']);

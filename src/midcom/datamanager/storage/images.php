@@ -63,7 +63,6 @@ class images extends blobs implements recreateable
     {
         $this->map = [];
         $map = $this->load();
-
         foreach ($this->value as $identifier => $images) {
             if (!empty($images['file'])) {
                 if (is_numeric($identifier)) {
@@ -77,6 +76,16 @@ class images extends blobs implements recreateable
             if (!empty($map[$identifier])) {
                 foreach ($map[$identifier] as $name => $image) {
                     $this->map[$identifier . $name . ':' . $image->guid] = $image;
+                }
+            }
+
+            if (!empty($images['main'])) {
+                if (array_key_exists('description', $images)) {
+                    $images['main']->set_parameter('midcom.helper.datamanager2.type.blobs', 'description', $images['description']);
+                }
+                if (array_key_exists('title', $images) && $images['main']->title != $images['title']) {
+                    $images['main']->title = $images['title'];
+                    $images['main']->update();
                 }
             }
         }

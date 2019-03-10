@@ -33,7 +33,8 @@ class imageType extends AbstractType
         helper::add_normalizers($resolver, [
             'widget_config' => [
                 'map_action_elements' => false,
-                'show_title' => true
+                'show_title' => true,
+                'show_description' => false
             ],
             'type_config' => [
                 'do_not_save_archival' => true,
@@ -63,6 +64,9 @@ class imageType extends AbstractType
         ]);
         if ($options['widget_config']['show_title']) {
             $builder->add('title', TextType::class, ['required' => false]);
+        }
+        if ($options['widget_config']['show_description']) {
+            $builder->add('description', TextType::class, ['required' => false]);
         }
         $builder->add('delete', CheckboxType::class, ['attr' => [
             "class" => "midcom_datamanager_photo_checkbox"
