@@ -62,8 +62,6 @@
  *   is used by default.
  * - <b>int auth_login_form_httpcode</b>: HTTP return code used in MidCOM login screens,
  *   either 403 (403 Forbidden) or 200 (200 OK), defaulting to 403.
- * - <b>boolean auth_openid_enable:</b> Whether to enable OpenID authentication handled with
- *   the net.nemein.openid library
  *
  * <b>Authentication Backend configuration: "simple"</b>
  *
@@ -271,7 +269,6 @@ class midcom_config implements ArrayAccess
         'auth_check_client_ip' => true,
         'auth_allow_sudo' => true,
         'auth_login_form_httpcode' => 403,
-        'auth_openid_enable' => false,
         'auth_save_prev_login' => false,
         'auth_allow_trusted' => false,
         'person_class' => 'openpsa_person',
