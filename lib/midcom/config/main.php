@@ -72,10 +72,6 @@
  *   auth cookies for different sites. Defaults to 1.
  * - <b>auth_backend_simple_cookie_path:</b> Controls the valid path of the cookie,
  *   defaults to midcom_connection::get_url('self').
- * - <b>auth_backend_simple_cookie_domain:</b> Controls the valid domain of the cookie.
- *   If it is set to null (the default), no domain is specified in the cookie, making
- *   it a traditional site-specific session cookie. If it is set, the domain parameter
- *   of the cookie will be set accordingly.
  *
  * <b>Cache configuration</b>
  *
@@ -281,7 +277,6 @@ class midcom_config implements ArrayAccess
         'person_class' => 'openpsa_person',
 
         'auth_backend_simple_cookie_path' => 'auto',
-        'auth_backend_simple_cookie_domain' => null,
         // set secure flag on cookie (applies only when using SSL)
         'auth_backend_simple_cookie_secure' => true,
 
