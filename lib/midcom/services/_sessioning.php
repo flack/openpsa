@@ -50,23 +50,17 @@ class midcom_services__sessioning extends Session
 {
     public function __construct()
     {
-        $cookie_path = midcom::get()->config->get('auth_backend_simple_cookie_path');
-        if ($cookie_path == 'auto') {
-            $cookie_path = midcom_connection::get_url('self');
-        }
+        parent::__construct($this->prepare_storage(), new NamespacedAttributeBag('midcom_session_data'));
+    }
 
+    protected function prepare_storage()
+    {
         $cookie_secure = (   !empty($_SERVER['HTTPS'])
                           && $_SERVER['HTTPS'] !== 'off'
                           && midcom::get()->config->get('auth_backend_simple_cookie_secure'));
 
-        $storage = $this->prepare_storage($cookie_path, $cookie_secure);
-        parent::__construct($storage, new NamespacedAttributeBag('midcom_session_data'));
-    }
-
-    protected function prepare_storage($cookie_path, $cookie_secure)
-    {
         return new NativeSessionStorage([
-            'cookie_path' => $cookie_path,
+            'cookie_path' => midcom_connection::get_url('prefix'),
             'cookie_secure' => $cookie_secure,
             'cookie_httponly' => true
         ]);

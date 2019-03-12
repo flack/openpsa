@@ -68,8 +68,6 @@
  * - <b>auth_backend_simple_cookie_secure:</b> Set the "secure" flag on cookie, defaults to true, applies only when actually using SSL/TLS
  * - <b>auth_backend_simple_cookie_id:</b> The ID appended to the cookie prefix, separating
  *   auth cookies for different sites. Defaults to 1.
- * - <b>auth_backend_simple_cookie_path:</b> Controls the valid path of the cookie,
- *   defaults to midcom_connection::get_url('self').
  *
  * <b>Cache configuration</b>
  *
@@ -273,7 +271,6 @@ class midcom_config implements ArrayAccess
         'auth_allow_trusted' => false,
         'person_class' => 'openpsa_person',
 
-        'auth_backend_simple_cookie_path' => 'auto',
         // set secure flag on cookie (applies only when using SSL)
         'auth_backend_simple_cookie_secure' => true,
 

@@ -12,11 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
  * The simple auth backend uses cookies to store a session identifier which
  * consists of the midgard person GUID.
  *
- * The validity of the cookie will be controlled by the configuration option
- * <i>auth_backend_simple_cookie_path</i>:
- *
- * The path defaults to midcom_connection::get_url('self').
- *
  * The basic cookie id (username prefix) is taken from the config option
  * <i>auth_backend_simple_cookie_id</i>, which defaults to 1
  *
