@@ -60,7 +60,7 @@ class midcom_services__sessioning extends Session
                           && midcom::get()->config->get('auth_backend_simple_cookie_secure'));
 
         return new NativeSessionStorage([
-            'cookie_path' => midcom_connection::get_url('prefix'),
+            'cookie_path' => midcom_connection::get_url('prefix') ?: '/',
             'cookie_secure' => $cookie_secure,
             'cookie_httponly' => true
         ]);
