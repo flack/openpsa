@@ -71,7 +71,7 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
         }
         $event = new org_openpsa_calendar_event_dba($guid);
         $event->require_do('midgard:update');
-        $start = strtotime($request->request->get('start'));
+        $start = $request->request->get('start');
         //workaround for https://github.com/fullcalendar/fullcalendar/issues/3037
         $end = $request->request->get('end', $event->end + ($start - $event->start));
         $event->start = $start;

@@ -88,11 +88,11 @@ var openpsa_calendar_widget = {
     initialize: function(selector, prefix, settings, embedded) {
         function save_event(event, delta, revertFunc) {
             var params = {
-                start: event.start.add(1, 's').format('YYYY-MM-DD HH:mm:ss')
+                start: event.start.add(1, 's').format('X')
             };
             //workaround for https://github.com/fullcalendar/fullcalendar/issues/3037
             if (event.end) {
-                params.end = event.end.format('YYYY-MM-DD HH:mm:ss');
+                params.end = event.end.format('X');
             }
             $.post(prefix + 'event/move/' + event.id + '/', params)
                 .fail(function() {
