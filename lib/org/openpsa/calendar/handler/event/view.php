@@ -44,7 +44,7 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
         // Add toolbar items
         $buttons = [
             [
-                MIDCOM_TOOLBAR_URL => $this->router->generate('event_view', ['guid' => $guid]),
+                MIDCOM_TOOLBAR_URL => $this->router->generate('event_edit', ['guid' => $guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
                 MIDCOM_TOOLBAR_ENABLED => $data['event']->can_do('midgard:update'),
