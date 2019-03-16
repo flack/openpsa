@@ -31,9 +31,9 @@ $(document).ready(function() {
                             $.post(action, params).done(function(message) {
                                 button.trigger('dialogdeleted', [message]);
                                 dialog.dialog("close");
-                                if (button.closest('.midcom-workflow-dialog').length > 0) {
-                                    button.closest('.midcom-workflow-dialog')
-                                        .find('> .ui-dialog-content').dialog('close');
+                                if (   typeof window.parent.$ !== "undefined"
+                                    && window.parent.$('#midcom-dialog').length > 0 ) {
+                                    window.parent.$('#midcom-dialog').dialog('close');
                                 }
                             });
                         }
@@ -41,6 +41,13 @@ $(document).ready(function() {
                 }, {
                     text: button.data('dialog-cancel-label'),
                     click: function() {
+                        if (   typeof window.parent.$ !== "undefined"
+                            && window.parent.$('#midcom-dialog').length > 0 ) {
+                            window.parent.$('#midcom-dialog')
+                                .nextAll('.ui-dialog-buttonpane')
+                                .find('.ui-state-disabled')
+                                .removeClass('ui-state-disabled');
+                        }
                         $(this).dialog("close");
                     }
                 }]
