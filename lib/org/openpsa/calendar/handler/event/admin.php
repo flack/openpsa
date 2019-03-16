@@ -47,13 +47,12 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $event->title));
 
-        $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
+        $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller'], 'relocate' => false]);
 
         $response = $workflow->run($request);
         if ($workflow->get_state() == 'save') {
             $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
             $indexer->index($data['controller']->get_datamanager());
-            midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh();');
         }
         return $response;
     }

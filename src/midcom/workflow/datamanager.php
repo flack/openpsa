@@ -32,6 +32,15 @@ class datamanager extends dialog
     protected $save_callback;
 
     /**
+     * Disable relocate after execute
+     *
+     * Returns the uimessage as JSON instead
+     *
+     * @var boolean
+     */
+    protected $relocate;
+
+    /**
      * {@inheritdoc}
      */
     public function configure(OptionsResolver $resolver)
@@ -39,7 +48,8 @@ class datamanager extends dialog
         $resolver
             ->setDefaults([
                 'controller' => null,
-                'save_callback' => null
+                'save_callback' => null,
+                'relocate' => true
             ])
             ->setAllowedTypes('controller', ['null', '\midcom\datamanager\controller']);
     }
@@ -64,14 +74,18 @@ class datamanager extends dialog
         $this->state = $this->controller->handle($request);
 
         if ($this->state == controller::SAVE) {
-            $url = '';
-            if (is_callable($this->save_callback)) {
-                $url = call_user_func($this->save_callback, $this->controller);
-                if ($url !== null) {
-                    $url = $this->prepare_url($url);
+            if ($this->relocate) {
+                $url = '';
+                if (is_callable($this->save_callback)) {
+                    $url = call_user_func($this->save_callback, $this->controller);
+                    if ($url !== null) {
+                        $url = $this->prepare_url($url);
+                    }
                 }
+                midcom::get()->head->add_jscript('refresh_opener(' . $url . ');');
+            } else {
+                midcom::get()->head->add_jscript('close();');
             }
-            midcom::get()->head->add_jscript('refresh_opener(' . $url . ');');
             $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [midcom::get(), 'finish']);
         } else {
             $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$this->controller, 'display_form']);

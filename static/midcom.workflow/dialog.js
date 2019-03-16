@@ -18,7 +18,9 @@ function refresh_opener(url) {
 function close() {
     var dialog = window.parent.$('#midcom-dialog');
     if (dialog.length > 0) {
-        dialog.dialog('close');
+        dialog
+            .trigger('dialogsaved')
+            .dialog('close');
     }
 }
 
