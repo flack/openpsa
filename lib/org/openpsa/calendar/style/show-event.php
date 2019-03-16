@@ -12,3 +12,10 @@ $node = $nap->get_node($nap->get_current_node());
     }
     ?>
 </div>
+<script>
+$('body').on('dialogdeleted', '[data-dialog="delete"]', function(e, message) {
+    window.parent.$.midcom_services_uimessage_add(message);
+
+    window.parent.openpsa_calendar_instance.fullCalendar('refetchEvents');
+});
+</script>

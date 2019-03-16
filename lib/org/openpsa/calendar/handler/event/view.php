@@ -52,7 +52,7 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
             ]
         ];
         if ($data['event']->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', ['object' => $data['event']]);
+            $workflow = $this->get_workflow('delete', ['object' => $data['event'], 'relocate' => false]);
             $buttons[] = $workflow->get_button($this->router->generate('event_delete', ['guid' => $guid]));
         }
         $buttons[] = [

@@ -167,7 +167,7 @@ var openpsa_calendar_widget = {
                         $(selector).fullCalendar('changeView', event.state.view);
                         openpsa_calendar_widget.popstate = false;
                     }
-                }
+                };
             }
 
             org_openpsa_resizers.append_handler('calendar', function() {

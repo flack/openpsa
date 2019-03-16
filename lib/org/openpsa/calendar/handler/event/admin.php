@@ -91,7 +91,7 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
     public function _handler_delete(Request $request, $guid)
     {
         $event = new org_openpsa_calendar_event_dba($guid);
-        $workflow = $this->get_workflow('delete', ['object' => $event]);
+        $workflow = $this->get_workflow('delete', ['object' => $event, 'relocate' => false]);
         return $workflow->run($request);
     }
 }
