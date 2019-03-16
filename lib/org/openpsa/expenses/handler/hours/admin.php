@@ -82,7 +82,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         if ($report->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', [
                 'object' => $report,
-                'label' => $this->_l10n->get('hour report')
+                'label' => $this->_l10n->get('hour report'),
+                'relocate' => false
             ]);
             $workflow->add_dialog_button($delete, $this->router->generate('hours_delete', ['guid' => $guid]));
         }
@@ -98,7 +99,10 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     public function _handler_delete(Request $request, $guid)
     {
         $hour_report = new org_openpsa_expenses_hour_report_dba($guid);
-        $options = ['object' => $hour_report];
+        $options = [
+            'object' => $hour_report,
+            'relocate' => false
+        ];
 
         try {
             $task = org_openpsa_projects_task_dba::get_cached($hour_report->task);

@@ -5,6 +5,7 @@ $(document).ready(function() {
             dialog = $('<div class="midcom-delete-dialog">'),
             spinner = $('<div class="spinner"><i class="fa fa-pulse fa-spinner"></i></div>'),
             text = button.data('dialog-text'),
+            relocate = button.data('relocate'),
             action = button.attr('href') || button.data('action'),
             options = {
                 title:  button.data('dialog-heading'),
@@ -14,12 +15,28 @@ $(document).ready(function() {
                 buttons: [{
                     text: button.text().trim() || button.data('dialog-heading'),
                     click: function() {
-                        $('<form action="' + action + '" method="post" class="midcom-dialog-delete-form">')
-                            .append($('<input type="submit" name="' + button.data('form-id') + '">'))
-                            .append($('<input type="hidden" name="referrer" value="' + location.pathname + '">'))
-                            .hide()
-                            .prependTo('body');
-                        $('input[name="' + button.data('form-id') + '"]').click();
+                        if (relocate) {
+                            $('<form action="' + action + '" method="post" class="midcom-dialog-delete-form">')
+                                .append($('<input type="submit" name="' + button.data('form-id') + '">'))
+                                .append($('<input type="hidden" name="referrer" value="' + location.pathname + '">'))
+                                .hide()
+                                .prependTo('body');
+                            $('input[name="' + button.data('form-id') + '"]').click();
+                        } else {
+                            var params = {
+                                referrer: location.pathname
+                            };
+                            params[button.data('form-id')] = 1;
+
+                            $.post(action, params).done(function(message) {
+                                button.trigger('dialogdeleted', [message]);
+                                dialog.dialog("close");
+                                if (button.closest('.midcom-workflow-dialog').length > 0) {
+                                    button.closest('.midcom-workflow-dialog')
+                                        .find('> .ui-dialog-content').dialog('close');
+                                }
+                            });
+                        }
                     }
                 }, {
                     text: button.data('dialog-cancel-label'),

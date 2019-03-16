@@ -15,6 +15,7 @@ use midcom_response_relocate;
 use midcom_connection;
 use midcom;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Helper class for manipulating toolbars
@@ -44,6 +45,15 @@ class delete extends dialog
      * @var string
      */
     protected $success_url;
+
+    /**
+     * Disable relocate after execute
+     *
+     * Returns the uimessage as JSON instead
+     *
+     * @var boolean
+     */
+    protected $relocate;
 
     /**
      *
@@ -83,6 +93,7 @@ class delete extends dialog
             ->setDefaults([
                 'recursive' => false,
                 'success_url' => '',
+                'relocate' => true,
                 'label' => null,
                 'object' => null,
                 'dialog_text' => null
@@ -121,6 +132,7 @@ class delete extends dialog
                 'data-dialog-cancel-label' => $this->l10n_midcom->get('cancel'),
                 'data-recursive' => $this->recursive ? 'true' : 'false',
                 'data-guid' => $this->object->guid,
+                'data-relocate' => $this->relocate
             ]
         ];
     }
@@ -135,13 +147,16 @@ class delete extends dialog
             if ($this->object->{$method}()) {
                 $this->state = static::SUCCESS;
                 $url = $this->success_url;
-                $message['body'] = sprintf($this->l10n_midcom->get("%s deleted"), $this->label);
+                $message['message'] = sprintf($this->l10n_midcom->get("%s deleted"), $this->label);
             } else {
                 $this->state = static::FAILURE;
-                $message['body'] = sprintf($this->l10n_midcom->get("failed to delete %s: %s"), $this->label, midcom_connection::get_error_string());
+                $message['message'] = sprintf($this->l10n_midcom->get("failed to delete %s: %s"), $this->label, midcom_connection::get_error_string());
                 $message['type'] = 'error';
             }
-            midcom::get()->uimessages->add($message['title'], $message['body'], $message['type']);
+            if (!$this->relocate) {
+                return new JsonResponse($message);
+            }
+            midcom::get()->uimessages->add($message['title'], $message['message'], $message['type']);
         }
         return new midcom_response_relocate($url);
     }

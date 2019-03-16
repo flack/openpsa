@@ -146,4 +146,14 @@ midcom_grid_csv.add({
 });
 midcom_grid_helper.bind_grouping_switch('&(grid_id);');
 
+$('body').on('dialogdeleted', '[data-dialog="delete"]', function(e, message) {
+    $.midcom_services_uimessage_add(message);
+
+    var row_id = $('#&(grid_id); [data-dialog="dialog"][href$="' + $(this).data('guid') + '/"]')
+        .closest('tr').attr('id');
+
+    $('#&(grid_id);').jqGrid('delRowData', row_id);
+    $('#&(grid_id);').trigger('reloadGrid');
+});
+
 </script>
