@@ -15,11 +15,11 @@ function refresh_opener(url) {
     window.parent.location.href = url;
 }
 
-function close() {
+function close(data) {
     var dialog = window.parent.$('#midcom-dialog');
     if (dialog.length > 0) {
         dialog
-            .trigger('dialogsaved')
+            .trigger('dialogsaved', [data])
             .dialog('close');
     }
 }

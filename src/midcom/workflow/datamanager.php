@@ -84,7 +84,13 @@ class datamanager extends dialog
                 }
                 midcom::get()->head->add_jscript('refresh_opener(' . $url . ');');
             } else {
-                midcom::get()->head->add_jscript('close();');
+                $dm = $this->controller->get_datamanager();
+                $data = $dm->get_content_html();
+                $object = $dm->get_storage()->get_value();
+                if ($object instanceof \midcom_core_dbaobject) {
+                    $data['guid'] = $object->guid;
+                }
+                midcom::get()->head->add_jscript('close(' . json_encode($data) . ');');
             }
             $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [midcom::get(), 'finish']);
         } else {
