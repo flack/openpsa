@@ -146,8 +146,18 @@ $(document).ready(function() {
             .dialog(options);
     });
     $('body').on('click', '.midcom-workflow-dialog .ui-dialog-buttonpane .ui-button', function() {
-        $(this).closest('.ui-dialog-buttonpane').find('.ui-button')
-            .addClass('ui-state-disabled');
+        var pane = $(this).closest('.ui-dialog-buttonpane'),
+            iframe = pane.prevAll('#midcom-dialog').find('iframe'),
+            disabler = function() {
+                pane.find('.ui-button')
+                    .addClass('ui-state-disabled');
+            };
+
+        if (!$(this).hasClass('dialog-extra-button') && $('form.datamanager2', iframe.contents()).length > 0) {
+            $('form.datamanager2', iframe.contents()).on('submit', disabler);
+        } else {
+            disabler();
+        }
     });
 });
 
