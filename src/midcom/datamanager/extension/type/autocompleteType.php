@@ -69,6 +69,7 @@ class autocompleteType extends AbstractType
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
             $type_defaults = [
                 'options' => [],
+                'method' => 'GET',
                 'constraints' => [],
                 'allow_other' => false,
                 'allow_multiple' => ($options['dm2_type'] == 'mnrelation'),
@@ -141,6 +142,7 @@ class autocompleteType extends AbstractType
         $handler_options = $options['widget_config'];
         $handler_options['constraints'] = $options['type_config']['constraints'];
         $handler_options['handler_url'] = $handler_url;
+        $handler_options['method'] = $options['type_config']['method'];
         $handler_options['allow_multiple'] = $options['type_config']['allow_multiple'];
         $handler_options['preset'] = $preset;
         $handler_options['preset_order'] = array_reverse(array_keys($preset));

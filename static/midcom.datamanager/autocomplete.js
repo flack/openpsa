@@ -56,9 +56,11 @@ var midcom_helper_datamanager2_autocomplete = {
         }
 
         query_options.term = term;
+
         $.ajax({
             url: query_options.handler_url,
             dataType: "json",
+            method: query_options.method,
             data: query_options,
             success: function(data) {
                 if (!$.isEmptyObject(data)) {
