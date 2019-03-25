@@ -294,7 +294,7 @@ class view extends base
 
     public function codemirror_widget(FormView $view, array $data)
     {
-        $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes') . '>';
+        $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes', $data) . '>';
         $string .= $data['value'] . '</textarea>';
         if (!empty($data['codemirror_snippet'])) {
             $snippet = str_replace('{$id}', $data['id'], $data['codemirror_snippet']);

@@ -72,7 +72,7 @@ class csv extends base
     public function choice_widget_collapsed(FormView $view, array $data)
     {
         if (isset($data['data'])) {
-            if (!empty($view->vars['multiple'])) {
+            if (!empty($data['multiple'])) {
                 $selection = $data['data'];
             } else {
                 $selection = (string) $data['data'];

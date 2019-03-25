@@ -63,10 +63,10 @@ abstract class base
 
     public function widget_attributes(FormView $view, array $data)
     {
-        $attributes = $view->vars['attr'];
+        $attributes = $data['attr'];
         $attributes['id'] = $data['id'];
         $attributes['name'] = $data['full_name'];
-        if (!empty($view->vars['readonly'])) {
+        if (!empty($data['readonly'])) {
             $attributes['readonly'] = 'readonly';
         }
         if ($data['disabled']) {
