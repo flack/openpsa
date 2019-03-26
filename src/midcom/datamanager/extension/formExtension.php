@@ -62,13 +62,15 @@ class formExtension extends AbstractTypeExtension
             }
             if (array_key_exists('privilege', $options['write_privilege'])) {
                 $storage = $form->getParent()->getData();
-                if (   $storage instanceof dbacontainer
-                    && (!$storage->get_value()->can_do($options['write_privilege']['privilege']))) {
-                    $view->vars['readonly'] = true;
+                if ($storage instanceof dbacontainer) {
+                    if ($storage->get_value()->id) {
+                        $view->vars['readonly'] = !$storage->get_value()->can_do($options['write_privilege']['privilege']);
+                    } else {
+                        $view->vars['readonly'] = !$storage->get_value()->can_user_do($options['write_privilege']['privilege']);
+                    }
                 }
             }
         }
-
     }
 
     // Symfony < 4.2 compat
