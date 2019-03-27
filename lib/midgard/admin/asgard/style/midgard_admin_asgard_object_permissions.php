@@ -20,7 +20,7 @@
         echo '<th class="row_value assignee_name"><span>' . $label . '</span></th>';
         $started = false;
         foreach ($data['form']->children as $name => $child) {
-            if (substr($name, 0, strlen($identifier)) !== $identifier) {
+            if (substr($name, 0, strlen($identifier) + 2) !== $identifier . '__') {
                 if ($started) {
                     echo '<td class="row_value row_actions">';
                     echo '<div class="actions" id="privilege_row_actions_' . $identifier . '"></div>';

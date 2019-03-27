@@ -179,6 +179,10 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         $fields = $schemadb->get('privileges')->get('fields');
 
         foreach ($assignees as $assignee => $label) {
+            $classname = '';
+            if (strpos($assignee, '/')) {
+                list($assignee, $classname) = explode('/', $assignee, 2);
+            }
             foreach ($this->_privileges as $privilege) {
                 $privilege_components = explode(':', $privilege);
                 if (   $privilege_components[0] == 'midcom'
@@ -194,18 +198,20 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
                     $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . $this->_l10n->get($privilege_label) . "</span></th>\n";
                 }
 
-                $fields[str_replace([':', '.'], '_', $assignee . '_' . $privilege)] = [
+                $fields[str_replace([':', '.'], '_', $assignee . $classname . '__' . $privilege)] = [
                     'title' => $privilege_label,
                     'storage' => null,
                     'type' => 'privilege',
                     'type_config' => [
                         'privilege_name' => $privilege,
-                        'assignee'       => $assignee,
+                        'assignee' => $assignee,
+                        'classname' => $classname
                     ],
                     'widget' => 'privilegeselection'
                 ];
             }
         }
+
         $schemadb->get('privileges')->set('fields', $fields);
 
         $header .= "        <th scope=\"col\" class=\"assignee_name\"><span>&nbsp;</span></th>\n";
@@ -225,6 +231,9 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
             $existing_privileges[] = new midcom_core_privilege(['assignee' => $this->additional_assignee]);
         }
         foreach ($existing_privileges as $privilege) {
+            if (!in_array($privilege->privilegename, $this->_privileges)) {
+                $this->_privileges[] = $privilege->privilegename;
+            }
             if ($privilege->is_magic_assignee()) {
                 // This is a magic assignee
                 $label = $this->_l10n->get($privilege->assignee);
@@ -239,19 +248,19 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
                 }
             }
 
-            $assignees[$privilege->assignee] = $label;
+            if ($privilege->classname) {
+                $label .= ' / ' . $privilege->classname;
+                $assignees[$privilege->assignee . '/' . $privilege->classname] = $label;
+            } else {
+                $assignees[$privilege->assignee] = $label;
+            }
 
-            $key = str_replace(':', '_', $privilege->assignee);
+            $key = str_replace(':', '_', $privilege->assignee) . $privilege->classname;
             if (!isset($this->_row_labels[$key])) {
                 $this->_row_labels[$key] = $label;
             }
         }
         return $assignees;
-    }
-
-    public function get_schema_name()
-    {
-        return 'privileges';
     }
 
     /**

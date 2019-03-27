@@ -533,6 +533,7 @@ class midcom_core_privilege
         $this->assignee = $this->__privilege_object->assignee;
         $this->classname = $this->__privilege_object->classname;
         $this->value = $this->__privilege_object->value;
+        $this->guid = $this->__privilege_object->guid;
     }
 
     /**

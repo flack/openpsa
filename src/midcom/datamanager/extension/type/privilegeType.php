@@ -66,6 +66,10 @@ class privilegeType extends AbstractType
         }
         if ($options['assignee'] == 'SELF') {
             if (midcom::get()->dbfactory->is_a($object, 'midgard_group')) {
+                $privilege = $object->get_privilege($options['privilege_name'], $options['assignee'], $options['classname']);
+                if ($privilege->guid) {
+                    return $privilege->value === MIDCOM_PRIVILEGE_ALLOW;
+                }
                 // There's no sane way to query group privileges in auth right now, so we only return defaults
                 $defaults = midcom::get()->auth->acl->get_default_privileges();
                 return $defaults[$options['privilege_name']] === MIDCOM_PRIVILEGE_ALLOW;

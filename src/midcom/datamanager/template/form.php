@@ -303,6 +303,7 @@ class form extends base
             $string = $this->get_view_renderer()->choice_widget_collapsed($view, $data);
             return $string . $this->renderer->block($view, 'form_widget_simple', ['type' => "hidden"]);
         }
+
         $string = '<select ';
         if (   $data['required']
             && null === $data['placeholder']
@@ -377,7 +378,10 @@ class form extends base
                 $choice->attr['value'] = $choice->value;
                 if ($data['is_selected']($choice->value, $data['value'])) {
                     $choice->attr['selected'] = 'selected';
+                } else {
+                    unset($choice->attr['selected']);
                 }
+
                 $string .= '<option ' . $this->attributes($choice->attr);
                 $string .= '>' . $this->renderer->humanize($choice->label) . '</option>';
             }
