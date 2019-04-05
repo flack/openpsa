@@ -12,9 +12,10 @@ class imageValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint)
     {
-        if (   !empty($value['delete'])
+        if (   empty($value)
+            || !empty($value['delete'])
             || (   empty($value['file'])
-                && (   empty($constraint->config['do_not_save_archival'] && empty($value['archival']))
+                && (   empty($constraint->config['do_not_save_archival']) && empty($value['archival'])
                     xor empty($value['main'])))) {
             $this->context->buildViolation('This value should not be blank.')
                 ->addViolation();
