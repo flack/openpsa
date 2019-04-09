@@ -139,13 +139,16 @@ class autocompleteType extends AbstractType
             }
         }
 
-        $handler_options = $options['widget_config'];
+        $handler_options = array_replace([
+            'handler_url' => $handler_url,
+            'method' => $options['type_config']['method'],
+            'allow_multiple' => $options['type_config']['allow_multiple'],
+            'preset' => $preset,
+            'preset_order' => array_reverse(array_keys($preset))
+        ], $options['widget_config']);
+
+        // @todo widget_config constraints are ignored, but they are used in the wild...
         $handler_options['constraints'] = $options['type_config']['constraints'];
-        $handler_options['handler_url'] = $handler_url;
-        $handler_options['method'] = $options['type_config']['method'];
-        $handler_options['allow_multiple'] = $options['type_config']['allow_multiple'];
-        $handler_options['preset'] = $preset;
-        $handler_options['preset_order'] = array_reverse(array_keys($preset));
 
         $view->vars['min_chars'] = $options['widget_config']['min_chars'];
         $view->vars['handler_options'] = json_encode($handler_options);
