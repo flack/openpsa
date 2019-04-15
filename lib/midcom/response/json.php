@@ -15,6 +15,7 @@ class midcom_response_json extends midcom_response
 {
     public function __construct(array $data = [])
     {
+        parent::__construct();
         $this->_data = $data;
     }
 
