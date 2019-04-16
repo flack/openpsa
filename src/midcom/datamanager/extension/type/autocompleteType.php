@@ -50,6 +50,7 @@ class autocompleteType extends AbstractType
                 'categorize_by_parent_label' => false,
                 'searchfields' => [],
                 'min_chars' => 2,
+                'handler_url' => midcom_connection::get_url('self') . 'midcom-exec-midcom.datamanager/autocomplete.php',
                 'sortable' => false,
                 'clever_class' => null
             ];
@@ -122,8 +123,6 @@ class autocompleteType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-        $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.datamanager/autocomplete.php';
-
         $preset = [];
         if (!empty($view->children['selection']->vars['data'])) {
             foreach (array_filter((array) $view->children['selection']->vars['data']) as $identifier) {
@@ -140,7 +139,6 @@ class autocompleteType extends AbstractType
         }
 
         $handler_options = array_replace([
-            'handler_url' => $handler_url,
             'method' => $options['type_config']['method'],
             'allow_multiple' => $options['type_config']['allow_multiple'],
             'preset' => $preset,
