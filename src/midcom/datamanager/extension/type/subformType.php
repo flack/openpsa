@@ -55,10 +55,10 @@ class subformType extends AbstractType
             return $validation;
         });
         $resolver->setNormalizer('entry_options', function (Options $options, $value) {
-            return [
+            return array_replace([
                 'required' => false, //@todo no idea why this is necessary
                 'widget_config' => $options['widget_config']
-            ];
+            ], (array) $value);
         });
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
             if (!array_key_exists('sortable', $value)) {
@@ -73,7 +73,7 @@ class subformType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventSubscriber(new ResizeFormListener($options['entry_type'], ['widget_config' => $options['widget_config']]));
+        $builder->addEventSubscriber(new ResizeFormListener($options['entry_type'], $options['entry_options']));
 
         $head = midcom::get()->head;
         $head->enable_jquery();
