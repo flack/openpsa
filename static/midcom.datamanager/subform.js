@@ -63,7 +63,7 @@ function add_form(container, add_button, delete_button, sortable) {
         .insertBefore(add_button);
 
     if (   container.data('max-count') > 0
-        && container.data('max-count') >= container.find('fieldset').length) {
+        && container.data('max-count') >= container.find('> :not(.button.add-item)').length) {
         add_button.detach();
     }
     if (sortable === true) {
