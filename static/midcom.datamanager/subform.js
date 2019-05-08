@@ -10,7 +10,7 @@ function init_subform(id, sortable) {
 
     container.on('click', 'a.button.remove-item', function(e) {
         e.preventDefault();
-        $(this).closest('fieldset').remove();
+        $(this).parent().remove();
         if (   container.data('max-count') > 0
             && container.data('max-count') >= container.find('fieldset').length
             && container.find('.add-item').length === 0) {
@@ -31,7 +31,7 @@ function init_subform(id, sortable) {
 
     if (sortable === true) {
         container
-            .sortable({items: '> fieldset'})
+            .sortable({items: '> :not(.button.add-item)'})
             .on('sortupdate', function() {
                 $($(this).find('> .ui-sortable-handle').get().reverse()).each(function(index, element) {
                     $('#' + $(element).attr('id') + '_score').val(index);
