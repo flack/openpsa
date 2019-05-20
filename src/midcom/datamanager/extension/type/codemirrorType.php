@@ -24,7 +24,7 @@ class codemirrorType extends AbstractType
     /**
      * Widget version
      */
-    public $version = '5.29.0';
+    public $version = '5.46.0';
 
     /**
      * {@inheritdoc}
