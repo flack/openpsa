@@ -61,37 +61,37 @@ $(document).ready(function() {
             dialog.addClass('loading');
             options.buttons[0].disabled = true;
             $.getJSON(MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom.helper.reflector/list-children.php',
-                      {guid: button.data('guid')},
-                      function (data) {
-                          function render(items) {
-                              var output = '';
-                              $.each(items, function(i, item) {
-                                  output += '<li class="leaf ' + item['class'] + '">' + item.icon + ' ' + item.title;
-                                  if (item.children) {
-                                      output += '<ul class="folder_list">';
-                                      output += render(item.children);
-                                      output += '</ul>';
-                                  }
-                                  output += '</li>';
-                              });
-                              return output;
-                          }
+                {guid: button.data('guid')},
+                function (data) {
+                    function render(items) {
+                        var output = '';
+                        $.each(items, function(i, item) {
+                            output += '<li class="leaf ' + item['class'] + '">' + item.icon + ' ' + item.title;
+                            if (item.children) {
+                                output += '<ul class="folder_list">';
+                                output += render(item.children);
+                                output += '</ul>';
+                            }
+                            output += '</li>';
+                        });
+                        return output;
+                    }
 
-                          if (data.length > 0) {
-                              $('<ul class="folder_list">')
-                                  .append($(render(data)))
-                                  .appendTo($('#delete-child-list'));
-                          } else {
-                              dialog.find('p.warning').hide();
-                          }
-                          options.buttons[0].disabled = false;
+                    if (data.length > 0) {
+                        $('<ul class="folder_list">')
+                            .append($(render(data)))
+                            .appendTo($('#delete-child-list'));
+                    } else {
+                        dialog.find('p.warning').hide();
+                    }
+                    options.buttons[0].disabled = false;
 
-                          dialog
-                              .removeClass('loading')
-                              .dialog('option', 'position', dialog.dialog('option', 'position'))
-                              .dialog('option', 'buttons', options.buttons)
-                              .focus();
-                      });
+                    dialog
+                        .removeClass('loading')
+                        .dialog('option', 'position', dialog.dialog('option', 'position'))
+                        .dialog('option', 'buttons', options.buttons)
+                        .focus();
+                });
         } else {
             text = '<p>' + text + '</p>';
         }
