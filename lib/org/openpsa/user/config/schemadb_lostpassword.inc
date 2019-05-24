@@ -1,7 +1,7 @@
 'lostpassword_by_username' => [
     'description' => 'lost password by username',
     'validation' => [
-    	[
+        [
             'callback' => [new org_openpsa_user_validator, 'username_exists'],
         ],
     ],
@@ -18,7 +18,7 @@
 'lostpassword_by_email' => [
     'description' => 'lost password by email',
     'validation' => [
-    	[
+        [
             'callback' => [new org_openpsa_user_validator, 'email_exists'],
         ],
     ],
@@ -36,7 +36,7 @@
 'lostpassword_by_email_username' => [
     'description' => 'lost password by email and username',
     'validation' => [
-    	[
+        [
             'callback' => [new org_openpsa_user_validator, 'email_and_username_exist'],
         ],
     ],

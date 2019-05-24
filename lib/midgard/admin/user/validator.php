@@ -23,19 +23,19 @@ class midgard_admin_user_validator
      */
     public function is_username_available(array $fields)
     {
-        $result = [];
         if (!empty($fields["username"])) {
-            $user = midcom::get()->auth->get_user_by_name($fields["username"]);
-
-            if (   $user
+            $mc = new midgard_collector('midgard_user', 'login', $fields["username"]);
+            $mc->set_key_property('person');
+            $mc->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
+            $mc->execute();
+            $keys = $mc->list_keys();
+            if (   count($keys) > 0
                 && (   !isset($fields['person'])
-                    || $user->guid != $fields['person'])) {
-                $result["username"] = sprintf(midcom::get()->i18n->get_string("username %s is already in use", "midgard.admin.user"), $fields['username']);
+                    || key($keys) != $fields['person'])) {
+                return [
+                    "username" => sprintf(midcom::get()->i18n->get_string("username %s is already in use", "midgard.admin.user"), $fields['username'])
+                ];
             }
-        }
-
-        if (!empty($result)) {
-            return $result;
         }
         return true;
     }
