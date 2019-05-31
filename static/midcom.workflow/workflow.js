@@ -101,8 +101,9 @@ $(document).ready(function() {
                                        // Should be fixed in https://github.com/jquery/jquery-ui/commit/643b80c6070e2eba700a09a5b7b9717ea7551005
             .append($(text))
             .append(spinner)
-            .appendTo($('body'))
-            .dialog(options);
+            .appendTo($('body'));
+
+        make_dialog(dialog, options);
     });
 
     $('body').on('click', '[data-dialog="dialog"]', function(event) {
@@ -142,8 +143,8 @@ $(document).ready(function() {
             .css('min-width', '300px') // This should be handled by dialog's minWidth option, but that doesn't work with width: "auto"
                                        // Should be fixed in https://github.com/jquery/jquery-ui/commit/643b80c6070e2eba700a09a5b7b9717ea7551005
             .append($('<p>' + button.data('dialog-text') + '</p>'))
-            .appendTo($('body'))
-            .dialog(options);
+            .appendTo($('body'));
+        make_dialog(dialog, options);
     });
     $('body').on('click', '.midcom-workflow-dialog .ui-dialog-buttonpane .ui-button', function() {
         var pane = $(this).closest('.ui-dialog-buttonpane'),
@@ -260,7 +261,22 @@ function create_dialog(control, title, url) {
                     maximized = false;
                 }
             });
-        })
-        .dialog(config)
-        .dialog("instance").uiDialog.draggable("option", "containment", false);
+        });
+    make_dialog(dialog, config);
+    dialog.dialog("instance").uiDialog.draggable("option", "containment", false);
+}
+
+function make_dialog(node, config) {
+    var backup = false;
+
+    if (typeof($.fn.popover) != 'undefined') {
+        backup = $.button;
+        $.widget.bridge("button", $.ui.button);
+    }
+
+    node.dialog(config);
+
+    if (backup) {
+        $.button = backup;
+    }
 }
