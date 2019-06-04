@@ -30,7 +30,10 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
 
         if (midcom::get()->auth->admin) {
-            $this->prepare_admin_view($guid);
+            $data['object'] = $this->prepare_admin_view($guid);
+            if ($data['object']->metadata->deleted == false) {
+                return new midcom_response_relocate($this->router->generate('object_open', ['guid' => $data['object']->guid]));
+            }
             midgard_admin_asgard_plugin::bind_to_object($data['object'], $handler_id, $data);
         }
         $data['view_title'] = $this->_l10n->get('object deleted');
@@ -52,8 +55,8 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         $qb->include_deleted();
         $qb->add_constraint('guid', '=', $guid);
 
-        $this->_request_data['object'] = $qb->get_result(0);
-        $this->prepare_dm($type);
+        $object = $qb->get_result(0);
+        $this->prepare_dm($type, $object);
 
         $this->_request_data['asgard_toolbar']->add_item([
             MIDCOM_TOOLBAR_URL => $this->router->generate('trash_type', ['type' => $type]),
@@ -76,22 +79,24 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         ]);
         $this->add_breadcrumb($this->router->generate('trash'), $this->_l10n->get('trash'));
         $this->add_breadcrumb($this->router->generate('trash_type', ['type' => $type]), midgard_admin_asgard_plugin::get_type_label($dba_type));
-        $label = midcom_helper_reflector::get($this->_request_data['object'])->get_object_label($this->_request_data['object']);
+        $label = midcom_helper_reflector::get($object)->get_object_label($object);
         $this->add_breadcrumb('', $label);
+        return $object;
     }
 
     /**
      * Loads the schemadb from the helper class
      *
      * @param string $type
+     * @param midcom_core_dbaobject $object
      */
-    private function prepare_dm($type)
+    private function prepare_dm($type, midcom_core_dbaobject $object)
     {
-        $schema_helper = new midgard_admin_asgard_schemadb($this->_request_data['object'], $this->_config, $type);
+        $schema_helper = new midgard_admin_asgard_schemadb($object, $this->_config, $type);
         $schemadb = $schema_helper->create([]);
         $datamanager = new datamanager($schemadb);
         $datamanager
-            ->set_storage($this->_request_data['object'])
+            ->set_storage($object)
             ->get_form(); // currently needed to add head elements
         $this->_request_data['datamanager'] = $datamanager;
     }
