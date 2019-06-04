@@ -27,6 +27,9 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
      */
     public function bind_to_object($object, $handler_id, $data)
     {
+        if ($handler_id == 'object_deleted') {
+            return;
+        }
         $buttons = [];
         // Show view toolbar button, if the user hasn't configured to use straight the edit mode
         if ($data['default_mode'] === 'view') {
