@@ -3,7 +3,7 @@ echo "<h2>";
 printf($data['l10n']->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($data['type']));
 echo "</h2>";
 
-function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = '', $enable_undelete = true)
+function midgard_admin_asgard_trash_type_show($router, $object, $indent = 0, $prefix = '', $enable_undelete = true)
 {
     static $shown = [];
     static $url_prefix = '';
@@ -32,7 +32,7 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
         $object_label = $object->guid;
     }
     echo "{$prefix}    <td class=\"checkbox\"><input type=\"checkbox\" name=\"undelete[]\"{$disabled} value=\"{$object->guid}\" id=\"guid_{$object->guid}\" /></td>\n";
-    echo "{$prefix}    <td class=\"label\" style=\"padding-left: {$indent}px\"><label for=\"guid_{$object->guid}\">{$icon}" . $object_label . "</label></td>\n";
+    echo "{$prefix}    <td class=\"label\" style=\"padding-left: {$indent}px\"><a href=\"". $router->generate('object_deleted', ['guid' =>$object->guid]) . "\">{$icon} " . $object_label . "</a></td>\n";
     echo "{$prefix}    <td class=\"nowrap\">" . strftime('%x %X', strtotime($object->metadata->revised)) . "</td>\n";
 
     if (!empty($revisor->guid)) {
@@ -51,7 +51,7 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
             if (   count($children) < 10
                 || isset($_GET['show_children'][$object->guid][$type])) {
                 foreach ($children as $child) {
-                    midgard_admin_asgard_trash_type_show($child, $child_indent, "{$prefix}    ", false);
+                    midgard_admin_asgard_trash_type_show($router, $child, $child_indent, "{$prefix}    ", false);
                 }
             } else {
                 echo "{$prefix}    <tr>\n";
@@ -98,7 +98,7 @@ if ($data['trash']) {
     echo "    <tbody>\n";
 
     foreach ($data['trash'] as $object) {
-        midgard_admin_asgard_trash_type_show($object, 0, '        ');
+        midgard_admin_asgard_trash_type_show($data['router'], $object, 0, '        ');
     }
 
     echo "    </tbody>\n";
