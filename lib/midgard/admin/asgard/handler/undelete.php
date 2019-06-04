@@ -81,7 +81,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
         $this->type = $type;
 
-        $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($type);
+        $data['view_title'] = sprintf($this->_l10n->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($type));
 
         $dummy = new $type;
         $data['midcom_dba_classname'] = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);
@@ -108,11 +108,8 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
         // Set the breadcrumb data
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
-        $this->add_breadcrumb($this->router->generate('trash_type', ['type' => $type]), $data['view_title']);
-        $this->add_breadcrumb(
-            "",
-            sprintf($this->_l10n->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($type))
-        );
+        $this->add_breadcrumb($this->router->generate('trash'), $this->_l10n->get('trash'));
+        $this->add_breadcrumb($this->router->generate('trash_type', ['type' => $type]), midgard_admin_asgard_plugin::get_type_label($type));
         return $this->get_response();
     }
 
