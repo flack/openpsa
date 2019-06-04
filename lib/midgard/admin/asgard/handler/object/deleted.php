@@ -41,7 +41,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
     {
         $type = connection::get_em()
             ->createQuery('SELECT r.typename from midgard:midgard_repligard r WHERE r.guid = ?1')
-            ->setParameter(1, $this->_request_data['guid'])
+            ->setParameter(1, $guid)
             ->getSingleScalarResult();
 
         $dba_type = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($type);
@@ -58,7 +58,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
             MIDCOM_TOOLBAR_GLYPHICON => 'recycle',
             MIDCOM_TOOLBAR_POST => true,
             MIDCOM_TOOLBAR_POST_HIDDENARGS => [
-                'undelete[]' => $this->_request_data['guid']
+                'undelete[]' => $guid
             ]
         ]);
         $this->_request_data['asgard_toolbar']->add_item([
@@ -67,7 +67,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
             MIDCOM_TOOLBAR_GLYPHICON => 'trash',
             MIDCOM_TOOLBAR_POST => true,
             MIDCOM_TOOLBAR_POST_HIDDENARGS => [
-                'undelete[]' => $this->_request_data['guid'],
+                'undelete[]' => $guid,
                 'purge' => true
             ]
         ]);
