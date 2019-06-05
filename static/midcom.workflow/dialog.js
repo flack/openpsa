@@ -76,7 +76,7 @@ $(document).ready(function() {
                 .submit();
         });
 
-        $(window).unload(function() {
+        $(window).on('unload', function() {
             dialog.nextAll('.ui-dialog-buttonpane').find('button')
                 .prop('disabled', true)
                 .addClass('ui-state-disabled');
@@ -116,7 +116,45 @@ $(document).ready(function() {
             buttons = extra_buttons.concat(buttons);
         }
 
-        dialog.dialog('option', 'buttons', buttons);
+        // This doesn't work under certain circumstances when flexbox is used somewhere in the page:
+        // dialog.dialog('option', 'buttons', buttons);
+        // @todo: The root of the problem seems to be that jquery can't set the content element
+        // to a height of 0, so at some point this could be filed as a bug against their repo. Latest
+        // stable (3.4.1) is affected. For now, we just copy the relevant part from jqueryui's
+        // _createButtons method..
+
+        var buttonset = dialog.nextAll('.ui-dialog-buttonpane').find('.ui-dialog-buttonset').empty();
+
+        $.each(buttons, function (name, props) {
+            var click, buttonOptions;
+            props = $.isFunction(props) ? {click: props, text: name} : props;
+
+            // Default to a non-submitting button
+            props = $.extend({type: "button"}, props);
+
+            // Change the context for the click callback to be the main element
+            click = props.click;
+            buttonOptions = {
+                icon: props.icon,
+                iconPosition: props.iconPosition,
+                label: props.text
+            };
+
+            delete props.click;
+            delete props.icon;
+            delete props.iconPosition;
+            delete props.text;
+
+            $('<button></button>', props)
+                .button(buttonOptions)
+                .appendTo(buttonset)
+                .on('click', function() {
+                    click.apply(dialog[0], arguments);
+                });
+        });
+
+        dialog.find('> .fa-spinner').hide();
+        dialog.find('> iframe').css('visibility', 'visible');
     } else {
         $('.midcom-view-toolbar').show();
     }

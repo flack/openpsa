@@ -212,16 +212,36 @@ function create_dialog(control, title, url) {
                    + ' marginheight="0"'
                    + ' width="100%"'
                    + ' height="100%"'
-                   + ' scrolling="auto" />')
-            .on('load', function() {
-                spinner.hide();
-                $(this).css('visibility', 'visible');
-            });
+                   + ' scrolling="auto" />');
 
         dialog = $('<div id="midcom-dialog"></div>')
             .append(spinner)
             .append(iframe)
-            .insertAfter(control);
+            .on('dialogcreate', function() {
+                var maximized = false,
+                    saved_options = {};
+                $(this).prevAll('.ui-dialog-titlebar').on('dblclick', function() {
+                    if (!maximized) {
+                        saved_options.position = dialog.dialog('option', 'position');
+                        saved_options.width = dialog.dialog('option', 'width');
+                        saved_options.height = dialog.dialog('option', 'height');
+                        dialog.dialog('option', {
+                            width: '99%',
+                            height: $(window).height(),
+                            position: {my: 'center top', at: 'center top', of: window}
+                        });
+                        maximized = true;
+                    } else {
+                        dialog.dialog('option', {
+                            height: saved_options.height,
+                            width: saved_options.width,
+                            position: saved_options.position
+                        });
+                        maximized = false;
+                    }
+                });
+            })
+            .appendTo($('body'));
     }
 
     config.height = Math.min(config.height, window.innerHeight);
@@ -237,31 +257,6 @@ function create_dialog(control, title, url) {
         //todo: find out why the click doesn't bubble automatically
         control.parent().trigger('click');
     }
-    dialog
-        .on('dialogcreate', function() {
-            var maximized = false,
-                saved_options = {};
-            $(this).prevAll('.ui-dialog-titlebar').on('dblclick', function() {
-                if (!maximized) {
-                    saved_options.position = dialog.dialog('option', 'position');
-                    saved_options.width = dialog.dialog('option', 'width');
-                    saved_options.height = dialog.dialog('option', 'height');
-                    dialog.dialog('option', {
-                        width: '99%',
-                        height: $(window).height(),
-                        position: {my: 'center top', at: 'center top', of: window}
-                    });
-                    maximized = true;
-                } else {
-                    dialog.dialog('option', {
-                        height: saved_options.height,
-                        width: saved_options.width,
-                        position: saved_options.position
-                    });
-                    maximized = false;
-                }
-            });
-        });
     make_dialog(dialog, config);
     dialog.dialog("instance").uiDialog.draggable("option", "containment", false);
 }
