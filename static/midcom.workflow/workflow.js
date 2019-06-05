@@ -212,7 +212,11 @@ function create_dialog(control, title, url) {
                    + ' marginheight="0"'
                    + ' width="100%"'
                    + ' height="100%"'
-                   + ' scrolling="auto" />');
+                   + ' scrolling="auto" />')
+           .on('load', function() {
+               spinner.hide();
+               $(this).css('visibility', 'visible');
+           });
 
         dialog = $('<div id="midcom-dialog"></div>')
             .append(spinner)

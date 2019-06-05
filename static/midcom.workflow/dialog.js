@@ -152,9 +152,6 @@ $(document).ready(function() {
                     click.apply(dialog[0], arguments);
                 });
         });
-
-        dialog.find('> .fa-spinner').hide();
-        dialog.find('> iframe').css('visibility', 'visible');
     } else {
         $('.midcom-view-toolbar').show();
     }
