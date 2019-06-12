@@ -81,6 +81,23 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $topic;
     }
 
+    /**
+     * Sets a config value for a component.
+     *
+     * This is useful e.g. in cases of form submissions, because the values set directly over the baseclass may
+     * get lost when the submit_dm helpers run the handler more than once
+     *
+     * @param string $component
+     * @param string $key
+     * @param mixed $value
+     */
+    public function set_config($component, $key, $value)
+    {
+        $config = midcom_baseclasses_components_configuration::get($component, 'config');
+        $config->set($key, $value);
+        midcom_baseclasses_components_configuration::set($component, 'config', new midcom_helper_configuration($config->get_all()));
+    }
+
     public function run_handler($topic, array $args = [])
     {
         if (is_object($topic)) {
@@ -413,6 +430,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $this->_testcase_objects = [];
         org_openpsa_mail_backend_unittest::flush();
         midcom_compat_environment::flush_registered_headers();
+        midcom_baseclasses_components_configuration::reset();
     }
 
     public static function TearDownAfterClass()

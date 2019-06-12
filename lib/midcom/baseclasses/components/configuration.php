@@ -54,7 +54,19 @@ class midcom_baseclasses_components_configuration
     }
 
     /**
+     * Clear static cache
+     *
+     * @internal
+     */
+    public static function reset()
+    {
+        self::$_data = [];
+    }
+
+    /**
      * Initialize the global data storage
+     *
+     * @param string $component
      */
     private static function _initialize($component)
     {
