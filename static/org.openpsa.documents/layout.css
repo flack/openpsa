@@ -56,6 +56,10 @@ dl.search_results ul
     color:#fff;
 }
 
-.elfinder .ui-resizable-se {
+.elfinder .ui-resizable-handle {
 	position: absolute
+}
+
+.elfinder .ui-resizable-handle:after {
+	opacity: 0
 }
