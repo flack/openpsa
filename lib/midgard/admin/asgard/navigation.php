@@ -198,10 +198,20 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     {
         $ref = midcom_helper_reflector::get($type);
         if (!empty($this->_object_path[$level])) {
-            if (   $this->_object_path[$level]->__mgdschema_class_name__ == $type
-                && !array_key_exists($this->_object_path[$level]->guid, $this->shown_objects)) {
-                $label = htmlspecialchars($ref->get_object_label($this->_object_path[$level]));
-                $this->_draw_element($this->_object_path[$level], $label, $level);
+            if ($this->_object_path[$level]->__mgdschema_class_name__ == $type) {
+                $object = $this->_object_path[$level];
+            } elseif ($level == 0) {
+                // this is the case where our object has parents, but we're in its type view directly
+                foreach ($this->_object_path as $candidate) {
+                    if ($candidate->__mgdschema_class_name__ == $type) {
+                        $object = $candidate;
+                        break;
+                    }
+                }
+            }
+            if (!empty($object)) {
+                $label = htmlspecialchars($ref->get_object_label($object));
+                $this->_draw_element($object, $label, $level);
             }
         }
         $icon = midcom_helper_reflector::get_object_icon(new $type);
