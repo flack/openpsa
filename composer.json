@@ -42,7 +42,7 @@
         "symfony/console" : ">=2.6.0",
         "symfony/css-selector": "~2.6 | ~3.4 | ^4.0",
         "symfony/dom-crawler": "~2.6 | ~3.4 | ^4.0",
-        "symfony/event-dispatcher": "~3.4 | ^4.0",
+        "symfony/event-dispatcher": "~3.4 | <4.3",
         "symfony/finder": "~2.8 | ~3.4 | ^4.0",
         "symfony/form": "~3.4 | ^4.0",
         "symfony/http-foundation": "~2.8.29 | ~3.4 | ^4.0",
