@@ -103,7 +103,7 @@ class org_openpsa_invoices_invoice_pdf
             $attachment = $this->invoice->create_attachment($filename, $this->invoice->get_label(), "application/pdf");
             if (   !$attachment
                 || !$this->invoice->set_parameter("midcom.helper.datamanager2.type.blobs", "guids_pdf_file", $attachment->guid . ":" . $attachment->guid)) {
-                throw new midcom_error("Failed to create invoice attachment for pdf");
+                throw new midcom_error("Failed to create invoice attachment for pdf: " . midcom_connection::get_error_string());
             }
         }
 
