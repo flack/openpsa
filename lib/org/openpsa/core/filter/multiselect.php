@@ -15,22 +15,23 @@ class org_openpsa_core_filter_multiselect extends org_openpsa_core_filter_select
 {
     public function add_head_elements()
     {
+        $path = '/org.openpsa.core/jquery-ui-multiselect-widget-3.0.0/';
         $head = midcom::get()->head;
-        $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/jquery-ui-multiselect-widget/jquery.multiselect.css");
+        $head->add_stylesheet(MIDCOM_STATIC_URL . $path . "css/jquery.multiselect.css");
         $head->enable_jquery_ui();
 
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/jquery-ui-multiselect-widget/src/jquery.multiselect.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . $path . 'src/jquery.multiselect.js');
 
         $lang = midcom::get()->i18n->get_current_language();
-        if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.core/jquery-ui-multiselect-widget/i18n/jquery.multiselect.{$lang}.js")) {
+        if (!file_exists(MIDCOM_STATIC_ROOT . $path . "i18n/jquery.multiselect.{$lang}.js")) {
             $lang = midcom::get()->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.core/jquery-ui-multiselect-widget/i18n/jquery.multiselect.{$lang}.js")) {
+            if (!file_exists(MIDCOM_STATIC_ROOT . $path . "i18n/jquery.multiselect.{$lang}.js")) {
                 $lang = false;
             }
         }
 
         if ($lang) {
-            $head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.core/jquery-ui-multiselect-widget/i18n/jquery.multiselect.{$lang}.js");
+            $head->add_jsfile(MIDCOM_STATIC_URL . $path . "i18n/jquery.multiselect.{$lang}.js");
         }
     }
 
