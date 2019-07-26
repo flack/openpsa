@@ -12,13 +12,14 @@ use midcom\datamanager\renderer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Base class for unittests, provides some helper methods
  *
  * @package openpsa.test
  */
-abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
+abstract class openpsa_testcase extends TestCase
 {
     private static $_class_objects = [];
     private $_testcase_objects = [];
