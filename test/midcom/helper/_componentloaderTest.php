@@ -28,6 +28,7 @@ class midcom_helper__componentloaderTest extends openpsa_testcase
         $componentloader = new midcom_helper__componentloader();
         $componentloader->load_all_manifests();
         $componentloader->load('org.openpsa.user');
+        $this->assertTrue($componentloader->is_loaded('org.openpsa.user'));
     }
 
     public function test_load_graceful()

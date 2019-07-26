@@ -102,6 +102,7 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
     {
         $filter = $this->_get_prepared_filter();
         $filter->process_chain("resize(5,5)");
+        $this->assertFileExists($filter->get_file());
     }
 
     /**
@@ -117,6 +118,7 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
     {
         $filter = $this->_get_prepared_filter();
         $filter->gamma(0/100);
+        $this->assertFileExists($filter->get_file());
     }
 
     public function testResize()
@@ -139,12 +141,14 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
     {
         $filter = $this->_get_prepared_filter();
         $filter->rotate(45);
+        $this->assertFileExists($filter->get_file());
     }
 
     public function testExifRotate()
     {
         $filter = $this->_get_prepared_filter();
         $filter->exifrotate();
+        $this->assertFileExists($filter->get_file());
     }
 
     public function testCrop()
