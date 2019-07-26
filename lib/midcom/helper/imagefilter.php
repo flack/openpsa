@@ -315,12 +315,8 @@ class midcom_helper_imagefilter
      * @param string $command  The name of the callback to execute
      * @param array $args      The arguments passed to the callback
      */
-    private function execute_user_callback($command, $args)
+    private function execute_user_callback(callable $command, $args)
     {
-        if (!is_callable($command)) {
-            throw new midcom_error("The function {$command} could not be found");
-        }
-
         $tmpfile = $this->_get_tempfile();
 
         if (!call_user_func($command, $this->_filename, $tmpfile, $args)) {
