@@ -201,9 +201,9 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $ap = $a['sort_time'];
         $bp = $b['sort_time'];
         if ($this->_sort == 'reverse') {
-            return $bp - $ap;
+            return $bp <=> $ap;
         }
-        return $ap - $bp;
+        return $ap <=> $bp;
     }
 
     /**

@@ -147,7 +147,7 @@ class blobs extends delayed
                 if ($a->metadata->score == $b->metadata->score) {
                     return strnatcasecmp($a->name, $b->name);
                 }
-                return $b->metadata->score - $a->metadata->score;
+                return $b->metadata->score <=> $a->metadata->score;
             });
         }
 

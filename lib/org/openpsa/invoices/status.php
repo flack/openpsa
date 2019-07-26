@@ -84,12 +84,9 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
 
         usort($entries, function ($a, $b) {
             if ($a['timestamp'] == $b['timestamp']) {
-                if ($a['order'] == $b['order']) {
-                    return 0;
-                }
-                return ($a['order'] > $b['order']) ? -1 : 1;
+                return $b['order'] <=> $b['order'];
             }
-            return ($a['timestamp'] > $b['timestamp']) ? -1 : 1;
+            return ($b['timestamp'] <=> $a['timestamp']);
         });
 
         return $entries;

@@ -99,10 +99,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         $ap = $a['sort'];
         $bp = $b['sort'];
         if (is_numeric($ap)) {
-            if ($ap == $bp) {
-                return 0;
-            }
-            return ($ap > $bp) ? 1 : -1;
+            return $ap <=> $bp;
         }
         if (is_string($ap)) {
             return strnatcmp($ap, $bp);

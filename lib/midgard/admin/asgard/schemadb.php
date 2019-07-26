@@ -519,6 +519,6 @@ class midgard_admin_asgard_schemadb
                 break;
         }
         $fields = $this->_config->get('object_' . $type . '_fields');
-        return (array_search($first, $fields) < array_search($second, $fields)) ? -1 : 1;
+        return array_search($first, $fields) <=> array_search($second, $fields);
     }
 }

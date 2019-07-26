@@ -36,6 +36,6 @@ class midcom_helper_nav_itemlist_score extends midcom_helper_nav_itemlist
      */
     private function sort_cmp($a, $b)
     {
-        return (($a[MIDCOM_NAV_SCORE] < $b[MIDCOM_NAV_SCORE]) ? 1 : -1);
+        return $b[MIDCOM_NAV_SCORE] <=> $a[MIDCOM_NAV_SCORE];
     }
 }
