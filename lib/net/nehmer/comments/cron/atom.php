@@ -59,7 +59,7 @@ class net_nehmer_comments_cron_atom extends midcom_baseclasses_components_cron_h
                     $db_comment = new net_nehmer_comments_comment();
                     $db_comment->objectguid = $article->guid;
                     $db_comment->metadata->published = $comment->get_date('Y-m-d H:i:s');
-                    $db_comment->author = isset($author_info['full_name']) ? $author_info['full_name'] : $author_info['username'];
+                    $db_comment->author = $author_info['full_name'] ?? $author_info['username'];
                     $db_comment->status = $this->_config->get('atom_comments_initial_status');
 
                     $db_comment->remoteid = $comment->get_id();

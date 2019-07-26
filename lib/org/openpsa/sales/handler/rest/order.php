@@ -63,9 +63,9 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
      */
     public function handle_create()
     {
-        $person_guid = isset($this->_request['params']['person_guid']) ? $this->_request['params']['person_guid'] : false;
+        $person_guid = $this->_request['params']['person_guid'] ?? false;
         $product_id = isset($this->_request['params']['product_id']) ? intval($this->_request['params']['product_id']) : false;
-        $run_cycle = isset($this->_request['params']['run_cycle']) ? $this->_request['params']['run_cycle'] : false;
+        $run_cycle = $this->_request['params']['run_cycle'] ?? false;
 
         // check param
         if (!$person_guid || !$product_id) {

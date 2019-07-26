@@ -120,7 +120,7 @@ class view extends base
             return '';
         }
         $label_attr = $data['label_attr'];
-        $label_attr['class'] = trim('title ' . (isset($label_attr['class']) ? $label_attr['class'] : ''));
+        $label_attr['class'] = trim('title ' . ($label_attr['class'] ?? ''));
         if (!$data['label']) {
             $data['label'] = $data['name'];
         }

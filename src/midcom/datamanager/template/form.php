@@ -201,7 +201,7 @@ class form extends base
 
     public function form_widget_simple(FormView $view, array $data)
     {
-        $type = isset($data['type']) ? $data['type'] : 'text';
+        $type = $data['type'] ?? 'text';
         if ($view->vars['readonly'] && $type !== 'hidden') {
             $data['type'] = 'hidden';
             return $data['value'] . $this->renderer->block($view, 'form_widget_simple', $data);
@@ -221,7 +221,7 @@ class form extends base
 
     public function button_widget(FormView $view, array $data)
     {
-        $type = isset($data['type']) ? $data['type'] : 'button';
+        $type = $data['type'] ?? 'button';
         if (!$data['label']) {
             $data['label'] = $data['name'];
         }
@@ -231,22 +231,22 @@ class form extends base
 
     public function hidden_widget(FormView $view, array $data)
     {
-        return $this->renderer->block($view, 'form_widget_simple', ['type' => isset($data['type']) ? $data['type'] : "hidden"]);
+        return $this->renderer->block($view, 'form_widget_simple', ['type' => $data['type'] ?? "hidden"]);
     }
 
     public function email_widget(FormView $view, array $data)
     {
-        return $this->renderer->block($view, 'form_widget_simple', ['type' => isset($data['type']) ? $data['type'] : "email"]);
+        return $this->renderer->block($view, 'form_widget_simple', ['type' => $data['type'] ?? "email"]);
     }
 
     public function password_widget(FormView $view, array $data)
     {
-        return $this->renderer->block($view, 'form_widget_simple', ['type' => isset($data['type']) ? $data['type'] : "password"]);
+        return $this->renderer->block($view, 'form_widget_simple', ['type' => $data['type'] ?? "password"]);
     }
 
     public function url_widget(FormView $view, array $data)
     {
-        return $this->renderer->block($view, 'form_widget_simple', ['type' => isset($data['type']) ? $data['type'] : "url"]);
+        return $this->renderer->block($view, 'form_widget_simple', ['type' => $data['type'] ?? "url"]);
     }
 
     public function autocomplete_widget(FormView $view, array $data)
@@ -449,7 +449,7 @@ class form extends base
         $string = '<div ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<table class="midcom_datamanager_table_photo"><tr><td>';
         $preview = null;
-        $objects = isset($data['value']['objects']) ? $data['value']['objects'] : [];
+        $objects = $data['value']['objects'] ?? [];
         foreach ($objects as $identifier => $info) {
             $preview = $info;
             if ($identifier == 'thumbnail') {
@@ -507,13 +507,13 @@ class form extends base
 
     public function submit_widget(FormView $view, array $data)
     {
-        $data['type'] = isset($data['type']) ? $data['type'] : 'submit';
+        $data['type'] = $data['type'] ?? 'submit';
         return $this->renderer->block($view, 'button_widget', $data);
     }
 
     public function delete_widget(FormView $view, array $data)
     {
-        $data['type'] = isset($data['type']) ? $data['type'] : 'delete';
+        $data['type'] = $data['type'] ?? 'delete';
         return $this->renderer->block($view, 'button_widget', $data);
     }
 
@@ -561,7 +561,7 @@ class form extends base
 
         $label_attr = $data['label_attr'];
         if ($data['required'] && !$view->vars['readonly']) {
-            $label_attr['class'] = trim((isset($label_attr['class']) ? $label_attr['class'] : '') . ' required');
+            $label_attr['class'] = trim(($label_attr['class'] ?? '') . ' required');
             $data['label'] .= ' <span class="field_required_start">*</span>';
         }
         if (!$data['compound']) {
