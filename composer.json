@@ -32,7 +32,6 @@
         "openpsa/midgard-portable": "^1.4.0",
         "openpsa/ranger": ">=0.3.0",
         "openpsa/universalfeedcreator": "^1.8.2",
-        "paragonie/random_compat": "^2.0",
         "phpspec/php-diff": "^1.0.2",
         "sabre/vobject" : "^4.1.6",
         "simplepie/simplepie": "^1.5.1",
