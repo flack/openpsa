@@ -141,6 +141,7 @@ var openpsa_calendar_widget = {
             },
             eventClick: function (calEvent, jsEvent) {
                 jsEvent.preventDefault();
+                $(jsEvent.target).data('dialog-cancel-label', settings.l10n.cancel);
                 create_dialog($(jsEvent.target), '', prefix + 'event/' + calEvent.id + '/');
             },
             selectable: true,
