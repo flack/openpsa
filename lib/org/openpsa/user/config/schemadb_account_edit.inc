@@ -13,11 +13,6 @@
             'type'     => 'text',
             'widget'   => 'text',
             'required' => 'true',
-
-            'start_fieldset' => [
-                'title' => 'account_fieldset',
-                'css_group' => 'area meta',
-            ],
         ],
 
         'current_password' => [
