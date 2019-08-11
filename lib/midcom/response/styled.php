@@ -27,7 +27,7 @@ class midcom_response_styled extends Response
      */
     private $context;
 
-    private $output;
+    private $rendered = false;
 
     public function __construct(midcom_core_context $context, $root_element = 'ROOT')
     {
@@ -38,15 +38,15 @@ class midcom_response_styled extends Response
 
     public function getContent()
     {
-        if ($this->output === null) {
-            $this->output = $this->render();
+        if ($this->rendered === false) {
+            $this->content = $this->render();
         }
-        return $this->output;
+        return parent::getContent();
     }
 
     public function send()
     {
-        echo $this->getContent();
+        $this->sendContent();
     }
 
     private function render()
