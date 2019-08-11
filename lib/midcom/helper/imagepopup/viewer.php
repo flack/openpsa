@@ -39,6 +39,7 @@ class midcom_helper_imagepopup_viewer extends midcom_baseclasses_components_plug
                 'selected' => false
             ]
         ];
+        $navlinks[$data['list_type']]['selected'] = true;
 
         if (!empty($data['object'])) {
             foreach ($navlinks as &$link) {
@@ -50,7 +51,6 @@ class midcom_helper_imagepopup_viewer extends midcom_baseclasses_components_plug
         if ($data['filetype'] !== 'file') {
             unset($navlinks['links']);
         }
-        $navlinks[$data['list_type']]['selected'] = true;
         return $navlinks;
     }
 }
