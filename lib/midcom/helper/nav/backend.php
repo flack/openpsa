@@ -268,15 +268,17 @@ class midcom_helper_nav_backend
 
             // The node is visible, add it to the list.
             self::$_nodes[$id] = $node;
-
-            // Set the current leaf, this does *not* load the leaves from the DB, this is done during get_leaf.
-            if ($node->id === $this->_current) {
-                $currentleaf = midcom_baseclasses_components_configuration::get($node->component, 'active_leaf');
-                if ($currentleaf !== false) {
-                    $this->_currentleaf = "{$node->id}-{$currentleaf}";
-                }
+        } else {
+            $node = self::$_nodes[$id];
+        }
+        // Set the current leaf, this does *not* load the leaves from the DB, this is done during get_leaf.
+        if ($node->id === $this->_current) {
+            $currentleaf = midcom_baseclasses_components_configuration::get($node->component, 'active_leaf');
+            if ($currentleaf !== false) {
+                $this->_currentleaf = "{$node->id}-{$currentleaf}";
             }
         }
+
         return MIDCOM_ERROK;
     }
 
