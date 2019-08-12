@@ -7,6 +7,7 @@
  */
 
 use midcom\grid\grid;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Invoices reporting
@@ -30,7 +31,21 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
     public function _handler_generator(array $args, array &$data)
     {
         parent::_handler_generator($args, $data);
+        $this->process_handler($data);
+    }
 
+    /**
+     * @param array $args The argument list.
+     * @param array $data The local request data.
+     */
+    public function _handler_generator_get(Request $request, array &$data)
+    {
+        parent::_handler_generator_get($request, $data);
+        $this->process_handler($data);
+    }
+
+    private function process_handler(array &$data)
+    {
         $data['start'] = $data['query_data']['start'];
         $data['end'] = $data['query_data']['end'];
 

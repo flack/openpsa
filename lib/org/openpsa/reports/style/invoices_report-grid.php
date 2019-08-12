@@ -13,7 +13,7 @@ $status_options = [
 $entries = [];
 
 $grid_id = 'invoices_report_grid';
-if ($data['query']->orgOpenpsaObtype !== org_openpsa_reports_query_dba::OBTYPE_REPORT_TEMPORARY) {
+if (!empty($data['query']) && $data['query']->orgOpenpsaObtype !== org_openpsa_reports_query_dba::OBTYPE_REPORT_TEMPORARY) {
     $grid_id .= $data['query']->id;
 }
 
