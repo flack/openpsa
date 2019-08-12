@@ -23,7 +23,14 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
-        $_GET = ['org_openpsa_reports_query_data' => ['mimetype' => 'text/html']];
+        $_GET = ['org_openpsa_reports_query_data' => [
+            'mimetype' => 'text/html',
+            'start' => time() - 1000,
+            'end' => time() + 1000,
+            'date_field' => 'paid',
+            'invoice_status' => ['paid'],
+            'resource' => 'all'
+        ]];
 
         $data = $this->run_handler('org.openpsa.reports', ['invoices', 'get']);
         $this->assertEquals('invoices_report_get', $data['handler_id']);
@@ -55,7 +62,7 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
             'scheduled'
         ];
         $query->set_parameter('midcom.helper.datamanager2', 'invoice_status', serialize($statuses));
-        $query->set_parameter('midcom.helper.datamanager2', 'date_field', 'date');
+        $query->set_parameter('midcom.helper.datamanager2', 'date_field', 'paid');
         $query->set_parameter('midcom.helper.datamanager2', 'resource', 'all');
 
         $data = $this->run_handler('org.openpsa.reports', ['invoices', $query->guid, 'test.csv']);
