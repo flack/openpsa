@@ -1,10 +1,9 @@
 <?php
-$view_types = [
-    'today',
-    'yesterday',
-];
 $formatter = $data['l10n']->get_formatter();
-foreach (array_filter($view_types) as $type) {
+foreach (['today', 'yesterday'] as $type) {
+    if (empty($data[$type])) {
+        continue;
+    }
     echo "<div class=\"area\">\n";
     echo "<h2>" . $data['l10n']->get("updated " . $type) . "</h2>\n";
     echo "<ul class=\"updated\">\n";
