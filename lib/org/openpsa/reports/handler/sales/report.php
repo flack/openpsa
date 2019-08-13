@@ -126,10 +126,10 @@ implements client
         // Quick workaround to Bergies lazy determination of whether this is user's or everyone's report...
         if ($data['query_data']['resource'] == 'user:' . midcom::get()->auth->user->guid) {
             // My report
-            $data['handler_id'] = 'deliverable_report';
+            $data['report_type'] = 'deliverable_report';
         } else {
             // Generic report
-            $data['handler_id'] = 'sales_report';
+            $data['report_type'] = 'sales_report';
         }
 
         midcom_show_style('sales_report-deliverable-grid');
