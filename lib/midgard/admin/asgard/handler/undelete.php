@@ -157,7 +157,70 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
     public function _show_trash_type($handler_id, array &$data)
     {
         $data['current_type'] = $this->type;
+        $data['handler'] = $this;
 
         midcom_show_style('midgard_admin_asgard_trash_type');
+    }
+
+    public function show_type($object, $indent = 0, $prefix = '', $enable_undelete = true)
+    {
+        static $shown = [];
+        static $url_prefix = '';
+        if (!$url_prefix) {
+            $url_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        }
+
+        if (isset($shown[$object->guid])) {
+            return;
+        }
+
+        $revisor = midcom::get()->auth->get_user($object->metadata->revisor);
+
+        $reflector = midcom_helper_reflector_tree::get($object);
+        $icon = $reflector->get_object_icon($object);
+
+        echo "{$prefix}<tr>\n";
+
+        $disabled = '';
+        if (!$enable_undelete) {
+            $disabled = ' disabled="disabled"';
+        }
+
+        $object_label = $reflector->get_object_label($object);
+        if (empty($object_label)) {
+            $object_label = $object->guid;
+        }
+        echo "{$prefix}    <td class=\"checkbox\"><input type=\"checkbox\" name=\"undelete[]\"{$disabled} value=\"{$object->guid}\" id=\"guid_{$object->guid}\" /></td>\n";
+        echo "{$prefix}    <td class=\"label\" style=\"padding-left: {$indent}px\"><a href=\"". $this->router->generate('object_deleted', ['guid' =>$object->guid]) . "\">{$icon} " . $object_label . "</a></td>\n";
+        echo "{$prefix}    <td class=\"nowrap\">" . strftime('%x %X', strtotime($object->metadata->revised)) . "</td>\n";
+
+        if (!empty($revisor->guid)) {
+            echo "{$prefix}    <td><a href=\"{$url_prefix}__mfa/asgard/object/view/{$revisor->guid}/\">{$revisor->name}</a></td>\n";
+        } else {
+            echo "{$prefix}    <td>&nbsp;</td>\n";
+        }
+        echo "{$prefix}    <td>" . midcom_helper_misc::filesize_to_string($object->metadata->size) . "</td>\n";
+        echo "{$prefix}</tr>\n";
+
+        $child_types = midcom_helper_reflector_tree::get_child_objects($object, true);
+        if (!empty($child_types)) {
+            $child_indent = $indent + 20;
+            echo "{$prefix}<tbody class=\"children\">\n";
+            foreach ($child_types as $type => $children) {
+                if (   count($children) < 10
+                    || isset($_GET['show_children'][$object->guid][$type])) {
+                        foreach ($children as $child) {
+                            $this->show_type($child, $child_indent, "{$prefix}    ", false);
+                        }
+                    } else {
+                        echo "{$prefix}    <tr>\n";
+                        echo "{$prefix}        <td class=\"label\" style=\"padding-left: {$child_indent}px\" colspan=\"5\"><a href=\"?show_children[{$object->guid}][{$type}]=1\">" . sprintf(midcom::get()->i18n->get_string('show %s %s children', 'midgard.admin.asgard'), count($children), midgard_admin_asgard_plugin::get_type_label($type)) . "</a></td>\n";
+                        echo "{$prefix}    </tr>\n";
+                    }
+            }
+
+            echo "{$prefix}</tbody>\n";
+        }
+        $shown[$object->guid] = true;
     }
 }
