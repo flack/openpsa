@@ -24,6 +24,7 @@ use midcom\datamanager\storage\recreateable;
 use midcom\datamanager\extension\type\schemaType;
 use midcom\datamanager\extension\type\toolbarType;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
+use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
 /**
  * Experimental datamanager class
@@ -92,12 +93,13 @@ class datamanager
 
             $vb->setTranslator($translator);
 
+            $session_storage = new SessionTokenStorage(midcom::get()->session);
+
             $fb->addExtension(new extension())
                 ->addExtension(new CoreExtension())
                 ->addExtension(new HttpFoundationExtension())
-                ->addExtension(new CsrfExtension(new CsrfTokenManager, $translator));
-
-            $fb->addExtension(new ValidatorExtension($vb->getValidator()));
+                ->addExtension(new CsrfExtension(new CsrfTokenManager(null, $session_storage), $translator))
+                ->addExtension(new ValidatorExtension($vb->getValidator()));
 
             self::$factory = $fb->getFormFactory();
         }
