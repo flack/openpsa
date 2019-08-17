@@ -80,6 +80,7 @@ class midcom_application
         $this->httpkernel = $httpkernel;
         midcom_compat_environment::initialize();
         midcom_exception_handler::register();
+        $this->request = Request::createFromGlobals();
     }
 
     /**
@@ -96,31 +97,6 @@ class midcom_application
     public function __set($key, $value)
     {
         midcom::get()->$key = $value;
-    }
-
-    /**
-     * Main MidCOM initialization.
-     *
-     * Initialize the Application class. Sets all private variables to a predefined
-     * state.
-     */
-    public function initialize()
-    {
-        $this->request = Request::createFromGlobals();
-        $this->debug->log("Start of MidCOM run " . $this->request->server->get('REQUEST_URI', ''));
-        $this->request->setSession($this->session);
-        $this->componentloader->load_all_manifests();
-        $this->auth->check_for_login_session($this->request);
-
-        // Initialize Context Storage
-        $context = midcom_core_context::enter(midcom_connection::get_url('uri'));
-        $this->request->attributes->set('context', $context);
-
-        // Initialize the UI message stack from session
-        $this->uimessages->initialize($this->request);
-
-        $this->dispatcher->addListener(KernelEvents::REQUEST, [$this->cache->content, 'on_request'], 10);
-        $this->dispatcher->addListener(KernelEvents::RESPONSE, [$this->cache->content, 'on_response'], -10);
     }
 
     /* *************************************************************************

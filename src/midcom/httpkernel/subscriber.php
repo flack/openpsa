@@ -17,12 +17,18 @@ use Symfony\Component\HttpKernel\Event\FilterControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use midcom\routing\resolver;
+use Symfony\Component\HttpFoundation\Request;
+use midcom;
+use midcom_connection;
+use midcom_core_context;
 
 /**
  * @package midcom.httpkernel
  */
 class subscriber implements EventSubscriberInterface
 {
+    private $initialized = false;
+
     public static function getSubscribedEvents()
     {
         return [
@@ -33,12 +39,38 @@ class subscriber implements EventSubscriberInterface
         ];
     }
 
+    private function initialize(Request $request)
+    {
+        $midcom = midcom::get();
+        $midcom->debug->log("Start of MidCOM run " . $request->server->get('REQUEST_URI', ''));
+        $request->setSession($midcom->session);
+        $midcom->componentloader->load_all_manifests();
+        $midcom->auth->check_for_login_session($request);
+
+        // This checks for the unittest case
+        if (!$request->attributes->has('context')) {
+            // Initialize Context Storage
+            $context = midcom_core_context::enter(midcom_connection::get_url('uri'));
+            $request->attributes->set('context', $context);
+        }
+        // Initialize the UI message stack from session
+        $midcom->uimessages->initialize($request);
+
+        $midcom->dispatcher->addListener(KernelEvents::REQUEST, [$midcom->cache->content, 'on_request'], 10);
+        $midcom->dispatcher->addListener(KernelEvents::RESPONSE, [$midcom->cache->content, 'on_response'], -10);
+    }
+
     /**
      * @param GetResponseEvent $event
      */
     public function on_request(GetResponseEvent $event)
     {
         $request = $event->getRequest();
+        if (!$this->initialized) {
+            $this->initialize($request);
+            $this->initialized = true;
+        }
+
         $resolver = new resolver($request);
 
         if ($resolver->process_midcom()) {

@@ -103,7 +103,6 @@ class midcom
 
         // Instantiate the MidCOM main class
         self::$_application = new midcom_application($kernel);
-        self::$_application->initialize();
         return $kernel;
     }
 
