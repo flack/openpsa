@@ -8,7 +8,7 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\HttpKernel;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -57,7 +57,7 @@ class midcom_application
     private $request;
 
     /**
-     * @var HttpKernelInterface
+     * @var HttpKernel
      */
     private $httpkernel;
 
@@ -75,11 +75,11 @@ class midcom_application
      */
     public $skip_page_style = false;
 
-    public function __construct(HttpKernelInterface $httpkernel)
+    public function __construct(HttpKernel $httpkernel)
     {
         $this->httpkernel = $httpkernel;
         midcom_compat_environment::initialize();
-        midcom_exception_handler::register();
+        midcom_exception_handler::register($httpkernel);
         $this->request = Request::createFromGlobals();
     }
 

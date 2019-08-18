@@ -6,6 +6,10 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\HttpKernel;
+use Symfony\Component\Debug\Exception\FatalErrorException;
+
 /**
  * Class for intercepting PHP errors and unhandled exceptions. Each fault is caught
  * and converted into Exception handled by midcom_exception_handler::show() with
@@ -23,44 +27,42 @@ class midcom_exception_handler
     private $_exception;
 
     /**
+     * @var HttpKernel
+     */
+    private $kernel;
+
+    /**
      * Register the error and Exception handlers
      */
-    public static function register()
+    public static function register(HttpKernel $kernel)
     {
         if (!defined('OPENPSA2_UNITTEST_RUN')) {
             $handler = new self;
+            $handler->set_kernel($kernel);
             set_error_handler([$handler, 'handle_error'], E_ALL ^ (E_NOTICE | E_WARNING));
             set_exception_handler([$handler, 'handle_exception']);
         }
     }
 
-    /**
-     * Catch an Exception and show it as a HTTP error
-     *
-     * @see midcom_exception_handler::show()
-     */
-    public function handle_exception($e)
+    public function set_kernel(HttpKernel $kernel)
     {
-        $this->_exception = $e;
-        $trace = $e->getTraceAsString();
-        $httpcode = $e->getCode();
-        $message = $e->getMessage();
-        debug_print_r('Exception occurred: ' . $httpcode . ', Message: ' . $message . ', exception trace:', $trace);
+        $this->kernel = $kernel;
+    }
 
-        if (!in_array($httpcode, [MIDCOM_ERROK, MIDCOM_ERRNOTFOUND, MIDCOM_ERRFORBIDDEN, MIDCOM_ERRAUTH, MIDCOM_ERRCRIT])) {
-            debug_add("Unknown Errorcode {$httpcode} encountered, assuming 500");
-            $httpcode = MIDCOM_ERRCRIT;
+    /**
+     * This is mostly there because symfony doesn't catch Errors for some reason
+     *
+     * @param Throwable $error
+     * @throws Exception
+     */
+    public function handle_exception($error)
+    {
+        if ($error instanceof Error) {
+            $exception = new FatalErrorException($error->getMessage(), $error->getCode(), 0, $error->getFile(), $error->getLine(), null, true, $error->getTrace());
+            $this->kernel->terminateWithException($exception);
+        } else {
+            throw $error;
         }
-
-        // Send error to special log or recipient as per in configuration.
-        $this->send($httpcode, $message);
-
-        if (PHP_SAPI !== 'cli') {
-            $this->show($httpcode, $message);
-            debug_add("Error Page output finished, exiting now");
-            return;
-        }
-        throw $e;
     }
 
     /**
@@ -78,7 +80,7 @@ class midcom_exception_handler
     }
 
     /**
-     * Show an error page.
+     * Render an error response.
      *
      * This will display a simple HTML Page reporting the error described by $httpcode and $message.
      * The $httpcode is also used to send an appropriate HTTP Response.
@@ -87,63 +89,63 @@ class midcom_exception_handler
      *
      * For a list of the allowed HTTP codes see the MIDCOM_ERR... constants
      *
-     * @param int $httpcode        The error code to send.
-     * @param string $message    The message to print.
+     * @param Exception $e The exception we're working with
      */
-    public function show($httpcode, $message)
+    public function render($e)
     {
-        if (!$this->_exception) {
-            debug_add("An error has been generated: Code: {$httpcode}, Message: {$message}");
-            debug_print_function_stack('Stacktrace:');
+        $this->_exception = $e;
+        $httpcode = $e->getCode();
+        $message = $e->getMessage();
+        debug_print_r('Exception occurred: ' . $httpcode . ', Message: ' . $message . ', exception trace:', $e->getTraceAsString());
+
+        if (!in_array($httpcode, [MIDCOM_ERROK, MIDCOM_ERRNOTFOUND, MIDCOM_ERRFORBIDDEN, MIDCOM_ERRAUTH, MIDCOM_ERRCRIT])) {
+            debug_add("Unknown Errorcode {$httpcode} encountered, assuming 500");
+            $httpcode = MIDCOM_ERRCRIT;
         }
 
-        if (_midcom_headers_sent()) {
-            debug_add("Generate-Error was called after sending the HTTP Headers!", MIDCOM_LOG_ERROR);
-            debug_add("Unexpected Error: {$httpcode} - {$message}", MIDCOM_LOG_ERROR);
-            echo "Unexpected Error, this should display an HTTP {$httpcode} - " . htmlentities($message);
-            return;
+        // Send error to special log or recipient as per configuration.
+        $this->send($httpcode, $message);
+
+        if (PHP_SAPI === 'cli') {
+            throw $e;
+        }
+
+        if ($httpcode == MIDCOM_ERRFORBIDDEN) {
+            midcom::get()->auth->show_access_denied($message);
+            // this will exit
+        }
+        if ($httpcode == MIDCOM_ERRAUTH) {
+            midcom::get()->auth->show_login_page();
+            // this will exit
         }
 
         switch ($httpcode) {
             case MIDCOM_ERROK:
-                $header = "HTTP/1.0 200 OK";
                 $title = "OK";
                 break;
 
             case MIDCOM_ERRNOTFOUND:
-                $header = "HTTP/1.0 404 Not Found";
                 $title = "Not Found";
                 break;
 
-            case MIDCOM_ERRFORBIDDEN:
-                midcom::get()->auth->show_access_denied($message);
-                // this will exit
-                break;
-
-            case MIDCOM_ERRAUTH:
-                midcom::get()->auth->show_login_page();
-                // this will exit
-                break;
-
             case MIDCOM_ERRCRIT:
-                $header = "HTTP/1.0 500 Server Error";
                 $title = "Server Error";
                 break;
         }
-        _midcom_header($header);
-        _midcom_header('Content-Type: text/html');
 
         $style = midcom::get()->style;
 
         $style->data['error_title'] = $title;
         $style->data['error_message'] = $message;
         $style->data['error_code'] = $httpcode;
-        $style->data['error_exception'] = $this->_exception;
+        $style->data['error_exception'] = $e;
         $style->data['error_handler'] = $this;
 
-        if (!$style->show_midcom('midcom_error_' . $httpcode)) {
-            $style->show_midcom('midcom_error');
-        }
+        return new StreamedResponse(function() use ($httpcode, $style) {
+            if (!$style->show_midcom('midcom_error_' . $httpcode)) {
+                $style->show_midcom('midcom_error');
+            }
+        }, $httpcode);
     }
 
     /**

@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use midcom;
 use midcom_connection;
 use midcom_core_context;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 /**
  * @package midcom.httpkernel
@@ -35,7 +36,8 @@ class subscriber implements EventSubscriberInterface
             KernelEvents::REQUEST => ['on_request'],
             KernelEvents::CONTROLLER_ARGUMENTS => ['on_arguments'],
             KernelEvents::VIEW => ['on_view'],
-            KernelEvents::RESPONSE => ['on_response']
+            KernelEvents::RESPONSE => ['on_response'],
+            KernelEvents::EXCEPTION => ['on_exception']
         ];
     }
 
@@ -104,5 +106,11 @@ class subscriber implements EventSubscriberInterface
         if ($controller[0] instanceof midcom_baseclasses_components_handler) {
             $controller[0]->populate_breadcrumb_line();
         }
+    }
+
+    public function on_exception(GetResponseForExceptionEvent $event)
+    {
+        $handler = new \midcom_exception_handler();
+        $event->setResponse($handler->render($event->getException()));
     }
 }
