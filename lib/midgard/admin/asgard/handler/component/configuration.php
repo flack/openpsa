@@ -141,6 +141,11 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             }
         }
         $schema->set('fields', $fields);
+        $validation = $schema->get('validation') ?: [];
+        $validation[] = [
+            'callback' => [$this, 'check_config'],
+        ];
+        $schema->set('validation', $validation);
 
         $dm = new datamanager($schemadb);
         return $dm->get_controller();
@@ -223,23 +228,38 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
      *
      * @throws midcom_error
      */
-    private function _check_config($config)
+    public function check_config($values)
     {
-        $tmpfile = tempnam(midcom::get()->config->get('midcom_tempdir'), 'midgard_admin_asgard_handler_component_configuration_');
-        file_put_contents($tmpfile, "<?php\n\$data = array({$config}\n);\n?>");
+        $current = $this->_request_data['config']->get_all();
+        $result = [];
+        foreach ($values as $key => $newval) {
+            if ($newval === '' || !isset($current[$key])) {
+                continue;
+            }
+            $val = $current[$key];
 
-        exec("php -l {$tmpfile} 2>&1", $parse_results, $retval);
-        debug_print_r("'php -l {$tmpfile}' returned:", $parse_results);
-        unlink($tmpfile);
+            if (is_array($val)) {
+                $tmpfile = tempnam(midcom::get()->config->get('midcom_tempdir'), 'midgard_admin_asgard_handler_component_configuration_');
+                file_put_contents($tmpfile, "<?php\n\$data = array({$newval}\n);\n?>");
 
-        if ($retval !== 0) {
-            $parse_results = array_shift($parse_results);
+                exec("php -l {$tmpfile} 2>&1", $parse_results, $retval);
+                debug_print_r("'php -l {$tmpfile}' returned:", $parse_results);
+                unlink($tmpfile);
 
-            if (strstr($parse_results, 'Parse error')) {
-                $line = preg_replace('/^.+?on line (\d+?)$/', '\1', $parse_results);
-                return sprintf($this->_i18n->get_string('type php: parse error in line %s', 'midcom.datamanager'), $line);
+                if ($retval !== 0) {
+                    $parse_results = array_shift($parse_results);
+
+                    if (strstr($parse_results, 'Parse error')) {
+                        $line = preg_replace('/^.+?on line (\d+?)$/', '\1', $parse_results);
+                        $result[$key] = sprintf($this->_i18n->get_string('type php: parse error in line %s', 'midcom.datamanager'), $line);
+                    }
+                }
             }
         }
+        if (empty($result)) {
+            return true;
+        }
+        return $result;
     }
 
     /**
@@ -320,14 +340,13 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         }
     }
 
-    private function _get_config_from_controller()
+    private function convert_to_config(array $values) : array
     {
-        $post = $this->_controller->get_datamanager()->get_content_raw();
         $config_array = [];
 
         foreach ($this->_request_data['config']->get_all() as $key => $val) {
-            if (isset($post[$key])) {
-                $newval = $post[$key];
+            if (isset($values[$key])) {
+                $newval = $values[$key];
             } else {
                 continue;
             }
@@ -406,19 +425,10 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
     private function _save_configuration(array $data)
     {
-        $config_array = $this->_get_config_from_controller();
+        $values = $this->_controller->get_datamanager()->get_content_raw();
+        $config_array = $this->convert_to_config($values);
 
         $config = $this->_draw_array($config_array);
-
-        if ($error = $this->_check_config($config)) {
-            midcom::get()->uimessages->add(
-                $this->_l10n_midcom->get('component configuration'),
-                sprintf($this->_l10n->get('configuration save failed: %s'), $error),
-                'error'
-            );
-            return;
-            // Get back to form
-        }
 
         if ($data['handler_id'] == 'components_configuration_edit_folder') {
             // Editing folder configuration
