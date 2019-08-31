@@ -30,7 +30,9 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
      */
     public function _handler_generator(array $args, array &$data)
     {
-        parent::_handler_generator($args, $data);
+        if ($response = parent::_handler_generator($args, $data)) {
+            return $response;
+        }
         $this->process_handler($data);
     }
 

@@ -101,7 +101,9 @@ implements client
      */
     public function _handler_generator(array $args, array &$data)
     {
-        parent::_handler_generator($args, $data);
+        if ($response = parent::_handler_generator($args, $data)) {
+            return $response;
+        }
 
         $data['invoices'] = [];
 

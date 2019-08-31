@@ -195,8 +195,9 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         if (   midcom::get()->auth->user
             || $this->_config->get('allow_anonymous')) {
             $this->_init_post_controller($request);
-            $this->_process_post($request);
-            // This might exit.
+            if ($response = $this->_process_post($request)) {
+                return $response;
+            }
         }
         if ($this->_comments) {
             $this->_init_display_datamanager();
@@ -256,8 +257,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                 if (!midcom::get()->auth->user) {
                     midcom::get()->auth->drop_sudo();
                 }
-                midcom::get()->relocate($request->getRequestUri());
-                // This will exit();
+                return new midcom_response_relocate($request->getRequestUri());
         }
     }
 

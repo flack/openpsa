@@ -70,7 +70,9 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
     public function _handler_view($handler_id, array $args, array &$data)
     {
         if ($handler_id == 'index') {
-            $this->_load_index_article();
+            if ($response = $this->_load_index_article()) {
+                return $response;
+            }
         } else {
             $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
             $qb->add_constraint('name', '=', $args[0]);
@@ -132,8 +134,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
                 $index_qb->add_constraint('name', '=', 'index');
                 if ($index_qb->count_unchecked() == 0) {
                     $schema = $this->_request_data['schemadb']->get_first();
-                    midcom::get()->relocate("createindex/{$schema->get_name()}/");
-                    // This will exit.
+                    return new midcom_response_relocate("createindex/{$schema->get_name()}/");
                 }
             }
 

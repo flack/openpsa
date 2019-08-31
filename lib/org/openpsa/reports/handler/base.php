@@ -26,7 +26,9 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     {
         midcom::get()->auth->require_valid_user();
 
-        $this->_generator_load_redirect($args);
+        if ($response = $this->_generator_load_redirect($args)) {
+            return $response;
+        }
         $this->_handler_generator_style();
         if ($data['query']->title) {
             $data['title'] = $data['query']->title;
@@ -130,8 +132,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
             $filename .= '_' . preg_replace('/[^a-z0-9-]/i', '_', strtolower($title));
             $filename .= $this->_request_data['query']->extension;
 
-            midcom::get()->relocate($this->module . '/' . $this->_request_data['query']->guid . '/' . $filename);
-            //this will exit
+            return new midcom_response_relocate($this->module . '/' . $this->_request_data['query']->guid . '/' . $filename);
         }
         $this->_request_data['filename'] = $args[1];
 
