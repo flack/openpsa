@@ -8,11 +8,16 @@ $(document).ready(function() {
         });
     });
 
+    var order;
     $('#midcom_admin_folder_order_form').submit(function() {
         $(this).find('ul').each(function() {
             $(this).find('li').each(function(i) {
                 $(this).find('input').val(i);
             });
         });
+        if (!order) {
+            order = $('<input type="hidden" name="f_navorder">').appendTo($(this));
+        }
+        order.val($('#midcom_admin_folder_order_form_sort_type select').val());
     });
 });

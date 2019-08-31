@@ -29,20 +29,19 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
      */
     private function _process_order_form(Request $request)
     {
-        if ($request->request->has('f_navorder')) {
-            $this->_topic->set_parameter('midcom.helper.nav', 'navorder', $request->request->get('f_navorder'));
-        }
-
         // Form has been handled if cancel has been pressed
         if ($request->request->has('f_cancel')) {
-            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('cancelled'));
-            midcom::get()->relocate('');
-            // This will exit
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('cancelled'));
+            return new midcom_response_relocate('');
         }
 
         // If the actual score list hasn't been posted, return
         if (!$request->request->has('f_submit')) {
             return;
+        }
+
+        if ($request->request->has('f_navorder')) {
+            $this->_topic->set_parameter('midcom.helper.nav', 'navorder', $request->request->get('f_navorder'));
         }
 
         // Success tells whether the update was successful or not. On default everything goes fine,
@@ -68,8 +67,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
         if ($success) {
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('order saved'));
-            midcom::get()->relocate('');
-            // This will exit
+            return new midcom_response_relocate('');
         }
     }
 
@@ -119,13 +117,17 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         midcom::get()->cache->content->no_cache();
 
         // Process the form
-        $this->_process_order_form($request);
+        if ($response = $this->_process_order_form($request)) {
+            return $response;
+        }
 
         $this->ajax = $request->query->has('ajax');
         // Skip the page style on AJAX form handling
         if ($this->ajax) {
+            $data['navorder'] = $request->request->get('f_navorder');
             midcom::get()->skip_page_style = true;
         } else {
+            $data['navorder'] = (int) $this->_topic->get_parameter('midcom.helper.nav', 'navorder');
             // Add the view to breadcrumb trail
             $this->add_breadcrumb($this->router->generate('order'), $this->_l10n->get('order navigation'));
 
@@ -160,8 +162,6 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
      */
     public function _show_order($handler_id, array &$data)
     {
-        $data['navorder'] = (int) $this->_topic->get_parameter('midcom.helper.nav', 'navorder');
-
         // Navorder list for the selection
         $data['navorder_list'] = [
             MIDCOM_NAVORDER_DEFAULT => $this->_l10n->get('default sort order'),
