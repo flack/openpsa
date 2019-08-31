@@ -246,7 +246,6 @@ class midcom_helper__componentloader
     {
         if (!$this->is_loaded($path)) {
             $this->load($path);
-            //This will exit on error
         }
 
         return $this->_interface_classes[$path];

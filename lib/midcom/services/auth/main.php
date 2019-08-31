@@ -506,12 +506,11 @@ class midcom_services_auth
      */
     public function require_valid_user($method = 'form')
     {
-        if (!$this->is_valid_user()) {
-            if ($method !== 'basic') {
-                throw new midcom_error_forbidden(null, MIDCOM_ERRAUTH);
-            }
+        if ($method === 'basic') {
             $this->_http_basic_auth();
-            // This will exit.
+        }
+        if (!$this->is_valid_user()) {
+            throw new midcom_error_forbidden(null, MIDCOM_ERRAUTH, $method);
         }
     }
 
@@ -520,18 +519,13 @@ class midcom_services_auth
      */
     private function _http_basic_auth()
     {
-        if (!isset($_SERVER['PHP_AUTH_USER'])) {
-            midcom::get()->header("WWW-Authenticate: Basic realm=\"Midgard\"");
-            midcom::get()->header('HTTP/1.0 401 Unauthorized');
-            // TODO: more fancy 401 output ?
-            echo "<h1>Authorization required</h1>\n";
-            midcom::get()->finish();
-        } elseif ($user = $this->backend->authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
-            $this->set_user($user);
-        } else {
-            // Wrong password: Recurse until auth ok or user gives up
-            unset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
-            $this->_http_basic_auth();
+        if (isset($_SERVER['PHP_AUTH_USER'])) {
+            if ($user = $this->backend->authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+                $this->set_user($user);
+            } else {
+                // Wrong password
+                unset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+            }
         }
     }
 

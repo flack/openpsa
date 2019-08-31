@@ -17,10 +17,19 @@ class midcom_response_login extends Response
 {
     private $rendered = false;
 
-    public function __construct()
+    private $method;
+
+    public function __construct(string $method = 'form')
     {
         parent::__construct();
-        $this->setStatusCode((int) midcom::get()->config->get('auth_login_form_httpcode'));
+        $this->method = $method;
+        if ($this->method === 'basic') {
+            $this->headers->set('WWW-Authenticate', 'Basic realm="Midgard"');
+            $this->setStatusCode(Response::HTTP_UNAUTHORIZED);
+        } else {
+            $this->setStatusCode((int) midcom::get()->config->get('auth_login_form_httpcode'));
+        }
+        midcom::get()->cache->content->no_cache();
     }
 
     public function getContent()
@@ -31,9 +40,10 @@ class midcom_response_login extends Response
         return parent::getContent();
     }
 
-    public function send()
+    public function sendContent()
     {
-        echo $this->getContent();
+        $this->getContent();
+        return parent::sendContent();
     }
 
     /**
@@ -46,11 +56,14 @@ class midcom_response_login extends Response
      * MidCOM L10n DB, login_warning is empty unless there was a failed authentication
      * attempt, in which case it will have a localized warning message enclosed in a
      * paragraph with the ID 'login_warning'.
-     *
-     * @return string
      */
     protected function render() : string
     {
+        if ($this->method === 'basic') {
+            // TODO: more fancy 401 output ?
+            return "<h1>Authorization required</h1>\n";
+        }
+
         $title = midcom::get()->i18n->get_string('login', 'midcom');
 
         // Determine login warning so that wrong user/pass is shown.

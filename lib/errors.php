@@ -114,6 +114,10 @@ class midcom_exception_handler
             return new midcom_response_accessdenied($message);
         }
         if ($httpcode == MIDCOM_ERRAUTH) {
+            if ($e instanceof midcom_error_forbidden) {
+                return new midcom_response_login($e->get_method());
+            }
+
             return new midcom_response_login;
         }
 
