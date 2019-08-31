@@ -162,8 +162,7 @@ class midcom_services_auth
 
             // Now we check whether there is a success-relocate URL given somewhere.
             if ($request->get('midcom_services_auth_login_success_url')) {
-                midcom::get()->relocate($request->get('midcom_services_auth_login_success_url'));
-                // This will exit.
+                return new midcom_response_relocate($request->get('midcom_services_auth_login_success_url'));
             }
         }
         // No new login detected, so we check if there is a running session.

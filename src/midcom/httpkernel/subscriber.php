@@ -47,7 +47,9 @@ class subscriber implements EventSubscriberInterface
         $midcom->debug->log("Start of MidCOM run " . $request->server->get('REQUEST_URI', ''));
         $request->setSession($midcom->session);
         $midcom->componentloader->load_all_manifests();
-        $midcom->auth->check_for_login_session($request);
+        if ($response = $midcom->auth->check_for_login_session($request)) {
+            return $response;
+        }
 
         // This checks for the unittest case
         if (!$request->attributes->has('context')) {
@@ -69,8 +71,11 @@ class subscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
         if (!$this->initialized) {
-            $this->initialize($request);
             $this->initialized = true;
+            if ($response = $this->initialize($request)) {
+                $event->setResponse($response);
+                return;
+            }
         }
 
         $resolver = new resolver($request);
