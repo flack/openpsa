@@ -24,6 +24,11 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      */
     private $auth_credentials_found = false;
 
+    public function has_login_data() : bool
+    {
+        return $this->auth_credentials_found;
+    }
+
     /**
      * This call checks whether the two form fields we have created are present, if yes
      * it reads and returns their values.
@@ -55,107 +60,6 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
             'username' => trim($request->request->get('username')),
             'password' => trim($request->request->get('password'))
         ];
-    }
-
-    /**
-     * If the current style has an element called <i>midcom_services_auth_login_page</i>
-     * it will be shown instead. The local scope will contain the two variables
-     * $title and $login_warning. $title is the localized string 'login' from the main
-     * MidCOM L10n DB, login_warning is empty unless there was a failed authentication
-     * attempt, in which case it will have a localized warning message enclosed in a
-     * paragraph with the ID 'login_warning'.
-     */
-    public function show_login_page()
-    {
-        $this->generate_http_response();
-
-        $title = midcom::get()->i18n->get_string('login', 'midcom');
-
-        // Determine login warning so that wrong user/pass is shown.
-        $login_warning = '';
-        if ($this->auth_credentials_found) {
-            $login_warning = midcom::get()->i18n->get_string('login message - user or password wrong', 'midcom');
-        }
-
-        // Pass our local but very useful variables on to the style element
-        midcom::get()->style->data['midcom_services_auth_show_login_page_title'] = $title;
-        midcom::get()->style->data['midcom_services_auth_show_login_page_login_warning'] = $login_warning;
-
-        midcom::get()->style->show_midcom('midcom_services_auth_login_page');
-
-        midcom::get()->finish();
-    }
-
-    /**
-     * This will display the error message and appends the login form below it if and only if
-     * the headers have not yet been sent.
-     *
-     * The function will clear any existing output buffer, and the sent page will have the
-     * 403 - Forbidden HTTP Status. The login will relocate to the same URL, so it should
-     * be mostly transparent.
-     *
-     * The login message shown depends on the current state:
-     * - If an authentication attempt was done but failed, an appropriated wrong user/password
-     *   message is shown.
-     * - If the user is authenticated, a note that he might have to switch to a user with more
-     *   privileges is shown.
-     * - Otherwise, no message is shown.
-     *
-     * This function will exit() unconditionally.
-     *
-     * If the style element <i>midcom_services_auth_access_denied</i> is defined, it will be shown
-     * instead of the default error page. The following variables will be available in the local
-     * scope:
-     *
-     * $title contains the localized title of the page, based on the 'access denied' string ID of
-     * the main MidCOM L10n DB. $message will contain the notification what went wrong and
-     * $login_warning will notify the user of a failed login. The latter will either be empty
-     * or enclosed in a paragraph with the CSS ID 'login_warning'.
-     *
-     * @param string $message The message to show to the user.
-     */
-    public function show_access_denied($message)
-    {
-        // Determine login message
-        $login_warning = '';
-        if (midcom::get()->auth->user !== null) {
-            // The user has insufficient privileges
-            $login_warning = midcom::get()->i18n->get_string('login message - insufficient privileges', 'midcom');
-        } elseif ($this->auth_credentials_found) {
-            $login_warning = midcom::get()->i18n->get_string('login message - user or password wrong', 'midcom');
-        }
-
-        $title = midcom::get()->i18n->get_string('access denied', 'midcom');
-
-        // Emergency check, if headers have been sent, kill MidCOM instantly, we cannot output
-        // an error page at this point (dynamic_load from site style? Code in Site Style, something
-        // like that)
-        if (_midcom_headers_sent()) {
-            debug_add('Cannot render an access denied page, page output has already started. Aborting directly.', MIDCOM_LOG_INFO);
-            echo "<br />{$title}: {$login_warning}";
-            debug_add("Emergency Error Message output finished, exiting now");
-            midcom::get()->finish();
-        }
-
-        $this->generate_http_response();
-
-        midcom::get()->style->data['midcom_services_auth_access_denied_message'] = $message;
-        midcom::get()->style->data['midcom_services_auth_access_denied_title'] = $title;
-        midcom::get()->style->data['midcom_services_auth_access_denied_login_warning'] = $login_warning;
-
-        midcom::get()->style->show_midcom('midcom_services_auth_access_denied');
-
-        midcom::get()->finish();
-    }
-
-    private function generate_http_response()
-    {
-        if (midcom::get()->config->get('auth_login_form_httpcode') == 200) {
-            _midcom_header('HTTP/1.0 200 OK');
-        } else {
-            _midcom_header('HTTP/1.0 403 Forbidden');
-        }
-        midcom::get()->cache->content->no_cache();
     }
 
     /**

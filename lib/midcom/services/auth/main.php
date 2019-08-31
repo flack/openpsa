@@ -728,22 +728,8 @@ class midcom_services_auth
         $this->frontend->show_login_form();
     }
 
-    /**
-     * Show a complete login page unconditionally and exit afterwards.
-     * If the current style has an element called <i>midcom_services_auth_login_page</i>
-     * it will be shown instead. The local scope will contain the two variables
-     * $title and $login_warning. $title is the localized string 'login' from the main
-     * MidCOM L10n DB, login_warning is empty unless there was a failed authentication
-     * attempt, in which case it will have a localized warning message enclosed in a
-     * paragraph with the ID 'login_warning'.
-     */
-    public function show_login_page()
+    public function has_login_data() : bool
     {
-        $this->frontend->show_login_page();
-    }
-
-    public function show_access_denied($message)
-    {
-        $this->frontend->show_access_denied($message);
+        return $this->frontend->has_login_data();
     }
 }

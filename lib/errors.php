@@ -111,12 +111,10 @@ class midcom_exception_handler
         }
 
         if ($httpcode == MIDCOM_ERRFORBIDDEN) {
-            midcom::get()->auth->show_access_denied($message);
-            // this will exit
+            return new midcom_response_accessdenied($message);
         }
         if ($httpcode == MIDCOM_ERRAUTH) {
-            midcom::get()->auth->show_login_page();
-            // this will exit
+            return new midcom_response_login;
         }
 
         switch ($httpcode) {

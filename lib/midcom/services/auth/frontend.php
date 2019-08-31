@@ -33,16 +33,11 @@ interface midcom_services_auth_frontend
     public function read_login_data(Request $request);
 
     /**
-     * Show a complete login page unconditionally and exit afterwards.
-     */
-    public function show_login_page();
-
-    /**
-     * This is called by throw new midcom_error_forbidden(...)
+     * Were login credentials found
      *
-     * @param string $message The message to show to the user.
+     * @return bool
      */
-    public function show_access_denied($message);
+    public function has_login_data() : bool;
 
     /**
      * This call should show the authentication form (or whatever means of input

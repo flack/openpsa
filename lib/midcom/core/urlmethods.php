@@ -138,8 +138,7 @@ class midcom_core_urlmethods
         if (midcom::get()->auth->is_valid_user()) {
             return $this->redirect($request, $url);
         }
-        midcom::get()->auth->show_login_page();
-        // This will exit
+        return new midcom_response_login;
     }
 
     private function redirect(Request $request, $redirect_to)
