@@ -262,84 +262,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $result;
     }
 
-    /**
-     * Save configuration values to a topic as "serialized" array
-     *
-     * @return boolean
-     */
-    private function _save_snippet($config)
-    {
-        $basedir = midcom::get()->config->get('midcom_sgconfig_basedir');
-        $sg_snippetdir = new midcom_db_snippetdir();
-        if (!$sg_snippetdir->get_by_path($basedir)) {
-            // Create config snippetdir
-            $sg_snippetdir = new midcom_db_snippetdir();
-            $sg_snippetdir->name = $basedir;
-            // remove leading slash from name
-            $sg_snippetdir->name = preg_replace("/^\//", "", $sg_snippetdir->name);
-            if (!$sg_snippetdir->create()) {
-                throw new midcom_error("Failed to create snippetdir {$basedir}: " . midcom_connection::get_error_string());
-            }
-        }
-
-        $lib_snippetdir = new midcom_db_snippetdir();
-        if (!$lib_snippetdir->get_by_path("{$basedir}/{$this->_request_data['name']}")) {
-            $lib_snippetdir = new midcom_db_snippetdir();
-            $lib_snippetdir->up = $sg_snippetdir->id;
-            $lib_snippetdir->name = $this->_request_data['name'];
-            if (!$lib_snippetdir->create()) {
-                throw new midcom_error("Failed to create snippetdir {$basedir}/{$lib_snippetdir->name}: " . midcom_connection::get_error_string());
-            }
-        }
-
-        $snippet = new midcom_db_snippet();
-        if (!$snippet->get_by_path("{$basedir}/{$this->_request_data['name']}/config")) {
-            $sn = new midcom_db_snippet();
-            $sn->snippetdir = $lib_snippetdir->id;
-            $sn->name = 'config';
-            $sn->code = $config;
-            return $sn->create();
-        }
-
-        $snippet->code = $config;
-        return $snippet->update();
-    }
-
-    /**
-     * Save configuration values to a topic as parameters
-     */
-    private function _save_topic(midcom_db_topic $topic, $config)
-    {
-        foreach ($this->_request_data['config']->_global as $global_key => $global_value) {
-            if (   isset($config[$global_key])
-                && $config[$global_key] != $global_value) {
-                continue;
-                // Skip the ones we will set next
-            }
-
-            // Clear unset params
-            if ($topic->get_parameter($this->_request_data['name'], $global_key)) {
-                $topic->delete_parameter($this->_request_data['name'], $global_key);
-            }
-        }
-
-        foreach ($config as $key => $value) {
-            if (   is_array($value)
-                || is_object($value)) {
-                /**
-                 * See http://trac.midgard-project.org/ticket/1442
-                $topic->set_parameter($this->_request_data['name'], var_export($value, true));
-                 */
-                 continue;
-            }
-
-            if ($value === false) {
-                $value = '0';
-            }
-            $topic->set_parameter($this->_request_data['name'], $key, $value);
-        }
-    }
-
     private function convert_to_config(array $values) : array
     {
         $config_array = [];
@@ -399,8 +321,21 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
         switch ($this->_controller->handle($request)) {
             case 'save':
-                $this->_save_configuration($data);
-                // *** FALL-THROUGH ***
+                if (!$this->save_configuration($data)) {
+                    midcom::get()->uimessages->add(
+                        $this->_l10n_midcom->get('component configuration'),
+                        sprintf($this->_l10n->get('configuration save failed: %s'), midcom_connection::get_error_string()),
+                        'error'
+                    );
+                    // back to edit
+                    break;
+                }
+                midcom::get()->uimessages->add(
+                    $this->_l10n_midcom->get('component configuration'),
+                    $this->_l10n->get('configuration saved successfully')
+                );
+
+                // FALL-THROUGH (i.e. relocate to view)
 
             case 'cancel':
                 if ($handler_id == 'components_configuration_edit_folder') {
@@ -423,41 +358,99 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $this->get_response();
     }
 
-    private function _save_configuration(array $data)
+    private function save_configuration(array $data) : bool
     {
-        $values = $this->_controller->get_datamanager()->get_content_raw();
-        $config_array = $this->convert_to_config($values);
-
-        $config = $this->_draw_array($config_array);
+        $values = $this->convert_to_config($this->_controller->get_datamanager()->get_content_raw());
 
         if ($data['handler_id'] == 'components_configuration_edit_folder') {
             // Editing folder configuration
-            $this->_save_topic($data['folder'], $config_array);
-            midcom::get()->uimessages->add(
-                $this->_l10n_midcom->get('component configuration'),
-                $this->_l10n->get('configuration saved successfully')
-            );
-            $url = $this->router->generate('components_configuration_edit_folder', [
-                'component' => $data['name'],
-                'folder' => $data['folder']->guid
-            ]);
+            return $this->save_topic($data['folder'], $values);
+        }
+        return $this->save_snippet($values);
+    }
 
-            midcom::get()->relocate($url);
-            // This will exit
+
+    /**
+     * Save configuration values to a topic as "serialized" array
+     */
+    private function save_snippet(array $values) : bool
+    {
+        $config = var_export($values, true);
+        // Remove opening and closing array( ) lines, because that's the way midcom likes it
+        $config = preg_replace('/^.*?\n/', '', $config);
+        $config = preg_replace('/(\n.*?|\))$/', '', $config);
+
+        $basedir = midcom::get()->config->get('midcom_sgconfig_basedir');
+        $sg_snippetdir = new midcom_db_snippetdir();
+        if (!$sg_snippetdir->get_by_path($basedir)) {
+            // Create config snippetdir
+            $sg_snippetdir = new midcom_db_snippetdir();
+            $sg_snippetdir->name = $basedir;
+            // remove leading slash from name
+            $sg_snippetdir->name = preg_replace("/^\//", "", $sg_snippetdir->name);
+            if (!$sg_snippetdir->create()) {
+                throw new midcom_error("Failed to create snippetdir {$basedir}: " . midcom_connection::get_error_string());
+            }
         }
 
-        if ($this->_save_snippet($config)) {
-            midcom::get()->uimessages->add(
-                $this->_l10n_midcom->get('component configuration'),
-                $this->_l10n->get('configuration saved successfully')
-            );
-        } else {
-            midcom::get()->uimessages->add(
-                $this->_l10n_midcom->get('component configuration'),
-                sprintf($this->_l10n->get('configuration save failed: %s'), midcom_connection::get_error_string()),
-                'error'
-            );
+        $lib_snippetdir = new midcom_db_snippetdir();
+        if (!$lib_snippetdir->get_by_path("{$basedir}/{$this->_request_data['name']}")) {
+            $lib_snippetdir = new midcom_db_snippetdir();
+            $lib_snippetdir->up = $sg_snippetdir->id;
+            $lib_snippetdir->name = $this->_request_data['name'];
+            if (!$lib_snippetdir->create()) {
+                throw new midcom_error("Failed to create snippetdir {$basedir}/{$lib_snippetdir->name}: " . midcom_connection::get_error_string());
+            }
         }
+
+        $snippet = new midcom_db_snippet();
+        if (!$snippet->get_by_path("{$basedir}/{$this->_request_data['name']}/config")) {
+            $sn = new midcom_db_snippet();
+            $sn->snippetdir = $lib_snippetdir->id;
+            $sn->name = 'config';
+            $sn->code = $config;
+            return $sn->create();
+        }
+
+        $snippet->code = $config;
+        return $snippet->update();
+    }
+
+    /**
+     * Save configuration values to a topic as parameters
+     */
+    private function save_topic(midcom_db_topic $topic, $config) : bool
+    {
+        $success = true;
+        foreach ($this->_request_data['config']->_global as $global_key => $global_value) {
+            if (   isset($config[$global_key])
+                && $config[$global_key] != $global_value) {
+                continue;
+                // Skip the ones we will set next
+            }
+
+            // Clear unset params
+            if ($topic->get_parameter($this->_request_data['name'], $global_key)) {
+                $success = $topic->delete_parameter($this->_request_data['name'], $global_key) && $success;
+            }
+        }
+
+        foreach ($config as $key => $value) {
+            if (   is_array($value)
+                || is_object($value)) {
+                /**
+                 * See http://trac.midgard-project.org/ticket/1442
+                 $topic->set_parameter($this->_request_data['name'], var_export($value, true));
+                 */
+                continue;
+            }
+
+            if ($value === false) {
+                $value = '0';
+            }
+            $success = $topic->set_parameter($this->_request_data['name'], $key, $value) && $success;
+        }
+        return $success;
     }
 
     /**
@@ -499,13 +492,5 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         }
 
         return $result;
-    }
-
-    private function _draw_array($array)
-    {
-        $data = var_export($array, true);
-        // Remove opening and closing array( ) lines, because that's the way midcom likes it
-        $data = preg_replace('/^.*?\n/', '', $data);
-        return preg_replace('/(\n.*?|\))$/', '', $data);
     }
 }
