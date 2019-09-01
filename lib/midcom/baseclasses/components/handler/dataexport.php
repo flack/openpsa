@@ -79,11 +79,13 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
         if (empty($args[0])) {
             //We do not have filename in URL, generate one and redirect
-            $fname = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_topic->extra)) . '_' . date('Y-m-d') . '.csv';
-            if (strpos(midcom_connection::get_url('uri'), '/', strlen(midcom_connection::get_url('uri')) - 2)) {
-                $fname = '/' . $fname;
+            if (empty($data['filename'])) {
+                $data['filename'] = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_topic->extra)) . '_' . date('Y-m-d') . '.csv';
             }
-            return new midcom_response_relocate(midcom_connection::get_url('uri') . $fname);
+            if (strpos(midcom_connection::get_url('uri'), '/', strlen(midcom_connection::get_url('uri')) - 2)) {
+                $data['filename'] = '/' . $data['filename'];
+            }
+            return new midcom_response_relocate(midcom_connection::get_url('uri') . $data['filename']);
         }
 
         midcom::get()->disable_limits();

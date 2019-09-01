@@ -17,23 +17,19 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
         if (!empty($_POST)) {
             $data['session']->set('POST_data', $_POST);
         }
-        $group_name_to_filename = '';
-        if ($root_group_guid = $this->_config->get('root_group')) {
-            $root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
-            $group_name_to_filename = strtolower(str_replace(' ', '_', $root_group->code)) . '_';
-        }
 
         if (isset($args[0])) {
+            $group_name_to_filename = '';
+            if ($root_group_guid = $this->_config->get('root_group')) {
+                $root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
+                $group_name_to_filename = strtolower(str_replace(' ', '_', $root_group->code)) . '_';
+            }
             $data['schemadb_to_use'] = str_replace('.csv', '', $args[0]);
             $data['filename'] = $group_name_to_filename . $data['schemadb_to_use'] . '_' . date('Y-m-d') . '.csv';
         } elseif (array_key_exists('org_openpsa_products_export_schema', $_POST)) {
             //We do not have filename in URL, generate one and redirect
-            $schemaname = $_POST['org_openpsa_products_export_schema'];
-            if (!strpos(midcom_connection::get_url('uri'), '/', strlen(midcom_connection::get_url('uri')) - 2)) {
-                $schemaname = "/{$schemaname}";
-            }
-            midcom::get()->relocate(midcom_connection::get_url('uri') . $schemaname);
-            // This will exit
+            $data['filename'] = $_POST['org_openpsa_products_export_schema'];
+            return [];
         } else {
             $data['schemadb_to_use'] = $this->_config->get('csv_export_schema');
         }
