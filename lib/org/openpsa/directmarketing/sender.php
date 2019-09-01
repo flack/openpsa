@@ -71,14 +71,20 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
      */
     private $_chunk_max_recurse = 15;
 
+    private $from;
+
+    private $subject;
+
     /**
      * @param org_openpsa_directmarketing_campaign_message_dba $message The message we're working on
      * @param array $config Configuration that gets handed to the backend
      */
-    public function __construct(org_openpsa_directmarketing_campaign_message_dba $message, array $config = [])
+    public function __construct(org_openpsa_directmarketing_campaign_message_dba $message, array $config = [], $from = '', $subject = '')
     {
         parent::__construct();
         $this->_message = $message;
+        $this->from = $from;
+        $this->subject = $subject;
 
         if (   $this->_message->orgOpenpsaObtype != org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT
             && $this->_message->orgOpenpsaObtype != org_openpsa_directmarketing_campaign_message_dba::EMAIL_HTML) {
@@ -91,7 +97,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Sends a message to all applicable members
      */
-    public function send($subject, $content, $from)
+    public function send($content)
     {
         midcom::get()->disable_limits();
         if (!$this->test_mode) {
@@ -99,7 +105,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
             $this->_check_campaign_up_to_date();
         }
 
-        //TODO: Rethink the styles, now we filter those who already had message sent to themm thus the total member count becomes meaningless
+        //TODO: Rethink the styles, now we filter those who already had message sent to them thus the total member count becomes meaningless
         if ($this->send_output) {
             midcom_show_style('send-start');
             flush();
@@ -107,7 +113,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         }
 
         while ($results = $this->_qb_send_loop()) {
-            if (!$this->process_results($results, $subject, $content, $from)) {
+            if (!$this->process_results($results, $content)) {
                 return false;
             }
         }
@@ -123,7 +129,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Sends $content to all members of the campaign
      */
-    public function send_bg($url_base, $batch, $content, $from, $subject)
+    public function send_bg($url_base, $batch, $content)
     {
         //TODO: Figure out how to recognize errors and pass the info on
         $this->send_output = false;
@@ -147,7 +153,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $batch = $this->_chunk_num + 1;
         if ($results === false) {
             $status = true; //All should be ok
-        } elseif ($status = $this->process_results($results, $subject, $content, $from)) {
+        } elseif ($status = $this->process_results($results, $content)) {
             //register next batch
             return $this->register_send_job($batch + 1, $url_base);
         }
@@ -161,13 +167,13 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         return $status;
     }
 
-    private function process_results(array $results, $subject, $content, $from)
+    private function process_results(array $results, $content)
     {
         if (!$this->_backend->check_results($results)) {
             return false; //Backend refuses delivery
         }
         foreach ($results as $member) {
-            $this->_send_member($member, $subject, $content, $from);
+            $this->_send_member($member, $content);
         }
         return true;
     }
@@ -189,14 +195,14 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         return $atstat;
     }
 
-    private function _send_member(org_openpsa_directmarketing_campaign_member_dba $member, $subject, $content, $from)
+    private function _send_member(org_openpsa_directmarketing_campaign_member_dba $member, $content)
     {
         if (!$person = $this->_get_person($member)) {
             return;
         }
 
-        $from = $from ?: 'noreplyaddress@openpsa2.org';
-        $subject = $subject ?: '[no subject]';
+        $from = $this->from ?: 'noreplyaddress@openpsa2.org';
+        $subject = $this->subject ?: '[no subject]';
         if ($this->test_mode) {
             $subject = "[TEST] {$subject}";
         }

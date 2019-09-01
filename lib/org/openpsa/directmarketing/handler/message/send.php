@@ -58,49 +58,17 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     public function _show_send_bg($handler_id, array &$data)
     {
         midcom::get()->auth->request_sudo($this->_component);
+        $sender = $this->_get_sender($data);
+        $composed = $this->compose($data);
         debug_add('Forcing content type: text/plain');
         midcom::get()->header('Content-type: text/plain');
-        $data['sender'] = $this->_get_sender($data);
-        $composed = $this->_prepare_send($data);
-        $bgstat = $data['sender']->send_bg($data['batch_url_base_full'], $data['batch_number'], $composed, $data['compose_from'], $data['compose_subject']);
+        $bgstat = $sender->send_bg($data['batch_url_base_full'], $data['batch_number'], $composed);
         if (!$bgstat) {
             echo "ERROR\n";
         } else {
             echo "Batch #{$data['batch_number']} DONE\n";
         }
         midcom::get()->auth->drop_sudo();
-    }
-
-    private function _prepare_send(array &$data)
-    {
-        $nap = new midcom_helper_nav();
-        $node = $nap->get_node($nap->get_current_node());
-        $compose_url = $node[MIDCOM_NAV_RELATIVEURL] . 'message/compose/' . $data['message']->guid .'/';
-        $data['batch_url_base_full'] = $node[MIDCOM_NAV_RELATIVEURL] . 'message/send_bg/' . $data['message']->guid . '/';
-        debug_add("compose_url: {$compose_url}");
-        debug_add("batch_url base: {$data['batch_url_base_full']}");
-        $le_backup = ini_set('log_errors', true);
-        $de_backup = ini_set('display_errors', false);
-        ob_start();
-        midcom::get()->dynamic_load($compose_url);
-        $composed = ob_get_clean();
-        ini_set('display_errors', $de_backup);
-        ini_set('log_errors', $le_backup);
-        //We force the content-type since the compositor might have set it to something else in compositor for preview purposes
-        debug_add('Forcing content type: text/html');
-        midcom::get()->header('Content-type: text/html');
-
-        //PONDER: Should we leave these entirely for the methods to parse from the array ?
-        $data['compose_subject'] = '';
-        $data['compose_from'] = '';
-        if (array_key_exists('subject', $data['message_array'])) {
-            $data['compose_subject'] = &$data['message_array']['subject'];
-        }
-        if (array_key_exists('from', $data['message_array'])) {
-            $data['compose_from'] = &$data['message_array']['from'];
-        }
-
-        return $composed;
     }
 
     /**
@@ -128,11 +96,34 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             }
         }
 
-        $sender = new org_openpsa_directmarketing_sender($data['message'], $data['message_array']);
+        //PONDER: Should we leave these entirely for the methods to parse from the array ?
+        $subject = $data['message_array']['subject'] ?? '';
+        $from = $data['message_array']['from'] ?? '';
+
+        $sender = new org_openpsa_directmarketing_sender($data['message'], $data['message_array'], $from, $subject);
         if ($token_size = $this->_config->get('token_size')) {
             $sender->token_size = $token_size;
         }
         return $sender;
+    }
+
+    private function compose(array &$data) : string
+    {
+        $nap = new midcom_helper_nav();
+        $node = $nap->get_node($nap->get_current_node());
+        $compose_url = $node[MIDCOM_NAV_RELATIVEURL] . 'message/compose/' . $data['message']->guid .'/';
+        $data['batch_url_base_full'] = $node[MIDCOM_NAV_RELATIVEURL] . 'message/send_bg/' . $data['message']->guid . '/';
+        debug_add("compose_url: {$compose_url}");
+        debug_add("batch_url base: {$data['batch_url_base_full']}");
+        $le_backup = ini_set('log_errors', true);
+        $de_backup = ini_set('display_errors', false);
+        ob_start();
+        midcom::get()->dynamic_load($compose_url);
+        $composed = ob_get_clean();
+        ini_set('display_errors', $de_backup);
+        ini_set('log_errors', $le_backup);
+
+        return $composed;
     }
 
     /**
@@ -164,14 +155,18 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     public function _show_send($handler_id, array &$data)
     {
         $data['sender'] = $this->_get_sender($data);
-        $composed = $this->_prepare_send($data);
+        $composed = $this->compose($data);
+        //We force the content-type since the compositor might have set it to something else in compositor for preview purposes
+        debug_add('Forcing content type: text/html');
+        midcom::get()->header('Content-type: text/html');
+
         // TODO: Figure out the correct use of style elements, this is how it was but it's not exactly optimal...
         switch ($handler_id) {
             case 'test_send_message':
                 // on-line send
                 $data['sender']->test_mode = true;
                 $data['sender']->send_output = true;
-                $data['sender']->send($data['compose_subject'], $composed, $data['compose_from']);
+                $data['sender']->send($composed);
                 break;
             default:
                 // Schedule background send
