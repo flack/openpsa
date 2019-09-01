@@ -154,27 +154,23 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     public function _show_send($handler_id, array &$data)
     {
-        $data['sender'] = $this->_get_sender($data);
+        $sender = $this->_get_sender($data);
         $composed = $this->compose($data);
         //We force the content-type since the compositor might have set it to something else in compositor for preview purposes
         debug_add('Forcing content type: text/html');
         midcom::get()->header('Content-type: text/html');
 
-        // TODO: Figure out the correct use of style elements, this is how it was but it's not exactly optimal...
-        switch ($handler_id) {
-            case 'test_send_message':
-                // on-line send
-                $data['sender']->test_mode = true;
-                $data['sender']->send_output = true;
-                $data['sender']->send($composed);
-                break;
-            default:
-                // Schedule background send
-                if (!$data['sender']->register_send_job(1, $data['batch_url_base_full'], $data['send_start'])) {
-                    throw new midcom_error("Job registration failed: " . midcom_connection::get_error_string());
-                }
-                midcom_show_style('send-start');
-                break;
+        if ($handler_id == 'test_send_message') {
+            // on-line send
+            if ($sender->send_test($composed)) {
+                midcom_show_style('send-finish');
+            }
+        } else {
+            // Schedule background send
+            if (!$sender->register_send_job(1, $data['batch_url_base_full'], $data['send_start'])) {
+                throw new midcom_error("Job registration failed: " . midcom_connection::get_error_string());
+            }
+            midcom_show_style('send-status');
         }
     }
 }

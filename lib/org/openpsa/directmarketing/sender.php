@@ -14,18 +14,11 @@
 class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_purecode
 {
     /**
-     * Should output be shown
-     *
-     * @var boolean
-     */
-    public $send_output = false;
-
-    /**
      * Are we running in test mode
      *
      * @var boolean
      */
-    public $test_mode = false;
+    private $test_mode = false;
 
     /**
      * How many messages to send in one go
@@ -95,32 +88,17 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     }
 
     /**
-     * Sends a message to all applicable members
+     * Sends a message to all testers
      */
-    public function send($content)
+    public function send_test($content)
     {
+        $this->test_mode = true;
         midcom::get()->disable_limits();
-        if (!$this->test_mode) {
-            //Make sure we have smart campaign members up-to-date (this might take a while)
-            $this->_check_campaign_up_to_date();
-        }
-
-        //TODO: Rethink the styles, now we filter those who already had message sent to them thus the total member count becomes meaningless
-        if ($this->send_output) {
-            midcom_show_style('send-start');
-            flush();
-            ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
-        }
 
         while ($results = $this->_qb_send_loop()) {
             if (!$this->process_results($results, $content)) {
                 return false;
             }
-        }
-        if ($this->send_output) {
-            midcom_show_style('send-finish');
-            flush();
-            ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
         }
 
         return true;
@@ -132,21 +110,18 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     public function send_bg($url_base, $batch, $content)
     {
         //TODO: Figure out how to recognize errors and pass the info on
-        $this->send_output = false;
 
         $this->_chunk_num = $batch - 1;
 
         midcom::get()->disable_limits();
-        if (!$this->test_mode) {
-            //For first batch (they start from 1 instead of 0) make sure we have smart campaign members up to date
-            if ($batch == 1) {
-                $this->_check_campaign_up_to_date();
-            }
-            // Register sendStarted if not already set
-            if (!$this->_message->sendStarted) {
-                $this->_message->sendStarted = time();
-                $this->_message->update();
-            }
+        //For first batch (they start from 1 instead of 0) make sure we have smart campaign members up to date
+        if ($batch == 1) {
+            $this->_check_campaign_up_to_date();
+        }
+        // Register sendStarted if not already set
+        if (!$this->_message->sendStarted) {
+            $this->_message->sendStarted = time();
+            $this->_message->update();
         }
         $results = $this->_qb_single_chunk();
         //The method above might have incremented the counter for internal reasons
@@ -159,10 +134,8 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         }
 
         // Last batch done, register sendCompleted if we're not in test mode
-        if (!$this->test_mode) {
-            $this->_message->sendCompleted = time();
-            $this->_message->update();
-        }
+        $this->_message->sendCompleted = time();
+        $this->_message->update();
 
         return $status;
     }
@@ -223,8 +196,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
                     'name' => 'send_error_message',
                     'value' => $e->getMessage(),
                 ];
-            }
-            if ($this->send_output) {
+            } else {
                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), $e->getMessage(), 'error');
             }
         }
