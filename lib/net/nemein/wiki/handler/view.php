@@ -123,9 +123,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             return;
         }
 
-        // We need to get the node from NAP for safe redirect
-        $nap = new midcom_helper_nav();
-        $node = $nap->get_node($this->_topic->id);
         $urlized_wikiword = midcom_helper_misc::urlize($wikiword);
         if ($urlized_wikiword != $wikiword) {
             // Lets see if the page for the wikiword exists
@@ -135,12 +132,11 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $result = $qb->execute();
             if (!empty($result)) {
                 // This wiki page actually exists, so go there as "Permanent Redirect"
-                midcom::get()->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}{$result[0]->name}/", 301);
+                return new midcom_response_relocate($this->router->generate('view', ['wikipage' => $result[0]->name]), 301);
             }
         }
         if ($autocreate) {
-            midcom::get()->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}notfound/" . rawurlencode($wikiword) . '/');
-            // This will exit
+            return new midcom_response_relocate($this->router->generate('notfound', ['wikiword' => rawurlencode($wikiword)]));
         }
         throw new midcom_error_notfound('The page ' . $wikiword . ' could not be found.');
     }
@@ -151,7 +147,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _handler_view(&$data, $wikipage = 'index')
     {
-        $this->_load_page($wikipage);
+        if ($response = $this->_load_page($wikipage)) {
+            return $response;
+        }
         $this->_load_datamanager();
 
         if ($this->_datamanager->get_schema()->get_name() == 'redirect') {
@@ -255,7 +253,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _handler_raw($wikipage, &$data)
     {
-        $this->_load_page($wikipage, false);
+        if ($response = $this->_load_page($wikipage, false)) {
+            return $response;
+        }
         midcom::get()->skip_page_style = true;
         $this->_load_datamanager();
 
@@ -278,7 +278,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     {
         midcom::get()->auth->require_valid_user();
 
-        $this->_load_page($wikipage, false);
+        if ($response = $this->_load_page($wikipage, false)) {
+            return $response;
+        }
 
         midcom::get()->auth->request_sudo('net.nemein.wiki');
 
@@ -318,7 +320,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _handler_whatlinks($wikipage, &$data)
     {
-        $this->_load_page($wikipage, false);
+        if ($response = $this->_load_page($wikipage, false)) {
+            return $response;
+        }
 
         $this->_load_datamanager();
 
