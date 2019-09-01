@@ -7,6 +7,8 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * Generic CSV export handler baseclass
@@ -100,17 +102,17 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
 
         $this->_init_csv_variables();
-        midcom::get()->skip_page_style = true;
 
-        midcom::get()->cache->content->content_type($this->csv['mimetype']);
-        midcom::get()->header('Content-Disposition: filename=' . $data['filename']);
+        $response = new StreamedResponse([$this, 'render_csv']);
+        $response->headers->set('Content-Disposition', $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $data['filename'])
+        );
+        $response->headers->set('Content-Type', $this->csv['mimetype']);
+        return $response;
     }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_csv($handler_id, array &$data)
+    public function render_csv()
     {
         // Make real sure we're dumping data live
         midcom::get()->cache->content->enable_live_mode();
