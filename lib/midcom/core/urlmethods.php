@@ -175,30 +175,28 @@ class midcom_core_urlmethods
      */
     public function process_exec(Request $request, $component, $filename, $argv)
     {
-        // Build the path
         $componentloader = midcom::get()->componentloader;
         if (!$componentloader->is_installed($component)) {
             throw new midcom_error_notfound('The requested component is not installed');
         }
-        $context = $request->attributes->get('context');
-        if ($component !== 'midcom') {
-            $context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
-        }
         $path = $componentloader->path_to_snippetpath($component) . '/exec/' . $filename;
-
         if (!is_file($path)) {
             throw new midcom_error_notfound("File not found.");
         }
 
-        // collect remaining arguments and put them to global vars.
+        // We seem to be in a valid place
+        $context = $request->attributes->get('context');
+        if ($component !== 'midcom') {
+            $context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
+        }
+        // Collect remaining arguments and put them to global vars.
         $GLOBALS['argv'] = explode('/', $argv);
 
-        midcom::get()->cache->content->enable_live_mode();
+        return new StreamedResponse(function() use ($path) {
+            midcom::get()->cache->content->enable_live_mode();
 
-        // We seem to be in a valid place. Exec the file with the current permissions.
-        require($path);
-
-        // Exit
-        midcom::get()->finish();
+            // Exec the file with the current permissions.
+            require $path;
+        });
     }
 }
