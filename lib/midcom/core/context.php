@@ -54,6 +54,11 @@ class midcom_core_context
     public $id;
 
     /**
+     * @var midcom_db_topic
+     */
+    private static $root_topic;
+
+    /**
      * Create and prepare a new component context.
      *
      * @param midcom_db_topic $node Root node of the context
@@ -150,37 +155,35 @@ class midcom_core_context
 
         if (   $key === MIDCOM_CONTEXT_ROOTTOPIC
             && $this->_data[$key] === null) {
-            $this->_initialize_root_topic();
+            $this->_data[$key] = self::initialize_root_topic();
         }
 
         return $this->_data[$key];
     }
 
-    private function _initialize_root_topic()
+    private static function initialize_root_topic()
     {
-        $guid = midcom::get()->config->get('midcom_root_topic_guid');
-        if (empty($guid)) {
-            $component = midcom::get()->config->get('midcom_root_component');
-            if ($component) {
-                $root_node = new midcom_db_topic;
-                $root_node->component = $component;
+        if (empty(self::$root_topic)) {
+            if ($guid = midcom::get()->config->get('midcom_root_topic_guid')) {
+                try {
+                    self::$root_topic = midcom_db_topic::get_cached($guid);
+                } catch (midcom_error $e) {
+                    if ($e instanceof midcom_error_forbidden) {
+                        throw $e;
+                    }
+                    // Fall back to another topic so that admin has a chance to fix this
+                    $setup = new midcom_core_setup("Root folder is misconfigured. Please log in as administrator");
+                    self::$root_topic = $setup->find_topic();
+                }
+            } elseif ($component = midcom::get()->config->get('midcom_root_component')) {
+                self::$root_topic = new midcom_db_topic;
+                self::$root_topic->component = $component;
             } else {
                 $setup = new midcom_core_setup("Root folder is not configured. Please log in as administrator");
-                $root_node = $setup->find_topic(true);
-            }
-        } else {
-            try {
-                $root_node = midcom_db_topic::get_cached($guid);
-            } catch (midcom_error $e) {
-                if ($e instanceof midcom_error_forbidden) {
-                    throw $e;
-                }
-                // Fall back to another topic so that admin has a chance to fix this
-                $setup = new midcom_core_setup("Root folder is misconfigured. Please log in as administrator");
-                $root_node = $setup->find_topic();
+                self::$root_topic = $setup->find_topic(true);
             }
         }
-        $this->set_key(MIDCOM_CONTEXT_ROOTTOPIC, $root_node);
+        return self::$root_topic;
     }
 
     /**
