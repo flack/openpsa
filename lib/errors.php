@@ -6,9 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\Debug\Exception\FatalErrorException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class for intercepting PHP errors and unhandled exceptions. Each fault is caught
@@ -143,11 +143,13 @@ class midcom_exception_handler
         $style->data['error_exception'] = $e;
         $style->data['error_handler'] = $this;
 
-        return new StreamedResponse(function() use ($httpcode, $style) {
-            if (!$style->show_midcom('midcom_error_' . $httpcode)) {
-                $style->show_midcom('midcom_error');
-            }
-        }, $httpcode);
+        ob_start();
+        if (!$style->show_midcom('midcom_error_' . $httpcode)) {
+            $style->show_midcom('midcom_error');
+        }
+        $content = ob_get_clean();
+
+        return new Response($content, $httpcode);
     }
 
     /**
