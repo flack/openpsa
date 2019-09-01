@@ -161,6 +161,8 @@ class midcom_application
             return;
         }
 
+        $backup = $this->skip_page_style;
+        $this->skip_page_style = true;
         try {
             $response = $this->httpkernel->handle($request, HttpKernelInterface::SUB_REQUEST, false);
         } catch (midcom_error $e) {
@@ -170,12 +172,11 @@ class midcom_application
                 return;
             }
             throw $e;
+        } finally {
+            $this->skip_page_style = $backup;
         }
 
-        $backup = $this->skip_page_style;
-        $this->skip_page_style = true;
         $dl_cache_data = $response->getContent();
-        $this->skip_page_style = $backup;
         echo $dl_cache_data;
 
         /* Cache DL the content */

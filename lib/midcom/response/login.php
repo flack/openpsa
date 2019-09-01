@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class midcom_response_login extends Response
 {
-    private $rendered = false;
-
     private $method;
 
     public function __construct(string $method = 'form')
@@ -30,20 +28,7 @@ class midcom_response_login extends Response
             $this->setStatusCode((int) midcom::get()->config->get('auth_login_form_httpcode'));
         }
         midcom::get()->cache->content->no_cache();
-    }
-
-    public function getContent()
-    {
-        if ($this->rendered === false) {
-            $this->content = $this->render();
-        }
-        return parent::getContent();
-    }
-
-    public function sendContent()
-    {
-        $this->getContent();
-        return parent::sendContent();
+        $this->content = $this->render();
     }
 
     /**

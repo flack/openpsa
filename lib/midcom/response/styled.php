@@ -27,21 +27,12 @@ class midcom_response_styled extends Response
      */
     private $context;
 
-    private $rendered = false;
-
     public function __construct(midcom_core_context $context, $root_element = 'ROOT')
     {
+        parent::__construct();
         $this->context = $context;
         $this->root_element = $root_element;
-        parent::__construct();
-    }
-
-    public function getContent()
-    {
-        if ($this->rendered === false) {
-            $this->content = $this->render();
-        }
-        return parent::getContent();
+        $this->content = $this->render();
     }
 
     public function send()
@@ -68,7 +59,6 @@ class midcom_response_styled extends Response
         }
 
         midcom::get()->style->enter_context($this->context);
-
         ob_start();
         if (midcom::get()->skip_page_style) {
             $this->context->show();
