@@ -171,22 +171,24 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         $dba_obj = midcom::get()->auth->get_assignee($resource_id);
         $ret = [];
 
-        switch (get_class($dba_obj)) {
-            case midcom_core_group::class:
-                foreach ($dba_obj->list_members() as $core_user) {
-                    $user_obj = $core_user->get_storage();
-                    debug_add(sprintf('Adding user %s (id: %s)', $core_user->name, $user_obj->id));
+        if (is_object($dba_obj)) {
+            switch (get_class($dba_obj)) {
+                case midcom_core_group::class:
+                    foreach ($dba_obj->list_members() as $core_user) {
+                        $user_obj = $core_user->get_storage();
+                        debug_add(sprintf('Adding user %s (id: %s)', $core_user->name, $user_obj->id));
+                        $ret[] = $user_obj->id;
+                    }
+                    break;
+                case midcom_core_user::class:
+                    $user_obj = $dba_obj->get_storage();
+                    debug_add(sprintf('Adding user %s (id: %s)', $dba_obj->name, $user_obj->id));
                     $ret[] = $user_obj->id;
-                }
-                break;
-            case midcom_core_user::class:
-                $user_obj = $dba_obj->get_storage();
-                debug_add(sprintf('Adding user %s (id: %s)', $dba_obj->name, $user_obj->id));
-                $ret[] = $user_obj->id;
-                break;
-            default:
-                debug_add('Got unrecognized class for dba_obj: ' . get_class($dba_obj), MIDCOM_LOG_WARN);
-                break;
+                    break;
+                default:
+                    debug_add('Got unrecognized class for dba_obj: ' . get_class($dba_obj), MIDCOM_LOG_WARN);
+                    break;
+            }
         }
         return $ret;
     }
