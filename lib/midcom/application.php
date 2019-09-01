@@ -308,6 +308,7 @@ class midcom_application
     {
         $response = new midcom_response_relocate($url, $response_code);
         $response->send();
+        $this->finish();
     }
 
     /**

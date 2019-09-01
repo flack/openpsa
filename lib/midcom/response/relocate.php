@@ -37,9 +37,6 @@ class midcom_response_relocate extends RedirectResponse
 
         midcom::get()->cache->content->no_cache();
         debug_add("Relocating to {$this->targetUrl}");
-        parent::send();
-
-        midcom::get()->finish();
-        return $this; // in reality this is unreachable
+        return parent::send();
     }
 }
