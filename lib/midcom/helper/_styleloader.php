@@ -281,7 +281,7 @@ class midcom_helper__styleloader
             debug_add("The element '{$path}' could not be found.", MIDCOM_LOG_INFO);
             return false;
         }
-        $this->render($this->parse($style, $path), $path);
+        $this->render($style, $path);
 
         return true;
     }
@@ -319,31 +319,21 @@ class midcom_helper__styleloader
     }
 
     /**
-     * This is a bit of a hack to allow &(); tags
+     * Renders the style element with current request data
      *
      * @param string $style The style element content
-     * @param string $path The element name
-     * @return string The parsed element
+     * @param string $path the element's name
+     * @throws midcom_error
      */
-    public function parse($style, $path)
+    private function render($style, $path)
     {
         if (midcom::get()->config->get('wrap_style_show_with_name')) {
             $style = "\n<!-- Start of style '{$path}' -->\n" . $style;
             $style .= "\n<!-- End of style '{$path}' -->\n";
         }
 
-        return midcom_helper_misc::preparse($style);
-    }
-
-    /**
-     * Renders the style element with current request data
-     *
-     * @param string $preparsed The element's content as executable code
-     * @param string $path the element's name
-     * @throws midcom_error
-     */
-    public function render($preparsed, $path)
-    {
+        // This is a bit of a hack to allow &(); tags
+        $preparsed = midcom_helper_misc::preparse($style);
         if (midcom_core_context::get()->has_custom_key('request_data')) {
             $data =& midcom_core_context::get()->get_custom_key('request_data');
         }
@@ -396,7 +386,7 @@ class midcom_helper__styleloader
         }
 
         if ($_style !== false) {
-            $this->render($this->parse($_style, $path), $path);
+            $this->render($_style, $path);
             return true;
         }
         debug_add("The element '{$path}' could not be found.", MIDCOM_LOG_INFO);
@@ -442,7 +432,9 @@ class midcom_helper__styleloader
         foreach ($this->_styledirs[$current_context] as $path) {
             $filename = $path . "/{$_element}.php";
             if (file_exists($filename)) {
-                $this->_snippets[$filename] = file_get_contents($filename);
+                if (!array_key_exists($filename, $this->_snippets)) {
+                    $this->_snippets[$filename] = file_get_contents($filename);
+                }
                 return $this->_snippets[$filename];
             }
         }
