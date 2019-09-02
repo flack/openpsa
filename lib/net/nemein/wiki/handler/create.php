@@ -93,10 +93,8 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
         if ($to_node[MIDCOM_NAV_ID] != $this->_topic->id) {
             // Last parent is not this topic, redirect there
             $wikiword_url = rawurlencode($resolved['remaining_path']);
-            midcom::get()->relocate($to_node[MIDCOM_NAV_ABSOLUTEURL] . "create/{$schema}?wikiword={$wikiword_url}");
-            // This will exit()
+            return new midcom_response_relocate($to_node[MIDCOM_NAV_ABSOLUTEURL] . "create/{$schema}/?wikiword={$wikiword_url}");
         }
-        return true;
     }
 
     /**
@@ -127,7 +125,9 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
         if (!$schemadb->has($schema)) {
             throw new midcom_error_notfound('Schema ' . $schema . ' not found in schemadb');
         }
-        $this->check_unique_wikiword($this->_wikiword, $schema);
+        if ($response = $this->check_unique_wikiword($this->_wikiword, $schema)) {
+            return $response;
+        }
 
         $this->_page = new net_nemein_wiki_wikipage();
         $this->_page->topic = $this->_topic->id;
