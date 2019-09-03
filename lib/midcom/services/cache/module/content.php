@@ -734,29 +734,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     {
         $this->apply_headers($response, $this->_sent_headers);
 
-        // Detected headers flags
-        $size = $response->headers->has('Content-Length');
-        $lastmod = false;
-
         if ($date = $response->getLastModified()) {
-            $lastmod = true;
             $this->_last_modified = (int) $date->format('U');
             if ($this->_last_modified == -1) {
                 debug_add("Failed to extract the timecode from the last modified header, defaulting to the current time.", MIDCOM_LOG_WARN);
                 $this->_last_modified = time();
             }
-        }
-
-        if (!$size) {
-            /* TODO: Doublecheck the way this is handled, now we just don't send it
-             * if headers_strategy implies caching */
-            if (!in_array($this->_headers_strategy, ['public', 'private'])) {
-                $response->headers->set("Content-Length", strlen($response->getContent()));
-                $this->register_sent_header('Content-Length', $response->headers->get('Content-Length'));
-            }
-        }
-
-        if (!$lastmod) {
+        } else {
             /* Determine Last-Modified using MidCOM's component context,
              * Fallback to time() if this fails.
              */
@@ -767,6 +751,15 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $response->setLastModified(DateTime::createFromFormat('U', $time));
             $this->register_sent_header('Last-Modified', $response->headers->get('Last-Modified'));
             $this->_last_modified = $time;
+        }
+
+        if (!$response->headers->has('Content-Length')) {
+            /* TODO: Doublecheck the way this is handled, now we just don't send it
+             * if headers_strategy implies caching */
+            if (!in_array($this->_headers_strategy, ['public', 'private'])) {
+                $response->headers->set("Content-Length", strlen($response->getContent()));
+                $this->register_sent_header('Content-Length', $response->headers->get('Content-Length'));
+            }
         }
 
         $this->cache_control_headers($response);
