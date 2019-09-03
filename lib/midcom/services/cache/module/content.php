@@ -166,11 +166,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private $context_guids = [];
 
     /**
-     * Forced headers
-     */
-    private $_force_headers = [];
-
-    /**
      * @param GetResponseEvent $event
      */
     public function on_request(GetResponseEvent $event)
@@ -404,7 +399,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_headers_strategy_authenticated = $this->get_strategy('cache_module_content_headers_strategy_authenticated');
         $this->_default_lifetime = (int)midcom::get()->config->get('cache_module_content_default_lifetime');
         $this->_default_lifetime_authenticated = (int)midcom::get()->config->get('cache_module_content_default_lifetime_authenticated');
-        $this->_force_headers = midcom::get()->config->get('cache_module_content_headers_force');
 
         if ($this->_headers_strategy == 'no-cache') {
             $this->no_cache();
@@ -779,12 +773,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->register_sent_header('Cache-Control', $response->headers->get('Cache-Control'));
         if ($response->getExpires()) {
             $this->register_sent_header('Expires', $response->headers->get('Expires'));
-        }
-        if (is_array($this->_force_headers)) {
-            foreach ($this->_force_headers as $header => $value) {
-                $response->headers->set($header, $value);
-                $this->register_sent_header($header, $value);
-            }
         }
     }
 
