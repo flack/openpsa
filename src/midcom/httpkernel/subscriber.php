@@ -15,7 +15,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\FilterControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use midcom\routing\resolver;
 use Symfony\Component\HttpFoundation\Request;
 use midcom;
@@ -36,7 +35,6 @@ class subscriber implements EventSubscriberInterface
             KernelEvents::REQUEST => ['on_request'],
             KernelEvents::CONTROLLER_ARGUMENTS => ['on_arguments'],
             KernelEvents::VIEW => ['on_view'],
-            KernelEvents::RESPONSE => ['on_response'],
             KernelEvents::EXCEPTION => ['on_exception']
         ];
     }
@@ -102,15 +100,12 @@ class subscriber implements EventSubscriberInterface
 
     public function on_view(GetResponseForControllerResultEvent $event)
     {
-        $event->setResponse(new midcom_response_styled($event->getRequest()->attributes->get('context')));
-    }
-
-    public function on_response(FilterResponseEvent $event)
-    {
-        $controller = $event->getRequest()->attributes->get('_controller');
+        $attributes = $event->getRequest()->attributes;
+        $controller = $attributes->get('_controller');
         if ($controller[0] instanceof midcom_baseclasses_components_handler) {
             $controller[0]->populate_breadcrumb_line();
         }
+        $event->setResponse(new midcom_response_styled($attributes->get('context')));
     }
 
     public function on_exception(GetResponseForExceptionEvent $event)

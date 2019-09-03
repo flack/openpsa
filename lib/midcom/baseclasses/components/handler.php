@@ -143,6 +143,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
         $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, function() use ($element) {
             midcom::get()->style->show($element);
         });
+        $this->populate_breadcrumb_line();
         return new midcom_response_styled($context);
     }
 
