@@ -94,7 +94,7 @@
  *   This defaults to false.
  * - <b>string cache_module_content_headers_strategy:</b> Valid values are<br/>
  *   'no-cache' activates no-cache mode that actively tries to circumvent all caching<br/>
- *   'revalidate' is the default which sets 'must-revalidate' and presses the issue by setting Expires to current time<br/>
+ *   'revalidate' is the default which sets 'must-revalidate'. Expires defaults to the current time, so this behaves like 'no-cache' unless expires() is called<br/>
  *   'public' and 'private' enable caching with the cache-control header of the same name, default expiry timestamps are generated using the cache_module_content_default_lifetime
  * - <b>int cache_module_content_default_lifetime:</b> How many seconds from now to set the default Expires header to, defaults to 15 minutes. Also used as default expiry time for content-cache entries that have no expiry set.
  * - <b>string cache_module_content_headers_strategy_authenticated:</b> Defaults to 'private', this is equivalent to cache_module_content_headers_strategy but applies when we have authenticated user.

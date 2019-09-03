@@ -114,7 +114,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     /**
      * Controls cache headers strategy
      * 'no-cache' activates no-cache mode that actively tries to circumvent all caching
-     * 'revalidate' is the default which sets must-revalidate and expiry to current time
+     * 'revalidate' is the default which sets must-revalidate. Expiry defaults to current time, so this effectively behaves like no-cache if expires() was not called
      * 'public' and 'private' enable caching with the cache-control header of the same name, default expiry timestamps are generated using the default_lifetime
      *
      * @var string
@@ -793,38 +793,34 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function cache_control_headers(Response $response)
     {
-        // Add Expiration and Cache Control headers
-        $strategy = $this->_headers_strategy;
-        $default_lifetime = $this->_default_lifetime;
-        if (   midcom::get()->auth->is_valid_user()
-            || midcom_connection::get_user()) {
-            $strategy = $this->_headers_strategy_authenticated;
-            $default_lifetime = $this->_default_lifetime_authenticated;
-        }
-
         // Just to be sure not to mess the headers sent by no_cache in case it was called
         if ($this->_no_cache) {
             $this->no_cache($response);
-        } elseif ($strategy == 'revalidate') {
-            // Currently, we *force* a cache client to revalidate the copy every time.
-            // I hope that this fixes most of the problems outlined in #297 for the time being.
-            // The timeout of a content cache entry is not affected by this.
-            $response->setMaxAge(0);
-            $response->headers->addCacheControlDirective('must-revalidate');
-            $response->setExpires(new DateTime);
         } else {
-            if ($strategy == 'private') {
-                $response->setPrivate();
-            } else {
-                $response->setPublic();
+            // Add Expiration and Cache Control headers
+            $strategy = $this->_headers_strategy;
+            $default_lifetime = $this->_default_lifetime;
+            if (   midcom::get()->auth->is_valid_user()
+                || midcom_connection::get_user()) {
+                $strategy = $this->_headers_strategy_authenticated;
+                $default_lifetime = $this->_default_lifetime_authenticated;
             }
-            if ($this->_expires !== null) {
-                $expires = $this->_expires;
-                $max_age = $this->_expires - time();
+
+            $now = time();
+            if ($strategy == 'revalidate') {
+                // If expires is not set, we force the client to revalidate every time.
+                // The timeout of a content cache entry is not affected by this.
+                $expires = $this->_expires ?? $now;
             } else {
-                $expires = time() + $default_lifetime;
-                $max_age = $default_lifetime;
+                $expires = $this->_expires ?? $now + $default_lifetime;
+                if ($strategy == 'private') {
+                    $response->setPrivate();
+                } else {
+                    $response->setPublic();
+                }
             }
+            $max_age = $expires - $now;
+
             $response
                 ->setExpires(DateTime::createFromFormat('U', $expires))
                 ->setMaxAge($max_age);
