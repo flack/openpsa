@@ -79,13 +79,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private $_expires;
 
     /**
-     * The time of the last modification, set during auto-header-completion.
-     *
-     * @var int
-     */
-    private $_last_modified = 0;
-
-    /**
      * An array storing all HTTP headers registered through register_sent_header().
      * They will be sent when a cached page is delivered.
      *
@@ -727,19 +720,17 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->apply_headers($response, $this->_sent_headers);
 
         if ($date = $response->getLastModified()) {
-            $this->_last_modified = (int) $date->format('U');
-            if ($this->_last_modified == -1) {
+            if ((int) $date->format('U') == -1) {
                 debug_add("Failed to extract the timecode from the last modified header, defaulting to the current time.", MIDCOM_LOG_WARN);
-                $this->_last_modified = time();
+                $response->setLastModified(new DateTimeImmutable);
             }
         } else {
             /* Determine Last-Modified using MidCOM's component context,
              * Fallback to time() if this fails.
              */
             $time = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_LASTMODIFIED) ?: time();
-            $response->setLastModified(DateTime::createFromFormat('U', $time));
+            $response->setLastModified(DateTimeImmutable::createFromFormat('U', (string) $time));
             $this->register_sent_header('Last-Modified', $response->headers->get('Last-Modified'));
-            $this->_last_modified = $time;
         }
 
         if (!$response->headers->has('Content-Length')) {
