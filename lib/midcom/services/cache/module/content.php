@@ -239,7 +239,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        if (!isset($data['last_modified'])) {
+        if (!isset($data['last-modified'])) {
             debug_add('Current page is in cache, but has insufficient information', MIDCOM_LOG_INFO);
             return;
         }
@@ -247,9 +247,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         debug_add("HIT {$content_id}");
 
         $response = new Response;
-        $this->apply_headers($response, $data['sent_headers']);
-        $response->setEtag($data['etag']);
-        $response->setLastModified(DateTime::createFromFormat('U', $data['last_modified']));
+        $this->apply_headers($response, $data);
         if (!$response->isNotModified($request)) {
             $content = $this->_data_cache->fetch($content_id);
             if ($content === false) {
@@ -316,7 +314,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
              return;
          }
          $content_id = 'C-' . $etag;
-         $this->write_meta_cache($content_id, $etag, $request);
+         $this->write_meta_cache($content_id, $request, $response);
          $this->_data_cache->save($content_id, $cache_data);
     }
 
@@ -613,7 +611,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * Writes meta-cache entry from context data using given content id
      * Used to be part of on_request, but needed by serve-attachment method in midcom_core_urlmethods as well
      */
-    public function write_meta_cache($content_id, $etag, Request $request)
+    public function write_meta_cache($content_id, Request $request, Response $response)
     {
         if (   $this->_uncached
             || $this->_no_cache) {
@@ -632,13 +630,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         $entries = [
             $request_id => $content_id,
-            $content_id => [
-                'etag' => $etag,
-                'last_modified' => $this->_last_modified,
-                'sent_headers' => $this->_sent_headers
-            ]
+            $content_id => $response->headers->all()
         ];
-
         $this->_meta_cache->saveMultiple($entries, $lifetime);
 
         // Cache where the object have been
@@ -657,15 +650,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $to_save = [];
         foreach ($this->context_guids[$context] as $guid) {
             // Getting old map from cache or create new, empty one
-            $guidmap = (empty($maps[$guid])) ? [] : $maps[$guid];
+            $guidmap = $maps[$guid] ?? [];
 
             if (!in_array($content_id, $guidmap)) {
                 $guidmap[] = $content_id;
                 $to_save[$guid] = $guidmap;
             }
 
-            if (   $content_id !== $request_id
-                && !in_array($request_id, $guidmap)) {
+            if (!in_array($request_id, $guidmap)) {
                 $guidmap[] = $request_id;
                 $to_save[$guid] = $guidmap;
             }

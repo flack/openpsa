@@ -73,7 +73,7 @@ class midcom_core_urlmethods
         }
         midcom::get()->cache->content->cache_control_headers($response);
         // Store metadata in cache so _check_hit() can help us
-        midcom::get()->cache->content->write_meta_cache('A-' . $etag, $etag, $request);
+        midcom::get()->cache->content->write_meta_cache('A-' . $etag, $request, $response);
         return $response;
     }
 
