@@ -13,14 +13,17 @@
  */
 class midcom_response_xml extends midcom_response
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->headers->set('Content-type', 'text/xml; charset=' . $this->encoding);
+    }
+
     /**
      * Sends the response to the client and shuts down the environment
      */
-    public function send()
+    public function sendContent()
     {
-        midcom::get()->cache->content->content_type('text/xml');
-        midcom::get()->header('Content-type: text/xml; charset=' . $this->encoding, $this->code);
-
         echo '<?xml version="1.0" encoding="' . $this->encoding . '" standalone="yes"?>' . "\n";
         echo "<response>\n";
 

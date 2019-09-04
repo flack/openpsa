@@ -17,16 +17,14 @@ class midcom_response_json extends midcom_response
     {
         parent::__construct();
         $this->_data = $data;
+        $this->headers->set('Content-type', 'application/json; charset=' . $this->encoding);
     }
 
     /**
      * Sends the response to the client and shuts down the environment
      */
-    public function send()
+    public function sendContent()
     {
-        midcom::get()->cache->content->content_type('application/json');
-        midcom::get()->header('Content-type: application/json; charset=' . $this->encoding, $this->code);
-
         $exporter = new midcom_helper_exporter_json();
         echo $exporter->array2data($this->_data);
     }
