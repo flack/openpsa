@@ -281,34 +281,27 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $request = $event->getRequest();
         $cache_data = $response->getContent();
 
-        // Generate E-Tag header.
-        if (empty($cache_data)) {
-            $etag = md5(serialize($this->_sent_headers));
-        } else {
-            $etag = md5($cache_data);
-        }
-
-        $response->setEtag($etag);
-
         // Register additional Headers around the current output request
         // It has been sent already during calls to content_type
         $this->register_sent_header('Content-Type', $this->_content_type);
         $this->complete_sent_headers($response);
-
         $response->prepare($request);
 
-        /**
-         * WARNING:
-         *   Stuff below here is executed *after* we have flushed output,
-         *   so here we should only write out our caches but do nothing else
-         */
-         if ($this->_uncached) {
-             debug_add('Not writing cache file, we are in uncached operation mode.');
-             return;
-         }
-         $content_id = 'C-' . $etag;
-         $this->write_meta_cache($content_id, $request, $response);
-         $this->_data_cache->save($content_id, $cache_data);
+        // Generate E-Tag header.
+        if (empty($cache_data)) {
+            $etag = md5(serialize($response->headers->all()));
+        } else {
+            $etag = md5($cache_data);
+        }
+        $response->setEtag($etag);
+
+        if ($this->_uncached) {
+            debug_add('Not writing cache file, we are in uncached operation mode.');
+            return;
+        }
+        $content_id = 'C-' . $etag;
+        $this->write_meta_cache($content_id, $request, $response);
+        $this->_data_cache->save($content_id, $cache_data);
     }
 
     /**
