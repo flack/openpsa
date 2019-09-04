@@ -87,15 +87,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private $_sent_headers = [];
 
     /**
-     * The MIME content-type of the current request. It defaults to text/html, but
-     * must be set correctly, so that the client gets the correct type delivered
-     * upon cache deliveries.
-     *
-     * @var string
-     */
-    private $_content_type = 'text/html';
-
-    /**
      * Set this to true if you want to inhibit storage of the generated pages in
      * the cache database. All other headers will be created as usual though, so
      * 304 processing will kick in for example.
@@ -282,8 +273,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $cache_data = $response->getContent();
 
         // Register additional Headers around the current output request
-        // It has been sent already during calls to content_type
-        $this->register_sent_header('Content-Type', $this->_content_type);
         $this->complete_sent_headers($response);
         $response->prepare($request);
 
@@ -500,12 +489,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function content_type($type)
     {
-        $this->_content_type = $type;
-
-        // Send header (don't register yet to avoid duplicates, this is done during finish
-        // caching).
-        $header = "Content-type: " . $this->_content_type;
-        _midcom_header($header);
+        midcom::get()->header('Content-Type: ' . $type);
     }
 
     /**
