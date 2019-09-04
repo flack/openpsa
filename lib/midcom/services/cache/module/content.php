@@ -715,14 +715,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if ($date = $response->getLastModified()) {
             if ((int) $date->format('U') == -1) {
                 debug_add("Failed to extract the timecode from the last modified header, defaulting to the current time.", MIDCOM_LOG_WARN);
-                $response->setLastModified(new DateTimeImmutable);
+                $response->setLastModified(new DateTime);
             }
         } else {
             /* Determine Last-Modified using MidCOM's component context,
              * Fallback to time() if this fails.
              */
             $time = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_LASTMODIFIED) ?: time();
-            $response->setLastModified(DateTimeImmutable::createFromFormat('U', (string) $time));
+            $response->setLastModified(DateTime::createFromFormat('U', (string) $time));
         }
 
         if (!$response->headers->has('Content-Length')) {
