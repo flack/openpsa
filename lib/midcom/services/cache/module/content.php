@@ -514,14 +514,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * the PHP header function.
      *
      * @param string $header The header that was sent.
-     * @param string $value
      */
-    public function register_sent_header($header, $value = null)
+    public function register_sent_header($header)
     {
-        if ($value === null && strpos($header, ': ') !== false) {
-            $parts = explode(': ', $header, 2);
-            $header = $parts[0];
-            $value = $parts[1];
+        $value = null;
+        if (strpos($header, ': ') !== false) {
+            list($header, $value) = explode(': ', $header, 2);
         }
         $this->_sent_headers[$header] = $value;
     }
