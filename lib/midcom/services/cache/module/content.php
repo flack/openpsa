@@ -744,10 +744,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             /* Determine Last-Modified using MidCOM's component context,
              * Fallback to time() if this fails.
              */
-            $time = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_LASTMODIFIED);
-            if ($time == 0 || !is_numeric($time)) {
-                $time = time();
-            }
+            $time = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_LASTMODIFIED) ?: time();
             $response->setLastModified(DateTime::createFromFormat('U', $time));
             $this->register_sent_header('Last-Modified', $response->headers->get('Last-Modified'));
             $this->_last_modified = $time;

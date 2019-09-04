@@ -332,7 +332,7 @@ class midcom_services_metadata
      * @param int $lastmodified The date of last modification of this request.
      * @param string $permalinkguid The GUID used to create a permalink for this request.
      */
-    public function set_request_metadata($lastmodified, $permalinkguid)
+    public function set_request_metadata(int $lastmodified, $permalinkguid)
     {
         $context = midcom_core_context::get();
 
