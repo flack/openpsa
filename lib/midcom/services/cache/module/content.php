@@ -416,7 +416,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function no_cache(Response $response = null)
     {
-        $settings = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0';
+        $settings = 'no-store, no-cache, must-revalidate';
         // PONDER: Send expires header (set to long time in past) as well ??
 
         if ($response) {
