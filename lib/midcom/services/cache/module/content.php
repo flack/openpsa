@@ -723,7 +723,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
              */
             $time = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_LASTMODIFIED) ?: time();
             $response->setLastModified(DateTimeImmutable::createFromFormat('U', (string) $time));
-            $this->register_sent_header('Last-Modified', $response->headers->get('Last-Modified'));
         }
 
         if (!$response->headers->has('Content-Length')) {
@@ -731,15 +730,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
              * if headers_strategy implies caching */
             if (!in_array($this->_headers_strategy, ['public', 'private'])) {
                 $response->headers->set("Content-Length", strlen($response->getContent()));
-                $this->register_sent_header('Content-Length', $response->headers->get('Content-Length'));
             }
         }
 
         $this->cache_control_headers($response);
-        $this->register_sent_header('Cache-Control', $response->headers->get('Cache-Control'));
-        if ($response->getExpires()) {
-            $this->register_sent_header('Expires', $response->headers->get('Expires'));
-        }
     }
 
     /**
