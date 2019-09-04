@@ -230,8 +230,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         debug_add("HIT {$content_id}");
 
-        $response = new Response;
-        $this->apply_headers($response, $data);
+        $response = new Response('', Response::HTTP_OK, $data);
         if (!$response->isNotModified($request)) {
             $content = $this->_data_cache->fetch($content_id);
             if ($content === false) {
@@ -517,11 +516,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function register_sent_header($header)
     {
-        $value = null;
         if (strpos($header, ': ') !== false) {
             list($header, $value) = explode(': ', $header, 2);
+            $this->_sent_headers[$header] = $value;
         }
-        $this->_sent_headers[$header] = $value;
     }
 
     /**
@@ -669,18 +667,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->store_context_guid_map($context, $dl_content_id, $dl_request_id);
     }
 
-    private function apply_headers(Response $response, array $headers)
-    {
-        foreach ($headers as $header => $value) {
-            if ($value === null) {
-                // compat for old-style midcom status setting
-                _midcom_header($header);
-            } else {
-                $response->headers->set($header, $value);
-            }
-        }
-    }
-
     /**
      * This little helper ensures that the headers Content-Length
      * and Last-Modified are present. The lastmod timestamp is taken out of the
@@ -692,7 +678,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     private function complete_sent_headers(Response $response)
     {
-        $this->apply_headers($response, $this->_sent_headers);
+        foreach ($this->_sent_headers as $header => $value) {
+            $response->headers->set($header, $value);
+        }
 
         if ($date = $response->getLastModified()) {
             if ((int) $date->format('U') == -1) {

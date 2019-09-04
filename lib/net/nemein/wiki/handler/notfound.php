@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Wikipage "page not found" handler
  *
@@ -29,8 +31,6 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
             return new midcom_response_relocate("{$result[0]->name}/", 301);
         }
 
-        // This is a custom "not found" page, send appropriate headers to prevent indexing
-        midcom::get()->header('Not found', 404);
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('"%s" not found'), $wikiword));
 
         // TODO: List pages containing the wikiword via indexer
@@ -65,6 +65,9 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
         $data['wiki_tools']->add_items($buttons);
         $this->add_breadcrumb('notfound/' . rawurlencode($wikiword), $wikiword);
 
-        return $this->show('view-notfound');
+        $response = $this->show('view-notfound');
+        // This is a custom "not found" page, send appropriate headers to prevent indexing
+        $response->setStatusCode(Response::HTTP_NOT_FOUND);
+        return $response;
     }
 }

@@ -278,13 +278,7 @@ class midcom_application
     public function header($header, $response_code = null)
     {
         $this->cache->content->register_sent_header($header);
-
-        if ($response_code !== null) {
-            // Send the HTTP response code as requested
-            _midcom_header($header, true, $response_code);
-        } else {
-            _midcom_header($header);
-        }
+        _midcom_header($header, true, $response_code);
     }
 
     /**
