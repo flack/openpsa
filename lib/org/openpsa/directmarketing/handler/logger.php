@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * org.openpsa.directmarketing campaign handler and viewer class.
@@ -56,19 +57,8 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         }
 
         midcom::get()->auth->drop_sudo();
-        midcom::get()->skip_page_style = true;
-        midcom::get()->header('Content-type: text/plain');
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_bounce($handler_id, array &$data)
-    {
-        echo "OK\n";
         //PONDER: check  $this->_request_data['update_status'] and display something else in case all is not ok ?
+        return new Response("OK\n", Response::HTTP_OK, ['Content-type', 'text/plain']);
     }
 
     /**
@@ -118,8 +108,8 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         }
 
         midcom::get()->auth->drop_sudo();
-        midcom::get()->skip_page_style = true;
-        midcom::get()->header('Content-type: text/plain');
+        //PONDER: check $this->_request_data['create_status'] and display something else in case all is not ok ?
+        return new Response("OK\n", Response::HTTP_OK, ['Content-type', 'text/plain']);
     }
 
     private function _create_link_receipt($receipt, $token, $target)
@@ -143,17 +133,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $read_receipt->token = $token;
         $read_receipt->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_messagereceipt_dba::RECEIVED;
         $this->_request_data['create_status']['receipts'][$token] = $read_receipt->create();
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_link($handler_id, array &$data)
-    {
-        echo "OK\n";
-        //PONDER: check $this->_request_data['create_status'] and display something else in case all is not ok ?
     }
 
     /**

@@ -168,10 +168,10 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
                 $data['linked_raw_objects'][$entry->linkGuid] = $reflector->get_object_label($linked_object);
             }
         }
-        midcom::get()->header("Content-type: text/xml; charset=UTF-8");
         midcom::get()->skip_page_style = true;
-
-        return $this->show('show_entries_xml');
+        $response = $this->show('show_entries_xml');
+        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
+        return $response;
     }
 
     private function _prepare_journal_query(ParameterBag $post)
