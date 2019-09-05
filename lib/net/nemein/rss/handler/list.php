@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Feed management class.
  *
@@ -14,37 +16,27 @@
 class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
 {
     /**
-     * @param array $data The local request data.
+     * @return Response
      */
-    public function _handler_opml(array &$data)
-    {
-        midcom::get()->cache->content->content_type("text/xml; charset=UTF-8");
-        midcom::get()->skip_page_style = true;
-
-        $qb = net_nemein_rss_feed_dba::new_query_builder();
-        $qb->add_order('title');
-        $qb->add_constraint('node', '=', $this->_topic->id);
-        $data['feeds'] = $qb->execute();
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_opml($handler_id, array &$data)
+    public function _handler_opml() : Response
     {
         $opml = new OPMLCreator();
         $opml->title = $this->_topic->extra;
 
-        foreach ($data['feeds'] as $feed) {
+        $qb = net_nemein_rss_feed_dba::new_query_builder();
+        $qb->add_order('title');
+        $qb->add_constraint('node', '=', $this->_topic->id);
+
+        foreach ($qb->execute() as $feed) {
             $item = new FeedItem();
             $item->title = $feed->title;
             $item->xmlUrl = $feed->url;
             $opml->addItem($item);
         }
 
-        echo $opml->createFeed();
+        return new Response($opml->createFeed(), Response::HTTP_OK, [
+            'Content-Type' => 'text/xml; charset=UTF-8'
+        ]);
     }
 
     /**
