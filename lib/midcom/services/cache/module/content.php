@@ -418,13 +418,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if ($response) {
             $response->headers->set('Cache-Control', $settings);
         } else if (!$this->_no_cache) {
-            if (_midcom_headers_sent()) {
-                // Whatever is wrong here, we return.
+            if (headers_sent()) {
                 debug_add('Warning, we should move to no_cache but headers have already been sent, skipping header transmission.', MIDCOM_LOG_ERROR);
-                return;
+            } else {
+                midcom::get()->header('Cache-Control: ' . $settings);
             }
-
-            midcom::get()->header('Cache-Control: ' . $settings);
         }
         $this->_no_cache = true;
     }

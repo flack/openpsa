@@ -278,7 +278,7 @@ class midcom_application
     public function header($header, $response_code = null)
     {
         $this->cache->content->register_sent_header($header);
-        _midcom_header($header, true, $response_code);
+        midcom_compat_environment::get()->header($header, true, $response_code);
     }
 
     /**
