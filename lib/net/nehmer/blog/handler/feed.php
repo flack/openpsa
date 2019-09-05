@@ -94,29 +94,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         $this->_feed->language = $this->_config->get('rss_language');
         $this->_feed->editor = $this->_config->get('rss_webmaster');
         $this->_feed->link = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
-        switch ($handler_id) {
-            case 'feed-rss2':
-                $this->_feed->syndicationURL = "{$this->_feed->link}rss.xml";
-                break;
-
-            case 'feed-rss1':
-                $this->_feed->syndicationURL = "{$this->_feed->link}rss1.xml";
-                break;
-
-            case 'feed-rss091':
-                $this->_feed->syndicationURL = "{$this->_feed->link}rss091.xml";
-                break;
-
-            case 'feed-atom':
-                $this->_feed->syndicationURL = "{$this->_feed->link}atom.xml";
-                break;
-
-            case 'feed-category-rss2':
-                $this->_feed->title = sprintf($this->_l10n->get('%s category %s'), $this->_feed->title, $this->_request_data['category']);
-                $this->_feed->syndicationURL = "{$this->_feed->link}feeds/category/{$this->_request_data['category']}";
-                break;
-        }
     }
 
     /**
@@ -139,12 +116,17 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         }
 
         switch ($handler_id) {
-            case 'feed-rss2':
             case 'feed-category-rss2':
+                $this->_feed->title = sprintf($this->_l10n->get('%s category %s'), $this->_feed->title, $data['category']);
+                $this->_feed->syndicationURL = "{$this->_feed->link}feeds/category/{$data['category']}";
+                // Fall-through
+
+            case 'feed-rss2':
                 echo $this->_feed->createFeed('RSS2.0');
                 break;
 
             case 'feed-rss1':
+                $this->_feed->syndicationURL = $this->_feed->link . 'rss1.xml';
                 echo $this->_feed->createFeed('RSS1.0');
                 break;
 
@@ -153,6 +135,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
                 break;
 
             case 'feed-atom':
+                $this->_feed->syndicationURL = $this->_feed->link . 'atom.xml';
                 echo $this->_feed->createFeed('ATOM');
                 break;
         }
