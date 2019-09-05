@@ -260,15 +260,23 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function on_response(FilterResponseEvent $event)
     {
-        if ($this->_no_cache || !$event->isMasterRequest()) {
+        if (!$event->isMasterRequest()) {
             return;
         }
         $response = $event->getResponse();
         if ($response instanceof BinaryFileResponse) {
             return;
         }
-
+        foreach ($this->_sent_headers as $header => $value) {
+            header_remove($header);
+            $response->headers->set($header, $value);
+        }
         $request = $event->getRequest();
+        if ($this->_no_cache) {
+            $response->prepare($request);
+            return;
+        }
+
         $cache_data = $response->getContent();
 
         // Register additional Headers around the current output request
@@ -416,7 +424,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 return;
             }
 
-            _midcom_header('Cache-Control: ' . $settings);
+            midcom::get()->header('Cache-Control: ' . $settings);
         }
         $this->_no_cache = true;
     }
@@ -678,10 +686,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     private function complete_sent_headers(Response $response)
     {
-        foreach ($this->_sent_headers as $header => $value) {
-            $response->headers->set($header, $value);
-        }
-
         if ($date = $response->getLastModified()) {
             if ((int) $date->format('U') == -1) {
                 debug_add("Failed to extract the timecode from the last modified header, defaulting to the current time.", MIDCOM_LOG_WARN);
