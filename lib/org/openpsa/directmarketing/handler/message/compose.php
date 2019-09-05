@@ -86,7 +86,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         debug_add('message type: ' . $this->_message->orgOpenpsaObtype);
         if ($this->_message->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT) {
             debug_add('Forcing content type: text/plain');
-            midcom::get()->header('Content-type: text/plain');
+            midcom::get()->header('Content-Type: text/plain');
         }
         midcom::get()->auth->drop_sudo();
     }

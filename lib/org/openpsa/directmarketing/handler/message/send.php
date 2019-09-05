@@ -61,7 +61,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $sender = $this->_get_sender($data);
         $composed = $this->compose($data);
         debug_add('Forcing content type: text/plain');
-        midcom::get()->header('Content-type: text/plain');
+        midcom::get()->header('Content-Type: text/plain');
         $bgstat = $sender->send_bg($data['batch_url_base_full'], $data['batch_number'], $composed);
         if (!$bgstat) {
             echo "ERROR\n";
@@ -158,7 +158,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $composed = $this->compose($data);
         //We force the content-type since the compositor might have set it to something else in compositor for preview purposes
         debug_add('Forcing content type: text/html');
-        midcom::get()->header('Content-type: text/html');
+        midcom::get()->header('Content-Type: text/html');
 
         if ($handler_id == 'test_send_message') {
             // on-line send

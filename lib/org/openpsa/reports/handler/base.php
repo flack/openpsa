@@ -158,7 +158,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
             //Skip normal style, and force content type based on query data.
             midcom::get()->skip_page_style = true;
             debug_add('Forcing content type: ' . $this->_request_data['query_data']['mimetype']);
-            midcom::get()->header('Content-type: ' . $this->_request_data['query_data']['mimetype']);
+            midcom::get()->header('Content-Type: ' . $this->_request_data['query_data']['mimetype']);
         }
     }
 

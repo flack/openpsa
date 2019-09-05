@@ -17,7 +17,7 @@ class midcom_response_json extends midcom_response
     {
         parent::__construct();
         $this->_data = $data;
-        $this->headers->set('Content-type', 'application/json; charset=' . $this->encoding);
+        $this->headers->set('Content-Type', 'application/json; charset=' . $this->encoding);
     }
 
     /**

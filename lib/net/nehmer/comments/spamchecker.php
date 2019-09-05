@@ -29,9 +29,9 @@ class net_nehmer_comments_spamchecker
         }
         $header  = "POST /pslv.php HTTP/1.0\r\n";
         $header .= "Host: www.linksleeve.org\r\n";
-        $header .= "Content-type: application/x-www-form-urlencoded\r\n";
-        $header .= "Content-length: " . strlen($data) . "\r\n";
-        $header .= "User-agent: Mozilla/4.0 (compatible: MSIE 7.0; Windows NT 6.0)\r\n";
+        $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
+        $header .= "Content-Length: " . strlen($data) . "\r\n";
+        $header .= "User-Agent: Mozilla/4.0 (compatible: MSIE 7.0; Windows NT 6.0)\r\n";
         $header .= "Connection: close\r\n\r\n";
         $header .= $data;
 

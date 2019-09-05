@@ -16,7 +16,7 @@ class midcom_response_xml extends midcom_response
     public function __construct()
     {
         parent::__construct();
-        $this->headers->set('Content-type', 'text/xml; charset=' . $this->encoding);
+        $this->headers->set('Content-Type', 'text/xml; charset=' . $this->encoding);
     }
 
     /**

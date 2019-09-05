@@ -130,7 +130,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
 
         midcom::get()->skip_page_style = true;
         $response = $this->show('show-prospects-xml');
-        $response->headers->set('Content-type: text/xml', 'charset=UTF-8');
+        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
         return $response;
     }
 

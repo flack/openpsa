@@ -58,7 +58,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
 
         midcom::get()->auth->drop_sudo();
         //PONDER: check  $this->_request_data['update_status'] and display something else in case all is not ok ?
-        return new Response("OK\n", Response::HTTP_OK, ['Content-type', 'text/plain']);
+        return new Response("OK\n", Response::HTTP_OK, ['Content-Type', 'text/plain']);
     }
 
     /**
@@ -109,7 +109,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
 
         midcom::get()->auth->drop_sudo();
         //PONDER: check $this->_request_data['create_status'] and display something else in case all is not ok ?
-        return new Response("OK\n", Response::HTTP_OK, ['Content-type', 'text/plain']);
+        return new Response("OK\n", Response::HTTP_OK, ['Content-Type', 'text/plain']);
     }
 
     private function _create_link_receipt($receipt, $token, $target)
