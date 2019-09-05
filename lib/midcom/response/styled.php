@@ -35,7 +35,7 @@ class midcom_response_styled extends Response
         $this->content = $this->render();
     }
 
-    public function send()
+    public function sendContent()
     {
         echo $this->getContent();
     }
