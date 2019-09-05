@@ -35,11 +35,6 @@ class midcom_response_styled extends Response
         $this->content = $this->render();
     }
 
-    public function sendContent()
-    {
-        echo $this->getContent();
-    }
-
     private function render()
     {
         // Retrieve Metadata
