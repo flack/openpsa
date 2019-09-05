@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Common handlers
@@ -51,17 +52,8 @@ class org_openpsa_reports_handler_common extends midcom_baseclasses_components_h
         }
 
         //We're outputting CSV
-        midcom::get()->skip_page_style = true;
-        midcom::get()->header('Content-type: application/csv');
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_csv($handler_id, array &$data)
-    {
-        echo $_POST['org_openpsa_reports_csv'];
+        return new Response($_POST['org_openpsa_reports_csv'], Response::HTTP_OK, [
+            'Content-Type' => 'application/csv'
+        ]);
     }
 }
