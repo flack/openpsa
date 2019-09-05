@@ -28,6 +28,5 @@ class net_nemein_wiki_handler_feedTest extends openpsa_testcase
     {
         $data = $this->run_handler(self::$_topic, ['rss.xml']);
         $this->assertEquals('rss', $data['handler_id']);
-        $this->show_handler($data);
     }
 }

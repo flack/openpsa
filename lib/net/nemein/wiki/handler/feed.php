@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Wikipage feed handler
  *
@@ -14,29 +16,18 @@
 class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
 {
     /**
-     * @param array $data The local request data.
+     * @return Response
      */
-    public function _handler_rss(array &$data)
+    public function _handler_rss()
     {
-        $data['nap'] = new midcom_helper_nav();
-        $data['node'] = $data['nap']->get_node($this->_topic->id);
+        $nap = new midcom_helper_nav();
+        $node = $nap->get_node($this->_topic->id);
 
-        midcom::get()->cache->content->content_type("text/xml; charset=UTF-8");
-        midcom::get()->skip_page_style = true;
+        $rss_creator = new UniversalFeedCreator();
+        $rss_creator->title = $node[MIDCOM_NAV_NAME];
+        $rss_creator->link = $node[MIDCOM_NAV_FULLURL];
+        $rss_creator->syndicationURL = "{$node[MIDCOM_NAV_FULLURL]}rss.xml";
 
-        $data['rss_creator'] = new UniversalFeedCreator();
-        $data['rss_creator']->title = $data['node'][MIDCOM_NAV_NAME];
-        $data['rss_creator']->link = $data['node'][MIDCOM_NAV_FULLURL];
-        $data['rss_creator']->syndicationURL = "{$data['node'][MIDCOM_NAV_FULLURL]}rss.xml";
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_rss($handler_id, array &$data)
-    {
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic.component', '=', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
         $qb->add_constraint('topic', 'INTREE', $this->_topic->id);
@@ -45,16 +36,15 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
 
         foreach ($qb->execute() as $wikipage) {
             if ($wikipage->topic == $this->_topic->id) {
-                $node = $data['node'];
+                $pagenode = $node;
             } else {
-                $node = $data['nap']->get_node($wikipage->topic);
+                $pagenode = $nap->get_node($wikipage->topic);
             }
             $item = new FeedItem();
             $item->title = $wikipage->title;
-            if ($wikipage->name == 'index') {
-                $item->link = $node[MIDCOM_NAV_FULLURL];
-            } else {
-                $item->link = "{$node[MIDCOM_NAV_FULLURL]}{$wikipage->name}/";
+            $item->link = $pagenode[MIDCOM_NAV_FULLURL];
+            if ($wikipage->name != 'index') {
+                $item->link .= "{$wikipage->name}/";
             }
             $item->date = $wikipage->metadata->revised;
             try {
@@ -66,10 +56,11 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
 
             $parser = new net_nemein_wiki_parser($wikipage);
             $item->description = $parser->get_html();
-            $data['rss_creator']->addItem($item);
+            $rss_creator->addItem($item);
         }
-        $data['rss'] = $data['rss_creator']->createFeed('RSS2.0');
 
-        echo $data['rss'];
+        return new Response($rss_creator->createFeed('RSS2.0'), Response::HTTP_OK, [
+            'Content-Type' => 'text/xml; charset=UTF-8'
+        ]);
     }
 }
