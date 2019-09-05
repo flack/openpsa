@@ -74,13 +74,6 @@ class midcom_compat_environment
         }
     }
 
-    public function headers_sent()
-    {
-        if (!defined('OPENPSA2_UNITTEST_RUN')) {
-            return headers_sent();
-        }
-    }
-
     public static function flush_registered_headers()
     {
         $headers = self::$_headers;
