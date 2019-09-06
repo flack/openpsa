@@ -11,9 +11,6 @@
 $handler = new midcom\datamanager\helper\autocomplete($_REQUEST);
 
 // Common headers
-midcom::get()->cache->content->content_type('application/json');
 midcom::get()->header('Content-Type: application/json; charset=UTF-8');
 
 echo json_encode($handler->get_results());
-
-midcom::get()->finish();
