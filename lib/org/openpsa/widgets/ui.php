@@ -78,25 +78,18 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Function to load the necessary javascript & css files for ui_tab
-     */
-    public static function enable_ui_tab()
-    {
-        $head = midcom::get()->head;
-        $head->enable_jquery_ui(['tabs']);
-
-        //functions needed for ui-tab to work here
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/tab_functions.js');
-    }
-
-    /**
      * Render jquery.ui tab controls. Relatedto tabs are automatically added if a GUID is found
+     * Also adds the necessary javascript & css files for ui_tab
      *
      * @param string $guid The GUID, if any
      * @param array $tabdata Any custom tabs the handler wants to add
      */
     public static function render_tabs($guid, array $tabdata)
     {
+        $head = midcom::get()->head;
+        $head->enable_jquery_ui(['tabs']);
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/tab_functions.js');
+
         $uipage = self::get_config_value('ui_page');
         $prefix = midcom_connection::get_url('self') . $uipage . '/';
 

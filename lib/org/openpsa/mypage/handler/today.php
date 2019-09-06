@@ -51,9 +51,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
-        //needed js/css-files for journal entries
-        org_openpsa_widgets_ui::enable_ui_tab();
-
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['calendar_url'] = $siteconfig->get_node_relative_url('org.openpsa.calendar');
         $data['projects_relative_url'] = $siteconfig->get_node_relative_url('org.openpsa.projects');

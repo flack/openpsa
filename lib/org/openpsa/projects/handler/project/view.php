@@ -7,7 +7,6 @@
  */
 
 use midcom\datamanager\datamanager;
-use midcom\grid\grid;
 
 /**
  * Project view handler

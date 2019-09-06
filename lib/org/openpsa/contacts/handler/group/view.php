@@ -123,8 +123,6 @@ implements client
             if (!empty($billing_data)) {
                 $this->_request_data['billing_data'] = $billing_data[0];
             }
-
-            org_openpsa_widgets_ui::enable_ui_tab();
         }
 
         $data['view'] = datamanager::from_schemadb($this->_config->get('schemadb_group'))

@@ -156,8 +156,6 @@ implements client
         $data['document_dm'] = $this->_datamanager;
         $data['document'] = $this->_document;
 
-        org_openpsa_widgets_ui::enable_ui_tab();
-
         midcom::get()->head->set_pagetitle($this->_document->title);
 
         if ($this->_document->nextVersion == 0) {

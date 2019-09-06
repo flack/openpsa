@@ -85,7 +85,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         }
         $this->_prepare_request_data();
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.contacts/contacts.css");
-        org_openpsa_widgets_ui::enable_ui_tab();
         $this->_populate_toolbar($handler_id);
 
         $this->bind_view_to_object($this->_contact, $this->_datamanager->get_schema()->get_name());

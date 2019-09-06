@@ -90,8 +90,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         }
         $title = str_replace(array_keys($replacements), array_values($replacements), $title);
 
-        org_openpsa_widgets_ui::enable_ui_tab();
-        org_openpsa_widgets_tree::add_head_elements();
         midcom::get()->head->set_pagetitle($title);
         $data['view_product'] = $data['datamanager']->get_content_html();
 
