@@ -135,14 +135,6 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
      */
     private function modify_schema(schema $schema)
     {
-        $vat_field =& $schema->get_field('vat');
-        $pdf_field =& $schema->get_field('pdf_file');
-        $due_field =& $schema->get_field('due');
-        $sent_field =& $schema->get_field('sent');
-        $paid_field =& $schema->get_field('paid');
-        $customer_field =& $schema->get_field('customer');
-        $contact_field =& $schema->get_field('customerContact');
-
         // Fill VAT select
         $vat_array = explode(',', $this->_config->get('vat_percentages'));
         if (!empty($vat_array)) {
@@ -150,17 +142,20 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
             foreach ($vat_array as $vat) {
                 $vat_values[$vat] = "{$vat}%";
             }
-            $vat_field['type_config']['options'] = $vat_values;
+            $schema->get_field('vat')['type_config']['options'] = $vat_values;
         }
 
         if ($this->_config->get('invoice_pdfbuilder_class')) {
-            $pdf_field['hidden'] = false;
+            $schema->get_field('pdf_file')['hidden'] = false;
         }
-        $due_field['hidden'] = empty($this->invoice->sent);
-        $sent_field['hidden'] = empty($this->invoice->sent);
-        $paid_field['hidden'] = empty($this->invoice->paid);
+        $schema->get_field('due')['hidden'] = empty($this->invoice->sent);
+        $schema->get_field('sent')['hidden'] = empty($this->invoice->sent);
+        $schema->get_field('paid')['hidden'] = empty($this->invoice->paid);
 
         $contact = $this->invoice->customerContact ? $this->invoice->customerContact : $this->contact_id;
+        $customer_field =& $schema->get_field('customer');
+        $contact_field =& $schema->get_field('customerContact');
+
         if (!empty($contact)) {
             $customer_field['type_config']['options'] = $this->get_customers_for_contact($contact);
         } else {

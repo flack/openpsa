@@ -34,8 +34,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $this->_salesproject->require_do('midgard:update');
 
         $schemadb = schemadb::from_path($this->_config->get('schemadb_salesproject'));
-        $field =& $schemadb->get('default')->get_field('customer');
-        $field['type_config']['options'] = $this->list_groups($this->_salesproject);
+        $schemadb->get('default')->get_field('customer')['type_config']['options'] = $this->list_groups($this->_salesproject);
         $dm = new datamanager($schemadb);
         $dm->set_storage($this->_salesproject);
 

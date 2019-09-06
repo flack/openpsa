@@ -106,8 +106,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
         $this->load_pdf_builder();
 
         $schemadb = schemadb::from_path($this->_config->get('schemadb_pdf'));
-        $field =& $schemadb->get_first()->get_field('deliverables');
-        $field['type_config']['constraints'][] = [
+        $schemadb->get_first()->get_field('deliverables')['type_config']['constraints'][] = [
             'field' => 'salesproject',
             'op' => '=',
             'value' => $this->offer->salesproject

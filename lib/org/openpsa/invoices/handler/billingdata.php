@@ -33,7 +33,6 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb_billing_data'));
         $vat =& $schemadb->get('default')->get_field('vat');
-        $due =& $schemadb->get('default')->get_field('due');
         // Fill VAT select
         $vat_array = explode(',', $this->_config->get('vat_percentages'));
         if (!empty($vat_array)) {
@@ -46,7 +45,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
 
         $dummy_invoice = new org_openpsa_invoices_invoice_dba();
         //set the defaults for vat & due to the schema
-        $due['default'] = $dummy_invoice->get_default('due');
+        $schemadb->get('default')->get_field('due')['default'] = $dummy_invoice->get_default('due');
         $vat['default'] = $dummy_invoice->get_default('vat');
 
         $dm = new datamanager($schemadb);

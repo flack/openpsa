@@ -32,8 +32,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         if (    $this->_config->get('simple_name_handling')
              && !midcom::get()->auth->admin) {
             foreach ($this->_request_data['schemadb']->all() as $schema) {
-                $field =& $schema->get_field('name');
-                $field['readonly'] = true;
+                $schema->get_field('name')['readonly'] = true;
             }
         }
         $dm = new datamanager($this->_request_data['schemadb']);

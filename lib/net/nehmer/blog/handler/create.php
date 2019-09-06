@@ -42,8 +42,7 @@ class net_nehmer_blog_handler_create extends midcom_baseclasses_components_handl
         if (   $this->_config->get('simple_name_handling')
             && !midcom::get()->auth->can_user_do('midcom:urlname')) {
             foreach ($schemadb->all() as $schema) {
-                $field =& $schema->get_field('name');
-                $field['readonly'] = true;
+                $schema->get_field('name')['readonly'] = true;
             }
         }
 

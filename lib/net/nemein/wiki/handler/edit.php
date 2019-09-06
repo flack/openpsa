@@ -55,8 +55,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         foreach ($this->schemadb->all() as $schema) {
             $schema->set('operations', $operations);
             if ($schema->has_field('title')) {
-                $field =& $schema->get_field('title');
-                $field['hidden'] = true;
+                $schema->get_field('title')['hidden'] = true;
             }
         }
 

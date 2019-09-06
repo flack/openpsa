@@ -125,8 +125,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_load_schemadb();
 
         // Hide the revision message
-        $field =& $this->schemadb->get_first()->get_field('_rcs_message');
-        $field['hidden'] = true;
+        $this->schemadb->get_first()->get_field('_rcs_message')['hidden'] = true;
 
         $this->datamanager = new datamanager($this->schemadb);
         $this->datamanager
@@ -439,8 +438,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $parent = midcom_helper_reflector_copy::get_parent_property($this->_object->__object);
             $this->_load_schemadb(get_class($this->_object), $parent, true);
             // Change the name for the parent field
-            $field =& $this->schemadb->get_first()->get_field($parent);
-            $field['title'] = $this->_l10n->get('choose the target');
+            $this->schemadb->get_first()->get_field($parent)['title'] = $this->_l10n->get('choose the target');
         } else {
             $parent = null;
             $this->_load_schemadb(get_class($this->_object), [false], true);

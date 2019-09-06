@@ -130,8 +130,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_viewer
                 && $schema->get_field('categories')['type'] == 'select') {
                 // TODO: Merge schema local and component config categories?
                 $options = array_combine($this->_request_data['categories'], $this->_request_data['categories']);
-                $field =& $schema->get_field('categories');
-                $field['type_config']['options'] = $options;
+                $schema->get_field('categories')['type_config']['options'] = $options;
             }
         }
     }
