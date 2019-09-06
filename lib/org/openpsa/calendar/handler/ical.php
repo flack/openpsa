@@ -9,6 +9,7 @@
 use Sabre\VObject\Reader;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Calendar ical handler
@@ -18,17 +19,14 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_handler
 {
     /**
-     * Strips last "file extension" from given string
+     * @var org_openpsa_contacts_person_dba
      */
-    private function _strip_extension($str)
-    {
-        return preg_replace('/\.(i|v)cs$/', '', $str);
-    }
+    private $person;
 
     /**
-     * If we have person defined populate $this->_request_data['events']
+     * @return org_openpsa_calendar_event_dba[]
      */
-    private function _get_events()
+    private function get_events() : array
     {
         $root_event = org_openpsa_calendar_interface::find_root_event();
 
@@ -36,22 +34,13 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         $qb->get_doctrine()
             ->leftJoin('org_openpsa_eventmember', 'm', Join::WITH, 'm.eid = c.id')
             ->where('m.uid = :uid')
-            ->setParameter('uid', $this->_request_data['person']->id);
+            ->setParameter('uid', $this->person->id);
 
         $qb->add_constraint('up', '=', $root_event->id);
         // Display events two weeks back
         $qb->add_constraint('start', '>', strtotime('14 days ago'));
         $qb->add_order('start', 'ASC');
-        $this->_request_data['events'] = $qb->execute();
-    }
-
-    /**
-     * Set Content-Type headers
-     */
-    private function _content_type()
-    {
-        midcom::get()->skip_page_style = true;
-        midcom::get()->header('Content-Type: text/calendar');
+        return $qb->execute();
     }
 
     /**
@@ -67,21 +56,21 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     {
         midcom::get()->auth->require_valid_user('basic');
 
-        $username = $this->_strip_extension($username);
-        $data['person'] = $this->_find_person_by_name($username);
+        $this->find_person_by_name($username);
         if ($request->getMethod() === 'PUT') {
             $this->update(file_get_contents('php://input'));
         }
 
-        $this->_get_events();
+        $encoder = new org_openpsa_calendar_vcal;
+        array_map([$encoder, 'add_event'], $this->get_events());
 
-        $this->_content_type();
+        return new Response($encoder, Response::HTTP_OK, [
+            'Content-Type' => 'text/calendar'
+        ]);
     }
 
     private function update($input)
     {
-        debug_add($input, 0);
-
         $vcalendar = Reader::read($input);
         if (!$vcalendar->select('VEVENT')) {
             return;
@@ -97,8 +86,9 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
                 $root_event->require_do('midgard:create');
                 $event->up = $root_event->id;
             }
+
             $event->title = $vevent->SUMMARY->getValue();
-            $event->description = $vevent->DESCRIPTION->getValue();
+            $event->description = $vevent->DESCRIPTION ? $vevent->DESCRIPTION->getValue() : '';
             $event->location = $vevent->LOCATION ? $vevent->LOCATION->getValue() : '';
             $event->busy = $vevent->TRANSP->getValue() == 'OPAQUE';
             $start = new DateTime($vevent->DTSTART->getValue());
@@ -112,22 +102,10 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
                 $event->create();
                 $member = new org_openpsa_calendar_event_member_dba;
                 $member->eid = $event->id;
-                $member->uid = $this->_request_data['person']->id;
+                $member->uid = $this->person->id;
                 $member->create();
             }
         }
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_user_events($handler_id, array &$data)
-    {
-        $encoder = new org_openpsa_calendar_vcal;
-        array_map([$encoder, 'add_event'], $this->_request_data['events']);
-        echo $encoder;
     }
 
     /**
@@ -136,10 +114,12 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * Returns full object or false in case of failure.
      *
      * @param string $username
-     * @return org_openpsa_contacts_person_dba person
+     * @return org_openpsa_contacts_person_dba
      */
-    private function _find_person_by_name($username)
+    private function find_person_by_name(string $username)
     {
+        $username = preg_replace('/\.(i|v)cs$/', '', $username);
+
         if (empty($username)) {
             throw new midcom_error('Username missing');
         }
@@ -151,7 +131,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         if (empty($persons)) {
             throw new midcom_error_notfound('Could not find person with username ' . $username);
         }
-        return $persons[0];
+        $this->person = $persons[0];
     }
 
     /**
@@ -164,23 +144,10 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     public function _handler_user_busy($username, array &$data)
     {
-        $username = $this->_strip_extension($username);
-        $data['person'] = $this->_find_person_by_name($username);
+        $this->find_person_by_name($username);
 
-        $this->_get_events();
-
-        $this->_content_type();
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_user_busy($handler_id, array &$data)
-    {
         $encoder = new org_openpsa_calendar_vcal;
-        foreach ($this->_request_data['events'] as $event) {
+        foreach ($this->get_events() as $event) {
             // clear all data not absolutely required for busy listing
             foreach ($event->get_properties() as $fieldname) {
                 switch (true) {
@@ -202,11 +169,13 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
                 }
             }
             // Only display the requested user as participant
-            $event->participants[$data['person']->id] = true;
+            $event->participants[$this->person->id] = true;
             // Always force busy in this view
             $event->busy = true;
             $encoder->add_event($event);
         }
-        echo $encoder;
+        return new Response($encoder, Response::HTTP_OK, [
+            'Content-Type' => 'text/calendar'
+        ]);
     }
 }

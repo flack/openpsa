@@ -13,7 +13,7 @@
  */
 class org_openpsa_calendar_handler_icalTest extends openpsa_testcase
 {
-    public function testHandler_new_event()
+    public function testHandler_user_events()
     {
         $user = $this->create_user(true);
         $account = new midcom_core_account($user);
@@ -41,10 +41,10 @@ class org_openpsa_calendar_handler_icalTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.calendar', ['ical', 'events', $account->get_username()]);
         $this->assertEquals('ical_user_feed', $data['handler_id']);
+        $content = $data['__openpsa_testcase_response']->getContent();
 
-        $this->assertCount(1, $data['events']);
-        $this->assertEquals($event->guid, $data['events'][0]->guid);
-        $this->show_handler($data);
+        $this->assertEquals(1, substr_count($content, 'BEGIN:VEVENT'));
+        $this->assertContains('UID:' . $event->guid . '-midgardGuid', $content);
 
         midcom::get()->auth->drop_sudo();
     }
