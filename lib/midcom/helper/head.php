@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
+
 /**
  * Helper functions for managing HTML head
  *
@@ -91,6 +94,10 @@ class midcom_helper_head
      * @var array
      */
     private $_link_head = [];
+
+    const TOOLBAR_PLACEHOLDER = '<!-- MIDCOM_HEAD_ELEMENTS -->';
+
+    private static $listener_added = false;
 
     /**
      * Sets the page title for the current context.
@@ -362,9 +369,7 @@ class midcom_helper_head
     }
 
     /**
-     * Echo the _head elements added.
-     * This function echos the elements added by the add_(style|meta|link|object)_head
-     * methods.
+     * Marks where the _head elements added should be rendered.
      *
      * Place the method within the <head> section of your page.
      *
@@ -384,48 +389,83 @@ class midcom_helper_head
      */
     public function print_head_elements()
     {
-        echo $this->_meta_head;
+        if (!self::$listener_added) {
+            midcom::get()->dispatcher->addListener(KernelEvents::RESPONSE, [$this, 'inject_head_elements']);
+            self::$listener_added = true;
+        }
+        echo self::TOOLBAR_PLACEHOLDER;
+    }
+
+    /**
+     * This function renders the elements added by the various add methods
+     * and injects them into the response
+     *
+     * @param FilterResponseEvent $event
+     */
+    public function inject_head_elements(FilterResponseEvent $event)
+    {
+        if (!$event->isMasterRequest()) {
+            return;
+        }
+        $response = $event->getResponse();
+        $content = $response->getContent();
+
+        if (strpos($content, self::TOOLBAR_PLACEHOLDER) === false) {
+            return;
+        }
+
+        $head = $this->render_head();
+        $new_content = str_replace(self::TOOLBAR_PLACEHOLDER, $head, $content);
+        $response->setContent($new_content);
+        if ($length = $response->headers->get('Content-Length')) {
+            $delta = strlen($head) - strlen(self::TOOLBAR_PLACEHOLDER);
+            $response->headers->set('Content-Length', $length + $delta);
+        }
+    }
+
+    private function render_head() : string
+    {
+        $head = $this->_meta_head;
         foreach ($this->_linkhrefs as $url) {
             $attributes = $this->_link_head[$url];
             $is_conditional = false;
 
             if (array_key_exists('condition', $attributes)) {
-                echo "<!--[if {$attributes['condition']}]>\n";
+                $head .= "<!--[if {$attributes['condition']}]>\n";
                 $is_conditional = true;
                 unset($attributes['condition']);
             }
 
-            echo "<link" . $this->_get_attribute_string($attributes) . " />\n";
+            $head .= "<link" . $this->_get_attribute_string($attributes) . " />\n";
 
             if ($is_conditional) {
-                echo "<![endif]-->\n";
+                $head .= "<![endif]-->\n";
             }
         }
 
-        echo $this->_object_head;
-        echo $this->_style_head;
+        $head .= $this->_object_head;
+        $head .= $this->_style_head;
 
         if ($this->_jquery_enabled) {
-            echo $this->_jquery_init_scripts;
+            $head .= $this->_jquery_init_scripts;
         }
 
         if (!empty($this->_prepend_jshead)) {
-            array_map([$this, '_print_js'], $this->_prepend_jshead);
+            $head .= array_reduce($this->_prepend_jshead, [$this, 'render_js'], '');
         }
 
-        array_map([$this, '_print_js'], $this->_jshead);
-        $this->print_jquery_statuses();
+        $head .= array_reduce($this->_jshead, [$this, 'render_js'], '');
+        return $head . $this->render_jquery_statuses();
     }
 
-    private function _print_js(array $js_call)
+    private function render_js(string $carry, array $js_call) : string
     {
         if (array_key_exists('url', $js_call)) {
-            echo '<script type="text/javascript" src="' . $js_call['url'] . "\"></script>\n";
-        } else {
-            echo '<script type="text/javascript"' . $js_call['defer'] . ">\n";
-            echo  $js_call['content'] . "\n";
-            echo "</script>\n";
+            return $carry . '<script type="text/javascript" src="' . $js_call['url'] . "\"></script>\n";
         }
+        $carry .= '<script type="text/javascript"' . $js_call['defer'] . ">\n";
+        $carry .= $js_call['content'] . "\n";
+        return $carry . "</script>\n";
     }
 
     public function get_jshead_elements()
@@ -491,31 +531,28 @@ class midcom_helper_head
     }
 
     /**
-     * Echo the jquery statuses
-     *
-     * This function echos the scripts added by the add_jquery_state_script method.
+     * Renders the scripts added by the add_jquery_state_script method.
      *
      * This method is called from print_head_elements method.
      *
      * @see add_jquery_state_script()
      * @see print_head_elements()
      */
-    public function print_jquery_statuses()
+    private function render_jquery_statuses() : string
     {
         if (empty($this->_jquery_states)) {
-            return;
+            return '';
         }
 
-        echo '<script type="text/javascript">' . "\n";
-
+        $content = '';
         foreach ($this->_jquery_states as $status => $scripts) {
             list($status_target, $status_method) = explode('.', $status);
-            echo "\njQuery({$status_target}).{$status_method}(function() {\n";
-            echo $scripts;
-            echo "\n" . '});' . "\n";
+            $content .= "jQuery({$status_target}).{$status_method}(function() {\n";
+            $content .= $scripts . "\n";
+            $content .= "});\n";
         }
 
-        echo '</script>' . "\n";
+        return $this->render_js('', ['content' => $content, 'defer' => '']);
     }
 
     /**
