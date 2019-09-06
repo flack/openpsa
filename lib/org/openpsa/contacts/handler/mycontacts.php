@@ -56,6 +56,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
 
         $mycontacts = new org_openpsa_contacts_mycontacts;
         $data['mycontacts'] = $mycontacts->list_members();
+        autocomplete::add_head_elements();
     }
 
     /**

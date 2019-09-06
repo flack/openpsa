@@ -49,6 +49,10 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         $this->prepare_timestamps($data['requested_time']);
         $this->_list_work_hours();
 
+        autocomplete::add_head_elements();
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.mypage/jquery.epiclock.min.js");
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.mypage/workingon.js");
+
         return $this->show('workingon');
     }
 

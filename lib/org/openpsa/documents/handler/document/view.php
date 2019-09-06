@@ -124,6 +124,7 @@ implements client
         $this->_document = $this->_load_document($guid);
         $this->_provider = new provider($this, 'local');
         $this->_provider->add_order('created', 'DESC');
+        org_openpsa_widgets_contact::add_head_elements();
     }
 
     /**
@@ -156,9 +157,6 @@ implements client
         $data['document'] = $this->_document;
 
         org_openpsa_widgets_ui::enable_ui_tab();
-        org_openpsa_widgets_contact::add_head_elements();
-        org_openpsa_widgets_tree::add_head_elements();
-        grid::add_head_elements();
 
         midcom::get()->head->set_pagetitle($this->_document->title);
 

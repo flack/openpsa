@@ -47,7 +47,6 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
         $data['group'] = $this->_group;
 
         $data['view'] = $this->load_datamanager();
-        org_openpsa_widgets_tree::add_head_elements();
         grid::add_head_elements();
 
         $this->add_breadcrumb('', $this->_group->get_label());

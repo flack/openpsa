@@ -65,11 +65,12 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         }
 
         $this->_prepare_request_data();
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.js");
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.css");
     }
 
     private function _prepare_request_data()
     {
-        org_openpsa_relatedto_plugin::add_header_files();
         $ref = midcom_helper_reflector::get($this->_object);
         $object_label = $ref->get_object_label($this->_object);
 

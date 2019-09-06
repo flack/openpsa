@@ -126,15 +126,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         return http_build_query($ret, '', '&');
     }
 
-    /**
-     * Add the necessary JS/CSS to HTML head
-     */
-    public static function add_header_files()
-    {
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.js");
-        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.css");
-    }
-
     public static function add_button(midcom_helper_toolbar $toolbar, $guid)
     {
         $toolbar->add_item([
@@ -204,7 +195,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
 
     public static function common_node_toolbar_buttons(midcom_helper_toolbar $toolbar, $bind_object, $calling_component, array $buttons)
     {
-        self::add_header_files();
         $workflow = new midcom\workflow\datamanager;
         $toolbar_buttons = [];
         foreach ($buttons as $mode => $data) {

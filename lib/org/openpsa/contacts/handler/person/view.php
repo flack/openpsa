@@ -85,7 +85,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         }
         $this->_prepare_request_data();
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.contacts/contacts.css");
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/editable.js");
         org_openpsa_widgets_ui::enable_ui_tab();
         $this->_populate_toolbar($handler_id);
 
@@ -181,6 +180,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         // This is most likely a dynamic_load
         midcom::get()->skip_page_style = true;
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/editable.js");
     }
 
     /**

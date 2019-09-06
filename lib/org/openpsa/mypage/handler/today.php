@@ -6,9 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use midcom\datamanager\helper\autocomplete;
-use midcom\grid\grid;
-
 /**
  * My page today handler
  *
@@ -51,19 +48,10 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $data['title'] = $this->_l10n->get_formatter()->date($data['requested_time']);
         midcom::get()->head->set_pagetitle($data['title']);
 
-        // Add the JS file for workingon widget
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.mypage/jquery.epiclock.min.js");
-        autocomplete::add_head_elements();
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.js");
-
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.css");
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.projects/projects.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
         //needed js/css-files for journal entries
-        grid::add_head_elements();
-        midcom\workflow\datamanager::add_head_elements();
-        org_openpsa_widgets_calendar::add_head_elements();
         org_openpsa_widgets_ui::enable_ui_tab();
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();

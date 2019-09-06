@@ -47,6 +47,7 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
         $data['calendar_options'] = $this->get_calendar_options();
         $data['calendar_options']['defaultDate'] = $date->format('Y-m-d');
         $data['date'] = $date;
+        org_openpsa_widgets_calendar::add_head_elements();
         return $this->show('show-agenda');
     }
 

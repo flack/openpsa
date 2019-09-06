@@ -123,8 +123,7 @@ implements client
             if (!empty($billing_data)) {
                 $this->_request_data['billing_data'] = $billing_data[0];
             }
-            // This handler uses Ajax, include the handler javascripts
-            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/editable.js");
+
             org_openpsa_widgets_ui::enable_ui_tab();
         }
 

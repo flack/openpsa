@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\datamanager\helper\autocomplete;
-
 /**
  * Frontpage class
  *
@@ -22,7 +20,6 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
      */
     public function _handler_frontpage(array &$data)
     {
-        autocomplete::add_head_elements();
         $data['tree'] = $this->get_group_tree();
 
         $workflow = $this->get_workflow('datamanager');
