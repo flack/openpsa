@@ -65,8 +65,7 @@ class csv extends base
 
     public function autocomplete_widget(FormView $view, array $data)
     {
-        $options = json_decode($data['handler_options'], true);
-        return implode(', ', $options['preset']);
+        return implode(', ', $data['handler_options']['preset']);
     }
 
     public function choice_widget_collapsed(FormView $view, array $data)

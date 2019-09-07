@@ -85,17 +85,6 @@ class imageType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-        $head = midcom::get()->head;
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/image.css');
-        $head->enable_jquery();
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/image.js');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockPrefix()
     {
         return 'image';

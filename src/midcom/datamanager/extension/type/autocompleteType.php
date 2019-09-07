@@ -14,7 +14,6 @@ use midcom\datamanager\extension\transformer\jsonTransformer;
 use midcom\datamanager\extension\transformer\multipleTransformer;
 use midcom\datamanager\extension\helper;
 use midcom\datamanager\helper\autocomplete as autocomplete_helper;
-use midcom;
 use midcom_error;
 use midcom_connection;
 use Symfony\Component\Form\FormInterface;
@@ -106,27 +105,6 @@ class autocompleteType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-        $head = midcom::get()->head;
-        $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.css');
-
-        $components = ['menu', 'autocomplete'];
-        if ($options['widget_config']['sortable']) {
-            $components[] = 'mouse';
-            $components[] = 'sortable';
-        }
-        if ($options['widget_config']['creation_mode_enabled']) {
-            $components = array_merge($components, ['mouse', 'draggable', 'resizable', 'button', 'dialog']);
-        }
-        $head->enable_jquery_ui($components);
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.js');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $preset = [];
@@ -155,7 +133,7 @@ class autocompleteType extends AbstractType
         $handler_options['constraints'] = $options['type_config']['constraints'];
 
         $view->vars['min_chars'] = $options['widget_config']['min_chars'];
-        $view->vars['handler_options'] = json_encode($handler_options);
+        $view->vars['handler_options'] = $handler_options;
     }
 
     /**

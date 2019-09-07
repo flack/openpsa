@@ -10,13 +10,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use midcom\datamanager\extension\transformer\attachmentTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use midcom;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use midcom\datamanager\extension\helper;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\FormInterface;
 
 /**
  * Attachment type.
@@ -57,13 +54,6 @@ class attachmentType extends AbstractType
             $builder->add('score', HiddenType::class);
         }
         $builder->addViewTransformer(new attachmentTransformer($options));
-    }
-
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-        $head = midcom::get()->head;
-        $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/attachment.js');
     }
 
     /**

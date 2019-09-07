@@ -168,6 +168,7 @@ class view extends base
         if (empty($view->vars['output_mode'])) {
             $view->vars['output_mode'] = 'html';
         }
+
         switch ($view->vars['output_mode']) {
             case 'code':
                 return '<pre style="overflow:auto">' . htmlspecialchars($data['value'], $this->specialchars_quotes, $this->specialchars_charset) . '</pre>';
@@ -251,8 +252,7 @@ class view extends base
 
     public function autocomplete_widget(FormView $view, array $data)
     {
-        $options = json_decode($data['handler_options'], true);
-        $string = implode(', ', $options['preset']);
+        $string = implode(', ', $data['handler_options']['preset']);
 
         if ($string == '') {
             $string = $this->renderer->humanize('type select: no selection');
@@ -297,6 +297,7 @@ class view extends base
         $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes', $data) . '>';
         $string .= $data['value'] . '</textarea>';
         if (!empty($data['codemirror_snippet'])) {
+            $this->add_head_elements_for_codemirror($data['modes']);
             $snippet = str_replace('{$id}', $data['id'], $data['codemirror_snippet']);
             $snippet = str_replace('{$read_only}', 'true', $snippet);
             $string .= $this->jsinit($snippet);

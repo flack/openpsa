@@ -8,7 +8,6 @@ namespace midcom\datamanager\extension\type;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
-use midcom;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\helper;
@@ -20,11 +19,6 @@ use Symfony\Component\Form\AbstractType;
  */
 class codemirrorType extends AbstractType
 {
-    /**
-     * Widget version
-     */
-    public $version = '5.46.0';
-
     /**
      * {@inheritdoc}
      */
@@ -68,21 +62,8 @@ class codemirrorType extends AbstractType
         if ($options['widget_config']['enabled']) {
             $config = \midcom_baseclasses_components_configuration::get('midcom.datamanager', 'config');
             $view->vars['codemirror_snippet'] = \midcom_helper_misc::get_snippet_content_graceful($config->get('codemirror_config_snippet'));
+            $view->vars['modes'] = $options['type_config']['modes'];
 
-            $prefix = MIDCOM_STATIC_URL . '/midcom.datamanager/codemirror-' . $this->version;
-            midcom::get()->head->enable_jquery();
-            midcom::get()->head->add_stylesheet($prefix . '/lib/codemirror.css');
-            midcom::get()->head->add_stylesheet($prefix . '/theme/eclipse.css');
-            midcom::get()->head->add_jsfile($prefix . '/lib/codemirror.js');
-            foreach ($options['type_config']['modes'] as $mode) {
-                midcom::get()->head->add_jsfile($prefix . '/mode/' . $mode . '/' . $mode . '.js');
-            }
-            midcom::get()->head->add_jsfile($prefix . '/addon/edit/matchbrackets.js');
-            midcom::get()->head->add_jsfile($prefix . '/addon/dialog/dialog.js');
-            midcom::get()->head->add_stylesheet($prefix . '/addon/dialog/dialog.css');
-            midcom::get()->head->add_jsfile($prefix . '/addon/search/searchcursor.js');
-            midcom::get()->head->add_jsfile($prefix . '/addon/search/match-highlighter.js');
-            midcom::get()->head->add_jsfile($prefix . '/addon/search/search.js');
         }
     }
 

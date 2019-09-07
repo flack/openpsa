@@ -56,10 +56,7 @@ class tinymceType extends AbstractType
             'img' => ($options['widget_config']['use_imagepopup']) ? $this->get_image_popup($form) : '',
         ];
         $view->vars['tinymce_snippet'] = $this->get_snippet($tiny_options);
-
-        midcom::get()->head->enable_jquery();
-        midcom::get()->head->add_jsfile($options['config']->get('tinymce_url') . '/tinymce.min.js');
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/tinymce.custom.js');
+        $view->vars['tinymce_url'] = $options['config']->get('tinymce_url') . '/tinymce.min.js';
     }
 
     /**

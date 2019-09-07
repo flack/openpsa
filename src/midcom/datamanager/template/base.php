@@ -7,6 +7,7 @@ namespace midcom\datamanager\template;
 
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\renderer;
+use midcom;
 
 /**
  * Experimental template class
@@ -138,5 +139,41 @@ abstract class base
     public function jsinit($code)
     {
         return "<script>\$(document).ready(function() { $code });</script>";
+    }
+
+    protected function add_head_elements_for_autocomplete(bool $sortable, bool $creation_mode_enabled)
+    {
+        $head = midcom::get()->head;
+        $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.css');
+
+        $components = ['menu', 'autocomplete'];
+        if ($sortable) {
+            $components[] = 'mouse';
+            $components[] = 'sortable';
+        }
+        if ($creation_mode_enabled) {
+            $components = array_merge($components, ['mouse', 'draggable', 'resizable', 'button', 'dialog']);
+        }
+        $head->enable_jquery_ui($components);
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.js');
+    }
+
+    protected function add_head_elements_for_codemirror(array $modes)
+    {
+        $prefix = MIDCOM_STATIC_URL . '/midcom.datamanager/codemirror-5.46.0/';
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->add_stylesheet($prefix . 'lib/codemirror.css');
+        midcom::get()->head->add_stylesheet($prefix . 'theme/eclipse.css');
+        midcom::get()->head->add_jsfile($prefix . 'lib/codemirror.js');
+        foreach ($modes as $mode) {
+            midcom::get()->head->add_jsfile($prefix . 'mode/' . $mode . '/' . $mode . '.js');
+        }
+        midcom::get()->head->add_jsfile($prefix . 'addon/edit/matchbrackets.js');
+        midcom::get()->head->add_jsfile($prefix . 'addon/dialog/dialog.js');
+        midcom::get()->head->add_stylesheet($prefix . 'addon/dialog/dialog.css');
+        midcom::get()->head->add_jsfile($prefix . 'addon/search/searchcursor.js');
+        midcom::get()->head->add_jsfile($prefix . 'addon/search/match-highlighter.js');
+        midcom::get()->head->add_jsfile($prefix . 'addon/search/search.js');
     }
 }

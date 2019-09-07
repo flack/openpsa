@@ -166,6 +166,9 @@ class form extends base
 
     public function attachment_row(FormView $view, array $data)
     {
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/attachment.js');
+
         $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<legend>';
         $string .= (!empty($data['value']['filename'])) ? $data['value']['filename'] : $this->renderer->humanize('add new file');
@@ -259,8 +262,10 @@ class form extends base
 
     public function autocomplete_widget(FormView $view, array $data)
     {
+        $this->add_head_elements_for_autocomplete($data['handler_options']['sortable'], $data['handler_options']['creation_mode_enabled']);
+
         $element_id = $view->vars['id'];
-        $jsinit = 'window.' . $element_id . '_handler_options = ' . $data['handler_options'] . ";\n";
+        $jsinit = 'window.' . $element_id . '_handler_options = ' . json_encode($data['handler_options']) . ";\n";
         $jsinit .= "midcom_helper_datamanager2_autocomplete.create_dm2_widget('{$element_id}_search_input', {$data['min_chars']});\n";
 
         $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
@@ -360,6 +365,10 @@ class form extends base
 
     public function privilegeselection_widget(FormView $view, array $data)
     {
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/privilege/jquery.privilege.css');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/privilege/jquery.privilege.js');
+
         $string = '<div class="holder">' . $this->choice_widget_collapsed($view, $data) . '</div>';
         return $string . $this->jsinit($view->vars['jsinit']);
     }
@@ -424,6 +433,7 @@ class form extends base
         $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes', $data) . '>';
         $string .= $data['value'] . '</textarea>';
         if (!empty($data['codemirror_snippet'])) {
+            $this->add_head_elements_for_codemirror($data['modes']);
             $snippet = str_replace('{$id}', $data['id'], $data['codemirror_snippet']);
             $snippet = str_replace('{$read_only}', 'false', $snippet);
             $string .= $this->jsinit($snippet);
@@ -454,6 +464,10 @@ class form extends base
 
     public function image_widget(FormView $view, array $data)
     {
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/image.css');
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/image.js');
+
         $string = '<div ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<table class="midcom_datamanager_table_photo"><tr><td>';
         $preview = null;
@@ -507,6 +521,13 @@ class form extends base
 
     public function subform_widget(FormView $view, array $data)
     {
+        $head = midcom::get()->head;
+        $head->enable_jquery();
+        if ($view->vars['sortable'] == 'true') {
+            $head->enable_jquery_ui(['mouse', 'sortable']);
+        }
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/subform.js');
+
         $data['attr']['data-prototype'] = $this->escape($this->renderer->row($view->vars['prototype']));
         $data['attr']['data-max-count'] = $view->vars['max_count'];
         $string = $this->renderer->widget($data['form'], $data);
@@ -539,6 +560,12 @@ class form extends base
 
     public function markdown_widget(FormView $view, array $data)
     {
+        $head = midcom::get()->head;
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/simplemde/simplemde.min.css');
+        $head->enable_jquery();
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/simplemde/simplemde.min.js');
+
         $data['required'] = false;
         $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes', $data) . '>' . $data['value'] . '</textarea>';
         return $string . $this->jsinit('var simplemde = new SimpleMDE({ element: document.getElementById("' . $view->vars['id'] . '"), status: false });');
@@ -551,6 +578,11 @@ class form extends base
             $data['type'] = 'hidden';
             return $string . $this->renderer->block($view, 'form_widget_simple', $data);
         }
+
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->add_jsfile($data['tinymce_url']);
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/tinymce.custom.js');
+
         // we set required to false, because tinymce doesn't play well with html5 validation..
         $data['required'] = false;
         $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes', $data) . '>' . $data['value'] . '</textarea>';
