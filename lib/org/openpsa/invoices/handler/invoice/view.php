@@ -8,7 +8,6 @@
 
 use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
-use midcom\grid\grid;
 
 /**
  * Invoice read handler

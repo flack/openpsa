@@ -27,8 +27,6 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
         if (!$this->_config->get('allow_manage_accounts')) {
             throw new midcom_error_forbidden('Account management is disabled');
         }
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.user/usermgmt.css');
-        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midgard.admin.user'), $this->_request_data);
     }
 
     /**

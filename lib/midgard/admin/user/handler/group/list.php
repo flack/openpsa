@@ -17,13 +17,6 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
 {
     use midgard_admin_asgard_handler;
 
-    public function _on_initialize()
-    {
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.user/usermgmt.css');
-
-        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midgard.admin.user'), $this->_request_data);
-    }
-
     /**
      * Populate breadcrumb
      */

@@ -16,6 +16,9 @@ class midgard_admin_user_plugin extends midcom_baseclasses_components_plugin
     public function _on_initialize()
     {
         midcom::get()->auth->require_user_do('midgard.admin.user:access', null, 'midgard_admin_user_plugin');
+        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midgard.admin.user'), $this->_request_data);
+
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.user/usermgmt.css');
     }
 
     /**
