@@ -496,7 +496,7 @@ class midcom_helper_head
         if (midcom::get()->config->get('jquery_load_from_google')) {
             // Use Google's hosted jQuery version
             $this->_jquery_init_scripts .= $this->render_js("\n", ['url' => 'https://www.google.com/jsapi']);
-            $this->_jquery_init_scripts .= $this->render_js('', ['content' => 'google.load("jquery", ' . $version . '");']);
+            $this->_jquery_init_scripts .= $this->render_js('', ['content' => 'google.load("jquery", "' . $version . '");']);
         } else {
             $url = MIDCOM_STATIC_URL . "/jQuery/jquery-{$version}.js";
             $this->_jquery_init_scripts .= $this->render_js("\n", ['url' => $url]);
