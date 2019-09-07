@@ -107,7 +107,6 @@ implements client
             $this->type = 'group';
             $data['group_tree'] = $this->get_group_tree();
             $data['members_grid'] = new grid('members_grid', 'json');
-            org_openpsa_widgets_tree::add_head_elements();
         } else {
             $this->type = 'organization';
             $root_group = org_openpsa_contacts_interface::find_root_group();

@@ -130,7 +130,6 @@ implements client
 
         $this->_populate_toolbar();
         midcom::get()->head->set_pagetitle($data['view_title']);
-        org_openpsa_widgets_tree::add_head_elements();
         if ($this->datamanager) {
             $data['view_group'] = $this->datamanager->get_content_html();
         }

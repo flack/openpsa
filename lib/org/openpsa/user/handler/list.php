@@ -62,8 +62,6 @@ implements client
 
         $data['grid'] = $this->_provider->get_grid($grid_id);
 
-        org_openpsa_widgets_tree::add_head_elements();
-
         $workflow = $this->get_workflow('datamanager');
         if (midcom::get()->auth->can_user_do('midgard:create', null, midcom_db_person::class)) {
             $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('user_create'), [

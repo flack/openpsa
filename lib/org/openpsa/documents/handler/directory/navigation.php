@@ -69,9 +69,6 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
         $qb->add_constraint("up", "INTREE", $root_topic->id);
         $qb->add_order('extra');
         $data['topic_array'] = $qb->execute();
-
-        //This handler is supposed to be used with dynamic_load or AJAX, so skip page style
-        midcom::get()->skip_page_style = true;
     }
 
     /**

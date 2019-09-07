@@ -177,8 +177,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $qb->add_constraint('gid.orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::MYCONTACTS);
         $data['groups'] = $qb->execute();
 
-        // This is most likely a dynamic_load
-        midcom::get()->skip_page_style = true;
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/editable.js");
     }
 

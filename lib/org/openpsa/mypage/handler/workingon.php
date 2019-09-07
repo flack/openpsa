@@ -28,8 +28,6 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         // Set the "now working on" status
         $data['workingon'] = new org_openpsa_mypage_workingon();
 
-        midcom::get()->skip_page_style = true;
-
         $task_conf = autocomplete::get_widget_config('task');
         $task_conf['id_field'] = 'guid';
 

@@ -49,8 +49,6 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
      */
     public function _handler_list(array &$data)
     {
-        midcom::get()->skip_page_style = true;
-
         $data['widget_config'] = autocomplete::get_widget_config('contact');
         $data['widget_config']['id_field'] = 'guid';
 
