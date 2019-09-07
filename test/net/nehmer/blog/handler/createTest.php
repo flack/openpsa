@@ -35,14 +35,14 @@ class net_nehmer_blog_handler_createTest extends openpsa_testcase
         ];
 
         $this->submit_dm_no_relocate_form('controller', $formdata, self::$_topic, ['create', 'default']);
-        $url = $this->get_dialog_url();
-        $this->assertEquals('', $url);
-
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('title', '=', $formdata['title']);
         $results = $qb->execute();
         $this->register_objects($results);
         $this->assertCount(1, $results);
+
+        $url = $this->get_dialog_url();
+        $this->assertEquals('', $url);
 
         midcom::get()->auth->drop_sudo();
     }
