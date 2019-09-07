@@ -278,6 +278,14 @@ class midcom_helper__styleloader
         $style = $this->load($path);
 
         if ($style === false) {
+            if ($path == 'ROOT') {
+                /* If we don't have a ROOT element, go to content directly. style-init or style-finish
+                 * can load the page style
+                 */
+                midcom_core_context::get()->show();
+                return true;
+            }
+
             debug_add("The element '{$path}' could not be found.", MIDCOM_LOG_INFO);
             return false;
         }

@@ -209,12 +209,6 @@ class midcom_helper_misc
                 $value = self::get_element_content($element);
 
                 if (empty($value)) {
-                    if ($element == 'ROOT') {
-                        /* If we don't have a ROOT element, go to content directly. style-init or style-finish
-                         * can load the page style
-                         */
-                        return '<?php midcom_core_context::get()->show(); ?>';
-                    }
                     return '';
                 }
                 return preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", [midcom_helper_misc::class, 'include_element'], $value);
