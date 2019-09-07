@@ -54,7 +54,8 @@ implements client
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $this->_request_data['invoices_url'] = $siteconfig->get_node_full_url('org.openpsa.invoices');
-        org_openpsa_invoices_viewer::add_head_elements_for_invoice_grid();
+
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoices.js');
         $this->formatter = $this->_l10n->get_formatter();
     }
 

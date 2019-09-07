@@ -23,7 +23,6 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_viewer
             midcom::get()->auth->require_valid_user('basic');
         } else {
             midcom::get()->auth->require_valid_user();
-            org_openpsa_widgets_contact::add_head_elements();
         }
     }
 }

@@ -32,7 +32,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $this->qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $this->qb->add_order('date', 'DESC');
 
-        grid::add_head_elements();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.grid/FileSaver.js');
         autocomplete::add_head_elements();
     }

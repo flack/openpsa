@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\grid\grid;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -60,7 +59,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             $data['invoices'] = array_merge($data['invoices'], $this->_load_invoices($status));
         }
 
-        grid::add_head_elements();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.grid/FileSaver.js');
     }
 

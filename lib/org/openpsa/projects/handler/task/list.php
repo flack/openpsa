@@ -9,7 +9,6 @@
 use midcom\datamanager\schemadb;
 use midcom\grid\provider\client;
 use midcom\grid\provider;
-use midcom\grid\grid;
 
 /**
  * Task list handler
@@ -67,7 +66,6 @@ implements client
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
-        org_openpsa_widgets_contact::add_head_elements();
         $this->get_priorities();
     }
 
@@ -352,7 +350,5 @@ implements client
 
         $this->provider = new provider($this, 'local');
         $this->_request_data['provider'] = $this->provider;
-
-        grid::add_head_elements();
     }
 }

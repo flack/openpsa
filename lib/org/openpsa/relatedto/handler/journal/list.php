@@ -118,7 +118,6 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
                 'value' => false,
             ]
         ];
-        grid::add_head_elements();
         midcom::get()->head->set_pagetitle($this->_l10n->get('journal entries'));
         $this->add_breadcrumb('', $this->_l10n->get('journal entries'));
 

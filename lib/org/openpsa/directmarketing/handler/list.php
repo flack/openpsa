@@ -8,7 +8,6 @@
 
 use midcom\datamanager\schemadb;
 use midcom\grid\provider\client;
-use midcom\grid\grid;
 use midcom\grid\provider;
 
 /**
@@ -22,7 +21,6 @@ implements client
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
-        grid::add_head_elements();
     }
 
     public function get_qb($field = null, $direction = 'ASC', array $search = [])

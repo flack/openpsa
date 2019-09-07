@@ -124,7 +124,6 @@ implements client
         $this->_document = $this->_load_document($guid);
         $this->_provider = new provider($this, 'local');
         $this->_provider->add_order('created', 'DESC');
-        org_openpsa_widgets_contact::add_head_elements();
     }
 
     /**
