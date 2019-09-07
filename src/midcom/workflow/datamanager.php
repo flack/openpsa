@@ -75,6 +75,8 @@ class datamanager extends dialog
             $head = new \midcom_helper_head;
             $head->enable_jquery();
             $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
+            // Allow handlers to add stuff, too
+            midcom::get()->head = $head;
             if ($this->relocate) {
                 $url = '';
                 if (is_callable($this->save_callback)) {
@@ -93,8 +95,6 @@ class datamanager extends dialog
                 }
                 $head->add_jscript('close(' . json_encode($data) . ');');
             }
-            // This is done mostly to make it easy to get the URL from unit tests
-            midcom::get()->head = $head;
             $content = '<!DOCTYPE html><html><head>' . $head->render() . '</head><body></body></html>';
             return new Response($content);
         }

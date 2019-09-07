@@ -35,12 +35,17 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
             ->set_storage($person)
             ->get_controller();
 
-        $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller']]);
-        $response = $workflow->run($request);
-        if ($workflow->get_state() == 'save') {
-            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
-            midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh();');
-        }
-        return $response;
+        $workflow = $this->get_workflow('datamanager', [
+            'controller' => $data['controller'],
+            'save_callback' => [$this, 'save_callback'],
+            'relocate' => false
+        ]);
+        return $workflow->run($request);
+    }
+
+    public function save_callback()
+    {
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
+        midcom::get()->head->add_jscript('openpsa_calendar_widget.refresh();');
     }
 }
