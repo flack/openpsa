@@ -414,7 +414,7 @@ class midcom_helper_head
             return;
         }
 
-        $head = $this->render_head();
+        $head = $this->render();
         $new_content = str_replace(self::TOOLBAR_PLACEHOLDER, $head, $content);
         $response->setContent($new_content);
         if ($length = $response->headers->get('Content-Length')) {
@@ -423,7 +423,7 @@ class midcom_helper_head
         }
     }
 
-    private function render_head() : string
+    public function render() : string
     {
         $head = $this->_meta_head;
         foreach ($this->_linkhrefs as $url) {

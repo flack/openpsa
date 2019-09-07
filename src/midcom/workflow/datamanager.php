@@ -13,6 +13,7 @@ use midcom_core_context;
 use midcom;
 use midcom\datamanager\controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @package midcom.workflow
@@ -68,12 +69,12 @@ class datamanager extends dialog
 
     public function run(Request $request)
     {
-        $context = midcom_core_context::get();
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
-        midcom::get()->style->append_styledir(__DIR__ . '/style');
         $this->state = $this->controller->handle($request);
 
         if ($this->state == controller::SAVE) {
+            $head = new \midcom_helper_head;
+            $head->enable_jquery();
+            $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
             if ($this->relocate) {
                 $url = '';
                 if (is_callable($this->save_callback)) {
@@ -82,7 +83,7 @@ class datamanager extends dialog
                         $url = $this->prepare_url($url);
                     }
                 }
-                midcom::get()->head->add_jscript('refresh_opener(' . $url . ');');
+                $head->add_jscript('refresh_opener(' . $url . ');');
             } else {
                 $dm = $this->controller->get_datamanager();
                 $data = $dm->get_content_html();
@@ -90,12 +91,19 @@ class datamanager extends dialog
                 if ($object instanceof \midcom_core_dbaobject) {
                     $data['guid'] = $object->guid;
                 }
-                midcom::get()->head->add_jscript('close(' . json_encode($data) . ');');
+                $head->add_jscript('close(' . json_encode($data) . ');');
             }
-            $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [midcom::get(), 'finish']);
-        } else {
-            $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$this->controller, 'display_form']);
+            // This is done mostly to make it easy to get the URL from unit tests
+            midcom::get()->head = $head;
+            $content = '<!DOCTYPE html><html><head>' . $head->render() . '</head><body></body></html>';
+            return new Response($content);
         }
+
+        $context = midcom_core_context::get();
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
+        midcom::get()->style->append_styledir(__DIR__ . '/style');
+        $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$this->controller, 'display_form']);
+
         return new \midcom_response_styled($context, 'POPUP');
     }
 
