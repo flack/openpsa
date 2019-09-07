@@ -2,7 +2,16 @@
 if (!defined('MIDCOM_STATIC_URL')) {
     define('MIDCOM_STATIC_URL', '/midcom-static');
 }
+?>
 
+<div class="tab_div">
+<div class="org_openpsa_toolbar">
+     <(toolbar-bottom)>
+  </div>
+  <(content)>
+</div>
+
+<?php
 $matches = [];
 $content_array = [
     'head_js' => midcom::get()->head->get_jshead_elements(),
@@ -21,11 +30,3 @@ foreach ($link_head as $link) {
 
 //write the js/css-tags into js-array
 echo "<HEAD_ELEMENTS>" . json_encode($content_array) . "</HEAD_ELEMENTS>";
-?>
-
-<div class="tab_div">
-<div class="org_openpsa_toolbar">
-     <(toolbar-bottom)>
-  </div>
-  <(content)>
-</div>

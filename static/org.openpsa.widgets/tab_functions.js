@@ -90,12 +90,11 @@ var org_openpsa_widgets_tabs = {
             });
     },
     load_head_elements: function(data, type) {
-        data = data.replace(/^[\s\S]+?<HEAD_ELEMENTS>/m, '<HEAD_ELEMENTS>');
-        var regex = /^<HEAD_ELEMENTS>(.+?)<\/HEAD_ELEMENTS>/;
+        data = data.replace(/<\/HEAD_ELEMENTS>[\s\S]+?/m, '</HEAD_ELEMENTS>');
+        var regex = /<HEAD_ELEMENTS>(.+?)<\/HEAD_ELEMENTS>/m;
         regex.exec(data);
         var head_elements = $.parseJSON(RegExp.$1);
-        data = data.substr((RegExp.$1.length + 31));
-
+        data = data.slice(0, -(RegExp.$1.length + 31));
         head_elements.head_js.forEach(function(jscall) {
             if (   typeof jscall.url !== 'undefined'
                 && $('script[src="' + jscall.url + '"]').length === 0
