@@ -463,7 +463,7 @@ class midcom_helper_head
         if (array_key_exists('url', $js_call)) {
             return $carry . '<script type="text/javascript" src="' . $js_call['url'] . "\"></script>\n";
         }
-        $carry .= '<script type="text/javascript"' . $js_call['defer'] . ">\n";
+        $carry .= '<script type="text/javascript"' . ($js_call['defer'] ?? '') . ">\n";
         $carry .= $js_call['content'] . "\n";
         return $carry . "</script>\n";
     }
@@ -493,27 +493,13 @@ class midcom_helper_head
             $version = midcom::get()->config->get('jquery_version');
         }
 
-        $this->_jquery_init_scripts .= "\n";
-
         if (midcom::get()->config->get('jquery_load_from_google')) {
             // Use Google's hosted jQuery version
-            $this->_jquery_init_scripts .= "<script src=\"http://www.google.com/jsapi\"></script>\n";
-            $this->_jquery_init_scripts .= "<script>\n";
-            $this->_jquery_init_scripts .= "    google.load('jquery', '{$version}');\n";
-            $this->_jquery_init_scripts .= "</script>\n";
+            $this->_jquery_init_scripts .= $this->render_js("\n", ['url' => 'https://www.google.com/jsapi']);
+            $this->_jquery_init_scripts .= $this->render_js('', ['content' => 'google.load("jquery", ' . $version . '");']);
         } else {
             $url = MIDCOM_STATIC_URL . "/jQuery/jquery-{$version}.js";
-            if (midcom::get()->config->get('jquery_version_oldie')) {
-                $oldie_url = MIDCOM_STATIC_URL . '/jQuery/jquery-' . midcom::get()->config->get('jquery_version_oldie') . '.js';
-                $this->_jquery_init_scripts .= "<!--[if lt IE 9]>\n";
-                $this->_jquery_init_scripts .= "<script type=\"text/javascript\" src=\"{$oldie_url}\"></script>\n";
-                $this->_jquery_init_scripts .= "<![endif]-->\n";
-                $this->_jquery_init_scripts .= "<!--[if gte IE 9]><!-->\n";
-                $this->_jquery_init_scripts .= "<script type=\"text/javascript\" src=\"{$url}\"></script>\n";
-                $this->_jquery_init_scripts .= "<!--<![endif]-->\n";
-            } else {
-                $this->_jquery_init_scripts .= "<script type=\"text/javascript\" src=\"{$url}\"></script>\n";
-            }
+            $this->_jquery_init_scripts .= $this->render_js("\n", ['url' => $url]);
         }
 
         if (!defined('MIDCOM_JQUERY_UI_URL')) {
@@ -523,9 +509,7 @@ class midcom_helper_head
         $script  = "var MIDCOM_STATIC_URL = '" . MIDCOM_STATIC_URL . "';\n";
         $script .= "var MIDCOM_PAGE_PREFIX = '" . midcom_connection::get_url('self') . "';\n";
 
-        $this->_jquery_init_scripts .= "<script type=\"text/javascript\">\n";
-        $this->_jquery_init_scripts .= trim($script) . "\n";
-        $this->_jquery_init_scripts .= "</script>\n";
+        $this->_jquery_init_scripts .= $this->render_js('', ['content' => trim($script)]);
 
         $this->_jquery_enabled = true;
     }
@@ -552,7 +536,7 @@ class midcom_helper_head
             $content .= "});\n";
         }
 
-        return $this->render_js('', ['content' => $content, 'defer' => '']);
+        return $this->render_js('', ['content' => $content]);
     }
 
     /**
