@@ -83,8 +83,6 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
             ])
         ];
         $this->_view_toolbar->add_items($buttons);
-
-        org_openpsa_widgets_contact::add_head_elements();
     }
 
     /**

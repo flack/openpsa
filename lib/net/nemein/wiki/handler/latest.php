@@ -102,7 +102,6 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         midcom::get()->head->set_pagetitle($data['view_title']);
 
         $this->add_breadcrumb('latest/', $data['view_title']);
-        org_openpsa_widgets_contact::add_head_elements();
     }
 
     /**

@@ -103,7 +103,6 @@ implements client
         $data['campaign'] = $this->_campaign;
         $data['datamanager'] = $this->_datamanager;
 
-        org_openpsa_widgets_contact::add_head_elements();
         $this->_populate_toolbar();
 
         $provider = new provider($this);

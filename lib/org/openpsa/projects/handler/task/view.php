@@ -41,7 +41,6 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
         midcom::get()->metadata->set_request_metadata($this->task->metadata->revised, $guid);
         $this->bind_view_to_object($this->task, $data['datamanager']->get_schema()->get_name());
 
-        org_openpsa_widgets_contact::add_head_elements();
         $data['calendar_node'] = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
 
         $qb = org_openpsa_projects_task_dba::new_query_builder();

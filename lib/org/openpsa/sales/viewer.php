@@ -20,8 +20,6 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_viewer
      */
     public function _on_handle($handler, array $args)
     {
-        org_openpsa_widgets_contact::add_head_elements();
-
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.projects/projects.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.invoices/invoices.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.sales/sales.css");

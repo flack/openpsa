@@ -98,8 +98,12 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
     public static function add_head_elements()
     {
-        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.widgets/hcard.css");
-        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
+        static $added = false;
+        if (!$added) {
+            midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.widgets/hcard.css");
+            midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
+            $added = true;
+        }
     }
 
     /**
@@ -221,6 +225,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         if (!$this->_data_read_ok) {
             return '';
         }
+        self::add_head_elements();
         $inline_string = '';
 
         // Start the vCard
@@ -249,6 +254,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         if (!$this->_data_read_ok) {
             return false;
         }
+        self::add_head_elements();
         // Start the vCard
         echo "<div class=\"vcard\" id=\"org_openpsa_widgets_contact-{$this->contact_details['guid']}\">\n";
         if ($this->prefix_html) {
