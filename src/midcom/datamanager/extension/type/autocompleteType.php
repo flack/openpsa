@@ -101,7 +101,13 @@ class autocompleteType extends AbstractType
         }
 
         $builder->add('search_input', SearchType::class, ['mapped' => false]);
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
         $head = midcom::get()->head;
         $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.css');

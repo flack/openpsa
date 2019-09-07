@@ -6,7 +6,6 @@
 namespace midcom\datamanager\extension\type;
 
 use midcom;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,14 +24,6 @@ class privilegeselectionType extends AbstractType
         $resolver->setDefault('expanded', false);
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $head = midcom::get()->head;
-        $head->enable_jquery();
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/privilege/jquery.privilege.css');
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/privilege/jquery.privilege.js');
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -40,6 +31,11 @@ class privilegeselectionType extends AbstractType
     {
         $effective_value = $view->vars['effective_value'] ? 'allow' : 'deny';
         $view->vars['jsinit'] = '$("#' . $view->vars['id'] . '").parent().render_privilege({effective_value: "' . $effective_value . '"});';
+
+        $head = midcom::get()->head;
+        $head->enable_jquery();
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/privilege/jquery.privilege.css');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/privilege/jquery.privilege.js');
     }
 
     /**

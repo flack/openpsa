@@ -58,8 +58,6 @@ class controller
      */
     public function handle(Request $request)
     {
-        // we add the stylesheet regardless of processing result, since save does not automatically mean relocate...
-        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.datamanager/default.css");
         $operation = self::EDIT;
 
         $storage = $this->dm->get_storage();

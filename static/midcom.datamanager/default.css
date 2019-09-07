@@ -56,11 +56,6 @@ form.datamanager2 fieldset legend
     padding: 1px 3px;
 }
 
-form.datamanager2 label.required
-{
-    font-weight: bold;
-}
-
 form.datamanager2 label span.field_text
 {
     margin-right: 1em;

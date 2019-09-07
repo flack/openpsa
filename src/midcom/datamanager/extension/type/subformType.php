@@ -74,13 +74,6 @@ class subformType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventSubscriber(new ResizeFormListener($options['entry_type'], $options['entry_options']));
-
-        $head = midcom::get()->head;
-        $head->enable_jquery();
-        if ($options['widget_config']['sortable']) {
-            $head->enable_jquery_ui(['mouse', 'sortable']);
-        }
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/subform.js');
     }
 
     /**
@@ -90,6 +83,13 @@ class subformType extends AbstractType
     {
         $view->vars['max_count'] = $options['type_config']['max_count'];
         $view->vars['sortable'] = ($options['widget_config']['sortable']) ? 'true' : 'false';
+
+        $head = midcom::get()->head;
+        $head->enable_jquery();
+        if ($options['widget_config']['sortable']) {
+            $head->enable_jquery_ui(['mouse', 'sortable']);
+        }
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/subform.js');
     }
 
     /**

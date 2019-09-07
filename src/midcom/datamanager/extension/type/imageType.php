@@ -18,6 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
 /**
  * Experimental image type
  */
@@ -78,7 +80,13 @@ class imageType extends AbstractType
             "class" => "midcom_datamanager_photo_checkbox"
         ], "required" => false ]);
         $builder->add('identifier', HiddenType::class);
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
         $head = midcom::get()->head;
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/image.css');
         $head->enable_jquery();

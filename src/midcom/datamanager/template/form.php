@@ -3,9 +3,17 @@ namespace midcom\datamanager\template;
 
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\ChoiceList\View\ChoiceGroupView;
+use midcom\datamanager\renderer;
+use midcom;
 
 class form extends base
 {
+    public function __construct(renderer $renderer)
+    {
+        parent::__construct($renderer);
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.datamanager/default.css");
+    }
+
     private function get_view_renderer()
     {
         return new view($this->renderer);

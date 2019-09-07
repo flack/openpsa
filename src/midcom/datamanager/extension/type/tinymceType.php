@@ -7,7 +7,6 @@ namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use midcom;
 use midcom_helper_misc;
@@ -45,16 +44,6 @@ class tinymceType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        midcom::get()->head->enable_jquery();
-        midcom::get()->head->add_jsfile($options['config']->get('tinymce_url') . '/tinymce.min.js');
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/tinymce.custom.js');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $config = $this->get_configuration($options);
@@ -67,6 +56,10 @@ class tinymceType extends AbstractType
             'img' => ($options['widget_config']['use_imagepopup']) ? $this->get_image_popup($form) : '',
         ];
         $view->vars['tinymce_snippet'] = $this->get_snippet($tiny_options);
+
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->add_jsfile($options['config']->get('tinymce_url') . '/tinymce.min.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/tinymce.custom.js');
     }
 
     /**

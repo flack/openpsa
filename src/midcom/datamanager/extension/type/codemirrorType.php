@@ -7,7 +7,6 @@ namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use midcom;
 use Symfony\Component\Form\FormInterface;
@@ -64,9 +63,12 @@ class codemirrorType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options)
     {
         if ($options['widget_config']['enabled']) {
+            $config = \midcom_baseclasses_components_configuration::get('midcom.datamanager', 'config');
+            $view->vars['codemirror_snippet'] = \midcom_helper_misc::get_snippet_content_graceful($config->get('codemirror_config_snippet'));
+
             $prefix = MIDCOM_STATIC_URL . '/midcom.datamanager/codemirror-' . $this->version;
             midcom::get()->head->enable_jquery();
             midcom::get()->head->add_stylesheet($prefix . '/lib/codemirror.css');
@@ -81,17 +83,6 @@ class codemirrorType extends AbstractType
             midcom::get()->head->add_jsfile($prefix . '/addon/search/searchcursor.js');
             midcom::get()->head->add_jsfile($prefix . '/addon/search/match-highlighter.js');
             midcom::get()->head->add_jsfile($prefix . '/addon/search/search.js');
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-        if ($options['widget_config']['enabled']) {
-            $config = \midcom_baseclasses_components_configuration::get('midcom.datamanager', 'config');
-            $view->vars['codemirror_snippet'] = \midcom_helper_misc::get_snippet_content_graceful($config->get('codemirror_config_snippet'));
         }
     }
 
