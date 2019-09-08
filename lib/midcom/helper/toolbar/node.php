@@ -29,14 +29,21 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
 
     protected function _check_index($index, $raise_error = true)
     {
-        if (empty($this->items) && !empty($this->topic->id)) {
-            $this->add_commands();
-        }
+        $this->add_commands();
         return parent::_check_index($index, $raise_error);
+    }
+
+    public function is_rendered() : bool
+    {
+        $this->add_commands();
+        return parent::is_rendered();
     }
 
     private function add_commands()
     {
+        if (!empty($this->items) || empty($this->topic->id)) {
+            return;
+        }
         $topics = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS);
         $urltopic = end($topics);
         if (!$urltopic) {

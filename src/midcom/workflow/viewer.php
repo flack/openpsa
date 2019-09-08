@@ -31,7 +31,7 @@ class viewer extends dialog
     public function run(Request $request)
     {
         $context = midcom_core_context::get();
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
+        $this->add_dialog_js();
         midcom::get()->style->append_styledir(__DIR__ . '/style');
         return new midcom_response_styled($context, 'POPUP');
     }

@@ -54,6 +54,12 @@ abstract class dialog
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.workflow/workflow.css');
     }
 
+    protected function add_dialog_js()
+    {
+        midcom::get()->head->enable_jquery_ui(['button']);
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
+    }
+
     /**
      * @return string
      */

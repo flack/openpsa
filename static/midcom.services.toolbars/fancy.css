@@ -10,7 +10,7 @@
 .midcom_services_toolbars_fancy
 {
     display: block;
-    z-index: 9999 !important;
+    z-index: 9999;
     height: 22px;
     position: fixed !important;
     background-color: #eee;
@@ -27,6 +27,10 @@
     box-shadow: 3px 4px 7px rgba(0, 0, 0, .25)
 }
 
+.midcom_services_toolbars_fancy:hover
+{
+    z-index: 100001;
+}
 .midcom_services_toolbars_fancy.type_palette
 {
     border-radius: 0.6em;
