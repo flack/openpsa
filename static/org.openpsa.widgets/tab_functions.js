@@ -93,7 +93,7 @@ var org_openpsa_widgets_tabs = {
         data = data.replace(/<\/HEAD_ELEMENTS>[\s\S]+?/m, '</HEAD_ELEMENTS>');
         var regex = /<HEAD_ELEMENTS>(.+?)<\/HEAD_ELEMENTS>/m;
         regex.exec(data);
-        var head_elements = $.parseJSON(RegExp.$1);
+        var head_elements = JSON.parse(RegExp.$1);
         data = data.slice(0, -(RegExp.$1.length + 31));
         head_elements.head_js.forEach(function(jscall) {
             if (   typeof jscall.url !== 'undefined'

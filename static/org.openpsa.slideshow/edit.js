@@ -124,7 +124,7 @@ $(document).ready(function() {
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
                     try {
-                        var reply = $.parseJSON(xhr.responseText);
+                        var reply = JSON.parse(xhr.responseText);
                         if (!reply.success) {
                             $.midcom_services_uimessage_add({type: 'error', message: reply.error, title: reply.title});
                         } else {

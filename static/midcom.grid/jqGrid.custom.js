@@ -260,7 +260,7 @@ var midcom_grid_editable = {
         aftersavefunc: function(id, response) {
             //if saved row was new_... then refresh tr-id
             if (response.responseText !== undefined) {
-                var return_values = $.parseJSON(response.responseText),
+                var return_values = JSON.parse(response.responseText),
                     oldId = return_values.oldid;
                 if (oldId.substring(0, 4) === 'new_') {
                     var pos = $('#' + midcom_grid_editable.grid_id + ' tr[id="' + oldId + '"]').prevAll().length,
@@ -280,7 +280,7 @@ var midcom_grid_editable = {
             midcom_grid_editable.toggle(id, true);
         },
         successfunc: function(data) {
-            var return_values = $.parseJSON(data.responseText);
+            var return_values = JSON.parse(data.responseText);
             return [true, return_values, return_values.id];
         },
         enable_sorting: false
@@ -515,10 +515,9 @@ var midcom_grid_helper = {
             config = $.extend(true, {}, config_orig);
 
         if (   typeof window.localStorage !== 'undefined'
-            && window.localStorage
-            && typeof JSON !== 'undefined') {
+            && window.localStorage) {
             midcom_grid_helper.active_grids.push(grid_id);
-            saved_values = $.parseJSON(window.localStorage.getItem(identifier));
+            saved_values = JSON.parse(window.localStorage.getItem(identifier));
             if (saved_values) {
                 if (typeof saved_values.custom_keys !== 'undefined') {
                     var keys = saved_values.custom_keys;
