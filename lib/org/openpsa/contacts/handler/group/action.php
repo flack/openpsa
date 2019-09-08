@@ -50,6 +50,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
         $qb->add_constraint('gid', '=', $data['group']->id);
         $qb->results_per_page = 10;
         $data['members_qb'] = $qb;
+        midcom::get()->uimessages->add_head_elements();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/editable.js");
     }
 
@@ -83,6 +84,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
         $qb = org_openpsa_contacts_group_dba::new_query_builder();
         $qb->add_constraint('owner', '=', $group->id);
         $data['results'] = $qb->execute();
+        midcom::get()->uimessages->add_head_elements();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/editable.js");
     }
 

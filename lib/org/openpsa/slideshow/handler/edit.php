@@ -95,11 +95,10 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $head = midcom::get()->head;
         $head->enable_jquery_ui([
             'mouse', 'draggable', 'droppable', 'sortable',
-            'progressbar', 'button', 'dialog',
-            'effect', 'effect-pulsate'
+            'progressbar', 'button', 'dialog'
         ]);
 
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
+        midcom::get()->uimessages->add_head_elements();
         $head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/edit.js');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/edit.css');
 

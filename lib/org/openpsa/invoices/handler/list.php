@@ -57,6 +57,7 @@ implements client
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoices.js');
         $this->formatter = $this->_l10n->get_formatter();
+        midcom::get()->uimessages->add_head_elements();
     }
 
     public function get_qb($field = null, $direction = 'ASC', array $search = [])

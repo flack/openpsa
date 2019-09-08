@@ -159,6 +159,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
         midcom::get()->head->enable_jquery_ui(['button']);
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
+        midcom::get()->uimessages->add_head_elements();
     }
 
     /**

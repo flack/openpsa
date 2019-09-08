@@ -44,7 +44,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     public function _on_initialize()
     {
         org_openpsa_widgets_contact::add_head_elements();
-
+        midcom::get()->uimessages->add_head_elements();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.projects/projectbroker.js");
     }
 

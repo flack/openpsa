@@ -92,16 +92,16 @@ class midcom_services_uimessages
         if ($request->hasPreviousSession()) {
             $this->get_message_stack();
         }
-        if (midcom::get()->auth->can_user_do('midcom:ajax', null, static::class)) {
-            midcom::get()->head->enable_jquery();
-            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
-            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/effect.min.js');
-            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/effects/effect-pulsate.min.js');
-            midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
-            midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/growl.css', 'screen');
-        } else {
-            midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/simple.css', 'screen');
-        }
+    }
+
+    public function add_head_elements()
+    {
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
+        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/effect.min.js');
+        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/effects/effect-pulsate.min.js');
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/growl.css', 'screen');
     }
 
     public function get_class_magic_default_privileges()
@@ -167,6 +167,9 @@ class midcom_services_uimessages
             $this->show_simple();
             return;
         }
+        if ($this->_message_stack && !empty($this->_message_stack->peekAll())) {
+            $this->add_head_elements();
+        }
 
         echo "<script type=\"text/javascript\">\n";
         echo "    // <!--\n";
@@ -194,12 +197,12 @@ class midcom_services_uimessages
     public function show_simple()
     {
         if ($this->_message_stack && !empty($this->_message_stack->peekAll())) {
-            echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
+            midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/simple.css', 'screen');
 
+            echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
             foreach ($this->get_messages() as $message) {
                 $this->_render_message($message);
             }
-
             echo "</div>\n";
         }
     }

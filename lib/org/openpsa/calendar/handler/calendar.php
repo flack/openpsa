@@ -17,6 +17,7 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
+        midcom::get()->uimessages->add_head_elements();
     }
 
     /**

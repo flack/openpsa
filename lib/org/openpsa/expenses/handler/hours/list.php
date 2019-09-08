@@ -34,6 +34,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.grid/FileSaver.js');
         autocomplete::add_head_elements();
+        midcom::get()->uimessages->add_head_elements();
     }
 
     /**
