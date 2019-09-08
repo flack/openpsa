@@ -6,7 +6,7 @@ $.widget( "custom.category_complete", $.ui.autocomplete, {
     _renderMenu: function(ul, items) {
         var self = this,
         currentCategory = "";
-        $.each(items, function(index, item) {
+        items.forEach(function(item) {
             if (item.category !== currentCategory) {
                 ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
                 currentCategory = item.category;
@@ -36,15 +36,9 @@ var midcom_helper_datamanager2_autocomplete = {
             if ($('#' + identifier + '_selection_holder').length === 0) {
                 return data;
             }
-            var filtered = [];
-
-            $.each(data, function(index, element) {
-                if ($('#' + identifier + '_selection_holder span.autocomplete-selected[data-id="' + element.id + '"]').length === 0) {
-                    filtered.push(element);
-                }
+            return data.filter(function(element) {
+                return $('#' + identifier + '_selection_holder span.autocomplete-selected[data-id="' + element.id + '"]').length === 0;
             });
-
-            return filtered;
         }
 
         if (cache === undefined) {
@@ -216,7 +210,7 @@ var midcom_helper_datamanager2_autocomplete = {
             input.parent().addClass('autocomplete-widget-creation-enabled');
         }
         if (!$.isEmptyObject(handler_options.preset)) {
-            $.each(handler_options.preset_order, function(key, id) {
+            handler_options.preset_order.forEach(function(id) {
                 var text = handler_options.preset[id];
                 if (handler_options.id_field === 'id') {
                     id = parseInt(id);
@@ -323,37 +317,27 @@ var midcom_helper_datamanager2_autocomplete = {
     },
     is_selected: function(identifier, item_id) {
         var selection = JSON.parse($('#' + identifier + '_selection').val());
-        return ($.inArray(item_id, selection) !== -1);
+        return selection.indexOf(item_id) !== -1;
     },
     update_selection: function(identifier, item_id, operation) {
         var selection = JSON.parse($('#' + identifier + '_selection').val()),
-            new_selection = [],
             handler_options = window[identifier + '_handler_options'],
             input = $('#' + identifier + '_search_input');
 
         if (operation === 'add') {
             if (handler_options.allow_multiple !== true) {
-                new_selection.push(item_id);
-            } else {
-                new_selection = selection;
-                if ($.inArray(item_id, new_selection) === -1) {
-                    new_selection.push(item_id);
-                }
+                selection = [];
             }
-            if (input.data('required')) {
-                input.prop('required', false);
+            if (selection.indexOf(item_id) === -1) {
+                selection.push(item_id);
             }
-        } else {
-            $.each(selection, function(index, item) {
-                if (String(item) !== String(item_id)) {
-                    new_selection.push(item);
-                }
-            });
-            if (input.data('required') && new_selection.length === 0) {
-                input.prop('required', true);
-            }
+        } else if (selection.indexOf(item_id) !== -1) {
+            selection.splice(selection.indexOf(item_id), 1);
         }
-        $('#' + identifier + '_selection').val(JSON.stringify(new_selection));
+        if (input.data('required')) {
+            input.prop('required', selection.length === 0);
+        }
+        $('#' + identifier + '_selection').val(JSON.stringify(selection));
     },
 
     /**

@@ -63,23 +63,17 @@ $(document).ready(function() {
             $.getJSON(MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom.helper.reflector/list-children.php',
                 {guid: button.data('guid')},
                 function (data) {
-                    function render(items) {
-                        var output = '';
-                        $.each(items, function(i, item) {
-                            output += '<li class="leaf ' + item['class'] + '">' + item.icon + ' ' + item.title;
-                            if (item.children) {
-                                output += '<ul class="folder_list">';
-                                output += render(item.children);
-                                output += '</ul>';
-                            }
-                            output += '</li>';
-                        });
-                        return output;
+                    function render(carry, item) {
+                        carry += '<li class="leaf ' + item['class'] + '">' + item.icon + ' ' + item.title;
+                        if (item.children) {
+                            carry += item.children.reduce(render, '<ul class="folder_list">') + '</ul>';
+                        }
+                        return carry + '</li>';
                     }
 
                     if (data.length > 0) {
                         $('<ul class="folder_list">')
-                            .append($(render(data)))
+                            .append($(data.reduce(render, '')))
                             .appendTo($('#delete-child-list'));
                     } else {
                         dialog.find('p.warning').hide();

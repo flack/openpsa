@@ -98,7 +98,7 @@ var org_openpsa_widgets_tabs = {
         head_elements.head_js.forEach(function(jscall) {
             if (   typeof jscall.url !== 'undefined'
                 && $('script[src="' + jscall.url + '"]').length === 0
-                && $.inArray(jscall.url, org_openpsa_widgets_tabs.loaded_scripts) === -1) {
+                && org_openpsa_widgets_tabs.loaded_scripts.indexOf(jscall.url) === -1) {
                 org_openpsa_widgets_tabs.loaded_scripts.push(jscall.url);
                 $.ajax({url: jscall.url, cache: true, dataType: 'script', async: false});
             }
