@@ -279,10 +279,8 @@ class midcom_helper__styleloader
 
         if ($style === false) {
             if ($path == 'ROOT') {
-                /* If we don't have a ROOT element, go to content directly. style-init or style-finish
-                 * can load the page style
-                 */
-                midcom_core_context::get()->show();
+                // Go to fallback ROOT instead of displaying a blank page
+                $this->show_midcom($path);
                 return true;
             }
 
