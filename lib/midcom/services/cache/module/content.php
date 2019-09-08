@@ -268,7 +268,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
         foreach ($this->_sent_headers as $header => $value) {
-            header_remove($header);
+            // This can happen in streamed responses which enable_live_mode
+            if (!headers_sent()) {
+                header_remove($header);
+            }
             $response->headers->set($header, $value);
         }
         $request = $event->getRequest();
