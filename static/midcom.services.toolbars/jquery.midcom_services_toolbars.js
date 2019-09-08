@@ -157,7 +157,7 @@ $.midcom_services_toolbars = function(root, settings) {
         }
     }
 
-    function toggle_visibility() {
+    function toggle_visibility(e) {
         if (minimizer.hasClass('toolbar-visible')) {
             minimizer
                 .removeClass('toolbar-visible')
@@ -169,6 +169,7 @@ $.midcom_services_toolbars = function(root, settings) {
                 .addClass('toolbar-visible');
             root_element.show();
         }
+        e.stopPropagation();
         save_settings(false);
     }
 

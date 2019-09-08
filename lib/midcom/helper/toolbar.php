@@ -183,6 +183,8 @@ class midcom_helper_toolbar
      */
     public $customdata = [];
 
+    private $rendered = false;
+
     /**
      * Basic constructor, initializes the class and sets defaults for the
      * CSS style if omitted.
@@ -197,6 +199,11 @@ class midcom_helper_toolbar
     {
         $this->id_style = $id_style;
         $this->class_style = $class_style;
+    }
+
+    public function is_rendered() : bool
+    {
+        return $this->rendered;
     }
 
     /**
@@ -543,6 +550,7 @@ class midcom_helper_toolbar
         $visible_items = array_filter($this->items, function ($item) {
             return !$item[MIDCOM_TOOLBAR_HIDDEN];
         });
+        $this->rendered = true;
 
         if (empty($visible_items)) {
             debug_add('Tried to render an empty toolbar, returning an empty string.');

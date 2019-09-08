@@ -60,57 +60,11 @@ class midcom_services_toolbars
     private $_toolbars = [];
 
     /**
-     * midcom.services.toolbars has two modes, it can either display one centralized toolbar
-     * for authenticated users, or the node and view toolbars separately for others. This
-     * property controls whether centralized mode is enabled.
-     *
-     * @var boolean
-     */
-    private $_enable_centralized = false;
-
-    /**
      * Whether we're in centralized mode, i.e. centralized toolbar has been shown
      *
      * @var boolean
      */
     private $_centralized_mode = false;
-
-    /**
-     * Simple constructor
-     */
-    public function __construct()
-    {
-        static $initialized = false;
-        if ($initialized) {
-            // This is auth service looping because it instantiates classes for magic privileges!
-            return;
-        }
-
-        $initialized = true;
-        if (   !midcom::get()->auth->user
-            || !midcom::get()->config->get('toolbars_enable_centralized')
-            || !midcom::get()->auth->can_user_do('midcom:centralized_toolbar', null, __CLASS__)) {
-            return;
-        }
-
-        if (midcom::get()->auth->can_user_do('midcom:ajax', null, $this)) {
-            midcom::get()->head->enable_jquery_ui(['mouse', 'draggable']);
-
-            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
-
-            midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
-
-            $script = "jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar();";
-            midcom::get()->head->add_jquery_state_script($script);
-        } else {
-            $path = midcom::get()->config->get('toolbars_simple_css_path', MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css");
-            midcom::get()->head->add_stylesheet($path, 'screen');
-        }
-        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
-
-        // We've included CSS and JS, path is clear for centralized mode
-        $this->_enable_centralized = true;
-    }
 
     public function get_class_magic_default_privileges()
     {
@@ -264,6 +218,7 @@ class midcom_services_toolbars
      */
     function _render_toolbar($toolbar_identifier)
     {
+        $this->add_head_elements();
         return $this->_get_toolbar($toolbar_identifier)->render();
     }
 
@@ -371,6 +326,32 @@ class midcom_services_toolbars
         }
     }
 
+    private function add_head_elements($centralized = false)
+    {
+        if (   !midcom::get()->auth->user
+            || !midcom::get()->config->get('toolbars_enable_centralized')
+            || !midcom::get()->auth->can_user_do('midcom:centralized_toolbar', null, __CLASS__)) {
+            return false;
+        }
+        if ($centralized && midcom::get()->auth->can_user_do('midcom:ajax', null, $this)) {
+            $this->_centralized_mode = true;
+            static $run = false;
+            if (!$run) {
+                midcom::get()->head->enable_jquery_ui(['mouse', 'draggable']);
+                midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
+                $script = "jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar();";
+                midcom::get()->head->add_jquery_state_script($script);
+                midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
+                $run = true;
+            }
+        } else {
+            $path = midcom::get()->config->get('toolbars_simple_css_path', MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css");
+            midcom::get()->head->add_stylesheet($path, 'screen');
+        }
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
+        return true;
+    }
+
     /**
      * Displays the combined MidCOM toolbar system for the current context.
      *
@@ -378,12 +359,10 @@ class midcom_services_toolbars
      */
     public function show()
     {
-        if (!$this->_enable_centralized) {
+        if (!$this->add_head_elements(true)) {
             return;
         }
-
         $context_id = midcom_core_context::get()->id;
-        $this->_centralized_mode = true;
 
         $enable_drag = false;
         $toolbar_style = "";
@@ -404,7 +383,9 @@ class midcom_services_toolbars
             if ($toolbar === null) {
                 $toolbar = $this->_get_toolbar($identifier);
             }
-            $this->show_toolbar($identifier, $toolbar);
+            if (!$toolbar->is_rendered()) {
+                $this->show_toolbar($identifier, $toolbar);
+            }
         }
         echo "</div>\n";
 

@@ -60,7 +60,6 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
 
     </head>
     <body<?php $head->print_jsonload(); ?>>
-      <(toolbar)>
         <div id="container">
           <div id="leftframe">
             <div id="branding">
@@ -90,6 +89,7 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
               </div>
           </div>
        </div>
+    <(toolbar)>
 
     <script type="text/javascript">
     //This has to be timed with the jqgrid resizers
