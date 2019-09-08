@@ -767,7 +767,7 @@ class midcom_helper_toolbar
      * @throws midcom_error
      * @return int $index The valid index (possibly translated from the URL) or null on missing index.
      */
-    private function _check_index($index, $raise_error = true)
+    protected function _check_index($index, $raise_error = true)
     {
         if (is_string($index)) {
             $url = $index;

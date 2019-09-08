@@ -25,9 +25,14 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
         $config = midcom::get()->config;
         parent::__construct($config->get('toolbars_node_style_class'), $config->get('toolbars_node_style_id'));
         $this->label = midcom::get()->i18n->get_string('folder', 'midcom');
-        if (!empty($topic->id)) {
+    }
+
+    protected function _check_index($index, $raise_error = true)
+    {
+        if (empty($this->items) && !empty($this->topic->id)) {
             $this->add_commands();
         }
+        return parent::_check_index($index, $raise_error);
     }
 
     private function add_commands()
