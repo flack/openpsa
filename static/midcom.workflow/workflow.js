@@ -255,6 +255,16 @@ function create_dialog(control, title, url) {
         //todo: find out why the click doesn't bubble automatically
         control.parent().trigger('click');
     }
+
+    if (config.buttons.length === 0) {
+        // This is not ideal, but otherwise buttons added by dialog.js are not rendered
+        config.buttons.push({
+            text: '...',
+            click: function() {},
+            css: {visibility: 'hidden'}
+        });
+    }
+
     make_dialog(dialog, config);
     dialog.dialog("instance").uiDialog.draggable("option", "containment", false);
 }
