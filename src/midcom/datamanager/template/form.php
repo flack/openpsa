@@ -452,6 +452,8 @@ class form extends base
                 $string .= $this->renderer->widget($view['time'], ['type' => 'hidden']);
             }
         } else {
+            midcom::get()->head->enable_jquery_ui(['datepicker']);
+
             $string .= $this->renderer->widget($view['date'], ['type' => 'hidden']);
             $string .= $this->renderer->widget($view['input'], ['attr' => ['class' => 'jsdate']]);
             if (isset($view['time'])) {

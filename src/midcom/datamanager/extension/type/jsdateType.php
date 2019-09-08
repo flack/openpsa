@@ -101,9 +101,6 @@ class jsdateType extends AbstractType
 
             $builder->add('time', TimeType::class, $time_options);
         }
-
-        $head = midcom::get()->head;
-        $head->enable_jquery_ui(['datepicker']);
     }
 
     /**
