@@ -176,9 +176,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $qb->add_constraint('uid', '=', $data['person']->id);
         $qb->add_constraint('gid.orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::MYCONTACTS);
         $data['groups'] = $qb->execute();
-
-        midcom::get()->uimessages->add_head_elements();
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/editable.js");
     }
 
     /**
@@ -202,6 +199,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             return;
         }
         $this->_request_data['title'] = $this->_l10n->get($identifier);
+        $this->add_head_elements();
         midcom_show_style('show-person-groups-header');
         foreach ($this->_request_data[$identifier] as $member) {
             try {

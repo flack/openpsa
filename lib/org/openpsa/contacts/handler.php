@@ -13,6 +13,13 @@
  */
 trait org_openpsa_contacts_handler
 {
+    public function add_head_elements()
+    {
+        midcom::get()->uimessages->add_head_elements();
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/editable.js");
+        org_openpsa_widgets_contact::add_head_elements();
+    }
+
     public function get_group_tree()
     {
         $root_group = org_openpsa_contacts_interface::find_root_group();
