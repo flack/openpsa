@@ -14,6 +14,7 @@
 
 Galleria.addTheme({
     name: 'default',
+    version: 1.5,
     author: 'OpenPSA',
     css: 'galleria.default.css',
     defaults: {
