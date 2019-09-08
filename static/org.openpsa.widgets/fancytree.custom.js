@@ -30,6 +30,9 @@ var org_openpsa_tree = {
             },
             glyph: {
                 preset: "awesome4",
+            },
+            persist: {
+                store: 'local'
             }
         };
 
