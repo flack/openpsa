@@ -12,7 +12,7 @@ var org_openpsa_widgets_tabs = {
                     return;
                 }
 
-                ui.jqXHR.success(function() {
+                ui.jqXHR.done(function() {
                     ui.tab.data("loaded", true);
                 });
                 ui.ajaxSettings.dataFilter = org_openpsa_widgets_tabs.load_head_elements;

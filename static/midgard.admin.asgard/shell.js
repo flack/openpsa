@@ -1,4 +1,4 @@
-$(window).load(function() {
+$(window).on('load', function() {
     var editor = window.editors[window.midgard_admin_asgard_shell_identifier],
         storage_available = (typeof window.localStorage !== 'undefined' && window.localStorage);
 
