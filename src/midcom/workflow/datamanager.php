@@ -73,7 +73,6 @@ class datamanager extends dialog
 
         if ($this->state == controller::SAVE) {
             $head = new \midcom_helper_head;
-            $head->enable_jquery();
             $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
             // Allow handlers to add stuff, too
             midcom::get()->head = $head;
