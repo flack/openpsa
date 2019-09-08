@@ -174,15 +174,35 @@ class midcom_services_toolbars
         $context = midcom_core_context::get();
 
         if (!array_key_exists($context->id, $this->_toolbars)) {
-            $component = $context->get_key(MIDCOM_CONTEXT_COMPONENT);
-            $topic = $context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
-
-            $this->_toolbars[$context->id][MIDCOM_TOOLBAR_HELP] = new midcom_helper_toolbar_help($component);
-            $this->_toolbars[$context->id][MIDCOM_TOOLBAR_HOST] = new midcom_helper_toolbar_host;
-            $this->_toolbars[$context->id][MIDCOM_TOOLBAR_NODE] = new midcom_helper_toolbar_node($topic);
-            $this->_toolbars[$context->id][MIDCOM_TOOLBAR_VIEW] = new midcom_helper_toolbar_view;
+            $this->_toolbars[$context->id] = [
+                MIDCOM_TOOLBAR_HELP => null,
+                MIDCOM_TOOLBAR_HOST => null,
+                MIDCOM_TOOLBAR_NODE => null,
+                MIDCOM_TOOLBAR_VIEW => null
+            ];
         }
-
+        if (!isset($this->_toolbars[$context->id][$identifier])) {
+            switch ($identifier) {
+                case MIDCOM_TOOLBAR_HELP:
+                    $component = $context->get_key(MIDCOM_CONTEXT_COMPONENT);
+                    $toolbar = new midcom_helper_toolbar_help($component);
+                    break;
+                case MIDCOM_TOOLBAR_HOST:
+                    $toolbar = new midcom_helper_toolbar_host;
+                    break;
+                case MIDCOM_TOOLBAR_NODE:
+                    $topic = $context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
+                    $toolbar = new midcom_helper_toolbar_node($topic);
+                    break;
+                case MIDCOM_TOOLBAR_VIEW:
+                    $toolbar = new midcom_helper_toolbar_view;
+                    break;
+                default:
+                    $toolbar = new midcom_helper_toolbar;
+                    break;
+            }
+            $this->_toolbars[$context->id][$identifier] = $toolbar;
+        }
         return $this->_toolbars[$context->id][$identifier];
     }
 
@@ -244,13 +264,7 @@ class midcom_services_toolbars
      */
     function _render_toolbar($toolbar_identifier)
     {
-        $context_id = midcom_core_context::get()->id;
-
-        if (empty($this->_toolbars[$context_id][$toolbar_identifier])) {
-            return '';
-        }
-
-        return $this->_toolbars[$context_id][$toolbar_identifier]->render();
+        return $this->_get_toolbar($toolbar_identifier)->render();
     }
 
     /**
@@ -387,31 +401,10 @@ class midcom_services_toolbars
         echo "    <div class=\"items\">\n";
 
         foreach (array_reverse($this->_toolbars[$context_id], true) as $identifier => $toolbar) {
-            if (empty($toolbar->items)) {
-                continue;
+            if ($toolbar === null) {
+                $toolbar = $this->_get_toolbar($identifier);
             }
-            switch ($identifier) {
-                case MIDCOM_TOOLBAR_VIEW:
-                    $id = $class = 'page';
-                    break;
-                case MIDCOM_TOOLBAR_NODE:
-                    $id = $class = 'folder';
-                    break;
-                case MIDCOM_TOOLBAR_HOST:
-                    $id = $class = 'host';
-                    break;
-                case MIDCOM_TOOLBAR_HELP:
-                    $id = $class = 'help';
-                    break;
-                default:
-                    $id = 'custom-' . $identifier;
-                    $class = 'custom';
-                    break;
-            }
-            echo "        <div id=\"midcom_services_toolbars_topic-{$id}\" class=\"item\">\n";
-            echo "            <span class=\"midcom_services_toolbars_topic_title {$class}\">" . $toolbar->get_label() . "</span>\n";
-            echo $toolbar->render();
-            echo "        </div>\n";
+            $this->show_toolbar($identifier, $toolbar);
         }
         echo "</div>\n";
 
@@ -419,5 +412,34 @@ class midcom_services_toolbars
             echo "     <div class=\"dragbar\"></div>\n";
         }
         echo "</div>\n";
+    }
+
+    private function show_toolbar($identifier, midcom_helper_toolbar $toolbar)
+    {
+        if (empty($toolbar->items)) {
+            return;
+        }
+        switch ($identifier) {
+            case MIDCOM_TOOLBAR_VIEW:
+                $id = $class = 'page';
+                break;
+            case MIDCOM_TOOLBAR_NODE:
+                $id = $class = 'folder';
+                break;
+            case MIDCOM_TOOLBAR_HOST:
+                $id = $class = 'host';
+                break;
+            case MIDCOM_TOOLBAR_HELP:
+                $id = $class = 'help';
+                break;
+            default:
+                $id = 'custom-' . $identifier;
+                $class = 'custom';
+                break;
+        }
+        echo "        <div id=\"midcom_services_toolbars_topic-{$id}\" class=\"item\">\n";
+        echo "            <span class=\"midcom_services_toolbars_topic_title {$class}\">" . $toolbar->get_label() . "</span>\n";
+        echo $toolbar->render();
+        echo "        </div>\n";
     }
 }
