@@ -2,6 +2,27 @@
  * Styles for ui messages with javascript
  */
 
+@keyframes pulsate {
+  0% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  94% {
+    opacity: 0;
+  }
+  96% {
+    opacity: 1;
+  }
+  98% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 #midcom_services_uimessages_wrapper
 {
     font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -60,6 +81,11 @@
   font-size: 100%;
   margin: 0 0 6px;
   color: #333;
+}
+
+#midcom_services_uimessages_wrapper div.error.pulsate
+{
+    animation: pulsate 7s cubic-bezier(.5, 0, 1, 1) .5s infinite;
 }
 
 #midcom_services_uimessages_wrapper div.error h3

@@ -72,10 +72,9 @@ $.fn.midcom_services_uimessage = function(options) {
 
         case MIDCOM_SERVICES_UIMESSAGES_TYPE_ERROR:
             if (MIDCOM_SERVICES_UIMESSAGES_ERROR_HIGHLIGHT) {
-                $('#' + id).data('interval', setInterval(function() {
-                    $('#' + id).effect('pulsate', { times: 1}, 500);
-                }, 7000));
+                $('#' + id).addClass('pulsate');
             }
+            break;
 
         case MIDCOM_SERVICES_UIMESSAGES_TYPE_OK:
         case MIDCOM_SERVICES_UIMESSAGES_TYPE_WARNING:
