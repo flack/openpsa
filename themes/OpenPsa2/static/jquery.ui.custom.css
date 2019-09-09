@@ -1322,6 +1322,9 @@ a.ui-button:active,
 .ui-button .ui-icon {
 	color: #3969a9;
 }
+.ui-progressbar:not(.ui-progressbar-indeterminate) .ui-progressbar-value {
+    background-color: #3969a9;
+}
 
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon,
