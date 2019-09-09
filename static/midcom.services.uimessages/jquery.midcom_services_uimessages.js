@@ -38,7 +38,6 @@ $.fn.midcom_services_uimessage = function(options) {
             var message = $(this).parent();
             message.slideUp('fast');
             clearTimeout(message.data('timer'));
-            clearInterval(message.data('interval'));
 
             // Return without removing the object
             if (!MIDCOM_SERVICES_UIMESSAGES_REMOVE) {
