@@ -370,10 +370,6 @@ Totals
 Type
 ---STRINGEND
 
----STRING unsubscribe
-Unsubscribe
----STRINGEND
-
 ---STRING work for task %s
 Work for task %s
 ---STRINGEND

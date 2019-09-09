@@ -360,7 +360,7 @@ a:hover
 }
 #content-menu #midcom_services_toolbars_minimizer.toolbar-visible
 {
-    display: inline-block;
+    opacity: .5
 }
 
 #content-menu .logout .fa

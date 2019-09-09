@@ -338,10 +338,6 @@ Yhteensä
 Tyyppi
 ---STRINGEND
 
----STRING unsubscribe
-Poista itsesi
----STRINGEND
-
 ---STRING work for task %s
 Tee tehtävää %s
 ---STRINGEND

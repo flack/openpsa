@@ -84,33 +84,6 @@ ul.area_toolbar li button.no i
 {
     color: #ee2b2b
 }
-div.area div.current div.org_openpsa_projects_hourlist
-{
-    display: none;
-    margin-left: 25px;
-}
-
-div.area form.subscribe
-{
-    display: inline;
-}
-div.area form.subscribe input
-{
-    background-color: transparent;
-    color: #314E6C;
-    border: none;
-    padding-left: 16px;
-    background-image: url('../stock-icons/16x16/jump-to.png');
-    background-position: left;
-    background-repeat: no-repeat;
-    margin-left: 8px;
-}
-div.area form.subscribe input:hover
-{
-    color: #FFFFFF;
-    background-color: #c0c0c0;
-    border-radius: 6px;
-}
 
 /* MidCOM toolbars in OpenPSA areas */
 div.area ul.midcom_toolbar {

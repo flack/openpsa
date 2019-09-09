@@ -366,10 +366,6 @@ Gesamtsummen
 Typ
 ---STRINGEND
 
----STRING unsubscribe
-Abonnement beenden
----STRINGEND
-
 ---STRING work for task %s
 Arbeit an Aufgabe %s
 ---STRINGEND

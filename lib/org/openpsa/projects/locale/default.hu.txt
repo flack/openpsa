@@ -262,10 +262,6 @@ Feladat állapota
 Fajta
 ---STRINGEND
 
----STRING unsubscribe
-Megrendelés lemondása
----STRINGEND
-
 ---STRING work started by %s
 %s által a munka elkezdve
 ---STRINGEND
