@@ -94,7 +94,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
 
         $head = midcom::get()->head;
         $head->enable_jquery_ui([
-            'mouse', 'draggable', 'droppable', 'sortable',
+            'mouse', 'sortable',
             'progressbar', 'button', 'dialog'
         ]);
 
