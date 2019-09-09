@@ -12,7 +12,6 @@ $title = (array_key_exists('title', $data)) ? $data['title'] : $i18n->get_string
     <?php
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/popup.css');
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/style.css');
-    $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/content.css');
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css');
     $head->print_head_elements();
     ?>

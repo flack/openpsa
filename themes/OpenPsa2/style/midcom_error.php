@@ -10,10 +10,9 @@ $exception = $this->data['error_exception'];
   <meta charset="UTF-8">
   <title><(title)> OpenPSA</title>
   <?php
-    $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/style.css', 'screen');
-    $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/content.css', 'all');
+    $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/style.css');
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/print.css', 'print');
-    $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/error.css', 'all');
+    $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/error.css');
     $head->print_head_elements();
     ?>
 
