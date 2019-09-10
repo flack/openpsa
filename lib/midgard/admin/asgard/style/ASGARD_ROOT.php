@@ -24,7 +24,6 @@ $head->add_stylesheet(MIDCOM_STATIC_URL . "/midgard.admin.asgard/screen.css");
 
 $head->enable_jquery_ui(['mouse', 'draggable']);
 $head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/ui.js');
-$head->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
 $context = midcom_core_context::get();
 $prefix = $context->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-toolbar' : '';

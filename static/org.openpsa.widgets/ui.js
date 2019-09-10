@@ -152,7 +152,7 @@ var org_openpsa_layout = {
                 //workaround for problem in jquery.ui 1.11.2
                 $('#template_openpsa2_resizer').css('width', '');
 
-                $.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {openpsa2_offset: offset});
+                $.post(MIDCOM_PAGE_PREFIX + '__mfa/asgard/preferences/ajax/', {openpsa2_offset: offset});
                 $(window).trigger('resize');
             }
         });
@@ -222,7 +222,7 @@ var org_openpsa_layout = {
 
                     $('#org_openpsa_search_trigger').click();
 
-                    $.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {openpsa2_search_provider: provider.identifier});
+                    $.post(MIDCOM_PAGE_PREFIX + '__mfa/asgard/preferences/ajax/', {openpsa2_search_provider: provider.identifier});
                 })
                 .appendTo(selector);
         });

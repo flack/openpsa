@@ -36,7 +36,6 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
         org_openpsa_widgets_tree::add_head_elements();
         org_openpsa_widgets_ui::initialize_search();
 
-        $head->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
         $head->add_jscript("var TOOLBAR_MORE_LABEL = '" . midcom::get()->i18n->get_l10n('org.openpsa.widgets')->get('more') . "';");
         $head->add_jsfile(MIDCOM_STATIC_URL . '/OpenPsa2/ui.js');
         $head->print_head_elements();

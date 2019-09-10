@@ -25,7 +25,7 @@ $(document).ready(function() {
             $('#navigation').css('width', navigation_width + 'px');
             $('#content').css('margin-left', content_margin_left + 'px');
 
-            $.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {offset: offset});
+            $.post(MIDCOM_PAGE_PREFIX + '__mfa/asgard/preferences/ajax/', {offset: offset});
         }
     });
 
