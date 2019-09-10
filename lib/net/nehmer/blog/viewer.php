@@ -58,14 +58,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_viewer
                 'href'  => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'atom.xml',
             ]);
         }
-
-        // RSD (Really Simple Discoverability) autodetection
-        midcom::get()->head->add_link_head([
-            'rel' => 'EditURI',
-            'type' => 'application/rsd+xml',
-            'title' => 'RSD',
-            'href' => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rsd.xml',
-        ]);
     }
 
     /**
