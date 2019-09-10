@@ -100,7 +100,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         $this->add_next_previous($this->_object, 'invoice/items/');
 
         // This is used for the Drag&Drop sorting
-        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/widgets/sortable.min.js');
+        midcom::get()->head->enable_jquery_ui(['sortable']);
     }
 
     /**

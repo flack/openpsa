@@ -22,9 +22,7 @@ if ($width = midgard_admin_asgard_plugin::get_preference('offset')) {
 $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
 $head->add_stylesheet(MIDCOM_STATIC_URL . "/midgard.admin.asgard/screen.css");
 
-$head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/core.min.js');
-$head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/widgets/mouse.min.js');
-$head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/widgets/draggable.min.js');
+$head->enable_jquery_ui(['mouse', 'draggable']);
 $head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/ui.js');
 $head->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
 $context = midcom_core_context::get();
