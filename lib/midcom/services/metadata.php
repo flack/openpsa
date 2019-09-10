@@ -161,22 +161,8 @@ class midcom_services_metadata
      */
     public function populate_meta_head()
     {
-        // Populate the request metadata into view
-        $request_metadata = $this->get_request_metadata();
-
         // HTML generator information
-        midcom::get()->head->add_meta_head([
-            'name' => 'generator',
-            'content' => 'MidCOM'
-        ]);
-
-        // Last revision time for the entire page
-        if ($request_metadata['lastmodified']) {
-            midcom::get()->head->add_meta_head([
-                'name' => 'lastupdated',
-                'content' => @gmdate('Y-m-d H:i:s\Z', $request_metadata['lastmodified'])
-            ]);
-        }
+        midcom::get()->head->add_meta_head(['name' => 'generator', 'content' => 'MidCOM']);
 
         // If an object has been bound we have more information available
         if ($view_metadata = $this->get_view_metadata()) {
