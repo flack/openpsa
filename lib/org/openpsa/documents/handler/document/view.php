@@ -9,7 +9,6 @@
 use midcom\datamanager\datamanager;
 use midcom\grid\provider\client;
 use midcom\grid\provider;
-use midcom\grid\grid;
 
 /**
  * org.openpsa.documents document handler and viewer class.

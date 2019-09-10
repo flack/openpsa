@@ -10,7 +10,6 @@ namespace midcom\routing;
 
 use Symfony\Component\HttpFoundation\Request;
 use midcom;
-use midcom_connection;
 use midcom_error_forbidden;
 use midcom_error_notfound;
 use Symfony\Component\Routing\Router;
