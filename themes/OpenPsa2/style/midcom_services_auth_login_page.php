@@ -20,7 +20,6 @@ if (isset($this->data['midcom_services_auth_access_denied_message'])) {
   <?php
     $head = midcom::get()->head;
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/style.css');
-    $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/print.css', 'print');
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/login.css', 'all');
     $head->add_jscript('var MIDCOM_PAGE_PREFIX = "' . midcom_connection::get_url('self') . '";');
     $head->print_head_elements();
