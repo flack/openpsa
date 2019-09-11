@@ -29,8 +29,7 @@ class purgedeleted extends Command
         $this->setName('midcom:purgedeleted')
             ->setAliases(['purgedeleted'])
             ->setDescription('Purge deleted objects')
-            ->addOption('days', 'd', InputOption::VALUE_REQUIRED, 'Grace period in days', $config->get('cron_purge_deleted_after'))
-            ->addOption('chunksize', 'c', InputOption::VALUE_REQUIRED, 'Maximum number of objects purged per class at once (use 0 to disable limit)', '50');
+            ->addOption('days', 'd', InputOption::VALUE_REQUIRED, 'Grace period in days', $config->get('cron_purge_deleted_after'));
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -43,7 +42,6 @@ class purgedeleted extends Command
     {
         $handler = new \midcom_cron_purgedeleted;
         $handler->set_cutoff((int) $input->getOption('days'));
-        $chunk_size = (int) $input->getOption('chunksize');
 
         $output->writeln('Purging entries deleted before ' . gmdate('Y-m-d H:i:s', $handler->get_cutoff()));
 
@@ -54,18 +52,16 @@ class purgedeleted extends Command
             $output->writeln("\n\nProcessing class <info>{$mgdschema}</info>");
             $purged = 0;
             $errors = 0;
-            do {
-                $stats = $handler->process_class($mgdschema, $chunk_size);
-                foreach ($stats['errors'] as $error) {
-                    $output->writeln('  <error>' . $error . '</error>');
-                }
-                if ($purged > 0) {
-                    $output->write("\x0D");
-                }
-                $purged += $stats['purged'];
-                $errors += count($stats['errors']);
-                $output->write("  Purged <info>{$purged}</info> deleted objects, <comment>" . $errors . " failures</comment>");
-            } while ($stats['found'] == $chunk_size);
+            $stats = $handler->process_class($mgdschema);
+            foreach ($stats['errors'] as $error) {
+                $output->writeln('  <error>' . $error . '</error>');
+            }
+            if ($purged > 0) {
+                $output->write("\x0D");
+            }
+            $purged += $stats['purged'];
+            $errors += count($stats['errors']);
+            $output->write("  Purged <info>{$purged}</info> deleted objects, <comment>" . $errors . " failures</comment>");
             $total_purged += $purged;
             $total_errors += $errors;
         }

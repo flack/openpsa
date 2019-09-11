@@ -300,7 +300,7 @@ class grid
                 $this->_provider->set_grid($this);
             }
         }
-        echo $this->__toString();
+        echo (string) $this;
     }
 
     public function __toString()

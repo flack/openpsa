@@ -96,7 +96,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 
         // determine id / guid
         if (isset($this->_request['params']['id'])) {
-            $this->_id = intval($this->_request['params']['id']);
+            $this->_id = (int) $this->_request['params']['id'];
         }
         if (isset($this->_request['params']['guid'])) {
             $this->_id = $this->_request['params']['guid'];

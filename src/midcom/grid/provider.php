@@ -153,7 +153,7 @@ class provider
 
     public function get_rows()
     {
-        if (is_null($this->_rows)) {
+        if ($this->_rows === null) {
             $this->_get_rows();
         }
         return $this->_rows;
@@ -175,7 +175,7 @@ class provider
             $this->_parse_query($_GET);
         }
         $field = $this->_sort_field;
-        if (!is_null($field)) {
+        if ($field !== null) {
             $field = str_replace('index_', '', $field);
         }
 
@@ -184,7 +184,7 @@ class provider
 
     public function count_rows()
     {
-        if (is_null($this->_total_rows)) {
+        if ($this->_total_rows === null) {
             $qb = $this->_prepare_query();
             $this->_total_rows = $qb->count();
         }
@@ -245,7 +245,7 @@ class provider
     private function _render_json()
     {
         $rows = $this->get_rows();
-        if (is_null($this->_total_rows)) {
+        if ($this->_total_rows === null) {
             $this->_total_rows = count($rows);
         }
 
@@ -285,7 +285,7 @@ class provider
 
     private function _prepare_query()
     {
-        if (is_null($this->_query)) {
+        if ($this->_query === null) {
             $this->_query = $this->get_query();
         }
         return $this->_query;

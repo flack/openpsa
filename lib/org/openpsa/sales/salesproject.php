@@ -114,7 +114,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
                 $value += $deliverable->price;
                 $cost += $deliverable->cost;
                 if ($deliverable->invoiceByActualUnits) {
-                    $value = $value + $deliverable->invoiced;
+                    $value += $deliverable->invoiced;
                 }
             }
         }
@@ -231,7 +231,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
             $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
             $mc->add_constraint('role', '=', self::ROLE_MEMBER);
 
-            $this->_contacts = $this->_contacts + array_fill_keys($mc->get_values('person'), true);
+            $this->_contacts += array_fill_keys($mc->get_values('person'), true);
         }
     }
 

@@ -55,8 +55,7 @@ class view extends base
                 continue;
             }
 
-            if (    array_key_exists('start_fieldset', $child->vars)
-                && $child->vars['start_fieldset'] !== null) {
+            if (isset($child->vars['start_fieldset'])) {
                 $string .= '<div class="fieldset">';
                 if (!empty($child->vars['start_fieldset']['title'])) {
                     $string .= '<h2>' . $this->renderer->humanize($child->vars['start_fieldset']['title']) . '</h2>';
@@ -66,8 +65,7 @@ class view extends base
                  || ($child->vars['data'] !== '' && $child->vars['data'] !== null && $child->vars['data'] !== [])) {
                 $string .= $this->renderer->row($child);
             }
-            if (    array_key_exists('end_fieldset', $child->vars)
-                && $child->vars['end_fieldset'] !== null) {
+            if (isset($child->vars['end_fieldset'])) {
                 $end_fieldsets = max(1, (int) $child->vars['end_fieldset']);
                 $string .= str_repeat('</div>', $end_fieldsets);
             }

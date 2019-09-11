@@ -488,7 +488,7 @@ class midcom_helper__styleloader
         } else {
             $style = $topic->style ?: midcom_core_context::get()->get_inherited_style();
             if (   is_string($style)
-                && strpos($style, 'theme:') === 0) {
+                && substr($style, 0, 6) === 'theme:') {
                 $theme_dir = OPENPSA2_THEME_ROOT . midcom::get()->config->get('theme') . '/style';
                 $parts = explode('/', str_replace('theme:/', '', $style));
 

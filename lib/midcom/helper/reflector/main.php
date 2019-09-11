@@ -415,7 +415,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $always_search_all = $this->_config->get('always_search_fields') ?: [];
         if (!empty($always_search_all[$this->mgdschema_class])) {
             $fields = array_intersect($always_search_all[$this->mgdschema_class], $properties);
-            $search_properties = $search_properties + array_flip($fields);
+            $search_properties += array_flip($fields);
         }
 
         // Exceptions - never search these fields

@@ -267,11 +267,10 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         $config_array = [];
 
         foreach ($this->_request_data['config']->get_all() as $key => $val) {
-            if (isset($values[$key])) {
-                $newval = $values[$key];
-            } else {
+            if (!isset($values[$key])) {
                 continue;
             }
+            $newval = $values[$key];
 
             if ($newval === '') {
                 continue;

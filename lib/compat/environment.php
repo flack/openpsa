@@ -21,7 +21,7 @@ class midcom_compat_environment
 
     public function __construct()
     {
-        if (   php_sapi_name() != 'cli'
+        if (   PHP_SAPI != 'cli'
             || !empty($_SERVER['REMOTE_ADDR'])) {
             $this->_httpd_setup();
         }

@@ -105,7 +105,7 @@ trait parameters
             return [];
         }
 
-        if (!is_null($domain)) {
+        if ($domain !== null) {
             return $this->list_parameters_domain($domain);
         }
 

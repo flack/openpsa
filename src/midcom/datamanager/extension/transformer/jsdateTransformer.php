@@ -70,7 +70,8 @@ class jsdateTransformer implements DataTransformerInterface
 
         if ($this->config['type_config']['storage_type'] === jsdateType::UNIXTIME) {
             return $array['date']->format('U');
-        } elseif ($this->config['type_config']['storage_type'] === jsdateType::ISO) {
+        }
+        if ($this->config['type_config']['storage_type'] === jsdateType::ISO) {
             return $array['date']->format('Y-m-d H:i:s');
         }
     }

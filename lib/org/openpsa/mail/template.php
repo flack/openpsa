@@ -138,7 +138,7 @@ class org_openpsa_mail_template
         if (is_object($value)) {
             if (empty($matches[2])) {
                 if (method_exists($value, '__toString')) {
-                    return $value->__toString();
+                    return (string) $value;
                 }
                 throw new midcom_error("__toString method not found on " . get_class($value));
             }

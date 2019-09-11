@@ -123,7 +123,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
                 $ret[$key] .= "{$field_val} ";
             }
 
-            $ret = $ret + self::list_groups($result['id'], "{$prefix} > ", $keyproperty, $order_by_score, $label_fields);
+            $ret += self::list_groups($result['id'], "{$prefix} > ", $keyproperty, $order_by_score, $label_fields);
         }
 
         return $ret;

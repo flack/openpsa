@@ -106,10 +106,9 @@ abstract class midcom_services_cache_module
                     $backend->setMemcached($memcached);
                     $memcache_operational = true;
                     break;
-                } else {
-                    midcom::get()->debug->log_php_error(MIDCOM_LOG_ERROR);
-                    debug_add("memcache: Failed to connect to {$host}:{$port}. Falling back to filecache", MIDCOM_LOG_ERROR);
                 }
+                midcom::get()->debug->log_php_error(MIDCOM_LOG_ERROR);
+                debug_add("memcache: Failed to connect to {$host}:{$port}. Falling back to filecache", MIDCOM_LOG_ERROR);
                 // fall-through
             case 'dba':
             case 'flatfile':

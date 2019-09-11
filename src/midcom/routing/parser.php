@@ -59,8 +59,6 @@ class parser
                 }
             }
         }
-
-        $this->url = '';
     }
 
     /**
