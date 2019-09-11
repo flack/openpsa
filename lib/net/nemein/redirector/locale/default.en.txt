@@ -22,10 +22,6 @@ click here
 Create a new TinyURL
 ---STRINGEND
 
----STRING delete tinyurl
-Delete TinyURL
----STRINGEND
-
 ---STRING edit tinyurl
 Edit TinyURL
 ---STRINGEND

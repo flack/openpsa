@@ -22,10 +22,6 @@ paina tästä
 Luo uusi LyhytURL
 ---STRINGEND
 
----STRING delete tinyurl
-Poista LyhytURL
----STRINGEND
-
 ---STRING edit tinyurl
 Muokkaa LyhytURL:ää
 ---STRINGEND

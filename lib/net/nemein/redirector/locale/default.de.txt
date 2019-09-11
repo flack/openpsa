@@ -6,10 +6,6 @@
 Neue TinyURL erstellen
 ---STRINGEND
 
----STRING delete tinyurl
-TinyURL löschen
----STRINGEND
-
 ---STRING edit tinyurl
 TinyURL bearbeiten
 ---STRINGEND
