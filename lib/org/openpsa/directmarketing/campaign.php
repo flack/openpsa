@@ -86,7 +86,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
     private function _unserialize_rules()
     {
         $unserRet = @json_decode($this->rulesSerialized, true);
-        if ($unserRet === false || $unserRet === null) {
+        if (in_array($unserRet, [false, null], true)) {
             debug_add('Failed to unserialize rulesSerialized', MIDCOM_LOG_WARN);
             $this->rules = [];
             return;

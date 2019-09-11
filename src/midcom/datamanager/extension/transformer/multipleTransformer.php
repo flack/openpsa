@@ -41,8 +41,7 @@ class multipleTransformer implements DataTransformerInterface
 
     public function transform($input)
     {
-        if (   $input === false
-            || $input === null) {
+        if (in_array($input, [false, null], true)) {
             return [];
         }
 

@@ -49,8 +49,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         $data['page_title'] = $this->_topic->extra;
 
         // Filter by categories
-        if (   $handler_id == 'index-category'
-            || $handler_id == 'latest-category') {
+        if (in_array($handler_id, ['index-category', 'latest-category'])) {
             $data['category'] = trim(strip_tags($args[0]));
 
             $this->_process_category_constraint($qb);
@@ -58,7 +57,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         $qb->add_order('metadata.published', 'DESC');
 
-        if ($handler_id == 'latest' || $handler_id == 'ajax-latest') {
+        if (in_array($handler_id, ['latest', 'ajax-latest'])) {
             $qb->results_per_page = $args[0];
         } elseif ($handler_id == 'latest-category') {
             $qb->results_per_page = $args[1];

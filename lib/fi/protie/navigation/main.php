@@ -340,7 +340,7 @@ class fi_protie_navigation
     {
         // Finalize the class naming
         $class = ($css_classes !== '') ? ' class="' . $css_classes . '"' : '';
-        $link_class = ($this->css_link) ? ' class="' . $this->css_link . '"' : '';
+        $link_class = $this->css_link ? ' class="' . $this->css_link . '"' : '';
 
         echo "<li{$class}>";
         echo "<a href=\"{$item[MIDCOM_NAV_ABSOLUTEURL]}\"{$link_class}>{$item[MIDCOM_NAV_NAME]}</a>";

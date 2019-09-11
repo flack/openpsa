@@ -71,7 +71,7 @@ class resolver
     public function process_midcom()
     {
         if ($url = $this->parser->find_urlmethod()) {
-            $router = resolver::get_router('midcom');
+            $router = self::get_router('midcom');
             $router->getContext()
                 ->fromRequest($this->request);
 

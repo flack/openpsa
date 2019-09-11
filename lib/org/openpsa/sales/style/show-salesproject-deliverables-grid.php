@@ -22,9 +22,9 @@ $grid = $provider->get_grid('deliverables_' . $data['state']);
 $classes = $data['state'];
 if ($data['state'] == 'declined') {
     $classes .= ' bad';
-} elseif ($data['state'] == 'started' || $data['state'] == 'invoiced') {
+} elseif (in_array($data['state'], ['started', 'invoiced'])) {
     $classes .= ' good';
-} elseif ($data['state'] == 'delivered' || $data['state'] == 'ordered') {
+} elseif (in_array($data['state'], ['delivered', 'ordered'])) {
     $classes .= ' normal';
 }
 

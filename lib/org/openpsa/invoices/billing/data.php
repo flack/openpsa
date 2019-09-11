@@ -63,7 +63,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
         if (   !($bd = self::get_billing_data(org_openpsa_contacts_group_dba::class, $object->customer))
                // check if the customerContact is set and has invoice_data
             && !($bd = self::get_billing_data(org_openpsa_contacts_person_dba::class, $object->customerContact))) {
-            $bd = new org_openpsa_invoices_billing_data_dba();
+            $bd = new self();
             $due = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('default_due_days');
             $vat = explode(',', midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('vat_percentages'));
 
@@ -86,7 +86,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
         }
         try {
             $contact = call_user_func([$dba_class, 'get_cached'], $contact_id);
-            $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
+            $qb = self::new_query_builder();
             $qb->add_constraint('linkGuid', '=', $contact->guid);
             $billing_data = $qb->execute();
             if (empty($billing_data)) {

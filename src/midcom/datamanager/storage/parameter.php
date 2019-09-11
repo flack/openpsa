@@ -31,7 +31,7 @@ class parameter extends delayed
     {
         // workaround for weird mgd API behavior where setting empty (i.e. deleting) a
         // nonexistent parameter returns false
-        if (   ($this->value === false || $this->value === null || $this->value === "")
+        if (   in_array($this->value, [false, null, ""], true)
             && $this->load() === null) {
             return true;
         }

@@ -187,7 +187,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
                 $this->handle_get();
             }
             // post and put might be used for create/update
-            if ($this->_request['method'] == 'post' || $this->_request['method'] == 'put') {
+            if (in_array($this->_request['method'], ['post', 'put'])) {
                 if ($this->_id) {
                     $this->_mode = 'update';
                     $this->handle_update();

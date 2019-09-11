@@ -53,7 +53,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             'campaign_member' => schemadb::from_path($this->_config->get('schemadb_campaign_member')),
             'organization' => schemadb::from_path($this->_config->get('schemadb_organization')),
             'organization_member' => schemadb::from_path($this->_config->get('schemadb_organization_member')),
-        ];;
+        ];
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.datamanager/default.css");
 
         midcom::get()->disable_limits();

@@ -428,7 +428,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             && $ref->get_midgard_type($property) === MGD_TYPE_GUID) {
             return true;
         }
-        return midcom_helper_reflector::is_same_class($link_class, $schema_type);
+        return self::is_same_class($link_class, $schema_type);
     }
 
     /**
@@ -462,7 +462,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $types = array_diff(midcom_connection::get_schema_types(), $root_exceptions_notroot);
         foreach ($types as $schema_type) {
             // Class extensions mapping
-            $schema_type = midcom_helper_reflector::class_rewrite($schema_type);
+            $schema_type = self::class_rewrite($schema_type);
 
             // Make sure we only add classes once
             if (in_array($schema_type, $root_classes)) {

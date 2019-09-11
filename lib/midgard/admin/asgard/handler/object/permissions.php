@@ -185,8 +185,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
             }
             foreach ($this->_privileges as $privilege) {
                 $privilege_components = explode(':', $privilege);
-                if (   $privilege_components[0] == 'midcom'
-                    || $privilege_components[0] == 'midgard') {
+                if (in_array($privilege_components[0], ['midcom', 'midgard'])) {
                     // This is one of the core privileges, we handle it
                     $privilege_label = $privilege;
                 } else {

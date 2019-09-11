@@ -20,7 +20,7 @@ class imageTransformer extends attachmentTransformer
         $result = ['objects' => []];
 
         foreach ($input as $key => $value) {
-            if ($key === 'delete' || $key === 'description' || $key == 'title' || $key == 'score') {
+            if (in_array($key, ['delete', 'description', 'title', 'score'])) {
                 $result[$key] = $value;
             } else {
                 $result['objects'][$key] = parent::transform($value);

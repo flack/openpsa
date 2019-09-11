@@ -30,7 +30,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     public $__mgdschema_class_name__ = 'org_openpsa_document';
 
     public $autodelete_dependents = [
-        org_openpsa_documents_document_dba::class => 'nextVersion'
+        self::class => 'nextVersion'
     ];
 
     const STATUS_DRAFT = 4000;
@@ -44,7 +44,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         }
 
         if (!$this->docStatus) {
-            $this->docStatus = org_openpsa_documents_document_dba::STATUS_DRAFT;
+            $this->docStatus = self::STATUS_DRAFT;
         }
     }
 

@@ -118,7 +118,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
 
     protected function _generator_load_redirect(&$args)
     {
-        $this->_request_data['query'] = new org_openpsa_reports_query_dba($args[0]);;
+        $this->_request_data['query'] = new org_openpsa_reports_query_dba($args[0]);
 
         if (empty($args[1])) {
             debug_add('Filename part not specified in URL, generating');

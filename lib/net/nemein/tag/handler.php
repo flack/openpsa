@@ -29,7 +29,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         if ($component === null) {
             $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
-        $existing_tags = net_nemein_tag_handler::get_object_tags($object);
+        $existing_tags = self::get_object_tags($object);
 
         // Determine operations
         $add_tags = [];
@@ -499,8 +499,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                 $quote_open = false;
                 continue;
             }
-            if (   $char === '"'
-                || $char === "'") {
+            if (in_array($char, ['"', "'"], true)) {
                 $quote_open = $char;
                 continue;
             }

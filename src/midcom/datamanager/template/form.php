@@ -177,7 +177,7 @@ class form extends base
         $string .= '<div class="attachment-container">';
         $string .= '<div class="attachment-preview">';
         if (!empty($data['value']['filename'])) {
-            $ext = pathinfo($data['value']['filename'], PATHINFO_EXTENSION);;
+            $ext = pathinfo($data['value']['filename'], PATHINFO_EXTENSION);
             $string .= '<a href="' . $data['value']['url'] . '" target="_blank" class="icon" title="' . $data['value']['filename'] . '">';
             $string .= '<i class="fa fa-file-o"></i><span class="extension">' . $ext . '</span></a>';
         } else {

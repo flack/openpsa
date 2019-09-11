@@ -65,7 +65,7 @@ abstract class midcom_helper_exporter
             }
 
             // skip read_only fields
-            if ($field_name == 'guid' || $field_name == 'id') {
+            if (in_array($field_name, ['guid', 'id'])) {
                 continue;
             }
 

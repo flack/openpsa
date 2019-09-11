@@ -409,8 +409,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         echo "<ul class=\"relatedto_toolbar\" data-link-guid=\"{$link['guid']}\" data-other-guid=\"{$other_obj->guid}\">\n";
 
-        if (   $link['component'] == 'net.nemein.wiki'
-            || $link['component'] == 'org.openpsa.calendar') {
+        if (in_array($link['component'], ['net.nemein.wiki', 'org.openpsa.calendar'])) {
             echo "<li><input type=\"button\" class=\"button info\" value=\"" . midcom::get()->i18n->get_string('details', 'org.openpsa.relatedto') . "\" /></li>\n";
         }
 

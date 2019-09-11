@@ -260,7 +260,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         if (count($parameter_keys) < 1) {
             //TODO: better solution for constraints leading to zero results
             //build constraint only if on 'LIKE' or '=' should be matched
-            if ($rule['match'] == 'LIKE' || $rule['match'] == '=') {
+            if (in_array($rule['match'], ['LIKE', '='])) {
                 return $this->mc->add_constraint('id', '=', -1);
             }
             return true;

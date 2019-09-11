@@ -130,7 +130,7 @@ class midcom_helper_imagefilter
             $output = [];
             $ret = null;
             exec($convert_cmd, $output, $ret);
-            $return = ($ret === 0 || $ret === 1);
+            $return = in_array($ret, [0, 1], true);
             if (!$return) {
                 debug_add("ImageMagick, '{$convert_cmd}' (part of ImageMagick suite) returned failure", MIDCOM_LOG_ERROR);
             }
@@ -470,8 +470,7 @@ class midcom_helper_imagefilter
         while ($rotate > 360) {
             $rotate -= 360;
         }
-        if (   $rotate == 0
-            || $rotate == 360) {
+        if (in_array($rotate, [0, 360])) {
             debug_add("Rotate is {$rotate}, we're happy as-is.");
             return;
         }

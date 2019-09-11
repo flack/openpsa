@@ -82,7 +82,7 @@ class loader extends base
     private function translate_validation(array $input)
     {
         foreach ($input as &$value) {
-            if ($value == 'is_numeric' || $value == 'is_int') {
+            if (in_array($value, ['is_numeric', 'is_int'])) {
                 $value = '\d+';
             } elseif ($value == 'mgd_is_guid') {
                 $value = '[0-9a-f]{21,80}';

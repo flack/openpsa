@@ -110,7 +110,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         $this->_comment = new net_nehmer_comments_comment($identifier);
 
         if (!$this->_comment->can_do('midgard:update')) {
-            $this->_comment->_sudo_requested = midcom::get()->auth->request_sudo('net.nehmer.comments');;
+            $this->_comment->_sudo_requested = midcom::get()->auth->request_sudo('net.nehmer.comments');
         }
         if ($require_moderation_privilege) {
             $this->_comment->require_do('net.nehmer.comments:moderation');

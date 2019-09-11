@@ -54,7 +54,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
         foreach ($schemadb->all() as $schema) {
             if ($schema->has_field('name')) {
-                $schema->get_field('name')['required'] = ($this->_handler_id === 'edit');
+                $schema->get_field('name')['required'] = $this->_handler_id === 'edit';
             }
         }
         $defaults = [];

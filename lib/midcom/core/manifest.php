@@ -290,7 +290,7 @@ class midcom_core_manifest
                 $this->$field = $value;
             }
         }
-        $this->purecode = ($this->purecode == true);
+        $this->purecode = (bool) $this->purecode;
 
         if (!empty($this->privileges)) {
             $this->_process_privileges();

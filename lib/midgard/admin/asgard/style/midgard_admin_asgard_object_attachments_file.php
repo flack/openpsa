@@ -42,7 +42,7 @@
     <?php
     $file_url = midcom::get()->permalinks->create_attachment_link($data['file']->guid, $data['file']->name);
     if (!empty($data['file']->name)) {
-        $ext = pathinfo($data['file']->name, PATHINFO_EXTENSION);;
+        $ext = pathinfo($data['file']->name, PATHINFO_EXTENSION);
         $mime_icon = '<i class="fa fa-file-o"></i><span class="extension">' . $ext . '</span>';
     } else {
         $mime_icon = '<span class="icon no-file"><i class="fa fa-file-o"></i></span>';

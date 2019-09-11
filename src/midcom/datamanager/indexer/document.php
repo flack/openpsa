@@ -256,9 +256,7 @@ class document extends midcom_services_indexer_document_midcom
      */
     private function resolve_auto_method($name)
     {
-        if (   $name == 'abstract'
-            || $name == 'title'
-            || $name == 'author') {
+        if (in_array($name, ['abstract', 'title', 'author'])) {
             return $name;
         }
         return 'content';

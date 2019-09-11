@@ -214,8 +214,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
         $this->_new_object = new $create_type();
 
-        if (   $handler_id == 'object_create_toplevel'
-            || $handler_id == 'object_create_chooser') {
+        if (in_array($handler_id, ['object_create_toplevel', 'object_create_chooser'])) {
             midcom::get()->auth->require_user_do('midgard:create', null, $create_type);
 
             $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), midgard_admin_asgard_plugin::get_type_label($data['current_type']));

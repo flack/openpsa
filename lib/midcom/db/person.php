@@ -95,10 +95,7 @@ class midcom_db_person extends midcom_core_dbaobject
     {
         parent::__set($property, $value);
 
-        if (   $property == 'firstname'
-            || $property == 'lastname'
-            || $property == 'homepage'
-            || $property == 'email') {
+        if (in_array($property, ['firstname', 'lastname', 'homepage', 'email'])) {
             $this->_update_computed_members();
         }
     }

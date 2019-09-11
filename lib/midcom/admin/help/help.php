@@ -325,7 +325,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $this->_request_data['libraries'] = [];
 
         foreach (midcom::get()->componentloader->manifests as $name => $manifest) {
-            $type = ($manifest->purecode) ? 'libraries' : 'components';
+            $type = $manifest->purecode ? 'libraries' : 'components';
 
             $component_array = $this->_load_component_data($name);
 
@@ -340,8 +340,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     {
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get('midcom.admin.help'));
 
-        if (   $handler_id == 'help'
-            || $handler_id == 'component') {
+        if (in_array($handler_id, ['help', 'component'])) {
             $this->add_breadcrumb(
                 $this->router->generate('component', ['component' => $this->_request_data['component']]),
                 sprintf($this->_l10n->get('help for %s'), midcom::get()->i18n->get_string($this->_request_data['component'], $this->_request_data['component']))

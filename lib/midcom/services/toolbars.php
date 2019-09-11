@@ -368,7 +368,7 @@ class midcom_services_toolbars
         $toolbar_style = "";
         $toolbar_class = "midcom_services_toolbars_simple";
 
-        if (midcom::get()->auth->can_user_do('midcom:ajax', null, midcom_services_toolbars::class)) {
+        if (midcom::get()->auth->can_user_do('midcom:ajax', null, __CLASS__)) {
             $enable_drag = true;
             $toolbar_class = "midcom_services_toolbars_fancy";
             $toolbar_style = "display: none;";

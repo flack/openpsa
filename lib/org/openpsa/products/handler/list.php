@@ -82,7 +82,7 @@ implements client
         }
 
         foreach ($search as $key => $value) {
-            if ($key === 'code' || $key === 'title') {
+            if (in_array($key, ['code', 'title'], true)) {
                 $qb->add_constraint($key, 'LIKE', $value . '%');
             } else {
                 $qb->add_constraint($key, '=', $value);

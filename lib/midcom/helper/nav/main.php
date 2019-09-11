@@ -217,8 +217,7 @@ class midcom_helper_nav
         if ($uplink == $root_id) {
             return true;
         }
-        if (   $uplink == false
-            || $uplink == -1) {
+        if (in_array($uplink, [false, -1])) {
             return false;
         }
         return $this->is_node_in_tree($uplink, $root_id);
