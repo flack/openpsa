@@ -93,6 +93,10 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         return $imagefilter->write($derived);
     }
 
+    /**
+     * @param midcom_db_topic $folder
+     * @return boolean|midcom_db_attachment
+     */
     public static function get_folder_thumbnail(midcom_db_topic $folder)
     {
         $thumbnail = $folder->get_attachment(self::FOLDER_THUMBNAIL);
@@ -112,6 +116,10 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         return $thumbnail;
     }
 
+    /**
+     * @throws midcom_error
+     * @return boolean|midcom_db_attachment
+     */
     public function create_folder_thumbnail()
     {
         $original = $this->load_attachment('attachment');

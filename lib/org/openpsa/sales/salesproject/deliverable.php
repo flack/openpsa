@@ -152,6 +152,9 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return '';
     }
 
+    /**
+     * @return midcom_services_at_entry_dba[]
+     */
     public function get_at_entries()
     {
         $mc = new org_openpsa_relatedto_collector($this->guid, midcom_services_at_entry_dba::class);

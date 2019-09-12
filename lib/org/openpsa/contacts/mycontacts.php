@@ -81,6 +81,9 @@ class org_openpsa_contacts_mycontacts
         return false;
     }
 
+    /**
+     * @return org_openpsa_contacts_person_dba[]
+     */
     public function list_members()
     {
         if ($group = $this->_get_group()) {

@@ -64,6 +64,10 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
         $this->purge();
     }
 
+    /**
+     * @param string $component
+     * @return org_openpsa_reports_query_dba[]
+     */
     public static function get_saved($component)
     {
         $qb = self::new_query_builder();

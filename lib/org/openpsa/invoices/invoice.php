@@ -60,6 +60,10 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         return 'file-text-o';
     }
 
+    /**
+     * @param int $number
+     * @return org_openpsa_invoices_invoice_dba|boolean
+     */
     public static function get_by_number($number)
     {
         $qb = self::new_query_builder();
@@ -277,6 +281,8 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
     /**
      * Get the billing data for the invoice
+     *
+     * @return org_openpsa_invoices_billing_data_dba
      */
     public function get_billing_data()
     {
