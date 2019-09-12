@@ -208,7 +208,7 @@ class midcom_helper_nav_backend
      * @param int $parent_id  The node's parent ID, if known
      * @return int            MIDCOM_ERROK on success, MIDCOM_ERRFORBIDDEN when inaccessible
      */
-    private function _loadNode($node_id, $parent_id = null)
+    private function _loadNode($node_id, $parent_id = null) : int
     {
         // Check if we have a cached version of the node already
         if (isset(self::$_nodes[$node_id])) {
@@ -251,7 +251,7 @@ class midcom_helper_nav_backend
      * @param mixed $topic Topic object or ID to be processed
      * @return integer MIDCOM_ERROK on success, MIDCOM_ERRFORBIDDEN when inaccessible
      */
-    private function _loadNodeData($topic)
+    private function _loadNodeData($topic) : int
     {
         if (is_a($topic, midcom_db_topic::class)) {
             $id = $topic->id;
@@ -314,7 +314,7 @@ class midcom_helper_nav_backend
      * @param midcom_helper_nav_node $node The node data structure for which to retrieve the leaves.
      * @return Array All leaves found for that node, in complete post processed leave data structures.
      */
-    private function _get_leaves(midcom_helper_nav_node $node)
+    private function _get_leaves(midcom_helper_nav_node $node) : array
     {
         $fullprefix = midcom::get()->config->get('midcom_site_url');
         $absoluteprefix = midcom_connection::get_url('self');
@@ -348,7 +348,7 @@ class midcom_helper_nav_backend
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      * @return Array            An array of node IDs or false on failure.
      */
-    public function list_nodes($parent_node, $show_noentry)
+    public function list_nodes($parent_node, $show_noentry) : array
     {
         static $listed = [];
 
@@ -398,7 +398,7 @@ class midcom_helper_nav_backend
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      * @return Array             A list of leaves found, or false on failure.
      */
-    public function list_leaves($parent_node, $show_noentry)
+    public function list_leaves($parent_node, $show_noentry) : array
     {
         static $listed = [];
 
@@ -526,7 +526,7 @@ class midcom_helper_nav_backend
      *
      * @return int    The ID of the root node.
      */
-    public function get_root_node()
+    public function get_root_node() : int
     {
         return $this->_root;
     }
@@ -538,7 +538,7 @@ class midcom_helper_nav_backend
      *
      * @return Array    The node path array.
      */
-    public function get_node_path()
+    public function get_node_path() : array
     {
         return $this->_node_path;
     }
@@ -583,7 +583,7 @@ class midcom_helper_nav_backend
      * @param string $leaf_id A valid NAP leaf id ($nodeid-$leafid pattern).
      * @return boolean true if the leaf exists, false otherwise.
      */
-    private function _check_leaf_id($leaf_id)
+    private function _check_leaf_id($leaf_id) : bool
     {
         if (!$leaf_id) {
             debug_add("Tried to load a suspicious leaf id, probably a false from get_current_leaf.");

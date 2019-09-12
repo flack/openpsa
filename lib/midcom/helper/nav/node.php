@@ -32,13 +32,13 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
         }
     }
 
-    public function is_readable_by($user_id)
+    public function is_readable_by($user_id) : bool
     {
         return (   !$user_id
                 || midcom::get()->auth->acl->can_do_byguid('midgard:read', $this->guid, midcom_db_topic::class, $user_id));
     }
 
-    public function get_subnodes()
+    public function get_subnodes() : array
     {
         if (!isset($this->subnodes)) {
             if ((int) $this->topic_id == 0) {
@@ -66,7 +66,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
     /**
      * @return midcom_helper_nav_leaf[]
      */
-    public function get_leaves()
+    public function get_leaves() : array
     {
         $leaves = $this->get_cache()->get_leaves("{$this->id}-leaves");
         $from_cache = (false !== $leaves);

@@ -125,7 +125,7 @@ class midcom_core_account
         return $this->_user->login;
     }
 
-    public function get_usertype()
+    public function get_usertype() : int
     {
         return $this->_user->usertype;
     }

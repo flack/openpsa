@@ -35,7 +35,7 @@ abstract class midcom_helper_nav_item
     /**
      * @return midcom_services_cache_module_nap
      */
-    protected function get_cache()
+    protected function get_cache() : midcom_services_cache_module_nap
     {
         return midcom::get()->cache->nap;
     }
@@ -93,7 +93,7 @@ abstract class midcom_helper_nav_item
      *
      * @return boolean Indicating visibility.
      */
-    public function is_object_visible()
+    public function is_object_visible() : bool
     {
         if ($this->get_data() === null) {
             debug_add('Got a null value as napdata, so this object does not have any NAP info, so we cannot display it.');

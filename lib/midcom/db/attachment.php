@@ -147,7 +147,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * @return string rewritten filename
      * @todo add possibility to use the file utility to determine extension if missing.
      */
-    public static function safe_filename($filename, $force_single_extension = true)
+    public static function safe_filename($filename, $force_single_extension = true) : string
     {
         // we could use basename() here, except that it swallows multibyte chars at the
         // beginning of the string if we run in e.g. C locale..
@@ -190,7 +190,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         return "{$cacheroot}/{$subdir}/{$this->guid}/{$this->name}";
     }
 
-    public static function get_url($attachment, $name = null)
+    public static function get_url($attachment, $name = null) : string
     {
         if (is_string($attachment)) {
             $guid = $attachment;
@@ -291,7 +291,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      *
      * @return string An unused attachment location.
      */
-    private function _create_attachment_location()
+    private function _create_attachment_location() : string
     {
         $max_tries = 500;
 
@@ -371,7 +371,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * @param mixed $source File contents.
      * @return boolean Indicating success.
      */
-    public function copy_from_memory($source)
+    public function copy_from_memory($source) : bool
     {
         $dest = $this->open();
         if (!$dest) {
@@ -392,7 +392,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * @param resource $source The handle to read from.
      * @return boolean Indicating success.
      */
-    public function copy_from_handle($source)
+    public function copy_from_handle($source) : bool
     {
         $dest = $this->open();
         if (!$dest) {
@@ -413,7 +413,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * @param string $filename The file to read.
      * @return boolean Indicating success.
      */
-    public function copy_from_file($filename)
+    public function copy_from_file($filename) : bool
     {
         $source = @fopen($filename, 'r');
         if (!$source) {

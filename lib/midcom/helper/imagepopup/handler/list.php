@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
+use midcom\datamanager\controller;
 
 /**
  * This handler shows the attachments attached to object $object.
@@ -79,7 +80,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         midcom::get()->style->prepend_component_styledir('midcom.helper.imagepopup');
     }
 
-    private function load_controller(Request $request, array $data)
+    private function load_controller(Request $request, array $data) : controller
     {
         $dm = datamanager::from_schemadb($this->_config->get('schemadb'));
         if ($data['list_type'] == 'page') {

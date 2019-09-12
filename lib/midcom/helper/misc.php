@@ -20,7 +20,7 @@ class midcom_helper_misc
      * @throws InvalidArgumentException
      * @return string
      */
-    public static function random_string($length, $characters)
+    public static function random_string($length, $characters) : string
     {
         if ($length < 1) {
             throw new InvalidArgumentException('invalid length');
@@ -38,9 +38,8 @@ class midcom_helper_misc
 
     /**
      * @param string $input
-     * @return string
      */
-    public static function urlize($input)
+    public static function urlize($input) : string
     {
         if (empty($input)) {
             return '';

@@ -19,7 +19,7 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
      * @param array $array
      * @return string
      */
-    public function array2data(array $array)
+    public function array2data(array $array) : string
     {
         foreach ($array as $key => $val) {
             if (is_object($array[$key])) {

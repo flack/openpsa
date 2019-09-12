@@ -18,7 +18,7 @@ class midcom_helper_nav_itemlist_score extends midcom_helper_nav_itemlist
      *
      * @return mixed  False on failure or an array of navigation items on success
      */
-    public function get_sorted_list()
+    public function get_sorted_list() : array
     {
         $result = array_merge($this->get_nodes(), $this->get_leaves());
         if (!uasort($result, [$this, 'sort_cmp'])) {

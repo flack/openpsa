@@ -171,7 +171,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      * @param string $style_name Name of the style
      * @return string Style path
      */
-    private function _create_style($style_name)
+    private function _create_style($style_name) : string
     {
         $style = new midcom_db_style();
         $style->name = $style_name;

@@ -55,7 +55,7 @@ class midcom_db_group extends midcom_core_dbaobject
      * @param midcom_db_person $person The person to add.
      * @return boolean Indicating success.
      */
-    public function add_member($person)
+    public function add_member($person) : bool
     {
         $this->require_do('midgard:create');
 
@@ -83,7 +83,7 @@ class midcom_db_group extends midcom_core_dbaobject
      * @param midcom_db_person $person The person to check.
      * @return boolean Indicating membership.
      */
-    function is_member($person)
+    function is_member($person) : bool
     {
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $this->id);

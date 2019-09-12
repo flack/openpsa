@@ -246,7 +246,7 @@ abstract class midcom_core_dbaobject
      *
      * @return boolean Indicating success
      */
-    public function purge()
+    public function purge() : bool
     {
         return $this->__object->purge();
     }
@@ -316,11 +316,11 @@ abstract class midcom_core_dbaobject
     {
         return $this->__object->parent();
     }
-    public function is_object_visible_onsite()
+    public function is_object_visible_onsite() : bool
     {
         return midcom_baseclasses_core_dbobject::is_object_visible_onsite($this);
     }
-    public function has_attachments()
+    public function has_attachments() : bool
     {
         return $this->__object->has_attachments();
     }
@@ -336,7 +336,7 @@ abstract class midcom_core_dbaobject
     {
         return $this->__object->purge_attachments($constraints);
     }
-    public function has_parameters()
+    public function has_parameters() : bool
     {
         return $this->__object->has_parameters();
     }

@@ -34,7 +34,7 @@ class midcom_config_test
         $this->check_external();
     }
 
-    public function get_status()
+    public function get_status() : int
     {
         return $this->status;
     }
@@ -138,7 +138,7 @@ class midcom_config_test
         }
     }
 
-    private function ini_get_filesize($setting)
+    private function ini_get_filesize($setting) : int
     {
         $result = ini_get($setting);
         $last_char = substr($result, -1);

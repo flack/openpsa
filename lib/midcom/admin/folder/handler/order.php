@@ -71,7 +71,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         }
     }
 
-    private function _update_score($identifier, $score)
+    private function _update_score($identifier, $score) : bool
     {
         // Use the DB Factory to resolve the class and to get the object
         try {
@@ -188,7 +188,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         }
     }
 
-    private function _get_navigation_data()
+    private function _get_navigation_data() : array
     {
         $ret = [];
         // Initialize the midcom_helper_nav or navigation access point

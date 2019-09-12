@@ -44,7 +44,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      * @param string $component Component name
      * @return string Component documentation directory path
      */
-    private static function get_documentation_dir($component)
+    private static function get_documentation_dir($component) : string
     {
         if (!midcom::get()->componentloader->is_installed($component)) {
             throw new midcom_error("Failed to generate documentation path for component {$component} as it is not installed.");
@@ -112,7 +112,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return MarkdownExtra::defaultTransform($text);
     }
 
-    public function list_files($component, $with_index = false)
+    public function list_files($component, $with_index = false) : array
     {
         $files = $this->_list_physical_files($component);
         $files = $this->_add_virtual_files($files, $component);

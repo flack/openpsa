@@ -16,7 +16,7 @@
  */
 class midcom_helper_nav_itemlist_topicsfirst extends midcom_helper_nav_itemlist
 {
-    public function get_sorted_list()
+    public function get_sorted_list() : array
     {
         return array_merge($this->get_nodes(), $this->get_leaves());
     }

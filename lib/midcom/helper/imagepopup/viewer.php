@@ -13,7 +13,7 @@
  */
 class midcom_helper_imagepopup_viewer extends midcom_baseclasses_components_plugin
 {
-    public static function get_navigation(array $data)
+    public static function get_navigation(array $data) : array
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__ais/imagepopup/";
 

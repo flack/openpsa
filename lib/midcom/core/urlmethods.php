@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use midgard\portable\api\blob;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * MidCOM URL methods.
@@ -33,7 +34,7 @@ use midgard\portable\api\blob;
  */
 class midcom_core_urlmethods
 {
-    public function process_config()
+    public function process_config() : Response
     {
         return new StreamedResponse(function() {
             midcom::get()->style->show_midcom('config-test');
@@ -47,7 +48,7 @@ class midcom_core_urlmethods
      * @param string $guid
      * @throws midcom_error_notfound
      */
-    public function process_serveattachmentguid(Request $request, $guid)
+    public function process_serveattachmentguid(Request $request, $guid) : Response
     {
         $attachment = new midcom_db_attachment($guid);
         if (!$attachment->can_do('midgard:autoserve_attachment')) {
@@ -87,7 +88,7 @@ class midcom_core_urlmethods
      * @throws midcom_error_notfound
      * @return midcom_response_relocate
      */
-    public function process_permalink($guid)
+    public function process_permalink($guid) : Response
     {
         $destination = midcom::get()->permalinks->resolve_permalink($guid);
         if ($destination === null) {
@@ -126,14 +127,14 @@ class midcom_core_urlmethods
         midcom::get()->cache->content->no_cache();
     }
 
-    public function process_logout(Request $request, $url)
+    public function process_logout(Request $request, $url) : Response
     {
         midcom::get()->cache->content->no_cache();
         midcom::get()->auth->logout();
         return $this->redirect($request, $url);
     }
 
-    public function process_login(Request $request, $url)
+    public function process_login(Request $request, $url) : Response
     {
         if (midcom::get()->auth->is_valid_user()) {
             return $this->redirect($request, $url);
@@ -141,7 +142,7 @@ class midcom_core_urlmethods
         return new midcom_response_login;
     }
 
-    private function redirect(Request $request, $redirect_to)
+    private function redirect(Request $request, $redirect_to) : Response
     {
         if (!empty($request->server->get('QUERY_STRING'))) {
             $redirect_to .= '?' . $request->getQueryString();
@@ -173,7 +174,7 @@ class midcom_core_urlmethods
      * @param string $filename
      * @see midcom_services_cache_module_content::enable_live_mode()
      */
-    public function process_exec(Request $request, $component, $filename, $argv)
+    public function process_exec(Request $request, $component, $filename, $argv) : Response
     {
         $componentloader = midcom::get()->componentloader;
         if (!$componentloader->is_installed($component)) {

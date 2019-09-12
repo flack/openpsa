@@ -65,7 +65,7 @@ class midcom_helper_nav
      * @return midcom_helper_nav_backend The backend instance in the cache.
      * @see midcom_helper_nav
      */
-    private function _get_backend()
+    private function _get_backend() : midcom_helper_nav_backend
     {
         if (!isset(self::$_backends[$this->context->id])) {
             $root = $this->context->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
@@ -113,7 +113,7 @@ class midcom_helper_nav
      * @return int    The ID of the root node.
      * @see midcom_helper_nav_backend::get_root_node()
      */
-    public function get_root_node()
+    public function get_root_node() : int
     {
         return $this->_backend->get_root_node();
     }
@@ -126,10 +126,10 @@ class midcom_helper_nav
      * @param int $parent_node    The id of the node of which the subnodes are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      *     This defaults to false.
-     * @return Array            An Array of Node IDs or false on failure.
+     * @return array              An Array of Node IDs
      * @see midcom_helper_nav_backend::list_nodes()
      */
-    public function list_nodes($parent_node, $show_noentry = false)
+    public function list_nodes($parent_node, $show_noentry = false) : array
     {
         return $this->_backend->list_nodes($parent_node, $show_noentry);
     }
@@ -145,7 +145,7 @@ class midcom_helper_nav
      * @return Array             A list of leaves found, or false on failure.
      * @see midcom_helper_nav_backend::list_leaves()
      */
-    public function list_leaves($parent_node, $show_noentry = false)
+    public function list_leaves($parent_node, $show_noentry = false) : array
     {
         return $this->_backend->list_leaves($parent_node, $show_noentry);
     }
@@ -211,7 +211,7 @@ class midcom_helper_nav
      * @param int    $root_id    The root node to use.
      * @return boolean                True, if the node is a subnode of the root node, false otherwise.
      */
-    public function is_node_in_tree($node_id, $root_id)
+    public function is_node_in_tree($node_id, $root_id) : bool
     {
         $uplink = $this->get_node_uplink($node_id);
         if ($uplink == $root_id) {
@@ -406,7 +406,7 @@ class midcom_helper_nav
      * @param array     $skip_guids       Array of guids that are skipped.
      * @return string    The computed breadcrumb line.
      */
-    public function get_breadcrumb_line($separator = ' &gt; ', $class = null, $skip_levels = 0, $current_class = null, $skip_guids = [])
+    public function get_breadcrumb_line($separator = ' &gt; ', $class = null, $skip_levels = 0, $current_class = null, $skip_guids = []) : string
     {
         $breadcrumb_data = $this->get_breadcrumb_data();
         $result = '';
@@ -502,7 +502,7 @@ class midcom_helper_nav
      *
      * @return array The computed breadcrumb data as outlined above.
      */
-    public function get_breadcrumb_data($id = null)
+    public function get_breadcrumb_data($id = null) : array
     {
         $prefix = $this->context->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $result = [];
@@ -579,7 +579,7 @@ class midcom_helper_nav
      *
      * @return Array    The node path array.
      */
-    public function get_node_path($node_id = null)
+    public function get_node_path($node_id = null) : array
     {
         if ($node_id === null) {
             return $this->_backend->get_node_path();

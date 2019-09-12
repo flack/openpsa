@@ -240,7 +240,7 @@ class midcom_core_user
      *
      * @return midcom_core_group[] A list of groups in which the current user is a member
      */
-    public function list_memberships()
+    public function list_memberships() : array
     {
         if ($this->_direct_groups === null) {
             $this->_load_direct_groups();
@@ -255,7 +255,7 @@ class midcom_core_user
      *
      * @return midcom_core_group[] A list of groups in which the current user is a member
      */
-    function list_all_memberships()
+    function list_all_memberships() : array
     {
         if ($this->_all_groups === null) {
             $this->_load_all_groups();
@@ -269,7 +269,7 @@ class midcom_core_user
      *
      * @return array Array keys are the privilege names, the values are the Privilege states (ALLOW/DENY).
      */
-    public function get_privileges()
+    public function get_privileges() : array
     {
         $this->_load_privileges();
         return $this->_privileges;
@@ -281,7 +281,7 @@ class midcom_core_user
      *
      * @return array Array keys are the privilege names, the values are the Privilege states (ALLOW/DENY).
      */
-    public function get_per_class_privileges()
+    public function get_per_class_privileges() : array
     {
         $this->_load_privileges();
         return $this->_per_class_privileges;
@@ -450,7 +450,7 @@ class midcom_core_user
      * @param mixed $group Group to check against, this can be either a midcom_core_group object or a group string identifier.
      * @return boolean Indicating membership state.
      */
-    public function is_in_group($group)
+    public function is_in_group($group) : bool
     {
         if ($this->_all_groups === null) {
             $this->_load_all_groups();
@@ -473,7 +473,7 @@ class midcom_core_user
         return false;
     }
 
-    public function is_admin()
+    public function is_admin() : bool
     {
         $account = new midcom_core_account($this->_storage);
         return $account->is_admin();
@@ -485,7 +485,7 @@ class midcom_core_user
      *
      * @return midcom_db_person The user which is associated with this record or false if the object cannot be accessed.
      */
-    public function get_storage()
+    public function get_storage() : midcom_db_person
     {
         return new midcom_db_person($this->_storage);
     }
@@ -501,7 +501,7 @@ class midcom_core_user
      * @return string One of 'online', 'offline' or 'unknown', indicating the current online
      *     state.
      */
-    public function is_online()
+    public function is_online() : string
     {
         $person = $this->get_storage();
         if (!$person->can_do('midcom:isonline')) {
@@ -549,7 +549,7 @@ class midcom_core_user
      * @return int The time of the first login, or zero in case of users which have never
      *     logged in.
      */
-    public function get_first_login()
+    public function get_first_login() : int
     {
         return (int) $this->_storage->get_parameter('midcom', 'first_login');
     }
@@ -559,7 +559,7 @@ class midcom_core_user
      *
      * @return boolean Indicating success.
      */
-    public function delete()
+    public function delete() : bool
     {
         $person = $this->get_storage();
         $account = new midcom_core_account($person);

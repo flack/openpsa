@@ -42,7 +42,7 @@ abstract class midcom_helper_nav_itemlist
     /**
      * @return array
      */
-    protected function get_nodes()
+    protected function get_nodes() : array
     {
         $nodes_list = $this->_nap->list_nodes($this->parent_node_id);
         if ($nodes_list === false) {
@@ -54,7 +54,7 @@ abstract class midcom_helper_nav_itemlist
     /**
      * @return array
      */
-    protected function get_leaves()
+    protected function get_leaves() : array
     {
         $leaves_list = $this->_nap->list_leaves($this->parent_node_id);
         if ($leaves_list === false) {
@@ -91,9 +91,8 @@ abstract class midcom_helper_nav_itemlist
      * @param string $sorting sorttype (e.g. topicsfirst)
      * @param midcom_helper_nav $nap pointer to the NAP object.
      * @param integer $parent_topic pointer to the topic to base the list on.
-     * @return midcom_helper_nav_itemlist
      */
-    public static function factory($sorting, midcom_helper_nav $nap, $parent_topic)
+    public static function factory($sorting, midcom_helper_nav $nap, $parent_topic) : midcom_helper_nav_itemlist
     {
         $class = "midcom_helper_nav_itemlist_{$sorting}";
         return new $class($nap, $parent_topic);

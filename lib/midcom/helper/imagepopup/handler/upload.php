@@ -62,7 +62,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
      * @param string $filename The file name
      * @return string The modified file name
      */
-    private function get_modify_filename($filename)
+    private function get_modify_filename($filename) : string
     {
         $filename = midcom_db_attachment::safe_filename($filename);
         $pieces = explode('.', $filename);
@@ -80,7 +80,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
      * @param string $parentguid The parent GUID
      * @return midcom_db_attachment The file destination
      */
-    private function get_data_from_database($filename, $parentguid)
+    private function get_data_from_database($filename, $parentguid) : midcom_db_attachment
     {
         $query = midcom_db_attachment::new_query_builder();
         $query->add_constraint('name', '=', $filename);
@@ -119,7 +119,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
      * @param string $parentguid The parent GUID
      * @return midcom_db_attachment
      */
-    private function insert_database($filename, $mimetype, $parentguid)
+    private function insert_database($filename, $mimetype, $parentguid) : midcom_db_attachment
     {
         $attachment = new midcom_db_attachment();
         $attachment->name = $filename;

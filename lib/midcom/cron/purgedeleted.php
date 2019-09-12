@@ -18,7 +18,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         $this->_cutoff = strtotime($days . ' days ago');
     }
 
-    public function get_cutoff()
+    public function get_cutoff() : int
     {
         if (empty($this->_cutoff)) {
             $this->set_cutoff(midcom::get()->config->get('cron_purge_deleted_after'));
@@ -26,7 +26,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         return $this->_cutoff;
     }
 
-    public function get_classes()
+    public function get_classes() : array
     {
         $classes = [];
         foreach (midcom_connection::get_schema_types() as $mgdschema) {
@@ -57,7 +57,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         }
     }
 
-    public function process_class($mgdschema)
+    public function process_class($mgdschema) : array
     {
         $cut_off = $this->get_cutoff();
         $qb = new midgard_query_builder($mgdschema);
