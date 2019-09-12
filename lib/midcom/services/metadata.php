@@ -83,7 +83,7 @@ class midcom_services_metadata
      *
      * @return string The page class
      */
-    public function get_page_class()
+    public function get_page_class() : string
     {
         $context = midcom_core_context::get();
 
@@ -104,7 +104,7 @@ class midcom_services_metadata
      * @param string $existing_classes Existing CSS classes to append to
      * @return string CSS classes for that object
      */
-    public function get_object_classes($object, $existing_classes = null)
+    public function get_object_classes($object, $existing_classes = null) : string
     {
         $css_classes = [];
         if ($existing_classes !== null) {
@@ -232,7 +232,7 @@ class midcom_services_metadata
      * @see http://opengraphprotocol.org/
      * @return Array
      */
-    public function get_opengraph_types()
+    public function get_opengraph_types() : array
     {
         if (!midcom::get()->config->get('metadata_opengraph')) {
             return [];
@@ -285,7 +285,7 @@ class midcom_services_metadata
      *
      * @return string Open Graph Protocol type
      */
-    public function get_opengraph_type_default()
+    public function get_opengraph_type_default() : string
     {
         if (!midcom::get()->config->get('metadata_opengraph')) {
             return '';
@@ -335,17 +335,15 @@ class midcom_services_metadata
      *     values set with the setter pendant. For ease of use, there is also a key 'permalink'
      *     which contains a ready-made permalink.
      */
-    public function get_request_metadata(midcom_core_context $context = null)
+    public function get_request_metadata(midcom_core_context $context = null) : array
     {
         if ($context === null) {
             $context = midcom_core_context::get();
         }
-        $meta = [
+        return [
             'lastmodified' => $context->get_key(MIDCOM_CONTEXT_LASTMODIFIED),
             'permalinkguid' => $context->get_key(MIDCOM_CONTEXT_PERMALINKGUID),
             'permalink' => midcom::get()->permalinks->create_permalink($context->get_key(MIDCOM_CONTEXT_PERMALINKGUID)),
         ];
-
-        return $meta;
     }
 }

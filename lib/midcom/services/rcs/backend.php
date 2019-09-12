@@ -21,23 +21,23 @@ interface midcom_services_rcs_backend
      * @return boolean true if save succeeded.
      * @throws midcom_error on serious errors.
      */
-    public function update($object, $updatemessage = null);
+    public function update($object, $updatemessage = null) : bool;
 
     public function get_revision($revision);
 
-    public function version_exists($version);
+    public function version_exists($version) : bool;
 
     public function get_prev_version($version);
 
     public function get_next_version($version);
 
-    public function list_history_numeric();
+    public function list_history_numeric() : array;
 
-    public function list_history();
+    public function list_history() : array;
 
-    public function get_diff($oldest_revision, $latest_revision);
+    public function get_diff($oldest_revision, $latest_revision) : array;
 
     public function get_comment($revision);
 
-    public function restore_to_revision($revision);
+    public function restore_to_revision($revision) : bool;
 }

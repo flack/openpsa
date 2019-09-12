@@ -73,7 +73,7 @@ abstract class midcom_services_indexer_client
      *
      * @param mixed $object The object instance to use
      */
-    public function index($object)
+    public function index($object) : bool
     {
         return $this->_indexer->index($this->new_document($object));
     }

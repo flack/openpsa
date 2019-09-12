@@ -322,7 +322,7 @@ class midcom_services_auth_acl
      *
      * @return Array Privilege Name / Value map.
      */
-    public function get_default_privileges()
+    public function get_default_privileges() : array
     {
         return self::$_default_privileges;
     }
@@ -332,7 +332,7 @@ class midcom_services_auth_acl
      *
      * @return Array Privilege Name / Value map.
      */
-    public function get_owner_default_privileges()
+    public function get_owner_default_privileges() : array
     {
         return self::$_owner_default_privileges;
     }
@@ -343,7 +343,7 @@ class midcom_services_auth_acl
      * @param string $class The class name for which defaults should be loaded.
      * @param mixed $user The user to check
      */
-    private function _get_class_magic_privileges($class, $user)
+    private function _get_class_magic_privileges($class, $user) : array
     {
         if (!array_key_exists($class, self::$_default_magic_class_privileges)) {
             $privs = [
@@ -366,7 +366,7 @@ class midcom_services_auth_acl
         );
     }
 
-    private function _get_user_per_class_privileges($classname, midcom_core_user $user)
+    private function _get_user_per_class_privileges($classname, midcom_core_user $user) : array
     {
         static $cache = [];
 
@@ -425,12 +425,12 @@ class midcom_services_auth_acl
      * @param string $name The name of the privilege to check.
      * @return boolean Indicating whether the privilege does exist.
      */
-    public function privilege_exists($name)
+    public function privilege_exists($name) : bool
     {
         return array_key_exists($name, self::$_default_privileges);
     }
 
-    public function can_do_byclass($privilege, $user, $class)
+    public function can_do_byclass($privilege, $user, $class) : bool
     {
         if ($this->_internal_sudo) {
             debug_add('INTERNAL SUDO mode is enabled. Generic Read-Only mode set.');
@@ -494,7 +494,7 @@ class midcom_services_auth_acl
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
      * @return boolean True if the privilege has been granted, false otherwise.
      */
-    public function can_do_byguid($privilege, $object_guid, $object_class, $user_id)
+    public function can_do_byguid($privilege, $object_guid, $object_class, $user_id) : bool
     {
         if ($this->_internal_sudo) {
             return $this->_can_do_internal_sudo($privilege);
@@ -560,7 +560,7 @@ class midcom_services_auth_acl
      * @param string $user_id The user against which to check the privilege, defaults to the currently authenticated user.
      * @return boolean True when privilege was found, otherwise false
      */
-    private function _load_content_privilege($privilegename, $guid, $class, $user_id)
+    private function _load_content_privilege($privilegename, $guid, $class, $user_id) : bool
     {
         $cache_id = $user_id . '::' . $guid;
 
@@ -620,7 +620,7 @@ class midcom_services_auth_acl
         return false;
     }
 
-    private function get_parent_data($guid, $class)
+    private function get_parent_data($guid, $class) : array
     {
         // ==> into SUDO
         $previous_sudo = $this->_internal_sudo;
@@ -639,7 +639,7 @@ class midcom_services_auth_acl
      * @return boolean True if the privilege has been granted, false otherwise.
      * @see $_internal_sudo
      */
-    private function _can_do_internal_sudo($privilege)
+    private function _can_do_internal_sudo($privilege) : bool
     {
         return !in_array($privilege, ['midgard:create', 'midgard:update', 'midgard:delete', 'midgard:privileges']);
     }

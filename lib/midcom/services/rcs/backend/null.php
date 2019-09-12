@@ -15,7 +15,7 @@ class midcom_services_rcs_backend_null implements midcom_services_rcs_backend
     {
     }
 
-    public function update($object, $updatemessage = null)
+    public function update($object, $updatemessage = null) : bool
     {
         return true;
     }
@@ -25,7 +25,7 @@ class midcom_services_rcs_backend_null implements midcom_services_rcs_backend
         return false;
     }
 
-    public function version_exists($version)
+    public function version_exists($version) : bool
     {
         return false;
     }
@@ -40,17 +40,17 @@ class midcom_services_rcs_backend_null implements midcom_services_rcs_backend
         return false;
     }
 
-    public function list_history_numeric()
+    public function list_history_numeric() : array
     {
         return [];
     }
 
-    public function list_history()
+    public function list_history() : array
     {
         return [];
     }
 
-    public function get_diff($oldest_revision, $latest_revision)
+    public function get_diff($oldest_revision, $latest_revision) : array
     {
         return [];
     }
@@ -60,7 +60,7 @@ class midcom_services_rcs_backend_null implements midcom_services_rcs_backend
         return false;
     }
 
-    public function restore_to_revision($revision)
+    public function restore_to_revision($revision) : bool
     {
         return false;
     }

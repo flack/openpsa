@@ -61,7 +61,7 @@ class midcom_services_dbclassloader
      * @param object $object The object to check
      * @return boolean true if this is a MgdSchema object, false otherwise.
      */
-    public function is_mgdschema_object($object)
+    public function is_mgdschema_object($object) : bool
     {
         // Sometimes we might get class string instead of an object
         if (is_string($object)) {
@@ -206,7 +206,7 @@ class midcom_services_dbclassloader
      * @param object|string $object The object (or classname) to check
      * @return boolean true if this is a MidCOM Database object, false otherwise.
      */
-    public function is_midcom_db_object($object)
+    public function is_midcom_db_object($object) : bool
     {
         if (is_object($object)) {
             return ($object instanceof midcom_core_dbaobject || $object instanceof midcom_core_dbaproxy);
@@ -218,7 +218,7 @@ class midcom_services_dbclassloader
         return false;
     }
 
-    public function get_component_classes($component)
+    public function get_component_classes($component) : array
     {
         return midcom::get()->componentloader->manifests[$component]->class_mapping;
     }

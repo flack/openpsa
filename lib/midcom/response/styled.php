@@ -35,7 +35,7 @@ class midcom_response_styled extends Response
         $this->content = $this->render();
     }
 
-    private function render()
+    private function render() : string
     {
         // Retrieve Metadata
         $nav = new midcom_helper_nav();

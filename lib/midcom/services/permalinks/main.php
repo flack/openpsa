@@ -186,7 +186,7 @@ class midcom_services_permalinks
      * @param string $guid The Guid to link to.
      * @return string The full URL of the Permalink.
      */
-    public function create_permalink($guid)
+    public function create_permalink($guid) : string
     {
         return midcom::get()->config->get('midcom_site_url') . "midcom-permalink-{$guid}";
     }
@@ -199,7 +199,7 @@ class midcom_services_permalinks
      * @param string $filename The attachment's filename
      * @return string The full URL of the Permalink.
      */
-    public function create_attachment_link($guid, $filename)
+    public function create_attachment_link($guid, $filename) : string
     {
         return midcom::get()->config->get('midcom_site_url') . 'midcom-serveattachmentguid-' . $guid . '/' . urlencode($filename);
     }

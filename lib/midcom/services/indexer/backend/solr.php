@@ -8,6 +8,7 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Solr implementation of the indexer backend.
@@ -172,7 +173,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         return $result;
     }
 
-    private function prepare_request($action, $body = null)
+    private function prepare_request($action, $body = null) : Request
     {
         $uri = "http://" . midcom::get()->config->get('indexer_xmltcp_host');
         $uri .= ":" . midcom::get()->config->get('indexer_xmltcp_port');
@@ -190,7 +191,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         ], $body);
     }
 
-    private function send_request(Request $request)
+    private function send_request(Request $request) : ResponseInterface
     {
         $client = new Client();
         $response = $client->send($request);

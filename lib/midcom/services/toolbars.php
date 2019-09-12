@@ -81,7 +81,7 @@ class midcom_services_toolbars
      *
      * @return midcom_helper_toolbar_host
      */
-    function get_host_toolbar()
+    function get_host_toolbar() : midcom_helper_toolbar_host
     {
         return $this->_get_toolbar(MIDCOM_TOOLBAR_HOST);
     }
@@ -92,7 +92,7 @@ class midcom_services_toolbars
      *
      * @return midcom_helper_toolbar_node
      */
-    public function get_node_toolbar()
+    public function get_node_toolbar() : midcom_helper_toolbar_node
     {
         return $this->_get_toolbar(MIDCOM_TOOLBAR_NODE);
     }
@@ -103,7 +103,7 @@ class midcom_services_toolbars
      *
      * @return midcom_helper_toolbar_view
      */
-    public function get_view_toolbar()
+    public function get_view_toolbar() : midcom_helper_toolbar_view
     {
         return $this->_get_toolbar(MIDCOM_TOOLBAR_VIEW);
     }
@@ -114,7 +114,7 @@ class midcom_services_toolbars
      *
      * @return midcom_helper_toolbar_help
      */
-    public function get_help_toolbar()
+    public function get_help_toolbar() : midcom_helper_toolbar_help
     {
         return $this->_get_toolbar(MIDCOM_TOOLBAR_HELP);
     }
@@ -123,7 +123,7 @@ class midcom_services_toolbars
      * @param string $identifier
      * @return midcom_helper_toolbar
      */
-    private function _get_toolbar($identifier)
+    private function _get_toolbar($identifier) : midcom_helper_toolbar
     {
         $context = midcom_core_context::get();
 
@@ -216,7 +216,7 @@ class midcom_services_toolbars
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    function _render_toolbar($toolbar_identifier)
+    function _render_toolbar($toolbar_identifier) : string
     {
         $this->add_head_elements();
         return $this->_get_toolbar($toolbar_identifier)->render();
@@ -230,7 +230,7 @@ class midcom_services_toolbars
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    public function render_node_toolbar()
+    public function render_node_toolbar() : string
     {
         return $this->_render_toolbar(MIDCOM_TOOLBAR_NODE);
     }
@@ -243,7 +243,7 @@ class midcom_services_toolbars
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    public function render_view_toolbar()
+    public function render_view_toolbar() : string
     {
         return $this->_render_toolbar(MIDCOM_TOOLBAR_VIEW);
     }
@@ -256,7 +256,7 @@ class midcom_services_toolbars
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    public function render_host_toolbar()
+    public function render_host_toolbar() : string
     {
         return $this->_render_toolbar(MIDCOM_TOOLBAR_HOST);
     }
@@ -269,7 +269,7 @@ class midcom_services_toolbars
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    public function render_help_toolbar()
+    public function render_help_toolbar() : string
     {
         return $this->_render_toolbar(MIDCOM_TOOLBAR_HELP);
     }
@@ -326,7 +326,7 @@ class midcom_services_toolbars
         }
     }
 
-    private function add_head_elements($centralized = false)
+    private function add_head_elements($centralized = false) : bool
     {
         if (   !midcom::get()->auth->user
             || !midcom::get()->config->get('toolbars_enable_centralized')

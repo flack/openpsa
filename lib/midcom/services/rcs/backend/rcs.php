@@ -32,7 +32,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $this->_guid = $object->guid;
     }
 
-    private function _generate_rcs_filename($guid)
+    private function _generate_rcs_filename($guid) : string
     {
         // Keep files organized to subfolders to keep filesystem sane
         $dirpath = $this->_config->get_rcs_root() . "/{$guid[0]}/{$guid[1]}";
@@ -49,7 +49,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * @param object $object object to be saved
      * @return boolean true on success.
      */
-    public function update($object, $updatemessage = null)
+    public function update($object, $updatemessage = null) : bool
     {
         // Store user identifier and IP address to the update string
         if (midcom::get()->auth->user) {
@@ -139,7 +139,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * @param string $version
      * @return boolean true if exists
      */
-    public function version_exists($version)
+    public function version_exists($version) : bool
     {
         $history = $this->list_history();
         return array_key_exists($version, $history);
@@ -197,7 +197,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      *
      * @return array
      */
-    public function list_history_numeric()
+    public function list_history_numeric() : array
     {
         $revs = $this->list_history();
         return array_keys($revs);
@@ -208,7 +208,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      *
      * @return array list of changeids
      */
-    public function list_history()
+    public function list_history() : array
     {
         if (empty($this->_guid)) {
             return [];
@@ -224,7 +224,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
     /* it is debatable to move this into the object when it resides nicely in a library... */
 
-    private function rcs_parse_history_entry($entry)
+    private function rcs_parse_history_entry($entry) : array
     {
         // Create the empty history array
         $history = [
@@ -278,7 +278,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * @param string $what objectid (usually the guid)
      * @return array list of revisions and revision comment.
      */
-    private function rcs_gethistory($what)
+    private function rcs_gethistory($what) : array
     {
         $history = $this->rcs_exec('rlog', $what . ',v');
         $revisions = [];
@@ -311,7 +311,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * @param string $filename The file to operate on
      * @return string command result.
      */
-    private function rcs_exec($command, $filename)
+    private function rcs_exec($command, $filename) : string
     {
         if (!is_readable($filename)) {
             debug_add('file ' . $filename . ' is not readable, returning empty result', MIDCOM_LOG_INFO);
@@ -434,7 +434,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * @param string $oldest_revision id of the oldest revision
      * @param string $latest_revision id of the latest revision
      */
-    public function get_diff($oldest_revision, $latest_revision)
+    public function get_diff($oldest_revision, $latest_revision) : array
     {
         $oldest = $this->get_revision($oldest_revision);
         $newest = $this->get_revision($latest_revision);
@@ -495,7 +495,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * @param string $revision of revision to restore object to.
      * @return boolean true on success.
      */
-    public function restore_to_revision($revision)
+    public function restore_to_revision($revision) : bool
     {
         $new = $this->get_revision($revision);
 

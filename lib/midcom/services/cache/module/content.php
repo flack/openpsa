@@ -306,7 +306,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     /**
      * Generate a valid cache identifier for a context of the current request
      */
-    private function generate_request_identifier(Request $request)
+    private function generate_request_identifier(Request $request) : string
     {
         $context = $request->attributes->get('context')->id;
         // Cache the request identifier so that it doesn't change between start and end of request
@@ -388,7 +388,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
     }
 
-    private function get_strategy($name)
+    private function get_strategy($name) : string
     {
         $strategy = strtolower(midcom::get()->config->get($name));
         $allowed = ['no-cache', 'revalidate', 'public', 'private'];

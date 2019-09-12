@@ -206,7 +206,7 @@ class midcom_application
      *
      * @return string Full Hostname (http[s]://www.my.domain.com[:1234])
      */
-    function get_host_name()
+    function get_host_name() : string
     {
         return $this->request->getSchemeAndHttpHost();
     }
@@ -221,7 +221,7 @@ class midcom_application
      *
      * @return string The current MidCOM page URL prefix.
      */
-    function get_page_prefix()
+    function get_page_prefix() : string
     {
         if (!$this->_cached_page_prefix) {
             $host_name = $this->get_host_name();
@@ -241,7 +241,7 @@ class midcom_application
      *
      * @return string The host's root page URL prefix.
      */
-    function get_host_prefix()
+    function get_host_prefix() : string
     {
         if (!$this->_cached_host_prefix) {
             $host_name = $this->get_host_name();

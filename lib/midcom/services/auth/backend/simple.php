@@ -56,7 +56,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         ];
     }
 
-    public function create_session($clientip, midcom_core_user $user)
+    public function create_session($clientip, midcom_core_user $user) : bool
     {
         if (empty($clientip)) {
             $clientip = $_SERVER['REMOTE_ADDR'];

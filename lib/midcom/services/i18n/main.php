@@ -130,7 +130,7 @@ class midcom_services_i18n
      *
      * @return array Keys are the languages, the value is their q-index.
      */
-    private function _read_http_negotiation()
+    private function _read_http_negotiation() : array
     {
         $http_langs = [];
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
@@ -153,7 +153,7 @@ class midcom_services_i18n
         return $http_langs;
     }
 
-    private function _get_q(array $params)
+    private function _get_q(array $params) : float
     {
         $q = 1.0;
         $option = array_shift($params);
@@ -196,7 +196,7 @@ class midcom_services_i18n
      *
      * @param string $lang    Language ISO 639-1 code
      */
-    public function set_language($lang)
+    public function set_language($lang) : bool
     {
         if (Intl::getLocaleBundle()->getLocaleName($lang) === null) {
             debug_add("Language {$lang} not found.", MIDCOM_LOG_ERROR);
@@ -280,7 +280,7 @@ class midcom_services_i18n
      * @param string $database    The string table to retrieve from the component's locale directory.
      * @return midcom_services_i18n_l10n    The cached L10n database
      */
-    public function get_l10n($component = 'midcom', $database = 'default')
+    public function get_l10n($component = 'midcom', $database = 'default') : midcom_services_i18n_l10n
     {
         $cacheid = "{$component}/{$database}";
 
@@ -303,7 +303,7 @@ class midcom_services_i18n
      * @return string The translated string
      * @see midcom_services_i18n_l10n::get()
      */
-    public function get_string($stringid, $component = null, $database = 'default')
+    public function get_string($stringid, $component = null, $database = 'default') : string
     {
         if ($component === null) {
             $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
@@ -360,7 +360,7 @@ class midcom_services_i18n
      *
      * @return Array
      */
-    public function list_languages()
+    public function list_languages() : array
     {
         $languages = Intl::getLanguageBundle()->getLanguageNames('en');
         foreach ($languages as $identifier => &$language) {
@@ -441,7 +441,7 @@ class midcom_services_i18n
      * @param string $text The text with HTML entities, which should be replaced by their native equivalents.
      * @return string The translated string.
      */
-    public function html_entity_decode($text)
+    public function html_entity_decode($text) : string
     {
         return html_entity_decode($text, ENT_COMPAT, $this->_current_charset);
     }

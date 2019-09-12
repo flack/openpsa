@@ -108,7 +108,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
      *
      * @return array
      */
-    private function read_metadata()
+    private function read_metadata() : array
     {
         static $meta_dm;
         if ($meta_dm === null) {

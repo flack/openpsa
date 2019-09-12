@@ -61,7 +61,7 @@ class midcom_services_cron
      *
      * @param array $data The job configurations
      */
-    public function load_jobs(array $data)
+    public function load_jobs(array $data) : array
     {
         $ret = [];
         foreach ($data as $component => $jobs) {
@@ -81,7 +81,7 @@ class midcom_services_cron
      * @param array $job The job to register.
      * @return boolean Indicating validity.
      */
-    private function _validate_job(array $job)
+    private function _validate_job(array $job) : bool
     {
         if (!array_key_exists('handler', $job)) {
             throw new midcom_error("No handler declaration.");

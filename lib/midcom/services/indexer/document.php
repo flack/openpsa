@@ -306,7 +306,7 @@ class midcom_services_indexer_document
      *
      * @return Array Fieldname list.
      */
-    public function list_fields()
+    public function list_fields() : array
     {
         return array_keys($this->_fields);
     }
@@ -531,7 +531,7 @@ class midcom_services_indexer_document
      * @param string $text The text to convert to text
      * @return string The converted text.
      */
-    public function html2text($text)
+    public function html2text($text) : string
     {
         $search = [
             "'\s*<script[^>]*?>.*?</script>\s*'si", // Strip out javascript
@@ -556,7 +556,7 @@ class midcom_services_indexer_document
      * @param string $document_type The base type to search for.
      * @return boolean Indicating relationship.
      */
-    public function is_a($document_type)
+    public function is_a($document_type) : bool
     {
         return strpos($this->type, $document_type) === 0;
     }
@@ -670,7 +670,7 @@ class midcom_services_indexer_document
      * @param string $id GUID or ID to get person for
      * @return string $author->name
      */
-    private function read_authorname($id)
+    private function read_authorname($id) : string
     {
         // Check for imploded_wrapped datamanager storage.
         if (strpos($id, '|') !== false) {

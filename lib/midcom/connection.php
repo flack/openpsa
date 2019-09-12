@@ -31,7 +31,7 @@ class midcom_connection
      * @throws Exception We use regular exceptions here, because this might run before things are properly set up
      * @return boolean Indicating success
      */
-    public static function setup($basedir = null)
+    public static function setup($basedir = null) : bool
     {
         if (file_exists($basedir . 'config/midgard-portable.inc.php')) {
             include $basedir . 'config/midgard-portable.inc.php';
@@ -50,7 +50,7 @@ class midcom_connection
      *
      * @return boolean
      */
-    static function is_connected()
+    static function is_connected() : bool
     {
         return midgard_connection::get_instance()->is_connected();
     }
@@ -60,7 +60,7 @@ class midcom_connection
      *
      * @param string $loglevel Midgard log level
      */
-    static function set_loglevel($loglevel)
+    static function set_loglevel($loglevel) : bool
     {
         return midgard_connection::get_instance()->set_loglevel($loglevel);
     }
@@ -80,7 +80,7 @@ class midcom_connection
      *
      * @return int Midgard error code
      */
-    public static function get_error()
+    public static function get_error() : int
     {
         return midgard_connection::get_instance()->get_error();
     }
@@ -90,7 +90,7 @@ class midcom_connection
      *
      * @return string Midgard error message
      */
-    public static function get_error_string()
+    public static function get_error_string() : string
     {
         return midgard_connection::get_instance()->get_error_string();
     }
@@ -125,7 +125,7 @@ class midcom_connection
         return $user;
     }
 
-    public static function verify_password($password, $hash)
+    public static function verify_password($password, $hash) : bool
     {
         if (midcom::get()->config->get('auth_type') == 'Legacy') {
             return password_verify($password, $hash);
@@ -149,7 +149,7 @@ class midcom_connection
         return $password;
     }
 
-    public static function is_user($person)
+    public static function is_user($person) : bool
     {
         if (empty($person->guid)) {
             return false;
@@ -164,7 +164,7 @@ class midcom_connection
      *
      * @return int The current user ID
      */
-    public static function get_user()
+    public static function get_user() : int
     {
         if ($user = midgard_connection::get_instance()->get_user()) {
             return $user->get_person()->id;
@@ -177,7 +177,7 @@ class midcom_connection
      *
      * @return boolean True or false
      */
-    public static function is_admin()
+    public static function is_admin() : bool
     {
         if ($user = midgard_connection::get_instance()->get_user()) {
             return $user->is_admin();
@@ -209,7 +209,7 @@ class midcom_connection
      *
      * @return array A list of class names
      */
-    public static function get_schema_types()
+    public static function get_schema_types() : array
     {
         if (!isset(self::$_data['schema_types'])) {
             $classnames = connection::get_em()->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
@@ -285,7 +285,7 @@ class midcom_connection
      *
      * @param string $page_name
      */
-    private static function check_page_exists($page_name)
+    private static function check_page_exists($page_name) : bool
     {
         $path_array = explode('/', midcom::get()->config->get('theme'));
 
@@ -299,7 +299,7 @@ class midcom_connection
         return false;
     }
 
-    public static function get_unique_host_name()
+    public static function get_unique_host_name() : string
     {
         if (null === self::_get('unique_host_name')) {
             self::$_data['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', self::get_url('prefix'));

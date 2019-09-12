@@ -34,7 +34,7 @@ class midcom_services_indexer_filter_chained extends midcom_services_indexer_fil
         $this->filters[] = $filter;
     }
 
-    public function get_query_string()
+    public function get_query_string() : string
     {
         $ret = [];
         foreach ($this->filters as $filter) {
@@ -43,7 +43,7 @@ class midcom_services_indexer_filter_chained extends midcom_services_indexer_fil
         return implode(' AND ', $ret);
     }
 
-    public function count()
+    public function count() : int
     {
         return count($this->filters);
     }

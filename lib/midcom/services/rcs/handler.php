@@ -191,7 +191,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         midcom::get()->head->set_pagetitle($view_title);
     }
 
-    public function translate($string)
+    public function translate($string) : string
     {
         $translated = $string;
         $component = midcom::get()->dbclassloader->get_component_for_class($this->object->__midcom_class_name__);

@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 /**
  * User interface messaging service
@@ -75,7 +76,7 @@ class midcom_services_uimessages
     /**
      * @return \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface
      */
-    private function get_message_stack()
+    private function get_message_stack() : FlashBagInterface
     {
         if (!$this->_message_stack) {
             $this->_message_stack = midcom::get()->session->getFlashBag();
@@ -118,7 +119,7 @@ class midcom_services_uimessages
      * @param string $message Message contents, may contain HTML
      * @param string $type Type of the message
      */
-    public function add($title, $message, $type = 'info')
+    public function add($title, $message, $type = 'info') : bool
     {
         // Make sure the given class is allowed
         if (!in_array($type, $this->_allowed_types)) {
@@ -137,7 +138,7 @@ class midcom_services_uimessages
         return true;
     }
 
-    public function get_messages()
+    public function get_messages() : array
     {
         $result = [];
         if ($this->_message_stack) {

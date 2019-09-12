@@ -61,7 +61,7 @@ class midcom_services_i18n_formatter
         return $formatter->format($value);
     }
 
-    public function timeframe($start, $end, $mode = 'both', $range_separator = null, $fulldate = false)
+    public function timeframe($start, $end, $mode = 'both', $range_separator = null, $fulldate = false) : string
     {
         $ranger = new Ranger($this->get_locale());
         if ($mode !== 'date') {
@@ -76,7 +76,7 @@ class midcom_services_i18n_formatter
         return $ranger->format($start, $end);
     }
 
-    private function constant($input)
+    private function constant($input) : int
     {
         if (is_int($input)) {
             return $input;
@@ -84,7 +84,7 @@ class midcom_services_i18n_formatter
         return constant('IntlDateFormatter::' . strtoupper($input));
     }
 
-    private function get_locale()
+    private function get_locale() : string
     {
         return Intl::isExtensionLoaded() ? $this->language : 'en';
     }

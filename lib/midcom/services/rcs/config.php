@@ -36,7 +36,7 @@ class midcom_services_rcs_config
      *
      * @return midcom_services_rcs_backend
      */
-    public function get_handler($object)
+    public function get_handler($object) : midcom_services_rcs_backend
     {
         $class = $this->_get_handler_class();
         return new $class($object, $this);
@@ -45,7 +45,7 @@ class midcom_services_rcs_config
     /**
      * Returns the root of the directory containing the RCS files.
      */
-    public function get_rcs_root()
+    public function get_rcs_root() : string
     {
         if (empty($this->config['midcom_services_rcs_root'])) {
             $basedir = dirname(midgard_connection::get_instance()->config->sharedir);
@@ -61,7 +61,7 @@ class midcom_services_rcs_config
      *
      * @return boolean true if it is enabled
      */
-    public function use_rcs()
+    public function use_rcs() : bool
     {
         return !empty($this->config['midcom_services_rcs_enable']);
     }
@@ -82,7 +82,7 @@ class midcom_services_rcs_config
      *
      * @return string of the backend to start
      */
-    private function _get_handler_class()
+    private function _get_handler_class() : string
     {
         if ($this->use_rcs()) {
             $this->test_rcs_config();

@@ -121,7 +121,7 @@ class midcom_services_session
      * @param mixed $key    The key to query.
      * @return boolean            Indicating availability.
      */
-    public function exists($key)
+    public function exists($key) : bool
     {
         return $this->_sessioning->has($this->_domain . '/' . $key);
     }

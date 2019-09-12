@@ -107,7 +107,7 @@ abstract class midcom_services_auth_backend
         return $user;
     }
 
-    private function check_timestamp($timestamp, midcom_core_user $user)
+    private function check_timestamp($timestamp, midcom_core_user $user) : bool
     {
         $timeout = midcom::get()->config->get('auth_login_session_timeout', 0);
         if ($timeout > 0 && time() - $timeout > $timestamp) {

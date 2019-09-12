@@ -90,7 +90,7 @@ class midcom_services_indexer implements EventSubscriberInterface
      *
      * @return boolean Service state.
      */
-    public function enabled()
+    public function enabled() : bool
     {
         return !$this->_disabled;
     }
@@ -109,7 +109,7 @@ class midcom_services_indexer implements EventSubscriberInterface
      *           midcom_services_indexer_document or an Array of these objects.
      * @return boolean Indicating success.
      */
-    public function index($documents)
+    public function index($documents) : bool
     {
         if ($this->_disabled) {
             return true;
@@ -147,7 +147,7 @@ class midcom_services_indexer implements EventSubscriberInterface
      * @param array $RIs The resource identifier(s) of the document(s) that should be deleted.
      * @return boolean Indicating success.
      */
-    public function delete($RIs)
+    public function delete($RIs) : bool
     {
         if ($this->_disabled) {
             return true;
@@ -173,7 +173,7 @@ class midcom_services_indexer implements EventSubscriberInterface
      *
      * @return boolean Indicating success.
      */
-    public function delete_all($constraint = '')
+    public function delete_all($constraint = '') : bool
     {
         if ($this->_disabled) {
             return true;

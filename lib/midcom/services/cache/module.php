@@ -7,6 +7,7 @@
  */
 
 use Doctrine\Common\Cache;
+use Doctrine\Common\Cache\CacheProvider;
 
 /**
  * This is the base class for the MidCOM cache modules. It provides a basic infrastructure
@@ -62,7 +63,7 @@ abstract class midcom_services_cache_module
      *     the key 'driver', which indicates which backend to use.
      * @return Doctrine\Common\Cache\CacheProvider The new backend.
      */
-    protected function _create_backend($name, array $config)
+    protected function _create_backend($name, array $config) : CacheProvider
     {
         $name = $this->_prefix . $name;
 
@@ -86,7 +87,7 @@ abstract class midcom_services_cache_module
         return $backend;
     }
 
-    private function prepare_backend(array $config, $name)
+    private function prepare_backend(array $config, $name) : CacheProvider
     {
         $directory = midcom::get()->config->get('cache_base_directory');
         if (!empty($config['directory'])) {

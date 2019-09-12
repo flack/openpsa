@@ -181,7 +181,7 @@ class midcom_services_i18n_l10n
         }
     }
 
-    private function parse_data(array $data, $lang, $filename)
+    private function parse_data(array $data, $lang, $filename) : array
     {
         $stringtable = [];
         $version = '';
@@ -261,7 +261,7 @@ class midcom_services_i18n_l10n
         return $stringtable;
     }
 
-    private function error($message, $filename, $line)
+    private function error($message, $filename, $line) : midcom_error
     {
         $line++; // Array is 0-indexed
         return new midcom_error('L10n DB SYNTAX ERROR: ' .  $message . ' at ' . $filename . ' ' . $line);
@@ -310,7 +310,7 @@ class midcom_services_i18n_l10n
     /**
      * @return midcom_services_i18n_formatter
      */
-    public function get_formatter()
+    public function get_formatter() : midcom_services_i18n_formatter
     {
         return new midcom_services_i18n_formatter($this->_language);
     }
@@ -323,7 +323,7 @@ class midcom_services_i18n_l10n
      * @param string $language The language to search in.
      * @return boolean Indicating availability.
      */
-    function string_exists($string, $language = null)
+    function string_exists($string, $language = null) : bool
     {
         if ($language === null) {
             $language = $this->_language;
@@ -365,7 +365,7 @@ class midcom_services_i18n_l10n
      * @param string $language The language to search in, uses the current language as default.
      * @return string The translated string if available, the fallback string otherwise.
      */
-    public function get($string, $language = null)
+    public function get($string, $language = null) : string
     {
         if ($language === null) {
             $language = $this->_language;
@@ -404,7 +404,7 @@ class midcom_services_i18n_l10n
      *
      * @param string $language The language to query
      */
-    public function get_stringdb($language)
+    public function get_stringdb($language) : array
     {
         $this->_check_for_language($language);
         if (empty($this->_stringdb[$language])) {

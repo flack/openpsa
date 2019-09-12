@@ -209,7 +209,7 @@ class midcom_services_auth
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
      * @return boolean True if the privilege has been granted, false otherwise.
      */
-    public function can_do($privilege, $content_object, $user = null)
+    public function can_do($privilege, $content_object, $user = null) : bool
     {
         if (!is_object($content_object)) {
             return false;
@@ -234,7 +234,7 @@ class midcom_services_auth
         return $this->acl->can_do_byguid($privilege, $content_object->guid, $content_object_class, $user_id);
     }
 
-    private function is_admin($user)
+    private function is_admin($user) : bool
     {
         if ($user === null) {
             return $this->user && $this->admin;
@@ -258,7 +258,7 @@ class midcom_services_auth
      * @param string $class Optional parameter to set if the check should take type specific permissions into account. The class must be default constructible.
      * @return boolean True if the privilege has been granted, false otherwise.
      */
-    public function can_user_do($privilege, $user = null, $class = null)
+    public function can_user_do($privilege, $user = null, $class = null) : bool
     {
         if ($this->is_admin($user)) {
             // Administrators always have access.
@@ -290,7 +290,7 @@ class midcom_services_auth
      * @param string $domain The domain to request sudo for. This is a component name.
      * @return boolean True if admin privileges were granted, false otherwise.
      */
-    public function request_sudo($domain = null)
+    public function request_sudo($domain = null) : bool
     {
         if (!midcom::get()->config->get('auth_allow_sudo')) {
             debug_add("SUDO is not allowed on this website.", MIDCOM_LOG_ERROR);
@@ -329,7 +329,7 @@ class midcom_services_auth
         }
     }
 
-    public function is_component_sudo()
+    public function is_component_sudo() : bool
     {
         return $this->_component_sudo > 0;
     }
@@ -344,7 +344,7 @@ class midcom_services_auth
      * @param midcom_core_user $user The user which should be checked, defaults to the current user.
      * @return boolean Indicating membership state.
      */
-    public function is_group_member($group, $user = null)
+    public function is_group_member($group, $user = null) : bool
     {
         if ($this->is_admin($user)) {
             // Administrators always have access.
@@ -367,7 +367,7 @@ class midcom_services_auth
      *
      * @return boolean True if there is a user logged in.
      */
-    public function is_valid_user()
+    public function is_valid_user() : bool
     {
         return $this->user !== null;
     }
@@ -457,7 +457,7 @@ class midcom_services_auth
         }
     }
 
-    private function access_denied($message, $fallback, $data = null)
+    private function access_denied($message, $fallback, $data = null) : midcom_error_forbidden
     {
         if ($message === null) {
             $message = midcom::get()->i18n->get_string('access denied: ' . $fallback, 'midcom');
@@ -476,7 +476,7 @@ class midcom_services_auth
      * @throws midcom_error In case request_sudo fails
      * @return boolean True if IP sudo is active, false otherwise
      */
-    public function require_admin_or_ip($domain)
+    public function require_admin_or_ip($domain) : bool
     {
         $ips = midcom::get()->config->get('indexer_reindex_allowed_ips');
         if (   $ips
@@ -668,7 +668,7 @@ class midcom_services_auth
     /**
      * This call tells the backend to log in.
      */
-    public function login($username, $password, $clientip = null)
+    public function login($username, $password, $clientip = null) : bool
     {
         if ($user = $this->backend->login($username, $password, $clientip)) {
             $this->set_user($user);
@@ -678,7 +678,7 @@ class midcom_services_auth
         return false;
     }
 
-    public function trusted_login($username)
+    public function trusted_login($username) : bool
     {
         if (midcom::get()->config->get('auth_allow_trusted') !== true) {
             debug_add("Trusted logins are prohibited", MIDCOM_LOG_ERROR);

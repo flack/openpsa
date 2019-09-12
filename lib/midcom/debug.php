@@ -84,7 +84,7 @@ class midcom_debug
      *
      * @return int
      */
-    public function get_loglevel()
+    public function get_loglevel() : int
     {
         return $this->_loglevel;
     }
@@ -137,12 +137,12 @@ class midcom_debug
         fclose($file);
     }
 
-    private function check_level($loglevel)
+    private function check_level($loglevel) : bool
     {
         return $this->_loglevel >= $loglevel;
     }
 
-    private function _get_caller()
+    private function _get_caller() : string
     {
         $return = '';
         $bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);

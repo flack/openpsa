@@ -40,7 +40,7 @@ abstract class midcom_services_indexer_filter
      *
      * @return string
      */
-    public function get_field()
+    public function get_field() : string
     {
         return $this->_field;
     }
