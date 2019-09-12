@@ -58,8 +58,6 @@
         });
     };
     var teststrength = function(password, option) {
-        var score = 0;
-
         //password <
         if (password.length < option.min_length) {
     	    resultStyle = classes.shortPass;
@@ -76,11 +74,7 @@
         }
 
         //password length
-        score += password.length * 4;
-        score += (checkRepetition(1, password).length - password.length) * 1;
-        score += (checkRepetition(2, password).length - password.length) * 1;
-        score += (checkRepetition(3, password).length - password.length) * 1;
-        score += (checkRepetition(4, password).length - password.length) * 1;
+        var score = countUniqueCharacters(password);
 
         option.password_rules.forEach(function(rule) {
             var regex = rule.match.replace(/^\//, '').replace(/\/$/, '');
@@ -108,6 +102,12 @@
         return option.strings.strongPass;
     };
 
+    var countUniqueCharacters = function(password) {
+        return password.split('').filter(function(char, i, input) {
+            return input.indexOf(char) === i;
+        }).length;
+    };
+
     var setButtonStatus = function(opts) {
         var check_password = true;
 
@@ -126,27 +126,6 @@
 
         //set or remove disabled attribute of the submit button accordingly
         $(opts.submit_button).prop("disabled", disabled);
-    };
-
-    var checkRepetition = function(pLen, str) {
-        var res = "";
-        for (var i = 0; i < str.length; i++) {
-            var repeated = true;
-
-            for (var j = 0; j < pLen && (j + i + pLen) < str.length; j++) {
-                repeated = repeated && (str.charAt(j + i) == str.charAt(j + i + pLen));
-            }
-            if (j < pLen) {
-                repeated = false;
-            }
-            if (repeated) {
-                i += pLen - 1;
-            }
-            else {
-                res += str.charAt(i);
-            }
-        }
-        return res;
     };
 
 })(jQuery);

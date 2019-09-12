@@ -316,24 +316,17 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     public function check_password_strength($password, $show_ui_message = false)
     {
-        $password_length = strlen($password);
+        $password_length = mb_strlen($password);
 
-        // score for length & repetition
-        $pattern_length = 4;
-        $score_char = 4;
-        $score = $password_length * $score_char;
-        for ($count = 1; $count <= $pattern_length; $count++) {
-            $score += strlen($this->check_repetition($count, $password)) - $password_length;
-        }
-
-        $max = $this->_config->get('min_password_length');
-
-        if ($password_length < $max) {
+        if ($password_length < $this->_config->get('min_password_length')) {
             if ($show_ui_message){
                 midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password too short'), 'error');
             }
             return false;
         }
+
+        // score for length & repetition
+        $score = $this->count_unique_characters($password) * 4;
 
         //check $password with rules
         $rules = $this->_config->get('password_score_rules');
@@ -352,36 +345,10 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         return true;
     }
 
-    /**
-     * Function to check repetition for given password
-     *
-     * @param integer $plen length to check for repetitions inside the password
-     * @param string $password contains password to check
-     * @return string - string without repetitions
-     */
-    private function check_repetition($plen, $password)
+    private function count_unique_characters(string $password) : int
     {
-        $result = "";
-        for ($i = 0; $i < strlen($password); $i++) {
-            $repeated = true;
-            for ($j = 0; $j < $plen && ($j + $i + $plen) < strlen($password); $j++) {
-                if (   $password[$j + $i] == $password[$j + $i + $plen]
-                    && $repeated) {
-                        $repeated = true;
-                    } else {
-                        $repeated = false;
-                    }
-            }
-            if ($j < $plen) {
-                $repeated = false;
-            }
-            if ($repeated) {
-                $i += $plen - 1;
-            } else {
-                $result .= $password[$i];
-            }
-        }
-        return $result;
+        // Split into individual (multibyte) characters, flip to filter out duplicates, and then count
+        return count(array_flip(preg_split('//u', $password, null, PREG_SPLIT_NO_EMPTY)));
     }
 
     /**
