@@ -49,7 +49,7 @@ class midcom_core_querybuilder extends midcom_core_query
      *
      * @return midcom_core_dbaobject[] Array filtered by ACL and metadata visibility
      */
-    private function _execute_and_check_privileges()
+    private function _execute_and_check_privileges() : array
     {
         $result = [];
 
@@ -83,7 +83,7 @@ class midcom_core_querybuilder extends midcom_core_query
      *
      * @return midcom_core_dbaobject[] The result of the query builder.
      */
-    public function execute()
+    public function execute() : array
     {
         $this->_reset();
 
@@ -126,7 +126,7 @@ class midcom_core_querybuilder extends midcom_core_query
      *
      * @return midcom_core_dbaobject[]
      */
-    private function execute_windowed()
+    private function execute_windowed() : array
     {
         $newresult = [];
         $denied = $this->denied;
@@ -195,7 +195,7 @@ class midcom_core_querybuilder extends midcom_core_query
      *
      * @see execute()
      */
-    public function execute_unchecked()
+    public function execute_unchecked() : array
     {
         $this->_reset();
 
@@ -257,7 +257,7 @@ class midcom_core_querybuilder extends midcom_core_query
      *
      * @return integer The number of records found by the last query.
      */
-    public function count()
+    public function count() : int
     {
         if ($this->count == -1) {
             $this->execute();
@@ -278,7 +278,7 @@ class midcom_core_querybuilder extends midcom_core_query
      *
      * @return integer The number of records matching the constraints without taking access control or visibility into account.
      */
-    public function count_unchecked()
+    public function count_unchecked() : int
     {
         if ($this->_limit) {
             $this->_query->set_limit($this->_limit);

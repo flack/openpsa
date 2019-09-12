@@ -45,7 +45,7 @@ class midcom_core_account
         $this->_user = $this->_get_user();
     }
 
-    public function save()
+    public function save() : bool
     {
         midcom::get()->auth->require_do('midgard:update', $this->_person);
         if (!$this->_is_username_unique()) {
@@ -71,7 +71,7 @@ class midcom_core_account
      *
      * @return boolean Indicating success.
      */
-    public function delete()
+    public function delete() : bool
     {
         midcom::get()->auth->require_do('midgard:delete', $this->_person);
         if (!$this->_user->delete()) {
@@ -115,12 +115,12 @@ class midcom_core_account
         $this->_user->usertype = $type;
     }
 
-    public function get_password()
+    public function get_password() : string
     {
         return $this->_user->password;
     }
 
-    public function get_username()
+    public function get_username() : string
     {
         return $this->_user->login;
     }
@@ -165,12 +165,12 @@ class midcom_core_account
         $qb->addOrderBy('u.login', $direction);
     }
 
-    public function is_admin()
+    public function is_admin() : bool
     {
         return $this->_user->is_admin();
     }
 
-    private function _create_user()
+    private function _create_user() : bool
     {
         if ($this->_user->login == '') {
             return false;
@@ -182,7 +182,7 @@ class midcom_core_account
         return $this->_user->create();
     }
 
-    private function _update()
+    private function _update() : bool
     {
         $new_username = $this->get_username();
         $new_password = $this->get_password();
@@ -207,7 +207,7 @@ class midcom_core_account
     /**
      * @return midgard_user
      */
-    private function _get_user()
+    private function _get_user() : midgard_user
     {
         $qb = new midgard_query_builder('midgard_user');
         $qb->add_constraint('person', '=', $this->_person->guid);
@@ -219,7 +219,7 @@ class midcom_core_account
         return $result[0];
     }
 
-    private function _is_username_unique()
+    private function _is_username_unique() : bool
     {
         $qb = new midgard_query_builder('midgard_user');
         $qb->add_constraint('login', '=', $this->get_username());

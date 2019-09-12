@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Doctrine\ORM\Query\Expr\Composite;
+use Doctrine\ORM\QueryBuilder;
+
 /**
  * Common base class for collector and querybuilder
  *
@@ -94,7 +97,7 @@ abstract class midcom_core_query
      * @param string $classname The classname which should be converted.
      * @return string MgdSchema class name
      */
-    protected function _convert_class($classname)
+    protected function _convert_class($classname) : string
     {
         if (!class_exists($classname)) {
             throw new midcom_error("Cannot create a midcom_core_query instance for the type {$classname}: Class does not exist.");
@@ -148,18 +151,12 @@ abstract class midcom_core_query
         $this->denied = 0;
     }
 
-    /**
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    public function get_doctrine()
+    public function get_doctrine() : QueryBuilder
     {
         return $this->_query->get_doctrine();
     }
 
-    /**
-     * @return \Doctrine\ORM\Query\Expr\Composite
-     */
-    public function get_current_group()
+    public function get_current_group() : Composite
     {
         return $this->_query->get_current_group();
     }
@@ -175,7 +172,7 @@ abstract class midcom_core_query
      *     queried property.
      * @return boolean Indicating success.
      */
-    public function add_constraint($field, $operator, $value)
+    public function add_constraint($field, $operator, $value) : bool
     {
         $this->_reset();
         // Add check against null values, Core MC is too stupid to get this right.
@@ -216,7 +213,7 @@ abstract class midcom_core_query
      * @param string $compare_field The field to compare against.
      * @return boolean Indicating success.
      */
-    public function add_constraint_with_property($field, $operator, $compare_field)
+    public function add_constraint_with_property($field, $operator, $compare_field) : bool
     {
         $this->_reset();
         if (!$this->_query->add_constraint_with_property($field, $operator, $compare_field)) {
@@ -291,7 +288,7 @@ abstract class midcom_core_query
      *     ordering. The default is 'ASC'.
      * @return boolean Indicating success.
      */
-    public function add_order($field, $direction = 'ASC')
+    public function add_order($field, $direction = 'ASC') : bool
     {
         if (!$this->_query->add_order($field, $direction)) {
             debug_add("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
@@ -308,7 +305,7 @@ abstract class midcom_core_query
     /**
      * Get the DBA class we're currently working on
      */
-    public function get_classname()
+    public function get_classname() : string
     {
         return $this->_real_class;
     }

@@ -88,7 +88,7 @@ class midcom_core_collector extends midcom_core_query
      *
      * @see list_keys()
      */
-    public function list_keys_unchecked()
+    public function list_keys_unchecked() : array
     {
         $this->_reset();
 
@@ -107,7 +107,7 @@ class midcom_core_collector extends midcom_core_query
         return $newresult;
     }
 
-    private function _list_keys_and_check_privileges($apply_offset_limit = true)
+    private function _list_keys_and_check_privileges($apply_offset_limit = true) : array
     {
         $this->execute();
         $result = $this->_query->list_keys();
@@ -146,7 +146,7 @@ class midcom_core_collector extends midcom_core_query
      *
      * @param string $field the column name
      */
-    public function get_values($field)
+    public function get_values($field) : array
     {
         $this->add_value_property($field);
         $this->execute();
@@ -165,7 +165,7 @@ class midcom_core_collector extends midcom_core_query
      * @param string $indexed_by the column name to be used as index
      * @return array
      */
-    public function get_rows(array $fields, $indexed_by = 'guid')
+    public function get_rows(array $fields, $indexed_by = 'guid') : array
     {
         array_map([$this, 'add_value_property'], $fields);
 
@@ -192,7 +192,7 @@ class midcom_core_collector extends midcom_core_query
      *
      * @return array
      */
-    public function list_keys()
+    public function list_keys() : array
     {
         $result = $this->_list_keys_and_check_privileges();
 
@@ -228,7 +228,7 @@ class midcom_core_collector extends midcom_core_query
         return $this->_query->destroy();
     }
 
-    public function add_value_property($property)
+    public function add_value_property($property) : bool
     {
         if (!$this->_query->add_value_property($property)) {
             debug_add("Failed to execute add_value_property '{$property}' for {$this->_real_class}.", MIDCOM_LOG_ERROR);
@@ -246,7 +246,7 @@ class midcom_core_collector extends midcom_core_query
      *
      * @return int The number of records found by the last query.
      */
-    public function count()
+    public function count() : int
     {
         if ($this->count == -1) {
             $this->execute();
@@ -266,7 +266,7 @@ class midcom_core_collector extends midcom_core_query
      *
      * @return int The number of records matching the constraints without taking access control or visibility into account.
      */
-    public function count_unchecked()
+    public function count_unchecked() : int
     {
         if ($this->_limit) {
             $this->_query->set_limit($this->_limit);
@@ -277,7 +277,7 @@ class midcom_core_collector extends midcom_core_query
         return $this->_query->count();
     }
 
-    public function get_objects()
+    public function get_objects() : array
     {
         $this->execute();
         $guids = $this->list_keys();

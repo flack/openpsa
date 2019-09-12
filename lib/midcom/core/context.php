@@ -80,7 +80,7 @@ class midcom_core_context
      * @param midcom_db_topic $topic
      * @return midcom_core_context
      */
-    public static function enter($url = null, midcom_db_topic $topic = null)
+    public static function enter($url = null, midcom_db_topic $topic = null) : self
     {
         $context = new static($topic);
         array_push(self::$stack, $context);
@@ -112,7 +112,7 @@ class midcom_core_context
      *
      * @return midcom_core_context The requested context, or false if not found
      */
-    public static function get()
+    public static function get() : self
     {
         if (empty(self::$stack)) {
             self::enter();
@@ -161,7 +161,7 @@ class midcom_core_context
         return $this->_data[$key];
     }
 
-    private static function initialize_root_topic()
+    private static function initialize_root_topic() : midcom_db_topic
     {
         if (empty(self::$root_topic)) {
             if ($guid = midcom::get()->config->get('midcom_root_topic_guid')) {
@@ -231,7 +231,7 @@ class midcom_core_context
         return $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$key];
     }
 
-    public function has_custom_key($key)
+    public function has_custom_key($key) : bool
     {
         return array_key_exists($key, $this->_data[MIDCOM_CONTEXT_CUSTOMDATA]);
     }

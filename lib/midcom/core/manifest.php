@@ -302,7 +302,7 @@ class midcom_core_manifest
      *
      * @see $name_translated
      */
-    public function get_name_translated()
+    public function get_name_translated() : string
     {
         if ($this->name_translated === null) {
             $this->name_translated = midcom::get()->i18n->get_string($this->name, $this->name);

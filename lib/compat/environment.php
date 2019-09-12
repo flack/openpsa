@@ -27,7 +27,7 @@ class midcom_compat_environment
         }
     }
 
-    public static function get()
+    public static function get() : self
     {
         return self::$_implementation;
     }
@@ -74,7 +74,7 @@ class midcom_compat_environment
         }
     }
 
-    public static function flush_registered_headers()
+    public static function flush_registered_headers() : array
     {
         $headers = self::$_headers;
         self::$_headers = [];

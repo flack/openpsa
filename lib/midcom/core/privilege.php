@@ -155,7 +155,7 @@ class midcom_core_privilege
      * @param string $user_id The user id in question.
      * @return boolean Indicating whether the privilege record applies for the user, or not.
      */
-    public function does_privilege_apply($user_id)
+    public function does_privilege_apply($user_id) : bool
     {
         if (!is_array($this->__privilege)) {
             return false;
@@ -186,7 +186,7 @@ class midcom_core_privilege
      *
      * @return integer
      */
-    public function get_scope()
+    public function get_scope() : int
     {
         if (defined('MIDCOM_PRIVILEGE_SCOPE_' . $this->__privilege['assignee'])) {
             return constant('MIDCOM_PRIVILEGE_SCOPE_' . $this->__privilege['assignee']);
@@ -222,7 +222,7 @@ class midcom_core_privilege
      *
      * @return boolean True if it is a magic assignee, false otherwise.
      */
-    public function is_magic_assignee($assignee = null)
+    public function is_magic_assignee($assignee = null) : bool
     {
         if ($assignee === null) {
             $assignee = $this->assignee;
@@ -244,7 +244,7 @@ class midcom_core_privilege
      * @param mixed $assignee An assignee representation as outlined above.
      * @return boolean indicating success.
      */
-    public function set_assignee($assignee)
+    public function set_assignee($assignee) : bool
     {
         if (   is_a($assignee, midcom_core_user::class)
             || is_a($assignee, midcom_core_group::class)) {
@@ -281,7 +281,7 @@ class midcom_core_privilege
      *   must have midgard:update and midgard:privileges for this to succeed).
      * - A valid privilege value.
      */
-    public function validate()
+    public function validate() : bool
     {
         if (!midcom::get()->auth->acl->privilege_exists($this->privilegename)) {
             debug_add("The privilege name '{$this->privilegename}' is unknown to the system. Perhaps the corresponding component is not loaded?",
@@ -341,7 +341,7 @@ class midcom_core_privilege
      * @param string $guid A GUID to query.
      * @return midcom_core_privilege[]
      */
-    public static function get_content_privileges($guid)
+    public static function get_content_privileges($guid) : array
     {
         return self::_get_privileges($guid, 'CONTENT');
     }
@@ -355,7 +355,7 @@ class midcom_core_privilege
      * @param string $guid A GUID to query.
      * @return midcom_core_privilege[]
      */
-    public static function get_self_privileges($guid)
+    public static function get_self_privileges($guid) : array
     {
         return self::_get_privileges($guid, 'SELF');
     }
@@ -368,7 +368,7 @@ class midcom_core_privilege
      * @param string $guid The GUID of the object for which we should look up privileges.
      * @return midcom_core_privilege[]
      */
-    public static function get_all_privileges($guid)
+    public static function get_all_privileges($guid) : array
     {
         return array_merge(self::get_content_privileges($guid), self::get_self_privileges($guid));
     }
@@ -379,7 +379,7 @@ class midcom_core_privilege
      * @param string $guid The GUID of the object for which we should look up privileges.
      * @return midcom_core_privilege[]
      */
-    private static function _get_privileges($guid, $type)
+    private static function _get_privileges($guid, $type) : array
     {
         static $cache = [];
 
@@ -407,7 +407,7 @@ class midcom_core_privilege
      * @param string $type SELF or CONTENT
      * @return midcom_core_privilege[]
      */
-    protected static function _query_privileges($guid, $type)
+    protected static function _query_privileges($guid, $type) : array
     {
         $result = [];
 
@@ -460,7 +460,7 @@ class midcom_core_privilege
      * @param string $classname The optional classname required only for class-limited SELF privileges.
      * @return midcom_core_privilege The privilege matching the constraints.
      */
-    public static function get_privilege($object, $name, $assignee, $classname = '')
+    public static function get_privilege($object, $name, $assignee, $classname = '') : midcom_core_privilege
     {
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('objectguid', '=', $object->guid);
@@ -543,7 +543,7 @@ class midcom_core_privilege
      *
      * @return boolean Indicating success.
      */
-    public function store()
+    public function store() : bool
     {
         if (!$this->validate()) {
             debug_add('This privilege failed to validate, rejecting it, see the debug log for details.', MIDCOM_LOG_WARN);
@@ -622,7 +622,7 @@ class midcom_core_privilege
      *
      * @return boolean Indicating success.
      */
-    public function drop()
+    public function drop() : bool
     {
         $this->_sync_to_db_object();
 

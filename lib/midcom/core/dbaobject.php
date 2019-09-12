@@ -168,7 +168,7 @@ abstract class midcom_core_dbaobject
      *
      * @return midcom_core_querybuilder The initialized instance of the query builder.
      */
-    public static function new_query_builder()
+    public static function new_query_builder() : midcom_core_querybuilder
     {
         return midcom::get()->dbfactory->new_query_builder(get_called_class());
     }
@@ -180,7 +180,7 @@ abstract class midcom_core_dbaobject
      * @param mixed $value Value match for the collector instance
      * @return midcom_core_collector The initialized instance of the collector.
      */
-    public static function new_collector($domain = null, $value = null)
+    public static function new_collector($domain = null, $value = null) : midcom_core_collector
     {
         return midcom::get()->dbfactory->new_collector(get_called_class(), $domain, $value);
     }
@@ -216,7 +216,7 @@ abstract class midcom_core_dbaobject
      *
      * @return boolean Indicating success
      */
-    public function create()
+    public function create() : bool
     {
         return midcom_baseclasses_core_dbobject::create($this);
     }
@@ -226,7 +226,7 @@ abstract class midcom_core_dbaobject
      *
      * @return boolean Indicating success
      */
-    public function delete()
+    public function delete() : bool
     {
         return midcom_baseclasses_core_dbobject::delete($this);
     }
@@ -236,7 +236,7 @@ abstract class midcom_core_dbaobject
      *
      * @return boolean Indicating success
      */
-    public static function undelete($guid)
+    public static function undelete($guid) : int
     {
         return midcom_baseclasses_core_dbobject::undelete([$guid]);
     }
@@ -256,7 +256,7 @@ abstract class midcom_core_dbaobject
      *
      * @return boolean Indicating success
      */
-    public function delete_tree()
+    public function delete_tree() : bool
     {
         return midcom_baseclasses_core_dbobject::delete_tree($this);
     }
@@ -266,7 +266,7 @@ abstract class midcom_core_dbaobject
      * @param string $guid
      * @return boolean Indicating success
      */
-    public function get_by_guid($guid)
+    public function get_by_guid($guid) : bool
     {
         return midcom_baseclasses_core_dbobject::get_by_guid($this, $guid);
     }
@@ -276,7 +276,7 @@ abstract class midcom_core_dbaobject
      * @param integer $id
      * @return boolean Indicating success
      */
-    public function get_by_id($id)
+    public function get_by_id($id) : bool
     {
         return midcom_baseclasses_core_dbobject::get_by_id($this, $id);
     }
@@ -286,7 +286,7 @@ abstract class midcom_core_dbaobject
      * @param string $path
      * @return boolean Indicating success
      */
-    public function get_by_path($path)
+    public function get_by_path($path) : bool
     {
         return midcom_baseclasses_core_dbobject::get_by_path($this, $path);
     }
@@ -352,37 +352,37 @@ abstract class midcom_core_dbaobject
     {
         return $this->__object->purge_parameters($constraints);
     }
-    public function refresh()
+    public function refresh() : bool
     {
         return midcom_baseclasses_core_dbobject::refresh($this);
     }
-    public function update()
+    public function update() : bool
     {
         return midcom_baseclasses_core_dbobject::update($this);
     }
-    public function is_locked()
+    public function is_locked() : bool
     {
         return $this->__object->is_locked();
     }
-    public function lock()
+    public function lock() : bool
     {
         if ($this->__object->is_locked()) {
             return true;
         }
         return $this->__object->lock();
     }
-    public function unlock()
+    public function unlock() : bool
     {
         if (!$this->__object->is_locked()) {
             return true;
         }
         return $this->__object->unlock();
     }
-    public function is_approved()
+    public function is_approved() : bool
     {
         return $this->__object->is_approved();
     }
-    public function approve()
+    public function approve() : bool
     {
         if ($this->__object->is_approved()) {
             return true;
@@ -394,7 +394,7 @@ abstract class midcom_core_dbaobject
         return false;
     }
 
-    public function unapprove()
+    public function unapprove() : bool
     {
         if (!$this->__object->is_approved()) {
             return true;
@@ -418,11 +418,11 @@ abstract class midcom_core_dbaobject
     }
 
     // ACL Shortcuts
-    public function can_do($privilege, $user = null)
+    public function can_do($privilege, $user = null) : bool
     {
         return midcom::get()->auth->can_do($privilege, $this, $user);
     }
-    public function can_user_do($privilege, $user = null)
+    public function can_user_do($privilege, $user = null) : bool
     {
         return midcom::get()->auth->can_user_do($privilege, $user, $this->__midcom_class_name__);
     }
@@ -445,7 +445,7 @@ abstract class midcom_core_dbaobject
         ];
     }
 
-    private function _delete_dependents()
+    private function _delete_dependents() : bool
     {
         foreach ($this->autodelete_dependents as $classname => $link_property) {
             $qb = midcom::get()->dbfactory->new_query_builder($classname);

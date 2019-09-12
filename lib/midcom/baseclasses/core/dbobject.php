@@ -27,7 +27,7 @@ class midcom_baseclasses_core_dbobject
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
      */
-    public static function update_pre_checks(midcom_core_dbaobject $object)
+    public static function update_pre_checks(midcom_core_dbaobject $object) : bool
     {
         if (!$object->can_do('midgard:update')) {
             debug_add("Failed to load object, update privilege on the " . get_class($object) . " {$object->id} not granted for the current user.",
@@ -56,7 +56,7 @@ class midcom_baseclasses_core_dbobject
      * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating success.
      */
-    public static function update(midcom_core_dbaobject $object)
+    public static function update(midcom_core_dbaobject $object) : bool
     {
         if (!self::update_pre_checks($object)) {
             debug_add('Pre-flight check returned false', MIDCOM_LOG_ERROR);
@@ -126,7 +126,7 @@ class midcom_baseclasses_core_dbobject
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
      */
-    public static function create_pre_checks(midcom_core_dbaobject $object)
+    public static function create_pre_checks(midcom_core_dbaobject $object) : bool
     {
         $parent = $object->get_parent();
 
@@ -183,7 +183,7 @@ class midcom_baseclasses_core_dbobject
      * @see midcom_helper_reflector_nameresolver::name_is_unique_or_empty()
      * @see midcom_helper_reflector_nameresolver::generate_unique_name()
      */
-    private static function _pre_check_name(midcom_core_dbaobject $object)
+    private static function _pre_check_name(midcom_core_dbaobject $object) : bool
     {
         // Make sure name is empty of unique if the object has such property
         $name_property = midcom_helper_reflector::get_name_property($object);
@@ -249,7 +249,7 @@ class midcom_baseclasses_core_dbobject
      * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating success.
      */
-    public static function create(midcom_core_dbaobject $object)
+    public static function create(midcom_core_dbaobject $object) : bool
     {
         if (!self::create_pre_checks($object)) {
             debug_add('Pre-flight check returned false', MIDCOM_LOG_ERROR);
@@ -319,7 +319,7 @@ class midcom_baseclasses_core_dbobject
      * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating success.
      */
-    public static function delete(midcom_core_dbaobject $object)
+    public static function delete(midcom_core_dbaobject $object) : bool
     {
         if (!self::delete_pre_checks($object)) {
             debug_add('Pre-flight check returned false', MIDCOM_LOG_ERROR);
@@ -369,7 +369,7 @@ class midcom_baseclasses_core_dbobject
      *
      * @return bool Indicating Success.
      */
-    private static function _delete_privileges(midcom_core_dbaobject $object)
+    private static function _delete_privileges(midcom_core_dbaobject $object) : bool
     {
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('objectguid', '=', $object->guid);
@@ -393,7 +393,7 @@ class midcom_baseclasses_core_dbobject
      * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return boolean Indicating success.
      */
-    public static function delete_tree(midcom_core_dbaobject $object)
+    public static function delete_tree(midcom_core_dbaobject $object) : bool
     {
         $reflector = midcom_helper_reflector_tree::get($object);
         $child_classes = $reflector->get_child_classes();
@@ -444,7 +444,7 @@ class midcom_baseclasses_core_dbobject
      * @return integer Size of undeleted objects
      * @todo We should only undelete parameters & attachments deleted inside some small window of the main objects delete
      */
-    public static function undelete($guids)
+    public static function undelete($guids) : int
     {
         $undeleted_size = 0;
 
@@ -493,7 +493,7 @@ class midcom_baseclasses_core_dbobject
      * @return integer Size of undeleted objects
      * @todo We should only undelete parameters & attachments deleted inside some small window of the main objects delete
      */
-    public static function undelete_parameters($guid)
+    public static function undelete_parameters($guid) : int
     {
         $undeleted_size = 0;
 
@@ -517,7 +517,7 @@ class midcom_baseclasses_core_dbobject
      * @return integer Size of undeleted objects
      * @todo We should only undelete parameters & attachments deleted inside some small window of the main objects delete
      */
-    public static function undelete_attachments($guid)
+    public static function undelete_attachments($guid) : int
     {
         $undeleted_size = 0;
 
@@ -545,7 +545,7 @@ class midcom_baseclasses_core_dbobject
      * @param string $type
      * @return integer Size of purged objects
      */
-    public static function purge(array $guids, $type)
+    public static function purge(array $guids, $type) : int
     {
         $purged_size = 0;
         $qb = new midgard_query_builder($type);
@@ -587,7 +587,7 @@ class midcom_baseclasses_core_dbobject
      * @param string $guid
      * @return integer Size of purged objects
      */
-    public static function purge_parameters($guid)
+    public static function purge_parameters($guid) : int
     {
         $purged_size = 0;
 
@@ -615,7 +615,7 @@ class midcom_baseclasses_core_dbobject
      * @param string $guid
      * @return integer Size of purged objects
      */
-    public static function purge_attachments($guid)
+    public static function purge_attachments($guid) : int
     {
         $purged_size = 0;
 
@@ -665,7 +665,7 @@ class midcom_baseclasses_core_dbobject
      * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating Success
      */
-    public static function refresh(midcom_core_dbaobject $object)
+    public static function refresh(midcom_core_dbaobject $object) : bool
     {
         /**
          * Use try/catch here since the object might have been deleted...
@@ -686,7 +686,7 @@ class midcom_baseclasses_core_dbobject
      * @param int $id The id of the object to load from the database.
      * @return bool Indicating Success
      */
-    public static function get_by_id(midcom_core_dbaobject $object, $id)
+    public static function get_by_id(midcom_core_dbaobject $object, $id) : bool
     {
         if (!$id) {
             debug_add("Failed to load " . get_class($object) . " object, incorrect ID provided.", MIDCOM_LOG_ERROR);
@@ -718,7 +718,7 @@ class midcom_baseclasses_core_dbobject
      * @param string $guid The guid of the object to load from the database.
      * @return bool Indicating Success
      */
-    public static function get_by_guid(midcom_core_dbaobject $object, $guid)
+    public static function get_by_guid(midcom_core_dbaobject $object, $guid) : bool
     {
         if (   !midcom::get()->auth->admin
             && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $guid, get_class($object), midcom::get()->auth->acl->get_user_id())) {
@@ -743,7 +743,7 @@ class midcom_baseclasses_core_dbobject
      * @param string $path The path of the object to load from the database.
      * @return bool Indicating Success
      */
-    public static function get_by_path(midcom_core_dbaobject $object, $path)
+    public static function get_by_path(midcom_core_dbaobject $object, $path) : bool
     {
         $object->__object->get_by_path((string) $path);
 
@@ -766,7 +766,7 @@ class midcom_baseclasses_core_dbobject
      * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return boolean Indicating visibility state.
      */
-    public static function is_object_visible_onsite(midcom_core_dbaobject $object)
+    public static function is_object_visible_onsite(midcom_core_dbaobject $object) : bool
     {
         return $object->metadata->is_object_visible_onsite();
     }
@@ -778,7 +778,7 @@ class midcom_baseclasses_core_dbobject
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
      */
-    public static function delete_pre_checks(midcom_core_dbaobject $object)
+    public static function delete_pre_checks(midcom_core_dbaobject $object) : bool
     {
         if (!$object->id) {
             debug_add("Failed to delete object, object " . get_class($object) . " is non-persistent (empty ID).", MIDCOM_LOG_ERROR);

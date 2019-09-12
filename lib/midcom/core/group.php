@@ -120,7 +120,7 @@ class midcom_core_group
      *
      * @return midcom_core_user[] A list of user objects in which are members of the current group, indexed by their ID.
      */
-    public function list_members()
+    public function list_members() : array
     {
         $return = [];
 
@@ -149,7 +149,7 @@ class midcom_core_group
      * @param midcom_core_user $user The user that should be looked up.
      * @return midcom_core_group[] Member groups, indexed by their ID.
      */
-    public static function list_memberships(midcom_core_user $user)
+    public static function list_memberships(midcom_core_user $user) : array
     {
         $qb = new midgard_query_builder('midgard_group');
         $qb->get_doctrine()
@@ -192,7 +192,7 @@ class midcom_core_group
      *
      * @return midcom_core_privilege[]
      */
-    public function get_privileges()
+    public function get_privileges() : array
     {
         if ($this->_storage === null) {
             return [];

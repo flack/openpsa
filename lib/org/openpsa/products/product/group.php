@@ -129,6 +129,9 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         return $ret;
     }
 
+    /**
+     * @return org_openpsa_products_product_group_dba
+     */
     public function get_root()
     {
         $root = $this;

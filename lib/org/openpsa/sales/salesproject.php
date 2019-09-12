@@ -68,7 +68,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
      */
     private $_contacts;
 
-    public function refresh()
+    public function refresh() : bool
     {
         $this->_contacts = null;
         return parent::refresh();

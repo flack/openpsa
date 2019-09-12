@@ -287,7 +287,7 @@ class fi_protie_navigation
         echo "</ul>";
     }
 
-    private function _get_css_classes($child, $item)
+    private function _get_css_classes($child, $item) : string
     {
         $classes = [];
 

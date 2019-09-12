@@ -35,10 +35,8 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
 
     /**
      * List names of the non-purecore components
-     *
-     * @return array containing names of the components
      */
-    public static function get_component_list()
+    public static function get_component_list() : array
     {
         $components = [];
 
@@ -69,10 +67,8 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
 
     /**
      * Populate user interface for editing and creating topics
-     *
-     * @return array Containing a list of components
      */
-    public static function list_components($current_selection)
+    public static function list_components($current_selection) : array
     {
         $list = [];
 
@@ -104,7 +100,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     /**
      * List available style templates
      */
-    public static function list_styles($up = 0, $prefix = '/', $spacer = '')
+    public static function list_styles($up = 0, $prefix = '/', $spacer = '') : array
     {
         static $style_array = [];
 
@@ -131,7 +127,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         return self::list_theme_styles($style_array);
     }
 
-    public static function list_theme_styles(array $styles)
+    public static function list_theme_styles(array $styles) : array
     {
         $theme_styledir = OPENPSA2_THEME_ROOT . '/' . midcom::get()->config->get('theme') . '/style';
         $finder = new Finder();

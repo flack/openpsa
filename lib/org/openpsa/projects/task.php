@@ -79,7 +79,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
     }
 
-    public function refresh()
+    public function refresh() : bool
     {
         $this->contacts = [];
         $this->resources = [];

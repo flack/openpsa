@@ -70,7 +70,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $file;
     }
 
-    private function get_help_title($help_id, $component)
+    private function get_help_title($help_id, $component) : string
     {
         if ($path = self::generate_file_path($help_id, $component)) {
             $file_contents = file($path);
@@ -132,7 +132,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $files;
     }
 
-    private function _add_virtual_files($files, $component)
+    private function _add_virtual_files(array $files, $component) : array
     {
         // Schemas
         $this->_request_data['mgdschemas'] = midcom::get()->dbclassloader->get_component_classes($component);
@@ -173,7 +173,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $files;
     }
 
-    private function _list_physical_files($component)
+    private function _list_physical_files($component) : array
     {
         $component_dir = self::get_documentation_dir($component);
         if (!is_dir($component_dir)) {
@@ -204,7 +204,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $files;
     }
 
-    private function read_component_handlers($component)
+    private function read_component_handlers($component) : array
     {
         $data = [];
 
@@ -231,7 +231,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $data;
     }
 
-    private function read_url_methods($component)
+    private function read_url_methods($component) : array
     {
         $data = [];
 
@@ -290,7 +290,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
     }
 
-    private function _get_property_data(midgard_reflection_property $mrp, $prop)
+    private function _get_property_data(midgard_reflection_property $mrp, $prop) : array
     {
         return [
             'value' => $mrp->description($prop),
@@ -301,7 +301,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         ];
     }
 
-    private function _load_component_data($name)
+    private function _load_component_data($name) : array
     {
         $component_array = [];
         $component_array['name'] = $name;
