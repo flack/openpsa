@@ -42,7 +42,7 @@ class midcom_helper_formatter
      * @param string $name Filter name
      * @return string The formatted content
      */
-    public static function format($content, $name)
+    public static function format($content, $name) : string
     {
         if (!isset(self::$_filters[$name])) {
             return $content;
@@ -73,7 +73,7 @@ class midcom_helper_formatter
      * @param string $variable The content to modify
      * @return string The compiled php code
      */
-    public static function convert_to_php($variable)
+    public static function convert_to_php($variable) : string
     {
         $variable_parts = explode(':', $variable[1]);
         $variable = '$' . $variable_parts[0];

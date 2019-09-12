@@ -283,7 +283,7 @@ class midcom_helper_configuration
      * @param string    $key    The configuration key to check for.
      * @return boolean                True, if the key is available, false otherwise.
      */
-    public function exists($key)
+    public function exists($key) : bool
     {
         if (   !$this->_object_stored
             && $this->_object) {

@@ -54,7 +54,7 @@ abstract class midcom_helper_exporter
      * @param midcom_core_dbaobject $object The object in question
      * @return object the updated object (not saved)
      */
-    public function array2object(array $data, midcom_core_dbaobject $object)
+    public function array2object(array $data, midcom_core_dbaobject $object) : midcom_core_dbaobject
     {
         // set the object's values to the ones from the data
         $fields = midcom_helper_reflector::get_object_fieldnames($object);
@@ -85,7 +85,7 @@ abstract class midcom_helper_exporter
         return $object;
     }
 
-    public function data2object(array $data, midcom_core_dbaobject $object)
+    public function data2object(array $data, midcom_core_dbaobject $object) : midcom_core_dbaobject
     {
         return $this->array2object($data, $object);
     }
@@ -96,7 +96,7 @@ abstract class midcom_helper_exporter
      * @param object $object the object
      * @return string the mgdschema classname
      */
-    protected function _get_classname($object)
+    protected function _get_classname($object) : string
     {
         if (!empty($object->__mgdschema_class_name__)) {
             return $object->__mgdschema_class_name__;

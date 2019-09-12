@@ -107,7 +107,7 @@ class midcom_helper_imagefilter
         return $tmpname;
     }
 
-    public function write(midcom_db_attachment $target)
+    public function write(midcom_db_attachment $target) : bool
     {
         $src = fopen($this->_filename, 'r');
         if (!$src) {
@@ -122,7 +122,7 @@ class midcom_helper_imagefilter
         return $stat;
     }
 
-    public static function imagemagick_available()
+    public static function imagemagick_available() : bool
     {
         static $return = -1;
         if ($return === -1) {
@@ -139,7 +139,7 @@ class midcom_helper_imagefilter
         return $return;
     }
 
-    private function _jpegtran_available()
+    private function _jpegtran_available() : bool
     {
         static $return = -1;
         if ($return !== -1) {
@@ -179,7 +179,7 @@ class midcom_helper_imagefilter
      * @param string $filename The file to be edited.
      * @return boolean true, if the file is valid, false otherwise.
      */
-    public function set_file($filename)
+    public function set_file($filename) : bool
     {
         if (!self::imagemagick_available()) {
             debug_add("ImageMagick is not available, can't do any operations", MIDCOM_LOG_ERROR);
@@ -258,7 +258,7 @@ class midcom_helper_imagefilter
     }
 
     /*********** INTERNAL HELPERS ******************/
-    private function _run_command($cmd, $tempfile = null)
+    private function _run_command($cmd, $tempfile = null) : array
     {
         debug_add("executing: {$cmd}");
         $output = null;
@@ -368,7 +368,7 @@ class midcom_helper_imagefilter
         $this->_run_command($cmd, $tempfile);
     }
 
-    public function identify($filename)
+    public function identify($filename) : bool
     {
         try {
             $cmd = midcom::get()->config->get('utility_imagemagick_base') . "identify " . escapeshellarg($filename);

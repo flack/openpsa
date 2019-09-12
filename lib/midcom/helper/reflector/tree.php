@@ -84,7 +84,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * @param string $separator the string used to separate path components
      * @return string resolved path
      */
-    public static function resolve_path($object, $separator = ' &gt; ')
+    public static function resolve_path($object, $separator = ' &gt; ') : string
     {
         $parts = self::resolve_path_parts($object);
         return implode($separator, array_column($parts, 'label'));
@@ -96,7 +96,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * @param midgard\portable\api\mgdobject $object The object to get path for
      * @return array path components
      */
-    public static function resolve_path_parts($object)
+    public static function resolve_path_parts($object) : array
     {
         static $cache = [];
         if (isset($cache[$object->guid])) {
@@ -147,7 +147,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return false;
     }
 
-    private static function _check_permissions($deleted)
+    private static function _check_permissions($deleted) : bool
     {
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
@@ -214,7 +214,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Figure out constraint(s) to use to get child objects
      */
-    private function _get_link_fields($schema_type, $for_object)
+    private function _get_link_fields($schema_type, $for_object) : array
     {
         static $cache = [];
         $cache_key = $schema_type . '-' . get_class($for_object);
@@ -371,7 +371,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @return array of class names
      */
-    public function get_child_classes()
+    public function get_child_classes() : array
     {
         static $child_classes_all = [];
         if (!isset($child_classes_all[$this->mgdschema_class])) {
@@ -385,7 +385,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @return array of class names
      */
-    private function _resolve_child_classes()
+    private function _resolve_child_classes() : array
     {
         $child_class_exceptions_neverchild = $this->_config->get('child_class_exceptions_neverchild');
 
@@ -416,7 +416,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return $child_classes;
     }
 
-    private function _resolve_child_classes_links_back($property, $prospect_type, $schema_type)
+    private function _resolve_child_classes_links_back($property, $prospect_type, $schema_type) : bool
     {
         if (empty($property)) {
             return false;
@@ -436,7 +436,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @return array of classnames (or false on critical failure)
      */
-    public static function get_root_classes()
+    public static function get_root_classes() : array
     {
         static $root_classes = false;
         if (empty($root_classes)) {
@@ -450,7 +450,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @return array of classnames (or false on critical failure)
      */
-    private static function _resolve_root_classes()
+    private static function _resolve_root_classes() : array
     {
         $root_exceptions_notroot = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config')->get('root_class_exceptions_notroot');
         // Safety against misconfiguration
@@ -528,7 +528,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * @param midcom_core_dbaobject $parent
      * @return array
      */
-    public static function get_tree(midcom_core_dbaobject $parent)
+    public static function get_tree(midcom_core_dbaobject $parent) : array
     {
         static $shown_guids = [];
         $tree = [];

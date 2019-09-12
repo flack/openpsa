@@ -54,7 +54,7 @@ class midcom_helper_misc
      * @throws midcom_error
      * @return array The config in array format
      */
-    public static function parse_config($data)
+    public static function parse_config($data) : array
     {
         $data = eval("return [{$data}\n];");
         if ($data === false) {
@@ -147,7 +147,7 @@ class midcom_helper_misc
      * @param string $path    The URL to the snippet.
      * @return string        The content of the snippet/file.
      */
-    public static function get_snippet_content($path)
+    public static function get_snippet_content($path) : string
     {
         $data = self::get_snippet_content_graceful($path);
         if ($data === null) {
@@ -162,7 +162,7 @@ class midcom_helper_misc
      * @param string $path    The path of the snippet that should be included.
      * @return boolean Returns false if the snippet could not be loaded or true, if it was evaluated successfully.
      */
-    public static function include_snippet_php($path)
+    public static function include_snippet_php($path) : bool
     {
         $code = self::get_snippet_content_graceful($path);
         if (empty($code)) {
@@ -180,7 +180,7 @@ class midcom_helper_misc
      * @param string $code The unprocessed code
      * @return string The processed code
      */
-    public static function preparse($code)
+    public static function preparse($code) : string
     {
         // Get style elements
         $code = preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", [midcom_helper_misc::class, 'include_element'], $code);
@@ -191,7 +191,7 @@ class midcom_helper_misc
     /**
      * Include a theme element
      */
-    public static function include_element($name)
+    public static function include_element($name) : string
     {
         if (is_array($name)) {
             $element = $name[1];
@@ -222,7 +222,7 @@ class midcom_helper_misc
      * @param string $mimetype  Document MIME type
      * @return string    Path to the icon
      */
-    public static function get_mime_icon($mimetype)
+    public static function get_mime_icon($mimetype) : string
     {
         $mime_fspath = MIDCOM_STATIC_ROOT . '/stock-icons/mime';
         $mime_urlpath = MIDCOM_STATIC_URL . '/stock-icons/mime';
@@ -258,7 +258,7 @@ class midcom_helper_misc
      * @param int $size  File size in bytes
      * @return string    Prettified file size
      */
-    public static function filesize_to_string($size)
+    public static function filesize_to_string($size) : string
     {
         if ($size >= 1048576) {
             // More than a meg

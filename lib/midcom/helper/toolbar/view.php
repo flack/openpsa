@@ -66,7 +66,7 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
         $this->add_items($buttons);
     }
 
-    public function get_approval_controls(midcom_core_dbaobject $object, $add_accesskey = false)
+    public function get_approval_controls(midcom_core_dbaobject $object, $add_accesskey = false) : array
     {
         $buttons = [];
         if (midcom::get()->config->get('metadata_approval')) {

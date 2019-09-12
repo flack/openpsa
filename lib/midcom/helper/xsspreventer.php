@@ -19,7 +19,7 @@ class midcom_helper_xsspreventer
      * @param string $input Attribute value to escape
      * @return string escaped $input (with added quotes)
      */
-    public static function escape_attribute($input)
+    public static function escape_attribute($input) : string
     {
         $output = str_replace('"', '&quot;', $input);
         return '"' . $output . '"';

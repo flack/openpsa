@@ -87,7 +87,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param object $object Object The object to query
      * @return array The object vars
      */
-    public static function get_object_fieldnames($object)
+    public static function get_object_fieldnames($object) : array
     {
         if (!is_object($object)) {
             throw new midcom_error('Invalid parameter type');
@@ -114,7 +114,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param boolean $metadata
      * @return boolean
      */
-    public function property_exists($property, $metadata = false)
+    public function property_exists($property, $metadata = false) : bool
     {
         return $this->_mgd_reflector->property_exists($property, $metadata);
     }
@@ -124,7 +124,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * @return midcom_services_i18n_l10n  Localization library for the reflector object class
      */
-    public function get_component_l10n()
+    public function get_component_l10n() : midcom_services_i18n_l10n
     {
         // Use cache if we have it
         if (isset(self::$_cache['l10n'][$this->mgdschema_class])) {
@@ -154,7 +154,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @return string Class label
      * @todo remove any hardcoded class names/prefixes
      */
-    public function get_class_label()
+    public function get_class_label() : string
     {
         $component_l10n = $this->get_component_l10n();
         $use_classname = $this->mgdschema_class;
@@ -257,7 +257,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param string $type  Name of the type
      * @return string       URL name of the image
      */
-    public static function get_create_icon($type)
+    public static function get_create_icon($type) : string
     {
         if (null === self::$_cache['create_icon_map']) {
             self::$_cache['create_icon_map'] = self::_get_icon_map('create_type_magic', 'file-o');
@@ -300,7 +300,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param mixed $obj          MgdSchema object
      * @return string             Icon (FontAwesome)
      */
-    public static function get_object_icon($obj)
+    public static function get_object_icon($obj) : string
     {
         if (null === self::$_cache['object_icon_map']) {
             self::$_cache['object_icon_map'] = self::_get_icon_map('object_icon_magic', 'file');
@@ -348,7 +348,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         return '<i class="fa fa-' . $icon . '"></i>';
     }
 
-    private static function _get_icon_map($config_key, $fallback)
+    private static function _get_icon_map($config_key, $fallback) : array
     {
         $config = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config');
         $icons2classes = $config->get($config_key);
@@ -373,7 +373,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * @return array of property names
      */
-    public function get_search_properties()
+    public function get_search_properties() : array
     {
         // Return cached results if we have them
         static $cache = [];
@@ -441,7 +441,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * @return array multidimensional array keyed by property, values are arrays with link info (or false in case of failure)
      */
-    public function get_link_properties()
+    public function get_link_properties() : array
     {
         // Return cached results if we have them
         static $cache = [];
@@ -519,7 +519,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param string $schema_type classname to check rewriting for
      * @return string new classname (or original in case no rewriting is to be done)
      */
-    public static function class_rewrite($schema_type)
+    public static function class_rewrite($schema_type) : string
     {
         static $extends = false;
         if ($extends === false) {
@@ -546,7 +546,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param string $class_two second class to compare
      * @return boolean response
      */
-    public static function is_same_class($class_one, $class_two)
+    public static function is_same_class($class_one, $class_two) : bool
     {
         $one = self::resolve_baseclass($class_one);
         $two = self::resolve_baseclass($class_two);

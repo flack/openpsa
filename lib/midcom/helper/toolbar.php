@@ -323,7 +323,7 @@ class midcom_helper_toolbar
      * @param int $index toolbar item index.
      * @return boolean false if insert failed.
      */
-    public function add_item_to_index($item, $index)
+    public function add_item_to_index($item, $index) : bool
     {
         $item = $this->clean_item($item);
         if (!array_key_exists($index, $this->items)) {
@@ -347,7 +347,7 @@ class midcom_helper_toolbar
      * @param array $item the item to be cleaned
      * @return array the cleaned item.
      */
-    public function clean_item($item)
+    public function clean_item($item) : array
     {
         static $used_access_keys = [];
 
@@ -545,7 +545,7 @@ class midcom_helper_toolbar
      *
      * @return string The rendered toolbar.
      */
-    public function render()
+    public function render() : string
     {
         $visible_items = array_filter($this->items, function ($item) {
             return !$item[MIDCOM_TOOLBAR_HIDDEN];
@@ -605,7 +605,7 @@ class midcom_helper_toolbar
      * @param array $item The item to label
      * @return string Item's label to display
      */
-    private function _generate_item_label($item)
+    private function _generate_item_label($item) : string
     {
         $label = htmlentities($item[MIDCOM_TOOLBAR_LABEL], ENT_COMPAT, "UTF-8");
 
@@ -633,7 +633,7 @@ class midcom_helper_toolbar
      * @param array $item The item to render
      * @return string The rendered item
      */
-    private function _render_link_item($item)
+    private function _render_link_item($item) : string
     {
         $output = '';
         $attributes = $this->get_item_attributes($item);
@@ -669,7 +669,7 @@ class midcom_helper_toolbar
         return $output;
     }
 
-    private function get_item_attributes(array $item)
+    private function get_item_attributes(array $item) : array
     {
         $attributes = ($item[MIDCOM_TOOLBAR_ENABLED]) ? $item[MIDCOM_TOOLBAR_OPTIONS] : [];
 
@@ -691,7 +691,7 @@ class midcom_helper_toolbar
      * @param array $item The item to render
      * @return string The rendered item
      */
-    private function _render_post_item($item)
+    private function _render_post_item($item) : string
     {
         $output = '';
 

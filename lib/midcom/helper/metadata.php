@@ -153,7 +153,7 @@ class midcom_helper_metadata
      * @return datamanager A initialized Datamanager instance for the selected object.
      * @see midcom_helper_metadata::on_update()
      */
-    public function get_datamanager()
+    public function get_datamanager() : datamanager
     {
         $schemadb = schemadb::from_path(midcom::get()->config->get('metadata_schema'));
 
@@ -179,7 +179,7 @@ class midcom_helper_metadata
      * @param string $key The key to set.
      * @param mixed $value The value to set.
      */
-    public function set($key, $value)
+    public function set($key, $value) : bool
     {
         // Store the RCS mode
         $rcs_mode = $this->__object->_use_rcs;
@@ -217,7 +217,7 @@ class midcom_helper_metadata
      * @param string $key The key to set.
      * @param mixed $value The value to set.
      */
-    private function _set_property($key, $value)
+    private function _set_property($key, $value) : bool
     {
         if (is_object($value)) {
             $classname = get_class($value);
@@ -338,7 +338,7 @@ class midcom_helper_metadata
      *
      * @return boolean Indicating approval state.
      */
-    public function is_approved()
+    public function is_approved() : bool
     {
         return $this->__object->is_approved();
     }
@@ -351,7 +351,7 @@ class midcom_helper_metadata
      * @see midcom_helper_metadata::is_approved()
      * @return boolean Indicating visibility state.
      */
-    public function is_visible()
+    public function is_visible() : bool
     {
         if ($this->get('hidden')) {
             return false;
@@ -394,7 +394,7 @@ class midcom_helper_metadata
      * approver person GUID to the GUID of the person currently
      * authenticated.
      */
-    public function approve()
+    public function approve() : bool
     {
         midcom::get()->auth->require_do('midcom:approve', $this->__object);
         midcom::get()->auth->require_do('midgard:update', $this->__object);
@@ -412,7 +412,7 @@ class midcom_helper_metadata
      *
      * This is to get the approval timestamp to current time in all cases
      */
-    function force_approve()
+    function force_approve() : bool
     {
         midcom::get()->auth->require_do('midcom:approve', $this->__object);
         midcom::get()->auth->require_do('midgard:update', $this->__object);
@@ -433,7 +433,7 @@ class midcom_helper_metadata
      * approver person GUID to the GUID of the person currently
      * authenticated.
      */
-    public function unapprove()
+    public function unapprove() : bool
     {
         midcom::get()->auth->require_do('midcom:approve', $this->__object);
         midcom::get()->auth->require_do('midgard:update', $this->__object);
@@ -491,7 +491,7 @@ class midcom_helper_metadata
      *
      * @return boolean          True if the object is locked, false if it isn't
      */
-    public function is_locked()
+    public function is_locked() : bool
     {
         // Object hasn't been marked to be edited
         if ($this->get('locked') == 0) {
@@ -519,7 +519,7 @@ class midcom_helper_metadata
      *
      * @return boolean       Indicating success
      */
-    public function lock()
+    public function lock() : bool
     {
         midcom::get()->auth->require_do('midgard:update', $this->__object);
 
@@ -538,7 +538,7 @@ class midcom_helper_metadata
      * @return boolean indicating privileges
      * @todo enable specifying user ?
      */
-    public function can_unlock()
+    public function can_unlock() : bool
     {
         return (   $this->__object->can_do('midcom:unlock')
                 || midcom::get()->auth->can_user_do('midcom:unlock', null, midcom_services_auth::class));
@@ -549,7 +549,7 @@ class midcom_helper_metadata
      *
      * @return boolean    Indicating success
      */
-    public function unlock()
+    public function unlock() : bool
     {
         if (   $this->can_unlock()
             && is_object($this->__object)

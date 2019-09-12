@@ -93,7 +93,7 @@ class midcom_helper__dbfactory
      * @return midcom_core_collector The initialized instance of the collector.
      * @see midcom_core_collector
      */
-    public function new_collector($classname, $domain, $value)
+    public function new_collector($classname, $domain, $value) : midcom_core_collector
     {
         return new midcom_core_collector($classname, $domain, $value);
     }
@@ -106,7 +106,7 @@ class midcom_helper__dbfactory
      * @return midcom_core_querybuilder The initialized instance of the query builder.
      * @see midcom_core_querybuilder
      */
-    public function new_query_builder($classname)
+    public function new_query_builder($classname) : midcom_core_querybuilder
     {
         return new midcom_core_querybuilder($classname);
     }
@@ -175,7 +175,7 @@ class midcom_helper__dbfactory
      * @param string $class Class to check the instance against
      * @return boolean
      */
-    public function is_a($object, $class)
+    public function is_a($object, $class) : bool
     {
         if (is_a($object, $class)) {
             // Direct match
@@ -254,7 +254,7 @@ class midcom_helper__dbfactory
      * @param string $class class name of object if known (so we can use get_parent_guid_uncached_static and avoid instantiating full object)
      * @return array The parent GUID and class (value might be null, if this is a top level object).
      */
-    public function get_parent_data($object, $class = null)
+    public function get_parent_data($object, $class = null) : array
     {
         if (is_object($object)) {
             $object_guid = null;
@@ -272,7 +272,7 @@ class midcom_helper__dbfactory
         return $this->_get_parent_guid_cached($object_guid, $the_object, $class);
     }
 
-    private function _get_parent_guid_cached($object_guid, $the_object, $class = null)
+    private function _get_parent_guid_cached($object_guid, $the_object, $class = null) : array
     {
         static $cached_parent_data = [];
 
@@ -328,7 +328,7 @@ class midcom_helper__dbfactory
         return $parent_data;
     }
 
-    private function _get_parent_guid_uncached(midcom_core_dbaobject $object)
+    private function _get_parent_guid_uncached(midcom_core_dbaobject $object) : array
     {
         if (method_exists($object, 'get_parent_guid_uncached')) {
             return ['' => $object->get_parent_guid_uncached()];
@@ -349,7 +349,7 @@ class midcom_helper__dbfactory
      * Get the GUID of the object's parent. This is done by reading up or parent
      * property values, which will give us the parent's ID
      */
-    private function _get_parent_guid_uncached_static($object_guid, $class_name)
+    private function _get_parent_guid_uncached_static($object_guid, $class_name) : array
     {
         if (method_exists($class_name, 'get_parent_guid_uncached_static')) {
             return ['', $class_name::get_parent_guid_uncached_static($object_guid)];
@@ -399,7 +399,7 @@ class midcom_helper__dbfactory
         return $this->_parent_mapping[$target_class][$link_value];
     }
 
-    private function _get_parent_candidates($classname)
+    private function _get_parent_candidates($classname) : array
     {
         if (!isset($this->_parent_candidates[$classname])) {
             $this->_parent_candidates[$classname] = [];

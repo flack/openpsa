@@ -110,7 +110,7 @@ class midcom_helper__componentloader
      * @param string $path    The component to load explicitly.
      * @return boolean Indicating success.
      */
-    public function load_graceful($path)
+    public function load_graceful($path) : bool
     {
         return $this->_load($path);
     }
@@ -130,7 +130,7 @@ class midcom_helper__componentloader
      * @param string $path    The name of the code library to load.
      * @return boolean            Indicates whether the library was successfully loaded.
      */
-    public function load_library($path)
+    public function load_library($path) : bool
     {
         if (!array_key_exists($path, $this->manifests)) {
             debug_add("Cannot load component {$path} as library, it is not installed.", MIDCOM_LOG_ERROR);
@@ -155,7 +155,7 @@ class midcom_helper__componentloader
      * @param string $path    The component to load.
      * @return boolean Indicating success.
      */
-    private function _load($path)
+    private function _load($path) : bool
     {
         if (empty($path)) {
             debug_add("No component path given, aborting");
@@ -196,7 +196,7 @@ class midcom_helper__componentloader
      * @param string $path    The component to be queried.
      * @return boolean            true if it is loaded, false otherwise.
      */
-    public function is_loaded($path)
+    public function is_loaded($path) : bool
     {
         if ($path == 'midcom') {
             // MidCOM is "always loaded"
@@ -212,7 +212,7 @@ class midcom_helper__componentloader
      * @param string $path    The component to be queried.
      * @return boolean            true if it is loaded, false otherwise.
      */
-    public function is_installed($path)
+    public function is_installed($path) : bool
     {
         if (empty($this->manifests)) {
             $this->load_all_manifests();
@@ -242,7 +242,7 @@ class midcom_helper__componentloader
      * @param string $path    The component name.
      * @return midcom_baseclasses_components_interface The concept class in question
      */
-    public function get_interface_class($path)
+    public function get_interface_class($path) : midcom_baseclasses_components_interface
     {
         if (!$this->is_loaded($path)) {
             $this->load($path);
@@ -272,7 +272,7 @@ class midcom_helper__componentloader
      * @param string $path    Input string.
      * @return string        Converted string.
      */
-    public function path_to_prefix($path)
+    public function path_to_prefix($path) : string
     {
         return strtr($path, ".", "_");
     }
@@ -283,7 +283,7 @@ class midcom_helper__componentloader
      *
      * @return Array    List of loaded components
      */
-    public function list_loaded_components()
+    public function list_loaded_components() : array
     {
         return array_keys($this->_interface_classes);
     }
@@ -313,7 +313,7 @@ class midcom_helper__componentloader
      *
      * @param midcom_config $config The configuration object
      */
-    public function get_manifests(midcom_config $config)
+    public function get_manifests(midcom_config $config) : array
     {
         $manifests = [];
 
@@ -361,7 +361,7 @@ class midcom_helper__componentloader
      * @param string $component The custom data component index to look for.
      * @return Array All found component data indexed by known components.
      */
-    public function get_all_manifest_customdata($component)
+    public function get_all_manifest_customdata($component) : array
     {
         $result = [];
         foreach ($this->manifests as $manifest) {

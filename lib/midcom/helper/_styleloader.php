@@ -129,7 +129,7 @@ class midcom_helper__styleloader
      * @param int $id    Style id to look up path for
      * @return    string Style path
      */
-    public function get_style_path_from_id($id)
+    public function get_style_path_from_id($id) : string
     {
         static $path_cache = [];
         if (isset($path_cache[$id])) {
@@ -268,7 +268,7 @@ class midcom_helper__styleloader
      * @param string $path    The style element to show.
      * @return boolean            True on success, false otherwise.
      */
-    public function show($path)
+    public function show($path) : bool
     {
         if ($this->_context === []) {
             debug_add("Trying to show '{$path}' but there is no context set", MIDCOM_LOG_INFO);
@@ -360,7 +360,7 @@ class midcom_helper__styleloader
      * @param string $path    The style element to show.
      * @return boolean            True on success, false otherwise.
      */
-    public function show_midcom($path)
+    public function show_midcom($path) : bool
     {
         $_element = $path;
         $_style = false;

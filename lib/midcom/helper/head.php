@@ -240,7 +240,7 @@ class midcom_helper_head
         $this->_style_head .= '<style type="text/css"' . $this->_get_attribute_string($attributes) . '>' . $script . "</style>\n";
     }
 
-    private function _get_attribute_string($attributes)
+    private function _get_attribute_string($attributes) : string
     {
         $string = '';
         if (null === $attributes) {
@@ -468,12 +468,12 @@ class midcom_helper_head
         return $carry . "</script>\n";
     }
 
-    public function get_jshead_elements()
+    public function get_jshead_elements() : array
     {
         return $this->_prepend_jshead + $this->_jshead;
     }
 
-    public function get_link_head()
+    public function get_link_head() : array
     {
         return $this->_link_head;
     }
