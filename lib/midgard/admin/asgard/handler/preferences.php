@@ -94,7 +94,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
     /**
      * Get the languages
      */
-    public static function get_languages()
+    public static function get_languages() : array
     {
         $lang_str = midcom::get()->i18n->get_current_language();
         $languages = midcom::get()->i18n->list_languages();

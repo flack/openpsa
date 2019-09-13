@@ -16,7 +16,7 @@ trait midgard_admin_asgard_handler
     /**
      * @return midcom_response_styled
      */
-    public function get_response()
+    public function get_response() : midcom_response_styled
     {
         if (isset($_GET['ajax'])) {
             midcom::get()->skip_page_style = true;

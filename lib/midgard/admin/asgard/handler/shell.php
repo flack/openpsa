@@ -53,7 +53,7 @@ class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_h
         return $this->get_response();
     }
 
-    private function _prepare_toolbar()
+    private function _prepare_toolbar() : midgard_admin_asgard_toolbar
     {
         $toolbar = new midgard_admin_asgard_toolbar();
         $buttons = [

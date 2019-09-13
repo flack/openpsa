@@ -74,7 +74,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      * @param midgard\portable\api\mgdobject $object
      * @return midcom_helper_reflector_tree
      */
-    protected function _get_reflector($object)
+    protected function _get_reflector($object) : midcom_helper_reflector_tree
     {
         if (is_string($object)) {
             $classname = $object;
@@ -97,7 +97,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
     }
 
-    protected function _is_collapsed($type, $total)
+    protected function _is_collapsed($type, $total) : bool
     {
         return (   $total > $this->_config->get('max_navigation_entries')
                 && empty($_GET['show_all_' . $type]));
@@ -277,7 +277,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
     }
 
-    private function _is_selected($object)
+    private function _is_selected($object) : bool
     {
         foreach ($this->_object_path as $path_object) {
             if ($object->guid == $path_object->guid) {
@@ -313,7 +313,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      *
      * @return array Alphabetically sorted list of class => title pairs
      */
-    private function _process_root_types()
+    private function _process_root_types() : array
     {
         // Included or excluded types
         $types = [];

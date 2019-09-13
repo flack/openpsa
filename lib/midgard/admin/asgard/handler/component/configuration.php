@@ -9,6 +9,7 @@
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
+use midcom\datamanager\controller;
 
 /**
  * Component configuration handler
@@ -79,7 +80,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         }
     }
 
-    private function _load_configs($component, $object = null)
+    private function _load_configs($component, $object = null) : midcom_helper_configuration
     {
         $config = midcom_baseclasses_components_configuration::get($component, 'config');
 
@@ -94,7 +95,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     /**
      * @return \midcom\datamanager\controller
      */
-    private function load_controller()
+    private function load_controller() : controller
     {
         // Load SchemaDb
         $schemadb_config_path = midcom::get()->componentloader->path_to_snippetpath($this->_request_data['name']) . '/config/config_schemadb.inc';
@@ -461,7 +462,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         midcom_show_style('midgard_admin_asgard_component_configuration_edit');
     }
 
-    private function _detect_schema($key, $value)
+    private function _detect_schema($key, $value) : array
     {
         $result = [
             'title'       => $key,

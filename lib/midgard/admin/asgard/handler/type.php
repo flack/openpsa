@@ -31,7 +31,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         return call_user_func([$midcom_dba_classname, 'new_query_builder']);
     }
 
-    private function _search($term)
+    private function _search($term) : array
     {
         $dummy_objects = [];
         $type_class = $this->type;
@@ -54,7 +54,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         return $search_results;
     }
 
-    private function _search_type_qb($dummy_object, $term)
+    private function _search_type_qb($dummy_object, $term) : array
     {
         $object_class = get_class($dummy_object);
         $mgd_reflector = new midgard_reflection_property($object_class);

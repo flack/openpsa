@@ -58,7 +58,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         midcom::get()->style->prepend_component_styledir(str_replace('asgard_', '', $data['plugin_name']));
     }
 
-    public static function get_type_label($type)
+    public static function get_type_label($type) : string
     {
         return midcom_helper_reflector_tree::get($type)->get_class_label();
     }
@@ -135,7 +135,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     /**
      * Set the default object mode
      */
-    public static function get_default_mode(array &$data)
+    public static function get_default_mode(array &$data) : string
     {
         //only set mode once per request
         if (!empty($data['default_mode'])) {
@@ -159,7 +159,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      * @param string $action The action
      * @param string $guid The GUID
      */
-    private static function _generate_url($action, $guid)
+    private static function _generate_url($action, $guid) : string
     {
         return '__mfa/asgard/object/' . $action . '/' . $guid . '/';
     }
@@ -319,7 +319,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      *
      * @return array containing class name and translated name
      */
-    public static function get_root_classes()
+    public static function get_root_classes() : array
     {
         static $root_classes = [];
 

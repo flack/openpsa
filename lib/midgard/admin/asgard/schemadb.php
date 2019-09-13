@@ -76,7 +76,7 @@ class midgard_admin_asgard_schemadb
      *
      * The operations are done on all available schemas within the DB.
      */
-    public function create($include_fields)
+    public function create($include_fields) : schemadb
     {
         $type = get_class($this->_object);
         $type_fields = $this->_object->get_properties();
@@ -158,7 +158,7 @@ class midgard_admin_asgard_schemadb
         return new schemadb(['default' => $this->schema]);
     }
 
-    private function _filter_schema_fields($key)
+    private function _filter_schema_fields($key) : bool
     {
         if (   $key == 'metadata'
             || in_array($key, $this->_config->get('object_skip_fields'))) {
@@ -388,7 +388,7 @@ class midgard_admin_asgard_schemadb
         }
     }
 
-    private function build_autocomplete_config($key, $class, $linked_type)
+    private function build_autocomplete_config($key, $class, $linked_type) : array
     {
         $reflector = midcom_helper_reflector::get($linked_type);
         $component = midcom::get()->dbclassloader->get_component_for_class($linked_type);
@@ -461,7 +461,7 @@ class midgard_admin_asgard_schemadb
         ];
     }
 
-    private function _get_score($field)
+    private function _get_score($field) : int
     {
         $preferred_fields = $this->_config->get('object_preferred_fields');
         $timerange_fields = $this->_config->get('object_timerange_fields');

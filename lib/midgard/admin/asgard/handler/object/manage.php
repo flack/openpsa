@@ -258,7 +258,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
     }
 
-    private function get_defaults(Request $request, $new_type)
+    private function get_defaults(Request $request, $new_type) : array
     {
         $defaults = [];
         if ($this->_object) {
@@ -315,7 +315,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midcom_show_style('midgard_admin_asgard_object_create');
     }
 
-    private function _object_to_jsdata($object)
+    private function _object_to_jsdata($object) : string
     {
         $jsdata = [
             'id' => (string) @$object->id,
@@ -332,7 +332,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         return json_encode($jsdata);
     }
 
-    private function _prepare_relocate(midcom_core_dbaobject $object, $mode = 'default')
+    private function _prepare_relocate(midcom_core_dbaobject $object, $mode = 'default') : midcom_response_relocate
     {
         // Redirect parameters to overview
         if ($object instanceof midcom_db_parameter) {
@@ -490,7 +490,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
     }
 
-    private function _process_copy(Request $request, $parent, midcom_helper_reflector $reflector)
+    private function _process_copy(Request $request, $parent, midcom_helper_reflector $reflector) : midcom_core_dbaobject
     {
         $formdata = $this->controller->get_datamanager()->get_content_raw();
         $copy = new midcom_helper_reflector_copy();

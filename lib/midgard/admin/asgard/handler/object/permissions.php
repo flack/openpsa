@@ -133,7 +133,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
      *
      * @return controller
      */
-    private function load_controller()
+    private function load_controller() : controller
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb_permissions'));
 
@@ -220,7 +220,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         $this->_header = $header;
     }
 
-    private function load_assignees()
+    private function load_assignees() : array
     {
         $assignees = [];
 

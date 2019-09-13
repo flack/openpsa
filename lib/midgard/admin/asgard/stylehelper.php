@@ -81,13 +81,13 @@ class midgard_admin_asgard_stylehelper
     /**
      * Suggest element names to create under a style
      */
-    private function _get_help_style_elementnames(midcom_db_style $style)
+    private function _get_help_style_elementnames(midcom_db_style $style) : string
     {
         $this->_data['help_style_elementnames'] = $this->_get_style_elements_and_nodes($style->id);
         return 'elementnames';
     }
 
-    private function _get_style_elements_and_nodes($style_id)
+    private function _get_style_elements_and_nodes($style_id) : array
     {
         $results = [
             'elements' => [
@@ -124,7 +124,7 @@ class midgard_admin_asgard_stylehelper
      * @param string $style Style path
      * @return midcom_db_topic[] List of folders
      */
-    private function _get_nodes_using_style($style)
+    private function _get_nodes_using_style($style) : array
     {
         $style_nodes = [];
         // Get topics directly using the style
@@ -143,7 +143,7 @@ class midgard_admin_asgard_stylehelper
         return $style_nodes;
     }
 
-    private function _get_nodes_inheriting_style($node)
+    private function _get_nodes_inheriting_style($node) : array
     {
         $nodes = [];
         $qb = midcom_db_topic::new_query_builder();
@@ -165,7 +165,7 @@ class midgard_admin_asgard_stylehelper
      * @param string $component Component to look elements for
      * @return array List of elements found indexed by the element name
      */
-    private function _get_component_default_elements($component)
+    private function _get_component_default_elements($component) : array
     {
         $elements = [];
 

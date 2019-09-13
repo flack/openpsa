@@ -120,7 +120,7 @@ class midcom_helper__dbfactory
      * @param midgard\portable\api\mgdobject $object MgdSchema Object
      * @return midcom_core_dbaobject
      */
-    public function convert_midgard_to_midcom($object)
+    public function convert_midgard_to_midcom($object) : midcom_core_dbaobject
     {
         if (!is_object($object)) {
             debug_print_r("Object dump:", $object);

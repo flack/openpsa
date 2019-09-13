@@ -13,7 +13,7 @@
  */
 class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
 {
-    private function _generate_url($action, $object)
+    private function _generate_url($action, $object) : string
     {
         return '__mfa/asgard/object/' . $action . '/' . $object->guid . '/';
     }
@@ -205,7 +205,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         }
     }
 
-    private function get_toolbar_update_items($object)
+    private function get_toolbar_update_items($object) : array
     {
         $buttons = [];
         if (   is_a($object, midcom_db_topic::class)

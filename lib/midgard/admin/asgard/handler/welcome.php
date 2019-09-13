@@ -18,7 +18,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 {
     use midgard_admin_asgard_handler;
 
-    private function _list_revised($since, $type = null, $only_mine = false)
+    private function _list_revised($since, $type = null, $only_mine = false) : array
     {
         $classes = [];
         $revised = [];
