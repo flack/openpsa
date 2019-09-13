@@ -66,9 +66,14 @@ a:hover
     overflow-x: visible
 }
 
+#branding
+{
+    background-color: #fff;
+    height: 67px;
+}
+
 #branding div.grouplogo
 {
-  background-color: #ffffff;
   text-align: center;
   padding: 1em 0.5em;
 }
