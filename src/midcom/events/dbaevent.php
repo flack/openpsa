@@ -39,7 +39,7 @@ class dbaevent extends Event
     /**
      * @return midcom_core_dbaobject
      */
-    public function get_object()
+    public function get_object() : midcom_core_dbaobject
     {
         return $this->_object;
     }

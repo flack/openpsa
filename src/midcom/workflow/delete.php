@@ -16,6 +16,7 @@ use midcom_connection;
 use midcom;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Helper class for manipulating toolbars
@@ -112,7 +113,7 @@ class delete extends dialog
      *
      * @return array
      */
-    public function get_button_config()
+    public function get_button_config() : array
     {
         $dialog_text = $this->dialog_text ?: '<p>' . sprintf($this->l10n_midcom->get('delete %s'), $this->label) . '</p>';
         if ($this->recursive) {
@@ -137,7 +138,7 @@ class delete extends dialog
         ];
     }
 
-    public function run(Request $request)
+    public function run(Request $request) : Response
     {
         $this->object->require_do('midgard:delete');
         $url = $request->request->get('referrer', $this->success_url);

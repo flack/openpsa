@@ -35,17 +35,17 @@ class nullcontainer extends container
         }
     }
 
-    public function lock()
+    public function lock() : bool
     {
         return true;
     }
 
-    public function unlock()
+    public function unlock() : bool
     {
         return true;
     }
 
-    public function is_locked()
+    public function is_locked() : bool
     {
         return false;
     }

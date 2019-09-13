@@ -39,7 +39,7 @@ class callback
         }
     }
 
-    private function to_array(container $container)
+    private function to_array(container $container) : array
     {
         $data = [];
 

@@ -14,7 +14,7 @@ use midcom\datamanager\helper\imagefilter;
  */
 class images extends blobs implements recreateable
 {
-    public function recreate()
+    public function recreate() : bool
     {
         $this->map = [];
         $map = $this->load();
@@ -100,7 +100,7 @@ class images extends blobs implements recreateable
         $this->save_attachment_list();
     }
 
-    private function save_image_map(array $map)
+    private function save_image_map(array $map) : bool
     {
         $list = [];
 

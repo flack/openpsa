@@ -25,6 +25,7 @@ use midcom\datamanager\extension\type\schemaType;
 use midcom\datamanager\extension\type\toolbarType;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
 use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
+use midcom\datamanager\storage\container\container;
 
 /**
  * Experimental datamanager class
@@ -78,7 +79,7 @@ class datamanager
      *
      * @return \Symfony\Component\Form\FormFactoryInterface
      */
-    private static function get_factory()
+    private static function get_factory() : FormFactoryInterface
     {
         if (self::$factory === null) {
             $fb = new FormFactoryBuilder();
@@ -114,7 +115,7 @@ class datamanager
         $translator->addResource('xlf', $path . '/Resources/translations/validators.' . $lang . '.xlf', $lang);
     }
 
-    public static function from_schemadb($path)
+    public static function from_schemadb($path) : self
     {
         return new static(schemadb::from_path($path));
     }
@@ -124,7 +125,7 @@ class datamanager
      * @param array $defaults
      * @return \midcom\datamanager\datamanager
      */
-    public function set_defaults(array $defaults)
+    public function set_defaults(array $defaults) : self
     {
         $this->defaults = $defaults;
         return $this;
@@ -136,7 +137,7 @@ class datamanager
      * @param string $schema
      * @return \midcom\datamanager\datamanager
      */
-    public function set_storage(midcom_core_dbaobject $storage = null, $schemaname = null)
+    public function set_storage(midcom_core_dbaobject $storage = null, $schemaname = null) : self
     {
         if (   $schemaname === null
             && !empty($storage->id)) {
@@ -181,7 +182,7 @@ class datamanager
      * @param string $name
      * @return \midcom\datamanager\schema
      */
-    public function get_schema($name = null)
+    public function get_schema($name = null) : schema
     {
         if ($name) {
             return $this->schemadb->get($name);
@@ -196,7 +197,7 @@ class datamanager
      *
      * @return storage\container\container
      */
-    public function get_storage()
+    public function get_storage() : container
     {
         if (!$this->storage) {
             $this->set_storage(null);
@@ -208,7 +209,7 @@ class datamanager
      *
      * @return renderer
      */
-    public function get_renderer($template = null, $skip_empty = false)
+    public function get_renderer($template = null, $skip_empty = false) : renderer
     {
         if ($this->renderer === null) {
             $this->renderer = new renderer(new engine);
@@ -234,7 +235,7 @@ class datamanager
      * @param string $name
      * @return controller
      */
-    public function get_controller($name = null)
+    public function get_controller($name = null) : controller
     {
         return new controller($this, $name);
     }
@@ -245,7 +246,7 @@ class datamanager
      * @param boolean $reset
      * @return Form
      */
-    public function get_form($name = null, $reset = false)
+    public function get_form($name = null, $reset = false) : Form
     {
         if ($reset) {
             $this->form = null;
@@ -279,7 +280,7 @@ class datamanager
         return $this->form;
     }
 
-    public function get_content_raw()
+    public function get_content_raw() : array
     {
         $ret = [];
 
@@ -296,7 +297,7 @@ class datamanager
         return $ret;
     }
 
-    public function get_content_csv()
+    public function get_content_csv() : array
     {
         $ret = [];
 
@@ -311,7 +312,7 @@ class datamanager
         return $ret;
     }
 
-    public function get_content_html()
+    public function get_content_html() : array
     {
         $ret = [];
 
@@ -331,7 +332,7 @@ class datamanager
         echo $renderer->block($renderer->get_view(), 'form');
     }
 
-    public function recreate()
+    public function recreate() : bool
     {
         $ret = true;
         foreach ($this->storage as $field) {

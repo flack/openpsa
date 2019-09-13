@@ -109,7 +109,7 @@ class blobs extends delayed
         $this->save_attachment_list();
     }
 
-    public function move_uploaded_files()
+    public function move_uploaded_files() : int
     {
         $total_moved = 0;
 
@@ -140,7 +140,7 @@ class blobs extends delayed
      *
      * @return boolean
      */
-    protected function save_attachment_list()
+    protected function save_attachment_list() : bool
     {
         if (!empty($this->config['widget_config']['sortable'])) {
             uasort($this->map, function ($a, $b) {
@@ -163,7 +163,7 @@ class blobs extends delayed
      *
      * @return array
      */
-    protected function load_attachment_list()
+    protected function load_attachment_list() : array
     {
         $map = [];
         $raw_list = $this->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->config['name']}");

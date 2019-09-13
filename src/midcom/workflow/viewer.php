@@ -12,13 +12,14 @@ use midcom_response_styled;
 use midcom_core_context;
 use midcom;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @package midcom.workflow
  */
 class viewer extends dialog
 {
-    public function get_button_config()
+    public function get_button_config() : array
     {
         return [
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view', 'midcom'),
@@ -28,7 +29,7 @@ class viewer extends dialog
         ];
     }
 
-    public function run(Request $request)
+    public function run(Request $request) : Response
     {
         $context = midcom_core_context::get();
         $this->add_dialog_js();

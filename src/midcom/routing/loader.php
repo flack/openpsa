@@ -79,7 +79,7 @@ class loader extends base
      * @param array $input
      * @return string
      */
-    private function translate_validation(array $input)
+    private function translate_validation(array $input) : string
     {
         foreach ($input as &$value) {
             if (in_array($value, ['is_numeric', 'is_int'])) {
@@ -110,7 +110,7 @@ class loader extends base
      * @param string $component
      * @return boolean
      */
-    private function is_legacy($component)
+    private function is_legacy($component) : bool
     {
         return !file_exists($this->get_path($component, 'yml'));
     }
@@ -118,7 +118,7 @@ class loader extends base
     /**
      * @return \Symfony\Component\Routing\Loader\YamlFileLoader
      */
-    private function get_yaml()
+    private function get_yaml() : YamlFileLoader
     {
         if (empty($this->yaml_loader)) {
             $this->yaml_loader = new YamlFileLoader(new FileLocator);
@@ -126,7 +126,7 @@ class loader extends base
         return $this->yaml_loader;
     }
 
-    private function get_path($component, $suffix)
+    private function get_path($component, $suffix) : string
     {
         return midcom::get()->componentloader->path_to_snippetpath($component) . '/config/routes.' . $suffix;
     }
@@ -135,7 +135,7 @@ class loader extends base
      * @param string $component
      * @return array
      */
-    public function get_legacy_routes($component)
+    public function get_legacy_routes($component) : array
     {
         $routes = [];
         if (!$this->is_legacy($component)) {
@@ -149,7 +149,7 @@ class loader extends base
         return array_merge($routes, $this->load_routes($component));
     }
 
-    private function load_routes($component)
+    private function load_routes($component) : array
     {
         $path = $this->get_path($component, 'inc');
         // Load and parse the global config

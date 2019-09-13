@@ -67,7 +67,7 @@ class repligard extends Command
         }
     }
 
-    private function create_connection(InputInterface $input, OutputInterface $output)
+    private function create_connection(InputInterface $input, OutputInterface $output) : PDO
     {
         $config = \midgard_connection::get_instance()->config;
         $defaults = [
@@ -96,7 +96,7 @@ class repligard extends Command
         return new PDO($dsn, $username, $password);
     }
 
-    private function _confirm(InputInterface $input, OutputInterface $output, $question, $default = false)
+    private function _confirm(InputInterface $input, OutputInterface $output, $question, $default = false) : bool
     {
         $question = '<question>' . $question;
         $options = [true => 'y', false => 'n'];

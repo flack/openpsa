@@ -98,7 +98,7 @@ trait parameters
      * @param string $domain The parameter domain to query, this may be null to indicate a full listing.
      * @return array Parameter list (see above for details) or false on failure.
      */
-    public function list_parameters($domain = null)
+    public function list_parameters($domain = null) : array
     {
         if (!$this->guid) {
             debug_add('Cannot retrieve information on a non-persistent object.', MIDCOM_LOG_INFO);
@@ -121,7 +121,7 @@ trait parameters
      * @return array Parameter listing.
      * @see list_parameters()
      */
-    private function list_parameters_domain($domain)
+    private function list_parameters_domain($domain) : array
     {
         if (!isset(self::$parameter_cache[$this->guid])) {
             self::$parameter_cache[$this->guid] = [];
@@ -154,7 +154,7 @@ trait parameters
      * @return array Parameter listing
      * @see list_parameters()
      */
-    private function list_parameters_all()
+    private function list_parameters_all() : array
     {
         if (!isset(self::$parameter_cache[$this->guid])) {
             self::$parameter_cache[$this->guid] = [];
@@ -199,7 +199,7 @@ trait parameters
      * @param string $value The Parameter value. If this is empty, the corresponding parameter is deleted.
      * @return bool Indicating success.
      */
-    public function set_parameter($domain, $name, $value)
+    public function set_parameter($domain, $name, $value) : bool
     {
         if (!$this->guid) {
             debug_add('Cannot set parameters on a non-persistent object.', MIDCOM_LOG_WARN);
@@ -252,7 +252,7 @@ trait parameters
      * @param string $name The Parameter name.
      * @return bool Indicating success.
      */
-    public function delete_parameter($domain, $name)
+    public function delete_parameter($domain, $name) : bool
     {
         if (!$this->guid) {
             debug_add('Cannot delete parameters on a non-persistent object.', MIDCOM_LOG_WARN);

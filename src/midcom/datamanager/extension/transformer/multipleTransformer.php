@@ -112,7 +112,7 @@ class multipleTransformer implements DataTransformerInterface
      * @param array $array
      * @return string The imploded data string.
      */
-    private function get_imploded_options(array $array)
+    private function get_imploded_options(array $array) : string
     {
         $glue = $this->multiple_separator;
 

@@ -54,7 +54,7 @@ trait attachments
      * @param string $name The name of the attachment to delete.
      * @return bool Indicating success.
      */
-    public function delete_attachment($name)
+    public function delete_attachment($name) : bool
     {
         $attachment = $this->get_attachment($name);
 
@@ -135,7 +135,7 @@ trait attachments
      *
      * @return midcom_db_attachment[] A list of attachments
      */
-    public function list_attachments()
+    public function list_attachments() : array
     {
         if (!$this->id) {
             debug_add('Cannot retrieve attachments on a non-persistent object.', MIDCOM_LOG_INFO);

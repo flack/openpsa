@@ -14,7 +14,7 @@ class form extends base
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.datamanager/default.css");
     }
 
-    private function get_view_renderer()
+    private function get_view_renderer() : view
     {
         return new view($this->renderer);
     }

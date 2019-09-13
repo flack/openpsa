@@ -150,7 +150,7 @@ class grid
      *
      * @return string
      */
-    public function get_identifier()
+    public function get_identifier() : string
     {
         return $this->_identifier;
     }
@@ -162,7 +162,7 @@ class grid
      * @param mixed $value The option's value
      * @param boolean $autoquote_string Should string values be quoted
      */
-    public function set_option($key, $value, $autoquote_string = true)
+    public function set_option($key, $value, $autoquote_string = true) : self
     {
         $this->_raw_options[$key] = $value;
         if (   $autoquote_string
@@ -195,7 +195,7 @@ class grid
      * @param string $options The column's options
      * @param array $selectdata Should the column have a separate index, if so, which sort type
      */
-    public function set_select_column($name, $label, $options, array $selectdata)
+    public function set_select_column($name, $label, $options, array $selectdata) : self
     {
         $selectstring = implode(';', array_map(
             function ($key, $value) {
@@ -222,7 +222,7 @@ class grid
      * @param string $options The column's options
      * @param string $separate_index Should the column have a separate index, if so, which sort type
      */
-    public function set_column($name, $label, $options = '', $separate_index = false)
+    public function set_column($name, $label, $options = '', $separate_index = false) : self
     {
         if (empty($name)) {
             throw new midcom_error('Invalid column name ' . $name);
@@ -235,7 +235,7 @@ class grid
         return $this;
     }
 
-    public function add_pager($rows_per_page = 30)
+    public function add_pager($rows_per_page = 30) : self
     {
         $this->set_option('pager', '#p_' . $this->_identifier);
         $this->set_option('rowNum', $rows_per_page);
@@ -346,7 +346,7 @@ class grid
         return $string;
     }
 
-    private function _render_colmodel()
+    private function _render_colmodel() : string
     {
         $string = "colModel: [\n";
         $total_columns = count($this->_columns);

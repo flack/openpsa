@@ -101,7 +101,7 @@ class mnrelation extends delayed
         }
     }
 
-    private function load_objects()
+    private function load_objects() : array
     {
         $qb = midcom::get()->dbfactory->new_query_builder($this->config['type_config']['mapping_class_name']);
         $qb->add_constraint($this->config['type_config']['master_fieldname'], '=', $this->get_master_foreign_key());

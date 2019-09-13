@@ -68,7 +68,7 @@ class dbacollection extends delayed
         }
     }
 
-    private function create_container(array $data)
+    private function create_container(array $data) : dbacontainer
     {
         $object = new $this->config['type_config']['mapping_class_name'];
         $object->{$this->config['type_config']['master_fieldname']} = $this->get_master_foreign_key();

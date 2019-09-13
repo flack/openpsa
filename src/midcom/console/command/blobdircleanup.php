@@ -66,7 +66,7 @@ class blobdircleanup extends Command
         }
     }
 
-    private function _determine_location($path)
+    private function _determine_location($path) : string
     {
         return ltrim(str_replace($this->_dir, "", $path), "/");
     }

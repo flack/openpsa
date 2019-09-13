@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use midcom;
 use midcom_core_context;
+use midcom_services_i18n_l10n;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 /**
@@ -57,7 +58,7 @@ class schema
      *
      * @return string
      */
-    public function get_name()
+    public function get_name() : string
     {
         return $this->name;
     }
@@ -79,7 +80,7 @@ class schema
         }
     }
 
-    public function has_field($name)
+    public function has_field($name) : bool
     {
         return array_key_exists($name, $this->config['fields']);
     }
@@ -98,7 +99,7 @@ class schema
         return $this->config['fields'][$name];
     }
 
-    public function get_defaults()
+    public function get_defaults() : array
     {
         $defaults = [];
         foreach ($this->config['fields'] as $name => $config) {
@@ -113,7 +114,7 @@ class schema
      *
      * @return \midcom_services_i18n_l10n
      */
-    public function get_l10n()
+    public function get_l10n() : midcom_services_i18n_l10n
     {
         // Populate the l10n_schema member
         if (array_key_exists('l10n_db', $this->config)) {
@@ -134,7 +135,7 @@ class schema
         }
     }
 
-    private function resolve_field_options(array $config, $name)
+    private function resolve_field_options(array $config, $name) : array
     {
         $resolver = new OptionsResolver();
 

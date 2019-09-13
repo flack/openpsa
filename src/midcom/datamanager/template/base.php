@@ -101,7 +101,7 @@ abstract class base
         return $this->renderer->block($view, 'choice_widget_collapsed');
     }
 
-    public function button_attributes(FormView $view, array $data)
+    public function button_attributes(FormView $view, array $data) : string
     {
         $attributes = $data['attr'];
         $attributes['id'] = $data['id'];
@@ -113,12 +113,12 @@ abstract class base
         return $this->attributes($attributes);
     }
 
-    public function escape($input)
+    public function escape($input) : string
     {
         return htmlentities($input, ENT_COMPAT, 'utf-8');
     }
 
-    public function attributes(array $attributes, $autoescape = false)
+    public function attributes(array $attributes, $autoescape = false) : string
     {
         $rendered = [];
         foreach ($attributes as $name => $value) {
@@ -136,7 +136,7 @@ abstract class base
         return implode(' ', $rendered);
     }
 
-    public function jsinit($code)
+    public function jsinit($code) : string
     {
         return "<script>\$(document).ready(function() { $code });</script>";
     }

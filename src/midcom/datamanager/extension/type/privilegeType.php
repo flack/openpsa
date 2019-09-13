@@ -51,7 +51,7 @@ class privilegeType extends AbstractType
         $view->vars['effective_value'] = $this->get_effective_value($options['type_config'], $form);
     }
 
-    private function get_effective_value(array $options, FormInterface $form)
+    private function get_effective_value(array $options, FormInterface $form) : bool
     {
         $data = $form->getParent()->getData();
         if ($data instanceof dbacontainer) {

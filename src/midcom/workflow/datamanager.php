@@ -55,7 +55,7 @@ class datamanager extends dialog
             ->setAllowedTypes('controller', ['null', '\midcom\datamanager\controller']);
     }
 
-    public function get_button_config()
+    public function get_button_config() : array
     {
         return [
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_l10n('midcom')->get('edit'),
@@ -67,7 +67,7 @@ class datamanager extends dialog
         ];
     }
 
-    public function run(Request $request)
+    public function run(Request $request) : Response
     {
         $this->state = $this->controller->handle($request);
 
@@ -119,7 +119,7 @@ class datamanager extends dialog
         midcom::get()->head->add_jscript('add_dialog_button(' . $this->prepare_url($url) . ', "' . $config[MIDCOM_TOOLBAR_LABEL] . '", ' . json_encode($config[MIDCOM_TOOLBAR_OPTIONS]) . ');');
     }
 
-    private function prepare_url($url)
+    private function prepare_url($url) : string
     {
         if (   substr($url, 0, 1) != '/'
             && ! preg_match('|^https?://|', $url)) {

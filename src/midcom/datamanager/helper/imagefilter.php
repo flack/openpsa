@@ -39,7 +39,7 @@ class imagefilter
         $this->save_archival = $save_archival;
     }
 
-    public function process(midcom_db_attachment $source, array $existing)
+    public function process(midcom_db_attachment $source, array $existing) : array
     {
         if ($this->save_archival) {
             $path = $source->location;
@@ -68,7 +68,7 @@ class imagefilter
      * @param string $identifier
      * @return midcom_db_attachment
      */
-    private function get_attachment(midcom_db_attachment $input, array $existing, $identifier)
+    private function get_attachment(midcom_db_attachment $input, array $existing, $identifier) : midcom_db_attachment
     {
         // upload case
         if ($input->id == 0) {
@@ -107,7 +107,7 @@ class imagefilter
         }
     }
 
-    private function create_main_image(midcom_db_attachment $input, array $existing)
+    private function create_main_image(midcom_db_attachment $input, array $existing) : midcom_db_attachment
     {
         $source = $input->location;
         $attachment = $this->get_attachment($input, $existing, 'main');

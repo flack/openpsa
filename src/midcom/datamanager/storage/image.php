@@ -16,7 +16,7 @@ class image extends blobs implements recreateable
 {
     protected $save_archival = false;
 
-    public function recreate()
+    public function recreate() : bool
     {
         $existing = $this->load();
         if (array_key_exists('archival', $existing)) {

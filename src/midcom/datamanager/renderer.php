@@ -33,7 +33,7 @@ class renderer extends FormRenderer
     /**
      * @return \Symfony\Component\Form\FormView
      */
-    public function get_view()
+    public function get_view() : FormView
     {
         return $this->view;
     }

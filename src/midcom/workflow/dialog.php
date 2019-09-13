@@ -63,7 +63,7 @@ abstract class dialog
     /**
      * @return string
      */
-    public function get_state()
+    public function get_state() : string
     {
         return $this->state;
     }
@@ -74,7 +74,7 @@ abstract class dialog
      * @param array $options
      * @return array button config in midcom_helper_toolbar format
      */
-    public function get_button($url, array $options = [])
+    public function get_button($url, array $options = []) : array
     {
         static::add_head_elements();
         $button_config = $this->get_button_config();
@@ -97,7 +97,7 @@ abstract class dialog
      *
      * @return string
      */
-    public function render_attributes()
+    public function render_attributes() : string
     {
         $button_config = $this->get_button_config();
 

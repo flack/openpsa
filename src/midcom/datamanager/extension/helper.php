@@ -22,7 +22,7 @@ class helper
         }
     }
 
-    public static function normalize(array $defaults, array $values)
+    public static function normalize(array $defaults, array $values) : array
     {
         //@todo: This line makes backward compat easier, but circumvents some validation.
         $values = array_intersect_key($values, $defaults);

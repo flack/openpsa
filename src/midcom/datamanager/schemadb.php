@@ -15,12 +15,12 @@ class schemadb
 {
     private $schemas = [];
 
-    public static function from_path($path)
+    public static function from_path($path) : self
     {
         return new static(static::load_from_path($path));
     }
 
-    private static function load_from_path($path)
+    private static function load_from_path($path) : array
     {
         $data = midcom_helper_misc::get_snippet_content($path);
         return midcom_helper_misc::parse_config($data);
@@ -116,7 +116,7 @@ class schemadb
     /**
      * @return schema[]
      */
-    public function all()
+    public function all() : array
     {
         return $this->schemas;
     }
@@ -125,7 +125,7 @@ class schemadb
      *
      * @return schema
      */
-    public function get_first()
+    public function get_first() : schema
     {
         if (empty($this->schemas)) {
             throw new midcom_error('Schema DB is empty');
@@ -133,7 +133,7 @@ class schemadb
         return reset($this->schemas);
     }
 
-    public function has($name)
+    public function has($name) : bool
     {
         return array_key_exists($name, $this->schemas);
     }
@@ -142,7 +142,7 @@ class schemadb
      * @param string $name
      * @return schema
      */
-    public function get($name)
+    public function get($name) : schema
     {
         if (!array_key_exists($name, $this->schemas)) {
             throw new midcom_error('Schema ' . $name . ' not found in schemadb');

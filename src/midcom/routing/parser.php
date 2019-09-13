@@ -118,7 +118,7 @@ class parser
      * @throws \midcom_error
      * @return midcom_db_topic
      */
-    public function find_topic()
+    public function find_topic() : midcom_db_topic
     {
         $this->current = $this->context->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
         if (!$this->current) {

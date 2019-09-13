@@ -42,7 +42,7 @@ class dbacontainer extends container
         }
     }
 
-    public function lock()
+    public function lock() : bool
     {
         if (!$this->object->id) {
             return true;
@@ -50,7 +50,7 @@ class dbacontainer extends container
         return $this->object->metadata->lock();
     }
 
-    public function unlock()
+    public function unlock() : bool
     {
         if (!$this->object->id) {
             return true;
@@ -61,7 +61,7 @@ class dbacontainer extends container
         return false;
     }
 
-    public function is_locked()
+    public function is_locked() : bool
     {
         return $this->object->metadata->is_locked();
     }
@@ -87,7 +87,7 @@ class dbacontainer extends container
      * @param array $config
      * @return node
      */
-    private function prepare_field(array $config)
+    private function prepare_field(array $config) : node
     {
         if (   empty($config['storage']['location'])
                // This line is needed because a parameter default is set by the schema parser and then ignored
@@ -129,7 +129,7 @@ class dbacontainer extends container
         }
     }
 
-    public function move_uploaded_files()
+    public function move_uploaded_files() : int
     {
         $total_moved = 0;
         foreach ($this->fields as $node) {

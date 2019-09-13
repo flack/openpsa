@@ -50,7 +50,7 @@ class resolver
      * @param array $request_switch
      * @return \Symfony\Component\Routing\Router
      */
-    public static function get_router($component, array $request_switch = [])
+    public static function get_router($component, array $request_switch = []) : Router
     {
         $loader = new loader;
         if (!empty($request_switch)) {
@@ -68,7 +68,7 @@ class resolver
      * @throws midcom_error_notfound
      * @return boolean
      */
-    public function process_midcom()
+    public function process_midcom() : bool
     {
         if ($url = $this->parser->find_urlmethod()) {
             $router = self::get_router('midcom');

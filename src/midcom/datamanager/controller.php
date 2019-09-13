@@ -56,7 +56,7 @@ class controller
      * @param Request $request
      * @return string The processing result
      */
-    public function handle(Request $request)
+    public function handle(Request $request) : string
     {
         $operation = self::EDIT;
 
@@ -98,7 +98,7 @@ class controller
      * @deprecated Use handle() instead
      * @return string
      */
-    public function process()
+    public function process() : string
     {
         return $this->handle(Request::createFromGlobals());
     }
@@ -106,7 +106,7 @@ class controller
     /**
      * @return \midcom\datamanager\datamanager
      */
-    public function get_datamanager()
+    public function get_datamanager() : datamanager
     {
         return $this->dm;
     }
@@ -115,7 +115,7 @@ class controller
      *
      * @return array
      */
-    public function get_errors()
+    public function get_errors() : array
     {
         $errors = [];
         foreach ($this->form as $child) {

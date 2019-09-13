@@ -102,7 +102,7 @@ class autocomplete
         }
     }
 
-    private function get_search_constraints()
+    private function get_search_constraints() : array
     {
         $constraints = [];
         $query = $this->request["term"];
@@ -145,7 +145,7 @@ class autocomplete
         return $constraints;
     }
 
-    public function get_querystring()
+    public function get_querystring() : string
     {
         $query = $this->request["term"];
         $wildcard_query = $query;
@@ -171,12 +171,12 @@ class autocomplete
         return $wildcard_query;
     }
 
-    public function get_objects()
+    public function get_objects() : array
     {
         return $this->prepare_qb()->execute();
     }
 
-    public function get_results()
+    public function get_results() : array
     {
         if (empty($this->request["id_field"])) {
             throw new midcom_error("Empty ID field.");
@@ -236,7 +236,7 @@ class autocomplete
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.js');
     }
 
-    public static function get_widget_config($type)
+    public static function get_widget_config($type) : array
     {
         $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.datamanager/autocomplete.php';
 
@@ -246,7 +246,7 @@ class autocomplete
         return $config;
     }
 
-    public static function create_item_label($object, $result_headers, $titlefield)
+    public static function create_item_label($object, $result_headers, $titlefield) : string
     {
         $label = [];
         if (!empty($titlefield)) {
@@ -264,7 +264,7 @@ class autocomplete
         return get_class($object) . ' #' . $object->id;
     }
 
-    private static function build_label($object, array $fields)
+    private static function build_label($object, array $fields) : string
     {
         $label = [];
         foreach ((array) $fields as $field) {
@@ -275,7 +275,7 @@ class autocomplete
         return implode(', ', $label);
     }
 
-    private static function get_property_string($object, $item_name)
+    private static function get_property_string($object, $item_name) : string
     {
         if (preg_match('/^metadata\.(.+)$/', $item_name, $regs)) {
             $metadata_property = $regs[1];
@@ -312,7 +312,7 @@ class autocomplete
         return self::sanitize_label($object->$item_name);
     }
 
-    private static function sanitize_label($input)
+    private static function sanitize_label($input) : string
     {
         return trim(strip_tags((string) $input));
     }

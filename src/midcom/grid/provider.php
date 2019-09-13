@@ -130,7 +130,7 @@ class provider
         $this->_datatype = $grid->get_option('datatype');
     }
 
-    public function get_grid($identifier = null)
+    public function get_grid($identifier = null) : grid
     {
         if (null !== $identifier) {
             $this->_grid = new grid($identifier, $this->_datatype);
@@ -151,7 +151,7 @@ class provider
         }
     }
 
-    public function get_rows()
+    public function get_rows() : array
     {
         if ($this->_rows === null) {
             $this->_get_rows();
@@ -182,7 +182,7 @@ class provider
         return $this->_client->get_qb($field, $this->_sort_direction, $this->_search);
     }
 
-    public function count_rows()
+    public function count_rows() : int
     {
         if ($this->_total_rows === null) {
             $qb = $this->_prepare_query();
@@ -237,7 +237,7 @@ class provider
         return $this->_grid->get_option($key);
     }
 
-    private function _convert_to_localdata()
+    private function _convert_to_localdata() : string
     {
         return "var " . $this->_grid->get_identifier() . '_entries = ' .  json_encode($this->get_rows()) . ";\n";
     }

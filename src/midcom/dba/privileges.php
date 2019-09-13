@@ -62,7 +62,7 @@ trait privileges
      * @return boolean Indicating success.
      * @see \midcom_services_auth
      */
-    public function set_privilege($privilege, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
+    public function set_privilege($privilege, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '') : bool
     {
         if (   !$this->can_do('midgard:update')
             || !$this->can_do('midgard:privileges')) {
@@ -92,7 +92,7 @@ trait privileges
      *     (invalid if $privilege is a midcom_core_privilege).
      * @return boolean Indicating Success.
      */
-    public function unset_privilege($privilege, $assignee = null, $classname = '')
+    public function unset_privilege($privilege, $assignee = null, $classname = '') : bool
     {
         if (   !$this->can_do('midgard:update')
             || !$this->can_do('midgard:privileges')) {
@@ -147,7 +147,7 @@ trait privileges
      *
      * @return boolean Indicating success.
      */
-    public function unset_all_privileges()
+    public function unset_all_privileges() : bool
     {
         $privileges = $this->get_privileges();
         if (!$privileges) {
@@ -176,7 +176,7 @@ trait privileges
      * @param string $classname An optional class name to which a SELF privilege gets restricted to. Only valid for SELF privileges.
      * @return midcom_core_privilege The newly created privilege record.
      */
-    public function create_new_privilege_object($name, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
+    public function create_new_privilege_object($name, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '') : midcom_core_privilege
     {
         if (!$this->can_do('midgard:privileges')) {
             throw new midcom_error('Could not create a new privilege, permission denied.');

@@ -90,7 +90,7 @@ class tinymceType extends AbstractType
         return $config;
     }
 
-    private function get_snippet(array $tiny_configuration)
+    private function get_snippet(array $tiny_configuration) : string
     {
         $config = $tiny_configuration['config'];
         $local_config = $tiny_configuration['local_config'];
@@ -120,7 +120,7 @@ EOT;
      *
      * @param FormInterface $form
      */
-    private function get_image_popup(FormInterface $form)
+    private function get_image_popup(FormInterface $form) : string
     {
         $hostname = midcom::get()->get_host_name();
         $prefix = \midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
