@@ -11,8 +11,13 @@ $navi->draw();
         minExpandLevel: 1,
         extensions: ['persist'],
         persist: {
-            types: 'expanded'
+            types: 'expanded',
+            expandOpts: {
+                noAnimation: true,
+                noEvents: false
+            }
         },
+
         clickFolderMode: 3,
         autoCollapse: false,
         debugLevel: -1,
