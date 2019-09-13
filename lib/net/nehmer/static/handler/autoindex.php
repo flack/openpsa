@@ -96,7 +96,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      *
      * @return Array Autoindex objects as outlined above
      */
-    private function _load_autoindex_data()
+    private function _load_autoindex_data() : array
     {
         $view = [];
         $datamanager = new datamanager($this->_request_data['schemadb']);

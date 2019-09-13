@@ -56,7 +56,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     /**
      * Link to the parent object specified in the objectguid field.
      */
-    public function get_parent_guid_uncached()
+    public function get_parent_guid_uncached() : string
     {
         return $this->objectguid;
     }
@@ -108,7 +108,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      *
      * @return int Number of comments matching a given result.
      */
-    public static function count_by_objectguid($guid)
+    public static function count_by_objectguid($guid) : int
     {
         $qb = self::_prepare_query($guid);
         return $qb->count_unchecked();
@@ -121,7 +121,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      *
      * @return int Number of comments matching a given result.
      */
-    public static function count_by_objectguid_filter_anonymous($guid)
+    public static function count_by_objectguid_filter_anonymous($guid) : int
     {
         $qb = self::_prepare_query($guid);
         $qb->add_constraint('author', '<>', '');
@@ -178,7 +178,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         }
     }
 
-    public function report_abuse()
+    public function report_abuse() : bool
     {
         if ($this->status == self::MODERATED) {
             return false;
@@ -203,7 +203,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     /**
      * Marks the message as confirmed abuse
      */
-    public function confirm_abuse()
+    public function confirm_abuse() : bool
     {
         if ($this->status == self::MODERATED) {
             return false;
@@ -226,7 +226,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     /**
      * Marks the message as confirmed junk (spam)
      */
-    public function confirm_junk()
+    public function confirm_junk() : bool
     {
         if ($this->status == self::MODERATED) {
             return false;
@@ -250,7 +250,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     /**
      * Marks the message as not abuse
      */
-    public function report_not_abuse()
+    public function report_not_abuse() : bool
     {
         if (   !$this->can_do('net.nehmer.comments:moderation')
             || $this->_sudo_requested) {
@@ -268,7 +268,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         return false;
     }
 
-    public function get_logs()
+    public function get_logs() : array
     {
         $log_entries = [];
         $logs = $this->list_parameters('net.nehmer.comments:moderation_log');
@@ -328,7 +328,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $this->set_parameter('net.nehmer.comments:moderation_log', implode(':', $log_action), implode(':', $log_details));
     }
 
-    public static function get_default_status()
+    public static function get_default_status() : array
     {
         $view_status = [
             self::NEW_ANONYMOUS,
@@ -444,7 +444,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     /**
      * Construct the message
      */
-    private function _construct_message()
+    private function _construct_message() : array
     {
         // Construct the message
         $message = [];

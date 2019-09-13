@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
+use midcom\datamanager\controller;
 
 /**
  * @package net.nemein.redirector
@@ -31,7 +32,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * @return \midcom\datamanager\controller
      */
-    private function load_controller()
+    private function load_controller() : controller
     {
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_tinyurl'));
         $dm->set_storage($this->_tinyurl);
@@ -62,7 +63,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      * @param mixed $rule
      * @return net_nemein_redirector_tinyurl_dba
      */
-    private function _get_item($rule)
+    private function _get_item($rule) : net_nemein_redirector_tinyurl_dba
     {
         $qb = net_nemein_redirector_tinyurl_dba::new_query_builder();
         $qb->add_constraint('node', '=', $this->_topic->guid);

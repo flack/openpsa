@@ -103,7 +103,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_viewer
      * @param integer $id The topic ID
      * @return midcom_core_querybuilder The querybuilder instance
      */
-    public static function get_topic_qb(midcom_helper_configuration $config, $id, $order = true)
+    public static function get_topic_qb(midcom_helper_configuration $config, $id, $order = true) : midcom_core_querybuilder
     {
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('topic', '=', $id);

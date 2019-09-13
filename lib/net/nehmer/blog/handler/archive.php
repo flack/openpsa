@@ -109,7 +109,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param DateTime $end End of the timeframe (exclusive)
      * @return int Posting count
      */
-    private function _compute_welcome_posting_count(DateTime $start, DateTime $end)
+    private function _compute_welcome_posting_count(DateTime $start, DateTime $end) : int
     {
         $qb = midcom_db_article::new_query_builder();
 
@@ -194,7 +194,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         }
     }
 
-    private function _get_month_names()
+    private function _get_month_names() : array
     {
         $names = [];
         $formatter = $this->_l10n->get_formatter();

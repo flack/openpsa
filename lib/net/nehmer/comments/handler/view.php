@@ -266,7 +266,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      *
      * @return int Last-Modified Timestamp
      */
-    private function _get_last_modified()
+    private function _get_last_modified() : int
     {
         return array_reduce($this->_comments, function ($carry, net_nehmer_comments_comment $item) {
             return max($item->metadata->revised, $carry);

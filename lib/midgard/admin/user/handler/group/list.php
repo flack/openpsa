@@ -184,7 +184,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
      * @param int $id
      * @param int $owner
      */
-    public static function belongs_to($id, $owner)
+    public static function belongs_to($id, $owner) : bool
     {
         if ($id === $owner) {
             return true;

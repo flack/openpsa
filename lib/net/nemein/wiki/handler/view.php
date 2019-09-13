@@ -199,7 +199,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * It looks for all H<num> tags and converts them to named
      * anchors, and prepends a list of links to them to the start of HTML.
      */
-    private function _autogenerate_toc($content)
+    private function _autogenerate_toc($content) : string
     {
         if (!preg_match_all("/(<(h([1-9][0-9]*))[^>]*?>)(.*?)(<\/\\2>)/i", $content, $headings)) {
             return $content;

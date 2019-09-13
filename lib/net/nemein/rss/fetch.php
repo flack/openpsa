@@ -51,7 +51,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * @return SimplePie
      */
-    public static function get_parser()
+    public static function get_parser() : SimplePie
     {
         $parser = new SimplePie;
         $parser->get_registry()->register('Item', net_nemein_rss_parser_item::class);
@@ -76,7 +76,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * @param string $url The URL to fetch
      * @return SimplePie
      */
-    public static function raw_fetch($url)
+    public static function raw_fetch($url) : SimplePie
     {
         $parser = self::get_parser();
         $parser->set_feed_url($url);
@@ -89,7 +89,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      *
      * @return net_nemein_rss_parser_item[] Array of normalized feed items
      */
-    function fetch()
+    function fetch() : array
     {
         $parser = self::raw_fetch($this->_feed->url);
         if ($parser->error()) {
@@ -121,7 +121,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Fetches and imports items in the feed
      */
-    public function import()
+    public function import() : array
     {
         if (!$this->_node->component) {
             return [];
@@ -159,7 +159,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     public function import_item(net_nemein_rss_parser_item $item)
     {
         if ($this->_node->component === 'net.nehmer.blog') {
-                return $this->import_article($item);
+            return $this->import_article($item);
         }
         throw new midcom_error("RSS fetching for component {$this->_node->component} is unsupported");
     }
@@ -263,7 +263,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         return $article->guid;
     }
 
-    private function find_author(net_nemein_rss_parser_item $item)
+    private function find_author(net_nemein_rss_parser_item $item) : midcom_db_person
     {
         // Try to figure out item author
         if (   $this->_feed->forceauthor
@@ -314,7 +314,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         return $article;
     }
 
-    private function apply_values(midcom_db_article $article, array $values, array $meta_values)
+    private function apply_values(midcom_db_article $article, array $values, array $meta_values) : bool
     {
         $updated = false;
 
@@ -375,7 +375,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * @param net_nemein_rss_parser_item $item Feed item as provided by SimplePie
      * @return Array Information found
      */
-    public static function parse_item_author(net_nemein_rss_parser_item $item)
+    public static function parse_item_author(net_nemein_rss_parser_item $item) : array
     {
         $author_info = [];
 

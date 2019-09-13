@@ -17,7 +17,7 @@ class net_nehmer_comments_spamchecker
     const SPAM = 0;
     const HAM = 1;
 
-    public static function check_linksleeve($text)
+    public static function check_linksleeve($text) : int
     {
         $data = 'content=' . $text;
         $buf = "";

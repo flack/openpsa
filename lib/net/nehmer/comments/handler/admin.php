@@ -62,7 +62,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         midcom_show_style('admin-end');
     }
 
-    private function _load_comments()
+    private function _load_comments() : array
     {
         $view_status = [];
         switch ($this->_request_data['handler']) {

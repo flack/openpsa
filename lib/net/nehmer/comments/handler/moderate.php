@@ -117,7 +117,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         }
     }
 
-    private function reply(Request $request)
+    private function reply(Request $request) : midcom_response_relocate
     {
         if ($this->_comment->_sudo_requested) {
             midcom::get()->auth->drop_sudo();

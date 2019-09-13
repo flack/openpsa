@@ -103,7 +103,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
     }
 
-    private function list_watchers()
+    private function list_watchers() : array
     {
         $topic = new midcom_db_topic($this->topic);
         // Get list of people watching this page
@@ -172,7 +172,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
     }
 
-    private function get_diff()
+    private function get_diff() : string
     {
         // Load the RCS handler
         $rcs = midcom::get()->rcs;

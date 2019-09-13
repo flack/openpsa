@@ -66,7 +66,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         }
     }
 
-    private function _get_url(midcom_db_article $article)
+    private function _get_url(midcom_db_article $article) : string
     {
         $view_url = $article->name ?: $article->guid;
 

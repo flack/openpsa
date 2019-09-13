@@ -13,7 +13,7 @@
  */
 trait net_nehmer_blog_handler
 {
-    public function get_url(midcom_db_article $article, $allow_external = false)
+    public function get_url(midcom_db_article $article, $allow_external = false) : string
     {
         if (   $allow_external
             && $this->_config->get('link_to_external_url')
@@ -33,7 +33,7 @@ trait net_nehmer_blog_handler
      * Simple helper, gets the last modified timestamp of the topic combination
      * specified.
      */
-    public function get_last_modified()
+    public function get_last_modified() : int
     {
         // Get last modified timestamp
         $qb = midcom_db_article::new_query_builder();

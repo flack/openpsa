@@ -40,7 +40,7 @@ class net_nemein_wiki_resolver
         return "{$node[MIDCOM_NAV_FULLURL]}{$wikipage->name}/";
     }
 
-    private function _list_wiki_nodes($node, $prefix = '')
+    private function _list_wiki_nodes($node, $prefix = '') : array
     {
         static $nap = null;
         if ($nap === null) {
@@ -83,7 +83,7 @@ class net_nemein_wiki_resolver
      *
      * @return array containing midcom_db_topic and net_nemein_wiki_wikipage objects if found
      */
-    public function path_to_wikipage($path, $force_resolve_folder_tree = false, $force_as_root = false)
+    public function path_to_wikipage($path, $force_resolve_folder_tree = false, $force_as_root = false) : array
     {
         $matches = [
             'wikipage' => null,
@@ -175,7 +175,7 @@ class net_nemein_wiki_resolver
         return $folder_tree[$directory];
     }
 
-    private function _resolve_folder_tree($force_as_root)
+    private function _resolve_folder_tree($force_as_root) : array
     {
         $nap = new midcom_helper_nav();
 

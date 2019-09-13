@@ -41,7 +41,7 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
     /**
      * Check for duplicate names
      */
-    private function duplicate_names()
+    private function duplicate_names() : bool
     {
         $mc = self::new_collector('name', $this->name);
         $mc->add_constraint('node', '=', $this->node);
@@ -59,7 +59,7 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
     /**
      * Trim a tiny url
      */
-    public static function generate()
+    public static function generate() : string
     {
         return midcom_helper_misc::random_string(6, '23456789abcdefghjkmnopqrstuvwxyz');
     }

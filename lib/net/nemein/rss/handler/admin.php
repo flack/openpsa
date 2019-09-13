@@ -23,7 +23,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
             ->get_controller();
     }
 
-    private function _subscribe_feed($feed_url, $feed_title = null)
+    private function _subscribe_feed($feed_url, $feed_title = null) : bool
     {
         // Try to fetch the new feed
         $rss = net_nemein_rss_fetch::raw_fetch($feed_url);

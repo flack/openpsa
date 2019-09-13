@@ -13,7 +13,7 @@
  */
 trait net_nehmer_comments_handler
 {
-    public function populate_post_toolbar(net_nehmer_comments_comment $comment, $viewtype = null)
+    public function populate_post_toolbar(net_nehmer_comments_comment $comment, $viewtype = null) : midcom_helper_toolbar
     {
         $toolbar = new midcom_helper_toolbar();
         $buttons = [];

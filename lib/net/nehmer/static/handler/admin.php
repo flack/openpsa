@@ -27,7 +27,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     /**
      * @return \midcom\datamanager\controller
      */
-    private function load_controller()
+    private function load_controller() : controller
     {
         if (    $this->_config->get('simple_name_handling')
              && !midcom::get()->auth->admin) {

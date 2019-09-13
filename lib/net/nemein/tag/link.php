@@ -52,7 +52,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         return $this->guid;
     }
 
-    private function _sanity_check()
+    private function _sanity_check() : bool
     {
         if (empty($this->fromGuid) || empty($this->fromClass) || empty($this->tag)) {
             debug_add("Sanity check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);

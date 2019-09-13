@@ -79,7 +79,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
      * @param net_nemein_rss_feed_dba $feed
      * @return midcom_helper_toolbar
      */
-    private function create_toolbar(net_nemein_rss_feed_dba $feed)
+    private function create_toolbar(net_nemein_rss_feed_dba $feed) : midcom_helper_toolbar
     {
         $toolbar = new midcom_helper_toolbar();
         $buttons = [];

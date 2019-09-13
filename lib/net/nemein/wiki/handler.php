@@ -13,7 +13,7 @@
  */
 trait net_nemein_wiki_handler
 {
-    public function load_page($wikiword)
+    public function load_page($wikiword) : net_nemein_wiki_wikipage
     {
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
@@ -26,7 +26,7 @@ trait net_nemein_wiki_handler
         throw new midcom_error_notfound('The page "' . $wikiword . '" could not be found.');
     }
 
-    public function initialize_index_article(midcom_db_topic $topic)
+    public function initialize_index_article(midcom_db_topic $topic) : net_nemein_wiki_wikipage
     {
         $page = new net_nemein_wiki_wikipage();
         $page->topic = $topic->id;

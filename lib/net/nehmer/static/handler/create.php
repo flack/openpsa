@@ -29,7 +29,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
      * @param array $defaults
      * @return \midcom\datamanager\controller
      */
-    private function load_controller($schemaname, array $defaults)
+    private function load_controller($schemaname, array $defaults) : controller
     {
         if ($this->_config->get('simple_name_handling')) {
             $this->_request_data['schemadb']->get($schemaname)->get_field('name')['hidden'] = true;

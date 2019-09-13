@@ -54,7 +54,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
      * @param array $data   Request data
      * @return String containing redirection URL
      */
-    public static function topic_links_to(array $data)
+    public static function topic_links_to(array $data) : string
     {
         switch ($data['config']->get('redirection_type')) {
             case 'node':
