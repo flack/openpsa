@@ -14,7 +14,6 @@
 class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
 {
     /**
-     *
      * @var midcom_db_topic
      */
     private $topic;
@@ -37,6 +36,12 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
     {
         $this->add_commands();
         return parent::is_rendered();
+    }
+
+    public function add_item($item, $before = -1)
+    {
+        $this->add_commands();
+        parent::add_item($item, $before);
     }
 
     private function add_commands()
@@ -133,6 +138,8 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('delete folder', 'midcom.admin.folder')
             ]);
         }
-        $this->add_items($buttons);
+        foreach ($buttons as $button) {
+            $this->items[] = $this->clean_item($button);
+        }
     }
 }
