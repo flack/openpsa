@@ -66,8 +66,7 @@
     "prefer-stable": true,
     "minimum-stability": "dev",
     "suggest": {
-        "ezyang/htmlpurifier": "^4.7",
-        "openpsa/midcom-console": "dev-master"
+        "ezyang/htmlpurifier": "^4.7"
     },
     "provide": {
         "midgard/midcom": "*",
