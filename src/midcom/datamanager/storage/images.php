@@ -96,7 +96,8 @@ class images extends blobs implements recreateable
             }
         }
 
-        return $this->save_image_map($map) && $this->save_attachment_list();
+        $this->save_image_map($map);
+        $this->save_attachment_list();
     }
 
     private function save_image_map(array $map)

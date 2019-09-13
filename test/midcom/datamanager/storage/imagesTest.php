@@ -10,7 +10,6 @@ namespace midcom\datamanager\test;
 use openpsa_testcase;
 use midcom;
 use midcom_db_attachment;
-use midcom\datamanager\storage\blobs;
 use midcom\datamanager\storage\images;
 
 class imagesTest extends openpsa_testcase
@@ -47,7 +46,7 @@ class imagesTest extends openpsa_testcase
 
         $storage = new images($topic, ['name' => 'testname', 'type_config' => []]);
         $storage->set_value(['identifier' => ['main' => $att], 0 => ['file' => $new_att]]);
-        $this->assertTrue($storage->save());
+        $storage->save();
         midcom::get()->auth->drop_sudo();
 
         $result = $storage->load();

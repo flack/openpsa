@@ -42,7 +42,7 @@ class blobsTest extends openpsa_testcase
 
         $storage = new blobs($topic, ['name' => 'testname']);
         $storage->set_value(['identifier' => $att, 0 => $new_att]);
-        $this->assertTrue($storage->save());
+        $storage->save();
         midcom::get()->auth->drop_sudo();
 
         $result = $storage->load();

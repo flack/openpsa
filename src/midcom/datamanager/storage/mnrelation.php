@@ -51,7 +51,6 @@ class mnrelation extends delayed
                 throw new midcom_error("Failed to delete member record for key {$key}: " . midcom_connection::get_error_string());
             }
         }
-        return true;
     }
 
     /**

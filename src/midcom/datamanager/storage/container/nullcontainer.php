@@ -62,6 +62,5 @@ class nullcontainer extends container
 
     public function save()
     {
-        return true;
     }
 }

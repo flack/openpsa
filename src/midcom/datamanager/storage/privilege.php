@@ -36,7 +36,7 @@ class privilege extends delayed
     {
         $privilege = $this->get_privilege();
         $privilege->value = $this->value;
-        return $privilege->store();
+        $privilege->store();
     }
 
     /**

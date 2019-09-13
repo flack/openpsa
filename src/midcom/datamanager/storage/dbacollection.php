@@ -66,7 +66,6 @@ class dbacollection extends delayed
                 throw new midcom_error("Failed to delete subobject {$container->get_value()->guid}: " . midcom_connection::get_error_string());
             }
         }
-        return true;
     }
 
     private function create_container(array $data)

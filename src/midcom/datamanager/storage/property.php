@@ -61,6 +61,5 @@ class property extends dbanode
 
     public function save()
     {
-        return true;
     }
 }

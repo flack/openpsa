@@ -37,6 +37,5 @@ class transientnode implements node
 
     public function save()
     {
-        return true;
     }
 }

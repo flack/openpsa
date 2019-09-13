@@ -106,7 +106,7 @@ class blobs extends delayed
             $attachment->delete();
         }
 
-        return $this->save_attachment_list();
+        $this->save_attachment_list();
     }
 
     public function move_uploaded_files()

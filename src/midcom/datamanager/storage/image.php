@@ -43,17 +43,17 @@ class image extends blobs implements recreateable
 
         if (!empty($this->value['delete'])) {
             $this->map = [];
-            return $this->save_attachment_list();
+            $this->save_attachment_list();
+            return;
         }
 
-        $stat = true;
         if (!empty($this->value['file'])) {
             $this->value['file']->parentguid = $this->object->guid;
             $existing = $this->load();
             $filter = new imagefilter($this->config['type_config'], $this->save_archival);
             $this->map = $filter->process($this->value['file'], $existing);
 
-            $stat = $this->save_attachment_list();
+            $this->save_attachment_list();
         }
 
         $check_fields = ['description', 'title', 'score'];
@@ -78,8 +78,6 @@ class image extends blobs implements recreateable
                 $main->update();
             }
         }
-
-        return $stat;
     }
 
     /**
