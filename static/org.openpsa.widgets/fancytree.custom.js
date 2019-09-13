@@ -28,11 +28,18 @@ var org_openpsa_tree = {
             expand: function() {
                 $(window).trigger('resize');
             },
+            collapse: function() {
+                $(window).trigger('resize');
+            },
             glyph: {
-                preset: "awesome4",
+                preset: "awesome4"
             },
             persist: {
-                store: 'local'
+                store: 'local',
+                expandOpts: {
+                    noAnimation: true,
+                    noEvents: false
+                }
             }
         };
 
@@ -51,8 +58,8 @@ var org_openpsa_tree = {
             return;
         }
         var container_height = $('#content-text').height(),
-            tree_content_height = tree.find('.fancytree-container').height(),
-            available_height = container_height - (tree.closest('.sidebar').height() - tree.outerHeight(true)),
+            tree_content_height = tree.find('.fancytree-container').height() + 2,
+            available_height = container_height - ((tree.closest('aside').height() || 0) - tree.outerHeight(true)),
             new_height = Math.max(Math.min(tree_content_height, available_height, container_height), 20);
 
         if (new_height !== tree.height()) {
