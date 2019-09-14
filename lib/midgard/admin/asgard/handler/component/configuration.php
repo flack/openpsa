@@ -355,7 +355,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             $this->_prepare_breadcrumbs($handler_id);
         }
 
-        return $this->get_response();
+        return $this->get_response('midgard_admin_asgard_component_configuration_edit');
     }
 
     private function save_configuration(array $data) : bool
@@ -451,15 +451,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             $success = $topic->set_parameter($this->_request_data['name'], $key, $value) && $success;
         }
         return $success;
-    }
-
-    /**
-     * @param string $handler_id Name of the used handler
-     * @param array $data Data passed to the show method
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        midcom_show_style('midgard_admin_asgard_component_configuration_edit');
     }
 
     private function _detect_schema($key, $value) : array

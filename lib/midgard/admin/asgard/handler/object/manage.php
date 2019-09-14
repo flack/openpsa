@@ -134,18 +134,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
         $this->_prepare_request_data();
-        return $this->get_response();
-    }
-
-    /**
-     * Shows the loaded object.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_view($handler_id, array &$data)
-    {
-        midcom_show_style('midgard_admin_asgard_object_view');
+        return $this->get_response('midgard_admin_asgard_object_view');
     }
 
     /**
@@ -181,18 +170,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         $this->_prepare_request_data();
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        return $this->get_response();
-    }
-
-    /**
-     * Shows the loaded object in editor.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        midcom_show_style('midgard_admin_asgard_object_edit');
+        return $this->get_response('midgard_admin_asgard_object_edit');
     }
 
     /**
@@ -398,17 +376,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
         $this->_prepare_request_data();
         $this->_add_jscripts();
-        return $this->get_response();
-    }
 
-    /**
-     * Shows the object to delete.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_delete($handler_id, array &$data)
-    {
         $data['view_object'] = $this->datamanager->get_content_html();
 
         // Initialize the tree
@@ -416,7 +384,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $data['tree']->copy_tree = false;
         $data['tree']->inputs = false;
 
-        midcom_show_style('midgard_admin_asgard_object_delete');
+        return $this->get_response('midgard_admin_asgard_object_delete');
     }
 
     /**

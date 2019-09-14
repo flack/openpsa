@@ -39,7 +39,8 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         $data['view_title'] = $this->_l10n->get('object deleted');
 
         $this->add_breadcrumb("", $data['view_title']);
-        return $this->get_response();
+
+        return $this->get_response('midgard_admin_asgard_object_deleted');
     }
 
     private function prepare_admin_view($guid) : midcom_core_dbaobject
@@ -99,16 +100,5 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
             ->set_storage($object)
             ->get_form(); // currently needed to add head elements
         $this->_request_data['datamanager'] = $datamanager;
-    }
-
-    /**
-     * Output the style element for deleted objects
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_deleted($handler_id, array &$data)
-    {
-        midcom_show_style('midgard_admin_asgard_object_deleted');
     }
 }

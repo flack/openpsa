@@ -95,15 +95,6 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
             MIDCOM_TOOLBAR_GLYPHICON => 'folder',
         ]);
         midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
-        return $this->get_response();
-    }
-
-    /**
-     * @param string $handler_id Name of the used handler
-     * @param array $data Data passed to the show method
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        midcom_show_style('midgard-admin-user-group-edit');
+        return $this->get_response('midgard-admin-user-group-edit');
     }
 }

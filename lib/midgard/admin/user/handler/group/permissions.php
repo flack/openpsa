@@ -62,16 +62,8 @@ class midgard_admin_user_handler_group_permissions extends midcom_baseclasses_co
         $data['view_title'] = sprintf($this->_l10n->get('folders of %s'), $this->_group->official);
 
         $this->_update_breadcrumb();
-        return $this->get_response();
-    }
-
-    /**
-     * @param string $handler_id Name of the used handler
-     * @param array $data Data passed to the show method
-     */
-    public function _show_folders($handler_id, array &$data)
-    {
         $data['group'] = $this->_group;
-        midcom_show_style('midgard-admin-user-group-folders');
+
+        return $this->get_response('midgard-admin-user-group-folders');
     }
 }

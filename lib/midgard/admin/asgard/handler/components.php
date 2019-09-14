@@ -122,17 +122,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('components'), $this->_l10n->get('components'));
         $this->add_breadcrumb('', $data['component_data']['title']);
-        return $this->get_response();
-    }
-
-    /**
-     * Shows the loaded component
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_component($handler_id, array &$data)
-    {
-        midcom_show_style('midgard_admin_asgard_components_component');
+        return $this->get_response('midgard_admin_asgard_components_component');
     }
 }

@@ -141,18 +141,9 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
         $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('user_edit', ['guid' => $this->person->guid]), $this->person->name);
         $this->add_breadcrumb("", $data['view_title']);
-
-        return $this->get_response();
-    }
-
-    /**
-     * @param string $handler_id Name of the used handler
-     * @param array $data Data passed to the show method
-     */
-    public function _show_delete($handler_id, array &$data)
-    {
         $data['person'] = $this->person;
-        midcom_show_style('midgard-admin-user-person-delete-account');
+
+        return $this->get_response('midgard-admin-user-person-delete-account');
     }
 
     /**
@@ -161,16 +152,6 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
     public function _handler_passwords()
     {
         midcom::get()->skip_page_style = true;
-    }
-
-    /**
-     * Auto-generate passwords on the fly
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_passwords($handler_id, array &$data)
-    {
-        midcom_show_style('midgard-admin-user-generate-passwords');
+        return $this->show('midgard-admin-user-generate-passwords');
     }
 }

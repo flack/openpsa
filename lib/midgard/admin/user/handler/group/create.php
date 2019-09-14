@@ -42,15 +42,6 @@ class midgard_admin_user_handler_group_create extends midcom_baseclasses_compone
 
         $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('group_create'), $data['view_title']);
-        return $this->get_response();
-    }
-
-    /**
-     * @param string $handler_id Name of the used handler
-     * @param array $data Data passed to the show method
-     */
-    public function _show_create($handler_id, array &$data)
-    {
-        midcom_show_style('midgard-admin-user-group-create');
+        return $this->get_response('midgard-admin-user-group-create');
     }
 }

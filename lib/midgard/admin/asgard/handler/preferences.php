@@ -77,18 +77,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
 
         // Load the common data
         $this->_process_request_data($data);
-        return $this->get_response();
-    }
-
-    /**
-     * Show the preferences page
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_preferences($handler_id, array &$data)
-    {
-        midcom_show_style('midgard_admin_asgard_preferences');
+        return $this->get_response('midgard_admin_asgard_preferences');
     }
 
     /**

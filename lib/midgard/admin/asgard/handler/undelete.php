@@ -54,18 +54,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         // Set the breadcrumb data
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb($this->router->generate('trash'), $this->_l10n->get('trash'));
-        return $this->get_response();
-    }
-
-    /**
-     * Shows the loaded object in editor.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_trash($handler_id, array &$data)
-    {
-        midcom_show_style('midgard_admin_asgard_trash');
+        return $this->get_response('midgard_admin_asgard_trash');
     }
 
     /**
@@ -110,7 +99,11 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('trash'), $this->_l10n->get('trash'));
         $this->add_breadcrumb($this->router->generate('trash_type', ['type' => $type]), midgard_admin_asgard_plugin::get_type_label($type));
-        return $this->get_response();
+
+        $data['current_type'] = $this->type;
+        $data['handler'] = $this;
+
+        return $this->get_response('midgard_admin_asgard_trash_type');
     }
 
     private function _purge(array $guids)
@@ -146,20 +139,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         if ($undeleted_size > 0) {
             midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s undeleted'), midcom_helper_misc::filesize_to_string($undeleted_size)), 'info');
         }
-    }
-
-    /**
-     * Shows the loaded object in editor.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_trash_type($handler_id, array &$data)
-    {
-        $data['current_type'] = $this->type;
-        $data['handler'] = $this;
-
-        midcom_show_style('midgard_admin_asgard_trash_type');
     }
 
     public function show_type($object, $indent = 0, $prefix = '', $enable_undelete = true)

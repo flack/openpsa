@@ -80,17 +80,6 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
 
         $this->_prepare_request_data();
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        return $this->get_response();
-    }
-
-    /**
-     * Output the style element for metadata editing
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        midcom_show_style('midgard_admin_asgard_object_metadata');
+        return $this->get_response('midgard_admin_asgard_object_metadata');
     }
 }

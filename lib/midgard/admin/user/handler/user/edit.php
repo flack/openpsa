@@ -76,15 +76,6 @@ class midgard_admin_user_handler_user_edit extends midcom_baseclasses_components
         $this->_prepare_toolbar($data, $handler_id, $person);
         $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb("", $data['view_title']);
-        return $this->get_response();
-    }
-
-    /**
-     * @param string $handler_id Name of the used handler
-     * @param array $data Data passed to the show method
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        midcom_show_style('midgard-admin-user-person-edit');
+        return $this->get_response('midgard-admin-user-person-edit');
     }
 }
