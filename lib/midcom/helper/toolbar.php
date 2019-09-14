@@ -491,11 +491,9 @@ class midcom_helper_toolbar
     {
         $index = $this->_check_index($index, false);
 
-        if ($index === null) {
-            return false;
+        if ($index !== null) {
+            $this->items[$index][MIDCOM_TOOLBAR_ENABLED] = false;
         }
-
-        $this->items[$index][MIDCOM_TOOLBAR_ENABLED] = false;
     }
 
     /**
@@ -507,11 +505,9 @@ class midcom_helper_toolbar
     {
         $index = $this->_check_index($index, false);
 
-        if ($index === null) {
-            return false;
+        if ($index !== null) {
+            $this->items[$index][MIDCOM_TOOLBAR_HIDDEN] = true;
         }
-
-        $this->items[$index][MIDCOM_TOOLBAR_HIDDEN] = true;
     }
 
     /**

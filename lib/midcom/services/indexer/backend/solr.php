@@ -57,7 +57,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      * changes to this backend.
      *
      * @param midcom_services_indexer_document[] $documents A list of objects.
-     * @return boolean Indicating success.
      */
     public function index(array $documents)
     {
@@ -72,11 +71,9 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             $added = true;
         }
 
-        if (!$added) {
-            return true;
+        if ($added) {
+            $this->post();
         }
-
-        $this->post();
     }
 
     /**
