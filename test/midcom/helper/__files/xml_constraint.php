@@ -6,18 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use PHPUnit\Framework\Constraint\IsEqual;
+use PHPUnit\Util\InvalidArgumentHelper;
+
 /**
  * Constraint for comparing XML strings produced by objectmapper. It removes
  * the order, which doesn't seem to be stable between different installations
  *
  * @package openpsa.test
  */
-class xml_comparison extends PHPUnit_Framework_Constraint_IsEqual
+class xml_comparison extends IsEqual
 {
     public function __construct($value, $delta = 0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false)
     {
         if (!is_string($value)) {
-            throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
+            throw InvalidArgumentHelper::factory(2, 'string');
         }
         parent::__construct($this->_normalize_string($value, 2), $delta, $maxDepth, $canonicalize, $ignoreCase);
     }
@@ -27,7 +30,7 @@ class xml_comparison extends PHPUnit_Framework_Constraint_IsEqual
         $doc = new DOMDocument;
 
         if (!$doc->loadXML($string)) {
-            throw PHPUnit_Util_InvalidArgumentHelper::factory($argument, 'valid XML');
+            throw InvalidArgumentHelper::factory($argument, 'valid XML');
         }
 
         $xpath = new DOMXPath($doc);
@@ -69,7 +72,7 @@ class xml_comparison extends PHPUnit_Framework_Constraint_IsEqual
     public function evaluate($other, $description = '', $returnResult = false)
     {
         if (!is_string($other)) {
-            throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
+            throw InvalidArgumentHelper::factory(1, 'string');
         }
 
         return parent::evaluate($this->_normalize_string($other), $description, $returnResult);
