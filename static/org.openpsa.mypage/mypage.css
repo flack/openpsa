@@ -48,6 +48,7 @@ div.org_openpsa_mypage_workingon .controls
 }
 #org_openpsa_mypage_workingon_loading
 {
+    display: none;
     height: 80px;
     text-align: center;
     padding-top: 2em;
