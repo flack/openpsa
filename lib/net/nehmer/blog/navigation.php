@@ -128,21 +128,19 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             $qb->set_limit(1);
             $result = $qb->execute_unchecked();
 
-            if (empty($result)) {
-                return $leaves;
+            if (!empty($result)) {
+                $first_year = (int) gmdate('Y', (int) $result[0]->metadata->published);
+                $year = $first_year;
+                $this_year = (int) gmdate('Y', time());
+                while ($year <= $this_year) {
+                    $leaves["{$this->_topic->id}_ARCHIVE_{$year}"] = [
+                        MIDCOM_NAV_URL => "archive/year/{$year}/",
+                        MIDCOM_NAV_NAME => $year,
+                    ];
+                    $year++;
+                }
+                $leaves = array_reverse($leaves);
             }
-
-            $first_year = (int) gmdate('Y', (int) $result[0]->metadata->published);
-            $year = $first_year;
-            $this_year = (int) gmdate('Y', time());
-            while ($year <= $this_year) {
-                $leaves["{$this->_topic->id}_ARCHIVE_{$year}"] = [
-                    MIDCOM_NAV_URL => "archive/year/{$year}/",
-                    MIDCOM_NAV_NAME => $year,
-                ];
-                $year += 1;
-            }
-            $leaves = array_reverse($leaves);
         }
     }
 }

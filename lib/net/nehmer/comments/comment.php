@@ -401,18 +401,17 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     private function _send_notifications()
     {
+        if (   empty($this->title)
+            && empty($this->content)) {
+            // No need to send notifications about empty rating entries
+            return;
+        }
         //Get the parent object
         try {
             $parent = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
         } catch (midcom_error $e) {
             $e->log();
-            return false;
-        }
-
-        if (   empty($this->title)
-            && empty($this->content)) {
-            // No need to send notifications about empty rating entries
-            return false;
+            return;
         }
 
         // Construct the message
@@ -430,14 +429,11 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             org_openpsa_notifications::notify('net.nehmer.comments:comment_posted', $author, $message);
         }
 
-        //Get all the subscriptions
         $subscriptions = $parent->list_parameters('net.nehmer.comments:subscription');
-        if (!empty($subscriptions)) {
-            //Go through each subscription
-            foreach (array_keys($subscriptions) as $user_guid) {
-                // Send notice
-                org_openpsa_notifications::notify('net.nehmer.comments:subscription', $user_guid, $message);
-            }
+        //Go through each subscription
+        foreach (array_keys($subscriptions) as $user_guid) {
+            // Send notice
+            org_openpsa_notifications::notify('net.nehmer.comments:subscription', $user_guid, $message);
         }
     }
 

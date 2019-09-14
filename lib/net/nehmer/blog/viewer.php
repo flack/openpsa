@@ -109,20 +109,17 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_viewer
      */
     private function _add_categories()
     {
-        if ($this->_config->get('categories') == '') {
-            // No categories defined, skip this.
-            $this->_request_data['categories'] = [];
-            return false;
-        }
+        $this->_request_data['categories'] = [];
+        if ($this->_config->get('categories') != '') {
+            $this->_request_data['categories'] = explode(',', $this->_config->get('categories'));
 
-        $this->_request_data['categories'] = explode(',', $this->_config->get('categories'));
-
-        foreach ($this->_request_data['schemadb']->all() as $schema) {
-            if (   $schema->has_field('categories')
-                && $schema->get_field('categories')['type'] == 'select') {
-                // TODO: Merge schema local and component config categories?
-                $options = array_combine($this->_request_data['categories'], $this->_request_data['categories']);
-                $schema->get_field('categories')['type_config']['options'] = $options;
+            foreach ($this->_request_data['schemadb']->all() as $schema) {
+                if (   $schema->has_field('categories')
+                    && $schema->get_field('categories')['type'] == 'select') {
+                    // TODO: Merge schema local and component config categories?
+                    $options = array_combine($this->_request_data['categories'], $this->_request_data['categories']);
+                    $schema->get_field('categories')['type_config']['options'] = $options;
+                }
             }
         }
     }
