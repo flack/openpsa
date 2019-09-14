@@ -57,7 +57,7 @@ class rcsdircleanup extends Command
             } else {
                 // got something
                 $file = $outerDir . "/" . $d;
-                if (!$this->get_object($file)) {
+                if (!$this->has_repligard_entry($file)) {
                     $this->findings['orphaned'][] = $file;
                 }
                 $this->counter++;
@@ -65,20 +65,20 @@ class rcsdircleanup extends Command
         }
     }
 
-    private function get_object($file) : bool
+    private function has_repligard_entry($file) : bool
     {
-        $guid = preg_replace('/^.+\//', '', $file);
+        $guid = preg_replace('/^.+\/(.+?)\,v$/', '$1', $file);
 
         $repligard_entry = connection::get_em()
             ->getRepository('midgard:midgard_repligard')
             ->findOneBy(['guid' => $guid]);
 
-        return empty($repligard_entry);
+        return !empty($repligard_entry);
     }
 
     private function cleanup_file(OutputInterface $output, $file)
     {
-        if (unlink($file) && unlink($file . ',v')) {
+        if (unlink($file)) {
             $output->writeln("<info>Cleanup OK</info>", Output::VERBOSITY_VERBOSE);
         } else {
             $output->writeln("<comment>Cleanup FAILED</comment>");
