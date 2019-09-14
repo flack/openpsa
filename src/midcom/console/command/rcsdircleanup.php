@@ -67,7 +67,7 @@ class rcsdircleanup extends Command
 
     private function has_repligard_entry($file) : bool
     {
-        $guid = preg_replace('/^.+\/(.+?)\,v$/', '$1', $file);
+        $guid = preg_replace('/^.+\/(.+?)\,?v?$/', '$1', $file);
 
         $repligard_entry = connection::get_em()
             ->getRepository('midgard:midgard_repligard')
