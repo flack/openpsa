@@ -70,10 +70,7 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title u
             <input id="show_rule_preview" name="show_rule_preview" class="submit preview" value="<?php echo $data['l10n']->get('preview'); ?>" type="button" />
         </div>
         <script type="text/javascript">
-        jQuery(document).ready(function()
-        {
             init("dirmar_rules_editor_container", <?php echo $data['campaign']->rulesSerialized; ?>);
-        });
         </script>
     </form>
 

@@ -115,12 +115,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
 
         echo <<<JSINIT
 <script type="text/javascript">
-$(document).ready(
-    function()
-    {
-        org_openpsa_widgets_tabs.initialize('{$uipage}');
-    }
-);
+    org_openpsa_widgets_tabs.initialize('{$uipage}');
 </script>
 JSINIT;
     }

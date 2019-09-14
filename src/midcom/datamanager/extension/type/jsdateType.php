@@ -124,26 +124,24 @@ class jsdateType extends AbstractType
 
         $script = <<<EOT
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("#{$view['input']->vars['id']}").datepicker({
-            maxDate: new Date({$init_max->format('Y')}, {$init_max_month}, {$init_max->format('d')}),
-            minDate: new Date({$init_min->format('Y')}, {$init_min_month}, {$init_min->format('d')}),
-            dateFormat: $.datepicker.regional[Object.keys($.datepicker.regional)[Object.keys($.datepicker.regional).length - 1]].dateFormat || $.datepicker.ISO_8601,
-            altField: "#{$view['date']->vars['id']}",
-            altFormat: $.datepicker.ISO_8601,
-            prevText: '',
-            nextText: '',
-            showOn: '{$options['widget_config']['showOn']}',
-            buttonText: '&#xf073;'
-        }).on('change', function() {
-            if ($(this).val() == '') {
-                $("#{$view['date']->vars['id']}").val('');
-            }
-        });
-        if ($("#{$view['date']->vars['id']}").val() && $("#{$view['date']->vars['id']}").val() !== '0000-00-00') {
-            $("#{$view['input']->vars['id']}").datepicker('setDate', new Date($("#{$view['date']->vars['id']}").val()));
+    $("#{$view['input']->vars['id']}").datepicker({
+        maxDate: new Date({$init_max->format('Y')}, {$init_max_month}, {$init_max->format('d')}),
+        minDate: new Date({$init_min->format('Y')}, {$init_min_month}, {$init_min->format('d')}),
+        dateFormat: $.datepicker.regional[Object.keys($.datepicker.regional)[Object.keys($.datepicker.regional).length - 1]].dateFormat || $.datepicker.ISO_8601,
+        altField: "#{$view['date']->vars['id']}",
+        altFormat: $.datepicker.ISO_8601,
+        prevText: '',
+        nextText: '',
+        showOn: '{$options['widget_config']['showOn']}',
+        buttonText: '&#xf073;'
+    }).on('change', function() {
+        if ($(this).val() == '') {
+            $("#{$view['date']->vars['id']}").val('');
         }
     });
+    if ($("#{$view['date']->vars['id']}").val() && $("#{$view['date']->vars['id']}").val() !== '0000-00-00') {
+        $("#{$view['input']->vars['id']}").datepicker('setDate', new Date($("#{$view['date']->vars['id']}").val()));
+    }
 </script>
 EOT;
         $view->vars['jsinit'] = $script;

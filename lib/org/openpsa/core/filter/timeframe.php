@@ -87,8 +87,8 @@ class org_openpsa_core_filter_timeframe extends org_openpsa_core_filter
         $this->_render_actions();
 
         echo '<script type="text/javascript">';
-        echo "\$(document).ready(function()\n{\n\norg_openpsa_filter.init_timeframe(\n";
-        echo json_encode($ids) . " );\n});\n";
+        echo "org_openpsa_filter.init_timeframe(\n";
+        echo json_encode($ids) . " );";
         echo "\n</script>\n";
     }
 }

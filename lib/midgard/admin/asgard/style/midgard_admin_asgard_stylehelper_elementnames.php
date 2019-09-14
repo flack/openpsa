@@ -31,15 +31,12 @@
 </div>
 
 <script type="text/javascript">
-// <![CDATA[
-$(document).ready(function(){
-        $(".midgard_admin_asgard_stylehelper_help").accordion({ header: 'h3', active: false, collapsible: true });
+    $(".midgard_admin_asgard_stylehelper_help").accordion({ header: 'h3', active: false, collapsible: true });
 
-        $('.midgard_admin_asgard_stylehelper_help a.namepicker').on('click', function()
-        {
-            var form_id = $('.object_edit form.datamanager2').attr('id');
-            $('#' + form_id + '_name').val($(this).text());
-        });
-});
+    $('.midgard_admin_asgard_stylehelper_help a.namepicker').on('click', function()
+    {
+        var form_id = $('.object_edit form.datamanager2').attr('id');
+        $('#' + form_id + '_name').val($(this).text());
+    });
 // ]]>
 </script>

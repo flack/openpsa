@@ -138,7 +138,7 @@ abstract class base
 
     public function jsinit($code) : string
     {
-        return "<script>\$(document).ready(function() { $code });</script>";
+        return "<script>$code</script>";
     }
 
     protected function add_head_elements_for_autocomplete(bool $sortable, bool $creation_mode_enabled)
