@@ -348,14 +348,10 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * @param midcom_core_dbaobject $object
      * @return string xmldata
      */
-    private function rcs_object2data(midcom_core_dbaobject $object)
+    private function rcs_object2data(midcom_core_dbaobject $object) : string
     {
         $mapper = new midcom_helper_exporter_xml();
-        if ($result = $mapper->object2data($object)) {
-            return $result;
-        }
-        debug_add("Objectmapper returned false.");
-        return false;
+        return $mapper->object2data($object);
     }
 
     /**

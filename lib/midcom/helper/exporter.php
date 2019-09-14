@@ -13,9 +13,9 @@
  */
 abstract class midcom_helper_exporter
 {
-    abstract public function array2data(array $array);
+    abstract public function array2data(array $array) : string;
 
-    abstract public function data2array($data);
+    abstract public function data2array(string $data) : array;
 
     /**
      * Take an object and return an array of useful fields (removing private properties)

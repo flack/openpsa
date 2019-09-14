@@ -35,12 +35,8 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
      * @param string $data
      * @return array with attribute => key values
      */
-    public function data2array($data)
+    public function data2array(string $data) : array
     {
-        if (!is_string($data)) {
-            debug_add("Missing data cannot unserialize");
-            return false;
-        }
         return json_decode($data, true);
     }
 
@@ -50,7 +46,7 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
      * @param midcom_core_dbaobject $object
      * @return string
      */
-    public function object2data($object)
+    public function object2data($object) : string
     {
         $arr = $this->object2array($object);
         return json_encode($arr);

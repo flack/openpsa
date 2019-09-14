@@ -23,17 +23,12 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
      * @param string $data xml
      * @return array with attribute => key values
      */
-    public function data2array($data)
+    public function data2array(string $data) : array
     {
-        if (!is_string($data)) {
-            debug_add("Missing data cannot unserialize");
-            return false;
-        }
-
         return $this->_xml_to_array(new SimpleXMLIterator($data));
     }
 
-    private function _xml_to_array(SimpleXMLIterator $sxi)
+    private function _xml_to_array(SimpleXMLIterator $sxi) : array
     {
         $data = [];
         foreach ($sxi as $key => $val) {
@@ -58,7 +53,7 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
      * @param array $array
      * @return string
      */
-    public function array2data(array $array, $root_node = 'array', $prefix = '')
+    public function array2data(array $array, $root_node = 'array', $prefix = '') : string
     {
         $data = "{$prefix}<{$root_node}>\n";
 
@@ -90,11 +85,11 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
      * @param midcom_core_dbaobject $object
      * @return string
      */
-    public function object2data($object, $prefix = '')
+    public function object2data($object, $prefix = '') : string
     {
         $arr = $this->object2array($object);
         if (!$arr) {
-            return false;
+            return '';
         }
 
         $classname = $this->_get_classname($object);
