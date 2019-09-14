@@ -71,7 +71,7 @@ var midcom_grid_resize = {
                     var container = $(this).closest('.ui-jqgrid').parent();
 
                     if (container.hasClass('ui-jqgrid-maximized')) {
-                        $(this).find('span').removeClass('fa-minus-circle').addClass('fa-plus-circle')
+                        $(this).find('span').removeClass('fa-minus-circle').addClass('fa-plus-circle');
                         var jqgrid_id = container.find('table.ui-jqgrid-btable').attr('id'),
                             placeholder = $('#maximized_placeholder');
 

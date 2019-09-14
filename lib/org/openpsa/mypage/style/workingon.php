@@ -20,30 +20,7 @@ midcom::get()->uimessages->show();
     <h3><?php echo $data['l10n']->get('now working on'); ?></h3>
     <input type="hidden" name="url" value="&(url);" />
     <div id="working_task" >
-    <script type="text/javascript">
-    $(document).ready(function()
-    {
-        var widget_conf =
-        {
-            id: 'working_task',
-            appendTo: '#working_task',
-            widget_config: <?php echo json_encode($data['widget_config']); ?>,
-            placeholder: '<?php echo midcom::get()->i18n->get_string('task', 'org.openpsa.projects') ?>',
-            default_value: '<?php echo $current_task; ?>',
-            default_text: '<?php echo $default_text; ?>',
-        },
-        autocomplete_conf =
-        {
-            select: org_openpsa_workingon.select,
-            open: midcom_helper_datamanager2_autocomplete.open,
-            position: {collision: 'fit none'}
-        }
-
-        midcom_helper_datamanager2_autocomplete.create_widget(widget_conf, autocomplete_conf);
-        $('#working_task_search_input').show();
-        org_openpsa_workingon.setup_widget();
-    });
-    </script>
+      <input type="text" id="working_task_search_input">
     </div>
 
     <textarea id="working_description" name="description" rows="3" cols="40">&(workingon.description);</textarea>
@@ -75,6 +52,23 @@ midcom::get()->uimessages->show();
 <div id="org_openpsa_mypage_workingon_loading">
 <i class="fa fa-pulse fa-spinner"></i>
 </div>
+
+<script type="text/javascript">
+    midcom_helper_datamanager2_autocomplete.create_widget({
+        id: 'working_task',
+        widget_config: <?php echo json_encode($data['widget_config']); ?>,
+        placeholder: '<?php echo midcom::get()->i18n->get_string('task', 'org.openpsa.projects') ?>',
+        default_value: '<?php echo $current_task; ?>',
+        default_text: '<?php echo $default_text; ?>',
+        input: $('#working_task_search_input')
+    },
+    {
+        select: org_openpsa_workingon.select,
+        open: midcom_helper_datamanager2_autocomplete.open,
+        position: {collision: 'fit none'}
+    });
+    org_openpsa_workingon.setup_widget();
+</script>
 
 <?php
 if ($data['expenses_url']) {

@@ -28,7 +28,6 @@ function send_working_on(action) {
 
 var org_openpsa_workingon = {
     setup_widget: function() {
-        $('#org_openpsa_mypage_workingon_loading').hide();
         $('#org_openpsa_mypage_workingon_start')
             .prop("disabled", true)
             .on('click', function() {

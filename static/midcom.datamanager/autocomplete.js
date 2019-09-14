@@ -355,22 +355,28 @@ var midcom_helper_datamanager2_autocomplete = {
             default_value = config.default_value || default_config.default_value,
             default_text = config.default_text || default_config.default_text,
             placeholder = config.placeholder || default_config.placeholder,
-            widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input" style="display: none" class="batch_widget" placeholder="' + placeholder + '" value="' + default_text + '" />';
+            widget = config.input || null;
 
-        widget_html += '<input type="hidden" id="' + config.id + '_selection" name="' + config.id + '_selection" value="' + default_value + '" />';
+        if (widget === null) {
+            widget = $('<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input" />');
+            if (config.insertAfter !== undefined) {
+                widget.insertAfter($(config.insertAfter));
+            } else if (config.appendTo !== undefined) {
+                widget.appendTo($(config.appendTo));
+            }
+        }
+        widget
+            .attr('placeholder', placeholder)
+            .val(default_text)
+            .after($('<input type="hidden" id="' + config.id + '_selection" name="' + config.id + '_selection" value="' + default_value + '" />'));
+
         autocomplete_options = $.extend({autoFocus: true}, midcom_helper_datamanager2_autocomplete.get_default_options(), autocomplete_options || {});
         window[config.id + '_handler_options'] = $.extend({}, default_config, config.widget_config);
 
-        if (config.insertAfter !== undefined) {
-            $(widget_html).insertAfter($(config.insertAfter));
-        } else if (config.appendTo !== undefined) {
-            $(widget_html).appendTo($(config.appendTo));
-        }
-
         if (window[config.id + '_handler_options'].categorize_by_parent_label === true) {
-            $('#' + config.id + '_search_input').category_complete(autocomplete_options);
+            widget.category_complete(autocomplete_options);
         } else {
-            $('#' + config.id + '_search_input').autocomplete(autocomplete_options);
+            widget.autocomplete(autocomplete_options);
         }
     }
 };
