@@ -57,7 +57,7 @@ class rcsdircleanup extends Command
             } else {
                 // got something
                 $file = $outerDir . "/" . $d;
-                if ($this->get_object($file) === false) {
+                if (!$this->get_object($file)) {
                     $this->findings['orphaned'][] = $file;
                 }
                 $this->counter++;
@@ -65,7 +65,7 @@ class rcsdircleanup extends Command
         }
     }
 
-    private function get_object($file)
+    private function get_object($file) : bool
     {
         $guid = preg_replace('/^.+\//', '', $file);
 
