@@ -15,6 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use midcom\console\command\exec;
 use midcom\console\command\purgedeleted;
 use midcom\console\command\blobdircleanup;
+use midcom\console\command\rcsdircleanup;
 use midcom\console\command\repligard;
 use midcom\console\command\reindex;
 use midcom\console\command\cron;
@@ -43,6 +44,7 @@ class application extends base_application
         $this->add(new purgedeleted);
         $this->add(new repligard);
         $this->add(new blobdircleanup);
+        $this->add(new rcsdircleanup);
         $this->add(new reindex);
         $this->add(new cron);
     }
