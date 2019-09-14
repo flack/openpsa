@@ -8,8 +8,6 @@ $url = $data['router']->generate('finder-connector');
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-
         function get_available_height() {
             return $(window).height() - $('#elfinder').offset().top - 15;
         }
@@ -52,7 +50,7 @@ $url = $data['router']->generate('finder-connector');
                     ['help']
                 ]
             },
-            height: get_available_height,
+            height: get_available_height(),
             handlers:  {
                 resize: resize,
                 load: resize
@@ -86,5 +84,4 @@ $url = $data['router']->generate('finder-connector');
             },
             sound: false
         });
-    });
 </script>
