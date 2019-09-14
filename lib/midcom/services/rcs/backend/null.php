@@ -20,9 +20,9 @@ class midcom_services_rcs_backend_null implements midcom_services_rcs_backend
         return true;
     }
 
-    public function get_revision($revision)
+    public function get_revision($revision) : array
     {
-        return false;
+        return [];
     }
 
     public function version_exists($version) : bool

@@ -111,17 +111,15 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     * @param string $revision identifier of revision wanted
     * @return array array representation of the object
     */
-    public function get_revision($revision)
+    public function get_revision($revision) : array
     {
         if (empty($this->_guid)) {
             return [];
         }
         $filepath = $this->_generate_rcs_filename($this->_guid);
-
-        // , must become . to work. Therefore this:
-        str_replace(',', '.', $revision);
-
-        $this->exec('co -q -f -r' . escapeshellarg(trim($revision)) . " {$filepath} 2>/dev/null");
+        if ($this->exec('co -q -f -r' . escapeshellarg(trim($revision)) . " {$filepath} 2>/dev/null") != 0) {
+            return [];
+        }
 
         $data = $this->rcs_readfile($this->_guid);
 

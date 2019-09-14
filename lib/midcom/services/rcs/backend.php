@@ -23,7 +23,7 @@ interface midcom_services_rcs_backend
      */
     public function update($object, $updatemessage = null) : bool;
 
-    public function get_revision($revision);
+    public function get_revision($revision) : array;
 
     public function version_exists($version) : bool;
 
