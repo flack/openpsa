@@ -407,26 +407,6 @@ class midcom_helper_metadata
     }
 
     /**
-     * Approve, if object is already approved update
-     * and approve.
-     *
-     * This is to get the approval timestamp to current time in all cases
-     */
-    function force_approve() : bool
-    {
-        midcom::get()->auth->require_do('midcom:approve', $this->__object);
-        midcom::get()->auth->require_do('midgard:update', $this->__object);
-        if (!is_object($this->__object)) {
-            return false;
-        }
-
-        if ($this->__object->is_approved()) {
-            $this->__object->update();
-        }
-        return $this->__object->approve();
-    }
-
-    /**
      * Unapproves the object.
      *
      * This resets the approved timestamp and sets the
