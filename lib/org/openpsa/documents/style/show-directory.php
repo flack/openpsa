@@ -10,11 +10,16 @@ $url = $data['router']->generate('finder-connector');
 <script type="text/javascript">
     $(document).ready(function() {
 
+        function get_available_height() {
+            return $(window).height() - $('#elfinder').offset().top - 15;
+        }
+
         function resize() {
-            if ($('#elfinder').height() !== $('#elfinder').parent().parent().height() - 2) {
+            var available = get_available_height();
+            if ($('#elfinder').height() !== available) {
                 $('#elfinder')
                     .css('width', 'auto')
-                    .height($('#elfinder').parent().parent().height() - 2)
+                    .height(available)
                     .trigger('resize');
             }
         }
@@ -35,7 +40,6 @@ $url = $data['router']->generate('finder-connector');
                 },
                 toolbar : [
                     ['back', 'up', 'forward'],
-                    ['reload'],
                     ['mkdir', 'upload'],
                     ['details', 'download'],
                     ['info'],
@@ -48,6 +52,7 @@ $url = $data['router']->generate('finder-connector');
                     ['help']
                 ]
             },
+            height: get_available_height,
             handlers:  {
                 resize: resize,
                 load: resize
