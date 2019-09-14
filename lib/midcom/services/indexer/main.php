@@ -201,27 +201,26 @@ class midcom_services_indexer implements EventSubscriberInterface
      * @param string $query The query, which must suit the backends query syntax. It is assumed to be in the site charset.
      * @param midcom_services_indexer_filter $filter An optional filter used to restrict the query.
      * @param array $options Options that are passed straight to the backend
-     * @return midcom_services_indexer_document[] An array of documents matching the query, or false on a failure.
+     * @return midcom_services_indexer_document[] An array of documents matching the query
      * @todo Refactor into multiple methods
      */
-    public function query($query, midcom_services_indexer_filter $filter = null, array $options = [])
+    public function query($query, midcom_services_indexer_filter $filter = null, array $options = []) : array
     {
+        $result = [];
         if ($this->_disabled) {
-            return false;
+            return $result;
         }
 
         // Do charset translations
-        $i18n = midcom::get()->i18n;
-        $query = $i18n->convert_to_utf8($query);
+        $query = midcom::get()->i18n->convert_to_utf8($query);
 
         try {
             $result_raw = $this->_backend->query($query, $filter, $options);
         } catch (Exception $e) {
             debug_add("Query error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            return false;
+            return $result;
         }
 
-        $result = [];
         foreach ($result_raw as $document) {
             $document->fields_to_members();
             /**

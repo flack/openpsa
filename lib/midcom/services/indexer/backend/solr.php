@@ -114,7 +114,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     /**
      * {@inheritDoc}
      */
-    public function query($querystring, midcom_services_indexer_filter $filter = null, array $options = [])
+    public function query($querystring, midcom_services_indexer_filter $filter = null, array $options = []) : array
     {
         // FIXME: adapt the whole indexer system to fetching enable querying for counts and slices
         $query = array_merge(midcom::get()->config->get('indexer_config_options'), $options);
@@ -129,9 +129,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
 
         $request = $this->prepare_request('select?' . http_build_query($query));
         $response = $this->send_request($request);
-        if ($response === false) {
-            return false;
-        }
 
         $document = new DOMDocument;
         $document->loadXML((string) $response->getBody());

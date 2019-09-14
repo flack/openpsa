@@ -148,17 +148,8 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         ]);
     }
 
-    private function process_results($result)
+    private function process_results(array $result)
     {
-        if ($result === false) {
-            // Error while searching, we ignore this silently, as this is usually
-            // a broken query. We don't have yet a way to pass error messages from
-            // the indexer backend though (what would I give for a decent exception
-            // handling here...)
-            debug_add('Got boolean false as resultset (likely broken query), casting to empty array', MIDCOM_LOG_WARN);
-            $result = [];
-        }
-
         $count = count($result);
         $this->_request_data['document_count'] = $count;
 
@@ -211,7 +202,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         $_REQUEST = array_merge($defaults, $_REQUEST);
     }
 
-    private function do_advanced_query(array &$data)
+    private function do_advanced_query(array &$data) : array
     {
         $data['request_topic'] = trim($_REQUEST['topic']);
         $data['component'] = trim($_REQUEST['component']);

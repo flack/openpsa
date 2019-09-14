@@ -37,12 +37,8 @@ $indexer = midcom::get()->indexer;
 
 // Use this to check that indexer is online (and hope the root topic isn't a gigantic wiki)
 $root_node = $nap->get_node($nodeid);
-$existing_documents = $indexer->query("__TOPIC_GUID:{$root_node[MIDCOM_NAV_OBJECT]->guid}");
-if ($existing_documents === false) {
-    $msg = "Query '__TOPIC_GUID:{$root_node[MIDCOM_NAV_OBJECT]->guid}' returned false, indicating problem with indexer";
-    throw new midcom_error($msg);
-}
-unset($existing_documents, $root_node);
+$indexer->query("__TOPIC_GUID:{$root_node[MIDCOM_NAV_OBJECT]->guid}");
+unset($root_node);
 
 echo "<pre>\n";
 
