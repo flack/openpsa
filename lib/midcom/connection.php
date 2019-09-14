@@ -46,16 +46,6 @@ class midcom_connection
     }
 
     /**
-     * Check whether Midgard database connection exists
-     *
-     * @return boolean
-     */
-    static function is_connected() : bool
-    {
-        return midgard_connection::get_instance()->is_connected();
-    }
-
-    /**
      * Set Midgard log level
      *
      * @param string $loglevel Midgard log level
