@@ -163,17 +163,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     }
 
     /**
-     * Mirror method for get_prev_version()
-     *
-     * @param string $version
-     * @return mixed
-     */
-    public function get_previous_version($version)
-    {
-        return $this->get_prev_version($version);
-    }
-
-    /**
      * Get the next versionID
      *
      * @param string $version
