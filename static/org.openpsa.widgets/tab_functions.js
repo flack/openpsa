@@ -61,7 +61,7 @@ var org_openpsa_widgets_tabs = {
                 var url = $(this).attr('href').replace(new RegExp('/' + uiprefix + '/'), '/');
                 location.href = url;
             })
-            .on('click', '.ui-tabs-panel a', function(event){org_openpsa_widgets_tabs.intercept_clicks(event);})
+            .on('click', '.ui-tabs-panel a', org_openpsa_widgets_tabs.intercept_clicks)
 
             //bind click functions so the request can pass if it should saved or cancelled
             .on('click', 'input[type=submit]:not(.tab_escape)', function(event) {
@@ -86,21 +86,26 @@ var org_openpsa_widgets_tabs = {
                         $(":not(.ui-tabs-hide) > .tab_div").html(data);
                     }
                 });
-                return false;
+                event.preventDefault();
             });
     },
     load_head_elements: function(data, type) {
         data = data.replace(/<\/HEAD_ELEMENTS>[\s\S]+?/m, '</HEAD_ELEMENTS>');
         var regex = /<HEAD_ELEMENTS>(.+?)<\/HEAD_ELEMENTS>/m;
         regex.exec(data);
-        var head_elements = JSON.parse(RegExp.$1);
+        var head_elements = JSON.parse(RegExp.$1),
+            inserted = [];
+
         data = data.slice(0, -(RegExp.$1.length + 31));
         head_elements.head_js.forEach(function(jscall) {
             if (   typeof jscall.url !== 'undefined'
                 && $('script[src="' + jscall.url + '"]').length === 0
                 && org_openpsa_widgets_tabs.loaded_scripts.indexOf(jscall.url) === -1) {
                 org_openpsa_widgets_tabs.loaded_scripts.push(jscall.url);
-                $.ajax({url: jscall.url, cache: true, dataType: 'script', async: false});
+                inserted.push(new Promise(function(resolve) {
+                    $.ajax({url: jscall.url, cache: true, dataType: 'script', async: false})
+                        .done(resolve);
+                }));
             }
             else if (   typeof jscall.content !== 'undefined'
                      && jscall.content.length > 0) {
@@ -123,10 +128,25 @@ var org_openpsa_widgets_tabs = {
                     tag += ' ' + key + '="' + value + '"';
                 });
                 tag += ' />';
-                insertion_point.after(tag);
+
+                inserted.push(new Promise(function(resolve) {
+                    tag = $(tag);
+                    tag[0].addEventListener('load', resolve);
+                    insertion_point.after(tag);
+                }));
+
                 insertion_point = insertion_point.next();
             }
         });
+
+        if (inserted.length > 0) {
+            var active = $('#tabs > [aria-labelledby="key_' + $('#tabs').tabs('option', 'active') + '"]');
+            Promise.all(inserted).then(function() {
+                active.html(data);
+                $(window).trigger('resize');
+            });
+            return '';
+        }
 
         return data;
     },
@@ -135,17 +155,17 @@ var org_openpsa_widgets_tabs = {
             href = target.attr('href');
 
         if (target.attr('onclick')) {
-            return true;
+            return;
         }
 
         if (!href.match(/\/uitab\//)) {
-            return true;
+            return;
         }
         //for now, only links to plugins will be displayed inside the tab
         if (   !href.match(/\/__mfa\/org\.openpsa/)
             || target.hasClass('tab_escape')) {
             target.attr('href', href.replace(/\/uitab\/+/, '/'));
-            return true;
+            return;
         }
 
         if (href.slice(href.length - 1, href.length) !== '#') {
@@ -158,7 +178,6 @@ var org_openpsa_widgets_tabs = {
             });
 
             event.preventDefault();
-            return false;
         }
     }
 };
