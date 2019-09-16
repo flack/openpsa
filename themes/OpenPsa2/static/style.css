@@ -248,15 +248,19 @@ a:hover
 
 #content
 {
-  background-color: #ffffff;
-  min-height: 100%;
+  background-color: #fff;
   height: 100%;
   margin-left: 240px;
 }
 
 #container > #content
 {
-  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+#content-text
+{
+    flex: 1 1 auto;
 }
 
 #content-menu

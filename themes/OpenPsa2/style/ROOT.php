@@ -90,11 +90,7 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
     <(toolbar)>
 
     <script type="text/javascript">
-    //This has to be timed with the jqgrid resizers
-    org_openpsa_layout.resize_content('#content-text');
-
-    jQuery(document).ready(function()
-    {
+    jQuery(document).ready(function() {
         org_openpsa_layout.add_splitter();
         org_openpsa_layout.clip_toolbar();
 
