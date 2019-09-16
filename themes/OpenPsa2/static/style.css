@@ -302,9 +302,8 @@ a:hover
   text-align: left;
 }
 
-#content-menu #breadcrumb span.pagetitle
+#content-menu #breadcrumb h1
 {
-  display: block;
   font-size: 200%;
   padding-top: 0.7em;
   color: black;
@@ -312,7 +311,18 @@ a:hover
   text-overflow: ellipsis;
   max-height: 38px;
   margin-right: 150px;
+  margin-top: 0;
   overflow: hidden;
+}
+
+#content-menu #breadcrumb .current-page
+{
+    display: none;
+}
+
+#content-menu #breadcrumb .current-page:only-child
+{
+    display: inline;
 }
 
 #content-menu div.context
