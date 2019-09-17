@@ -114,6 +114,7 @@ var org_openpsa_layout = {
         if (!container.data('event_attached')) {
             $(window).resize(function(){org_openpsa_layout.clip_toolbar();});
             container.data('event_attached', true);
+            container.parent().addClass('clip-initialized');
         }
     },
 

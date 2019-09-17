@@ -534,11 +534,19 @@ input#org_openpsa_search_query
   padding: 0.2em 0.4em 0.2em 0;
 }
 
+#org_openpsa_toolbar ul.view_toolbar
+{
+  flex: 1 1 auto;
+  overflow-x: hidden;
+}
+
+#org_openpsa_toolbar ul.view_toolbar.clip-initialized
+{
+    overflow-x: initial;
+}
+
 #org_openpsa_toolbar ul.navigation_toolbar
 {
-    position: absolute;
-    right: 0;
-    z-index: 12;
     padding-right: 1.2em;
 }
 
