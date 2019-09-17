@@ -160,7 +160,8 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
         foreach ($rows as $row) {
             $entries[] = [
                 'timestamp' => strtotime((string) $row['created']),
-                'message' => $row['title']
+                'message' => $row['title'],
+                'order' => 0
             ];
         }
         return $entries;
