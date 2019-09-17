@@ -56,13 +56,18 @@ function add_post_button(url, label, options) {
 }
 
 if (window.hasOwnProperty('$')) {
+	var is_in_dialog = typeof window.parent.$ !== "undefined" && window.parent.$('#midcom-dialog').length > 0;
+	if (is_in_dialog) {
+		window.parent.$('#midcom-dialog > .fa-spinner').hide();
+		window.parent.$('#midcom-dialog').css('visibility', 'visible');
+	}
     $(document).ready(function() {
         var title = document.title,
             buttons = [];
 
-        if (   typeof window.parent.$ !== "undefined"
-            && window.parent.$('#midcom-dialog').length > 0 ) {
+        if (is_in_dialog) {
             var dialog = window.parent.$('#midcom-dialog');
+            dialog.find('> .fa-spinner').hide();
             dialog.dialog('option', 'title', title);
 
             $('body').on('submit', '.midcom-dialog-delete-form', function(e) {

@@ -208,6 +208,7 @@ function create_dialog(control, title, url) {
                    + ' height="100%"'
                    + ' scrolling="auto" />')
            .on('load', function() {
+               // this is only here as fallback in case dialog.js doesn't run for whatever reason
                spinner.hide();
                $(this).css('visibility', 'visible');
            });
