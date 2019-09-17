@@ -90,10 +90,8 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
     <(toolbar)>
 
     <script type="text/javascript">
+    org_openpsa_layout.add_splitter();
     jQuery(document).ready(function() {
-        org_openpsa_layout.add_splitter();
-        org_openpsa_layout.clip_toolbar();
-
         org_openpsa_jsqueue.execute();
     });
     </script>
