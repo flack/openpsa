@@ -39,3 +39,8 @@ form.datamanager2 .autocomplete_widget_create_button
 {
     padding: 1.1em 0
 }
+
+form.datamanager2 .form_toolbar
+{
+    display: none;
+}

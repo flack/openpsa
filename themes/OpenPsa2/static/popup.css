@@ -18,10 +18,18 @@ input
 {
   font-family: Verdana, Arial, Helvetica, sans-serif;
 }
+
+#container
+{
+    display: flex;
+    flex-direction: column;
+}
+
 #content
 {
     padding: calc(60px + 1.5em) 1.5em 2em 1.5em;
     background-color: white;
+    flex: 1 1 auto;
 }
 #content.no-header
 {
@@ -89,4 +97,9 @@ input
   font-size: 1.4em;
   background-color: #3364a3;
   color: #ffffff;
+}
+
+form.datamanager2 div.form_toolbar
+{
+    display: none;
 }

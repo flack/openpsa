@@ -10,7 +10,7 @@ $title = (array_key_exists('title', $data)) ? $data['title'] : $i18n->get_string
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($title); ?></title>
     <?php
-    $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/popup.css');
+    $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/popup.css');
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/style.css');
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css');
     $head->print_head_elements();
