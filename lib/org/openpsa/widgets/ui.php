@@ -53,22 +53,6 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         return $providers;
     }
 
-    public static function initialize_search()
-    {
-        $providers = self::get_search_providers();
-        foreach ($providers as $config) {
-            if ($config['autocomplete'] === true) {
-                autocomplete::add_head_elements();
-            }
-        }
-
-        midcom::get()->head->add_jquery_state_script('org_openpsa_layout.initialize_search
-        (
-            ' . json_encode($providers) . ',
-            "' . midgard_admin_asgard_plugin::get_preference('openpsa2_search_provider') . '"
-        );');
-    }
-
     public static function add_head_elements()
     {
         $head = midcom::get()->head;
