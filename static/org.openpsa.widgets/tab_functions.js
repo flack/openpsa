@@ -102,10 +102,13 @@ var org_openpsa_widgets_tabs = {
                 && $('script[src="' + jscall.url + '"]').length === 0
                 && org_openpsa_widgets_tabs.loaded_scripts.indexOf(jscall.url) === -1) {
                 org_openpsa_widgets_tabs.loaded_scripts.push(jscall.url);
-                var tag = document.createElement('script');
-                tag.src = jscall.url;
-                tag.async = false;
-                document.head.appendChild(tag);
+                inserted.push(new Promise(function(resolve) {
+                    var tag = document.createElement('script');
+                    tag.src = jscall.url;
+                    tag.async = false;
+                    tag.onload = resolve;
+                    document.head.appendChild(tag);
+                }));
             }
             else if (   typeof jscall.content !== 'undefined'
                      && jscall.content.length > 0) {
