@@ -62,6 +62,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
         if (!empty($this->_persons)) {
             $this->list_groups_for_select(0, $data, 0);
+            $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
         }
 
         $this->add_breadcrumb($this->router->generate('user_list'), $data['view_title']);

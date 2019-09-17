@@ -1,8 +1,4 @@
 $(document).ready(function() {
-    $('#midgard_admin_user_batch_process tbody tr td:first').addClass('first');
-    $('#midgard_admin_user_batch_process tbody tr td:last').addClass('last');
-    $('#midgard_admin_user_batch_process tbody tr:even').addClass('even');
-
     $("#midgard_admin_user_batch_process tbody").on('change', 'input[type="checkbox"]', function() {
         $(this).closest('tr').toggleClass('row_selected', $(this).prop('checked'));
         var all_selected = ($('#midgard_admin_user_batch_process tbody input[type="checkbox"]:not(":checked")').length === 0),

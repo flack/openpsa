@@ -78,14 +78,10 @@ if (isset($data['search_results'])) {
         echo "    </tbody>\n";
         echo "</table>\n";
         echo "<script type=\"text/javascript\">\n";
-        echo "        // <![CDATA[\n";
-        echo "            jQuery('#search_results').tablesorter(\n";
-        echo "            {\n ";
-        echo "                widgets: ['zebra'],";
-        echo "                sortList: [[0,0]]\n";
-        echo "            });\n";
-        echo "        // ]]>\n";
-        echo "    </script>\n";
+        echo "    jQuery('#search_results').tablesorter({\n ";
+        echo "        sortList: [[0,0]]\n";
+        echo "    });\n";
+        echo "</script>\n";
     }
 }
 ?>

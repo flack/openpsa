@@ -68,13 +68,9 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             echo "    </tbody>\n";
             echo "</table>\n";
             echo "<script type=\"text/javascript\">\n";
-            echo "// <![CDATA[\n";
-            echo "jQuery('#attachment_table').tablesorter(\n";
-            echo "  {\n";
-            echo "      widgets: ['zebra'],\n";
-            echo "      sortList: [[0,0]]\n";
-            echo "  });\n";
-            echo "// ]]>\n";
+            echo "jQuery('#attachment_table').tablesorter({\n";
+            echo "    sortList: [[0,0]]\n";
+            echo "});\n";
             echo "</script>\n";
         } else {
             echo "<p>" . $data['l10n']->get('no files') . "</p>\n";

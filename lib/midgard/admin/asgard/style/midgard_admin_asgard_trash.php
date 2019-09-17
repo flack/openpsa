@@ -28,13 +28,10 @@ echo "</h2>";
     </tbody>
 </table>
 <script type="text/javascript">
-     // <![CDATA[
-        jQuery('#deleted').tablesorter({
-            widgets: ['zebra'],
-            sortList: [[0,0]],
-            textExtraction: function(node) {
-                return $(node).text();
-            }
-        });
-    // ]]>
+    jQuery('#deleted').tablesorter({
+        sortList: [[0,0]],
+        textExtraction: function(node) {
+            return $(node).text();
+        }
+    });
 </script>

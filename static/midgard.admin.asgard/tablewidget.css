@@ -58,22 +58,23 @@
 {
     padding: 2px 5px
 }
-.table_widget tr.even td
+.table_widget tbody tr:nth-child(odd) td
 {
     background-color: #eeeeef;
 }
 
-.table_widget tr.odd td
+.table_widget tbody tr:nth-child(even) td
 {
     background-color: white;
 }
-.table_widget tr.row_selected td
+
+.table_widget tbody tr.row_selected td
 {
     background-color: #C0CEDE;
     color: #000000;
 }
 
-.table_widget tr.even.row_selected td
+.table_widget tbody tr:nth-child(odd).row_selected td
 {
     background-color: #DFE6EE;
 }

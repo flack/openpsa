@@ -26,7 +26,7 @@ if (!empty($data['persons'])) {
 
     $data['enabled'] = 0; ?>
     <form method="post" id="midgard_admin_user_batch_process" action="&(action_uri);">
-    <table class="midgard_admin_user_search_results">
+    <table class="table_widget midgard_admin_user_search_results">
         <thead>
             <tr>
                 <th>&nbsp;</th>
