@@ -335,15 +335,9 @@ class midcom_services_toolbars
         }
         if ($centralized && midcom::get()->auth->can_user_do('midcom:ajax', null, $this)) {
             $this->_centralized_mode = true;
-            static $run = false;
-            if (!$run) {
-                midcom::get()->head->enable_jquery_ui(['mouse', 'draggable']);
-                midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
-                $script = "jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar();";
-                midcom::get()->head->add_jquery_state_script($script);
-                midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
-                $run = true;
-            }
+            midcom::get()->head->enable_jquery_ui(['mouse', 'draggable']);
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
+            midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
         } else {
             $path = midcom::get()->config->get('toolbars_simple_css_path', MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css");
             midcom::get()->head->add_stylesheet($path, 'screen');
@@ -393,6 +387,9 @@ class midcom_services_toolbars
             echo "     <div class=\"dragbar\"></div>\n";
         }
         echo "</div>\n";
+        echo '<script type="text/javascript">';
+        echo "jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar();";
+        echo '</script>';
     }
 
     private function show_toolbar($identifier, midcom_helper_toolbar $toolbar)
