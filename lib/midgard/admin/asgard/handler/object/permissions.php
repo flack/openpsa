@@ -226,9 +226,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
         // Populate all resources having existing privileges
         $existing_privileges = $this->_object->get_privileges();
-        if ($this->additional_assignee) {
-            $existing_privileges[] = new midcom_core_privilege(['assignee' => $this->additional_assignee]);
-        }
         foreach ($existing_privileges as $privilege) {
             if (!in_array($privilege->privilegename, $this->_privileges)) {
                 $this->_privileges[] = $privilege->privilegename;
@@ -259,6 +256,13 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
                 $this->_row_labels[$key] = $label;
             }
         }
+        if ($this->additional_assignee) {
+            $label = midcom::get()->auth->get_assignee($this->additional_assignee)->name;
+            $assignees[$this->additional_assignee] = $label;
+            $key = str_replace(':', '_', $this->additional_assignee);
+            $this->_row_labels[$key] = $label;
+        }
+
         return $assignees;
     }
 
