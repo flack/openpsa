@@ -39,11 +39,11 @@ form.datamanager2 .maa_permissions_assignees label
     padding: 0;
     clear: left;
 }
-.maa_permissions_items tr.odd
+.maa_permissions_items tbody tr:nth-child(even)
 {
     background-color: #ddd;
 }
-.maa_permissions_items tr.even
+.maa_permissions_items tbody tr:nth-child(odd)
 {
     background-color: #eee;
 }
