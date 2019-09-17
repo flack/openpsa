@@ -102,10 +102,10 @@ var org_openpsa_widgets_tabs = {
                 && $('script[src="' + jscall.url + '"]').length === 0
                 && org_openpsa_widgets_tabs.loaded_scripts.indexOf(jscall.url) === -1) {
                 org_openpsa_widgets_tabs.loaded_scripts.push(jscall.url);
-                inserted.push(new Promise(function(resolve) {
-                    $.ajax({url: jscall.url, cache: true, dataType: 'script', async: false})
-                        .done(resolve);
-                }));
+                var tag = document.createElement('script');
+                tag.src = jscall.url;
+                tag.async = false;
+                document.head.appendChild(tag);
             }
             else if (   typeof jscall.content !== 'undefined'
                      && jscall.content.length > 0) {
@@ -131,7 +131,7 @@ var org_openpsa_widgets_tabs = {
 
                 inserted.push(new Promise(function(resolve) {
                     tag = $(tag);
-                    tag[0].addEventListener('load', resolve);
+                    tag[0].onload = resolve;
                     insertion_point.after(tag);
                 }));
 
