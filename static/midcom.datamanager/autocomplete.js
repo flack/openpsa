@@ -74,7 +74,7 @@ var midcom_helper_datamanager2_autocomplete = {
     },
 
     select: function(event, ui) {
-        var identifier = $(event.target).attr('id').replace(/_search_input$/, '');
+        var identifier = event.target.id.replace(/_search_input$/, '');
 
         if ($('#' + identifier + '_selection_holder').length > 0) {
             midcom_helper_datamanager2_autocomplete.update_selection(identifier, ui.item.id, 'add');
@@ -142,8 +142,7 @@ var midcom_helper_datamanager2_autocomplete = {
     add_result_item: function(identifier, data) {
         var handler_options = window[identifier + '_handler_options'],
             input_value = '';
-
-        $(handler_options.result_headers).each(function(index, value) {
+        handler_options.result_headers.forEach(function(value) {
             if (data[value.name] !== undefined) {
                 input_value += data[value.name] + ', ';
             }
@@ -209,19 +208,17 @@ var midcom_helper_datamanager2_autocomplete = {
             midcom_helper_datamanager2_autocomplete.enable_creation_mode(identifier, handler_options.creation_handler);
             input.parent().addClass('autocomplete-widget-creation-enabled');
         }
-        if (!$.isEmptyObject(handler_options.preset)) {
-            handler_options.preset_order.forEach(function(id) {
-                var text = handler_options.preset[id];
-                if (handler_options.id_field === 'id') {
-                    id = parseInt(id);
-                }
-                midcom_helper_datamanager2_autocomplete.add_item(identifier, id, text, 'autocomplete-saved');
-                if (input.is('[required]')) {
-                    input.prop('required', false);
-                    input.data('required', true)
-                }
-            });
-        }
+        handler_options.preset_order.forEach(function(id) {
+            var text = handler_options.preset[id];
+            if (handler_options.id_field === 'id') {
+                id = parseInt(id);
+            }
+            midcom_helper_datamanager2_autocomplete.add_item(identifier, id, text, 'autocomplete-saved');
+            if (input.is('[required]')) {
+                input.prop('required', false);
+                input.data('required', true)
+            }
+        });
         if (readonly) {
             return;
         }

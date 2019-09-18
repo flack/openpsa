@@ -65,7 +65,7 @@ var midcom_grid_resize = {
         $(midcom_grid_resize.containment).removeClass('openpsa-resizing');
     },
     attach_maximizer: function(items) {
-        $(items).each(function() {
+        items.each(function() {
             $('<a role="link" class="ui-jqgrid-titlebar-maximize"><span class="fa fa-plus-circle"></a></a>')
                 .on('click', function() {
                     var container = $(this).closest('.ui-jqgrid').parent();
@@ -128,7 +128,7 @@ var midcom_grid_resize = {
 
         var new_width;
 
-        $.each(items, function(index, item) {
+        items.each(function(index, item) {
             if (items.hasClass('ui-jqgrid-maximized')) {
                 new_width = $(midcom_grid_resize.containment).width();
             } else {
@@ -136,18 +136,16 @@ var midcom_grid_resize = {
                 new_width = $(item).width();
             }
             $(item).find('.ui-jqgrid table.ui-jqgrid-btable').each(function() {
-                var id = $(this).attr('id'),
-                panel = $("#gbox_" + id).closest('.ui-tabs-panel');
+                panel = $("#gbox_" + this.id).closest('.ui-tabs-panel');
                 if (   panel.length > 0
                     && panel.hasClass('ui-tabs-hide')) {
                     return;
                 }
                 try {
-                    var old_width = $("#" + id).jqGrid().getGridParam('width'),
-                        resized = $("#" + id).data('resized');
-                    if (!resized || new_width != old_width) {
-                        $("#" + id).jqGrid().setGridWidth(new_width);
-                        $("#" + id).data('resized', true);
+                    var old_width = $(this).jqGrid().getGridParam('width');
+                    if (!$(this).data('resized') || new_width != old_width) {
+                        $(this).jqGrid().setGridWidth(new_width);
+                        $(this).data('resized', true);
                     }
                 } catch(e){}
             });
@@ -224,19 +222,20 @@ var midcom_grid_resize = {
         });
 
         function set_param(grid_id, value) {
-            if ($("#" + grid_id).parent().parent().height() !== value) {
+            let grid = $("#" + grid_id);
+            if (grid.parent().parent().height() !== value) {
                 try {
-                    $("#" + grid_id).jqGrid().setGridHeight(value);
+                    grid.jqGrid().setGridHeight(value);
                 } catch(e){}
-                if ($("#" + grid_id).data('vScroll')) {
-                    $("#" + grid_id).closest(".ui-jqgrid-bdiv").scrollTop($("#" + grid_id).data('vScroll'));
-                    $("#" + grid_id).removeData('vScroll');
+                if (grid.data('vScroll')) {
+                    grid.closest(".ui-jqgrid-bdiv").scrollTop(grid.data('vScroll'));
+                    grid.removeData('vScroll');
                 }
             }
         }
     },
     maximize_height: function(part) {
-        var part_height = $(part).outerHeight(true),
+        var part_height = part.outerHeight(true),
             grid_height = $("table.ui-jqgrid-btable", part).parent().parent().outerHeight(),
             new_height = $(midcom_grid_resize.containment).height() + grid_height - part_height;
 
@@ -617,30 +616,33 @@ var midcom_grid_csv = {
         var rows = $('#' + config.id).jqGrid('getRowData'),
             field, i,
             data = '';
+
+        function trim(input) {
+            return input
+                .replace(/\n|\r/g, " ") // remove line breaks
+                .replace(/\s+/g, " ") // Shorten long whitespace
+                .replace(/^\s+/g, "") // strip leading ws
+                .replace(/\s+$/g, "") // strip trailing ws
+                .replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, ''); //strip HTML tags
+        }
+
         for (field in config.fields) {
-            data += this.trim(config.fields[field]) + this.separator;
+            data += trim(config.fields[field]) + this.separator;
         }
 
         data += '\n';
 
-        for (i = 0; i < rows.length; i++) {
+        rows.forEach(function(row) {
             for (field in config.fields) {
-                if (typeof rows[i][field] !== 'undefined') {
-                    data += this.trim(rows[i][field]) + this.separator;
+                if (typeof row[field] !== 'undefined') {
+                    data += trim(row[field]) + midcom_grid_csv.separator;
                 }
             }
             data += '\n';
-        }
+        });
+
         var blob = new Blob([data], {type: "application/csv;charset=utf-8"});
         saveAs(blob, config.filename + ".csv");
-    },
-    trim: function(input) {
-        return input
-            .replace(/\n|\r/g, " ") // remove line breaks
-            .replace(/\s+/g, " ") // Shorten long whitespace
-            .replace(/^\s+/g, "") // strip leading ws
-            .replace(/\s+$/g, "") // strip trailing ws
-            .replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, ''); //strip HTML tags
     }
 };
 
@@ -799,5 +801,4 @@ var midcom_grid_row_actions = {
                 });
         });
     }
-
 };
