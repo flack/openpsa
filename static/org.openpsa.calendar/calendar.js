@@ -12,8 +12,8 @@ var openpsa_calendar_widget = {
         });
         $("#date-navigation").parent().on("click", function(event) {
             event.preventDefault();
-            if (   $(event.target).parent().attr('id') !== 'date-navigation'
-                && $(event.target).attr('id') !== 'date-navigation') {
+            if (   event.target.parentNode.id !== 'date-navigation'
+                && event.target.id !== 'date-navigation') {
                 //don't fire on datepicker navigation clicks
                 return;
             }

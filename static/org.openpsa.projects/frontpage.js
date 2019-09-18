@@ -7,7 +7,7 @@ function get_tasks_json(object, url) {
         url: url,
         dataType: "json",
         success: function(json) {
-            $("#child_" + $(object).attr('id')).remove();
+            $("#child_" + object.id).remove();
             if (json.length > 0) {
                 var max_rows = json.length,
                     html = "",
@@ -27,7 +27,7 @@ function get_tasks_json(object, url) {
                     } else {
                         tr_class = 'even';
                     }
-                    html += "<tr class='" + tr_class + " child_" + $(object).attr('id') + "'>\n";
+                    html += "<tr class='" + tr_class + " child_" + object.id + "'>\n";
                     //icons
                     html += "<td class='multivalue'>";
                     html += "<img class='" + indent_class + "' src='" + MIDCOM_STATIC_URL + "/stock-icons/16x16/line.png' /> ";
@@ -66,8 +66,8 @@ function get_tasks_json(object, url) {
 
 function show_tasks_for_project(object, url) {
     var position = '';
-    if ($(".child_" + $(object).attr('id')).length == 0) {
-        $(".child_" + $(object).attr('id')).remove();
+    if ($(".child_" + object.id).length == 0) {
+        $(".child_" + object.id).remove();
         if (   (!$(object).parent().parent().next())
             || $(object).parent().parent().next().children('th')[0]) {
             position = 'bottom';
@@ -76,7 +76,7 @@ function show_tasks_for_project(object, url) {
         $(object).attr('src', MIDCOM_STATIC_URL + "/stock-icons/16x16/minus" + position + ".png");
         get_tasks_json(object, url);
     } else {
-        $(".child_" + $(object).attr('id')).remove();
+        $(".child_" + object.id).remove();
         if (   !$(object).parent().parent().next()
             || $(object).parent().parent().next().children('th')[0]) {
             position = 'bottom';

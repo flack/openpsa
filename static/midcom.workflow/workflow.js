@@ -210,7 +210,7 @@ function create_dialog(control, title, url) {
            .on('load', function() {
                // this is only here as fallback in case dialog.js doesn't run for whatever reason
                spinner.hide();
-               $(this).css('visibility', 'visible');
+               this.style.visibility = 'visible';
            });
 
         dialog = $('<div id="midcom-dialog"></div>')

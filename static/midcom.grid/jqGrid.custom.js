@@ -396,7 +396,7 @@ var midcom_grid_editable = {
         $('#' + this.grid_id + ' td[aria-describedby="invoice_items_position"]').each(function(index) {
             var idx = index + 1,
                 oldPos = parseInt($(this).text()),
-                trId = $(this).parent().attr('id');
+                trId = this.parentNode.id;
 
             if (idx !== oldPos) {
                 // Set new Position-Number in this td

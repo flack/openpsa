@@ -63,7 +63,7 @@ $(document).ready(function() {
             if (!viewer.hasClass('active')) {
                 viewer.addClass('active');
             }
-            viewer.data('active', $(this).attr('id'));
+            viewer.data('active', this.id);
             $('.entry.active').removeClass('active');
             $(this).addClass('active');
         })
@@ -178,7 +178,7 @@ $(document).ready(function() {
             entry.title = title;
             entry.description = description;
             entry.position = index;
-            entry.guid = $(item).attr('id').slice(6);
+            entry.guid = item.id.slice(6);
 
             update_items.push(entry);
         }
@@ -242,7 +242,7 @@ $(document).ready(function() {
                 $(item).remove();
                 return;
             }
-            delete_guids.push($(item).attr('id').slice(6));
+            delete_guids.push(item.id.slice(6));
         });
 
         if (delete_guids.length > 0) {

@@ -75,8 +75,7 @@ function rule(parent, id) {
 
         object_select
             .on('change', function() {
-                var rule_id = $(this).parent().attr("id");
-                rules[rule_id].object_select_onchange();
+                rules[this.parentNode.id].object_select_onchange();
             });
 
         rule.append(object_select);

@@ -7,6 +7,6 @@ function submit_privileges(form) {
 
 $(document).ready(function() {
     $('.maa_permissions_items tr.maa_permissions_rows_row').each(function() {
-        $(this).privilege_actions($(this).attr('id').substr(14));
+        $(this).privilege_actions(this.id.substr(14));
     });
 });
