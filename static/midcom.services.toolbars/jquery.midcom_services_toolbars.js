@@ -19,32 +19,17 @@ $.fn.extend({
     }
 });
 
-$.midcom_services_toolbars = function(root, settings) {
-    settings = $.extend({
-        visible: true,
-        create_root: false,
-        class_name: 'midcom_services_toolbars_fancy',
-        allow_auto_create: false
-    }, settings);
-
-    var root_element = null,
-        minimizer = $('#midcom_services_toolbars_minimizer'),
-        item_holder = null;
-
-    if (settings.create_root) {
-        root_element = create_root();
-    } else {
-        if (root[0]) {
-            settings.class_name = root.attr('class');
-            root_element = root;
-            item_holder = $('div.items', root_element);
-        } else {
-            if (!settings.allow_auto_create) {
-                return;
-            }
-            root_element = create_root();
-        }
+$.midcom_services_toolbars = function(root_element) {
+    if (root_element.length === 0) {
+        return;
     }
+
+    var minimizer = $('#midcom_services_toolbars_minimizer'),
+        default_position = get_default_position(root_element),
+        memorized_position = get_memorized_position(),
+        visible = true,
+        posX = default_position.x,
+        posY = default_position.y;
 
     if (minimizer.length === 0) {
         minimizer = $('<div>')
@@ -52,57 +37,42 @@ $.midcom_services_toolbars = function(root, settings) {
             .prependTo($('body'));
     }
 
-    var default_position = get_default_position(root_element),
-        memorized_position = get_memorized_position(),
-        visible = true,
-        posX = default_position.x,
-        posY = default_position.y;
-
     if (memorized_position != null) {
         posX = (memorized_position.x != '' && memorized_position.x != undefined ? memorized_position.x : default_position.x);
         posY = (memorized_position.y != '' && memorized_position.y != undefined ? memorized_position.y : default_position.y);
         visible = memorized_position.visible;
     }
 
-    enable_toolbar(posX, posY, visible);
+    if (parseInt(posY) === 0) {
+        root_element.addClass('type_menu');
+    } else {
+        root_element.addClass('type_palette');
 
-    function create_root(target) {
-        target = target || $('body');
-        var root = $('<div>')
-            .addClass(settings.class_name)
-            .appendTo(target)
-            .hide()
-            .css({ zIndex: 6001 });
+        if (Math.ceil(posX) + root_element.width() > $(window).width()) {
+            posX = $(window).width() - (root_element.width() + 4);
+        }
 
-        $(root).append($('<div>').addClass('minimizer'));
-
-        item_holder = $('<div>').addClass('items');
-        $(root).append(item_holder);
-
-        $(root).append(
-            $('<div>').addClass('dragbar')
-        );
-
-        return root;
+        root_element.css({ left: posX + 'px', top: posY + 'px', width: (root_element.width() + 25) + 'px'});
     }
 
-    function enable_toolbar(posX, posY, visible) {
-        if (parseInt(posY) === 0) {
-            root_element.addClass('type_menu');
-        } else {
-            root_element.addClass('type_palette');
+    attach_events();
 
-            if (Math.ceil(posX) + root_element.width() > $(window).width()) {
-                posX = $(window).width() - (root_element.width() + 4);
-            }
+    root_element.css({ cursor: 'default' });
 
-            root_element.css({ left: posX + 'px', top: posY + 'px', width: (root_element.width() + 25) + 'px'});
-        }
+    if (visible === true) {
+        root_element.show();
+        minimizer.addClass('toolbar-visible');
+    } else {
+        minimizer.addClass('toolbar-hidden');
+    }
+
+    function attach_events() {
+        var item_holder = $('div.items', root_element);
 
         $('div.item', item_holder).each(function(i, n) {
             var item = $(n),
                 handle = $('.midcom_services_toolbars_topic_title', item),
-                children = $('ul',item);
+                children = $('ul', item);
 
             item.on('mouseover', function() {
                 clearTimeout($(item_holder).data("hide"));
@@ -118,6 +88,9 @@ $.midcom_services_toolbars = function(root, settings) {
                 }, 1000));
             });
         });
+
+        minimizer.on('click', toggle_visibility);
+        root_element.find('.minimizer').on('click', toggle_visibility);
 
         root_element.draggable({
             start: function() {
@@ -144,17 +117,6 @@ $.midcom_services_toolbars = function(root, settings) {
             containment: 'window',
             cancel: '.items ul'
         });
-        root_element.css({ cursor: 'default' });
-
-        minimizer.on('click', toggle_visibility);
-        root_element.find('.minimizer').on('click', toggle_visibility);
-
-        if (visible === true) {
-            root_element.show();
-            minimizer.addClass('toolbar-visible');
-        } else {
-            minimizer.addClass('toolbar-hidden');
-        }
     }
 
     function toggle_visibility(e) {
