@@ -32,7 +32,7 @@ class viewer extends dialog
     public function run(Request $request) : Response
     {
         $context = midcom_core_context::get();
-        $this->add_dialog_js();
+        self::add_dialog_js();
         midcom::get()->style->append_styledir(__DIR__ . '/style');
         return new midcom_response_styled($context, 'POPUP');
     }

@@ -127,12 +127,10 @@ var midcom_helper_datamanager2_autocomplete = {
                     + ' height="100%"'
                     + ' scrolling="auto" />';
 
-                create_dialog
-                    .html(iframe_html)
-                    .dialog({
-                        height: 350,
-                        width: 500
-                    });
+                make_dialog(create_dialog.html(iframe_html), {
+                    height: 350,
+                    width: 500
+                });
             });
     },
 

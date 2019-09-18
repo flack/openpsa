@@ -257,6 +257,15 @@ function create_dialog(control, title, url) {
         control.parent().trigger('click');
     }
 
+    make_dialog(dialog, config);
+    dialog.dialog("instance").uiDialog.draggable("option", "containment", false);
+}
+
+function make_dialog(node, config) {
+
+    if (!config.hasOwnProperty('buttons')) {
+        config.buttons = [];
+    }
     if (config.buttons.length === 0) {
         // This is not ideal, but otherwise buttons added by dialog.js are not rendered
         config.buttons.push({
@@ -266,11 +275,6 @@ function create_dialog(control, title, url) {
         });
     }
 
-    make_dialog(dialog, config);
-    dialog.dialog("instance").uiDialog.draggable("option", "containment", false);
-}
-
-function make_dialog(node, config) {
     var backup = false;
 
     if (typeof($.fn.popover) != 'undefined') {
