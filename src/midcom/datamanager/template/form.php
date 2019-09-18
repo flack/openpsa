@@ -5,6 +5,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\ChoiceList\View\ChoiceGroupView;
 use midcom\datamanager\renderer;
 use midcom;
+use midcom\datamanager\helper\autocomplete;
 
 class form extends base
 {
@@ -262,7 +263,7 @@ class form extends base
 
     public function autocomplete_widget(FormView $view, array $data)
     {
-        $this->add_head_elements_for_autocomplete($data['handler_options']['sortable'], $data['handler_options']['creation_mode_enabled']);
+        autocomplete::add_head_elements($data['handler_options']['creation_mode_enabled'], $data['handler_options']['sortable']);
 
         $element_id = $view->vars['id'];
         $jsinit = 'window.' . $element_id . '_handler_options = ' . json_encode($data['handler_options']) . ";\n";

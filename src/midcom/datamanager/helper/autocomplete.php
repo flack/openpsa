@@ -222,15 +222,17 @@ class autocomplete
     public static function add_head_elements($creation_mode_enabled = false, $sortable = false)
     {
         $head = midcom::get()->head;
-
+        $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.css');
 
         $components = ['menu', 'autocomplete'];
         if ($sortable) {
+            $components[] = 'mouse';
             $components[] = 'sortable';
         }
         if ($creation_mode_enabled) {
             $components = array_merge($components, ['mouse', 'draggable', 'resizable', 'button', 'dialog']);
+            $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/workflow.js');
         }
         $head->enable_jquery_ui($components);
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.js');

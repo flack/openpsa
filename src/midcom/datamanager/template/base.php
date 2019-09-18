@@ -141,24 +141,6 @@ abstract class base
         return "<script>$code</script>";
     }
 
-    protected function add_head_elements_for_autocomplete(bool $sortable, bool $creation_mode_enabled)
-    {
-        $head = midcom::get()->head;
-        $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.css');
-
-        $components = ['menu', 'autocomplete'];
-        if ($sortable) {
-            $components[] = 'mouse';
-            $components[] = 'sortable';
-        }
-        if ($creation_mode_enabled) {
-            $components = array_merge($components, ['mouse', 'draggable', 'resizable', 'button', 'dialog']);
-        }
-        $head->enable_jquery_ui($components);
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.js');
-    }
-
     protected function add_head_elements_for_codemirror(array $modes)
     {
         $prefix = MIDCOM_STATIC_URL . '/midcom.datamanager/codemirror-5.46.0/';
