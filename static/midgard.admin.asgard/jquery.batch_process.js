@@ -31,9 +31,6 @@ $.fn.invert_selection = function(target) {
 };
 
 $(document).ready(function() {
-    $('#batch_process tbody tr').find('td:first').addClass('first');
-    $('#batch_process tbody tr').find('td:last').addClass('last');
-
     $("#batch_process tbody input[type='checkbox']").each(function() {
         $(this).change(function() {
             var object = this.parentNode,
