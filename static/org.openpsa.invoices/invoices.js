@@ -35,9 +35,9 @@ function calculate_total(table) {
 
 function hide_invoice_address() {
     if ($('#org_openpsa_invoices_use_contact_address').is(':checked')) {
-        $(".invoice_adress").hide();
+        $(".invoice_address").hide();
     } else {
-        $(".invoice_adress").show();
+        $(".invoice_address").show();
     }
 }
 
