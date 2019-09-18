@@ -296,6 +296,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
             '__SHORTDATE__' => sprintf($this->_l10n->get('short dateformat (%s)'), $formatter->date($now)),
             '__TIME__' => sprintf($this->_l10n->get('current time (%s)'), $formatter->time($now)),
         ];
+        midcom::get()->skip_page_style = true;
     }
 
     /**
