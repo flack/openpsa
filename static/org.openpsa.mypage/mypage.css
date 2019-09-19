@@ -60,3 +60,8 @@ div.org_openpsa_mypage_workingon .controls
 {
     padding-bottom: 2em;
 }
+
+.org_openpsa_mypage.main .ui-tabs-panel
+{
+    height: 170px;
+}
