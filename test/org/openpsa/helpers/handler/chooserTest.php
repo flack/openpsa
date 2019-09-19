@@ -40,11 +40,10 @@ class org_openpsa_helpers_handler_chooserTest extends openpsa_testcase
         $this->run_handler('org.openpsa.sales', $handler_args);
 
         $head_elements = midcom::get()->head->get_jshead_elements();
-        $this->assertCount(4, $head_elements);
-        $output = $head_elements[3]['content'];
-        $this->assertRegExp('/add_item\(\{"id":(\d+)/', $output);
+        $output = $head_elements[count($head_elements) - 1]['content'];
+        $this->assertRegExp('/add_item\(\{.+?"id":(\d+)/', $output);
 
-        $id = preg_replace('/^.+?add_item\(\{"id":(\d+).+$/s', '$1', $output);
+        $id = preg_replace('/^.+?"id":(\d+).+$/s', '$1', $output);
         $person = new org_openpsa_contacts_person_dba((int) $id);
         $this->register_object($person);
         $this->assertEquals('test', $person->lastname);

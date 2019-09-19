@@ -73,36 +73,37 @@ class datamanager extends dialog
         $this->state = $this->controller->handle($request);
 
         if ($this->state == controller::SAVE) {
-            $head = new \midcom_helper_head;
-            $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
-            // Allow handlers to add stuff, too
-            midcom::get()->head = $head;
-            if ($this->relocate) {
-                $url = '';
-                if (is_callable($this->save_callback)) {
-                    $url = call_user_func($this->save_callback, $this->controller);
-                    if ($url !== null) {
-                        $url = $this->prepare_url($url);
-                    }
-                }
-                $head->add_jscript('refresh_opener(' . $url . ');');
-            } else {
-                $dm = $this->controller->get_datamanager();
-                $data = $dm->get_content_html();
-                $object = $dm->get_storage()->get_value();
-                if ($object instanceof \midcom_core_dbaobject) {
-                    $data['guid'] = $object->guid;
-                }
-                $head->add_jscript('close(' . json_encode($data) . ');');
-            }
-            midcom::get()->dispatcher->addListener(KernelEvents::RESPONSE, [$head, 'inject_head_elements']);
+            $script = $this->handle_save();
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
+            midcom::get()->head->add_jscript($script);
+            midcom::get()->dispatcher->addListener(KernelEvents::RESPONSE, [midcom::get()->head, 'inject_head_elements']);
             $content = '<!DOCTYPE html><html><head>' . \midcom_helper_head::TOOLBAR_PLACEHOLDER . '</head><body></body></html>';
             return new Response($content);
         }
-
         $context = midcom_core_context::get();
         $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$this->controller, 'display_form']);
         return self::response($context);
+    }
+
+    protected function handle_save() : string
+    {
+        if ($this->relocate) {
+            $url = '';
+            if (is_callable($this->save_callback)) {
+                $url = call_user_func($this->save_callback, $this->controller);
+                if ($url !== null) {
+                    $url = $this->prepare_url($url);
+                }
+            }
+            return 'refresh_opener(' . $url . ');';
+        }
+        $dm = $this->controller->get_datamanager();
+        $data = $dm->get_content_html();
+        $object = $dm->get_storage()->get_value();
+        if ($object instanceof \midcom_core_dbaobject) {
+            $data['guid'] = $object->guid;
+        }
+        return 'close(' . json_encode($data) . ');';
     }
 
     public function add_post_button($url, $label, array $args)

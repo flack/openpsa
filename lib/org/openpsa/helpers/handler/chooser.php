@@ -62,15 +62,12 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         $this->_controller = $this->load_controller($defaults);
         $data['controller'] = $this->_controller;
 
-        $workflow = $this->get_workflow('datamanager', [
-            'controller' => $this->_controller,
-            'relocate' => false
+        $workflow = $this->get_workflow('chooser', [
+            'controller' => $this->_controller
         ]);
 
         $response = $workflow->run($request);
 
-        midcom::get()->head->enable_jquery();
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/chooser.js');
         if ($workflow->get_state() == 'save') {
             $this->_post_create_actions();
         }
@@ -90,17 +87,10 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      */
     private function _post_create_actions()
     {
-        switch ($this->_dbaclass) {
-            case org_openpsa_contacts_person_dba::class:
-                $indexer = new org_openpsa_contacts_midcom_indexer($this->_node[MIDCOM_NAV_OBJECT]);
-                $indexer->index($this->_controller->get_datamanager());
-                break;
-            case org_openpsa_products_product_group_dba::class:
-                break;
-            default:
-                throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
+        if ($this->_dbaclass == org_openpsa_contacts_person_dba::class) {
+            $indexer = new org_openpsa_contacts_midcom_indexer($this->_node[MIDCOM_NAV_OBJECT]);
+            $indexer->index($this->_controller->get_datamanager());
         }
-        midcom::get()->head->add_jscript('if (self !== parent) {add_item(' . $this->object_to_jsdata() . ');}');
     }
 
     /**
@@ -154,31 +144,5 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         }
 
         return $this->_node[MIDCOM_NAV_CONFIGURATION]->get($config_key);
-    }
-
-    private function object_to_jsdata()
-    {
-        $jsdata = [
-            'id' => @$this->_object->id,
-            'guid' => @$this->_object->guid,
-            'pre_selected' => true
-        ];
-
-        switch ($this->_dbaclass) {
-            case org_openpsa_contacts_person_dba::class:
-                //We need to reload the object so that name is constructed properly
-                $this->_object = new org_openpsa_contacts_person_dba($this->_object->id);
-                $jsdata['name'] = $this->_object->name;
-                $jsdata['email'] = $this->_object->email;
-                break;
-            case org_openpsa_products_product_group_dba::class:
-                $this->_object = new org_openpsa_products_product_group_dba($this->_object->id);
-                $jsdata['title'] = $this->_object->title;
-                break;
-            default:
-                throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
-        }
-
-        return json_encode($jsdata);
     }
 }

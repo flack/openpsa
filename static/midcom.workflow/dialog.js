@@ -1,3 +1,5 @@
+var dialog;
+
 function refresh_opener(url) {
     if (url === undefined) {
         url = window.parent.location.href;
@@ -16,8 +18,7 @@ function refresh_opener(url) {
 }
 
 function close(data) {
-    var dialog = window.parent.$('#midcom-dialog');
-    if (dialog.length > 0) {
+    if (dialog) {
         dialog
             .trigger('dialogsaved', [data])
             .dialog('close');
@@ -53,6 +54,14 @@ function add_post_button(url, label, options) {
         }
     };
     extra_buttons.push(button);
+}
+
+function add_item(data) {
+    if (dialog) {
+        var widget_id = dialog.attr('id').replace(/_creation_dialog/, '');
+        window.parent.midcom_helper_datamanager2_autocomplete.add_result_item(widget_id, data);
+        close(data);
+    }
 }
 
 function attach_to_parent_dialog(dialog) {
@@ -137,16 +146,11 @@ function attach_to_parent_dialog(dialog) {
     });
 }
 
-if (window.hasOwnProperty('$')) {
-    var dialog;
-    if (typeof window.parent.$ !== "undefined" && window.parent.$('#midcom-dialog').length > 0) {
-	dialog = window.parent.$('#midcom-dialog');
-        window.addEventListener('DOMContentLoaded', function() {
-            dialog.find(' > .fa-spinner').hide();
-        });
-    }
-    $(document).ready(function() {
-        if (dialog) {
+if (window.frameElement) {
+    dialog = window.parent.$(window.frameElement.parentNode);
+    window.addEventListener('DOMContentLoaded', function() {
+        dialog.find(' > .fa-spinner').hide();
+        if (window.hasOwnProperty('$')) {
             $('body').on('submit', '.midcom-dialog-delete-form', function(e) {
                 e.preventDefault();
                 var form = $(this).detach().appendTo(dialog);
@@ -159,8 +163,8 @@ if (window.hasOwnProperty('$')) {
                     .submit();
             });
             attach_to_parent_dialog(dialog);
-        } else {
-            $('.midcom-view-toolbar, .datamanager2 .form_toolbar').show();
         }
     });
+} else if (window.hasOwnProperty('$')) {
+    $('.midcom-view-toolbar, .datamanager2 .form_toolbar').show();
 }
