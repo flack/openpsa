@@ -60,6 +60,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
 
         $defaults = $request->query->get('defaults', []);
         $this->_controller = $this->load_controller($defaults);
+        $data['controller'] = $this->_controller;
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->_controller,

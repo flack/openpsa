@@ -37,9 +37,11 @@ class org_openpsa_helpers_handler_chooserTest extends openpsa_testcase
             'email' => 'test@openpsa2.org'
         ];
         $this->set_dm_formdata($data['controller'], $formdata);
+        $this->run_handler('org.openpsa.sales', $handler_args);
 
-        $data = $this->run_handler('org.openpsa.sales', $handler_args);
-        $output = $this->show_handler($data);
+        $head_elements = midcom::get()->head->get_jshead_elements();
+        $this->assertCount(4, $head_elements);
+        $output = $head_elements[3]['content'];
         $this->assertRegExp('/add_item\(\{"id":(\d+)/', $output);
 
         $id = preg_replace('/^.+?add_item\(\{"id":(\d+).+$/s', '$1', $output);
