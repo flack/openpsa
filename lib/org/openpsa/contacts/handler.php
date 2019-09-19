@@ -20,7 +20,7 @@ trait org_openpsa_contacts_handler
         org_openpsa_widgets_contact::add_head_elements();
     }
 
-    public function get_group_tree()
+    public function get_group_tree() : org_openpsa_widgets_tree
     {
         $root_group = org_openpsa_contacts_interface::find_root_group();
         $nap = new midcom_helper_nav;
@@ -41,7 +41,7 @@ trait org_openpsa_contacts_handler
      *
      * @return string Schema name
      */
-    public function get_person_schema(org_openpsa_contacts_person_dba $contact)
+    public function get_person_schema(org_openpsa_contacts_person_dba $contact) : string
     {
         $my_company_guid = $this->_config->get('owner_organization');
 

@@ -73,7 +73,7 @@ class org_openpsa_contacts_mycontacts
         }
     }
 
-    public function is_member($guid)
+    public function is_member($guid) : bool
     {
         if ($group = $this->_get_group()) {
             return $group->is_member($guid);
@@ -84,7 +84,7 @@ class org_openpsa_contacts_mycontacts
     /**
      * @return org_openpsa_contacts_person_dba[]
      */
-    public function list_members()
+    public function list_members() : array
     {
         if ($group = $this->_get_group()) {
             $memberships = $group->list_members();

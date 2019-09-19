@@ -77,7 +77,7 @@ class org_openpsa_contacts_list_dba extends midcom_core_dbaobject
         }
     }
 
-    public function is_member($guid)
+    public function is_member($guid) : bool
     {
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $this->id);
@@ -85,7 +85,7 @@ class org_openpsa_contacts_list_dba extends midcom_core_dbaobject
         return $qb->count() > 0;
     }
 
-    public function list_members()
+    public function list_members() : array
     {
         $mc = midcom_db_member::new_collector('gid', $this->id);
         $mc->add_order('uid.lastname');

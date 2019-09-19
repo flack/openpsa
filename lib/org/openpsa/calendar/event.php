@@ -133,7 +133,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     /**
      * Preparations related to all save operations (=create/update)
      */
-    private function _prepare_save()
+    private function _prepare_save() : bool
     {
         // Make sure we have accessType
         if (!$this->orgOpenpsaAccesstype) {
@@ -176,7 +176,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         return $this->_check_timerange();
     }
 
-    private function _check_timerange()
+    private function _check_timerange() : bool
     {
         if (   !$this->start
             || !$this->end) {
@@ -222,7 +222,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      *
      * @return object org_openpsa_relatedto_dba
      */
-    private function _suspect_defaults()
+    private function _suspect_defaults() : org_openpsa_relatedto_dba
     {
         $link_def = new org_openpsa_relatedto_dba();
         $link_def->fromComponent = 'org.openpsa.calendar';
@@ -347,7 +347,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     /**
      * @return org_openpsa_calendar_event_member_dba[]
      */
-    private function _get_participants()
+    private function _get_participants() : array
     {
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
         $qb->add_constraint('eid', '=', $this->id);
@@ -357,7 +357,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     /**
      * @return org_openpsa_calendar_event_resource_dba[]
      */
-    private function _get_resources()
+    private function _get_resources() : array
     {
         $qb = org_openpsa_calendar_event_resource_dba::new_query_builder();
         $qb->add_constraint('event', '=', $this->id);
@@ -410,7 +410,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     /**
      * Returns a string describing the event and its participants
      */
-    public function details_text($nl)
+    public function details_text($nl) : string
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
         $str = '';
@@ -426,7 +426,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     /**
      * Returns a comma separated list of persons from array
      */
-    private function implode_members(array $array)
+    private function implode_members(array $array) : string
     {
         $output = [];
         foreach (array_keys($array) as $pid) {

@@ -67,7 +67,7 @@ class org_openpsa_calendar_conflictmanager
         return true;
     }
 
-    public function get_message(midcom_services_i18n_formatter $formatter)
+    public function get_message(midcom_services_i18n_formatter $formatter) : string
     {
         $message = '<ul>';
         foreach ($this->busy_members as $uid => $events) {
@@ -99,7 +99,7 @@ class org_openpsa_calendar_conflictmanager
      * Also allows normal events to "rob" resources from tentative ones.
      * NOTE: return false for *no* (or resolved automatically) conflicts and true for unresolvable conflicts
      */
-    public function run($rob_tentative = false)
+    public function run($rob_tentative = false) : bool
     {
         //If we're not busy it's not worth checking
         if (!$this->_event->busy) {
@@ -157,7 +157,7 @@ class org_openpsa_calendar_conflictmanager
         return true;
     }
 
-    private function _load_participants()
+    private function _load_participants() : array
     {
         if (!empty($this->_event->participants)) {
             //We attack this "backwards" in the sense that in the end we need the events but this is faster way to filter them
@@ -170,7 +170,7 @@ class org_openpsa_calendar_conflictmanager
         return [];
     }
 
-    private function _load_resources()
+    private function _load_resources() : array
     {
         if (!empty($this->_event->resources)) {
             $qb = org_openpsa_calendar_event_resource_dba::new_query_builder();
@@ -250,7 +250,7 @@ class org_openpsa_calendar_conflictmanager
         $this->{$field}[$id][] = $event;
     }
 
-    private function is_processed($type, $eid, $id)
+    private function is_processed($type, $eid, $id) : bool
     {
         static $processed = [];
         $cache_key = $type . '::' . $eid . '::' . $id;

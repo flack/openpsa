@@ -62,7 +62,7 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
         }
     }
 
-    private function get_filters($type)
+    private function get_filters($type) : array
     {
         if (!$this->filters) {
             $this->filters = ['people' => [], 'groups' => [], 'resources' => []];
@@ -78,7 +78,7 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
         return $this->filters[$type];
     }
 
-    private function load_memberships($from, $to)
+    private function load_memberships($from, $to) : array
     {
         $user = midcom::get()->auth->user->get_storage();
         $mc = org_openpsa_calendar_event_member_dba::new_collector('eid.up', $this->root_event->id);
@@ -103,7 +103,7 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
         return $mc->get_rows(['uid', 'eid']);
     }
 
-    private function load_resources($from, $to)
+    private function load_resources($from, $to) : array
     {
         $selected = $this->get_filters('resources');
         if (empty($selected)) {

@@ -154,7 +154,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
      * Find amount (seconds) of free
      * time for person between start and end
      */
-    public static function find_free_times($amount, org_openpsa_contacts_person_dba $person, $start, $end)
+    public static function find_free_times($amount, org_openpsa_contacts_person_dba $person, $start, $end) : array
     {
         $slots = [];
 
@@ -247,7 +247,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         return $slots;
     }
 
-    private static function _create_slot($start, $end, $previous, $next = false)
+    private static function _create_slot($start, $end, $previous, $next = false) : array
     {
         return [
             'start' => $start,

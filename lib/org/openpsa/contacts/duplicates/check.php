@@ -36,7 +36,7 @@ class org_openpsa_contacts_duplicates_check
      * @param org_openpsa_contacts_person_dba $person object (does not need id)
      * @return org_openpsa_contacts_person_dba[] array of possible duplicates
      */
-    function find_duplicates_person(org_openpsa_contacts_person_dba $person, $threshold = 1)
+    function find_duplicates_person(org_openpsa_contacts_person_dba $person, $threshold = 1) : array
     {
         $this->p_map = []; //Make sure this is clean before starting
         $ret = [];
@@ -65,7 +65,7 @@ class org_openpsa_contacts_duplicates_check
         return $ret;
     }
 
-    private function get_person_candidates(org_openpsa_contacts_person_dba $person = null)
+    private function get_person_candidates(org_openpsa_contacts_person_dba $person = null) : array
     {
         $mc = org_openpsa_contacts_person_dba::new_collector();
 
@@ -108,7 +108,7 @@ class org_openpsa_contacts_duplicates_check
      * @param array $person2
      * @return array with overall P and matched checks
      */
-    function p_duplicate_person(array $person1, array $person2)
+    function p_duplicate_person(array $person1, array $person2) : array
     {
         $ret = [
             'p' => 0,
@@ -172,7 +172,7 @@ class org_openpsa_contacts_duplicates_check
         return $ret;
     }
 
-    private function match($property, array $data1, array $data2)
+    private function match($property, array $data1, array $data2) : bool
     {
         if (   !empty($data1[$property])
             && $data1[$property] == $data2[$property]) {
@@ -184,7 +184,7 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Get membership maps
      */
-    private function load_memberships($id)
+    private function load_memberships($id) : array
     {
         if (!isset($this->membership_cache[$id])) {
             $this->membership_cache[$id] = [];
@@ -204,7 +204,7 @@ class org_openpsa_contacts_duplicates_check
      * @param org_openpsa_contacts_group_dba $group Group object (does not need id)
      * @return org_openpsa_contacts_group_dba[] List of possible duplicates
      */
-    function find_duplicates_group(org_openpsa_contacts_group_dba $group, $threshold = 1)
+    function find_duplicates_group(org_openpsa_contacts_group_dba $group, $threshold = 1) : array
     {
         $this->p_map = []; //Make sure this is clean before starting
         $ret = [];
@@ -231,7 +231,7 @@ class org_openpsa_contacts_duplicates_check
         return $ret;
     }
 
-    private function get_group_candidates(org_openpsa_contacts_group_dba $group = null)
+    private function get_group_candidates(org_openpsa_contacts_group_dba $group = null) : array
     {
         $mc = org_openpsa_contacts_group_dba::new_collector();
 
@@ -263,7 +263,7 @@ class org_openpsa_contacts_duplicates_check
      * @param array $group2
      * @return array with overall P and matched checks
      */
-    function p_duplicate_group(array $group1, array $group2)
+    function p_duplicate_group(array $group1, array $group2) : array
     {
         $ret = [
             'p' => 0,
@@ -311,7 +311,7 @@ class org_openpsa_contacts_duplicates_check
      *
      * @return array array of persons with their possible duplicates
      */
-    function check_all_persons($threshold = 1)
+    function check_all_persons($threshold = 1) : array
     {
         $this->p_map = []; //Make sure this is clean before starting
         $this->threshold = $threshold;
@@ -336,7 +336,7 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Prepare fields for easier comparison
      */
-    private function normalize_fields(array $arr, $guid)
+    private function normalize_fields(array $arr, $guid) : array
     {
         $arr = array_map('strtolower', array_map('trim', $arr));
         $arr['guid'] = $guid;
@@ -406,7 +406,7 @@ class org_openpsa_contacts_duplicates_check
      *
      * @return array array of groups with their possible duplicates
      */
-    function check_all_groups()
+    function check_all_groups() : array
     {
         $this->p_map = []; //Make sure this is clean before starting
 

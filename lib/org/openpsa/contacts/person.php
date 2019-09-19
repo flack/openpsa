@@ -60,7 +60,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
         parent::__set($name, $value);
     }
 
-    public function render_link()
+    public function render_link() : string
     {
         $siteconfig = new org_openpsa_core_siteconfig();
 

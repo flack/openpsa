@@ -29,7 +29,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     /**
      * @return \midcom\datamanager\controller
      */
-    private function load_controller()
+    private function load_controller() : controller
     {
         $schema = $this->get_person_schema($this->_contact);
         return datamanager::from_schemadb($this->_config->get('schemadb_person'))

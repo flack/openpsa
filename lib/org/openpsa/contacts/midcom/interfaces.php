@@ -38,7 +38,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Locates the root group
      */
-    public static function find_root_group($name = '__org_openpsa_contacts')
+    public static function find_root_group($name = '__org_openpsa_contacts') : midcom_db_group
     {
         static $root_groups = [];
 
@@ -90,7 +90,7 @@ implements midcom_services_permalinks_resolver
         return null;
     }
 
-    private function _get_data_from_url($url)
+    private function _get_data_from_url($url) : array
     {
         $data = [];
 
@@ -143,7 +143,7 @@ implements midcom_services_permalinks_resolver
      * @param midcom_baseclasses_components_cron_handler $handler The cron_handler object calling this method.
      * @return boolean indicating success/failure
      */
-    public function check_url(array $args, midcom_baseclasses_components_cron_handler $handler)
+    public function check_url(array $args, midcom_baseclasses_components_cron_handler $handler) : bool
     {
         if (array_key_exists('person', $args)) {
             $type = 'person';
@@ -171,7 +171,7 @@ implements midcom_services_permalinks_resolver
         return $this->$method($object);
     }
 
-    private function _check_group_url(org_openpsa_contacts_group_dba $group)
+    private function _check_group_url(org_openpsa_contacts_group_dba $group) : bool
     {
         $data = $this->_get_data_from_url($group->homepage);
 
@@ -187,7 +187,7 @@ implements midcom_services_permalinks_resolver
         return true;
     }
 
-    private function _check_person_url(org_openpsa_contacts_person_dba $person)
+    private function _check_person_url(org_openpsa_contacts_person_dba $person) : bool
     {
         $data = $this->_get_data_from_url($person->homepage);
 

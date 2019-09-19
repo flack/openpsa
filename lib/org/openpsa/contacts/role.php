@@ -22,7 +22,7 @@ class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
 
     public $_use_rcs = false;
 
-    public static function add($object_guid, $person, $role)
+    public static function add($object_guid, $person, $role) : bool
     {
         $mc = self::new_collector('objectGuid', $object_guid);
         $mc->add_constraint('role', '=', $role);
@@ -30,7 +30,7 @@ class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
         $mc->execute();
         if ($mc->count() > 0) {
             //Resource is already present, aborting silently
-            return;
+            return true;
         }
 
         $new_role = new self();
@@ -43,7 +43,7 @@ class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
     /**
      * Returns true for NO existing duplicates
      */
-    public function check_duplicates()
+    public function check_duplicates() : bool
     {
         $qb = new midgard_query_builder('org_openpsa_role');
         $qb->add_constraint('person', '=', $this->person);

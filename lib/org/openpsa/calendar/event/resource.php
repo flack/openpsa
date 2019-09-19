@@ -37,7 +37,7 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
      *
      * @return boolean indicating state
      */
-    public function verify_can_reserve()
+    public function verify_can_reserve() : bool
     {
         if (empty($this->resource)) {
             debug_add("Resource is set to empty value returning true");

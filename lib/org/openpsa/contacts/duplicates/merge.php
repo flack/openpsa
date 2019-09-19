@@ -211,7 +211,7 @@ class org_openpsa_contacts_duplicates_merge
      *
      * @return boolean indicating need for processing (merge/not duplicate)
      */
-    public function merge_needed()
+    public function merge_needed() : bool
     {
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->add_constraint('domain', '=', 'org.openpsa.contacts.duplicates:possible_duplicate');

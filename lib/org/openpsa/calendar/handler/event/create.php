@@ -10,6 +10,7 @@ use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use midcom\datamanager\controller;
 
 /**
  * Calendar create handler.
@@ -25,7 +26,7 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
      */
     private $root_event;
 
-    private function load_controller(ParameterBag $query, org_openpsa_calendar_conflictmanager $conflictmanager, $resource)
+    private function load_controller(ParameterBag $query, org_openpsa_calendar_conflictmanager $conflictmanager, $resource) : controller
     {
         $resource = $resource ?: midcom::get()->auth->user->guid;
         $event = new org_openpsa_calendar_event_dba();

@@ -102,7 +102,7 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
     /**
      * @return array
      */
-    private function get_calendar_options()
+    private function get_calendar_options() : array
     {
         $options = [
             'businessHours' => [

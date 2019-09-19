@@ -100,7 +100,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         midcom::get()->auth->drop_sudo();
     }
 
-    private function get_event_links($guid)
+    private function get_event_links($guid) : array
     {
         if (!isset($this->event_links[$guid])) {
             $qb2 = org_openpsa_relatedto_dba::new_query_builder();
@@ -114,7 +114,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         return $this->event_links[$guid];
     }
 
-    private function create_hour_report(org_openpsa_projects_task_dba $task, $person_id, org_openpsa_calendar_event_dba $event)
+    private function create_hour_report(org_openpsa_projects_task_dba $task, $person_id, org_openpsa_calendar_event_dba $event) : bool
     {
         //TODO: this should probably have privileges like midgard:owner set to $person_id
         $hr = new org_openpsa_expenses_hour_report_dba();

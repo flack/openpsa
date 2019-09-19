@@ -19,7 +19,7 @@ implements midcom_services_permalinks_resolver
     /**
      * @return org_openpsa_calendar_event_dba
      */
-    public static function create_root_event()
+    public static function create_root_event() : org_openpsa_calendar_event_dba
     {
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
         $event = new org_openpsa_calendar_event_dba();
@@ -52,7 +52,7 @@ implements midcom_services_permalinks_resolver
      *
      * @return org_openpsa_calendar_event_dba
      */
-    public static function find_root_event()
+    public static function find_root_event() : org_openpsa_calendar_event_dba
     {
         $data = midcom_baseclasses_components_configuration::get('org.openpsa.calendar');
 
@@ -111,7 +111,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Returns button config for opening the new event popup
      */
-    public static function get_create_button($node, $url)
+    public static function get_create_button($node, $url) : array
     {
         if (empty($node[MIDCOM_NAV_FULLURL])) {
             throw new midcom_error('given node is not valid');
@@ -127,7 +127,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Returns attribute string for opening the event popup
      */
-    public static function get_viewer_attributes($guid, $node)
+    public static function get_viewer_attributes($guid, $node) : string
     {
         if (empty($node[MIDCOM_NAV_FULLURL])) {
             throw new midcom_error('given node is not valid');

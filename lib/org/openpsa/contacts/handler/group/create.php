@@ -38,7 +38,7 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
      */
     private $_parent_group;
 
-    private function load_controller()
+    private function load_controller() : controller
     {
         $defaults = [];
         if ($this->_parent_group) {

@@ -75,7 +75,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         return $this->name;
     }
 
-    public function render_link()
+    public function render_link() : string
     {
         $siteconfig = new org_openpsa_core_siteconfig();
 
@@ -130,7 +130,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         }
     }
 
-    private function _get_members_array()
+    private function _get_members_array() : array
     {
         if (!$this->_members_loaded) {
             $mc = midcom_db_member::new_collector('gid', $this->id);
