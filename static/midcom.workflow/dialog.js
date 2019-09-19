@@ -57,6 +57,7 @@ function add_post_button(url, label, options) {
 
 function attach_to_parent_dialog(dialog) {
     let buttons = [];
+    dialog.dialog('option', 'title', document.title);
     dialog.css('visibility', 'visible');
 
     $(window).on('unload', function() {
@@ -143,7 +144,6 @@ if (window.hasOwnProperty('$')) {
         window.addEventListener('DOMContentLoaded', function() {
             dialog.find(' > .fa-spinner').hide();
         });
-        dialog.dialog('option', 'title', document.title);
     }
     $(document).ready(function() {
         if (dialog) {

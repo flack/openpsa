@@ -10,6 +10,7 @@ namespace midcom\workflow;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use midcom;
+use midcom_response_styled;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -58,6 +59,13 @@ abstract class dialog
     {
         midcom::get()->head->enable_jquery_ui(['button']);
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
+    }
+
+    public static function response(\midcom_core_context $context) : midcom_response_styled
+    {
+        self::add_dialog_js();
+        midcom::get()->style->append_styledir(__DIR__ . '/style');
+        return new midcom_response_styled($context, 'POPUP');
     }
 
     /**

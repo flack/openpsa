@@ -14,6 +14,7 @@ use midcom;
 use midcom\datamanager\controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * @package midcom.workflow
@@ -94,16 +95,14 @@ class datamanager extends dialog
                 }
                 $head->add_jscript('close(' . json_encode($data) . ');');
             }
-            $content = '<!DOCTYPE html><html><head>' . $head->render() . '</head><body></body></html>';
+            midcom::get()->dispatcher->addListener(KernelEvents::RESPONSE, [$head, 'inject_head_elements']);
+            $content = '<!DOCTYPE html><html><head>' . \midcom_helper_head::TOOLBAR_PLACEHOLDER . '</head><body></body></html>';
             return new Response($content);
         }
 
         $context = midcom_core_context::get();
-        self::add_dialog_js();
-        midcom::get()->style->append_styledir(__DIR__ . '/style');
         $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$this->controller, 'display_form']);
-
-        return new \midcom_response_styled($context, 'POPUP');
+        return self::response($context);
     }
 
     public function add_post_button($url, $label, array $args)

@@ -32,13 +32,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
     private $_node;
 
     /**
-     * The current action
-     *
-     * @var string
-     */
-    private $_action = 'form';
-
-    /**
      * The Controller of the document used for creating
      *
      * @var controller
@@ -51,11 +44,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      * @var midcom_core_dbaobject
      */
     private $_object;
-
-    public function _on_initialize()
-    {
-        midcom::get()->style->prepend_component_styledir('org.openpsa.helpers');
-    }
 
     /**
      * @param Request $request The request object
@@ -73,21 +61,19 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         $defaults = $request->query->get('defaults', []);
         $this->_controller = $this->load_controller($defaults);
 
-        switch ($this->_controller->handle($request)) {
-            case 'save':
-                $this->_post_create_actions();
-                //TODO: indexing
-                $this->_action = 'save';
-                break;
-            case 'cancel':
-                $this->_action = 'cancel';
-                break;
+        $workflow = $this->get_workflow('datamanager', [
+            'controller' => $this->_controller,
+            'relocate' => false
+        ]);
+
+        $response = $workflow->run($request);
+
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/chooser.js');
+        if ($workflow->get_state() == 'save') {
+            $this->_post_create_actions();
         }
-
-        $data['controller'] = $this->_controller;
-        $data['action'] = $this->_action;
-
-        midcom::get()->skip_page_style = true;
+        return $response;
     }
 
     private function load_controller(array $defaults)
@@ -113,6 +99,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
             default:
                 throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
         }
+        midcom::get()->head->add_jscript('if (self !== parent) {add_item(' . $this->object_to_jsdata() . ');}');
     }
 
     /**
@@ -130,6 +117,19 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         if (!$this->_node) {
             throw new midcom_error("Could not load node information for topic {$topic_guid}. Last error was: " . midcom_connection::get_error_string());
         }
+
+        switch ($this->_dbaclass) {
+            case org_openpsa_contacts_person_dba::class:
+                $title = 'person';
+                break;
+            case org_openpsa_products_product_group_dba::class:
+                $title = 'product group';
+                break;
+            default:
+                throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
+        }
+        $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_i18n->get_string($title, $this->_node[MIDCOM_NAV_COMPONENT]));
+        midcom::get()->head->set_pagetitle($title);
     }
 
     /**
@@ -153,37 +153,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         }
 
         return $this->_node[MIDCOM_NAV_CONFIGURATION]->get($config_key);
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
-    {
-        switch ($this->_dbaclass) {
-            case org_openpsa_contacts_person_dba::class:
-                $title = 'person';
-                break;
-            case org_openpsa_products_product_group_dba::class:
-                $title = 'product group';
-                break;
-            default:
-                throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
-        }
-        $data['title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_i18n->get_string($title, $this->_node[MIDCOM_NAV_COMPONENT]));
-
-        midcom_show_style('popup-head');
-        if ($this->_action != 'form') {
-            if ($this->_object) {
-                $data['jsdata'] = $this->object_to_jsdata();
-            }
-            midcom_show_style('chooser-create-after');
-        } else {
-            midcom_show_style('chooser-create');
-        }
-        midcom_show_style('popup-foot');
     }
 
     private function object_to_jsdata()
