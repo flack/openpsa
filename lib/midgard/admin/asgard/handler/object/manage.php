@@ -210,30 +210,30 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             ->set_storage($this->_new_object, 'default')
             ->get_controller();
 
+        if ($handler_id === 'object_create_chooser') {
+            midcom::get()->head->set_pagetitle($data['view_title']);
+            $workflow = $this->get_workflow('chooser', [
+                'controller' => $this->controller
+            ]);
+            return $workflow->run($request);
+        }
+
         switch ($this->controller->handle($request)) {
             case 'save':
                 // Reindex the object
                 //$indexer = midcom::get()->indexer;
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
+                return $this->_prepare_relocate($this->_new_object);
 
-                if ($handler_id !== 'object_create_chooser') {
-                    return $this->_prepare_relocate($this->_new_object);
-                }
-                break;
             case 'cancel':
-                $data['cancelled'] = true;
-                if ($handler_id !== 'object_create_chooser') {
-                    if ($this->_object) {
-                        return $this->_prepare_relocate($this->_object);
-                    }
-                    return new midcom_response_relocate($this->router->generate('type', ['type' => $args[0]]));
+                if ($this->_object) {
+                    return $this->_prepare_relocate($this->_object);
                 }
+                return new midcom_response_relocate($this->router->generate('type', ['type' => $args[0]]));
         }
 
         $this->_prepare_request_data();
-        if ($handler_id !== 'object_create_chooser') {
-            return $this->get_response();
-        }
+        return $this->get_response('midgard_admin_asgard_object_create');
     }
 
     private function get_defaults(Request $request, $new_type) : array
@@ -267,47 +267,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $defaults = array_merge($defaults, array_map('trim', $get_defaults));
         }
         return $defaults;
-    }
-
-    /**
-     * Shows the loaded object in editor.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
-    {
-        if ($handler_id == 'object_create_chooser') {
-            midcom_show_style('midgard_admin_asgard_popup_header');
-            if (   $this->_new_object->id
-                || isset($data['cancelled'])) {
-                $data['jsdata'] = $this->_object_to_jsdata($this->_new_object);
-                midcom_show_style('midgard_admin_asgard_object_create_after');
-            } else {
-                midcom_show_style('midgard_admin_asgard_object_create');
-            }
-            midcom_show_style('midgard_admin_asgard_popup_footer');
-            return;
-        }
-
-        midcom_show_style('midgard_admin_asgard_object_create');
-    }
-
-    private function _object_to_jsdata($object) : string
-    {
-        $jsdata = [
-            'id' => (string) @$object->id,
-            'guid' => @$object->guid,
-            'pre_selected' => true
-        ];
-
-        foreach (array_keys($this->schemadb->get_first()->get('fields')) as $field) {
-            $value = @$object->$field;
-            $value = rawurlencode($value);
-            $jsdata[$field] = $value;
-        }
-
-        return json_encode($jsdata);
     }
 
     private function _prepare_relocate(midcom_core_dbaobject $object, $mode = 'default') : midcom_response_relocate
