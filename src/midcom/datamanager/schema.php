@@ -84,9 +84,8 @@ class schema
      * Returns reference to field config (for on the fly modification)
      *
      * @param string $name
-     * @return array
      */
-    public function & get_field($name)
+    public function & get_field($name) : array
     {
         if (!$this->has_field($name)) {
             throw new \midcom_error('Field ' . $name . ' is not available in this schema');

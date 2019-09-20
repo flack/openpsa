@@ -31,21 +31,18 @@ abstract class container implements node, \ArrayAccess, \Iterator
     private $last_operation;
 
     /**
-     * @return boolean
+     * @return boolean Indicating success
      */
-    abstract public function lock();
+    abstract public function lock() : bool;
 
     /**
-     * @return boolean
+     * @return boolean Indicating success
      */
-    abstract public function unlock();
+    abstract public function unlock() : bool;
 
-    /**
-     * @return boolean
-     */
-    abstract public function is_locked();
+    abstract public function is_locked() : bool;
 
-    public function get_last_operation()
+    public function get_last_operation() : string
     {
         return $this->last_operation;
     }

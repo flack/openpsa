@@ -8,7 +8,6 @@
 
 namespace midcom\workflow;
 
-use midcom_response_styled;
 use midcom_core_context;
 use midcom;
 use Symfony\Component\HttpFoundation\Request;

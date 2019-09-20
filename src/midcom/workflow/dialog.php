@@ -110,13 +110,7 @@ abstract class dialog
         return $output;
     }
 
-    /**
-     * @return array
-     */
-    abstract public function get_button_config();
+    abstract public function get_button_config() : array;
 
-    /**
-     * @return Response
-     */
-    abstract public function run(Request $request);
+    abstract public function run(Request $request) : Response;
 }

@@ -254,7 +254,7 @@ class document extends midcom_services_indexer_document_midcom
      * @param string $name The field name
      * @return string index method
      */
-    private function resolve_auto_method($name)
+    private function resolve_auto_method($name) : string
     {
         if (in_array($name, ['abstract', 'title', 'author'])) {
             return $name;
