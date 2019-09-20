@@ -240,7 +240,6 @@ class midcom_helper__componentloader
      * components will be dynamically loaded into memory.
      *
      * @param string $path    The component name.
-     * @return midcom_baseclasses_components_interface The concept class in question
      */
     public function get_interface_class($path) : midcom_baseclasses_components_interface
     {
@@ -270,7 +269,6 @@ class midcom_helper__componentloader
      * Convert a component path (net.nehmer.blog) to a class prefix (net_nehmer_blog).
      *
      * @param string $path    Input string.
-     * @return string        Converted string.
      */
     public function path_to_prefix($path) : string
     {
@@ -280,8 +278,6 @@ class midcom_helper__componentloader
     /**
      * Retrieve a list of all loaded components. The Array will contain an
      * unsorted collection of MidCOM Paths.
-     *
-     * @return Array    List of loaded components
      */
     public function list_loaded_components() : array
     {
@@ -355,11 +351,9 @@ class midcom_helper__componentloader
 
     /**
      * Build a complete set of custom data associated with a given component
-     * identifier. In case a given component does not have the key set and the boolean parameter
-     * is set to true, an empty array is added implicitly.
+     * identifier.
      *
      * @param string $component The custom data component index to look for.
-     * @return Array All found component data indexed by known components.
      */
     public function get_all_manifest_customdata($component) : array
     {

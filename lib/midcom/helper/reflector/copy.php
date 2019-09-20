@@ -104,7 +104,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * Get the parent property for overriding it
      *
      * @param mgdobject $object  MgdSchema object for resolving the parent property
-     * @return string            Parent property
      */
     public static function get_parent_property(mgdobject $object) : string
     {

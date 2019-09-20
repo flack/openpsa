@@ -281,7 +281,6 @@ class midcom_helper_configuration
      * Checks for the existence of a configuration key.
      *
      * @param string    $key    The configuration key to check for.
-     * @return boolean                True, if the key is available, false otherwise.
      */
     public function exists($key) : bool
     {

@@ -356,7 +356,6 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
 
     /**
      * @param string $component
-     * @return \Symfony\Component\Routing\Router
      */
     public function get_router($component = null) : Router
     {

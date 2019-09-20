@@ -60,7 +60,6 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
 
     /**
      * @param string $filename The file name
-     * @return string The modified file name
      */
     private function get_modify_filename($filename) : string
     {
@@ -78,7 +77,6 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
     /**
      * @param string $filename The file name
      * @param string $parentguid The parent GUID
-     * @return midcom_db_attachment The file destination
      */
     private function get_data_from_database($filename, $parentguid) : midcom_db_attachment
     {
@@ -117,7 +115,6 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
      * @param string $filename The file name
      * @param string $mimetype The MIME type
      * @param string $parentguid The parent GUID
-     * @return midcom_db_attachment
      */
     private function insert_database($filename, $mimetype, $parentguid) : midcom_db_attachment
     {

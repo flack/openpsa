@@ -40,7 +40,6 @@ class midcom_helper_formatter
      *
      * @param mixed $content The content to modify
      * @param string $name Filter name
-     * @return string The formatted content
      */
     public static function format($content, $name) : string
     {
@@ -71,7 +70,6 @@ class midcom_helper_formatter
      * Compile string to php code for the specified filter
      *
      * @param string $variable The content to modify
-     * @return string The compiled php code
      */
     public static function convert_to_php($variable) : string
     {

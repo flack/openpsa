@@ -346,7 +346,6 @@ class midcom_helper_nav_backend
      *
      * @param mixed $parent_node    The ID of the node of which the subnodes are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
-     * @return Array            An array of node IDs or false on failure.
      */
     public function list_nodes($parent_node, $show_noentry) : array
     {
@@ -396,7 +395,6 @@ class midcom_helper_nav_backend
      *
      * @param mixed $parent_node    The ID of the node of which the leaves are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
-     * @return Array             A list of leaves found, or false on failure.
      */
     public function list_leaves($parent_node, $show_noentry) : array
     {
@@ -523,8 +521,6 @@ class midcom_helper_nav_backend
      * ID of the MidCOM Root topic and therefore will change as easily as the
      * root topic ID might. The MIDCOM_NAV_URL entry of the root node's data will
      * always be empty.
-     *
-     * @return int    The ID of the root node.
      */
     public function get_root_node() : int
     {
@@ -535,8 +531,6 @@ class midcom_helper_nav_backend
      * Retrieve the IDs of the nodes from the URL. First value at key 0 is
      * the root node ID, possible second value is the first subnode ID etc.
      * Contains only visible nodes (nodes which can be loaded).
-     *
-     * @return Array    The node path array.
      */
     public function get_node_path() : array
     {
@@ -581,7 +575,6 @@ class midcom_helper_nav_backend
      * $_leaves cache. It will load all necessary nodes/leaves as necessary.
      *
      * @param string $leaf_id A valid NAP leaf id ($nodeid-$leafid pattern).
-     * @return boolean true if the leaf exists, false otherwise.
      */
     private function _check_leaf_id($leaf_id) : bool
     {

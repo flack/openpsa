@@ -41,9 +41,6 @@ class midcom_core_setup
         }
     }
 
-    /**
-     * @return midcom_db_topic
-     */
     public function find_topic($autocreate = false) : midcom_db_topic
     {
         $qb = midcom_db_topic::new_query_builder();

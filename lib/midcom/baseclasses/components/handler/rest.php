@@ -106,8 +106,6 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     /**
      * retrieve the object based on classname and request parameters
      * if we got an id, it will try to find an existing one, otherwise it will create a new one
-     *
-     * @return midcom_core_dbaobject
      */
     public function retrieve_object() : midcom_core_dbaobject
     {
@@ -171,8 +169,6 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 
     /**
      * Do the processing: will call the corresponding handler method and set the mode
-     *
-     * @return midcom_response_json
      */
     protected function _process_request() : midcom_response_json
     {
@@ -214,7 +210,6 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      * containing the current response data
      *
      * @param string $message
-     * @return midcom_response_json
      */
     private function _send_response($message = false) : midcom_response_json
     {

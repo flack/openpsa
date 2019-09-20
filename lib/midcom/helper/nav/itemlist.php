@@ -39,9 +39,6 @@ abstract class midcom_helper_nav_itemlist
         $this->parent_node_id = $parent_topic_id;
     }
 
-    /**
-     * @return array
-     */
     protected function get_nodes() : array
     {
         $nodes_list = $this->_nap->list_nodes($this->parent_node_id);
@@ -51,9 +48,6 @@ abstract class midcom_helper_nav_itemlist
         return array_map([$this->_nap, 'get_node'], $nodes_list);
     }
 
-    /**
-     * @return array
-     */
     protected function get_leaves() : array
     {
         $leaves_list = $this->_nap->list_leaves($this->parent_node_id);

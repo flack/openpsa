@@ -86,7 +86,6 @@ class midcom_core_urlmethods
      *
      * @param string $guid
      * @throws midcom_error_notfound
-     * @return midcom_response_relocate
      */
     public function process_permalink($guid) : Response
     {
@@ -107,7 +106,6 @@ class midcom_core_urlmethods
      *   calling midcom::get()->cache->content->no_cache();
      *
      * @param string $action
-     * @return midcom_response_relocate
      */
     public function process_cache(Request $request, $action)
     {

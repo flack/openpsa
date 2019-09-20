@@ -51,7 +51,6 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
      * Make XML out of an array.
      *
      * @param array $array
-     * @return string
      */
     public function array2data(array $array, $root_node = 'array', $prefix = '') : string
     {
@@ -83,7 +82,6 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
      * Make XML out of an object.
      *
      * @param midcom_core_dbaobject $object
-     * @return string
      */
     public function object2data($object, $prefix = '') : string
     {

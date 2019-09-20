@@ -204,9 +204,6 @@ class midcom_core_account
         return true;
     }
 
-    /**
-     * @return midgard_user
-     */
     private function _get_user() : midgard_user
     {
         $qb = new midgard_query_builder('midgard_user');

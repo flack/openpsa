@@ -136,7 +136,6 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      *
      * @param string $element
      * @param string $root
-     * @return midcom_response_styled
      */
     public function show($element, $root = 'ROOT') : midcom_response_styled
     {

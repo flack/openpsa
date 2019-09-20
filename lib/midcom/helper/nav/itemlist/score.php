@@ -15,8 +15,6 @@ class midcom_helper_nav_itemlist_score extends midcom_helper_nav_itemlist
 {
     /**
      * get_sorted_list  - get a list objects ready for showing.
-     *
-     * @return mixed  False on failure or an array of navigation items on success
      */
     public function get_sorted_list() : array
     {

@@ -150,7 +150,6 @@ class midcom_helper_metadata
      * <b>must</b> call the on_update() method of this class. This is
      * very important or backwards compatibility will be broken.
      *
-     * @return datamanager A initialized Datamanager instance for the selected object.
      * @see midcom_helper_metadata::on_update()
      */
     public function get_datamanager() : datamanager
@@ -335,8 +334,6 @@ class midcom_helper_metadata
 
     /**
      * Checks whether the object has been approved since its last editing.
-     *
-     * @return boolean Indicating approval state.
      */
     public function is_approved() : bool
     {
@@ -349,7 +346,6 @@ class midcom_helper_metadata
      * This does not check approval, use is_approved for that.
      *
      * @see midcom_helper_metadata::is_approved()
-     * @return boolean Indicating visibility state.
      */
     public function is_visible() : bool
     {
@@ -374,10 +370,8 @@ class midcom_helper_metadata
      * taking approval, scheduling and visibility settings into account. The important point
      * here is that it also checks the global configuration defaults, so that this is
      * basically the same base on which NAP decides whether to show an item or not.
-     *
-     * @return boolean Indicating visibility.
      */
-    public function is_object_visible_onsite()
+    public function is_object_visible_onsite() : bool
     {
         return
         (   (   midcom::get()->config->get('show_hidden_objects')
@@ -468,8 +462,6 @@ class midcom_helper_metadata
 
     /**
      * Check if the requested object is locked
-     *
-     * @return boolean          True if the object is locked, false if it isn't
      */
     public function is_locked() : bool
     {
@@ -515,7 +507,6 @@ class midcom_helper_metadata
     /**
      * Check whether current user can unlock the object
      *
-     * @return boolean indicating privileges
      * @todo enable specifying user ?
      */
     public function can_unlock() : bool

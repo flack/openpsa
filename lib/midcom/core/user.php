@@ -448,7 +448,6 @@ class midcom_core_user
      * 3. A valid midcom group name
      *
      * @param mixed $group Group to check against, this can be either a midcom_core_group object or a group string identifier.
-     * @return boolean Indicating membership state.
      */
     public function is_in_group($group) : bool
     {
@@ -482,8 +481,6 @@ class midcom_core_user
     /**
      * Return the MidCOM DBA object for the current user.
      * Be aware that depending on ACL information, the retrieval of the user may fail.
-     *
-     * @return midcom_db_person The user which is associated with this record or false if the object cannot be accessed.
      */
     public function get_storage() : midcom_db_person
     {

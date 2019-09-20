@@ -78,7 +78,6 @@ class midcom_core_context
     /**
      * @param string $url
      * @param midcom_db_topic $topic
-     * @return midcom_core_context
      */
     public static function enter($url = null, midcom_db_topic $topic = null) : self
     {
@@ -109,8 +108,6 @@ class midcom_core_context
      * Get the current context
      *
      * If it doesn't exist for some reason, it is automatically created
-     *
-     * @return midcom_core_context The requested context, or false if not found
      */
     public static function get() : self
     {

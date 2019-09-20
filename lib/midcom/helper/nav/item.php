@@ -32,9 +32,6 @@ abstract class midcom_helper_nav_item
 
     abstract public function is_readable_by($user_id);
 
-    /**
-     * @return midcom_services_cache_module_nap
-     */
     protected function get_cache() : midcom_services_cache_module_nap
     {
         return midcom::get()->cache->nap;
@@ -90,8 +87,6 @@ abstract class midcom_helper_nav_item
      * - Nonexistent NAP information (null values)
      * - Scheduling/Hiding (only on-site)
      * - Approval (only on-site)
-     *
-     * @return boolean Indicating visibility.
      */
     public function is_object_visible() : bool
     {

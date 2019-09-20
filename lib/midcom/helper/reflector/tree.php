@@ -82,7 +82,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @param midgard\portable\api\mgdobject $object The object to get path for
      * @param string $separator the string used to separate path components
-     * @return string resolved path
      */
     public static function resolve_path($object, $separator = ' &gt; ') : string
     {
@@ -94,7 +93,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * Get path components for object
      *
      * @param midgard\portable\api\mgdobject $object The object to get path for
-     * @return array path components
      */
     public static function resolve_path_parts($object) : array
     {
@@ -368,8 +366,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
     /**
      * Get the child classes of the class this reflector was instantiated for
-     *
-     * @return array of class names
      */
     public function get_child_classes() : array
     {
@@ -382,8 +378,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
     /**
      * Resolve the child classes of the class this reflector was instantiated for, used by get_child_classes()
-     *
-     * @return array of class names
      */
     private function _resolve_child_classes() : array
     {
@@ -432,9 +426,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
-     * Get an array of "root level" classes, can (and should) be called statically
-     *
-     * @return array of classnames (or false on critical failure)
+     * Get an array of "root level" classes
      */
     public static function get_root_classes() : array
     {
@@ -447,8 +439,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
     /**
      * Resolves the "root level" classes, used by get_root_classes()
-     *
-     * @return array of classnames (or false on critical failure)
      */
     private static function _resolve_root_classes() : array
     {
@@ -526,7 +516,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * List object children
      *
      * @param midcom_core_dbaobject $parent
-     * @return array
      */
     public static function get_tree(midcom_core_dbaobject $parent) : array
     {

@@ -183,8 +183,6 @@ class midcom_core_privilege
 
     /**
      * Returns the privilege's scope (or -1 for SELF and broken privileges)
-     *
-     * @return integer
      */
     public function get_scope() : int
     {
@@ -219,8 +217,6 @@ class midcom_core_privilege
 
     /**
      * Checks whether the current assignee is a magic assignee or an object identifier.
-     *
-     * @return boolean True if it is a magic assignee, false otherwise.
      */
     public function is_magic_assignee($assignee = null) : bool
     {
@@ -458,7 +454,6 @@ class midcom_core_privilege
      * @param string $name The name of the privilege to query
      * @param string $assignee The identifier of the assignee to query.
      * @param string $classname The optional classname required only for class-limited SELF privileges.
-     * @return midcom_core_privilege The privilege matching the constraints.
      */
     public static function get_privilege($object, $name, $assignee, $classname = '') : midcom_core_privilege
     {

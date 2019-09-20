@@ -163,7 +163,6 @@ class midcom_core_collector extends midcom_core_query
      *
      * @param array $fields The fields to get
      * @param string $indexed_by the column name to be used as index
-     * @return array
      */
     public function get_rows(array $fields, $indexed_by = 'guid') : array
     {
@@ -189,8 +188,6 @@ class midcom_core_collector extends midcom_core_query
 
     /**
      * implements midgard_collector::list_keys with ACL checking
-     *
-     * @return array
      */
     public function list_keys() : array
     {

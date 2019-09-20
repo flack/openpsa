@@ -161,7 +161,6 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * Get the component's viewer
      *
      * @param midcom_db_topic $current_object The topic in question.
-     * @return midcom_baseclasses_components_viewer
      */
     public function get_viewer(midcom_db_topic $current_object) : midcom_baseclasses_components_viewer
     {
@@ -172,8 +171,6 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
 
     /**
      * Returns an instance of the NAP interface class
-     *
-     * @return midcom_baseclasses_components_navigation
      */
     public function get_nap_instance() : midcom_baseclasses_components_navigation
     {
@@ -207,7 +204,6 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * information on other topics as well.
      *
      * @param midcom_db_topic $topic The topic which should be queried
-     * @return midcom_helper_configuration MidCOM configuration object
      */
     public function get_config_for_topic($topic) : midcom_helper_configuration
     {

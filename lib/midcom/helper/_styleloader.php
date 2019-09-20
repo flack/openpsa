@@ -127,7 +127,6 @@ class midcom_helper__styleloader
      * Returns the path of the style described by $id.
      *
      * @param int $id    Style id to look up path for
-     * @return    string Style path
      */
     public function get_style_path_from_id($id) : string
     {

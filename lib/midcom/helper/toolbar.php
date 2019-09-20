@@ -345,7 +345,6 @@ class midcom_helper_toolbar
      * needed options and indexes.
      *
      * @param array $item the item to be cleaned
-     * @return array the cleaned item.
      */
     public function clean_item($item) : array
     {
@@ -538,8 +537,6 @@ class midcom_helper_toolbar
 
     /**
      * Renders the toolbar and returns it as a string.
-     *
-     * @return string The rendered toolbar.
      */
     public function render() : string
     {
@@ -599,7 +596,6 @@ class midcom_helper_toolbar
      * Generate a label for the item that includes its accesskey
      *
      * @param array $item The item to label
-     * @return string Item's label to display
      */
     private function _generate_item_label($item) : string
     {
@@ -627,7 +623,6 @@ class midcom_helper_toolbar
      * Render a regular a href... based link target.
      *
      * @param array $item The item to render
-     * @return string The rendered item
      */
     private function _render_link_item($item) : string
     {
@@ -685,7 +680,6 @@ class midcom_helper_toolbar
      * Render a form based link target.
      *
      * @param array $item The item to render
-     * @return string The rendered item
      */
     private function _render_post_item($item) : string
     {

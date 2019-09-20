@@ -144,7 +144,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
      *
      * @param string $filename file name to rewrite
      * @param boolean $force_single_extension force file to single extension (defaults to true)
-     * @return string rewritten filename
      * @todo add possibility to use the file utility to determine extension if missing.
      */
     public static function safe_filename($filename, $force_single_extension = true) : string
@@ -285,11 +284,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
     /**
      * Internal helper, computes an MD5 string which is used as an attachment location.
-     * It should be random enough, even if the algorithm used does not match the one
-     * Midgard uses. If the location already exists, it will iterate until an unused
-     * location is found.
-     *
-     * @return string An unused attachment location.
+     * If the location already exists, it will iterate until an unused location is found.
      */
     private function _create_attachment_location() : string
     {

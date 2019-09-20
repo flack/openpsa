@@ -62,7 +62,6 @@ class midcom_helper_nav
      * different contexts both referring to the same root node, you will get two
      * different instances.
      *
-     * @return midcom_helper_nav_backend The backend instance in the cache.
      * @see midcom_helper_nav
      */
     private function _get_backend() : midcom_helper_nav_backend
@@ -110,7 +109,6 @@ class midcom_helper_nav
      * root topic ID might. The MIDCOM_NAV_URL entry of the root node's data will
      * always be empty.
      *
-     * @return int    The ID of the root node.
      * @see midcom_helper_nav_backend::get_root_node()
      */
     public function get_root_node() : int
@@ -126,7 +124,6 @@ class midcom_helper_nav
      * @param int $parent_node    The id of the node of which the subnodes are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      *     This defaults to false.
-     * @return array              An Array of Node IDs
      * @see midcom_helper_nav_backend::list_nodes()
      */
     public function list_nodes($parent_node, $show_noentry = false) : array
@@ -142,7 +139,6 @@ class midcom_helper_nav
      * @param int $parent_node    The ID of the node of which the leaves are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      *     This defaults to false.
-     * @return Array             A list of leaves found, or false on failure.
      * @see midcom_helper_nav_backend::list_leaves()
      */
     public function list_leaves($parent_node, $show_noentry = false) : array
@@ -209,7 +205,6 @@ class midcom_helper_nav
      *
      * @param int    $node_id    The node in question.
      * @param int    $root_id    The root node to use.
-     * @return boolean                True, if the node is a subnode of the root node, false otherwise.
      */
     public function is_node_in_tree($node_id, $root_id) : bool
     {
@@ -404,7 +399,6 @@ class midcom_helper_nav
      * @param int       $skip_levels      The number of topic levels to skip before starting to work (use this to skip 'Home' links etc.).
      * @param string    $current_class    The class that should be assigned to the currently active element.
      * @param array     $skip_guids       Array of guids that are skipped.
-     * @return string    The computed breadcrumb line.
      */
     public function get_breadcrumb_line($separator = ' &gt; ', $class = null, $skip_levels = 0, $current_class = null, $skip_guids = []) : string
     {
@@ -499,8 +493,6 @@ class midcom_helper_nav
      * ];
      * midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
      * </code>
-     *
-     * @return array The computed breadcrumb data as outlined above.
      */
     public function get_breadcrumb_data($id = null) : array
     {
@@ -576,8 +568,6 @@ class midcom_helper_nav
      * Retrieve the IDs of the nodes from the URL. First value at key 0 is
      * the root node ID, possible second value is the first subnode ID etc.
      * Contains only visible nodes (nodes which can be loaded).
-     *
-     * @return Array    The node path array.
      */
     public function get_node_path($node_id = null) : array
     {

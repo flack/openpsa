@@ -81,7 +81,6 @@ class midcom_db_group extends midcom_core_dbaobject
      * Check whether the given user is a member of this group.
      *
      * @param midcom_db_person $person The person to check.
-     * @return boolean Indicating membership.
      */
     function is_member($person) : bool
     {

@@ -17,7 +17,6 @@ class midcom_helper_xsspreventer
      * Escape value of an XML attribute, also adds quotes around it
      *
      * @param string $input Attribute value to escape
-     * @return string escaped $input (with added quotes)
      */
     public static function escape_attribute($input) : string
     {
@@ -31,7 +30,6 @@ class midcom_helper_xsspreventer
      *
      * @param string $element XML element to close
      * @param string $input Element content to escape
-     * @return string $input with $element closing tags escaped
      */
     public static function escape_element($element, $input)
     {

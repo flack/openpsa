@@ -85,7 +85,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * Get object's (mgdschema) fieldnames.
      *
      * @param object $object Object The object to query
-     * @return array The object vars
      */
     public static function get_object_fieldnames($object) : array
     {
@@ -112,7 +111,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * @param string $property
      * @param boolean $metadata
-     * @return boolean
      */
     public function property_exists($property, $metadata = false) : bool
     {
@@ -121,8 +119,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
     /**
      * Gets a midcom_helper_l10n instance for component governing the type
-     *
-     * @return midcom_services_i18n_l10n  Localization library for the reflector object class
      */
     public function get_component_l10n() : midcom_services_i18n_l10n
     {
@@ -151,7 +147,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * Get the localized label of the class
      *
-     * @return string Class label
      * @todo remove any hardcoded class names/prefixes
      */
     public function get_class_label() : string
@@ -255,7 +250,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * Get the name of the create icon image
      *
      * @param string $type  Name of the type
-     * @return string       URL name of the image
      */
     public static function get_create_icon($type) : string
     {
@@ -298,7 +292,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * Get the object icon
      *
      * @param mixed $obj          MgdSchema object
-     * @return string             Icon (FontAwesome)
      */
     public static function get_object_icon($obj) : string
     {
@@ -370,8 +363,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
     /**
      * Get class properties to use as search fields in choosers or other direct DB searches
-     *
-     * @return array of property names
      */
     public function get_search_properties() : array
     {
@@ -544,7 +535,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * @param string $class_one first class to compare
      * @param string $class_two second class to compare
-     * @return boolean response
      */
     public static function is_same_class($class_one, $class_two) : bool
     {

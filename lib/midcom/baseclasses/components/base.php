@@ -95,10 +95,8 @@ abstract class midcom_baseclasses_components_base
     }
 
     /**
-     *
      * @param string $identifier
      * @param array $options
-     * @return \midcom\workflow\dialog
      */
     public function get_workflow($identifier, array $options = []) : dialog
     {

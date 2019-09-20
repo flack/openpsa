@@ -7,6 +7,7 @@
  */
 
 use midgard\portable\api\error\exception as mgd_exception;
+use midgard\portable\api\mgdobject;
 
 /**
  * This class contains various factory methods to retrieve objects from the database.
@@ -90,7 +91,6 @@ class midcom_helper__dbfactory
      * @param string $classname The name of the class for which you want to create a collector.
      * @param string $domain The domain property of the collector instance
      * @param mixed $value Value match for the collector instance
-     * @return midcom_core_collector The initialized instance of the collector.
      * @see midcom_core_collector
      */
     public function new_collector($classname, $domain, $value) : midcom_core_collector
@@ -103,7 +103,6 @@ class midcom_helper__dbfactory
      * has to be created. It will also call the _on_prepare_new_query_builder event handler.
      *
      * @param string $classname The name of the class for which you want to create a query builder.
-     * @return midcom_core_querybuilder The initialized instance of the query builder.
      * @see midcom_core_querybuilder
      */
     public function new_query_builder($classname) : midcom_core_querybuilder
@@ -118,7 +117,6 @@ class midcom_helper__dbfactory
      * an error. We also ensure that the corresponding component has been loaded.
      *
      * @param midgard\portable\api\mgdobject $object MgdSchema Object
-     * @return midcom_core_dbaobject
      */
     public function convert_midgard_to_midcom($object) : midcom_core_dbaobject
     {
@@ -146,9 +144,8 @@ class midcom_helper__dbfactory
      * If the conversion cannot be done for some reason, the function throws an error.
      *
      * @param midcom_core_dbaobject $object MidCOM DBA Object
-     * @return midgard\portable\api\mgdobject MgdSchema Object
      */
-    public function convert_midcom_to_midgard($object)
+    public function convert_midcom_to_midgard($object) : mgdobject
     {
         if (!is_object($object)) {
             debug_print_r("Object dump:", $object);
@@ -173,7 +170,6 @@ class midcom_helper__dbfactory
      *
      * @param mixed $object MgdSchema or MidCOM DBA object
      * @param string $class Class to check the instance against
-     * @return boolean
      */
     public function is_a($object, $class) : bool
     {

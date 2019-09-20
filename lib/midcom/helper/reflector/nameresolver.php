@@ -50,7 +50,6 @@ class midcom_helper_reflector_nameresolver
      *
      * @see http://trac.midgard-project.org/ticket/809
      * @param string $name_property property to use as "name", if left to default (null), will be reflected
-     * @return boolean indicating cleanliness
      */
     public function name_is_clean($name_property = null) : bool
     {
@@ -67,7 +66,6 @@ class midcom_helper_reflector_nameresolver
      *
      * @see http://trac.midgard-project.org/ticket/809
      * @param string $name_property property to use as "name", if left to default (null), will be reflected
-     * @return boolean indicating safety
      */
     public function name_is_safe($name_property = null) : bool
     {
@@ -85,7 +83,6 @@ class midcom_helper_reflector_nameresolver
      *
      * @see http://trac.midgard-project.org/ticket/809
      * @param string $name_property property to use as "name", if left to default (null), will be reflected
-     * @return boolean indicating safety
      */
     public function name_is_safe_or_empty($name_property = null) : bool
     {
@@ -105,7 +102,6 @@ class midcom_helper_reflector_nameresolver
      *
      * @see http://trac.midgard-project.org/ticket/809
      * @param string $name_property property to use as "name", if left to default (null), will be reflected
-     * @return boolean indicating cleanliness
      */
     public function name_is_clean_or_empty($name_property = null) : bool
     {
@@ -122,8 +118,6 @@ class midcom_helper_reflector_nameresolver
 
     /**
      * Check that none of given objects siblings have same name, or the name is empty.
-     *
-     * @return boolean indicating uniqueness
      */
     public function name_is_unique_or_empty() : bool
     {
@@ -138,8 +132,6 @@ class midcom_helper_reflector_nameresolver
 
     /**
      * Check that none of given object's siblings have same name.
-     *
-     * @return boolean indicating uniqueness
      */
     public function name_is_unique() : bool
     {

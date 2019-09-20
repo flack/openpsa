@@ -18,7 +18,6 @@ class midcom_helper_misc
      * @param integer $length
      * @param string $characters
      * @throws InvalidArgumentException
-     * @return string
      */
     public static function random_string($length, $characters) : string
     {
@@ -52,7 +51,6 @@ class midcom_helper_misc
      *
      * @param string $data The data to parse
      * @throws midcom_error
-     * @return array The config in array format
      */
     public static function parse_config($data) : array
     {
@@ -145,7 +143,6 @@ class midcom_helper_misc
      * graceful behavior, look for midcom_helper_misc::get_snippet_content_graceful
      *
      * @param string $path    The URL to the snippet.
-     * @return string        The content of the snippet/file.
      */
     public static function get_snippet_content($path) : string
     {
@@ -178,7 +175,6 @@ class midcom_helper_misc
      * This is a bit of a hack to allow &(); tags
      *
      * @param string $code The unprocessed code
-     * @return string The processed code
      */
     public static function preparse($code) : string
     {
@@ -256,7 +252,6 @@ class midcom_helper_misc
      * Pretty print file sizes
      *
      * @param int $size  File size in bytes
-     * @return string    Prettified file size
      */
     public static function filesize_to_string($size) : string
     {

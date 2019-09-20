@@ -17,7 +17,6 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
      * Make JSON out of an array.
      *
      * @param array $array
-     * @return string
      */
     public function array2data(array $array) : string
     {
@@ -44,7 +43,6 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
      * Make JSON out of an object
      *
      * @param midcom_core_dbaobject $object
-     * @return string
      */
     public function object2data($object) : string
     {
