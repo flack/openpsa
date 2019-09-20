@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\workflow\dialog;
+
 /**
  * Base class for components. Provides some common functionality that should be available
  * in all parts of the component's environment.
@@ -98,7 +100,7 @@ abstract class midcom_baseclasses_components_base
      * @param array $options
      * @return \midcom\workflow\dialog
      */
-    public function get_workflow($identifier, array $options = [])
+    public function get_workflow($identifier, array $options = []) : dialog
     {
         $classname = '\\midcom\\workflow\\' . $identifier;
         return new $classname($options);

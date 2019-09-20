@@ -102,7 +102,7 @@ class midcom_baseclasses_components_navigation extends midcom_baseclasses_compon
      * @param midcom_db_topic $topic The topic to process.
      * @return boolean Indicating success.
      */
-    public function set_object($topic)
+    public function set_object($topic) : bool
     {
         $this->_topic = $topic;
         $this->_config->store_from_object($topic, $this->_component);

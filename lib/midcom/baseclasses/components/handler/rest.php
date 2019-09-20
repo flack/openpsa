@@ -109,7 +109,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      *
      * @return midcom_core_dbaobject
      */
-    public function retrieve_object()
+    public function retrieve_object() : midcom_core_dbaobject
     {
         // already got an object
         if ($this->_object) {
@@ -129,12 +129,8 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         }
 
         // try finding existing object
-        try {
-            $this->_object = new $classname($this->_id);
-            return $this->_object;
-        } catch (Exception $e) {
-            $this->_stop($e->getMessage(), $e->getCode());
-        }
+        $this->_object = new $classname($this->_id);
+        return $this->_object;
     }
 
     /**
@@ -178,7 +174,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      *
      * @return midcom_response_json
      */
-    protected function _process_request()
+    protected function _process_request() : midcom_response_json
     {
         try {
             // call corresponding method
@@ -220,7 +216,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      * @param string $message
      * @return midcom_response_json
      */
-    private function _send_response($message = false)
+    private function _send_response($message = false) : midcom_response_json
     {
         // always add status code and message
         $this->_response['code'] = $this->_responseStatus;

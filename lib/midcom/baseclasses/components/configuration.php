@@ -125,7 +125,7 @@ class midcom_baseclasses_components_configuration
      * @param string $filename The name of the file that should be parsed.
      * @return Array The read data
      */
-    public static function read_array_from_file($filename)
+    public static function read_array_from_file($filename) : array
     {
         if (!file_exists($filename)) {
             return [];
@@ -144,7 +144,7 @@ class midcom_baseclasses_components_configuration
      * @return Array The read data or false on failure.
      * @see read_array_from_file()
      */
-    public static function read_array_from_snippet($snippetpath)
+    public static function read_array_from_snippet($snippetpath) : array
     {
         $code = midcom_helper_misc::get_snippet_content_graceful($snippetpath);
         return midcom_helper_misc::parse_config($code);

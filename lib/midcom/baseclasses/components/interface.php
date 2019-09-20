@@ -139,7 +139,7 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      */
     protected $_site_class_suffix = 'viewer';
 
-    public static function get_classname($component, $suffix = 'interface')
+    public static function get_classname($component, $suffix = 'interface') : string
     {
         $loader = midcom::get()->componentloader;
         $class_name = $loader->path_to_prefix($component) . '_' . $suffix;
@@ -163,7 +163,7 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * @param midcom_db_topic $current_object The topic in question.
      * @return midcom_baseclasses_components_viewer
      */
-    public function get_viewer(midcom_db_topic $current_object)
+    public function get_viewer(midcom_db_topic $current_object) : midcom_baseclasses_components_viewer
     {
         $this->_config->store_from_object($current_object, $this->_component);
         $class_name = self::get_classname($this->_component, $this->_site_class_suffix);
@@ -175,7 +175,7 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      *
      * @return midcom_baseclasses_components_navigation
      */
-    public function get_nap_instance()
+    public function get_nap_instance() : midcom_baseclasses_components_navigation
     {
         if ($this->_nap_instance === null) {
             $class_name = self::get_classname($this->_component, $this->_nap_class_suffix);
@@ -193,7 +193,7 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * @return boolean Indicating success.
      * @see _on_reindex()
      */
-    public function reindex($topic)
+    public function reindex($topic) : bool
     {
         return $this->_on_reindex($topic, $this->get_config_for_topic($topic), midcom::get()->indexer);
     }
@@ -209,7 +209,7 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * @param midcom_db_topic $topic The topic which should be queried
      * @return midcom_helper_configuration MidCOM configuration object
      */
-    public function get_config_for_topic($topic)
+    public function get_config_for_topic($topic) : midcom_helper_configuration
     {
         $this->_config->store_from_object($topic, $this->_component);
         return $this->_config;
