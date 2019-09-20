@@ -13,9 +13,9 @@
  */
 class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_components_handler_rest
 {
-    public function get_object_classname()
+    public function get_object_classname() : string
     {
-        return "org_openpsa_invoices_billing_data_dba";
+        return org_openpsa_invoices_billing_data_dba::class;
     }
 
     private function get_billingdata($linkGuid) : org_openpsa_invoices_billing_data_dba

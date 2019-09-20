@@ -13,7 +13,7 @@
  */
 class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components_handler_rest
 {
-    public function get_object_classname()
+    public function get_object_classname() : string
     {
         return "";
     }

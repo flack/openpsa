@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
+use midcom\datamanager\controller;
 
 /**
  * midcom.datamanager based configuration
@@ -39,7 +40,7 @@ class midcom_baseclasses_components_handler_configuration extends midcom_basecla
         parent::__construct();
     }
 
-    private function load_controller()
+    private function load_controller() : controller
     {
         if ($schemadb_path = $this->_config->get('schemadb_config')) {
             return datamanager::from_schemadb($schemadb_path)

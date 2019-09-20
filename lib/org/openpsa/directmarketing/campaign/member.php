@@ -40,7 +40,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
     /**
      * Human-readable label for cases like Asgard navigation
      */
-    public function get_label()
+    public function get_label() : string
     {
         if ($this->person) {
             $person = new org_openpsa_contacts_person_dba($this->person);

@@ -41,7 +41,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         return $parent->guid;
     }
 
-    public function get_label()
+    public function get_label() : string
     {
         $mc = net_nemein_tag_tag_dba::new_collector('id', $this->tag);
         $tag_guids = $mc->get_values('tag');

@@ -21,7 +21,7 @@ class midcom_db_member extends midcom_core_dbaobject
 
     public $_use_rcs = false;
 
-    public function get_label()
+    public function get_label() : string
     {
         try {
             $person = new midcom_db_person($this->uid);

@@ -121,7 +121,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
         echo "</div>\n";
     }
 
-    public function get_label()
+    public function get_label() : string
     {
         $label = midcom::get()->i18n->get_l10n('org.openpsa.invoices')->get('billing data') . ' (';
         if ($contact = $this->get_contact()) {

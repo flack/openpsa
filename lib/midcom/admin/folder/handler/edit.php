@@ -151,7 +151,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         return preg_replace("/{$old_name}\/\$/", "{$this->edit_topic->name}/", $prefix);
     }
 
-    private function _create_topic($prefix)
+    private function _create_topic($prefix) : string
     {
         midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder created'));
 

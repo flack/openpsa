@@ -43,7 +43,7 @@ class midcom_helper_nav_leaf extends midcom_helper_nav_item
         return $this->get_data();
     }
 
-    protected function prepare_data()
+    protected function prepare_data() : array
     {
         $topic = $this->node->object;
 

@@ -13,9 +13,9 @@
  */
 class org_openpsa_invoices_handler_rest_invoice extends midcom_baseclasses_components_handler_rest
 {
-    public function get_object_classname()
+    public function get_object_classname() : string
     {
-        return "org_openpsa_invoices_invoice_dba";
+        return org_openpsa_invoices_invoice_dba::class;
     }
 
     public function handle_get()

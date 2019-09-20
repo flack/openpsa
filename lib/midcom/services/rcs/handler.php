@@ -28,7 +28,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
     protected $url_prefix = '';
 
-    abstract protected function get_object_url();
+    abstract protected function get_object_url() : string;
 
     abstract protected function handler_callback($handler_id);
 

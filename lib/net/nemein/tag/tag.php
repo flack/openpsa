@@ -20,7 +20,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
 
     public $_use_rcs = false;
 
-    public function get_label()
+    public function get_label() : string
     {
         return $this->tag;
     }

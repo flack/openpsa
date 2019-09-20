@@ -206,11 +206,7 @@ class midcom_helper_toolbar
         return $this->rendered;
     }
 
-    /**
-     *
-     * @return string
-     */
-    public function get_label()
+    public function get_label() : string
     {
         return $this->label;
     }

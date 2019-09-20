@@ -26,7 +26,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
     protected $_schema = 'export';
 
-    public function _load_schemadbs($handler_id, array &$args, array &$data)
+    public function _load_schemadbs($handler_id, array &$args, array &$data) : array
     {
         // Try to load the correct campaign
         $data['campaign'] = $this->load_campaign($args[0]);
@@ -40,7 +40,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         ];
     }
 
-    public function _load_data($handler_id, array &$args, array &$data)
+    public function _load_data($handler_id, array &$args, array &$data) : array
     {
         $rows = [];
         $qb_members = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();

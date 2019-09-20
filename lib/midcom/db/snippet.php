@@ -22,7 +22,7 @@ class midcom_db_snippet extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_snippet';
 
-    public function get_icon()
+    public function get_icon() : string
     {
         return 'file-code-o';
     }

@@ -55,7 +55,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         return 'open';
     }
 
-    public function get_icon()
+    public function get_icon() : string
     {
         return 'file-text-o';
     }
@@ -78,7 +78,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
     /**
      * Human-readable label for cases like Asgard navigation
      */
-    public function get_label()
+    public function get_label() : string
     {
         $config = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config');
         return sprintf($config->get('invoice_number_format'), $this->number);
@@ -87,7 +87,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
     /**
      * Label property (for Asgard chooser and the likes)
      */
-    public function get_label_property()
+    public function get_label_property() : string
     {
         return 'number';
     }

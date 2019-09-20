@@ -67,12 +67,9 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         parent::__set($name, $value);
     }
 
-    public function get_label()
+    public function get_label() : string
     {
-        if ($this->official) {
-            return $this->official;
-        }
-        return $this->name;
+        return $this->official ?: $this->name;
     }
 
     public function render_link() : string

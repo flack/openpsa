@@ -138,7 +138,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     /**
      * Generate a user-readable label for the task using the task/project hierarchy
      */
-    public function get_label()
+    public function get_label() : string
     {
         $label_elements = [$this->title];
         $task = $this;
@@ -152,7 +152,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return trim($label);
     }
 
-    public function get_icon()
+    public function get_icon() : string
     {
         return 'calendar-check-o';
     }

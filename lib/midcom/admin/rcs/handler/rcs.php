@@ -35,7 +35,7 @@ class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
         ]);
     }
 
-    protected function get_object_url()
+    protected function get_object_url() : string
     {
         return midcom::get()->permalinks->create_permalink($this->object->guid);
     }

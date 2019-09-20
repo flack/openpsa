@@ -78,7 +78,7 @@ class midcom_db_parameter extends midcom_core_dbaobject
         return $parameter_cache[$cache_key];
     }
 
-    public function get_label()
+    public function get_label() : string
     {
         return "{$this->domain} {$this->name}";
     }

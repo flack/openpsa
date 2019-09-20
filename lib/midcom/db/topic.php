@@ -25,15 +25,9 @@ class midcom_db_topic extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_topic';
 
-    public function get_label()
+    public function get_label() : string
     {
-        if ($this->extra) {
-            return $this->extra;
-        }
-        if ($this->name) {
-            return $this->name;
-        }
-        return '#' . $this->id;
+        return $this->extra ?: $this->name ?: '#' . $this->id;
     }
 
     public function _on_loaded()

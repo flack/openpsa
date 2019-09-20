@@ -246,8 +246,10 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         }
     }
 
-    // the classname of the object we expect
-    abstract public function get_object_classname();
+    /**
+     * the classname of the object we expect
+     */
+    abstract public function get_object_classname() : string;
 
     // these RESTful methods might be overwritten, but contain a default implementation
     public function handle_get()

@@ -13,9 +13,9 @@
  */
 class org_openpsa_sales_handler_rest_deliverable extends midcom_baseclasses_components_handler_rest
 {
-    public function get_object_classname()
+    public function get_object_classname() : string
     {
-        return "org_openpsa_sales_salesproject_deliverable_dba";
+        return org_openpsa_sales_salesproject_deliverable_dba::class;
     }
 
     public function handle_update()

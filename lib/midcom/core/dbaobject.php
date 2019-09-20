@@ -188,7 +188,7 @@ abstract class midcom_core_dbaobject
      * @param mixed $src GUID of object (ids work but are discouraged)
      * @return static Reference to the object
      */
-    public static function &get_cached($src)
+    public static function &get_cached($src) : self
     {
         return midcom::get()->dbfactory->get_cached(get_called_class(), $src);
     }
@@ -300,7 +300,7 @@ abstract class midcom_core_dbaobject
     {
         return $this->__object->is_in_tree($root, $id);
     }
-    public function has_dependents()
+    public function has_dependents() : bool
     {
         return $this->__object->has_dependents();
     }
@@ -403,12 +403,12 @@ abstract class midcom_core_dbaobject
         return false;
     }
 
-    public function get_properties()
+    public function get_properties() : array
     {
         return midcom_helper_reflector::get_object_fieldnames($this);
     }
 
-    public static function new_reflection_property()
+    public static function new_reflection_property() : midgard_reflection_property
     {
         $classname = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class(get_called_class());
         return call_user_func([$classname, 'new_reflection_property']);

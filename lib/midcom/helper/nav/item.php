@@ -28,7 +28,7 @@ abstract class midcom_helper_nav_item
 
     protected $loaded = false;
 
-    abstract protected function prepare_data();
+    abstract protected function prepare_data() : array;
 
     abstract public function is_readable_by($user_id);
 
@@ -90,7 +90,7 @@ abstract class midcom_helper_nav_item
      */
     public function is_object_visible() : bool
     {
-        if ($this->get_data() === null) {
+        if (empty($this->get_data())) {
             debug_add('Got a null value as napdata, so this object does not have any NAP info, so we cannot display it.');
             return false;
         }
@@ -115,7 +115,7 @@ abstract class midcom_helper_nav_item
         return true;
     }
 
-    public function get_data()
+    public function get_data() : array
     {
         if (!$this->loaded) {
             $this->data = $this->prepare_data();

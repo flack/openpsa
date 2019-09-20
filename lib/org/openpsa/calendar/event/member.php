@@ -48,7 +48,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         }
     }
 
-    public function get_label()
+    public function get_label() : string
     {
         $person = new midcom_db_person($this->uid);
         $event = new org_openpsa_calendar_event_dba($this->eid);

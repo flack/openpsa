@@ -114,7 +114,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         }
     }
 
-    public function get_icon()
+    public function get_icon() : string
     {
         return 'tasks';
     }
@@ -122,7 +122,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     /**
      * Generate a user-readable label for the task using the task/project hierarchy
      */
-    public function get_label()
+    public function get_label() : string
     {
         $label_elements = [$this->title];
         $project = $this;

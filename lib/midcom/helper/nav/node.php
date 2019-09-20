@@ -117,7 +117,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
         $this->get_cache()->put_leaves("{$this->id}-leaves", $cachedata);
     }
 
-    protected function prepare_data()
+    protected function prepare_data() : array
     {
         $data = $this->get_cache()->get_node($this->topic_id);
 
@@ -127,8 +127,8 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
             midcom::get()->auth->drop_sudo();
 
             if ($data === null) {
-                debug_add('We got null for this node, so we do not have any NAP information, returning null directly.');
-                return null;
+                debug_add('We got null for this node, so we do not have any NAP information, returning directly.');
+                return [];
             }
 
             $this->get_cache()->put_node($data[MIDCOM_NAV_ID], $data);

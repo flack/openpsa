@@ -94,7 +94,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         }
     }
 
-    public function get_label()
+    public function get_label() : string
     {
         return $this->title;
     }

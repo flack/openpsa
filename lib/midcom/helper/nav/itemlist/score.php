@@ -30,9 +30,8 @@ class midcom_helper_nav_itemlist_score extends midcom_helper_nav_itemlist
      *
      * @param array $a    Navigation item array
      * @param array $b    Navigation item array
-     * @return integer    Preferred order
      */
-    private function sort_cmp($a, $b)
+    private function sort_cmp($a, $b) : int
     {
         return $b[MIDCOM_NAV_SCORE] <=> $a[MIDCOM_NAV_SCORE];
     }
