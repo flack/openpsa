@@ -144,23 +144,20 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     /**
      * Populates contacts as resources lists
      */
-    public function get_members() : bool
+    public function get_members()
     {
-        if (!$this->guid) {
-            return false;
-        }
+        if ($this->guid) {
+            $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
+            $ret = $mc->get_rows(['role', 'person']);
 
-        $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
-        $ret = $mc->get_rows(['role', 'person']);
-
-        foreach ($ret as $data) {
-            if ($data['role'] == org_openpsa_projects_task_resource_dba::CONTACT) {
-                $this->contacts[$data['person']] = true;
-            } else {
-                $this->resources[$data['person']] = true;
+            foreach ($ret as $data) {
+                if ($data['role'] == org_openpsa_projects_task_resource_dba::CONTACT) {
+                    $this->contacts[$data['person']] = true;
+                } else {
+                    $this->resources[$data['person']] = true;
+                }
             }
         }
-        return true;
     }
 
     /**
@@ -257,10 +254,10 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         if ($update_required) {
             debug_add("Some project information needs to be updated, skipping RCS");
             $this->_use_rcs = false;
-            return $this->update();
+            $this->update();
+        } else {
+            debug_add("All project information is up-to-date");
         }
-        debug_add("All project information is up-to-date");
-        return true;
     }
 
     private function _find_status(array $map, array $status_types)

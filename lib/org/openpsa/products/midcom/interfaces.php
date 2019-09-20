@@ -70,13 +70,13 @@ implements midcom_services_permalinks_resolver
             $qb->add_constraint('id', '=', $root_group->id);
         }
         foreach ($qb->execute() as $group) {
-            $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $group, $config);
+            $this->reindex_tree_iterator($indexer, $dms, $topic, $group, $config);
         }
 
         return true;
     }
 
-    public function _on_reindex_tree_iterator(&$indexer, array $dms, $topic, $group, $config)
+    private function reindex_tree_iterator(&$indexer, array $dms, $topic, $group, $config)
     {
         if ($config->get('index_groups')) {
             try {
@@ -104,9 +104,7 @@ implements midcom_services_permalinks_resolver
         $qb_groups->add_constraint('up', '=', $group->id);
 
         foreach ($qb_groups->execute() as $subgroup) {
-            $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $subgroup, $config);
+            $this->reindex_tree_iterator($indexer, $dms, $topic, $subgroup, $config);
         }
-
-        return true;
     }
 }

@@ -160,23 +160,20 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     /**
      * Populates contacts as resources lists
      */
-    public function get_members() : bool
+    public function get_members()
     {
-        if (!$this->id) {
-            return false;
-        }
+        if ($this->id) {
+            $mc = org_openpsa_projects_task_resource_dba::new_collector('task', $this->id);
+            $ret = $mc->get_rows(['orgOpenpsaObtype', 'person']);
 
-        $mc = org_openpsa_projects_task_resource_dba::new_collector('task', $this->id);
-        $ret = $mc->get_rows(['orgOpenpsaObtype', 'person']);
-
-        foreach ($ret as $data) {
-            if ($data['orgOpenpsaObtype'] == org_openpsa_projects_task_resource_dba::CONTACT) {
-                $this->contacts[$data['person']] = true;
-            } else {
-                $this->resources[$data['person']] = true;
+            foreach ($ret as $data) {
+                if ($data['orgOpenpsaObtype'] == org_openpsa_projects_task_resource_dba::CONTACT) {
+                    $this->contacts[$data['person']] = true;
+                } else {
+                    $this->resources[$data['person']] = true;
+                }
             }
         }
-        return true;
     }
 
     /**

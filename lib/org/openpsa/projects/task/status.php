@@ -92,7 +92,8 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
 
                 //Creator will naturally accept his own proposal...
                 if ($recipient->guid == $this->metadata->creator) {
-                    return org_openpsa_projects_workflow::accept($task, 0, $this->comment);
+                    org_openpsa_projects_workflow::accept($task, 0, $this->comment);
+                    return;
                 }
             } catch (midcom_error $e) {
                 $e->log();
