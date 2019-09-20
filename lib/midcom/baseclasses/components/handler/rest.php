@@ -125,7 +125,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 
         // for all other modes, we need an id or guid
         if (!$this->_id) {
-            $this->_stop("Missing id / guid for " . $this->_mode . " mode", MIDCOM_ERRCRIT);
+            throw new midcom_error("Missing id / guid for " . $this->_mode . " mode");
         }
 
         // try finding existing object
@@ -161,7 +161,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         }
 
         if (!$stat) {
-            $this->_stop("Failed to " . $this->_mode . " object, last error was: " . midcom_connection::get_error_string(), MIDCOM_ERRCRIT);
+            throw new midcom_error("Failed to " . $this->_mode . " object, last error was: " . midcom_connection::get_error_string());
         }
         $this->_responseStatus = MIDCOM_ERROK;
         $this->_response["id"] = $this->_object->id;
@@ -247,7 +247,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     private function _check_object()
     {
         if (!$this->_object) {
-            $this->_stop("No object given", MIDCOM_ERRCRIT);
+            throw new midcom_error("No object given");
         }
     }
 
@@ -281,7 +281,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     {
         $this->retrieve_object();
         if (!$this->_object->delete()) {
-            $this->_stop("Failed to delete object, last error was: " . midcom_connection::get_error_string(), MIDCOM_ERRCRIT);
+            throw new midcom_error("Failed to delete object, last error was: " . midcom_connection::get_error_string());
         }
         // on success, return id
         $this->_responseStatus = MIDCOM_ERROK;
