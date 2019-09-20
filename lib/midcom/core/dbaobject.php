@@ -292,26 +292,9 @@ abstract class midcom_core_dbaobject
     {
         return midcom::get()->dbfactory->get_parent($this);
     }
-    public function is_in_parent_tree($root, $id)
-    {
-        return $this->__object->is_in_parent_tree($root, $id);
-    }
-    public function is_in_tree($root, $id)
-    {
-        return $this->__object->is_in_tree($root, $id);
-    }
     public function has_dependents() : bool
     {
         return $this->__object->has_dependents();
-    }
-    public function list_children($class_name)
-    {
-        // FIXME: ACL checks
-        return $this->__object->list_children($class_name);
-    }
-    public function parent()
-    {
-        return $this->__object->parent();
     }
     public function is_object_visible_onsite() : bool
     {
