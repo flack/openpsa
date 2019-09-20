@@ -1,7 +1,6 @@
 var org_openpsa_widgets_tabs = {
     loaded_scripts: [],
     popstate: false,
-    form_append: "&midcom_helper_datamanager2_cancel=Cancel",
     initialize: function(uiprefix) {
         org_openpsa_widgets_tabs.bind_events(uiprefix);
 
@@ -17,7 +16,7 @@ var org_openpsa_widgets_tabs = {
                 });
                 ui.ajaxSettings.dataFilter = function(data, type) {
                     return org_openpsa_widgets_tabs.load_head_elements(data, type, event);
-                }
+                };
             },
             load: function() {
                 $(window).trigger('resize');
@@ -65,27 +64,24 @@ var org_openpsa_widgets_tabs = {
             })
             .on('click', '.ui-tabs-panel a', org_openpsa_widgets_tabs.intercept_clicks)
 
-            //bind click functions so the request can pass if it should saved or cancelled
-            .on('click', 'input[type=submit]:not(.tab_escape)', function(event) {
-                org_openpsa_widgets_tabs.form_append = "&" + $(event.currentTarget).attr('name') + "=" + $(event.currentTarget).val();
-                return true;
-            })
-
             //since this is loaded in a tab - change the submit-function of
             // an occurring form - so the result will be loaded in the tab also
             .on("submit", 'form:not(.tab_escape)', function(event) {
                 if ($(event.currentTarget).attr('onsubmit')) {
                     return;
                 }
-                var send_data = $(this).serialize() + org_openpsa_widgets_tabs.form_append;
+                var send_data = new FormData(this);
 
                 $.ajax({
                     data: send_data,
+                    processData: false,
+                    contentType: false,
                     dataFilter: org_openpsa_widgets_tabs.load_head_elements,
                     type: $(this).attr("method"),
                     url: $(this).attr("action"),
                     success: function(data) {
                         $(":not(.ui-tabs-hide) > .tab_div").html(data);
+                        $(window).trigger('resize');
                     }
                 });
                 event.preventDefault();
