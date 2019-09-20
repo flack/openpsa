@@ -95,27 +95,29 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         $time_span = 7 * 24 * 60 * 60; //7 days
 
         $data['journal_constraints'] = [
-            //just show entries of current_user
-            [
-                'property' => 'metadata.creator',
-                'operator' => '=',
-                'value' => midcom::get()->auth->user->guid,
-            ],
-            //only show entries with followUp set and within the next 7 days
-            [
-                'property' => 'followUp',
-                'operator' => '<',
-                'value' => $time + $time_span,
-            ],
-            [
-                'property' => 'followUp',
-                'operator' => '>',
-                'value' => 0,
-            ],
-            [
-                'property' => 'closed',
-                'operator' => '=',
-                'value' => false,
+            'journal_entry_constraints' => [
+                //just show entries of current_user
+                [
+                    'property' => 'metadata.creator',
+                    'operator' => '=',
+                    'value' => midcom::get()->auth->user->guid,
+                ],
+                //only show entries with followUp set and within the next 7 days
+                [
+                    'property' => 'followUp',
+                    'operator' => '<',
+                    'value' => $time + $time_span,
+                ],
+                [
+                    'property' => 'followUp',
+                    'operator' => '>',
+                    'value' => 0,
+                ],
+                [
+                    'property' => 'closed',
+                    'operator' => '=',
+                    'value' => false,
+                ]
             ]
         ];
         midcom::get()->head->set_pagetitle($this->_l10n->get('journal entries'));
