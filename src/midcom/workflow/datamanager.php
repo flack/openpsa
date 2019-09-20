@@ -53,7 +53,7 @@ class datamanager extends dialog
                 'save_callback' => null,
                 'relocate' => true
             ])
-            ->setAllowedTypes('controller', ['null', '\midcom\datamanager\controller']);
+            ->setAllowedTypes('controller', ['null', controller::class]);
     }
 
     public function get_button_config() : array
@@ -82,7 +82,7 @@ class datamanager extends dialog
         }
         $context = midcom_core_context::get();
         $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$this->controller, 'display_form']);
-        return self::response($context);
+        return $this->response($context);
     }
 
     protected function handle_save() : string
@@ -108,14 +108,14 @@ class datamanager extends dialog
 
     public function add_post_button($url, $label, array $args)
     {
-        self::add_dialog_js();
+        $this->add_dialog_js();
         midcom::get()->head->add_jscript('add_post_button(' . $this->prepare_url($url) . ', "' . $label . '", ' . json_encode($args) . ');');
     }
 
     public function add_dialog_button(dialog $dialog, $url)
     {
         $config = $dialog->get_button_config();
-        self::add_dialog_js();
+        $this->add_dialog_js();
         midcom::get()->head->add_jscript('add_dialog_button(' . $this->prepare_url($url) . ', "' . $config[MIDCOM_TOOLBAR_LABEL] . '", ' . json_encode($config[MIDCOM_TOOLBAR_OPTIONS]) . ');');
     }
 

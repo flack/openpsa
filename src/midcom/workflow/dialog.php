@@ -55,15 +55,15 @@ abstract class dialog
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.workflow/workflow.css');
     }
 
-    public static function add_dialog_js()
+    protected function add_dialog_js()
     {
         midcom::get()->head->enable_jquery_ui(['button']);
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
     }
 
-    public static function response(\midcom_core_context $context) : midcom_response_styled
+    protected function response(\midcom_core_context $context) : midcom_response_styled
     {
-        self::add_dialog_js();
+        $this->add_dialog_js();
         midcom::get()->style->append_styledir(__DIR__ . '/style');
         return new midcom_response_styled($context, 'POPUP');
     }

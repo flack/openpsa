@@ -30,6 +30,6 @@ class viewer extends dialog
 
     public function run(Request $request) : Response
     {
-        return self::response(midcom_core_context::get());
+        return $this->response(midcom_core_context::get());
     }
 }
