@@ -263,8 +263,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     /**
      * Determines the last modified timestamp. It is the max out of all revised timestamps
      * of the comments (or 0 in case nothing was found).
-     *
-     * @return int Last-Modified Timestamp
      */
     private function _get_last_modified() : int
     {

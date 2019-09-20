@@ -20,7 +20,6 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
      *
      * @param string $html HTML to parse
      * @param string $name Name of the meta tag to fetch
-     * @return string Content of the meta tag
      */
     public static function get_meta_value($html, $name) : string
     {

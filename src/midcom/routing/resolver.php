@@ -48,7 +48,6 @@ class resolver
     /**
      * @param string $component
      * @param array $request_switch
-     * @return \Symfony\Component\Routing\Router
      */
     public static function get_router($component, array $request_switch = []) : Router
     {
@@ -66,7 +65,6 @@ class resolver
 
     /**
      * @throws midcom_error_notfound
-     * @return boolean
      */
     public function process_midcom() : bool
     {

@@ -13,9 +13,6 @@
  */
 trait midgard_admin_asgard_handler
 {
-    /**
-     * @return midcom_response_styled
-     */
     public function get_response($element = null) : midcom_response_styled
     {
         if (isset($_GET['ajax'])) {

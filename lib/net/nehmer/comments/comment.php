@@ -105,8 +105,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     /**
      * Returns the number of comments associated with a given object. This is intended for
      * outside usage to render stuff like "15 comments". The count is executed unchecked.
-     *
-     * @return int Number of comments matching a given result.
      */
     public static function count_by_objectguid($guid) : int
     {
@@ -118,8 +116,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * Returns the number of comments associated with a given object by actual registered users.
      * This is intended for outside usage to render stuff like "15 comments". The count is
      * executed unchecked.
-     *
-     * @return int Number of comments matching a given result.
      */
     public static function count_by_objectguid_filter_anonymous($guid) : int
     {

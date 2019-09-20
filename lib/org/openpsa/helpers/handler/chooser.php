@@ -125,10 +125,8 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
 
     /**
      * Try to determine the schemadb based on the requested DBA class
-     *
-     * @return string The path to the schemadb
      */
-    private function _get_schemadb_snippet()
+    private function _get_schemadb_snippet() : string
     {
         $config_key = 'schemadb';
 

@@ -110,7 +110,6 @@ class multipleTransformer implements DataTransformerInterface
      * will be logged and skipped silently.
      *
      * @param array $array
-     * @return string The imploded data string.
      */
     private function get_imploded_options(array $array) : string
     {

@@ -184,7 +184,6 @@ class midcom_services_permalinks
      * Create Permalink URLs from GUIDs. They always point to the live site (given correct system configuration).
      *
      * @param string $guid The Guid to link to.
-     * @return string The full URL of the Permalink.
      */
     public function create_permalink($guid) : string
     {
@@ -197,7 +196,6 @@ class midcom_services_permalinks
      *
      * @param string $guid The GUID to link to.
      * @param string $filename The attachment's filename
-     * @return string The full URL of the Permalink.
      */
     public function create_attachment_link($guid, $filename) : string
     {

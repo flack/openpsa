@@ -423,7 +423,6 @@ class midcom_services_auth_acl
      *
      * @todo This call should load the component associated to the privilege on demand.
      * @param string $name The name of the privilege to check.
-     * @return boolean Indicating whether the privilege does exist.
      */
     public function privilege_exists($name) : bool
     {
@@ -492,7 +491,6 @@ class midcom_services_auth_acl
      * @param string $object_class Class of the object in question
      * @param string $user_id The user against which to check the privilege, defaults to the currently authenticated user.
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
-     * @return boolean True if the privilege has been granted, false otherwise.
      */
     public function can_do_byguid($privilege, $object_guid, $object_class, $user_id) : bool
     {
@@ -636,7 +634,6 @@ class midcom_services_auth_acl
      * sudo mode, as outlined in the corresponding variable.
      *
      * @param string $privilege The privilege to check for
-     * @return boolean True if the privilege has been granted, false otherwise.
      * @see $_internal_sudo
      */
     private function _can_do_internal_sudo($privilege) : bool

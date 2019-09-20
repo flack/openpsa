@@ -96,8 +96,6 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
      * Returns an option array for rendering,
      *
      * May use option_callback config setting to populate the options array
-     *
-     * @return array The options array
      */
     protected function _get_options() : array
     {

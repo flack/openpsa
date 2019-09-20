@@ -77,7 +77,6 @@ class loader extends base
      * Small transitory helper for old-style route validation configs
      *
      * @param array $input
-     * @return string
      */
     private function translate_validation(array $input) : string
     {
@@ -108,16 +107,12 @@ class loader extends base
 
     /**
      * @param string $component
-     * @return boolean
      */
     private function is_legacy($component) : bool
     {
         return !file_exists($this->get_path($component, 'yml'));
     }
 
-    /**
-     * @return \Symfony\Component\Routing\Loader\YamlFileLoader
-     */
     private function get_yaml() : YamlFileLoader
     {
         if (empty($this->yaml_loader)) {
@@ -133,7 +128,6 @@ class loader extends base
 
     /**
      * @param string $component
-     * @return array
      */
     public function get_legacy_routes($component) : array
     {

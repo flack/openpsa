@@ -31,7 +31,6 @@ class org_openpsa_projects_workflow
      * Returns the status type of a given status
      *
      * @param integer $status The status to convert
-     * @return string The status type
      */
     public static function get_status_type($status) : string
     {

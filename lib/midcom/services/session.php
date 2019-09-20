@@ -119,7 +119,6 @@ class midcom_services_session
      * This is often used in conjunction with get to verify a keys existence.
      *
      * @param mixed $key    The key to query.
-     * @return boolean            Indicating availability.
      */
     public function exists($key) : bool
     {

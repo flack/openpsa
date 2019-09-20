@@ -105,8 +105,6 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
     /**
      * Usually, documents are processed in batches, and constructing the dm for each
      * document is pretty wasteful, so we keep the instance around and reuse it
-     *
-     * @return array
      */
     private function read_metadata() : array
     {

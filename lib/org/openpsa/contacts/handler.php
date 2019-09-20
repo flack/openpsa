@@ -38,8 +38,6 @@ trait org_openpsa_contacts_handler
 
     /**
      * Get schema name for person
-     *
-     * @return string Schema name
      */
     public function get_person_schema(org_openpsa_contacts_person_dba $contact) : string
     {

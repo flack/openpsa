@@ -96,25 +96,17 @@ class controller
      * Process the form (request object will be created on the fly)
      *
      * @deprecated Use handle() instead
-     * @return string
      */
     public function process() : string
     {
         return $this->handle(Request::createFromGlobals());
     }
 
-    /**
-     * @return \midcom\datamanager\datamanager
-     */
     public function get_datamanager() : datamanager
     {
         return $this->dm;
     }
 
-    /**
-     *
-     * @return array
-     */
     public function get_errors() : array
     {
         $errors = [];

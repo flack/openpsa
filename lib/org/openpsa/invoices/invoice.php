@@ -188,8 +188,6 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
     /**
      * an invoice is cancelable if it is no cancelation invoice
      * itself and got no related cancelation invoice
-     *
-     * @return boolean
      */
     public function is_cancelable() : bool
     {
@@ -281,8 +279,6 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
     /**
      * Get the billing data for the invoice
-     *
-     * @return org_openpsa_invoices_billing_data_dba
      */
     public function get_billing_data() : org_openpsa_invoices_billing_data_dba
     {
@@ -316,7 +312,6 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
      * Get invoice_item for the passed task id, if there is no item it will return a newly created one
      *
      * @param integer $task_id
-     * @return org_openpsa_invoices_invoice_item_dba
      */
     private function _probe_invoice_item_for_task($task_id) : org_openpsa_invoices_invoice_item_dba
     {

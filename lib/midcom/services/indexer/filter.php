@@ -37,8 +37,6 @@ abstract class midcom_services_indexer_filter
 
     /**
      * Returns the name of the field.
-     *
-     * @return string
      */
     public function get_field() : string
     {

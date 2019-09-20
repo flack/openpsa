@@ -116,7 +116,6 @@ class parser
 
     /**
      * @throws \midcom_error
-     * @return midcom_db_topic
      */
     public function find_topic() : midcom_db_topic
     {

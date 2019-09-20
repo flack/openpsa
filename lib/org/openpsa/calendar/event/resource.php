@@ -34,8 +34,6 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
 
     /**
      * Function to check whether we can reserve the resource we are trying to
-     *
-     * @return boolean indicating state
      */
     public function verify_can_reserve() : bool
     {

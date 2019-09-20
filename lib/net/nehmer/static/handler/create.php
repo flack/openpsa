@@ -27,7 +27,6 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
     /**
      * @param string $schemaname
      * @param array $defaults
-     * @return \midcom\datamanager\controller
      */
     private function load_controller($schemaname, array $defaults) : controller
     {

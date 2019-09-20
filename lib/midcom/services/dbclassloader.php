@@ -59,7 +59,6 @@ class midcom_services_dbclassloader
      * object or a subclass thereof.
      *
      * @param object $object The object to check
-     * @return boolean true if this is a MgdSchema object, false otherwise.
      */
     public function is_mgdschema_object($object) : bool
     {
@@ -204,7 +203,6 @@ class midcom_services_dbclassloader
      * or a subclass thereof.
      *
      * @param object|string $object The object (or classname) to check
-     * @return boolean true if this is a MidCOM Database object, false otherwise.
      */
     public function is_midcom_db_object($object) : bool
     {

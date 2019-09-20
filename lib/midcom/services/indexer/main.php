@@ -87,8 +87,6 @@ class midcom_services_indexer implements EventSubscriberInterface
 
     /**
      * Simple helper, returns true if the indexer service is online, false if it is disabled.
-     *
-     * @return boolean Service state.
      */
     public function enabled() : bool
     {

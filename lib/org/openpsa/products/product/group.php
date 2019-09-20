@@ -68,7 +68,6 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
      * @param string $keyproperty  Property to use as the key of the resulting array
      * @param boolean $order_by_score Set to true to sort by metadata score
      * @param array $label_fields  Object properties to show in the label (will be shown space separated)
-     * @return array
      */
     public static function list_groups($up, $prefix, $keyproperty, $order_by_score = false, array $label_fields = ['code', 'title']) : array
     {
@@ -129,9 +128,6 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         return $ret;
     }
 
-    /**
-     * @return org_openpsa_products_product_group_dba
-     */
     public function get_root() : self
     {
         $root = $this;

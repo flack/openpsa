@@ -147,8 +147,6 @@ class grid
 
     /**
      * Returns the grid's ID
-     *
-     * @return string
      */
     public function get_identifier() : string
     {

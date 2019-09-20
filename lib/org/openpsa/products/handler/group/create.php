@@ -28,7 +28,6 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
      * @param string $schema
      * @param int $up
      * @throws midcom_error_notfound
-     * @return \midcom\datamanager\controller
      */
     private function load_controller($schema, $up) : controller
     {

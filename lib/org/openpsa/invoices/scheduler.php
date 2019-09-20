@@ -254,7 +254,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      *
      * @param integer $months The maximum number of months to look forward
      * @param integer $start The timestamp from which to begin
-     * @return integer
      */
     public function calculate_cycles($months = null, $start = null) : int
     {
@@ -329,7 +328,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      *
      * @param integer $time Original timestamp
      * @param integer $offset number of months to add
-     * @return DateTime The new date object
      */
     private function _add_month($time, $offset) : DateTime
     {

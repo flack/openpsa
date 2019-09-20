@@ -29,9 +29,6 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      */
     private $_tinyurls = [];
 
-    /**
-     * @return \midcom\datamanager\controller
-     */
     private function load_controller() : controller
     {
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_tinyurl'));
@@ -61,7 +58,6 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      * Get the item according to the given rule
      *
      * @param mixed $rule
-     * @return net_nemein_redirector_tinyurl_dba
      */
     private function _get_item($rule) : net_nemein_redirector_tinyurl_dba
     {

@@ -82,9 +82,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $this->mc = org_openpsa_contacts_person_dba::new_collector();
     }
 
-    /**
-     * @return midcom_core_collector
-     */
     public function get_mc() : midcom_core_collector
     {
         return $this->mc;
@@ -93,7 +90,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     /**
      * @param string $ruleset
      * @throws midcom_error
-     * @return array
      */
     public static function parse($ruleset) : array
     {

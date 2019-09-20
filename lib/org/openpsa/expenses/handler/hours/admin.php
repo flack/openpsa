@@ -17,11 +17,6 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  */
 class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_components_handler
 {
-    /**
-     * Loads datamanager
-     *
-     * @return \midcom\datamanager\datamanager
-     */
     private function load_datamanager(org_openpsa_expenses_hour_report_dba $report, $defaults = [], $schema = null) : datamanager
     {
         return datamanager::from_schemadb($this->_config->get('schemadb_hours'))

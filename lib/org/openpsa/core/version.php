@@ -20,8 +20,6 @@ class org_openpsa_core_version
 
     /**
      * Returns version number
-     *
-     * @return string OpenPSA version string
      */
     public static function get_version_number() : string
     {
@@ -30,8 +28,6 @@ class org_openpsa_core_version
 
     /**
      * Returns version name
-     *
-     * @return string OpenPSA version string
      */
     public static function get_version_name() : string
     {
@@ -40,8 +36,6 @@ class org_openpsa_core_version
 
     /**
      * Returns version number and name
-     *
-     * @return string OpenPSA version string
      */
     public static function get_version_both() : string
     {

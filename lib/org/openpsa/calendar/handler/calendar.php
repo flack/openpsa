@@ -99,9 +99,6 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
         return $this->show('show-calendar');
     }
 
-    /**
-     * @return array
-     */
     private function get_calendar_options() : array
     {
         $options = [

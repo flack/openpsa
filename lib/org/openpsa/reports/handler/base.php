@@ -66,10 +66,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         $this->_show_generator($handler_id, $data);
     }
 
-    /**
-     * @param org_openpsa_reports_query_dba $query
-     * @return \midcom\datamanager\datamanager
-     */
     private function load_datamanager(org_openpsa_reports_query_dba $query) : datamanager
     {
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_queryform_' . $this->module));

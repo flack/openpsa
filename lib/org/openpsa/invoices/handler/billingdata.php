@@ -26,10 +26,6 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
      */
     private $_linked_object;
 
-    /**
-     * @param org_openpsa_invoices_billing_data_dba $bd
-     * @return \midcom\datamanager\controller
-     */
     private function load_controller(org_openpsa_invoices_billing_data_dba $bd) : controller
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb_billing_data'));

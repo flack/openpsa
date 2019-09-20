@@ -68,16 +68,12 @@ abstract class dialog
         return new midcom_response_styled($context, 'POPUP');
     }
 
-    /**
-     * @return string
-     */
     public function get_state() : string
     {
         return $this->state;
     }
 
     /**
-     *
      * @param string $url
      * @param array $options
      * @return array button config in midcom_helper_toolbar format
@@ -101,10 +97,6 @@ abstract class dialog
         return $button_config;
     }
 
-    /**
-     *
-     * @return string
-     */
     public function render_attributes() : string
     {
         $button_config = $this->get_button_config();

@@ -66,7 +66,6 @@ class imagefilter
      * @param midcom_db_attachment $input
      * @param array $existing
      * @param string $identifier
-     * @return midcom_db_attachment
      */
     private function get_attachment(midcom_db_attachment $input, array $existing, $identifier) : midcom_db_attachment
     {

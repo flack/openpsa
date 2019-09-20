@@ -48,9 +48,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         parent::__construct();
     }
 
-    /**
-     * @return SimplePie
-     */
     public static function get_parser() : SimplePie
     {
         $parser = new SimplePie;
@@ -74,7 +71,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * Actually fetch a feed
      *
      * @param string $url The URL to fetch
-     * @return SimplePie
      */
     public static function raw_fetch($url) : SimplePie
     {
@@ -371,9 +367,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Parses author formats used by different feed standards and
      * and returns the information
-     *
-     * @param net_nemein_rss_parser_item $item Feed item as provided by SimplePie
-     * @return Array Information found
      */
     public static function parse_item_author(net_nemein_rss_parser_item $item) : array
     {

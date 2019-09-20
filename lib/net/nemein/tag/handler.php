@@ -130,7 +130,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * Resolve actual tag from user-inputted tags that may have contexts or values in them
      *
      * @param string $tagname User-inputted tag that may contain a context or value
-     * @return string Tag without context or value
      */
     public static function resolve_tagname($tagname) : string
     {
@@ -149,7 +148,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * Resolve value from user-inputted tags that may have machine tag values
      *
      * @param string $tagname User-inputted tag that may contain a value
-     * @return string Value without tag or context
      */
     public static function resolve_value($tagname) : string
     {
@@ -475,7 +473,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      *
      * @see net_nemein_tag_handler::tag_object()
      * @param string $from_string String to parse tags from
-     * @return array Array of correct format
      */
     public static function string2tag_array($from_string) : array
     {
@@ -511,11 +508,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
     /**
      * Creates string representation of the tag array
-     *
-     * @param array $tags
-     * @return string representation
      */
-    public static function tag_array2string($tags) : string
+    public static function tag_array2string(array $tags) : string
     {
         $tags = array_keys($tags);
         foreach ($tags as &$tag) {

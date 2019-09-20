@@ -278,7 +278,6 @@ class midcom_services_i18n
      * @see midcom_services_i18n_l10n
      * @param string $component    The component for which to retrieve a string database.
      * @param string $database    The string table to retrieve from the component's locale directory.
-     * @return midcom_services_i18n_l10n    The cached L10n database
      */
     public function get_l10n($component = 'midcom', $database = 'default') : midcom_services_i18n_l10n
     {
@@ -300,7 +299,6 @@ class midcom_services_i18n
      *     current component (out of the component context).
      * @param string $database    The string table to retrieve from the component's locale directory. If omitted, the 'default'
      *     database is used.
-     * @return string The translated string
      * @see midcom_services_i18n_l10n::get()
      */
     public function get_string($stringid, $component = null, $database = 'default') : string
@@ -357,8 +355,6 @@ class midcom_services_i18n
 
     /**
      * Lists languages as identifier -> name pairs
-     *
-     * @return Array
      */
     public function list_languages() : array
     {
@@ -439,7 +435,6 @@ class midcom_services_i18n
      * Wrapped html_entity_decode call
      *
      * @param string $text The text with HTML entities, which should be replaced by their native equivalents.
-     * @return string The translated string.
      */
     public function html_entity_decode($text) : string
     {

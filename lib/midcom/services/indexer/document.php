@@ -303,8 +303,6 @@ class midcom_services_indexer_document
 
     /**
      * Returns a list of all defined fields.
-     *
-     * @return Array Fieldname list.
      */
     public function list_fields() : array
     {
@@ -529,7 +527,6 @@ class midcom_services_indexer_document
      * <li>torben</li><li>nehmer</li> are recognized correctly.
      *
      * @param string $text The text to convert to text
-     * @return string The converted text.
      */
     public function html2text($text) : string
     {
@@ -554,7 +551,6 @@ class midcom_services_indexer_document
      * @see $type
      * @see _set_type()
      * @param string $document_type The base type to search for.
-     * @return boolean Indicating relationship.
      */
     public function is_a($document_type) : bool
     {
@@ -668,7 +664,6 @@ class midcom_services_indexer_document
      * Gets person name for given ID (in case it's imploded_wrapped of multiple GUIDs it will use the first)
      *
      * @param string $id GUID or ID to get person for
-     * @return string $author->name
      */
     private function read_authorname($id) : string
     {

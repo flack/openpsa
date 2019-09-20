@@ -130,8 +130,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
     /**
      * Generates, loads and prepares the schema database.
-     *
-     * @return controller
      */
     private function load_controller() : controller
     {

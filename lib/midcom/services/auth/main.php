@@ -207,7 +207,6 @@ class midcom_services_auth
      * @param MidgardObject $content_object A Midgard Content Object
      * @param midcom_core_user $user The user against which to check the privilege, defaults to the currently authenticated user.
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
-     * @return boolean True if the privilege has been granted, false otherwise.
      */
     public function can_do($privilege, $content_object, $user = null) : bool
     {
@@ -256,7 +255,6 @@ class midcom_services_auth
      * @param midcom_core_user $user The user against which to check the privilege, defaults to the currently authenticated user,
      *     you may specify 'EVERYONE' here to check what an anonymous user can do.
      * @param string $class Optional parameter to set if the check should take type specific permissions into account. The class must be default constructible.
-     * @return boolean True if the privilege has been granted, false otherwise.
      */
     public function can_user_do($privilege, $user = null, $class = null) : bool
     {
@@ -288,7 +286,6 @@ class midcom_services_auth
      * initial credentials.
      *
      * @param string $domain The domain to request sudo for. This is a component name.
-     * @return boolean True if admin privileges were granted, false otherwise.
      */
     public function request_sudo($domain = null) : bool
     {
@@ -342,7 +339,6 @@ class midcom_services_auth
      *
      * @param mixed $group Group to check against, this can be either a midcom_core_group object or a group string identifier.
      * @param midcom_core_user $user The user which should be checked, defaults to the current user.
-     * @return boolean Indicating membership state.
      */
     public function is_group_member($group, $user = null) : bool
     {
@@ -364,8 +360,6 @@ class midcom_services_auth
 
     /**
      * Returns true if there is an authenticated user, false otherwise.
-     *
-     * @return boolean True if there is a user logged in.
      */
     public function is_valid_user() : bool
     {

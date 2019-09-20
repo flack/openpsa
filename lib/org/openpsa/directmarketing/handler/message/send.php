@@ -74,7 +74,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     /**
      * @param array $data Request data
      * @throws midcom_error
-     * @return org_openpsa_directmarketing_sender
      */
     private function _get_sender(array &$data) : org_openpsa_directmarketing_sender
     {

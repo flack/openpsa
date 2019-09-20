@@ -16,9 +16,6 @@ use midcom\datamanager\datamanager;
 class org_openpsa_calendar_interface extends midcom_baseclasses_components_interface
 implements midcom_services_permalinks_resolver
 {
-    /**
-     * @return org_openpsa_calendar_event_dba
-     */
     public static function create_root_event() : org_openpsa_calendar_event_dba
     {
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
@@ -47,11 +44,6 @@ implements midcom_services_permalinks_resolver
         return $event;
     }
 
-    /**
-     * Locates the root event
-     *
-     * @return org_openpsa_calendar_event_dba
-     */
     public static function find_root_event() : org_openpsa_calendar_event_dba
     {
         $data = midcom_baseclasses_components_configuration::get('org.openpsa.calendar');

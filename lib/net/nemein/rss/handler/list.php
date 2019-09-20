@@ -15,9 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
 {
-    /**
-     * @return Response
-     */
     public function _handler_opml() : Response
     {
         $opml = new OPMLCreator();
@@ -74,11 +71,6 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         midcom_show_style('net-nemein-rss-feeds-list-footer');
     }
 
-    /**
-     *
-     * @param net_nemein_rss_feed_dba $feed
-     * @return midcom_helper_toolbar
-     */
     private function create_toolbar(net_nemein_rss_feed_dba $feed) : midcom_helper_toolbar
     {
         $toolbar = new midcom_helper_toolbar();

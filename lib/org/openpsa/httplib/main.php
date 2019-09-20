@@ -31,7 +31,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
     ];
 
     /**
-     * Set one of the HTTP_Request2 parameters
+     * Set one of the Guzzle parameters
      *
      * @param string $name The parameter's name
      * @param mixed $value The new value
@@ -41,9 +41,6 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         $this->params[$name] = $value;
     }
 
-    /**
-     * @return Client
-     */
     private function get_client() : Client
     {
         $config = [];

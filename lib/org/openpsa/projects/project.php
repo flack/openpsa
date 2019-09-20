@@ -162,8 +162,6 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
 
     /**
      * Get the number of tasks for the different status types
-     *
-     * @return array The task status overview
      */
     public function get_task_count() : array
     {
@@ -185,8 +183,6 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
 
     /**
      * Get the number of hours for the different status types
-     *
-     * @return array The task hours overview
      */
     public function get_task_hours() : array
     {

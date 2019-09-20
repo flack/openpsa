@@ -122,7 +122,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      *
      * @param string $filename
      * @param boolean $autocreate
-     * @return midcom_db_attachment
      */
     private function _get_file($filename, $autocreate = false) : midcom_db_attachment
     {

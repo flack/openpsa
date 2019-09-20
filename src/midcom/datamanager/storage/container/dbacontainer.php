@@ -82,11 +82,6 @@ class dbacontainer extends container
         $this->object = $object;
     }
 
-    /**
-     *
-     * @param array $config
-     * @return node
-     */
     private function prepare_field(array $config) : node
     {
         if (   empty($config['storage']['location'])

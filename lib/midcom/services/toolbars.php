@@ -78,8 +78,6 @@ class midcom_services_toolbars
     /**
      * Returns the host toolbar of the current context.
      * The toolbar will be created if this is the first request.
-     *
-     * @return midcom_helper_toolbar_host
      */
     function get_host_toolbar() : midcom_helper_toolbar_host
     {
@@ -89,8 +87,6 @@ class midcom_services_toolbars
     /**
      * Returns the node toolbar of the current context.
      * The toolbar will be created if this is the first request.
-     *
-     * @return midcom_helper_toolbar_node
      */
     public function get_node_toolbar() : midcom_helper_toolbar_node
     {
@@ -100,8 +96,6 @@ class midcom_services_toolbars
     /**
      * Returns the view toolbar of the current context.
      * The toolbar will be created if this is the first request.
-     *
-     * @return midcom_helper_toolbar_view
      */
     public function get_view_toolbar() : midcom_helper_toolbar_view
     {
@@ -111,8 +105,6 @@ class midcom_services_toolbars
     /**
      * Returns the help toolbar of the current context.
      * The toolbar will be created if this is the first request.
-     *
-     * @return midcom_helper_toolbar_help
      */
     public function get_help_toolbar() : midcom_helper_toolbar_help
     {
@@ -121,7 +113,6 @@ class midcom_services_toolbars
 
     /**
      * @param string $identifier
-     * @return midcom_helper_toolbar
      */
     private function _get_toolbar($identifier) : midcom_helper_toolbar
     {
@@ -213,7 +204,6 @@ class midcom_services_toolbars
      *
      * @param int $toolbar_identifier The toolbar identifier constant (one of
      *     MIDCOM_TOOLBAR_NODE or MIDCOM_TOOLBAR_VIEW etc.)
-     * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
     function _render_toolbar($toolbar_identifier) : string
@@ -227,7 +217,6 @@ class midcom_services_toolbars
      * an empty string is returned. If you want to show the toolbar directly, look for
      * the show_xxx_toolbar methods.
      *
-     * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
     public function render_node_toolbar() : string
@@ -240,7 +229,6 @@ class midcom_services_toolbars
      * an empty string is returned. If you want to show the toolbar directly, look for
      * the show_xxx_toolbar methods.
      *
-     * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
     public function render_view_toolbar() : string
@@ -253,7 +241,6 @@ class midcom_services_toolbars
      * an empty string is returned. If you want to show the toolbar directly, look for
      * the show_xxx_toolbar methods.
      *
-     * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
     public function render_host_toolbar() : string
@@ -266,7 +253,6 @@ class midcom_services_toolbars
      * an empty string is returned. If you want to show the toolbar directly, look for
      * the show_xxx_toolbar methods.
      *
-     * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
     public function render_help_toolbar() : string

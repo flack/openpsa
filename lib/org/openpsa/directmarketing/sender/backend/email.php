@@ -66,8 +66,6 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
 
     /**
      * @inheritdoc
-     *
-     * @return string
      */
     public function get_type() : string
     {
@@ -130,8 +128,6 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
 
     /**
      * Go trough datamanager types array for attachments
-     *
-     * @return array
      */
     private function _get_attachments() : array
     {
@@ -172,7 +168,6 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
     *
     * @param string $html the HTML source
     * @param string $address the link detector address
-    * @return string HTML source with the link detector
     */
     private function _insert_link_detector($html, $address) : string
     {

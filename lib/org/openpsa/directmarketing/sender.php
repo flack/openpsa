@@ -211,8 +211,6 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
      * lowercase alphanumeric characters and will start with a lowercase
      * letter to avoid problems with special processing being triggered
      * by special characters in the token string.
-     *
-     * @return string random token string
      */
     private function _create_token() : string
     {

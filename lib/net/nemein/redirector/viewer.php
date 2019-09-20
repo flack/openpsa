@@ -52,7 +52,6 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
      * Get the URL where the topic links to
      *
      * @param array $data   Request data
-     * @return String containing redirection URL
      */
     public static function topic_links_to(array $data) : string
     {

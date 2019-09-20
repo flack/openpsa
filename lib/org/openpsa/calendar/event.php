@@ -219,8 +219,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
     /**
      * Returns a defaults template for relatedto objects
-     *
-     * @return object org_openpsa_relatedto_dba
      */
     private function _suspect_defaults() : org_openpsa_relatedto_dba
     {

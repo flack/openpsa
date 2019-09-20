@@ -93,8 +93,6 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      * - string desc: The object title/description.
      * - string type: The MIME Type of the object.
      * - string lastmod: The localized last modified date.
-     *
-     * @return Array Autoindex objects as outlined above
      */
     private function _load_autoindex_data() : array
     {

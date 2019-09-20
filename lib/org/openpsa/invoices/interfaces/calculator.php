@@ -20,15 +20,11 @@ interface org_openpsa_invoices_interfaces_calculator
 
     /**
      * Returns the calculated cost
-     *
-     * @return float cost value
      */
     public function get_cost() : float;
 
     /**
      * Returns the calculated price
-     *
-     * @return float price value
      */
     public function get_price() : float;
 
@@ -42,8 +38,6 @@ interface org_openpsa_invoices_interfaces_calculator
 
     /**
      * Returns identifier number for next invoice
-     *
-     * @return int invoice number
      */
     public function generate_invoice_number() : int;
 }

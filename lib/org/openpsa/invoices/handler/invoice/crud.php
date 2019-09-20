@@ -178,8 +178,6 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
 
     /**
      * List customer contact's groups
-     *
-     * @return array
      */
     private function get_customers_for_contact($contact_id) : array
     {

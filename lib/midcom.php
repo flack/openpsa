@@ -68,9 +68,8 @@ class midcom
 
     /**
      * @throws midcom_error
-     * @return \Symfony\Component\HttpKernel\HttpKernel
      */
-    public static function init()
+    public static function init() : HttpKernel
     {
         ///////////////////////////////////
         // Try to be smart about the paths:

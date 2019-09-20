@@ -40,9 +40,6 @@ class privilege extends delayed
         $privilege->store();
     }
 
-    /**
-     * @return \midcom_core_privilege
-     */
     private function get_privilege() : midcom_core_privilege
     {
         $privilege = $this->get_privilege_object()->get_privilege(
@@ -56,9 +53,6 @@ class privilege extends delayed
         return $privilege;
     }
 
-    /**
-     * @return midcom_core_dbaobject
-     */
     private function get_privilege_object() : midcom_core_dbaobject
     {
         if (!empty($this->config['type_config']['privilege_object'])) {

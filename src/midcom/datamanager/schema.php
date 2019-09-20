@@ -46,7 +46,6 @@ class schema
     }
 
     /**
-     *
      * @param string $name
      */
     public function set_name($name)
@@ -54,10 +53,6 @@ class schema
         $this->name = $name;
     }
 
-    /**
-     *
-     * @return string
-     */
     public function get_name() : string
     {
         return $this->name;
@@ -110,10 +105,6 @@ class schema
         return $defaults;
     }
 
-    /**
-     *
-     * @return \midcom_services_i18n_l10n
-     */
     public function get_l10n() : midcom_services_i18n_l10n
     {
         // Populate the l10n_schema member

@@ -70,9 +70,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     }
 
     /**
-     *
      * @param midgard\portable\api\mgdobject $object
-     * @return midcom_helper_reflector_tree
      */
     protected function _get_reflector($object) : midcom_helper_reflector_tree
     {
@@ -309,7 +307,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     }
 
     /**
-     * Appliy visibility restrictions from various sources
+     * Apply visibility restrictions from various sources
      *
      * @return array Alphabetically sorted list of class => title pairs
      */

@@ -107,7 +107,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      *
      * @param DateTime $start Start of the timeframe (inclusive)
      * @param DateTime $end End of the timeframe (exclusive)
-     * @return int Posting count
      */
     private function _compute_welcome_posting_count(DateTime $start, DateTime $end) : int
     {

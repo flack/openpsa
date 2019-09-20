@@ -81,8 +81,6 @@ class midcom_debug
 
     /**
      * Get log level
-     *
-     * @return int
      */
     public function get_loglevel() : int
     {

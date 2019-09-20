@@ -202,9 +202,7 @@ class midcom_application
 
     /**
      * Retrieves the name of the current host, fully qualified with protocol and
-     * port.
-     *
-     * @return string Full Hostname (http[s]://www.my.domain.com[:1234])
+     * port (http[s]://www.my.domain.com[:1234])
      */
     function get_host_name() : string
     {
@@ -218,8 +216,6 @@ class midcom_application
      * base host of the site.
      *
      * e.g. something like http[s]://www.domain.com[:8080]/host_prefix/page_prefix/
-     *
-     * @return string The current MidCOM page URL prefix.
      */
     function get_page_prefix() : string
     {
@@ -238,8 +234,6 @@ class midcom_application
      * MidCOM Page however, use the get_page_prefix() function for that.
      *
      * e.g. something like http[s]://www.domain.com[:8080]/host_prefix/
-     *
-     * @return string The host's root page URL prefix.
      */
     function get_host_prefix() : string
     {

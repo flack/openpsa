@@ -123,8 +123,6 @@ class org_openpsa_mypage_workingon
 
     /**
      * Report hours based on time used
-     *
-     * @return boolean
      */
     private function _report_hours($description, $invoiceable) : bool
     {

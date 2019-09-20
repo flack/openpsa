@@ -174,7 +174,6 @@ trait privileges
      *     active user if authenticated or to 'EVERYONE' otherwise.
      * @param int $value The privilege value, this defaults to MIDCOM_PRIVILEGE_ALLOW.
      * @param string $classname An optional class name to which a SELF privilege gets restricted to. Only valid for SELF privileges.
-     * @return midcom_core_privilege The newly created privilege record.
      */
     public function create_new_privilege_object($name, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '') : midcom_core_privilege
     {

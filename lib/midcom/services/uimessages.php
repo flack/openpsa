@@ -73,9 +73,6 @@ class midcom_services_uimessages
      */
     public $uimessage_holder = 'body';
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface
-     */
     private function get_message_stack() : FlashBagInterface
     {
         if (!$this->_message_stack) {

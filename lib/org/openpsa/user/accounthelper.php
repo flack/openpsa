@@ -29,9 +29,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
     public $errstr;
 
-    /**
-     * @param midcom_db_person $person
-     */
     public function __construct(midcom_db_person $person = null)
     {
         if (null !== $person) {
@@ -40,9 +37,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         parent::__construct();
     }
 
-    /**
-     * @return midcom_core_account
-     */
     protected function get_account() : midcom_core_account
     {
         if ($this->account === null) {
@@ -59,7 +53,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * @param string $usermail
      * @param string $password password: leave blank for auto generated
      * @param boolean $send_welcome_mail
-     * @return boolean
      */
     public function create_account($person_guid, $username, $usermail, $password = "", $send_welcome_mail = false) : bool
     {
@@ -203,7 +196,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * Returns an auto generated password of variable length
      *
      * @param int $length The number of chars the password will contain
-     * @return string The generated password
      */
     public static function generate_password($length = 0) : string
     {
@@ -226,7 +218,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * Returns an auto generated password which will pass the persons check_password_strength test
      *
      * @param int $length The number of chars the password will contain
-     * @return string The generated password
      */
     public function generate_safe_password($length = 0) : string
     {

@@ -30,9 +30,6 @@ class renderer extends FormRenderer
         $this->l10n = $l10n;
     }
 
-    /**
-     * @return \Symfony\Component\Form\FormView
-     */
     public function get_view() : FormView
     {
         return $this->view;

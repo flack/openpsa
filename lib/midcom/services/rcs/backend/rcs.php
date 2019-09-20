@@ -135,7 +135,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * Check if a revision exists
      *
      * @param string $version
-     * @return boolean true if exists
      */
     public function version_exists($version) : bool
     {
@@ -181,8 +180,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * Return a list of the revisions as a key => value pair where
      * the key is the index of the revision and the value is the revision id.
      * Order: revision 0 is the newest.
-     *
-     * @return array
      */
     public function list_history_numeric() : array
     {
@@ -263,7 +260,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * Get a list of the object's history
      *
      * @param string $what objectid (usually the guid)
-     * @return array list of revisions and revision comment.
      */
     private function rcs_gethistory($what) : array
     {
@@ -346,7 +342,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * Make xml out of an object.
      *
      * @param midcom_core_dbaobject $object
-     * @return string xmldata
      */
     private function rcs_object2data(midcom_core_dbaobject $object) : string
     {

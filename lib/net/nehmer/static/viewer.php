@@ -101,7 +101,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_viewer
      *
      * @param midcom_helper_configuration $config
      * @param integer $id The topic ID
-     * @return midcom_core_querybuilder The querybuilder instance
      */
     public static function get_topic_qb(midcom_helper_configuration $config, $id, $order = true) : midcom_core_querybuilder
     {

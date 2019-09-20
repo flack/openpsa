@@ -75,10 +75,6 @@ class datamanager
         $this->schemadb = $schemadb;
     }
 
-    /**
-     *
-     * @return \Symfony\Component\Form\FormFactoryInterface
-     */
     private static function get_factory() : FormFactoryInterface
     {
         if (self::$factory === null) {
@@ -120,11 +116,6 @@ class datamanager
         return new static(schemadb::from_path($path));
     }
 
-    /**
-     *
-     * @param array $defaults
-     * @return \midcom\datamanager\datamanager
-     */
     public function set_defaults(array $defaults) : self
     {
         $this->defaults = $defaults;
@@ -132,10 +123,8 @@ class datamanager
     }
 
     /**
-     *
      * @param midcom_core_dbaobject $storage
      * @param string $schema
-     * @return \midcom\datamanager\datamanager
      */
     public function set_storage(midcom_core_dbaobject $storage = null, $schemaname = null) : self
     {
@@ -180,7 +169,6 @@ class datamanager
 
     /**
      * @param string $name
-     * @return \midcom\datamanager\schema
      */
     public function get_schema($name = null) : schema
     {
@@ -193,10 +181,6 @@ class datamanager
         return $this->schema;
     }
 
-    /**
-     *
-     * @return storage\container\container
-     */
     public function get_storage() : container
     {
         if (!$this->storage) {
@@ -205,10 +189,6 @@ class datamanager
         return $this->storage;
     }
 
-    /**
-     *
-     * @return renderer
-     */
     public function get_renderer($template = null, $skip_empty = false) : renderer
     {
         if ($this->renderer === null) {
@@ -231,9 +211,7 @@ class datamanager
     }
 
     /**
-     *
      * @param string $name
-     * @return controller
      */
     public function get_controller($name = null) : controller
     {
@@ -241,10 +219,8 @@ class datamanager
     }
 
     /**
-     *
      * @param string $name
      * @param boolean $reset
-     * @return Form
      */
     public function get_form($name = null, $reset = false) : Form
     {

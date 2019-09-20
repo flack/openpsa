@@ -61,7 +61,6 @@ abstract class midcom_services_cache_module
      * @param string $name The name of the backend, must be unique throughout the system.
      * @param array $config The configuration of the backend to create. It must contain
      *     the key 'driver', which indicates which backend to use.
-     * @return Doctrine\Common\Cache\CacheProvider The new backend.
      */
     protected function _create_backend($name, array $config) : CacheProvider
     {

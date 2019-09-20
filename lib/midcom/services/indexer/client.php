@@ -103,7 +103,6 @@ abstract class midcom_services_indexer_client
 
     /**
      * @param mixed $object
-     * @return midcom_services_indexer_document
      */
     public function new_document($object) : midcom_services_indexer_document
     {

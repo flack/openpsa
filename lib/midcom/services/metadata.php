@@ -80,8 +80,6 @@ class midcom_services_metadata
 
     /**
      * Gets the CSS class of the current page of a context
-     *
-     * @return string The page class
      */
     public function get_page_class() : string
     {
@@ -102,7 +100,6 @@ class midcom_services_metadata
      *
      * @param midcom_core_dbaobject $object The DBA class instance to get CSS classes for
      * @param string $existing_classes Existing CSS classes to append to
-     * @return string CSS classes for that object
      */
     public function get_object_classes($object, $existing_classes = null) : string
     {
@@ -230,7 +227,6 @@ class midcom_services_metadata
      * Return a list of Open Graph Protocol types
      *
      * @see http://opengraphprotocol.org/
-     * @return Array
      */
     public function get_opengraph_types() : array
     {
@@ -282,8 +278,6 @@ class midcom_services_metadata
 
     /**
      * Get the default Open Graph Protocol type for an object
-     *
-     * @return string Open Graph Protocol type
      */
     public function get_opengraph_type_default() : string
     {

@@ -96,7 +96,6 @@ trait parameters
      * false will indicate a failure while querying the database.
      *
      * @param string $domain The parameter domain to query, this may be null to indicate a full listing.
-     * @return array Parameter list (see above for details) or false on failure.
      */
     public function list_parameters($domain = null) : array
     {
@@ -118,7 +117,6 @@ trait parameters
      * No event handlers are called here yet.
      *
      * @param string $domain The parameter domain to query.
-     * @return array Parameter listing.
      * @see list_parameters()
      */
     private function list_parameters_domain($domain) : array
@@ -151,7 +149,6 @@ trait parameters
      *
      * No event handlers are called here yet.
      *
-     * @return array Parameter listing
      * @see list_parameters()
      */
     private function list_parameters_all() : array

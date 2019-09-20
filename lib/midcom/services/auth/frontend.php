@@ -34,8 +34,6 @@ interface midcom_services_auth_frontend
 
     /**
      * Were login credentials found
-     *
-     * @return bool
      */
     public function has_login_data() : bool;
 

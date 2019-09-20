@@ -121,10 +121,6 @@ class schemadb
         return $this->schemas;
     }
 
-    /**
-     *
-     * @return schema
-     */
     public function get_first() : schema
     {
         if (empty($this->schemas)) {
@@ -140,7 +136,6 @@ class schemadb
 
     /**
      * @param string $name
-     * @return schema
      */
     public function get($name) : schema
     {

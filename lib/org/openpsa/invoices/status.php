@@ -37,10 +37,6 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
         $this->invoice = $invoice;
     }
 
-    /**
-     *
-     * @return string
-     */
     public function get_current_status() : string
     {
         switch ($this->invoice->get_status()) {
@@ -75,9 +71,6 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
             '<i class="fa fa-plus" title="' . $tooltip . "\"></i></a>\n";
     }
 
-    /**
-     * @return array
-     */
     public function get_history() : array
     {
         $entries = array_merge($this->get_status_entries(), $this->get_journal_entries());
@@ -92,10 +85,6 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
         return $entries;
     }
 
-    /**
-     *
-     * @return array
-     */
     private function get_status_entries() : array
     {
         $entries = [];

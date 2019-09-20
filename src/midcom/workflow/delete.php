@@ -109,10 +109,6 @@ class delete extends dialog
             });
     }
 
-    /**
-     *
-     * @return array
-     */
     public function get_button_config() : array
     {
         $dialog_text = $this->dialog_text ?: '<p>' . sprintf($this->l10n_midcom->get('delete %s'), $this->label) . '</p>';

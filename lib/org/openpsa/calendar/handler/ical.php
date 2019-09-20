@@ -110,11 +110,6 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
 
     /**
      * Finds a person by username
-     *
-     * Returns full object or false in case of failure.
-     *
-     * @param string $username
-     * @return org_openpsa_contacts_person_dba
      */
     private function find_person_by_name(string $username)
     {

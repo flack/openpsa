@@ -307,9 +307,6 @@ class midcom_services_i18n_l10n
         $this->_fallback_language = $lang;
     }
 
-    /**
-     * @return midcom_services_i18n_formatter
-     */
     public function get_formatter() : midcom_services_i18n_formatter
     {
         return new midcom_services_i18n_formatter($this->_language);
@@ -321,7 +318,6 @@ class midcom_services_i18n_l10n
      *
      * @param string $string The string-ID to search for.
      * @param string $language The language to search in.
-     * @return boolean Indicating availability.
      */
     function string_exists($string, $language = null) : bool
     {
@@ -341,7 +337,6 @@ class midcom_services_i18n_l10n
      * "catch" cases where a string might translate to itself in some languages.
      *
      * @param string $string The string-ID to search for
-     * @return boolean Indicating availability.
      */
     function string_available($string)
     {
@@ -363,7 +358,6 @@ class midcom_services_i18n_l10n
      *
      * @param string $string The string-ID to search for.
      * @param string $language The language to search in, uses the current language as default.
-     * @return string The translated string if available, the fallback string otherwise.
      */
     public function get($string, $language = null) : string
     {

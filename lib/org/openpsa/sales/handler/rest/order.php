@@ -23,7 +23,6 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
      * will autogenerate one if none is found
      *
      * @param string $person_guid
-     * @return org_openpsa_sales_salesproject_dba
      */
     private function get_salesproject($person_guid) : org_openpsa_sales_salesproject_dba
     {
@@ -109,9 +108,6 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
 
     /**
      * Build new deliverable based on the given product
-     *
-     * @param org_openpsa_products_product_dba $product
-     * @return org_openpsa_sales_salesproject_deliverable_dba
      */
     private function prepare_deliverable(org_openpsa_products_product_dba $product) : org_openpsa_sales_salesproject_deliverable_dba
     {

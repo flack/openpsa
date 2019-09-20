@@ -92,9 +92,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $config;
     }
 
-    /**
-     * @return \midcom\datamanager\controller
-     */
     private function load_controller() : controller
     {
         // Load SchemaDb

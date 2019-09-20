@@ -33,8 +33,6 @@ class midcom_services_rcs_config
 
     /**
      * Factory function for the handler object.
-     *
-     * @return midcom_services_rcs_backend
      */
     public function get_handler($object) : midcom_services_rcs_backend
     {

@@ -136,10 +136,6 @@ class blobs extends delayed
         return $total_moved;
     }
 
-    /**
-     *
-     * @return boolean
-     */
     protected function save_attachment_list() : bool
     {
         if (!empty($this->config['widget_config']['sortable'])) {
@@ -159,10 +155,6 @@ class blobs extends delayed
         return $this->object->set_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->config['name']}", implode(',', $list));
     }
 
-    /**
-     *
-     * @return array
-     */
     protected function load_attachment_list() : array
     {
         $map = [];

@@ -56,7 +56,6 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
      * Get the billing data for the customer in object or create a default data set of it.
      *
      * @param org_openpsa_invoices_interfaces_customer $object
-     * @return org_openpsa_invoices_billing_data_dba
      */
     public static function get_by_object(org_openpsa_invoices_interfaces_customer $object) : self
     {

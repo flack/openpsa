@@ -118,7 +118,6 @@ class org_openpsa_mail_template
      * replace the template parameters with their values.
      *
      * @param string $input The string to parse
-     * @return string The parsed string
      */
     public function parse($input) : string
     {
@@ -153,7 +152,6 @@ class org_openpsa_mail_template
      * Uses word wrapping and skips recursive Arrays or objects.
      *
      * @param array $array    The array to be dumped.
-     * @return string        String representation.
      */
     private function _format_array(array $array) : string
     {

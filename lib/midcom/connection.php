@@ -67,8 +67,6 @@ class midcom_connection
 
     /**
      * Get Midgard error code
-     *
-     * @return int Midgard error code
      */
     public static function get_error() : int
     {
@@ -77,8 +75,6 @@ class midcom_connection
 
     /**
      * Get Midgard error message
-     *
-     * @return string Midgard error message
      */
     public static function get_error_string() : string
     {
@@ -150,9 +146,7 @@ class midcom_connection
     }
 
     /**
-     * Get current Midgard user
-     *
-     * @return int The current user ID
+     * Get current Midgard user ID
      */
     public static function get_user() : int
     {
@@ -164,8 +158,6 @@ class midcom_connection
 
     /**
      * Check if the current user is admin
-     *
-     * @return boolean True or false
      */
     public static function is_admin() : bool
     {
@@ -196,8 +188,6 @@ class midcom_connection
 
     /**
      * Lists all available MgdSchema types
-     *
-     * @return array A list of class names
      */
     public static function get_schema_types() : array
     {

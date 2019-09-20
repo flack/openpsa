@@ -72,9 +72,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
     }
 
     /**
-     * Returns the calculated cost
-     *
-     * @return float cost value
+     * @inheritdoc
      */
     public function get_cost() : float
     {
@@ -82,9 +80,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
     }
 
     /**
-     * Returns the calculated price
-     *
-     * @return float price value
+     * @inheritdoc
      */
     public function get_price() : float
     {
@@ -152,9 +148,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
     }
 
     /**
-     * Returns identifier number for next invoice
-     *
-     * @return int invoice number
+     * @inheritdoc
      */
     public function generate_invoice_number() : int
     {
