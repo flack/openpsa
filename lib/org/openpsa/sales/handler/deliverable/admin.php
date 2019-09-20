@@ -30,7 +30,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     /**
      * @return \midcom\datamanager\controller
      */
-    private function load_controller()
+    private function load_controller() : controller
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb_deliverable'));
 

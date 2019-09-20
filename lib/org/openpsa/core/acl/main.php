@@ -24,7 +24,7 @@ class org_openpsa_core_acl
     /**
      * Make the ACL selection array available to all components
      */
-    public static function get_options()
+    public static function get_options() : array
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.core');
         return [

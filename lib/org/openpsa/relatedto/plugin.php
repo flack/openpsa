@@ -75,7 +75,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      * Parses relatedto information from request, returning either
      * existing matching relatedtos or prefilled new ones for creation
      */
-    public static function get2relatedto()
+    public static function get2relatedto() : array
     {
         $ret = [];
         if (!array_key_exists('org_openpsa_relatedto', $_REQUEST)) {
@@ -100,7 +100,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      * NOTE: does not prefix the ? for the first parameter in case this needs
      * to be used with some other GET parameters.
      */
-    public static function relatedto2get(array $array)
+    public static function relatedto2get(array $array) : string
     {
         $ret = ['org_openpsa_relatedto' => []];
         foreach ($array as $rel) {
@@ -170,7 +170,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         return $related_to;
     }
 
-    public static function common_toolbar_buttons_defaults()
+    public static function common_toolbar_buttons_defaults() : array
     {
         return [
             'event' => [

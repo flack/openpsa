@@ -39,7 +39,7 @@ class org_openpsa_invoices_invoice_pdf
         return $this->render_and_attach();
     }
 
-    public function get_button_options()
+    public function get_button_options() : array
     {
         if ($attachment = $this->get_attachment()) {
             if ($this->invoice->sent) {
@@ -70,7 +70,7 @@ class org_openpsa_invoices_invoice_pdf
         ];
     }
 
-    public function render_and_attach()
+    public function render_and_attach() : midcom_db_attachment
     {
         $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
         if (!class_exists($client_class)) {

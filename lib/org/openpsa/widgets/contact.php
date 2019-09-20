@@ -112,7 +112,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      * @param mixed $src GUID of object (ids work but are discouraged)
      * @return org_openpsa_widgets_contact
      */
-    public static function get($src)
+    public static function get($src) : self
     {
         static $cache = [];
 
@@ -138,7 +138,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     /**
      * Read properties of a person object and populate local fields accordingly
      */
-    private function read_object($person)
+    private function read_object($person) : bool
     {
         if (   !is_object($person)
             || !$person instanceof midcom_db_person) {
@@ -177,7 +177,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         return true;
     }
 
-    private function _render_name($fallback_image)
+    private function _render_name($fallback_image) : string
     {
         $name = "<span class=\"given-name\">{$this->contact_details['firstname']}</span> <span class=\"family-name\">{$this->contact_details['lastname']}</span>";
 
@@ -202,7 +202,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         return $name;
     }
 
-    public function get_image($type, $fallback)
+    public function get_image($type, $fallback) : string
     {
         $attachments = org_openpsa_helpers::get_dm2_attachments($this->person, 'photo');
         if (!empty($attachments[$type])) {
@@ -220,7 +220,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     /**
      * Show selected person object inline. Outputs hCard XHTML.
      */
-    public function show_inline()
+    public function show_inline() : string
     {
         if (!$this->_data_read_ok) {
             return '';

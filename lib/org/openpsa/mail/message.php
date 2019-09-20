@@ -42,7 +42,7 @@ class org_openpsa_mail_message
         return $this->_to;
     }
 
-    public function get_message()
+    public function get_message() : Swift_Message
     {
         // set headers
         $headers_setter_map = [
@@ -89,7 +89,7 @@ class org_openpsa_mail_message
         $this->_headers[$name] = $value;
     }
 
-    public function get_headers()
+    public function get_headers() : array
     {
         if (empty($this->_headers['Content-Type'])) {
             $this->_headers['Content-Type'] = "text/plain; charset={$this->_encoding}";

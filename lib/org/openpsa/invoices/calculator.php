@@ -99,7 +99,7 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
      * as deliverables) for different types of work. Instead of sending the customer
      * one invoice per hourly rate per month, one composite invoice for all fees is generated
      */
-    private function _probe_invoice($cycle_number)
+    private function _probe_invoice($cycle_number) : org_openpsa_invoices_invoice_dba
     {
         $item_mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable.salesproject', $this->_deliverable->salesproject);
         $item_mc->add_constraint('invoice.sent', '=', 0);
@@ -122,7 +122,7 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         return $this->_create_invoice($cycle_number);
     }
 
-    private function _create_invoice($cycle_number)
+    private function _create_invoice($cycle_number) : org_openpsa_invoices_invoice_dba
     {
         $salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
         $invoice = new org_openpsa_invoices_invoice_dba();

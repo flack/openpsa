@@ -39,7 +39,7 @@ trait org_openpsa_expenses_handler
     /**
      * List options for the person filter
      */
-    public function get_person_options()
+    public function get_person_options() : array
     {
         $qb = midcom_db_person::new_query_builder();
         midcom_core_account::add_username_constraint($qb, '<>', '');

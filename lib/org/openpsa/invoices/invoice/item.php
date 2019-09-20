@@ -60,7 +60,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
         return $label;
     }
 
-    public function render_link()
+    public function render_link() : string
     {
         $url = '';
         $link = nl2br($this->description);

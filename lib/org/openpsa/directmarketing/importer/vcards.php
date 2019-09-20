@@ -16,7 +16,7 @@ use Sabre\VObject\Component;
  */
 class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmarketing_importer
 {
-    public function parse($input)
+    public function parse($input) : array
     {
         $reader = new VCard(fopen($input, 'r'));
         $parsed = [];
@@ -31,7 +31,7 @@ class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmark
         return $parsed;
     }
 
-    private function _parse_vcard(Component $card)
+    private function _parse_vcard(Component $card) : array
     {
         $contact = [
             'person'              => [],

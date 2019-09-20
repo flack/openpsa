@@ -59,7 +59,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
      * @param array $results Array of member objects
      * @return boolean Indicating success
      */
-    public function check_results(array &$results)
+    public function check_results(array &$results) : bool
     {
         return true;
     }
@@ -69,7 +69,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
      *
      * @return string
      */
-    public function get_type()
+    public function get_type() : string
     {
         return 'email';
     }
@@ -133,7 +133,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
      *
      * @return array
      */
-    private function _get_attachments()
+    private function _get_attachments() : array
     {
         $attachments = [];
         foreach ($this->_config['dm_storage'] as $field => $typedata) {
@@ -174,7 +174,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
     * @param string $address the link detector address
     * @return string HTML source with the link detector
     */
-    private function _insert_link_detector($html, $address)
+    private function _insert_link_detector($html, $address) : string
     {
         $address = addslashes($address);
         return preg_replace_callback(

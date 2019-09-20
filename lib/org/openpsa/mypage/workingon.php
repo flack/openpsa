@@ -87,7 +87,7 @@ class org_openpsa_mypage_workingon
     /**
      * Set a task the user works on. If user was previously working on something else hours will be reported automatically.
      */
-    public function set($task_guid = '')
+    public function set($task_guid = '') : bool
     {
         $description = trim($_POST['description']);
         midcom::get()->auth->request_sudo('org.openpsa.mypage');
@@ -126,7 +126,7 @@ class org_openpsa_mypage_workingon
      *
      * @return boolean
      */
-    private function _report_hours($description, $invoiceable)
+    private function _report_hours($description, $invoiceable) : bool
     {
         $hour_report = new org_openpsa_expenses_hour_report_dba();
         $hour_report->invoiceable = $invoiceable;

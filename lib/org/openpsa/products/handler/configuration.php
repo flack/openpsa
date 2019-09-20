@@ -23,7 +23,7 @@ class org_openpsa_products_handler_configuration extends midcom_baseclasses_comp
         ];
     }
 
-    private function _load_objects_group($group_id)
+    private function _load_objects_group($group_id) : array
     {
         $product_qb = org_openpsa_products_product_dba::new_query_builder();
         $product_qb->add_constraint('productGroup', '=', $group_id);

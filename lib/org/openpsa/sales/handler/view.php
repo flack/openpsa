@@ -43,7 +43,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $this->_request_data['products'] = $this->_list_products();
     }
 
-    private function _list_products()
+    private function _list_products() : array
     {
         $mc = org_openpsa_products_product_dba::new_collector();
 
@@ -117,7 +117,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $this->bind_view_to_object($this->_salesproject);
     }
 
-    private function is_pdf_creatable()
+    private function is_pdf_creatable() : bool
     {
         if ($this->_salesproject->state != org_openpsa_sales_salesproject_dba::STATE_LOST) {
             $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
@@ -206,7 +206,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         midcom_show_style('show-salesproject-deliverables-footer');
     }
 
-    private function render_actions(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
+    private function render_actions(org_openpsa_sales_salesproject_deliverable_dba $deliverable) : string
     {
         $actions = '';
         switch ($deliverable->get_state()) {

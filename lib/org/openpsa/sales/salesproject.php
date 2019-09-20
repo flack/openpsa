@@ -74,7 +74,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
         return parent::refresh();
     }
 
-    public function get_state()
+    public function get_state() : string
     {
         if (array_key_exists($this->state, $this->states)) {
             return $this->states[$this->state];
@@ -127,7 +127,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
         }
     }
 
-    public static function generate_salesproject_number()
+    public static function generate_salesproject_number() : string
     {
         // TODO: Make configurable
         $year = date('Y');
@@ -139,7 +139,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
         return sprintf('%d-%04d', $year, $previous + 1);
     }
 
-    public function get_project()
+    public function get_project() : org_openpsa_projects_project
     {
         return new org_openpsa_projects_project($this->id);
     }

@@ -112,7 +112,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         $task->update();
     }
 
-    public function get_status_message()
+    public function get_status_message() : string
     {
         $map = [
             self::PROPOSED => 'proposed to %s by %s',

@@ -76,7 +76,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      * @throws midcom_error
      * @return org_openpsa_directmarketing_sender
      */
-    private function _get_sender(array &$data)
+    private function _get_sender(array &$data) : org_openpsa_directmarketing_sender
     {
         $data['message_array'] = $this->_datamanager->get_content_raw();
         $data['message_array']['dm_storage'] = $this->_datamanager->get_storage();

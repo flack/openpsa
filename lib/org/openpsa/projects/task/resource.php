@@ -24,7 +24,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
     public $_use_rcs = false;
 
-    private function find_duplicates()
+    private function find_duplicates() : bool
     {
         $qb = self::new_query_builder();
         $qb->add_constraint('person', '=', (int)$this->person);

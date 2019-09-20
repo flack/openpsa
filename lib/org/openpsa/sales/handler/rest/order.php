@@ -25,7 +25,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
      * @param string $person_guid
      * @return org_openpsa_sales_salesproject_dba
      */
-    private function get_salesproject($person_guid)
+    private function get_salesproject($person_guid) : org_openpsa_sales_salesproject_dba
     {
         $person = new org_openpsa_contacts_person_dba($person_guid);
 
@@ -113,7 +113,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
      * @param org_openpsa_products_product_dba $product
      * @return org_openpsa_sales_salesproject_deliverable_dba
      */
-    private function prepare_deliverable(org_openpsa_products_product_dba $product)
+    private function prepare_deliverable(org_openpsa_products_product_dba $product) : org_openpsa_sales_salesproject_deliverable_dba
     {
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
         $deliverable->units = 1;

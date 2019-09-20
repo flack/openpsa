@@ -22,7 +22,7 @@
  */
 class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_purecode
 {
-    private function get_deletion_timestamp()
+    private function get_deletion_timestamp() : string
     {
         return gmdate('Y-m-d H:i:s', time() - 3600 * 24 * $this->_config->get('delete_older_than_days'));
     }
@@ -36,14 +36,14 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         }
     }
 
-    private function get_message_receipt_qb($kept = false)
+    private function get_message_receipt_qb($kept = false) : midcom_core_querybuilder
     {
         $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $this->add_time_filter($qb, $kept);
         return $qb;
     }
 
-    private function get_link_log_qb($kept = false)
+    private function get_link_log_qb($kept = false) : midcom_core_querybuilder
     {
         $qb = org_openpsa_directmarketing_link_log_dba::new_query_builder();
         $this->add_time_filter($qb, $kept);
@@ -71,7 +71,7 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         return $qb;
     }
 
-    private function get_person_qb($kept = false)
+    private function get_person_qb($kept = false) : midcom_core_querybuilder
     {
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
         if ($kept) {
@@ -88,7 +88,7 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         return $qb;
     }
 
-    public function count($kept = false)
+    public function count($kept = false) : array
     {
         return [
             'message_receipt' => $this->get_message_receipt_qb($kept)->count_unchecked(),

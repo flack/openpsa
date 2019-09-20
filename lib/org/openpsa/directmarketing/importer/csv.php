@@ -13,7 +13,7 @@
  */
 class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketing_importer
 {
-    public function parse($input)
+    public function parse($input) : array
     {
         $parsed = [];
 
@@ -48,7 +48,7 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
         return $parsed;
     }
 
-    private function _read_line(array $csv_line)
+    private function _read_line(array $csv_line) : array
     {
         $contact = [];
 

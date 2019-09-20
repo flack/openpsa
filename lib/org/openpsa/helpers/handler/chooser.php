@@ -74,7 +74,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         return $response;
     }
 
-    private function load_controller(array $defaults)
+    private function load_controller(array $defaults) : controller
     {
         return datamanager::from_schemadb($this->_get_schemadb_snippet())
             ->set_defaults($defaults)

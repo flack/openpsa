@@ -27,7 +27,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
     /**
      * Get array of IDs of all tasks in subtree
      */
-    private function _expand_task($project_guid)
+    private function _expand_task($project_guid) : array
     {
         $project = org_openpsa_projects_project::get_cached($project_guid);
         $mc = org_openpsa_projects_task_dba::new_collector();
@@ -38,7 +38,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
     /**
      * Makes and executes querybuilder for filtering hour_reports
      */
-    private function _get_hour_reports()
+    private function _get_hour_reports() : array
     {
         $qb_hr = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $qb_hr->add_constraint('date', '<=', (int) $this->_request_data['query_data']['end']);

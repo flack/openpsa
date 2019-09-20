@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Invoice action handler
  *
@@ -30,7 +32,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $this->old_status = $this->invoice->get_status();
     }
 
-    private function reply($success, $message)
+    private function reply($success, $message) : Response
     {
         $message = [
             'title' => $this->_l10n->get($this->_component),

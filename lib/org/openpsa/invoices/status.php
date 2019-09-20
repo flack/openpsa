@@ -41,7 +41,7 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
      *
      * @return string
      */
-    public function get_current_status()
+    public function get_current_status() : string
     {
         switch ($this->invoice->get_status()) {
             case 'unsent':
@@ -61,12 +61,12 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
         }
     }
 
-    public function get_status_class()
+    public function get_status_class() : string
     {
         return $this->invoice->get_status();
     }
 
-    public function get_button()
+    public function get_button() : string
     {
         $tooltip = midcom::get()->i18n->get_l10n('org.openpsa.relatedto')->get('add journal entry');
         $save_label = $this->l10n_midcom->get('save');
@@ -78,7 +78,7 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
     /**
      * @return array
      */
-    public function get_history()
+    public function get_history() : array
     {
         $entries = array_merge($this->get_status_entries(), $this->get_journal_entries());
 
@@ -96,7 +96,7 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
      *
      * @return array
      */
-    private function get_status_entries()
+    private function get_status_entries() : array
     {
         $entries = [];
         if ($this->invoice->cancelationInvoice) {
@@ -150,7 +150,7 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
         return $entries;
     }
 
-    private function get_journal_entries()
+    private function get_journal_entries() : array
     {
         $entries = [];
 

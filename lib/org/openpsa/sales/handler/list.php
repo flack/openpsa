@@ -60,7 +60,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         return $this->show('show-salesproject-grid');
     }
 
-    private function get_list_mode(array $args)
+    private function get_list_mode(array $args) : string
     {
         $person = midcom::get()->auth->user->get_storage();
         $mode = $person->get_parameter($this->_component, 'list_mode');

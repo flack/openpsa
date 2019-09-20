@@ -176,7 +176,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      * @param string $key The column the results should be grouped by
      * @return midcom_core_dbaobject[] DBA objects grouped by the specified key
      */
-    public function get_related_objects_grouped_by($key)
+    public function get_related_objects_grouped_by($key) : array
     {
         $entries = [];
         $guids = [];
@@ -217,7 +217,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      * @param string $component A component name to further narrow down the results
      * @return midcom_core_dbaobject[] DBA objects
      */
-    public function get_related_objects()
+    public function get_related_objects() : array
     {
         $entries = [];
 
@@ -243,7 +243,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      * @param string $component A component name to further narrow down the results
      * @return array Array of GUIDs
      */
-    public function get_related_guids()
+    public function get_related_guids() : array
     {
         $this->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
 

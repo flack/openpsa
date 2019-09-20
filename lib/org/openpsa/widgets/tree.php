@@ -106,7 +106,7 @@ JSINIT;
      *
      * @param int $id The parent object ID
      */
-    private function _list_items($id)
+    private function _list_items($id) : array
     {
         $data = [];
 

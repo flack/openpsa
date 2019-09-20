@@ -25,7 +25,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_viewer
         midcom::get()->auth->require_valid_user();
     }
 
-    public static function get_unit_options()
+    public static function get_unit_options() : array
     {
         $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options');
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.products');
@@ -36,7 +36,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_viewer
         return $options;
     }
 
-    public static function get_unit_option($unit)
+    public static function get_unit_option($unit) : string
     {
         $unit_options = self::get_unit_options();
         if (array_key_exists($unit, $unit_options)) {

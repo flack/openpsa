@@ -9,6 +9,7 @@
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
+use midcom\datamanager\controller;
 
 /**
  * org.openpsa.contacts person handler and viewer class.
@@ -17,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_user_handler_person_privileges extends midcom_baseclasses_components_handler
 {
-    private function load_controller(midcom_db_person $person)
+    private function load_controller(midcom_db_person $person) : controller
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb_acl'));
 

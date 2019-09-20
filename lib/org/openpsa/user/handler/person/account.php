@@ -67,7 +67,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         return $response;
     }
 
-    private function load_controller()
+    private function load_controller() : controller
     {
         $schemadb = ($this->_request_data["handler_id"] == "account_edit") ? 'schemadb_account_edit' : 'schemadb_account';
         $defaults = [
@@ -156,7 +156,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         }
     }
 
-    private function load_person($identifier)
+    private function load_person($identifier) : bool
     {
         $this->person = new midcom_db_person($identifier);
         $this->person->require_do('midgard:update');

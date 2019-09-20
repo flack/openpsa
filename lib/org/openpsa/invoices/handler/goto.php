@@ -34,7 +34,7 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
         return $this->fail(sprintf($this->_l10n->get('there is no invoice with number %s'), $invoicenumber));
     }
 
-    private function fail($message)
+    private function fail($message) : midcom_response_relocate
     {
         midcom::get()->uimessages->add($this->_l10n->get('invoice was not found'), $message, 'info');
         return new midcom_response_relocate('');

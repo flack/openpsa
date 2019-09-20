@@ -40,7 +40,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      * The subscription cycles rely on midcom.services.at. I'm not sure if it is wise to rely on it for such
      * a totally mission critical part of OpenPSA. Some safeguards might be wise to add.
      */
-    public function run_cycle($cycle_number, $send_invoice = true)
+    public function run_cycle($cycle_number, $send_invoice = true) : bool
     {
         if (time() < $this->_deliverable->start) {
             debug_add('Subscription hasn\'t started yet, register the start-up event to $start');
@@ -110,7 +110,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         return true;
     }
 
-    private function _create_at_entry($cycle_number, $start)
+    private function _create_at_entry($cycle_number, $start) : bool
     {
         $args = [
             'deliverable' => $this->_deliverable->guid,
@@ -201,7 +201,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
     /**
      * @todo Check if we already have an open task for this delivery?
      */
-    public function create_task($start, $end, $title, $source_task = null)
+    public function create_task($start, $end, $title, $source_task = null) : org_openpsa_projects_task_dba
     {
         $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
 
@@ -256,7 +256,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      * @param integer $start The timestamp from which to begin
      * @return integer
      */
-    public function calculate_cycles($months = null, $start = null)
+    public function calculate_cycles($months = null, $start = null) : int
     {
         if ($start === null) {
             $start = time();
@@ -331,7 +331,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      * @param integer $offset number of months to add
      * @return DateTime The new date object
      */
-    private function _add_month($time, $offset)
+    private function _add_month($time, $offset) : DateTime
     {
         $orig = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
         $new_date = clone $orig;

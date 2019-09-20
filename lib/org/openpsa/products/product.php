@@ -48,7 +48,7 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
      */
     const TYPE_SOLUTION = 2001;
 
-    public function render_link()
+    public function render_link() : string
     {
         $siteconfig = new org_openpsa_core_siteconfig();
 
@@ -76,7 +76,7 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
         return true;
     }
 
-    public function validate_code($code)
+    public function validate_code($code) : bool
     {
         if ($code == '') {
             return true;

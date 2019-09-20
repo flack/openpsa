@@ -22,7 +22,7 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
      * @param string $name Name of the meta tag to fetch
      * @return string Content of the meta tag
      */
-    public static function get_meta_value($html, $name)
+    public static function get_meta_value($html, $name) : string
     {
         $crawler = new Crawler($html);
         return (string) $crawler->filter('head meta[name="' . $name . '"]')->attr('content');
@@ -35,7 +35,7 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
      * @param string $relation Relation (rel) or reverse relation (rev) of the link tag to fetch
      * @return array Links matching given criteria as arrays containing keys title, href and optionally hreflang
      */
-    public static function get_link_values($html, $relation)
+    public static function get_link_values($html, $relation) : array
     {
         $crawler = new Crawler($html);
         $nodes = $crawler->filter('head link[rel="' . $relation . '"]');
@@ -58,7 +58,7 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
      * @param string $relation Relation (rel) of the anchor to fetch
      * @return array Links matching given criteria as arrays containing keys title, href and value
      */
-    public static function get_anchor_values($html, $relation)
+    public static function get_anchor_values($html, $relation) : array
     {
         $crawler = new Crawler($html);
         $nodes = $crawler->filter('a[rel="' . $relation . '"]');

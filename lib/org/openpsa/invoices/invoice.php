@@ -35,7 +35,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
     private $_billing_data;
 
-    public function get_status()
+    public function get_status() : string
     {
         if ($this->id == 0) {
             return 'scheduled';
@@ -191,7 +191,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
      *
      * @return boolean
      */
-    public function is_cancelable()
+    public function is_cancelable() : bool
     {
         return (!$this->cancelationInvoice && !$this->get_canceled_invoice());
     }
@@ -266,7 +266,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
      *
      * @return org_openpsa_invoices_invoice_item_dba[]
      */
-    public function get_invoice_items()
+    public function get_invoice_items() : array
     {
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
         $qb->add_constraint('invoice', '=', $this->id);
@@ -284,7 +284,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
      *
      * @return org_openpsa_invoices_billing_data_dba
      */
-    public function get_billing_data()
+    public function get_billing_data() : org_openpsa_invoices_billing_data_dba
     {
         if (!$this->_billing_data) {
             //checks for billing_data already attached to a customer relocated previous private class to data.php
@@ -318,7 +318,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
      * @param integer $task_id
      * @return org_openpsa_invoices_invoice_item_dba
      */
-    private function _probe_invoice_item_for_task($task_id)
+    private function _probe_invoice_item_for_task($task_id) : org_openpsa_invoices_invoice_item_dba
     {
         //check if there is already an invoice_item for this task
         $qb_invoice_item = org_openpsa_invoices_invoice_item_dba::new_query_builder();

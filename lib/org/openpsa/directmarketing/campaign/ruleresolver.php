@@ -85,7 +85,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     /**
      * @return midcom_core_collector
      */
-    public function get_mc()
+    public function get_mc() : midcom_core_collector
     {
         return $this->mc;
     }
@@ -95,7 +95,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @throws midcom_error
      * @return array
      */
-    public static function parse($ruleset)
+    public static function parse($ruleset) : array
     {
         $rules = @json_decode($ruleset, true);
 
@@ -114,7 +114,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param array $rules rules array
      * @return boolean indicating success/failure
      */
-    public function resolve(array $rules)
+    public function resolve(array $rules) : bool
     {
         if (!array_key_exists('classes', $rules)) {
             debug_add('rules[classes] is not defined', MIDCOM_LOG_ERROR);
@@ -150,7 +150,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      *
      * @return array Person data
      */
-    public function execute()
+    public function execute() : array
     {
         $this->mc->add_order('lastname', 'ASC');
         return $this->mc->get_rows(['lastname', 'firstname', 'email', 'guid'], 'id');
@@ -162,7 +162,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param array $group single group from rules array
      * @return boolean indicating success/failure
      */
-    private function resolve_rule_group(array $group)
+    private function resolve_rule_group(array $group) : bool
     {
         //check if rule is a group
         if (array_key_exists('groups', $group)) {
@@ -191,7 +191,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param array $rules array containing rules
      * @param string $class containing name of class for the rules
      */
-    private function add_rules(array $rules, $class)
+    private function add_rules(array $rules, $class) : bool
     {
         $class = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($class);
         //special case parameters - uses 3 rules standard
@@ -231,7 +231,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      *
      * @param array $rule contains the rule
      */
-    private function add_person_rule(array $rule)
+    private function add_person_rule(array $rule) : bool
     {
         if ($rule['property'] === 'username') {
             midcom_core_account::add_username_constraint($this->mc, $rule['match'], $rule['value']);
@@ -245,7 +245,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      *
      * @param array $rules array containing rules for the parameter
      */
-    private function add_parameter_rule(array $rules)
+    private function add_parameter_rule(array $rules) : bool
     {
         //get parents of wanted midgard_parameter
         $mc_parameter = new midgard_collector('midgard_parameter');
@@ -301,7 +301,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      *
      * @param array $rule contains the group-rule
      */
-    private function add_group_rule(array $rule)
+    private function add_group_rule(array $rule) : bool
     {
         $rule['property'] = 'gid.' . $rule['property'];
         return $this->add_misc_rule($rule, 'midgard_member', 'uid');
@@ -315,7 +315,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param string $person_property contains the name of the property of the
      * passed class which links to the person
      */
-    private function add_misc_rule(array $rule, $class, $person_property)
+    private function add_misc_rule(array $rule, $class, $person_property) : bool
     {
         $persons = [ 0 => -1];
         $match = $rule['match'];
@@ -344,7 +344,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         return $this->mc->add_constraint('id', $constraint_match, $persons);
     }
 
-    public static function build_property_map(midcom_services_i18n_l10n $l10n)
+    public static function build_property_map(midcom_services_i18n_l10n $l10n) : array
     {
         $types = [
             'person' => new org_openpsa_contacts_person_dba,
@@ -376,7 +376,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param midcom_core_dbaobject $object
      * @param midcom_services_i18n_l10n $l10n
      */
-    public static function list_object_properties(midcom_core_dbaobject $object, midcom_services_i18n_l10n $l10n)
+    public static function list_object_properties(midcom_core_dbaobject $object, midcom_services_i18n_l10n $l10n) : array
     {
         // These are internal to midgard and/or not valid QB constraints
         $skip_properties = [

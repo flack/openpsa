@@ -29,7 +29,7 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
      */
     private $parent;
 
-    private function load_controller($schema)
+    private function load_controller($schema) : controller
     {
         $schemadb = $this->_request_data['schemadb_product'];
         if (!$schemadb->has($schema)) {

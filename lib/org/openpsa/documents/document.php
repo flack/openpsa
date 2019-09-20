@@ -129,7 +129,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
      * @param string $mimetype The mimetype as reported by PHP
      * @return string The localized file type
      */
-    public static function get_file_type($mimetype)
+    public static function get_file_type($mimetype) : string
     {
         if (!preg_match('/\//', $mimetype)) {
             return $mimetype;
@@ -183,7 +183,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         return sprintf(midcom::get()->i18n->get_string('%s ' . $type, 'org.openpsa.documents'), $subtype);
     }
 
-    public function backup_version()
+    public function backup_version() : bool
     {
         // Instantiate the backup object
         $backup = new org_openpsa_documents_document_dba();

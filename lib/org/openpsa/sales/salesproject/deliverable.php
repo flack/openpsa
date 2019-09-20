@@ -133,7 +133,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $this->_deliverable_html .= "</span>\n";
     }
 
-    public function get_state()
+    public function get_state() : string
     {
         switch ($this->state) {
             case self::STATE_NEW:
@@ -155,7 +155,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     /**
      * @return midcom_services_at_entry_dba[]
      */
-    public function get_at_entries()
+    public function get_at_entries() : array
     {
         $mc = new org_openpsa_relatedto_collector($this->guid, midcom_services_at_entry_dba::class);
         $mc->add_object_constraint('method', '=', 'new_subscription_cycle');
@@ -234,7 +234,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     /**
      * Manually trigger a subscription cycle run.
      */
-    public function run_cycle()
+    public function run_cycle() : bool
     {
         $at_entries = $this->get_at_entries();
         if (!isset($at_entries[0])) {
@@ -256,7 +256,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return true;
     }
 
-    public function end_subscription()
+    public function end_subscription() : bool
     {
         $this->state = self::STATE_INVOICED;
         if (!$this->update()) {
@@ -268,7 +268,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return true;
     }
 
-    public function invoice()
+    public function invoice() : bool
     {
         if (   $this->state >= self::STATE_INVOICED
             || $this->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
@@ -285,7 +285,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return true;
     }
 
-    public function decline()
+    public function decline() : bool
     {
         if ($this->state >= self::STATE_DECLINED) {
             return false;
@@ -310,7 +310,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return false;
     }
 
-    public function order()
+    public function order() : bool
     {
         if ($this->state >= self::STATE_ORDERED) {
             return false;
@@ -351,7 +351,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return false;
     }
 
-    public function deliver($update_deliveries = true)
+    public function deliver($update_deliveries = true) : bool
     {
         if ($this->state > self::STATE_DELIVERED) {
             return false;

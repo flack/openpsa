@@ -160,7 +160,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     /**
      * Populates contacts as resources lists
      */
-    public function get_members()
+    public function get_members() : bool
     {
         if (!$this->id) {
             return false;
@@ -209,7 +209,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
     }
 
-    private function _prepare_save()
+    private function _prepare_save() : bool
     {
         //Make sure we have end
         if (!$this->end || $this->end == -1) {
@@ -251,7 +251,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return true;
     }
 
-    public function get_agreement()
+    public function get_agreement() : int
     {
         if ($this->up) {
             do {
@@ -265,7 +265,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     /**
      * Update hour report caches
      */
-    public function update_cache($update = true)
+    public function update_cache($update = true) : bool
     {
         if (!$this->id) {
             return false;
@@ -296,7 +296,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return $stat;
     }
 
-    private function list_hours()
+    private function list_hours() : array
     {
         $hours = [
             'reported'    => 0,
@@ -327,7 +327,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return $hours;
     }
 
-    private function _update_parent()
+    private function _update_parent() : bool
     {
         if (!$this->_skip_parent_refresh) {
             $project = new org_openpsa_projects_project($this->project);
@@ -340,7 +340,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     /**
      * Queries status objects and sets correct value to $this->status
      */
-    private function _get_status()
+    private function _get_status() : array
     {
         $return = [
             'status_comment' => '',

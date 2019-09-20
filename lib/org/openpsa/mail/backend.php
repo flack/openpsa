@@ -29,7 +29,7 @@ abstract class org_openpsa_mail_backend
     /**
      * Prepare the mail backend
      */
-    public static function get($implementation, array $params)
+    public static function get($implementation, array $params) : self
     {
         if (defined('OPENPSA2_UNITTEST_RUN')) {
             return self::_load_backend('unittest', $params);
@@ -61,7 +61,7 @@ abstract class org_openpsa_mail_backend
         }
     }
 
-    private static function _load_backend($backend, array $params)
+    private static function _load_backend($backend, array $params) : self
     {
         $default_params = midcom_baseclasses_components_configuration::get('org.openpsa.mail', 'config')->get($backend . '_params');
         if (is_array($default_params)) {

@@ -9,6 +9,7 @@
 use midcom\datamanager\helper\autocomplete;
 use midcom\grid\grid;
 use midcom\datamanager\schemadb;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @package org.openpsa.expenses
@@ -144,7 +145,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         return $this->show_list($data);
     }
 
-    private function show_list(array &$data)
+    private function show_list(array &$data) : Response
     {
         $data['grid'] = new grid($data['mode'] . '_hours_grid', 'local');
         $data['group_options'] = [
@@ -178,7 +179,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     /**
      * Set options array for JS, to show the right choosers
      */
-    private function prepare_batch_options()
+    private function prepare_batch_options() : array
     {
         $task_conf = autocomplete::get_widget_config('task');
         $invoice_conf = autocomplete::get_widget_config('invoice');

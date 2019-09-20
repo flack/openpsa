@@ -90,7 +90,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Sends a message to all testers
      */
-    public function send_test($content)
+    public function send_test($content) : bool
     {
         $this->test_mode = true;
         midcom::get()->disable_limits();
@@ -107,7 +107,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Sends $content to all members of the campaign
      */
-    public function send_bg($url_base, $batch, $content)
+    public function send_bg($url_base, $batch, $content) : bool
     {
         //TODO: Figure out how to recognize errors and pass the info on
 
@@ -140,7 +140,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         return $status;
     }
 
-    private function process_results(array $results, $content)
+    private function process_results(array $results, $content) : bool
     {
         if (!$this->_backend->check_results($results)) {
             return false; //Backend refuses delivery
@@ -151,7 +151,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         return true;
     }
 
-    public function register_send_job($batch, $url_base, $time = null)
+    public function register_send_job($batch, $url_base, $time = null) : bool
     {
         $time = $time ?: time() + 30;
         $args = [
@@ -214,7 +214,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
      *
      * @return string random token string
      */
-    private function _create_token()
+    private function _create_token() : string
     {
         //Testers need dummy token
         if ($this->test_mode) {
@@ -352,7 +352,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
      *
      * @return array Number of valid members at index 0 and number of send receipts at 1
      */
-    public function get_status()
+    public function get_status() : array
     {
         $qb_mem = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $this->_backend->add_member_constraints($qb_mem);

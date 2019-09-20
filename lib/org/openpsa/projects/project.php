@@ -136,7 +136,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         return trim($label);
     }
 
-    public function get_salesproject()
+    public function get_salesproject() : org_openpsa_sales_salesproject_dba
     {
         return new org_openpsa_sales_salesproject_dba($this->id);
     }
@@ -144,7 +144,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     /**
      * Populates contacts as resources lists
      */
-    public function get_members()
+    public function get_members() : bool
     {
         if (!$this->guid) {
             return false;
@@ -168,7 +168,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      *
      * @return array The task status overview
      */
-    public function get_task_count()
+    public function get_task_count() : array
     {
         $numbers = [
             'not_started' => 0,
@@ -191,7 +191,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      *
      * @return array The task hours overview
      */
-    public function get_task_hours()
+    public function get_task_hours() : array
     {
         $numbers = [
             'plannedHours' => 0,

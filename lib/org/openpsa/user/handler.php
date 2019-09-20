@@ -21,10 +21,10 @@ trait org_openpsa_user_handler
      * @param midcom_db_person $person The person we're working on
      * @param container $formdata The form data
      */
-    public function create_account(midcom_db_person $person, container $formdata)
+    public function create_account(midcom_db_person $person, container $formdata) : bool
     {
         if (empty($formdata['username'])) {
-            return;
+            return false;
         }
         $account_helper = new org_openpsa_user_accounthelper();
         $password = "";

@@ -70,7 +70,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
      * @param org_openpsa_reports_query_dba $query
      * @return \midcom\datamanager\datamanager
      */
-    private function load_datamanager(org_openpsa_reports_query_dba $query)
+    private function load_datamanager(org_openpsa_reports_query_dba $query) : datamanager
     {
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_queryform_' . $this->module));
         $dm->set_storage($query, 'default');
@@ -165,7 +165,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     /**
      * Convert midcom acl identifier to array of person ids
      */
-    protected function _expand_resource($resource_id)
+    protected function _expand_resource($resource_id) : array
     {
         debug_add('Got resource_id: ' . $resource_id);
         $dba_obj = midcom::get()->auth->get_assignee($resource_id);

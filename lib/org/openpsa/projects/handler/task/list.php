@@ -137,7 +137,7 @@ implements client
         midcom_show_style('show-task-grid');
     }
 
-    private function get_status_type(org_openpsa_projects_task_dba $task)
+    private function get_status_type(org_openpsa_projects_task_dba $task) : string
     {
         $type = 'closed';
         $is_manager = $task->manager == midcom_connection::get_user();
@@ -161,7 +161,7 @@ implements client
         return $type;
     }
 
-    private function render_workflow_controls(org_openpsa_projects_task_dba $task)
+    private function render_workflow_controls(org_openpsa_projects_task_dba $task) : string
     {
         switch ($this->get_status_type($task)) {
             case 'proposed':
@@ -205,7 +205,7 @@ implements client
         return '';
     }
 
-    private function render_status($ids, $message)
+    private function render_status($ids, $message) : string
     {
         if (empty($ids)) {
             return '';
@@ -284,7 +284,7 @@ implements client
     /**
      * Get the relevant data for cells in table view
      */
-    private function get_table_row_data($task)
+    private function get_table_row_data($task) : array
     {
         $ret = [
             'project' => '&nbsp;',

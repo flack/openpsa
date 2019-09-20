@@ -16,7 +16,7 @@ class org_openpsa_helpers_list
     /**
      * List tasks user can see
      */
-    public static function projects()
+    public static function projects() : array
     {
         //Only query once per request
         static $cache = null;
@@ -38,7 +38,7 @@ class org_openpsa_helpers_list
     /**
      * List virtual groups of user
      */
-    public static function workgroups($add_me = 'last', $show_members = false)
+    public static function workgroups($add_me = 'last', $show_members = false) : array
     {
         if (!midcom::get()->auth->user) {
             return [];

@@ -9,6 +9,7 @@
 use midcom\datamanager\controller;
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Document handler class.
@@ -36,7 +37,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         midcom::get()->auth->require_valid_user();
     }
 
-    private function load_controller(array $defaults = [])
+    private function load_controller(array $defaults = []) : controller
     {
         return datamanager::from_schemadb($this->_config->get('schemadb_document'))
             ->set_defaults($defaults)
@@ -67,7 +68,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         return $this->run_workflow($request);
     }
 
-    private function run_workflow(Request $request)
+    private function run_workflow(Request $request) : Response
     {
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->_controller,
@@ -76,7 +77,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         return $workflow->run($request);
     }
 
-    private function _load_document($guid)
+    private function _load_document($guid) : org_openpsa_documents_document_dba
     {
         $document = new org_openpsa_documents_document_dba($guid);
 

@@ -116,7 +116,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         return $workflow->run($request);
     }
 
-    private function load_controller()
+    private function load_controller() : controller
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb'));
         $this->modify_schema($schemadb->get('default'));
@@ -181,7 +181,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
      *
      * @return array
      */
-    private function get_customers_for_contact($contact_id)
+    private function get_customers_for_contact($contact_id) : array
     {
         $organizations = [0 => ''];
 
@@ -224,7 +224,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         ];
     }
 
-    private function load_defaults()
+    private function load_defaults() : array
     {
         $defaults = [
             'date' => time(),

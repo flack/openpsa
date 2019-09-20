@@ -27,7 +27,7 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
      *
      * The operations are done on all available schemas within the DB.
      */
-    private function load_datamanager()
+    private function load_datamanager() : datamanager
     {
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_group'));
         $dm->get_schema('default')->get_field('persons')['hidden'] = true;

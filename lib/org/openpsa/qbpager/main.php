@@ -45,7 +45,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Makes sure we have some absolutely required things properly set
      */
-    protected function _sanity_check()
+    protected function _sanity_check() : bool
     {
         if ($this->results_per_page < 1) {
             debug_add('this->results_per_page is set to ' . $this->results_per_page . ', aborting', MIDCOM_LOG_WARN);
@@ -78,7 +78,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Get the current page number
      */
-    public function get_current_page()
+    public function get_current_page() : int
     {
         return $this->_current_page;
     }
@@ -86,7 +86,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Fetch all $_GET variables
      */
-    private function _get_query_string($page_var, $page_number)
+    private function _get_query_string($page_var, $page_number) : string
     {
         $query = [$page_var => (int) $page_number];
 
@@ -127,7 +127,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         echo "\n</div>\n";
     }
 
-    public function get_pages()
+    public function get_pages() : array
     {
         $pages = [];
         $page_count = $this->count_pages();

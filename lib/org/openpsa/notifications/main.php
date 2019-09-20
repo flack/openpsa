@@ -132,7 +132,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         return $preference;
     }
 
-    public function load_datamanager()
+    public function load_datamanager() : datamanager
     {
         $schema = [
             'description' => 'notifications',
@@ -179,7 +179,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         return new datamanager(new schemadb(['default' => $schema]));
     }
 
-    private function _list_notifiers()
+    private function _list_notifiers() : array
     {
         // TODO: Figure out which notifiers are possible
         return [

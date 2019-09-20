@@ -43,7 +43,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     /**
      * @return midcom_core_account
      */
-    protected function get_account()
+    protected function get_account() : midcom_core_account
     {
         if ($this->account === null) {
             $this->account = new midcom_core_account($this->person);
@@ -61,7 +61,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * @param boolean $send_welcome_mail
      * @return boolean
      */
-    public function create_account($person_guid, $username, $usermail, $password = "", $send_welcome_mail = false)
+    public function create_account($person_guid, $username, $usermail, $password = "", $send_welcome_mail = false) : bool
     {
         $this->errstr = ""; // start fresh
 
@@ -165,7 +165,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * @param string $username Contains username
      * @param string $new_password Contains the new password to set
      */
-    public function set_account($username, $new_password)
+    public function set_account($username, $new_password) : bool
     {
         $account = $this->get_account();
         if (!empty($new_password)) {
@@ -205,7 +205,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * @param int $length The number of chars the password will contain
      * @return string The generated password
      */
-    public static function generate_password($length = 0)
+    public static function generate_password($length = 0) : string
     {
         // Safety
         if ($length == 0) {
@@ -228,7 +228,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * @param int $length The number of chars the password will contain
      * @return string The generated password
      */
-    public function generate_safe_password($length = 0)
+    public function generate_safe_password($length = 0) : string
     {
         do {
             $password = self::generate_password($length);
@@ -242,7 +242,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * @param string $password Password to check
      * @return bool returns true if password wasn't used already
      */
-    public function check_password_reuse($password, $show_ui_message = false)
+    public function check_password_reuse($password, $show_ui_message = false) : bool
     {
         // check current password
         if (midcom_connection::verify_password($password, $this->get_account()->get_password())) {
@@ -293,7 +293,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @return array - Array with old passwords - empty if there aren't any old passwords
      */
-    private function get_old_passwords()
+    private function get_old_passwords() : array
     {
         $old_passwords_string = $this->person->get_parameter("org_openpsa_user_password", "old_passwords");
         if (!empty($old_passwords_string)) {
@@ -314,7 +314,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @param string $password Contains password to check
      */
-    public function check_password_strength($password, $show_ui_message = false)
+    public function check_password_strength($password, $show_ui_message = false) : bool
     {
         $password_length = mb_strlen($password);
 
@@ -356,7 +356,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @return boolean - true indicates password is ok - false password is to old
      */
-    public function check_password_age()
+    public function check_password_age() : bool
     {
         $max_age_days = $this->_config->get('password_max_age_days');
         if ($max_age_days == 0) {
@@ -377,7 +377,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @return boolean - indicates success
      */
-    public function disable_account()
+    public function disable_account() : bool
     {
         $account = $this->get_account();
 
@@ -415,7 +415,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @return boolean indicates success
      */
-    public function delete_account()
+    public function delete_account() : bool
     {
         return $this->get_account()->delete();
     }
@@ -425,7 +425,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @return boolean - indicates success
      */
-    public function close_account()
+    public function close_account() : bool
     {
         $account = $this->get_account();
 
@@ -463,7 +463,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     /**
      * Determine if an account is blocked
      */
-    public function is_blocked()
+    public function is_blocked() : bool
     {
         return !empty($this->person->get_parameter("org_openpsa_user_blocked_account", "account_password"));
     }
@@ -493,7 +493,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * @param string $component the component we take the config values from
      * @return boolean True if further login attempts are allowed, false otherwise
      */
-    public function check_login_attempts($component = null)
+    public function check_login_attempts($component = null) : bool
     {
         $stat = true;
         $component = $component ?: "org.openpsa.user";

@@ -18,7 +18,7 @@ trait org_openpsa_directmarketing_handler
      * @throws midcom_error_notfound
      * @return org_openpsa_directmarketing_campaign_dba
      */
-    public function load_campaign($identifier)
+    public function load_campaign($identifier) : org_openpsa_directmarketing_campaign_dba
     {
         $campaign = new org_openpsa_directmarketing_campaign_dba($identifier);
         if ($campaign->node != $this->_topic->id) {

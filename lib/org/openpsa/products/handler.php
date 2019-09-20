@@ -18,7 +18,7 @@ trait org_openpsa_products_handler
      *
      * @param midcom_core_dbaobject $object
      */
-    public function update_breadcrumb_line($object)
+    public function update_breadcrumb_line($object) : array
     {
         $tmp = [];
         $root_group = $this->_config->get('root_group');

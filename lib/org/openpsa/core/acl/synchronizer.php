@@ -13,7 +13,7 @@
  */
 class org_openpsa_core_acl_synchronizer
 {
-    public function write_acls(midcom_core_dbaobject $object, $owner_id, $accesstype)
+    public function write_acls(midcom_core_dbaobject $object, $owner_id, $accesstype) : bool
     {
         if (   empty($owner_id)
             || empty($accesstype)) {
@@ -24,7 +24,7 @@ class org_openpsa_core_acl_synchronizer
         return $this->_write_full_midcom_acls($object, $owner_id, $accesstype);
     }
 
-    private function _write_full_midcom_acls(midcom_core_dbaobject $object, $owner_id, $accesstype)
+    private function _write_full_midcom_acls(midcom_core_dbaobject $object, $owner_id, $accesstype) : bool
     {
         $owner_object = midcom::get()->auth->get_assignee($owner_id);
         if (empty($owner_object->id)) {

@@ -62,7 +62,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.grid/FileSaver.js');
     }
 
-    private function _get_invoices_for_subscription($deliverable, $at_entry)
+    private function _get_invoices_for_subscription($deliverable, $at_entry) : array
     {
         if (   $deliverable->invoiceByActualUnits
             && $at_entry->arguments['cycle'] > 1) {
@@ -94,7 +94,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         return $invoices;
     }
 
-    private function get_invoice_for_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable, $sum, $time, $calculation_base)
+    private function get_invoice_for_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable, $sum, $time, $calculation_base) : org_openpsa_invoices_invoice_dba
     {
         $salesproject = org_openpsa_sales_salesproject_dba::get_cached($deliverable->salesproject);
         $invoice = new org_openpsa_invoices_invoice_dba;
@@ -114,7 +114,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         return $invoice;
     }
 
-    private function _get_scheduled_invoices()
+    private function _get_scheduled_invoices() : array
     {
         $invoices = [];
         $qb = midcom_services_at_entry_dba::new_query_builder();
@@ -137,7 +137,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         return $invoices;
     }
 
-    private function _get_deliverable_invoices()
+    private function _get_deliverable_invoices() : array
     {
         $invoices = [];
         $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
@@ -163,12 +163,12 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         return $invoices;
     }
 
-    private function _filter_by_date($inv)
+    private function _filter_by_date($inv) : bool
     {
         return $inv->{$this->_request_data['date_field']} <= $this->_request_data['end'];
     }
 
-    private function _load_invoices($status)
+    private function _load_invoices($status) : array
     {
         if ($status == 'scheduled') {
             $siteconfig = org_openpsa_core_siteconfig::get_instance();

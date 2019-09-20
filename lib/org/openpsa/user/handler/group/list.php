@@ -30,7 +30,7 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
         return $this->show('group-list');
     }
 
-    public static function render_link($guid)
+    public static function render_link($guid) : string
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 

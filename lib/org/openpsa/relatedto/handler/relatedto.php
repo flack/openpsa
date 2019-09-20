@@ -104,7 +104,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param boolean $inbound True means toGuid == $obj->guid, false fromGuid == $obj->guid
      * @return array
      */
-    private function _get_object_links($inbound)
+    private function _get_object_links($inbound) : array
     {
         $arr = [];
         if ($inbound) {

@@ -43,7 +43,7 @@ class org_openpsa_sales_salesproject_offer_dba extends midcom_core_dbaobject
         return $label;
     }
 
-    public function get_number()
+    public function get_number() : string
     {
         return $this->get_parent()->code . '-' . $this->id;
     }

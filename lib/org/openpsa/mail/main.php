@@ -154,7 +154,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     /**
      * Tries to convert HTML to plaintext
      */
-    private function html2text($html)
+    private function html2text($html) : string
     {
         // strip all tags except br
         $text = strip_tags($html, '<br>');
@@ -183,7 +183,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      *
      * Calls MIME etc encodings as necessary.
      */
-    private function _prepare_message()
+    private function _prepare_message() : org_openpsa_mail_message
     {
         if (!empty($this->parameters)) {
             $template_helper = new org_openpsa_mail_template($this->parameters);

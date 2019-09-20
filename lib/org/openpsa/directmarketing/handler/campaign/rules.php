@@ -159,7 +159,7 @@ implements client
         return $this->show('show-campaign-edit_query');
     }
 
-    private function _load_rules()
+    private function _load_rules() : array
     {
         if (empty($_REQUEST['midcom_helper_datamanager2_dummy_field_rules'])) {
             return $this->_campaign->rules;

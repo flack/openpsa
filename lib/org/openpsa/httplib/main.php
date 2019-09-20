@@ -44,7 +44,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
     /**
      * @return Client
      */
-    private function get_client()
+    private function get_client() : Client
     {
         $config = [];
         foreach ($this->params as $key => $value) {

@@ -10,6 +10,7 @@ use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use midcom\datamanager\controller;
 
 /**
  * Billing data handlers
@@ -29,7 +30,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
      * @param org_openpsa_invoices_billing_data_dba $bd
      * @return \midcom\datamanager\controller
      */
-    private function load_controller(org_openpsa_invoices_billing_data_dba $bd)
+    private function load_controller(org_openpsa_invoices_billing_data_dba $bd) : controller
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb_billing_data'));
         $vat =& $schemadb->get('default')->get_field('vat');
@@ -112,7 +113,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         return $workflow->run($request);
     }
 
-    private function get_relocate_url()
+    private function get_relocate_url() : string
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $relocate = $siteconfig->get_node_full_url('org.openpsa.contacts');

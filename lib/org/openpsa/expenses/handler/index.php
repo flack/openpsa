@@ -97,7 +97,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
     /**
      * Sort the reports by task and day
      */
-    private function _get_sorted_reports(midcom_core_collector $hours_mc)
+    private function _get_sorted_reports(midcom_core_collector $hours_mc) : array
     {
         $workflow = $this->get_workflow('datamanager');
         $reports = [];
@@ -145,7 +145,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
         return array_values($reports);
     }
 
-    private function _get_list_link($label, $date, $task_guid, $person_id = null)
+    private function _get_list_link($label, $date, $task_guid, $person_id = null) : string
     {
         if ($task_guid !== null) {
             $url = $this->router->generate('list_hours_task', ['guid' => $task_guid]);

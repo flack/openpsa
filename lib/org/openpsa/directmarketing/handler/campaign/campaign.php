@@ -37,7 +37,7 @@ implements client
      */
     private $_datamanager;
 
-    public function get_qb($field = null, $direction = 'ASC', array $search = [])
+    public function get_qb($field = null, $direction = 'ASC', array $search = []) : midcom_core_querybuilder
     {
         $mc = org_openpsa_directmarketing_campaign_member_dba::new_collector('campaign', $this->_campaign->id);
         $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);

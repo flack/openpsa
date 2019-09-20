@@ -9,6 +9,7 @@
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use midcom\datamanager\controller;
 
 /**
  * journal entry handler
@@ -30,7 +31,7 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
     /**
      * @return \midcom\datamanager\controller
      */
-    private function load_controller(org_openpsa_relatedto_journal_entry_dba $entry)
+    private function load_controller(org_openpsa_relatedto_journal_entry_dba $entry) : controller
     {
         $schemadb_name = midcom_baseclasses_components_configuration::get('org.openpsa.relatedto', 'config')->get('schemadb_journalentry');
         return datamanager::from_schemadb($schemadb_name)

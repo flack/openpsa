@@ -72,7 +72,7 @@ implements midcom_services_permalinks_resolver
      * @param midcom_baseclasses_components_cron_handler $handler cron_handler object calling this method.
      * @return boolean indicating success/failure
      */
-    public function background_update_campaign_members(array $args, midcom_baseclasses_components_cron_handler $handler)
+    public function background_update_campaign_members(array $args, midcom_baseclasses_components_cron_handler $handler) : bool
     {
         if (!array_key_exists('campaign_guid', $args)) {
             $handler->print_error('Campaign GUID not found in arguments list');

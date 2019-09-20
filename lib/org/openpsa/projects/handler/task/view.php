@@ -123,7 +123,7 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
         $this->_view_toolbar->add_items($buttons);
     }
 
-    private function list_bookings()
+    private function list_bookings() : array
     {
         $task_booked_time = 0;
         $task_booked_percentage = 100;

@@ -36,7 +36,7 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
         parent::__set($property, $value);
     }
 
-    private function _prepare_save()
+    private function _prepare_save() : bool
     {
         $this->hours = round($this->hours, 2);
 
@@ -126,7 +126,7 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
         }
     }
 
-    public function get_description()
+    public function get_description() : string
     {
         if (!preg_match("/^[\W]*?$/", $this->description)) {
             return $this->description;

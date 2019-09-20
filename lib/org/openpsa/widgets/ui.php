@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use midcom\datamanager\helper\autocomplete;
-
 /**
  * Helper class to load parts of the ui
  *
@@ -21,7 +19,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         return $config->get($value);
     }
 
-    public static function get_search_providers()
+    public static function get_search_providers() : array
     {
         $defaults = ['autocomplete' => false];
         $providers = [];

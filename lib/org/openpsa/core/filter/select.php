@@ -99,7 +99,7 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
      *
      * @return array The options array
      */
-    protected function _get_options()
+    protected function _get_options() : array
     {
         if (!empty($this->_options)) {
             $data = $this->_options;

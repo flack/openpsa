@@ -120,7 +120,7 @@ class org_openpsa_mail_template
      * @param string $input The string to parse
      * @return string The parsed string
      */
-    public function parse($input)
+    public function parse($input) : string
     {
         return preg_replace_callback($this->_patterns, [$this, '_replace_callback'], $input);
     }
@@ -155,7 +155,7 @@ class org_openpsa_mail_template
      * @param array $array    The array to be dumped.
      * @return string        String representation.
      */
-    private function _format_array(array $array)
+    private function _format_array(array $array) : string
     {
         $result = "";
         foreach ($array as $key => $value) {
@@ -168,7 +168,7 @@ class org_openpsa_mail_template
         return $result;
     }
 
-    private function prepare_value($key, $value)
+    private function prepare_value($key, $value) : string
     {
         if (is_object($value)) {
             $value = get_class($value) . " object";

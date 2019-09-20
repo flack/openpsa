@@ -104,7 +104,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         return $workflow->run($request);
     }
 
-    private function load_controller(array $defaults = [])
+    private function load_controller(array $defaults = []) : controller
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb_task'));
 

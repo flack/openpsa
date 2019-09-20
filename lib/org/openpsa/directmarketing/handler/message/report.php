@@ -199,7 +199,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         }
     }
 
-    private function _generate_link_rules(org_openpsa_directmarketing_link_log_dba $link)
+    private function _generate_link_rules(org_openpsa_directmarketing_link_log_dba $link) : array
     {
         return [
             'comment' => sprintf($this->_l10n->get('all persons who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d'), $link->target, $link->message, $this->_message->campaign),
@@ -288,7 +288,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $array['tokens'][$link->token]++;
     }
 
-    private function _create_campaign_from_link(Request $request, $identifier)
+    private function _create_campaign_from_link(Request $request, $identifier) : midcom_response_relocate
     {
         $rules = org_openpsa_directmarketing_campaign_ruleresolver::parse($request->request->get('oo_dirmar_rule_' . $identifier));
         $campaign = new org_openpsa_directmarketing_campaign_dba();

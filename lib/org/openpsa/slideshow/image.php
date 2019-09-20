@@ -64,7 +64,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         }
     }
 
-    public function generate_image($type, $filter_chain)
+    public function generate_image($type, $filter_chain) : bool
     {
         $original = $this->load_attachment('attachment');
         if (!$original) {
@@ -147,7 +147,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         return $thumbnail;
     }
 
-    public static function get_imagedata(array $images)
+    public static function get_imagedata(array $images) : array
     {
         $data = [];
         if (empty($images)) {

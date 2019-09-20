@@ -20,7 +20,7 @@ class org_openpsa_user_interface extends midcom_baseclasses_components_interface
      * @param midcom_baseclasses_components_cron_handler $handler cron_handler object calling this method.
      * @return boolean indicating success/failure
      */
-    public function reopen_account(array $args, midcom_baseclasses_components_cron_handler $handler)
+    public function reopen_account(array $args, midcom_baseclasses_components_cron_handler $handler) : bool
     {
         midcom::get()->auth->request_sudo($this->_component);
         try {

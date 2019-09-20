@@ -47,7 +47,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         $this->load_snippet();
     }
 
-    public static function get_instance()
+    public static function get_instance() : self
     {
         if (self::$instance === null) {
             self::$instance = new self;
@@ -120,7 +120,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      *
      * @param string $component the component to look for
      */
-    public function node_exists($component)
+    public function node_exists($component) : bool
     {
         return !empty($this->get_node_guid($component));
     }

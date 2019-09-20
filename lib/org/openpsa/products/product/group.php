@@ -41,7 +41,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         return true;
     }
 
-    private function _check_duplicates($code)
+    private function _check_duplicates($code) : bool
     {
         if (!$code) {
             return false;
@@ -70,7 +70,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
      * @param array $label_fields  Object properties to show in the label (will be shown space separated)
      * @return array
      */
-    public static function list_groups($up, $prefix, $keyproperty, $order_by_score = false, array $label_fields = ['code', 'title'])
+    public static function list_groups($up, $prefix, $keyproperty, $order_by_score = false, array $label_fields = ['code', 'title']) : array
     {
         static $result_cache = [];
 
@@ -132,7 +132,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     /**
      * @return org_openpsa_products_product_group_dba
      */
-    public function get_root()
+    public function get_root() : self
     {
         $root = $this;
         while ($root->up != 0) {

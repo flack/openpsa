@@ -47,7 +47,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         }
     }
 
-    public function get_css_class()
+    public function get_css_class() : string
     {
         $class = 'email';
         if ($this->sendCompleted) {

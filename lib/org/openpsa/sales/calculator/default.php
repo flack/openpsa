@@ -60,7 +60,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         }
     }
 
-    private function get_units($units = false)
+    private function get_units($units = false) : float
     {
         if (   $this->_deliverable->invoiceByActualUnits
             || $this->_deliverable->plannedUnits == 0) {
@@ -76,7 +76,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
      *
      * @return float cost value
      */
-    public function get_cost()
+    public function get_cost() : float
     {
         return $this->_cost;
     }
@@ -86,7 +86,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
      *
      * @return float price value
      */
-    public function get_price()
+    public function get_price() : float
     {
         return $this->_price;
     }
@@ -96,7 +96,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
      *
      * @return org_openpsa_invoices_invoice_item_dba[]
      */
-    public function get_invoice_items(org_openpsa_invoices_invoice_dba $invoice)
+    public function get_invoice_items(org_openpsa_invoices_invoice_dba $invoice) : array
     {
         $this->_invoice = $invoice;
 
@@ -124,7 +124,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         return $items;
     }
 
-    private function _generate_invoice_item($description, $units, org_openpsa_projects_task_dba $task = null)
+    private function _generate_invoice_item($description, $units, org_openpsa_projects_task_dba $task = null) : org_openpsa_invoices_invoice_item_dba
     {
         $item = new org_openpsa_invoices_invoice_item_dba();
         $item->description = $description;
@@ -139,7 +139,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         return $item;
     }
 
-    private function _find_tasks(midcom_core_querybuilder $qb)
+    private function _find_tasks(midcom_core_querybuilder $qb) : array
     {
         if ($this->_deliverable->invoiceByActualUnits) {
             $qb->add_constraint('invoiceableHours', '>', 0);
@@ -156,7 +156,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
      *
      * @return int invoice number
      */
-    public function generate_invoice_number()
+    public function generate_invoice_number() : int
     {
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_order('number', 'DESC');

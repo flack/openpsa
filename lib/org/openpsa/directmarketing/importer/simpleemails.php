@@ -13,7 +13,7 @@
  */
 class org_openpsa_directmarketing_importer_simpleemails extends org_openpsa_directmarketing_importer
 {
-    public function parse($input)
+    public function parse($input) : array
     {
         $parsed = [];
 

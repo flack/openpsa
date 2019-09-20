@@ -102,7 +102,7 @@ class org_openpsa_widgets_calendar_event
     /**
      * Draws links to the right location
      */
-    private function _render_link()
+    private function _render_link() : string
     {
         if ($this->attributes != '') {
             return "<a class=\"url\" {$this->attributes}>{$this->title}</a>";
@@ -117,7 +117,7 @@ class org_openpsa_widgets_calendar_event
     /**
      * Renders hEvent compatible and nice time label
      */
-    public function render_timelabel($show_day_name = false)
+    public function render_timelabel($show_day_name = false) : string
     {
         $formatter = midcom::get()->i18n->get_l10n()->get_formatter();
 
@@ -133,7 +133,7 @@ class org_openpsa_widgets_calendar_event
     /**
      * Draws one single event
      */
-    public function render($element = 'div', $h_level = 3)
+    public function render($element = 'div', $h_level = 3) : string
     {
         $rendered_event  = '';
         $rendered_event .= "<{$element} class=\"vevent\">\n";

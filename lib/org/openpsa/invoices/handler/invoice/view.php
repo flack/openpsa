@@ -53,7 +53,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         return $this->show('admin-read');
     }
 
-    private function load_datamanager()
+    private function load_datamanager() : datamanager
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb'));
         $vat_array = explode(',', $this->_config->get('vat_percentages'));
@@ -118,7 +118,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         $this->add_next_previous($this->invoice, 'invoice/');
     }
 
-    private function build_button($action, $icon)
+    private function build_button($action, $icon) : array
     {
         return [
             MIDCOM_TOOLBAR_URL => 'invoice/action/' . $action . '/',

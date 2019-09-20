@@ -82,7 +82,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_viewer
         midcom::get()->cache->content->no_cache();
     }
 
-    public static function get_available_generators()
+    public static function get_available_generators() : array
     {
         static $available_generators;
         if (is_array($available_generators)) {

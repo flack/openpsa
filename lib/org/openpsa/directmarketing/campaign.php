@@ -108,7 +108,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
      *
      * @return boolean indicating success/failure
      */
-    public function update_smart_campaign_members()
+    public function update_smart_campaign_members() : bool
     {
         if (!$this->id) {
             debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);
@@ -178,7 +178,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
     /**
      * Schedules a background memberships update for a smart campaign
      */
-    public function schedule_update_smart_campaign_members($time = false)
+    public function schedule_update_smart_campaign_members($time = false) : bool
     {
         if (!$this->id) {
             debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);

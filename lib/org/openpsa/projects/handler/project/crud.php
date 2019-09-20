@@ -96,7 +96,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         return $workflow->run($request);
     }
 
-    private function load_controller(array $defaults = [])
+    private function load_controller(array $defaults = []) : controller
     {
         return datamanager::from_schemadb($this->_config->get('schemadb_project'))
             ->set_defaults($defaults)

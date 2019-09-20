@@ -106,7 +106,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
         }
     }
 
-    private function _import_subscribers_person(array $subscriber)
+    private function _import_subscribers_person(array $subscriber) : org_openpsa_contacts_person_dba
     {
         $person = null;
         if ($this->_config->get('csv_import_check_duplicates')) {
@@ -199,7 +199,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
         $this->_datamanager_process('campaign_member', $subscriber, $member);
     }
 
-    private function _import_subscribers_organization(array $subscriber)
+    private function _import_subscribers_organization(array $subscriber) : org_openpsa_contacts_group_dba
     {
         $organization = null;
         if (!empty($subscriber['organization']['official'])) {
@@ -272,7 +272,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
      * @param org_openpsa_directmarketing_campaign_dba $campaign The campaign to import into
      * @return array Import status
      */
-    public function import_subscribers(array $subscribers, org_openpsa_directmarketing_campaign_dba $campaign)
+    public function import_subscribers(array $subscribers, org_openpsa_directmarketing_campaign_dba $campaign) : array
     {
         $this->_import_status = [
             'already_subscribed' => 0,

@@ -56,7 +56,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
         return $this->run_form($request);
     }
 
-    private function prepare_offer()
+    private function prepare_offer() : org_openpsa_sales_salesproject_offer_dba
     {
         $billingdata = org_openpsa_invoices_billing_data_dba::get_by_object($this->salesproject);
 
@@ -101,7 +101,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
         return $this->run_form($request);
     }
 
-    private function run_form(Request $request)
+    private function run_form(Request $request) : Response
     {
         $this->load_pdf_builder();
 

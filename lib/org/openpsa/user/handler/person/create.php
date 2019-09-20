@@ -34,7 +34,7 @@ class org_openpsa_user_handler_person_create extends midcom_baseclasses_componen
      */
     private $_group;
 
-    private function load_controller()
+    private function load_controller() : controller
     {
         $person_schema = schemadb::from_path($this->_config->get('schemadb_person'));
         $account_schema = schemadb::from_path($this->_config->get('schemadb_account'));

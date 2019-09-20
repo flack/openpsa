@@ -33,22 +33,22 @@ class org_openpsa_projects_status extends org_openpsa_widgets_status
         $this->task = $task;
     }
 
-    public function get_current_status()
+    public function get_current_status() : string
     {
         return $this->l10n->get($this->get_status_class());
     }
 
-    public function get_status_class()
+    public function get_status_class() : string
     {
         return $this->task->status_type;
     }
 
-    public function get_button()
+    public function get_button() : string
     {
         return '';
     }
 
-    public function get_history()
+    public function get_history() : array
     {
         $entries = [];
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();

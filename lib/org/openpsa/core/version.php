@@ -23,7 +23,7 @@ class org_openpsa_core_version
      *
      * @return string OpenPSA version string
      */
-    public static function get_version_number()
+    public static function get_version_number() : string
     {
         return midcom::VERSION;
     }
@@ -33,7 +33,7 @@ class org_openpsa_core_version
      *
      * @return string OpenPSA version string
      */
-    public static function get_version_name()
+    public static function get_version_name() : string
     {
         return self::NAME;
     }
@@ -43,7 +43,7 @@ class org_openpsa_core_version
      *
      * @return string OpenPSA version string
      */
-    public static function get_version_both()
+    public static function get_version_both() : string
     {
         return self::get_version_number() . ' (' . self::get_version_name() . ')';
     }

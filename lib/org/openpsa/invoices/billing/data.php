@@ -58,7 +58,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
      * @param org_openpsa_invoices_interfaces_customer $object
      * @return org_openpsa_invoices_billing_data_dba
      */
-    public static function get_by_object(org_openpsa_invoices_interfaces_customer $object)
+    public static function get_by_object(org_openpsa_invoices_interfaces_customer $object) : self
     {
         if (   !($bd = self::get_billing_data(org_openpsa_contacts_group_dba::class, $object->customer))
                // check if the customerContact is set and has invoice_data

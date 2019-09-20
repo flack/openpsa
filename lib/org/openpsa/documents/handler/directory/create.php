@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_components_handler
 {
-    private function load_controller()
+    private function load_controller() : controller
     {
         $topic = new org_openpsa_documents_directory();
         $topic->up = $this->_request_data['directory']->id;
