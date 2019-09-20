@@ -11,6 +11,7 @@ use openpsa_testcase;
 use midcom;
 use midcom\datamanager\extension\transformer\attachmentTransformer;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use midgard\portable\api\blob;
 
 class attachmentTransformerTest extends openpsa_testcase
 {
@@ -53,7 +54,8 @@ class attachmentTransformerTest extends openpsa_testcase
         $att = $topic->create_attachment('test', 'test', 'text/plain');
         $handle = $att->open('w');
         fwrite($handle, 'test');
-        $time = time();
+        $blob = new blob($att->__object);
+        $time = filemtime($blob->get_path());
         $att->close();
 
         midcom::get()->auth->drop_sudo('midcom.datamanager');
@@ -89,7 +91,7 @@ class attachmentTransformerTest extends openpsa_testcase
 
         $path = midcom::get()->config->get('midcom_tempdir') . '/test';
         file_put_contents($path, 'test');
-        $time = time();
+        $time = filemtime($path);
         $file = new UploadedFile($path, 'test.txt');
 
         $input = [
@@ -136,7 +138,7 @@ class attachmentTransformerTest extends openpsa_testcase
 
         $path = midcom::get()->config->get('midcom_tempdir') . '/tmpfile-9dc7ded0fb8f77a341cda2ebd4a698df';
         file_put_contents($path, 'test');
-        $time = time();
+        $time = filemtime($path);
 
         $input = [
             'title' => 'test.txt',
