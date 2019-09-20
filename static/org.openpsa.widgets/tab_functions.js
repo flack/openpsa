@@ -15,7 +15,9 @@ var org_openpsa_widgets_tabs = {
                 ui.jqXHR.done(function() {
                     ui.tab.data("loaded", true);
                 });
-                ui.ajaxSettings.dataFilter = org_openpsa_widgets_tabs.load_head_elements;
+                ui.ajaxSettings.dataFilter = function(data, type) {
+                    return org_openpsa_widgets_tabs.load_head_elements(data, type, event);
+                }
             },
             load: function() {
                 $(window).trigger('resize');
@@ -89,7 +91,7 @@ var org_openpsa_widgets_tabs = {
                 event.preventDefault();
             });
     },
-    load_head_elements: function(data, type) {
+    load_head_elements: function(data, type, event) {
         data = data.replace(/<\/HEAD_ELEMENTS>[\s\S]+?/m, '</HEAD_ELEMENTS>');
         var regex = /<HEAD_ELEMENTS>(.+?)<\/HEAD_ELEMENTS>/m;
         regex.exec(data);
@@ -148,7 +150,10 @@ var org_openpsa_widgets_tabs = {
                 active.html(data);
                 $(window).trigger('resize');
             });
-            return '';
+            if (event) {
+                event.preventDefault();
+            }
+            return;
         }
 
         return data;
