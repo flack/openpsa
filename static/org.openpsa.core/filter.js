@@ -5,17 +5,17 @@ $(document).ready(function() {
     $('form.org_openpsa_queryfilter .filter_apply').on('click', function() {
         var filter_values = {};
         $('form.org_openpsa_queryfilter input[type="text"]').each(function(index, element) {
-            filter_values[$(element).attr('name')] = $(element).val();
+            filter_values[element.name] = $(element).val();
         });
         $('form.org_openpsa_queryfilter select').each(function(index, element) {
-            var filter_name = $(element).attr('name').slice(0, $(element).attr('name').length - 2);
+            var filter_name = element.name.slice(0, element.name.length - 2);
             if ($.isArray($(element).val())) {
                 filter_values[filter_name] = [];
                 $.each($(element).val(), function(i, value) {
                     filter_values[filter_name].push(value);
                 });
             } else if ($(element).val()) {
-                filter_values[$(element).attr('name')] = $(element).val();
+                filter_values[element.name] = $(element).val();
             }
         });
 

@@ -136,7 +136,7 @@ $(document).ready(function() {
     var continuous = $('form.datamanager2 #org_openpsa_sales_continuous');
     if (continuous.length > 0) {
         if (continuous.on('change', function() {
-            $('#org_openpsa_sales_end').closest('.element').toggle(!$(this).is(':checked'));
+            $('#org_openpsa_sales_end').closest('.element').toggle(!this.checked);
         }));
         $('#org_openpsa_sales_end').closest('.element').toggle(!continuous.is(':checked'));
     }

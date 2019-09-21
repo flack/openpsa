@@ -71,7 +71,7 @@ $(document).ready(function() {
         var button = $(this),
             dialog,
             options = {
-                title:  button.attr('title'),
+                title:  this.title,
                 resizable: false,
                 modal: true,
                 buttons: {}
@@ -95,7 +95,7 @@ $(document).ready(function() {
 
         form.on('submit', function(e) {
             e.preventDefault();
-            $.post(form.attr('action'), {
+            $.post(this.action, {
                 linkGuid: button.data('guid'),
                 title: text.val()
             },

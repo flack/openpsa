@@ -4,7 +4,7 @@ function init_image_widget(id) {
     image_container
         .on('change', '.midcom_datamanager_photo_checkbox', function(e) {
             e.preventDefault();
-            if ($(this).is(':checked')) {
+            if (this.checked) {
                 image_container.find('td > :not(label)').addClass("delete");
             } else {
                 image_container.find('td > .delete').removeClass("delete");

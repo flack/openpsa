@@ -8,7 +8,7 @@ var openpsa_calendar_widget = {
     prepare_toolbar_buttons: function(selector, prefix) {
         $('#openpsa_calendar_add_event').on('click', function() {
             var date = $(selector).fullCalendar('getDate');
-            $(this).attr('href', prefix + 'event/new/?start=' + date.add(1, 's').format('YYYY-MM-DD HH:mm:ss'));
+            this.href = prefix + 'event/new/?start=' + date.add(1, 's').format('YYYY-MM-DD HH:mm:ss');
         });
         $("#date-navigation").parent().on("click", function(event) {
             event.preventDefault();

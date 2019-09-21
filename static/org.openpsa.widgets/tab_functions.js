@@ -59,7 +59,7 @@ var org_openpsa_widgets_tabs = {
                 if (event.which !== 1) {
                     return;
                 }
-                var url = $(this).attr('href').replace(new RegExp('/' + uiprefix + '/'), '/');
+                var url = this.href.replace(new RegExp('/' + uiprefix + '/'), '/');
                 location.href = url;
             })
             .on('click', '.ui-tabs-panel a', org_openpsa_widgets_tabs.intercept_clicks)
@@ -77,8 +77,8 @@ var org_openpsa_widgets_tabs = {
                     processData: false,
                     contentType: false,
                     dataFilter: org_openpsa_widgets_tabs.load_head_elements,
-                    type: $(this).attr("method"),
-                    url: $(this).attr("action"),
+                    type: this.method,
+                    url: this.action,
                     success: function(data) {
                         $(":not(.ui-tabs-hide) > .tab_div").html(data);
                         $(window).trigger('resize');
@@ -156,7 +156,7 @@ var org_openpsa_widgets_tabs = {
     },
     intercept_clicks: function(event) {
         var target = $(event.currentTarget),
-            href = target.attr('href');
+            href = event.currentTarget.href;
 
         if (target.attr('onclick')) {
             return;

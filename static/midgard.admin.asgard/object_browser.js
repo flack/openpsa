@@ -5,7 +5,7 @@ $(document).ready(function() {
 
             // Add ajax to each colorbox link. This will tell to Asgard that it
             // should show only the object view style and nothing else.
-            var link = $(this).attr('href');
+            var link = this.href;
 
             if (!link) {
                 link = '';
@@ -18,8 +18,8 @@ $(document).ready(function() {
             }
 
             // Convert the link to use thickbox
-            $(this).attr('href', link);
-            $(this).attr('target', '_self');
+            this.href = link;
+            this.target = '_self';
 
             $(this).colorbox({maxHeight: '90%', maxWidth: '90%', fixed: true});
             $(this).data('initialized', true);

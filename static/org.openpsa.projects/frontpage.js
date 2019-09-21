@@ -1,5 +1,5 @@
 function get_tasks_json(object, url) {
-    var wait_html = "<tr id='child_" + $(object).attr('id') +"'><td colspan ='3' style='text-align:center'><img class='loading' src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif' alt='loading' /></td></tr>",
+    var wait_html = "<tr id='child_" + object.id +"'><td colspan ='3' style='text-align:center'><img class='loading' src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif' alt='loading' /></td></tr>",
         row = $(object).parent().parent();
     row.after(wait_html);
     $.ajax({
@@ -73,7 +73,7 @@ function show_tasks_for_project(object, url) {
             position = 'bottom';
         }
 
-        $(object).attr('src', MIDCOM_STATIC_URL + "/stock-icons/16x16/minus" + position + ".png");
+        object.src = MIDCOM_STATIC_URL + "/stock-icons/16x16/minus" + position + ".png";
         get_tasks_json(object, url);
     } else {
         $(".child_" + object.id).remove();
@@ -81,6 +81,6 @@ function show_tasks_for_project(object, url) {
             || $(object).parent().parent().next().children('th')[0]) {
             position = 'bottom';
         }
-        $(object).attr('src', MIDCOM_STATIC_URL + "/stock-icons/16x16/plus" + position + ".png");
+        object.src = MIDCOM_STATIC_URL + "/stock-icons/16x16/plus" + position + ".png";
     }
 }

@@ -2,7 +2,7 @@ $(document).ready(function() {
     $('.content-area')
         .on('click', 'a[href], .preview-image', function(event) {
             event.preventDefault();
-            var url = $(this).attr('href') || $(this).attr('src'),
+            var url = this.href || this.src,
                 title = '';
 
             if ($(this).parent('td').length > 0) {
@@ -12,8 +12,8 @@ $(document).ready(function() {
             parent.tinymce.activeEditor.windowManager.getParams().oninsert(url, {alt: title});
             parent.tinymce.activeEditor.windowManager.close();
         })
-        .on('hover', 'a[href]', function() {
-            $(this).prop('title', 'Click to insert');
+        .on('mouseover', 'a[href], .preview-image', function() {
+            this.title = 'Click to insert';
         });
 
     if ($('#links').length > 0) {

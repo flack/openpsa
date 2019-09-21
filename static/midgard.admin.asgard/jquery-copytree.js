@@ -1,6 +1,6 @@
 $.fn.tree_checker = function() {
     $(this).on('change', 'label > input[type="checkbox"]', function() {
-        if ($(this).is(':checked')) {
+        if (this.checked) {
             $(this).closest('li').find('li')
                 .removeClass('readonly')
                 .find('input').prop('disabled', false);

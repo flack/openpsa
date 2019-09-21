@@ -6,7 +6,7 @@ $(document).ready(function() {
             spinner = $('<div class="spinner"><i class="fa fa-pulse fa-spinner"></i></div>'),
             text = button.data('dialog-text'),
             relocate = button.data('relocate'),
-            action = button.attr('href') || button.data('action'),
+            action = this.href || button.data('action'),
             options = {
                 title:  button.data('dialog-heading'),
                 modal: true,
@@ -103,7 +103,7 @@ $(document).ready(function() {
     $('body').on('click', '[data-dialog="dialog"]', function(event) {
         event.preventDefault();
         if (!$(this).hasClass('active')) {
-            create_dialog($(this), $(this).find('.toolbar_label').text() || $(this).attr('title') || '', $(this).attr('href'));
+            create_dialog($(this), $(this).find('.toolbar_label').text() || this.title, this.href);
         }
     });
 

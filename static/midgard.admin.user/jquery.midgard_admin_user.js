@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $("#midgard_admin_user_batch_process tbody").on('change', 'input[type="checkbox"]', function() {
-        $(this).closest('tr').toggleClass('row_selected', $(this).prop('checked'));
+        $(this).closest('tr').toggleClass('row_selected', this.checked);
         var all_selected = ($('#midgard_admin_user_batch_process tbody input[type="checkbox"]:not(":checked")').length === 0),
             none_selected = ($('#midgard_admin_user_batch_process tbody input[type="checkbox"]:checked').length === 0);
         $('#select_all').prop('checked', all_selected);
@@ -12,7 +12,7 @@ $(document).ready(function() {
     $('#invert_selection').on('click', function(event) {
         $('#midgard_admin_user_batch_process table tbody input[type="checkbox"]').each(function() {
             // Skip the write protected
-            if (!$(this).prop('disabled')) {
+            if (!this.disabled) {
                 $(this).click();
             }
         });
@@ -20,11 +20,11 @@ $(document).ready(function() {
     });
 
     $('#select_all').on('click', function() {
-        var checked = $(this).is(':checked');
+        var checked = this.checked;
 
         $('#midgard_admin_user_batch_process table tbody input[type="checkbox"]').each(function() {
             // Skip the write protected
-            if (!$(this).prop('disabled') && $(this).prop('checked') !== checked) {
+            if (!this.disabled && this.checked !== checked) {
                 $(this).click();
             }
         });
@@ -36,7 +36,7 @@ $(document).ready(function() {
         if ($('#midgard_admin_user_search').val()) {
             action += '?midgard_admin_user_search=' + $('#midgard_admin_user_search').val();
         }
-        $(this).attr('action', action);
+        this.action = action;
         return true;
     });
 
