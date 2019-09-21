@@ -1,4 +1,4 @@
-var dialog;
+var dialog = window.frameElement ? window.parent.$(window.frameElement.parentNode) : null;
 
 function refresh_opener(url) {
     if (url === undefined) {
@@ -146,9 +146,8 @@ function attach_to_parent_dialog(dialog) {
     });
 }
 
-if (window.frameElement) {
-    dialog = window.parent.$(window.frameElement.parentNode);
-    window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function() {
+    if (dialog) {
         dialog.find(' > .fa-spinner').hide();
         if (window.hasOwnProperty('$')) {
             $('body').on('submit', '.midcom-dialog-delete-form', function(e) {
@@ -164,7 +163,7 @@ if (window.frameElement) {
             });
             attach_to_parent_dialog(dialog);
         }
-    });
-} else if (window.hasOwnProperty('$')) {
-    $('.midcom-view-toolbar, .datamanager2 .form_toolbar').show();
-}
+    } else if (window.hasOwnProperty('$')) {
+        $('.midcom-view-toolbar, .datamanager2 .form_toolbar').show();
+    }
+});
