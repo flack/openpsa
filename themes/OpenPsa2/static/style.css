@@ -245,6 +245,11 @@ a:hover
   margin-left: -4px
 }
 
+#container #template_openpsa2_resizer:hover
+{
+    transition: all 0s ease 40ms;
+}
+
 #content
 {
   background-color: #fff;
