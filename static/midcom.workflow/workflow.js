@@ -41,13 +41,9 @@ $(document).ready(function() {
                 }, {
                     text: button.data('dialog-cancel-label'),
                     click: function() {
-                        if (   typeof window.parent.$ !== "undefined"
-                            && window.parent.$('#midcom-dialog').length > 0 ) {
-                            window.parent.$('#midcom-dialog')
-                                .nextAll('.ui-dialog-buttonpane')
-                                .find('.ui-state-disabled')
-                                .removeClass('ui-state-disabled');
-                        }
+                        button.parent()
+                            .find('.ui-state-disabled')
+                            .removeClass('ui-state-disabled');
                         $(this).dialog("close");
                     }
                 }]
