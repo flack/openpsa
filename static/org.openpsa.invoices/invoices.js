@@ -82,10 +82,10 @@ $(document).ready(function() {
                     .hide()
                     .appendTo(form);
 
-        options.buttons[button.data('dialog-submit-label')] = function() {
+        options.buttons[this.dataset.dialogSubmitLabel] = function() {
             submit.click();
         };
-        options.buttons[button.data('dialog-cancel-label')] = function() {
+        options.buttons[this.dataset.dialogCancelLabel] = function() {
             $( this ).dialog( "close" );
         };
         dialog = $('<div>')

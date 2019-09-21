@@ -432,19 +432,19 @@ var midcom_grid_editable = {
         }
 
         $("#" + this.grid_id).on('click', ".row_edit", function() {
-            self.editRow($(this).data('row-id'));
+            self.editRow(this.dataset.rowId);
         });
         $("#" + this.grid_id).on('click', ".row_delete", function(e) {
             e.stopPropagation();
-            self.deleteRow($(this).data('row-id'));
+            self.deleteRow(this.dataset.rowId);
         });
         $("#" + this.grid_id).on('click', ".row_save", function(e) {
             e.stopPropagation();
-            self.saveRow($(this).data('row-id'));
+            self.saveRow(this.dataset.rowId);
         });
         $("#" + this.grid_id).on('click', ".row_cancel", function(e) {
             e.stopPropagation();
-            self.restoreRow($(this).data('row-id'));
+            self.restoreRow(this.dataset.rowId);
         });
     }
 };

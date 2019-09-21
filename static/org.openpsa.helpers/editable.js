@@ -17,7 +17,7 @@ $(document).ready(function() {
         })
         .on('blur', function() {
             $(this).removeClass('ajax_focused');
-            var ajaxUrl = $(this).data('ajax-url'),
+            var ajaxUrl = this.dataset.ajaxUrl,
                 element = $(this);
             if (!ajaxUrl) {
                 throw 'Handler URL for cannot be found';
@@ -25,7 +25,7 @@ $(document).ready(function() {
 
             if (element.val() !== element.data('orig-value')) {
                 element.addClass('ajax_saving');
-                $.post(ajaxUrl, {guid: element.data('guid'), title: element.val()}, function(data) {
+                $.post(ajaxUrl, {guid: this.dataset.guid, title: element.val()}, function(data) {
                     element.removeClass('ajax_saving');
                     if (data.status !== true) {
                         return fail(element, 'Saving failed', data.message);
@@ -46,8 +46,8 @@ $(document).ready(function() {
 
             //If empty return to the default value (if one is provided)
             if (   $(this).val() == ''
-                && $(this).data('ajax-default')) {
-                $(this).val($(this).data('ajax-default'));
+                && this.dataset.ajaxDefault) {
+                $(this).val(this.dataset.ajaxDefault);
             }
         });
 });

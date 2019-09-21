@@ -4,16 +4,16 @@ $(document).ready(function() {
         var button = $(this),
             dialog = $('<div class="midcom-delete-dialog">'),
             spinner = $('<div class="spinner"><i class="fa fa-pulse fa-spinner"></i></div>'),
-            text = button.data('dialog-text'),
-            relocate = button.data('relocate'),
-            action = this.href || button.data('action'),
+            text = this.dataset.dialogText,
+            relocate = this.dataset.relocate,
+            action = this.href || this.dataset.action,
             options = {
-                title:  button.data('dialog-heading'),
+                title:  this.dataset.dialogHeading,
                 modal: true,
                 width: 'auto',
                 maxHeight: $(window).height(),
                 buttons: [{
-                    text: button.text().trim() || button.data('dialog-heading'),
+                    text: button.text().trim() || this.dataset.dialogHeading,
                     click: function() {
                         if (relocate) {
                             $('<form action="' + action + '" method="post" class="midcom-dialog-delete-form">')
@@ -39,7 +39,7 @@ $(document).ready(function() {
                         }
                     }
                 }, {
-                    text: button.data('dialog-cancel-label'),
+                    text: this.dataset.dialogCancelLabel,
                     click: function() {
                         button.parent()
                             .find('.ui-state-disabled')
@@ -53,11 +53,11 @@ $(document).ready(function() {
             $('.midcom-delete-dialog').remove();
         }
 
-        if (button.data('recursive')) {
+        if (this.dataset.recursive) {
             dialog.addClass('loading');
             options.buttons[0].disabled = true;
             $.getJSON(MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom.helper.reflector/list-children.php',
-                {guid: button.data('guid')},
+                {guid: this.dataset.guid},
                 function (data) {
                     function render(carry, item) {
                         carry += '<li class="leaf ' + item['class'] + '">' + item.icon + ' ' + item.title;
@@ -108,17 +108,17 @@ $(document).ready(function() {
         var button = $(this),
             dialog = $('<div class="midcom-confirm-dialog">'),
             options = {
-                title:  button.data('dialog-heading'),
+                title:  this.dataset.dialogHeading,
                 modal: true,
                 width: 'auto',
                 maxHeight: $(window).height(),
                 buttons: [{
-                    text: button.data('dialog-confirm-label'),
+                    text: this.dataset.dialogConfirmLabel,
                     click: function() {
                         button.closest('form').submit();
                     }
                 }, {
-                    text: button.data('dialog-cancel-label'),
+                    text: this.dataset.dialogCancelLabel,
                     click: function() {
                         $(this).dialog("close");
                     }
@@ -132,7 +132,7 @@ $(document).ready(function() {
         dialog
             .css('min-width', '300px') // This should be handled by dialog's minWidth option, but that doesn't work with width: "auto"
                                        // Should be fixed in https://github.com/jquery/jquery-ui/commit/643b80c6070e2eba700a09a5b7b9717ea7551005
-            .append($('<p>' + button.data('dialog-text') + '</p>'))
+            .append($('<p>' + this.dataset.dialogText + '</p>'))
             .appendTo($('body'));
         make_dialog(dialog, options);
     });

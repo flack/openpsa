@@ -75,14 +75,14 @@ $.midcom_services_toolbars = function(root_element) {
                 children = $('ul', item);
 
             item.on('mouseover', function() {
-                clearTimeout($(item_holder).data("hide"));
+                clearTimeout(item_holder.data("hide"));
                 $('.item ul', item_holder).hide();
                 $('.midcom_services_toolbars_topic_title.hover', item_holder).removeClass("hover");
                 handle.addClass("hover");
                 children.show();
             });
             item.on('mouseout',function() {
-                $(item_holder).data('hide', setTimeout(function() {
+                item_holder.data('hide', setTimeout(function() {
                     handle.removeClass("hover");
                     children.hide();
                 }, 1000));

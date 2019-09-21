@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $('#content').on('click', 'a.thickbox', function(event) {
-        if (!$(this).data('initialized')) {
+        if (!this.dataset.initialized) {
             event.preventDefault();
 
             // Add ajax to each colorbox link. This will tell to Asgard that it
@@ -22,7 +22,7 @@ $(document).ready(function() {
             this.target = '_self';
 
             $(this).colorbox({maxHeight: '90%', maxWidth: '90%', fixed: true});
-            $(this).data('initialized', true);
+            this.dataset.initialized = true;
         }
     });
 });
