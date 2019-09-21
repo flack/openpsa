@@ -746,8 +746,7 @@ p
     border: none;
 }
 
-#midgard_admin_asgard_resizer:hover,
-#midgard_admin_asgard_resizer.hover
+#midgard_admin_asgard_resizer:hover
 {
   background-color: #eeeeef;
   visibility: visible;

@@ -235,7 +235,6 @@ a:hover
 }
 
 #container #template_openpsa2_resizer:hover,
-#container #template_openpsa2_resizer.hover,
 #container #template_openpsa2_resizer.ui-draggable-dragging
 {
   background-color: #eeeeef;

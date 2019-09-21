@@ -132,12 +132,6 @@ var org_openpsa_layout = {
         $('<div></div>')
             .attr('id', 'template_openpsa2_resizer')
             .css('left', $('#leftframe').width())
-            .mouseover(function() {
-                $(this).addClass('hover');
-            })
-            .mouseout(function() {
-                $(this).removeClass('hover');
-            })
             .appendTo('#container');
 
         $('#template_openpsa2_resizer').draggable({

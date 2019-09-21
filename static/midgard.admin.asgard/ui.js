@@ -2,12 +2,6 @@ $(document).ready(function() {
     $('<div></div>')
         .attr('id', 'midgard_admin_asgard_resizer')
         .css('left', $('#content').css('margin-left'))
-        .mouseover(function() {
-            $(this).addClass('hover');
-        })
-        .mouseout(function() {
-            $(this).removeClass('hover');
-        })
         .appendTo('#container-wrapper');
 
     $('#midgard_admin_asgard_resizer').draggable({
