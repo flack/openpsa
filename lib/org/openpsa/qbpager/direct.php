@@ -19,7 +19,7 @@ class org_openpsa_qbpager_direct extends org_openpsa_qbpager
     /**
      * Wraps to execute since this is what midcom QB does, too
      */
-    public function execute_unchecked()
+    public function execute_unchecked() : array
     {
         return $this->execute();
     }
@@ -27,7 +27,7 @@ class org_openpsa_qbpager_direct extends org_openpsa_qbpager
     /**
      * Wraps to count since this is what midcom QB does, too
      */
-    public function count_unchecked()
+    public function count_unchecked() : int
     {
         return $this->count();
     }

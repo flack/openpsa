@@ -45,13 +45,11 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Makes sure we have some absolutely required things properly set
      */
-    protected function _sanity_check() : bool
+    protected function _sanity_check()
     {
         if ($this->results_per_page < 1) {
-            debug_add('this->results_per_page is set to ' . $this->results_per_page . ', aborting', MIDCOM_LOG_WARN);
-            return false;
+            throw new LogicException('results_per_page is set to ' . $this->results_per_page);
         }
-        return true;
     }
 
     /**
@@ -242,20 +240,16 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         debug_add("set offset to {$this->_offset} and limit to {$this->results_per_page}");
     }
 
-    public function execute()
+    public function execute() : array
     {
-        if (!$this->_sanity_check()) {
-            return false;
-        }
+        $this->_sanity_check();
         $this->_qb_limits($this->_midcom_qb);
         return $this->_midcom_qb->execute();
     }
 
-    public function execute_unchecked()
+    public function execute_unchecked() : array
     {
-        if (!$this->_sanity_check()) {
-            return false;
-        }
+        $this->_sanity_check();
         $this->_qb_limits($this->_midcom_qb);
         return $this->_midcom_qb->execute_unchecked();
     }
@@ -267,45 +261,31 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     public function count_pages()
     {
-        if (!$this->_sanity_check()) {
-            return false;
-        }
+        $this->_sanity_check();
         $this->count_unchecked();
         return ceil($this->count / $this->results_per_page);
     }
 
     //Rest of supported methods wrapped with extra sanity check
-    public function add_constraint($param, $op, $val)
+    public function add_constraint(string $param, string $op, $val) : bool
     {
-        if (!$this->_sanity_check()) {
-            return false;
-        }
         $this->_midcom_qb_count->add_constraint($param, $op, $val);
         return $this->_midcom_qb->add_constraint($param, $op, $val);
     }
 
-    public function add_order($param, $sort='ASC')
+    public function add_order(string $param, string $sort = 'ASC') : bool
     {
-        if (!$this->_sanity_check()) {
-            return false;
-        }
         return $this->_midcom_qb->add_order($param, $sort);
     }
 
     public function begin_group($type)
     {
-        if (!$this->_sanity_check()) {
-            return false;
-        }
         $this->_midcom_qb_count->begin_group($type);
         $this->_midcom_qb->begin_group($type);
     }
 
     public function end_group()
     {
-        if (!$this->_sanity_check()) {
-            return false;
-        }
         $this->_midcom_qb_count->end_group();
         $this->_midcom_qb->end_group();
     }
@@ -316,11 +296,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $this->_midcom_qb->include_deleted();
     }
 
-    public function count()
+    public function count() : int
     {
-        if (!$this->_sanity_check()) {
-            return false;
-        }
+        $this->_sanity_check();
         if (   !$this->count
             || $this->_count_mode != 'count') {
             $this->count = $this->_midcom_qb_count->count();
@@ -329,11 +307,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return $this->count;
     }
 
-    public function count_unchecked()
+    public function count_unchecked() : int
     {
-        if (!$this->_sanity_check()) {
-            return false;
-        }
+        $this->_sanity_check();
         if (   !$this->count
             || $this->_count_mode != 'count_unchecked') {
             $this->count = $this->_midcom_qb_count->count_unchecked();
