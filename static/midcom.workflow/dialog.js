@@ -1,4 +1,4 @@
-var dialog = window.frameElement ? window.parent.$(window.frameElement.parentNode) : null;
+const dialog = window.frameElement ? window.parent.$(window.frameElement.parentNode) : null;
 
 function refresh_opener(url) {
     if (url === undefined) {

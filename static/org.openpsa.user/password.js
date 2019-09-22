@@ -1,5 +1,5 @@
 (function($) {
-    var classes = {
+    const classes = {
         shortPass: "org_openpsa_user_shortPass",
         badPass: "org_openpsa_user_badPass",
         goodPass: "org_openpsa_user_goodPass",

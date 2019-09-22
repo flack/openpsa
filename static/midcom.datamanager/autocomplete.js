@@ -16,7 +16,7 @@ $.widget( "custom.category_complete", $.ui.autocomplete, {
     }
 });
 
-var midcom_helper_datamanager2_autocomplete = {
+const midcom_helper_datamanager2_autocomplete = {
     get_default_options: function() {
         return {
             minLength: 2,

@@ -1,4 +1,4 @@
-var slide_speed = 0.4;
+const slide_speed = 0.4;
 
 function toggle_twisty(id) {
     var element = document.getElementById(id);

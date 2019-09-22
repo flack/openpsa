@@ -1,4 +1,4 @@
-var org_openpsa_tree = {
+const org_openpsa_tree = {
     setup: function(identifier, prefix, options) {
         var default_options = {
             minExpandLevel: 1,

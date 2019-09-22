@@ -1,4 +1,4 @@
-var openpsa_calendar_widget = {
+const openpsa_calendar_widget = {
     popstate: false,
     refresh: function() {
         if (window.opener.openpsa_calendar_instance) {

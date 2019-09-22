@@ -1,4 +1,4 @@
-var org_openpsa_widgets_tabs = {
+const org_openpsa_widgets_tabs = {
     loaded_scripts: [],
     popstate: false,
     initialize: function(uiprefix) {

@@ -112,7 +112,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $parser = new net_nemein_wiki_parser($this->page);
         $preview = $parser->get_html();
 
-        midcom::get()->head->add_jscript('var wikipage_preview = ' . json_encode(['content' => '<div class="wiki_preview">' . $preview . '</div>']));
+        midcom::get()->head->add_jscript('const wikipage_preview = ' . json_encode(['content' => '<div class="wiki_preview">' . $preview . '</div>']));
         midcom::get()->head->add_jquery_state_script('$("form.datamanager2 .form").prepend(wikipage_preview.content)');
     }
 

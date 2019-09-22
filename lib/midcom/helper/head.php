@@ -506,8 +506,8 @@ class midcom_helper_head
             define('MIDCOM_JQUERY_UI_URL', MIDCOM_STATIC_URL . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version'));
         }
 
-        $script  = "var MIDCOM_STATIC_URL = '" . MIDCOM_STATIC_URL . "';\n";
-        $script .= "var MIDCOM_PAGE_PREFIX = '" . midcom_connection::get_url('self') . "';\n";
+        $script  = "const MIDCOM_STATIC_URL = '" . MIDCOM_STATIC_URL . "',\n";
+        $script .= "      MIDCOM_PAGE_PREFIX = '" . midcom_connection::get_url('self') . "';\n";
 
         $this->_jquery_init_scripts .= $this->render_js('', ['content' => trim($script)]);
 

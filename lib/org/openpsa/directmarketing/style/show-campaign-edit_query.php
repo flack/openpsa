@@ -18,39 +18,38 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title u
 ?>
 <!-- Automatically built on PHP level -->
 <script type="text/javascript">
-    var org_openpsa_directmarketing_edit_query_property_map = <?php echo json_encode($property_map); ?>;
-    var org_openpsa_directmarketing_edit_query_match_map = {
-        'LIKE': '<?php echo $data['l10n']->get('contains'); ?>',
-        'NOT LIKE': '<?php echo $data['l10n']->get('does not contain'); ?>',
-        '=': '<?php echo $data['l10n']->get('equals'); ?>',
-        '<>': '<?php echo $data['l10n']->get('not equals'); ?>',
-        '<': '<?php echo $data['l10n']->get('less than'); ?>',
-        '>': '<?php echo $data['l10n']->get('greater than'); ?>'
-    };
-    var org_openpsa_directmarketing_edit_query_l10n_map = {
-        'in_domain': '<?php echo $data['l10n']->get('in domain'); ?>',
-        'with_name': '<?php echo $data['l10n']->get('with name'); ?>',
-        'add_rule': '<?php echo $data['l10n']->get('add rule'); ?>',
-        'add_group': '<?php echo $data['l10n']->get('add group'); ?>',
-        'remove_group': '<?php echo $data['l10n']->get('remove group'); ?>',
-        'remove_rule': '<?php echo $data['l10n']->get('remove rule'); ?>',
-        'static_url': '<?php echo MIDCOM_STATIC_URL; ?>'
-    }
-    var org_openpsa_directmarketing_group_select_map = {
-    'AND': '<?php echo $data['l10n']->get('and'); ?>',
-    'OR': '<?php echo $data['l10n']->get('or'); ?>'
-    }
-
-    var org_openpsa_directmarketing_class_map = {
-    'person': 'org_openpsa_contacts_person_dba',
-    'group': 'org_openpsa_contacts_group_dba',
-    'membership': 'midgard_member',
-    'org_openpsa_contacts_person_dba' : 'person',
-    'org_openpsa_contacts_group_dba' : 'group',
-    'midgard_member': 'membership',
-    'generic_parameters': 'midgard_parameter',
-    'midgard_parameter': 'generic_parameters'
-    }
+    const org_openpsa_directmarketing_edit_query_property_map = <?php echo json_encode($property_map); ?>,
+        org_openpsa_directmarketing_edit_query_match_map = {
+            'LIKE': '<?php echo $data['l10n']->get('contains'); ?>',
+            'NOT LIKE': '<?php echo $data['l10n']->get('does not contain'); ?>',
+            '=': '<?php echo $data['l10n']->get('equals'); ?>',
+            '<>': '<?php echo $data['l10n']->get('not equals'); ?>',
+            '<': '<?php echo $data['l10n']->get('less than'); ?>',
+            '>': '<?php echo $data['l10n']->get('greater than'); ?>'
+        },
+        org_openpsa_directmarketing_edit_query_l10n_map = {
+            'in_domain': '<?php echo $data['l10n']->get('in domain'); ?>',
+            'with_name': '<?php echo $data['l10n']->get('with name'); ?>',
+            'add_rule': '<?php echo $data['l10n']->get('add rule'); ?>',
+            'add_group': '<?php echo $data['l10n']->get('add group'); ?>',
+            'remove_group': '<?php echo $data['l10n']->get('remove group'); ?>',
+            'remove_rule': '<?php echo $data['l10n']->get('remove rule'); ?>',
+            'static_url': '<?php echo MIDCOM_STATIC_URL; ?>'
+        },
+        org_openpsa_directmarketing_group_select_map = {
+            'AND': '<?php echo $data['l10n']->get('and'); ?>',
+            'OR': '<?php echo $data['l10n']->get('or'); ?>'
+        },
+        org_openpsa_directmarketing_class_map = {
+            'person': 'org_openpsa_contacts_person_dba',
+            'group': 'org_openpsa_contacts_group_dba',
+            'membership': 'midgard_member',
+            'org_openpsa_contacts_person_dba' : 'person',
+            'org_openpsa_contacts_group_dba' : 'group',
+            'midgard_member': 'membership',
+            'generic_parameters': 'midgard_parameter',
+            'midgard_parameter': 'generic_parameters'
+        };
 </script>
 
 <h2><?php echo $data['l10n']->get('rules wizard'); ?></h2>

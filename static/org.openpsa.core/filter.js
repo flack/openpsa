@@ -45,7 +45,7 @@ $(document).ready(function() {
     });
 });
 
-var org_openpsa_filter = {
+const org_openpsa_filter = {
     init_timeframe: function (ids) {
         var datepickers = $('#' + ids.from + ', #' + ids.to).datepicker({
             dateFormat: 'yy-mm-dd',

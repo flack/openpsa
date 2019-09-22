@@ -1,4 +1,4 @@
-var org_openpsa_jsqueue = {
+const org_openpsa_jsqueue = {
     actions: [],
     add: function (action) {
         this.actions.push(action);
@@ -11,7 +11,7 @@ var org_openpsa_jsqueue = {
     }
 };
 
-var org_openpsa_resizers = {
+const org_openpsa_resizers = {
     handlers: {},
     queue: [],
     append_handler: function(identifier, callback) {
@@ -43,7 +43,7 @@ var org_openpsa_resizers = {
 };
 org_openpsa_resizers.bind_events();
 
-var org_openpsa_layout = {
+const org_openpsa_layout = {
     clip_toolbar: function() {
         if ($('#org_openpsa_toolbar > ul.view_toolbar').length === 0) {
             // there seem to be no toolbar buttons, so we don't need to do anything

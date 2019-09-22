@@ -1,4 +1,4 @@
-var midcom_jqgrid_presets = {
+const midcom_jqgrid_presets = {
     autowidth: true,
     altRows: true,
     altclass: 'even',
@@ -24,7 +24,7 @@ $.jgrid.defaults = $.extend($.jgrid.defaults, midcom_jqgrid_presets);
 $.jgrid.search.searchOnEnter = false;
 $.jgrid.search.defaultSearch = 'cn';
 
-var midcom_grid_resize = {
+const midcom_grid_resize = {
     timer: false,
     containment: '#content-text',
     firstrun: true,
@@ -248,7 +248,7 @@ var midcom_grid_resize = {
 
 org_openpsa_resizers.append_handler('grid', midcom_grid_resize.event_handler);
 
-var midcom_grid_editable = {
+const midcom_grid_editable = {
     grid_id: '',
     last_added_row: 0,
     default_options: {
@@ -449,7 +449,7 @@ var midcom_grid_editable = {
     }
 };
 
-var midcom_grid_footer = {
+const midcom_grid_footer = {
     set_field: function(grid_id, colname, operation) {
         var value = $('#' + grid_id).jqGrid('getCol', colname, false, operation),
             footerdata = {};
@@ -458,7 +458,7 @@ var midcom_grid_footer = {
     }
 };
 
-var midcom_grid_helper = {
+const midcom_grid_helper = {
     event_handler_added: false,
     active_grids: [],
     maximized_grid: '',
@@ -601,7 +601,7 @@ var midcom_grid_helper = {
     }
 };
 
-var midcom_grid_csv = {
+const midcom_grid_csv = {
     configs: {},
     separator: ';',
     add: function (config) {
@@ -646,7 +646,7 @@ var midcom_grid_csv = {
     }
 };
 
-var midcom_grid_batch_processing = {
+const midcom_grid_batch_processing = {
     initialize: function(config) {
         $('#form_' + config.id).hide();
 
@@ -725,7 +725,7 @@ var midcom_grid_batch_processing = {
     }
 };
 
-var midcom_grid_row_actions = {
+const midcom_grid_row_actions = {
     update_totals: function(table, config) {
         var total = 0,
             row_sum,

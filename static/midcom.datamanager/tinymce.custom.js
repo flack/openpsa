@@ -1,4 +1,4 @@
-var tiny = {
+const tiny = {
     filepicker: function(title, url, suffix) {
         return function(callback, value, meta) {
             var height = Math.min(document.body.clientHeight - 50, 600),
