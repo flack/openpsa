@@ -181,7 +181,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
     }
 
-    private function _dump_rows(string $output)
+    private function _dump_rows($output)
     {
         reset($this->_datamanagers);
         $first_type = key($this->_datamanagers);
@@ -217,7 +217,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
     }
 
-    private function _print_row(array $row, string $output)
+    private function _print_row(array $row, $output)
     {
         $row = array_map([$this, 'encode_csv'], $row);
         fputcsv($output, $row, $this->csv['s'], $this->csv['q']);

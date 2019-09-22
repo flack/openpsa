@@ -103,7 +103,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         return $this->send($request, $this->basicauth['user'], $this->basicauth['password']);
     }
 
-    private function send(Request $request, string $username, string $password)
+    private function send(Request $request, $username, $password)
     {
         $request = $request->withHeader('User-Agent', 'Midgard/' . substr(mgd_version(), 0, 4));
 
