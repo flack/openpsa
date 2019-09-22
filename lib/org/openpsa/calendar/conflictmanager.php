@@ -82,7 +82,7 @@ class org_openpsa_calendar_conflictmanager
         return $message . '</ul>';
     }
 
-    private function _add_event_constraints(midcom_core_querybuilder $qb, $fieldname)
+    private function _add_event_constraints(midcom_core_querybuilder $qb, string $fieldname)
     {
         $qb->add_constraint($fieldname . '.busy', '<>', false);
         if ($this->_event->id) {
@@ -239,7 +239,7 @@ class org_openpsa_calendar_conflictmanager
         }
     }
 
-    private function flag_busy($type, $id, $event)
+    private function flag_busy(string $type, int $id, org_openpsa_calendar_event_dba $event)
     {
         $field = 'busy_' . $type;
         if (!array_key_exists($id, $this->$field)) {
@@ -250,7 +250,7 @@ class org_openpsa_calendar_conflictmanager
         $this->{$field}[$id][] = $event;
     }
 
-    private function is_processed($type, $eid, $id) : bool
+    private function is_processed(string $type, int $eid, int $id) : bool
     {
         static $processed = [];
         $cache_key = $type . '::' . $eid . '::' . $id;

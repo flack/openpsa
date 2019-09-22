@@ -32,7 +32,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $this->_guid = $object->guid;
     }
 
-    private function _generate_rcs_filename($guid) : string
+    private function _generate_rcs_filename(string $guid) : string
     {
         // Keep files organized to subfolders to keep filesystem sane
         $dirpath = $this->_config->get_rcs_root() . "/{$guid[0]}/{$guid[1]}";
@@ -261,7 +261,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      *
      * @param string $what objectid (usually the guid)
      */
-    private function rcs_gethistory($what) : array
+    private function rcs_gethistory(string $what) : array
     {
         $history = $this->rcs_exec('rlog', $what . ',v');
         $revisions = [];
@@ -294,7 +294,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * @param string $filename The file to operate on
      * @return string command result.
      */
-    private function rcs_exec($command, $filename) : string
+    private function rcs_exec(string $command, string $filename) : string
     {
         if (!is_readable($filename)) {
             debug_add('file ' . $filename . ' is not readable, returning empty result', MIDCOM_LOG_INFO);
@@ -313,7 +313,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     /**
      * Writes $data to file $guid, does not return anything.
      */
-    private function rcs_writefile($guid, $data)
+    private function rcs_writefile(string $guid, $data)
     {
         if (   !is_writable($this->_config->get_rcs_root())
             || empty($guid)) {
@@ -329,7 +329,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * @param string $guid
      * @return string xml representation of guid
      */
-    private function rcs_readfile($guid)
+    private function rcs_readfile(string $guid)
     {
         $filename = $this->_generate_rcs_filename($guid);
         if (file_exists($filename)) {
@@ -359,7 +359,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      *      3 on missing object->guid
      *      nonzero on error in one of the commands.
      */
-    private function rcs_create(midcom_core_dbaobject $object, $description)
+    private function rcs_create(midcom_core_dbaobject $object, string $description)
     {
         $data = $this->rcs_object2data($object);
 
@@ -379,7 +379,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         return $status;
     }
 
-    private function exec($command, $use_rcs_bindir = true)
+    private function exec(string $command, $use_rcs_bindir = true)
     {
         $status = null;
         $output = null;

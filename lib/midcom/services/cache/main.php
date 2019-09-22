@@ -110,7 +110,7 @@ class midcom_services_cache implements EventSubscriberInterface
      *
      * @param string $name The name of the cache module to load.
      */
-    private function load_module($name)
+    private function load_module(string $name)
     {
         if (isset($this->_modules[$name])) {
             return;

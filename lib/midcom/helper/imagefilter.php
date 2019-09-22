@@ -236,10 +236,8 @@ class midcom_helper_imagefilter
      *
      * All filters will use defaults for missing arguments (which can
      * result in a null operation) and will ignore excessive arguments.
-     *
-     * @param string $cmd The command to be executed.
      */
-    private function process_command($cmd)
+    private function process_command(string $cmd)
     {
         if (!preg_match('/([a-z_:]*)\(([^)]*)\)/', $cmd, $matches)) {
             throw new midcom_error("Failed to parse command {$cmd}");
@@ -258,7 +256,7 @@ class midcom_helper_imagefilter
     }
 
     /*********** INTERNAL HELPERS ******************/
-    private function _run_command($cmd, $tempfile = null) : array
+    private function _run_command(string $cmd, $tempfile = null) : array
     {
         debug_add("executing: {$cmd}");
         $output = null;
@@ -292,7 +290,7 @@ class midcom_helper_imagefilter
      * This will replace the original file with the processed copy
      * of $tmpfile, deleting the temporary file afterwards.
      */
-    private function _process_tempfile($tmpname)
+    private function _process_tempfile(string $tmpname)
     {
         copy($tmpname, $this->_filename);
         unlink($tmpname);

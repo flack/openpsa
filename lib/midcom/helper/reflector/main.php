@@ -341,7 +341,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         return '<i class="fa fa-' . $icon . '"></i>';
     }
 
-    private static function _get_icon_map($config_key, $fallback) : array
+    private static function _get_icon_map(string $config_key, string $fallback) : array
     {
         $config = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config');
         $icons2classes = $config->get($config_key);

@@ -193,7 +193,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         }
     }
 
-    private function _show_memberships($identifier)
+    private function _show_memberships(string $identifier)
     {
         if (empty($this->_request_data[$identifier])) {
             return;

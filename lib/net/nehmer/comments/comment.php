@@ -125,7 +125,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         return $qb->count_unchecked();
     }
 
-    private static function _prepare_query($guid, $paging = false, $limit = false)
+    private static function _prepare_query(string $guid, bool $paging = false, $limit = false)
     {
         if ($paging !== false) {
             $qb = new org_openpsa_qbpager(self::class, 'net_nehmer_comments_comment');
@@ -298,7 +298,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         return $log_entries;
     }
 
-    private function _log_moderation($action, $reporter = null)
+    private function _log_moderation(string $action, $reporter = null)
     {
         if ($reporter === null) {
             if (midcom::get()->auth->user) {

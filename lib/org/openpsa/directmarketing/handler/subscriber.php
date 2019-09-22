@@ -58,7 +58,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         }
     }
 
-    private function notify($message, $label, $type)
+    private function notify(string $message, string $label, string $type)
     {
         midcom::get()->uimessages->add($this->_l10n->get($this->_component),
             sprintf($this->_l10n->get($message), $this->_request_data['person']->name, $label),

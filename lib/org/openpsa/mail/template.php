@@ -124,7 +124,7 @@ class org_openpsa_mail_template
         return preg_replace_callback($this->_patterns, [$this, '_replace_callback'], $input);
     }
 
-    private function _replace_callback($matches)
+    private function _replace_callback(array $matches)
     {
         $key = $matches[1];
         $value = $this->_parameters[$key];
@@ -166,7 +166,7 @@ class org_openpsa_mail_template
         return $result;
     }
 
-    private function prepare_value($key, $value) : string
+    private function prepare_value(string $key, $value) : string
     {
         if (is_object($value)) {
             $value = get_class($value) . " object";

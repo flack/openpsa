@@ -144,7 +144,7 @@ class midcom_services_i18n_l10n
      *
      * - Leading and trailing whitespace will be eliminated
      */
-    private function _load_language($lang)
+    private function _load_language(string $lang)
     {
         $this->_stringdb[$lang] = [];
         $filename = "{$this->_library_filename}.{$lang}.txt";
@@ -181,7 +181,7 @@ class midcom_services_i18n_l10n
         }
     }
 
-    private function parse_data(array $data, $lang, $filename) : array
+    private function parse_data(array $data, string $lang, string $filename) : array
     {
         $stringtable = [];
         $version = '';
@@ -261,7 +261,7 @@ class midcom_services_i18n_l10n
         return $stringtable;
     }
 
-    private function error($message, $filename, $line) : midcom_error
+    private function error(string $message, string $filename, int $line) : midcom_error
     {
         $line++; // Array is 0-indexed
         return new midcom_error('L10n DB SYNTAX ERROR: ' .  $message . ' at ' . $filename . ' ' . $line);
@@ -274,7 +274,7 @@ class midcom_services_i18n_l10n
      * @param string $lang The language to check for.
      * @see midcom_services_i18n_l10n::_load_language()
      */
-    private function _check_for_language($lang)
+    private function _check_for_language(string $lang)
     {
         if (!array_key_exists($lang, $this->_stringdb)) {
             $this->_load_language($lang);

@@ -78,7 +78,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
      * @param string $dba_class
      * @param mixed $contact_id
      */
-    private static function get_billing_data($dba_class, $contact_id)
+    private static function get_billing_data(string $dba_class, $contact_id)
     {
         if ($contact_id == 0) {
             return false;

@@ -145,7 +145,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return false;
     }
 
-    private static function _check_permissions($deleted) : bool
+    private static function _check_permissions(bool $deleted) : bool
     {
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
@@ -187,7 +187,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return $child_objects;
     }
 
-    private function _get_type_qb($schema_type, $deleted)
+    private function _get_type_qb(string $schema_type, bool $deleted)
     {
         if (empty($schema_type)) {
             debug_add('Passed schema_type argument is empty, this is fatal', MIDCOM_LOG_ERROR);
@@ -212,7 +212,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Figure out constraint(s) to use to get child objects
      */
-    private function _get_link_fields($schema_type, $for_object) : array
+    private function _get_link_fields(string $schema_type, $for_object) : array
     {
         static $cache = [];
         $cache_key = $schema_type . '-' . get_class($for_object);
@@ -410,7 +410,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return $child_classes;
     }
 
-    private function _resolve_child_classes_links_back($property, $prospect_type, $schema_type) : bool
+    private function _resolve_child_classes_links_back($property, $prospect_type, string $schema_type) : bool
     {
         if (empty($property)) {
             return false;

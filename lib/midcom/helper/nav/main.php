@@ -349,7 +349,7 @@ class midcom_helper_nav
         return false;
     }
 
-    private function _find_leaf_in_topic($topic, $guid)
+    private function _find_leaf_in_topic($topic, string $guid)
     {
         foreach ($this->list_leaves($topic, true) as $leafid) {
             $leaf = $this->get_leaf($leafid);

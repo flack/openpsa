@@ -158,7 +158,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         return $this->get($component, '_guid');
     }
 
-    private function get($component, $suffix)
+    private function get(string $component, string $suffix)
     {
         if (!array_key_exists($component, $this->components)) {
             return false;

@@ -193,7 +193,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         $this->_request_data['asgard_toolbar']->add_items($buttons);
     }
 
-    private function _mass_delete($guids)
+    private function _mass_delete(array $guids)
     {
         foreach ($guids as $guid) {
             try {
@@ -208,7 +208,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         }
     }
 
-    private function _mass_approve($guids)
+    private function _mass_approve(array $guids)
     {
         foreach ($guids as $guid) {
             try {

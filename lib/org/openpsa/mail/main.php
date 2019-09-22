@@ -154,7 +154,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     /**
      * Tries to convert HTML to plaintext
      */
-    private function html2text($html) : string
+    private function html2text(string $html) : string
     {
         // strip all tags except br
         $text = strip_tags($html, '<br>');

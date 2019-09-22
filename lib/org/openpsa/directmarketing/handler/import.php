@@ -33,7 +33,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     private $_import_success = false;
 
-    private function _prepare_handler($guid)
+    private function _prepare_handler(string $guid)
     {
         midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class);
 
@@ -65,7 +65,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param string $handler_id
      * @param string $guid The object's GUID
      */
-    private function _update_breadcrumb($handler_id, $guid)
+    private function _update_breadcrumb($handler_id, string $guid)
     {
         $this->add_breadcrumb($this->router->generate('import_main', ['guid' => $guid]), $this->_l10n->get('import subscribers'));
 

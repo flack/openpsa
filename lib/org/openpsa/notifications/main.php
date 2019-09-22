@@ -96,7 +96,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
      * @param midcom_db_person $recipient The receiving person
      * @return string option supported by user
      */
-    private static function _merge_notification_preferences($component, $action, midcom_db_person $recipient)
+    private static function _merge_notification_preferences(string $component, string $action, midcom_db_person $recipient)
     {
         $preference = 'none';
 

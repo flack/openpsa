@@ -100,7 +100,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     /**
      * Posts the xml to the suggested url using Buzz.
      */
-    private function post($optimize = false)
+    private function post(bool $optimize = false)
     {
         $request = $this->prepare_request('update', $this->factory->to_xml())
             ->withMethod('POST');
@@ -167,7 +167,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         return $result;
     }
 
-    private function prepare_request($action, $body = null) : Request
+    private function prepare_request(string $action, $body = null) : Request
     {
         $uri = "http://" . midcom::get()->config->get('indexer_xmltcp_host');
         $uri .= ":" . midcom::get()->config->get('indexer_xmltcp_port');

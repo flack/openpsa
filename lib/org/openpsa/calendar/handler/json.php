@@ -34,12 +34,12 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
     {
         midcom::get()->auth->require_valid_user();
         $this->root_event = org_openpsa_calendar_interface::find_root_event();
-        $this->load_events($request->query->get('start'), $request->query->get('end'));
-        $this->add_holidays($request->query->get('start'), $request->query->get('end'));
+        $this->load_events($request->query->getInt('start'), $request->query->getInt('end'));
+        $this->add_holidays($request->query->getInt('start'), $request->query->getInt('end'));
         return new midcom_response_json(array_values($this->events));
     }
 
-    private function add_holidays($from, $to)
+    private function add_holidays(int $from, int $to)
     {
         $from = new DateTime(strftime('%Y-%m-%d', $from));
         $to = new DateTime(strftime('%Y-%m-%d', $to));
@@ -62,7 +62,7 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
         }
     }
 
-    private function get_filters($type) : array
+    private function get_filters(string $type) : array
     {
         if (!$this->filters) {
             $this->filters = ['people' => [], 'groups' => [], 'resources' => []];
@@ -78,7 +78,7 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
         return $this->filters[$type];
     }
 
-    private function load_memberships($from, $to) : array
+    private function load_memberships(int $from, int $to) : array
     {
         $user = midcom::get()->auth->user->get_storage();
         $mc = org_openpsa_calendar_event_member_dba::new_collector('eid.up', $this->root_event->id);
@@ -103,7 +103,7 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
         return $mc->get_rows(['uid', 'eid']);
     }
 
-    private function load_resources($from, $to) : array
+    private function load_resources(int $from, int $to) : array
     {
         $selected = $this->get_filters('resources');
         if (empty($selected)) {
@@ -119,11 +119,8 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
 
     /**
      * Loads calendar events
-     *
-     * @param int $from Start time
-     * @param int $to End time
      */
-    private function load_events($from, $to)
+    private function load_events(int $from, int $to)
     {
         foreach ($this->load_memberships($from, $to) as $membership) {
             $event = org_openpsa_calendar_event_dba::get_cached($membership['eid']);

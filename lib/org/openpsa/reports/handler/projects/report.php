@@ -27,7 +27,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
     /**
      * Get array of IDs of all tasks in subtree
      */
-    private function _expand_task($project_guid) : array
+    private function _expand_task(string $project_guid) : array
     {
         $project = org_openpsa_projects_project::get_cached($project_guid);
         $mc = org_openpsa_projects_task_dba::new_collector();
@@ -65,7 +65,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         return $qb_hr->execute();
     }
 
-    private function _apply_filter(midcom_core_query $qb, $name, $field, $value)
+    private function _apply_filter(midcom_core_query $qb, string $name, string $field, $value)
     {
         $filter = $name . '_filter';
         if (array_key_exists($filter, $this->_request_data['query_data'])) {
@@ -144,7 +144,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         }
     }
 
-    private function add_to_group($new_row, $matching, $sort, $title)
+    private function add_to_group(array $new_row, string $matching, string $sort, string $title)
     {
         $rows =& $this->_request_data['report']['rows'];
         if (array_key_exists($matching, $rows)) {

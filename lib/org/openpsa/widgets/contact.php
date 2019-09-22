@@ -176,7 +176,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         return true;
     }
 
-    private function _render_name($fallback_image) : string
+    private function _render_name(string $fallback_image) : string
     {
         $name = "<span class=\"given-name\">{$this->contact_details['firstname']}</span> <span class=\"family-name\">{$this->contact_details['lastname']}</span>";
 
@@ -310,7 +310,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         echo "</div>\n";
     }
 
-    private function _show_phone_number($field, $type)
+    private function _show_phone_number(string $field, string $type)
     {
         if (!empty($this->contact_details[$field])) {
             echo "<li><a title=\"Dial {$this->contact_details[$field]}\" href=\"tel:{$this->contact_details[$field]}\"><i class=\"fa fa-{$type}\"></i>{$this->contact_details[$field]}</a></li>\n";

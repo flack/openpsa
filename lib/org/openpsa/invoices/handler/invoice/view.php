@@ -118,7 +118,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         $this->add_next_previous($this->invoice, 'invoice/');
     }
 
-    private function build_button($action, $icon) : array
+    private function build_button(string $action, string $icon) : array
     {
         return [
             MIDCOM_TOOLBAR_URL => 'invoice/action/' . $action . '/',

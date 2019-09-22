@@ -103,7 +103,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      *
      * @param boolean $inbound True means toGuid == $obj->guid, false fromGuid == $obj->guid
      */
-    private function _get_object_links($inbound) : array
+    private function _get_object_links(bool $inbound) : array
     {
         $arr = [];
         if ($inbound) {
@@ -174,7 +174,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         midcom_show_style('relatedto_end');
     }
 
-    private function _show_list($direction)
+    private function _show_list(string $direction)
     {
         if (empty($this->_links[$direction])) {
             return;
@@ -251,7 +251,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         }
     }
 
-    private function get_node_url($component)
+    private function get_node_url(string $component)
     {
         return org_openpsa_core_siteconfig::get_instance()->get_node_full_url($component);
     }

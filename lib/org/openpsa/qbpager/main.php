@@ -86,9 +86,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Fetch all $_GET variables
      */
-    private function _get_query_string($page_var, $page_number) : string
+    private function _get_query_string(string $page_var, int $page_number) : string
     {
-        $query = [$page_var => (int) $page_number];
+        $query = [$page_var => $page_number];
 
         foreach ($_GET as $key => $value) {
             if ($key != $page_var && $key != '') {
@@ -198,7 +198,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return $pages;
     }
 
-    private function show($name, $data)
+    private function show(string $name, array $data)
     {
         $context = midcom_core_context::enter();
         $context->set_custom_key('request_data', $data);

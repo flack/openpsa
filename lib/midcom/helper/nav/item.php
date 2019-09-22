@@ -71,7 +71,7 @@ abstract class midcom_helper_nav_item
         return array_key_exists($name, $data);
     }
 
-    private function translate_name($name)
+    private function translate_name(string $name)
     {
         $const = 'MIDCOM_NAV_' . strtoupper($name);
         if (defined($const)) {

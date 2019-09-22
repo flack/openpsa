@@ -418,7 +418,7 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param midcom_db_person $person The field's content.
      */
-    private function add_person($name, $person)
+    private function add_person(string $name, $person)
     {
         if (!is_object($person)) {
             if ($person !== null) {

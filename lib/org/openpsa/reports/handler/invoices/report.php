@@ -62,7 +62,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.grid/FileSaver.js');
     }
 
-    private function _get_invoices_for_subscription($deliverable, $at_entry) : array
+    private function _get_invoices_for_subscription(org_openpsa_sales_salesproject_deliverable_dba $deliverable, midcom_services_at_entry_dba $at_entry) : array
     {
         if (   $deliverable->invoiceByActualUnits
             && $at_entry->arguments['cycle'] > 1) {
@@ -163,12 +163,12 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         return $invoices;
     }
 
-    private function _filter_by_date($inv) : bool
+    private function _filter_by_date(org_openpsa_invoices_invoice_dba $inv) : bool
     {
         return $inv->{$this->_request_data['date_field']} <= $this->_request_data['end'];
     }
 
-    private function _load_invoices($status) : array
+    private function _load_invoices(string $status) : array
     {
         if ($status == 'scheduled') {
             $siteconfig = org_openpsa_core_siteconfig::get_instance();

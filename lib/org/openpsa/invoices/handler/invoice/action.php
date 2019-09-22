@@ -32,7 +32,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $this->old_status = $this->invoice->get_status();
     }
 
-    private function reply($success, $message) : Response
+    private function reply(bool $success, string $message) : Response
     {
         $message = [
             'title' => $this->_l10n->get($this->_component),

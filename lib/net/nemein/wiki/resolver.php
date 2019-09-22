@@ -40,7 +40,7 @@ class net_nemein_wiki_resolver
         return "{$node[MIDCOM_NAV_FULLURL]}{$wikipage->name}/";
     }
 
-    private function _list_wiki_nodes($node, $prefix = '') : array
+    private function _list_wiki_nodes($node, string $prefix = '') : array
     {
         static $nap = null;
         if ($nap === null) {
@@ -122,7 +122,7 @@ class net_nemein_wiki_resolver
         return $matches;
     }
 
-    private function resolve_namespaces($path, array &$matches, $levels, $force_resolve_folder_tree, $force_as_root)
+    private function resolve_namespaces(string $path, array &$matches, array $levels, bool $force_resolve_folder_tree, bool $force_as_root)
     {
         /* We store the Wiki folder hierarchy in a static array
          that is populated only once, and even then only the
@@ -175,7 +175,7 @@ class net_nemein_wiki_resolver
         return $folder_tree[$directory];
     }
 
-    private function _resolve_folder_tree($force_as_root) : array
+    private function _resolve_folder_tree(bool $force_as_root) : array
     {
         $nap = new midcom_helper_nav();
 

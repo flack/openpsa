@@ -190,7 +190,7 @@ class midcom_services_metadata
         }
     }
 
-    private function _add_opengraph_metadata($view_metadata)
+    private function _add_opengraph_metadata(midcom_helper_metadata $view_metadata)
     {
         $opengraph_type = $view_metadata->object->get_parameter('midcom.helper.metadata', 'opengraph_type');
         if (   $opengraph_type

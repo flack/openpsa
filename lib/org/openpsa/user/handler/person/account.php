@@ -156,7 +156,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         }
     }
 
-    private function load_person($identifier) : bool
+    private function load_person(string $identifier) : bool
     {
         $this->person = new midcom_db_person($identifier);
         $this->person->require_do('midgard:update');

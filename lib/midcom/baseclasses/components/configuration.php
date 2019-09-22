@@ -68,7 +68,7 @@ class midcom_baseclasses_components_configuration
      *
      * @param string $component
      */
-    private static function _initialize($component)
+    private static function _initialize(string $component)
     {
         self::$_data[$component] = [
             'active_leaf' => false,
@@ -92,7 +92,7 @@ class midcom_baseclasses_components_configuration
      *
      * @see midcom_helper_configuration
      */
-    private static function _load_configuration($component)
+    private static function _load_configuration(string $component)
     {
         $data = [];
         $loader = midcom::get()->componentloader;

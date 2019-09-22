@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  */
 class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_components_handler
 {
-    private function load_datamanager(org_openpsa_expenses_hour_report_dba $report, $defaults = [], $schema = null) : datamanager
+    private function load_datamanager(org_openpsa_expenses_hour_report_dba $report, array $defaults = [], $schema = null) : datamanager
     {
         return datamanager::from_schemadb($this->_config->get('schemadb_hours'))
             ->set_defaults($defaults)
@@ -133,7 +133,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         return new midcom_response_relocate($relocate);
     }
 
-    private function parse_input(ParameterBag $input, $action)
+    private function parse_input(ParameterBag $input, string $action)
     {
         if (!in_array($action, ['invoiceable', 'invoice', 'task'])) {
             throw new midcom_error('passed action ' . $action . ' is unknown');

@@ -18,7 +18,7 @@ class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_c
         return org_openpsa_invoices_billing_data_dba::class;
     }
 
-    private function get_billingdata($linkGuid) : org_openpsa_invoices_billing_data_dba
+    private function get_billingdata(string $linkGuid) : org_openpsa_invoices_billing_data_dba
     {
         $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
         $qb->add_constraint("linkGuid", "=", $linkGuid);

@@ -81,7 +81,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
      * @param array $subscriber
      * @param midcom_core_dbaobject $object
      */
-    private function _datamanager_process($type, array $subscriber, midcom_core_dbaobject $object)
+    private function _datamanager_process(string $type, array $subscriber, midcom_core_dbaobject $object)
     {
         if (empty($subscriber[$type])) {
             // No fields for this type, skip DM phase

@@ -76,7 +76,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      * @param string $final_query reference to the query string to be passed on to the indexer.
      * @param mixed $terms array or string to append
      */
-    private function append_terms_recursive(&$final_query, $terms)
+    private function append_terms_recursive(string &$final_query, $terms)
     {
         if (is_array($terms)) {
             foreach ($terms as $term) {

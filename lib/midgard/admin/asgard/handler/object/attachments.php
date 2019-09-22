@@ -123,7 +123,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * @param string $filename
      * @param boolean $autocreate
      */
-    private function _get_file($filename, $autocreate = false) : midcom_db_attachment
+    private function _get_file(string $filename, bool $autocreate = false) : midcom_db_attachment
     {
         $qb = midcom_db_attachment::new_query_builder();
         $qb->add_constraint('parentguid', '=', $this->_object->guid);
@@ -174,7 +174,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         }
     }
 
-    private function prepare_object($guid)
+    private function prepare_object(string $guid)
     {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
@@ -205,7 +205,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         return $this->get_response();
     }
 
-    private function relocate_to_file($filename) : midcom_response_relocate
+    private function relocate_to_file(string $filename) : midcom_response_relocate
     {
         $url = $this->router->generate('object_attachments_edit', [
             'guid' => $this->_object->guid,

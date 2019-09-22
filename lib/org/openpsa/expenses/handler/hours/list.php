@@ -158,7 +158,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         return $this->show('hours_grid');
     }
 
-    private function prepare_request_data($prefix = '', $suffix = '')
+    private function prepare_request_data(string $prefix = '', string $suffix = '')
     {
         $this->_request_data['hours'] = $this->qb->execute();
 

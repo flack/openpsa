@@ -124,7 +124,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         return $this->_create_topic($prefix);
     }
 
-    private function _update_topic($prefix, $old_name)
+    private function _update_topic(string $prefix, string $old_name)
     {
         if (isset($this->_controller->get_form_values()['style']) && $this->_controller->get_form_values()['style'] == '__create') {
             $this->edit_topic->style = $this->_create_style($this->edit_topic->name);
@@ -151,7 +151,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         return preg_replace("/{$old_name}\/\$/", "{$this->edit_topic->name}/", $prefix);
     }
 
-    private function _create_topic($prefix) : string
+    private function _create_topic(string $prefix) : string
     {
         midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder created'));
 
@@ -171,7 +171,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      * @param string $style_name Name of the style
      * @return string Style path
      */
-    private function _create_style($style_name) : string
+    private function _create_style(string $style_name) : string
     {
         $style = new midcom_db_style();
         $style->name = $style_name;

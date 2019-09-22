@@ -89,7 +89,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $this->process_notify_date((int) $formdata['notify'], $this->_deliverable);
     }
 
-    private function process_at_entry($at_entry, $next_cycle)
+    private function process_at_entry(int $at_entry, int $next_cycle)
     {
         if (!empty($at_entry)) {
             $entry = new midcom_services_at_entry_dba($at_entry);

@@ -69,7 +69,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         ]);
     }
 
-    private function update($input)
+    private function update(string $input)
     {
         $vcalendar = Reader::read($input);
         if (!$vcalendar->select('VEVENT')) {

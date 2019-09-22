@@ -84,7 +84,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         $this->add_value_property($this->_other_prefix . 'Guid');
     }
 
-    private function _set_direction($dir)
+    private function _set_direction(string $dir)
     {
         if ($dir == 'incoming') {
             $this->_object_prefix = 'to';
@@ -137,10 +137,8 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
     /**
      * Apply constraints (if any) to the final object QBs
-     *
-     * @param midcom_core_querybuilder $qb the QB instance in question
      */
-    private function _apply_object_constraints($qb)
+    private function _apply_object_constraints(midcom_core_querybuilder $qb)
     {
         foreach ($this->_object_constraints as $constraint) {
             $qb->add_constraint($constraint['field'], $constraint['operator'], $constraint['value']);
@@ -149,10 +147,8 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
     /**
      * Apply orders (if any) to the final object QBs
-     *
-     * @param midcom_core_querybuilder $qb the QB instance in question
      */
-    private function _apply_object_orders($qb)
+    private function _apply_object_orders(midcom_core_querybuilder $qb)
     {
         foreach ($this->_object_orders as $order) {
             $qb->add_order($order['field'], $order['direction']);
@@ -161,10 +157,8 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
     /**
      * Apply the limit (if any) to the final object QBs
-     *
-     * @param midcom_core_querybuilder $qb the QB instance in question
      */
-    private function _apply_object_limit($qb)
+    private function _apply_object_limit(midcom_core_querybuilder $qb)
     {
         if ($this->_object_limit == 0) {
             return;

@@ -268,7 +268,7 @@ class midcom_helper__dbfactory
         return $this->_get_parent_guid_cached($object_guid, $the_object, $class);
     }
 
-    private function _get_parent_guid_cached($object_guid, $the_object, $class = null) : array
+    private function _get_parent_guid_cached(string $object_guid, $the_object, $class = null) : array
     {
         static $cached_parent_data = [];
 
@@ -345,7 +345,7 @@ class midcom_helper__dbfactory
      * Get the GUID of the object's parent. This is done by reading up or parent
      * property values, which will give us the parent's ID
      */
-    private function _get_parent_guid_uncached_static($object_guid, $class_name) : array
+    private function _get_parent_guid_uncached_static(string $object_guid, string $class_name) : array
     {
         if (method_exists($class_name, 'get_parent_guid_uncached_static')) {
             return ['', $class_name::get_parent_guid_uncached_static($object_guid)];
@@ -372,7 +372,7 @@ class midcom_helper__dbfactory
         return ['' => null];
     }
 
-    private function _load_guid($target_class, $target_property, $link_value)
+    private function _load_guid(string $target_class, string $target_property, $link_value)
     {
         if (empty($link_value)) {
             return null;
@@ -395,7 +395,7 @@ class midcom_helper__dbfactory
         return $this->_parent_mapping[$target_class][$link_value];
     }
 
-    private function _get_parent_candidates($classname) : array
+    private function _get_parent_candidates(string $classname) : array
     {
         if (!isset($this->_parent_candidates[$classname])) {
             $this->_parent_candidates[$classname] = [];

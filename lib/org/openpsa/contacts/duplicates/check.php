@@ -94,7 +94,7 @@ class org_openpsa_contacts_duplicates_check
         return $persons;
     }
 
-    private function add_constraint(midcom_core_query $query, midcom_core_dbaobject $object, $field)
+    private function add_constraint(midcom_core_query $query, midcom_core_dbaobject $object, string $field)
     {
         if ($object->$field) {
             $query->add_constraint($field, 'LIKE', $object->$field);
@@ -172,7 +172,7 @@ class org_openpsa_contacts_duplicates_check
         return $ret;
     }
 
-    private function match($property, array $data1, array $data2) : bool
+    private function match(string $property, array $data1, array $data2) : bool
     {
         if (   !empty($data1[$property])
             && $data1[$property] == $data2[$property]) {
@@ -336,7 +336,7 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Prepare fields for easier comparison
      */
-    private function normalize_fields(array $arr, $guid) : array
+    private function normalize_fields(array $arr, string $guid) : array
     {
         $arr = array_map('strtolower', array_map('trim', $arr));
         $arr['guid'] = $guid;
@@ -474,7 +474,7 @@ class org_openpsa_contacts_duplicates_check
         $this->output($output, "DONE with groups. Elapsed time " . (time() - $time_start) . " seconds");
     }
 
-    private function output($output, $message, $indent = '')
+    private function output($output, string $message, string $indent = '')
     {
         debug_add($message);
         if ($output) {

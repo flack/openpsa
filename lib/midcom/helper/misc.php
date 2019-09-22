@@ -91,7 +91,7 @@ class midcom_helper_misc
         return $cached_snippets[$path];
     }
 
-    private static function load_from_snippet($path)
+    private static function load_from_snippet(string $path)
     {
         $snippet = new midgard_snippet();
         if (!$snippet->get_by_path($path)) {
@@ -103,7 +103,7 @@ class midcom_helper_misc
         return $snippet->code;
     }
 
-    private static function load_from_file($path)
+    private static function load_from_file(string $path)
     {
         $filename = MIDCOM_ROOT . substr($path, 5);
         if (!file_exists($filename)) {
@@ -124,7 +124,7 @@ class midcom_helper_misc
         return self::load($filename);
     }
 
-    private static function load($filename)
+    private static function load(string $filename)
     {
         if (!file_exists($filename)) {
             return null;

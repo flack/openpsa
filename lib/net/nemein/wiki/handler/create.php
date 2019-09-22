@@ -34,7 +34,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
      */
     private $_page;
 
-    private function check_unique_wikiword($wikiword, $schema)
+    private function check_unique_wikiword(string $wikiword, string $schema)
     {
         $resolver = new net_nemein_wiki_resolver($this->_topic->id);
         $resolved = $resolver->path_to_wikipage($wikiword, true, true);

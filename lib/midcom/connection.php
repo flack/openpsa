@@ -177,7 +177,7 @@ class midcom_connection
         }
     }
 
-    private static function _get($key)
+    private static function _get(string $key)
     {
         if (isset(self::$_data[$key])) {
             return self::$_data[$key];
@@ -228,7 +228,7 @@ class midcom_connection
      * @param string $self The instance's root URL
      * @param string $prefix The root URL's prefix, if any (corresponds to mgd1 host)
      */
-    private static function _parse_url($uri, $self, $prefix)
+    private static function _parse_url(string $uri, string $self, string $prefix)
     {
         $uri = preg_replace('/\/[\/]+/i', '/', $uri);
         $path_parts = explode('/', $uri);
@@ -261,11 +261,10 @@ class midcom_connection
 
 
     /**
-     * Iterate through possible page directories in style-tree and check if the page exists (as a folder).
-     *
-     * @param string $page_name
+     * Iterate through possible page directories in style-tree
+     * and check if the page exists (as a folder).
      */
-    private static function check_page_exists($page_name) : bool
+    private static function check_page_exists(string $page_name) : bool
     {
         $path_array = explode('/', midcom::get()->config->get('theme'));
 

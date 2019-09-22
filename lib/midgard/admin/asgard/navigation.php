@@ -192,7 +192,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         echo "</ul>\n";
     }
 
-    private function _draw_collapsed_element($level, $type, $total)
+    private function _draw_collapsed_element(int $level, string $type, int $total)
     {
         $ref = midcom_helper_reflector::get($type);
         if (!empty($this->_object_path[$level])) {
@@ -216,7 +216,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         echo '<li><a class="expand-type-children" href="?show_all_' . $type . '=1">' . $icon . ' ' . sprintf($this->_l10n->get('show all %s %s entries'), $total, $ref->get_class_label()) . '</a></li>';
     }
 
-    protected function _draw_element($object, $label, $level, $autoexpand = false)
+    protected function _draw_element($object, string $label, int $level, bool $autoexpand = false)
     {
         $ref = $this->_get_reflector($object);
 

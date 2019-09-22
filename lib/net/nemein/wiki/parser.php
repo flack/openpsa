@@ -41,7 +41,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     /**
      * Abbreviation support [abbr: Abbreviation - Explanation]
      */
-    private function _run_macro_abbr($macro_content, $fulltag, $after) : string
+    private function _run_macro_abbr(string $macro_content, string $fulltag, string $after) : string
     {
         if (preg_match("/^(.*?) \- (.*)/", $macro_content, $parts)) {
             return "<abbr title=\"{$parts[2]}\">{$parts[1]}</abbr>{$after}";
@@ -53,7 +53,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     /**
      * Photo inclusion support [photo: GUID]
      */
-    private function _run_macro_photo($macro_content, $fulltag, $after) : string
+    private function _run_macro_photo(string $macro_content, string $fulltag, string $after) : string
     {
         $guid = trim($macro_content);
         if (!mgd_is_guid($guid)) {
@@ -76,7 +76,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
      *
      * @todo Switch to InterWiki format instead
      */
-    private function _run_macro_wiki($macro_content, $fulltag, $after) : string
+    private function _run_macro_wiki(string $macro_content, string $fulltag, string $after) : string
     {
         $text = trim($macro_content);
         if (empty($text)) {
@@ -90,7 +90,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     /**
      * A notice macro (will display a classed DIV)
      */
-    private function _run_macro_note($macro_content, $fulltag, $after) : string
+    private function _run_macro_note(string $macro_content, string $fulltag, string $after) : string
     {
         return $this->_run__classed_div('note', $macro_content, $fulltag, $after);
     }
@@ -98,7 +98,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     /**
      * A tip macro (will display a classed DIV)
      */
-    private function _run_macro_tip($macro_content, $fulltag, $after) : string
+    private function _run_macro_tip(string $macro_content, string $fulltag, string $after) : string
     {
         return $this->_run__classed_div('tip', $macro_content, $fulltag, $after);
     }
@@ -106,7 +106,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     /**
      * A warning macro (will display a classed DIV)
      */
-    private function _run_macro_warning($macro_content, $fulltag, $after) : string
+    private function _run_macro_warning(string $macro_content, string $fulltag, string $after) : string
     {
         return $this->_run__classed_div('warning', $macro_content, $fulltag, $after);
     }
@@ -116,7 +116,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
      *
      * Used by the note, tip and warning macros
      */
-    private function _run__classed_div($css_class, $macro_content, $fulltag, $after) : string
+    private function _run__classed_div(string $css_class, string $macro_content, string $fulltag, string $after) : string
     {
         $text = trim($macro_content);
         return "\n<div class=\"{$css_class}\">\n{$text}\n</div>\n{$after}";
@@ -125,7 +125,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     /**
      * table of contents for the current pages node
      */
-    private function _run_macro_nodetoc($macro_content, $fulltag, $after) : string
+    private function _run_macro_nodetoc(string $macro_content, string $fulltag, string $after) : string
     {
         $text = trim($macro_content);
         $qb = net_nemein_wiki_wikipage::new_query_builder();
@@ -151,7 +151,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     /**
      * Links to other wiki pages tagged with arbitrary tags
      */
-    private function _run_macro_tagged($macro_content, $fulltag, $after) : string
+    private function _run_macro_tagged(string $macro_content, string $fulltag, string $after) : string
     {
         $tags_exploded = explode(',', $macro_content);
         $tags = [];
@@ -199,7 +199,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     /**
      * Replace wiki syntax in the document with HTML for display purposes
      */
-    private function replace_wikiwords($match) : string
+    private function replace_wikiwords(array $match) : string
     {
         // Refactored using code from the WordPress SimpleLink plugin
         // http://warpedvisions.org/projects/simplelink
@@ -235,7 +235,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         }
     }
 
-    public function render_link($wikilink, $text = null) : string
+    public function render_link(string $wikilink, $text = null) : string
     {
         if (null === $text) {
             $text = $wikilink;

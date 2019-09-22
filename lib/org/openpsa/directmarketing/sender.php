@@ -140,7 +140,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         return $status;
     }
 
-    private function process_results(array $results, $content) : bool
+    private function process_results(array $results, string $content) : bool
     {
         if (!$this->_backend->check_results($results)) {
             return false; //Backend refuses delivery
@@ -168,7 +168,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         return $atstat;
     }
 
-    private function _send_member(org_openpsa_directmarketing_campaign_member_dba $member, $content)
+    private function _send_member(org_openpsa_directmarketing_campaign_member_dba $member, string $content)
     {
         if (!$person = $this->_get_person($member)) {
             return;
@@ -269,7 +269,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         return $ret;
     }
 
-    private function _qb_single_chunk($level = 0)
+    private function _qb_single_chunk(int $level = 0)
     {
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $this->_backend->add_member_constraints($qb);
@@ -304,7 +304,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         return $results;
     }
 
-    private function _qb_chunk_limits($qb)
+    private function _qb_chunk_limits(midcom_core_querybuilder $qb)
     {
         debug_add("Processing chunk {$this->_chunk_num}");
         $offset = $this->_chunk_num * $this->chunk_size;
@@ -316,7 +316,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $qb->set_limit($this->chunk_size);
     }
 
-    private function _qb_filter_results($results)
+    private function _qb_filter_results(array $results)
     {
         if (empty($results)) {
             return $results;

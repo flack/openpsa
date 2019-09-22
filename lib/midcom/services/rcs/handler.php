@@ -41,10 +41,8 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
     /**
      * Load the object and the rcs backend
-     *
-     * @param string $guid
      */
-    private function load_object($guid)
+    private function load_object(string $guid)
     {
         $this->object = midcom::get()->dbfactory->get_object_by_guid($guid);
 
@@ -89,7 +87,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $this->_request_data['rcs_toolbar_2']->add_items($buttons);
     }
 
-    private function build_rcs_toolbar(midcom_helper_toolbar $toolbar, $current, $diff_view)
+    private function build_rcs_toolbar(midcom_helper_toolbar $toolbar, $current, bool $diff_view)
     {
         $keys = array_keys($this->backend->list_history());
         if (!isset($keys[0])) {
@@ -164,7 +162,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         return $last;
     }
 
-    private function prepare_request_data($view_title)
+    private function prepare_request_data(string $view_title)
     {
         $breadcrumbs = $this->get_breadcrumbs();
         if (!empty($breadcrumbs)) {

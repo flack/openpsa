@@ -47,7 +47,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         return new midcom_response_relocate($request->server->get('HTTP_REFERER'));
     }
 
-    private function run($action, $identifier)
+    private function run(string $action, string $identifier)
     {
         $task = new org_openpsa_projects_task_dba($identifier);
         if (!org_openpsa_projects_workflow::run($action, $task)) {

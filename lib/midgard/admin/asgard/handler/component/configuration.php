@@ -80,7 +80,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         }
     }
 
-    private function _load_configs($component, $object = null) : midcom_helper_configuration
+    private function _load_configs(string $component, $object = null) : midcom_helper_configuration
     {
         $config = midcom_baseclasses_components_configuration::get($component, 'config');
 
@@ -416,7 +416,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     /**
      * Save configuration values to a topic as parameters
      */
-    private function save_topic(midcom_db_topic $topic, $config) : bool
+    private function save_topic(midcom_db_topic $topic, array $config) : bool
     {
         $success = true;
         foreach ($this->_request_data['config']->_global as $global_key => $global_value) {
@@ -450,7 +450,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $success;
     }
 
-    private function _detect_schema($key, $value) : array
+    private function _detect_schema(string $key, $value) : array
     {
         $result = [
             'title'       => $key,

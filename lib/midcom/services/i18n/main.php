@@ -343,7 +343,7 @@ class midcom_services_i18n
      * @param string $component    The component for which to retrieve a string database.
      * @param string $database    The string table to retrieve from the component's locale directory.
      */
-    private function _load_l10n_db($component, $database)
+    private function _load_l10n_db($component, string $database)
     {
         $cacheid = "{$component}/{$database}";
         $obj = new midcom_services_i18n_l10n($component, $database);
@@ -378,7 +378,7 @@ class midcom_services_i18n
      * @param string $string The string to convert.
      * @return mixed The converted string or false on any error.
      */
-    private function iconv($source_charset, $destination_charset, $string)
+    private function iconv(string $source_charset, string $destination_charset, string $string)
     {
         $result = @iconv($source_charset, $destination_charset, $string);
         if ($result === false && !empty($string)) {

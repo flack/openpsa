@@ -24,7 +24,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.user/jquery.midgard_admin_user.js');
     }
 
-    private function _prepare_toolbar(&$data)
+    private function _prepare_toolbar(array &$data)
     {
         $buttons = [
             [
@@ -98,14 +98,10 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
     /**
      * Internal helper for showing the groups recursively
-     *
-     * @param int $id
-     * @param array $data
-     * @param int $level
      */
-    private function list_groups_for_select($id, &$data, $level)
+    private function list_groups_for_select(int $id, array &$data, int $level)
     {
-        $mc = midcom_db_group::new_collector('owner', (int) $id);
+        $mc = midcom_db_group::new_collector('owner', $id);
 
         // Set the order
         $mc->add_order('metadata.score', 'DESC');

@@ -28,7 +28,7 @@ implements midcom_services_permalinks_resolver
         return null;
     }
 
-    private function _resolve_productgroup($product_group, $topic)
+    private function _resolve_productgroup(org_openpsa_products_product_group_dba $product_group, midcom_db_topic $topic)
     {
         $real_config = new midcom_helper_configuration($topic, 'org.openpsa.products');
 
@@ -76,7 +76,7 @@ implements midcom_services_permalinks_resolver
         return true;
     }
 
-    private function reindex_tree_iterator(&$indexer, array $dms, $topic, $group, $config)
+    private function reindex_tree_iterator(&$indexer, array $dms, $topic, org_openpsa_products_product_group_dba $group, $config)
     {
         if ($config->get('index_groups')) {
             try {

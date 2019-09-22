@@ -206,7 +206,7 @@ class midcom_services_uimessages
     /**
      * Render the message
      */
-    private function _render_message($message)
+    private function _render_message(string $message)
     {
         $message = json_decode($message, true);
         echo "<div class=\"midcom_services_uimessages_message msu_{$message['type']}\">";

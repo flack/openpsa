@@ -37,7 +37,7 @@ class org_openpsa_contacts_mycontacts
      * @param boolean $autocreate
      * @return org_openpsa_contacts_list_dba|false
      */
-    private function _get_group($autocreate = false)
+    private function _get_group(bool $autocreate = false)
     {
         if (!$this->_group) {
             $qb = org_openpsa_contacts_list_dba::new_query_builder();

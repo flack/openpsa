@@ -212,7 +212,7 @@ class midcom_core_user
         $this->guid = $this->_storage->guid;
     }
 
-    private function _load_from_string($id, $person_class)
+    private function _load_from_string(string $id, string $person_class)
     {
         // Don't even try with the magic assignees
         if (in_array($id, ['ANONYMOUS', 'EVERYONE', 'USERS', 'OWNER', 'SELF'])) {
@@ -408,7 +408,7 @@ class midcom_core_user
      *
      * @param midcom_core_privilege[] $privileges A list of privilege records, see mRFC 15 for details.
      */
-    private function _merge_privileges($privileges)
+    private function _merge_privileges(array $privileges)
     {
         foreach ($privileges as $privilege) {
             if ($privilege->value == MIDCOM_PRIVILEGE_ALLOW) {

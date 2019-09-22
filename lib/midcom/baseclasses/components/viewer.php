@@ -520,11 +520,8 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      * @todo Allow for lazy plugin namespace configuration loading (using a callback)!
      *     This will make things more performant and integration with other components
      *     much easier.
-     *
-     * @param string $namespace The plugin namespace to use.
-     * @param string $name The plugin to load from the namespace.
      */
-    private function _load_plugin($namespace, $name)
+    private function _load_plugin(string $namespace, string $name)
     {
         debug_add("Loading the plugin {$namespace}/{$name}");
         $plugin_config = self::$_plugin_namespace_config[$namespace][$name];

@@ -72,7 +72,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
         return $this->show('hours_week');
     }
 
-    private function _populate_toolbar($previous_week, $next_week)
+    private function _populate_toolbar(string $previous_week, string $next_week)
     {
         $week_start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
         $week_end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
@@ -145,7 +145,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
         return array_values($reports);
     }
 
-    private function _get_list_link($label, $date, $task_guid, $person_id = null) : string
+    private function _get_list_link(string $label, $date, string $task_guid, $person_id = null) : string
     {
         if ($task_guid !== null) {
             $url = $this->router->generate('list_hours_task', ['guid' => $task_guid]);

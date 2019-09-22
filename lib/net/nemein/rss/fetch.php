@@ -466,11 +466,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
     /**
      * Parses additional metadata in RSS item and sets parameters accordingly
-     *
-     * @param midcom_core_dbaobject $article Imported article
-     * @param net_nemein_rss_parser_item $item Feed item as provided by SimplePie
      */
-    private function _parse_parameters(midcom_core_dbaobject $article, net_nemein_rss_parser_item $item)
+    private function _parse_parameters(midcom_db_article $article, net_nemein_rss_parser_item $item)
     {
         foreach ($item->get_enclosures() as $enclosure) {
             $article->set_parameter('net.nemein.rss:enclosure', 'url', $enclosure->get_link());
@@ -481,10 +478,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
     /**
      * Parses rel-tag links in article content and tags the object based on them
-     *
-     * @param midgard_article $article Imported article
      */
-    private function _parse_tags($article)
+    private function _parse_tags(midcom_db_article $article)
     {
         $html_tags = org_openpsa_httplib_helpers::get_anchor_values($article->content, 'tag');
         $tags = [];

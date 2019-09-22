@@ -101,13 +101,13 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         }
     }
 
-    private function _add_state_constraint($state, midcom_core_query $qb)
+    private function _add_state_constraint(string $state, midcom_core_query $qb)
     {
         $code = 'org_openpsa_sales_salesproject_dba::STATE_' . strtoupper($state);
         $qb->add_constraint('state', '=', constant($code));
     }
 
-    private function _add_customer_constraint($guid, midcom_core_query $qb)
+    private function _add_customer_constraint(string $guid, midcom_core_query $qb)
     {
         try {
             $this->_request_data['customer'] = new org_openpsa_contacts_group_dba($guid);

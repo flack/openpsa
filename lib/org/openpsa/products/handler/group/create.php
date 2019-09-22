@@ -24,12 +24,7 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
      */
     private $_group;
 
-    /**
-     * @param string $schema
-     * @param int $up
-     * @throws midcom_error_notfound
-     */
-    private function load_controller($schema, $up) : controller
+    private function load_controller(string $schema, int $up) : controller
     {
         $schemadb = $this->_request_data['schemadb_group'];
         if (!$schemadb->has($schema)) {

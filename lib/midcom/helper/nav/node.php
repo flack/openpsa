@@ -100,7 +100,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
      *
      * @param midcom_helper_nav_leaf[] $leaves The leaves to store in the cache.
      */
-    private function write_leaves_to_cache($leaves)
+    private function write_leaves_to_cache(array $leaves)
     {
         if (!$this->get_cache()->get_node($this->id)) {
             debug_add("NAP Caching Engine: Tried to update the topic {$this->name} (#{$this->object->id}) "

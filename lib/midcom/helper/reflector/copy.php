@@ -291,7 +291,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * @param mixed $target      MgdSchema object for storing the parameters
      * @return boolean Indicating success
      */
-    private function _copy_data($type, $source, $target) : bool
+    private function _copy_data(string $type, $source, $target) : bool
     {
         if ($this->$type) {
             $method = 'copy_' . $type;

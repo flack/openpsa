@@ -165,7 +165,7 @@ class midgard_admin_asgard_stylehelper
      * @param string $component Component to look elements for
      * @return array List of elements found indexed by the element name
      */
-    private function _get_component_default_elements($component) : array
+    private function _get_component_default_elements(string $component) : array
     {
         $elements = [];
 

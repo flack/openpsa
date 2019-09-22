@@ -58,10 +58,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         return new midcom_response_json(['location' => $location]);
     }
 
-    /**
-     * @param string $filename The file name
-     */
-    private function get_modify_filename($filename) : string
+    private function get_modify_filename(string $filename) : string
     {
         $filename = midcom_db_attachment::safe_filename($filename);
         $pieces = explode('.', $filename);
@@ -74,11 +71,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         return $modifyFilename;
     }
 
-    /**
-     * @param string $filename The file name
-     * @param string $parentguid The parent GUID
-     */
-    private function get_data_from_database($filename, $parentguid) : midcom_db_attachment
+    private function get_data_from_database(string $filename, string $parentguid) : midcom_db_attachment
     {
         $query = midcom_db_attachment::new_query_builder();
         $query->add_constraint('name', '=', $filename);
@@ -98,7 +91,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
      * @param string $tmp The temporary location of file
      * @param midcom_db_attachment $target The final destination for file
      */
-    private function write_the_file($tmp, midcom_db_attachment $target)
+    private function write_the_file(string $tmp, midcom_db_attachment $target)
     {
         $source = fopen($tmp, 'r');
         if (!$source) {
@@ -111,12 +104,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         }
     }
 
-    /**
-     * @param string $filename The file name
-     * @param string $mimetype The MIME type
-     * @param string $parentguid The parent GUID
-     */
-    private function insert_database($filename, $mimetype, $parentguid) : midcom_db_attachment
+    private function insert_database(string $filename, string $mimetype, string $parentguid) : midcom_db_attachment
     {
         $attachment = new midcom_db_attachment();
         $attachment->name = $filename;

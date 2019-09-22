@@ -169,7 +169,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
     * @param string $html the HTML source
     * @param string $address the link detector address
     */
-    private function _insert_link_detector($html, $address) : string
+    private function _insert_link_detector(string $html, string $address) : string
     {
         $address = addslashes($address);
         return preg_replace_callback(

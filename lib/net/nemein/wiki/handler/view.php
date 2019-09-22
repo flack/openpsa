@@ -102,7 +102,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $this->bind_view_to_object($this->_page, $this->_datamanager->get_schema()->get_name());
     }
 
-    private function _load_page($wikiword, $autocreate = true)
+    private function _load_page(string $wikiword, bool $autocreate = true)
     {
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
@@ -199,7 +199,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * It looks for all H<num> tags and converts them to named
      * anchors, and prepends a list of links to them to the start of HTML.
      */
-    private function _autogenerate_toc($content) : string
+    private function _autogenerate_toc(string $content) : string
     {
         if (!preg_match_all("/(<(h([1-9][0-9]*))[^>]*?>)(.*?)(<\/\\2>)/i", $content, $headings)) {
             return $content;

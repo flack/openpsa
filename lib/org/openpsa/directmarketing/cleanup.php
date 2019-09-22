@@ -27,7 +27,7 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         return gmdate('Y-m-d H:i:s', time() - 3600 * 24 * $this->_config->get('delete_older_than_days'));
     }
 
-    private function add_time_filter(midcom_core_querybuilder $qb, $kept)
+    private function add_time_filter(midcom_core_querybuilder $qb, bool $kept)
     {
         if ($kept) {
             $qb->add_constraint('metadata.revised', '>=', $this->get_deletion_timestamp());
@@ -36,21 +36,21 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         }
     }
 
-    private function get_message_receipt_qb($kept = false) : midcom_core_querybuilder
+    private function get_message_receipt_qb(bool $kept = false) : midcom_core_querybuilder
     {
         $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $this->add_time_filter($qb, $kept);
         return $qb;
     }
 
-    private function get_link_log_qb($kept = false) : midcom_core_querybuilder
+    private function get_link_log_qb(bool $kept = false) : midcom_core_querybuilder
     {
         $qb = org_openpsa_directmarketing_link_log_dba::new_query_builder();
         $this->add_time_filter($qb, $kept);
         return $qb;
     }
 
-    private function get_campaign_member_qb($kept = false)
+    private function get_campaign_member_qb(bool $kept = false)
     {
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         if ($kept) {
@@ -71,7 +71,7 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         return $qb;
     }
 
-    private function get_person_qb($kept = false) : midcom_core_querybuilder
+    private function get_person_qb(bool $kept = false) : midcom_core_querybuilder
     {
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
         if ($kept) {

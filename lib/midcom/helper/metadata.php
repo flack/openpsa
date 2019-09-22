@@ -216,7 +216,7 @@ class midcom_helper_metadata
      * @param string $key The key to set.
      * @param mixed $value The value to set.
      */
-    private function _set_property($key, $value) : bool
+    private function _set_property(string $key, $value) : bool
     {
         if (is_object($value)) {
             $classname = get_class($value);
@@ -288,7 +288,7 @@ class midcom_helper_metadata
      *
      * @param string $key The key to retrieve.
      */
-    private function _retrieve_value($key)
+    private function _retrieve_value(string $key)
     {
         if (in_array($key, $this->field_config['timebased'])) {
             // This is ugly, but seems the only possible way...

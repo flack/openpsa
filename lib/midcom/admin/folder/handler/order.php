@@ -24,8 +24,6 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
     /**
      * Set the score.
-     *
-     * @param Request $request The request object
      */
     private function _process_order_form(Request $request)
     {
@@ -71,7 +69,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         }
     }
 
-    private function _update_score($identifier, $score) : bool
+    private function _update_score(string $identifier, $score) : bool
     {
         // Use the DB Factory to resolve the class and to get the object
         try {

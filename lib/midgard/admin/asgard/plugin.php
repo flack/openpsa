@@ -155,11 +155,8 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 
     /**
      * Construct urls for the breadcrumbs
-     *
-     * @param string $action The action
-     * @param string $guid The GUID
      */
-    private static function _generate_url($action, $guid) : string
+    private static function _generate_url(string $action, string $guid) : string
     {
         return '__mfa/asgard/object/' . $action . '/' . $guid . '/';
     }

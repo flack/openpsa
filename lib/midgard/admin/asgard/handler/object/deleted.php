@@ -43,7 +43,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         return $this->get_response('midgard_admin_asgard_object_deleted');
     }
 
-    private function prepare_admin_view($guid) : midcom_core_dbaobject
+    private function prepare_admin_view(string $guid) : midcom_core_dbaobject
     {
         $type = connection::get_em()
             ->createQuery('SELECT r.typename from midgard:midgard_repligard r WHERE r.guid = ?1')
@@ -87,11 +87,8 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
 
     /**
      * Loads the schemadb from the helper class
-     *
-     * @param string $type
-     * @param midcom_core_dbaobject $object
      */
-    private function prepare_dm($type, midcom_core_dbaobject $object)
+    private function prepare_dm(string $type, midcom_core_dbaobject $object)
     {
         $schema_helper = new midgard_admin_asgard_schemadb($object, $this->_config, $type);
         $schemadb = $schema_helper->create([]);

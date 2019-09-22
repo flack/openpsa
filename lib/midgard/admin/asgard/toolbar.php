@@ -13,7 +13,7 @@
  */
 class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
 {
-    private function _generate_url($action, $object) : string
+    private function _generate_url(string $action, $object) : string
     {
         return '__mfa/asgard/object/' . $action . '/' . $object->guid . '/';
     }

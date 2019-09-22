@@ -24,7 +24,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
      *
      * @param string $person_guid
      */
-    private function get_salesproject($person_guid) : org_openpsa_sales_salesproject_dba
+    private function get_salesproject(string $person_guid) : org_openpsa_sales_salesproject_dba
     {
         $person = new org_openpsa_contacts_person_dba($person_guid);
 

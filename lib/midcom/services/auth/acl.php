@@ -343,7 +343,7 @@ class midcom_services_auth_acl
      * @param string $class The class name for which defaults should be loaded.
      * @param mixed $user The user to check
      */
-    private function _get_class_magic_privileges($class, $user) : array
+    private function _get_class_magic_privileges(string $class, $user) : array
     {
         if (!array_key_exists($class, self::$_default_magic_class_privileges)) {
             $privs = [
@@ -366,7 +366,7 @@ class midcom_services_auth_acl
         );
     }
 
-    private function _get_user_per_class_privileges($classname, midcom_core_user $user) : array
+    private function _get_user_per_class_privileges(string $classname, midcom_core_user $user) : array
     {
         static $cache = [];
 
@@ -558,7 +558,7 @@ class midcom_services_auth_acl
      * @param string $user_id The user against which to check the privilege, defaults to the currently authenticated user.
      * @return boolean True when privilege was found, otherwise false
      */
-    private function _load_content_privilege($privilegename, $guid, $class, $user_id) : bool
+    private function _load_content_privilege(string $privilegename, string $guid, string $class, $user_id) : bool
     {
         $cache_id = $user_id . '::' . $guid;
 
@@ -618,7 +618,7 @@ class midcom_services_auth_acl
         return false;
     }
 
-    private function get_parent_data($guid, $class) : array
+    private function get_parent_data(string $guid, string $class) : array
     {
         // ==> into SUDO
         $previous_sudo = $this->_internal_sudo;
@@ -636,7 +636,7 @@ class midcom_services_auth_acl
      * @param string $privilege The privilege to check for
      * @see $_internal_sudo
      */
-    private function _can_do_internal_sudo($privilege) : bool
+    private function _can_do_internal_sudo(string $privilege) : bool
     {
         return !in_array($privilege, ['midgard:create', 'midgard:update', 'midgard:delete', 'midgard:privileges']);
     }

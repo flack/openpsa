@@ -135,7 +135,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         return $ret;
     }
 
-    private function load_group(array &$ret, $company_id)
+    private function load_group(array &$ret, int $company_id)
     {
         if (!array_key_exists($company_id, $ret)) {
             try {

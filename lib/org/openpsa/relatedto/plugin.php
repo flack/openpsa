@@ -135,7 +135,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         ]);
     }
 
-    private static function common_node_toolbar_buttons_sanitycheck(array &$data, $button_component, $bind_object, $calling_component)
+    private static function common_node_toolbar_buttons_sanitycheck(array &$data, string $button_component, $bind_object, string $calling_component)
     {
         if (!midcom::get()->componentloader->load_graceful($button_component)) {
             //For some reason the component is and can not (be) loaded

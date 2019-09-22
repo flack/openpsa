@@ -287,7 +287,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         $this->_persons = $qb->execute();
     }
 
-    private function _apply_constraints(midcom_core_query $qb, $type)
+    private function _apply_constraints(midcom_core_query $qb, string $type)
     {
         // Search using only the fields defined in config
         $fields = explode(',', $this->_config->get($type . '_search_fields'));
@@ -311,7 +311,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         $qb->end_group();
     }
 
-    private function add_constraints(midcom_core_query $qb, array $fields, $term)
+    private function add_constraints(midcom_core_query $qb, array $fields, string $term)
     {
         $term = str_replace('__TERM__', $term, $this->_wildcard_template);
 

@@ -163,7 +163,7 @@ implements client
         }
     }
 
-    private function _add_schema_buttons($schemadb_name, $default_icon, $prefix, $allowed)
+    private function _add_schema_buttons(string $schemadb_name, string $default_icon, string $prefix, bool $allowed)
     {
         $workflow = $this->get_workflow('datamanager');
         foreach ($this->_request_data[$schemadb_name]->all() as $name => $schema) {

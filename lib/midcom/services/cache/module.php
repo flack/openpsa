@@ -86,7 +86,7 @@ abstract class midcom_services_cache_module
         return $backend;
     }
 
-    private function prepare_backend(array $config, $name) : CacheProvider
+    private function prepare_backend(array $config, string $name) : CacheProvider
     {
         $directory = midcom::get()->config->get('cache_base_directory');
         if (!empty($config['directory'])) {

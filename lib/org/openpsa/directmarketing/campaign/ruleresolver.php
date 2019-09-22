@@ -187,7 +187,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param array $rules array containing rules
      * @param string $class containing name of class for the rules
      */
-    private function add_rules(array $rules, $class) : bool
+    private function add_rules(array $rules, string $class) : bool
     {
         $class = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($class);
         //special case parameters - uses 3 rules standard
@@ -311,7 +311,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param string $person_property contains the name of the property of the
      * passed class which links to the person
      */
-    private function add_misc_rule(array $rule, $class, $person_property) : bool
+    private function add_misc_rule(array $rule, string $class, string $person_property) : bool
     {
         $persons = [ 0 => -1];
         $match = $rule['match'];

@@ -40,11 +40,8 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     /**
      * Get component's documentation directory path
-     *
-     * @param string $component Component name
-     * @return string Component documentation directory path
      */
-    private static function get_documentation_dir($component) : string
+    private static function get_documentation_dir(string $component) : string
     {
         if (!midcom::get()->componentloader->is_installed($component)) {
             throw new midcom_error("Failed to generate documentation path for component {$component} as it is not installed.");
@@ -70,7 +67,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $file;
     }
 
-    private function get_help_title($help_id, $component) : string
+    private function get_help_title($help_id, string $component) : string
     {
         if ($path = self::generate_file_path($help_id, $component)) {
             $file_contents = file($path);
@@ -85,7 +82,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     /**
      * Load the file from the component's documentation directory.
      */
-    private function _load_file($help_id, $component)
+    private function _load_file($help_id, string $component)
     {
         // Try loading the file
         $file = self::generate_file_path($help_id, $component);
@@ -132,7 +129,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $files;
     }
 
-    private function _add_virtual_files(array $files, $component) : array
+    private function _add_virtual_files(array $files, string $component) : array
     {
         // Schemas
         $this->_request_data['mgdschemas'] = midcom::get()->dbclassloader->get_component_classes($component);
@@ -173,7 +170,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $files;
     }
 
-    private function _list_physical_files($component) : array
+    private function _list_physical_files(string $component) : array
     {
         $component_dir = self::get_documentation_dir($component);
         if (!is_dir($component_dir)) {
@@ -204,7 +201,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $files;
     }
 
-    private function read_component_handlers($component) : array
+    private function read_component_handlers(string $component) : array
     {
         $data = [];
 
@@ -231,7 +228,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $data;
     }
 
-    private function read_url_methods($component) : array
+    private function read_url_methods(string $component) : array
     {
         $data = [];
 
@@ -290,7 +287,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
     }
 
-    private function _get_property_data(midgard_reflection_property $mrp, $prop) : array
+    private function _get_property_data(midgard_reflection_property $mrp, string $prop) : array
     {
         return [
             'value' => $mrp->description($prop),
@@ -301,7 +298,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         ];
     }
 
-    private function _load_component_data($name) : array
+    private function _load_component_data(string $name) : array
     {
         $component_array = [];
         $component_array['name'] = $name;

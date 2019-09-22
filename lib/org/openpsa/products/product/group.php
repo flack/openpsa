@@ -41,7 +41,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         return true;
     }
 
-    private function _check_duplicates($code) : bool
+    private function _check_duplicates(string $code) : bool
     {
         if (!$code) {
             return false;

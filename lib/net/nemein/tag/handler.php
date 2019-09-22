@@ -62,7 +62,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         return true;
     }
 
-    private static function _create_tag($tagname, $url, $object, $component)
+    private static function _create_tag(string $tagname, string $url, $object, string $component)
     {
         debug_add("Adding tag \"{$tagname}\" for object {$object->guid}");
         $tagstring = self::resolve_tagname($tagname);
@@ -93,7 +93,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         }
     }
 
-    private static function _update_tag($tagname, $url, $object_guid)
+    private static function _update_tag(string $tagname, string $url, string $object_guid)
     {
         debug_add("Updating tag {$tagname} for object {$object_guid} to URL {$url}");
         $tagstring = self::resolve_tagname($tagname);
@@ -108,7 +108,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         }
     }
 
-    private static function _remove_tag($tagname, $object_guid)
+    private static function _remove_tag(string $tagname, string $object_guid)
     {
         debug_add("Removing tag {$tagname} from object {$object_guid}");
         $tagstring = self::resolve_tagname($tagname);

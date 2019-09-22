@@ -239,7 +239,7 @@ implements client
         }
     }
 
-    private function _show_invoice_list($type = 'all')
+    private function _show_invoice_list(string $type = 'all')
     {
         $this->_list_type = $type;
 

@@ -140,7 +140,7 @@ class org_openpsa_contacts_duplicates_merge
         }
     }
 
-    private function check_duplicate(array $results, midcom_core_dbaobject $object, $field)
+    private function check_duplicate(array $results, midcom_core_dbaobject $object, string $field)
     {
         if (method_exists($object, $field)) {
             return $object->$field();

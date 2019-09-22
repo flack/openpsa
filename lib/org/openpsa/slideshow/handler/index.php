@@ -85,7 +85,7 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
         $data['thumbnails'] = $this->_get_folder_thumbnails($data['subfolders']);
     }
 
-    private function _get_folder_thumbnails($folders) : array
+    private function _get_folder_thumbnails(array $folders) : array
     {
         $thumbnails = [];
         foreach ($folders as $i => $folder) {

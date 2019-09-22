@@ -39,7 +39,7 @@ class midcom_config_test
         return $this->status;
     }
 
-    private function add($testname, $result_code, $recommendations = '&nbsp;')
+    private function add(string $testname, int $result_code, string $recommendations = '&nbsp;')
     {
         $this->messages[$this->section][$testname] = [
             'result' => $result_code,
@@ -138,7 +138,7 @@ class midcom_config_test
         }
     }
 
-    private function ini_get_filesize($setting) : int
+    private function ini_get_filesize(string $setting) : int
     {
         $result = ini_get($setting);
         $last_char = substr($result, -1);
@@ -173,7 +173,7 @@ class midcom_config_test
         }
     }
 
-    private function check_for_utility($testname, $fail_code, $fail_recommendations, $recommendations = '&nbsp;')
+    private function check_for_utility(string $testname, int $fail_code, string $fail_recommendations, string $recommendations = '&nbsp;')
     {
         $executable = midcom::get()->config->get("utility_{$testname}");
         if ($executable === null) {
@@ -201,7 +201,7 @@ class midcom_config_test
         echo '</table>';
     }
 
-    private function print_section($heading, array $messages)
+    private function print_section(string $heading, array $messages)
     {
         echo "  <tr>\n";
         echo "    <th colspan=\"2\">{$heading}</th>\n";

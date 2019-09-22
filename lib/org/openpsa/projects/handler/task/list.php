@@ -205,7 +205,7 @@ implements client
         return '';
     }
 
-    private function render_status($ids, $message) : string
+    private function render_status($ids, string $message) : string
     {
         if (empty($ids)) {
             return '';
@@ -284,7 +284,7 @@ implements client
     /**
      * Get the relevant data for cells in table view
      */
-    private function get_table_row_data($task) : array
+    private function get_table_row_data(org_openpsa_projects_task_dba $task) : array
     {
         $ret = [
             'project' => '&nbsp;',

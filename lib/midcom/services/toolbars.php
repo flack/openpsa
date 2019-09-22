@@ -312,7 +312,7 @@ class midcom_services_toolbars
         }
     }
 
-    private function add_head_elements($centralized = false) : bool
+    private function add_head_elements(bool $centralized = false) : bool
     {
         if (   !midcom::get()->auth->user
             || !midcom::get()->config->get('toolbars_enable_centralized')

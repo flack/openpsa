@@ -140,7 +140,7 @@ class midcom_core_urlmethods
         return new midcom_response_login;
     }
 
-    private function redirect(Request $request, $redirect_to) : Response
+    private function redirect(Request $request, string $redirect_to) : Response
     {
         if (!empty($request->server->get('QUERY_STRING'))) {
             $redirect_to .= '?' . $request->getQueryString();

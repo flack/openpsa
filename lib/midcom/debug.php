@@ -135,7 +135,7 @@ class midcom_debug
         fclose($file);
     }
 
-    private function check_level($loglevel) : bool
+    private function check_level(int $loglevel) : bool
     {
         return $this->_loglevel >= $loglevel;
     }

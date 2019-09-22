@@ -188,7 +188,7 @@ class midcom_exception_handler
         }
     }
 
-    private function _log($msg, array $config)
+    private function _log(string $msg, array $config)
     {
         if (empty($config['filename'])) {
             // No log file specified, skip
@@ -207,7 +207,7 @@ class midcom_exception_handler
         $logger->log($msg, MIDCOM_LOG_INFO);
     }
 
-    private function _send_email($msg, array $config)
+    private function _send_email(string $msg, array $config)
     {
         if (empty($config['email'])) {
             // No recipient specified, skip

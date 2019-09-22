@@ -77,7 +77,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         return $workflow->run($request);
     }
 
-    private function _load_document($guid) : org_openpsa_documents_document_dba
+    private function _load_document(string $guid) : org_openpsa_documents_document_dba
     {
         $document = new org_openpsa_documents_document_dba($guid);
 

@@ -310,10 +310,8 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
     /**
      * Get invoice_item for the passed task id, if there is no item it will return a newly created one
-     *
-     * @param integer $task_id
      */
-    private function _probe_invoice_item_for_task($task_id) : org_openpsa_invoices_invoice_item_dba
+    private function _probe_invoice_item_for_task(int $task_id) : org_openpsa_invoices_invoice_item_dba
     {
         //check if there is already an invoice_item for this task
         $qb_invoice_item = org_openpsa_invoices_invoice_item_dba::new_query_builder();

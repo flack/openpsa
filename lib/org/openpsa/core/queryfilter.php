@@ -71,7 +71,7 @@ class org_openpsa_core_queryfilter
      * @param string $filtername The filter name to query
      * @return array The selected options, if any
      */
-    private function _get_selection($filtername)
+    private function _get_selection(string $filtername)
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.core');
         $filter_id = $this->_identifier . '_' . $filtername;

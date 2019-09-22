@@ -388,7 +388,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
     }
 
-    private function get_strategy($name) : string
+    private function get_strategy(string $name) : string
     {
         $strategy = strtolower(midcom::get()->config->get($name));
         $allowed = ['no-cache', 'revalidate', 'public', 'private'];
@@ -614,7 +614,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->store_context_guid_map($context, $content_id, $request_id);
     }
 
-    private function store_context_guid_map($context, $content_id, $request_id)
+    private function store_context_guid_map($context, string $content_id, string $request_id)
     {
         // non-existent context
         if (!array_key_exists($context, $this->context_guids)) {

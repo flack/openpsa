@@ -31,7 +31,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         return call_user_func([$midcom_dba_classname, 'new_query_builder']);
     }
 
-    private function _search($term) : array
+    private function _search(string $term) : array
     {
         $dummy_objects = [];
         $type_class = $this->type;
@@ -54,7 +54,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         return $search_results;
     }
 
-    private function _search_type_qb($dummy_object, $term) : array
+    private function _search_type_qb($dummy_object, string $term) : array
     {
         $object_class = get_class($dummy_object);
         $mgd_reflector = new midgard_reflection_property($object_class);
@@ -153,7 +153,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         return $this->get_response();
     }
 
-    private function _prepare_toolbar(&$data)
+    private function _prepare_toolbar(array &$data)
     {
         $buttons = [];
         if (midcom::get()->auth->can_user_do('midgard:create', null, $this->type)) {
@@ -229,7 +229,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         }
     }
 
-    private function show_child_types(array $types, &$data)
+    private function show_child_types(array $types, array &$data)
     {
         midcom_show_style('midgard_admin_asgard_type_children_header');
 

@@ -44,13 +44,8 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
     /**
      * List user's event memberships
-     *
-     * @param array $data_array
-     * @param integer $person
-     * @param integer $from
-     * @param integer $to
      */
-    private function _list_events_between(array &$data_array, $person, $from, $to)
+    private function _list_events_between(array &$data_array, int $person, int $from, int $to)
     {
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
         $qb->get_doctrine()
@@ -67,7 +62,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         }
     }
 
-    private function _list_hour_reports_between(&$data_array, $person, $from, $to)
+    private function _list_hour_reports_between(array &$data_array, int $person, int $from, int $to)
     {
         // List user's hour reports
         $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
@@ -81,7 +76,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         }
     }
 
-    private function _list_task_statuses_between(array &$data_array, $person, $from, $to)
+    private function _list_task_statuses_between(array &$data_array, $person, int $from, int $to)
     {
         // List user's hour reports
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
@@ -97,7 +92,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         }
     }
 
-    private function _add_to(array &$array, midcom_core_dbaobject $object, $time)
+    private function _add_to(array &$array, midcom_core_dbaobject $object, int $time)
     {
         $date = date('Y-m-d', $time);
         $array = array_replace_recursive($array, [$date => [$time => [$object->guid => $object]]]);

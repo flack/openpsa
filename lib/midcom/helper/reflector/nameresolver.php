@@ -183,11 +183,8 @@ class midcom_helper_reflector_nameresolver
 
     /**
      * Check uniqueness for each sibling
-     *
-     * @param array $sibling_classes array of classes to check
-     * @return boolean true means no clashes, false means clash.
      */
-    private function _name_is_unique_check_siblings($sibling_classes, $parent) : bool
+    private function _name_is_unique_check_siblings(array $sibling_classes, $parent) : bool
     {
         $name_copy = $this->get_object_name();
 
@@ -209,17 +206,9 @@ class midcom_helper_reflector_nameresolver
 
     /**
      * Check uniqueness for each root level class
-     *
-     * @param array $sibling_classes array of classes to check
-     * @return boolean true means no clashes, false means clash.
      */
-    private function _name_is_unique_check_roots($sibling_classes) : bool
+    private function _name_is_unique_check_roots(array $sibling_classes) : bool
     {
-        if (!$sibling_classes) {
-            // We don't know about siblings, allow this to happen.
-            // Note: This also happens with the "neverchild" types like midgard_attachment and midgard_parameter
-            return true;
-        }
         $name_copy = $this->get_object_name();
 
         foreach ($sibling_classes as $schema_type) {
@@ -314,7 +303,7 @@ class midcom_helper_reflector_nameresolver
         return $ret;
     }
 
-    private function _get_sibling_qb($schema_type, $parent)
+    private function _get_sibling_qb(string $schema_type, $parent)
     {
         $dummy = new $schema_type();
         $child_name_property = midcom_helper_reflector::get_name_property($dummy);
@@ -337,7 +326,7 @@ class midcom_helper_reflector_nameresolver
         return $qb;
     }
 
-    private function _get_root_qb($schema_type)
+    private function _get_root_qb(string $schema_type)
     {
         $dummy = new $schema_type();
         $child_name_property = midcom_helper_reflector::get_name_property($dummy);
@@ -360,7 +349,7 @@ class midcom_helper_reflector_nameresolver
         return $qb;
     }
 
-    private function _parse_filename($name, $extension, $default = 0) : array
+    private function _parse_filename(string $name, string $extension, $default = 0) : array
     {
         if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $name, $name_matches)) {
             // Name already has i and base parts, split them.
@@ -378,7 +367,7 @@ class midcom_helper_reflector_nameresolver
      * @param string $extension The file extension, when working with attachments
      * @return array first key is the resolved $i second is the $base_name, which is $current_name without numeric suffix
      */
-    private function _generate_unique_name_resolve_i($current_name, $extension) : array
+    private function _generate_unique_name_resolve_i(string $current_name, string $extension) : array
     {
         list($i, $base_name) = $this->_parse_filename($current_name, $extension, 1);
 
@@ -420,7 +409,7 @@ class midcom_helper_reflector_nameresolver
         return [$i, $base_name];
     }
 
-    private function process_schema_type($qb, $i, $schema_type, $base_name, $extension) : int
+    private function process_schema_type($qb, $i, string $schema_type, string $base_name, string $extension) : int
     {
         if (!$qb) {
             return $i;

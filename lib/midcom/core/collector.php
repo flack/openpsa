@@ -107,7 +107,7 @@ class midcom_core_collector extends midcom_core_query
         return $newresult;
     }
 
-    private function _list_keys_and_check_privileges($apply_offset_limit = true) : array
+    private function _list_keys_and_check_privileges(bool $apply_offset_limit = true) : array
     {
         $this->execute();
         $result = $this->_query->list_keys();

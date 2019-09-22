@@ -60,7 +60,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      *
      * @param string $guid GUID
      */
-    private function _load_object($guid)
+    private function _load_object(string $guid)
     {
         try {
             $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
@@ -236,7 +236,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         return $this->get_response('midgard_admin_asgard_object_create');
     }
 
-    private function get_defaults(Request $request, $new_type) : array
+    private function get_defaults(Request $request, string $new_type) : array
     {
         $defaults = [];
         if ($this->_object) {
@@ -269,7 +269,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         return $defaults;
     }
 
-    private function _prepare_relocate(midcom_core_dbaobject $object, $mode = 'default') : midcom_response_relocate
+    private function _prepare_relocate(midcom_core_dbaobject $object, string $mode = 'default') : midcom_response_relocate
     {
         // Redirect parameters to overview
         if ($object instanceof midcom_db_parameter) {

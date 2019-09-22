@@ -218,7 +218,7 @@ class midcom_helper__styleloader
      * @param string $name    The element to locate.
      * @return string    Value of the found element, or false on failure.
      */
-    private function _get_element_in_styletree($id, $name)
+    private function _get_element_in_styletree($id, string $name)
     {
         static $cached = [];
         $cache_key = $id . '::' . $name;
@@ -330,7 +330,7 @@ class midcom_helper__styleloader
      * @param string $path the element's name
      * @throws midcom_error
      */
-    private function render($style, $path)
+    private function render(string $style, string $path)
     {
         if (midcom::get()->config->get('wrap_style_show_with_name')) {
             $style = "\n<!-- Start of style '{$path}' -->\n" . $style;
@@ -401,7 +401,7 @@ class midcom_helper__styleloader
     /**
      * Try to find element in current / given scope
      */
-    private function _find_element_in_scope($_element)
+    private function _find_element_in_scope(string $_element)
     {
         if (!empty($this->_scope)) {
             $src = "{$this->_scope[0]}/{$_element}";
@@ -421,7 +421,7 @@ class midcom_helper__styleloader
     /**
      * Try to get element from default style snippet
      */
-    private function _get_element_from_snippet($_element)
+    private function _get_element_from_snippet(string $_element)
     {
         $src = "{$this->_snippetdir}/{$_element}";
         if (array_key_exists($src, $this->_snippets)) {

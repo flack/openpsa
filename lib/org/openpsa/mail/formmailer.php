@@ -117,7 +117,7 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
         }
     }
 
-    private function get($field)
+    private function get(string $field)
     {
         if (!empty($this->$field)) {
             return $this->$field;

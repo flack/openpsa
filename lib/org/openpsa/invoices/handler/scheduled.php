@@ -90,7 +90,7 @@ implements client
         return $invoice;
     }
 
-    private function _render_contact_field($id, $fieldname, array &$invoice, $classname = org_openpsa_contacts_person_dba::class)
+    private function _render_contact_field(int $id, string $fieldname, array &$invoice, string $classname = org_openpsa_contacts_person_dba::class)
     {
         $sales_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.sales');
         $invoice[$fieldname] = '';

@@ -90,7 +90,7 @@ implements midcom_services_permalinks_resolver
         return null;
     }
 
-    private function _get_data_from_url($url) : array
+    private function _get_data_from_url(string $url) : array
     {
         $data = [];
 

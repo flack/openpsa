@@ -384,7 +384,7 @@ class midcom_helper_toolbar
         return $item;
     }
 
-    private function set_url(array &$item, $url)
+    private function set_url(array &$item, string $url)
     {
         $item[MIDCOM_TOOLBAR__ORIGINAL_URL] = $url;
         if (   (   empty($item[MIDCOM_TOOLBAR_OPTIONS]["rel"])

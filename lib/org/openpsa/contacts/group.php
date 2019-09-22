@@ -82,7 +82,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         return $this->get_label();
     }
 
-    private function _get_address_extra($property)
+    private function _get_address_extra(string $property)
     {
         $return = $this->get_parameter('midcom.helper.datamanager2', $property);
         if (!$return) {

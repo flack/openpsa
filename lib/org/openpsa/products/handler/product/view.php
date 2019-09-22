@@ -96,7 +96,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         return $this->show('product_view');
     }
 
-    private function _load_product($handler_id, $guid)
+    private function _load_product($handler_id, string $guid)
     {
         $qb = org_openpsa_products_product_dba::new_query_builder();
         $qb->add_constraint('guid', '=', $guid);

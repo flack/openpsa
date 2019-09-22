@@ -351,7 +351,7 @@ class midcom_core_privilege
      * @param string $guid A GUID to query.
      * @return midcom_core_privilege[]
      */
-    public static function get_self_privileges($guid) : array
+    public static function get_self_privileges(string $guid) : array
     {
         return self::_get_privileges($guid, 'SELF');
     }
@@ -364,7 +364,7 @@ class midcom_core_privilege
      * @param string $guid The GUID of the object for which we should look up privileges.
      * @return midcom_core_privilege[]
      */
-    public static function get_all_privileges($guid) : array
+    public static function get_all_privileges(string $guid) : array
     {
         return array_merge(self::get_content_privileges($guid), self::get_self_privileges($guid));
     }
@@ -375,7 +375,7 @@ class midcom_core_privilege
      * @param string $guid The GUID of the object for which we should look up privileges.
      * @return midcom_core_privilege[]
      */
-    private static function _get_privileges($guid, $type) : array
+    private static function _get_privileges(string $guid, string $type) : array
     {
         static $cache = [];
 
@@ -403,7 +403,7 @@ class midcom_core_privilege
      * @param string $type SELF or CONTENT
      * @return midcom_core_privilege[]
      */
-    protected static function _query_privileges($guid, $type) : array
+    protected static function _query_privileges(string $guid, $type) : array
     {
         $result = [];
 

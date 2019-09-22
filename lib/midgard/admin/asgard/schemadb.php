@@ -158,7 +158,7 @@ class midgard_admin_asgard_schemadb
         return new schemadb(['default' => $this->schema]);
     }
 
-    private function _filter_schema_fields($key) : bool
+    private function _filter_schema_fields(string $key) : bool
     {
         if (   $key == 'metadata'
             || in_array($key, $this->_config->get('object_skip_fields'))) {
@@ -168,7 +168,7 @@ class midgard_admin_asgard_schemadb
         return true;
     }
 
-    private function _add_string_field($key, $type)
+    private function _add_string_field(string $key, string $type)
     {
         if (   $key == 'component'
             && $type == midcom_db_topic::class) {
@@ -211,7 +211,7 @@ class midgard_admin_asgard_schemadb
         ];
     }
 
-    private function _add_int_field($key)
+    private function _add_int_field(string $key)
     {
         if (in_array($key, ['start', 'end', 'added', 'date'])) {
             // We can safely assume that INT fields called start and end store unixtimes
@@ -234,7 +234,7 @@ class midgard_admin_asgard_schemadb
         }
     }
 
-    private function _add_longtext_field($key)
+    private function _add_longtext_field(string $key)
     {
         // Figure out nice size for the editing field
 
@@ -293,7 +293,7 @@ class midgard_admin_asgard_schemadb
         ];
     }
 
-    private function _add_name_field($key, midcom_core_dbaobject $name_obj)
+    private function _add_name_field(string $key, midcom_core_dbaobject $name_obj)
     {
         $type_urlname_config = [];
         $allow_unclean_name_types = $this->_config->get('allow_unclean_names_for');
@@ -316,7 +316,7 @@ class midgard_admin_asgard_schemadb
         ];
     }
 
-    private function _add_component_dropdown($key)
+    private function _add_component_dropdown(string $key)
     {
         $components = ['' => ''];
         foreach (midcom::get()->componentloader->manifests as $manifest) {
@@ -340,7 +340,7 @@ class midgard_admin_asgard_schemadb
         ];
     }
 
-    private function _add_linked_field($key)
+    private function _add_linked_field(string $key)
     {
         $linked_type = $this->_reflector->get_link_name($key);
         $field_type = $this->_reflector->get_midgard_type($key);
@@ -388,7 +388,7 @@ class midgard_admin_asgard_schemadb
         }
     }
 
-    private function build_autocomplete_config($key, $class, $linked_type) : array
+    private function build_autocomplete_config(string $key, string $class, string $linked_type) : array
     {
         $reflector = midcom_helper_reflector::get($linked_type);
         $component = midcom::get()->dbclassloader->get_component_for_class($linked_type);
@@ -461,7 +461,7 @@ class midgard_admin_asgard_schemadb
         ];
     }
 
-    private function _get_score($field) : int
+    private function _get_score(string $field) : int
     {
         $preferred_fields = $this->_config->get('object_preferred_fields');
         $timerange_fields = $this->_config->get('object_timerange_fields');

@@ -104,7 +104,7 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
      *
      * @param midcom_db_person $person The newly created person account.
      */
-    private function _send_reset_mail(midcom_db_person $person, $password)
+    private function _send_reset_mail(midcom_db_person $person, string $password)
     {
         $from = $this->_config->get('lostpassword_reset_mail_sender') ?: $person->email;
 

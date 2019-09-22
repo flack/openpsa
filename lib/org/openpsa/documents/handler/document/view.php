@@ -99,7 +99,7 @@ implements client
         return $entry;
     }
 
-    private function _load_document($guid) : org_openpsa_documents_document_dba
+    private function _load_document(string $guid) : org_openpsa_documents_document_dba
     {
         $document = new org_openpsa_documents_document_dba($guid);
 
