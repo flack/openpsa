@@ -4,8 +4,8 @@
         badPass: "org_openpsa_user_badPass",
         goodPass: "org_openpsa_user_goodPass",
         strongPass: "org_openpsa_user_strongPass"
-    },
-    resultStyle = "";
+    };
+    var resultStyle = "";
 
     $.fn.password_widget = function(options) {
         var defaults = {
