@@ -54,7 +54,7 @@ class midcom_compat_environment
         }
     }
 
-    public function header($string, $replace = true, $http_response_code = null)
+    public function header(string $string, $replace = true, $http_response_code = null)
     {
         if (!defined('OPENPSA2_UNITTEST_RUN')) {
             header($string, $replace, $http_response_code);
@@ -67,7 +67,7 @@ class midcom_compat_environment
         }
     }
 
-    public function stop_request($message = '')
+    public function stop_request(string $message = '')
     {
         if (!defined('OPENPSA2_UNITTEST_RUN')) {
             exit($message);

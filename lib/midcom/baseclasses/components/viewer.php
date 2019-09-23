@@ -503,7 +503,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      * @param array $config The configuration of the plugin namespace as outlined in
      *     the class introduction
      */
-    public function register_plugin_namespace($namespace, array $config)
+    public function register_plugin_namespace(string $namespace, array $config)
     {
         if (array_key_exists($namespace, self::$_plugin_namespace_config)) {
             throw new midcom_error("Tried to register the plugin namespace {$namespace}, but it is already registered.");

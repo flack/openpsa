@@ -137,7 +137,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * @param string $element
      * @param string $root
      */
-    public function show($element, $root = 'ROOT') : midcom_response_styled
+    public function show(string $element, string $root = 'ROOT') : midcom_response_styled
     {
         $context = midcom_core_context::get();
         $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, function() use ($element) {
@@ -153,7 +153,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * @param string $url The URL
      * @param string $title The text to display
      */
-    public function add_breadcrumb($url, $title)
+    public function add_breadcrumb(string $url, string $title)
     {
         $this->_breadcrumbs[] = [
             MIDCOM_NAV_URL => $url,

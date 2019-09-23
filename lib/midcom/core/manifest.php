@@ -277,10 +277,8 @@ class midcom_core_manifest
      *
      * If it is a relative path, it is evaluated against MIDCOM_ROOT. Otherwise,
      * the file is accessed directly.
-     *
-     * @param string $filename The name of the manifest file to load.
      */
-    public function __construct($filename)
+    public function __construct(string $filename)
     {
         $this->filename = $filename;
         $raw_data = midcom_baseclasses_components_configuration::read_array_from_file($filename);

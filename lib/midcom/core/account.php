@@ -90,7 +90,7 @@ class midcom_core_account
         return true;
     }
 
-    public function set_username($username)
+    public function set_username(string $username)
     {
         $this->_old_username = $this->get_username();
         $this->_user->login = $username;
@@ -102,7 +102,7 @@ class midcom_core_account
      * @param string $password The password to set
      * @param boolean $encode Should the password be encoded according to the configured auth type
      */
-    public function set_password($password, $encode = true)
+    public function set_password(string $password, $encode = true)
     {
         if ($encode) {
             $password = midcom_connection::prepare_password($password);

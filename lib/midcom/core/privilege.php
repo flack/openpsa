@@ -337,7 +337,7 @@ class midcom_core_privilege
      * @param string $guid A GUID to query.
      * @return midcom_core_privilege[]
      */
-    public static function get_content_privileges($guid) : array
+    public static function get_content_privileges(string $guid) : array
     {
         return self::_get_privileges($guid, 'CONTENT');
     }
@@ -455,7 +455,7 @@ class midcom_core_privilege
      * @param string $assignee The identifier of the assignee to query.
      * @param string $classname The optional classname required only for class-limited SELF privileges.
      */
-    public static function get_privilege($object, $name, $assignee, $classname = '') : midcom_core_privilege
+    public static function get_privilege($object, string $name, $assignee, string $classname = '') : midcom_core_privilege
     {
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('objectguid', '=', $object->guid);

@@ -49,7 +49,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return midcom::get()->componentloader->path_to_snippetpath($component) . '/documentation/';
     }
 
-    public static function generate_file_path($help_id, $component, $language = null)
+    public static function generate_file_path(string $help_id, string $component, $language = null)
     {
         if ($language === null) {
             $language = midcom::get()->i18n->get_current_language();
@@ -109,7 +109,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return MarkdownExtra::defaultTransform($text);
     }
 
-    public function list_files($component, $with_index = false) : array
+    public function list_files(string $component, bool $with_index = false) : array
     {
         $files = $this->_list_physical_files($component);
         $files = $this->_add_virtual_files($files, $component);
@@ -399,7 +399,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      * @param string $component The component name
      * @param array $data The local request data.
      */
-    public function _handler_component($handler_id, $component, array &$data)
+    public function _handler_component($handler_id, string $component, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -443,7 +443,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      * @param string $help_id The help ID
      * @param array $data The local request data.
      */
-    public function _handler_help($handler_id, $component, $help_id, array &$data)
+    public function _handler_help($handler_id, string $component, string $help_id, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 

@@ -193,7 +193,7 @@ abstract class midcom_core_dbaobject
         return midcom::get()->dbfactory->get_cached(get_called_class(), $src);
     }
 
-    public function set_guid($guid)
+    public function set_guid(string $guid)
     {
         return $this->__object->set_guid($guid);
     }
@@ -231,9 +231,9 @@ abstract class midcom_core_dbaobject
     /**
      * Undelete object defined by a GUID
      *
-     * @return boolean Indicating success
+     * @return int Size of undeleted objects
      */
-    public static function undelete($guid) : int
+    public static function undelete(string $guid) : int
     {
         return midcom_baseclasses_core_dbobject::undelete([$guid]);
     }
@@ -259,31 +259,25 @@ abstract class midcom_core_dbaobject
     }
 
     /**
-     *
-     * @param string $guid
      * @return boolean Indicating success
      */
-    public function get_by_guid($guid) : bool
+    public function get_by_guid(string $guid) : bool
     {
         return midcom_baseclasses_core_dbobject::get_by_guid($this, $guid);
     }
 
     /**
-     *
-     * @param integer $id
      * @return boolean Indicating success
      */
-    public function get_by_id($id) : bool
+    public function get_by_id(int $id) : bool
     {
         return midcom_baseclasses_core_dbobject::get_by_id($this, $id);
     }
 
     /**
-     *
-     * @param string $path
      * @return boolean Indicating success
      */
-    public function get_by_path($path) : bool
+    public function get_by_path(string $path) : bool
     {
         return midcom_baseclasses_core_dbobject::get_by_path($this, $path);
     }
@@ -304,15 +298,15 @@ abstract class midcom_core_dbaobject
     {
         return $this->__object->has_attachments();
     }
-    public function find_attachments($constraints)
+    public function find_attachments(array $constraints)
     {
         return $this->__object->find_attachments($constraints);
     }
-    public function delete_attachments($constraints)
+    public function delete_attachments(array $constraints)
     {
         return $this->__object->delete_attachments($constraints);
     }
-    public function purge_attachments($constraints)
+    public function purge_attachments(array $constraints)
     {
         return $this->__object->purge_attachments($constraints);
     }
@@ -320,15 +314,15 @@ abstract class midcom_core_dbaobject
     {
         return $this->__object->has_parameters();
     }
-    public function find_parameters($constraints)
+    public function find_parameters(array $constraints)
     {
         return $this->__object->find_parameters($constraints);
     }
-    public function delete_parameters($constraints)
+    public function delete_parameters(array $constraints)
     {
         return $this->__object->delete_parameters($constraints);
     }
-    public function purge_parameters($constraints)
+    public function purge_parameters(array $constraints)
     {
         return $this->__object->purge_parameters($constraints);
     }
@@ -398,19 +392,19 @@ abstract class midcom_core_dbaobject
     }
 
     // ACL Shortcuts
-    public function can_do($privilege, $user = null) : bool
+    public function can_do(string $privilege, $user = null) : bool
     {
         return midcom::get()->auth->can_do($privilege, $this, $user);
     }
-    public function can_user_do($privilege, $user = null) : bool
+    public function can_user_do(string $privilege, $user = null) : bool
     {
         return midcom::get()->auth->can_user_do($privilege, $user, $this->__midcom_class_name__);
     }
-    public function require_do($privilege, $message = null)
+    public function require_do(string $privilege, $message = null)
     {
         midcom::get()->auth->require_do($privilege, $this, $message);
     }
-    public function require_user_do($privilege, $message = null)
+    public function require_user_do(string $privilege, $message = null)
     {
         midcom::get()->auth->require_user_do($privilege, $message, $this->__midcom_class_name__);
     }
@@ -502,11 +496,11 @@ abstract class midcom_core_dbaobject
     {
         $this->_use_rcs = true;
     }
-    public function set_rcs_message($msg)
+    public function set_rcs_message(string $msg)
     {
         $this->_rcs_message = $msg;
     }
-    public function get_rcs_message()
+    public function get_rcs_message() : string
     {
         return $this->_rcs_message;
     }

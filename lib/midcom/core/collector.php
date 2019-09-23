@@ -38,7 +38,7 @@ class midcom_core_collector extends midcom_core_query
      *
      * @param string $classname The classname which should be queried.
      */
-    public function __construct($classname, $domain = null, $value = null)
+    public function __construct(string $classname, $domain = null, $value = null)
     {
         $mgdschemaclass = $this->_convert_class($classname);
 
@@ -146,7 +146,7 @@ class midcom_core_collector extends midcom_core_query
      *
      * @param string $field the column name
      */
-    public function get_values($field) : array
+    public function get_values(string $field) : array
     {
         $this->add_value_property($field);
         $this->execute();
@@ -200,7 +200,7 @@ class midcom_core_collector extends midcom_core_query
         return $result;
     }
 
-    public function get_subkey($key, $property)
+    public function get_subkey($key, string $property)
     {
         if (   $this->_user_id
             && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id)) {
@@ -225,7 +225,7 @@ class midcom_core_collector extends midcom_core_query
         return $this->_query->destroy();
     }
 
-    public function add_value_property($property) : bool
+    public function add_value_property(string $property) : bool
     {
         if (!$this->_query->add_value_property($property)) {
             debug_add("Failed to execute add_value_property '{$property}' for {$this->_real_class}.", MIDCOM_LOG_ERROR);

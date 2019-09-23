@@ -89,7 +89,7 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
      * @param string $message The error message to print.
      * @param mixed $var A variable you want to print, if any.
      */
-    public function print_error($message, $var = null)
+    public function print_error(string $message, $var = null)
     {
         $prefix = 'ERROR';
         if ($this->output->getVerbosity() < OutputInterface::VERBOSITY_VERBOSE) {

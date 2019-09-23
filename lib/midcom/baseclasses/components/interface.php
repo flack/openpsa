@@ -139,7 +139,7 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      */
     protected $_site_class_suffix = 'viewer';
 
-    public static function get_classname($component, $suffix = 'interface') : string
+    public static function get_classname(string $component, string $suffix = 'interface') : string
     {
         $loader = midcom::get()->componentloader;
         $class_name = $loader->path_to_prefix($component) . '_' . $suffix;
@@ -152,7 +152,7 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
     /**
      * Initializes the component.
      */
-    public function initialize($component)
+    public function initialize(string $component)
     {
         $this->_component = $component;
     }

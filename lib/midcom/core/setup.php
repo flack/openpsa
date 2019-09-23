@@ -13,7 +13,7 @@
  */
 class midcom_core_setup
 {
-    public function __construct($message)
+    public function __construct(string $message)
     {
         midcom::get()->auth->require_admin_user($message);
     }
@@ -41,7 +41,7 @@ class midcom_core_setup
         }
     }
 
-    public function find_topic($autocreate = false) : midcom_db_topic
+    public function find_topic(bool $autocreate = false) : midcom_db_topic
     {
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('up', '=', 0);

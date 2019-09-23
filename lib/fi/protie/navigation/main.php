@@ -336,7 +336,7 @@ class fi_protie_navigation
         return implode(' ', $classes);
     }
 
-    private function _display_element($item, $css_classes)
+    private function _display_element(array $item, string $css_classes)
     {
         // Finalize the class naming
         $class = ($css_classes !== '') ? ' class="' . $css_classes . '"' : '';

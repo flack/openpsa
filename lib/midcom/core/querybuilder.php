@@ -36,7 +36,7 @@ class midcom_core_querybuilder extends midcom_core_query
      *
      * @param string $classname The classname which should be queried.
      */
-    public function __construct($classname)
+    public function __construct(string $classname)
     {
         $mgdschemaclass = $this->_convert_class($classname);
 

@@ -493,7 +493,7 @@ class midcom_baseclasses_core_dbobject
      * @return integer Size of undeleted objects
      * @todo We should only undelete parameters & attachments deleted inside some small window of the main objects delete
      */
-    public static function undelete_parameters($guid) : int
+    public static function undelete_parameters(string $guid) : int
     {
         $undeleted_size = 0;
 
@@ -517,7 +517,7 @@ class midcom_baseclasses_core_dbobject
      * @return integer Size of undeleted objects
      * @todo We should only undelete parameters & attachments deleted inside some small window of the main objects delete
      */
-    public static function undelete_attachments($guid) : int
+    public static function undelete_attachments(string $guid) : int
     {
         $undeleted_size = 0;
 
@@ -587,7 +587,7 @@ class midcom_baseclasses_core_dbobject
      * @param string $guid
      * @return integer Size of purged objects
      */
-    public static function purge_parameters($guid) : int
+    public static function purge_parameters(string $guid) : int
     {
         $purged_size = 0;
 
@@ -615,7 +615,7 @@ class midcom_baseclasses_core_dbobject
      * @param string $guid
      * @return integer Size of purged objects
      */
-    public static function purge_attachments($guid) : int
+    public static function purge_attachments(string $guid) : int
     {
         $purged_size = 0;
 
@@ -686,7 +686,7 @@ class midcom_baseclasses_core_dbobject
      * @param int $id The id of the object to load from the database.
      * @return bool Indicating Success
      */
-    public static function get_by_id(midcom_core_dbaobject $object, $id) : bool
+    public static function get_by_id(midcom_core_dbaobject $object, int $id) : bool
     {
         if (!$id) {
             debug_add("Failed to load " . get_class($object) . " object, incorrect ID provided.", MIDCOM_LOG_ERROR);
@@ -718,7 +718,7 @@ class midcom_baseclasses_core_dbobject
      * @param string $guid The guid of the object to load from the database.
      * @return bool Indicating Success
      */
-    public static function get_by_guid(midcom_core_dbaobject $object, $guid) : bool
+    public static function get_by_guid(midcom_core_dbaobject $object, string $guid) : bool
     {
         if (   !midcom::get()->auth->admin
             && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $guid, get_class($object), midcom::get()->auth->acl->get_user_id())) {

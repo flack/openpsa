@@ -87,7 +87,7 @@ class midcom_core_urlmethods
      * @param string $guid
      * @throws midcom_error_notfound
      */
-    public function process_permalink($guid) : Response
+    public function process_permalink(string $guid) : Response
     {
         $destination = midcom::get()->permalinks->resolve_permalink($guid);
         if ($destination === null) {

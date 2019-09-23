@@ -32,7 +32,7 @@ class midcom_baseclasses_components_configuration
      */
     private static $_data = [];
 
-    public static function get($component, $key = null)
+    public static function get(string $component, $key = null)
     {
         if (!array_key_exists($component, self::$_data)) {
             self::_initialize($component);
@@ -44,7 +44,7 @@ class midcom_baseclasses_components_configuration
         return self::$_data[$component][$key];
     }
 
-    public static function set($component, $key, $value)
+    public static function set(string $component, string $key, $value)
     {
         if (!array_key_exists($component, self::$_data)) {
             self::_initialize($component);
@@ -125,7 +125,7 @@ class midcom_baseclasses_components_configuration
      * @param string $filename The name of the file that should be parsed.
      * @return Array The read data
      */
-    public static function read_array_from_file($filename) : array
+    public static function read_array_from_file(string $filename) : array
     {
         if (!file_exists($filename)) {
             return [];
@@ -144,7 +144,7 @@ class midcom_baseclasses_components_configuration
      * @return Array The read data or false on failure.
      * @see read_array_from_file()
      */
-    public static function read_array_from_snippet($snippetpath) : array
+    public static function read_array_from_snippet(string $snippetpath) : array
     {
         $code = midcom_helper_misc::get_snippet_content_graceful($snippetpath);
         return midcom_helper_misc::parse_config($code);

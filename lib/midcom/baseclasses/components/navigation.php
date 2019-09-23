@@ -32,7 +32,7 @@ class midcom_baseclasses_components_navigation extends midcom_baseclasses_compon
      *
      * @param string $component The name of the component.
      */
-    public function __construct($component)
+    public function __construct(string $component)
     {
         $this->_component = $component;
 

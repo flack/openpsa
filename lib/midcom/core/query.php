@@ -172,7 +172,7 @@ abstract class midcom_core_query
      *     queried property.
      * @return boolean Indicating success.
      */
-    public function add_constraint($field, $operator, $value) : bool
+    public function add_constraint(string $field, string $operator, $value) : bool
     {
         $this->_reset();
         // Add check against null values, Core MC is too stupid to get this right.
@@ -213,7 +213,7 @@ abstract class midcom_core_query
      * @param string $compare_field The field to compare against.
      * @return boolean Indicating success.
      */
-    public function add_constraint_with_property($field, $operator, $compare_field) : bool
+    public function add_constraint_with_property(string $field, string $operator, string $compare_field) : bool
     {
         $this->_reset();
         if (!$this->_query->add_constraint_with_property($field, $operator, $compare_field)) {
@@ -237,7 +237,7 @@ abstract class midcom_core_query
      * @param string $operator One of 'OR' or 'AND' denoting the logical operation with which all
      *     constraints in the group are concatenated.
      */
-    public function begin_group($operator)
+    public function begin_group(string $operator)
     {
         if (!$this->_query->begin_group($operator)) {
             debug_add("Failed to execute begin_group {$operator}", MIDCOM_LOG_ERROR);
@@ -260,7 +260,7 @@ abstract class midcom_core_query
      *
      * @param int $limit The maximum number of records in the resultset.
      */
-    public function set_limit($limit)
+    public function set_limit(int $limit)
     {
         $this->_reset();
         $this->_limit = $limit;
@@ -273,7 +273,7 @@ abstract class midcom_core_query
      *
      * @param int $offset The record number to start with.
      */
-    public function set_offset($offset)
+    public function set_offset(int $offset)
     {
         $this->_reset();
 
@@ -288,7 +288,7 @@ abstract class midcom_core_query
      *     ordering. The default is 'ASC'.
      * @return boolean Indicating success.
      */
-    public function add_order($field, $direction = 'ASC') : bool
+    public function add_order(string $field, string $direction = 'ASC') : bool
     {
         if (!$this->_query->add_order($field, $direction)) {
             debug_add("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);

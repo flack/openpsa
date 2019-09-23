@@ -511,7 +511,7 @@ class midcom_config implements ArrayAccess
         }
     }
 
-    public function get($key, $default = null)
+    public function get(string $key, $default = null)
     {
         if (!$this->offsetExists($key)) {
             return $default;
@@ -530,7 +530,7 @@ class midcom_config implements ArrayAccess
         return $this->_merged_config[$key];
     }
 
-    public function set($key, $value)
+    public function set(string $key, $value)
     {
         $this->_merged_config[$key] = $value;
     }
