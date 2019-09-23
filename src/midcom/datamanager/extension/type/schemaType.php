@@ -79,7 +79,7 @@ class schemaType extends AbstractType
      *
      * @param string $shortname
      */
-    private function get_type_name($shortname) : string
+    private function get_type_name(string $shortname) : string
     {
         if (class_exists('midcom\datamanager\extension\type\\' . $shortname . 'Type')) {
             return 'midcom\datamanager\extension\type\\' . $shortname . 'Type';
@@ -106,7 +106,7 @@ class schemaType extends AbstractType
         return array_diff_key($settings, array_flip($remove));
     }
 
-    private function build_constraints($config) : array
+    private function build_constraints(array $config) : array
     {
         $constraints = !empty($config['constraints']) ? $config['constraints'] : [];
 

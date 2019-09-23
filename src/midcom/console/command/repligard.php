@@ -96,7 +96,7 @@ class repligard extends Command
         return new PDO($dsn, $username, $password);
     }
 
-    private function _confirm(InputInterface $input, OutputInterface $output, $question, $default = false) : bool
+    private function _confirm(InputInterface $input, OutputInterface $output, string $question, $default = false) : bool
     {
         $question = '<question>' . $question;
         $options = [true => 'y', false => 'n'];
@@ -111,7 +111,7 @@ class repligard extends Command
         return $dialog->ask($input, $output, $question);
     }
 
-    private function _run($stmt, $command = 'query')
+    private function _run(string $stmt, $command = 'query')
     {
         $result = $this->db->$command($stmt);
         if ($result === false) {

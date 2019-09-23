@@ -116,10 +116,9 @@ trait parameters
      *
      * No event handlers are called here yet.
      *
-     * @param string $domain The parameter domain to query.
      * @see list_parameters()
      */
-    private function list_parameters_domain($domain) : array
+    private function list_parameters_domain(string $domain) : array
     {
         if (!isset(self::$parameter_cache[$this->guid])) {
             self::$parameter_cache[$this->guid] = [];

@@ -83,7 +83,7 @@ class cron extends Command
         midcom::get()->auth->drop_sudo();
     }
 
-    private function run_job($classname, OutputInterface $output)
+    private function run_job(string $classname, OutputInterface $output)
     {
         $handler = new $classname;
         if ($handler->initialize($output)) {

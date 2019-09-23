@@ -125,7 +125,7 @@ class schema
         }
     }
 
-    private function resolve_field_options(array $config, $name) : array
+    private function resolve_field_options(array $config, string $name) : array
     {
         $resolver = new OptionsResolver();
 

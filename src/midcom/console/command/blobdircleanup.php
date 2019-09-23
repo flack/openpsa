@@ -66,12 +66,12 @@ class blobdircleanup extends Command
         }
     }
 
-    private function _determine_location($path) : string
+    private function _determine_location(string $path) : string
     {
         return ltrim(str_replace($this->_dir, "", $path), "/");
     }
 
-    private function get_attachment($file)
+    private function get_attachment(string $file)
     {
         $location = $this->_determine_location($file);
         // get attachments
@@ -105,7 +105,7 @@ class blobdircleanup extends Command
         }
     }
 
-    private function cleanup_file(OutputInterface $output, $file)
+    private function cleanup_file(OutputInterface $output, string $file)
     {
         if (!$this->dry) {
             $stat = unlink($file);

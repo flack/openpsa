@@ -108,7 +108,7 @@ class loader extends base
     /**
      * @param string $component
      */
-    private function is_legacy($component) : bool
+    private function is_legacy(string $component) : bool
     {
         return !file_exists($this->get_path($component, 'yml'));
     }
@@ -121,7 +121,7 @@ class loader extends base
         return $this->yaml_loader;
     }
 
-    private function get_path($component, $suffix) : string
+    private function get_path(string $component, string $suffix) : string
     {
         return midcom::get()->componentloader->path_to_snippetpath($component) . '/config/routes.' . $suffix;
     }
@@ -143,7 +143,7 @@ class loader extends base
         return array_merge($routes, $this->load_routes($component));
     }
 
-    private function load_routes($component) : array
+    private function load_routes(string $component) : array
     {
         $path = $this->get_path($component, 'inc');
         // Load and parse the global config

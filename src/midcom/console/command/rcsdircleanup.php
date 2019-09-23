@@ -45,7 +45,7 @@ class rcsdircleanup extends Command
             ->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files will not be deleted');
     }
 
-    private function check_dir(OutputInterface $output, $outerDir)
+    private function check_dir(OutputInterface $output, string $outerDir)
     {
         $outerDir = rtrim($outerDir, "/");
         $output->write("\x0D");
@@ -65,7 +65,7 @@ class rcsdircleanup extends Command
         }
     }
 
-    private function has_repligard_entry($file) : bool
+    private function has_repligard_entry(string $file) : bool
     {
         $guid = preg_replace('/^.+\/(.+?)\,?v?$/', '$1', $file);
 
@@ -76,7 +76,7 @@ class rcsdircleanup extends Command
         return !empty($repligard_entry);
     }
 
-    private function cleanup_file(OutputInterface $output, $file)
+    private function cleanup_file(OutputInterface $output, string $file)
     {
         if (unlink($file)) {
             $output->writeln("<info>Cleanup OK</info>", Output::VERBOSITY_VERBOSE);

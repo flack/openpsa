@@ -229,7 +229,7 @@ class provider
         }
     }
 
-    private function _get_grid_option($key, $default = null)
+    private function _get_grid_option(string $key, $default = null)
     {
         if (empty($this->_grid)) {
             return $default;

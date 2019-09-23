@@ -119,7 +119,7 @@ class datamanager extends dialog
         midcom::get()->head->add_jscript('add_dialog_button(' . $this->prepare_url($url) . ', "' . $config[MIDCOM_TOOLBAR_LABEL] . '", ' . json_encode($config[MIDCOM_TOOLBAR_OPTIONS]) . ');');
     }
 
-    private function prepare_url($url) : string
+    private function prepare_url(string $url) : string
     {
         if (   substr($url, 0, 1) != '/'
             && ! preg_match('|^https?://|', $url)) {

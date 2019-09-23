@@ -90,7 +90,7 @@ class parser
      * @param string $namespace The namespace for which to search a variable
      * @return string|boolean The command that was found, or false if there is no match
      */
-    private function walk_variables($namespace)
+    private function walk_variables(string $namespace)
     {
         if (   empty($this->argv)
             || strpos($this->argv[0], $namespace . '-') !== 0) {

@@ -61,13 +61,7 @@ class imagefilter
         return $this->images;
     }
 
-    /**
-     *
-     * @param midcom_db_attachment $input
-     * @param array $existing
-     * @param string $identifier
-     */
-    private function get_attachment(midcom_db_attachment $input, array $existing, $identifier) : midcom_db_attachment
+    private function get_attachment(midcom_db_attachment $input, array $existing, string $identifier) : midcom_db_attachment
     {
         // upload case
         if ($input->id == 0) {
@@ -117,9 +111,6 @@ class imagefilter
         return $attachment;
     }
 
-    /**
-     * @param array $existing
-     */
     private function create_derived_images(array $existing)
     {
         $derived = [];

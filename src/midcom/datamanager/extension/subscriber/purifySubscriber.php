@@ -79,7 +79,7 @@ class purifySubscriber implements EventSubscriberInterface
         $event->setData($data);
     }
 
-    private function get_from_global_config($key)
+    private function get_from_global_config(string $key)
     {
         return midcom_baseclasses_components_configuration::get('midcom.datamanager', 'config')->get($key);
     }
