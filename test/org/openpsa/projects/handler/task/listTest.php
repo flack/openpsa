@@ -36,7 +36,6 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.projects', ['task', 'list']);
         $this->assertEquals('task-list-user', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -47,7 +46,6 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.projects', ['task', 'list', 'project', self::$_project->guid]);
         $this->assertEquals('task-list-project', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -58,7 +56,6 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.projects', ['task', 'list', 'json', self::$_project->guid]);
         $this->assertEquals('task-list-json', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -69,7 +66,6 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.projects', ['task', 'list', 'task', self::$_task->guid]);
         $this->assertEquals('task-list-subtask', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -80,7 +76,6 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.projects', ['task', 'list', 'open']);
         $this->assertEquals('task-list', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -93,7 +88,6 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.projects', ['task', 'list', 'agreement', $deliverable->id]);
         $this->assertEquals('task-list-agreement', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }

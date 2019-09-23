@@ -33,7 +33,6 @@ class net_nehmer_blog_handler_archiveTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['archive']);
         $this->assertEquals('archive-welcome', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -44,7 +43,6 @@ class net_nehmer_blog_handler_archiveTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['archive', 'year', date('Y')]);
         $this->assertEquals('archive-year', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -55,7 +53,6 @@ class net_nehmer_blog_handler_archiveTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['archive', 'month', date('Y'), date('m')]);
         $this->assertEquals('archive-month', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

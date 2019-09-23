@@ -26,7 +26,6 @@ class org_openpsa_directmarketing_handler_subscriberTest extends openpsa_testcas
 
         $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'list', self::$_person->guid]);
         $this->assertEquals('list_campaign_person', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -39,7 +38,6 @@ class org_openpsa_directmarketing_handler_subscriberTest extends openpsa_testcas
 
         $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'unsubscribe', $member->guid]);
         $this->assertEquals('subscriber_unsubscribe', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -52,7 +50,6 @@ class org_openpsa_directmarketing_handler_subscriberTest extends openpsa_testcas
 
         $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'unsubscribe_all', self::$_person->guid]);
         $this->assertEquals('subscriber_unsubscribe_all', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -65,7 +62,6 @@ class org_openpsa_directmarketing_handler_subscriberTest extends openpsa_testcas
 
         $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'unsubscribe_all_future', self::$_person->guid, 'test']);
         $this->assertEquals('subscriber_unsubscribe_all_future', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }

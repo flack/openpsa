@@ -30,9 +30,6 @@ class org_openpsa_directmarketing_handler_message_sendTest extends openpsa_testc
         $data = $this->run_handler('org.openpsa.directmarketing', ['message', 'send_test', $message->guid]);
         $this->assertEquals('test_send_message', $data['handler_id']);
 
-        ob_start();
-        $this->show_handler($data);
-        ob_end_clean();
         midcom::get()->auth->drop_sudo();
     }
 
@@ -47,7 +44,6 @@ class org_openpsa_directmarketing_handler_message_sendTest extends openpsa_testc
         $data = $this->run_handler('org.openpsa.directmarketing', ['message', 'send_bg', $message->guid, '2', $at->guid]);
         $this->assertEquals('background_send_message', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

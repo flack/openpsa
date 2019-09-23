@@ -29,7 +29,6 @@ class org_openpsa_reports_handler_sales_reportTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.reports', ['sales', 'edit', $query->guid]);
         $this->assertEquals('sales_edit_report_guid', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -62,7 +61,6 @@ class org_openpsa_reports_handler_sales_reportTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.reports', ['sales', $query->guid, 'test.csv']);
         $this->assertEquals('sales_report_guid_file', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 

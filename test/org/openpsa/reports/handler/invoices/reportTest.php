@@ -47,7 +47,6 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.reports', ['invoices', 'edit', $query->guid]);
         $this->assertEquals('invoices_edit_report_guid', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -68,7 +67,6 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.reports', ['invoices', $query->guid, 'test.csv']);
         $this->assertEquals('invoices_report_guid_file', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -93,7 +91,6 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.reports', ['invoices']);
         $this->assertEquals('invoices_report', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

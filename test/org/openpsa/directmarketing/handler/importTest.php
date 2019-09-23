@@ -29,7 +29,6 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'import', $campaign->guid]);
         $this->assertEquals('import_main', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -43,7 +42,6 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'import', 'simpleemails', $campaign->guid]);
         $this->assertEquals('import_simpleemails', $data['handler_id']);
-        $this->show_handler($data);
 
         $email = __FUNCTION__ . '.' . time() . '@' . __CLASS__ . '.org';
         $_POST = [
@@ -78,7 +76,6 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'import', 'csv', $campaign->guid]);
         $this->assertEquals('import_csv_file_select', $data['handler_id']);
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -91,7 +88,6 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'import', 'vcards', $campaign->guid]);
         $this->assertEquals('import_vcards', $data['handler_id']);
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

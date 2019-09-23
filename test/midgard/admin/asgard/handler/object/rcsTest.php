@@ -34,7 +34,6 @@ class midgard_admin_asgard_handler_object_rcsTest extends openpsa_testcase
         $this->assertEquals('object_rcs_history', $data['handler_id']);
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'rcs', $object_without_history->guid]);
-        $this->show_handler($data);
         $this->assertEquals('object_rcs_history', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -46,7 +45,6 @@ class midgard_admin_asgard_handler_object_rcsTest extends openpsa_testcase
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'rcs', 'preview', self::$_object->guid, '1.1']);
         $this->assertEquals('object_rcs_preview', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -57,7 +55,6 @@ class midgard_admin_asgard_handler_object_rcsTest extends openpsa_testcase
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'rcs', 'diff', self::$_object->guid, '1.1', '1.2']);
         $this->assertEquals('object_rcs_diff', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }

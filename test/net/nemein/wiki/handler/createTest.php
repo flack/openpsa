@@ -32,7 +32,6 @@ class net_nemein_wiki_handler_createTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['create']);
         $this->assertEquals('create_by_word', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -44,7 +43,6 @@ class net_nemein_wiki_handler_createTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['create', 'default']);
         $this->assertEquals('create_by_word_schema', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 

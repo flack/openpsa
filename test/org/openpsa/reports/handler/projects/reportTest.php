@@ -38,7 +38,6 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.reports', ['projects', 'get']);
         $this->assertEquals('projects_report_get', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -90,7 +89,6 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.reports', ['projects']);
         $this->assertEquals('projects_report', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

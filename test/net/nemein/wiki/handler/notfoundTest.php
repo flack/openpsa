@@ -28,6 +28,5 @@ class net_nemein_wiki_handler_notfoundTest extends openpsa_testcase
     {
         $data = $this->run_handler(self::$_topic, ['notfound', 'test']);
         $this->assertEquals('notfound', $data['handler_id']);
-        $this->show_handler($data);
     }
 }

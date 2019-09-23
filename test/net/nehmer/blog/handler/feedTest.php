@@ -31,8 +31,6 @@ class net_nehmer_blog_handler_feedTest extends openpsa_testcase
     {
         $data = $this->run_handler(self::$topic, ['feeds']);
         $this->assertEquals('feed-index', $data['handler_id']);
-
-        $this->show_handler($data);
     }
 
     public function testHandler_feed()
@@ -42,7 +40,5 @@ class net_nehmer_blog_handler_feedTest extends openpsa_testcase
 
         $data = $this->run_handler(self::$topic, ['rss.xml']);
         $this->assertEquals('feed-rss2', $data['handler_id']);
-
-        $this->show_handler($data);
     }
 }

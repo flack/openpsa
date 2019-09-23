@@ -30,6 +30,5 @@ class net_nemein_rss_handler_fetchTest extends openpsa_testcase
     {
         $data = $this->run_handler(self::$topic, ['__feeds', 'rss', 'fetch', 'all']);
         $this->assertEquals('feeds_fetch_all', $data['handler_id']);
-        $this->show_handler($data);
     }
 }

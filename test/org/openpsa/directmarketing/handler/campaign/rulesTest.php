@@ -29,7 +29,6 @@ class org_openpsa_directmarketing_handler_campaign_rulesTest extends openpsa_tes
 
         $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'edit_query', $campaign->guid]);
         $this->assertEquals('edit_campaign_query', $data['handler_id']);
-        $this->show_handler($data);
 
         $_POST = $this->get_rules();
 
@@ -49,7 +48,6 @@ class org_openpsa_directmarketing_handler_campaign_rulesTest extends openpsa_tes
         $_POST = $this->get_rules();
         $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'query', $campaign->guid]);
         $this->assertEquals('campaign_query', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }

@@ -27,7 +27,6 @@ class org_openpsa_documents_handler_searchTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.documents', ['search']);
         $this->assertEquals('search', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

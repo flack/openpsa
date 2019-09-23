@@ -27,7 +27,6 @@ class org_openpsa_invoices_handler_scheduledTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.invoices', ['scheduled']);
         $this->assertEquals('list_scheduled', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

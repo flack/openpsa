@@ -34,7 +34,6 @@ class net_nehmer_blog_handler_viewTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['index']);
         $this->assertEquals('view', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

@@ -30,7 +30,6 @@ class org_openpsa_invoices_handler_invoice_itemsTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'items', self::$_invoice->guid]);
         $this->assertEquals('invoice_items', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 

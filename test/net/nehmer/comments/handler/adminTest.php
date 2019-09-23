@@ -21,7 +21,6 @@ class net_nehmer_comments_handler_adminTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.comments');
         $this->assertEquals('admin-welcome', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -36,7 +35,6 @@ class net_nehmer_comments_handler_adminTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.comments', ['moderate', $status]);
         $this->assertEquals('moderate', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 

@@ -31,7 +31,6 @@ class net_nemein_redirector_handler_tinyurlTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['create']);
         $this->assertEquals('create', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -47,7 +46,6 @@ class net_nemein_redirector_handler_tinyurlTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['edit', $tinyurl->name]);
         $this->assertEquals('edit', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

@@ -39,7 +39,6 @@ class midgard_admin_asgard_handler_object_attachmentsTest extends openpsa_testca
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'attachments', self::$_object->guid]);
         $this->assertEquals('object_attachments', $data['handler_id']);
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -50,7 +49,6 @@ class midgard_admin_asgard_handler_object_attachmentsTest extends openpsa_testca
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'attachments', self::$_object->guid, self::$_filename]);
         $this->assertEquals('object_attachments_edit', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }

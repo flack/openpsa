@@ -31,7 +31,6 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.projects', ['task', 'new']);
         $this->assertEquals('task-new', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -42,7 +41,6 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.projects', ['task', 'new', 'project', self::$_project->guid]);
         $this->assertEquals('task-new-2', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -53,7 +51,6 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.projects', ['task', self::$_task->guid]);
         $this->assertEquals('task_view',  $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -64,7 +61,6 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.projects', ['task', 'edit', self::$_task->guid]);
         $this->assertEquals('task_edit', $data['handler_id']);
-        $this->show_handler($data);
 
         $formdata = [
             'resources' => [

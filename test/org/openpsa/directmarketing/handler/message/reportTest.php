@@ -31,7 +31,6 @@ class org_openpsa_directmarketing_handler_message_reportTest extends openpsa_tes
 
         $data = $this->run_handler('org.openpsa.directmarketing', ['message', 'report', $message->guid]);
         $this->assertEquals('message_report', $data['handler_id']);
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 

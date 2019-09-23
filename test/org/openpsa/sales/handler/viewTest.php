@@ -52,8 +52,6 @@ class org_openpsa_sales_handler_viewTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.sales', ['salesproject', $salesproject->guid]);
         $this->assertEquals('salesproject_view', $data['handler_id']);
 
-        $this->show_handler($data);
-
         midcom::get()->auth->drop_sudo();
     }
 

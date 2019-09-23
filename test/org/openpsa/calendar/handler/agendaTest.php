@@ -27,8 +27,6 @@ class org_openpsa_calendar_handler_agendaTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.calendar', ['agenda', 'day', '2006-04-03']);
         $this->assertEquals('agenda_day', $data['handler_id']);
 
-        $this->show_handler($data);
-
         midcom::get()->auth->drop_sudo();
     }
 }

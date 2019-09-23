@@ -27,7 +27,6 @@ class midgard_admin_asgard_handler_object_metadataTest extends openpsa_testcase
 
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'metadata', self::$_object->guid]);
         $this->assertEquals('object_metadata', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }

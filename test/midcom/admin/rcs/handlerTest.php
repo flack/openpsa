@@ -34,7 +34,6 @@ class midcom_admin_rcs_handlerTest extends openpsa_testcase
         $this->assertEquals('history', $data['handler_id']);
 
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'rcs', $object_without_history->guid]);
-        $this->show_handler($data);
         $this->assertEquals('history', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -46,7 +45,6 @@ class midcom_admin_rcs_handlerTest extends openpsa_testcase
 
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'rcs', 'preview', self::$_object->guid, '1.1']);
         $this->assertEquals('preview', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -57,7 +55,6 @@ class midcom_admin_rcs_handlerTest extends openpsa_testcase
 
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'rcs', 'diff', self::$_object->guid, '1.1', '1.2']);
         $this->assertEquals('diff', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }

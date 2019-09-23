@@ -27,8 +27,6 @@ class net_nehmer_blog_handler_createTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['create', 'default']);
         $this->assertEquals('create', $data['handler_id']);
 
-        $this->show_handler($data);
-
         $formdata = [
             'title' => uniqid(__CLASS__),
             'content' => '<p>TEST</p>'

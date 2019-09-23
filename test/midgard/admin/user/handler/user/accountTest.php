@@ -27,7 +27,6 @@ class midgard_admin_user_handler_user_accountTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard_midgard.admin.user', 'account', self::$_user->guid]);
         $this->assertEquals('user_edit_account', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -38,7 +37,6 @@ class midgard_admin_user_handler_user_accountTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard_midgard.admin.user', 'account', 'delete', self::$_user->guid]);
         $this->assertEquals('user_delete_account', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -49,7 +47,6 @@ class midgard_admin_user_handler_user_accountTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard_midgard.admin.user', 'password']);
         $this->assertEquals('user_passwords', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

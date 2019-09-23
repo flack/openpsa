@@ -25,7 +25,6 @@ class org_openpsa_calendar_handler_viewTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.calendar', ['month', '2012-10-17']);
         $this->assertEquals('calendar_view_mode_date', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -55,7 +54,6 @@ class org_openpsa_calendar_handler_viewTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.calendar', ['event', 'raw', $event->guid]);
         $this->assertEquals('event_view_raw', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -70,7 +68,6 @@ class org_openpsa_calendar_handler_viewTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.calendar', ['event', $event->guid]);
         $this->assertEquals('event_view', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

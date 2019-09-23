@@ -22,7 +22,6 @@ class midcom_helper_imagepopup_handler_listTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'folder', 'file', $node->guid]);
         $this->assertEquals('list_folder', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -46,7 +45,6 @@ class midcom_helper_imagepopup_handler_listTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'unified', 'file', $node->guid]);
         $this->assertEquals('list_unified', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 

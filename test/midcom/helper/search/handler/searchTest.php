@@ -24,16 +24,12 @@ class midcom_helper_search_handler_searchTest extends openpsa_testcase
     {
         $data = $this->run_handler(self::$_topic);
         $this->assertEquals('basic', $data['handler_id']);
-
-        $this->show_handler($data);
     }
 
     public function testHandler_searchform_advanced()
     {
         $data = $this->run_handler(self::$_topic, ['advanced']);
         $this->assertEquals('advanced', $data['handler_id']);
-
-        $this->show_handler($data);
     }
 
     /**
@@ -45,8 +41,6 @@ class midcom_helper_search_handler_searchTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['result']);
 
         $this->assertEquals('result', $data['handler_id']);
-
-        $this->show_handler($data);
     }
 
     public function provider_result()
@@ -73,7 +67,5 @@ class midcom_helper_search_handler_searchTest extends openpsa_testcase
     {
         $data = $this->run_handler(self::$_topic, ['opensearch.xml']);
         $this->assertEquals('opensearch_description', $data['handler_id']);
-
-        $this->show_handler($data);
     }
 }

@@ -34,7 +34,6 @@ class net_nehmer_blog_handler_indexTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic);
         $this->assertEquals('index', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -45,7 +44,6 @@ class net_nehmer_blog_handler_indexTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['category', 'dummy']);
         $this->assertEquals('index-category', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -56,7 +54,6 @@ class net_nehmer_blog_handler_indexTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['latest', '2']);
         $this->assertEquals('latest', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -67,7 +64,6 @@ class net_nehmer_blog_handler_indexTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['ajax', 'latest', '2']);
         $this->assertEquals('ajax-latest', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -78,7 +74,6 @@ class net_nehmer_blog_handler_indexTest extends openpsa_testcase
         $data = $this->run_handler(self::$_topic, ['category', 'latest', 'dummy', '2']);
         $this->assertEquals('latest-category', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

@@ -29,7 +29,6 @@ class org_openpsa_documents_handler_directory_editTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.documents', ['edit']);
         $this->assertEquals('directory-edit', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

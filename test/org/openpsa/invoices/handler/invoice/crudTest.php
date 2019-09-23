@@ -34,7 +34,6 @@ class org_openpsa_invoices_handler_invoice_crudTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'new', self::$_person->guid]);
         $this->assertEquals('invoice_new', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -45,7 +44,6 @@ class org_openpsa_invoices_handler_invoice_crudTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'edit', self::$_invoice->guid]);
         $this->assertEquals('invoice_edit', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -66,7 +64,6 @@ class org_openpsa_invoices_handler_invoice_crudTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.invoices', ['invoice', self::$_invoice->guid]);
         $this->assertEquals('invoice', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

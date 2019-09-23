@@ -125,6 +125,11 @@ abstract class openpsa_testcase extends TestCase
         return $data;
     }
 
+    /**
+     * @deprecated This is redundant, since styles are evaluated when the response is constructed
+     * @param array $data
+     * @return string
+     */
     public function show_handler($data)
     {
         $context = midcom_core_context::get();
