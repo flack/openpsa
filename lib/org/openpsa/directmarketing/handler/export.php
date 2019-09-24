@@ -26,7 +26,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
     protected $_schema = 'export';
 
-    public function _load_schemadbs($handler_id, array &$args, array &$data) : array
+    public function _load_schemadbs(string $handler_id, array &$args, array &$data) : array
     {
         // Try to load the correct campaign
         $data['campaign'] = $this->load_campaign($args[0]);
