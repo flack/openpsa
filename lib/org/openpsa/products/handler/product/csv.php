@@ -43,7 +43,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
         return [$schemadb];
     }
 
-    public function _load_data($handler_id, array &$args, array &$data) : array
+    public function _load_data(string $handler_id, array &$args, array &$data) : array
     {
         if (   empty($_POST)
             && $data['session']->exists('POST_data')) {
