@@ -23,6 +23,6 @@ class rcsmessage extends property
      */
     public function set_value($value)
     {
-        $this->object->set_rcs_message($value);
+        $this->object->set_rcs_message((string) $value);
     }
 }
