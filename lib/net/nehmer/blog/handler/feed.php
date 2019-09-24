@@ -36,12 +36,8 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     /**
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified
      * dates.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array $data The local request data.
      */
-    public function _handler_feed($handler_id, array $args, array &$data)
+    public function _handler_feed(string $handler_id, array $args, array &$data)
     {
         midcom::get()->cache->content->content_type("text/xml; charset=UTF-8");
         midcom::get()->skip_page_style = true;

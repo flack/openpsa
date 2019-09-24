@@ -131,11 +131,8 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
     /**
      * Looks up a salesproject to display.
-     *
-     * @param string $guid The salesproject GUID
-     * @param array $data The local request data.
      */
-    public function _handler_view($guid, array &$data)
+    public function _handler_view(string $guid, array &$data)
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($guid);
         $this->set_active_leaf($this->_topic->id . ':' . $this->_salesproject->get_state());
@@ -243,7 +240,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         return '';
     }
 
-    public function _handler_action(Request $request, $action)
+    public function _handler_action(Request $request, string $action)
     {
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($request->request->getInt('id'));
         $deliverable->require_do('midgard:update');

@@ -45,10 +45,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
             ->get_controller();
     }
 
-    /**
-     * @param Request $request The request object
-     * @param array $data The local request data.
-     */
     public function _handler_create(Request $request, array &$data)
     {
         $data['directory']->require_do('midgard:create');
@@ -90,12 +86,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         return $document;
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_edit(Request $request, $guid, array &$data)
+    public function _handler_edit(Request $request, string $guid, array &$data)
     {
         $this->_document = $this->_load_document($guid);
         $this->_document->require_do('midgard:update');
@@ -150,11 +141,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         }
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     */
-    public function _handler_delete(Request $request, $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         $document = $this->_load_document($guid);
         $workflow = $this->get_workflow('delete', ['object' => $document]);

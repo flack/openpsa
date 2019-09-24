@@ -15,10 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_handler
 {
-    /**
-     * @param Request $request The request object
-     * @return midcom_response_relocate
-     */
     public function _handler_goto(Request $request)
     {
         if (!$request->query->has('query')) {

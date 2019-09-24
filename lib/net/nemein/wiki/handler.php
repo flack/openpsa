@@ -13,7 +13,7 @@
  */
 trait net_nemein_wiki_handler
 {
-    public function load_page($wikiword) : net_nemein_wiki_wikipage
+    public function load_page(string $wikiword) : net_nemein_wiki_wikipage
     {
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);

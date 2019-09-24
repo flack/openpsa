@@ -26,12 +26,8 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
 
     /**
      * Looks up a product to display.
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_edit(Request $request, $guid, array &$data)
+    public function _handler_edit(Request $request, string $guid, array &$data)
     {
         $this->_group = new org_openpsa_products_product_group_dba($guid);
 

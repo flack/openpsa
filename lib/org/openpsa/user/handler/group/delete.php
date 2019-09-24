@@ -15,11 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_user_handler_group_delete extends midcom_baseclasses_components_handler
 {
-    /**
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     */
-    public function _handler_delete(Request $request, $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
         $group = new midcom_db_group($guid);

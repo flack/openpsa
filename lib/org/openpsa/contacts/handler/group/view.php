@@ -94,11 +94,8 @@ implements client
 
     /**
      * Handler for listing group members
-     *
-     * @param string $guid The object's GUID
-     * @param array $data Data passed to the show method
      */
-    public function _handler_view($guid, array &$data)
+    public function _handler_view(string $guid, array &$data)
     {
         $this->group = new org_openpsa_contacts_group_dba($guid);
         $data['group'] = $this->group;
@@ -161,11 +158,8 @@ implements client
 
     /**
      * Lists group members in JSON format
-     *
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_json($guid, array &$data)
+    public function _handler_json(string $guid, array &$data)
     {
         midcom::get()->skip_page_style = true;
         $data['group'] = new org_openpsa_contacts_group_dba($guid);

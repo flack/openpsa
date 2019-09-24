@@ -36,9 +36,6 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         ]);
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _handler_list(array &$data)
     {
         $qb = net_nemein_rss_feed_dba::new_query_builder();

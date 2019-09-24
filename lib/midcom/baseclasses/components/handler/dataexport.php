@@ -52,26 +52,13 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     private $schemas = [];
 
     /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array $data The local request data.
      * @return midcom\datamanager\schemadb[]
      */
-    abstract public function _load_schemadbs($handler_id, array &$args, array &$data) : array;
+    abstract public function _load_schemadbs(string $handler_id, array &$args, array &$data) : array;
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array $data The local request data.
-     */
-    abstract public function _load_data($handler_id, array &$args, array &$data) : array;
+    abstract public function _load_data(string $handler_id, array &$args, array &$data) : array;
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array $data The local request data.
-     */
-    public function _handler_csv($handler_id, array $args, array &$data)
+    public function _handler_csv(string $handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
         $this->_load_datamanagers($this->_load_schemadbs($handler_id, $args, $data));

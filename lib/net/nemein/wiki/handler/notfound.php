@@ -15,11 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_handler
 {
-    /**
-     * @param string $wikiword The page's name
-     * @param array $data The local request data.
-     */
-    public function _handler_notfound($wikiword, array &$data)
+    public function _handler_notfound(string $wikiword, array &$data)
     {
         $data['wikiword'] = $wikiword;
         $qb = net_nemein_wiki_wikipage::new_query_builder();

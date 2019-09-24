@@ -28,12 +28,8 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
     /**
      * Displays a message edit view.
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_edit(Request $request, $guid, array &$data)
+    public function _handler_edit(Request $request, string $guid, array &$data)
     {
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $this->_message->require_do('midgard:update');
@@ -49,11 +45,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         return $workflow->run($request);
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     */
-    public function _handler_delete(Request $request, $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         $message = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $campaign = new org_openpsa_directmarketing_campaign_dba($message->campaign);
@@ -66,11 +58,8 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
     /**
      * Handle the message copying interface
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
      */
-    public function _handler_copy(Request $request, $guid)
+    public function _handler_copy(Request $request, string $guid)
     {
         $this->_topic->require_do('midgard:create');
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);

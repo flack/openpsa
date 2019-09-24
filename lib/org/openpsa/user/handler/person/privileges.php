@@ -35,11 +35,7 @@ class org_openpsa_user_handler_person_privileges extends midcom_baseclasses_comp
             ->get_controller();
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The person GUID
-     */
-    public function _handler_privileges(Request $request, $guid)
+    public function _handler_privileges(Request $request, string $guid)
     {
         $person = new midcom_db_person($guid);
         $person->require_do('midgard:privileges');

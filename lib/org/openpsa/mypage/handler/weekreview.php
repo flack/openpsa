@@ -15,9 +15,6 @@ use Doctrine\ORM\Query\Expr\Join;
  */
 class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_components_handler
 {
-    /**
-     * @return midcom_response_relocate
-     */
     public function _handler_redirect()
     {
         $date = date('Y-m-d');
@@ -98,11 +95,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $array = array_replace_recursive($array, [$date => [$time => [$object->guid => $object]]]);
     }
 
-    /**
-     * @param string $date The requested date
-     * @param array $data The local request data.
-     */
-    public function _handler_review($date, array &$data)
+    public function _handler_review(string $date, array &$data)
     {
         // Get start and end times
         $date = new DateTime($date);

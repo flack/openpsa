@@ -16,9 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class org_openpsa_reports_handler_common extends midcom_baseclasses_components_handler
 {
-    /**
-     * @param array $data The local request data.
-     */
     public function _handler_frontpage(array &$data)
     {
         midcom::get()->auth->require_valid_user();
@@ -30,8 +27,6 @@ class org_openpsa_reports_handler_common extends midcom_baseclasses_components_h
 
     /**
      * Delete the given report and redirect to front page
-     *
-     * @param array $args The argument list.
      */
     public function _handler_delete_report(array $args)
     {
@@ -42,8 +37,6 @@ class org_openpsa_reports_handler_common extends midcom_baseclasses_components_h
 
     /**
      * The CSV handlers return a posted variable with correct headers
-     *
-     * @param Request $request The request object
      */
     public function _handler_csv(Request $request)
     {

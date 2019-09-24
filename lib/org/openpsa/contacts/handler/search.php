@@ -126,12 +126,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         }
     }
 
-    /**
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _handler_search(Request $request, $handler_id, array &$data)
+    public function _handler_search(Request $request, string $handler_id, array &$data)
     {
         $this->_query_mode = 'both';
         $this->_parse_query($request->query);

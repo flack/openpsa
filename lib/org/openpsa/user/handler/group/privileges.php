@@ -35,11 +35,7 @@ class org_openpsa_user_handler_group_privileges extends midcom_baseclasses_compo
             ->get_controller();
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     */
-    public function _handler_privileges(Request $request, $guid)
+    public function _handler_privileges(Request $request, string $guid)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 

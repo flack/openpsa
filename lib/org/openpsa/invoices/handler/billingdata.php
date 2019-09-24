@@ -51,13 +51,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
             ->get_controller();
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The invoice GUID
-     * @param array $data Request data
-     * @return Response
-     */
-    public function _handler_edit(Request $request, $guid, array &$data)
+    public function _handler_edit(Request $request, string $guid, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -93,11 +87,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         return $workflow->run($request);
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     */
-    public function _handler_delete(Request $request, $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         $billing_data = new org_openpsa_invoices_billing_data_dba($guid);
         $this->_linked_object = midcom::get()->dbfactory->get_object_by_guid($billing_data->linkGuid);

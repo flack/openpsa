@@ -59,7 +59,7 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
      * @param string $type The type
      * @param string $guid The parent GUID
      */
-    public function _handler_create(Request $request, $type, $guid = null)
+    public function _handler_create(Request $request, string $type, $guid = null)
     {
         $this->_type = $type;
 

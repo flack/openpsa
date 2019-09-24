@@ -13,8 +13,6 @@ class net_nemein_redirector_handler_redirect extends midcom_baseclasses_componen
 {
     /**
      * Process the redirect request
-     *
-     * @param array $args The argument list.
      */
     public function _handler_redirect(array $args)
     {
@@ -51,8 +49,6 @@ class net_nemein_redirector_handler_redirect extends midcom_baseclasses_componen
 
     /**
      * Process the index request
-     *
-     * @param array $data The local request data.
      */
     public function _handler_index(array &$data)
     {

@@ -152,11 +152,7 @@ implements client
         return $entry;
     }
 
-    /**
-     * @param string $type The list type
-     * @param array $data The local request data.
-     */
-    public function _handler_json($type, array &$data)
+    public function _handler_json(string $type, array &$data)
     {
         midcom::get()->skip_page_style = true;
         $this->_list_type = $type;
@@ -165,9 +161,6 @@ implements client
         return $this->show('show-grid-json');
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _handler_dashboard(array &$data)
     {
         $this->prepare_toolbar(false);
@@ -188,7 +181,6 @@ implements client
     }
 
     /**
-     *
      * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
@@ -276,11 +268,7 @@ implements client
         midcom_show_style('show-grid');
     }
 
-    /**
-     * @param string $guid The customer GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_customer($guid, array &$data)
+    public function _handler_customer(string $guid, array &$data)
     {
         try {
             $this->_customer = new org_openpsa_contacts_group_dba($guid);
@@ -334,11 +322,7 @@ implements client
         $this->_show_invoice_list('paid');
     }
 
-    /**
-     * @param string $guid The deliverable GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_deliverable($guid, array &$data)
+    public function _handler_deliverable(string $guid, array &$data)
     {
         // We're displaying invoices of a specific deliverable
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);

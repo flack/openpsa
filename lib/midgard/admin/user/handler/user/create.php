@@ -18,10 +18,6 @@ class midgard_admin_user_handler_user_create extends midcom_baseclasses_componen
 {
     use midgard_admin_asgard_handler;
 
-    /**
-     * @param Request $request The request object
-     * @param array $data Data passed to the show method
-     */
     public function _handler_create(Request $request, array &$data)
     {
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_person'));

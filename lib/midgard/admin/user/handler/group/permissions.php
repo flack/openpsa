@@ -37,12 +37,7 @@ class midgard_admin_user_handler_group_permissions extends midcom_baseclasses_co
         $this->add_breadcrumb('', $this->_l10n->get('folders'));
     }
 
-    /**
-     * @param string $handler_id Name of the used handler
-     * @param string $guid The object's GUID
-     * @param array $data Data passed to the show method
-     */
-    public function _handler_folders($handler_id, $guid, array &$data)
+    public function _handler_folders($handler_id, string $guid, array &$data)
     {
         $this->_group = new midcom_db_group($guid);
         midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);

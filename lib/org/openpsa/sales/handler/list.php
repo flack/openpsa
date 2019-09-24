@@ -22,12 +22,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
      */
     private $_salesprojects = [];
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array $data The local request data.
-     */
-    public function _handler_list($handler_id, array $args, array &$data)
+    public function _handler_list(string $handler_id, array $args, array &$data)
     {
         // Locate Contacts node for linking
         $siteconfig = org_openpsa_core_siteconfig::get_instance();

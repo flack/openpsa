@@ -19,9 +19,6 @@ implements client
 
     private $_sales_url;
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _handler_list(array &$data)
     {
         midcom::get()->auth->require_valid_user();

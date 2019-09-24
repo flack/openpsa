@@ -115,10 +115,8 @@ implements client
 
     /**
      * Displays older versions of the document
-     *
-     * @param string $guid The object's GUID
      */
-    public function _handler_versions($guid)
+    public function _handler_versions(string $guid)
     {
         $this->_document = $this->_load_document($guid);
         $this->_provider = new provider($this, 'local');
@@ -126,7 +124,6 @@ implements client
     }
 
     /**
-     *
      * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
@@ -140,11 +137,7 @@ implements client
         midcom_show_style('show-document-grid');
     }
 
-    /**
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_view($guid, array &$data)
+    public function _handler_view(string $guid, array &$data)
     {
         // Get the requested document object
         $this->_document = $this->_load_document($guid);

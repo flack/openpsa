@@ -42,10 +42,6 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         $data['asgard_toolbar']->add_items($buttons);
     }
 
-    /**
-     * @param Request $request The request object
-     * @param array $data Data passed to the show method
-     */
     public function _handler_list(Request $request, array &$data)
     {
         // See what fields we want to use in the search
@@ -145,12 +141,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         midcom_show_style('midgard-admin-user-personlist-footer');
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $action The requested action
-     * @param array $data Data passed to the show method
-     */
-    public function _handler_batch(Request $request, $action, array &$data)
+    public function _handler_batch(Request $request, string $action, array &$data)
     {
         $relocate_url = $this->router->generate('user_list');
         if ($request->query->count() > 0) {
@@ -272,8 +263,6 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
     /**
      * Batch process password form
-     *
-     * @param array $data The local request data.
      */
     public function _handler_password_email(array &$data)
     {

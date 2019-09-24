@@ -42,13 +42,7 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
         }
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $handler_id Name of the used handler
-     * @param string $guid The object's GUID
-     * @param array $data Data passed to the show method
-     */
-    public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
+    public function _handler_edit(Request $request, string $handler_id, string $guid, array &$data)
     {
         $this->_group = new midcom_db_group($guid);
         $this->_group->require_do('midgard:update');

@@ -24,11 +24,7 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
      */
     private $_group;
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     */
-    public function _handler_edit(Request $request, $guid)
+    public function _handler_edit(Request $request, string $guid)
     {
         $this->_group = new org_openpsa_contacts_group_dba($guid);
         $this->_group->require_do('midgard:update');

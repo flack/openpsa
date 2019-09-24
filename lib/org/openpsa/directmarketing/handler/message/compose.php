@@ -45,7 +45,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
      * @param string $guid The object's GUID
      * @param string $person The person's GUID
      */
-    public function _handler_compose(array &$data, $guid, $person = null)
+    public function _handler_compose(array &$data, string $guid, $person = null)
     {
         midcom::get()->auth->request_sudo($this->_component);
         //Load message

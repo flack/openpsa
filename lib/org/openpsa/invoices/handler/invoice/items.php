@@ -26,11 +26,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
      */
     private $_object;
 
-    /**
-     * @param string $guid The invoice GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_items($guid, array &$data)
+    public function _handler_items(string $guid, array &$data)
     {
         $this->_object = new org_openpsa_invoices_invoice_dba($guid);
 
@@ -103,11 +99,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         midcom::get()->head->enable_jquery_ui(['sortable']);
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The invoice GUID
-     */
-    public function _handler_itemedit(Request $request, $guid)
+    public function _handler_itemedit(Request $request, string $guid)
     {
         $this->_verify_post_data($request->request);
 
@@ -155,11 +147,6 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         }
     }
 
-    /**
-     * @param Request $request The request object
-     * @throws midcom_error
-     * @return midcom_response_json
-     */
     public function _handler_itemposition(Request $request)
     {
         $item = new org_openpsa_invoices_invoice_item_dba($request->request->getInt('id'));
@@ -171,10 +158,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         return new midcom_response_json([]);
     }
 
-    /**
-     * @param string $guid The invoice GUID
-     */
-    public function _handler_recalculation($guid)
+    public function _handler_recalculation(string $guid)
     {
         $object = new org_openpsa_invoices_invoice_dba($guid);
         $object->_recalculate_invoice_items();

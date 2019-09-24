@@ -33,11 +33,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         ]]);
     }
 
-    /**
-     * @param array $data The local request data.
-     * @param string $date The requested date
-     */
-    public function _handler_today(array &$data, $date = 'now')
+    public function _handler_today(array &$data, string $date = 'now')
     {
         $data['requested_time'] = new DateTime($date);
 
@@ -62,9 +58,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         return $this->show('show-today');
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _handler_updates(array &$data)
     {
         $indexer = midcom::get()->indexer;

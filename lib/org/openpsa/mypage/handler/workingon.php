@@ -18,9 +18,6 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
 {
     use org_openpsa_mypage_handler;
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _handler_view(array &$data)
     {
         midcom::get()->auth->require_valid_user();
@@ -121,11 +118,6 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         $this->_request_data['hours']['total_' . $category] += $array['hours'];
     }
 
-    /**
-     * @param Request $request The request object
-     * @throws midcom_error
-     * @return midcom_response_relocate
-     */
     public function _handler_set(Request $request)
     {
         $task = $request->request->get('task');

@@ -32,7 +32,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      * @param string $job The AT entry's GUID
      * @param array $data The local request data.
      */
-    public function _handler_send_bg($guid, $batch_number, $job, array &$data)
+    public function _handler_send_bg(string $guid, int $batch_number, string $job, array &$data)
     {
         midcom::get()->auth->request_sudo($this->_component);
 
@@ -125,11 +125,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         return $composed;
     }
 
-    /**
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_send($guid, array &$data)
+    public function _handler_send(string $guid, array &$data)
     {
         midcom::get()->auth->require_valid_user();
         //Load message

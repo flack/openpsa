@@ -34,12 +34,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
      */
     private $account;
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The person GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_create(Request $request, $guid, array &$data)
+    public function _handler_create(Request $request, string $guid, array &$data)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 
@@ -87,10 +82,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
             ->get_controller();
     }
 
-    /**
-     * @param string $guid person GUID
-     */
-    public function _handler_su($guid)
+    public function _handler_su(string $guid)
     {
         if (!midcom::get()->config->get('auth_allow_trusted')) {
             throw new midcom_error_forbidden('Trusted logins are disabled by configuration');
@@ -109,11 +101,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         return new midcom_response_relocate(midcom_connection::get_url('self'));
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The person GUID
-     */
-    public function _handler_edit(Request $request, $guid)
+    public function _handler_edit(Request $request, string $guid)
     {
         if (!$this->load_person($guid)) {
             // Account needs to be created first, relocate
@@ -168,10 +156,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         return (bool) $this->account->get_username();
     }
 
-    /**
-     * @param string $guid The person GUID
-     */
-    public function _handler_delete($guid)
+    public function _handler_delete(string $guid)
     {
         if (!$this->load_person($guid)) {
             // Account needs to be created first, relocate

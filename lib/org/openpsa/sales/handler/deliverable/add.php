@@ -83,12 +83,8 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
 
     /**
      * Looks up a deliverable to display.
-     *
-     * @param Request $request The request object
-     * @param string $guid The deliverable GUID
-     * @param array $data The local request data.
      */
-    public function _handler_add(Request $request, $guid, array &$data)
+    public function _handler_add(Request $request, string $guid, array &$data)
     {
         if (   !$request->request->has('product')
             && !$request->request->has('org_openpsa_sales')) {

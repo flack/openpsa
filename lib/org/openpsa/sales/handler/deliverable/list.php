@@ -53,11 +53,7 @@ implements client
         ];
     }
 
-    /**
-     * @param string $guid The product GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_product($guid, array &$data)
+    public function _handler_product(string $guid, array &$data)
     {
         $this->_product = new org_openpsa_products_product_dba($guid);
 

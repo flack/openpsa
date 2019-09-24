@@ -79,12 +79,8 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
 
     /**
      * Create a new TinyURL
-     *
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
      */
-    public function _handler_create(Request $request, $handler_id, array &$data)
+    public function _handler_create(Request $request, string $handler_id, array &$data)
     {
         $this->_topic->require_do('midgard:create');
 
@@ -105,13 +101,8 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
 
     /**
      * Edit an existing TinyURL
-     *
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array $data The local request data.
      */
-    public function _handler_edit(Request $request, $handler_id, array $args, array &$data)
+    public function _handler_edit(Request $request, string $handler_id, array $args, array &$data)
     {
         $this->_tinyurl = $this->_get_item($args[0]);
         $this->_tinyurl->require_do('midgard:update');
@@ -137,9 +128,6 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
 
     /**
      * Delete an existing TinyURL
-     *
-     * @param Request $request The request object
-     * @param array $args The argument list.
      */
     public function _handler_delete(Request $request, array $args)
     {
@@ -150,11 +138,8 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
 
     /**
      * List TinyURLs
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
      */
-    public function _handler_list($handler_id, array &$data)
+    public function _handler_list(string $handler_id, array &$data)
     {
         // Get the topic link and relocate accordingly
         $data['url'] = net_nemein_redirector_viewer::topic_links_to($data);

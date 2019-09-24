@@ -67,11 +67,8 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 
     /**
      * Check the edit request
-     *
-     * @param Request $request The request object
-     * @param string $wikipage The page's name
      */
-    public function _handler_edit(Request $request, $wikipage)
+    public function _handler_edit(Request $request, string $wikipage)
     {
         $this->page = $this->load_page($wikipage);
         $this->page->require_do('midgard:update');
@@ -116,11 +113,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         midcom::get()->head->add_jquery_state_script('$("form.datamanager2 .form").prepend(wikipage_preview.content)');
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $wikipage The page's name
-     */
-    public function _handler_change(Request $request, $wikipage)
+    public function _handler_change(Request $request, string $wikipage)
     {
         if (!$request->request->has('change_to')) {
             throw new midcom_error_forbidden('Only POST requests are allowed here.');

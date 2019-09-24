@@ -19,11 +19,8 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      * Search form handler, nothing to do here.
      *
      * It uses the handler ID to distinguish between basic and advanced search forms.
-     *
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
      */
-    public function _handler_searchform(Request $request, $handler_id)
+    public function _handler_searchform(Request $request, string $handler_id)
     {
         $this->prepare_formdata($handler_id);
         $this->populate_toolbar($request);
@@ -92,9 +89,6 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
     /**
      * Queries the information from the index and prepares to display the result page.
-     *
-     * @param Request $request The request object
-     * @param array $data The local request data.
      */
     public function _handler_result(Request $request, array &$data)
     {
@@ -256,8 +250,6 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
     /**
      * Prepare OpenSearch data file for browser search bar integration.
-     *
-     * @param array $data The local request data.
      */
     public function _handler_opensearchdescription(array &$data)
     {

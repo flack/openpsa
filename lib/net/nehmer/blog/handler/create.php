@@ -28,10 +28,6 @@ class net_nehmer_blog_handler_create extends midcom_baseclasses_components_handl
      * Displays an article create view.
      *
      * If create privileges apply, we relocate to the created article
-     *
-     * @param Request $request The request object
-     * @param array $args The argument list.
-     * @param array $data The local request data.
      */
     public function _handler_create(Request $request, array $args, array &$data)
     {

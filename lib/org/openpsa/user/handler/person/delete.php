@@ -15,11 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_user_handler_person_delete extends midcom_baseclasses_components_handler
 {
-    /**
-     * @param Request $request The request object
-     * @param string $guid The person GUID
-     */
-    public function _handler_delete(Request $request, $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         $person = new midcom_db_person($guid);
         if ($person->id != midcom_connection::get_user()) {

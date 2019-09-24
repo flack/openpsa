@@ -13,10 +13,6 @@
  */
 class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_components_handler
 {
-    /**
-     * @param array $data The local request data.
-     * @param string $guid The object GUID
-     */
     public function _handler_upload(array &$data, $guid = null)
     {
         // Get the file

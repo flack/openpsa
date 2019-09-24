@@ -47,12 +47,8 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
     /**
      * Looks up a product to display.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_view($handler_id, $guid, array &$data)
+    public function _handler_view(string $handler_id, string $guid, array &$data)
     {
         if ($handler_id === 'view_product_raw') {
             midcom::get()->skip_page_style = true;

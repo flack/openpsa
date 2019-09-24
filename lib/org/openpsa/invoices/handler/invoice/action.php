@@ -57,9 +57,6 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         ]);
     }
 
-    /**
-     * @return midcom_response_relocate|midcom_response_json
-     */
     public function _handler_create_cancelation()
     {
         // can be canceled?
@@ -121,9 +118,6 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         return new midcom_response_relocate($this->router->generate('invoice', ['guid' => $cancelation_invoice->guid]));
     }
 
-    /**
-     * @return midcom_response_relocate|midcom_response_json
-     */
     public function _handler_create_pdf()
     {
         $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
@@ -135,9 +129,6 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         }
     }
 
-    /**
-     * @return midcom_response_relocate|midcom_response_json
-     */
     public function _handler_send_by_mail()
     {
         $customerCard = org_openpsa_widgets_contact::get($this->invoice->customerContact);
@@ -185,9 +176,6 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         return $this->_handler_mark_sent();
     }
 
-    /**
-     * @return midcom_response_relocate|midcom_response_json
-     */
     public function _handler_mark_paid()
     {
         if (!$this->invoice->paid) {
@@ -199,9 +187,6 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         return $this->reply(true, sprintf($this->_l10n->get('marked invoice %s paid'), $this->invoice->get_label()));
     }
 
-    /**
-     * @return midcom_response_relocate|midcom_response_json
-     */
     public function _handler_mark_sent()
     {
         if (!$this->invoice->sent) {

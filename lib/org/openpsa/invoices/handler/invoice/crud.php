@@ -67,11 +67,8 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
 
     /**
      * Generates an object update view.
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
      */
-    public function _handler_update(Request $request, $guid)
+    public function _handler_update(Request $request, string $guid)
     {
         $this->invoice = new org_openpsa_invoices_invoice_dba($guid);
         $this->invoice->require_do('midgard:update');
@@ -104,11 +101,8 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
 
     /**
      * Displays an object delete confirmation view.
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
      */
-    public function _handler_delete(Request $request, $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         $invoice = new org_openpsa_invoices_invoice_dba($guid);
 

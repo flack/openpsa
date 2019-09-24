@@ -58,12 +58,8 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
 
     /**
      * Handle actual article display
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array $data The local request data.
      */
-    public function _handler_view($handler_id, array $args, array &$data)
+    public function _handler_view(string $handler_id, array $args, array &$data)
     {
         $qb = midcom_db_article::new_query_builder();
         $this->article_qb_constraints($qb);

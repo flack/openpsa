@@ -84,12 +84,8 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
 
     /**
      * Generates an object update view.
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_update(Request $request, $guid, array &$data)
+    public function _handler_update(Request $request, string $guid, array &$data)
     {
         $this->task = new org_openpsa_projects_task_dba($guid);
         $this->task->require_do('midgard:update');
@@ -130,11 +126,8 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
 
     /**
      * Displays an object delete confirmation view.
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
      */
-    public function _handler_delete(Request $request, $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         $task = new org_openpsa_projects_task_dba($guid);
 

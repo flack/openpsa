@@ -76,9 +76,6 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         $this->_request_data['latest_pages'][$history_date][$entry['object']->guid][$version] = $entry;
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _handler_latest(array &$data)
     {
         $data['latest_pages'] = [];

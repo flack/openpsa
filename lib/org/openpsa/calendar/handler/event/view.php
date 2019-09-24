@@ -26,13 +26,8 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
 
     /**
      * Handle the single event view
-     *
-     * @param Request $request The request object
-     * @param string $handler_id Name of the request handler
-     * @param string $guid The object's GUID
-     * @param array $data Public request data, passed by reference
      */
-    public function _handler_event(Request $request, $handler_id, $guid, array &$data)
+    public function _handler_event(Request $request, string $handler_id, string $guid, array &$data)
     {
         // Get the requested event object
         $data['event'] = new org_openpsa_calendar_event_dba($guid);

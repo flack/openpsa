@@ -18,9 +18,6 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         midcom::get()->auth->require_valid_user();
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _handler_view(array &$data)
     {
         $prefix = '/' . $this->_component . '/elFinder-2.1.49/';
@@ -100,10 +97,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         $connector->run();
     }
 
-    /**
-     * @param string $hash elFinder hash
-     */
-    public function _handler_goto($hash)
+    public function _handler_goto(string $hash)
     {
         $parts = explode('_', $hash);
         $guid = base64_decode($parts[1]);

@@ -33,7 +33,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param string $schema The schema to use
      * @param string $guid Invoice or task GUID
      */
-    public function _handler_create(Request $request, $handler_id, array &$data, $schema, $guid = null)
+    public function _handler_create(Request $request, string $handler_id, array &$data, string $schema, $guid = null)
     {
         $report = new org_openpsa_expenses_hour_report_dba();
 
@@ -61,12 +61,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
     /**
      * Looks up an hour_report to edit.
-     *
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $guid The object's GUID
      */
-    public function _handler_edit(Request $request, $handler_id, $guid)
+    public function _handler_edit(Request $request, string $handler_id, string $guid)
     {
         $report = new org_openpsa_expenses_hour_report_dba($guid);
         $dm = $this->load_datamanager($report);
@@ -87,11 +83,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
     /**
      * The delete handler.
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
      */
-    public function _handler_delete(Request $request, $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         $hour_report = new org_openpsa_expenses_hour_report_dba($guid);
         $options = [
@@ -110,8 +103,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
     /**
      * executes passed action for passed reports & relocates to passed url
-     *
-     * @param Request $request The request object
      */
     public function _handler_batch(Request $request)
     {

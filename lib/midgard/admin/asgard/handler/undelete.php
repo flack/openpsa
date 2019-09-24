@@ -28,8 +28,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
     /**
      * Trash view
-     *
-     * @param array $data The local request data.
      */
     public function _handler_trash(array &$data)
     {
@@ -59,12 +57,8 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
     /**
      * Trash view
-     *
-     * @param Request $request The request object
-     * @param string $type The MgdSchema type
-     * @param array $data The local request data.
      */
-    public function _handler_trash_type(Request $request, $type, array &$data)
+    public function _handler_trash_type(Request $request, string $type, array &$data)
     {
         midcom::get()->auth->require_admin_user();
 

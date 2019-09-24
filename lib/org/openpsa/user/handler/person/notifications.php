@@ -15,11 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_user_handler_person_notifications extends midcom_baseclasses_components_handler
 {
-    /**
-     * @param Request $request The request object
-     * @param string $guid The person GUID
-     */
-    public function _handler_notifications(Request $request, $guid)
+    public function _handler_notifications(Request $request, string $guid)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 

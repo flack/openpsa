@@ -50,13 +50,8 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
 
     /**
      * Display possible available resources
-     *
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_resourcing(Request $request, $handler_id, $guid, array &$data)
+    public function _handler_resourcing(Request $request, string $handler_id, string $guid, array &$data)
     {
         $this->_task = new org_openpsa_projects_task_dba($guid);
         $this->_task->require_do('midgard:create');
@@ -114,11 +109,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         return $this->show('show-task-resourcing');
     }
 
-    /**
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_list_prospects($guid, array &$data)
+    public function _handler_list_prospects(string $guid, array &$data)
     {
         $this->_task = new org_openpsa_projects_task_dba($guid);
         $this->_task->require_do('midgard:create');
@@ -134,11 +125,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         return $response;
     }
 
-    /**
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_prospect_slots($guid, array &$data)
+    public function _handler_prospect_slots(string $guid, array &$data)
     {
         $data['prospect'] = new org_openpsa_projects_task_resource_dba($guid);
         $data['person'] = new org_openpsa_contacts_person_dba($data['prospect']->person);

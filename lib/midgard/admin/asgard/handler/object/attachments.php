@@ -184,13 +184,8 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     /**
      * Handler for creating new attachments
-     *
-     * @param Request $request The request object
-     * @param string $handler_id Name of the used handler
-     * @param string $guid The object's GUID
-     * @param array $data Data passed to the show method
      */
-    public function _handler_create(Request $request, $handler_id, $guid, array &$data)
+    public function _handler_create(Request $request, string $handler_id, string $guid, array &$data)
     {
         $this->prepare_object($guid);
 
@@ -229,14 +224,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         midcom_show_style('midgard_admin_asgard_object_attachments_footer');
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $handler_id Name of the used handler
-     * @param string $guid The object's GUID
-     * @param string $filename The filename
-     * @param array $data Data passed to the show method
-     */
-    public function _handler_edit(Request $request, $handler_id, $guid, $filename, array &$data)
+    public function _handler_edit(Request $request, string $handler_id, string $guid, string $filename, array &$data)
     {
         $this->prepare_object($guid);
 
@@ -298,12 +286,8 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     /**
      * Handler for confirming file deleting for the requested file
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     * @param string $filename The filename
      */
-    public function _handler_delete(Request $request, $guid, $filename)
+    public function _handler_delete(Request $request, string $guid, string $filename)
     {
         $this->prepare_object($guid);
         $file = $this->_get_file($filename);

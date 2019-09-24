@@ -33,13 +33,8 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
 
     /**
      * Handle the moving of a group phase
-     *
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_move(Request $request, $handler_id, $guid, array &$data)
+    public function _handler_move(Request $request, string $handler_id, string $guid, array &$data)
     {
         $data['group'] = new midcom_db_group($guid);
 
@@ -90,11 +85,8 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
 
     /**
      * Handle the listing phase
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
      */
-    public function _handler_list($handler_id, array &$data)
+    public function _handler_list(string $handler_id, array &$data)
     {
         $data['view_title'] = $this->_l10n->get('groups');
 

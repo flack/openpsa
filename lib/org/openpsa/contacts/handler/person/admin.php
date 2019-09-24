@@ -36,11 +36,8 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
 
     /**
      * Displays a contact edit view.
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
      */
-    public function _handler_edit(Request $request, $guid)
+    public function _handler_edit(Request $request, string $guid)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($guid);
         $this->_contact->require_do('midgard:update');
@@ -61,11 +58,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         return $this->router->generate('person_view', ['guid' => $this->_contact->guid]);
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     */
-    public function _handler_delete(Request $request, $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         $contact = new org_openpsa_contacts_person_dba($guid);
         $workflow = $this->get_workflow('delete', ['object' => $contact]);

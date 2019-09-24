@@ -29,12 +29,8 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
     /**
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified
      * dates.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array $data The local request data.
      */
-    public function _handler_index($handler_id, array $args, array &$data)
+    public function _handler_index(string $handler_id, array $args, array &$data)
     {
         if ($handler_id == 'ajax-latest') {
             midcom::get()->skip_page_style = true;

@@ -27,8 +27,6 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
 
     /**
      * JSON view
-     *
-     * @param Request $request The request object
      */
     public function _handler_json(Request $request)
     {

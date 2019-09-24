@@ -53,9 +53,6 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
         }
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _handler_navigation(array &$data)
     {
         $root_topic = $this->_topic;

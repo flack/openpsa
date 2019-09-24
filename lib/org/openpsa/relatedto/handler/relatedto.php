@@ -46,12 +46,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         midcom::get()->style->prepend_component_styledir('org.openpsa.relatedto');
     }
 
-    /**
-     * @param string $guid The object's GUID
-     * @param string $mode The mode
-     * @param string $sort The sort order
-     */
-    public function _handler_render($guid, $mode, $sort = 'default')
+    public function _handler_render(string $guid, string $mode, string $sort = 'default')
     {
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $this->_mode = $mode;
@@ -421,11 +416,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         echo "</ul>\n";
     }
 
-    /**
-     * @param string $guid The object's GUID
-     * @param string $mode The mode
-     */
-    public function _handler_ajax($guid, $mode)
+    public function _handler_ajax(string $guid, string $mode)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -450,10 +441,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         return $response;
     }
 
-    /**
-     * @param string $guid The object's GUID
-     */
-    public function _handler_delete($guid)
+    public function _handler_delete(string $guid)
     {
         midcom::get()->auth->require_valid_user();
 

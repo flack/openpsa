@@ -16,8 +16,6 @@ class org_openpsa_calendar_handler_resource extends midcom_baseclasses_component
 {
     /**
      * Handle the creation phase
-     *
-     * @param Request $request The request object
      */
     public function _handler_create(Request $request)
     {

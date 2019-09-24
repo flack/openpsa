@@ -60,12 +60,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         return $stat;
     }
 
-    /**
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _handler_subscribe(Request $request, $handler_id, array &$data)
+    public function _handler_subscribe(Request $request, string $handler_id, array &$data)
     {
         $this->_topic->require_do('midgard:create');
 
@@ -115,13 +110,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         return $this->show('net-nemein-rss-feeds-subscribe');
     }
 
-    /**
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
+    public function _handler_edit(Request $request, string $handler_id, string $guid, array &$data)
     {
         $data['feed'] = new net_nemein_rss_feed_dba($guid);
         $data['feed']->require_do('midgard:update');
@@ -147,11 +136,8 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
 
     /**
      * Displays a delete confirmation view.
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
      */
-    public function _handler_delete(Request $request, $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         $feed = new net_nemein_rss_feed_dba($guid);
         $workflow = $this->get_workflow('delete', [

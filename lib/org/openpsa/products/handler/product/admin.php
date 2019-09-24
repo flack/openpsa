@@ -24,12 +24,8 @@ class org_openpsa_products_handler_product_admin extends midcom_baseclasses_comp
 
     /**
      * Generates an product update view.
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_update(Request $request, $guid, array &$data)
+    public function _handler_update(Request $request, string $guid, array &$data)
     {
         $this->product = new org_openpsa_products_product_dba($guid);
         $this->product->require_do('midgard:update');
@@ -62,11 +58,8 @@ class org_openpsa_products_handler_product_admin extends midcom_baseclasses_comp
 
     /**
      * Process object delete
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
      */
-    public function _handler_delete(Request $request, $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         $this->product = new org_openpsa_products_product_dba($guid);
         $workflow = $this->get_workflow('delete', ['object' => $this->product]);

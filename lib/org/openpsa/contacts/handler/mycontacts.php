@@ -16,11 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_components_handler
 {
-    /**
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     */
-    public function _handler_add(Request $request, $guid)
+    public function _handler_add(Request $request, string $guid)
     {
         $target = org_openpsa_contacts_person_dba::get_cached($guid);
 
@@ -31,10 +27,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
         return new midcom_response_relocate($return_url);
     }
 
-    /**
-     * @param string $guid The object's GUID
-     */
-    public function _handler_remove($guid)
+    public function _handler_remove(string $guid)
     {
         $target = org_openpsa_contacts_person_dba::get_cached($guid);
 
@@ -44,9 +37,6 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
         return new midcom_response_relocate($this->router->generate('person_view', ['guid' => $target->guid]));
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _handler_list(array &$data)
     {
         $data['widget_config'] = autocomplete::get_widget_config('contact');
@@ -57,12 +47,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
         autocomplete::add_head_elements();
     }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_list($handler_id, array &$data)
+    public function _show_list(string $handler_id, array &$data)
     {
         midcom_show_style('show-mycontacts-header');
         foreach ($data['mycontacts'] as $person) {

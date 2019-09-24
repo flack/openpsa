@@ -15,8 +15,6 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
 {
     /**
      * Handle the group listing (used in dynamic load)
-     *
-     * @param array $data The local request data.
      */
     public function _handler_list(array &$data)
     {

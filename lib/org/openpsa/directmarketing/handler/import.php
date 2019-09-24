@@ -85,11 +85,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Phase for selecting the import type
-     *
-     * @param string $handler_id Name of the request handler
-     * @param string $guid The object's GUID
      */
-    public function _handler_index($handler_id, $guid)
+    public function _handler_index(string $handler_id, string $guid)
     {
         $this->_prepare_handler($guid);
 
@@ -101,12 +98,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Phase for importing simple email addresses
-     *
-     * @param Request $request The request object
-     * @param string $handler_id Name of the request handler
-     * @param string $guid The object's GUID
      */
-    public function _handler_simpleemails(Request $request, $handler_id, $guid)
+    public function _handler_simpleemails(Request $request, string $handler_id, string $guid)
     {
         $this->_prepare_handler($guid);
 
@@ -177,12 +170,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Phase for importing vcards
-     *
-     * @param Request $request The request object
-     * @param string $handler_id Name of the request handler
-     * @param string $guid The object's GUID
      */
-    public function _handler_vcards(Request $request, $handler_id, $guid)
+    public function _handler_vcards(Request $request, string $handler_id, string $guid)
     {
         $this->_prepare_handler($guid);
 
@@ -213,13 +202,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Phase for importing CSV. This interface lets user to define what the fields of the CSV represent
-     *
-     * @param Request $request The request object
-     * @param String $handler_id Name of the request handler
-     * @param string $guid The object's GUID
-     * @param array $data Public request data, passed by reference
      */
-    public function _handler_csv_select(Request $request, $handler_id, $guid, array &$data)
+    public function _handler_csv_select(Request $request, string $handler_id, string $guid, array &$data)
     {
         $this->_prepare_handler($guid);
 
@@ -283,13 +267,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Handle the CSV import phase
-     *
-     * @param Request $request The request object
-     * @param string $handler_id Name of the request handler
-     * @param string $guid The object's GUID
-     * @param array $data Public request data, passed by reference
      */
-    public function _handler_csv(Request $request, $handler_id, $guid, array &$data)
+    public function _handler_csv(Request $request, string $handler_id, string $guid, array &$data)
     {
         if (!$request->request->has('org_openpsa_directmarketing_import_separator')) {
             throw new midcom_error('No CSV separator specified.');

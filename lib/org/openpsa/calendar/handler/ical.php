@@ -47,12 +47,8 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * iCal feed of uses events
      *
      * HTTP-Basic authenticated, requires valid user, normal ACL restrictions apply
-     *
-     * @param Request $request The request object
-     * @param string $username The username
-     * @param array $data The local request data.
      */
-    public function _handler_user_events(Request $request, $username, array &$data)
+    public function _handler_user_events(Request $request, string $username, array &$data)
     {
         midcom::get()->auth->require_valid_user('basic');
 
@@ -133,11 +129,8 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * Publicly available iCal feed indicating user when is busy
      *
      * Most values are stripped before display
-     *
-     * @param string $username The username
-     * @param array $data The local request data.
      */
-    public function _handler_user_busy($username, array &$data)
+    public function _handler_user_busy(string $username, array &$data)
     {
         $this->find_person_by_name($username);
 

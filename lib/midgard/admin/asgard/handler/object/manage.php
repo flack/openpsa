@@ -99,11 +99,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     /**
      * Looks up the user's default mode and redirects there. This is mainly useful for links from outside Asgard
-     *
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_open($guid, array &$data)
+    public function _handler_open(string $guid, array &$data)
     {
         $relocate = $this->router->generate('object_' . $data['default_mode'], ['guid' => $guid]);
         return new midcom_response_relocate($relocate);
@@ -111,12 +108,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     /**
      * Object display
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_view($handler_id, $guid, array &$data)
+    public function _handler_view(string $handler_id, string $guid, array &$data)
     {
         $this->_load_object($guid);
 
@@ -139,13 +132,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     /**
      * Object editing view
-     *
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
+    public function _handler_edit(Request $request, string $handler_id, string $guid, array &$data)
     {
         $this->_load_object($guid);
 
@@ -175,13 +163,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     /**
      * Object creating view
-     *
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array $data The local request data.
      */
-    public function _handler_create(Request $request, $handler_id, array $args, array &$data)
+    public function _handler_create(Request $request, string $handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
@@ -298,14 +281,9 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     }
 
     /**
-     * Object display
-     *
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
+     * Object deletion
      */
-    public function _handler_delete(Request $request, $handler_id, $guid, array &$data)
+    public function _handler_delete(Request $request, string $handler_id, string $guid, array &$data)
     {
         $this->_load_object($guid);
         $this->_object->require_do('midgard:delete');
@@ -348,13 +326,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     /**
      * Copy handler
-     *
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_copy(Request $request, $handler_id, $guid, array &$data)
+    public function _handler_copy(Request $request, string $handler_id, string $guid, array &$data)
     {
         // Get the object that will be copied
         $this->_load_object($guid);

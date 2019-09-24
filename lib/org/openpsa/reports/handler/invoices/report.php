@@ -22,10 +22,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $this->module = 'invoices';
     }
 
-    /**
-     * @param array $args The argument list.
-     * @param array $data The local request data.
-     */
     public function _handler_generator(array $args, array &$data)
     {
         if ($response = parent::_handler_generator($args, $data)) {
@@ -34,10 +30,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $this->process_handler($data);
     }
 
-    /**
-     * @param array $args The argument list.
-     * @param array $data The local request data.
-     */
     public function _handler_generator_get(Request $request, array &$data)
     {
         parent::_handler_generator_get($request, $data);

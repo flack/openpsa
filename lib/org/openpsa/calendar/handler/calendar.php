@@ -20,9 +20,6 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
         midcom::get()->uimessages->add_head_elements();
     }
 
-    /**
-     * @return midcom_response_relocate
-     */
     public function _handler_frontpage()
     {
         $selected_time = time();
@@ -38,11 +35,7 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
         ]));
     }
 
-    /**
-     * @param string $timestamp The timestamp
-     * @param array $data The local request data.
-     */
-    public function _handler_day($timestamp, array &$data)
+    public function _handler_day(string $timestamp, array &$data)
     {
         $date = new DateTime($timestamp);
         $data['calendar_options'] = $this->get_calendar_options();
@@ -54,8 +47,6 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
 
     /**
      * Calendar view
-     *
-     * @param array $data Public request data, passed by reference
      */
     public function _handler_calendar(array &$data)
     {

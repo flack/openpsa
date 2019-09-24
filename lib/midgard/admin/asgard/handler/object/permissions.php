@@ -266,13 +266,8 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
     /**
      * Object editing view
-     *
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_edit(Request $request, $handler_id, $guid, array &$data)
+    public function _handler_edit(Request $request, string $handler_id, string $guid, array &$data)
     {
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $this->_object->require_do('midgard:privileges');

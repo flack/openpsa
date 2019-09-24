@@ -24,11 +24,8 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Phase for showing the list of campaigns
-     *
-     * @param Request $request The request object
-     * @param string $person The person's GUID
      */
-    public function _handler_list(Request $request, $person)
+    public function _handler_list(Request $request, string $person)
     {
         midcom::get()->auth->require_valid_user();
         $this->_request_data['person'] = new org_openpsa_contacts_person_dba($person);
@@ -119,11 +116,8 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Handle the unsubscribe phase
-     *
-     * @param string $member The member GUID
-     * @param array $data Public request data, passed by reference
      */
-    public function _handler_unsubscribe($member, array &$data)
+    public function _handler_unsubscribe(string $member, array &$data)
     {
         midcom::get()->auth->request_sudo($this->_component);
 
@@ -153,10 +147,8 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Support the AJAX request for unsubscribing from a campaign
-     *
-     * @param string $member The member GUID
      */
-    public function _handler_unsubscribe_ajax($member)
+    public function _handler_unsubscribe_ajax(string $member)
     {
         midcom::get()->auth->request_sudo($this->_component);
         $membership = new org_openpsa_directmarketing_campaign_member_dba($member);
@@ -175,12 +167,8 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Handle the request for unsubscribing all subscribers from a campaign
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
-     * @param array $data          Public request data, passed by reference
      */
-    public function _handler_unsubscribe_all($handler_id, array $args, array &$data)
+    public function _handler_unsubscribe_all(string $handler_id, array $args, array &$data)
     {
         midcom::get()->auth->request_sudo($this->_component);
         $data['person'] = new org_openpsa_contacts_person_dba($args[0]);

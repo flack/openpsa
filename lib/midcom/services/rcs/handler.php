@@ -207,11 +207,8 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
     /**
      * Show the changes done to the object
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
      */
-    public function _handler_history($handler_id, array $args)
+    public function _handler_history(string $handler_id, array $args)
     {
         // Check if the comparison request is valid
         if (    !empty($_GET['first']) && !empty($_GET['last'])
@@ -228,7 +225,6 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     }
 
     /**
-     *
      * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
@@ -241,12 +237,8 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
     /**
      * Show a diff between two versions
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array $data The local request data.
      */
-    public function _handler_diff($handler_id, array $args, array &$data)
+    public function _handler_diff(string $handler_id, array $args, array &$data)
     {
         $this->load_object($args[0]);
 
@@ -281,12 +273,8 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
     /**
      * View previews
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array $data The local request data.
      */
-    public function _handler_preview($handler_id, array $args, array &$data)
+    public function _handler_preview(string $handler_id, array $args, array &$data)
     {
         $revision = $args[1];
         $data['latest_revision'] = $revision;
@@ -311,8 +299,6 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
     /**
      * Restore to diff
-     *
-     * @param array $args The argument list.
      */
     public function _handler_restore(array $args)
     {

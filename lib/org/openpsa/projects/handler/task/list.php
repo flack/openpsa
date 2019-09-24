@@ -84,10 +84,6 @@ implements client
         }
     }
 
-    /**
-     * @param array $args The argument list.
-     * @param array $data The local request data.
-     */
     public function _handler_list(array $args, array &$data)
     {
         $this->prepare_request_data($args[0]);

@@ -34,10 +34,8 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
 
     /**
      * Looks up an message to display.
-     *
-     * @param string $guid The object's GUID
      */
-    public function _handler_view($guid, array &$data)
+    public function _handler_view(string $guid, array &$data)
     {
         midcom::get()->auth->require_valid_user();
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);

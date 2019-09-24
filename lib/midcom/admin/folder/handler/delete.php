@@ -17,8 +17,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 {
     /**
      * Handler for folder deletion.
-     *
-     * @param Request $request The request object
      */
     public function _handler_delete(Request $request)
     {

@@ -43,12 +43,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
         $this->client = new $client_class($this->offer);
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The salesproject GUID
-     * @return Response
-     */
-    public function _handler_create(Request $request, $guid)
+    public function _handler_create(Request $request, string $guid)
     {
         $this->salesproject = new org_openpsa_sales_salesproject_dba($guid);
         $this->salesproject->require_do('midgard:update');
@@ -75,11 +70,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
         return $offer;
     }
 
-    /**
-     * @param string $guid The offer GUID
-     * @return Response
-     */
-    public function _handler_delete($guid)
+    public function _handler_delete(string $guid)
     {
         $offer = new org_openpsa_sales_salesproject_offer_dba($guid);
         $salesproject = $offer->get_parent();
@@ -88,12 +79,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
         return new midcom_response_relocate($this->router->generate('salesproject_view', ['guid' => $salesproject->guid]));
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The offer GUID
-     * @return Response
-     */
-    public function _handler_edit(Request $request, $guid)
+    public function _handler_edit(Request $request, string $guid)
     {
         $this->offer = new org_openpsa_sales_salesproject_offer_dba($guid);
         $this->salesproject = $this->offer->get_parent();

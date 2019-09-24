@@ -305,12 +305,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         return new midcom_response_relocate($this->router->generate('view_campaign', ['guid' => $campaign->guid]));
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_report(Request $request, $guid, array &$data)
+    public function _handler_report(Request $request, string $guid, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -361,10 +356,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         return $this->show('show-message-report');
     }
 
-    /**
-     * @param string $guid The object's GUID
-     */
-    public function _handler_status($guid)
+    public function _handler_status(string $guid)
     {
         $message_obj = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $sender = new org_openpsa_directmarketing_sender($message_obj);

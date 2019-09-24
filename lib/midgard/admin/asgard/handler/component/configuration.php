@@ -149,12 +149,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $dm->get_controller();
     }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $component The component name
-     * @param array $data The local request data.
-     */
-    public function _handler_view($handler_id, $component, array &$data)
+    public function _handler_view(string $handler_id, string $component, array &$data)
     {
         $data['name'] = $component;
         if (!midcom::get()->componentloader->is_installed($data['name'])) {
@@ -288,13 +283,9 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     }
 
     /**
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     * @param string $component The component name
      * @param string $folder The topic GUID
      */
-    public function _handler_edit(Request $request, $handler_id, array &$data, $component, $folder = null)
+    public function _handler_edit(Request $request, string $handler_id, array &$data, string $component, $folder = null)
     {
         $data['name'] = $component;
         if (!midcom::get()->componentloader->is_installed($data['name'])) {

@@ -12,9 +12,6 @@
  */
 class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_components_handler
 {
-    /**
-     * @param array $args The argument list.
-     */
     public function _handler_open(array $args)
     {
         $url = '__ais/imagepopup/';
@@ -29,11 +26,7 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
         return new midcom_response_relocate($url);
     }
 
-    /**
-     * @param string $filetype The file type
-     * @param array $data The local request data.
-     */
-    public function _handler_links($filetype, array &$data)
+    public function _handler_links(string $filetype, array &$data)
     {
         midcom::get()->cache->content->no_cache();
         midcom::get()->auth->require_valid_user();

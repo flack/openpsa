@@ -24,11 +24,8 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
 
     /**
      * Marks comment as possible abuse
-     *
-     * @param Request $request The request object
-     * @param string $guid The comment's GUID
      */
-    public function _handler_abuse(Request $request, $guid)
+    public function _handler_abuse(Request $request, string $guid)
     {
         $this->load_comment($guid, false);
         $moderators = $this->_config->get('moderators');
@@ -62,11 +59,8 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
 
     /**
      * Marks comment as not abuse
-     *
-     * @param Request $request The request object
-     * @param string $guid The comment's GUID
      */
-    public function _handler_not_abuse(Request $request, $guid)
+    public function _handler_not_abuse(Request $request, string $guid)
     {
         $this->load_comment($guid);
         $this->_comment->report_not_abuse();
@@ -75,11 +69,8 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
 
     /**
      * Marks comment as confirmed abuse
-     *
-     * @param Request $request The request object
-     * @param string $guid The comment's GUID
      */
-    public function _handler_confirm_abuse(Request $request, $guid)
+    public function _handler_confirm_abuse(Request $request, string $guid)
     {
         $this->load_comment($guid);
         $this->_comment->confirm_abuse();
@@ -91,11 +82,8 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
 
     /**
      * Marks comment as confirmed junk
-     *
-     * @param Request $request The request object
-     * @param string $guid The comment's GUID
      */
-    public function _handler_confirm_junk(Request $request, $guid)
+    public function _handler_confirm_junk(Request $request, string $guid)
     {
         $this->load_comment($guid);
         $this->_comment->confirm_junk();
@@ -105,7 +93,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         return $this->reply($request);
     }
 
-    private function load_comment($identifier, $require_moderation_privilege = true)
+    private function load_comment(string $identifier, bool $require_moderation_privilege = true)
     {
         $this->_comment = new net_nehmer_comments_comment($identifier);
 

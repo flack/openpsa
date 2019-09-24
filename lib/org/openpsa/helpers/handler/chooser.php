@@ -45,12 +45,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      */
     private $_object;
 
-    /**
-     * @param Request $request The request object
-     * @param string $dbaclass The DBA class
-     * @param array $data The local request data.
-     */
-    public function _handler_create(Request $request, $dbaclass, array &$data)
+    public function _handler_create(Request $request, string $dbaclass, array &$data)
     {
         $this->_dbaclass = $dbaclass;
         midcom::get()->auth->require_user_do('midgard:create', null, $dbaclass);

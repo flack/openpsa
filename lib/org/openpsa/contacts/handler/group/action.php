@@ -17,10 +17,6 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
 {
     use org_openpsa_contacts_handler;
 
-    /**
-     * @param Request $request The request object
-     * @return midcom_response_json
-     */
     public function _handler_update_member_title(Request $request)
     {
         $response = new midcom_response_json;
@@ -41,11 +37,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
         return $response;
     }
 
-    /**
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_members($guid, array &$data)
+    public function _handler_members(string $guid, array &$data)
     {
         $data['group'] = new org_openpsa_contacts_group_dba($guid);
         $qb = new org_openpsa_qbpager(midcom_db_member::class, 'group_members');
@@ -75,11 +67,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
         }
     }
 
-    /**
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_subgroups($guid, array &$data)
+    public function _handler_subgroups(string $guid, array &$data)
     {
         $group = new org_openpsa_contacts_group_dba($guid);
         $qb = org_openpsa_contacts_group_dba::new_query_builder();

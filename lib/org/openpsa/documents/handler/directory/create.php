@@ -28,10 +28,6 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
             ->get_controller();
     }
 
-    /**
-     * @param Request $request The request object
-     * @param array $data The local request data.
-     */
     public function _handler_create(Request $request, array &$data)
     {
         $data['directory']->require_do('midgard:create');

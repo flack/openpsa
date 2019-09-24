@@ -18,10 +18,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
 {
     protected $module;
 
-    /**
-     * @param array $args The argument list.
-     * @param array $data The local request data.
-     */
     public function _handler_generator(array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
@@ -37,10 +33,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
 
     abstract public function _show_generator($handler_id, array &$data);
 
-    /**
-     * @param Request $request The request object
-     * @param array $data The local request data.
-     */
     public function _handler_generator_get(Request $request, array &$data)
     {
         midcom::get()->auth->require_valid_user();
@@ -73,11 +65,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         return $dm;
     }
 
-    /**
-     * @param Request $request The request object
-     * @param array $args The argument list.
-     * @param array $data The local request data.
-     */
     public function _handler_query_form(Request $request, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();

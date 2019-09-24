@@ -353,11 +353,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
     }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _handler_welcome($handler_id, array &$data)
+    public function _handler_welcome(string $handler_id, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -394,12 +390,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         midcom_show_style('midcom_admin_help_footer');
     }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $component The component name
-     * @param array $data The local request data.
-     */
-    public function _handler_component($handler_id, string $component, array &$data)
+    public function _handler_component(string $handler_id, string $component, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -437,13 +428,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         midcom_show_style('midcom_admin_help_footer');
     }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $component The component name
-     * @param string $help_id The help ID
-     * @param array $data The local request data.
-     */
-    public function _handler_help($handler_id, string $component, string $help_id, array &$data)
+    public function _handler_help(string $handler_id, string $component, string $help_id, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 

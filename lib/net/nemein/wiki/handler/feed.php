@@ -15,9 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
 {
-    /**
-     * @return Response
-     */
     public function _handler_rss()
     {
         $nap = new midcom_helper_nav();

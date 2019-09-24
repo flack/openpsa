@@ -57,7 +57,7 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
      * @param string $schema DM schema
      * @param string $group The product group GUID (or ID apparently)
      */
-    public function _handler_create(Request $request, array &$data, $schema, $group = null)
+    public function _handler_create(Request $request, array &$data, string $schema, $group = null)
     {
         $this->find_parent($group);
         $this->_product = new org_openpsa_products_product_dba();

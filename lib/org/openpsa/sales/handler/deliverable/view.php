@@ -64,11 +64,8 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
 
     /**
      * Looks up a deliverable to display.
-     *
-     * @param string $guid The deliverable GUID
-     * @param array $data The local request data.
      */
-    public function _handler_view($guid, array &$data)
+    public function _handler_view(string $guid, array &$data)
     {
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
@@ -139,12 +136,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         }
     }
 
-    /**
-     * @param string $guid
-     * @throws midcom_error
-     * @return midcom_response_relocate
-     */
-    public function _handler_run_cycle($guid)
+    public function _handler_run_cycle(string $guid)
     {
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);
 

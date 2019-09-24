@@ -63,12 +63,8 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
     /**
      * Looks up a contact to display.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_view($handler_id, $guid, array &$data)
+    public function _handler_view(string $handler_id, string $guid, array &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($guid);
         $this->_load_datamanager();
@@ -159,11 +155,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $this->_view_toolbar->add_items($buttons);
     }
 
-    /**
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_group_memberships($guid, array &$data)
+    public function _handler_group_memberships(string $guid, array &$data)
     {
         $data['person'] = new org_openpsa_contacts_person_dba($guid);
 

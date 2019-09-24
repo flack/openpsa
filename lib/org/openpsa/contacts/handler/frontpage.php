@@ -15,9 +15,6 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
 {
     use org_openpsa_contacts_handler;
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _handler_frontpage(array &$data)
     {
         $data['tree'] = $this->get_group_tree();

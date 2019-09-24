@@ -18,10 +18,6 @@ class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_h
 {
     use midgard_admin_asgard_handler;
 
-    /**
-     * @param Request $request The request object
-     * @param array $data The local request data.
-     */
     public function _handler_shell(Request $request, array &$data)
     {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');

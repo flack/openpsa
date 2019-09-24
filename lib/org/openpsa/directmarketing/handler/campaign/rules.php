@@ -68,11 +68,8 @@ implements client
 
     /**
      * Displays campaign members.
-     *
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_query($guid, array &$data)
+    public function _handler_query(string $guid, array &$data)
     {
         $this->_campaign = $this->load_campaign($guid);
         $this->_campaign->require_do('midgard:update');
@@ -86,12 +83,8 @@ implements client
 
     /**
      * Displays an campaign edit view.
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
      */
-    public function _handler_edit_query(Request $request, $guid, array &$data)
+    public function _handler_edit_query(Request $request, string $guid, array &$data)
     {
         $this->_campaign = $this->load_campaign($guid);
         $this->_campaign->require_do('midgard:update');

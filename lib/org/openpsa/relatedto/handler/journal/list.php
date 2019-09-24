@@ -34,11 +34,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         midcom::get()->style->prepend_component_styledir('org.openpsa.relatedto');
     }
 
-    /**
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_object($guid, array &$data)
+    public function _handler_object(string $guid, array &$data)
     {
         $this->object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $this->object_url = midcom::get()->permalinks->create_permalink($this->object->guid);
@@ -85,11 +81,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         $this->_view_toolbar->add_items($buttons);
     }
 
-    /**
-     * @param int $time Timestamp
-     * @param array $data The local request data.
-     */
-    public function _handler_list($time, array &$data)
+    public function _handler_list(int $time, array &$data)
     {
         //set the start-constraints for journal-entries
         $time_span = 7 * 24 * 60 * 60; //7 days
@@ -126,10 +118,6 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         return $this->show('show_entries_list');
     }
 
-    /**
-     * @param Request $request The request object
-     * @param array $data The local request data.
-     */
     public function _handler_xml(Request $request, array &$data)
     {
         $this->qb = org_openpsa_relatedto_journal_entry_dba::new_query_builder();

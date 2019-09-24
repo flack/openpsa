@@ -34,11 +34,7 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
         return $dm->set_storage($this->_group);
     }
 
-    /**
-     * @param string $guid The object's GUID
-     * @param array $data The local request data.
-     */
-    public function _handler_view($guid, array &$data)
+    public function _handler_view(string $guid, array &$data)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class);
 

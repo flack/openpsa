@@ -24,11 +24,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      */
     private $_salesproject;
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The salesproject GUID
-     */
-    public function _handler_edit(Request $request, $guid)
+    public function _handler_edit(Request $request, string $guid)
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($guid);
         $this->_salesproject->require_do('midgard:update');
@@ -147,11 +143,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         }
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The salesproject GUID
-     */
-    public function _handler_delete(Request $request, $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($guid);
         $workflow = $this->get_workflow('delete', [

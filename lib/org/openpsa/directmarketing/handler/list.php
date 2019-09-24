@@ -61,9 +61,6 @@ implements client
         return $entry;
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _handler_frontpage(array &$data)
     {
         midcom::get()->auth->require_valid_user();

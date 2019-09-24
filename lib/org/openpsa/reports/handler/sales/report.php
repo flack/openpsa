@@ -95,10 +95,6 @@ implements client
         $this->module = 'sales';
     }
 
-    /**
-     * @param array $args The argument list.
-     * @param array $data The local request data.
-     */
     public function _handler_generator(array $args, array &$data)
     {
         if ($response = parent::_handler_generator($args, $data)) {

@@ -24,12 +24,8 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
 
     /**
      * Handle the editing phase
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     * @param array $data          Public request data, passed by reference
      */
-    public function _handler_edit(Request $request, $guid, array &$data)
+    public function _handler_edit(Request $request, string $guid, array &$data)
     {
         $event = new org_openpsa_calendar_event_dba($guid);
         $event->require_do('midgard:update');
@@ -59,11 +55,8 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
 
     /**
      * Handle AJAX move
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
      */
-    public function _handler_move(Request $request, $guid)
+    public function _handler_move(Request $request, string $guid)
     {
         if (!$request->request->get('start')) {
             throw new midcom_error('Incomplete request');
@@ -83,11 +76,8 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
 
     /**
      * Handle the delete phase
-     *
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
      */
-    public function _handler_delete(Request $request, $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         $event = new org_openpsa_calendar_event_dba($guid);
         $workflow = $this->get_workflow('delete', ['object' => $event, 'relocate' => false]);

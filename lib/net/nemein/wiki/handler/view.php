@@ -141,11 +141,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         throw new midcom_error_notfound('The page ' . $wikiword . ' could not be found.');
     }
 
-    /**
-     * @param array $data The local request data.
-     * @param string $wikipage The page's name
-     */
-    public function _handler_view(&$data, $wikipage = 'index')
+    public function _handler_view(array &$data, string $wikipage = 'index')
     {
         if ($response = $this->_load_page($wikipage)) {
             return $response;
@@ -247,11 +243,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         return $toc . $content;
     }
 
-    /**
-     * @param string $wikipage The page's name
-     * @param array $data The local request data.
-     */
-    public function _handler_raw($wikipage, &$data)
+    public function _handler_raw(string $wikipage, array &$data)
     {
         if ($response = $this->_load_page($wikipage, false)) {
             return $response;
@@ -270,11 +262,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         return $this->show('view-wikipage-raw');
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $wikipage The page's name
-     */
-    public function _handler_subscribe(Request $request, $wikipage)
+    public function _handler_subscribe(Request $request, string $wikipage)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -314,11 +302,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         return new midcom_response_relocate("{$this->_page->name}/");
     }
 
-    /**
-     * @param string $wikipage The page's name
-     * @param array $data The local request data.
-     */
-    public function _handler_whatlinks($wikipage, &$data)
+    public function _handler_whatlinks(string $wikipage, array &$data)
     {
         if ($response = $this->_load_page($wikipage, false)) {
             return $response;
@@ -344,9 +328,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
     /**
      * Callback for sorting wikipages by title
-     *
-     * @param net_nemein_wiki_wikipage $a
-     * @param net_nemein_wiki_wikipage $b
      */
     public static function sort_by_title(net_nemein_wiki_wikipage $a, net_nemein_wiki_wikipage $b)
     {

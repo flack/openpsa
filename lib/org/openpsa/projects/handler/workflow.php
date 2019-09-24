@@ -15,11 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_projects_handler_workflow extends midcom_baseclasses_components_handler
 {
-    /**
-     * @param string $guid The object's GUID
-     * @param string $action The requested action
-     */
-    public function _handler_action($guid, $action)
+    public function _handler_action(string $guid, string $action)
     {
         midcom::get()->auth->require_valid_user();
         $this->run($action, $guid);
@@ -27,11 +23,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         return new midcom_response_json;
     }
 
-    /**
-     * @param Request $request The request object
-     * @param string $guid The object's GUID
-     */
-    public function _handler_post(Request $request, $guid)
+    public function _handler_post(Request $request, string $guid)
     {
         midcom::get()->auth->require_valid_user();
         $action = $request->request->get('org_openpsa_projects_workflow_action');
