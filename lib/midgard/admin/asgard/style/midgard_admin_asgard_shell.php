@@ -2,7 +2,7 @@
 $identifier = $data['controller']->get_datamanager()->get_form()->getName() . '_code';
 ?>
 <script type="text/javascript">
-const midgard_admin_asgard_shell_identifier = '&(identifier);';
+var midgard_admin_asgard_shell_identifier = '&(identifier);';
 </script>
 <div class="object_edit">
 <?php
