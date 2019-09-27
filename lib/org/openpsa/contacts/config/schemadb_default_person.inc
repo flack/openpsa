@@ -282,6 +282,24 @@
             'type' => 'tags',
             'widget' => 'text',
         ],
+        'photo' => [
+            'title' => 'photo',
+            'type' => 'photo',
+            'type_config' => [
+                'filter_chain'   => 'exifrotate()',
+                'derived_images' => [
+                    // Intentionally this way, so that portraits can be taller
+                    'view' => 'exifrotate();resize(500,600)',
+                    // Use specific thumbnail rule to allow for exifrotate
+                    'thumbnail' => 'exifrotate();resize(32,32)',
+                ],
+            ],
+            'widget' => 'photo',
+            'widget_config' => [
+                'show_title' => false
+            ],
+            'index_method' => 'noindex',
+        ],
         'notes' => [
             'title' => 'notes',
             'storage' => 'extra',
