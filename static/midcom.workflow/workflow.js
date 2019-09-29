@@ -99,7 +99,7 @@ $(document).ready(function() {
     $('body').on('click', '[data-dialog="dialog"]', function(event) {
         event.preventDefault();
         if (!$(this).hasClass('active')) {
-            create_dialog($(this), $(this).find('.toolbar_label').text() || this.title, this.href);
+            create_dialog($(this), $(this).find('.toolbar_label').text() || this.title, this.getAttribute('href'));
         }
     });
 
