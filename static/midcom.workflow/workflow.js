@@ -6,7 +6,7 @@ $(document).ready(function() {
             spinner = $('<div class="spinner"><i class="fa fa-pulse fa-spinner"></i></div>'),
             text = this.dataset.dialogText,
             relocate = this.dataset.relocate,
-            action = this.href || this.dataset.action,
+            action = this.getAttribute('href') || this.dataset.action,
             options = {
                 title:  this.dataset.dialogHeading,
                 modal: true,
