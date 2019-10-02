@@ -53,7 +53,7 @@ $(document).ready(function() {
             $('.midcom-delete-dialog').remove();
         }
 
-        if (this.dataset.recursive) {
+        if (this.dataset.recursive === 'true') {
             dialog.addClass('loading');
             options.buttons[0].disabled = true;
             $.getJSON(MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom.helper.reflector/list-children.php',
