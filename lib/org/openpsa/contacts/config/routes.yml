@@ -18,10 +18,6 @@ search_autocomplete:
     path: /search/autocomplete/
     defaults: { _controller: 'org_openpsa_contacts_handler_search::search' }
 
-search_type:
-    path: /search/foaf/
-    defaults: { _controller: 'org_openpsa_contacts_handler_search::search_type' }
-
 search:
     path: /search/
     defaults: { _controller: 'org_openpsa_contacts_handler_search::search' }

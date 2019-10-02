@@ -101,31 +101,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         }
     }
 
-    public function _handler_search_type(Request $request)
-    {
-        $this->_parse_query($request->query);
-
-        midcom::get()->skip_page_style = true;
-        $this->_search_qb_persons();
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     */
-    public function _show_search_type($handler_id, array &$data)
-    {
-        if (!empty($this->_persons)) {
-            midcom_show_style('foaf-header');
-            foreach ($this->_persons as $person) {
-                $data['person'] = $person;
-                midcom_show_style('foaf-person-item');
-            }
-            midcom_show_style('foaf-footer');
-        }
-    }
-
     public function _handler_search(Request $request, string $handler_id, array &$data)
     {
         $this->_query_mode = 'both';

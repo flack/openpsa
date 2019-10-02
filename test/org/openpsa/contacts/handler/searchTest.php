@@ -32,16 +32,6 @@ class org_openpsa_contacts_handler_searchTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    public function testHandler_search_type()
-    {
-        midcom::get()->auth->request_sudo('org.openpsa.contacts');
-
-        $data = $this->run_handler('org.openpsa.contacts', ['search', 'foaf']);
-        $this->assertEquals('search_type', $data['handler_id']);
-
-        midcom::get()->auth->drop_sudo();
-    }
-
     public function testHandler_search_autocomplete()
     {
         midcom::get()->auth->request_sudo('org.openpsa.contacts');

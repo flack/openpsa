@@ -9,8 +9,6 @@ to crashing)
 ## Semantic web
 
 * Organization and person URLs could be checked for much more data, including:
-  - FOAF file listing personnel or more data about person
-    `<link rel="meta" type="application/rdf+xml" href="http://example.net/foaf.rdf" />`
   - iCal freebusy file
   - RSS feed (populate to n.n.rss?)
     `<link rel="alternate" type="application/rss+xml"  href="http://example.net/rss.xml" />`
