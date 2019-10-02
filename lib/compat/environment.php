@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
-
 /**
  * Support for interactions with environment
  *
@@ -19,14 +17,6 @@ class midcom_compat_environment
 
     private static $_implementation;
 
-    public function __construct()
-    {
-        if (   PHP_SAPI != 'cli'
-            || !empty($_SERVER['REMOTE_ADDR'])) {
-            $this->_httpd_setup();
-        }
-    }
-
     public static function get() : self
     {
         return self::$_implementation;
@@ -35,23 +25,6 @@ class midcom_compat_environment
     public static function initialize()
     {
         self::$_implementation = new static;
-    }
-
-    private function _httpd_setup()
-    {
-        /*
-         * make sure the URLs not having query string (or midcom-xxx- -method signature)
-         * have trailing slash or some extension in the "filename".
-         *
-         * This makes life much, much better when making static copies for whatever reason
-         */
-        $redirect_test_uri = (string)$_SERVER['REQUEST_URI'];
-        if (   !preg_match('%\?|/$|midcom-.+-|/.*\.[^/]+$%', $redirect_test_uri)
-            && (empty($_POST))) {
-            $response = new RedirectResponse($redirect_test_uri . '/', 301);
-            $response->send();
-            $this->stop_request();
-        }
     }
 
     public function header(string $string, $replace = true, $http_response_code = null)
