@@ -290,10 +290,6 @@ abstract class midcom_core_dbaobject
     {
         return $this->__object->has_dependents();
     }
-    public function is_object_visible_onsite() : bool
-    {
-        return midcom_baseclasses_core_dbobject::is_object_visible_onsite($this);
-    }
     public function has_attachments() : bool
     {
         return $this->__object->has_attachments();

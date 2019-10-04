@@ -760,18 +760,6 @@ class midcom_baseclasses_core_dbobject
     }
 
     /**
-     * This is a metadata helper that maps to the metadata onsite visibility
-     * check function, making checks against visibility far easier.
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return boolean Indicating visibility state.
-     */
-    public static function is_object_visible_onsite(midcom_core_dbaobject $object) : bool
-    {
-        return $object->metadata->is_object_visible_onsite();
-    }
-
-    /**
      * "Pre-flight" checks for delete method
      *
      * Separated so that dbfactory->import() can reuse the code
