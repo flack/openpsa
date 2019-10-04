@@ -159,7 +159,7 @@ class midcom_helper_nav_backend
         $this->_current = $this->_root;
 
         if (empty($root->id)) {
-            $this->load_node_data($root);
+            $this->load_node($root);
         } else {
             $this->init_topics($root, $urltopics);
         }
@@ -184,7 +184,7 @@ class midcom_helper_nav_backend
 
         $lastgood = null;
         foreach ($node_path_candidates as $topic) {
-            if (!$this->load_node_data($topic)) {
+            if (!$this->load_node($topic)) {
                 // Node is hidden behind an undescendable one
                 $this->_current = $lastgood;
                 return;
@@ -199,13 +199,12 @@ class midcom_helper_nav_backend
      * is able to load the navigation data of any topic within MidCOM's topic
      * tree into memory. Any uplink nodes that are not loaded into memory will
      * be loaded until any other known topic is encountered. After the
-     * necessary data has been loaded with calls to load_node_data.
+     * necessary data has been loaded with calls to load_node.
      *
      * @param mixed $node_id  The node ID of the node to be loaded
-     * @param int $parent_id  The node's parent ID, if known
      * @return bool           Indicating success
      */
-    private function load_node($node_id, $parent_id = null) : bool
+    private function load_node_recursive($node_id) : bool
     {
         // Check if we have a cached version of the node already
         if (isset(self::$_nodes[$node_id])) {
@@ -214,19 +213,17 @@ class midcom_helper_nav_backend
 
         $topic_id = (int) $node_id;
 
-        if ($parent_id === null) {
-            // Load parent nodes also to cache
-            $parent_id = $this->_get_parent_id($topic_id);
-        }
+        // Load parent nodes also to cache
+        $parent_id = $this->_get_parent_id($topic_id);
 
         while ((int) $parent_id > 0) {
-            if (!$this->load_node_data($parent_id)) {
+            if (!$this->load_node($parent_id)) {
                 debug_add("The Node {$parent_id} is invisible, could not satisfy the dependency chain to Node #{$node_id}", MIDCOM_LOG_WARN);
                 return false;
             }
             $parent_id = self::$_nodes[$parent_id]->nodeid;
         }
-        return $this->load_node_data($topic_id);
+        return $this->load_node($topic_id);
     }
 
     /**
@@ -247,7 +244,7 @@ class midcom_helper_nav_backend
      * @param mixed $topic Topic object or ID to be processed
      * @return bool Indicating success
      */
-    private function load_node_data($topic) : bool
+    private function load_node($topic) : bool
     {
         if (is_a($topic, midcom_db_topic::class)) {
             $id = $topic->id;
@@ -315,6 +312,35 @@ class midcom_helper_nav_backend
     }
 
     /**
+     * Verifies the existence of a given leaf. Call this before getting a leaf from the
+     * $_leaves cache. It will load all necessary nodes/leaves as necessary.
+     *
+     * @param string $leaf_id A valid NAP leaf id ($nodeid-$leafid pattern).
+     */
+    private function load_leaf($leaf_id) : bool
+    {
+        if (!$leaf_id) {
+            debug_add("Tried to load a suspicious leaf id, probably a false from get_current_leaf.");
+            return false;
+        }
+
+        if (array_key_exists($leaf_id, $this->_leaves)) {
+            return true;
+        }
+
+        $node_id = explode('-', $leaf_id)[0];
+
+        if (!$this->load_node_recursive($node_id)) {
+            debug_add("Tried to verify the leaf id {$leaf_id}, which should belong to node {$node_id}, but this node cannot be loaded, see debug level log for details.",
+            MIDCOM_LOG_INFO);
+            return false;
+        }
+        $this->load_leaves(self::$_nodes[$node_id]);
+
+        return array_key_exists($leaf_id, $this->_leaves);
+    }
+
+    /**
      * Lists all Sub-nodes of $parent_node. If there are no subnodes, or if there was an error
      * (for instance an unknown parent node ID) you will get an empty array
      *
@@ -325,7 +351,7 @@ class midcom_helper_nav_backend
     {
         static $listed = [];
 
-        if (!$this->load_node($parent_node)) {
+        if (!$this->load_node_recursive($parent_node)) {
             debug_add("Unable to load parent node $parent_node", MIDCOM_LOG_ERROR);
             return [];
         }
@@ -346,7 +372,7 @@ class midcom_helper_nav_backend
         $result = [];
 
         foreach ($subnodes as $id) {
-            if (!$this->load_node($id, $parent_node)) {
+            if (!$this->load_node($id)) {
                 continue;
             }
 
@@ -374,7 +400,7 @@ class midcom_helper_nav_backend
     {
         static $listed = [];
 
-        if (!$this->load_node($parent_node)) {
+        if (!$this->load_node_recursive($parent_node)) {
             return [];
         }
         $cache_key = $parent_node . '--' . $show_noentry;
@@ -428,7 +454,7 @@ class midcom_helper_nav_backend
         if (!empty($node->guid)) {
             $node_id = $node->id;
         }
-        if (!$this->load_node($node_id)) {
+        if (!$this->load_node_recursive($node_id)) {
             return false;
         }
 
@@ -445,7 +471,7 @@ class midcom_helper_nav_backend
      */
     public function get_leaf($leaf_id)
     {
-        if (!$this->_check_leaf_id($leaf_id)) {
+        if (!$this->load_leaf($leaf_id)) {
             debug_add("This leaf is unknown, aborting.", MIDCOM_LOG_INFO);
             return false;
         }
@@ -520,7 +546,7 @@ class midcom_helper_nav_backend
      */
     function get_leaf_uplink($leaf_id)
     {
-        if (!$this->_check_leaf_id($leaf_id)) {
+        if (!$this->load_leaf($leaf_id)) {
             debug_add("This leaf is unknown, aborting.", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -537,40 +563,11 @@ class midcom_helper_nav_backend
      */
     public function get_node_uplink($node_id)
     {
-        if (!$this->load_node($node_id)) {
+        if (!$this->load_node_recursive($node_id)) {
             return false;
         }
 
         return self::$_nodes[$node_id]->nodeid;
-    }
-
-    /**
-     * Verifies the existence of a given leaf. Call this before getting a leaf from the
-     * $_leaves cache. It will load all necessary nodes/leaves as necessary.
-     *
-     * @param string $leaf_id A valid NAP leaf id ($nodeid-$leafid pattern).
-     */
-    private function _check_leaf_id($leaf_id) : bool
-    {
-        if (!$leaf_id) {
-            debug_add("Tried to load a suspicious leaf id, probably a false from get_current_leaf.");
-            return false;
-        }
-
-        if (array_key_exists($leaf_id, $this->_leaves)) {
-            return true;
-        }
-
-        $node_id = explode('-', $leaf_id)[0];
-
-        if (!$this->load_node($node_id)) {
-            debug_add("Tried to verify the leaf id {$leaf_id}, which should belong to node {$node_id}, but this node cannot be loaded, see debug level log for details.",
-            MIDCOM_LOG_INFO);
-            return false;
-        }
-        $this->load_leaves(self::$_nodes[$node_id]);
-
-        return array_key_exists($leaf_id, $this->_leaves);
     }
 
     /**
@@ -583,6 +580,7 @@ class midcom_helper_nav_backend
     {
         $mc = midcom_db_topic::new_collector('id', $topic_id);
         $result = $mc->get_values('up');
+
         if (empty($result)) {
             return false;
         }
