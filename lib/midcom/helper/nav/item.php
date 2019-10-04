@@ -89,7 +89,7 @@ abstract class midcom_helper_nav_item
      * - Approval (only on-site)
      * - ACL
      */
-    public function is_visible_for($user_id) : bool
+    public function is_visible() : bool
     {
         if (empty($this->get_data())) {
             debug_add('Got a null value as napdata, so this object does not have any NAP info, so we cannot display it.');
@@ -99,7 +99,6 @@ abstract class midcom_helper_nav_item
         $ret = true;
 
         if (is_object($this->object)) {
-
             // Check Hiding, Scheduling and Approval
             if ($this->object->metadata) {
                 $ret = $this->object->metadata->is_object_visible_onsite();
@@ -110,7 +109,12 @@ abstract class midcom_helper_nav_item
             }
         }
 
-        return $ret && $this->is_readable_by($user_id);
+        if ($ret) {
+            $user_id = midcom::get()->auth->admin ? false : midcom::get()->auth->acl->get_user_id();
+            return $this->is_readable_by($user_id);
+        }
+
+        return $ret;
     }
 
     public function get_data() : array

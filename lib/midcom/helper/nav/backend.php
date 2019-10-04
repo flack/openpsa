@@ -132,13 +132,6 @@ class midcom_helper_nav_backend
     private $_node_path = [];
 
     /**
-     * User id for ACL checks. This is set when instantiating to avoid unnecessary overhead
-     *
-     * @var string
-     */
-    private $_user_id = false;
-
-    /**
      * Constructor
      *
      * It will initialize Root Topic, Current Topic and all cache arrays.
@@ -150,10 +143,6 @@ class midcom_helper_nav_backend
     public function __construct(midcom_db_topic $root, array $urltopics)
     {
         $this->_nap_cache = midcom::get()->cache->nap;
-
-        if (!midcom::get()->auth->admin) {
-            $this->_user_id = midcom::get()->auth->acl->get_user_id();
-        }
 
         $this->_root = $root->id;
         $this->_current = $this->_root;
@@ -254,7 +243,7 @@ class midcom_helper_nav_backend
         if (!array_key_exists($id, self::$_nodes)) {
             $node = new midcom_helper_nav_node($this, $topic);
 
-            if (!$node->is_visible_for($this->_user_id)) {
+            if (!$node->is_visible()) {
                 return false;
             }
 
@@ -292,7 +281,7 @@ class midcom_helper_nav_backend
         $absoluteprefix = midcom_connection::get_url('self');
 
         foreach ($node->get_leaves() as $id => $leaf) {
-            if (!$leaf->is_visible_for($this->_user_id)) {
+            if (!$leaf->is_visible()) {
                 continue;
             }
 
