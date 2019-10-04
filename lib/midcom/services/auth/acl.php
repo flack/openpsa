@@ -395,26 +395,20 @@ class midcom_services_auth_acl
      */
     public function get_user_id($user = null)
     {
-        $user_id = 'ANONYMOUS';
-
-        // TODO: Clean if/else shorthands, make sure this works correctly for magic assignees as well
         if ($user === null) {
-            if ($this->auth->user) {
-                $user_id = $this->auth->user->id;
-            }
-        } elseif (is_string($user)) {
-            if (mgd_is_guid($user) || is_numeric($user)) {
-                $user_id = $this->auth->get_user($user)->id;
-            } else {
-                $user_id = $user;
-            }
-        } elseif (is_object($user)) {
-            $user_id = $user->id;
-        } else {
-            $user_id = $user;
+            return $this->auth->user->id ?? 'ANONYMOUS';
         }
-
-        return $user_id;
+        if (is_string($user)) {
+            if (mgd_is_guid($user) || is_numeric($user)) {
+                return $this->auth->get_user($user)->id;
+            }
+            // Could be a magic assignee (?)
+            return $user;
+        }
+        if (is_object($user)) {
+            return $user->id;
+        }
+        return $user;
     }
 
     /**
