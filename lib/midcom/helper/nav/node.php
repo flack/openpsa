@@ -73,7 +73,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
         if (!$from_cache) {
             debug_add('The leaves have not yet been loaded from the database, we do this now.');
 
-            //we always write all the leaves to cache and filter for ACLs after the fact
+            // we always write all the leaves to cache and filter for ACLs after the fact
             midcom::get()->auth->request_sudo('midcom.helper.nav');
             if ($nap = $this->get_component_nap($this->object)) {
                 $leaves = $nap->get_leaves();

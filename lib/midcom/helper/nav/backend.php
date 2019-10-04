@@ -257,8 +257,7 @@ class midcom_helper_nav_backend
         if (!array_key_exists($id, self::$_nodes)) {
             $node = new midcom_helper_nav_node($this, $topic);
 
-            if (   !$node->is_object_visible()
-                || !$node->is_readable_by($this->_user_id)) {
+            if (!$node->is_visible_for($this->_user_id)) {
                 return false;
             }
 
@@ -279,47 +278,27 @@ class midcom_helper_nav_backend
     }
 
     /**
-     * Loads the leaves for a given node from the cache or database.
-     * It will relay the code to _get_leaves() and check the object visibility upon
-     * return.
-     *
-     * @param midcom_helper_nav_node $node The NAP node data structure to load the nodes for.
-     */
-    private function _load_leaves(midcom_helper_nav_node $node)
-    {
-        if (!array_key_exists($node->id, $this->_loaded_leaves)) {
-            $this->_loaded_leaves[$node->id] = [];
-
-            $leaves = array_filter($this->_get_leaves($node), function($leaf) {
-                return $leaf->is_object_visible();
-            });
-            foreach ($leaves as $id => $leaf) {
-                $this->_leaves[$id] = $leaf;
-                $this->_loaded_leaves[$node->id][$id] =& $this->_leaves[$id];
-            }
-        }
-    }
-
-    /**
      * Return the list of leaves for a given node. This helper will construct complete leaf
      * data structures for each leaf found. It will first check the cache for the leaf structures,
      * and query the database only if the corresponding objects have not been found there.
      *
-     * No visibility checks are made at this point.
-     *
-     * @param midcom_helper_nav_node $node The node data structure for which to retrieve the leaves.
-     * @return Array All leaves found for that node, in complete post processed leave data structures.
+     * @param midcom_helper_nav_node $node The NAP node data structure to load the nodes for.
      */
-    private function _get_leaves(midcom_helper_nav_node $node) : array
+    private function load_leaves(midcom_helper_nav_node $node)
     {
+        if (array_key_exists($node->id, $this->_loaded_leaves)) {
+            return;
+        }
+        $this->_loaded_leaves[$node->id] = [];
+
         $fullprefix = midcom::get()->config->get('midcom_site_url');
         $absoluteprefix = midcom_connection::get_url('self');
-        $result = [];
 
         foreach ($node->get_leaves() as $id => $leaf) {
-            if (!$leaf->is_readable_by($this->_user_id)) {
+            if (!$leaf->is_visible_for($this->_user_id)) {
                 continue;
             }
+
             // Rewrite all host-dependent URLs based on the relative URL within our topic tree.
             $leaf->fullurl = $fullprefix . $leaf->relativeurl;
             $leaf->absoluteurl = $absoluteprefix . $leaf->relativeurl;
@@ -330,10 +309,9 @@ class midcom_helper_nav_backend
                 $leaf->permalink = midcom::get()->permalinks->create_permalink($leaf->guid);
             }
 
-            $result[$id] = $leaf;
+            $this->_leaves[$id] = $leaf;
+            $this->_loaded_leaves[$node->id][$id] =& $this->_leaves[$id];
         }
-
-        return $result;
     }
 
     /**
@@ -403,7 +381,7 @@ class midcom_helper_nav_backend
 
         if (!isset($listed[$cache_key])) {
             $listed[$cache_key] = [];
-            $this->_load_leaves(self::$_nodes[$parent_node]);
+            $this->load_leaves(self::$_nodes[$parent_node]);
 
             foreach ($this->_loaded_leaves[self::$_nodes[$parent_node]->id] as $id => $leaf) {
                 if ($show_noentry || !$leaf->noentry) {
@@ -590,7 +568,7 @@ class midcom_helper_nav_backend
             MIDCOM_LOG_INFO);
             return false;
         }
-        $this->_load_leaves(self::$_nodes[$node_id]);
+        $this->load_leaves(self::$_nodes[$node_id]);
 
         return array_key_exists($leaf_id, $this->_leaves);
     }

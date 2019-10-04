@@ -30,7 +30,7 @@ abstract class midcom_helper_nav_item
 
     abstract protected function prepare_data() : array;
 
-    abstract public function is_readable_by($user_id);
+    abstract public function is_readable_by($user_id) : bool;
 
     protected function get_cache() : midcom_services_cache_module_nap
     {
@@ -87,32 +87,30 @@ abstract class midcom_helper_nav_item
      * - Nonexistent NAP information (null values)
      * - Scheduling/Hiding (only on-site)
      * - Approval (only on-site)
+     * - ACL
      */
-    public function is_object_visible() : bool
+    public function is_visible_for($user_id) : bool
     {
         if (empty($this->get_data())) {
             debug_add('Got a null value as napdata, so this object does not have any NAP info, so we cannot display it.');
             return false;
         }
 
-        // Check the Metadata if and only if we are configured to do so.
-        if (   is_object($this->object)
-            && (   midcom::get()->config->get('show_hidden_objects') == false
-                || midcom::get()->config->get('show_unapproved_objects') == false)) {
-            // Check Hiding, Scheduling and Approval
-            $metadata = $this->object->metadata;
+        $ret = true;
 
-            if (!$metadata) {
+        if (is_object($this->object)) {
+
+            // Check Hiding, Scheduling and Approval
+            if ($this->object->metadata) {
+                $ret = $this->object->metadata->is_object_visible_onsite();
+            } else {
                 // For some reason, the metadata for this object could not be retrieved. so we skip
                 // Approval/Visibility checks.
                 debug_add("Warning, no Metadata available for the {$this->type} {$this->guid}.", MIDCOM_LOG_INFO);
-                return true;
             }
-
-            return $metadata->is_object_visible_onsite();
         }
 
-        return true;
+        return $ret && $this->is_readable_by($user_id);
     }
 
     public function get_data() : array
