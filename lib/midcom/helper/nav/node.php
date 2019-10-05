@@ -16,14 +16,8 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
 
     private $topic_id;
 
-    /**
-     * @var midcom_helper_nav_backend
-     */
-    private $backend;
-
-    public function __construct(midcom_helper_nav_backend $backend, $topic)
+    public function __construct($topic)
     {
-        $this->backend = $backend;
         if (is_a($topic, midcom_db_topic::class)) {
             $this->topic = $topic;
             $this->topic_id = $topic->id;
@@ -136,11 +130,6 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
             debug_add("Added the ID {$data[MIDCOM_NAV_ID]} to the cache.");
         }
 
-        // Rewrite all host dependent URLs based on the relative URL within our topic tree.
-        $data[MIDCOM_NAV_FULLURL] = midcom::get()->config->get('midcom_site_url') . $data[MIDCOM_NAV_RELATIVEURL];
-        $data[MIDCOM_NAV_ABSOLUTEURL] = midcom_connection::get_url('self') . $data[MIDCOM_NAV_RELATIVEURL];
-        $data[MIDCOM_NAV_PERMALINK] = midcom::get()->permalinks->create_permalink($data[MIDCOM_NAV_GUID]);
-
         return $data;
     }
 
@@ -169,8 +158,10 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
 
         // Now complete the node data structure
         $data[MIDCOM_NAV_NAME] = trim($data[MIDCOM_NAV_NAME]) == '' ? $topic->name : $data[MIDCOM_NAV_NAME];
+        $data[MIDCOM_NAV_URL] = $topic->name . '/';
         $data[MIDCOM_NAV_GUID] = $topic->guid;
         $data[MIDCOM_NAV_ID] = $topic->id;
+        $data[MIDCOM_NAV_NODEID] = $topic->up;
         $data[MIDCOM_NAV_TYPE] = 'node';
         $data[MIDCOM_NAV_SCORE] = $topic->metadata->score;
         $data[MIDCOM_NAV_COMPONENT] = $topic->component;
@@ -184,25 +175,6 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
             $data[MIDCOM_NAV_NOENTRY] = (bool) $topic->metadata->get('navnoentry');
         }
         $data[MIDCOM_NAV_OBJECT] = $topic;
-
-        if ($topic->id == $this->backend->get_root_node()) {
-            $data[MIDCOM_NAV_NODEID] = -1;
-            $data[MIDCOM_NAV_RELATIVEURL] = '';
-            $data[MIDCOM_NAV_URL] = '';
-        } else {
-            $data[MIDCOM_NAV_URL] = $topic->name . '/';
-            $data[MIDCOM_NAV_NODEID] = $topic->up;
-
-            if (!$data[MIDCOM_NAV_NODEID]) {
-                return null;
-            }
-            $parent = $this->backend->get_node($data[MIDCOM_NAV_NODEID]);
-            if ($parent === false) {
-                return null;
-            }
-
-            $data[MIDCOM_NAV_RELATIVEURL] = $parent[MIDCOM_NAV_RELATIVEURL] . $data[MIDCOM_NAV_URL];
-        }
 
         return $data;
     }

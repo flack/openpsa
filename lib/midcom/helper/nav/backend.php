@@ -237,11 +237,25 @@ class midcom_helper_nav_backend
             $id = $topic;
         }
         if (!array_key_exists($id, self::$_nodes)) {
-            $node = new midcom_helper_nav_node($this, $topic);
-
+            $node = new midcom_helper_nav_node($topic);
             if (!$node->is_visible()) {
                 return false;
             }
+
+            if ($node->id == $this->_root) {
+                $node->nodeid = -1;
+                $node->relativeurl = '';
+                $node->url = '';
+            } else {
+                if (!$node->nodeid || !$this->load_node($node->nodeid)) {
+                    return false;
+                }
+                $node->relativeurl = self::$_nodes[$node->nodeid]->relativeurl . $node->url;
+            }
+            // Rewrite all host dependent URLs based on the relative URL within our topic tree.
+            $node->fullurl = midcom::get()->config->get('midcom_site_url') . $node->relativeurl;
+            $node->absoluteurl = midcom_connection::get_url('self') . $node->relativeurl;
+            $node->permalink = midcom::get()->permalinks->create_permalink($node->guid);
 
             // The node is visible, add it to the list.
             self::$_nodes[$id] = $node;

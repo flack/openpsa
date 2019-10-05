@@ -24,6 +24,9 @@ class midcom_helper_nav_backendTest extends openpsa_testcase
         $this->assertEquals($root_topic->id, $backend->get_current_node());
         $this->assertEquals([$root_topic->id], $backend->get_node_path());
         $this->assertEquals(-1, $backend->get_node_uplink($root_topic->id));
+        $node = $backend->get_node($backend->get_current_node());
+        $this->assertEquals('', $node[MIDCOM_NAV_RELATIVEURL]);
+        $this->assertEquals('/', $node[MIDCOM_NAV_ABSOLUTEURL]);
     }
 
     public function test_nonpersistent_root()
@@ -35,6 +38,9 @@ class midcom_helper_nav_backendTest extends openpsa_testcase
         $this->assertEquals($root_topic->id, $backend->get_current_node());
         $this->assertEquals([$root_topic->id], $backend->get_node_path());
         $this->assertEquals(-1, $backend->get_node_uplink($root_topic->id));
+        $node = $backend->get_node($backend->get_current_node());
+        $this->assertEquals('', $node[MIDCOM_NAV_RELATIVEURL]);
+        $this->assertEquals('/', $node[MIDCOM_NAV_ABSOLUTEURL]);
     }
 
     public function test_tree()
