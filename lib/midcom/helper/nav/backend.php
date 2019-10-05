@@ -147,11 +147,7 @@ class midcom_helper_nav_backend
         $this->_root = $root->id;
         $this->_current = $this->_root;
 
-        if (empty($root->id)) {
-            $this->load_node($root);
-        } else {
-            $this->init_topics($root, $urltopics);
-        }
+        $this->init_topics($root, $urltopics);
     }
 
     /**

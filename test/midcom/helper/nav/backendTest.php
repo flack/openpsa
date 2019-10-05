@@ -26,6 +26,17 @@ class midcom_helper_nav_backendTest extends openpsa_testcase
         $this->assertEquals(-1, $backend->get_node_uplink($root_topic->id));
     }
 
+    public function test_nonpersistent_root()
+    {
+        $root_topic = new midcom_db_topic;
+        $root_topic->component = 'midcom.core.nullcomponent';
+        $backend = new midcom_helper_nav_backend($root_topic, []);
+        $this->assertEquals($root_topic->id, $backend->get_root_node());
+        $this->assertEquals($root_topic->id, $backend->get_current_node());
+        $this->assertEquals([$root_topic->id], $backend->get_node_path());
+        $this->assertEquals(-1, $backend->get_node_uplink($root_topic->id));
+    }
+
     public function test_tree()
     {
         $root_topic_name = uniqid('root');
