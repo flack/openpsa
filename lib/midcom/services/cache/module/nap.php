@@ -11,7 +11,7 @@
  * for the various backend databases which will be created based on the root topic of the
  * NAP trees.
  *
- * The actual handling of the various dbs is done with nav/backend.php, this
+ * The actual handling of the various dbs is done with Doctrine Cache, this
  * class is responsible for the creation of backend instances and invalidation for NAP
  * cache objects. (Which implies that it is fully aware of the data structures
  * stored in the cache.)
@@ -76,10 +76,10 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             $cached_node_id = $napobject[MIDCOM_NAV_NODEID];
             // Get parent from DB and compare to catch moves
             if ($parent = $napobject[MIDCOM_NAV_OBJECT]->get_parent()) {
-                $parent_entry_from_object = $this->get_guid($parent->guid);
-                if (    $parent_entry_from_object
-                     && $parent_entry_from_object[MIDCOM_NAV_ID] != $cached_node_id) {
-                    $this->_cache->delete($this->_prefix . '-' . $parent_entry_from_object[MIDCOM_NAV_ID] . '-leaves');
+                $parent_entry = $this->get_guid($parent->guid);
+                if (   $parent_entry
+                    && $parent_entry[MIDCOM_NAV_ID] != $cached_node_id) {
+                    $this->_cache->delete($this->_prefix . '-' . $parent_entry[MIDCOM_NAV_ID] . '-leaves');
                 }
             }
             if (!empty($napobject[MIDCOM_NAV_GUID])) {
