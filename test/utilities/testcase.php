@@ -22,6 +22,8 @@ use PHPUnit\Framework\TestCase;
 abstract class openpsa_testcase extends TestCase
 {
     private static $_class_objects = [];
+    private static $nodes = [];
+
     private $_testcase_objects = [];
 
     public static function create_user($login = false)
@@ -54,32 +56,34 @@ abstract class openpsa_testcase extends TestCase
 
     public static function get_component_node($component)
     {
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        midcom::get()->auth->request_sudo($component);
-        if ($topic_guid = $siteconfig->get_node_guid($component)) {
-            $topic = new midcom_db_topic($topic_guid);
-        } else {
-            $qb = midcom_db_topic::new_query_builder();
-            $qb->add_constraint('component', '=', $component);
-            $qb->set_limit(1);
-            $qb->add_order('id');
-            $result = $qb->execute();
-            if (!empty($result)) {
-                midcom::get()->auth->drop_sudo();
-                return $result[0];
+        if (!isset(self::$nodes[$component])) {
+            $siteconfig = org_openpsa_core_siteconfig::get_instance();
+            midcom::get()->auth->request_sudo($component);
+            if ($topic_guid = $siteconfig->get_node_guid($component)) {
+                self::$nodes[$component] = new midcom_db_topic($topic_guid);
+            } else {
+                $qb = midcom_db_topic::new_query_builder();
+                $qb->add_constraint('component', '=', $component);
+                $qb->set_limit(1);
+                $qb->add_order('id');
+                $result = $qb->execute();
+                if (!empty($result)) {
+                    self::$nodes[$component] = $result[0];
+                } else {
+                    $root_topic = midcom_db_topic::get_cached(midcom::get()->config->get('midcom_root_topic_guid'));
+
+                    $topic_attributes = [
+                        'up' => $root_topic->id,
+                        'component' => $component,
+                        'name' => 'handler_' . get_called_class() . time()
+                    ];
+                    self::$nodes[$component] = self::create_class_object(midcom_db_topic::class, $topic_attributes);
+                }
             }
-
-            $root_topic = midcom_db_topic::get_cached(midcom::get()->config->get('midcom_root_topic_guid'));
-
-            $topic_attributes = [
-                'up' => $root_topic->id,
-                'component' => $component,
-                'name' => 'handler_' . get_called_class() . time()
-            ];
-            $topic = self::create_class_object(midcom_db_topic::class, $topic_attributes);
+            midcom::get()->auth->drop_sudo();
         }
-        midcom::get()->auth->drop_sudo();
-        return $topic;
+
+        return self::$nodes[$component];
     }
 
     /**
@@ -369,7 +373,6 @@ abstract class openpsa_testcase extends TestCase
     public static function create_class_object($classname, array $data = [])
     {
         $object = self::_create_object($classname, $data);
-
         self::$_class_objects[$object->guid] = $object;
         return $object;
     }
@@ -480,7 +483,12 @@ abstract class openpsa_testcase extends TestCase
                     throw new midcom_error('Cleanup ' . get_class($object) . ' ' . $object->guid . ' failed, reason: ' . midcom_connection::get_error_string());
                 }
             } else {
-                $stat = $object->purge();
+                $object->purge();
+                if (   $object instanceof midcom_db_topic
+                    && !empty(self::$nodes[$object->component])
+                    && self::$nodes[$object->component]->guid == $object->guid) {
+                    unset(self::$nodes[$object->component]);
+                }
             }
             if ($iteration++ > $limit) {
                 $classnames = [];

@@ -14,12 +14,10 @@
 class org_openpsa_documents_handler_directory_editTest extends openpsa_testcase
 {
     protected static $_person;
-    protected static $_directory;
 
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
-        self::$_directory = self::get_component_node('org.openpsa.documents');
     }
 
     public function testHandler_edit()
