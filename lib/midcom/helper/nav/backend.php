@@ -180,40 +180,13 @@ class midcom_helper_nav_backend
     }
 
     /**
+     * Load the navigational information associated with the topic $param, which
+     * can be passed as an ID or as a MidgardTopic object.
+     *
      * This function is the controlling instance of the loading mechanism. It
      * is able to load the navigation data of any topic within MidCOM's topic
      * tree into memory. Any uplink nodes that are not loaded into memory will
-     * be loaded until any other known topic is encountered. After the
-     * necessary data has been loaded with calls to load_node.
-     *
-     * @param mixed $node_id  The node ID of the node to be loaded
-     * @return bool           Indicating success
-     */
-    private function load_node_recursive($node_id) : bool
-    {
-        // Check if we have a cached version of the node already
-        if (isset(self::$_nodes[$node_id])) {
-            return true;
-        }
-
-        $topic_id = (int) $node_id;
-
-        // Load parent nodes also to cache
-        $parent_id = $this->_get_parent_id($topic_id);
-
-        while ((int) $parent_id > 0) {
-            if (!$this->load_node($parent_id)) {
-                debug_add("The Node {$parent_id} is invisible, could not satisfy the dependency chain to Node #{$node_id}", MIDCOM_LOG_WARN);
-                return false;
-            }
-            $parent_id = self::$_nodes[$parent_id]->nodeid;
-        }
-        return $this->load_node($topic_id);
-    }
-
-    /**
-     * Load the navigational information associated with the topic $param, which
-     * can be passed as an ID or as a MidgardTopic object.
+     * be loaded until any other known topic is encountered.
      *
      * This method does query the topic for all information and completes it to
      * build up a full NAP data structure
@@ -329,7 +302,7 @@ class midcom_helper_nav_backend
 
         $node_id = explode('-', $leaf_id)[0];
 
-        if (!$this->load_node_recursive($node_id)) {
+        if (!$this->load_node($node_id)) {
             debug_add("Tried to verify the leaf id {$leaf_id}, which should belong to node {$node_id}, but this node cannot be loaded, see debug level log for details.",
             MIDCOM_LOG_INFO);
             return false;
@@ -350,7 +323,7 @@ class midcom_helper_nav_backend
     {
         static $listed = [];
 
-        if (!$this->load_node_recursive($parent_node)) {
+        if (!$this->load_node($parent_node)) {
             debug_add("Unable to load parent node $parent_node", MIDCOM_LOG_ERROR);
             return [];
         }
@@ -399,7 +372,7 @@ class midcom_helper_nav_backend
     {
         static $listed = [];
 
-        if (!$this->load_node_recursive($parent_node)) {
+        if (!$this->load_node($parent_node)) {
             return [];
         }
         $cache_key = $parent_node . '--' . $show_noentry;
@@ -453,7 +426,7 @@ class midcom_helper_nav_backend
         if (!empty($node->guid)) {
             $node_id = $node->id;
         }
-        if (!$this->load_node_recursive($node_id)) {
+        if (!$this->load_node($node_id)) {
             return false;
         }
 
@@ -562,27 +535,10 @@ class midcom_helper_nav_backend
      */
     public function get_node_uplink($node_id)
     {
-        if (!$this->load_node_recursive($node_id)) {
+        if (!$this->load_node($node_id)) {
             return false;
         }
 
         return self::$_nodes[$node_id]->nodeid;
-    }
-
-    /**
-     * Determine a topic's parent id without loading the full object
-     *
-     * @param integer $topic_id The topic ID
-     * @return integer The parent ID or false
-     */
-    private function _get_parent_id($topic_id)
-    {
-        $mc = midcom_db_topic::new_collector('id', $topic_id);
-        $result = $mc->get_values('up');
-
-        if (empty($result)) {
-            return false;
-        }
-        return array_shift($result);
     }
 }
