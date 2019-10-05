@@ -126,7 +126,7 @@ class midcom_helper_nav
      *     This defaults to false.
      * @see midcom_helper_nav_backend::list_nodes()
      */
-    public function list_nodes($parent_node, $show_noentry = false) : array
+    public function list_nodes($parent_node, bool $show_noentry = false) : array
     {
         return $this->_backend->list_nodes($parent_node, $show_noentry);
     }

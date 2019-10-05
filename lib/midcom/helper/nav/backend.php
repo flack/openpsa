@@ -319,7 +319,7 @@ class midcom_helper_nav_backend
      * @param mixed $parent_node    The ID of the node of which the subnodes are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      */
-    public function list_nodes($parent_node, $show_noentry) : array
+    public function list_nodes($parent_node, bool $show_noentry) : array
     {
         static $listed = [];
 
@@ -328,36 +328,25 @@ class midcom_helper_nav_backend
             return [];
         }
 
-        $cache_identifier = $parent_node . (($show_noentry) ? 'noentry' : '');
-        if (isset($listed[$cache_identifier])) {
-            return $listed[$cache_identifier];
-        }
-
-        $subnodes = self::$_nodes[$parent_node]->get_subnodes();
-
-        // No results, return an empty array
-        if (empty($subnodes)) {
+        $cache_identifier = $parent_node . ($show_noentry ? 'noentry' : '');
+        if (!isset($listed[$cache_identifier])) {
             $listed[$cache_identifier] = [];
-            return $listed[$cache_identifier];
+
+            foreach (self::$_nodes[$parent_node]->get_subnodes() as $id) {
+                if (!$this->load_node($id)) {
+                    continue;
+                }
+
+                if (   !$show_noentry
+                    && self::$_nodes[$id]->noentry) {
+                    // Hide "noentry" items
+                    continue;
+                }
+
+                $listed[$cache_identifier][] = $id;
+            }
         }
 
-        $result = [];
-
-        foreach ($subnodes as $id) {
-            if (!$this->load_node($id)) {
-                continue;
-            }
-
-            if (   !$show_noentry
-                && self::$_nodes[$id]->noentry) {
-                // Hide "noentry" items
-                continue;
-            }
-
-            $result[] = $id;
-        }
-
-        $listed[$cache_identifier] = $result;
         return $listed[$cache_identifier];
     }
 
