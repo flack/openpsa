@@ -55,7 +55,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
             $topic->name = midcom_helper_misc::urlize($folder_title);
             $topic->component = 'net.nemein.wiki';
             if (!$topic->create()) {
-                throw new midcom_error("Could not create wiki namespace '{$folder_title}', last Midgard error was: " . midcom_connection::get_error_string());
+                throw new midcom_error("Could not create wiki namespace '{$topic->extra}', last Midgard error was: " . midcom_connection::get_error_string());
             }
             // refresh
             $topic = new midcom_db_topic($topic->id);
