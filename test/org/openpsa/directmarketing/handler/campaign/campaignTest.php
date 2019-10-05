@@ -22,7 +22,7 @@ class org_openpsa_directmarketing_handler_campaign_campaignTest extends openpsa_
 
     public function testHandler_view()
     {
-        $helper = new openpsa_test_campaign_helper($this);
+        $helper = new openpsa_test_campaign_helper;
         $campaign = $helper->get_campaign();
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');

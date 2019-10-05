@@ -13,18 +13,18 @@
  */
 class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 {
-    protected $_salesproject;
+    protected static $_salesproject;
 
-    public function setUp()
+    public static function setUpBeforeClass()
     {
-        $this->_salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
+        self::$_salesproject = self::create_class_object(org_openpsa_sales_salesproject_dba::class);
     }
 
     public function testCRUD()
     {
         midcom::get()->auth->request_sudo('org.openpsa.sales');
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
-        $deliverable->salesproject = $this->_salesproject->id;
+        $deliverable->salesproject = self::$_salesproject->id;
         $deliverable->plannedUnits = 2.5;
         $deliverable->pricePerUnit = 100;
         $deliverable->_use_rcs = false;
@@ -35,35 +35,35 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $this->assertEquals(250, $deliverable->price);
 
         $parent = $deliverable->get_parent();
-        $this->assertEquals($parent->guid, $this->_salesproject->guid);
+        $this->assertEquals($parent->guid, self::$_salesproject->guid);
 
-        $this->_salesproject->refresh();
-        $this->assertEquals(250, $this->_salesproject->value);
-        $this->assertEquals(250, $this->_salesproject->profit);
+        self::$_salesproject->refresh();
+        $this->assertEquals(250, self::$_salesproject->value);
+        $this->assertEquals(250, self::$_salesproject->profit);
 
         $deliverable->plannedUnits = 2;
         $stat = $deliverable->update();
         $this->assertTrue($stat);
 
-        $this->_salesproject->refresh();
-        $this->assertEquals(200, $this->_salesproject->value);
-        $this->assertEquals(200, $this->_salesproject->profit);
+        self::$_salesproject->refresh();
+        $this->assertEquals(200, self::$_salesproject->value);
+        $this->assertEquals(200, self::$_salesproject->profit);
 
         $stat = $deliverable->delete();
         $this->assertTrue($stat);
 
-        $this->_salesproject->calculate_price();
-        $this->assertEquals(0, $this->_salesproject->value);
-        $this->assertEquals(0, $this->_salesproject->profit);
+        self::$_salesproject->calculate_price();
+        $this->assertEquals(0, self::$_salesproject->value);
+        $this->assertEquals(0, self::$_salesproject->profit);
 
         midcom::get()->auth->drop_sudo();
     }
 
     public function testGet_parent()
     {
-        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, ['salesproject' => $this->_salesproject->id]);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, ['salesproject' => self::$_salesproject->id]);
         $parent = $deliverable->get_parent();
-        $this->assertEquals($parent->guid, $this->_salesproject->guid);
+        $this->assertEquals($parent->guid, self::$_salesproject->guid);
     }
 
     /**
@@ -78,7 +78,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $product = $this->create_object(org_openpsa_products_product_dba::class, $attributes['product']);
 
         $attributes['deliverable']['product'] = $product->id;
-        $attributes['deliverable']['salesproject'] = $this->_salesproject->id;
+        $attributes['deliverable']['salesproject'] = self::$_salesproject->id;
 
         $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes['deliverable']);
 
@@ -89,7 +89,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $this->assertEquals($retval, $stat);
 
         if ($retval === true) {
-            $salesproject = $this->_salesproject;
+            $salesproject = self::$_salesproject;
             $salesproject->refresh();
 
             foreach ($results as $type => $values) {
@@ -169,7 +169,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
     public function testDecline()
     {
         $attributes = [
-            'salesproject' => $this->_salesproject->id
+            'salesproject' => self::$_salesproject->id
         ];
 
         $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
@@ -179,24 +179,24 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
         $this->assertTrue($stat);
 
-        $this->_salesproject->refresh();
-        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_LOST, $this->_salesproject->state);
+        self::$_salesproject->refresh();
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_LOST, self::$_salesproject->state);
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED, $deliverable->state);
 
         $deliverable2 = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
         $deliverable3 = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
-        $this->_salesproject->state = org_openpsa_sales_salesproject_dba::STATE_ACTIVE;
-        $this->_salesproject->update();
+        self::$_salesproject->state = org_openpsa_sales_salesproject_dba::STATE_ACTIVE;
+        self::$_salesproject->update();
 
         $this->assertTrue($deliverable2->decline());
         $this->assertFalse($deliverable2->decline());
 
-        $this->_salesproject->refresh();
-        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_ACTIVE, $this->_salesproject->state);
+        self::$_salesproject->refresh();
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_ACTIVE, self::$_salesproject->state);
 
         $this->assertTrue($deliverable3->decline());
-        $this->_salesproject->refresh();
-        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_LOST, $this->_salesproject->state);
+        self::$_salesproject->refresh();
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_LOST, self::$_salesproject->state);
         midcom::get()->auth->drop_sudo();
     }
 
@@ -206,9 +206,6 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
      */
     public function testCalculate_price($attributes, $results)
     {
-        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
-        $attributes['salesproject'] = $salesproject->id;
-
         $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
         foreach ($results as $key => $value) {
             $this->assertEquals($value, $deliverable->$key, $key . ' test failed');
@@ -217,9 +214,11 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public function providerCalculate_price()
     {
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
         return [
             [
                 [
+                    'salesproject' => $salesproject->id,
                     'invoiceByActualUnits' => true,
                     'plannedUnits' => 1,
                     'units' => 1,
@@ -234,6 +233,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
             ],
             [
                 [
+                    'salesproject' => $salesproject->id,
                     'invoiceByActualUnits' => false,
                     'plannedUnits' => 2,
                     'units' => 1,
@@ -248,6 +248,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
             ],
             [
                 [
+                    'salesproject' => $salesproject->id,
                     'invoiceByActualUnits' => true,
                     'plannedUnits' => 0,
                     'units' => 2,
@@ -265,7 +266,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public function tearDown()
     {
-        self::delete_linked_objects('org_openpsa_sales_salesproject_deliverable_dba', 'salesproject', $this->_salesproject->id);
+        self::delete_linked_objects('org_openpsa_sales_salesproject_deliverable_dba', 'salesproject', self::$_salesproject->id);
         parent::tearDown();
     }
 }

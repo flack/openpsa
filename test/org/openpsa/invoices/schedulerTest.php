@@ -89,7 +89,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
      */
     public function testGet_cycle_identifier($attributes, $output)
     {
-        $deliverable = self::prepare_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
+        $deliverable = self::prepare_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);
         $identifier = $scheduler->get_cycle_identifier($deliverable->start);
         $this->assertEquals($identifier, $output);
@@ -139,7 +139,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
      */
     public function testCalculate_cycles($attributes, $months, $result)
     {
-        $deliverable = self::prepare_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
+        $deliverable = self::prepare_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
 
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);
         $cycles = $scheduler->calculate_cycles($months, $attributes['start']);

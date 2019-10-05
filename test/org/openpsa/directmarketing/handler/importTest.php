@@ -15,15 +15,20 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
 {
     protected static $_person;
 
+    /**
+     * @var openpsa_test_campaign_helper
+     */
+    private static $helper;
+
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
+        self::$helper = new openpsa_test_campaign_helper;
     }
 
     public function testHandler_index()
     {
-        $helper = new openpsa_test_campaign_helper($this);
-        $campaign = $helper->get_campaign();
+        $campaign = self::$helper->get_campaign();
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
@@ -35,8 +40,7 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
 
     public function testHandler_simpleemails()
     {
-        $helper = new openpsa_test_campaign_helper($this);
-        $campaign = $helper->get_campaign();
+        $campaign = self::$helper->get_campaign();
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
@@ -69,8 +73,7 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
 
     public function testHandler_csv_select()
     {
-        $helper = new openpsa_test_campaign_helper($this);
-        $campaign = $helper->get_campaign();
+        $campaign = self::$helper->get_campaign();
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
@@ -81,8 +84,7 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
 
     public function testHandler_vcards()
     {
-        $helper = new openpsa_test_campaign_helper($this);
-        $campaign = $helper->get_campaign();
+        $campaign = self::$helper->get_campaign();
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 

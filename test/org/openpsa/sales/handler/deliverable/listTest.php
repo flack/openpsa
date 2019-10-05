@@ -14,7 +14,6 @@
 class org_openpsa_sales_salesproject_deliverable_listTest extends openpsa_testcase
 {
     protected static $_person;
-    protected static $_salesproject;
 
     public static function setUpBeforeClass()
     {

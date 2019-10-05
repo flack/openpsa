@@ -13,6 +13,13 @@
  */
 class org_openpsa_projects_taskTest extends openpsa_testcase
 {
+    private static $project;
+
+    public static function setUpBeforeClass()
+    {
+        self::$project = self::create_class_object(org_openpsa_projects_project::class);
+    }
+
     public function testCRUD()
     {
         midcom::get()->auth->request_sudo('org.openpsa.projects');
@@ -23,8 +30,7 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
         $stat = $task->create();
         $this->assertFalse($stat);
 
-        $project = $this->create_object(org_openpsa_projects_project::class);
-        $task->project = $project->id;
+        $task->project = self::$project->id;
 
         $stat = $task->create();
         $this->assertTrue($stat, midcom_connection::get_error_string());
@@ -48,20 +54,18 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
 
     public function testHierarchy()
     {
-        $project = $this->create_object(org_openpsa_projects_project::class);
-        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => $project->id]);
+        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => self::$project->id]);
 
         midcom::get()->auth->request_sudo('org.openpsa.projects');
         $parent = $task->get_parent();
         midcom::get()->auth->drop_sudo();
 
-        $this->assertEquals($parent->guid, $project->guid);
+        $this->assertEquals($parent->guid, self::$project->guid);
     }
 
     public function test_add_members()
     {
-        $project = $this->create_object(org_openpsa_projects_project::class);
-        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => $project->id]);
+        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => self::$project->id]);
 
         midcom::get()->auth->request_sudo('org.openpsa.projects');
         $task->add_members('resources', [1, 2]);
@@ -78,9 +82,8 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
 
     public function test_update_cache()
     {
-        $project = $this->create_object(org_openpsa_projects_project::class);
         $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);
-        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => $project->id]);
+        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => self::$project->id]);
         $data = [
             'task' => $task->id,
             'hours' => 4,

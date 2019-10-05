@@ -15,15 +15,20 @@ class org_openpsa_directmarketing_handler_loggerTest extends openpsa_testcase
 {
     protected static $_person;
 
+    /**
+     * @var openpsa_test_campaign_helper
+     */
+    private static $helper;
+
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
+        self::$helper = new openpsa_test_campaign_helper;
     }
 
     public function testHandler_bounce()
     {
-        $helper = new openpsa_test_campaign_helper($this);
-        $message = $helper->get_message();
+        $message = self::$helper->get_message();
         $token = uniqid();
         $this->create_object(org_openpsa_directmarketing_campaign_messagereceipt_dba::class, [
             'token' => $token,
@@ -42,10 +47,9 @@ class org_openpsa_directmarketing_handler_loggerTest extends openpsa_testcase
 
     public function testHandler_link()
     {
-        $helper = new openpsa_test_campaign_helper($this);
-        $message = $helper->get_message();
+        $message = self::$helper->get_message();
         $token = uniqid();
-        $receipt = $this->create_object(org_openpsa_directmarketing_campaign_messagereceipt_dba::class, [
+        $this->create_object(org_openpsa_directmarketing_campaign_messagereceipt_dba::class, [
             'token' => $token,
             'orgOpenpsaObtype' => org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT,
             'message' => $message->id
@@ -74,10 +78,9 @@ class org_openpsa_directmarketing_handler_loggerTest extends openpsa_testcase
 
     public function testHandler_redirect()
     {
-        $helper = new openpsa_test_campaign_helper($this);
-        $message = $helper->get_message();
+        $message = self::$helper->get_message();
         $token = 'a' . uniqid();
-        $receipt = $this->create_object(org_openpsa_directmarketing_campaign_messagereceipt_dba::class, [
+        $this->create_object(org_openpsa_directmarketing_campaign_messagereceipt_dba::class, [
             'token' => $token,
             'orgOpenpsaObtype' => org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT,
             'message' => $message->id

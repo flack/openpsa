@@ -15,15 +15,20 @@ class org_openpsa_directmarketing_handler_message_adminTest extends openpsa_test
 {
     protected static $_person;
 
+    /**
+     * @var openpsa_test_campaign_helper
+     */
+    private static $helper;
+
     public static function setUpBeforeClass()
     {
         self::$_person = self::create_user(true);
+        self::$helper = new openpsa_test_campaign_helper;
     }
 
     public function testHandler_edit()
     {
-        $helper = new openpsa_test_campaign_helper($this);
-        $message = $helper->get_message();
+        $message = self::$helper->get_message();
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
@@ -35,8 +40,7 @@ class org_openpsa_directmarketing_handler_message_adminTest extends openpsa_test
 
     public function testHandler_copy()
     {
-        $helper = new openpsa_test_campaign_helper($this);
-        $message = $helper->get_message();
+        $message = self::$helper->get_message();
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
@@ -48,8 +52,7 @@ class org_openpsa_directmarketing_handler_message_adminTest extends openpsa_test
 
     public function testHandler_delete()
     {
-        $helper = new openpsa_test_campaign_helper($this);
-        $message = $helper->get_message();
+        $message = self::$helper->get_message();
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 

@@ -13,40 +13,43 @@
  */
 class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
 {
+    protected static $organization;
+    protected static $manager;
+    protected static $member;
+    protected static $group;
+
     protected $_product;
-    protected $_group;
     protected $_project;
     protected $_task;
     protected $_hour_report;
     protected $_salesproject;
     protected $_deliverable;
-    protected $_organization;
-    protected $_manager;
-    protected $_member;
+
+    public static function setUpBeforeClass()
+    {
+        self::$organization = self::create_class_object(org_openpsa_contacts_group_dba::class);
+        self::$manager = self::create_class_object(midcom_db_person::class);
+        self::$member = self::create_class_object(midcom_db_person::class);
+        self::$group = self::create_class_object(org_openpsa_products_product_group_dba::class);
+    }
 
     public function setUp()
     {
-        $this->_organization = $this->create_object(org_openpsa_contacts_group_dba::class);
-        $this->_manager = $this->create_object(midcom_db_person::class);
-        $this->_member = $this->create_object(midcom_db_person::class);
-
-        $this->_group = $this->create_object(org_openpsa_products_product_group_dba::class);
-
         $product_attributes = [
-            'productGroup' => $this->_group->id,
+            'productGroup' => self::$group->id,
             'code' => 'TEST-' . __CLASS__ . time(),
             'delivery' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
         ];
         $this->_product = $this->create_object(org_openpsa_products_product_dba::class, $product_attributes);
 
         $salesproject_attributes = [
-            'owner' => $this->_manager->id,
-            'customer' => $this->_organization->id,
+            'owner' => self::$manager->id,
+            'customer' => self::$organization->id,
         ];
         $this->_salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class, $salesproject_attributes);
 
         $member_attributes = [
-            'person' => $this->_member->id,
+            'person' => self::$member->id,
             'objectGuid' => $this->_salesproject->guid,
             'role' => org_openpsa_sales_salesproject_dba::ROLE_MEMBER
         ];

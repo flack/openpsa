@@ -22,7 +22,7 @@ class org_openpsa_directmarketing_handler_message_listTest extends openpsa_testc
 
     public function testHandler_list()
     {
-        $helper = new openpsa_test_campaign_helper($this);
+        $helper = new openpsa_test_campaign_helper;
         $campaign = $helper->get_campaign();
         $helper->get_message();
 

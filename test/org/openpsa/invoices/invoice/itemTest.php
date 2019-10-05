@@ -14,15 +14,14 @@
 class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
 {
     protected static $_invoice;
-    protected static $_salesproject;
     protected static $_deliverable;
 
     public static function setUpBeforeClass()
     {
         self::$_invoice = self::create_class_object(org_openpsa_invoices_invoice_dba::class);
-        self::$_salesproject = self::create_class_object(org_openpsa_sales_salesproject_dba::class);
+        $salesproject = self::create_class_object(org_openpsa_sales_salesproject_dba::class);
         $attributes = [
-            'salesproject' => self::$_salesproject->id
+            'salesproject' => $salesproject->id
         ];
         self::$_deliverable = self::create_class_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
     }

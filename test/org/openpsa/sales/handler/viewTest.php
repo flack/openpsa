@@ -16,6 +16,7 @@ class org_openpsa_sales_handler_viewTest extends openpsa_testcase
     protected static $_person;
     protected static $_salesproject;
     protected static $_product;
+    protected static $_product_subscription;
 
     public static function setUpBeforeClass()
     {
@@ -25,31 +26,29 @@ class org_openpsa_sales_handler_viewTest extends openpsa_testcase
         $product_attributes = [
             'productGroup' => $product_group->id,
             'name' => 'TEST_' . __CLASS__ . '_' . time(),
+            'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE
         ];
         self::$_product = self::create_class_object(org_openpsa_products_product_dba::class, $product_attributes);
+
+        $product_attributes['delivery'] = org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION;
+        $product_attributes['name'] .= 'subscription';
+
+        self::$_product_subscription = self::create_class_object(org_openpsa_products_product_dba::class, $product_attributes);
     }
 
     public function testHandler_view()
     {
         midcom::get()->auth->request_sudo('org.openpsa.sales');
 
-        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
-        $product_group = $this->create_object(org_openpsa_products_product_group_dba::class);
-        $product_attributes = [
-            'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_SERVICE,
-            'productGroup' => $product_group->id,
-            'name' => __CLASS__ . __FUNCTION__ . time()
-        ];
-        $product = $this->create_object(org_openpsa_products_product_dba::class, $product_attributes);
         $deliverable_attributes = [
-            'salesproject' => $salesproject->id,
-            'product' => $product->id,
+            'salesproject' => self::$_salesproject->id,
+            'product' => self::$_product_subscription->id,
             'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
         ];
 
         $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
 
-        $data = $this->run_handler('org.openpsa.sales', ['salesproject', $salesproject->guid]);
+        $data = $this->run_handler('org.openpsa.sales', ['salesproject', self::$_salesproject->guid]);
         $this->assertEquals('salesproject_view', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -59,10 +58,6 @@ class org_openpsa_sales_handler_viewTest extends openpsa_testcase
     public function testHandler_action_single()
     {
         midcom::get()->auth->request_sudo('org.openpsa.sales');
-
-        $product = org_openpsa_products_product_dba::get_cached(self::$_product->id);
-        $product->delivery = org_openpsa_products_product_dba::DELIVERY_SINGLE;
-        $product->update();
 
         $deliverable_attributes = [
             'salesproject' => self::$_salesproject->id,
@@ -121,13 +116,9 @@ class org_openpsa_sales_handler_viewTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.sales');
 
-        $product = org_openpsa_products_product_dba::get_cached(self::$_product->id);
-        $product->delivery = org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION;
-        $product->update();
-
         $deliverable_attributes = [
             'salesproject' => self::$_salesproject->id,
-            'product' => self::$_product->id,
+            'product' => self::$_product_subscription->id,
             'start' => time(),
             'continuous' => true,
             'unit' => 'q',

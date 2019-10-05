@@ -41,21 +41,13 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         ];
     }
 
-    public function testHandler_add()
+    public function testHandler_add_create()
     {
         midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $data = $this->run_handler('org.openpsa.sales', ['deliverable', 'add', $this->_salesproject->guid]);
         $this->assertEquals('deliverable_add', $data['handler_id']);
 
-        midcom::get()->auth->drop_sudo();
-    }
-
-    public function testHandler_add_create()
-    {
-        midcom::get()->auth->request_sudo('org.openpsa.sales');
-
-        $data = $this->run_handler('org.openpsa.sales', ['deliverable', 'add', $this->_salesproject->guid]);
         $formdata = [
             'title' => 'TEST ' . __CLASS__ . '_' . time(),
             'plannedUnits' => '1',

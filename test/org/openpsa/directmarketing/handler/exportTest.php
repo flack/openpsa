@@ -22,7 +22,7 @@ class org_openpsa_directmarketing_handler_exportTest extends openpsa_testcase
 
     public function testHandler_csv()
     {
-        $helper = new openpsa_test_campaign_helper($this);
+        $helper = new openpsa_test_campaign_helper;
         $campaign = $helper->get_campaign();
         $helper->get_member(self::$_person);
 
