@@ -9,6 +9,25 @@
     display: none;
 }
 
+.midcom-workflow-dialog .ui-widget-header.ui-dialog-titlebar {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.midcom-workflow-dialog .ui-dialog-title {
+    font-size: 120%
+}
+
+.midcom-workflow-dialog .ui-widget-content .ui-dialog-buttonset {
+    float: none;
+    text-align: right;
+}
+
+.midcom-workflow-dialog .ui-dialog-buttonset .dialog-extra-button {
+    float: left;
+    margin: 0.5em 0 0.5em 0.4em
+}
+
 .midcom-workflow-dialog .ui-dialog-content > i,
 .midcom-delete-dialog > .spinner i
 {

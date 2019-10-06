@@ -1400,7 +1400,7 @@ a.ui-button:active,
     border-radius: 6px;
 }
 
-.ui-dialog .ui-dialog-title
+.ui-dialog .ui-dialog-titlebar .ui-dialog-title
 {
     font-size: 140%;
 }
@@ -1872,14 +1872,4 @@ ul.fancytree-container span.fancytree-folder a
 .midcom-workflow-dialog .ui-dialog-content {
     overflow: hidden;
     padding: 0;
-}
-
-.midcom-workflow-dialog .ui-widget-content .ui-dialog-buttonset {
-    float: none;
-    text-align: right;
-}
-
-.midcom-workflow-dialog .ui-dialog-buttonset .dialog-extra-button {
-    float: left;
-    margin: 0.5em 0 0.5em 0.4em
 }
