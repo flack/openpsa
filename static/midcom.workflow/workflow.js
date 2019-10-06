@@ -157,7 +157,7 @@ function create_dialog(control, title, url) {
         $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
     }
 
-    var dialog, iframe, spinner,
+    var dialog, iframe, spinner, is_scrolling,
         config = {
             dialogClass: 'midcom-workflow-dialog',
             buttons: [],
@@ -182,6 +182,28 @@ function create_dialog(control, title, url) {
                 $(this).dialog( "close" );
             }
         });
+    }
+
+    // Workaround for jqueryui incompatibility between position widget & css fixed position
+    function keep_dialog_fixed (event) {
+        var ui_dialog = dialog.closest('.ui-dialog'),
+            viewport_position = ui_dialog[0].getBoundingClientRect();
+
+        window.clearTimeout(is_scrolling);
+
+        ui_dialog.css({
+            position: 'fixed',
+            top: viewport_position.top + 'px',
+            left: viewport_position.left + 'px'
+        });
+
+	is_scrolling = setTimeout(function() {
+            ui_dialog.css({
+                position: 'absolute',
+                top: ui_dialog.offset().top + 'px',
+                left: ui_dialog.offset().left + 'px'
+            });
+	}, 500);
     }
 
     if ($('#midcom-dialog').length > 0) {
@@ -235,6 +257,12 @@ function create_dialog(control, title, url) {
                         maximized = false;
                     }
                 });
+            })
+            .on('dialogopen', function() {
+                window.addEventListener('scroll', keep_dialog_fixed, false);
+            })
+            .on('dialogclose', function() {
+                window.removeEventListener('scroll', keep_dialog_fixed, false);
             })
             .appendTo($('body'));
     }
