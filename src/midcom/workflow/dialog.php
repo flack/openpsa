@@ -13,6 +13,7 @@ use midcom;
 use midcom_response_styled;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Workflow base class
@@ -108,6 +109,15 @@ abstract class dialog
         }
 
         return $output;
+    }
+
+    public function js_response(string $script) : Response
+    {
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
+        midcom::get()->head->add_jscript($script);
+        midcom::get()->dispatcher->addListener(KernelEvents::RESPONSE, [midcom::get()->head, 'inject_head_elements']);
+        $content = '<!DOCTYPE html><html><head>' . \midcom_helper_head::TOOLBAR_PLACEHOLDER . '</head><body></body></html>';
+        return new Response($content);
     }
 
     abstract public function get_button_config() : array;

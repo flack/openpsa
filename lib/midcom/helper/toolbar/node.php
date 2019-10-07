@@ -82,12 +82,12 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
 
         if (   $this->topic->can_do('midgard:update')
             && $this->topic->can_do('midcom.admin.folder:topic_management')) {
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "__ais/folder/order/",
+            $viewer = new midcom\workflow\viewer;
+            $buttons[] = $viewer->get_button("__ais/folder/order/", [
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('order navigation', 'midcom.admin.folder'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'sort',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'o',
-            ];
+            ]);
 
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$this->topic->guid}/",

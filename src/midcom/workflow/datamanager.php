@@ -14,7 +14,6 @@ use midcom;
 use midcom\datamanager\controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * @package midcom.workflow
@@ -74,11 +73,7 @@ class datamanager extends dialog
 
         if ($this->state == controller::SAVE) {
             $script = $this->handle_save();
-            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
-            midcom::get()->head->add_jscript($script);
-            midcom::get()->dispatcher->addListener(KernelEvents::RESPONSE, [midcom::get()->head, 'inject_head_elements']);
-            $content = '<!DOCTYPE html><html><head>' . \midcom_helper_head::TOOLBAR_PLACEHOLDER . '</head><body></body></html>';
-            return new Response($content);
+            return $this->js_response($script);
         }
         $context = midcom_core_context::get();
         $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$this->controller, 'display_form']);

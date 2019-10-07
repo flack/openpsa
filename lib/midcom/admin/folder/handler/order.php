@@ -65,7 +65,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
         if ($success) {
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('order saved'));
-            return new midcom_response_relocate('');
+            return $this->get_workflow('viewer')->js_response('refresh_opener();');
         }
     }
 
@@ -131,8 +131,8 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
             // Set page title
             $data['folder'] = $this->_topic;
-            $data['title'] = sprintf($this->_l10n->get('order navigation in folder %s'), $this->_topic->get_label());
-            midcom::get()->head->set_pagetitle($data['title']);
+            $title = sprintf($this->_l10n->get('order navigation in folder %s'), $this->_topic->get_label());
+            midcom::get()->head->set_pagetitle($title);
 
             // Set the help object in the toolbar
             $help_toolbar = midcom::get()->toolbars->get_help_toolbar();
@@ -147,6 +147,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/midcom-admin-order.css');
             $this->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
         }
+        return $this->get_workflow('viewer')->run($request);
     }
 
     /**
