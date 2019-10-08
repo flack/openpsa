@@ -28,7 +28,7 @@ class midgard_admin_asgard_handler_object_attachmentsTest extends openpsa_testca
 
         self::$_attachment = self::create_class_object(midcom_db_attachment::class, $parameters);
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
-        self::$_attachment->copy_from_file(dirname(dirname(dirname(__FILE__))) . '/__files/' . self::$_filename);
+        self::$_attachment->copy_from_file(dirname(__FILE__, 3) . '/__files/' . self::$_filename);
         midcom::get()->auth->drop_sudo();
     }
 

@@ -259,7 +259,7 @@ class midcom_helper__componentloader
     public function path_to_snippetpath($component_name)
     {
         if (array_key_exists($component_name, $this->manifests)) {
-            return dirname(dirname($this->manifests[$component_name]->filename));
+            return dirname($this->manifests[$component_name]->filename, 2);
         }
         debug_add("Component {$component_name} is not registered", MIDCOM_LOG_CRIT);
         return false;

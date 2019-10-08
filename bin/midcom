@@ -2,7 +2,7 @@
 <?php
 
 //Some fiddling to get autoloader...
-$path = dirname(dirname(dirname(__DIR__))) . '/autoload.php'; // installed as dependency
+$path = dirname(__DIR__, 3) . '/autoload.php'; // installed as dependency
 if (!file_exists($path)) {
     $path = dirname(__DIR__) . '/vendor/autoload.php'; // installed as root package
 }
@@ -12,7 +12,7 @@ if (!file_exists($path)) {
 require_once $path;
 
 if (!defined('OPENPSA_PROJECT_BASEDIR')) {
-    define('OPENPSA_PROJECT_BASEDIR', dirname(dirname($path)) . '/');
+    define('OPENPSA_PROJECT_BASEDIR', dirname($path, 2) . '/');
 }
 
 use midcom\console\application;
