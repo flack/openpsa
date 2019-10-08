@@ -17,7 +17,6 @@ $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 if (file_exists(dirname(__DIR__) . '/config.inc.php')) {
     include dirname(__DIR__) . '/config.inc.php';
 } else {
-    //TODO: Hook in an installation wizard here, once it is written
     include dirname(__DIR__) . '/config-default.inc.php';
 }
 
