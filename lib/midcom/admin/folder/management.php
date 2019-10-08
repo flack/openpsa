@@ -130,10 +130,12 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     public static function list_theme_styles(array $styles) : array
     {
         $theme_styledir = OPENPSA2_THEME_ROOT . '/' . midcom::get()->config->get('theme') . '/style';
+        if (is_dir($theme_styledir)) {
         $finder = new Finder();
-        foreach ($finder->directories()->in($theme_styledir) as $dir) {
-            $label = preg_replace('/.+?\//', '&nbsp;&nbsp;', $dir->getRelativePathname());
-            $styles['theme:/' . $dir->getRelativePathname()] = $label;
+            foreach ($finder->directories()->in($theme_styledir) as $dir) {
+                $label = preg_replace('/.+?\//', '&nbsp;&nbsp;', $dir->getRelativePathname());
+                $styles['theme:/' . $dir->getRelativePathname()] = $label;
+            }
         }
         return $styles;
     }
