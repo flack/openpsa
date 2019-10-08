@@ -26,6 +26,7 @@ use midcom\datamanager\extension\type\toolbarType;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
 use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 use midcom\datamanager\storage\container\container;
+use midcom\datamanager\storage\container\dbacontainer;
 
 /**
  * Experimental datamanager class
@@ -35,37 +36,31 @@ class datamanager
     private $schemadb;
 
     /**
-     *
      * @var schema
      */
     private $schema;
 
     /**
-     *
      * @var storage\container\container
      */
     private $storage;
 
     /**
-     *
      * @var array
      */
     private $defaults = [];
 
     /**
-     *
      * @var renderer
      */
     private $renderer;
 
     /**
-     *
      * @var FormFactoryInterface
      */
     private static $factory;
 
     /**
-     *
      * @var Form
      */
     private $form;
@@ -243,15 +238,18 @@ class datamanager
                 'schema' => $this->get_schema()
             ];
             $builder = self::get_factory()->createNamedBuilder($name, schemaType::class, null, $config);
+            $storage = $this->get_storage();
 
             $config = [
                 'operations' => $this->schema->get('operations'),
-                'index_method' => 'noindex'
+                'index_method' => 'noindex',
+                'is_create' => $storage instanceof dbacontainer && empty($storage->get_value()->id)
             ];
+
             $builder->add('form_toolbar', toolbarType::class, $config);
 
             $this->form = $builder->getForm()
-                ->setData($this->get_storage());
+                ->setData($storage);
         }
         return $this->form;
     }

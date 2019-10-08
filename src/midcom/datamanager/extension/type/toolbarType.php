@@ -24,7 +24,8 @@ class toolbarType extends AbstractType
     {
         $resolver->setDefaults([
             'operations' => [],
-            'mapped' => false
+            'mapped' => false,
+            'is_create' => false
         ]);
     }
 
@@ -37,7 +38,11 @@ class toolbarType extends AbstractType
         foreach ($options['operations'] as $operation => $button_labels) {
             foreach ((array) $button_labels as $key => $label) {
                 if ($label == '') {
-                    $label = "form submit: {$operation}";
+                    if ($operation == 'save' && $options['is_create']) {
+                        $label = 'create';
+                    } else {
+                        $label = "form submit: {$operation}";
+                    }
                 }
                 $attributes = [
                     'operation' => $operation,
