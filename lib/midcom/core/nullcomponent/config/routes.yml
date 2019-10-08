@@ -1,0 +1,7 @@
+index:
+    path: /
+    defaults: { _controller: 'midcom_core_nullcomponent_handler_index::index' }
+
+wizard:
+    path: /wizard/
+    defaults: { _controller: 'midcom_core_nullcomponent_handler_wizard::index' }

@@ -164,21 +164,16 @@ class midcom_core_context
             if ($guid = midcom::get()->config->get('midcom_root_topic_guid')) {
                 try {
                     self::$root_topic = midcom_db_topic::get_cached($guid);
+                    return self::$root_topic;
                 } catch (midcom_error $e) {
                     if ($e instanceof midcom_error_forbidden) {
                         throw $e;
                     }
-                    // Fall back to another topic so that admin has a chance to fix this
-                    $setup = new midcom_core_setup("Root folder is misconfigured. Please log in as administrator");
-                    self::$root_topic = $setup->find_topic();
                 }
-            } elseif ($component = midcom::get()->config->get('midcom_root_component')) {
-                self::$root_topic = new midcom_db_topic;
-                self::$root_topic->component = $component;
-            } else {
-                $setup = new midcom_core_setup("Root folder is not configured. Please log in as administrator");
-                self::$root_topic = $setup->find_topic(true);
             }
+            $component = midcom::get()->config->get('midcom_root_component', 'midcom.core.nullcomponent');
+            self::$root_topic = new midcom_db_topic;
+            self::$root_topic->component = $component;
         }
         return self::$root_topic;
     }
