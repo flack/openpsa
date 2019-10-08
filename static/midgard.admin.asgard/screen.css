@@ -299,7 +299,7 @@ p
 #content .object_view .field,
 #content .object_edit .element
 {
-    clear: left;
+    display: flex;
     background-color: #EEEEEC;
     border-radius: 4px;
     padding: 2px 6px;
@@ -311,18 +311,10 @@ p
     padding-bottom: 0.4em
 }
 
-#content .object_view .field:after,
-#content .object_edit .element:after
-{
-    clear: left;
-    display: table;
-    content: ''
-}
 
 #content .object_view .title,
 #content .object_edit label
 {
-    float: left;
     width: 150px;
     overflow: hidden;
     font-size: 100%;
@@ -350,9 +342,24 @@ p
     margin-right: 0
 }
 
+#content .object_edit .input,
+#content .object_view .value
+{
+    flex-grow: 1;
+    margin-right: 15%;
+}
+
+@media screen and (max-width: 900px) {
+    #content .object_edit .input,
+    #content .object_view .value
+    {
+        margin-right: 20px;
+    }
+}
+
 #content .object_edit .input
 {
-    margin-top: 0.4em
+    margin-top: 0.4em;
 }
 
 #content div.object_edit .form_toolbar,
@@ -365,7 +372,6 @@ p
 {
     margin: 0.3em 0;
     background-color: white;
-    margin-left: 170px !important;
     display: block;
     padding: 3px 10px;
 }
@@ -400,7 +406,12 @@ p
 {
     padding: 2px;
     display: inline;
-    width: 70%
+    width: 100%
+}
+
+#content .object_edit .autocomplete-widget-creation-enabled input
+{
+    width: calc(100% - 3.6em);
 }
 
 #content .object_edit .element_checkbox .input
