@@ -32,6 +32,12 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
         return parent::_check_index($index, $raise_error);
     }
 
+    public function render() : string
+    {
+        $this->add_commands();
+        return parent::render();
+    }
+
     public function is_rendered() : bool
     {
         $this->add_commands();
