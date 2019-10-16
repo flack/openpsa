@@ -99,7 +99,9 @@ class blobdircleanup extends Command
             if ($att = $this->get_attachment($file)) {
                 if (!$this->dry) {
                     $stat = $att->purge();
-                    $output->writeln(($stat) ? "<info>Purge OK</info>" : "<comment>Purge FAILED, reason: " . \midcom_connection::get_error_string() . "</comment>");
+                    if (!$stat || $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                        $output->writeln(($stat) ? "<info>Purge OK</info>" : "<comment>Purge FAILED, reason: " . \midcom_connection::get_error_string() . "</comment>");
+                    }
                 }
             }
         }
@@ -109,7 +111,9 @@ class blobdircleanup extends Command
     {
         if (!$this->dry) {
             $stat = unlink($file);
-            $output->writeln(($stat) ? "<info>Cleanup OK</info>" : "<comment>Cleanup FAILED</comment>");
+            if (!$stat || $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                $output->writeln(($stat) ? "<info>Cleanup OK</info>" : "<comment>Cleanup FAILED</comment>");
+            }
         }
     }
 
