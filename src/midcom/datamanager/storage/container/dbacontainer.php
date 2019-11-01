@@ -6,10 +6,13 @@
 namespace midcom\datamanager\storage\container;
 
 use midcom_core_dbaobject;
+use midgard_reflection_property;
 use midcom\datamanager\schema;
 use midcom\datamanager\storage\transientnode;
 use midcom\datamanager\storage\node;
 use midcom\datamanager\storage\blobs;
+use midcom\datamanager\storage\property;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * Experimental storage baseclass
@@ -27,6 +30,8 @@ class dbacontainer extends container
         $this->object = $object;
         $this->schema = $schema;
 
+        $rfp = new midgard_reflection_property($object->__mgdschema_class_name__);
+
         foreach ($this->schema->get('fields') as $name => $config) {
             if (array_key_exists($name, $defaults)) {
                 $config['default'] = $defaults[$name];
@@ -36,6 +41,12 @@ class dbacontainer extends container
             if (   isset($config['default'])
                 && (!$this->object->id || $field instanceof transientnode)) {
                 $field->set_value($config['default']);
+            }
+            if ($field instanceof property) {
+                $type = $rfp->get_midgard_type($config['storage']['location']);
+                if ($type == MGD_TYPE_STRING) {
+                    $this->schema->get_field($name)['validation'][] = new Length(['max' => 255]);
+                }
             }
 
             $this->fields[$name] = $field;
