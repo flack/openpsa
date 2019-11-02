@@ -13,13 +13,19 @@
  */
 class midcom_helper_imagepopup_handler_linksTest extends openpsa_testcase
 {
+    protected static $node;
+
+    public static function setUpBeforeClass()
+    {
+        self::$node = self::get_component_node('net.nehmer.static');
+    }
+
     public function testHandler_open()
     {
         midcom::get()->auth->request_sudo('midcom.helper.imagepopup');
-        $node = self::get_component_node('net.nehmer.static');
 
-        $url = $this->run_relocate_handler('net.nehmer.static', ['__ais', 'imagepopup', 'open', 'file', $node->guid]);
-        $this->assertEquals('__ais/imagepopup/links/file/' . $node->guid . '/', $url);
+        $url = $this->run_relocate_handler(self::$node, ['__ais', 'imagepopup', 'open', 'file', self::$node->guid]);
+        $this->assertEquals('__ais/imagepopup/links/file/' . self::$node->guid . '/', $url);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -28,7 +34,7 @@ class midcom_helper_imagepopup_handler_linksTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.helper.imagepopup');
 
-        $url = $this->run_relocate_handler('net.nehmer.static', ['__ais', 'imagepopup', 'open', 'dummy']);
+        $url = $this->run_relocate_handler(self::$node, ['__ais', 'imagepopup', 'open', 'dummy']);
         $this->assertEquals('__ais/imagepopup/folder/dummy/', $url);
 
         midcom::get()->auth->drop_sudo();
@@ -38,9 +44,8 @@ class midcom_helper_imagepopup_handler_linksTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.helper.imagepopup');
         $this->create_user(true);
-        $node = self::get_component_node('net.nehmer.static');
 
-        $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'links', 'file', $node->guid]);
+        $data = $this->run_handler(self::$node, ['__ais', 'imagepopup', 'links', 'file', self::$node->guid]);
         $this->assertEquals('list_links', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -51,7 +56,7 @@ class midcom_helper_imagepopup_handler_linksTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('midcom.helper.imagepopup');
         $this->create_user(true);
 
-        $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'links', 'dummy']);
+        $data = $this->run_handler(self::$node, ['__ais', 'imagepopup', 'links', 'dummy']);
         $this->assertEquals('list_links_noobject', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

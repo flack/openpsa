@@ -13,13 +13,19 @@
  */
 class midcom_helper_imagepopup_handler_listTest extends openpsa_testcase
 {
+    protected static $node;
+
+    public static function setUpBeforeClass()
+    {
+        self::$node = self::get_component_node('net.nehmer.static');
+    }
+
     public function testHandler_list_folder()
     {
         midcom::get()->auth->request_sudo('midcom.helper.imagepopup');
         $this->create_user(true);
-        $node = self::get_component_node('net.nehmer.static');
 
-        $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'folder', 'file', $node->guid]);
+        $data = $this->run_handler(self::$node, ['__ais', 'imagepopup', 'folder', 'file', self::$node->guid]);
         $this->assertEquals('list_folder', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -30,7 +36,7 @@ class midcom_helper_imagepopup_handler_listTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('midcom.helper.imagepopup');
         $this->create_user(true);
 
-        $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'folder', 'file']);
+        $data = $this->run_handler(self::$node, ['__ais', 'imagepopup', 'folder', 'file']);
         $this->assertEquals('list_folder_noobject', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -40,9 +46,8 @@ class midcom_helper_imagepopup_handler_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.helper.imagepopup');
         $this->create_user(true);
-        $node = self::get_component_node('net.nehmer.static');
 
-        $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'unified', 'file', $node->guid]);
+        $data = $this->run_handler(self::$node, ['__ais', 'imagepopup', 'unified', 'file', self::$node->guid]);
         $this->assertEquals('list_unified', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -53,7 +58,7 @@ class midcom_helper_imagepopup_handler_listTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('midcom.helper.imagepopup');
         $this->create_user(true);
 
-        $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'unified', 'file']);
+        $data = $this->run_handler(self::$node, ['__ais', 'imagepopup', 'unified', 'file']);
         $this->assertEquals('list_unified_noobject', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

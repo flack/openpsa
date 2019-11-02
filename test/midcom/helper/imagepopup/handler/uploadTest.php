@@ -32,7 +32,7 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
         $_FILES['file'] = array_shift(self::$_images);
 
         // Do it goes with guid ?
-        $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'upload', 'image', $node->guid]);
+        $data = $this->run_handler($node, ['__ais', 'imagepopup', 'upload', 'image', $node->guid]);
         $this->assertEquals('upload_image', $data['handler_id']);
 
         // Do new attachment exists ? Has a location and name ?
