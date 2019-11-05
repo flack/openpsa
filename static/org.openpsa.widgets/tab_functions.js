@@ -78,7 +78,7 @@ const org_openpsa_widgets_tabs = {
                     contentType: false,
                     dataFilter: org_openpsa_widgets_tabs.load_head_elements,
                     type: this.method,
-                    url: this.action,
+                    url: this.getAttribute('action'),
                     success: function(data) {
                         $(":not(.ui-tabs-hide) > .tab_div").html(data);
                         $(window).trigger('resize');
