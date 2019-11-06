@@ -39,10 +39,6 @@ function init_subform(id, sortable) {
             });
     }
 
-    if (container.data('index') === 0) {
-        add_button.click();
-    }
-
     add_button.on('click', function() {
         // If there is exactly one file selector, we're probably in some sort of attachment list,
         // so let's assume the user wants to add a file
