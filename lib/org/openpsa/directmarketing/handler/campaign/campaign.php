@@ -63,17 +63,20 @@ implements client
 
     public function get_row(midcom_core_dbaobject $person)
     {
+        $template = '%s';
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $url = $siteconfig->get_node_full_url('org.openpsa.contacts') . 'person/';
+        if ($url = $siteconfig->get_node_full_url('org.openpsa.contacts') . 'person/') {
+            $template = '<a target="_blank" href="' . $url . $person->guid . '">%s</a>';
+        }
 
         $row = [
             'id' => $person->id,
             'index_firstname' => $person->firstname,
-            'firstname' => '<a target="_blank" href="' . $url . $person->guid . '/">' . $person->firstname . '</a>',
+            'firstname' => sprintf($template, $person->firstname),
             'index_lastname' => $person->lastname,
-            'lastname' => '<a target="_blank" href="' . $url . $person->guid . '/">' . $person->lastname . '</a>',
+            'lastname' => sprintf($template, $person->lastname),
             'index_email' => $person->email,
-            'email' => '<a target="_blank" href="' . $url . $person->guid . '/">' . $person->email . '</a>'
+            'email' => sprintf($template, $person->email)
         ];
 
         $delete_string = sprintf($this->_l10n->get('remove %s from campaign'), $person->name);
