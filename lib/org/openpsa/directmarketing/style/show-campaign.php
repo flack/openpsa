@@ -50,7 +50,7 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title u
     </div>
 
     <script type="text/javascript">
-    $('#<?php echo $grid->get_identifier();?>').bind('click', 'td.delete i', function(event) {
+    $('#<?php echo $grid->get_identifier();?>').on('click', 'td.delete i', function(event) {
         var guid = $(event.target).data('person-guid'),
             member_guid = $(event.target).data('member-guid'),
             post_data = {org_openpsa_ajax_mode: 'unsubscribe', org_openpsa_ajax_person_guid: guid};

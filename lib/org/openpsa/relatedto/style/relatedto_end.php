@@ -4,7 +4,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 </div>
 
 <script type="text/javascript">
-jQuery('input.delete').bind('click', function(){
+jQuery('input.delete').on('click', function(){
     var guid = this.id.substr(29);
 
     var loading = "<img src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif' alt='loading' />";

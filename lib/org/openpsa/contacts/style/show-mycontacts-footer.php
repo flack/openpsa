@@ -5,7 +5,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 </div>
 
 <script type="text/javascript">
-$('i.delete').bind('click', function(){
+$('i.delete').on('click', function(){
     var guid = this.id.substr(38),
     				loading = "<i class='fa fa-spinner fa-spin'></i>";
     $('#org_openpsa_widgets_contact-' + guid).css('text-align', 'center');
