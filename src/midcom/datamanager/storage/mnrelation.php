@@ -42,8 +42,8 @@ class mnrelation extends delayed
         $new = array_diff_key($selection, $existing);
         $delete = array_diff_key($existing, $selection);
 
-        foreach (array_keys($new) as $member_key) {
-            $this->create_relation($member_key);
+        foreach (array_keys($new) as $key) {
+            $this->create_relation($key, $this->get_score($key, $selection));
         }
 
         foreach ($delete as $key => $member) {
@@ -51,6 +51,28 @@ class mnrelation extends delayed
                 throw new midcom_error("Failed to delete member record for key {$key}: " . midcom_connection::get_error_string());
             }
         }
+        if (!empty($this->config['type_config']['sortable'])) {
+            foreach ($existing as $key => $member) {
+                if (array_key_exists($key, $selection)) {
+                    $score = $this->get_score($key, $selection);
+                    if ($member->metadata->score != $score) {
+                        $member->metadata->score = $score;
+                        if (!$member->update()) {
+                            throw new midcom_error("Failed to update member record for key {$key}: " . midcom_connection::get_error_string());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private function get_score($key, array $selection) : int
+    {
+        // if the sort order is descending, the first element needs the highest score
+        if ($this->config['type_config']['sortable'] == 'DESC') {
+            return abs($selection[$key] - count($selection));
+        }
+        return $selection[$key];
     }
 
     /**
@@ -67,7 +89,7 @@ class mnrelation extends delayed
         return key($this->load_objects());
     }
 
-    private function create_relation($member_key)
+    private function create_relation($member_key, int $score)
     {
         $member = new $this->config['type_config']['mapping_class_name']();
         $member->{$this->config['type_config']['master_fieldname']} = $this->get_master_foreign_key();
@@ -94,6 +116,9 @@ class mnrelation extends delayed
             }
 
             $member->{$fieldname} = $value;
+        }
+        if (!empty($this->config['type_config']['sortable'])) {
+            $member->metadata->score = $score;
         }
 
         if (!$member->create()) {
