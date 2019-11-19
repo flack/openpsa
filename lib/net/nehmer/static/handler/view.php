@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use midcom\workflow\dialog;
 
 /**
  * n.n.static index page handler
@@ -130,7 +131,9 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
                 $index_qb->add_constraint('name', '=', 'index');
                 if ($index_qb->count_unchecked() == 0) {
                     $schema = $this->_request_data['schemadb']->get_first();
-                    return new midcom_response_relocate("createindex/{$schema->get_name()}/");
+                    $this->_request_data['schema'] = $schema->get_name();
+                    dialog::add_head_elements();
+                    return $this->show('index-missing');
                 }
             }
 
