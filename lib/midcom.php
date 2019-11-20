@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpFoundation\RequestStack;
 use midcom\httpkernel\subscriber;
+use Symfony\Component\HttpKernel\EventListener\StreamedResponseListener;
 
 /**
  * @package midcom
@@ -96,6 +97,7 @@ class midcom
 
         self::$_services['dispatcher'] = new dispatcher;
         self::$_services['dispatcher']->addSubscriber(new subscriber);
+        self::$_services['dispatcher']->addSubscriber(new StreamedResponseListener);
         $c_resolver = new ControllerResolver;
         $a_resolver = new ArgumentResolver;
         $kernel = new HttpKernel(self::$_services['dispatcher'], $c_resolver, new RequestStack, $a_resolver);
