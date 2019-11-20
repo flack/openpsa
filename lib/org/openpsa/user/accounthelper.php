@@ -439,7 +439,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     {
         $account = new midcom_core_account($this->person);
         if ($account->get_password()) {
-            $this->person->set_parameter('org_openpsa_user_blocked_account', 'account_password', "");
+            $this->person->delete_parameter('org_openpsa_user_blocked_account', 'account_password');
             $msg = 'Account for person #' . $this->person->id . ' does have a password already';
             throw new midcom_error($msg);
         }
