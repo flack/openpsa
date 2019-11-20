@@ -11,7 +11,6 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
 use midcom\datamanager\extension\transformer\jsdateTransformer;
-use midcom;
 use DateTime;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;

@@ -10,7 +10,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
-use midcom;
 use midcom\datamanager\extension\transformer\imageTransformer;
 use midcom\datamanager\validation\image as constraint;
 use Symfony\Component\Validator\Constraints\Image as sf_constraint;
@@ -18,8 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\FormInterface;
+
 /**
  * Experimental image type
  */
