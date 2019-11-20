@@ -22,7 +22,9 @@ class urlnameType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('write_privilege', ['privilege' => 'midcom:urlname']);
+        $resolver->setNormalizer('write_privilege', function (Options $options, $value) {
+            return (array) $value + ['privilege' => 'midcom:urlname'];
+        });
 
         helper::add_normalizers($resolver, [
             'type_config' => [
