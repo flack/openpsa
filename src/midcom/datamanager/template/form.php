@@ -12,7 +12,11 @@ class form extends base
     public function __construct(renderer $renderer)
     {
         parent::__construct($renderer);
-        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.datamanager/default.css");
+        midcom::get()->head->add_link_head([
+            'rel'  => 'stylesheet',
+            'type' => 'text/css',
+            'href' => MIDCOM_STATIC_URL . "/midcom.datamanager/default.css"
+        ], true);
     }
 
     private function get_view_renderer() : view
