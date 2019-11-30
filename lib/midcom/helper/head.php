@@ -272,23 +272,21 @@ class midcom_helper_head
      * @param  array $attributes Array of attribute => value pairs to be placed in the tag.
      * @see print_head_elements()
      */
-    public function add_link_head(array $attributes)
+    public function add_link_head(array $attributes, bool $prepend = false)
     {
         if (!array_key_exists('href', $attributes)) {
-            return false;
+            return;
         }
 
         // Register each URL only once
         if (($key = array_search($attributes['href'], $this->_linkhrefs)) !== false) {
-            if (end($this->_linkhrefs) != $attributes['href']) {
-                unset($this->_linkhrefs[$key]);
-                $this->_linkhrefs[] = $attributes['href'];
-                reset($this->_linkhrefs);
-            }
-            return false;
+            unset($this->_linkhrefs[$key]);
         }
-
-        $this->_linkhrefs[] = $attributes['href'];
+        if ($prepend) {
+            array_unshift($this->_linkhrefs, $attributes['href']);
+        } else {
+            $this->_linkhrefs[] = $attributes['href'];
+        }
         $this->_link_head[$attributes['href']] = $attributes;
     }
 
