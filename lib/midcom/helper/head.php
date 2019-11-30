@@ -95,7 +95,7 @@ class midcom_helper_head
      */
     private $_link_head = [];
 
-    const TOOLBAR_PLACEHOLDER = '<!-- MIDCOM_HEAD_ELEMENTS -->';
+    const HEAD_PLACEHOLDER = '<!-- MIDCOM_HEAD_ELEMENTS -->';
 
     private static $listener_added = false;
 
@@ -393,7 +393,7 @@ class midcom_helper_head
             midcom::get()->dispatcher->addListener(KernelEvents::RESPONSE, [$this, 'inject_head_elements']);
             self::$listener_added = true;
         }
-        echo self::TOOLBAR_PLACEHOLDER;
+        echo self::HEAD_PLACEHOLDER;
     }
 
     /**
@@ -410,15 +410,16 @@ class midcom_helper_head
         $response = $event->getResponse();
         $content = $response->getContent();
 
-        if (strpos($content, self::TOOLBAR_PLACEHOLDER) === false) {
+        $first = strpos($content, self::HEAD_PLACEHOLDER);
+        if ($first === false) {
             return;
         }
 
         $head = $this->render();
-        $new_content = str_replace(self::TOOLBAR_PLACEHOLDER, $head, $content);
+        $new_content = substr_replace($content, $head, $first, strlen(self::HEAD_PLACEHOLDER));
         $response->setContent($new_content);
         if ($length = $response->headers->get('Content-Length')) {
-            $delta = strlen($head) - strlen(self::TOOLBAR_PLACEHOLDER);
+            $delta = strlen($head) - strlen(self::HEAD_PLACEHOLDER);
             $response->headers->set('Content-Length', $length + $delta);
         }
     }
