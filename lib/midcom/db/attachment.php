@@ -94,7 +94,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             return false;
         }
 
-        $this->_open_write_mode = ($mode{0} != 'r');
+        $this->_open_write_mode = ($mode[0] != 'r');
         $this->_open_handle = $handle;
 
         return $handle;
