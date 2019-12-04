@@ -125,10 +125,10 @@ class midcom_db_attachmentTest extends openpsa_testcase
     public function provider_safe_filename()
     {
         return [
-            ['Minä olen huono tiedosto.foo.jpg', true, 'mina-olen-huono-tiedosto-foo.jpg'],
-            ['Minä olen huono tiedosto.foo.jpg', false, 'mina-olen-huono-tiedosto.foo.jpg'],
-            ['Minä olen huono tiedosto ilman päätettä', true, 'mina-olen-huono-tiedosto-ilman-paatetta'],
-            ['Minä olen huono tiedosto ilman päätettä', false, 'mina-olen-huono-tiedosto-ilman-paatetta'],
+            ['Minä olen huono tiedosto.foo.jpg', true, 'minae-olen-huono-tiedosto-foo.jpg'],
+            ['Minä olen huono tiedosto.foo.jpg', false, 'minae-olen-huono-tiedosto.foo.jpg'],
+            ['Minä olen huono tiedosto ilman päätettä', true, 'minae-olen-huono-tiedosto-ilman-paeaetettae'],
+            ['Minä olen huono tiedosto ilman päätettä', false, 'minae-olen-huono-tiedosto-ilman-paeaetettae'],
             ['www.openpsa2.org - Home.htm', false, 'www-openpsa2-org-home.htm'],
         ];
     }

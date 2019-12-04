@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Cocur\Slugify\Slugify;
+
 /**
  * Miscellaneous helper functions
  *
@@ -14,7 +16,6 @@
 class midcom_helper_misc
 {
     /**
-     *
      * @param integer $length
      * @param string $characters
      * @throws InvalidArgumentException
@@ -40,10 +41,8 @@ class midcom_helper_misc
      */
     public static function urlize($input) : string
     {
-        if (empty($input)) {
-            return '';
-        }
-        return midgardmvc_helper_urlize::string($input, '-');
+        $slugify = new Slugify;
+        return $slugify->slugify($input);
     }
 
     /**
