@@ -30,8 +30,6 @@ class dbacontainer extends container
         $this->object = $object;
         $this->schema = $schema;
 
-        $rfp = new midgard_reflection_property($object->__mgdschema_class_name__);
-
         foreach ($this->schema->get('fields') as $name => $config) {
             if (array_key_exists($name, $defaults)) {
                 $config['default'] = $defaults[$name];
@@ -41,12 +39,6 @@ class dbacontainer extends container
             if (   isset($config['default'])
                 && (!$this->object->id || $field instanceof transientnode)) {
                 $field->set_value($config['default']);
-            }
-            if ($field instanceof property) {
-                $type = $rfp->get_midgard_type($config['storage']['location']);
-                if ($type == MGD_TYPE_STRING) {
-                    $this->schema->get_field($name)['validation'][] = new Length(['max' => 255]);
-                }
             }
 
             $this->fields[$name] = $field;
@@ -111,7 +103,13 @@ class dbacontainer extends container
         } elseif (strtolower($config['storage']['location']) === 'privilege') {
             $classname = 'midcom\datamanager\storage\privilege';
         } else {
-            $classname = 'midcom\datamanager\storage\property';
+            $classname = property::class;
+
+            $rfp = new midgard_reflection_property($this->object->__mgdschema_class_name__);
+            $type = $rfp->get_midgard_type($config['storage']['location']);
+            if ($type == MGD_TYPE_STRING) {
+                $config['validation'][] = new Length(['max' => 255]);
+            }
         }
         return new $classname($this->object, $config);
     }
