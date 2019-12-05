@@ -87,26 +87,26 @@ class dbacontainer extends container
 
     private function prepare_field(array $config) : node
     {
-        if (   empty($config['storage']['location'])
-               // This line is needed because a parameter default is set by the schema parser and then ignored
-               // by the type. The things we do for backwards compatibility...
-            || $config['storage']['location'] === 'parameter') {
+        $location = empty($config['storage']['location']) ? null : strtolower($config['storage']['location']);
+        // We need to check for parameter, because it is set by default in the schema parser and then ignored
+        // by the type. The things we do for backwards compatibility...
+        if (in_array($location, [null, 'parameter'], true)) {
             if (class_exists('midcom\datamanager\storage\\' . $config['type'])) {
                 $classname = 'midcom\datamanager\storage\\' . $config['type'];
-            } elseif (strtolower($config['storage']['location']) === 'parameter') {
+            } elseif ($location === 'parameter') {
                 $classname = 'midcom\datamanager\storage\parameter';
             } else {
                 return new transientnode($config);
             }
-        } elseif (strtolower($config['storage']['location']) === 'metadata') {
+        } elseif ($location === 'metadata') {
             $classname = 'midcom\datamanager\storage\metadata';
-        } elseif (strtolower($config['storage']['location']) === 'privilege') {
+        } elseif ($location === 'privilege') {
             $classname = 'midcom\datamanager\storage\privilege';
         } else {
             $classname = property::class;
 
             $rfp = new midgard_reflection_property($this->object->__mgdschema_class_name__);
-            $type = $rfp->get_midgard_type($config['storage']['location']);
+            $type = $rfp->get_midgard_type($location);
             if ($type == MGD_TYPE_STRING) {
                 $config['validation'][] = new Length(['max' => 255]);
             }
