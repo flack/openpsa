@@ -30,29 +30,13 @@ class midcom_response_styled extends Response
     public function __construct(midcom_core_context $context, $root_element = 'ROOT')
     {
         parent::__construct();
-        $this->context = $context;
+        $this->set_context($context);
         $this->root_element = $root_element;
         $this->content = $this->render();
     }
 
     private function render() : string
     {
-        // Retrieve Metadata
-        $nav = new midcom_helper_nav();
-        if ($nav->get_current_leaf() === false) {
-            $meta = $nav->get_node($nav->get_current_node());
-        } else {
-            $meta = $nav->get_leaf($nav->get_current_leaf());
-        }
-
-        if ($this->context->get_key(MIDCOM_CONTEXT_PERMALINKGUID) === null) {
-            $this->context->set_key(MIDCOM_CONTEXT_PERMALINKGUID, $meta[MIDCOM_NAV_GUID]);
-        }
-
-        if ($this->context->get_key(MIDCOM_CONTEXT_PAGETITLE) == '') {
-            $this->context->set_key(MIDCOM_CONTEXT_PAGETITLE, $meta[MIDCOM_NAV_NAME]);
-        }
-
         midcom::get()->style->enter_context($this->context);
         ob_start();
         if (midcom::get()->skip_page_style) {
@@ -67,5 +51,29 @@ class midcom_response_styled extends Response
 
         midcom::get()->style->leave_context();
         return ob_get_clean();
+    }
+
+    private function set_context(midcom_core_context $context)
+    {
+        if (   $context->get_key(MIDCOM_CONTEXT_PERMALINKGUID) === null
+            || $context->get_key(MIDCOM_CONTEXT_PAGETITLE) == '') {
+            // Retrieve Metadata
+            $nav = new midcom_helper_nav();
+            if ($nav->get_current_leaf() === false) {
+                $meta = $nav->get_node($nav->get_current_node());
+            } else {
+                $meta = $nav->get_leaf($nav->get_current_leaf());
+            }
+
+            if ($meta) {
+                if ($context->get_key(MIDCOM_CONTEXT_PERMALINKGUID) === null) {
+                    $context->set_key(MIDCOM_CONTEXT_PERMALINKGUID, $meta[MIDCOM_NAV_GUID]);
+                }
+                if ($context->get_key(MIDCOM_CONTEXT_PAGETITLE) == '') {
+                    $context->set_key(MIDCOM_CONTEXT_PAGETITLE, $meta[MIDCOM_NAV_NAME]);
+                }
+            }
+        }
+        $this->context = $context;
     }
 }
