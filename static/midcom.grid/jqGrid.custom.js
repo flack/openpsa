@@ -614,7 +614,7 @@ const midcom_grid_csv = {
     },
     prepare_data: function(config) {
         var rows = $('#' + config.id).jqGrid('getRowData'),
-            field, i,
+            field,
             data = '';
 
         function trim(input) {

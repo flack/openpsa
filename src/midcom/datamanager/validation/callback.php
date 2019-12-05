@@ -19,7 +19,6 @@ class callback
 
     public function validate($payload, ExecutionContextInterface $context)
     {
-        $result = true;
         foreach ($this->validation as $entry) {
             if (!empty($entry['callback'])) {
                 $form = $context->getRoot();

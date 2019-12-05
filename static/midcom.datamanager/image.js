@@ -12,7 +12,6 @@ function init_image_widget(id) {
         })
         .on('change', 'input[type="file"]', function() {
             var file = this.files[0],
-                extension = file.name.replace(/^.+?\.([^\.]+)$/, '$1'),
                 preview = $(this).closest('td').prev().find('.preview-image'),
                 reader = new FileReader();
 

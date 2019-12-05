@@ -185,7 +185,7 @@ function create_dialog(control, title, url) {
     }
 
     // Workaround for jqueryui incompatibility between position widget & css fixed position
-    function keep_dialog_fixed (event) {
+    function keep_dialog_fixed () {
         var ui_dialog = dialog.closest('.ui-dialog'),
             viewport_position = ui_dialog[0].getBoundingClientRect();
 
@@ -197,13 +197,13 @@ function create_dialog(control, title, url) {
             left: viewport_position.left + 'px'
         });
 
-	is_scrolling = setTimeout(function() {
+        is_scrolling = setTimeout(function() {
             ui_dialog.css({
                 position: 'absolute',
                 top: ui_dialog.offset().top + 'px',
                 left: ui_dialog.offset().left + 'px'
             });
-	}, 500);
+        }, 500);
     }
 
     if ($('#midcom-dialog').length > 0) {
