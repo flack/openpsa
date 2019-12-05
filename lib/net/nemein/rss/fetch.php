@@ -54,16 +54,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $parser->get_registry()->register('Item', net_nemein_rss_parser_item::class);
         $parser->set_output_encoding(midcom::get()->i18n->get_current_charset());
         $parser->set_cache_location(midcom::get()->config->get('midcom_tempdir'));
-        $parser->enable_cache(false); //enabling cache leads to segfaults for some reason
-        if (version_compare(PHP_VERSION, '5.4', '>=')) {
-            /**
-             * Keep parser instances around until shutdown,
-             * if they are deleted before, this triggers a segfault under PHP 5.4
-             * @see https://github.com/simplepie/simplepie/issues/284
-             */
-            static $parsers = [];
-            $parsers[] = $parser;
-        }
         return $parser;
     }
 
