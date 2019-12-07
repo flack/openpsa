@@ -97,7 +97,7 @@ class midcom_services_uimessages
         midcom::get()->head->enable_jquery();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
-        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/growl.css', 'screen');
+        midcom::get()->head->prepend_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/growl.css', 'screen');
     }
 
     public function get_class_magic_default_privileges()
@@ -193,7 +193,7 @@ class midcom_services_uimessages
     public function show_simple()
     {
         if ($this->_message_stack && !empty($this->_message_stack->peekAll())) {
-            midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/simple.css', 'screen');
+            midcom::get()->head->prepend_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/simple.css', 'screen');
 
             echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
             foreach ($this->get_messages() as $message) {

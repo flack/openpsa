@@ -323,10 +323,10 @@ class midcom_services_toolbars
             $this->_centralized_mode = true;
             midcom::get()->head->enable_jquery_ui(['mouse', 'draggable']);
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
-            midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
+            midcom::get()->head->prepend_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
         } else {
             $path = midcom::get()->config->get('toolbars_simple_css_path', MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css");
-            midcom::get()->head->add_stylesheet($path, 'screen');
+            midcom::get()->head->prepend_stylesheet($path, 'screen');
         }
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
         return true;

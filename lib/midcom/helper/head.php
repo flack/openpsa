@@ -291,12 +291,28 @@ class midcom_helper_head
     }
 
     /**
-     * Convenience shortcut for adding CSS files
+     * Convenience shortcut for appending CSS files
      *
      * @param string $url The stylesheet URL
      * @param string $media The media type(s) for the stylesheet, if any
      */
     public function add_stylesheet($url, $media = false)
+    {
+        $this->add_link_head($this->prepare_stylesheet_attributes($url, $media));
+    }
+
+    /**
+     * Convenience shortcut for prepending CSS files
+     *
+     * @param string $url The stylesheet URL
+     * @param string $media The media type(s) for the stylesheet, if any
+     */
+    public function prepend_stylesheet(string $url, $media = false)
+    {
+        $this->add_link_head($this->prepare_stylesheet_attributes($url, $media), true);
+    }
+
+    private function prepare_stylesheet_attributes($url, $media) : array
     {
         $attributes = [
             'rel'  => 'stylesheet',
@@ -306,7 +322,7 @@ class midcom_helper_head
         if ($media) {
             $attributes['media'] = $media;
         }
-        $this->add_link_head($attributes);
+        return $attributes;
     }
 
     /**
