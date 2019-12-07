@@ -8,7 +8,7 @@ $(document).ready(function() {
             return;
         }
         toolbar.addClass('net_nehmer_comments_comment_toolbar_busy');
-        $.post(this.href, {guid: this.dataset.guid, action: this.data.action}, function(data) {
+        $.post(this.href, {guid: this.dataset.guid, action: this.dataset.action}, function(data) {
             var container = comment.parent();
             comment.slideUp('fast', function() {
                 $(this).remove();
