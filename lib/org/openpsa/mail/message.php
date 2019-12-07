@@ -34,7 +34,7 @@ class org_openpsa_mail_message
         $this->_headers = $headers;
         $this->_encoding = $encoding;
 
-        $this->_message = Swift_Message::newInstance('');
+        $this->_message = new Swift_Message('');
     }
 
     public function get_recipients()
@@ -188,7 +188,7 @@ class org_openpsa_mail_message
             }
             // we got the contents (bytes)
             elseif (!empty($att['content'])) {
-                $swift_att = Swift_Attachment::newInstance($att['content'], $att['name'], $att['mimetype']);
+                $swift_att = new Swift_Attachment($att['content'], $att['name'], $att['mimetype']);
             }
 
             if ($swift_att) {

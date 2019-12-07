@@ -1,12 +1,6 @@
 'default_try_backends' => [
     'mail_sendmail',
-    'mail_smtp',
-    'mail',
-],
-
-//This becomes the fifth parameter of mail()
-'mail_params' => [
-    'additional_params' => ''
+    'mail_smtp'
 ],
 
 //These are passed to the SMTP transport

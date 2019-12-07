@@ -53,7 +53,7 @@ abstract class org_openpsa_mail_backend
 
     protected function prepare_mailer(Swift_Transport $transport, array $params)
     {
-        $this->mailer = Swift_Mailer::newInstance($transport);
+        $this->mailer = new Swift_Mailer($transport);
         if (!empty($params['swift_plugins'])) {
             foreach ($params['swift_plugins'] as $plugin) {
                 $this->mailer->registerPlugin($plugin);
