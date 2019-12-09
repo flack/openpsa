@@ -339,10 +339,11 @@ class midcom_services_toolbars
      */
     public function show()
     {
-        if (!$this->add_head_elements(true)) {
+        $context_id = midcom_core_context::get()->id;
+
+        if (empty($this->_toolbars[$context_id]) || !$this->add_head_elements(true)) {
             return;
         }
-        $context_id = midcom_core_context::get()->id;
 
         $enable_drag = false;
         $toolbar_style = "";
