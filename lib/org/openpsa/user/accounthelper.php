@@ -432,22 +432,19 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
     /**
      * Reopen a blocked account.
-     *
-     * This will fail if someone set a new password on the account while it was blocked
      */
     public function reopen_account()
     {
         $account = new midcom_core_account($this->person);
         if ($account->get_password()) {
-            $this->person->delete_parameter('org_openpsa_user_blocked_account', 'account_password');
-            $msg = 'Account for person #' . $this->person->id . ' does have a password already';
-            throw new midcom_error($msg);
+            debug_add('Account for person #' . $this->person->id . ' does have a password already');
+        } else {
+            $account->set_password($this->person->get_parameter('org_openpsa_user_blocked_account', 'account_password'), false);
+            if (!$account->save()) {
+                throw new midcom_error('Failed to save account: ' . midcom_connection::get_error_string());
+            }
         }
 
-        $account->set_password($this->person->get_parameter('org_openpsa_user_blocked_account', 'account_password'), false);
-        if (!$account->save()) {
-            throw new midcom_error('Failed to save account: ' . midcom_connection::get_error_string());
-        }
         $this->person->delete_parameter('org_openpsa_user_blocked_account', 'account_password');
     }
 
