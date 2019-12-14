@@ -20,10 +20,14 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
      *
      * @param string $html HTML to parse
      * @param string $name Name of the meta tag to fetch
+     * @return ?string
      */
-    public static function get_meta_value($html, $name) : string
+    public static function get_meta_value($html, $name)
     {
         $crawler = new Crawler($html);
+        if ($crawler->filter('head meta[name="' . $name . '"]')->count() == 0) {
+            return null;
+        }
         return (string) $crawler->filter('head meta[name="' . $name . '"]')->attr('content');
     }
 
