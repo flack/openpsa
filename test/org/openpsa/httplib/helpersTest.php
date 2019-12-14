@@ -34,6 +34,13 @@ class org_openpsa_httplib_helpersTest extends openpsa_testcase
         $this->assertEquals('1,1', $ret);
     }
 
+    public function test_get_missing_meta_value()
+    {
+        $html = '<html><head><meta name="not-what-were-looking-for" content="1,1"></head></html>';
+        $ret = org_openpsa_httplib_helpers::get_meta_value($html, 'icbm');
+        $this->assertEquals(null, $ret);
+    }
+
     public function test_get_anchor_values()
     {
         $html = '<a rel="tag" title="tag title" href="tag-link" class="test">dummy</a>';
