@@ -39,7 +39,6 @@ class midcom_exception_handler
         if (!defined('OPENPSA2_UNITTEST_RUN')) {
             $handler = new self;
             $handler->set_kernel($kernel);
-            set_error_handler([$handler, 'handle_error'], E_ALL ^ (E_NOTICE | E_WARNING));
             set_exception_handler([$handler, 'handle_exception']);
         }
     }
@@ -63,20 +62,6 @@ class midcom_exception_handler
         } else {
             throw $error;
         }
-    }
-
-    /**
-     * Catch a PHP error and turn it into an Exception to unify error handling
-     */
-    public function handle_error($errno, $errstr, $errfile, $errline, $errcontext)
-    {
-        $msg = "PHP Error: {$errstr} \n in {$errfile} line {$errline}";
-        if (!empty($errcontext)) {
-            debug_print_r('Error context', $errcontext);
-        }
-
-        // PONDER: use throw new ErrorException($errstr, 0, $errno, $errfile, $errline); instead?
-        throw new midcom_error($msg, $errno);
     }
 
     /**
