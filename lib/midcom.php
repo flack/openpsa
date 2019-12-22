@@ -24,7 +24,7 @@ class midcom
      *
      * @var string
      */
-    const VERSION = '9.6.0+git';
+    const VERSION = '9.7.0';
 
     /**
      * Main application singleton
