@@ -155,7 +155,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         // Content for long notifications
         $message['content'] = "{$message['title']}\n\n";
-        $message['content'] .= $l10n->get('invoiced') . ": {$invoiced_sum}\n\n";
+        $message['content'] .= $l10n->get('invoiced') . ': ' . $l10n->get_formatter()->number($invoiced_sum) . "\n\n";
 
         if ($invoiced_sum > 0) {
             $invoice = $calculator->get_invoice();
