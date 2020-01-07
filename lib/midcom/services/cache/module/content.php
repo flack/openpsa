@@ -8,9 +8,9 @@
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
  * This is the Output Caching Engine of MidCOM. It will intercept page output,
@@ -150,9 +150,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private $context_guids = [];
 
     /**
-     * @param GetResponseEvent $event
+     * @param RequestEvent $event
      */
-    public function on_request(GetResponseEvent $event)
+    public function on_request(RequestEvent $event)
     {
         if ($event->isMasterRequest()) {
             $request = $event->getRequest();
@@ -256,9 +256,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * has been called, the cache file will not be written, but the header stuff will be added like
      * usual to allow for browser-side caching.
      *
-     * @param FilterResponseEvent $event The request object
+     * @param ResponseEvent $event The request object
      */
-    public function on_response(FilterResponseEvent $event)
+    public function on_response(ResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
             return;

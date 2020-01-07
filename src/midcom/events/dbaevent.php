@@ -8,7 +8,7 @@
 
 namespace midcom\events;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 use midcom_core_dbaobject;
 
 /**

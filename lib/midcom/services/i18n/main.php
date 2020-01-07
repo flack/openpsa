@@ -7,6 +7,8 @@
  */
 
 use Symfony\Component\Intl\Intl;
+use Symfony\Component\Intl\Languages;
+use Symfony\Component\Intl\Locales;
 
 /**
  * This is a basic MidCOM Service which provides an interfaces to the
@@ -198,7 +200,7 @@ class midcom_services_i18n
      */
     public function set_language($lang) : bool
     {
-        if (Intl::getLocaleBundle()->getLocaleName($lang) === null) {
+        if (Locales::getName($lang) === null) {
             debug_add("Language {$lang} not found.", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -358,9 +360,9 @@ class midcom_services_i18n
      */
     public function list_languages() : array
     {
-        $languages = Intl::getLanguageBundle()->getLanguageNames('en');
+        $languages = Languages::getNames('en');
         foreach ($languages as $identifier => &$language) {
-            $localname = Intl::getLanguageBundle()->getLanguageName($identifier, null, $identifier);
+            $localname = Languages::getName($identifier, $identifier);
             if ($localname != $language) {
                 $language .= ' (' . $localname . ')';
             }

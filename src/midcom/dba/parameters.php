@@ -228,7 +228,7 @@ trait parameters
             self::$parameter_cache[$this->guid][$domain][$name] = $value;
         }
 
-        midcom::get()->dispatcher->dispatch(dbaevent::PARAMETER, new dbaevent($this));
+        midcom::get()->dispatcher->dispatch(new dbaevent($this), dbaevent::PARAMETER);
 
         return true;
     }
@@ -278,7 +278,7 @@ trait parameters
         // Unset via MgdSchema API directly
         $result = $this->__object->set_parameter($domain, $name, '');
 
-        midcom::get()->dispatcher->dispatch(dbaevent::PARAMETER, new dbaevent($this));
+        midcom::get()->dispatcher->dispatch(new dbaevent($this), dbaevent::PARAMETER);
 
         return $result;
     }

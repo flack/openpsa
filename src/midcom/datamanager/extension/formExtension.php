@@ -73,13 +73,7 @@ class formExtension extends AbstractTypeExtension
         }
     }
 
-    // Symfony < 4.2 compat
-    public function getExtendedType()
-    {
-        return FormType::class;
-    }
-
-    public static function getExtendedTypes()
+    public static function getExtendedTypes() : iterable
     {
         return [FormType::class];
     }

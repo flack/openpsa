@@ -358,7 +358,7 @@ abstract class midcom_core_dbaobject
             return true;
         }
         if ($this->__object->approve()) {
-            midcom::get()->dispatcher->dispatch(dbaevent::APPROVE, new dbaevent($this));
+            midcom::get()->dispatcher->dispatch(new dbaevent($this), dbaevent::APPROVE);
             return true;
         }
         return false;
@@ -370,7 +370,7 @@ abstract class midcom_core_dbaobject
             return true;
         }
         if ($this->__object->unapprove()) {
-            midcom::get()->dispatcher->dispatch(dbaevent::UNAPPROVE, new dbaevent($this));
+            midcom::get()->dispatcher->dispatch(new dbaevent($this), dbaevent::UNAPPROVE);
             return true;
         }
         return false;

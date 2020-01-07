@@ -54,13 +54,7 @@ class textExtension extends AbstractTypeExtension
         }
     }
 
-    // Symfony < 4.2 compat
-    public function getExtendedType()
-    {
-        return TextType::class;
-    }
-
-    public static function getExtendedTypes()
+    public static function getExtendedTypes() : iterable
     {
         return [TextType::class];
     }

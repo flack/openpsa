@@ -51,13 +51,7 @@ class textareaExtension extends AbstractTypeExtension
         $view->vars['output_mode'] = $options['type_config']['output_mode'];
     }
 
-    // Symfony < 4.2 compat
-    public function getExtendedType()
-    {
-        return TextareaType::class;
-    }
-
-    public static function getExtendedTypes()
+    public static function getExtendedTypes() : iterable
     {
         return [TextareaType::class];
     }

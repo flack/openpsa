@@ -5,12 +5,12 @@
 
 namespace midcom\datamanager\storage;
 
-use Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser;
 use midcom_db_attachment;
 use midcom_error;
 use midcom_connection;
 use midcom;
 use midcom\datamanager\helper\attachment;
+use Symfony\Component\Mime\FileBinaryMimeTypeGuesser;
 
 /**
  * Experimental storage class
@@ -69,7 +69,7 @@ class blobs extends delayed
                     $filename = midcom_db_attachment::safe_filename($att->name, true);
                     $title = $att->title ?: $att->name;
                     $source = $att->location;
-                    $mimetype = $guesser->guess($source);
+                    $mimetype = $guesser->guessMimeType($source);
 
                     if (empty($db_att)) {
                         $db_att = $att;

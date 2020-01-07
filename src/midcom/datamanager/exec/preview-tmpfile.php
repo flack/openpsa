@@ -1,5 +1,5 @@
 <?php
-use Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser;
+use Symfony\Component\Mime\FileBinaryMimeTypeGuesser;
 
 if (empty($_GET['identifier'])) {
     throw new midcom_error_notfound('Identifier missing');
@@ -11,7 +11,7 @@ if (!file_exists($path) || !is_readable($path)) {
 }
 
 $guesser = new FileBinaryMimeTypeGuesser();
-$mimetype = $guesser->guess($path);
+$mimetype = $guesser->guessMimeType($path);
 
 if (!in_array($mimetype, ['image/jpeg', 'image/gif', 'image/png'])) {
     throw new midcom_error_notfound('Unsupported mimetype');

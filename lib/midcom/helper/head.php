@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 /**
  * Helper functions for managing HTML head
@@ -414,9 +414,9 @@ class midcom_helper_head
      * This function renders the elements added by the various add methods
      * and injects them into the response
      *
-     * @param FilterResponseEvent $event
+     * @param ResponseEvent $event
      */
-    public function inject_head_elements(FilterResponseEvent $event)
+    public function inject_head_elements(ResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
             return;

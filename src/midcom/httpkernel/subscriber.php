@@ -12,15 +12,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use midcom_response_styled;
 use midcom_baseclasses_components_handler;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\FilterControllerArgumentsEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use midcom\routing\resolver;
 use Symfony\Component\HttpFoundation\Request;
 use midcom;
 use midcom_connection;
 use midcom_core_context;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 
 /**
  * @package midcom.httpkernel
@@ -63,9 +63,9 @@ class subscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param GetResponseEvent $event
+     * @param RequestEvent $event
      */
-    public function on_request(GetResponseEvent $event)
+    public function on_request(RequestEvent $event)
     {
         $request = $event->getRequest();
         if (!$this->initialized) {
@@ -86,7 +86,7 @@ class subscriber implements EventSubscriberInterface
         $request->attributes->set('data', '__request_data__');
     }
 
-    public function on_arguments(FilterControllerArgumentsEvent $event)
+    public function on_arguments(ControllerArgumentsEvent $event)
     {
         $arguments = $event->getArguments();
         foreach ($arguments as $i => $argument) {
@@ -98,7 +98,7 @@ class subscriber implements EventSubscriberInterface
         $event->setArguments($arguments);
     }
 
-    public function on_view(GetResponseForControllerResultEvent $event)
+    public function on_view(ViewEvent $event)
     {
         $attributes = $event->getRequest()->attributes;
         $controller = $attributes->get('_controller');
@@ -108,9 +108,9 @@ class subscriber implements EventSubscriberInterface
         $event->setResponse(new midcom_response_styled($attributes->get('context')));
     }
 
-    public function on_exception(GetResponseForExceptionEvent $event)
+    public function on_exception(ExceptionEvent $event)
     {
         $handler = new \midcom_exception_handler();
-        $event->setResponse($handler->render($event->getException()));
+        $event->setResponse($handler->render($event->getThrowable()));
     }
 }

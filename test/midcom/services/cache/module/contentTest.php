@@ -6,11 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 /**
  * OpenPSA testcase
@@ -28,14 +28,14 @@ class midcom_services_cache_module_contentTest extends openpsa_testcase
         $request = Request::create('/');
         $ctx = midcom_core_context::enter('/');
         $request->attributes->set('context', $ctx);
-        $event = new GetResponseEvent($GLOBALS['kernel'], $request, KernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($GLOBALS['kernel'], $request, KernelInterface::MASTER_REQUEST);
 
         $module->on_request($event);
         $this->assertFalse($event->hasResponse(), 'Response should not be cached yet');
 
         // write response to cache
         $response = Response::create('test');
-        $filter_event = new FilterResponseEvent($GLOBALS['kernel'], $request, KernelInterface::MASTER_REQUEST, $response);
+        $filter_event = new ResponseEvent($GLOBALS['kernel'], $request, KernelInterface::MASTER_REQUEST, $response);
         $module->on_response($filter_event);
 
         $module->on_request($event);
@@ -46,7 +46,7 @@ class midcom_services_cache_module_contentTest extends openpsa_testcase
         $request = Request::create('/', 'GET', ['test' => 'test']);
         $ctx = midcom_core_context::enter('/');
         $request->attributes->set('context', $ctx);
-        $event = new GetResponseEvent($GLOBALS['kernel'], $request, KernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($GLOBALS['kernel'], $request, KernelInterface::MASTER_REQUEST);
 
         $module->on_request($event);
         $this->assertFalse($event->hasResponse(), 'Response should not be cached yet');

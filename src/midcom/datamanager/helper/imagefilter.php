@@ -9,7 +9,7 @@ use midcom_helper_imagefilter;
 use midcom_db_attachment;
 use midcom_error;
 use midgard\portable\api\blob;
-use Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser;
+use Symfony\Component\Mime\FileBinaryMimeTypeGuesser;
 
 /**
  * Image filter
@@ -66,7 +66,7 @@ class imagefilter
         // upload case
         if ($input->id == 0) {
             $guesser = new FileBinaryMimeTypeGuesser;
-            $input->mimetype = $guesser->guess($input->location);
+            $input->mimetype = $guesser->guessMimeType($input->location);
         }
 
         $filename = midcom_db_attachment::safe_filename($identifier . '_' . $input->name, true);

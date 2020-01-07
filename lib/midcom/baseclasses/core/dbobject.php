@@ -88,7 +88,7 @@ class midcom_baseclasses_core_dbobject
 
         $object->_on_updated();
 
-        midcom::get()->dispatcher->dispatch(dbaevent::UPDATE, new dbaevent($object));
+        midcom::get()->dispatcher->dispatch(new dbaevent($object), dbaevent::UPDATE);
     }
 
     /**
@@ -298,7 +298,7 @@ class midcom_baseclasses_core_dbobject
         self::_set_owner_privileges($object);
 
         $object->_on_created();
-        midcom::get()->dispatcher->dispatch(dbaevent::CREATE, new dbaevent($object));
+        midcom::get()->dispatcher->dispatch(new dbaevent($object), dbaevent::CREATE);
 
         if ($object->_use_rcs) {
             midcom::get()->rcs->update($object, $object->get_rcs_message());
@@ -431,7 +431,7 @@ class midcom_baseclasses_core_dbobject
     public static function delete_post_ops(midcom_core_dbaobject $object)
     {
         $object->_on_deleted();
-        midcom::get()->dispatcher->dispatch(dbaevent::DELETE, new dbaevent($object));
+        midcom::get()->dispatcher->dispatch(new dbaevent($object), dbaevent::DELETE);
         if ($object->_use_rcs) {
             midcom::get()->rcs->update($object, $object->get_rcs_message());
         }
@@ -673,7 +673,7 @@ class midcom_baseclasses_core_dbobject
          */
         try {
             return $object->get_by_id($object->id);
-        } catch (exception $e) {
+        } catch (Exception $e) {
             return false;
         }
     }

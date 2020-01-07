@@ -24,13 +24,7 @@ class buttonExtension extends AbstractTypeExtension
         ]);
     }
 
-    // Symfony < 4.2 compat
-    public function getExtendedType()
-    {
-        return ButtonType::class;
-    }
-
-    public static function getExtendedTypes()
+    public static function getExtendedTypes() : iterable
     {
         return [ButtonType::class];
     }
