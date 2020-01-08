@@ -167,7 +167,8 @@ function create_dialog(control, title, url) {
             close: function() {
                 control.removeClass('active');
                 iframe.css('visibility', 'hidden');
-                if (iframe[0].contentWindow) {
+                // second clause is an IE11 workaround
+                if (iframe[0].contentWindow && iframe[0].contentWindow.hasOwnProperty('stop')) {
                     iframe[0].contentWindow.stop();
                 }
             },
