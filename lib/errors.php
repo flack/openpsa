@@ -7,7 +7,6 @@
  */
 
 use Symfony\Component\HttpKernel\HttpKernel;
-use Symfony\Component\Debug\Exception\FatalErrorException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -57,8 +56,7 @@ class midcom_exception_handler
     public function handle_exception($error)
     {
         if ($error instanceof Error) {
-            $exception = new FatalErrorException($error->getMessage(), $error->getCode(), 0, $error->getFile(), $error->getLine(), null, true, $error->getTrace());
-            $this->kernel->terminateWithException($exception);
+            $this->kernel->terminateWithException($error);
         } else {
             throw $error;
         }
