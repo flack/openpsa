@@ -78,10 +78,8 @@ class resolver
             } catch (ResourceNotFoundException $e) {
                 throw new midcom_error_notfound('This URL method is unknown.');
             }
+            $this->request->attributes->add($result);
 
-            foreach ($result as $key => $value) {
-                $this->request->attributes->set($key, $value);
-            }
             return true;
         }
         return false;
