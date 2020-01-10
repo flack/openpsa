@@ -47,7 +47,7 @@
         "symfony/intl": ">=4.4",
         "symfony/mime": ">=4.4",
         "symfony/options-resolver": ">=4.4",
-        "symfony/routing": "^4.4",
+        "symfony/routing": ">=4.4",
         "symfony/security-csrf": ">=4.4",
         "symfony/translation": ">=4.4",
         "symfony/validator": ">=4.4",

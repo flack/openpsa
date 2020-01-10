@@ -139,7 +139,7 @@ class midcom_services_cache implements EventSubscriberInterface
             debug_add("Invalidating the cache module {$name} completely.");
             $module->invalidate_all();
         }
-        array_map('unlink', glob(midcom::get()->config->get('cache_base_directory') . 'routing/*'));
+        array_map('unlink', glob(midcom::get()->config->get('cache_base_directory') . 'routing/*/*'));
         connection::invalidate_cache();
     }
 

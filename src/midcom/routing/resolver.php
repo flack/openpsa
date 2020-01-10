@@ -57,9 +57,7 @@ class resolver
         }
         $identifier = str_replace('.', '_', $component);
         return new Router($loader, $component, [
-            'cache_dir' => midcom::get()->config->get('cache_base_directory') . 'routing',
-            'matcher_cache_class' => "loader__$identifier",
-            'generator_cache_class' => "generator__$identifier"
+            'cache_dir' => midcom::get()->config->get('cache_base_directory') . 'routing/' . $identifier,
         ]);
     }
 
