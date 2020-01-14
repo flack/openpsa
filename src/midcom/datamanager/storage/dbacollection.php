@@ -89,9 +89,11 @@ class dbacollection extends delayed
         $result = [];
         $qb = midcom::get()->dbfactory->new_query_builder($this->config['type_config']['mapping_class_name']);
         $qb->add_constraint($this->config['type_config']['master_fieldname'], '=', $this->get_master_foreign_key());
+        
+        $identifier = $this->config['type_config']['master_is_id'] ? 'id' : 'guid';
 
         foreach ($qb->execute() as $object) {
-            $result[$object->guid] = new dbacontainer($this->schema, $object, []);
+            $result[$object->$identifier] = new dbacontainer($this->schema, $object, []);
         }
 
         return $result;
