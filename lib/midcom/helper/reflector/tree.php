@@ -14,7 +14,7 @@
 class midcom_helper_reflector_tree extends midcom_helper_reflector
 {
     /**
-     * Creates a QB instance for get_root_objects
+     * Creates a QB instance for root objects
      */
     public function _root_objects_qb($deleted)
     {
@@ -50,31 +50,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             }
         }
         return $qb;
-    }
-
-    /**
-     * Get "root" objects for the class this reflector was instantiated for
-     *
-     * NOTE: deleted objects can only be listed as admin, also: they do not come
-     * MidCOM DBA wrapped (since you cannot normally instantiate such object)
-     *
-     * @param boolean $deleted whether to get (only) deleted or not-deleted objects
-     * @return array of objects or false on failure
-     */
-    public function get_root_objects($deleted = false)
-    {
-        if (!self::_check_permissions($deleted)) {
-            return false;
-        }
-
-        $qb = $this->_root_objects_qb($deleted);
-        if (!$qb) {
-            debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        self::add_schema_sorts_to_qb($qb, $this->mgdschema_class);
-
-        return $qb->execute();
     }
 
     /**
