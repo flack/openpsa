@@ -55,7 +55,7 @@ class cron extends Command
             ->addOption('job', 'j', InputOption::VALUE_REQUIRED, 'Run only this job');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         if (!midcom::get()->auth->request_sudo('midcom.services.cron')) {
             throw new midcom_error('Failed to get sudo');
@@ -81,6 +81,7 @@ class cron extends Command
             }
         }
         midcom::get()->auth->drop_sudo();
+        return 0;
     }
 
     private function run_job(string $classname, OutputInterface $output)

@@ -57,13 +57,13 @@ class exec extends Command
         }
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $file = $input->getArgument('file');
 
         if (empty($file)) {
             $this->list_files($output);
-            return;
+            return 0;
         }
 
         if (!file_exists(OPENPSA_PROJECT_BASEDIR . $file)) {
@@ -85,7 +85,8 @@ class exec extends Command
             require OPENPSA_PROJECT_BASEDIR . $file;
         }
 
-        midcom::get()->auth->drop_sudo();
+        midcom::get()->auth->drop_sudo();#
+        return 0;
     }
 
     private function list_files(OutputInterface $output)

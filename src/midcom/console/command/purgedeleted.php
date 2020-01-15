@@ -38,7 +38,7 @@ class purgedeleted extends Command
         $this->require_admin($dialog, $input, $output);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $handler = new \midcom_cron_purgedeleted;
         $handler->set_cutoff((int) $input->getOption('days'));
@@ -67,5 +67,6 @@ class purgedeleted extends Command
         }
         $elapsed = round(microtime(true) - $start, 2);
         $output->writeln("\n\nPurged <info>{$total_purged}</info> deleted objects in {$elapsed}s, <comment>" . $total_errors . " failures</comment>");
+        return 0;
     }
 }

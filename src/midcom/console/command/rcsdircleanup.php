@@ -85,13 +85,13 @@ class rcsdircleanup extends Command
         }
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $config = new midcom_services_rcs_config(midcom::get()->config);
         $dir = $config->get_rcs_root();
         if (!is_dir($dir)) {
             $output->writeln("<comment>Unable to detect RCS dir</comment> $dir");
-            return;
+            return 1;
         }
         $this->dry = $input->getOption("dry");
         if ($this->dry) {
@@ -117,5 +117,6 @@ class rcsdircleanup extends Command
         }
 
         $output->writeln("\n<comment>Done</comment>");
+        return 0;
     }
 }

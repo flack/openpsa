@@ -56,7 +56,7 @@ class reindex extends Command
         $this->require_admin($dialog, $input, $output);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $nap = new midcom_helper_nav();
         $nodes = [];
@@ -99,5 +99,6 @@ class reindex extends Command
         }
 
         $output->writeln('Reindex complete');
+        return 0;
     }
 }

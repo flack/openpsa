@@ -37,7 +37,7 @@ class repligard extends Command
             ->setDescription('Clean up repligard table');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         try {
             $this->db = connection::get_em()->getConnection()->getWrappedConnection();
@@ -65,6 +65,7 @@ class repligard extends Command
                 }
             }
         }
+        return 0;
     }
 
     private function create_connection(InputInterface $input, OutputInterface $output) : PDO

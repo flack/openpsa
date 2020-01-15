@@ -117,12 +117,12 @@ class blobdircleanup extends Command
         }
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $dir = \midgard_connection::get_instance()->config->blobdir;
         if (!is_dir($dir)) {
             $output->writeln("<comment>Unable to detect blobdir</comment>");
-            return;
+            return 1;
         }
         $this->_dir = $dir;
         $this->dry = $input->getOption("dry");
@@ -145,5 +145,6 @@ class blobdircleanup extends Command
         }
 
         $output->writeln("<comment>Done</comment>");
+        return 0;
     }
 }
