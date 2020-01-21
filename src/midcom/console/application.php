@@ -55,7 +55,7 @@ class application extends base_application
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         // we need the to register the mgdschema classes before starting midcom,
-        if (!defined('OPENPSA_DB_CREATED') && !\midcom_connection::setup(OPENPSA_PROJECT_BASEDIR)) {
+        if (!defined('OPENPSA2_UNITTEST_RUN') && !\midcom_connection::setup(OPENPSA_PROJECT_BASEDIR)) {
             throw new \RuntimeException('Could not open midgard connection: ' . \midcom_connection::get_error_string());
         }
 
