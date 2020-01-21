@@ -277,41 +277,32 @@ class autocomplete
         return implode(', ', $label);
     }
 
-    private static function get_property_string($object, $item_name) : string
+    private static function get_property_string($object, string $field) : string
     {
-        if (preg_match('/^metadata\.(.+)$/', $item_name, $regs)) {
+        if (preg_match('/^metadata\.(.+)$/', $field, $regs)) {
+            $date_fields = ['created', 'revised', 'published', 'schedulestart', 'scheduleend', 'imported', 'exported', 'approved'];
+            $person_fields = ['creator', 'revisor', 'approver', 'locker'];
             $metadata_property = $regs[1];
             $value = $object->metadata->$metadata_property;
 
-            switch ($metadata_property) {
-                case 'created':
-                case 'revised':
-                case 'published':
-                case 'schedulestart':
-                case 'scheduleend':
-                case 'imported':
-                case 'exported':
-                case 'approved':
-                    if ($value) {
-                        return strftime('%x %X', $value);
-                    }
-                    break;
-                case 'creator':
-                case 'revisor':
-                case 'approver':
-                case 'locker':
-                    if ($value) {
-                        $person = new midcom_db_person($value);
-                        return self::sanitize_label($person->name);
-                    }
-                    break;
+            if (in_array($metadata_property, $date_fields)) {
+                return $value ? strftime('%x %X', $value) : '';
             }
-        } elseif (   $item_name == 'username'
-                  && $object instanceof midcom_db_person) {
+            if (in_array($metadata_property, $person_fields)) {
+                if ($value) {
+                    $person = new midcom_db_person($value);
+                    return self::sanitize_label($person->name);
+                }
+                return '';
+            }
+            return self::sanitize_label($value);
+        }
+        if (   $item_name == 'username'
+            && $object instanceof midcom_db_person) {
             $account = new midcom_core_account($object);
             return self::sanitize_label($account->get_username());
         }
-        return self::sanitize_label($object->$item_name);
+        return self::sanitize_label($object->$field);
     }
 
     private static function sanitize_label($input) : string
