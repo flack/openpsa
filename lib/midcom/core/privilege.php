@@ -101,11 +101,7 @@ class midcom_core_privilege
     // Magic getter and setter for object property mapping
     public function __get($property)
     {
-        if (!array_key_exists($property, $this->__privilege)) {
-            return null;
-        }
-
-        return $this->__privilege[$property];
+        return $this->__privilege[$property] ?? null;
     }
 
     public function __set($property, $value)
@@ -157,10 +153,6 @@ class midcom_core_privilege
      */
     public function does_privilege_apply($user_id) : bool
     {
-        if (!is_array($this->__privilege)) {
-            return false;
-        }
-
         switch ($this->__privilege['assignee']) {
             case 'EVERYONE':
                 return true;
