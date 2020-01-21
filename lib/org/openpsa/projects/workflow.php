@@ -14,12 +14,9 @@
 class org_openpsa_projects_workflow
 {
     /**
-     *
-     * @param string $command
-     * @param org_openpsa_projects_task_dba $task
      * @throws midcom_error
      */
-    public static function run($command, org_openpsa_projects_task_dba $task)
+    public static function run(string $command, org_openpsa_projects_task_dba $task)
     {
         if (!method_exists(__CLASS__, $command)) {
             throw new midcom_error("Method not implemented");
@@ -76,12 +73,11 @@ class org_openpsa_projects_workflow
     /**
      * Shortcut for creating status object
      *
-     * @param org_openpsa_projects_task_dba $task The task we're working on
      * @param integer $status_type The status to convert
      * @param integer $target_person The person ID, if any
      * @param string $comment The status comment, if any
      */
-    public static function create_status($task, $status_type, $target_person, $comment = '') : bool
+    public static function create_status(org_openpsa_projects_task_dba $task, $status_type, $target_person, $comment = '') : bool
     {
         debug_print_function_stack('create_status called from: ');
         $status = new org_openpsa_projects_task_status_dba();
@@ -101,11 +97,10 @@ class org_openpsa_projects_workflow
     /**
      * Propose task to a resource
      *
-     * @param org_openpsa_projects_task_dba $task The task we're working on
      * @param integer $pid The person ID
      * @param string $comment Status comment, if any
      */
-    public static function propose($task, $pid, $comment = '') : bool
+    public static function propose(org_openpsa_projects_task_dba $task, $pid, $comment = '') : bool
     {
         debug_add("saving proposed status for person {$pid}");
         return self::create_status($task, org_openpsa_projects_task_status_dba::PROPOSED, $pid, $comment);
@@ -114,11 +109,10 @@ class org_openpsa_projects_workflow
     /**
      * Accept the proposal
      *
-     * @param org_openpsa_projects_task_dba $task The task we're working on
      * @param integer $pid The person ID
      * @param string $comment Status comment, if any
      */
-    public static function accept($task, $pid = -1, $comment = '') : bool
+    public static function accept(org_openpsa_projects_task_dba $task, $pid = -1, $comment = '') : bool
     {
         if ($pid < 0) {
             $pid = midcom_connection::get_user();
@@ -130,10 +124,8 @@ class org_openpsa_projects_workflow
 
     /**
      * Decline the proposal
-     *
-     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function decline($task, $comment = '') : bool
+    static function decline(org_openpsa_projects_task_dba $task, $comment = '') : bool
     {
         debug_add("task->decline() called with user #" . midcom_connection::get_user());
 
@@ -142,10 +134,8 @@ class org_openpsa_projects_workflow
 
     /**
      * Mark task as started (in case it's not already done)
-     *
-     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    public static function start($task, $started_by = 0) : bool
+    public static function start(org_openpsa_projects_task_dba $task, $started_by = 0) : bool
     {
         debug_add("task->start() called with user #" . midcom_connection::get_user());
         //PONDER: Check actual status objects for more accurate logic ?
@@ -160,10 +150,8 @@ class org_openpsa_projects_workflow
 
     /**
      * Mark task as completed
-     *
-     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    public static function complete($task, $comment = '') : bool
+    public static function complete(org_openpsa_projects_task_dba $task, $comment = '') : bool
     {
         debug_add("task->complete() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables
@@ -182,10 +170,8 @@ class org_openpsa_projects_workflow
 
     /**
      * Drops a completed task to started status
-     *
-     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function remove_complete($task, $comment = '') : bool
+    static function remove_complete(org_openpsa_projects_task_dba $task, $comment = '') : bool
     {
         debug_add("task->remove_complete() called with user #" . midcom_connection::get_user());
         if ($task->status != org_openpsa_projects_task_status_dba::COMPLETED) {
@@ -198,10 +184,8 @@ class org_openpsa_projects_workflow
 
     /**
      * Drops tasks status to started
-     *
-     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    private static function _drop_to_started($task, $comment = '') : bool
+    private static function _drop_to_started(org_openpsa_projects_task_dba $task, $comment = '') : bool
     {
         if ($task->status <= org_openpsa_projects_task_status_dba::STARTED) {
             debug_add('Task has not been started, aborting');
@@ -212,10 +196,8 @@ class org_openpsa_projects_workflow
 
     /**
      * Mark task as approved
-     *
-     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function approve($task, $comment = '') : bool
+    static function approve(org_openpsa_projects_task_dba $task, $comment = '') : bool
     {
         debug_add("task->approve() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / Require to be completed first
@@ -232,7 +214,7 @@ class org_openpsa_projects_workflow
         return self::close($task, $comment);
     }
 
-    static function reject($task, $comment = '') : bool
+    static function reject(org_openpsa_projects_task_dba $task, $comment = '') : bool
     {
         debug_add("task->reject() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / Require to be completed first
@@ -246,10 +228,8 @@ class org_openpsa_projects_workflow
 
     /**
      * Drops an approved task to started status
-     *
-     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function remove_approve($task, $comment = '') : bool
+    static function remove_approve(org_openpsa_projects_task_dba $task, $comment = '') : bool
     {
         debug_add("task->remove_approve() called with user #" . midcom_connection::get_user());
         if ($task->status != org_openpsa_projects_task_status_dba::APPROVED) {
@@ -261,10 +241,8 @@ class org_openpsa_projects_workflow
 
     /**
      * Mark task as closed
-     *
-     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    public static function close($task, $comment = '') : bool
+    public static function close(org_openpsa_projects_task_dba $task, $comment = '') : bool
     {
         debug_add("task->close() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / require to be approved first
