@@ -297,7 +297,7 @@ class autocomplete
             }
             return self::sanitize_label($value);
         }
-        if (   $item_name == 'username'
+        if (   $field == 'username'
             && $object instanceof midcom_db_person) {
             $account = new midcom_core_account($object);
             return self::sanitize_label($account->get_username());
