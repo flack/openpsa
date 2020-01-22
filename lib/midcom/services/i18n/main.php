@@ -180,7 +180,7 @@ class midcom_services_i18n
      *
      * @param string $charset    Charset name.
      */
-    public function set_charset($charset)
+    public function set_charset(string $charset)
     {
         $this->_current_charset = strtolower($charset);
     }
@@ -198,7 +198,7 @@ class midcom_services_i18n
      *
      * @param string $lang    Language ISO 639-1 code
      */
-    public function set_language($lang) : bool
+    public function set_language(string $lang) : bool
     {
         if (Locales::getName($lang) === null) {
             debug_add("Language {$lang} not found.", MIDCOM_LOG_ERROR);
@@ -223,7 +223,7 @@ class midcom_services_i18n
      *
      * @param string $lang    Language name.
      */
-    public function set_fallback_language($lang)
+    public function set_fallback_language(string $lang)
     {
         $this->_fallback_language = $lang;
         foreach ($this->_obj_l10n as $object) {
@@ -281,7 +281,7 @@ class midcom_services_i18n
      * @param string $component    The component for which to retrieve a string database.
      * @param string $database    The string table to retrieve from the component's locale directory.
      */
-    public function get_l10n($component = 'midcom', $database = 'default') : midcom_services_i18n_l10n
+    public function get_l10n(string $component = 'midcom', string $database = 'default') : midcom_services_i18n_l10n
     {
         $cacheid = "{$component}/{$database}";
 
@@ -303,10 +303,10 @@ class midcom_services_i18n
      *     database is used.
      * @see midcom_services_i18n_l10n::get()
      */
-    public function get_string($stringid, $component = null, $database = 'default') : string
+    public function get_string(string $stringid, $component = null, string $database = 'default') : string
     {
         if ($component === null) {
-            $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
+            $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT) ?? 'midcom';
         }
 
         $cacheid = "{$component}/{$database}";
@@ -331,7 +331,7 @@ class midcom_services_i18n
      * @see midcom_services_i18n_l10n::get()
      * @see get_string()
      */
-    public function show_string($stringid, $component = null, $database = 'default')
+    public function show_string(string $stringid, $component = null, string $database = 'default')
     {
         echo $this->get_string($stringid, $component, $database);
     }
@@ -345,7 +345,7 @@ class midcom_services_i18n
      * @param string $component    The component for which to retrieve a string database.
      * @param string $database    The string table to retrieve from the component's locale directory.
      */
-    private function _load_l10n_db($component, string $database)
+    private function _load_l10n_db(string $component, string $database)
     {
         $cacheid = "{$component}/{$database}";
         $obj = new midcom_services_i18n_l10n($component, $database);
@@ -398,7 +398,7 @@ class midcom_services_i18n
      * @param string $string The string to convert
      * @return string The string converted to UTF-8
      */
-    public function convert_to_utf8($string)
+    public function convert_to_utf8(string $string)
     {
         if ($this->_current_charset == 'utf-8') {
             return $string;
@@ -412,7 +412,7 @@ class midcom_services_i18n
      * @param string $string The string to convert
      * @return string The string converted to the current charset
      */
-    public function convert_from_utf8($string)
+    public function convert_from_utf8(string $string)
     {
         if ($this->_current_charset == 'utf-8') {
             return $string;
@@ -426,7 +426,7 @@ class midcom_services_i18n
      * @param string $string The string to convert.
      * @return string The converted string.
      */
-    public function convert_to_current_charset($string)
+    public function convert_to_current_charset(string $string)
     {
         $charset = mb_detect_encoding($string, "UTF-8, UTF-7, ASCII, ISO-8859-15");
         debug_add("mb_detect_encoding got {$charset}");
@@ -438,7 +438,7 @@ class midcom_services_i18n
      *
      * @param string $text The text with HTML entities, which should be replaced by their native equivalents.
      */
-    public function html_entity_decode($text) : string
+    public function html_entity_decode(string $text) : string
     {
         return html_entity_decode($text, ENT_COMPAT, $this->_current_charset);
     }

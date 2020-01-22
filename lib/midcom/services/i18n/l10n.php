@@ -120,7 +120,7 @@ class midcom_services_i18n_l10n
      * @param string $library    Name of the locale library to use.
      * @param string $database    Name of the database in the library to load.
      */
-    public function __construct($library, $database)
+    public function __construct(string $library, string $database)
     {
         $path = midcom::get()->componentloader->path_to_snippetpath($library) . "/locale/" . $database;
         $this->database = $database;
@@ -270,9 +270,6 @@ class midcom_services_i18n_l10n
     /**
      * Checks, whether the referenced language is already loaded. If not,
      * it is automatically made available.
-     *
-     * @param string $lang The language to check for.
-     * @see midcom_services_i18n_l10n::_load_language()
      */
     private function _check_for_language(string $lang)
     {
@@ -285,11 +282,8 @@ class midcom_services_i18n_l10n
      * Set output language.
      *
      * This is usually set through midcom_services_i18n.
-     *
-     * @param string $lang    Language code.
-     * @see midcom_services_i18n::set_language()
      */
-    public function set_language($lang)
+    public function set_language(string $lang)
     {
         $this->_language = $lang;
     }
@@ -298,11 +292,8 @@ class midcom_services_i18n_l10n
      * Set the fallback language.
      *
      * This is usually set through midcom_services_i18n.
-     *
-     * @param string $lang    Language name.
-     * @see midcom_services_i18n::set_fallback_language()
      */
-    public function set_fallback_language($lang)
+    public function set_fallback_language(string $lang)
     {
         $this->_fallback_language = $lang;
     }
@@ -319,7 +310,7 @@ class midcom_services_i18n_l10n
      * @param string $string The string-ID to search for.
      * @param string $language The language to search in.
      */
-    function string_exists($string, $language = null) : bool
+    function string_exists(string $string, $language = null) : bool
     {
         if ($language === null) {
             $language = $this->_language;
@@ -338,7 +329,7 @@ class midcom_services_i18n_l10n
      *
      * @param string $string The string-ID to search for
      */
-    function string_available($string)
+    function string_available(string $string)
     {
         return
         (
@@ -359,7 +350,7 @@ class midcom_services_i18n_l10n
      * @param string $string The string-ID to search for.
      * @param string $language The language to search in, uses the current language as default.
      */
-    public function get($string, $language = null) : string
+    public function get(string $string, $language = null) : string
     {
         if ($language === null) {
             $language = $this->_language;
@@ -388,7 +379,7 @@ class midcom_services_i18n_l10n
      * @param string $language The language to search in, uses the current language as default.
      * @see get()
      */
-    public function show($string, $language = null)
+    public function show(string $string, $language = null)
     {
         echo $this->get($string, $language);
     }
@@ -398,7 +389,7 @@ class midcom_services_i18n_l10n
      *
      * @param string $language The language to query
      */
-    public function get_stringdb($language) : array
+    public function get_stringdb(string $language) : array
     {
         $this->_check_for_language($language);
         if (empty($this->_stringdb[$language])) {
