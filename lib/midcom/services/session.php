@@ -88,12 +88,8 @@ class midcom_services_session
      * is non-existent. Note, that this is not necessarily a valid non-existence
      * check, as the sessioning system does allow null values. Use the exists function
      * if unsure.
-     *
-     * @param mixed $key    The key to query.
-     * @return mixed        The session key's data value, or null on failure.
-     * @see midcom_services_session::exists()
      */
-    public function get($key)
+    public function get(string $key)
     {
         return $this->_sessioning->get($this->_domain . '/' . $key);
     }
@@ -104,11 +100,8 @@ class midcom_services_session
      * Note, that a _copy_ is stored,
      * the actual object is not referenced in the session data. You will have to update
      * it manually in case of changes.
-     *
-     * @param    mixed    $key    Session value identifier.
-     * @param    mixed    $value    Session value.
      */
-    public function set($key, $value)
+    public function set(string $key, $value)
     {
         $this->_sessioning->set($this->_domain . '/' . $key, $value);
     }
@@ -117,10 +110,8 @@ class midcom_services_session
      * Checks, if the specified key has been added to the session store.
      *
      * This is often used in conjunction with get to verify a keys existence.
-     *
-     * @param mixed $key    The key to query.
      */
-    public function exists($key) : bool
+    public function exists(string $key) : bool
     {
         return $this->_sessioning->has($this->_domain . '/' . $key);
     }
@@ -130,12 +121,8 @@ class midcom_services_session
      * is non-existent or the value of the key just removed otherwise. Note, that
      * this is not necessarily a valid non-existence check, as the sessioning
      * system does allow null values. Use the exists function if unsure.
-     *
-     * @param mixed $key    The key to remove.
-     * @return mixed        The session key's data value, or null on failure.
-     * @see midcom_services_session::exists()
      */
-    public function remove($key)
+    public function remove(string $key)
     {
         return $this->_sessioning->remove($this->_domain . '/' . $key);
     }

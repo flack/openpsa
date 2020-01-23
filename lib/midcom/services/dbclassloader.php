@@ -79,7 +79,7 @@ class midcom_services_dbclassloader
      * @param string $classname Class name to load a component for
      * @return string component name if found for the class, false otherwise
      */
-    public function get_component_for_class($classname)
+    public function get_component_for_class(string $classname)
     {
         $class_parts = array_filter(explode('_', $classname));
         // Fix for incorrectly named classes
@@ -179,7 +179,7 @@ class midcom_services_dbclassloader
      * @param string $classname The MidCOM DBA classname to check
      * @return string The corresponding MidCOM DBA class name, false otherwise.
      */
-    public function get_mgdschema_class_name_for_midcom_class($classname)
+    public function get_mgdschema_class_name_for_midcom_class(string $classname)
     {
         static $mapping = [];
 
@@ -216,7 +216,7 @@ class midcom_services_dbclassloader
         return false;
     }
 
-    public function get_component_classes($component) : array
+    public function get_component_classes(string $component) : array
     {
         return midcom::get()->componentloader->manifests[$component]->class_mapping;
     }

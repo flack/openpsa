@@ -50,7 +50,7 @@ class midcom_services_cron
     /**
      * Constructor.
      */
-    public function __construct($recurrence = MIDCOM_CRON_MINUTE)
+    public function __construct(int $recurrence = MIDCOM_CRON_MINUTE)
     {
         $this->_recurrence = $recurrence;
     }
