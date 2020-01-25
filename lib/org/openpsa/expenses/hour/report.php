@@ -59,7 +59,7 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
 
     public function _on_created()
     {
-        $this->_update_parent(true);
+        $this->_update_parent();
     }
 
     public function _on_updating()
@@ -80,25 +80,25 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
         $this->_update_parent();
     }
 
-    private function _update_parent($start = false)
+    private function _update_parent()
     {
         midcom::get()->auth->request_sudo('org.openpsa.projects');
         try {
             $parent = new org_openpsa_projects_task_dba($this->task);
             $parent->update_cache();
 
-            if ($this->old_task) {
-                $oldparent = new org_openpsa_projects_task_dba($this->old_task);
-                $oldparent->update_cache();
-            }
-
-            if ($start) {
-                org_openpsa_projects_workflow::start($parent, $this->person);
+            if ($parent->status < org_openpsa_projects_task_status_dba::STARTED) {
                 //Add person to resources if necessary
                 $parent->get_members();
                 if (!array_key_exists($this->person, $parent->resources)) {
                     $parent->add_members('resources', [$this->person]);
                 }
+                org_openpsa_projects_workflow::start($parent, $this->person);
+            }
+
+            if ($this->old_task) {
+                $oldparent = new org_openpsa_projects_task_dba($this->old_task);
+                $oldparent->update_cache();
             }
         } catch (midcom_error $e) {
             $e->log();

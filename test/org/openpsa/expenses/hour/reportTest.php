@@ -66,6 +66,30 @@ class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
+    public function test_parent_update()
+    {
+        $person = $this->create_object(midcom_db_person::class);
+        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => self::$_project->id]);
+
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
+        $report = $this->create_object(org_openpsa_expenses_hour_report_dba::class, [
+            'task' => $task->id,
+            'hours' => 2,
+            'person' => $person->id
+        ]);
+        $task->refresh();
+        $this->assertEquals(org_openpsa_projects_task_status_dba::STARTED, $task->status);
+
+        $task2 = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => self::$_project->id]);
+
+        $report->task = $task2->id;
+        $this->assertTrue($report->update());
+        $task2->refresh();
+        midcom::get()->auth->drop_sudo();
+
+        $this->assertEquals(org_openpsa_projects_task_status_dba::STARTED, $task2->status);
+    }
+
     public function test_get_parent()
     {
         $report = $this->create_object(org_openpsa_expenses_hour_report_dba::class, ['task' => self::$_task->id]);

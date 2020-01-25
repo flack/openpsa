@@ -13,6 +13,9 @@
  */
 class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
 {
+    /**
+     * @var org_openpsa_projects_task_dba
+     */
     protected static $_task;
     protected static $_report;
 
