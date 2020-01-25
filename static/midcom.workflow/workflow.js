@@ -5,7 +5,7 @@ $(document).ready(function() {
             dialog = $('<div class="midcom-delete-dialog">'),
             spinner = $('<div class="spinner"><i class="fa fa-pulse fa-spinner"></i></div>'),
             text = this.dataset.dialogText,
-            relocate = this.dataset.relocate,
+            relocate = $(this).data('relocate'),
             action = this.getAttribute('href') || this.dataset.action,
             options = {
                 title:  this.dataset.dialogHeading,
