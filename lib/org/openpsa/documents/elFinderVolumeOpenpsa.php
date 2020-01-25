@@ -16,7 +16,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     public function __construct()
     {
         // elfinder tmp detection doesn't work on OS X
-        $this->tmpPath = midcom::get()->config->get('midcom_tempdir');
+        $this->tmp = midcom::get()->config->get('midcom_tempdir');
     }
 
     /**
@@ -39,14 +39,14 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         }
 
         if (($dir = $this->dir($dst)) == false) {
-            return $this->setError(elFinder::ERROR_TRGDIR_NOT_FOUND, '#'.$dst);
+            return $this->setError(elFinder::ERROR_TRGDIR_NOT_FOUND, '#' . $dst);
         }
 
-        if (!$dir['write']) {
+        if (empty($dir['write'])) {
             return $this->setError(elFinder::ERROR_PERM_DENIED);
         }
 
-        if (!$this->nameAccepted($name)) {
+        if (!$this->nameAccepted($name, false)) {
             return $this->setError(elFinder::ERROR_INVALID_NAME);
         }
 
@@ -62,10 +62,10 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         }
 
         if (!$this->allowPutMime($mime) || ($mimeByName && !$this->allowPutMime($mimeByName))) {
-            return $this->setError(elFinder::ERROR_UPLOAD_FILE_MIME);
+            return $this->setError(elFinder::ERROR_UPLOAD_FILE_MIME, '(' . $mime . ')');
         }
 
-        $tmpsize = sprintf('%u', filesize($tmpname));
+        $tmpsize = (int)sprintf('%u', filesize($tmpname));
         if ($this->uploadMaxSize > 0 && $tmpsize > $this->uploadMaxSize) {
             return $this->setError(elFinder::ERROR_UPLOAD_FILE_SIZE);
         }
@@ -85,8 +85,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
             if ($this->uploadOverwrite) {
                 if (!$file['write']) {
                     return $this->setError(elFinder::ERROR_PERM_DENIED);
-                }
-                if ($file['mime'] == 'directory') {
+                } elseif ($file['mime'] == 'directory') {
                     return $this->setError(elFinder::ERROR_NOT_REPLACE, $name);
                 }
                 $document = new org_openpsa_documents_document_dba($test);
