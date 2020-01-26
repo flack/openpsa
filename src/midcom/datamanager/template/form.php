@@ -263,6 +263,11 @@ class form extends base
 
     public function autocomplete_widget(FormView $view, array $data)
     {
+        if ($view->vars['readonly']) {
+            $string = $this->get_view_renderer()->autocomplete_widget($view, $data);
+            return $string .  $this->renderer->widget($view['selection']);
+        }
+
         autocomplete::add_head_elements($data['handler_options']['creation_mode_enabled'], $data['handler_options']['sortable']);
 
         $element_id = $view->vars['id'];
