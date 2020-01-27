@@ -71,9 +71,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
 
     public function save_callback(controller $controller)
     {
-        //Ugly workaround to http://trac.openpsa2.org/ticket/31
-        $this->task->refresh_status();
-
         $indexer = new org_openpsa_projects_midcom_indexer($this->_topic);
         $indexer->index($controller->get_datamanager());
 
@@ -115,6 +112,9 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             $fields['agreement']['widget'] = 'hidden';
         } else {
             $fields['up']['widget'] = 'hidden';
+        }
+        if ($this->task->id && $this->task->get_status()) {
+            $fields['status']['readonly'] = true;
         }
         $schemadb->get('default')->set('fields', $fields);
 

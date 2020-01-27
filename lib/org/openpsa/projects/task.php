@@ -94,7 +94,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
         if (in_array($property, ['status_comment', 'status_time'])) {
             if ($this->_status === null) {
-                $this->_status = $this->_get_status();
+                $this->refresh_status();
             }
             return $this->_status[$property];
         }
@@ -335,14 +335,10 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Queries status objects and sets correct value to $this->status
+     * Queries status objects
      */
-    private function _get_status() : array
+    public function get_status() : array
     {
-        $return = [
-            'status_comment' => '',
-            'status_time' => false,
-        ];
         //Simplistic approach
         $mc = org_openpsa_projects_task_status_dba::new_collector('task', $this->id);
         if ($this->status > org_openpsa_projects_task_status_dba::PROPOSED) {
@@ -357,13 +353,21 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $mc->add_order('type', 'DESC'); //Our timestamps are not accurate enough so if we have multiple with same timestamp suppose highest type is latest
         $mc->set_limit(1);
 
-        $ret = $mc->get_rows(['type', 'comment', 'timestamp']);
+        return $mc->get_rows(['type', 'comment', 'timestamp']);
+    }
+
+    public function refresh_status()
+    {
+        $this->_status = [
+            'status_comment' => '',
+            'status_time' => false,
+        ];
+
+        $ret = $this->get_status();
         if (empty($ret)) {
             //Failure to get status object
-
-            //Default to last status if available
             debug_add('Could not find any status objects, defaulting to previous status');
-            return $return;
+            return;
         }
         $status = current($ret);
 
@@ -374,14 +378,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
 
         //TODO: Check various combinations of accept/decline etc etc
-        $return['status_comment'] = $status['comment'];
-        $return['status_time'] = $status['timestamp'];
-
-        return $return;
-    }
-
-    public function refresh_status()
-    {
-        $this->_get_status();
+        $this->_status['status_comment'] = $status['comment'];
+        $this->_status['status_time'] = $status['timestamp'];
     }
 }
