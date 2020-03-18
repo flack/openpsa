@@ -154,7 +154,7 @@ class midcom_helper_toolbar
      *
      * @var string
      */
-    protected $label;
+    protected $label = '';
 
     /**
      * The items in the toolbar.
@@ -215,7 +215,7 @@ class midcom_helper_toolbar
      *
      * @param string $label
      */
-    public function set_label($label)
+    public function set_label(string $label)
     {
         $this->label = $label;
     }
