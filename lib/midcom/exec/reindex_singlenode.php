@@ -27,7 +27,6 @@ if (isset($_REQUEST['language'])) {
 
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
-ob_implicit_flush();
 midcom::get()->disable_limits();
 
 $loader = midcom::get()->componentloader;
