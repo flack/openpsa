@@ -187,10 +187,10 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * Initiate a reindex run for the given component and topic.
      *
      * @param midcom_db_topic $topic The topic that should be reindexed.
-     * @return boolean Indicating success.
+     * @return boolean|midcom_services_indexer_client Indicating success or client to use
      * @see _on_reindex()
      */
-    public function reindex($topic) : bool
+    public function reindex($topic)
     {
         return $this->_on_reindex($topic, $this->get_config_for_topic($topic), midcom::get()->indexer);
     }
