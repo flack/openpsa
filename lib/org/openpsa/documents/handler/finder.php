@@ -20,11 +20,11 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
 
     public function _handler_view(array &$data)
     {
-        $prefix = '/' . $this->_component . '/elFinder-2.1.49/';
+        $prefix = '/' . $this->_component . '/elFinder-2.1.55/';
         org_openpsa_widgets_contact::add_head_elements();
 
         $head = midcom::get()->head;
-        $head->enable_jquery_ui(['mouse', 'draggable', 'droppable', 'selectable', 'resizable', 'slider', 'button']);
+        $head->enable_jquery_ui(['mouse', 'controlgroup', 'draggable', 'droppable', 'selectable', 'resizable', 'slider', 'button']);
         $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . 'js/elfinder.min.js');
 
         $lang = midcom::get()->i18n->get_current_language();

@@ -2,7 +2,7 @@
  * Slovak translation
  * @author RobiNN <kelcakrobo@gmail.com>
  * @author Jakub Ďuraš <jkblmr@gmail.com>
- * @version 2019-03-14
+ * @version 2020-03-15
  */
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
@@ -17,9 +17,9 @@
 		translator : 'RobiNN &lt;kelcakrobo@gmail.com&gt;, Jakub Ďuraš &lt;jkblmr@gmail.com&gt;',
 		language   : 'Slovenčina',
 		direction  : 'ltr',
-		dateFormat : 'd.m.Y H:i', // will show like: 14.03.2019 11:05
-		fancyDateFormat : '$1 H:i', // will show like: Dnes 11:05
-		nonameDateFormat : 'ymd-His', // noname upload will show like: 190314-110533
+		dateFormat : 'd.m.Y H:i', // will show like: 15.03.2020 16:42
+		fancyDateFormat : '$1 H:i', // will show like: Dnes 16:42
+		nonameDateFormat : 'ymd-His', // noname upload will show like: 200315-164238
 		messages   : {
 
 			/********************************** errors **********************************/
@@ -303,6 +303,7 @@
 			'confirmNonUTF8'  : 'Kódovanie tohto súboru nemohlo byť detekované. Pre úpravu dočasne potrebujete previesť na UTF-8 .<br/>Prosím, vyberte kódovanie znakov tohto súboru.', // from v2.1.19 added 28.11.2016
 			'confirmNotSave'  : 'Bol upravený.<br/>Ak zmeny neuložíte, stratíte vykonanú prácu.', // from v2.1 added 15.7.2015
 			'confirmTrash'    : 'Naozaj chcete presunúť položky do koša?', //from v2.1.24 added 29.4.2017
+			'confirmMove'     : 'Naozaj chcete presunúť položky do "$1"?', //from v2.1.50 added 27.7.2019
 			'apllyAll'        : 'Použiť na všetky',
 			'name'            : 'Názov',
 			'size'            : 'Veľkosť',
@@ -442,6 +443,7 @@
 			'clearBrowserData': 'Inicializujte nastavenia uložené v tomto prehliadači', // from v2.1.26 added 28.6.2017
 			'toolbarPref'     : 'Nastavenie panela s nástrojmi', // from v2.1.27 added 2.8.2017
 			'charsLeft'       : '...$1 znakov ostáva.',  // from v2.1.29 added 30.8.2017
+			'linesLeft'       : '...$1 riadkov ostáva.',  // from v2.1.52 added 16.1.2020
 			'sum'             : 'Súčet', // from v2.1.29 added 28.9.2017
 			'roughFileSize'   : 'Hrubá veľkosť súboru', // from v2.1.30 added 2.11.2017
 			'autoFocusDialog' : 'Zameranie na prvok dialógu s mouseover',  // from v2.1.30 added 2.11.2017
