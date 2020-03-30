@@ -9,6 +9,10 @@
     display: none;
 }
 
+.midcom-workflow-dialog .ui-dialog-content {
+    overflow: hidden;
+}
+
 .midcom-workflow-dialog .ui-widget-header.ui-dialog-titlebar {
     background-color: transparent;
     border-color: transparent;
