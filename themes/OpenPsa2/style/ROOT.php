@@ -28,7 +28,6 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
           $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
           $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/style.css');
           $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/print.css', 'print');
-          $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css');
 
         $head->enable_jquery_ui(['mouse', 'draggable']);
 
@@ -93,4 +92,8 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
     org_openpsa_jsqueue.execute();
     </script>
     </body>
+    <?php
+    // Add after content (component) has already run, so that we can override its styles
+    $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css');
+    ?>
 </html>

@@ -572,3 +572,568 @@ table.link_statistics td.bargraph div.link_count_visualization
 {
     margin-bottom: 0;
 }
+
+/* jqueryui theme overrides */
+.ui-icon,
+.ui-widget-content .ui-icon {
+    color: #3969a9;
+}
+.ui-widget-header .ui-icon {
+    color: #d1d1c9;
+}
+.ui-button .ui-icon {
+    color: #3969a9;
+}
+.ui-progressbar:not(.ui-progressbar-indeterminate) .ui-progressbar-value {
+    background-color: #3969a9;
+}
+
+.ui-state-hover .ui-icon,
+.ui-state-focus .ui-icon,
+.ui-button:hover .ui-icon,
+.ui-button:focus .ui-icon {
+    color: #3769ae
+}
+
+.ui-widget-content {
+    border-color: #daddd6;
+    background-color: white;
+    background-image: none;
+}
+
+.ui-widget-header {
+    background: #fff
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default
+{
+    background: -ms-linear-gradient(top, #f4f4ef 0%,#eae9e3 76%,#e5e4dd 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f4f4ef 0%,#eae9e3 76%,#e5e4dd 100%); /* W3C */
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus,
+.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-hover,
+.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-focus,
+.elfinder-cwd table thead td.ui-state-hover
+{
+    background: -ms-linear-gradient(top, #ffffff 0%,#e0f2ff 3%,#d0e5f5 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #ffffff 0%,#e0f2ff 3%,#d0e5f5 100%); /* W3C */
+    color: inherit;
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-active,
+.elfinder .elfinder-cwd table thead td.ui-state-active
+{
+    background: -ms-linear-gradient(top, #ffffff 0%,#f5f8f9 6%,#ffffff 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #ffffff 0%,#f5f8f9 6%,#ffffff 100%); /* W3C */
+}
+
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight,
+.ui-widget-header .ui-state-highlight,
+.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-highlight
+{
+    background: -ms-linear-gradient(top, #faf3a6 0%,#fbec88 6%,#faf3a6 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #faf3a6 0%,#fbec88 6%,#faf3a6 100%); /* W3C */
+}
+
+.ui-widget-overlay {
+    background-image: none;
+}
+
+.ui-tabs-panel .ui-widget-overlay {
+    position: absolute
+}
+
+.ui-dialog
+{
+    box-shadow: 3px 6px 12px rgba(0,0,0,.3);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+}
+
+.ui-dialog .ui-dialog-titlebar .ui-dialog-title
+{
+    font-size: 140%;
+}
+
+.autocomplete_widget_creation_dialog.ui-dialog-content
+{
+    padding: 0;
+    overflow: hidden;
+}
+
+.ui-tabs.ui-widget-content
+{
+    padding: 0;
+    border: none;
+}
+
+.ui-tabs .ui-widget-header
+{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.ui-state-default
+{
+    text-shadow: 1px 1px #eee
+}
+
+.tree-leaf
+{
+    visibility: hidden
+}
+
+.ui-jqgrid.ui-widget-content
+{
+    font-size: inherit;
+    border: none;
+}
+
+.ui-jqgrid .ui-widget-header
+{
+    height: 2em;
+    font-size: 120%;
+    padding-left: .5em;
+}
+
+.ui-jqgrid-btable tr:nth-child(odd).jqgrow
+{
+    background: #f1f0ee; /* Old browsers */
+    background: -ms-linear-gradient(top, #ffffff 0%,#f5f4f2 4%,#f1f0ee 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #ffffff 0%,#f5f4f2 4%,#f1f0ee 100%); /* W3C */
+}
+
+.ui-jqgrid table td:last-child,
+.ui-jqgrid table th:last-child,
+.ui-jqgrid table tr.ui-row-ltr > td:last-child
+{
+    border-right-width: 0;
+}
+
+.ui-jqgrid .jqgrow
+{
+    border-color: transparent;
+    height: 20px;
+    padding: 1px 4px
+}
+
+.ui-jqgrid .ui-jqgrid-hdiv
+{
+    overflow: hidden;
+    border-color: transparent;
+}
+
+.ui-jqgrid .ui-jqgrid-hbox
+{
+    border-top: 1px solid #daddd6;
+}
+
+.ui-jqgrid-hbox .ui-jqgrid-htable
+{
+    font-size: .9em
+}
+
+.ui-jqgrid-jquery-ui.ui-jqgrid .ui-jqgrid-bdiv tr.ui-row-ltr.jqfoot > td
+{
+    border-color: transparent;
+    border-top: 1px solid;
+    border-top-color: inherit;
+}
+
+.ui-jqgrid-ftable tr,
+.ui-jqgrid-ftable tr.footrow td
+{
+    background-color: transparent;
+    border-top-width: 0;
+}
+
+.ui-jqgrid-jquery-ui.ui-jqgrid .ui-jqgrid-ftable tr.footrow td
+{
+    border-right-color: white;
+    border-bottom-width: 0
+}
+
+.ui-jqgrid .ui-widget-content td.title,
+.ui-jqgrid .ui-widget-content td.title a
+{
+    color: #333;
+    font-weight: bold;
+}
+
+.ui-jqgrid .ui-widget-content a
+{
+    text-decoration: none
+}
+
+.ui-jqgrid .ui-widget-content a:hover
+{
+    text-decoration: underline
+}
+
+.ui-jqgrid .ui-jqgrid-pager
+{
+    display: block
+}
+
+.ui-jqgrid .ui-jqgrid-btable .row_button
+{
+    font-size: 16px;
+    border: none;
+    width: 16px;
+    height: 16px;
+    margin-left: .3em;
+    vertical-align: middle;
+    opacity: .75;
+    cursor: pointer;
+}
+
+.ui-jqgrid .ui-jqgrid-btable .row_button:hover
+{
+    opacity: 1
+}
+.ui-jqgrid .ui-jqgrid-btable .row_edit
+{
+    color: #5d81b0;
+    display: none;
+    margin-right: 20px
+}
+.ui-jqgrid .ui-jqgrid-btable .ui-state-hover .row_edit
+{
+    display: inline;
+}
+.ui-jqgrid .ui-jqgrid-btable .ui-state-hover .row_edit.hidden,
+.ui-jqgrid .ui-jqgrid-btable .row_button.hidden
+{
+    display: none;
+}
+.ui-jqgrid .ui-jqgrid-btable .row_delete
+{
+    color: #ee2b2b;
+    display: none;
+}
+.ui-jqgrid .ui-jqgrid-btable .ui-state-hover .row_delete
+{
+    display: inline;
+}
+.ui-jqgrid .ui-jqgrid-btable .row_save
+{
+    color: #76d41a;
+}
+.ui-jqgrid .ui-jqgrid-btable .row_cancel
+{
+    color: orange;
+}
+
+.ui-jqgrid .ui-jqgrid-btable .jqgroup .fa
+{
+    padding-right: .25em;
+    font-size: 90%
+}
+
+.normal .ui-jqgrid-hbox .ui-state-default,
+.good .ui-jqgrid-hbox .ui-state-default,
+.bad .ui-jqgrid-hbox .ui-state-default,
+.fc-view .ui-widget-header
+{
+    color: white;
+    text-shadow: 1px 1px rgba(0, 0, 0, .2);
+}
+
+.fc-view .ui-widget-header a
+{
+    color: white;
+}
+
+.normal .ui-jqgrid-hbox .ui-jqgrid-htable .fa::before,
+.good .ui-jqgrid-hbox .ui-jqgrid-htable .fa::before,
+.bad .ui-jqgrid-hbox .ui-jqgrid-htable .fa::before
+{
+    color: white;
+}
+
+.normal .ui-jqgrid-view .ui-jqgrid-labels,
+.fc-view .ui-widget-header
+{
+    background: #5282bc; /* Old browsers */
+    background: -ms-linear-gradient(top, #5282bc 0%,#4e7ab8 56%,#326396 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #5282bc 0%,#4e7ab8 56%,#326396 100%); /* W3C */
+}
+
+.ui-jqgrid > .ui-jqgrid-view
+{
+    font-size: 12px;
+}
+
+/* Red headers */
+.bad .ui-jqgrid-view .ui-jqgrid-labels
+{
+    background: #e2585d; /* Old browsers */
+    background: -ms-linear-gradient(top, #e4575b 0%, #e0524e 56%, #d41f2a 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #e4575b 0%, #e0524e 56%, #d41f2a 100%); /* W3C */
+}
+
+/* Green headers */
+.good .ui-jqgrid-view .ui-jqgrid-labels
+{
+    background: #78a939; /* Old browsers */
+    background: -ms-linear-gradient(top, #7aa83b 0%, #749e3d 56%, #5d8220 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #7aa83b 0%, #749e3d 56%, #5d8220 100%); /* W3C */
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Header controls */
+.ui-jqgrid .ui-jqgrid-title
+{
+    margin: 0.1em 0 0.2em;
+}
+
+.ui-jqgrid-view .ui-jqgrid-titlebar .fa::before
+{
+    color: #d1d1c9;
+}
+.ui-jqgrid-view .ui-jqgrid-titlebar .fa:hover::before
+{
+    color: #3769ae;
+}
+
+.ui-jqgrid .ui-widget-header .ui-state-hover,
+.ui-jqgrid .ui-widget-header .ui-state-focus,
+.ui-jqgrid .ui-widget-header .ui-state-active
+{
+    border: none;
+    background: transparent;
+}
+
+.ui-jqgrid .ui-widget-header .fa
+{
+    opacity: .75;
+}
+
+.ui-jqgrid .ui-jqgrid-titlebar:hover .fa
+{
+    opacity: 1;
+}
+
+.ui-jqgrid td.multiline .title a,
+.ui-jqgrid td.multiline .details a
+{
+    color: #14335e;
+}
+
+.ui-tabs .ui-tabs-nav
+{
+    height: 1.9em;
+    border-bottom: 1px solid #daddd6;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active
+{
+    border-bottom: none;
+    text-shadow: 1px 1px #eee;
+    padding-bottom: 0;
+}
+
+.ui-tabs .ui-tabs-nav li a.ui-tabs-anchor
+{
+    padding: 0.2em 1em 3px;
+}
+.ui-tabs .ui-tabs-nav .ui-state-active a:hover
+{
+    cursor: pointer
+}
+
+.ui-tabs .ui-tabs-panel
+{
+    padding: 0;
+    padding-bottom: 15px;
+    border: 1px solid #daddd6;
+    border-top: none;
+}
+
+.ui-autocomplete,
+.ui-datepicker,
+.ui-multiselect-menu
+{
+    box-shadow: 2px 3px 19px rgba(0, 0, 0, 0.2);
+}
+
+.ui-autocomplete .ui-menu-item
+{
+    border: 1px solid transparent;
+    font-weight: normal
+}
+
+.ui-autocomplete .ui-menu-item a
+{
+    line-height: 1.4;
+}
+
+.ui-autocomplete .ui-menu-item.ui-state-focus
+{
+    margin: 0;
+}
+
+.ui-autocomplete .ui-menu-item-wrapper
+{
+    display: block;
+}
+.ui-autocomplete .ui-menu-item-wrapper:hover
+{
+    text-decoration: none;
+}
+
+.ui-multiselect-header ul li
+{
+    font-weight: normal;
+}
+
+.ui-multiselect-header li.ui-multiselect-close
+{
+    position: absolute;
+    right: 3px
+}
+
+/* fancytree */
+ul.fancytree-container
+{
+    border: none;
+    padding: 0;
+    height: auto;
+}
+
+ul.fancytree-container span.fancytree-folder a
+{
+    font-weight: normal
+}
+
+/* elfinder */
+.elfinder,
+.elfinder-quicklook
+{
+    font-size: 17.2px
+}
+
+.elfinder-contextmenu
+{
+    font-size: 15.8px
+}
+
+.elfinder-contextmenu .ui-state-hover
+{
+    text-shadow: none;
+}
+
+.elfinder-quicklook
+{
+    padding: 20px 0 40px;
+    position: absolute;
+}
+
+.elfinder-dialog-error .ui-dialog-content,
+.elfinder .elfinder-dialog-confirm .ui-dialog-content
+{
+    padding-left: 56px;
+}
+
+.std42-dialog {
+    left: auto;
+    padding: 0;
+    position: absolute;
+    right: auto;
+}
+
+.elfinder-toolbar
+{
+    border-bottom: 1px solid #d2d6cd;
+}
+
+.elfinder-statusbar
+{
+    border-top: 1px solid #d2d6cd;
+}
+
+.elfinder-buttonset,
+.elfinder-toolbar-button-separator
+{
+    border: none;
+}
+.elfinder-ltr .elfinder-navbar
+{
+    border-top: none;
+    border-left: none;
+    border-bottom: none;
+}
+
+.elfinder-ltr .elfinder-cwd table
+{
+    padding: 0;
+}
+
+.elfinder-ltr .elfinder-cwd table td
+{
+    text-align: left;
+}
+
+.elfinder-ltr .elfinder-cwd table td:nth-child(4)
+{
+    text-align: right;
+}
+
+.elfinder-cwd table tbody td,
+.elfinder-cwd table tbody .ui-selected td {
+    opacity: .7
+}
+
+.elfinder-disabled .elfinder-cwd table tbody .ui-selected td {
+    color: #666
+}
+.elfinder-disabled .elfinder-cwd table tbody .ui-selected td:nth-child(1)
+{
+    color: #222;
+}
+
+.elfinder-cwd table tbody td:nth-child(1),
+.elfinder-cwd table tbody .ui-selected td {
+    opacity: 1
+}
+
+.elfinder-cwd table .ui-selected td a {
+    color: white;
+}
+
+.elfinder-info-tb span.vcard,
+.elfinder-info-tb span.vcard span {
+    float: none;
+}
+
+.elfinder-disabled .elfinder-cwd-view-icons .elfinder-cwd-file .elfinder-cwd-filename.ui-state-hover,
+.elfinder-disabled .elfinder-cwd table td.ui-state-hover,
+.elfinder-disabled .elfinder-button-menu .ui-state-hover,
+.elfinder-disabled .elfinder-cwd table .ui-selected td a,
+.elfinder-disabled .elfinder-navbar .ui-state-active
+{
+    color: inherit;
+}
+
+.elfinder-cwd-view-icons .elfinder-cwd-file
+{
+    border: 1px solid transparent;
+}
+
+/* workflows */
+.midcom-workflow-dialog .ui-dialog-content {
+    padding: 0;
+}

@@ -599,11 +599,15 @@ class midcom_helper_head
             }
         }
 
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/jQuery/jquery-ui-1.12.icon-font.min.css');
-        if (midcom::get()->config->get('jquery_ui_theme')) {
-            $this->add_stylesheet(midcom::get()->config->get('jquery_ui_theme'));
-        } else {
-            $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery-ui.min.css');
-        }
+        $this->add_link_head([
+            'rel'  => 'stylesheet',
+            'type' => 'text/css',
+            'href' => MIDCOM_STATIC_URL . '/jQuery/jquery-ui-1.12.icon-font.min.css',
+        ], true);
+        $this->add_link_head([
+            'rel'  => 'stylesheet',
+            'type' => 'text/css',
+            'href' => midcom::get()->config->get('jquery_ui_theme', MIDCOM_JQUERY_UI_URL . '/themes/base/jquery-ui.min.css'),
+        ], true);
     }
 }
