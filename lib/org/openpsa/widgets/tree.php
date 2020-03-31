@@ -172,9 +172,9 @@ JSINIT;
 
         $head = midcom::get()->head;
         $head->enable_jquery_ui();
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/fancytree-2.31.0/jquery.fancytree-all.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/fancytree-2.35.0/jquery.fancytree-all.min.js');
         $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
-        $head->add_stylesheet(MIDCOM_STATIC_URL . "/jQuery/fancytree-2.31.0/skin-awesome/ui.fancytree.min.css");
+        $head->add_stylesheet(MIDCOM_STATIC_URL . "/jQuery/fancytree-2.35.0/skin-awesome/ui.fancytree.min.css");
         $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.widgets/fancytree.custom.css");
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fancytree.custom.js');
         self::$_head_elements_added = true;
