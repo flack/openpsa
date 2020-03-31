@@ -50,6 +50,10 @@ class attachmentTransformer implements DataTransformerInterface
             $stats = $input->stat();
             $file = null;
         }
+        if (empty($stats)) {
+            debug_add('stat() failed for attachment ' . ($input->guid ?: $input->location), MIDCOM_LOG_WARN);
+            $stats = [7 => 0, 9 => 0];
+        }
 
         return [
             'filename' => $input->name,
