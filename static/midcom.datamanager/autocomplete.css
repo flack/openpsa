@@ -2,10 +2,7 @@
 {
     height: 18px;
     margin-left: .5em;
-    background: url('../stock-icons/16x16/list-add.png') left center no-repeat;
-    padding-left: 20px;
     font-weight: bold;
-    font-size: 8pt;
     float: left;
     cursor: pointer
 }
