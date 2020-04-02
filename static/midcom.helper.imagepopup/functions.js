@@ -6,11 +6,20 @@ $(document).ready(function() {
                 title = '';
 
             if ($(this).parent('td').length > 0) {
-                title = $(this).parent('td').next().find('input').val();
+                title = $(this).parent('td').next().find('input[type="text"]').val();
             }
 
-            parent.tinymce.activeEditor.windowManager.getParams().oninsert(url, {alt: title});
-            parent.tinymce.activeEditor.windowManager.close();
+            window.parent.postMessage({
+                mceAction: 'customAction',
+                data: {
+                    url: url,
+                    alt: title
+                }
+            }, '*');
+
+            window.parent.postMessage({
+                mceAction: 'close'
+            }, '*');
         })
         .on('mouseover', 'a[href], .preview-image', function() {
             this.title = 'Click to insert';
@@ -20,8 +29,17 @@ $(document).ready(function() {
         $('#links').fancytree({
             click: function(event, data) {
                 if (data.targetType === 'title') {
-                    parent.tinymce.activeEditor.windowManager.getParams().oninsert(data.node.data.href, {title: data.node.title});
-                    parent.tinymce.activeEditor.windowManager.close();
+                    window.parent.postMessage({
+                        mceAction: 'customAction',
+                        data: {
+                            url: data.node.data.href,
+                            title: data.node.title
+                        }
+                    }, '*');
+
+                    window.parent.postMessage({
+                        mceAction: 'close'
+                    }, '*');
                 }
             },
             extensions: ['glyph'],

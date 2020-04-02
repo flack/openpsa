@@ -3,14 +3,13 @@ const tiny = {
         return function(callback, value, meta) {
             var height = Math.min(document.body.clientHeight - 50, 600),
                 width = Math.min(document.body.clientWidth - 20, 800);
-            tinymce.activeEditor.windowManager.open({
+            tinymce.activeEditor.windowManager.openUrl({
                 title: title,
                 url: url + meta.filetype + '/' + suffix,
                 width: width,
-                height: height
-            }, {
-                oninsert: function(url, meta) {
-                    callback(url, meta);
+                height: height,
+                onMessage: function(dialog, args) {
+                    callback(args.data.url, args.data);
                 }
             });
         };
