@@ -37,11 +37,7 @@ midcom::get()->uimessages->show();
     if ($workingon->task) {
         ?>
          <script type="text/javascript">
-             jQuery('#org_openpsa_mypage_workingon_time').epiclock({
-                   mode: $.epiclock.modes.countup,
-                   target: <?php echo $workingon->start; ?>000,
-                   format: 'x:i:s'
-             });
+	         countup(<?php echo $workingon->start; ?>000);
          </script>
     <?php
     } ?>

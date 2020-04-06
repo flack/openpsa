@@ -26,6 +26,39 @@ function send_working_on(action) {
     });
 }
 
+function countup(start) {
+    var holder = $('#org_openpsa_mypage_workingon_time'),
+        last_update;
+
+    function update() {
+        var now = Math.round(new Date().getTime() / 1000) * 1000;
+        if (now !== last_update) {
+            let diff = (now - start) / 1000,
+                diff_s = diff % 60,
+                diff_m = Math.floor(diff / 60),
+                diff_h = Math.floor(diff_m / 60),
+                formatted = '';
+
+            if (diff_h > 0) {
+                formatted += diff_h + ':';
+            }
+            if (diff_m < 10) {
+                diff_m = '0' + diff_m;
+            }
+            formatted += diff_m + ':';
+            if (diff_s < 10) {
+                diff_s = '0' + diff_s;
+            }
+            formatted += diff_s;
+
+            holder.text(formatted);
+            last_update = now;
+        }
+    }
+
+    setInterval(update, 100);
+}
+
 var org_openpsa_workingon = {
     setup_widget: function() {
         $('#org_openpsa_mypage_workingon_start')
