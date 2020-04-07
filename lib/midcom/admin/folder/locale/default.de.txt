@@ -163,7 +163,7 @@ Seiten zuerst
 ---STRINGEND
 
 ---STRING prevent entering
-Eingabe verhindern
+Zugriff verhindern
 ---STRINGEND
 
 ---STRING privilege template_management
