@@ -130,7 +130,7 @@ abstract class midcom_core_query
                 $now = strftime('%Y-%m-%d %H:%M:%S');
                 $this->begin_group('OR');
                     $this->add_constraint('metadata.schedulestart', '>', $now);
-                    $this->add_constraint('metadata.schedulestart', '=', '0000-00-00 00:00:00');
+                    $this->add_constraint('metadata.schedulestart', '<=', '0001-01-01 00:00:00');
                 $this->end_group();
                 $this->add_constraint('metadata.scheduleend', '<', $now);
             }
