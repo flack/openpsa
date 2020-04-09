@@ -128,11 +128,11 @@ abstract class midcom_core_query
             if (!midcom::get()->config->get('show_hidden_objects')) {
                 $this->add_constraint('metadata.hidden', '=', false);
                 $now = strftime('%Y-%m-%d %H:%M:%S');
+                $this->add_constraint('metadata.schedulestart', '<=', $now);
                 $this->begin_group('OR');
-                    $this->add_constraint('metadata.schedulestart', '>', $now);
-                    $this->add_constraint('metadata.schedulestart', '<=', '0001-01-01 00:00:00');
+                    $this->add_constraint('metadata.scheduleend', '>=', $now);
+                    $this->add_constraint('metadata.scheduleend', '<=', '0001-01-01 00:00:00');
                 $this->end_group();
-                $this->add_constraint('metadata.scheduleend', '<', $now);
             }
 
             if (!midcom::get()->config->get('show_unapproved_objects')) {
