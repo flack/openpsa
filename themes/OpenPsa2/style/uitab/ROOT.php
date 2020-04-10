@@ -1,9 +1,3 @@
-<?php
-if (!defined('MIDCOM_STATIC_URL')) {
-    define('MIDCOM_STATIC_URL', '/midcom-static');
-}
-?>
-
 <div class="tab_div">
 <div class="org_openpsa_toolbar">
      <(toolbar-bottom)>

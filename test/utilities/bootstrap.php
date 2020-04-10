@@ -80,9 +80,6 @@ $GLOBALS['midcom_config_local']['attachment_cache_root'] = OPENPSA2_UNITTEST_OUT
 if (!defined('OPENPSA2_PREFIX')) {
     define('OPENPSA2_PREFIX', '/');
 }
-if (! defined('MIDCOM_STATIC_URL')) {
-    define('MIDCOM_STATIC_URL', '/openpsa2-static');
-}
 
 $_SERVER = [
     'HTTP_HOST' => 'localhost',

@@ -3,10 +3,6 @@ $i18n = midcom::get()->i18n;
 $head = midcom::get()->head;
 $context = midcom_core_context::get();
 
-if (!defined('MIDCOM_STATIC_URL')) {
-    define('MIDCOM_STATIC_URL', '/midcom-static');
-}
-
 $pref_found = false;
 $width = midgard_admin_asgard_plugin::get_preference('openpsa2_offset');
 if ($width !== false) {
