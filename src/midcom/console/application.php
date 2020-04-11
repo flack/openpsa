@@ -74,10 +74,6 @@ class application extends base_application
             }
         }
 
-        if (!defined('OPENPSA2_PREFIX')) {
-            define('OPENPSA2_PREFIX', '/');
-        }
-
         $port = $input->getParameterOption(['--port', '-p'], '80');
         $servername = $input->getParameterOption(['--servername', '-s'], md5(__FILE__));
 

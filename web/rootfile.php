@@ -5,13 +5,6 @@ $GLOBALS['midcom_config_local'] = [];
 // Check that the environment is a working one
 midcom_connection::setup(dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
-$prefix = dirname($_SERVER['SCRIPT_NAME']) . '/';
-if (strpos($_SERVER['REQUEST_URI'], $prefix) !== 0) {
-    $prefix = '/';
-}
-$prefix = '/';
-define('OPENPSA2_PREFIX', $prefix);
-
 $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 
 if (file_exists(dirname(__DIR__) . '/config.inc.php')) {

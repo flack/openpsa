@@ -77,10 +77,6 @@ if (   empty($GLOBALS['midcom_config_local']['log_filename'])
 $GLOBALS['midcom_config_local']['attachment_cache_url'] = '/blobcache';
 $GLOBALS['midcom_config_local']['attachment_cache_root'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs';
 
-if (!defined('OPENPSA2_PREFIX')) {
-    define('OPENPSA2_PREFIX', '/');
-}
-
 $_SERVER = [
     'HTTP_HOST' => 'localhost',
     'SERVER_NAME' => 'localhost',
