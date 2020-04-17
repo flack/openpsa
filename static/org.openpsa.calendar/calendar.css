@@ -1,95 +1,33 @@
+.calendar-container {
+    height: 100%;
+}
 #content-text .fc-center h2
 {
     margin: 0;
     font-size: 20px;
 }
 
-.ui-widget-header th
-{
-    border-color: transparent;
-}
-
-.fc-slats .fc-axis,
-.fc-week-number.ui-widget-content,
-.fc-day-grid .fc-axis.ui-widget-content
-{
-    background: #F4F4EF;
-    color: #666;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3)
-}
-.fc-content-skeleton .fc-week-number
-{
-    color: #666;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3)
-}
-
-.fc-agenda-slots .ui-widget-header
-{
-    border-style: solid;
-}
-
-/* workaround for fullcalendar display bug */
-.fc-view-agendaWeek .fc-week-number,
-.fc-view-agendaDay .fc-week-number
-{
-    color: transparent;
-    text-shadow: none;
-}
-
-.ui-widget-content.fc-past
+.fc-past
 {
     background: #fdfcfa;
 }
 
-.ui-widget-content.fc-other-month
+.fc-other-month
 {
     background: #f1f1f0;
 }
 
-.ui-widget-content.fc-other-month.fc-past
+.fc-other-month.fc-past
 {
     background: #f0f0ed;
 }
 
-.ui-widget .fc-event {
-    border: 1px solid #826647;
-    background: #E0C39E;
-    background: linear-gradient(to bottom, #E0C39E 0%, #E0C39E 50%, #DDB585 51%, #DDC5A8 100%);
-    box-shadow: inset 0 0 5px #EFDFBF;
-    text-shadow: 1px 0px 3px rgba(255, 255, 255, 0.7);
-    color: #000000;
-    border-radius: 3px;
-    padding: 1px;
-    margin: 0px;
-    margin-top: 2px;
-    line-height: 16px;
-    font-weight: normal;
-    font-size: 1em
-}
 .fc-event:hover {
     cursor: pointer;
-    background: #EFCFA5;
-    background: linear-gradient(to bottom, #EFCFA5 0%, #E5C599 50%, #DDB67E 51%, #E5C497 100%);
-    box-shadow: inset 0 0 5px #EFDFBF, 1px 1px 2px rgba(0,0,0,.2);
-    border-color: #523617;
 }
 
 .fc-event.private {
-    color: #666;
-    border-color: #993822;
-}
-
-.fc-event.private:hover {
-    background-color: #884631;
-}
-
-.fc-helper-container {
-    opacity: .7
-}
-
-.fc-helper-container .fc-event{
-    border-style: dashed;
-    background: #E0C39E;
+    border: 1px dashed white;
 }
 
 .fc-content
@@ -102,10 +40,6 @@
     padding-right: .4em
 }
 
-.fc-list-heading
-{
-    display: none;
-}
 .fc-list-item-title a
 {
     cursor: pointer;

@@ -24,10 +24,10 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
     {
         $selected_time = time();
         $view = $this->_config->get('start_view');
-        if ($view == 'day') {
-            $view = 'agendaDay';
-        } elseif ($view != 'month') {
-            $view = 'agendaWeek';
+        if (in_array($view, ['day', 'week'])) {
+            $view = 'timeGrid' . ucfirst($view);
+        } elseif ($view == 'month') {
+            $view = 'dayGridMonth';
         }
         return new midcom_response_relocate($this->router->generate('calendar_view_mode_date', [
             'mode' => $view,
@@ -38,10 +38,10 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
     public function _handler_day(string $timestamp, array &$data)
     {
         $date = new DateTime($timestamp);
-        $data['calendar_options'] = $this->get_calendar_options();
+        $data['calendar_options'] = $this->get_calendar_options(['list']);
         $data['calendar_options']['defaultDate'] = $date->format('Y-m-d');
+        $data['calendar_options']['plugins'] = ['list'];
         $data['date'] = $date;
-        org_openpsa_widgets_calendar::add_head_elements();
         return $this->show('show-agenda');
     }
 
@@ -84,14 +84,14 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
         ];
         $this->_view_toolbar->add_items($buttons);
 
-        $data['calendar_options'] = $this->get_calendar_options();
-        org_openpsa_widgets_calendar::add_head_elements();
+        $data['calendar_options'] = $this->get_calendar_options(['daygrid', 'timegrid']);
         midcom::get()->head->enable_jquery_ui(['datepicker']);
         return $this->show('show-calendar');
     }
 
-    private function get_calendar_options() : array
+    private function get_calendar_options(array $views) : array
     {
+        org_openpsa_widgets_calendar::add_head_elements($views);
         $options = [
             'businessHours' => [
                 'start' => $this->_config->get('day_start_time') . ':00',
@@ -101,17 +101,8 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
             'l10n' => ['cancel' => $this->_l10n_midcom->get('cancel')]
         ];
 
-        $prefix = '/org.openpsa.widgets/fullcalendar-3.2.0/';
-        $lang = midcom::get()->i18n->get_current_language();
-        if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js")) {
-            $lang = midcom::get()->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js")) {
-                $lang = false;
-            }
-        }
-
-        if ($lang) {
-            $options['lang'] = $lang;
+        if ($lang = org_openpsa_widgets_calendar::get_lang()) {
+            $options['locale'] = $lang;
         }
 
         return $options;

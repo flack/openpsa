@@ -59,10 +59,6 @@ Es gibt Konflikte mit anderen Terminen. Versuchen sie, die Zeit oder
 die Teilnehmer zu verändern
 ---STRINGEND
 
----STRING events on %s
-Termine am %s
----STRINGEND
-
 ---STRING go to
 Gehe zu
 ---STRINGEND

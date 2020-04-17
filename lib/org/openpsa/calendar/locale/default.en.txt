@@ -62,10 +62,6 @@ Event before
 There was a resource conflict with another event, try changing the time or participants
 ---STRINGEND
 
----STRING events on %s
-Events on %s
----STRINGEND
-
 ---STRING go to
 Go to
 ---STRINGEND

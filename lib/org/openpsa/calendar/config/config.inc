@@ -11,7 +11,7 @@
 
 'day_start_time'   => 8,   // hour 'working day' starts
 'day_end_time'     => 18,  // hour 'working day' ends
-'start_view' => 'week', // which view to start in
+'start_view' => 'dayGridWeek', // which view to start in
 'wiki_title_skeleton' => 'meeting note for %s on %s by %s', //format of wiki page title created from event
 'event_label'       => 'title',
 

@@ -13,29 +13,39 @@
  */
 class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecode
 {
-    public static function add_head_elements()
+    private static $prefix = '/org.openpsa.widgets/fullcalendar-4.4.0/';
+
+    public static function add_head_elements(array $views)
     {
         $head = midcom::get()->head;
-        $prefix = '/org.openpsa.widgets/fullcalendar-3.10.0/';
-        $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . 'lib/moment.min.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . 'fullcalendar.min.js');
-
-        $lang = midcom::get()->i18n->get_current_language();
-        if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js")) {
-            $lang = midcom::get()->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js")) {
-                $lang = false;
-            }
+        $head->add_jsfile(MIDCOM_STATIC_URL . self::$prefix . 'core/main.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . self::$prefix . 'interaction/main.min.js');
+        foreach ($views as $view) {
+            $head->add_jsfile(MIDCOM_STATIC_URL . self::$prefix . $view . '/main.min.js');
+        }
+        if ($lang = self::get_lang()) {
+            $head->add_jsfile(MIDCOM_STATIC_URL . self::$prefix . "core/locales/{$lang}.js");
         }
 
-        if ($lang) {
-            $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . "locale/{$lang}.js");
+        $head->add_stylesheet(MIDCOM_STATIC_URL . self::$prefix . 'core/main.min.css');
+        foreach ($views as $view) {
+            $head->add_stylesheet(MIDCOM_STATIC_URL . self::$prefix . $view . '/main.min.css');
         }
-
-        $head->add_stylesheet(MIDCOM_STATIC_URL . $prefix . 'fullcalendar.min.css');
-        $head->add_stylesheet(MIDCOM_STATIC_URL . $prefix . 'fullcalendar.print.min.css', 'print');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.css');
 
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
+    }
+
+    public static function get_lang() : ?string
+    {
+        $lang = midcom::get()->i18n->get_current_language();
+        if (file_exists(MIDCOM_STATIC_ROOT . self::$prefix . "core/locales/{$lang}.js")) {
+            return $lang;
+        }
+        $lang = midcom::get()->i18n->get_fallback_language();
+        if (file_exists(MIDCOM_STATIC_ROOT . self::$prefix . "core/locales/{$lang}.js")) {
+            return $lang;
+        }
+        return null;
     }
 }

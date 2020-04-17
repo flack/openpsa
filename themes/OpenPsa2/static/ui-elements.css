@@ -840,16 +840,10 @@ table.link_statistics td.bargraph div.link_count_visualization
 
 .normal .ui-jqgrid-hbox .ui-state-default,
 .good .ui-jqgrid-hbox .ui-state-default,
-.bad .ui-jqgrid-hbox .ui-state-default,
-.fc-view .ui-widget-header
+.bad .ui-jqgrid-hbox .ui-state-default
 {
     color: white;
     text-shadow: 1px 1px rgba(0, 0, 0, .2);
-}
-
-.fc-view .ui-widget-header a
-{
-    color: white;
 }
 
 .normal .ui-jqgrid-hbox .ui-jqgrid-htable .fa::before,
@@ -859,8 +853,7 @@ table.link_statistics td.bargraph div.link_count_visualization
     color: white;
 }
 
-.normal .ui-jqgrid-view .ui-jqgrid-labels,
-.fc-view .ui-widget-header
+.normal .ui-jqgrid-view .ui-jqgrid-labels
 {
     background: #5282bc; /* Old browsers */
     background: -ms-linear-gradient(top, #5282bc 0%,#4e7ab8 56%,#326396 100%); /* IE10+ */

@@ -1,12 +1,13 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$data['calendar_options']['defaultView'] = 'list';
-$data['calendar_options']['header'] = false;
+$data['calendar_options']['defaultView'] = 'listWeek';
 $data['calendar_options']['navLinks'] = false;
+$data['calendar_options']['header'] = false;
+$nap = new midcom_helper_nav;
+$node = $nap->get_node($nap->get_current_node());
+$url = $node[MIDCOM_NAV_ABSOLUTEURL] . 'timeGridWeek/' . $data['calendar_options']['defaultDate'] . '/';
 ?>
-
-<h2><?php printf($data['l10n']->get('events on %s'), $data['l10n']->get_formatter()->date($data['date'], 'full')); ?></h2>
-
+<h2><a href="&(url);">&(node[MIDCOM_NAV_NAME]);</a></h2>
 <div id="org_openpsa_calendar_widget">
 </div>
 

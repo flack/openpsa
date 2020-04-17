@@ -70,10 +70,6 @@ idő
 Rendelkezésre álló idő rubrika
 ---STRINGEND
 
----STRING events on %s
-%s eseményei
----STRINGEND
-
 ---STRING meeting note for %s on %s by %s
 %s számára jegyzet a %s napi találkozóról %s által
 ---STRINGEND

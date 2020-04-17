@@ -43,14 +43,13 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
             }
         }
         if ($query->has('start')) {
-            $defaults['start'] = strtotime($query->get('start'));
+            $defaults['start'] = strtotime(substr($query->get('start'), 0, 19)) + 1;
             if ($query->has('end')) {
-                $defaults['end']= strtotime($query->get('end'));
+                $defaults['end']= strtotime(substr($query->get('end'), 0, 19));
             } else {
                 $defaults['end'] = $defaults['start'] + 3600;
             }
         }
-
         $schemadb = schemadb::from_path($this->_config->get('schemadb'));
         foreach ($schemadb->all() as $schema) {
             $schema->set('validation', [['callback' => [$conflictmanager, 'validate_form']]]);

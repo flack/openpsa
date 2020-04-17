@@ -38,10 +38,6 @@ Seuraava varaus
 Edellinen varaus
 ---STRINGEND
 
----STRING events on %s
-Kalenterissa %s
----STRINGEND
-
 ---STRING go to
 Mene ajankohtaan
 ---STRINGEND
