@@ -283,7 +283,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      *
      * @var Array
      */
-    public $_handler;
+    private $_handler;
 
     /**
      * Initializes the class, only basic variable assignment.
@@ -329,8 +329,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
 
         // Check if we need to start up a plugin.
         if (   count($argv) > 1
-            && array_key_exists($argv[0], self::$_plugin_namespace_config)
-            && array_key_exists($argv[1], self::$_plugin_namespace_config[$argv[0]])) {
+            && !empty(self::$_plugin_namespace_config[$argv[0]][$argv[1]])) {
             $namespace = array_shift($argv);
             $name = array_shift($argv);
             $prefix .= $namespace . '/' . $name . '/';
@@ -375,13 +374,9 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
     private function _prepare_handler(array $request)
     {
         $this->_handler =& $request;
-        $args = [];
-        foreach ($request as $name => $value) {
-            if (substr($name, 0, 1) !== '_') {
-                $args[] = $value;
-            }
-        }
-        $request['args'] = $args;
+        $request['args'] = array_values(array_filter($request, function($name) {
+            return substr($name, 0, 1) !== '_';
+        }, ARRAY_FILTER_USE_KEY));
 
         if (strpos($request['_controller'], '::') === false) {
             // Support for handlers in request class (deprecated)
@@ -532,11 +527,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
 
         // Load the configuration into the request data, add the configured plugin name as
         // well so that URLs can be built.
-        if (array_key_exists('config', $plugin_config)) {
-            $this->_request_data['plugin_config'] = $plugin_config['config'];
-        } else {
-            $this->_request_data['plugin_config'] = null;
-        }
+        $this->_request_data['plugin_config'] = $plugin_config['config'] ?? null;
         $this->_request_data['plugin_name'] = $name;
 
         // Load remaining configuration, and prepare the plugin,
