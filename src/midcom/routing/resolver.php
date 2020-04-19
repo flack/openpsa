@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use midcom;
 use midcom_error_forbidden;
 use midcom_error_notfound;
+use midcom_baseclasses_components_viewer;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
@@ -111,11 +112,9 @@ class resolver
         $viewer = $component_interface->get_viewer($topic);
 
         // Make can_handle check
-        $result = $viewer->get_handler($this->request);
-        if (!$result) {
-            debug_add("Component {$topic->component} in {$topic->name} declared unable to handle request.", MIDCOM_LOG_INFO);
-            throw new midcom_error_notfound("This page is not available on this server.");
-        }
+        $result = $this->get_handler($viewer);
+        $viewer->prepare_handler($result);
+
         $this->context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
 
         foreach ($result as $key => $value) {
@@ -128,5 +127,47 @@ class resolver
             $this->request->attributes->set($key, $value);
         }
         $viewer->handle();
+    }
+
+    /**
+     * Checks against all registered handlers if a valid one can be found.
+     */
+    private function get_handler(midcom_baseclasses_components_viewer $viewer) : array
+    {
+        $argv = $this->request->attributes->get('argv', []);
+        $prefix = $this->context->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+
+        // Check if we need to start up a plugin.
+        if (   count($argv) > 1
+            && $config = plugin::get_config($argv[0], $argv[1])) {
+            $namespace = array_shift($argv);
+            $name = array_shift($argv);
+            $prefix .= $namespace . '/' . $name . '/';
+            debug_add("Loading the plugin {$namespace}/{$name}");
+            $viewer->load_plugin($name, new $config['class'], $config);
+        }
+
+        $url = '/';
+        if (!empty($argv)) {
+            $url .= implode('/', $argv) . '/';
+        }
+        $router = $viewer->get_router();
+        $router->getContext()
+            ->fromRequest($this->request)
+            ->setBaseUrl(substr($prefix, 0, -1));
+
+        try {
+            $result = $router->match($url);
+        } catch (ResourceNotFoundException $e) {
+            // No match
+            debug_add("Component {$viewer->_component} in {$viewer->_topic->name} declared unable to handle request.", MIDCOM_LOG_INFO);
+            throw new midcom_error_notfound("This page is not available on this server.");
+        }
+
+        $result['args'] = array_values(array_filter($result, function($name) {
+            return substr($name, 0, 1) !== '_';
+        }, ARRAY_FILTER_USE_KEY));
+
+        return $result;
     }
 }

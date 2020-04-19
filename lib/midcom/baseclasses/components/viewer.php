@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
 use midcom\routing\resolver;
+use midcom\routing\plugin;
 
 /**
  * Base class to encapsulate the component's routing, instantiated by the MidCOM
@@ -138,69 +139,6 @@ use midcom\routing\resolver;
  * The two methods for each handler have the same signature as if they were in the
  * same class.
  *
- *
- * <b>Plugin Interface</b>
- *
- * This class includes a plugin system which can be used to flexibly enhance the
- * functionality of the request classes by external sources. Your component does
- * not have to worry about this, you just have to provide a way to register plugins
- * to site authors.
- *
- * Plugins always come in "packages", which are assigned to a namespace. The namespace
- * is used to separate various plugins from each other, it is prepended before any
- * URL. Within a plugin you can register one or more handler classes. Each of this
- * classes can of course define more than one request handler.
- *
- * A plugin class must be a descendant of midcom_baseclasses_components_handler or at
- * least support its full interface.
- *
- * As outlined above, plugins are managed in a two-level hierarchy. First, there is
- * the plugin identifier, second the class identifier. When registering a plugin,
- * these two are specified. The request handlers obtained by the above callback are
- * automatically expanded to match the plugin namespace.
- *
- * <i>Example: Plugin registration</i>
- *
- * <code>
- * $this->register_plugin_namespace(
- *     '__ais', [
- *         'folder' => [
- *             'class' => 'midcom_admin_folder_management',
- *             'config' => null,
- *         ],
- *     ]
- * );
- * </code>
- *
- * The first argument of this call identifies the plugin namespace, the second
- * the list of classes associated with this plugin. Each class gets its own
- * identifier. The namespace and class identifier is used to construct the
- * final plugin URL: {$anchor_prefix}/{$namespace}/{$class_identifier}/...
- * This gives fully unique URL namespaces to all registered plugins.
- *
- * Plugin handlers always last in queue, so they won't override component handlers.
- * Their name is prefixed with __{$namespace}-{$class_identifier} to ensure
- * uniqueness.
- *
- * Each class must have these options:
- *
- * - class: The name of the class to use
- * - src: The source URL of the plugin class. This can be either a file:/...
- *   URL which is relative to MIDCOM_ROOT, snippet:/... which identifies an
- *   arbitrary snippet, or finally, component:...
- *   which will load the component specified. This is only used if the class
- *   is not yet available.
- * - name: This is the clear-text name of the plugin.
- * - config: This is an optional configuration argument, allows for customization.
- *   May be omitted, in which case it defaults to null.
- *
- * Once a plugin has been successfully initialized, its configuration is put
- * into the request data:
- *
- * - mixed plugin_config: The configuration passed to the plugin as outlined
- *   above.
- * - string plugin_name: The name of the plugin as defined in its config
- *
  * @package midcom.baseclasses
  */
 class midcom_baseclasses_components_viewer extends midcom_baseclasses_components_base
@@ -246,17 +184,8 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
     public $_view_toolbar;
 
     /**
-     * This variable keeps track of the registered plugin namespaces. It maps namespace
-     * identifiers against plugin config lists. This is used during can_handle startup
-     * to determine whether the request has to be relayed to a plugin.
-     *
-     * You have to use the register_plugin_namespace() member function during the
-     * _on_initialize event to register plugin namespaces.
-     *
-     * @var array
+     * @var midcom_baseclasses_components_plugin
      */
-    private static $_plugin_namespace_config = [];
-
     private $active_plugin;
 
     /**
@@ -305,63 +234,16 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
         $this->_request_data['l10n'] = $this->_l10n;
         $this->_request_data['l10n_midcom'] = $this->_l10n_midcom;
 
-        if (empty(self::$_plugin_namespace_config)) {
-            $this->_register_core_plugin_namespaces();
-        }
-
         $loader = new loader;
         $this->_request_switch = $loader->get_legacy_routes($component);
 
         $this->_on_initialize();
-        $this->router = $this->get_router();
+        $this->router = resolver::get_router($this->_component, $this->_request_switch);
     }
 
-    /**
-     * Checks against all registered handlers if a valid one can be found.
-     *
-     * @param Request $request The request object
-     * @return array|false Handler data or null on failure
-     */
-    public function get_handler(Request $request)
+    public function get_router() : Router
     {
-        $argv = $request->attributes->get('argv', []);
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
-        // Check if we need to start up a plugin.
-        if (   count($argv) > 1
-            && !empty(self::$_plugin_namespace_config[$argv[0]][$argv[1]])) {
-            $namespace = array_shift($argv);
-            $name = array_shift($argv);
-            $prefix .= $namespace . '/' . $name . '/';
-            $this->_load_plugin($namespace, $name);
-        }
-
-        $url = '/';
-        if (!empty($argv)) {
-            $url .= implode('/', $argv) . '/';
-        }
-        $this->router->getContext()
-            ->fromRequest($request)
-            ->setBaseUrl(substr($prefix, 0, -1));
-        try {
-            $result = $this->router->match($url);
-            $this->_prepare_handler($result);
-            return $this->_handler;
-        } catch (ResourceNotFoundException $e) {
-            // No match
-            return false;
-        }
-    }
-
-    /**
-     * @param string $component
-     */
-    public function get_router($component = null) : Router
-    {
-        if ($component === null) {
-            return resolver::get_router($this->_component, $this->_request_switch);
-        }
-        return resolver::get_router($component);
+        return $this->router;
     }
 
     /**
@@ -371,12 +253,9 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      * @param array $request
      * @throws midcom_error
      */
-    private function _prepare_handler(array $request)
+    public function prepare_handler(array &$request)
     {
         $this->_handler =& $request;
-        $request['args'] = array_values(array_filter($request, function($name) {
-            return substr($name, 0, 1) !== '_';
-        }, ARRAY_FILTER_USE_KEY));
 
         if (strpos($request['_controller'], '::') === false) {
             // Support for handlers in request class (deprecated)
@@ -397,7 +276,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
 
         //For plugins, set the component name explicitly so that L10n and config can be found
         if (!empty($this->active_plugin)) {
-            $request['handler'][0]->_component = $this->active_plugin;
+            $request['handler'][0]->_component = $this->active_plugin->_component;
         }
 
         $request['handler'][0]->initialize($this, $this->router);
@@ -500,10 +379,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      */
     public function register_plugin_namespace(string $namespace, array $config)
     {
-        if (array_key_exists($namespace, self::$_plugin_namespace_config)) {
-            throw new midcom_error("Tried to register the plugin namespace {$namespace}, but it is already registered.");
-        }
-        self::$_plugin_namespace_config[$namespace] = $config;
+        plugin::register_namespace($namespace, $config);
     }
 
     /**
@@ -516,61 +392,17 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      *     This will make things more performant and integration with other components
      *     much easier.
      */
-    private function _load_plugin(string $namespace, string $name)
+    public function load_plugin(string $name, midcom_baseclasses_components_plugin $plugin, array $config)
     {
-        debug_add("Loading the plugin {$namespace}/{$name}");
-        $plugin_config = self::$_plugin_namespace_config[$namespace][$name];
-
-        if (empty($plugin_config['class']) || !class_exists($plugin_config['class'])) {
-            throw new midcom_error("Failed to load the plugin {$namespace}/{$name}, implementation class not available.");
-        }
-
         // Load the configuration into the request data, add the configured plugin name as
         // well so that URLs can be built.
-        $this->_request_data['plugin_config'] = $plugin_config['config'] ?? null;
+        $this->_request_data['plugin_config'] = $config['config'] ?? null;
         $this->_request_data['plugin_name'] = $name;
 
         // Load remaining configuration, and prepare the plugin,
         // errors are logged by the callers.
-        $plugin = new $plugin_config['class']();
-        $this->router = $this->get_router($plugin->_component);
+        $this->router = resolver::get_router($plugin->_component);
         $plugin->initialize($this, $this->router);
-        $this->active_plugin = $plugin->_component;
-    }
-
-    /**
-     * Register the plugin namespaces provided from MidCOM core.
-     */
-    private function _register_core_plugin_namespaces()
-    {
-        $this->register_plugin_namespace(
-            '__ais', [
-                'folder' => [
-                    'class' => midcom_admin_folder_management::class,
-                ],
-                'rcs' => [
-                    'class' => midcom_admin_rcs_plugin::class,
-                ],
-                'imagepopup' => [
-                    'class' => midcom_helper_imagepopup_viewer::class,
-                ],
-                'help' => [
-                    'class' => midcom_admin_help_help::class,
-                ],
-            ]
-        );
-
-        // Load plugins registered via component manifests
-        $plugins = midcom::get()->componentloader->get_all_manifest_customdata('request_handler_plugin');
-        $plugins['asgard'] = [
-            'class' => midgard_admin_asgard_plugin::class,
-        ];
-
-        $customdata = midcom::get()->componentloader->get_all_manifest_customdata('asgard_plugin');
-        foreach ($customdata as $component => $plugin_config) {
-            $plugins["asgard_{$component}"] = $plugin_config;
-        }
-
-        $this->register_plugin_namespace('__mfa', $plugins);
+        $this->active_plugin = $plugin;
     }
 }
