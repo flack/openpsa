@@ -20,6 +20,7 @@ use midcom\console\command\repligard;
 use midcom\console\command\reindex;
 use midcom\console\command\cron;
 use midcom;
+use midcom\console\command\cacheinvalidate;
 
 /**
  * OpenPSA CLI command runner
@@ -47,6 +48,7 @@ class application extends base_application
         $this->add(new rcsdircleanup);
         $this->add(new reindex);
         $this->add(new cron);
+        $this->add(new cacheinvalidate);
     }
 
     /**
