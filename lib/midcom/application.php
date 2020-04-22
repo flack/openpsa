@@ -11,8 +11,6 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\Config\FileLocator;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -86,8 +84,7 @@ class midcom_application extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(function (ContainerBuilder $container) use ($loader) {
-            $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/config'));
-            $loader->load('services.yml');
+            $loader->load(__DIR__ . '/config/services.yml');
             midcom_exception_handler::register();
         });
     }
