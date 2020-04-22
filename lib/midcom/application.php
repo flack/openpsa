@@ -8,7 +8,11 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpKernel\HttpKernel;
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Config\FileLocator;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -33,7 +37,7 @@ use Symfony\Component\HttpKernel\HttpKernel;
  * @property midcom_debug $debug
  * @package midcom
  */
-class midcom_application
+class midcom_application extends Kernel
 {
     /**
      * Host prefix cache to avoid computing it each time.
@@ -57,11 +61,6 @@ class midcom_application
     private $request;
 
     /**
-     * @var HttpKernel
-     */
-    private $httpkernel;
-
-    /**
      * Set this variable to true during the handle phase of your component to
      * not show the site's style around the component output. This is mainly
      * targeted at XML output like RSS feeds and similar things. The output
@@ -75,12 +74,40 @@ class midcom_application
      */
     public $skip_page_style = false;
 
-    public function __construct(HttpKernel $httpkernel)
+    private $project_dir;
+
+    public function __construct(string $environment, bool $debug)
     {
-        $this->httpkernel = $httpkernel;
         midcom_compat_environment::initialize();
-        midcom_exception_handler::register($httpkernel);
         $this->request = Request::createFromGlobals();
+        parent::__construct($environment, $debug);
+    }
+
+    public function registerContainerConfiguration(LoaderInterface $loader)
+    {
+        $loader->load(function (ContainerBuilder $container) use ($loader) {
+            $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/config'));
+            $loader->load('services.yml');
+            midcom_exception_handler::register();
+        });
+    }
+
+    public function registerBundles()
+    {
+        return [];
+    }
+
+    public function getProjectDir()
+    {
+        if ($this->project_dir === null) {
+            if (basename(dirname(__DIR__, 4)) === 'vendor') {
+                // this is the case where we're installed as a dependency
+                $this->project_dir = dirname(__DIR__, 5);
+            } else {
+                $this->project_dir = dirname(__DIR__, 2);
+            }
+        }
+        return $this->project_dir;
     }
 
     /**
@@ -113,7 +140,7 @@ class midcom_application
      */
     public function codeinit()
     {
-        $this->httpkernel->handle($this->request)->send();
+        $this->handle($this->request)->send();
     }
 
     /**
@@ -164,7 +191,7 @@ class midcom_application
         $backup = $this->skip_page_style;
         $this->skip_page_style = true;
         try {
-            $response = $this->httpkernel->handle($request, HttpKernelInterface::SUB_REQUEST, false);
+            $response = $this->handle($request, HttpKernelInterface::SUB_REQUEST, false);
         } catch (midcom_error $e) {
             if ($e instanceof midcom_error_notfound || $e instanceof midcom_error_forbidden) {
                 $e->log();

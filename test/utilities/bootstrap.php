@@ -94,10 +94,11 @@ midcom::register_service_class('session', mock_sessioning::class);
 
 // This is a bit awkward, but makes life simpler until we've transitioned more fully to the
 // httpkernel infrastructure
-$GLOBALS['kernel'] = midcom::init();
+$GLOBALS['kernel'] = midcom::init('test', true);
 
 // Clean up residue cache entries from previous runs
 midcom::get()->cache->invalidate_all();
+$GLOBALS['kernel']->reboot(null);
 // If the test's config accesses midcom::get() in some way, components
 // may have already been loaded into memory. So load them again to be sure we have
 // the most current set

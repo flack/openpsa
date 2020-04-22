@@ -1,0 +1,27 @@
+services:
+    subscriber:
+        class: midcom\httpkernel\subscriber
+
+    streamed_response_listener:
+        class: Symfony\Component\HttpKernel\EventListener\StreamedResponseListener
+
+    event_dispatcher:
+        class:  midcom\events\dispatcher
+        public: true
+        calls:
+            - [addSubscriber, ['@subscriber']]
+            - [addSubscriber, ['@streamed_response_listener']]
+
+    controller_resolver:
+        class:  Symfony\Component\HttpKernel\Controller\ControllerResolver
+
+    request_stack:
+        class: Symfony\Component\HttpFoundation\RequestStack
+
+    arguments_resolver:
+        class: Symfony\Component\HttpKernel\Controller\ArgumentResolver
+
+    http_kernel:
+        class: Symfony\Component\HttpKernel\HttpKernel
+        arguments: ['@event_dispatcher', '@controller_resolver', '@request_stack', '@arguments_resolver']
+        public: true

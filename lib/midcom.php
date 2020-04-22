@@ -6,14 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\events\dispatcher;
-use Symfony\Component\HttpKernel\Controller\ControllerResolver;
-use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
-use Symfony\Component\HttpKernel\HttpKernel;
-use Symfony\Component\HttpFoundation\RequestStack;
-use midcom\httpkernel\subscriber;
-use Symfony\Component\HttpKernel\EventListener\StreamedResponseListener;
-
 /**
  * @package midcom
  */
@@ -53,7 +45,6 @@ class midcom
         'config' => midcom_config::class,
         'dbclassloader' => midcom_services_dbclassloader::class,
         'dbfactory' => midcom_helper__dbfactory::class,
-        'dispatcher' => dispatcher::class,
         'debug' => midcom_debug::class,
         'head' => midcom_helper_head::class,
         'i18n' => midcom_services_i18n::class,
@@ -70,7 +61,7 @@ class midcom
     /**
      * @throws midcom_error
      */
-    public static function init() : HttpKernel
+    public static function init(string $environment = 'prod', bool $debug = false) : midcom_application
     {
         ///////////////////////////////////
         // Try to be smart about the paths:
@@ -95,16 +86,10 @@ class midcom
             define('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../var/themes/');
         }
 
-        self::$_services['dispatcher'] = new dispatcher;
-        self::$_services['dispatcher']->addSubscriber(new subscriber);
-        self::$_services['dispatcher']->addSubscriber(new StreamedResponseListener);
-        $c_resolver = new ControllerResolver;
-        $a_resolver = new ArgumentResolver;
-        $kernel = new HttpKernel(self::$_services['dispatcher'], $c_resolver, new RequestStack, $a_resolver);
-
         // Instantiate the MidCOM main class
-        self::$_application = new midcom_application($kernel);
-        return $kernel;
+        self::$_application = new midcom_application($environment, $debug);
+        self::$_application->boot();
+        return self::$_application;
     }
 
     /**
@@ -124,6 +109,10 @@ class midcom
 
         if (null === $name) {
             return self::$_application;
+        }
+
+        if ($name === 'dispatcher') {
+            return self::$_application->getContainer()->get('event_dispatcher');
         }
 
         if (!isset(self::$_services[$name])) {

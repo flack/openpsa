@@ -9,6 +9,7 @@
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use midcom\events\dbaevent;
 use midgard\portable\storage\connection;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * This class is the central access point for all registered caching services. Currently
@@ -139,7 +140,9 @@ class midcom_services_cache implements EventSubscriberInterface
             debug_add("Invalidating the cache module {$name} completely.");
             $module->invalidate_all();
         }
-        array_map('unlink', glob(midcom::get()->config->get('cache_base_directory') . 'routing/*/*'));
+        $fs = new Filesystem;
+        $fs->remove([midcom::get()->getCacheDir(), midcom::get()->config->get('cache_base_directory') . 'routing']);
+
         connection::invalidate_cache();
     }
 

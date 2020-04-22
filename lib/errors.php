@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -26,25 +25,13 @@ class midcom_exception_handler
     private $_exception;
 
     /**
-     * @var HttpKernel
-     */
-    private $kernel;
-
-    /**
      * Register the error and Exception handlers
      */
-    public static function register(HttpKernel $kernel)
+    public static function register()
     {
         if (!defined('OPENPSA2_UNITTEST_RUN')) {
-            $handler = new self;
-            $handler->set_kernel($kernel);
-            set_exception_handler([$handler, 'handle_exception']);
+            set_exception_handler([new self, 'handle_exception']);
         }
-    }
-
-    public function set_kernel(HttpKernel $kernel)
-    {
-        $this->kernel = $kernel;
     }
 
     /**
@@ -56,7 +43,7 @@ class midcom_exception_handler
     public function handle_exception($error)
     {
         if ($error instanceof Error) {
-            $this->kernel->terminateWithException($error);
+            midcom::get()->getHttpkernel()->terminateWithException($error);
         } else {
             throw $error;
         }
