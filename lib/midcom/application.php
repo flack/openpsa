@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -83,10 +82,8 @@ class midcom_application extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(function (ContainerBuilder $container) use ($loader) {
-            $loader->load(__DIR__ . '/config/services.yml');
-            midcom_exception_handler::register();
-        });
+        $loader->load(__DIR__ . '/config/services.yml');
+        midcom_exception_handler::register();
     }
 
     public function registerBundles()
