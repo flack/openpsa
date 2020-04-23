@@ -66,15 +66,6 @@ class application extends base_application
         }
 
         $GLOBALS['midcom_config_local']['cache_module_content_uncached'] = true;
-        if (!defined('MIDCOM_ROOT')) {
-            if (file_exists(OPENPSA_PROJECT_BASEDIR . 'lib/midcom.php')) {
-                define('MIDCOM_ROOT', OPENPSA_PROJECT_BASEDIR . 'lib');
-            } elseif (file_exists(OPENPSA_PROJECT_BASEDIR . 'vendor/openpsa/midcom/lib/midcom.php')) {
-                define('MIDCOM_ROOT', OPENPSA_PROJECT_BASEDIR . 'vendor/openpsa/midcom/lib');
-            } else {
-                throw new \Exception('Could not find midcom root');
-            }
-        }
 
         $port = $input->getParameterOption(['--port', '-p'], '80');
         $servername = $input->getParameterOption(['--servername', '-s'], md5(__FILE__));

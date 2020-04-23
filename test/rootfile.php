@@ -29,10 +29,5 @@ if (file_exists(OPENPSA_TEST_ROOT . 'config.inc.php')) {
     include OPENPSA_TEST_ROOT . '../config-default.inc.php';
 }
 
-// Path to the MidCOM environment
-if (!defined('MIDCOM_ROOT')) {
-    define('MIDCOM_ROOT', realpath(OPENPSA_TEST_ROOT . '/../lib'));
-}
-
 //Get required helpers
 require_once OPENPSA_TEST_ROOT . '/utilities/bootstrap.php';
