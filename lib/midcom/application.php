@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -83,6 +84,13 @@ class midcom_application extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__ . '/config/services.yml');
+        if ($classes = midcom::get_registered_service_classes()) {
+            $loader->load(function (ContainerBuilder $container) use ($classes) {
+                foreach ($classes as $id => $class) {
+                    $container->findDefinition($id)->setClass($class);
+                }
+            });
+        }
         midcom_exception_handler::register();
     }
 
@@ -109,7 +117,7 @@ class midcom_application extends Kernel
      */
     public function __get($key)
     {
-        return midcom::get($key);
+        return $this->getContainer()->get($key);
     }
 
     /**
@@ -117,7 +125,7 @@ class midcom_application extends Kernel
      */
     public function __set($key, $value)
     {
-        midcom::get()->$key = $value;
+        $this->getContainer()->set($key, $value);
     }
 
     /* *************************************************************************

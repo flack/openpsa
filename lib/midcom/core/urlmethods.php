@@ -114,9 +114,9 @@ class midcom_core_urlmethods
                 midcom::get()->auth->require_valid_user('basic');
                 midcom::get()->auth->require_admin_user();
             }
+            $l10n = midcom::get()->i18n->get_l10n('midcom');
             midcom::get()->cache->content->enable_live_mode();
             midcom::get()->cache->invalidate_all();
-            $l10n = midcom::get()->i18n->get_l10n('midcom');
             midcom::get()->uimessages->add($l10n->get('MidCOM'), $l10n->get('cache invalidation successful'), 'info');
 
             $url = $request->server->get('HTTP_REFERER') ?: midcom_connection::get_url('self');

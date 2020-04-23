@@ -7,10 +7,13 @@ services:
 
     event_dispatcher:
         class:  midcom\events\dispatcher
-        public: true
         calls:
             - [addSubscriber, ['@subscriber']]
             - [addSubscriber, ['@streamed_response_listener']]
+
+    dispatcher:
+        alias: event_dispatcher
+        public: true
 
     controller_resolver:
         class:  Symfony\Component\HttpKernel\Controller\ControllerResolver
@@ -24,4 +27,72 @@ services:
     http_kernel:
         class: Symfony\Component\HttpKernel\HttpKernel
         arguments: ['@event_dispatcher', '@controller_resolver', '@request_stack', '@arguments_resolver']
+        public: true
+
+    auth:
+        class: midcom_services_auth
+        public: true
+
+    componentloader:
+        class: midcom_helper__componentloader
+        public: true
+
+    cache:
+        class: midcom_services_cache
+        public: true
+
+    config:
+        class: midcom_config
+        public: true
+
+    dbclassloader:
+        class: midcom_services_dbclassloader
+        public: true
+
+    dbfactory:
+        class: midcom_helper__dbfactory
+        public: true
+
+    debug:
+       class:  midcom_debug
+       public: true
+
+    head:
+        class: midcom_helper_head
+        public: true
+
+    i18n:
+        class: midcom_services_i18n
+        public: true
+
+    indexer:
+        class: midcom_services_indexer
+        public: true
+
+    metadata:
+        class: midcom_services_metadata
+        public: true
+
+    permalinks:
+        class: midcom_services_permalinks
+        public: true
+
+    rcs:
+        class: midcom_services_rcs
+        public: true
+
+    session:
+        class: midcom_services__sessioning
+        public: true
+
+    style:
+        class: midcom_helper__styleloader
+        public: true
+
+    toolbars:
+        class: midcom_services_toolbars
+        public: true
+
+    uimessages:
+        class: midcom_services_uimessages
         public: true

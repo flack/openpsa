@@ -26,37 +26,9 @@ class midcom
     private static $_application;
 
     /**
-     * This is the interface to MidCOMs Object Services.
-     *
-     * Each service is indexed by its string-name (for example "i18n"
-     * for all i18n stuff).
-     *
-     * @var Array
-     */
-    private static $_services = [];
-
-    /**
      * Mapping of service names to classes implementing the service
      */
-    private static $_service_classes = [
-        'auth' => midcom_services_auth::class,
-        'componentloader' => midcom_helper__componentloader::class,
-        'cache' => midcom_services_cache::class,
-        'config' => midcom_config::class,
-        'dbclassloader' => midcom_services_dbclassloader::class,
-        'dbfactory' => midcom_helper__dbfactory::class,
-        'debug' => midcom_debug::class,
-        'head' => midcom_helper_head::class,
-        'i18n' => midcom_services_i18n::class,
-        'indexer' => midcom_services_indexer::class,
-        'metadata' => midcom_services_metadata::class,
-        'permalinks' => midcom_services_permalinks::class,
-        'rcs' => midcom_services_rcs::class,
-        'session' => midcom_services__sessioning::class,
-        'style' => midcom_helper__styleloader::class,
-        'toolbars' => midcom_services_toolbars::class,
-        'uimessages' => midcom_services_uimessages::class,
-    ];
+    private static $_service_classes = [];
 
     /**
      * @throws midcom_error
@@ -111,34 +83,24 @@ class midcom
             return self::$_application;
         }
 
-        if ($name === 'dispatcher') {
-            return self::$_application->getContainer()->get('event_dispatcher');
-        }
-
-        if (!isset(self::$_services[$name])) {
-            if (!isset(self::$_service_classes[$name])) {
-                throw new midcom_error("Requested service '$name' is not available.");
-            }
-            $service_class = self::$_service_classes[$name];
-            self::$_services[$name] = new $service_class;
-        }
-        return self::$_services[$name];
+        return self::$_application->getContainer()->get($name);
     }
 
     /**
      * Register a service class
      *
      * (Experimental, use with caution)
-     *
-     * @param string $name
-     * @param string $class
-     * @throws midcom_error
      */
-    public static function register_service_class($name, $class)
+    public static function register_service_class(string $name, string $class)
     {
-        if (isset(self::$_services[$name])) {
-            throw new midcom_error("Can't change service $name after initialization");
-        }
         self::$_service_classes[$name] = $class;
+    }
+
+    /**
+     * @internal
+     */
+    public static function get_registered_service_classes() : array
+    {
+        return self::$_service_classes;
     }
 }
