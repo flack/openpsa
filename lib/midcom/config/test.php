@@ -53,7 +53,7 @@ class midcom_config_test
         $this->section = 'midcom';
 
         // Validate the Cache Base Directory.
-        $cachedir = midcom::get()->config->get('cache_base_directory');
+        $cachedir = midcom::get()->getCacheDir();
         if (!is_dir($cachedir)) {
             $this->add('MidCOM cache base directory', self::ERROR, "The configured MidCOM cache base directory ({$cachedir}) does not exist or is not a directory. You have to create it as a directory writable by the Apache user.");
         } elseif (!is_writable($cachedir)) {

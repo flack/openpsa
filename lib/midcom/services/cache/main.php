@@ -141,7 +141,7 @@ class midcom_services_cache implements EventSubscriberInterface
             $module->invalidate_all();
         }
         $fs = new Filesystem;
-        $fs->remove([midcom::get()->getCacheDir(), midcom::get()->config->get('cache_base_directory') . 'routing']);
+        $fs->remove([midcom::get()->getCacheDir()]);
         // see https://github.com/symfony/symfony/pull/36540
         opcache_reset();
 

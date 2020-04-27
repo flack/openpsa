@@ -42,7 +42,7 @@ services:
         public: true
 
     config:
-        class: midcom_config
+        synthetic: true
         public: true
 
     dbclassloader:

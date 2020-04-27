@@ -88,9 +88,9 @@ abstract class midcom_services_cache_module
 
     private function prepare_backend(array $config, string $name) : CacheProvider
     {
-        $directory = midcom::get()->config->get('cache_base_directory');
+        $directory = midcom::get()->getCacheDir();
         if (!empty($config['directory'])) {
-            $directory .= $config['directory'];
+            $directory .= '/' . $config['directory'];
         }
         $memcache_operational = false;
         switch ($config['driver']) {
@@ -112,7 +112,7 @@ abstract class midcom_services_cache_module
                 // fall-through
             case 'dba':
             case 'flatfile':
-                $backend = new Cache\FilesystemCache($directory . $name);
+                $backend = new Cache\FilesystemCache($directory . '/' . $name);
                 break;
             case 'sqlite':
                 $sqlite = new SQLite3("{$directory}/{$name}.db");

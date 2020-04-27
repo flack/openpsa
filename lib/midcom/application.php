@@ -74,10 +74,16 @@ class midcom_application extends Kernel
 
     private $project_dir;
 
+    /**
+     * @var midcom_config
+     */
+    private $cfg;
+
     public function __construct(string $environment, bool $debug)
     {
         midcom_compat_environment::initialize();
         $this->request = Request::createFromGlobals();
+        $this->cfg = new midcom_config;
         parent::__construct($environment, $debug);
     }
 
@@ -92,6 +98,12 @@ class midcom_application extends Kernel
             });
         }
         midcom_exception_handler::register();
+    }
+
+    protected function initializeContainer()
+    {
+        parent::initializeContainer();
+        $this->container->set('config', $this->cfg);
     }
 
     public function registerBundles()
@@ -110,6 +122,11 @@ class midcom_application extends Kernel
             }
         }
         return $this->project_dir;
+    }
+
+    public function getCacheDir()
+    {
+        return $this->cfg->get('cache_base_directory') ?: parent::getCacheDir();
     }
 
     /**

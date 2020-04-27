@@ -76,7 +76,7 @@
  *   in which case you have to ensure that the loading queue of MidCOM itself (as seen in this
  *   file) is not changed.
  * - <b>string cache_base_directory:</b> The directory where to place cache files for MidCOM.
- *      This defaults to /tmp/ (note the trailing slash) as this is writable everywhere.
+ *      This defaults to {project_dir}/var/cache
  *
  * - <b>Array cache_module_content_backend:</b> The configuration of the content cache backend.
  *   Check the documentation of midcom_services_cache_backend of what options are available here.
@@ -275,7 +275,7 @@ class midcom_config implements ArrayAccess
         'auth_backend_simple_cookie_secure' => true,
 
         // Cache configuration
-        'cache_base_directory' => '/tmp/',
+        'cache_base_directory' => '',
         'cache_autoload_queue' => ['content', 'nap', 'memcache'],
 
         // Content Cache
