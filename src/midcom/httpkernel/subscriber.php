@@ -110,7 +110,7 @@ class subscriber implements EventSubscriberInterface
 
     public function on_exception(ExceptionEvent $event)
     {
-        $handler = new \midcom_exception_handler();
-        $event->setResponse($handler->render($event->getThrowable()));
+        $handler = new \midcom_exception_handler($event->getThrowable());
+        $event->setResponse($handler->render());
     }
 }

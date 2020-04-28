@@ -97,7 +97,6 @@ class midcom_application extends Kernel
                 }
             });
         }
-        midcom_exception_handler::register();
     }
 
     protected function initializeContainer()
@@ -159,7 +158,11 @@ class midcom_application extends Kernel
      */
     public function codeinit()
     {
-        $this->handle($this->request)->send();
+        try {
+            $this->handle($this->request)->send();
+        } catch (Error $e) {
+            $this->getHttpKernel()->terminateWithException($e);
+        }
     }
 
     /**

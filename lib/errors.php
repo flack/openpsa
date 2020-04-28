@@ -20,33 +20,13 @@ class midcom_exception_handler
     /**
      * Holds the current exception
      *
-     * @var Exception
+     * @var Throwable
      */
-    private $_exception;
+    private $error;
 
-    /**
-     * Register the error and Exception handlers
-     */
-    public static function register()
+    public function __construct(Throwable $error)
     {
-        if (!defined('OPENPSA2_UNITTEST_RUN')) {
-            set_exception_handler([new self, 'handle_exception']);
-        }
-    }
-
-    /**
-     * This is mostly there because symfony doesn't catch Errors for some reason
-     *
-     * @param Throwable $error
-     * @throws Exception
-     */
-    public function handle_exception($error)
-    {
-        if ($error instanceof Error) {
-            midcom::get()->getHttpkernel()->terminateWithException($error);
-        } else {
-            throw $error;
-        }
+        $this->error = $error;
     }
 
     /**
@@ -58,15 +38,12 @@ class midcom_exception_handler
      * The error pages can be customized by creating style elements named midcom_error_$httpcode.
      *
      * For a list of the allowed HTTP codes see the MIDCOM_ERR... constants
-     *
-     * @param Exception $e The exception we're working with
      */
-    public function render($e)
+    public function render()
     {
-        $this->_exception = $e;
-        $httpcode = $e->getCode();
-        $message = $e->getMessage();
-        debug_print_r('Exception occurred: ' . $httpcode . ', Message: ' . $message . ', exception trace:', $e->getTraceAsString());
+        $httpcode = $this->error->getCode();
+        $message = $this->error->getMessage();
+        debug_print_r('Exception occurred: ' . $httpcode . ', Message: ' . $message . ', exception trace:', $this->error->getTraceAsString());
 
         if (!in_array($httpcode, [MIDCOM_ERROK, MIDCOM_ERRNOTFOUND, MIDCOM_ERRFORBIDDEN, MIDCOM_ERRAUTH, MIDCOM_ERRCRIT])) {
             debug_add("Unknown Errorcode {$httpcode} encountered, assuming 500");
@@ -77,15 +54,15 @@ class midcom_exception_handler
         $this->send($httpcode, $message);
 
         if (PHP_SAPI === 'cli') {
-            throw $e;
+            throw $this->error;
         }
 
         if ($httpcode == MIDCOM_ERRFORBIDDEN) {
             return new midcom_response_accessdenied($message);
         }
         if ($httpcode == MIDCOM_ERRAUTH) {
-            if ($e instanceof midcom_error_forbidden) {
-                return new midcom_response_login($e->get_method());
+            if ($this->error instanceof midcom_error_forbidden) {
+                return new midcom_response_login($this->error->get_method());
             }
 
             return new midcom_response_login;
@@ -110,7 +87,7 @@ class midcom_exception_handler
         $style->data['error_title'] = $title;
         $style->data['error_message'] = $message;
         $style->data['error_code'] = $httpcode;
-        $style->data['error_exception'] = $e;
+        $style->data['error_exception'] = $this->error;
         $style->data['error_handler'] = $this;
 
         ob_start();
@@ -206,13 +183,7 @@ class midcom_exception_handler
 
     public function get_function_stack()
     {
-        if ($this->_exception) {
-            $stack = $this->_exception->getTrace();
-        } elseif (function_exists('xdebug_get_function_stack')) {
-            $stack = xdebug_get_function_stack();
-        } else {
-            $stack = array_reverse(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
-        }
+        $stack = $this->error->getTrace();
 
         $stacktrace = [];
         foreach ($stack as $number => $frame) {
