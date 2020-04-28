@@ -11,10 +11,6 @@ if (!file_exists($path)) {
 }
 require_once $path;
 
-if (!defined('OPENPSA_PROJECT_BASEDIR')) {
-    define('OPENPSA_PROJECT_BASEDIR', dirname($path, 2) . '/');
-}
-
 use midcom\console\application;
 
 $console = new application();

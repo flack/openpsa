@@ -66,7 +66,8 @@ class exec extends Command
             return 0;
         }
 
-        if (!file_exists(OPENPSA_PROJECT_BASEDIR . $file)) {
+        $basedir = midcom::get()->getProjectDir() . '/';
+        if (!file_exists($basedir . $file)) {
             throw new \midcom_error('File not found');
         }
 
@@ -78,11 +79,11 @@ class exec extends Command
         midcom::get()->cache->content->enable_live_mode();
 
         try {
-            require OPENPSA_PROJECT_BASEDIR . $file;
+            require $basedir . $file;
         } catch (\midcom_error_forbidden $e) {
             $dialog = $this->getHelperSet()->get('question');
             $this->login($dialog, $input, $output);
-            require OPENPSA_PROJECT_BASEDIR . $file;
+            require $basedir . $file;
         }
 
         midcom::get()->auth->drop_sudo();#
@@ -99,7 +100,7 @@ class exec extends Command
 
             if (is_dir($exec_dir)) {
                 foreach (glob($exec_dir . '/*.php') as $file) {
-                    $path = preg_replace('/^' . preg_quote(OPENPSA_PROJECT_BASEDIR, '/') . '/', '', $file);
+                    $path = preg_replace('/^' . preg_quote(midcom::get()->getProjectDir(), '/') . '/', '', $file);
                     $parts = pathinfo($path);
                     $path = '  <info>' . $parts['dirname'] . '/</info>' . $parts['filename'] . '<info>.' . $parts['extension'] . '</info>';
 

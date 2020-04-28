@@ -56,13 +56,14 @@ class application extends base_application
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        $basedir = midcom::get()->getProjectDir() . '/';
         // we need the to register the mgdschema classes before starting midcom,
-        if (!defined('OPENPSA2_UNITTEST_RUN') && !\midcom_connection::setup(OPENPSA_PROJECT_BASEDIR)) {
+        if (!\midcom_connection::setup($basedir)) {
             throw new \RuntimeException('Could not open midgard connection: ' . \midcom_connection::get_error_string());
         }
 
-        if (file_exists(OPENPSA_PROJECT_BASEDIR . 'config.inc.php')) {
-            include_once OPENPSA_PROJECT_BASEDIR . 'config.inc.php';
+        if (file_exists($basedir . 'config.inc.php')) {
+            include $basedir . 'config.inc.php';
         }
 
         $GLOBALS['midcom_config_local']['cache_module_content_uncached'] = true;
