@@ -327,13 +327,6 @@ class midcom_application extends Kernel
     /**
      * Relocate to another URL.
      *
-     * The helper actually can distinguish between site-local, absolute redirects and external
-     * redirects. If the url does not start with http[s] or /, it is taken as a URL relative to
-     * the current anchor prefix, which gets prepended automatically (no other characters
-     * as the anchor prefix get inserted).
-     *
-     * Fully qualified urls (starting with http[s]) are used as-is.
-     *
      * Note, that this function automatically makes the page uncacheable, calls
      * midcom_finish and exit, so it will never return. If the headers have already
      * been sent, this will leave you with a partially completed page, so beware.

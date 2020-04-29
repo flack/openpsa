@@ -15,6 +15,16 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class midcom_response_relocate extends RedirectResponse
 {
+    /**
+     * The helper actually can distinguish between site-local, absolute redirects and external
+     * redirects. If the url does not start with http[s] or /, it is taken as a URL relative to
+     * the current anchor prefix, which gets prepended automatically (no other characters
+     * as the anchor prefix get inserted).
+     *
+     * Fully qualified urls are used as-is.
+     *
+     * {@inheritDoc}
+     */
     public function setTargetUrl($url)
     {
         if (   substr($url, 0, 1) != "/"
