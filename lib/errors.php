@@ -7,6 +7,8 @@
  */
 
 use Symfony\Component\HttpFoundation\Response;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 /**
  * Class for intercepting PHP errors and unhandled exceptions. Each fault is caught
@@ -149,7 +151,9 @@ class midcom_exception_handler
         }
 
         // Add the line to the error-specific log
-        $logger = new midcom_debug($config['filename']);
+        $logger = new Logger(__CLASS__);
+        $logger->pushHandler(new StreamHandler($config['filename']));
+        $logger = new midcom_debug($logger);
         $logger->set_loglevel(MIDCOM_LOG_INFO);
         $logger->log($msg, MIDCOM_LOG_INFO);
     }

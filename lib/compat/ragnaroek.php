@@ -1,5 +1,11 @@
 <?php
 /**
+ * This file declares shortcuts like debug_add (see below).
+ *
+ * @package midcom.compat
+ */
+
+/**
  * MidCOM Ragnaroek compatibility function
  *
  * @package midcom.compat

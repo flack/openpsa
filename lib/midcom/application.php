@@ -11,6 +11,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use midcom\dependencyInjection\configPass;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -103,6 +104,12 @@ class midcom_application extends Kernel
     {
         parent::initializeContainer();
         $this->container->set('config', $this->cfg);
+    }
+
+    protected function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+        $container->addCompilerPass(new configPass($this->cfg));
     }
 
     public function registerBundles()

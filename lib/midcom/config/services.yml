@@ -15,6 +15,15 @@ services:
         alias: event_dispatcher
         public: true
 
+    logger:
+        class: Monolog\Logger
+        arguments: [midcom]
+        calls:
+            - [pushHandler, ['@logger.filehandler']]
+
+    logger.filehandler:
+        class: Monolog\Handler\StreamHandler
+
     controller_resolver:
         class:  Symfony\Component\HttpKernel\Controller\ControllerResolver
 
@@ -55,6 +64,7 @@ services:
 
     debug:
        class:  midcom_debug
+       arguments: ['@logger']
        public: true
 
     head:

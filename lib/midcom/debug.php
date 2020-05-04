@@ -8,6 +8,7 @@
 
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
+use Monolog\Logger;
 
 /**
  * This is a debugger class.
@@ -24,19 +25,10 @@ use Symfony\Component\VarDumper\Dumper\CliDumper;
  * - MIDCOM_LOG_ERROR
  * - MIDCOM_LOG_CRIT
  *
- * This file declares shortcuts like debug_add (see below).
- *
  * @package midcom
  */
 class midcom_debug
 {
-    /**
-     * Logfile name
-     *
-     * @var string
-     */
-    private $_filename;
-
     /**
      * Current loglevel
      *
@@ -45,27 +37,29 @@ class midcom_debug
     private $_loglevel;
 
     /**
-     * All available loglevels
+     * Map to Monolog levels
      *
      * @var array
      */
-    private $_loglevels = [
-        MIDCOM_LOG_DEBUG => "debug",
-        MIDCOM_LOG_INFO  => "info",
-        MIDCOM_LOG_WARN  => "warn",
-        MIDCOM_LOG_ERROR => "error",
-        MIDCOM_LOG_CRIT  => "critical"
+    private $level_map = [
+        MIDCOM_LOG_DEBUG => Logger::DEBUG,
+        MIDCOM_LOG_INFO  => Logger::INFO,
+        MIDCOM_LOG_WARN  => Logger::WARNING,
+        MIDCOM_LOG_ERROR => Logger::ERROR,
+        MIDCOM_LOG_CRIT  => Logger::CRITICAL
     ];
+
+    /**
+     * @var Logger
+     */
+    private $logger;
 
     /**
      * Standard constructor
      */
-    public function __construct($filename = null)
+    public function __construct(Logger $logger)
     {
-        if (null === $filename) {
-            $filename = midcom::get()->config->get('log_filename');
-        }
-        $this->_filename = $filename;
+        $this->logger = $logger;
         $this->_loglevel = midcom::get()->config->get('log_level');
     }
 
@@ -107,32 +101,19 @@ class midcom_debug
             return;
         }
 
-        $file = fopen($this->_filename, 'a+');
-
+        $context = [
+            'caller' => $this->_get_caller()
+        ];
         if (function_exists('xdebug_memory_usage')) {
             static $lastmem = 0;
-            $curmem = xdebug_memory_usage();
-            $delta = $curmem - $lastmem;
-            $lastmem = $curmem;
-
-            $prefix = sprintf("%s (%012.9f, %9s, %7s):\t",
-                date('M d Y H:i:s'),
-                xdebug_time_index(),
-                number_format($curmem, 0, ',', '.'),
-                number_format($delta, 0, ',', '.')
-            );
-        } else {
-            $prefix = date('M d Y H:i:s') . "\t";
+            $context['time'] = xdebug_time_index();
+            $context['curmem'] = xdebug_memory_usage();
+            $context['delta'] = $context['curmem'] - $lastmem;
+            $lastmem = $context['curmem'];
         }
 
-        if (array_key_exists($loglevel, $this->_loglevels)) {
-            $prefix .= '[' . $this->_loglevels[$loglevel] . '] ';
-        }
-
-        //find the proper caller
-        $prefix .= $this->_get_caller();
-        fwrite($file, $prefix . trim($message) . "\n");
-        fclose($file);
+        $level = $this->level_map[$loglevel] ?? $loglevel;
+        $this->logger->addRecord($level, trim($message), $context);
     }
 
     private function check_level(int $loglevel) : bool
@@ -163,9 +144,9 @@ class midcom_debug
         }
         if (   array_key_exists('function', $caller)
             && substr($caller['function'], 0, 6) != 'debug_') {
-            $return .= $caller['function'] . ': ';
+            $return .= $caller['function'];
         } else {
-            $return .= $caller['file'] . ' (' . $caller['line']. '): ';
+            $return .= $caller['file'] . ' (' . $caller['line']. ')';
         }
         return $return;
     }
