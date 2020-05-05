@@ -37,19 +37,6 @@ class midcom_debug
     private $_loglevel;
 
     /**
-     * Map to Monolog levels
-     *
-     * @var array
-     */
-    private $level_map = [
-        MIDCOM_LOG_DEBUG => Logger::DEBUG,
-        MIDCOM_LOG_INFO  => Logger::INFO,
-        MIDCOM_LOG_WARN  => Logger::WARNING,
-        MIDCOM_LOG_ERROR => Logger::ERROR,
-        MIDCOM_LOG_CRIT  => Logger::CRITICAL
-    ];
-
-    /**
      * @var Logger
      */
     private $logger;
@@ -61,6 +48,21 @@ class midcom_debug
     {
         $this->logger = $logger;
         $this->_loglevel = midcom::get()->config->get('log_level');
+    }
+
+    /**
+     * Converts MidCOM log levels to Monolog
+     */
+    public static function convert_level(int $level) : int
+    {
+        $level_map = [
+            MIDCOM_LOG_DEBUG => Logger::DEBUG,
+            MIDCOM_LOG_INFO  => Logger::INFO,
+            MIDCOM_LOG_WARN  => Logger::WARNING,
+            MIDCOM_LOG_ERROR => Logger::ERROR,
+            MIDCOM_LOG_CRIT  => Logger::CRITICAL
+        ];
+        return $level_map[$level] ?? $level;
     }
 
     /**
@@ -112,8 +114,7 @@ class midcom_debug
             $lastmem = $context['curmem'];
         }
 
-        $level = $this->level_map[$loglevel] ?? $loglevel;
-        $this->logger->addRecord($level, trim($message), $context);
+        $this->logger->addRecord(self::convert_level($loglevel), trim($message), $context);
     }
 
     private function check_level(int $loglevel) : bool
