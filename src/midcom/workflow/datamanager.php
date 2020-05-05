@@ -93,10 +93,14 @@ class datamanager extends dialog
             return 'refresh_opener(' . $url . ');';
         }
         $dm = $this->controller->get_datamanager();
-        $data = $dm->get_content_html();
         $object = $dm->get_storage()->get_value();
         if ($object instanceof \midcom_core_dbaobject) {
+            // we rebuild the form so that newly created child objects are listed with their proper DB identifiers
+            $dm->set_storage($object);
+            $data = $dm->get_content_html();
             $data['guid'] = $object->guid;
+        } else {
+            $data = $dm->get_content_html();
         }
         return 'close(' . json_encode($data) . ');';
     }
