@@ -211,25 +211,4 @@ class midcom_debug
 
         $this->log(trim($message) . "\n{$stacktrace}", $loglevel);
     }
-
-    /**
-     * Dump a variable's type
-     *
-     * @param string $message    The message to be logged
-     * @param mixed $variable    The variable of which the type should be logged
-     * @param int $loglevel        The log level
-     */
-    public function print_type($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
-    {
-        if (!$this->check_level($loglevel)) {
-            return;
-        }
-
-        $type = gettype($variable);
-        if ($type == "object") {
-            $type .= ": " . get_class($variable);
-        }
-
-        $this->log(trim($message) . "\nVariable Type: $type", $loglevel);
-    }
 }
