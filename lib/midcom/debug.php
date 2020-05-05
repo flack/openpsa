@@ -106,13 +106,6 @@ class midcom_debug
         $context = [
             'caller' => $this->_get_caller()
         ];
-        if (function_exists('xdebug_memory_usage')) {
-            static $lastmem = 0;
-            $context['time'] = xdebug_time_index();
-            $context['curmem'] = xdebug_memory_usage();
-            $context['delta'] = $context['curmem'] - $lastmem;
-            $lastmem = $context['curmem'];
-        }
 
         $this->logger->addRecord(self::convert_level($loglevel), trim($message), $context);
     }
@@ -238,32 +231,5 @@ class midcom_debug
         }
 
         $this->log(trim($message) . "\nVariable Type: $type", $loglevel);
-    }
-
-    /**
-     * Dump the current memory usage and the delta to the last call of this function.
-     * Useful for tracking memory leaks.
-     *
-     * Format will be:
-     *
-     * $curmem (delta $delta): $message
-     *
-     * @param string $message    The message to be logged
-     * @param int $loglevel        The log level
-     */
-    public function print_dump_mem($message, $loglevel)
-    {
-        if (!$this->check_level($loglevel)) {
-            return;
-        }
-
-        static $lastmem = 0;
-        $curmem = memory_get_usage();
-        $delta = $curmem - $lastmem;
-        $lastmem = $curmem;
-
-        $curmem = str_pad(number_format($curmem), 10, " ", STR_PAD_LEFT);
-        $delta = str_pad(number_format($delta), 10, " ", STR_PAD_LEFT);
-        $this->log("{$curmem} (delta {$delta}): {$message}", $loglevel);
     }
 }

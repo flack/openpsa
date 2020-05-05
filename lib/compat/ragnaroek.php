@@ -74,14 +74,3 @@ function debug_print_type($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
 {
     midcom::get()->debug->print_type($message, $variable, $loglevel);
 }
-
-/**
- * Shortcut: Dump the current memory usage and the delta to the last call of this function.
- *
- * @param string $message    The message to be logged
- * @param int $loglevel        The log level
- */
-function debug_dump_mem($message, $loglevel = MIDCOM_LOG_DEBUG)
-{
-    midcom::get()->debug->print_dump_mem($message, $loglevel);
-}

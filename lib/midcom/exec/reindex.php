@@ -42,8 +42,6 @@ unset($root_node);
 
 echo "<pre>\n";
 
-debug_dump_mem("Initial Memory Usage");
-
 $reindex_topic_uri = midcom::get()->get_page_prefix() . 'midcom-exec-midcom/reindex_singlenode.php';
 
 $http_client = new org_openpsa_httplib();
@@ -73,8 +71,6 @@ while ($nodeid !== null) {
         // Background reindex ok
         echo "OK.\n";
     }
-
-    debug_dump_mem("Mem usage after {$node[MIDCOM_NAV_RELATIVEURL]}; {$node[MIDCOM_NAV_COMPONENT]}");
 
     // Retrieve all child nodes and append them to $nodes:
     $children = $nap->list_nodes($nodeid);

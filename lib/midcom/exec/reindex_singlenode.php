@@ -39,8 +39,6 @@ if (empty($node)) {
     throw new midcom_error("Could not get node {$_REQUEST['nodeid']}");
 }
 
-debug_dump_mem("Initial Memory Usage");
-
 echo "<pre>\n";
 echo "Processing node {$node[MIDCOM_NAV_FULLURL]}\n";
 debug_print_r("Processing node id {$nodeid}", $node);
@@ -65,8 +63,6 @@ if (is_a($stat, midcom_services_indexer_client::class)) {
     debug_print_r('NAP record was:', $node);
     throw new midcom_error($msg);
 }
-
-debug_dump_mem("Mem usage after {$node[MIDCOM_NAV_RELATIVEURL]}; {$node[MIDCOM_NAV_COMPONENT]}");
 
 debug_add('Enabling script abort through client again.');
 ignore_user_abort(false);
