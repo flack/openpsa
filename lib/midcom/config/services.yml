@@ -15,14 +15,20 @@ services:
         alias: event_dispatcher
         public: true
 
+    logger.formatter:
+        class: Monolog\Formatter\LineFormatter
+        arguments: [null, null, true, true]
+
+    logger.filehandler:
+        class: Monolog\Handler\StreamHandler
+        calls:
+            - [setFormatter, ['@logger.formatter']]
+
     logger:
         class: Monolog\Logger
         arguments: [midcom]
         calls:
             - [pushHandler, ['@logger.filehandler']]
-
-    logger.filehandler:
-        class: Monolog\Handler\StreamHandler
 
     controller_resolver:
         class:  Symfony\Component\HttpKernel\Controller\ControllerResolver

@@ -30,13 +30,6 @@ use Monolog\Logger;
 class midcom_debug
 {
     /**
-     * Current loglevel
-     *
-     * @var int
-     */
-    private $_loglevel;
-
-    /**
      * @var Logger
      */
     private $logger;
@@ -47,7 +40,6 @@ class midcom_debug
     public function __construct(Logger $logger)
     {
         $this->logger = $logger;
-        $this->_loglevel = midcom::get()->config->get('log_level');
     }
 
     /**
@@ -63,24 +55,6 @@ class midcom_debug
             MIDCOM_LOG_CRIT  => Logger::CRITICAL
         ];
         return $level_map[$level] ?? $level;
-    }
-
-    /**
-     * Set log level
-     *
-     * @param int $loglevel        New log level
-     */
-    public function set_loglevel($loglevel)
-    {
-        $this->_loglevel = $loglevel;
-    }
-
-    /**
-     * Get log level
-     */
-    public function get_loglevel() : int
-    {
-        return $this->_loglevel;
     }
 
     public function log_php_error($loglevel)
@@ -99,26 +73,18 @@ class midcom_debug
      */
     public function log($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if (!$this->check_level($loglevel)) {
-            return;
-        }
-
-        $context = [
-            'caller' => $this->_get_caller()
-        ];
-
-        $this->logger->addRecord(self::convert_level($loglevel), trim($message), $context);
+        $this->logger->pushProcessor([$this, 'get_caller']);
+        $this->logger->addRecord(self::convert_level($loglevel), trim($message));
+        $this->logger->popProcessor();
     }
 
-    private function check_level(int $loglevel) : bool
+    /**
+     * @internal
+     */
+    public function get_caller(array $record) : array
     {
-        return $this->_loglevel >= $loglevel;
-    }
-
-    private function _get_caller() : string
-    {
-        $return = '';
-        $bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        $record['extra']['caller'] = '';
+        $bt = array_slice(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), 3);
 
         while ($bt) {
             $caller = array_shift($bt);
@@ -134,15 +100,15 @@ class midcom_debug
         }
 
         if (array_key_exists('class', $caller)) {
-            $return .= $caller['class'] . '::';
+            $record['extra']['caller'] .= $caller['class'] . '::';
         }
         if (   array_key_exists('function', $caller)
             && substr($caller['function'], 0, 6) != 'debug_') {
-            $return .= $caller['function'];
+            $record['extra']['caller'] .= $caller['function'];
         } else {
-            $return .= $caller['file'] . ' (' . $caller['line']. ')';
+            $record['extra']['caller'] .= $caller['file'] . ' (' . $caller['line']. ')';
         }
-        return $return;
+        return $record;
     }
 
     /**
@@ -154,16 +120,14 @@ class midcom_debug
      */
     public function print_r($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if (!$this->check_level($loglevel)) {
-            return;
-        }
-
-        $cloner = new VarCloner();
-        $dumper = new CliDumper();
-
-        $varstring = $dumper->dump($cloner->cloneVar($variable), true);
-
-        $this->log(trim($message) . ' ' . $varstring, $loglevel);
+        $this->logger->pushProcessor(function(array $record) use ($variable) {
+            $cloner = new VarCloner();
+            $dumper = new CliDumper();
+            $record['message'] .= ' ' . $dumper->dump($cloner->cloneVar($variable), true);
+            return $record;
+        });
+        $this->log($message, $loglevel);
+        $this->logger->popProcessor();
     }
 
     /**
@@ -175,40 +139,29 @@ class midcom_debug
      */
     public function print_function_stack($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if (!$this->check_level($loglevel)) {
-            return;
-        }
-
-        if (function_exists('xdebug_get_function_stack')) {
-            $stack = array_reverse(xdebug_get_function_stack());
-        } else {
-            $stack = debug_backtrace(0);
-        }
-        //the last two levels are already inside the debugging system, so skip those
-        array_shift($stack);
-        array_shift($stack);
-
-        $stacktrace = "";
-        foreach ($stack as $number => $frame) {
-            $stacktrace .= $number + 1;
-            if (isset($frame['file'])) {
-                $stacktrace .= ": {$frame['file']}:{$frame['line']} ";
-            }
-            if (array_key_exists('class', $frame)) {
-                if (!array_key_exists('function', $frame)) {
-                    // workaround for what is most likely a bug in xdebug 2.4.rc3 and/or PHP 7.0.3
-                    continue;
+        $this->logger->pushProcessor(function(array $record) {
+            // the last four levels are already inside the debugging system, so skip those
+            $stack = array_slice(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), 4);
+            $stacktrace = "";
+            foreach ($stack as $number => $frame) {
+                $stacktrace .= $number + 1;
+                if (isset($frame['file'])) {
+                    $stacktrace .= ": {$frame['file']}:{$frame['line']} ";
                 }
-
-                $stacktrace .= "{$frame['class']}::{$frame['function']}";
-            } elseif (array_key_exists('function', $frame)) {
-                $stacktrace .= $frame['function'];
-            } else {
-                $stacktrace .= 'require, include or eval';
+                if (array_key_exists('class', $frame)) {
+                    $stacktrace .= "{$frame['class']}::{$frame['function']}";
+                } elseif (array_key_exists('function', $frame)) {
+                    $stacktrace .= $frame['function'];
+                } else {
+                    $stacktrace .= 'require, include or eval';
+                }
+                $stacktrace .= "\n";
             }
-            $stacktrace .= "\n";
-        }
 
-        $this->log(trim($message) . "\n{$stacktrace}", $loglevel);
+            $record['message'] .= "\n{$stacktrace}";
+            return $record;
+        });
+        $this->log($message, $loglevel);
+        $this->logger->popProcessor();
     }
 }
