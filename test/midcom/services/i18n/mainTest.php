@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * OpenPSA testcase
  *
@@ -15,7 +18,7 @@ class midcom_services_i18nTest extends openpsa_testcase
 {
     public function test_get_fallback_language()
     {
-        $i18n = new midcom_services_i18n;
+        $i18n = new midcom_services_i18n(new RequestStack);
         $this->assertEquals('en', $i18n->get_fallback_language());
     }
 
@@ -24,9 +27,9 @@ class midcom_services_i18nTest extends openpsa_testcase
      */
     public function test_read_http_negotiation($input, $expected)
     {
-        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $input;
-        $i18n = new midcom_services_i18n;
-        unset($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+        $rs = new RequestStack;
+        $rs->push(new Request([], [], [], [], [], ['HTTP_ACCEPT_LANGUAGE' => $input]));
+        $i18n = new midcom_services_i18n($rs);
         $this->assertEquals($expected, $i18n->get_current_language());
     }
 

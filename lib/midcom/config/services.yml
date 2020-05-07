@@ -79,6 +79,7 @@ services:
 
     i18n:
         class: midcom_services_i18n
+        arguments: ['@request_stack']
         public: true
 
     indexer:

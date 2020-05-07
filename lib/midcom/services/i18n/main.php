@@ -9,6 +9,8 @@
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Intl\Languages;
 use Symfony\Component\Intl\Locales;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * This is a basic MidCOM Service which provides an interfaces to the
@@ -74,32 +76,16 @@ class midcom_services_i18n
      * The fallback language is read from the MidCOM configuration directive
      * <i>i18n_fallback_language</i>.
      */
-    public function __construct()
+    public function __construct(RequestStack $request_stack)
     {
         $this->_fallback_language = midcom::get()->config->get('i18n_fallback_language');
-        $this->set_language($this->_fallback_language);
 
-        $this->_set_startup_langs();
-    }
-
-    /**
-     * Scans the HTTP negotiation and the cookie data and tries to set a
-     * suitable default language. Cookies have priority here.
-     */
-    private function _set_startup_langs()
-    {
-        if ($cookie_data = $this->_read_cookie()) {
-            $this->_current_language = $cookie_data['language'];
-            $this->_current_charset = $cookie_data['charset'];
-            return;
+        $found = false;
+        if ($request = $request_stack->getCurrentRequest()) {
+            $found = $this->_read_cookie($request) || $this->_read_http_negotiation($request);
         }
-
-        if ($http_langs = $this->_read_http_negotiation()) {
-            foreach (array_keys($http_langs) as $name) {
-                if ($this->set_language($name)) {
-                    break;
-                }
-            }
+        if (!$found) {
+            $this->set_language($this->_fallback_language);
         }
     }
 
@@ -107,52 +93,57 @@ class midcom_services_i18n
      * Try to pull the user's preferred language and
      * character set out of a cookie named "midcom_services_i18n".
      */
-    private function _read_cookie()
+    private function _read_cookie(Request $request) : bool
     {
-        if (empty($_COOKIE['midcom_services_i18n'])) {
-            return;
+        if (!$request->cookies->has('midcom_services_i18n')) {
+            return false;
         }
 
-        $rawdata = base64_decode($_COOKIE['midcom_services_i18n']);
+        $rawdata = base64_decode($request->cookies->get('midcom_services_i18n'));
         $array = unserialize($rawdata);
 
         if (   !array_key_exists('language', $array)
             || !array_key_exists('charset', $array)) {
             debug_add("Rejecting cookie, it seems invalid.");
-            return;
+            return false;
         }
-
-        return $array;
+        $this->set_charset($array['charset']);
+        return $this->set_language($array['language']);
     }
 
     /**
      * Pull available language out of the HTTP Headers
      *
      * q-parameters for prioritization are supported.
-     *
-     * @return array Keys are the languages, the value is their q-index.
      */
-    private function _read_http_negotiation() : array
+    private function _read_http_negotiation(Request $request) : bool
     {
+        if (!$request->server->has('HTTP_ACCEPT_LANGUAGE')) {
+            return false;
+        }
+        $rawdata = explode(",", $request->server->get('HTTP_ACCEPT_LANGUAGE'));
         $http_langs = [];
-        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            $rawdata = explode(",", $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-            foreach ($rawdata as $data) {
-                $params = explode(";", $data);
-                $lang = array_shift($params);
+        foreach ($rawdata as $data) {
+            $params = explode(";", $data);
+            $lang = array_shift($params);
 
-                // we can't use strings like en-US, so we only use the first two characters
-                $lang = substr($lang, 0, 2);
-                $q = $this->_get_q($params);
+            // we can't use strings like en-US, so we only use the first two characters
+            $lang = substr($lang, 0, 2);
+            $q = $this->_get_q($params);
 
-                if (   !isset($http_langs[$lang])
-                    || $http_langs[$lang] < $q) {
-                    $http_langs[$lang] = $q;
-                }
+            if (   !isset($http_langs[$lang])
+                || $http_langs[$lang] < $q) {
+                $http_langs[$lang] = $q;
             }
         }
         arsort($http_langs, SORT_NUMERIC);
-        return $http_langs;
+        foreach (array_keys($http_langs) as $name) {
+            if ($this->set_language($name)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function _get_q(array $params) : float
