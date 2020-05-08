@@ -27,16 +27,16 @@ class midcom_services_rcs_backend_rcsTest extends openpsa_testcase
     public function test_list_history()
     {
         $topic = $this->create_object(midcom_db_topic::class, ['_use_rcs' => false]);
-        $handler = self::$_config->get_handler($topic);
+        $backend = self::$_config->get_backend($topic);
 
-        $this->assertEquals([], $handler->list_history());
+        $this->assertEquals([], $backend->list_history());
         $topic->_use_rcs = true;
         $topic->title = 'TEST';
         midcom::get()->auth->request_sudo('midcom.core');
         $this->assertTrue($topic->update(), midcom_connection::get_error_string());
         midcom::get()->auth->drop_sudo();
-        $handler = self::$_config->get_handler($topic);
+        $backend = self::$_config->get_backend($topic);
 
-        $this->assertCount(1, $handler->list_history());
+        $this->assertCount(1, $backend->list_history());
     }
 }

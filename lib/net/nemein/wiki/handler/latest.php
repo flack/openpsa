@@ -35,7 +35,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         $rcs = midcom::get()->rcs;
 
         foreach ($qb->execute() as $page) {
-            $rcs_handler = $rcs->load_handler($page);
+            $rcs_handler = $rcs->load_backend($page);
             if (!$rcs_handler) {
                 // Skip this one
                 continue;

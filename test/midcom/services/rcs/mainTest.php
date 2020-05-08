@@ -13,7 +13,7 @@
  */
 class midcom_services_rcs_mainTest extends openpsa_testcase
 {
-    public function test_load_handler()
+    public function test_load_backend()
     {
         $conf = new midcom_config;
         $conf['midcom_services_rcs_root'] = '/tmp';
@@ -22,11 +22,11 @@ class midcom_services_rcs_mainTest extends openpsa_testcase
 
         $rcs = new midcom_services_rcs($conf);
         $topic = new midcom_db_topic;
-        $handler = $rcs->load_handler($topic);
-        $this->assertFalse($handler);
+        $handler = $rcs->load_backend($topic);
+        $this->assertNull($handler);
 
         $topic = $this->create_object(midcom_db_topic::class);
-        $handler = $rcs->load_handler($topic);
+        $handler = $rcs->load_backend($topic);
         $this->assertInstanceOf(midcom_services_rcs_backend_rcs::class, $handler);
     }
 

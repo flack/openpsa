@@ -40,7 +40,7 @@ class midcom_services_rcs_configTest extends openpsa_testcase
         $this->assertEquals('/usr/bin/', $config->get_bin_prefix());
     }
 
-    public function test_get_handler()
+    public function test_get_backend()
     {
         $conf = new midcom_config;
         $conf['midcom_services_rcs_root'] = '/tmp';
@@ -50,15 +50,15 @@ class midcom_services_rcs_configTest extends openpsa_testcase
         $topic = new midcom_db_topic;
 
         $config = new midcom_services_rcs_config($conf);
-        $handler = $config->get_handler($topic);
-        $this->assertInstanceOf(midcom_services_rcs_backend_rcs::class, $handler);
+        $backend = $config->get_backend($topic);
+        $this->assertInstanceOf(midcom_services_rcs_backend_rcs::class, $backend);
 
         $conf['midcom_services_rcs_enable'] = false;
 
         $topic = new midcom_db_topic;
 
         $config = new midcom_services_rcs_config($conf);
-        $handler = $config->get_handler($topic);
-        $this->assertInstanceOf(midcom_services_rcs_backend_null::class, $handler);
+        $backend = $config->get_backend($topic);
+        $this->assertInstanceOf(midcom_services_rcs_backend_null::class, $backend);
     }
 }

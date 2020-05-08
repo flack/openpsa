@@ -34,9 +34,9 @@ class midcom_services_rcs_config
     /**
      * Factory function for the handler object.
      */
-    public function get_handler($object) : midcom_services_rcs_backend
+    public function get_backend($object) : midcom_services_rcs_backend
     {
-        $class = $this->_get_handler_class();
+        $class = $this->get_backend_class();
         return new $class($object, $this);
     }
 
@@ -55,7 +55,7 @@ class midcom_services_rcs_config
 
     /**
      * If the RCS service is enabled
-     * (set by midcom_services_rcs_use)
+     * (set by midcom_services_rcs_enable)
      *
      * @return boolean true if it is enabled
      */
@@ -76,11 +76,9 @@ class midcom_services_rcs_config
     }
 
     /**
-     * Loads the backend file needed and returns the class.
-     *
-     * @return string of the backend to start
+     * Returns the backend classname.
      */
-    private function _get_handler_class() : string
+    private function get_backend_class() : string
     {
         if ($this->use_rcs()) {
             $this->test_rcs_config();

@@ -22,9 +22,9 @@
 class midcom_services_rcs
 {
     /**
-     * Array of handlers that rcs uses to manage object versioning.
+     * @var midcom_services_rcs_backend[]
      */
-    private $_handlers = [];
+    private $backends = [];
 
     /**
      * The configuration object for the rcs service.
@@ -48,21 +48,19 @@ class midcom_services_rcs
     }
 
     /**
-     * Loads the handler
-     *
-     * @return midcom_services_rcs_backend
+     * Loads the backend
      */
-    public function load_handler($object)
+    public function load_backend($object) : ?midcom_services_rcs_backend
     {
         if (!$object->guid) {
-            return false;
+            return null;
         }
 
-        if (!array_key_exists($object->guid, $this->_handlers)) {
-            $this->_handlers[$object->guid] = $this->config->get_handler($object);
+        if (!array_key_exists($object->guid, $this->backends)) {
+            $this->backends[$object->guid] = $this->config->get_backend($object);
         }
 
-        return $this->_handlers[$object->guid];
+        return $this->backends[$object->guid];
     }
 
     /**
@@ -76,12 +74,12 @@ class midcom_services_rcs
         if (!$this->config->use_rcs()) {
             return true;
         }
-        $handler = $this->load_handler($object);
-        if (!is_object($handler)) {
+        $backend = $this->load_backend($object);
+        if (!is_object($backend)) {
             debug_add('Could not load handler!');
             return false;
         }
-        if (!$handler->update($object, $message)) {
+        if (!$backend->update($object, $message)) {
             debug_add('RCS: Could not save file!');
             return false;
         }

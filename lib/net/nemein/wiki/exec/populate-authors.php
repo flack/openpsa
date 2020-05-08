@@ -11,7 +11,7 @@ foreach ($pages as $page) {
     echo "Wiki page {$page->title}... ";
     $changed = false;
     $authors = explode('|', substr($page->metadata->authors, 1, -1));
-    $object_rcs = $rcs->load_handler($page);
+    $object_rcs = $rcs->load_backend($page);
     $history = $object_rcs->list_history();
     foreach ($history as $data) {
         $user_guid = substr($data['user'], 5);

@@ -176,7 +176,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     {
         // Load the RCS handler
         $rcs = midcom::get()->rcs;
-        $rcs_handler = $rcs->load_handler($this);
+        $rcs_handler = $rcs->load_backend($this);
         if (!$rcs_handler) {
             return null;
         }
