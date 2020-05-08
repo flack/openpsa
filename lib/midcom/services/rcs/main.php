@@ -22,11 +22,6 @@
 class midcom_services_rcs
 {
     /**
-     * @var midcom_services_rcs_backend[]
-     */
-    private $backends = [];
-
-    /**
      * The configuration object for the rcs service.
      *
      * @var midcom_services_rcs_config
@@ -56,11 +51,7 @@ class midcom_services_rcs
             return null;
         }
 
-        if (!array_key_exists($object->guid, $this->backends)) {
-            $this->backends[$object->guid] = $this->config->get_backend($object);
-        }
-
-        return $this->backends[$object->guid];
+        return $this->config->get_backend($object);
     }
 
     /**
