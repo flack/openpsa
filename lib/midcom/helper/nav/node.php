@@ -183,8 +183,11 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
      * @param midcom_db_topic $topic
      * @return midcom_baseclasses_components_navigation
      */
-    private function get_component_nap($topic)
+    private function get_component_nap($topic) : ?midcom_baseclasses_components_navigation
     {
+        if (!$topic->component) {
+            return null;
+        }
         $interface = midcom::get()->componentloader->get_interface_class($topic->component);
         $nap = $interface->get_nap_instance();
         if (!$nap->set_object($topic)) {

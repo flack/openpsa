@@ -13,38 +13,6 @@
  */
 class midcom_helper__componentloaderTest extends openpsa_testcase
 {
-    /**
-     * @expectedException midcom_error
-     */
-    public function test_load_nonexistent()
-    {
-        $componentloader = new midcom_helper__componentloader([]);
-        $componentloader->load('invalid component name');
-    }
-
-    public function test_load()
-    {
-        $componentloader = new midcom_helper__componentloader(['org.openpsa.user' => '']);
-        $componentloader->load('org.openpsa.user');
-        $this->assertTrue($componentloader->is_loaded('org.openpsa.user'));
-    }
-
-    public function test_load_graceful()
-    {
-        $componentloader = new midcom_helper__componentloader(['org.openpsa.user' => '']);
-        $this->assertTrue($componentloader->load_graceful('org.openpsa.user'));
-        $this->assertFalse($componentloader->load_graceful('nonexistent component'));
-    }
-
-    public function test_is_loaded()
-    {
-        $componentloader = new midcom_helper__componentloader(['org.openpsa.user' => '']);
-        $componentloader->load('org.openpsa.user');
-        $this->assertTrue($componentloader->is_loaded('org.openpsa.user'));
-        $this->assertTrue($componentloader->is_loaded('midcom'));
-        $this->assertFalse($componentloader->is_loaded('nonexistent component'));
-    }
-
     public function test_is_installed()
     {
         $componentloader = new midcom_helper__componentloader(['org.openpsa.user' => '', 'midcom' => '']);

@@ -26,10 +26,6 @@
  * baseclass and should give you everything you need to work with the component
  * and its information itself.
  *
- * Other than that, you should not have to deal with the components, perhaps with
- * the only exception of is_loaded() and load() to ensure other components are loaded
- * in case you need them and they are not a pure-code library.
- *
  * <b>Loading components</b>
  *
  * When the component loader receives a request it roughly works in
@@ -61,19 +57,6 @@
 class midcom_helper__componentloader
 {
     /**
-     * This array contains a list of components that were tried to be loaded.
-     * The components are added to this list *even* if the system only tried
-     * to load it and failed. This way we protect against duplicate class errors
-     * and the like if a defective class is tried to be loaded twice.
-     *
-     * The array maps component names to loading results. The loading result is
-     * either false or true as per the result of the load call.
-     *
-     * @var array
-     */
-    private $_tried_to_load = [];
-
-    /**
      * This stores the interface instances of the different loaded components,
      * indexed by their MidCOM Path.
      *
@@ -94,83 +77,27 @@ class midcom_helper__componentloader
     }
 
     /**
-     * Invoke _load directly. If the loading process is unsuccessful, throw midcom_error.
-     *
-     * @param string $path    The component to load explicitly.
-     */
-    public function load($path)
-    {
-        if (!$this->_load($path)) {
-            throw new midcom_error("Failed to load the component {$path}, see the debug log for more information");
-        }
-    }
-
-    /**
-     * Invoke _load directly. If the loading process is unsuccessful, false is returned.
-     *
-     * @param string $path    The component to load explicitly.
-     * @return boolean Indicating success.
-     */
-    public function load_graceful($path) : bool
-    {
-        return $this->_load($path);
-    }
-
-    /**
      * Load the component specified by $path. If the component could not be loaded
      * successfully due to integrity errors, it will return false.
      *
      * @param string $path    The component to load.
-     * @return boolean Indicating success.
      */
-    private function _load($path) : bool
+    private function load(string $path)
     {
         if (empty($path)) {
-            debug_add("No component path given, aborting");
-            return false;
+            throw new midcom_error("No component path given, aborting");
         }
-
-        // Check if this component is already loaded...
-        if (array_key_exists($path, $this->_tried_to_load)) {
-            debug_add("Component {$path} already loaded.");
-            return $this->_tried_to_load[$path];
-        }
-
-        // Flag this path as loaded/failed, we'll set this flag to true when we reach
-        // the end of this call.
-        $this->_tried_to_load[$path] = false;
 
         // Check if the component is listed in the class manifest list. If not,
         // we immediately bail - anything went wrong while loading the component
         // (f.x. broken DBA classes).
         if (!array_key_exists($path, $this->components)) {
-            debug_add("The component {$path} was not found in the manifest list. Cannot load it.",
-                MIDCOM_LOG_WARN);
-            return false;
+            throw new midcom_error("The component {$path} was not found in the manifest list. Cannot load it.");
         }
 
         $classname = midcom_baseclasses_components_interface::get_classname($path);
         $this->_interface_classes[$path] = new $classname;
         $this->_interface_classes[$path]->initialize($path);
-        $this->_tried_to_load[$path] = true;
-
-        return true;
-    }
-
-    /**
-     * Returns true if the component identified by the MidCOM path $url
-     * is already loaded and available for usage.
-     *
-     * @param string $path    The component to be queried.
-     * @return boolean            true if it is loaded, false otherwise.
-     */
-    public function is_loaded($path) : bool
-    {
-        if ($path == 'midcom') {
-            // MidCOM is "always loaded"
-            return true;
-        }
-        return array_key_exists($path, $this->_interface_classes);
     }
 
     /**
@@ -196,7 +123,7 @@ class midcom_helper__componentloader
      */
     public function get_interface_class($path) : midcom_baseclasses_components_interface
     {
-        if (!$this->is_loaded($path)) {
+        if (!array_key_exists($path, $this->_interface_classes)) {
             $this->load($path);
         }
 
