@@ -35,8 +35,9 @@ class componentPass implements CompilerPassInterface
                 throw new midcom_error('No manifest found in path ' . $path);
             }
             $path .= '/config/manifest.inc';
+            $manifest = new midcom_core_manifest($path);
             $components[$manifest->name] = $path;
-            $this->process_manifest(new midcom_core_manifest($path), $container);
+            $this->process_manifest($manifest, $container);
         }
         $cl = $container->getDefinition('componentloader');
         $cl->addArgument($components);
