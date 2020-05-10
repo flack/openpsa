@@ -515,8 +515,8 @@ class midcom_helper__styleloader
         if (empty($this->_topic->component)) {
             return null;
         }
-        if (!empty($loader->manifests[$this->_topic->component]->extends)) {
-            $this->append_component_styledir($loader->manifests[$this->_topic->component]->extends);
+        if (!empty($loader->get_manifest($this->_topic->component)->extends)) {
+            $this->append_component_styledir($loader->get_manifest($this->_topic->component)->extends);
         }
 
         return $loader->path_to_snippetpath($this->_topic->component) . "/style";

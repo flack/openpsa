@@ -96,8 +96,8 @@ class midcom_baseclasses_components_configuration
     {
         $data = [];
         $loader = midcom::get()->componentloader;
-        if (!empty($loader->manifests[$component]->extends)) {
-            $component_path = $loader->path_to_snippetpath($loader->manifests[$component]->extends);
+        if (!empty($loader->get_manifest($component)->extends)) {
+            $component_path = $loader->path_to_snippetpath($loader->get_manifest($component)->extends);
             // Load and parse the global config
             if ($parent_data = self::read_array_from_file($component_path . '/config/config.inc')) {
                 $data = $parent_data;

@@ -102,9 +102,9 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
         // If the temporary object eventually reached a topic, fetch its manifest
         if (is_a($tmp, midcom_db_topic::class)) {
-            $current_manifest = $component_loader->manifests[$tmp->component];
+            $current_manifest = $component_loader->get_manifest($tmp->component);
         } else {
-            $current_manifest = $component_loader->manifests[midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT)];
+            $current_manifest = $component_loader->get_manifest(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
         }
         $this->_privileges = array_merge($this->_privileges, array_keys($current_manifest->privileges));
 

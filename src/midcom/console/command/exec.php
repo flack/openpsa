@@ -95,7 +95,7 @@ class exec extends Command
         $output->writeln("\n<comment>Available exec files:</comment>\n");
 
         $loader = midcom::get()->componentloader;
-        foreach (array_keys($loader->manifests) as $name) {
+        foreach (array_keys($loader->get_manifests()) as $name) {
             $exec_dir = $loader->path_to_snippetpath($name) . '/exec';
 
             if (is_dir($exec_dir)) {
