@@ -214,11 +214,6 @@
 class midcom_services_auth_acl
 {
     /**
-     * @var midcom_services_auth
-     */
-    private $auth;
-
-    /**
      * This is an internal flag used to override all regular permission checks with a sort-of
      * read-only privilege set. While internal_sudo is enabled, the system automatically
      * grants all privileges except midgard:create, midgard:update, midgard:delete and
