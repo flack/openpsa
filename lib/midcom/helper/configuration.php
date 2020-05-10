@@ -120,7 +120,7 @@ class midcom_helper_configuration
         }
 
         $array = [];
-        $manifest = midcom::get()->componentloader->manifests[$this->_path];
+        $manifest = midcom::get()->componentloader->get_manifest($this->_path);
         if (!empty($manifest->extends)) {
             $array = $this->_object->list_parameters($manifest->extends);
         }

@@ -82,15 +82,16 @@ class midcom_helper__componentloader
     private $_interface_classes = [];
 
     /**
-     * This lists all available components in the systems in the form of their manifests,
-     * indexed by the component name. Whenever possible you should refer to this listing
-     * to gain information about the components available.
-     *
-     * This information is loaded during startup.
-     *
      * @var midcom_core_manifest[]
      */
-    public $manifests = [];
+    private $manifests = [];
+
+    private $components;
+
+    public function __construct(array $components)
+    {
+        $this->components = $components;
+    }
 
     /**
      * Invoke _load directly. If the loading process is unsuccessful, throw midcom_error.
@@ -113,39 +114,6 @@ class midcom_helper__componentloader
     public function load_graceful($path) : bool
     {
         return $this->_load($path);
-    }
-
-    /**
-     * This will load the pure-code library denoted by $path. It will
-     * return true if the component truly was a pure-code library, false otherwise.
-     * If the component loader cannot load the component, midcom_error will be
-     * thrown.
-     *
-     * Common example:
-     *
-     * <code>
-     * midcom::get()->componentloader->load_library('org.openpsa.httplib');
-     * </code>
-     *
-     * @param string $path    The name of the code library to load.
-     * @return boolean            Indicates whether the library was successfully loaded.
-     */
-    public function load_library($path) : bool
-    {
-        if (!array_key_exists($path, $this->manifests)) {
-            debug_add("Cannot load component {$path} as library, it is not installed.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        if (!$this->manifests[$path]->purecode) {
-            debug_add("Cannot load component {$path} as library, it is a full-fledged component.", MIDCOM_LOG_ERROR);
-            debug_print_r('Manifest:', $this->manifests[$path]);
-            return false;
-        }
-
-        $this->load($path);
-
-        return true;
     }
 
     /**
@@ -175,7 +143,7 @@ class midcom_helper__componentloader
         // Check if the component is listed in the class manifest list. If not,
         // we immediately bail - anything went wrong while loading the component
         // (f.x. broken DBA classes).
-        if (!array_key_exists($path, $this->manifests)) {
+        if (!array_key_exists($path, $this->components)) {
             debug_add("The component {$path} was not found in the manifest list. Cannot load it.",
                 MIDCOM_LOG_WARN);
             return false;
@@ -214,22 +182,7 @@ class midcom_helper__componentloader
      */
     public function is_installed($path) : bool
     {
-        if (empty($this->manifests)) {
-            $this->load_all_manifests();
-        }
-        return array_key_exists($path, $this->manifests);
-    }
-
-    public function register_component($name, $path)
-    {
-        $filename = "{$path}/config/manifest.inc";
-        if (!file_exists($filename)) {
-            throw new midcom_error('Manifest not found for ' . $name);
-        }
-        if (empty($this->manifests)) {
-            $this->load_all_manifests();
-        }
-        $this->_register_manifest(new midcom_core_manifest($filename));
+        return array_key_exists($path, $this->components);
     }
 
     /**
@@ -258,8 +211,8 @@ class midcom_helper__componentloader
      */
     public function path_to_snippetpath($component_name)
     {
-        if (array_key_exists($component_name, $this->manifests)) {
-            return dirname($this->manifests[$component_name]->filename, 2);
+        if (array_key_exists($component_name, $this->components)) {
+            return dirname($this->components[$component_name], 2);
         }
         debug_add("Component {$component_name} is not registered", MIDCOM_LOG_CRIT);
         return false;
@@ -275,78 +228,30 @@ class midcom_helper__componentloader
         return strtr($path, ".", "_");
     }
 
-    /**
-     * Retrieve a list of all loaded components. The Array will contain an
-     * unsorted collection of MidCOM Paths.
-     */
-    public function list_loaded_components() : array
+    public function get_manifest(string $name) : ?midcom_core_manifest
     {
-        return array_keys($this->_interface_classes);
+        if (!$this->is_installed($name)) {
+            return null;
+        }
+        if (!array_key_exists($name, $this->manifests)) {
+            $this->manifests[$name] = new midcom_core_manifest($this->components[$name]);
+        }
+        return $this->manifests[$name];
     }
 
     /**
-     * This function is called during system startup and loads all component manifests. The list
-     * of manifests to load is determined using a find shell call and is cached using the memcache
-     * cache module.
+     * This lists all available components in the systems in the form of their manifests,
+     * indexed by the component name. Whenever possible you should refer to this listing
+     * to gain information about the components available.
      *
-     * This method is executed during system startup by the framework. Other parts of the system
-     * must not access it.
+     * @return midcom_core_manifest[]
      */
-    public function load_all_manifests()
+    public function get_manifests() : array
     {
-        $manifests = midcom::get()->cache->memcache->get('MISC', 'midcom.componentloader.manifests');
-
-        if (!is_array($manifests)) {
-            debug_add('Cache miss, generating component manifest cache now.');
-            $manifests = $this->get_manifests(midcom::get()->config);
-            midcom::get()->cache->memcache->put('MISC', 'midcom.componentloader.manifests', $manifests);
+        foreach (array_keys($this->components) as $name) {
+            $this->get_manifest($name);
         }
-        array_map([$this, '_register_manifest'], $manifests);
-    }
-
-    /**
-     * This function is called from the class manifest loader in case of a cache miss.
-     *
-     * @param midcom_config $config The configuration object
-     */
-    public function get_manifests(midcom_config $config) : array
-    {
-        $manifests = [];
-
-        foreach ($config->get('builtin_components', []) as $path) {
-            $manifests[] = new midcom_core_manifest(dirname(MIDCOM_ROOT) . '/' . $path . '/config/manifest.inc');
-        }
-
-        // now we look for extra components the user may have registered
-        foreach ($config->get('midcom_components', []) as $path) {
-            if (!file_exists($path . '/config/manifest.inc')) {
-                debug_add('No manifest found in path ' . $path . ', skipping', MIDCOM_LOG_ERROR);
-                continue;
-            }
-            $manifests[] = new midcom_core_manifest($path . '/config/manifest.inc');
-        }
-
-        return $manifests;
-    }
-
-    /**
-     * Register manifest data.
-     *
-     * All default privileges are made known to ACL, the watches are registered
-     *
-     * @param midcom_core_manifest $manifest the manifest object to load.
-     */
-    private function _register_manifest(midcom_core_manifest $manifest)
-    {
-        $this->manifests[$manifest->name] = $manifest;
-
-        // Register Privileges
-        midcom::get()->auth->acl->register_default_privileges($manifest->privileges);
-
-        // Register watches
-        if ($manifest->watches !== null) {
-            midcom::get()->dispatcher->add_watches($manifest->watches, $manifest->name);
-        }
+        return $this->manifests;
     }
 
     /**
@@ -358,7 +263,7 @@ class midcom_helper__componentloader
     public function get_all_manifest_customdata($component) : array
     {
         $result = [];
-        foreach ($this->manifests as $manifest) {
+        foreach ($this->get_manifests() as $manifest) {
             if (array_key_exists($component, $manifest->customdata)) {
                 $result[$manifest->name] = $manifest->customdata[$component];
             }
@@ -372,8 +277,8 @@ class midcom_helper__componentloader
             return null;
         }
 
-        if (!empty($this->manifests[$component]->icon)) {
-            return $this->manifests[$component]->icon;
+        if (!empty($this->get_manifest($component)->icon)) {
+            return $this->get_manifest($component)->icon;
         }
 
         if (!$provide_fallback) {

@@ -284,9 +284,8 @@ class midcom_services_auth_acl
     /**
      * Constructor.
      */
-    public function __construct(midcom_services_auth $auth)
+    public function __construct()
     {
-        $this->auth = $auth;
     }
 
     /**
@@ -396,11 +395,11 @@ class midcom_services_auth_acl
     public function get_user_id($user = null)
     {
         if ($user === null) {
-            return $this->auth->user->id ?? 'ANONYMOUS';
+            return midcom::get()->auth->user->id ?? 'ANONYMOUS';
         }
         if (is_string($user)) {
             if (mgd_is_guid($user) || is_numeric($user)) {
-                return $this->auth->get_user($user)->id;
+                return midcom::get()->auth->get_user($user)->id;
             }
             // Could be a magic assignee (?)
             return $user;
@@ -492,7 +491,7 @@ class midcom_services_auth_acl
             return $this->_can_do_internal_sudo($privilege);
         }
 
-        if ($this->auth->is_component_sudo()) {
+        if (midcom::get()->auth->is_component_sudo()) {
             return true;
         }
         static $cache = [];
@@ -510,7 +509,7 @@ class midcom_services_auth_acl
         }
 
         // user privileges
-        if ($user = $this->auth->get_user($user_id)) {
+        if ($user = midcom::get()->auth->get_user($user_id)) {
             $user_per_class_privileges = $this->_get_user_per_class_privileges($object_class, $user);
 
             if (array_key_exists($privilege, $user_per_class_privileges)) {
@@ -527,7 +526,7 @@ class midcom_services_auth_acl
         }
 
         // default magic class privileges user
-        $dmcp = $this->_get_class_magic_privileges($object_class, $this->auth->user);
+        $dmcp = $this->_get_class_magic_privileges($object_class, midcom::get()->auth->user);
 
         if (array_key_exists($privilege, $dmcp)) {
             $cache[$cache_key] = ($dmcp[$privilege] == MIDCOM_PRIVILEGE_ALLOW);

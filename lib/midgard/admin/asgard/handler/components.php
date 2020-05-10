@@ -46,7 +46,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $this->_request_data['components'] = [];
         $this->_request_data['libraries'] = [];
 
-        foreach (midcom::get()->componentloader->manifests as $name => $manifest) {
+        foreach (midcom::get()->componentloader->get_manifests() as $name => $manifest) {
             $type = ($manifest->purecode) ? 'libraries' : 'components';
 
             $component_array = $this->_load_component_data($name, $manifest);
@@ -103,7 +103,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
             throw new midcom_error_notfound("Component {$component} is not installed.");
         }
 
-        $data['component_data'] = $this->_load_component_data($component, midcom::get()->componentloader->manifests[$component]);
+        $data['component_data'] = $this->_load_component_data($component, midcom::get()->componentloader->get_manifest($component));
 
         $data['view_title'] = $data['component_data']['title'];
 

@@ -308,8 +308,8 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
         $component_array['icon'] = midcom::get()->componentloader->get_component_icon($name);
 
-        if (isset(midcom::get()->componentloader->manifests[$name])) {
-            $manifest = midcom::get()->componentloader->manifests[$name];
+        if (midcom::get()->componentloader->is_installed($name)) {
+            $manifest = midcom::get()->componentloader->get_manifest($name);
             $component_array['purecode'] = $manifest->purecode;
             $component_array['description'] = $manifest->description;
         }
@@ -321,7 +321,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $this->_request_data['components'] = [];
         $this->_request_data['libraries'] = [];
 
-        foreach (midcom::get()->componentloader->manifests as $name => $manifest) {
+        foreach (midcom::get()->componentloader->get_manifests() as $name => $manifest) {
             $type = $manifest->purecode ? 'libraries' : 'components';
 
             $component_array = $this->_load_component_data($name);

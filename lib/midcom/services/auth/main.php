@@ -119,9 +119,9 @@ class midcom_services_auth
      *   drivers' currently authenticated user overriding the Midgard Auth if
      *   necessary.
      */
-    public function __construct()
+    public function __construct(midcom_services_auth_acl $acl)
     {
-        $this->acl = new midcom_services_auth_acl($this);
+        $this->acl = $acl;
 
         // Initialize from midgard
         if (   midcom_connection::get_user()

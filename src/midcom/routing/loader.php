@@ -135,7 +135,7 @@ class loader extends base
         if (!$this->is_legacy($component)) {
             return $routes;
         }
-        $manifest = midcom::get()->componentloader->manifests[$component];
+        $manifest = midcom::get()->componentloader->get_manifest($component);
         if (!empty($manifest->extends)) {
             $routes = $this->get_legacy_routes($manifest->extends);
         }

@@ -99,9 +99,5 @@ $GLOBALS['kernel'] = midcom::init('test', true);
 // Clean up residue cache entries from previous runs
 midcom::get()->cache->invalidate_all();
 $GLOBALS['kernel']->reboot(null);
-// If the test's config accesses midcom::get() in some way, components
-// may have already been loaded into memory. So load them again to be sure we have
-// the most current set
-midcom::get()->componentloader->load_all_manifests();
 // disable output buffering
 midcom::get()->cache->content->enable_live_mode();

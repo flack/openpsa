@@ -29,7 +29,7 @@ class midcom_services_auth_aclTest extends openpsa_testcase
         $user = new midcom_core_user($person);
         midcom::get()->auth->drop_sudo();
 
-        $auth = new midcom_services_auth;
+        $auth = midcom::get()->auth;
 
         $this->assertTrue($auth->can_do('midgard:read', $article));
         $this->assertTrue($auth->can_do('midgard:read', $topic));
@@ -60,7 +60,8 @@ class midcom_services_auth_aclTest extends openpsa_testcase
         $user = new midcom_core_user($person);
         midcom::get()->auth->drop_sudo();
 
-        $auth = new midcom_services_auth;
+        $auth = midcom::get()->auth;
+        $auth->user = null;
 
         $this->assertTrue($auth->can_do('midgard:read', $topic));
 

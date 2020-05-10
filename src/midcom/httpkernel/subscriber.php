@@ -44,7 +44,6 @@ class subscriber implements EventSubscriberInterface
         $midcom = midcom::get();
         $midcom->debug->log("Start of MidCOM run " . $request->server->get('REQUEST_URI', ''));
         $request->setSession($midcom->session);
-        $midcom->componentloader->load_all_manifests();
         if ($response = $midcom->auth->check_for_login_session($request)) {
             return $response;
         }

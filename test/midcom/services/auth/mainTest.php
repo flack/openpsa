@@ -19,7 +19,7 @@ class midcom_services_auth_mainTest extends openpsa_testcase
         $person = $this->create_user();
         $user = new midcom_core_user($person);
 
-        $auth = new midcom_services_auth;
+        $auth = midcom::get()->auth;
 
         $this->assertFalse($auth->can_do('midgard:read', null));
 
@@ -51,8 +51,8 @@ class midcom_services_auth_mainTest extends openpsa_testcase
         $person = $this->create_user();
         $user = new midcom_core_user($person);
 
-        $auth = new midcom_services_auth;
-
+        $auth = midcom::get()->auth;
+        $auth->drop_sudo();
         $this->assertTrue($auth->can_user_do('midgard:read'));
         $this->assertFalse($auth->can_user_do('midgard:create'));
 
@@ -79,7 +79,7 @@ class midcom_services_auth_mainTest extends openpsa_testcase
 
     public function test_request_sudo()
     {
-        $auth = new midcom_services_auth;
+        $auth = midcom::get()->auth;
 
         $context = midcom_core_context::get();
         $context->set_key(MIDCOM_CONTEXT_COMPONENT, 'midcom.admin.folder');

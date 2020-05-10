@@ -157,8 +157,8 @@ class midcom_services_i18n_l10n
             }
         }
 
-        if (!empty(midcom::get()->componentloader->manifests[$this->_component_name]->extends)) {
-            $parent_l10n = new self(midcom::get()->componentloader->manifests[$this->_component_name]->extends, $this->database);
+        if (!empty(midcom::get()->componentloader->get_manifest($this->_component_name)->extends)) {
+            $parent_l10n = new self(midcom::get()->componentloader->get_manifest($this->_component_name)->extends, $this->database);
             $this->_stringdb[$lang] = $parent_l10n->get_stringdb($lang);
         }
 

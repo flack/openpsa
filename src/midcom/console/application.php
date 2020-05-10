@@ -90,7 +90,6 @@ class application extends base_application
 
         // This makes sure that existing auth and cache instances get overridden
         midcom::init();
-        midcom::get()->componentloader->load_all_manifests();
 
         parent::doRun($input, $output);
     }

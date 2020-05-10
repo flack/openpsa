@@ -44,9 +44,13 @@ services:
         arguments: ['@event_dispatcher', '@controller_resolver', '@request_stack', '@arguments_resolver']
         public: true
 
+    auth.acl:
+        class: midcom_services_auth_acl
+
     auth:
         class: midcom_services_auth
         public: true
+        arguments: ['@auth.acl']
 
     componentloader:
         class: midcom_helper__componentloader

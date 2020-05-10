@@ -41,7 +41,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         $components = [];
 
         // Loop through the list of components of component loader
-        foreach (midcom::get()->componentloader->manifests as $manifest) {
+        foreach (midcom::get()->componentloader->get_manifests() as $manifest) {
             // Skip purecode components
             if ($manifest->purecode) {
                 continue;

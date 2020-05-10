@@ -218,6 +218,10 @@ class midcom_services_dbclassloader
 
     public function get_component_classes(string $component) : array
     {
-        return midcom::get()->componentloader->manifests[$component]->class_mapping;
+        $map = midcom::get()->componentloader->get_manifest($component)->class_mapping;
+        if ($component == 'midcom') {
+            $map[midcom::get()->config->get('person_class')] = midcom_db_person::class;
+        }
+        return $map;
     }
 }
