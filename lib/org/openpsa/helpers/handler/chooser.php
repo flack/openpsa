@@ -96,7 +96,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $nap = new midcom_helper_nav();
         $component = midcom::get()->dbclassloader->get_component_for_class($this->_dbaclass);
-        midcom::get()->componentloader->load($component);
         $topic_guid = $siteconfig->get_node_guid($component);
         $this->_node = $nap->resolve_guid($topic_guid);
 

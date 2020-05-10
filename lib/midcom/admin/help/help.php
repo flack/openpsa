@@ -400,10 +400,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }
 
-        if ($data['component'] != 'midcom') {
-            midcom::get()->componentloader->load($data['component']);
-        }
-
         $data['view_title'] = sprintf($this->_l10n->get('help for %s'), $this->_i18n->get_string($data['component'], $data['component']));
         midcom::get()->head->set_pagetitle($data['view_title']);
 
@@ -436,10 +432,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $data['component'] = $component;
         if (!midcom::get()->componentloader->is_installed($data['component'])) {
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
-        }
-
-        if ($data['component'] != 'midcom') {
-            midcom::get()->componentloader->load($data['component']);
         }
 
         $data['help_files'] = $this->list_files($data['component']);

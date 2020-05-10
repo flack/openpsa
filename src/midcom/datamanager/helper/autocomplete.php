@@ -35,9 +35,6 @@ class autocomplete
 
     private function verify_request()
     {
-        // Load component if possible
-        midcom::get()->componentloader->load_graceful($this->request['component']);
-
         if (!class_exists($this->request['class'])) {
             throw new midcom_error("Class {$this->request['class']} could not be loaded");
         }

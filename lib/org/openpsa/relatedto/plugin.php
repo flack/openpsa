@@ -137,9 +137,8 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
 
     private static function common_node_toolbar_buttons_sanitycheck(array &$data, string $button_component, $bind_object, string $calling_component)
     {
-        if (!midcom::get()->componentloader->load_graceful($button_component)) {
-            //For some reason the component is and can not (be) loaded
-            debug_add("component {$button_component} could not be loaded", MIDCOM_LOG_ERROR);
+        if (!midcom::get()->componentloader->is_installed($button_component)) {
+            debug_add("component {$button_component} is not installed", MIDCOM_LOG_ERROR);
             return false;
         }
         if (empty($data['node'])) {
