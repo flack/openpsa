@@ -13,6 +13,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use midcom\dependencyInjection\loggerPass;
 use midcom\dependencyInjection\componentPass;
+use midcom\dependencyInjection\indexerPass;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -112,6 +113,7 @@ class midcom_application extends Kernel
         parent::build($container);
         $container->addCompilerPass(new loggerPass($this->cfg));
         $container->addCompilerPass(new componentPass($this->cfg));
+        $container->addCompilerPass(new indexerPass($this->cfg));
     }
 
     public function registerBundles()

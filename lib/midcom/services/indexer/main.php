@@ -41,38 +41,17 @@ class midcom_services_indexer implements EventSubscriberInterface
      *
      * @var boolean
      */
-    private $_disabled = false;
+    private $_disabled;
 
     /**
      * Initialization
      *
-     * The constructor will initialize the indexer backend using the MidCOM
-     * configuration by default. If you need a different indexer backend, you
-     * can always explicitly instantiate a backend and pass it to the
-     * constructor. In that case you have to load the corresponding PHP file
-     * manually.
-     *
-     * @param midcom_services_indexer_backend $backend An explicit indexer to initialize with.
+     * @param midcom_services_indexer_backend $backend An indexer to initialize with.
      */
-    public function __construct($backend = null)
+    public function __construct(midcom_services_indexer_backend $backend = null)
     {
-        if (!midcom::get()->config->get('indexer_backend')) {
-            $this->_disabled = true;
-            return;
-        }
-
-        if ($backend === null) {
-            $class = midcom::get()->config->get('indexer_backend');
-            if (strpos($class, '_') === false) {
-                // Built-in backend called using the shorthand notation
-                $class = "midcom_services_indexer_backend_" . $class;
-            }
-
-            $this->_backend = new $class();
-        } else {
-            $this->_backend = $backend;
-        }
-        midcom::get()->dispatcher->addSubscriber($this);
+        $this->_backend = $backend;
+        $this->_disabled = $this->_backend === null;
     }
 
     public static function getSubscribedEvents()
