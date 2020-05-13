@@ -7,7 +7,6 @@
  */
 
 use Symfony\Component\Intl\Intl;
-use Symfony\Component\Intl\Languages;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
@@ -314,21 +313,6 @@ class midcom_services_i18n
     public function show_string(string $stringid, $component = null, string $database = 'default')
     {
         echo $this->get_string($stringid, $component, $database);
-    }
-
-    /**
-     * Lists languages as identifier -> name pairs
-     */
-    public function list_languages() : array
-    {
-        $languages = Languages::getNames('en');
-        foreach ($languages as $identifier => &$language) {
-            $localname = Languages::getName($identifier, $identifier);
-            if ($localname != $language) {
-                $language .= ' (' . $localname . ')';
-            }
-        }
-        return $languages;
     }
 
     /**
