@@ -266,7 +266,8 @@ class midcom_services_i18n
      * Returns a l10n class instance which can be used to
      * access the localization data of the current component.
      *
-     * Using the special name "midcom" you will get the midcom core l10n library.
+     * If loading failed, midcom_error is thrown, otherwise the l10n
+     * db cache is populated accordingly.
      *
      * @see midcom_services_i18n_l10n
      * @param string $component    The component for which to retrieve a string database.
@@ -277,7 +278,10 @@ class midcom_services_i18n
         $cacheid = "{$component}/{$database}";
 
         if (!array_key_exists($cacheid, $this->_obj_l10n)) {
-            $this->_load_l10n_db($component, $database);
+            $obj = new midcom_services_i18n_l10n($component, $database);
+            $obj->set_language($this->_current_language);
+            $obj->set_fallback_language($this->_fallback_language);
+            $this->_obj_l10n[$cacheid] = $obj;
         }
 
         return $this->_obj_l10n[$cacheid];
@@ -300,12 +304,7 @@ class midcom_services_i18n
             $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT) ?? 'midcom';
         }
 
-        $cacheid = "{$component}/{$database}";
-        if (!array_key_exists($cacheid, $this->_obj_l10n)) {
-            $this->_load_l10n_db($component, $database);
-        }
-
-        return $this->_obj_l10n[$cacheid]->get($stringid);
+        return $this->get_l10n($component, $database)->get($stringid);
     }
 
     /**
@@ -325,25 +324,6 @@ class midcom_services_i18n
     public function show_string(string $stringid, $component = null, string $database = 'default')
     {
         echo $this->get_string($stringid, $component, $database);
-    }
-
-    /**
-     * Load the specified l10n library.
-     *
-     * If loading the library failed, midcom_error is thrown, otherwise the l10n
-     * db cache is populated accordingly.
-     *
-     * @param string $component    The component for which to retrieve a string database.
-     * @param string $database    The string table to retrieve from the component's locale directory.
-     */
-    private function _load_l10n_db(string $component, string $database)
-    {
-        $cacheid = "{$component}/{$database}";
-        $obj = new midcom_services_i18n_l10n($component, $database);
-
-        $obj->set_language($this->_current_language);
-        $obj->set_fallback_language($this->_fallback_language);
-        $this->_obj_l10n[$cacheid] = $obj;
     }
 
     /**
