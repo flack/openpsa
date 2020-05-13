@@ -8,6 +8,8 @@
 
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Intl\Languages;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Preferences interface
@@ -81,28 +83,38 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
     }
 
     /**
-     * Get the languages
+     * Get the languages as identifier -> name pairs
      */
     public static function get_languages() : array
     {
-        $lang_str = midcom::get()->i18n->get_current_language();
-        $languages = midcom::get()->i18n->list_languages();
+        $current_lang = midcom::get()->i18n->get_current_language();
 
-        if (!array_key_exists($lang_str, $languages)) {
+        $languages = [];
+        $finder = new Finder;
+        foreach ($finder->files()->in(dirname(__DIR__) . '/locale')->name('default.*.txt') as $file) {
+            $identifier = str_replace('default.', '', $file->getBasename('.txt'));
+            $languages[$identifier] = Languages::getName($identifier, $current_lang);
+            $localname = Languages::getName($identifier, $identifier);
+            if ($localname != $languages[$identifier]) {
+                $languages[$identifier] .= ' (' . $localname . ')';
+            }
+        }
+
+        if (!array_key_exists($current_lang, $languages)) {
             return $languages;
         }
 
         // Initialize a new array for the current language
-        $language = [
-            '' => midcom::get()->i18n->get_string('default setting')
+        $prepend = [
+            '' => midcom::get()->i18n->get_string('default setting'),
+            $current_lang => $languages[$current_lang]
         ];
-        $language[$lang_str] = $languages[$lang_str];
 
         // Remove the reference from the original array
-        unset($languages[$lang_str]);
+        unset($languages[$current_lang]);
 
         // Join the arrays
-        return array_merge($language, $languages);
+        return array_merge($prepend, $languages);
     }
 
     /**
