@@ -65,7 +65,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
         }
 
         $this->source = $this->_metadata->object->guid;
-        $this->lang = midcom::get()->i18n->get_content_language();
+        $this->lang = midcom::get()->i18n->get_current_language();
         // Add language code to RI as well so that different language versions of the object have unique identifiers
         $this->RI = "{$this->source}_{$this->lang}";
         $this->document_url = midcom::get()->permalinks->create_permalink($this->source);

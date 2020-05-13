@@ -233,16 +233,6 @@ class midcom_services_i18n
     }
 
     /**
-     * Returns language code corresponding to current content language
-     *
-     * @return string
-     */
-    public function get_content_language()
-    {
-        return $this->get_current_language();
-    }
-
-    /**
      * Returns the current fallback language code
      *
      * @return string
