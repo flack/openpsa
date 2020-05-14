@@ -154,7 +154,6 @@ class midcom_exception_handler
         $logger = new Logger(__CLASS__);
         $logger->pushHandler(new StreamHandler($config['filename']));
         $logger = new midcom_debug($logger);
-        $logger->set_loglevel(MIDCOM_LOG_INFO);
         $logger->log($msg, MIDCOM_LOG_INFO);
     }
 
