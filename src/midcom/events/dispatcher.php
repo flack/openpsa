@@ -32,19 +32,6 @@ class dispatcher extends EventDispatcher
         \MIDCOM_OPERATION_DBA_IMPORT => dbaevent::IMPORT,
     ];
 
-    /**
-     * Compat function for ragnaroek-style events.
-     *
-     * @param int $operation_id One of the MIDCOM_OPERATION_DBA_ constants
-     * @param \midcom_core_dbaobject $object The current object
-     */
-    public function trigger_watch($operation_id, $object)
-    {
-        $event_name = $this->watches[$operation_id];
-        $event = new dbaevent($object);
-        $this->dispatch($event_name, $event);
-    }
-
     public function add_watches(array $watches, $component)
     {
         foreach ($watches as $watch) {
