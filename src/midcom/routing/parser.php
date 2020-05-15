@@ -62,56 +62,22 @@ class parser
     }
 
     /**
-     * @return string|boolean
-     */
-    public function find_urlmethod()
-    {
-        $match = $this->walk_variables('midcom');
-        if (!empty($match)) {
-            $url = "/$match";
-            if (!empty($this->argv)) {
-                $url .= '/' . implode('/', $this->argv);
-            }
-
-            return $url;
-        }
-        return false;
-    }
-
-    /**
      * Try to fetch a URL variable.
      *
-     * Try to decode an <namespace>-<key>-<value> pair at the current URL
-     * position. Namespace must be a valid MidCOM Path, Key must match the RegEx
-     * [a-zA-Z0-9]* and value must not contain a "/".
+     * Try to decode an midcom-<key>-<value> pair at the current URL
+     * position.
      *
-     * On success it returns the command it found. $this->argv[0] will be dropped.
+     * On success it returns the command it found.
      *
-     * @param string $namespace The namespace for which to search a variable
-     * @return string|boolean The command that was found, or false if there is no match
+     * @return string|boolean
      */
-    private function walk_variables(string $namespace)
+    public function find_urlmethod() : ?string
     {
         if (   empty($this->argv)
-            || strpos($this->argv[0], $namespace . '-') !== 0) {
-            return false;
+            || strpos($this->argv[0], 'midcom-') !== 0) {
+            return null;
         }
-
-        $tmp = substr($this->argv[0], strlen($namespace) + 1);
-
-        $value = substr(strstr($tmp, "-"), 1);
-        $key = substr($tmp, 0, strpos($tmp, "-"));
-
-        // Remove this component from path
-        $match = array_shift($this->argv);
-
-        if ($key == 'substyle') {
-            $this->context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $value);
-            debug_add("Substyle '$value' selected");
-            return $this->walk_variables($namespace);
-        }
-
-        return $match;
+        return '/' . implode('/', $this->argv);
     }
 
     /**

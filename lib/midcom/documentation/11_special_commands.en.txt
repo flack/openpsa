@@ -4,18 +4,6 @@ The following URL parameters are recognized by the _process function and are
 executed before any component processing is done. They all belong to the
 domain "midcom", e.g. they are executed like this: midcom-$name-$value.
 
-<b>string substyle</b>
-
-This will set a substyle to the current component, which is appended to the
-style selected by the component at the moment the component style is loaded.
-The methods substyle_(append|prepend)'s work on the basis of this value then.
-
-Note, that this first assignment is done between can_handle and handle, so
-it will serve as a basis for all component-side style switching operations.
-
-The substyle URL switch is most useful in conjunction with
-midcom_application::dynamic_load().
-
 <b>GUID serveattachmentguid</b>
 
 This method will serve the attachment denoted by the given ID/GUID.

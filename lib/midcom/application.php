@@ -201,7 +201,7 @@ class midcom_application extends Kernel
      *
      * @param string $url                The URL, relative to the Midgard Page, that is to be requested.
      */
-    public function dynamic_load($url)
+    public function dynamic_load(string $url, string $substyle = '')
     {
         debug_add("Dynamic load of URL {$url}");
         $url = midcom_connection::get_url('prefix') . $url;
@@ -210,6 +210,9 @@ class midcom_application extends Kernel
         // enter that context and prepare its data structure.
         $oldcontext = midcom_core_context::get();
         $context = midcom_core_context::enter($url, $oldcontext->get_key(MIDCOM_CONTEXT_ROOTTOPIC));
+        if ($substyle) {
+            $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $substyle);
+        }
 
         $request = $this->request->duplicate([], null, []);
         $request->attributes->set('context', $context);

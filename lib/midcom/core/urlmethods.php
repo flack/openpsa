@@ -17,19 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * See individual methods for documentation.
  *
- * <b>midcom-substyle-{stylename}</b>
- *
- * Different from the methods in this class, "substyle" does not produce a response.
- * Instead, it will set a substyle to the current component, which is appended to the
- * style selected by the component at the moment the component style is loaded.
- * The methods substyle_(append|prepend)'s work on the basis of this value then.
- *
- * Note, that this first assignment is done between can_handle and handle, so
- * it will serve as a basis for all component-side style switching operations.
- *
- * The substyle URL switch is most useful in conjunction with
- * midcom_application::dynamic_load().
- *
  * @package midcom
  */
 class midcom_core_urlmethods
