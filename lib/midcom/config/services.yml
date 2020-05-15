@@ -100,6 +100,7 @@ services:
 
     rcs:
         class: midcom_services_rcs
+        arguments: ['@config']
         public: true
 
     session:

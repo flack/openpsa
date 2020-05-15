@@ -30,15 +30,9 @@ class midcom_services_rcs
 
     /**
      * Constructor
-     *
-     * @param array $config the midcom_config
      */
-    public function __construct($config = null)
+    public function __construct(midcom_config $config)
     {
-        if ($config === null) {
-            $config = midcom::get()->config;
-        }
-
         $this->config = new midcom_services_rcs_config($config);
     }
 

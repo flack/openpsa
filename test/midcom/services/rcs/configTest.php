@@ -25,10 +25,6 @@ class midcom_services_rcs_configTest extends openpsa_testcase
 
         $config = new midcom_services_rcs_config($conf);
         $this->assertFalse($config->use_rcs());
-
-        $args = [];
-        $config = new midcom_services_rcs_config($args);
-        $this->assertFalse($config->use_rcs());
     }
 
     public function test_get_bin_prefix()
