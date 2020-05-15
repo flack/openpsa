@@ -115,6 +115,8 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             $result = $indexer->query($final_query);
         } elseif ($data['type'] == 'advanced') {
             $result = $this->do_advanced_query($data);
+        } else {
+            throw new midcom_error_notfound('unknown query type');
         }
 
         $this->process_results($result);
