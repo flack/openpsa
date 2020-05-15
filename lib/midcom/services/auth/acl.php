@@ -368,10 +368,14 @@ class midcom_services_auth_acl
 
         if (!array_key_exists($cache_id, $cache)) {
             $cache[$cache_id] = [];
-            $object = new $classname;
+            if (is_subclass_of($classname, midcom_core_dbaobject::class)) {
+                // in case of DBA classes we also want to match the mgd ones,
+                // and for that dbafactory's is_a() needs an object
+                $classname = new $classname;
+            }
 
             foreach ($user->get_per_class_privileges() as $class => $privileges) {
-                if (midcom::get()->dbfactory->is_a($object, $class)) {
+                if (midcom::get()->dbfactory->is_a($classname, $class, true)) {
                     $cache[$cache_id] = array_merge($cache[$cache_id], $privileges);
                 }
             }
