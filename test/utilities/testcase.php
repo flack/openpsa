@@ -26,7 +26,7 @@ abstract class openpsa_testcase extends TestCase
 
     private $_testcase_objects = [];
 
-    public static function create_user($login = false)
+    public static function create_user($login = false) : midcom_db_person
     {
         $person = new midcom_db_person();
         $person->_use_rcs = false;
