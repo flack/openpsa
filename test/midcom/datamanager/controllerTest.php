@@ -12,6 +12,7 @@ use midcom\datamanager\controller;
 use midcom\datamanager\schemadb;
 use midcom\datamanager\schema;
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 
 class controllerTest extends openpsa_testcase
 {
@@ -21,13 +22,14 @@ class controllerTest extends openpsa_testcase
         $schemadb->add('default', new schema(['fields' => []]));
         $dm = new datamanager($schemadb);
         $controller = $dm->get_controller('test');
-        $_SERVER['REQUEST_METHOD'] = 'post';
-        $_POST = [
+
+        $request = Request::create('/', 'POST', [
             'test' => [
                 'form_toolbar' => ['cancel0' => '']
             ]
-        ];
-        $result = $controller->process();
+        ]);
+
+        $result = $controller->handle($request);
         $this->assertSame(controller::CANCEL, $result);
     }
 }
