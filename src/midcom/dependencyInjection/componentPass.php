@@ -14,6 +14,16 @@ class componentPass implements CompilerPassInterface
      */
     private $config;
 
+    /**
+     * @var array
+     */
+    private $watches = [
+        \MIDCOM_OPERATION_DBA_CREATE => [],
+        \MIDCOM_OPERATION_DBA_UPDATE => [],
+        \MIDCOM_OPERATION_DBA_DELETE => [],
+        \MIDCOM_OPERATION_DBA_IMPORT => []
+    ];
+
     public function __construct(midcom_config $config)
     {
         $this->config = $config;
@@ -21,12 +31,9 @@ class componentPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container)
     {
-        $components = [];
+        $paths = [];
         foreach ($this->config->get('builtin_components', []) as $path) {
-            $path = dirname(MIDCOM_ROOT) . '/' . $path . '/config/manifest.inc';
-            $manifest = new midcom_core_manifest($path);
-            $components[$manifest->name] = $path;
-            $this->process_manifest($manifest, $container);
+            $paths[] = dirname(MIDCOM_ROOT) . '/' . $path . '/config/manifest.inc';
         }
 
         // now we look for extra components the user may have registered
@@ -34,13 +41,39 @@ class componentPass implements CompilerPassInterface
             if (!file_exists($path . '/config/manifest.inc')) {
                 throw new midcom_error('No manifest found in path ' . $path);
             }
-            $path .= '/config/manifest.inc';
+            $paths[] = $path . '/config/manifest.inc';
+        }
+
+        foreach ($paths as $path) {
             $manifest = new midcom_core_manifest($path);
             $components[$manifest->name] = $path;
+            if ($manifest->watches !== null) {
+                $this->add_watches($manifest->name, $manifest->watches);
+            }
+
             $this->process_manifest($manifest, $container);
         }
+
         $cl = $container->getDefinition('componentloader');
         $cl->addArgument($components);
+
+        $watcher = $container->getDefinition('watcher');
+        $watcher->addArgument($this->watches);
+    }
+
+    private function add_watches(string $component, array $watches)
+    {
+        foreach ($watches as $watch) {
+            foreach (array_keys($this->watches) as $operation_id) {
+                // Check whether the operations flag list from the component
+                // contains the operation_id we're checking a watch for.
+                if ($watch['operations'] & $operation_id) {
+                    $this->watches[$operation_id][] = [
+                        $component => $watch['classes']
+                    ];
+                }
+            }
+        }
     }
 
     /**
@@ -54,11 +87,6 @@ class componentPass implements CompilerPassInterface
         if ($manifest->privileges) {
             $acl = $container->getDefinition('auth.acl');
             $acl->addMethodCall('register_default_privileges', [$manifest->privileges]);
-        }
-        // Register watches
-        if ($manifest->watches !== null) {
-            $dispatcher = $container->getDefinition('event_dispatcher');
-            $dispatcher->addMethodCall('add_watches', [$manifest->watches, $manifest->name]);
         }
     }
 }

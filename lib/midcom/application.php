@@ -34,7 +34,7 @@ use midcom\dependencyInjection\indexerPass;
  * @property midcom_services_indexer $indexer
  * @property midcom_config $config
  * @property midcom_services_cache $cache
- * @property midcom\events\dispatcher $dispatcher
+ * @property Symfony\Component\EventDispatcher\EventDispatcher $dispatcher
  * @property midcom_debug $debug
  * @package midcom
  */

@@ -15,7 +15,7 @@ use midcom_helper__componentloader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use midcom\dependencyInjection\componentPass;
-use midcom\events\dispatcher;
+use midcom\events\watcher;
 
 /**
  * OpenPSA testcase
@@ -40,7 +40,7 @@ class componentPassTest extends openpsa_testcase
             ->method('getDefinition')
             ->with($this->logicalOr(
                 $this->equalTo('auth.acl'),
-                $this->equalTo('event_dispatcher'),
+                $this->equalTo('watcher'),
                 $this->equalTo('componentloader')))
             ->will($this->returnCallback([$this, 'get_definition_mock']));
 
@@ -51,17 +51,21 @@ class componentPassTest extends openpsa_testcase
     {
         $builder = $this->getMockBuilder(Definition::class);
 
-        if ($identifier == 'event_dispatcher') {
+        if ($identifier == 'watcher') {
             $dispatcher = $builder
-                ->setConstructorArgs([dispatcher::class])
+                ->setConstructorArgs([watcher::class])
                 ->getMock();
             $dispatcher
                 ->expects($this->once())
-                ->method('addMethodCall')
-                ->with('add_watches', [[[
-                    'classes' => [],
-                    'operations' => MIDCOM_OPERATION_DBA_DELETE,
-                ]], 'net.nehmer.comments']);
+                ->method('addArgument')
+                ->with([
+                    \MIDCOM_OPERATION_DBA_CREATE => [],
+                    \MIDCOM_OPERATION_DBA_UPDATE => [],
+                    \MIDCOM_OPERATION_DBA_DELETE => [[
+                        'net.nehmer.comments' => []
+                    ]],
+                    \MIDCOM_OPERATION_DBA_IMPORT => []
+                ]);
 
             return $dispatcher;
         }

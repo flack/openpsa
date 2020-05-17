@@ -8,53 +8,77 @@
 
 namespace midcom\events;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use midcom_core_dbaobject;
+use midcom_helper__componentloader;
+
 /**
- * midcom DBA listener
+ * midcom DBA subscriber
  *
  * @package midcom.events
  */
-class watcher
+class watcher implements EventSubscriberInterface
 {
-    private $classes = [];
+    private $watches;
 
-    private $component;
-
-    private $operations = [
+    private $map = [
         dbaevent::CREATE => \MIDCOM_OPERATION_DBA_CREATE,
         dbaevent::UPDATE => \MIDCOM_OPERATION_DBA_UPDATE,
         dbaevent::DELETE => \MIDCOM_OPERATION_DBA_DELETE,
         dbaevent::IMPORT => \MIDCOM_OPERATION_DBA_IMPORT,
     ];
 
-    public function __construct($component, array $classes = [])
+    /**
+     * @var midcom_helper__componentloader
+     */
+    private $loader;
+
+    public function __construct(midcom_helper__componentloader $loader, array $watches)
     {
-        $this->component = $component;
-        $this->classes = $classes;
+        $this->loader = $loader;
+        $this->watches = $watches;
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            dbaevent::CREATE => ['handle_event'],
+            dbaevent::UPDATE => ['handle_event'],
+            dbaevent::DELETE => ['handle_event'],
+            dbaevent::IMPORT => ['handle_event'],
+        ];
+    }
+
+    private function check_class(midcom_core_dbaobject $object, array $classes) : bool
+    {
+        $found = empty($classes);
+        foreach ($classes as $classname) {
+            if (is_a($object, $classname)) {
+                return true;
+            }
+        }
+        return $found;
     }
 
     public function handle_event(dbaevent $event, $name)
     {
         $object = $event->get_object();
-        $found = empty($this->classes);
-        foreach ($this->classes as $classname) {
-            if (is_a($object, $classname)) {
-                $found = true;
-                break;
+        $operation = $this->map[$name];
+        foreach ($this->watches[$operation] as $watch) {
+            $classes = current($watch);
+            if (!$this->check_class($object, $classes)) {
+                continue;
             }
-        }
-        if (!$found) {
-            return;
-        }
+            $component = key($watch);
+            try {
+                $interface = $this->loader->get_interface_class($component);
+            } catch (\midcom_error $e) {
+                debug_add("Failed to load the component {$component}: " . $e->getMessage(), MIDCOM_LOG_INFO);
+                continue;
+            }
+            debug_add("Calling [{$component}]_interface->trigger_watch({$operation}, \$object)");
 
-        try {
-            $interface = \midcom::get()->componentloader->get_interface_class($this->component);
-        } catch (\midcom_error $e) {
-            debug_add("Failed to load the component {$this->component}: " . $e->getMessage(), MIDCOM_LOG_INFO);
-            return;
+            $interface->trigger_watch($operation, $object);
         }
-        $operation = $this->operations[$name];
-        debug_add("Calling [{$this->component}]_interface->trigger_watch({$operation}, \$object)");
-
-        $interface->trigger_watch($operation, $object);
     }
 }
