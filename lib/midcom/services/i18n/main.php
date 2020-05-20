@@ -117,52 +117,14 @@ class midcom_services_i18n
      */
     private function _read_http_negotiation(Request $request) : bool
     {
-        if (!$request->server->has('HTTP_ACCEPT_LANGUAGE')) {
-            return false;
-        }
-        $rawdata = explode(",", $request->server->get('HTTP_ACCEPT_LANGUAGE'));
-        $http_langs = [];
-        foreach ($rawdata as $data) {
-            $params = explode(";", $data);
-            $lang = array_shift($params);
-
-            // we can't use strings like en-US, so we only use the first two characters
+        foreach ($request->getLanguages() as $lang) {
+            // we can't use strings like en_US, so we only use the first two characters
             $lang = substr($lang, 0, 2);
-            $q = $this->_get_q($params);
-
-            if (   !isset($http_langs[$lang])
-                || $http_langs[$lang] < $q) {
-                $http_langs[$lang] = $q;
-            }
-        }
-        arsort($http_langs, SORT_NUMERIC);
-        foreach (array_keys($http_langs) as $name) {
-            if ($this->set_language($name)) {
+            if ($this->set_language($lang)) {
                 return true;
             }
         }
-
         return false;
-    }
-
-    private function _get_q(array $params) : float
-    {
-        $q = 1.0;
-        $option = array_shift($params);
-        while ($option !== null) {
-            $option_params = explode("=", $option);
-            if (count($option_params) != 2) {
-                $option = array_shift($params);
-                continue;
-            }
-            if (   $option_params[0] == "q"
-                && is_numeric($option_params[1])) {
-                // make sure that 0.0 <= $q <= 1.0
-                $q = max(0.0, min(1.0, $option_params[1]));
-            }
-            $option = array_shift($params);
-        }
-        return $q;
     }
 
     /**
