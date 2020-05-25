@@ -59,36 +59,29 @@ class org_openpsa_directmarketing_handler_campaign_rulesTest extends openpsa_tes
     private function get_rules()
     {
         return [
-            'midcom_helper_datamanager2_dummy_field_rules' => "Array
-            (
-               'type' => 'AND',
-               'groups' => 'AND',
-               'classes' => Array
-               (
-                   0 => Array
-                   (
-                       'type' => 'AND',
-                       'groups' => 'AND',
-                       'classes' => Array
-                       (
-                           3 => Array
-                           (
-                               'type' => 'AND',
-                               'class' => 'org_openpsa_contacts_person_dba',
-                               'rules' => Array
-                               (
-                                   0 => Array
-                                   (
-                                       'property' => 'email',
-                                       'match' => 'LIKE',
-                                       'value' => '%.test%',
-                                   )
-                               )
-                           ),
-                       ),
-                   ),
-               ),
-           )",
+            'midcom_helper_datamanager2_dummy_field_rules' => json_encode([
+                'type' => 'AND',
+                'groups' => 'AND',
+                'classes' => [
+                    0 => [
+                        'type' => 'AND',
+                        'groups' => 'AND',
+                        'classes' => [
+                            3 => [
+                                'type' => 'AND',
+                                'class' => org_openpsa_contacts_person_dba::class,
+                                'rules' => [
+                                    0 => [
+                                        'property' => 'email',
+                                        'match' => 'LIKE',
+                                        'value' => '%.test%',
+                                    ]
+                                ]
+                            ],
+                        ],
+                    ],
+                ],
+            ]),
             'midcom_helper_datamanager2_save' => true
         ];
     }
