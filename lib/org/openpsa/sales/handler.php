@@ -23,49 +23,44 @@ trait org_openpsa_sales_handler
     public function process_notify_date($notify, org_openpsa_sales_salesproject_deliverable_dba $deliverable)
     {
         //check if there is already an at_entry
-        $mc_entry = org_openpsa_relatedto_dba::new_collector('toGuid', $deliverable->guid);
-        $mc_entry->add_constraint('fromClass', '=', midcom_services_at_entry_dba::class);
-        $mc_entry->add_constraint('toClass', '=', org_openpsa_sales_salesproject_deliverable_dba::class);
-        $mc_entry->add_constraint('toExtra', '=', 'notify_at_entry');
-        $entry_keys = $mc_entry->get_values('fromGuid');
+        $mc = org_openpsa_relatedto_dba::new_collector('toGuid', $deliverable->guid);
+        $mc->add_constraint('fromClass', '=', midcom_services_at_entry_dba::class);
+        $mc->add_constraint('toClass', '=', org_openpsa_sales_salesproject_deliverable_dba::class);
+        $mc->add_constraint('toExtra', '=', 'notify_at_entry');
+        $at_entries = $mc->get_values('fromGuid');
 
         //check date
         if ($notify) {
-            $notification_entry = null;
+            $at_entry = null;
 
-            if (empty($entry_keys)) {
-                $notification_entry = new midcom_services_at_entry_dba();
-                $notification_entry->create();
-                //relatedto from notification to deliverable
-                org_openpsa_relatedto_plugin::create($notification_entry, 'midcom.services.at', $deliverable, 'org.openpsa.sales', false, ['toExtra' => 'notify_at_entry']);
-            } else {
-                //get guid of at_entry
-                foreach ($entry_keys as $key => $entry) {
-                    //check if related at_entry exists
-                    try {
-                        $notification_entry = new midcom_services_at_entry_dba($entry);
-                    } catch (midcom_error $e) {
-                        //relatedto links to a non-existing at_entry - so create a new one an link to it
-                        $notification_entry = new midcom_services_at_entry_dba();
-                        $notification_entry->create();
-                        $relatedto = new org_openpsa_relatedto_dba($key);
-                        $relatedto->fromGuid = $notification_entry->guid;
-                        $relatedto->update();
-                    }
+            //get guid of at_entry
+            foreach ($at_entries as $guid) {
+                //check if related at_entry exists
+                try {
+                    $at_entry = new midcom_services_at_entry_dba($guid);
+                } catch (midcom_error $e) {
+                    $e->log();
                 }
             }
-            $notification_entry->start = $notify;
-            $notification_entry->method = 'new_notification_message';
-            $notification_entry->component = 'org.openpsa.sales';
-            $notification_entry->arguments = ['deliverable' => $deliverable->guid];
-            $notification_entry->update();
+
+            if ($at_entry === null) {
+                $at_entry = new midcom_services_at_entry_dba;
+                $at_entry->method = 'new_notification_message';
+                $at_entry->component = 'org.openpsa.sales';
+                $at_entry->arguments = ['deliverable' => $deliverable->guid];
+                $at_entry->create();
+                //relatedto from notification to deliverable
+                org_openpsa_relatedto_plugin::create($at_entry, 'midcom.services.at', $deliverable, 'org.openpsa.sales', null, ['toExtra' => 'notify_at_entry']);
+            }
+            $at_entry->start = $notify;
+            $at_entry->update();
         } else {
             //void date - so delete existing at_entries for this notify_date
-            foreach ($entry_keys as $key => $empty) {
+            foreach ($at_entries as $guid) {
                 try {
-                    $notification_entry = new midcom_services_at_entry_dba($mc_entry->get_subkey($key, 'fromGuid'));
+                    $at_entry = new midcom_services_at_entry_dba($guid);
                     //check if related at_entry exists & delete it
-                    $notification_entry->delete();
+                    $at_entry->delete();
                 } catch (midcom_error $e) {
                     $e->log();
                 }
