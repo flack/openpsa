@@ -12,58 +12,48 @@
  *
  * Rules array structure:
  * <code>
- * array(
+ * [
  *    'type' => 'AND',
- *    'classes' => array
- *    (
- *        array
- *        (
+ *    'classes' => [
+ *        [
  *            'type' => 'OR',
  *            'class' => 'org_openpsa_contacts_person_dba',
- *            'rules' => array
- *            (
- *                array
- *                (
+ *            'rules' => [
+ *                [
  *                    'property' => 'email',
  *                    'match' => 'LIKE',
  *                    'value' => '%@%'
- *                ),
- *                array
- *                (
+ *                ],
+ *                [
  *                    'property' => 'handphone',
  *                    'match' => '<>',
  *                    'value' => ''
- *                ),
- *            ),
- *        ),
- *        array
- *        (
+ *                ],
+ *            ],
+ *        ],
+ *        [
  *            'type' => 'AND',
  *            'class' => 'midgard_parameter',
- *            'rules' => array
- *            (
- *                array
- *                (
+ *            'rules' => [
+ *                [
  *                    'property' => 'domain',
  *                    'match' => '=',
  *                    'value' => 'openpsa_test'
- *                ),
- *                array
- *                (
+ *                ],
+ *                [
  *                    'property' => 'name',
  *                    'match' => '=',
  *                    'value' => 'param_match'
- *                ),
- *                array
- *                (
+ *                ],
+ *                [
  *                    'property' => 'value',
  *                    'match' => '=',
  *                    'value' => 'bar'
- *                ),
- *            ),
- *        ),
- *    ),
- * ),
+ *                ],
+ *            ],
+ *        ],
+ *    ],
+ * ],
  * </code>
  *
  * NOTE: subgroups are processed before rules, subgroups must match class of parent group
