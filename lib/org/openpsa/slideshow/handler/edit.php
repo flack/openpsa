@@ -151,7 +151,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $this->_response->position = $image->position;
         $this->_response->guid = $image->guid;
         if (isset($_FILES['image'])) {
-            $this->_upload_image($_FILES['image'], $image);
+            $this->_upload_image($_FILES['image'], $post->get('title', ''), $image);
         }
     }
 
@@ -234,11 +234,11 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         }
     }
 
-    private function _upload_image(array $file, org_openpsa_slideshow_image_dba $image)
+    private function _upload_image(array $file, string $title, org_openpsa_slideshow_image_dba $image)
     {
         $attachment = new midcom_db_attachment();
         $attachment->name = midcom_db_attachment::safe_filename($file['name']);
-        $attachment->title = $_POST['title'];
+        $attachment->title = $title;
         $attachment->mimetype = $file['type'];
         $attachment->parentguid = $image->guid;
         if (   !$attachment->create()

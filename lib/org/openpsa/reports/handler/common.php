@@ -45,7 +45,7 @@ class org_openpsa_reports_handler_common extends midcom_baseclasses_components_h
         }
 
         //We're outputting CSV
-        return new Response($_POST['org_openpsa_reports_csv'], Response::HTTP_OK, [
+        return new Response($request->request->get('org_openpsa_reports_csv'), Response::HTTP_OK, [
             'Content-Type' => 'application/csv'
         ]);
     }

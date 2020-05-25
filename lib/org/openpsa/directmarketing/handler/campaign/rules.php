@@ -69,11 +69,11 @@ implements client
     /**
      * Displays campaign members.
      */
-    public function _handler_query(string $guid, array &$data)
+    public function _handler_query(Request $request, string $guid, array &$data)
     {
         $this->_campaign = $this->load_campaign($guid);
         $this->_campaign->require_do('midgard:update');
-        $this->rules = $this->_load_rules();
+        $this->rules = $this->_load_rules($request);
 
         midcom::get()->skip_page_style = true;
         $data['provider'] = new provider($this);
@@ -98,7 +98,7 @@ implements client
         //check if it should be saved
         if ($request->request->has('midcom_helper_datamanager2_save')) {
             try {
-                $rules = $this->_load_rules();
+                $rules = $this->_load_rules($request);
             } catch (midcom_error $e) {
                 midcom::get()->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get($e->getMessage()), 'error');
                 return;
@@ -152,11 +152,11 @@ implements client
         return $this->show('show-campaign-edit_query');
     }
 
-    private function _load_rules() : array
+    private function _load_rules(Request $request) : array
     {
-        if (empty($_REQUEST['midcom_helper_datamanager2_dummy_field_rules'])) {
+        if (!$request->get('midcom_helper_datamanager2_dummy_field_rules')) {
             return $this->_campaign->rules;
         }
-        return org_openpsa_directmarketing_campaign_ruleresolver::parse($_REQUEST['midcom_helper_datamanager2_dummy_field_rules']);
+        return org_openpsa_directmarketing_campaign_ruleresolver::parse($request->get('midcom_helper_datamanager2_dummy_field_rules'));
     }
 }

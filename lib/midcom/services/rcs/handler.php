@@ -1,4 +1,6 @@
 <?php
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * @package midcom.services.rcs
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
@@ -208,12 +210,13 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     /**
      * Show the changes done to the object
      */
-    public function _handler_history(string $handler_id, array $args)
+    public function _handler_history(Request $request, string $handler_id, array $args)
     {
         // Check if the comparison request is valid
-        if (    !empty($_GET['first']) && !empty($_GET['last'])
-            && $_GET['first']  !== $_GET['last']) {
-            return new midcom_response_relocate($this->url_prefix . "diff/{$args[0]}/{$_GET['first']}/{$_GET['last']}/");
+        $first = $request->query->get('first');
+        $last = $request->query->get('last');
+        if ($first && $last && $first != $last) {
+            return new midcom_response_relocate($this->url_prefix . "diff/{$args[0]}/{$first}/{$last}/");
         }
 
         $this->load_object($args[0]);
