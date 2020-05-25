@@ -23,10 +23,9 @@ use midgard\portable\api\mgdobject;
  * An example declaration looks like this:
  *
  * <code>
- * Array
- * (
+ * [
  *     'midgard_article' => 'midcom_db_article'
- * )
+ * ]
  * </code>
  *
  * The key is the MgdSchema class name from that you want to use. The class specified must exist.

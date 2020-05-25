@@ -88,11 +88,10 @@
  * object owner, you must pass an array to this function:
  *
  * <code>
- * 'privileges' => array('write' => Array
- * (
+ * 'privileges' => ['write' => [
  *     MIDCOM_PRIVILEGE_DENY, // default privilege value
  *     MIDCOM_PRIVILEGE_ALLOW // owner default privilege value
- * ))
+ * ]]
  * </code>
  *
  * In this case the definition grants object owners the defined privilege. The
@@ -102,11 +101,10 @@
  * Note, that it is often sensible to do something like this:
  *
  * <code>
- * 'privileges' => array('read' => Array
- * (
+ * 'privileges' => ['read' => [
  *     MIDCOM_PRIVILEGE_ALLOW, // default privilege value
  *     MIDCOM_PRIVILEGE_ALLOW // owner default privilege value
- * ))
+ * ]]
  * </code>
  *
  * That way, object owners can read the object, even if the read access is
@@ -117,11 +115,10 @@
  * the Array), it is read by MidCOM as if you would have specified this:
  *
  * <code>
- * 'privileges' => array('read' => Array
- * (
+ * 'privileges' => ['read' => [
  *     MIDCOM_PRIVILEGE_ALLOW, // default privilege value
  *     MIDCOM_PRIVILEGE_INHERIT // owner default privilege value
- * ))
+ * ]]
  * </code>
  *
  * Note, that INHERIT does not INHERIT from the system default privilege but

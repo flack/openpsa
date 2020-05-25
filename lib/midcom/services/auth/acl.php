@@ -80,11 +80,11 @@
  * <code>
  * public function get_class_magic_default_privileges()
  * {
- *     return Array (
+ *     return [
  *         'EVERYONE' => [],
  *         'ANONYMOUS' => [],
  *         'USERS' => ['midcom:create' => MIDCOM_PRIVILEGE_ALLOW]
- *     );
+ *     ];
  * }
  * </code>
  *
@@ -246,16 +246,14 @@ class midcom_services_auth_acl
      * multi-level array, example entry:
      *
      * <pre>
-     * 'class_name' => Array
-     * (
+     * 'class_name' => [
      *     'EVERYONE' => [],
      *     'ANONYMOUS' => [],
-     *     'USERS' => Array
-     *     (
+     *     'USERS' => [
      *         'midcom:create' => MIDCOM_PRIVILEGE_ALLOW,
      *         'midcom:update' => MIDCOM_PRIVILEGE_ALLOW
-     *     ),
-     * )
+     *     ],
+     * ]
      * </pre>
      *
      * @var array

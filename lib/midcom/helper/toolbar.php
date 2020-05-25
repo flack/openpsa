@@ -15,19 +15,19 @@
  * array with the following elements:
  *
  * <code>
- * $item = Array (
- *     [MIDCOM_TOOLBAR_URL] => $url,
- *     [MIDCOM_TOOLBAR_LABEL] => $label,
- *     [MIDCOM_TOOLBAR_HELPTEXT] => $helptext,
- *     [MIDCOM_TOOLBAR_ICON] => $icon,
- *     [MIDCOM_TOOLBAR_ENABLED] => $enabled,
- *     [MIDCOM_TOOLBAR_HIDDEN] => $hidden
- *     [MIDCOM_TOOLBAR_OPTIONS] => array $options,
- *     [MIDCOM_TOOLBAR_SUBMENU] => midcom_helper_toolbar $submenu,
- *     [MIDCOM_TOOLBAR_ACCESSKEY] => (char) 'a',
- *     [MIDCOM_TOOLBAR_POST] => true,
- *     [MIDCOM_TOOLBAR_POST_HIDDENARGS] => array $args,
- * );
+ * $item = [
+ *     MIDCOM_TOOLBAR_URL => $url,
+ *     MIDCOM_TOOLBAR_LABEL => $label,
+ *     MIDCOM_TOOLBAR_HELPTEXT => $helptext,
+ *     MIDCOM_TOOLBAR_ICON => $icon,
+ *     MIDCOM_TOOLBAR_ENABLED => $enabled,
+ *     MIDCOM_TOOLBAR_HIDDEN => $hidden
+ *     MIDCOM_TOOLBAR_OPTIONS => array $options,
+ *     MIDCOM_TOOLBAR_SUBMENU => midcom_helper_toolbar $submenu,
+ *     MIDCOM_TOOLBAR_ACCESSKEY => (char) 'a',
+ *     MIDCOM_TOOLBAR_POST => true,
+ *     MIDCOM_TOOLBAR_POST_HIDDENARGS => array $args,
+ * ];
  * </code>
  *
  * The URL parameter can be interpreted in three different ways:
