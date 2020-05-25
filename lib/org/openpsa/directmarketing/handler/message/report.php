@@ -44,7 +44,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $qb_receipts->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
         $receipts = $qb_receipts->execute_unchecked();
         $receipt_data =& $this->_request_data['report']['receipt_data'];
-        $receipt_data['first_send'] = time();
+        $receipt_data['first_send'] = $receipts[0]->timestamp ?? 0;
         $receipt_data['last_send'] = 0;
         $receipt_data['sent'] = count($receipts);
         $receipt_data['bounced'] = 0;
