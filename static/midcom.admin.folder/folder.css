@@ -1,34 +1,3 @@
-div.form_description
-{
-    font-weight: bold;
-    margin-top: 6px;
-}
-
-div.midcom_admin_content_componentlist div.note
-{
-    border: 1px solid #e0e0e0;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    padding: 8px;
-    border-radius: 8px;
-    color: #000000;
-    background-color: #f0f0f0;
-}
-
-div.midcom_admin_content_componentlist dl
-{
-    height: 15em;
-    overflow: auto;
-    border: 1px #f0f0f0 solid;
-    padding: 6px;
-    margin-top: 0px;
-}
-
-div.midcom_admin_content_componentlist dl dd
-{
-    margin-bottom: 6px;
-}
-
 div.midcom_admin_content_folderlist ul
 {
     list-style: none;
