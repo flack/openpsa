@@ -29,9 +29,9 @@ class midcom_helper_reflector_nameresolver
      * Resolves the "name" of given object
      *
      * @param string $name_property property to use as "name", if left to default (null), will be reflected
-     * @return string value of name property or boolean false on failure
+     * @return string value of name property or null on failure
      */
-    public function get_object_name($name_property = null)
+    public function get_object_name($name_property = null) : ?string
     {
         if ($name_property === null) {
             $name_property = midcom_helper_reflector::get_name_property($this->_object);
@@ -39,10 +39,9 @@ class midcom_helper_reflector_nameresolver
         if (    empty($name_property)
             || !midcom_helper_reflector::get($this->_object)->property_exists($name_property)) {
             // Could not resolve valid property
-            return false;
+            return null;
         }
-        // Make copy via typecast, very important or we might accidentally manipulate the given object
-        return (string)$this->_object->{$name_property};
+        return $this->_object->{$name_property};
     }
 
     /**
@@ -53,12 +52,11 @@ class midcom_helper_reflector_nameresolver
      */
     public function name_is_clean($name_property = null) : bool
     {
-        $name_copy = $this->get_object_name($name_property);
-        if (empty($name_copy)) {
-            // empty name is not "clean"
-            return false;
+        if ($name_copy = $this->get_object_name($name_property)) {
+            return $name_copy === midcom_helper_misc::urlize($name_copy);
         }
-        return $name_copy === midcom_helper_misc::urlize($name_copy);
+        // empty name is not "clean"
+        return false;
     }
 
     /**
@@ -69,13 +67,11 @@ class midcom_helper_reflector_nameresolver
      */
     public function name_is_safe($name_property = null) : bool
     {
-        $name_copy = $this->get_object_name($name_property);
-
-        if (empty($name_copy)) {
-            // empty name is not url-safe
-            return false;
+        if ($name_copy = $this->get_object_name($name_property)) {
+            return $name_copy === rawurlencode($name_copy);
         }
-        return $name_copy === rawurlencode($name_copy);
+        // empty name is not url-safe
+        return false;
     }
 
     /**
@@ -87,7 +83,7 @@ class midcom_helper_reflector_nameresolver
     public function name_is_safe_or_empty($name_property = null) : bool
     {
         $name_copy = $this->get_object_name($name_property);
-        if ($name_copy === false) {
+        if ($name_copy === null) {
             //get_object_name failed
             return false;
         }
@@ -106,7 +102,7 @@ class midcom_helper_reflector_nameresolver
     public function name_is_clean_or_empty($name_property = null) : bool
     {
         $name_copy = $this->get_object_name($name_property);
-        if ($name_copy === false) {
+        if ($name_copy === null) {
             //get_object_name failed
             return false;
         }
@@ -122,10 +118,9 @@ class midcom_helper_reflector_nameresolver
     public function name_is_unique_or_empty() : bool
     {
         $name_copy = $this->get_object_name();
-        if (   empty($name_copy)
-            && $name_copy !== false) {
-            // Allow empty string name
-            return true;
+        if (empty($name_copy)) {
+            // Allow empty string, but return false if get_object_name failed
+            return $name_copy !== null;
         }
         return $this->name_is_unique();
     }
@@ -243,7 +238,7 @@ class midcom_helper_reflector_nameresolver
     {
         // Get current name and sanity-check
         $original_name = $this->get_object_name();
-        if ($original_name === false) {
+        if ($original_name === null) {
             // Fatal error with name resolution
             debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} returned critical failure for name resolution, aborting", MIDCOM_LOG_WARN);
             return false;
@@ -253,7 +248,7 @@ class midcom_helper_reflector_nameresolver
         $name_prop = midcom_helper_reflector::get_name_property($this->_object);
 
         if (!empty($original_name)) {
-            $current_name = (string)$original_name;
+            $current_name = $original_name;
         } else {
             // Empty name, try to generate from title
             $title_copy = midcom_helper_reflector::get_object_title($this->_object, $title_property);

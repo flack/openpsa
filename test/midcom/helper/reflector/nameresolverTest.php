@@ -19,7 +19,7 @@ class midcom_helper_reflector_nameresolverTest extends openpsa_testcase
         $article->name = 'test';
         $resolver = new midcom_helper_reflector_nameresolver($article);
         $this->assertEquals('test', $resolver->get_object_name());
-        $this->assertFalse($resolver->get_object_name('nonexistent'));
+        $this->assertNull($resolver->get_object_name('nonexistent'));
     }
 
     public function test_name_is_unique()
