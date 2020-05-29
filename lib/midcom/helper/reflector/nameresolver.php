@@ -75,57 +75,6 @@ class midcom_helper_reflector_nameresolver
     }
 
     /**
-     * Checks for URL-safe name, this variant accepts empty name
-     *
-     * @see http://trac.midgard-project.org/ticket/809
-     * @param string $name_property property to use as "name", if left to default (null), will be reflected
-     */
-    public function name_is_safe_or_empty($name_property = null) : bool
-    {
-        $name_copy = $this->get_object_name($name_property);
-        if ($name_copy === null) {
-            //get_object_name failed
-            return false;
-        }
-        if (empty($name_copy)) {
-            return true;
-        }
-        return $this->name_is_safe($name_property);
-    }
-
-    /**
-     * Checks for "clean" URL name, this variant accepts empty name
-     *
-     * @see http://trac.midgard-project.org/ticket/809
-     * @param string $name_property property to use as "name", if left to default (null), will be reflected
-     */
-    public function name_is_clean_or_empty($name_property = null) : bool
-    {
-        $name_copy = $this->get_object_name($name_property);
-        if ($name_copy === null) {
-            //get_object_name failed
-            return false;
-        }
-        if (empty($name_copy)) {
-            return true;
-        }
-        return $this->name_is_clean($name_property);
-    }
-
-    /**
-     * Check that none of given objects siblings have same name, or the name is empty.
-     */
-    public function name_is_unique_or_empty() : bool
-    {
-        $name_copy = $this->get_object_name();
-        if (empty($name_copy)) {
-            // Allow empty string, but return false if get_object_name failed
-            return $name_copy !== null;
-        }
-        return $this->name_is_unique();
-    }
-
-    /**
      * Check that none of given object's siblings have same name.
      */
     public function name_is_unique() : bool

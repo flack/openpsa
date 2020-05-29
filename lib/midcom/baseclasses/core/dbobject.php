@@ -179,8 +179,8 @@ class midcom_baseclasses_core_dbobject
      * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return boolean indicating whether from our point of view everything is ok
      *
-     * @see midcom_helper_reflector_nameresolver::name_is_safe_or_empty()
-     * @see midcom_helper_reflector_nameresolver::name_is_unique_or_empty()
+     * @see midcom_helper_reflector_nameresolver::name_is_safe()
+     * @see midcom_helper_reflector_nameresolver::name_is_unique()
      * @see midcom_helper_reflector_nameresolver::generate_unique_name()
      */
     private static function _pre_check_name(midcom_core_dbaobject $object) : bool
@@ -204,22 +204,23 @@ class midcom_baseclasses_core_dbobject
             $object->{$name_property} = (string) $resolver->generate_unique_name();
         }
 
-        /**
-         * Enforce URL-safe (or empty) names
-         *
-         * @see http://trac.midgard-project.org/ticket/809
-         */
-        if (!$resolver->name_is_safe_or_empty()) {
+        $name = $resolver->get_object_name();
+        if ($name === null) {
+            midcom_connection::set_error(MGD_ERR_INVALID_NAME);
+            return false;
+        }
+        if (empty($name)) {
+            return true;
+        }
+
+        // Enforce URL-safe names
+        if (!$resolver->name_is_safe()) {
             midcom_connection::set_error(MGD_ERR_INVALID_NAME);
             return false;
         }
 
-        /**
-         * Enforce unique (or empty) names
-         *
-         * @see http://trac.midgard-project.org/ticket/809
-         */
-        if (!$resolver->name_is_unique_or_empty()) {
+        // Enforce unique (or empty) names
+        if (!$resolver->name_is_unique()) {
             if ($object->allow_name_catenate) {
                 // Transparent catenation allowed, let's try again.
                 if ($new_name = $resolver->generate_unique_name()) {
