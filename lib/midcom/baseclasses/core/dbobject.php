@@ -202,15 +202,9 @@ class midcom_baseclasses_core_dbobject
         if (empty($object->{$name_property})) {
             // name is empty, try to generate
             $object->{$name_property} = (string) $resolver->generate_unique_name();
-        }
-
-        $name = $resolver->get_object_name();
-        if ($name === null) {
-            midcom_connection::set_error(MGD_ERR_INVALID_NAME);
-            return false;
-        }
-        if (empty($name)) {
-            return true;
+            if (empty($object->{$name_property})) {
+                return true;
+            }
         }
 
         // Enforce URL-safe names
