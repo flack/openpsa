@@ -369,12 +369,10 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $parent_property = midgard_object_class::get_property_parent($schema_type);
             $up_property = midgard_object_class::get_property_up($schema_type);
 
-            if (   !$this->_resolve_child_classes_links_back($parent_property, $schema_type, $this->mgdschema_class)
-                && !$this->_resolve_child_classes_links_back($up_property, $schema_type, $this->mgdschema_class)) {
-                continue;
+            if (   $this->is_link_to_current_class($parent_property, $schema_type)
+                || $this->is_link_to_current_class($up_property, $schema_type)) {
+                $child_classes[] = $schema_type;
             }
-
-            $child_classes[] = $schema_type;
         }
 
         //make sure children of the same type come out on top
@@ -385,7 +383,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return $child_classes;
     }
 
-    private function _resolve_child_classes_links_back($property, $prospect_type, string $schema_type) : bool
+    private function is_link_to_current_class($property, string $prospect_type) : bool
     {
         if (empty($property)) {
             return false;
@@ -397,7 +395,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             && $ref->get_midgard_type($property) === MGD_TYPE_GUID) {
             return true;
         }
-        return self::is_same_class($link_class, $schema_type);
+        return self::is_same_class($link_class, $this->mgdschema_class);
     }
 
     /**
