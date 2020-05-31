@@ -31,7 +31,11 @@ class indexerPassTest extends openpsa_testcase
         $config->set('indexer_backend', 'solr');
         $pass = new indexerPass($config);
 
-        $container = $this->getMockBuilder(ContainerBuilder::class)->getMock();
+        $container = $this
+            ->getMockBuilder(ContainerBuilder::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $container
             ->expects($this->once())
             ->method('setDefinition')

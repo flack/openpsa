@@ -33,7 +33,10 @@ class componentPassTest extends openpsa_testcase
         ]);
         $pass = new componentPass($config);
 
-        $container = $this->getMockBuilder(ContainerBuilder::class)->getMock();
+        $container = $this
+            ->getMockBuilder(ContainerBuilder::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $container
             ->expects($this->exactly(3))

@@ -36,7 +36,11 @@ class loggerPassTest extends openpsa_testcase
         $logger = new ChildDefinition('logger');
         $logger->replaceArgument(0, 'request');
 
-        $container = $this->getMockBuilder(ContainerBuilder::class)->getMock();
+        $container = $this
+            ->getMockBuilder(ContainerBuilder::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $container
             ->expects($this->once())
             ->method('setDefinition')
