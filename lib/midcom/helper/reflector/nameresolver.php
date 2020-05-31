@@ -89,6 +89,20 @@ class midcom_helper_reflector_nameresolver
         // Start the magic
         midcom::get()->auth->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
+        $sibling_classes = $this->get_sibling_classes($parent);
+        if ($sibling_classes === null) {
+            // This should not happen, logging error and returning true (even though it's potentially dangerous)
+            debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, returning true and supposing user knows what he is doing", MIDCOM_LOG_ERROR);
+            return true;
+        }
+        $stat = $this->check_sibling_classes($name, $sibling_classes, $parent);
+
+        midcom::get()->auth->drop_sudo();
+        return $stat;
+    }
+
+    private function get_sibling_classes($parent = null) : ?array
+    {
         if (!empty($parent->guid)) {
             // We have parent, check siblings
             $parent_resolver = new midcom_helper_reflector_tree($parent);
@@ -97,28 +111,21 @@ class midcom_helper_reflector_nameresolver
                 $sibling_classes[] = 'midgard_attachment';
             }
 
-            $stat = $this->check_sibling_classes($name, $sibling_classes, $parent);
-        } else {
-            // No parent, we might be a root level class
-            $is_root_class = false;
-            $root_classes = midcom_helper_reflector_tree::get_root_classes();
-            foreach ($root_classes as $classname) {
-                if (midcom::get()->dbfactory->is_a($this->_object, $classname)) {
-                    $is_root_class = true;
-                    break;
-                }
-            }
-            if (!$is_root_class) {
-                // This should not happen, logging error and returning true (even though it's potentially dangerous)
-                debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, returning true and supposing user knows what he is doing", MIDCOM_LOG_ERROR);
-                $stat = true;
-            } else {
-                $stat = $this->check_sibling_classes($name, $root_classes);
+            return $sibling_classes;
+        }
+        // No parent, we might be a root level class
+        $is_root_class = false;
+        $root_classes = midcom_helper_reflector_tree::get_root_classes();
+        foreach ($root_classes as $classname) {
+            if (midcom::get()->dbfactory->is_a($this->_object, $classname)) {
+                $is_root_class = true;
+                break;
             }
         }
-
-        midcom::get()->auth->drop_sudo();
-        return $stat;
+        if (!$is_root_class) {
+            return null;
+        }
+        return $root_classes;
     }
 
     private function check_sibling_classes(string $name, array $schema_types, $parent = null) : bool
@@ -269,35 +276,15 @@ class midcom_helper_reflector_nameresolver
         // Look for siblings with similar names and see if they have higher i.
         midcom::get()->auth->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
-        if (!empty($parent->guid)) {
-            // We have parent, check siblings
-            $parent_resolver = new midcom_helper_reflector_tree($parent);
-            $sibling_classes = $parent_resolver->get_child_classes();
-            if (!in_array('midgard_attachment', $sibling_classes)) {
-                $sibling_classes[] = 'midgard_attachment';
-            }
-            foreach ($sibling_classes as $schema_type) {
-                $i = $this->process_schema_type($this->get_sibling_qb($schema_type, $parent), $i, $schema_type, $base_name, $extension);
-            }
-        } else {
-            // No parent, we might be a root level class
-            $is_root_class = false;
-            $root_classes = midcom_helper_reflector_tree::get_root_classes();
-            foreach ($root_classes as $schema_type) {
-                if (midcom::get()->dbfactory->is_a($this->_object, $schema_type)) {
-                    $is_root_class = true;
-                    break;
-                }
-            }
-            if (!$is_root_class) {
-                // This should not happen, logging error and returning true (even though it's potentially dangerous)
-                midcom::get()->auth->drop_sudo();
-                debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, letting higher level decide", MIDCOM_LOG_ERROR);
-                return [$i, $base_name];
-            }
-            foreach ($root_classes as $schema_type) {
-                $i = $this->process_schema_type($this->get_sibling_qb($schema_type), $i, $schema_type, $base_name, $extension);
-            }
+        $sibling_classes = $this->get_sibling_classes($parent);
+        if ($sibling_classes === null) {
+            // This should not happen, logging error and returning true (even though it's potentially dangerous)
+            midcom::get()->auth->drop_sudo();
+            debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, letting higher level decide", MIDCOM_LOG_ERROR);
+            return [$i, $base_name];
+        }
+        foreach ($sibling_classes as $schema_type) {
+            $i = $this->process_schema_type($this->get_sibling_qb($schema_type, $parent), $i, $schema_type, $base_name, $extension);
         }
         midcom::get()->auth->drop_sudo();
 
