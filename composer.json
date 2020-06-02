@@ -58,6 +58,9 @@
         "symfony/http-kernel": ">=4.4",
         "cocur/slugify": "^3.2"
     },
+    "conflict": {
+        "symfony/form": "4.4.9 || 5.0.9 || 5.1.0"
+    },
     "scripts": {
         "post-install-cmd": [
             "openpsa\\installer\\installer::setup_root_package"
