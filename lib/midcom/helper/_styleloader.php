@@ -244,16 +244,13 @@ class midcom_helper__styleloader
         $style_mc = midgard_style::new_collector('id', $id);
         $style_mc->set_key_property('guid');
         $style_mc->add_value_property('up');
+        $style_mc->add_constraint('up', '>', 0);
         $style_mc->execute();
 
         foreach ($style_mc->list_keys() as $style_guid => $value) {
             midcom::get()->cache->content->register($style_guid);
-
-            if ($up = $style_mc->get_subkey($style_guid, 'up')) {
-                $value = $this->_get_element_in_styletree($up, $name);
-                $cached[$cache_key] = $value;
-                return $value;
-            }
+            $up = $style_mc->get_subkey($style_guid, 'up');
+            return $this->_get_element_in_styletree($up, $name);
         }
 
         $cached[$cache_key] = false;
@@ -451,25 +448,37 @@ class midcom_helper__styleloader
      *
      * @todo Document
      *
-     * @param midcom_db_topic $topic    Current topic
      * @return int Database ID if the style to use in current view or false
      */
-    private function _get_component_style(midcom_db_topic $topic)
+    private function _get_component_style()
     {
         $_st = false;
+        if (!$this->_topic) {
+            return $_st;
+        }
         // get user defined style for component
         // style inheritance
         // should this be cached somehow?
-        if ($topic->style) {
-            $_st = $this->get_style_id_from_path($topic->style);
-        } elseif ($inherited = midcom_core_context::get()->get_inherited_style()) {
-            // get user defined style inherited from topic tree
-            $_st = $this->get_style_id_from_path($inherited);
+        if ($style = $this->_topic->style ?: midcom_core_context::get()->get_inherited_style()) {
+            if (substr($style, 0, 6) === 'theme:') {
+                $theme_dir = OPENPSA2_THEME_ROOT . midcom::get()->config->get('theme') . '/style';
+                $parts = explode('/', str_replace('theme:/', '', $style));
+
+                foreach ($parts as &$part) {
+                    $theme_dir .= '/' . $part;
+                    $part = $theme_dir;
+                }
+                foreach (array_reverse(array_filter($parts, 'is_dir')) as $dirname) {
+                    $this->prepend_styledir($dirname);
+                }
+            } else {
+                $_st = $this->get_style_id_from_path($style);
+            }
         } else {
             // Get style from sitewide per-component defaults.
             $styleengine_default_styles = midcom::get()->config->get('styleengine_default_styles');
-            if (isset($styleengine_default_styles[$topic->component])) {
-                $_st = $this->get_style_id_from_path($styleengine_default_styles[$topic->component]);
+            if (isset($styleengine_default_styles[$this->_topic->component])) {
+                $_st = $this->get_style_id_from_path($styleengine_default_styles[$this->_topic->component]);
             }
         }
 
@@ -482,21 +491,6 @@ class midcom_helper__styleloader
                     if ($_subst_id = $this->get_style_id_from_path($stylename, $_st)) {
                         $_st = $_subst_id;
                     }
-                }
-            }
-        } else {
-            $style = $topic->style ?: midcom_core_context::get()->get_inherited_style();
-            if (   is_string($style)
-                && substr($style, 0, 6) === 'theme:') {
-                $theme_dir = OPENPSA2_THEME_ROOT . midcom::get()->config->get('theme') . '/style';
-                $parts = explode('/', str_replace('theme:/', '', $style));
-
-                foreach ($parts as &$part) {
-                    $theme_dir .= '/' . $part;
-                    $part = $theme_dir;
-                }
-                foreach (array_reverse(array_filter($parts, 'is_dir')) as $dirname) {
-                    $this->prepend_styledir($dirname);
                 }
             }
         }
@@ -665,8 +659,7 @@ class midcom_helper__styleloader
             $this->_styledirs_append[$context->id] = [];
         }
 
-        if (   $this->_topic
-            && $_st = $this->_get_component_style($this->_topic)) {
+        if ($_st = $this->_get_component_style()) {
             array_unshift($this->_scope, $_st);
         }
 
@@ -683,8 +676,7 @@ class midcom_helper__styleloader
      */
     public function leave_context()
     {
-        if (   $this->_topic
-            && $this->_get_component_style($this->_topic)) {
+        if ($this->_get_component_style()) {
             array_shift($this->_scope);
         }
         array_shift($this->_context);
