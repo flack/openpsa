@@ -218,7 +218,7 @@ class midcom_helper__styleloader
      * @param string $name    The element to locate.
      * @return string    Value of the found element, or false on failure.
      */
-    private function _get_element_in_styletree($id, string $name)
+    private function _get_element_in_styletree($id, string $name) : ?string
     {
         static $cached = [];
         $cache_key = $id . '::' . $name;
@@ -233,11 +233,11 @@ class midcom_helper__styleloader
         $element_mc->add_constraint('name', '=', $name);
         $element_mc->execute();
 
-        foreach ($element_mc->list_keys() as $element_guid => $value) {
-            $value = $element_mc->get_subkey($element_guid, 'value');
+        if ($keys = $element_mc->list_keys()) {
+            $element_guid = key($keys);
+            $cached[$cache_key] = $element_mc->get_subkey($element_guid, 'value');
             midcom::get()->cache->content->register($element_guid);
-            $cached[$cache_key] = $value;
-            return $value;
+            return $cached[$cache_key];
         }
 
         // No such element on this level, check parents
@@ -247,13 +247,14 @@ class midcom_helper__styleloader
         $style_mc->add_constraint('up', '>', 0);
         $style_mc->execute();
 
-        foreach ($style_mc->list_keys() as $style_guid => $value) {
+        if ($keys = $style_mc->list_keys()) {
+            $style_guid = key($keys);
             midcom::get()->cache->content->register($style_guid);
             $up = $style_mc->get_subkey($style_guid, 'up');
             return $this->_get_element_in_styletree($up, $name);
         }
 
-        $cached[$cache_key] = false;
+        $cached[$cache_key] = null;
         return $cached[$cache_key];
     }
 
@@ -308,13 +309,15 @@ class midcom_helper__styleloader
             array_unshift($this->_scope, $styleid);
         }
 
-        $style = $this->_find_element_in_scope($element);
+        if (!empty($this->_scope[0])) {
+            $style = $this->_get_element_in_styletree($this->_scope[0], $element);
+        }
 
         if (!empty($styleid)) {
             array_shift($this->_scope);
         }
 
-        if (!$style) {
+        if (empty($style)) {
             $style = $this->_get_element_from_snippet($element);
         }
         return $style;
@@ -392,26 +395,6 @@ class midcom_helper__styleloader
             return true;
         }
         debug_add("The element '{$path}' could not be found.", MIDCOM_LOG_INFO);
-        return false;
-    }
-
-    /**
-     * Try to find element in current / given scope
-     */
-    private function _find_element_in_scope(string $_element)
-    {
-        if (!empty($this->_scope)) {
-            $src = "{$this->_scope[0]}/{$_element}";
-
-            if (array_key_exists($src, $this->_styles)) {
-                return $this->_styles[$src];
-            }
-            if (   $this->_scope[0] != ''
-                && $result = $this->_get_element_in_styletree($this->_scope[0], $_element)) {
-                $this->_styles[$src] = $result;
-                return $this->_styles[$src];
-            }
-        }
         return false;
     }
 
