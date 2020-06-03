@@ -84,13 +84,6 @@ class midcom_helper__styleloader
     private $_context = [];
 
     /**
-     * Style element cache
-     *
-     * @var array
-     */
-    private $_styles = [];
-
-    /**
      * Default style element cache
      *
      * @var array
