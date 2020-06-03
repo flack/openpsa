@@ -93,6 +93,9 @@ class midcom_application extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__ . '/config/services.yml');
+        if (file_exists($this->getProjectDir() . '/config/services.yml')) {
+            $loader->load($this->getProjectDir() . '/config/services.yml');
+        }
         if ($classes = midcom::get_registered_service_classes()) {
             $loader->load(function (ContainerBuilder $container) use ($classes) {
                 foreach ($classes as $id => $class) {
