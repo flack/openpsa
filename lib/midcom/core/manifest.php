@@ -57,8 +57,6 @@
  *
  * <i>string name</i> should be clear, it is the full name of the component.
  *
- * <i>string extends</i> The name of the component from which the current should inherit
- *
  * <i>boolean purecode</i> is equally easy, indicating whether this is a library or a full
  * scale component.
  *
@@ -202,13 +200,6 @@ class midcom_core_manifest
      * @var string
      */
     public $icon;
-
-    /**
-     * The name of the parent component, if any.
-     *
-     * @var string
-     */
-    public $extends;
 
     /**
      * This is the translated, full component name obtained by looking up the string

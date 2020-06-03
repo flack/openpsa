@@ -95,15 +95,7 @@ class midcom_baseclasses_components_configuration
     private static function _load_configuration(string $component)
     {
         $data = [];
-        $loader = midcom::get()->componentloader;
-        if (!empty($loader->get_manifest($component)->extends)) {
-            $component_path = $loader->path_to_snippetpath($loader->get_manifest($component)->extends);
-            // Load and parse the global config
-            if ($parent_data = self::read_array_from_file($component_path . '/config/config.inc')) {
-                $data = $parent_data;
-            }
-        }
-        $component_path = $loader->path_to_snippetpath($component);
+        $component_path = midcom::get()->componentloader->path_to_snippetpath($component);
         // Load and parse the global config
         if ($component_data = self::read_array_from_file($component_path . '/config/config.inc')) {
             $data = array_merge($data, $component_data);

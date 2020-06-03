@@ -131,16 +131,11 @@ class loader extends base
      */
     public function get_legacy_routes($component) : array
     {
-        $routes = [];
         if (!$this->is_legacy($component)) {
-            return $routes;
-        }
-        $manifest = midcom::get()->componentloader->get_manifest($component);
-        if (!empty($manifest->extends)) {
-            $routes = $this->get_legacy_routes($manifest->extends);
+            return [];
         }
 
-        return array_merge($routes, $this->load_routes($component));
+        return $this->load_routes($component);
     }
 
     private function load_routes(string $component) : array
