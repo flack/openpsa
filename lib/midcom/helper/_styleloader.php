@@ -270,8 +270,7 @@ class midcom_helper__styleloader
         if ($style === false) {
             if ($path == 'ROOT') {
                 // Go to fallback ROOT instead of displaying a blank page
-                $this->show_midcom($path);
-                return true;
+                return $this->show_midcom($path);
             }
 
             debug_add("The element '{$path}' could not be found.", MIDCOM_LOG_INFO);
@@ -357,13 +356,7 @@ class midcom_helper__styleloader
         $_element = $path;
         $_style = false;
 
-        $this->_snippetdir = MIDCOM_ROOT . '/midcom/style';
         $context = midcom_core_context::get();
-        if (isset($this->_styledirs[$context->id])) {
-            $styledirs_backup = $this->_styledirs;
-        }
-
-        $this->_styledirs[$context->id][0] = $this->_snippetdir;
 
         try {
             $root_topic = $context->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
@@ -376,11 +369,17 @@ class midcom_helper__styleloader
         }
 
         if ($_style === false) {
-            $_style = $this->_get_element_from_snippet($_element);
-        }
+            if (isset($this->_styledirs[$context->id])) {
+                $styledirs_backup = $this->_styledirs;
+            }
+            $this->_snippetdir = MIDCOM_ROOT . '/midcom/style';
+            $this->_styledirs[$context->id][0] = $this->_snippetdir;
 
-        if (isset($styledirs_backup)) {
-            $this->_styledirs = $styledirs_backup;
+            $_style = $this->_get_element_from_snippet($_element);
+
+            if (isset($styledirs_backup)) {
+                $this->_styledirs = $styledirs_backup;
+            }
         }
 
         if ($_style !== false) {
@@ -589,28 +588,11 @@ class midcom_helper__styleloader
     }
 
     /**
-     * Merge the prepend and append styles with the componentstyle. This happens when the
-     * enter_context function is called.
-     * You cannot change the style call stack after that (unless you call enter_context again of course).
+     * Switches the context (see dynamic load).
      *
-     * @param string $component_style
-     */
-    private function _merge_styledirs($component_style)
-    {
-        $current_context = midcom_core_context::get()->id;
-        /* first the prepend styles */
-        $this->_styledirs[$current_context] = $this->_styledirs_prepend[$current_context];
-        /* then the contextstyle */
-        $this->_styledirs[$current_context][count($this->_styledirs[$current_context])] = $component_style;
-
-        $this->_styledirs[$current_context] = array_merge($this->_styledirs[$current_context], $this->_styledirs_append[$current_context]);
-    }
-
-    /**
-     * Switches the context (see dynamic load). Private variables $_context, $_topic
-     * and $_snippetdir are adjusted.
+     * Private variables are adjusted, and the prepend and append styles are merged with the componentstyle.
+     * You cannot change the style stack after that (unless you call enter_context again of course).
      *
-     * @todo check documentation
      * @param midcom_core_context $context The context to enter
      */
     public function enter_context(midcom_core_context $context)
@@ -621,9 +603,6 @@ class midcom_helper__styleloader
         $this->_topic = $context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
         // Prepare styledir stacks
-        if (!isset($this->_styledirs[$context->id])) {
-            $this->_styledirs[$context->id] = [];
-        }
         if (!isset($this->_styledirs_prepend[$context->id])) {
             $this->_styledirs_prepend[$context->id] = [];
         }
@@ -637,7 +616,11 @@ class midcom_helper__styleloader
 
         $this->_snippetdir = $this->_get_component_snippetdir();
 
-        $this->_merge_styledirs($this->_snippetdir);
+        $this->_styledirs[$context->id] = array_merge(
+            $this->_styledirs_prepend[$context->id],
+            [$this->_snippetdir],
+            $this->_styledirs_append[$context->id]
+        );
     }
 
     /**
