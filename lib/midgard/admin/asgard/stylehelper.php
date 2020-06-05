@@ -87,7 +87,7 @@ class midgard_admin_asgard_stylehelper
         return 'elementnames';
     }
 
-    private function _get_style_elements_and_nodes($style_id) : array
+    private function _get_style_elements_and_nodes(int $style_id) : array
     {
         $results = [
             'elements' => [
@@ -102,7 +102,7 @@ class midgard_admin_asgard_stylehelper
         if (!$style_id) {
             return $results;
         }
-        $style_path = midcom::get()->style->get_style_path_from_id($style_id);
+        $style_path = midcom_db_style::path_from_id($style_id);
         $style_nodes = $this->_get_nodes_using_style($style_path);
 
         foreach ($style_nodes as $node) {

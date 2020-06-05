@@ -108,7 +108,7 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
             $enabled = false;
             $styleeditor_url = '';
             if ($this->topic->style != '') {
-                if ($style_id = midcom::get()->style->get_style_id_from_path($this->topic->style)) {
+                if ($style_id = midcom_db_style::id_from_path($this->topic->style)) {
                     try {
                         $style = midcom_db_style::get_cached($style_id);
                         $styleeditor_url = midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$style->guid}/";

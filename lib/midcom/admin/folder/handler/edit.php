@@ -174,7 +174,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $style->name = $style_name;
 
         if ($inherited = midcom_core_context::get()->get_inherited_style()) {
-            $style->up = midcom::get()->style->get_style_id_from_path($inherited);
+            $style->up = midcom_db_style::id_from_path($inherited);
             debug_add("Style inherited from {$inherited}");
         }
 
@@ -187,6 +187,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
         debug_print_r('New style created', $style);
 
-        return midcom::get()->style->get_style_path_from_id($style->id);
+        return midcom_db_style::path_from_id($style->id);
     }
 }
