@@ -113,7 +113,7 @@ services:
         public: true
 
     style:
-        class: midcom_helper__styleloader
+        class: midcom_helper_style
         public: true
 
     toolbars:

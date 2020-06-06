@@ -18,7 +18,7 @@ function _midcom_stop_request($message = '')
 /**
  * Global shortcut.
  *
- * @see midcom_helper__styleloader::show()
+ * @see midcom_helper_style::show()
  */
 function midcom_show_style($param)
 {

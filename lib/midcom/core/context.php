@@ -120,7 +120,7 @@ class midcom_core_context
     /**
      * Returns inherited style (if any)
      */
-    public function get_inherited_style()
+    public function get_inherited_style() : ?string
     {
         $to_check = array_reverse($this->get_key(MIDCOM_CONTEXT_URLTOPICS));
         $to_check[] = $this->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
@@ -129,7 +129,7 @@ class midcom_core_context
                 return $object->style;
             }
         }
-        return false;
+        return null;
     }
 
     /**
