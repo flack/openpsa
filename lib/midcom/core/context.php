@@ -207,7 +207,7 @@ class midcom_core_context
      *
      * A complete example can be found with set_custom_key.
      *
-     * @param int $key    The requested key
+     * @param mixed $key    The requested key
      * @return mixed      The requested value, which is returned by Reference!
      * @see get_key()
      * @see set_custom_key()
