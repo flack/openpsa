@@ -56,13 +56,6 @@
 class midcom_helper__styleloader
 {
     /**
-     * Current style scope
-     *
-     * @var array
-     */
-    private $_scope = [];
-
-    /**
      * Current topic
      *
      * @var midcom_db_topic
@@ -209,7 +202,7 @@ class midcom_helper__styleloader
             $element = $matches[2];
         }
 
-        if ($styleid = $styleid ?? $this->_scope[0] ?? null) {
+        if ($styleid = $styleid ?? $this->_context[0]->get_custom_key(midcom_db_style::class)) {
             $style = $this->_get_element_in_styletree($styleid, $element);
         }
 
@@ -323,72 +316,16 @@ class midcom_helper__styleloader
     }
 
     /**
-     * Gets the component style.
-     *
-     * @todo Document
-     *
-     * @return int Database ID if the style to use in current view or false
-     */
-    private function _get_component_style()
-    {
-        $_st = false;
-        if (!$this->_topic) {
-            return $_st;
-        }
-        // get user defined style for component
-        // style inheritance
-        // should this be cached somehow?
-        if ($style = $this->_topic->style ?: midcom_core_context::get()->get_inherited_style()) {
-            if (substr($style, 0, 6) === 'theme:') {
-                $theme_dir = OPENPSA2_THEME_ROOT . midcom::get()->config->get('theme') . '/style';
-                $parts = explode('/', str_replace('theme:/', '', $style));
-
-                foreach ($parts as &$part) {
-                    $theme_dir .= '/' . $part;
-                    $part = $theme_dir;
-                }
-                foreach (array_reverse(array_filter($parts, 'is_dir')) as $dirname) {
-                    $this->prepend_styledir($dirname);
-                }
-            } else {
-                $_st = midcom_db_style::id_from_path($style);
-            }
-        } else {
-            // Get style from sitewide per-component defaults.
-            $styleengine_default_styles = midcom::get()->config->get('styleengine_default_styles');
-            if (isset($styleengine_default_styles[$this->_topic->component])) {
-                $_st = midcom_db_style::id_from_path($styleengine_default_styles[$this->_topic->component]);
-            }
-        }
-
-        if ($_st) {
-            $substyle = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_SUBSTYLE);
-
-            if (is_string($substyle)) {
-                $chain = explode('/', $substyle);
-                foreach ($chain as $stylename) {
-                    if ($_subst_id = midcom_db_style::id_from_path($stylename, $_st)) {
-                        $_st = $_subst_id;
-                    }
-                }
-            }
-        }
-        return $_st;
-    }
-
-    /**
      * Gets the component styledir associated with the topic's component.
      *
      * @return mixed the path to the component's style directory.
      */
-    private function _get_component_snippetdir()
+    private function _get_component_snippetdir() : ?string
     {
-        // get component's snippetdir (for default styles)
-        $loader = midcom::get()->componentloader;
         if (empty($this->_topic->component)) {
             return null;
         }
-        return $loader->path_to_snippetpath($this->_topic->component) . "/style";
+        return midcom::get()->componentloader->path_to_snippetpath($this->_topic->component) . "/style";
     }
 
     /**
@@ -514,10 +451,9 @@ class midcom_helper__styleloader
             $this->_styledirs_append[$context->id] = [];
         }
 
-        if ($_st = $this->_get_component_style()) {
-            array_unshift($this->_scope, $_st);
+        if ($this->_topic) {
+            $this->initialize_from_topic($context);
         }
-
         $this->_snippetdir = $this->_get_component_snippetdir();
 
         $this->_styledirs[$context->id] = array_merge(
@@ -528,6 +464,53 @@ class midcom_helper__styleloader
     }
 
     /**
+     * Initializes style sources from topic
+     */
+    private function initialize_from_topic(midcom_core_context $context)
+    {
+        $_st = 0;
+        // get user defined style for component
+        // style inheritance
+        // should this be cached somehow?
+        if ($style = $this->_topic->style ?: $context->get_inherited_style()) {
+            if (substr($style, 0, 6) === 'theme:') {
+                $theme_dir = OPENPSA2_THEME_ROOT . midcom::get()->config->get('theme') . '/style';
+                $parts = explode('/', str_replace('theme:/', '', $style));
+
+                foreach ($parts as &$part) {
+                    $theme_dir .= '/' . $part;
+                    $part = $theme_dir;
+                }
+                foreach (array_reverse(array_filter($parts, 'is_dir')) as $dirname) {
+                    $this->prepend_styledir($dirname);
+                }
+            } else {
+                $_st = midcom_db_style::id_from_path($style);
+            }
+        } else {
+            // Get style from sitewide per-component defaults.
+            $styleengine_default_styles = midcom::get()->config->get('styleengine_default_styles');
+            if (isset($styleengine_default_styles[$this->_topic->component])) {
+                $_st = midcom_db_style::id_from_path($styleengine_default_styles[$this->_topic->component]);
+            }
+        }
+
+        if ($_st) {
+            $substyle = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE);
+
+            if (is_string($substyle)) {
+                $chain = explode('/', $substyle);
+                foreach ($chain as $stylename) {
+                    if ($_subst_id = midcom_db_style::id_from_path($stylename, $_st)) {
+                        $_st = $_subst_id;
+                    }
+                }
+            }
+        }
+        $context->set_custom_key(midcom_db_style::class, $_st);
+    }
+
+    /**
      * Switches the context (see dynamic load). Private variables $_context, $_topic
      * and $_snippetdir are adjusted.
      *
@@ -535,9 +518,6 @@ class midcom_helper__styleloader
      */
     public function leave_context()
     {
-        if ($this->_get_component_style()) {
-            array_shift($this->_scope);
-        }
         array_shift($this->_context);
 
         $previous_context = $this->_context[0] ?? midcom_core_context::get();
