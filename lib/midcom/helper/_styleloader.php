@@ -332,10 +332,9 @@ class midcom_helper__styleloader
      * Adds an extra style directory to check for style elements at
      * the end of the styledir queue.
      *
-     * @param string $dirname path of style directory within midcom.
      * @throws midcom_error exception if directory does not exist.
      */
-    function append_styledir($dirname)
+    public function append_styledir(string $dirname)
     {
         if (!file_exists($dirname)) {
             throw new midcom_error("Style directory $dirname does not exist!");
@@ -345,27 +344,19 @@ class midcom_helper__styleloader
 
     /**
      * Function prepend styledir
-     *
-     * @param string $dirname path of styledirectory within midcom.
-     * @return boolean true if directory appended
-     * @throws midcom_error if directory does not exist.
      */
-    function prepend_styledir($dirname)
+    public function prepend_styledir(string $dirname)
     {
         if (!file_exists($dirname)) {
             throw new midcom_error("Style directory {$dirname} does not exist.");
         }
         $this->_styledirs_prepend[midcom_core_context::get()->id][] = $dirname;
-        return true;
     }
 
     /**
      * Append the styledir of a component to the queue of styledirs.
-     *
-     * @param string $component Component name
-     * @throws midcom_error exception if directory does not exist.
      */
-    function append_component_styledir($component)
+    public function append_component_styledir(string $component)
     {
         $loader = midcom::get()->componentloader;
         $path = $loader->path_to_snippetpath($component) . "/style";
@@ -374,10 +365,8 @@ class midcom_helper__styleloader
 
     /**
      * Prepend the styledir of a component
-     *
-     * @param string $component component name
      */
-    public function prepend_component_styledir($component)
+    public function prepend_component_styledir(string $component)
     {
         $loader = midcom::get()->componentloader;
         $path = $loader->path_to_snippetpath($component) . "/style";
@@ -388,10 +377,8 @@ class midcom_helper__styleloader
      * Appends a substyle after the currently selected component style.
      *
      * Enables a depth of more than one style during substyle selection.
-     *
-     * @param string $newsub The substyle to append.
      */
-    public function append_substyle($newsub)
+    public function append_substyle(string $newsub)
     {
         // Make sure try to use only the first argument if we get space separated list, fixes #1788
         if (strpos($newsub, ' ') !== false) {
