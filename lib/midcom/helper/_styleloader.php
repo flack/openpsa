@@ -181,7 +181,7 @@ class midcom_helper__styleloader
 
         $style = $this->load($path);
 
-        if ($style === false) {
+        if ($style === null) {
             if ($path == 'ROOT') {
                 // Go to fallback ROOT instead of displaying a blank page
                 return $this->show_midcom($path);
@@ -199,28 +199,18 @@ class midcom_helper__styleloader
      * Load style element content
      *
      * @param string $path The element name
-     * @return false|string
      */
-    public function load($path)
+    public function load($path) : ?string
     {
         $element = $path;
         // we have full qualified path to element
         if (preg_match("|(.*)/(.*)|", $path, $matches)) {
-            $stylepath = $matches[1];
+            $styleid = midcom_db_style::id_from_path($matches[1]);
             $element = $matches[2];
         }
 
-        if (   isset($stylepath)
-            && $styleid = midcom_db_style::id_from_path($stylepath)) {
-            array_unshift($this->_scope, $styleid);
-        }
-
-        if (!empty($this->_scope[0])) {
-            $style = $this->_get_element_in_styletree($this->_scope[0], $element);
-        }
-
-        if (!empty($styleid)) {
-            array_shift($this->_scope);
+        if ($styleid = $styleid ?? $this->_scope[0] ?? null) {
+            $style = $this->_get_element_in_styletree($styleid, $element);
         }
 
         if (empty($style)) {
@@ -268,7 +258,7 @@ class midcom_helper__styleloader
     public function show_midcom($path) : bool
     {
         $_element = $path;
-        $_style = false;
+        $_style = null;
 
         $context = midcom_core_context::get();
 
@@ -282,7 +272,7 @@ class midcom_helper__styleloader
             $e->log();
         }
 
-        if ($_style === false) {
+        if ($_style === null) {
             if (isset($this->_styledirs[$context->id])) {
                 $styledirs_backup = $this->_styledirs;
             }
@@ -296,7 +286,7 @@ class midcom_helper__styleloader
             }
         }
 
-        if ($_style !== false) {
+        if ($_style !== null) {
             $this->render($_style, $path);
             return true;
         }
@@ -307,7 +297,7 @@ class midcom_helper__styleloader
     /**
      * Try to get element from default style snippet
      */
-    private function _get_element_from_snippet(string $_element)
+    private function _get_element_from_snippet(string $_element) : ?string
     {
         $src = "{$this->_snippetdir}/{$_element}";
         if (array_key_exists($src, $this->_snippets)) {
@@ -329,7 +319,7 @@ class midcom_helper__styleloader
                 return $this->_snippets[$filename];
             }
         }
-        return false;
+        return null;
     }
 
     /**
