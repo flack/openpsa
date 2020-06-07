@@ -94,7 +94,7 @@ class midcom_helper_formatter
                     break;
             }
         } else {
-            $command = 'echo htmlentities(' . $variable . ', ENT_COMPAT, midcom::get(\'i18n\')->get_current_charset())';
+            $command = 'echo htmlentities(' . $variable . ', ENT_COMPAT, midcom::get()->i18n->get_current_charset())';
         }
 
         return "<?php $command; ?>";
