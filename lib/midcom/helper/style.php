@@ -129,15 +129,9 @@ class midcom_helper_style
             $styleid = midcom_db_style::id_from_path($matches[1]);
             $element = $matches[2];
         }
+        $scope = $styleid ?? $this->_context[0]->get_custom_key(midcom_db_style::class);
 
-        if ($styleid = $styleid ?? $this->_context[0]->get_custom_key(midcom_db_style::class)) {
-            $style = $this->loader->get_element_in_styletree($styleid, $element);
-        }
-
-        if (empty($style)) {
-            $style = $this->loader->get_element_from_snippet($element);
-        }
-        return $style;
+        return $this->loader->get_element($element, $scope);
     }
 
     /**
@@ -178,27 +172,19 @@ class midcom_helper_style
      */
     public function show_midcom($path) : bool
     {
-        $_element = $path;
-        $_style = null;
-
-        $context = midcom_core_context::get();
-
         try {
-            $root_topic = $context->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
-            if (   $root_topic->style
-                && $db_style = midcom_db_style::id_from_path($root_topic->style)) {
-                $_style = $this->loader->get_element_in_styletree($db_style, $_element);
+            $root_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
+            if ($root_topic->style) {
+                $db_style = midcom_db_style::id_from_path($root_topic->style);
             }
         } catch (midcom_error_forbidden $e) {
             $e->log();
         }
 
-        if ($_style === null) {
-            $loader = clone $this->loader;
-            $loader->set_directories(null, [MIDCOM_ROOT . '/midcom/style'], []);
+        $loader = clone $this->loader;
+        $loader->set_directories(null, [MIDCOM_ROOT . '/midcom/style'], []);
 
-            $_style = $loader->get_element_from_snippet($_element);
-        }
+        $_style = $loader->get_element($path, $db_style ?? null);
 
         if ($_style !== null) {
             $this->render($_style, $path);

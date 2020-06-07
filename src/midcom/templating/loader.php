@@ -73,16 +73,20 @@ class loader
         return midcom::get()->componentloader->path_to_snippetpath($topic->component) . "/style";
     }
 
+    public function get_element(string $name, ?int $scope = null) : ?string
+    {
+        if ($scope && $content = $this->get_element_in_styletree($scope, $name)) {
+            return $content;
+        }
+        return $this->get_element_from_snippet($name);
+    }
+
     /**
      * Returns a style element that matches $name and is in style $id.
      * It also returns an element if it is not in the given style,
      * but in one of its parent styles.
-     *
-     * @param int $id        The style id to search in.
-     * @param string $name    The element to locate.
-     * @return string    Value of the found element, or false on failure.
      */
-    public function get_element_in_styletree($id, string $name) : ?string
+    private function get_element_in_styletree(int $id, string $name) : ?string
     {
         static $cached = [];
         $cache_key = $id . '::' . $name;
@@ -125,7 +129,7 @@ class loader
     /**
      * Try to get element from default style snippet
      */
-    public function get_element_from_snippet(string $_element) : ?string
+    private function get_element_from_snippet(string $_element) : ?string
     {
         if (midcom::get()->config->get('theme')) {
             $src = "theme:{$_element}";
