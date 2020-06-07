@@ -22,10 +22,6 @@ Die automatische Index-Seite ersetzt den Artikel mit dem URL-Namen index und bes
 Callback-Funktion, die nach Erstellung ausgeführt wird
 ---STRINGEND
 
----STRING callback_snippet
-Callback-Snippet für site-spezifische Funktion bei Erstellung
----STRINGEND
-
 ---STRING content
 Inhalt
 ---STRINGEND

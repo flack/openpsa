@@ -22,10 +22,6 @@ The index page replaces the article with the URL name index and consists of a li
 Callback function will be called after creation
 ---STRINGEND
 
----STRING callback_snippet
-Creation callback snippet for defining site-specific function
----STRINGEND
-
 ---STRING content
 Content
 ---STRINGEND

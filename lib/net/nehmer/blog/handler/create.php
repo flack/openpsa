@@ -65,13 +65,8 @@ class net_nehmer_blog_handler_create extends midcom_baseclasses_components_handl
         $indexer = midcom::get()->indexer;
         net_nehmer_blog_viewer::index($controller->get_datamanager(), $indexer, $this->_topic);
 
-        if ($this->_config->get('callback_function')) {
-            if ($this->_config->get('callback_snippet')) {
-                midcom_helper_misc::include_snippet_php($this->_config->get('callback_snippet'));
-            }
-
-            $callback = $this->_config->get('callback_function');
-            $callback($this->article, $this->_topic);
+        if ($callback = $this->_config->get('callback_function')) {
+            call_user_func($callback, $this->article, $this->_topic);
         }
     }
 }

@@ -51,11 +51,8 @@
 'rss_subscription_enable' => false,
 'link_to_external_url' => false,
 
-// Creation callback snippet for defining site-specific function
-'callback_snippet' => null,
-
 // Callback function will be called after creation
-// $callback_function($article, $topic)
+// call_user_func($callback_function, $article, $topic)
 'callback_function' => null,
 
 'disable_permalinks' => false,

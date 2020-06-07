@@ -18,10 +18,6 @@ Sisällysluettelo korvaa index-artikkelin ja sisältää listan kaikista kansios
 Luonnin jälkeen kutsuttava callback-funktio jota käytetään
 ---STRINGEND
 
----STRING callback_snippet
-Luonnin jälkeen kutsuttavan callback-funktion sisältävä snippet-tietue
----STRINGEND
-
 ---STRING content
 Sisältö
 ---STRINGEND

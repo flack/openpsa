@@ -153,24 +153,6 @@ class midcom_helper_misc
     }
 
     /**
-     * Preparse and include snippet
-     *
-     * @param string $path    The path of the snippet that should be included.
-     * @return boolean Returns false if the snippet could not be loaded or true, if it was evaluated successfully.
-     */
-    public static function include_snippet_php($path) : bool
-    {
-        $code = self::get_snippet_content_graceful($path);
-        if (empty($code)) {
-            debug_add("Could not find snippet {$path}: ", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        debug_add("Evaluating snippet {$path}.");
-        eval('?>' . self::preparse($code));
-        return true;
-    }
-
-    /**
      * This is a bit of a hack to allow &(); tags
      *
      * @param string $code The unprocessed code

@@ -22,10 +22,6 @@ Artykuł indeksowy to artykuł wyświetlany po podaniu adresu URL kategorii. Sk�
 Funkcja zwrotna uruchamiana po utworzeniu artykułu.
 ---STRINGEND
 
----STRING callback_snippet
-Skrypt zawierający kod funkcji zwrotnej.
----STRINGEND
-
 ---STRING content
 Treść
 ---STRINGEND
