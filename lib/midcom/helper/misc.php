@@ -53,11 +53,11 @@ class midcom_helper_misc
      */
     public static function parse_config($data) : array
     {
-        $data = eval("return [{$data}\n];");
-        if ($data === false) {
-            throw new midcom_error("Failed to parse config data, see above for PHP errors.");
+        try {
+            return eval("return [{$data}\n];");
+        } catch (ParseError $e) {
+            throw new midcom_error('Failed to parse config data: ' . $e->getMessage() . ' in line ' . $e->getLine());
         }
-        return $data;
     }
 
     /**
