@@ -19,12 +19,12 @@ class midcom_helper_formatter
      * @var array
      */
     private static $_filters = [
-        'h' => 'html',
-        'H' => 'html',
-        'p' => 'php',
+        'h' => '',
+        'H' => '',
+        'p' => '',
         'u' => 'rawurlencode',
         'f' => 'nl2br',
-        's' => 'unmodified',
+        's' => '',
     ];
 
     /**
@@ -36,28 +36,15 @@ class midcom_helper_formatter
     }
 
     /**
-     * Return a string as formatted by a specified filter
+     * Return a string as formatted by the specified filter
+     * Note: The p filter is not supported here
      */
     public static function format(string $content, string $name) : string
     {
-        if (!isset(self::$_filters[$name])) {
+        if (!isset(self::$_filters[$name]) || !is_callable(self::$_filters[$name])) {
             return $content;
         }
-
-        switch ($name) {
-            case 's':
-                //display as-is
-            case 'h':
-            case 'H':
-                //According to documentation, these two should do something, but actually they don't...
-                return $content;
-            case 'p':
-                ob_start();
-                eval('?>' . $content);
-                return ob_get_clean();
-            default:
-                return call_user_func(self::$_filters[$name], $content);
-        }
+        return call_user_func(self::$_filters[$name], $content);
     }
 
     /**
@@ -90,7 +77,7 @@ class midcom_helper_formatter
                     break;
                 default:
                     $function = self::$_filters[$variable_parts[1]];
-                    $command = $function . '(' . $variable . ')';
+                    $command = 'echo ' . $function . '(' . $variable . ')';
                     break;
             }
         } else {
