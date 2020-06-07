@@ -68,6 +68,9 @@ class midcom_db_style extends midcom_core_dbaobject
      */
     public static function id_from_path($path, $rootstyle = 0) : int
     {
+        if (substr($path, 0, 6) === 'theme:') {
+            return 0;
+        }
         static $cached = [];
 
         $cache_key = $rootstyle . '::' . $path;
