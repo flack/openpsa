@@ -148,16 +148,19 @@ class midcom_helper_style
             $style .= "\n<!-- End of style '{$path}' -->\n";
         }
 
-        // This is a bit of a hack to allow &(); tags
-        $preparsed = midcom_helper_misc::preparse($style);
+        // Resolve includes
+        $code = preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", [midcom_helper_misc::class, 'include_element'], $style);
+        // Resolve variables
+        $preparsed = preg_replace_callback("%&\(([^)]*)\);%i", [midcom_helper_formatter::class, 'convert_to_php'], $code);
+
         if (midcom_core_context::get()->has_custom_key('request_data')) {
             $data =& midcom_core_context::get()->get_custom_key('request_data');
         }
 
-        if (eval('?>' . $preparsed) === false) {
-            // Note that src detection will be semi-reliable, as it depends on all errors being
-            // found before caching kicks in.
-            throw new midcom_error("Failed to parse style element '{$path}', see above for PHP errors.");
+        try {
+            eval('?>' . $preparsed);
+        } catch (ParseError $e) {
+            throw new midcom_error("Failed to parse style element '{$path}': " . $e->getMessage() . ' in line ' . $e->getLine());
         }
     }
 

@@ -153,19 +153,6 @@ class midcom_helper_misc
     }
 
     /**
-     * This is a bit of a hack to allow &(); tags
-     *
-     * @param string $code The unprocessed code
-     */
-    public static function preparse($code) : string
-    {
-        // Get style elements
-        $code = preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", [midcom_helper_misc::class, 'include_element'], $code);
-        // Echo variables
-        return preg_replace_callback("%&\(([^)]*)\);%i", [midcom_helper_formatter::class, 'convert_to_php'], $code);
-    }
-
-    /**
      * Include a theme element
      */
     public static function include_element($name) : string
