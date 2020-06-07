@@ -37,33 +37,27 @@ class midcom_helper_formatter
 
     /**
      * Return a string as formatted by a specified filter
-     *
-     * @param mixed $content The content to modify
-     * @param string $name Filter name
      */
-    public static function format($content, $name) : string
+    public static function format(string $content, string $name) : string
     {
         if (!isset(self::$_filters[$name])) {
             return $content;
         }
 
-        ob_start();
         switch ($name) {
             case 's':
                 //display as-is
             case 'h':
             case 'H':
                 //According to documentation, these two should do something, but actually they don't...
-                echo $content;
-                break;
+                return $content;
             case 'p':
+                ob_start();
                 eval('?>' . $content);
-                break;
+                return ob_get_clean();
             default:
-                call_user_func(self::$_filters[$name], $content);
-                break;
+                return call_user_func(self::$_filters[$name], $content);
         }
-        return ob_get_clean();
     }
 
     /**
