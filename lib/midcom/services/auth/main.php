@@ -527,7 +527,7 @@ class midcom_services_auth
      *
      * @param string $id A valid user or group identifier usable as assignee (e.g. the $id member
      *     of any midcom_core_user or midcom_core_group object).
-     * @return object|false corresponding object or false on failure.
+     * @return object|null corresponding object or false on failure.
      */
     public function get_assignee($id)
     {
@@ -549,9 +549,8 @@ class midcom_services_auth
      * If the username is unknown, false is returned.
      *
      * @param string $name The name of the user to look up.
-     * @return midcom_core_user|false The user object matching the username, or false if the username is unknown.
      */
-    public function get_user_by_name($name)
+    public function get_user_by_name($name) : ?midcom_core_user
     {
         $mc = new midgard_collector('midgard_user', 'login', $name);
         $mc->set_key_property('person');
@@ -559,7 +558,7 @@ class midcom_services_auth
         $mc->execute();
         $keys = $mc->list_keys();
         if (count($keys) != 1) {
-            return false;
+            return null;
         }
 
         $person_class = midcom::get()->config->get('person_class');
@@ -576,16 +575,15 @@ class midcom_services_auth
      * Note, that this should not happen as midgard group names should be unique according to the specs.
      *
      * @param string $name The name of the group to look up.
-     * @return midcom_core_group|false The group object matching the name, or false if the group name is unknown.
      */
-    public function get_midgard_group_by_name($name)
+    public function get_midgard_group_by_name($name) : ?midcom_core_group
     {
         $qb = new midgard_query_builder('midgard_group');
         $qb->add_constraint('name', '=', $name);
 
         $result = $qb->execute();
         if (empty($result)) {
-            return false;
+            return null;
         }
         return $this->get_group($result[0]);
     }
@@ -595,9 +593,8 @@ class midcom_services_auth
      *
      * @param mixed $id A valid identifier for a MidgardPerson: An existing midgard_person class
      *     or subclass thereof, a Person ID or GUID or a midcom_core_user identifier.
-     * @return midcom_core_user|false The user object matching the identifier or false on failure.
      */
-    public function get_user($id)
+    public function get_user($id) : ?midcom_core_user
     {
         $param = $id;
 
@@ -606,7 +603,7 @@ class midcom_services_auth
         } elseif (!is_string($id) && !is_int($id)) {
             debug_add('The passed argument was an object of an unsupported type: ' . gettype($param), MIDCOM_LOG_WARN);
             debug_print_r('Complete object dump:', $param);
-            return false;
+            return null;
         }
         if (!array_key_exists($id, $this->_user_cache)) {
             try {
@@ -616,7 +613,7 @@ class midcom_services_auth
                 $this->_user_cache[$id] = new midcom_core_user($param);
             } catch (midcom_error $e) {
                 // Keep it silent while missing user object can mess here
-                $this->_user_cache[$id] = false;
+                $this->_user_cache[$id] = null;
             }
         }
 
@@ -629,9 +626,8 @@ class midcom_services_auth
      * constructor or a valid object of that type.
      *
      * @param mixed $id The identifier of the group as outlined above.
-     * @return midcom_core_group|false A group object instance matching the identifier, or false on failure.
      */
-    public function get_group($id)
+    public function get_group($id) : ?midcom_core_group
     {
         $param = $id;
 
@@ -640,7 +636,7 @@ class midcom_services_auth
         } elseif (!is_string($id) && !is_int($id)) {
             debug_add('The group identifier is of an unsupported type: ' . gettype($param), MIDCOM_LOG_WARN);
             debug_print_r('Complete dump:', $param);
-            return false;
+            return null;
         }
 
         if (!array_key_exists($id, $this->_group_cache)) {
@@ -651,7 +647,7 @@ class midcom_services_auth
                 $this->_group_cache[$id] = new midcom_core_group($param);
             } catch (midcom_error $e) {
                 debug_add("Group with identifier {$id} could not be loaded: " . $e->getMessage(), MIDCOM_LOG_WARN);
-                $this->_group_cache[$id] = false;
+                $this->_group_cache[$id] = null;
             }
         }
         return $this->_group_cache[$id];

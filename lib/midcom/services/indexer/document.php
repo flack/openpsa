@@ -674,10 +674,6 @@ class midcom_services_indexer_document
             $id = (!empty($id_arr)) ? array_shift($id_arr) : false;
         }
 
-        $author = midcom::get()->auth->get_user($id);
-        if (!$author) {
-            return '';
-        }
-        return $author->name;
+        return midcom::get()->auth->get_user($id)->name ?? '';
     }
 }

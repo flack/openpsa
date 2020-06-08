@@ -233,9 +233,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
                 $label = $this->_l10n->get($privilege->assignee);
             } else {
                 // Inconsistent privilege base will mess here. Let's give a chance to remove ghosts
-                $assignee = midcom::get()->auth->get_assignee($privilege->assignee);
-
-                if (is_object($assignee)) {
+                if ($assignee = midcom::get()->auth->get_assignee($privilege->assignee)) {
                     $label = $assignee->name;
                 } else {
                     $label = $this->_l10n->get('ghost assignee for '. $privilege->assignee);

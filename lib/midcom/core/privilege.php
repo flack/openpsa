@@ -196,12 +196,12 @@ class midcom_core_privilege
      * Use is_magic_assignee to determine if you have an assignee object.
      *
      * @see midcom_services_auth::get_assignee()
-     * @return midcom_core_user|midcom_core_group|false object as returned by the auth service, false on failure.
+     * @return midcom_core_user|midcom_core_group|null object as returned by the auth service, null on failure.
      */
     public function get_assignee()
     {
         if ($this->is_magic_assignee()) {
-            return false;
+            return null;
         }
 
         return midcom::get()->auth->get_assignee($this->assignee);

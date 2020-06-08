@@ -55,11 +55,9 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             $qb->add_order('metadata.revision', 'DESC');
 
             foreach ($qb->execute() as $object) {
-                $revisor = midcom::get()->auth->get_user($object->metadata->revisor);
-
                 $revised["{$object->metadata->revised}_{$object->guid}_{$object->metadata->revision}"] = [
                     'object' => $object,
-                    'revisor' => $revisor
+                    'revisor' => midcom::get()->auth->get_user($object->metadata->revisor)
                 ];
             }
         }

@@ -130,17 +130,16 @@ abstract class midcom_services_auth_backend
      * @param string $username The name of the user to authenticate.
      * @param string $password The password of the user to authenticate.
      * @param boolean $trusted
-     * @return boolean|midcom_core_user
      */
-    public function authenticate($username, $password, $trusted = false)
+    public function authenticate($username, $password, $trusted = false) : ?midcom_core_user
     {
         if (empty($username)) {
             debug_add("Failed to authenticate: Username is empty.", MIDCOM_LOG_ERROR);
-            return false;
+            return null;
         }
         if (!$trusted && empty($password)) {
             debug_add("Failed to authenticate: Password is empty.", MIDCOM_LOG_ERROR);
-            return false;
+            return null;
         }
 
         $user = midcom_connection::login($username, $password, $trusted);
@@ -148,7 +147,7 @@ abstract class midcom_services_auth_backend
         if (!$user) {
             debug_add("Failed to authenticate the given user: ". midcom_connection::get_error_string(),
                     MIDCOM_LOG_INFO);
-            return false;
+            return null;
         }
 
         return $this->auth->get_user($user->person);

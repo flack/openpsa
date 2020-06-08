@@ -151,10 +151,9 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     protected function _expand_resource($resource_id) : array
     {
         debug_add('Got resource_id: ' . $resource_id);
-        $dba_obj = midcom::get()->auth->get_assignee($resource_id);
         $ret = [];
 
-        if (is_object($dba_obj)) {
+        if ($dba_obj = midcom::get()->auth->get_assignee($resource_id)) {
             switch (get_class($dba_obj)) {
                 case midcom_core_group::class:
                     foreach ($dba_obj->list_members() as $core_user) {

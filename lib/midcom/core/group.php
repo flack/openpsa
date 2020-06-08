@@ -168,13 +168,11 @@ class midcom_core_group
 
     /**
      * Returns the parent group.
-     *
-     * @return midcom_core_group|boolean The parent group of the current group or false if there is none.
      */
-    function get_parent_group()
+    function get_parent_group() : ?midcom_core_group
     {
         if ($this->_storage->owner == 0) {
-            return false;
+            return null;
         }
 
         if ($this->_storage->id == $this->_storage->owner) {
