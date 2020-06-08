@@ -196,19 +196,13 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
     /**
      * returns the invoice that got canceled through this invoice, if any
-     *
-     * @return org_openpsa_invoices_invoice_dba|false
      */
-    public function get_canceled_invoice()
+    public function get_canceled_invoice() : ?self
     {
         $qb = self::new_query_builder();
         $qb->add_constraint('cancelationInvoice', '=', $this->id);
-        $results = $qb->execute();
 
-        if (empty($results)) {
-            return false;
-        }
-        return $results[0];
+        return $qb->get_result(0) ?: null;
     }
 
     /**

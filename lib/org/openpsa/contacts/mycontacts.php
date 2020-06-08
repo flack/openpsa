@@ -32,12 +32,7 @@ class org_openpsa_contacts_mycontacts
         $this->_user = $user ?: midcom::get()->auth->user;
     }
 
-    /**
-     *
-     * @param boolean $autocreate
-     * @return org_openpsa_contacts_list_dba|false
-     */
-    private function _get_group(bool $autocreate = false)
+    private function _get_group(bool $autocreate = false) : ?org_openpsa_contacts_list_dba
     {
         if (!$this->_group) {
             $qb = org_openpsa_contacts_list_dba::new_query_builder();
@@ -52,8 +47,6 @@ class org_openpsa_contacts_mycontacts
                 $this->_group->create();
                 $this->_group->set_privilege('midgard:owner', $this->_user->id, MIDCOM_PRIVILEGE_ALLOW);
                 midcom::get()->auth->drop_sudo();
-            } else {
-                return false;
             }
         }
 
