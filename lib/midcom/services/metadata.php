@@ -35,24 +35,19 @@ class midcom_services_metadata
     private $_page_classes = [];
 
     /**
-     * Returns the view metadata of the specified context. The metadata
-     * will be created if this is the first request.
+     * Returns the view metadata of the specified context.
      *
      * @param int $context_id The context to retrieve the view metadata for, this
      *     defaults to the current context.
      * @return midcom_helper_metadata
      */
-    function & get_view_metadata($context_id = null)
+    public function get_view_metadata($context_id = null)
     {
         if ($context_id === null) {
             $context_id = midcom_core_context::get()->id;
         }
 
-        if (!array_key_exists($context_id, $this->_metadata)) {
-            $this->_metadata[$context_id] = null;
-        }
-
-        return $this->_metadata[$context_id];
+        return $this->_metadata[$context_id] ?? null;
     }
 
     /**

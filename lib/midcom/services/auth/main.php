@@ -578,18 +578,16 @@ class midcom_services_auth
      * @param string $name The name of the group to look up.
      * @return midcom_core_group|false The group object matching the name, or false if the group name is unknown.
      */
-    public function & get_midgard_group_by_name($name)
+    public function get_midgard_group_by_name($name)
     {
         $qb = new midgard_query_builder('midgard_group');
         $qb->add_constraint('name', '=', $name);
 
         $result = $qb->execute();
         if (empty($result)) {
-            $result = false;
-            return $result;
+            return false;
         }
-        $grp = $this->get_group($result[0]);
-        return $grp;
+        return $this->get_group($result[0]);
     }
 
     /**
