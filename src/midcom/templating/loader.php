@@ -11,10 +11,10 @@ namespace midcom\templating;
 use midcom;
 use midcom_db_topic;
 use midcom_core_context;
+use midcom_connection;
 use midgard_style;
 use midgard_element;
 use midcom_db_style;
-use midcom_helper_misc;
 
 /**
  * templating loader class
@@ -42,7 +42,7 @@ class loader
      *
      * @var string[]
      */
-    private $_snippets = [];
+    private $cache = [];
 
     /**
      * The stack of directories to check for styles.
@@ -88,11 +88,9 @@ class loader
      */
     private function get_element_in_styletree(int $id, string $name) : ?string
     {
-        static $cached = [];
         $cache_key = $id . '::' . $name;
-
-        if (array_key_exists($cache_key, $cached)) {
-            return $cached[$cache_key];
+        if (array_key_exists($cache_key, $this->cache)) {
+            return $this->cache[$cache_key];
         }
 
         $element_mc = midgard_element::new_collector('style', $id);
@@ -103,9 +101,8 @@ class loader
 
         if ($keys = $element_mc->list_keys()) {
             $element_guid = key($keys);
-            $cached[$cache_key] = $element_mc->get_subkey($element_guid, 'value');
             midcom::get()->cache->content->register($element_guid);
-            return $cached[$cache_key];
+            return $this->add_to_cache($cache_key, $element_mc->get_subkey($element_guid, 'value'));
         }
 
         // No such element on this level, check parents
@@ -122,8 +119,8 @@ class loader
             return $this->get_element_in_styletree($up, $name);
         }
 
-        $cached[$cache_key] = null;
-        return $cached[$cache_key];
+        $this->cache[$cache_key] = null;
+        return $this->cache[$cache_key];
     }
 
     /**
@@ -133,25 +130,87 @@ class loader
     {
         if (midcom::get()->config->get('theme')) {
             $src = "theme:{$_element}";
-            if (array_key_exists($src, $this->_snippets)) {
-                return $this->_snippets[$src];
+            if (array_key_exists($src, $this->cache)) {
+                return $this->cache[$src];
             }
-            if ($content = midcom_helper_misc::get_element_content($_element)) {
-                $this->_snippets[$src] = $content;
-                return $this->_snippets[$src];
+            if ($content = $this->get_element_from_theme($_element)) {
+                return $this->add_to_cache($src, $content);
             }
         }
 
         foreach ($this->directories as $path) {
             $filename = $path . "/{$_element}.php";
             if (file_exists($filename)) {
-                if (!array_key_exists($filename, $this->_snippets)) {
-                    $this->_snippets[$filename] = file_get_contents($filename);
+                if (array_key_exists($filename, $this->cache)) {
+                    return $this->cache[$filename];
                 }
-                return $this->_snippets[$filename];
+                return $this->add_to_cache($filename, file_get_contents($filename));
             }
         }
         return null;
+    }
+
+    /**
+     * Get the content of the element by the passed element name.
+     * Tries to resolve path according to theme-name & page
+     */
+    private function get_element_from_theme(string $element_name) : ?string
+    {
+        $theme = midcom::get()->config->get('theme');
+        $path_array = explode('/', $theme);
+
+        //get the page if there is one
+        $page = midcom_connection::get_url('page_style');
+        $substyle = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_SUBSTYLE);
+        //check if we have elements for the sub-styles
+        while (!empty($path_array)) {
+            $theme_path = implode('/', $path_array);
+            $candidates = [];
+            if ($substyle) {
+                $candidates[] = '/' . $substyle . '/' . $element_name;
+            }
+            if ($page) {
+                $candidates[] = $page . '/' . $element_name;
+            }
+            $candidates[] = '/' . $element_name;
+
+            foreach ($candidates as $candidate) {
+                $filename = OPENPSA2_THEME_ROOT . $theme_path . '/style' . $candidate . '.php';
+                if (file_exists($filename)) {
+                    return file_get_contents($filename);
+                }
+            }
+
+            //remove last theme part
+            array_pop($path_array);
+        }
+
+        return null;
+    }
+
+    private function add_to_cache(string $cache_key, string $content) : string
+    {
+        $this->cache[$cache_key] = $this->resolve_includes($content);
+        return $this->cache[$cache_key];
+    }
+
+    private function resolve_includes(string $content) : string
+    {
+        return preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", function (array $matches) {
+            $element = $matches[1];
+
+            switch ($element) {
+                case 'title':
+                    return midcom::get()->config->get('midcom_site_title');
+                case 'content':
+                    return '<?php midcom_core_context::get()->show(); ?>';
+                default:
+                    if ($value = $this->get_element_from_theme($element)) {
+                        return $this->resolve_includes($value);
+                    }
+                    return '';
+            }
+        }, $content);
     }
 
     /**

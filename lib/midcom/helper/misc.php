@@ -153,32 +153,6 @@ class midcom_helper_misc
     }
 
     /**
-     * Include a theme element
-     */
-    public static function include_element($name) : string
-    {
-        if (is_array($name)) {
-            $element = $name[1];
-        } else {
-            $element = $name;
-        }
-
-        switch ($element) {
-            case 'title':
-                return midcom::get()->config->get('midcom_site_title');
-            case 'content':
-                return '<?php midcom_core_context::get()->show(); ?>';
-            default:
-                $value = self::get_element_content($element);
-
-                if (empty($value)) {
-                    return '';
-                }
-                return preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", [midcom_helper_misc::class, 'include_element'], $value);
-        }
-    }
-
-    /**
      * Find MIME type image for a document
      *
      * Used in midcom.helper.imagepopup, midgard.admin.asgard and org.openpsa.documents.
@@ -302,45 +276,5 @@ class midcom_helper_misc
         }
 
         return $cache[$component];
-    }
-
-    /**
-     * Get the content of the element by the passed element name.
-     * Tries to resolve path according to theme-name & page
-     *
-     * @param string $element_name
-     */
-    public static function get_element_content($element_name)
-    {
-        $theme = midcom::get()->config->get('theme');
-        $path_array = explode('/', $theme);
-
-        //get the page if there is one
-        $page = midcom_connection::get_url('page_style');
-        $substyle = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_SUBSTYLE);
-        //check if we have elements for the sub-styles
-        while (!empty($path_array)) {
-            $theme_path = implode('/', $path_array);
-            $candidates = [];
-            if ($substyle) {
-                $candidates[] = '/' . $substyle . '/' . $element_name;
-            }
-            if ($page) {
-                $candidates[] = $page . '/' . $element_name;
-            }
-            $candidates[] = '/' . $element_name;
-
-            foreach ($candidates as $candidate) {
-                $filename = OPENPSA2_THEME_ROOT . $theme_path . '/style' . $candidate . '.php';
-                if (file_exists($filename)) {
-                    return file_get_contents($filename);
-                }
-            }
-
-            //remove last theme part
-            array_pop($path_array);
-        }
-
-        return false;
     }
 }
