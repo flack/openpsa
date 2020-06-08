@@ -66,7 +66,7 @@ const midcom_grid_resize = {
     },
     attach_maximizer: function(items) {
         items.each(function() {
-            $('<a role="link" class="ui-jqgrid-titlebar-maximize"><span class="fa fa-plus-circle"></a></a>')
+            $('<a role="link" class="ui-jqgrid-titlebar-maximize"><span class="fa fa-plus-circle"></span></a>')
                 .on('click', function() {
                     var container = $(this).closest('.ui-jqgrid').parent();
 

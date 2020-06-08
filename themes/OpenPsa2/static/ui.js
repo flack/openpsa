@@ -4,7 +4,7 @@ $(document).ready(function(){
         $('#content form.datamanager2 .form_toolbar > *').each(function(){
             var btn = $(this),
                 icon = btn.css('background-image').replace(/url\(\"/, '').replace(/\"\)/, ''),
-                toolbar_entry = $('<li class="enabled"><div><button type=\submit"><img src="' + icon + '"><soan class="toolbar_label"> ' + (btn.val() || btn.text()) + '</span></button></div></li>')
+                toolbar_entry = $('<li class="enabled"><div><button type="submit"><img src="' + icon + '"><span class="toolbar_label"> ' + (btn.val() || btn.text()) + '</span></button></div></li>')
                          .on('click', function(){
                              btn.click();
                          });
