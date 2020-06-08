@@ -43,10 +43,9 @@ abstract class midcom_services_auth_backend
      * function, you have to populate the $session and $user members accordingly.
      *
      * @param Request $request The request object
-     * @return boolean|array Return clientip, userid and timeout if the login session was successfully loaded, false
-     *     otherwise.
+     * @return ?array clientip, userid and timeout if the login session was successfully loaded
      */
-    abstract public function read_session(Request $request);
+    abstract public function read_session(Request $request) : ?array;
 
     /**
      * This is called immediately after a new login
@@ -57,7 +56,7 @@ abstract class midcom_services_auth_backend
      * @param midcom_core_user $user
      * @return boolean Indicating success
      */
-    abstract public function create_session($clientip, midcom_core_user $user);
+    abstract public function create_session($clientip, midcom_core_user $user) : bool;
 
     /**
      * This should delete the currently active login session,
@@ -75,34 +74,31 @@ abstract class midcom_services_auth_backend
 
     /**
      * Checks for a running login session.
-     *
-     * @param Request $request The request object
-     * @return boolean|midcom_core_user
      */
-    public function check_for_active_login_session(Request $request)
+    public function check_for_active_login_session(Request $request) : ?midcom_core_user
     {
         if (!$data = $this->read_session($request)) {
-            return false;
+            return null;
         }
 
         if (   midcom::get()->config->get('auth_check_client_ip')
             && $data['clientip'] != $request->getClientIp()) {
             debug_add("The session had mismatching client IP.", MIDCOM_LOG_INFO);
             debug_add("Expected {$data['clientip']}, got {$request->getClientIp()}.");
-            return false;
+            return null;
         }
 
         if (!$user = $this->auth->get_user($data['userid'])) {
             debug_add("The user ID {$data['userid']} is invalid, could not load the user from the database, assuming tampered session.",
             MIDCOM_LOG_ERROR);
             $this->delete_session();
-            return false;
+            return null;
         }
 
         if (   !$this->check_timestamp($data['timestamp'], $user)
             || !$this->authenticate($user->username, '', true)) {
             $this->logout($user);
-            return false;
+            return null;
         }
         return $user;
     }
@@ -162,13 +158,12 @@ abstract class midcom_services_auth_backend
      * @param string $clientip The client IP to which this session is assigned to. This
      *     defaults to the client IP reported by the web server
      * @param boolean $trusted Do a trusted login
-     * @return boolean|midcom_core_user
      */
-    public function login($username, $password, $clientip = null, $trusted = false)
+    public function login($username, $password, $clientip = null, $trusted = false) : ?midcom_core_user
     {
         $user = $this->authenticate($username, $password, $trusted);
         if (!$user) {
-            return false;
+            return null;
         }
 
         if ($this->create_session($clientip, $user)) {
@@ -176,7 +171,7 @@ abstract class midcom_services_auth_backend
             $person->set_parameter('midcom', 'online', time());
             return $user;
         }
-        return false;
+        return null;
     }
 
     /**

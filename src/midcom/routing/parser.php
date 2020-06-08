@@ -68,8 +68,6 @@ class parser
      * position.
      *
      * On success it returns the command it found.
-     *
-     * @return string|boolean
      */
     public function find_urlmethod() : ?string
     {

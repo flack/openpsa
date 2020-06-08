@@ -60,11 +60,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         return 'file-text-o';
     }
 
-    /**
-     * @param int $number
-     * @return org_openpsa_invoices_invoice_dba|boolean
-     */
-    public static function get_by_number($number)
+    public static function get_by_number(int $number) : ?self
     {
         $qb = self::new_query_builder();
         $qb->add_constraint('number', '=', $number);
@@ -72,7 +68,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         if (count($result) == 1) {
             return $result[0];
         }
-        return false;
+        return null;
     }
 
     /**

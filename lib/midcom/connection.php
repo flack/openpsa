@@ -83,13 +83,8 @@ class midcom_connection
 
     /**
      * Perform a login against the midgard backend
-     *
-     * @param string $username The username as entered
-     * @param string $password The password as entered
-     * @param boolean $trusted Use trusted auth
-     * @return boolean|midgard_user The appropriate object or false
      */
-    public static function login($username, $password, $trusted = false)
+    public static function login(string $username, string $password, bool $trusted = false) : ?midgard_user
     {
         $login_tokens = [
             'login' => $username,
@@ -99,19 +94,19 @@ class midcom_connection
         try {
             $user = new midgard_user($login_tokens);
         } catch (mgd_exception $e) {
-            return false;
+            return null;
         }
         if (!$trusted && !self::verify_password($password, $user->password)) {
-            return false;
+            return null;
         }
 
         if (!$user->login()) {
-            return false;
+            return null;
         }
         return $user;
     }
 
-    public static function verify_password($password, $hash) : bool
+    public static function verify_password(string $password, string $hash) : bool
     {
         if (midcom::get()->config->get('auth_type') == 'Legacy') {
             return password_verify($password, $hash);

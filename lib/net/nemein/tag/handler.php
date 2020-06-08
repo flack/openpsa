@@ -523,12 +523,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
     /**
      * Move all objects connected to a tag to another
-     *
-     * @param string $from Tag to move from
-     * @param string $to Tag to move to
-     * @return boolean indicating success
      */
-    public static function merge_tags($from, $to) : bool
+    public static function merge_tags(string $from, string $to) : bool
     {
         $from_tag = net_nemein_tag_tag_dba::get_by_tag($from);
         if (!$from_tag) {

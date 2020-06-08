@@ -39,15 +39,15 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         parent::__construct($auth);
     }
 
-    public function read_session(Request $request)
+    public function read_session(Request $request) : ?array
     {
         if (!$request->hasPreviousSession()) {
-            return false;
+            return null;
         }
 
         $this->session = new midcom_services_session($this->_cookie_id);
         if (!$this->session->exists('userid')) {
-            return false;
+            return null;
         }
         return [
             'userid' => $this->session->get('userid'),

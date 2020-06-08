@@ -74,11 +74,8 @@ class midcom_services_dbclassloader
 
     /**
      * Get component name associated with a class name to get its DBA classes defined
-     *
-     * @param string $classname Class name to load a component for
-     * @return string component name if found for the class, false otherwise
      */
-    public function get_component_for_class(string $classname)
+    public function get_component_for_class(string $classname) : ?string
     {
         $class_parts = array_filter(explode('_', $classname));
         // Fix for incorrectly named classes
@@ -115,7 +112,7 @@ class midcom_services_dbclassloader
             array_pop($class_parts);
         }
 
-        return false;
+        return null;
     }
 
     /**

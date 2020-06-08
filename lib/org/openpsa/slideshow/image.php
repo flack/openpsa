@@ -93,11 +93,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         return $imagefilter->write($derived);
     }
 
-    /**
-     * @param midcom_db_topic $folder
-     * @return boolean|midcom_db_attachment
-     */
-    public static function get_folder_thumbnail(midcom_db_topic $folder)
+    public static function get_folder_thumbnail(midcom_db_topic $folder) : ?midcom_db_attachment
     {
         $thumbnail = $folder->get_attachment(self::FOLDER_THUMBNAIL);
         if (empty($thumbnail)) {
@@ -107,7 +103,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
             $qb->set_limit(1);
             $results = $qb->execute();
             if (empty($results)) {
-                return false;
+                return null;
             }
             midcom::get()->auth->request_sudo('org.openpsa.slideshow');
             $thumbnail = $results[0]->create_folder_thumbnail();
@@ -116,15 +112,11 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         return $thumbnail;
     }
 
-    /**
-     * @throws midcom_error
-     * @return boolean|midcom_db_attachment
-     */
-    public function create_folder_thumbnail()
+    public function create_folder_thumbnail() : ?midcom_db_attachment
     {
         $original = $this->load_attachment('attachment');
         if (!$original) {
-            return false;
+            return null;
         }
         $folder = midcom_db_topic::get_cached($this->topic);
         $thumbnail = new midcom_db_attachment;
