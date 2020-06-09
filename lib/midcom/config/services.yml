@@ -15,6 +15,7 @@ services:
             - [addSubscriber, ['@subscriber']]
             - [addSubscriber, ['@streamed_response_listener']]
             - [addSubscriber, ['@watcher']]
+            - [addSubscriber, ['@cache']]
 
     dispatcher:
         alias: event_dispatcher
@@ -64,6 +65,15 @@ services:
     cache:
         class: midcom_services_cache
         public: true
+
+    cache.module.content:
+        class: midcom_services_cache_module_content
+
+    cache.module.memcache:
+        class: midcom_services_cache_module_memcache
+
+    cache.module.nap:
+        class: midcom_services_cache_module_nap
 
     config:
         synthetic: true

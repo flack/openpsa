@@ -49,19 +49,6 @@ class midcom_services_cache implements EventSubscriberInterface
      */
     private $_modules = [];
 
-    /**
-     * Cache service startup. It initializes all cache modules configured in the
-     * global configuration as outlined in the class introduction.
-     *
-     * It will load the content cache module as the first one, the rest will be
-     * loaded in their order of appearance in the Array.
-     */
-    public function __construct()
-    {
-        array_map([$this, 'load_module'], midcom::get()->config->get('cache_autoload_queue'));
-        midcom::get()->dispatcher->addSubscriber($this);
-    }
-
     public static function getSubscribedEvents()
     {
         return [
@@ -104,26 +91,15 @@ class midcom_services_cache implements EventSubscriberInterface
     }
 
     /**
-     * Load the specified cache module (if not already loaded), add it to the _modules array
+     * Add the specified cache module (if not already present), add it to the _modules array
      * and assign it to a member variable named after the module.
-     *
-     * @param string $name The name of the cache module to load.
      */
-    private function load_module(string $name)
+    public function add_module(string $name, midcom_services_cache_module $module)
     {
-        if (isset($this->_modules[$name])) {
-            return;
+        if (!isset($this->_modules[$name])) {
+            $this->_modules[$name] = $module;
+            $this->$name =& $this->_modules[$name];
         }
-
-        $classname = "midcom_services_cache_module_{$name}";
-
-        if (!class_exists($classname)) {
-            throw new midcom_error("Tried to load the cache module {$name}, but the class {$classname} was not found");
-        }
-
-        $this->_modules[$name] = new $classname();
-        $this->_modules[$name]->initialize();
-        $this->$name =& $this->_modules[$name];
     }
 
     /**
