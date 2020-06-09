@@ -296,7 +296,14 @@ class midcom_helper_style
         array_unshift($this->_context, $context); // push into context stack
 
         if ($this->_topic = $context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC)) {
-            $this->loader->initialize_from_topic($this->_topic, $context);
+            $style = $this->_topic->style ?: $context->get_inherited_style();
+            if (!$style) {
+                $styleengine_default_styles = midcom::get()->config->get('styleengine_default_styles');
+                if (isset($styleengine_default_styles[$this->_topic->component])) {
+                    $style = $styleengine_default_styles[$this->_topic->component];
+                }
+            }
+            $this->loader->initialize($context, $style);
         }
 
         $this->loader->set_directories(

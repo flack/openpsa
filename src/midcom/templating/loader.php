@@ -214,33 +214,17 @@ class loader
     }
 
     /**
-     * Initializes style sources from topic
+     * Initializes style sources
      */
-    public function initialize_from_topic(midcom_db_topic $topic, midcom_core_context $context)
+    public function initialize(midcom_core_context $context, ?string $style)
     {
         $_st = 0;
         // get user defined style for component
         // style inheritance
         // should this be cached somehow?
-        $style = $topic->style ?: $context->get_inherited_style();
-        if (!$style) {
-            $styleengine_default_styles = midcom::get()->config->get('styleengine_default_styles');
-            if (isset($styleengine_default_styles[$topic->component])) {
-                $style = $styleengine_default_styles[$topic->component];
-            }
-        }
 
         if ($style) {
-            if ($_st = midcom_db_style::id_from_path($style)) {
-                if ($substyle = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE)) {
-                    $chain = explode('/', $substyle);
-                    foreach ($chain as $stylename) {
-                        if ($_subst_id = midcom_db_style::id_from_path($stylename, $_st)) {
-                            $_st = $_subst_id;
-                        }
-                    }
-                }
-            } elseif (substr($style, 0, 6) === 'theme:') {
+            if (substr($style, 0, 6) === 'theme:') {
                 $theme_dir = OPENPSA2_THEME_ROOT . midcom::get()->config->get('theme') . '/style';
                 $parts = explode('/', str_replace('theme:/', '', $style));
 
@@ -250,6 +234,15 @@ class loader
                 }
                 foreach (array_reverse(array_filter($parts, 'is_dir')) as $dirname) {
                     midcom::get()->style->prepend_styledir($dirname);
+                }
+            } elseif ($_st = midcom_db_style::id_from_path($style)) {
+                if ($substyle = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE)) {
+                    $chain = explode('/', $substyle);
+                    foreach ($chain as $stylename) {
+                        if ($_subst_id = midcom_db_style::id_from_path($stylename, $_st)) {
+                            $_st = $_subst_id;
+                        }
+                    }
                 }
             }
         }
