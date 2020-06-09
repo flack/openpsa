@@ -37,9 +37,8 @@ class midcom_helper__dbfactory
      * the MidCOM DBA system into account.
      *
      * @param string $guid The object GUID.
-     * @return midcom_core_dbaobject A MidCOM DBA object if the set GUID is known
      */
-    public function get_object_by_guid($guid)
+    public function get_object_by_guid($guid) : midcom_core_dbaobject
     {
         try {
             $tmp = midgard_object_class::get_object_by_guid($guid);
@@ -61,9 +60,8 @@ class midcom_helper__dbfactory
      *
      * @param string $classname Which DBA are we dealing with
      * @param mixed $src GUID of object (ids work but are discouraged)
-     * @return midcom_core_dbaobject reference to object
      */
-    public function &get_cached($classname, $src)
+    public function &get_cached(string $classname, $src) : midcom_core_dbaobject
     {
         static $cache = [];
 
@@ -198,12 +196,10 @@ class midcom_helper__dbfactory
      * Returns the parent object. Tries to utilize the Memcache
      * data, loading the actual information only if it is not cached.
      *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return midcom_core_dbaobject|null Parent if found, otherwise null
      * @see get_parent_data()
      * @todo rethink this, IMO we should trust midgard core's get_parent and then just do the object conversion if necessary since this can return stale objects and other nastiness
      */
-    public function get_parent(midcom_core_dbaobject $object)
+    public function get_parent(midcom_core_dbaobject $object) : ?midcom_core_dbaobject
     {
         $parent_data = $this->_get_parent_guid_cached($object->guid, $object);
 
@@ -372,7 +368,7 @@ class midcom_helper__dbfactory
         return ['' => null];
     }
 
-    private function _load_guid(string $target_class, string $target_property, $link_value)
+    private function _load_guid(string $target_class, string $target_property, $link_value) : ?string
     {
         if (empty($link_value)) {
             return null;

@@ -282,7 +282,7 @@ abstract class midcom_core_dbaobject
         return midcom_baseclasses_core_dbobject::get_by_path($this, $path);
     }
 
-    public function get_parent()
+    public function get_parent() : ?self
     {
         return midcom::get()->dbfactory->get_parent($this);
     }

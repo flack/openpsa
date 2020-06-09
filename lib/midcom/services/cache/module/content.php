@@ -449,7 +449,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @see no_cache()
      */
-    public function uncached($uncached = true)
+    public function uncached(bool $uncached = true)
     {
         $this->_uncached = $uncached;
     }

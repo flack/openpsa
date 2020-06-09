@@ -81,9 +81,7 @@ class midcom_services_cache implements EventSubscriberInterface
 
     public function handle_create(dbaevent $event)
     {
-        $object = $event->get_object();
-        $parent = $object->get_parent();
-        if (!empty($parent->guid)) {
+        if ($parent = $event->get_object()->get_parent()) {
             // Invalidate parent from cache so content caches have chance to react
             $this->invalidate($parent);
         }
