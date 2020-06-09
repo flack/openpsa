@@ -1,24 +1,12 @@
 <?php
 namespace midcom\dependencyInjection;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use midcom_config;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class indexerPass implements CompilerPassInterface
+class indexerPass extends configPass
 {
-    /**
-     * @var midcom_config
-     */
-    private $config;
-
-    public function __construct(midcom_config $config)
-    {
-        $this->config = $config;
-    }
-
     public function process(ContainerBuilder $container)
     {
         if ($class = $this->config->get('indexer_backend')) {

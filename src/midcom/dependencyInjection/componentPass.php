@@ -1,19 +1,12 @@
 <?php
 namespace midcom\dependencyInjection;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use midcom_config;
 use midcom_core_manifest;
 use midcom_error;
 
-class componentPass implements CompilerPassInterface
+class componentPass extends configPass
 {
-    /**
-     * @var midcom_config
-     */
-    private $config;
-
     /**
      * @var array
      */
@@ -23,11 +16,6 @@ class componentPass implements CompilerPassInterface
         \MIDCOM_OPERATION_DBA_DELETE => [],
         \MIDCOM_OPERATION_DBA_IMPORT => []
     ];
-
-    public function __construct(midcom_config $config)
-    {
-        $this->config = $config;
-    }
 
     public function process(ContainerBuilder $container)
     {
