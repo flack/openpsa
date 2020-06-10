@@ -8,13 +8,14 @@
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
+use PHPUnit\Framework\TestCase;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_services_i18nTest extends openpsa_testcase
+class midcom_services_i18nTest extends TestCase
 {
     public function test_get_fallback_language()
     {

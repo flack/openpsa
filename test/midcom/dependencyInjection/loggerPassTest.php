@@ -8,7 +8,6 @@
 
 namespace midcom\datamanager\test;
 
-use openpsa_testcase;
 use midcom_config;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -18,13 +17,14 @@ use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use PHPUnit\Framework\TestCase;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class loggerPassTest extends openpsa_testcase
+class loggerPassTest extends TestCase
 {
     public function test_process()
     {

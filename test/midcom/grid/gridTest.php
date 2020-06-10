@@ -8,16 +8,16 @@
 
 namespace midcom\grid\test;
 
-use openpsa_testcase;
 use midcom\grid\grid;
 use midcom\grid\provider;
+use PHPUnit\Framework\TestCase;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_widgets_grid_mainTest extends openpsa_testcase
+class org_openpsa_widgets_grid_mainTest extends TestCase
 {
     public function test__construct()
     {

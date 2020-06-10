@@ -7,12 +7,12 @@
 
 namespace midcom\datamanager\test;
 
-use openpsa_testcase;
 use midcom\datamanager\schemadb;
 use midcom\datamanager\schema;
 use midcom\datamanager\datamanager;
+use PHPUnit\Framework\TestCase;
 
-class datamanagerTest extends openpsa_testcase
+class datamanagerTest extends TestCase
 {
     public function test_get_content_html()
     {

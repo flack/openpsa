@@ -20,9 +20,9 @@ class midcom_helper_metadataTest extends openpsa_testcase
     {
         $name = $data[0];
         $topic = new midcom_db_topic();
-        $this->assertTrue(is_object($topic->metadata));
+        $this->assertIsObject($topic->metadata);
         $this->assertTrue(isset($topic->metadata->$name));
-        $this->assertTrue(empty($topic->metadata->$name));
+        $this->assertEmpty($topic->metadata->$name);
     }
 
     public function providerEmptyProperties()

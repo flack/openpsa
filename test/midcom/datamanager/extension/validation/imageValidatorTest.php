@@ -7,14 +7,14 @@
 
 namespace midcom\datamanager\test;
 
-use openpsa_testcase;
 use midcom\datamanager\validation\imageValidator;
 use midcom\datamanager\validation\image;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class imageValidatorTest extends openpsa_testcase
+class imageValidatorTest extends TestCase
 {
     public function test_validate()
     {

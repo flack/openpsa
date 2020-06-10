@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_mail_mainTest extends openpsa_testcase
+class org_openpsa_mail_mainTest extends TestCase
 {
     public function test_send()
     {

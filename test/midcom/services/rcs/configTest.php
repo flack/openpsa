@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_services_rcs_configTest extends openpsa_testcase
+class midcom_services_rcs_configTest extends TestCase
 {
     public function test_use_rcs()
     {

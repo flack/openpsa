@@ -11,13 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use PHPUnit\Framework\TestCase;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_services_cache_module_contentTest extends openpsa_testcase
+class midcom_services_cache_module_contentTest extends TestCase
 {
     public function test_on_request()
     {

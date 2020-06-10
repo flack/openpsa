@@ -7,11 +7,11 @@
 
 namespace midcom\console\test;
 
-use openpsa_testcase;
+use PHPUnit\Framework\TestCase;
 use midcom\console\command\cron;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class cronTest extends openpsa_testcase
+class cronTest extends TestCase
 {
     public function test_execute()
     {

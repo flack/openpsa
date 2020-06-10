@@ -8,7 +8,6 @@
 
 namespace midcom\datamanager\test;
 
-use openpsa_testcase;
 use midcom_config;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -16,13 +15,14 @@ use midcom_services_cache;
 use midcom_services_cache_module_content;
 use Symfony\Component\DependencyInjection\Reference;
 use midcom\dependencyInjection\cachePass;
+use PHPUnit\Framework\TestCase;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class cachePassTest extends openpsa_testcase
+class cachePassTest extends TestCase
 {
     public function test_process()
     {
@@ -34,7 +34,6 @@ class cachePassTest extends openpsa_testcase
             ->getMockBuilder(ContainerBuilder::class)
             ->disableOriginalConstructor()
             ->getMock();
-
 
         $container
             ->expects($this->exactly(2))
@@ -53,18 +52,17 @@ class cachePassTest extends openpsa_testcase
             $cache = $builder
                 ->setConstructorArgs([midcom_services_cache::class])
                 ->getMock();
-
             $cache
                 ->expects($this->once())
                 ->method('addMethodCall')
                 ->with('add_module', ['content', new Reference('cache.module.content')]);
+
             return $cache;
         }
 
         $content = $builder
             ->setConstructorArgs([midcom_services_cache_module_content::class])
             ->getMock();
-
         $content
             ->expects($this->once())
             ->method('addMethodCall')

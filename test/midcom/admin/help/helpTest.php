@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_admin_help_helpTest extends openpsa_testcase
+class midcom_admin_help_helpTest extends TestCase
 {
     public function test_generate_file_path()
     {

@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper_exporter_xmlTest extends openpsa_testcase
+class midcom_helper_exporter_xmlTest extends TestCase
 {
     public function test_data2array()
     {

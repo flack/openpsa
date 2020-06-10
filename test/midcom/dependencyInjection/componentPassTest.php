@@ -8,7 +8,6 @@
 
 namespace midcom\datamanager\test;
 
-use openpsa_testcase;
 use midcom_config;
 use midcom_services_auth_acl;
 use midcom_helper__componentloader;
@@ -16,13 +15,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use midcom\dependencyInjection\componentPass;
 use midcom\events\watcher;
+use PHPUnit\Framework\TestCase;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class componentPassTest extends openpsa_testcase
+class componentPassTest extends TestCase
 {
     public function test_process()
     {

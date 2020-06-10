@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_connectionTest extends openpsa_testcase
+class midcom_connectionTest extends TestCase
 {
     public function test_url()
     {
@@ -19,10 +21,10 @@ class midcom_connectionTest extends openpsa_testcase
         $target_uri = '/test/test/250/test/0/';
         $method = new ReflectionMethod("midcom_connection", "_parse_url");
         $method->setAccessible(true);
-        
+
         $method->invoke(null, $test_uri, '/', '/');
         $uri = midcom_connection::get_url('uri');
-        
+
         $this->assertEquals($uri, $target_uri);
     }
 }

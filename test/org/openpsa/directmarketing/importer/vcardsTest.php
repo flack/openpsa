@@ -7,13 +7,14 @@
  */
 
 use midcom\datamanager\schemadb;
+use PHPUnit\Framework\TestCase;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_directmarketing_importer_vcardsTest extends openpsa_testcase
+class org_openpsa_directmarketing_importer_vcardsTest extends TestCase
 {
     public function testHandler_index()
     {

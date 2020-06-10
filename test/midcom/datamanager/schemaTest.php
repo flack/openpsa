@@ -7,10 +7,10 @@
 
 namespace midcom\datamanager\test;
 
-use openpsa_testcase;
 use midcom\datamanager\schema;
+use PHPUnit\Framework\TestCase;
 
-class schemaTest extends openpsa_testcase
+class schemaTest extends TestCase
 {
     public function test_process_parameter()
     {

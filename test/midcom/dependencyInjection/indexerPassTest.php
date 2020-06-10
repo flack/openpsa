@@ -8,22 +8,22 @@
 
 namespace midcom\datamanager\test;
 
-use openpsa_testcase;
 use midcom_config;
 use midcom\dependencyInjection\indexerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use midcom_services_indexer;
 use midcom_services_indexer_backend_solr;
-use midcom\events\dispatcher;
 use Symfony\Component\DependencyInjection\Reference;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class indexerPassTest extends openpsa_testcase
+class indexerPassTest extends TestCase
 {
     public function test_process()
     {
@@ -56,7 +56,7 @@ class indexerPassTest extends openpsa_testcase
 
         if ($identifier == 'event_dispatcher') {
             $dispatcher = $builder
-                ->setConstructorArgs([dispatcher::class])
+                ->setConstructorArgs([EventDispatcher::class])
                 ->getMock();
             $dispatcher
                 ->expects($this->once())

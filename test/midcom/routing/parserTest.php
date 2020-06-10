@@ -6,9 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-namespace midcom\datamanager\test;
+namespace midcom\routing\test;
 
-use openpsa_testcase;
+use PHPUnit\Framework\TestCase;
 use midcom_core_context;
 use midcom\routing\parser;
 
@@ -17,7 +17,7 @@ use midcom\routing\parser;
  *
  * @package openpsa.test
  */
-class parserTest extends openpsa_testcase
+class parserTest extends TestCase
 {
     public function test__construct()
     {

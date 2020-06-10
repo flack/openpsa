@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_directmarketing_campaign_ruleresolverTest extends openpsa_testcase
+class org_openpsa_directmarketing_campaign_ruleresolverTest extends TestCase
 {
     /**
      * @dataProvider provider_resolve

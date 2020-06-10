@@ -7,10 +7,10 @@
 
 namespace midcom\datamanager\test;
 
-use openpsa_testcase;
 use midcom\datamanager\extension\transformer\multipleTransformer;
+use PHPUnit\Framework\TestCase;
 
-class multipleTransformerTest extends openpsa_testcase
+class multipleTransformerTest extends TestCase
 {
     /**
      * @return multipleTransformer

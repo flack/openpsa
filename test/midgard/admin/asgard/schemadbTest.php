@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midgard_admin_asgard_schemadbTest extends openpsa_testcase
+class midgard_admin_asgard_schemadbTest extends TestCase
 {
     /**
      * @dataProvider provider_sort
