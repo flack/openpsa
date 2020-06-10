@@ -105,7 +105,14 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             return false;
         }
         if ($send_invoice) {
-            $this->_notify_owner($calculator, $cycle_number, $next_cycle_start, $this_cycle_amount, $tasks_completed, $tasks_not_completed, $new_task);
+            $data = [
+                'cycle_number' => $cycle_number,
+                'next_run' => $next_cycle_start,
+                'invoiced_sum' => $this_cycle_amount,
+                'tasks_completed' => $tasks_completed,
+                'tasks_not_completed' => $tasks_not_completed
+            ];
+            $this->_notify_owner($calculator, $new_task, $data);
         }
         return true;
     }
@@ -131,7 +138,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         return true;
     }
 
-    private function _notify_owner($calculator, $cycle_number, $next_run, $invoiced_sum, $tasks_completed, $tasks_not_completed, $new_task)
+    private function _notify_owner(org_openpsa_invoices_calculator $calculator, ?org_openpsa_projects_task_dba $new_task, array $data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $message = [];
@@ -144,41 +151,28 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         }
         $customer = $salesproject->get_customer();
         $l10n = $this->_i18n->get_l10n('org.openpsa.sales');
-        if ($next_run === null) {
+        if ($data['next_run'] === null) {
             $next_run_label = $l10n->get('no more cycles');
         } else {
-            $next_run_label = $l10n->get_formatter()->date($next_run);
+            $next_run_label = $l10n->get_formatter()->date($data['next_run']);
         }
 
         // Title for long notifications
-        $message['title'] = sprintf($l10n->get('subscription cycle %d closed for agreement %s (%s)'), $cycle_number, $this->_deliverable->title, $customer->get_label());
+        $message['title'] = sprintf($l10n->get('subscription cycle %d closed for agreement %s (%s)'), $data['cycle_number'], $this->_deliverable->title, $customer->get_label());
 
         // Content for long notifications
         $message['content'] = "{$message['title']}\n\n";
-        $message['content'] .= $l10n->get('invoiced') . ': ' . $l10n->get_formatter()->number($invoiced_sum) . "\n\n";
+        $message['content'] .= $l10n->get('invoiced') . ': ' . $l10n->get_formatter()->number($data['invoiced_sum']) . "\n\n";
 
-        if ($invoiced_sum > 0) {
+        if ($data['invoiced_sum'] > 0) {
             $invoice = $calculator->get_invoice();
             $message['content'] .= $this->_l10n->get('invoice') . " {$invoice->number}:\n";
             $url = $siteconfig->get_node_full_url('org.openpsa.invoices');
             $message['content'] .= $url . 'invoice/' . $invoice->guid . "/\n\n";
         }
 
-        if (!empty($tasks_completed)) {
-            $message['content'] .= "\n" . $l10n->get('tasks completed') . ":\n";
-
-            foreach ($tasks_completed as $task) {
-                $message['content'] .= "{$task->title}: {$task->reportedHours}h\n";
-            }
-        }
-
-        if (!empty($tasks_not_completed)) {
-            $message['content'] .= "\n" . $l10n->get('tasks not completed') . ":\n";
-
-            foreach ($tasks_not_completed as $task) {
-                $message['content'] .= "{$task->title}: {$task->reportedHours}h\n";
-            }
-        }
+        $message['content'] .= $this->render_task_info($l10n->get('tasks completed'), $data['tasks_completed']);
+        $message['content'] .= $this->render_task_info($l10n->get('tasks not completed'), $data['tasks_not_completed']);
 
         if ($new_task) {
             $message['content'] .= "\n" . $l10n->get('created new task') . ":\n";
@@ -192,16 +186,35 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $message['content'] .= $url . 'deliverable/' . $this->_deliverable->guid . '/';
 
         // Content for short notifications
-        $message['abstract'] = sprintf($l10n->get('%s: closed subscription cycle %d for agreement %s. invoiced %d. next cycle %s'), $customer->get_label(), $cycle_number, $this->_deliverable->title, $invoiced_sum, $next_run_label);
+        $message['abstract'] = sprintf(
+            $l10n->get('%s: closed subscription cycle %d for agreement %s. invoiced %d. next cycle %s'),
+            $customer->get_label(),
+            $data['cycle_number'],
+            $this->_deliverable->title,
+            $data['invoiced_sum'],
+            $next_run_label);
 
         // Send the message out
         org_openpsa_notifications::notify('org.openpsa.sales:new_subscription_cycle', $owner->guid, $message);
     }
 
+    private function render_task_info($label, array $tasks) : string
+    {
+        $content = '';
+        if (!empty($tasks)) {
+            $content .= "\n{$label}:\n";
+
+            foreach ($tasks as $task) {
+                $content .= "{$task->title}: {$task->reportedHours}h\n";
+            }
+        }
+        return $content;
+    }
+
     /**
      * @todo Check if we already have an open task for this delivery?
      */
-    public function create_task($start, $end, $title, $source_task = null) : org_openpsa_projects_task_dba
+    public function create_task($start, $end, $title, org_openpsa_projects_task_dba $source_task = null) : org_openpsa_projects_task_dba
     {
         // Create the task
         $task = new org_openpsa_projects_task_dba();
