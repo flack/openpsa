@@ -242,26 +242,13 @@ class midcom_helper__dbfactory
      * It tries to look up the GUID in the memory cache, only if this fails, the regular
      * content getters are invoked.
      *
-     * @param mixed $object Either a MidCOM DBA object instance, or a GUID string.
+     * @param string $guid A GUID string.
      * @param string $class class name of object if known (so we can use get_parent_guid_uncached_static and avoid instantiating full object)
      * @return array The parent GUID and class (value might be null, if this is a top level object).
      */
-    public function get_parent_data($object, $class = null) : array
+    public function get_parent_data(string $guid, string $class = null) : array
     {
-        if (is_object($object)) {
-            $object_guid = null;
-            if (!empty($object->guid)) {
-                $object_guid = $object->guid;
-            } elseif (isset($object->__guid)) {
-                $object_guid = $object->__guid;
-            }
-
-            $the_object = $object;
-        } else {
-            $object_guid = $object;
-            $the_object = null;
-        }
-        return $this->_get_parent_guid_cached($object_guid, $the_object, $class);
+        return $this->_get_parent_guid_cached($guid, null, $class);
     }
 
     private function _get_parent_guid_cached(string $object_guid, $the_object, $class = null) : array
