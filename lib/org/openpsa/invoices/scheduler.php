@@ -203,35 +203,33 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      */
     public function create_task($start, $end, $title, $source_task = null) : org_openpsa_projects_task_dba
     {
-        $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
-
-        // Check if we already have a project for the sales project
-        $project = $salesproject->get_project();
-
         // Create the task
         $task = new org_openpsa_projects_task_dba();
-        $task->agreement = $this->_deliverable->id;
-        $task->customer = $salesproject->customer;
         $task->title = $title;
-        $task->description = $this->_deliverable->description;
         $task->start = $start;
         $task->end = $end;
+        // TODO: Figure out if we really want to keep this
+        $task->hoursInvoiceableDefault = true;
+
+        $task->agreement = $this->_deliverable->id;
+        $task->description = $this->_deliverable->description;
         $task->plannedHours = $this->_deliverable->plannedUnits;
 
+        $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
+        $task->customer = $salesproject->customer;
         $task->manager = $salesproject->owner;
-        if ($project) {
-            $task->project = $project->id;
-            $task->orgOpenpsaAccesstype = $project->orgOpenpsaAccesstype;
-            $task->orgOpenpsaOwnerWg = $project->orgOpenpsaOwnerWg;
-        }
+
+        $project = $salesproject->get_project();
+        $task->project = $project->id;
+        $task->orgOpenpsaAccesstype = $project->orgOpenpsaAccesstype;
+        $task->orgOpenpsaOwnerWg = $project->orgOpenpsaOwnerWg;
 
         if (!empty($source_task)) {
             $task->priority = $source_task->priority;
             $task->manager = $source_task->manager;
+            $task->hoursInvoiceableDefault = $source_task->hoursInvoiceableDefault;
         }
 
-        // TODO: Figure out if we really want to keep this
-        $task->hoursInvoiceableDefault = true;
         if (!$task->create()) {
             throw new midcom_error("The task for this cycle could not be created. Last Midgard error was: " . midcom_connection::get_error_string());
         }
