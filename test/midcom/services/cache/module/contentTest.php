@@ -35,7 +35,7 @@ class midcom_services_cache_module_contentTest extends TestCase
         $this->assertFalse($event->hasResponse(), 'Response should not be cached yet');
 
         // write response to cache
-        $response = Response::create('test');
+        $response = new Response('test');
         $filter_event = new ResponseEvent($GLOBALS['kernel'], $request, KernelInterface::MASTER_REQUEST, $response);
         $module->on_response($filter_event);
 
