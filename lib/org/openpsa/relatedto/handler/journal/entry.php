@@ -8,7 +8,6 @@
 
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use midcom\datamanager\controller;
 
 /**

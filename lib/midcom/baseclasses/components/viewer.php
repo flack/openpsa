@@ -7,8 +7,6 @@
  */
 
 use midcom\routing\loader;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Router;
 use midcom\routing\resolver;
 use midcom\routing\plugin;
