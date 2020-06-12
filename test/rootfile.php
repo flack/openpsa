@@ -2,22 +2,21 @@
 /**
  * Setup file for running unit tests
  */
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+require_once __DIR__ . '/autoload.php';
 
 define('OPENPSA_TEST_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
+define('OPENPSA2_UNITTEST_RUN', true);
+define('OPENPSA2_UNITTEST_OUTPUT_DIR', OPENPSA_TEST_ROOT . '__output');
+
 $GLOBALS['midcom_config_local'] = [];
+
+openpsa_prepare_directories();
 
 // Check that the environment is a working one
 if (!midcom_connection::setup(dirname(__DIR__) . DIRECTORY_SEPARATOR)) {
     // if we can't connect to a DB, we'll create a new one
-    openpsa\installer\midgard2\setup::install(OPENPSA_TEST_ROOT . '__output', 'SQLite');
+    openpsa\installer\midgard2\setup::install(OPENPSA2_UNITTEST_OUTPUT_DIR, 'SQLite');
 
-    /* @todo: This constant is a workaround to make sure the output
-     * dir is not deleted again straight away. The proper fix would
-    * of course be to delete the old output dir before running the
-    * db setup, but this requires further changes in dependent repos
-    */
-    define('OPENPSA_DB_CREATED', true);
     require_once dirname(__DIR__) . '/tools/bootstrap.php';
     $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
 }

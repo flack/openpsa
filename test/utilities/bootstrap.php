@@ -8,72 +8,15 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+$defaults = [
+    'theme' => 'OpenPsa2',
+    'midcom_services_rcs_root' => OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs',
+    'cache_base_directory' => OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/',
+    'midcom_tempdir' => OPENPSA2_UNITTEST_OUTPUT_DIR . '/tmp/',
+    'log_filename' => OPENPSA2_UNITTEST_OUTPUT_DIR . '/midcom.log'
+];
 
-// PHUnit 6+ compat
-if (   !class_exists('\PHPUnit_Framework_TestCase')
-    && class_exists('\PHPUnit\Framework\TestCase')) {
-    class_alias('\PHPUnit\Framework\TestCase', '\PHPUnit_Framework_TestCase');
-    class_alias('\PHPUnit\Framework\Constraint\IsEqual', '\PHPUnit_Framework_Constraint_IsEqual');
-    class_alias('\PHPUnit\Util\InvalidArgumentHelper', '\PHPUnit_Util_InvalidArgumentHelper');
-}
-
-require_once __DIR__ . '/testcase.php';
-require_once __DIR__ . '/mock/sessioning.php';
-require_once __DIR__ . '/helpers.php';
-
-define('OPENPSA2_UNITTEST_RUN', true);
-define('OPENPSA2_UNITTEST_OUTPUT_DIR', OPENPSA_TEST_ROOT . '__output');
-
-function openpsa_test_create_dir($dir)
-{
-    if (!is_dir($dir) && !mkdir($dir)) {
-        throw new Exception('could not create directory ' . $dir);
-    }
-}
-
-if (   file_exists(OPENPSA2_UNITTEST_OUTPUT_DIR)
-    && !defined('OPENPSA_DB_CREATED')) {
-    $ret = false;
-    $output = system('rm -R ' . OPENPSA2_UNITTEST_OUTPUT_DIR, $ret);
-
-    if ($ret) {
-        throw new Exception('Could not remove old output dir: ' . $output);
-    }
-}
-
-openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR);
-openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs');
-openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/themes');
-openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache');
-openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/tmp');
-openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs');
-openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs');
-
-$subdirs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'];
-foreach ($subdirs as $dir) {
-    openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs/' . $dir);
-    foreach ($subdirs as $subdir) {
-        openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs/' . $dir . '/' . $subdir);
-    }
-}
-
-if (empty($GLOBALS['midcom_config_local']['theme'])) {
-    $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
-}
-if (empty($GLOBALS['midcom_config_local']['midcom_services_rcs_root'])) {
-    $GLOBALS['midcom_config_local']['midcom_services_rcs_root'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs';
-}
-if (empty($GLOBALS['midcom_config_local']['cache_base_directory'])) {
-    $GLOBALS['midcom_config_local']['cache_base_directory'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/';
-}
-if (empty($GLOBALS['midcom_config_local']['midcom_tempdir'])) {
-    $GLOBALS['midcom_config_local']['midcom_tempdir'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/tmp/';
-}
-if (   empty($GLOBALS['midcom_config_local']['log_filename'])
-    || !file_exists(dirname($GLOBALS['midcom_config_local']['log_filename']))) {
-    $GLOBALS['midcom_config_local']['log_filename'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/midcom.log';
-}
-
+$GLOBALS['midcom_config_local'] = array_merge($defaults, $GLOBALS['midcom_config_local']);
 $GLOBALS['midcom_config_local']['attachment_cache_url'] = '/blobcache';
 $GLOBALS['midcom_config_local']['attachment_cache_root'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs';
 
@@ -99,5 +42,4 @@ $GLOBALS['kernel'] = midcom::init('test', true);
 // Clean up residue cache entries from previous runs
 midcom::get()->cache->invalidate_all();
 $GLOBALS['kernel']->reboot(null);
-// disable output buffering
-midcom::get()->cache->content->enable_live_mode();
+midcom::get()->cache->content->no_cache();
