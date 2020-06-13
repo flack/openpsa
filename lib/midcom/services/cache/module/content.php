@@ -189,7 +189,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_default_lifetime_authenticated = (int)$config->get('cache_module_content_default_lifetime_authenticated');
 
         if ($this->_headers_strategy == 'no-cache') {
-            $this->no_cache();
+            // we can't call no_cache() here, because it would try to call back to this class via the global getter
+            $header = 'Cache-Control: no-store, no-cache, must-revalidate';
+            $this->register_sent_header($header);
+            midcom_compat_environment::get()->header($header);
+            $this->_no_cache = true;
         }
     }
 
