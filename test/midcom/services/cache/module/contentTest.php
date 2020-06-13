@@ -22,7 +22,10 @@ class midcom_services_cache_module_contentTest extends TestCase
 {
     public function test_on_request()
     {
-        $module = new midcom_services_cache_module_content(new midcom_config);
+        $config = new midcom_config;
+        $config->set('cache_module_content_headers_strategy', 'revalidate');
+
+        $module = new midcom_services_cache_module_content($config);
         $module->uncached(false);
 
         $request = Request::create('/');

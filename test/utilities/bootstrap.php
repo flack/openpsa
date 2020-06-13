@@ -19,6 +19,8 @@ $defaults = [
 $GLOBALS['midcom_config_local'] = array_merge($defaults, $GLOBALS['midcom_config_local']);
 $GLOBALS['midcom_config_local']['attachment_cache_url'] = '/blobcache';
 $GLOBALS['midcom_config_local']['attachment_cache_root'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs';
+$GLOBALS['midcom_config_local']['attachment_cache_root'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs';
+$GLOBALS['midcom_config_local']['cache_module_content_headers_strategy'] = 'no-cache';
 
 $_SERVER = [
     'HTTP_HOST' => 'localhost',
@@ -42,4 +44,3 @@ $GLOBALS['kernel'] = midcom::init('test', true);
 // Clean up residue cache entries from previous runs
 midcom::get()->cache->invalidate_all();
 $GLOBALS['kernel']->reboot(null);
-midcom::get()->cache->content->no_cache();
