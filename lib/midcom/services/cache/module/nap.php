@@ -45,12 +45,13 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      *
      * Initializes the backend configuration.
      */
-    public function _on_initialize()
+    public function __construct(midcom_config $config)
     {
-        if ($driver = midcom::get()->config->get('cache_module_memcache_backend')) {
-            $config = midcom::get()->config->get('cache_module_memcache_backend_config');
-            $config['driver'] = $driver;
-            $this->_cache = $this->_create_backend('module_nap', $config);
+        parent::__construct();
+        if ($driver = $config->get('cache_module_memcache_backend')) {
+            $backend_config = $config->get('cache_module_memcache_backend_config');
+            $backend_config['driver'] = $driver;
+            $this->_cache = $this->_create_backend('module_nap', $backend_config);
         }
     }
 

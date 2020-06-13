@@ -22,8 +22,7 @@ class midcom_services_cache_module_contentTest extends TestCase
 {
     public function test_on_request()
     {
-        $module = new midcom_services_cache_module_content;
-        $module->initialize();
+        $module = new midcom_services_cache_module_content(new midcom_config);
         $module->uncached(false);
 
         $request = Request::create('/');

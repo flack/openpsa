@@ -41,10 +41,9 @@ abstract class midcom_services_cache_module
      * Initialize the module. This will initialize the class configuration
      * and call the corresponding event handler.
      */
-    public function initialize()
+    public function __construct()
     {
         $this->_prefix = get_class($this) . $_SERVER['SERVER_NAME'];
-        $this->_on_initialize();
     }
 
     /**
@@ -142,11 +141,6 @@ abstract class midcom_services_cache_module
             $backend->flushAll();
         }
     }
-
-    /**
-     * Startup handler, called during service start up at the start of the request.
-     */
-    abstract public function _on_initialize();
 
     /**
      * Invalidate all cache objects related to the given GUID.

@@ -12,7 +12,6 @@ use midcom_config;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use midcom_services_cache;
-use midcom_services_cache_module_content;
 use Symfony\Component\DependencyInjection\Reference;
 use midcom\dependencyInjection\cachePass;
 use PHPUnit\Framework\TestCase;
@@ -36,9 +35,9 @@ class cachePassTest extends TestCase
             ->getMock();
 
         $container
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('getDefinition')
-            ->with($this->logicalOr($this->equalTo('cache'), $this->equalTo('cache.module.content')))
+            ->with('cache')
             ->will($this->returnCallback([$this, 'get_definition_mock']));
 
         $pass->process($container);
@@ -46,28 +45,15 @@ class cachePassTest extends TestCase
 
     public function get_definition_mock($identifier)
     {
-        $builder = $this->getMockBuilder(Definition::class);
-
-        if ($identifier === 'cache') {
-            $cache = $builder
-                ->setConstructorArgs([midcom_services_cache::class])
-                ->getMock();
-            $cache
-                ->expects($this->once())
-                ->method('addMethodCall')
-                ->with('add_module', ['content', new Reference('cache.module.content')]);
-
-            return $cache;
-        }
-
-        $content = $builder
-            ->setConstructorArgs([midcom_services_cache_module_content::class])
+        $cache = $this
+            ->getMockBuilder(Definition::class)
+            ->setConstructorArgs([midcom_services_cache::class])
             ->getMock();
-        $content
+        $cache
             ->expects($this->once())
             ->method('addMethodCall')
-            ->with('initialize');
+            ->with('add_module', ['content', new Reference('cache.module.content')]);
 
-        return $content;
+        return $cache;
     }
 }

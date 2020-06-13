@@ -68,12 +68,15 @@ services:
 
     cache.module.content:
         class: midcom_services_cache_module_content
+        arguments: ['@config']
 
     cache.module.memcache:
         class: midcom_services_cache_module_memcache
+        arguments: ['@config']
 
     cache.module.nap:
         class: midcom_services_cache_module_nap
+        arguments: ['@config']
 
     config:
         synthetic: true

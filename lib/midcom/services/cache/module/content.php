@@ -150,6 +150,50 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private $context_guids = [];
 
     /**
+     * @var midcom_config
+     */
+    private $config;
+
+    /**
+     * Initialize the cache.
+     *
+     * The first step is to initialize the cache backends. The names of the
+     * cache backends used for meta and data storage are derived from the name
+     * defined for this module (see the 'name' configuration parameter above).
+     * The name is used directly for the meta data cache, while the actual data
+     * is stored in a backend postfixed with '_data'.
+     *
+     * After core initialization, the module checks for a cache hit (which might
+     * trigger the delivery of the cached page and exit) and start the output buffer
+     * afterwards.
+     */
+    public function __construct(midcom_config $config)
+    {
+        parent::__construct();
+        $this->config = $config;
+        $backend_config = $config->get('cache_module_content_backend');
+        if (!isset($backend_config['directory'])) {
+            $backend_config['directory'] = 'content/';
+        }
+        if (!isset($backend_config['driver'])) {
+            $backend_config['driver'] = 'null';
+        }
+
+        $this->_meta_cache = $this->_create_backend('content_meta', $backend_config);
+        $this->_data_cache = $this->_create_backend('content_data', $backend_config);
+
+        $this->_uncached = $config->get('cache_module_content_uncached');
+        $this->_headers_strategy = $this->get_strategy('cache_module_content_headers_strategy');
+        $this->_headers_strategy_authenticated = $this->get_strategy('cache_module_content_headers_strategy_authenticated');
+        $this->_default_lifetime = (int)$config->get('cache_module_content_default_lifetime');
+        $this->_default_lifetime_authenticated = (int)$config->get('cache_module_content_default_lifetime_authenticated');
+
+        if ($this->_headers_strategy == 'no-cache') {
+            $this->no_cache();
+        }
+    }
+
+    /**
      * @param RequestEvent $event
      */
     public function on_request(RequestEvent $event)
@@ -315,13 +359,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return $identifier_cache[$context];
         }
 
-        $module_name = midcom::get()->config->get('cache_module_content_name');
+        $module_name = $this->config->get('cache_module_content_name');
         if ($module_name == 'auto') {
             $module_name = midcom_connection::get_unique_host_name();
         }
         $identifier_source = 'CACHE:' . $module_name;
 
-        $cache_strategy = midcom::get()->config->get('cache_module_content_caching_strategy');
+        $cache_strategy = $this->config->get('cache_module_content_caching_strategy');
 
         switch ($cache_strategy) {
             case 'memberships':
@@ -351,46 +395,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         return $identifier_cache[$context];
     }
 
-    /**
-     * Initialize the cache.
-     *
-     * The first step is to initialize the cache backends. The names of the
-     * cache backends used for meta and data storage are derived from the name
-     * defined for this module (see the 'name' configuration parameter above).
-     * The name is used directly for the meta data cache, while the actual data
-     * is stored in a backend postfixed with '_data'.
-     *
-     * After core initialization, the module checks for a cache hit (which might
-     * trigger the delivery of the cached page and exit) and start the output buffer
-     * afterwards.
-     */
-    public function _on_initialize()
-    {
-        $backend_config = midcom::get()->config->get('cache_module_content_backend');
-        if (!isset($backend_config['directory'])) {
-            $backend_config['directory'] = 'content/';
-        }
-        if (!isset($backend_config['driver'])) {
-            $backend_config['driver'] = 'null';
-        }
-
-        $this->_meta_cache = $this->_create_backend('content_meta', $backend_config);
-        $this->_data_cache = $this->_create_backend('content_data', $backend_config);
-
-        $this->_uncached = midcom::get()->config->get('cache_module_content_uncached');
-        $this->_headers_strategy = $this->get_strategy('cache_module_content_headers_strategy');
-        $this->_headers_strategy_authenticated = $this->get_strategy('cache_module_content_headers_strategy_authenticated');
-        $this->_default_lifetime = (int)midcom::get()->config->get('cache_module_content_default_lifetime');
-        $this->_default_lifetime_authenticated = (int)midcom::get()->config->get('cache_module_content_default_lifetime_authenticated');
-
-        if ($this->_headers_strategy == 'no-cache') {
-            $this->no_cache();
-        }
-    }
-
     private function get_strategy(string $name) : string
     {
-        $strategy = strtolower(midcom::get()->config->get($name));
+        $strategy = strtolower($this->config->get($name));
         $allowed = ['no-cache', 'revalidate', 'public', 'private'];
         if (!in_array($strategy, $allowed)) {
             throw new midcom_error($name . ' is not valid, try ' . implode(', ', $allowed));
