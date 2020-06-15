@@ -155,11 +155,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                     echo "<img src=\"" . MIDCOM_STATIC_URL . "/midgard.admin.asgard/asgard2.png\" id=\"asgard_logo\" title=\"Asgard\" alt=\"Asgard\" />";
                     echo "</a>\n";
 
-                    if (isset($data['object'])) {
-                        $navigation = new midgard_admin_asgard_navigation($data['object'], $data);
-                    } else {
-                        $navigation = new midgard_admin_asgard_navigation(null, $data);
-                    }
+                    $navigation = new midgard_admin_asgard_navigation($data['object'] ?? null, $data);
                     $navigation->draw();
                     ?>
                 </div>

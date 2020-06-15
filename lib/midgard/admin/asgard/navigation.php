@@ -44,7 +44,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         parent::__construct();
 
         $this->_object = $object;
-        $this->get_object_path();
         $this->_request_data =& $request_data;
 
         $this->root_types = midcom_helper_reflector_tree::get_root_classes();
@@ -56,6 +55,10 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             }
             $this->expanded_root_types[] = $expanded_type;
         } elseif (isset($this->_object)) {
+            foreach (midcom_helper_reflector_tree::resolve_path_parts($this->_object) as $part) {
+                $this->_object_path[] = $part['object'];
+            }
+
             // we go through the path bottom up and show the first root type we find
             foreach (array_reverse($this->_object_path) as $node) {
                 foreach ($this->root_types as $root_type) {
@@ -84,15 +87,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
 
         return $this->_reflectors[$classname];
-    }
-
-    private function get_object_path()
-    {
-        if (is_object($this->_object)) {
-            foreach (midcom_helper_reflector_tree::resolve_path_parts($this->_object) as $part) {
-                $this->_object_path[] = $part['object'];
-            }
-        }
     }
 
     protected function _is_collapsed($type, $total) : bool
@@ -221,8 +215,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $ref = $this->_get_reflector($object);
 
         $selected = $this->_is_selected($object);
-        $css_class = get_class($object);
-        $this->_common_css_classes($object, $ref, $css_class);
+        $css_class = $this->get_css_classes($object, $ref->mgdschema_class);
 
         $mode = $this->_request_data['default_mode'];
         if (strpos($css_class, 'readonly')) {
@@ -285,9 +278,9 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         return false;
     }
 
-    protected function _common_css_classes($object, $ref, &$css_class)
+    protected function get_css_classes($object, string $mgdschema_class) : string
     {
-        $css_class .= " {$ref->mgdschema_class}";
+        $css_class = get_class($object) . " {$mgdschema_class}";
 
         // Populate common properties
         $css_class = midcom::get()->metadata->get_object_classes($object, $css_class);
@@ -304,6 +297,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         if ( !$object->can_do('midgard:update')) {
             $css_class .= ' readonly';
         }
+        return $css_class;
     }
 
     /**
