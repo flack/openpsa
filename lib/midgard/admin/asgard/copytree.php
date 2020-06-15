@@ -76,7 +76,7 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
 
     protected function _draw_element($object, string $label, int $level, bool $autoexpand = false)
     {
-        $ref = $this->_get_reflector($object);
+        $ref = midcom_helper_reflector_tree::get($object);
         $span_class = '';
         $css_class = $this->get_css_classes($object, $ref->mgdschema_class);
         $this->shown_objects[$object->guid] = true;

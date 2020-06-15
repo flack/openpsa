@@ -34,7 +34,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      */
     private $_object_path = [];
 
-    private $_reflectors = [];
     private $_request_data = [];
     private $expanded_root_types = [];
     protected $shown_objects = [];
@@ -72,23 +71,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
     }
 
-    /**
-     * @param midgard\portable\api\mgdobject $object
-     */
-    protected function _get_reflector($object) : midcom_helper_reflector_tree
-    {
-        if (is_string($object)) {
-            $classname = $object;
-        } else {
-            $classname = get_class($object);
-        }
-        if (!isset($this->_reflectors[$classname])) {
-            $this->_reflectors[$classname] = midcom_helper_reflector_tree::get($object);
-        }
-
-        return $this->_reflectors[$classname];
-    }
-
     protected function _is_collapsed($type, $total) : bool
     {
         return (   $total > $this->_config->get('max_navigation_entries')
@@ -101,7 +83,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             debug_add('Recursion level 25 exceeded, aborting', MIDCOM_LOG_ERROR);
             return;
         }
-        $ref = $this->_get_reflector($object);
+        $ref = midcom_helper_reflector_tree::get($object);
 
         $child_types = [];
         foreach ($ref->get_child_classes() as $class) {
@@ -128,7 +110,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
                         continue;
                     }
 
-                    $ref = $this->_get_reflector($child);
+                    $ref = midcom_helper_reflector_tree::get($child);
                     $label_mapping[$i] = htmlspecialchars($ref->get_object_label($child));
                 }
 
@@ -212,7 +194,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
     protected function _draw_element($object, string $label, int $level, bool $autoexpand = false)
     {
-        $ref = $this->_get_reflector($object);
+        $ref = midcom_helper_reflector_tree::get($object);
 
         $selected = $this->_is_selected($object);
         $css_class = $this->get_css_classes($object, $ref->mgdschema_class);
@@ -356,7 +338,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
                 continue;
             }
 
-            $ref = $this->_get_reflector($root_type);
+            $ref = midcom_helper_reflector_tree::get($root_type);
             $label_mapping[$root_type] = $ref->get_class_label();
         }
         asort($label_mapping);
@@ -397,7 +379,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $this->_request_data['section_name'] = $label_mapping[$root_type];
             $this->_request_data['expanded'] = true;
             midcom_show_style('midgard_admin_asgard_navigation_section_header');
-            $ref = $this->_get_reflector($root_type);
+            $ref = midcom_helper_reflector_tree::get($root_type);
             $this->_list_root_elements($ref);
 
             midcom_show_style('midgard_admin_asgard_navigation_section_footer');
@@ -455,7 +437,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $label_mapping = [];
 
         foreach ($this->root_types as $root_type) {
-            $ref = $this->_get_reflector($root_type);
+            $ref = midcom_helper_reflector_tree::get($root_type);
             $label_mapping[$root_type] = $ref->get_class_label();
         }
         asort($label_mapping);
