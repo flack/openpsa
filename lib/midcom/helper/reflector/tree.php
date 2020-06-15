@@ -145,13 +145,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
         $resolver = new self($object);
-        $child_classes = $resolver->get_child_classes();
-        if (!$child_classes) {
-            return false;
-        }
 
         $child_objects = [];
-        foreach ($child_classes as $schema_type) {
+        foreach ($resolver->get_child_classes() as $schema_type) {
             $type_children = $resolver->_get_child_objects_type($schema_type, $object, $deleted);
             // PONDER: check for boolean false as result ??
             if (empty($type_children)) {
