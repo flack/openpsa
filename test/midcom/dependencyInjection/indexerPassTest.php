@@ -37,14 +37,12 @@ class indexerPassTest extends TestCase
             ->getMock();
 
         $container
-            ->expects($this->once())
-            ->method('setDefinition')
-            ->with('indexer.backend', new Definition(midcom_services_indexer_backend_solr::class));
-
-        $container
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(3))
             ->method('getDefinition')
-            ->with($this->logicalOr($this->equalTo('indexer'), $this->equalTo('event_dispatcher')))
+            ->with($this->logicalOr(
+                $this->equalTo('indexer'),
+                $this->equalTo('indexer.backend'),
+                $this->equalTo('event_dispatcher')))
             ->will($this->returnCallback([$this, 'get_definition_mock']));
 
         $pass->process($container);
@@ -64,6 +62,17 @@ class indexerPassTest extends TestCase
                 ->with('addSubscriber', [new Reference('indexer')]);
 
             return $dispatcher;
+        }
+        if ($identifier == 'indexer.backend') {
+            $backend = $builder
+                ->setConstructorArgs([midcom_services_indexer_backend_solr::class])
+                ->getMock();
+            $backend
+                ->expects($this->once())
+                ->method('setClass')
+                ->with(midcom_services_indexer_backend_solr::class);
+
+            return $backend;
         }
         $indexer = $builder
             ->setConstructorArgs([midcom_services_indexer::class])

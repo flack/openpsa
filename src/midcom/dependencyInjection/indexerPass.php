@@ -2,7 +2,6 @@
 namespace midcom\dependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 class indexerPass extends configPass
@@ -15,9 +14,10 @@ class indexerPass extends configPass
                 $class = "midcom_services_indexer_backend_" . $class;
             }
 
-            $container->setDefinition('indexer.backend', new Definition($class));
-            $backend = $container->getDefinition('indexer');
-            $backend->addArgument(new Reference('indexer.backend'));
+            $backend = $container->getDefinition('indexer.backend');
+            $backend->setClass($class);
+            $indexer = $container->getDefinition('indexer');
+            $indexer->addArgument(new Reference('indexer.backend'));
 
             $container->getDefinition('event_dispatcher')
                 ->addMethodCall('addSubscriber', [new Reference('indexer')]);

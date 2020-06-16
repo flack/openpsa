@@ -108,6 +108,10 @@ services:
         class: midcom_services_indexer
         public: true
 
+    indexer.backend:
+        class: midcom_services_indexer_backend_solr
+        arguments: ['@config']
+        
     metadata:
         class: midcom_services_metadata
         public: true

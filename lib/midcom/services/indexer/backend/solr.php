@@ -33,17 +33,16 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     private $factory;
 
     /**
-     * Constructor is empty at this time.
+     * @var midcom_config
      */
-    public function __construct($index_name = null)
+    private $config;
+
+    public function __construct(midcom_config $config)
     {
-        if ($index_name === null) {
-            $this->_index_name = midcom::get()->config->get('indexer_index_name');
-            if ($this->_index_name == 'auto') {
-                $this->_index_name = midcom_connection::get_unique_host_name();
-            }
-        } else {
-            $this->_index_name = $index_name;
+        $this->config = $config;
+        $this->_index_name = $config->get('indexer_index_name');
+        if ($this->_index_name == 'auto') {
+            $this->_index_name = midcom_connection::get_unique_host_name();
         }
         $this->factory = new midcom_services_indexer_solrDocumentFactory($this->_index_name);
     }
@@ -117,7 +116,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     public function query($querystring, midcom_services_indexer_filter $filter = null, array $options = []) : array
     {
         // FIXME: adapt the whole indexer system to fetching enable querying for counts and slices
-        $query = array_merge(midcom::get()->config->get('indexer_config_options'), $options);
+        $query = array_merge($this->config->get('indexer_config_options'), $options);
         $query['q'] = $querystring;
 
         if (!empty($this->_index_name)) {
@@ -169,12 +168,12 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
 
     private function prepare_request(string $action, $body = null) : Request
     {
-        $uri = "http://" . midcom::get()->config->get('indexer_xmltcp_host');
-        $uri .= ":" . midcom::get()->config->get('indexer_xmltcp_port');
+        $uri = "http://" . $this->config->get('indexer_xmltcp_host');
+        $uri .= ":" . $this->config->get('indexer_xmltcp_port');
 
         $uri .= '/solr/';
-        if (midcom::get()->config->get('indexer_xmltcp_core')) {
-            $uri .= midcom::get()->config->get('indexer_xmltcp_core') . '/';
+        if ($this->config->get('indexer_xmltcp_core')) {
+            $uri .= $this->config->get('indexer_xmltcp_core') . '/';
         }
         $uri .= $action;
 
