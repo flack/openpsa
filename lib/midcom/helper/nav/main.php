@@ -402,15 +402,11 @@ class midcom_helper_nav
         $breadcrumb_data = $this->get_breadcrumb_data();
         $result = '';
 
-        // We traverse this list using the iterator of the array, since this allows
-        // us direct treatment of the final element.
-        reset($breadcrumb_data);
-
         // Detect real starting Node
         if ($skip_levels > 0) {
             if ($skip_levels >= count($breadcrumb_data)) {
                 debug_add('We were asked to skip all breadcrumb elements that were present (or even more). Returning an empty breadcrumb line therefore.', MIDCOM_LOG_INFO);
-                return '';
+                return $result;
             }
             $breadcrumb_data = array_slice($breadcrumb_data, $skip_levels);
         }
