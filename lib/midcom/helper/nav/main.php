@@ -231,13 +231,13 @@ class midcom_helper_nav
      * room for improvement... :-)
      *
      * @param int $parent_node_id    The ID of the parent node.
-     * @return Array                A list of found elements, or false on failure.
+     * @return Array                A list of found elements, or null on failure.
      */
-    public function list_child_elements($parent_node_id)
+    public function list_child_elements($parent_node_id) : ?array
     {
         $parent_node = $this->get_node($parent_node_id);
         if (!$parent_node) {
-            return false;
+            return null;
         }
 
         $guid = $parent_node[MIDCOM_NAV_GUID];
@@ -349,7 +349,7 @@ class midcom_helper_nav
         return false;
     }
 
-    private function _find_leaf_in_topic($topic, string $guid)
+    private function _find_leaf_in_topic(int $topic, string $guid) : ?array
     {
         foreach ($this->list_leaves($topic, true) as $leafid) {
             $leaf = $this->get_leaf($leafid);
@@ -357,14 +357,11 @@ class midcom_helper_nav
                 return $leaf;
             }
         }
-        return false;
+        return null;
     }
 
-    public function find_closest_topic($object)
+    public function find_closest_topic(midcom_core_dbaobject $object) : ?midcom_db_topic
     {
-        if (!is_object($object)) {
-            return null;
-        }
         debug_add('Looking for a topic to use via get_parent()');
         while ($parent = $object->get_parent()) {
             if (is_a($parent, midcom_db_topic::class)) {

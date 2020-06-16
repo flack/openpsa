@@ -64,7 +64,7 @@ abstract class midcom_helper_nav_itemlist
      *
      * @return Array An array of all objects.
      */
-    abstract public function get_sorted_list();
+    abstract public function get_sorted_list() : array;
 
     /**
      * Generate the object you want to use for getting a list of items for a certain topic.

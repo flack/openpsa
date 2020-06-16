@@ -275,13 +275,6 @@ class midcom_services_auth_acl
     private static $_content_privileges_cache = [];
 
     /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Merges a new set of default privileges into the current set.
      * Existing keys will be silently overwritten.
      *
