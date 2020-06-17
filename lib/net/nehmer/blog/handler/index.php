@@ -116,9 +116,9 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         $data['index_fulltext'] = $this->_config->get('index_fulltext');
 
         if ($this->_config->get('ajax_comments_enable')) {
-            if ($comments_node = $this->_seek_comments()) {
+            if ($node = net_nehmer_comments_interface::get_node($this->_topic, $this->_config->get('comments_topic'))) {
                 $data['ajax_comments_enable'] = true;
-                $data['base_ajax_comments_url'] = $comments_node[MIDCOM_NAV_RELATIVEURL] . "comment/";
+                $data['base_ajax_comments_url'] = $node[MIDCOM_NAV_RELATIVEURL] . "comment/";
             }
         }
 
@@ -159,35 +159,5 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         }
 
         midcom_show_style('index-end');
-    }
-
-    // helpers follow
-    /**
-     * Try to find a comments node (cache results)
-     */
-    private function _seek_comments()
-    {
-        if ($this->_config->get('comments_topic')) {
-            try {
-                $comments_topic = new midcom_db_topic($this->_config->get('comments_topic'));
-            } catch (midcom_error $e) {
-                return false;
-            }
-
-            // We got a topic. Make it a NAP node
-            $nap = new midcom_helper_nav();
-            return $nap->get_node($comments_topic->id);
-        }
-
-        // No comments topic specified, autoprobe
-        $comments_node = midcom_helper_misc::find_node_by_component('net.nehmer.comments');
-
-        // Cache the data
-        if (midcom::get()->auth->request_sudo('net.nehmer.blog')) {
-            $this->_topic->set_parameter('net.nehmer.blog', 'comments_topic', $comments_node[MIDCOM_NAV_GUID]);
-            midcom::get()->auth->drop_sudo();
-        }
-
-        return $comments_node;
     }
 }

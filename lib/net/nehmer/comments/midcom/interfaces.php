@@ -40,6 +40,35 @@
 class net_nehmer_comments_interface extends midcom_baseclasses_components_interface
 {
     /**
+     * Try to find a comments node (cache results)
+     */
+    public static function get_node(midcom_db_topic $topic, $node_id) : ?array
+    {
+        if ($node_id) {
+            try {
+                $comments_topic = new midcom_db_topic($node_id);
+            } catch (midcom_error $e) {
+                return null;
+            }
+
+            // We got a topic. Make it a NAP node
+            $nap = new midcom_helper_nav();
+            return $nap->get_node($comments_topic->id);
+        }
+
+        // No comments topic specified, autoprobe
+        $node = midcom_helper_misc::find_node_by_component('net.nehmer.comments');
+
+        // Cache the data
+        if (midcom::get()->auth->request_sudo($topic->component)) {
+            $topic->set_parameter($topic->component, 'comments_topic', $node[MIDCOM_NAV_GUID]);
+            midcom::get()->auth->drop_sudo();
+        }
+
+        return $node;
+    }
+
+    /**
      * The delete handler will drop all entries associated with any deleted object
      * so that our DB is clean.
      *

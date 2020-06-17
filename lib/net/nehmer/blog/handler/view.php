@@ -81,8 +81,8 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         $this->_datamanager->set_storage($this->_article);
 
         if ($this->_config->get('comments_enable')) {
-            if ($comments_node = $this->_seek_comments()) {
-                $this->_request_data['comments_url'] = $comments_node[MIDCOM_NAV_RELATIVEURL] . "comment/{$this->_article->guid}";
+            if ($node = net_nehmer_comments_interface::get_node($this->_topic, $this->_config->get('comments_topic'))) {
+                $this->_request_data['comments_url'] = $node[MIDCOM_NAV_RELATIVEURL] . "comment/{$this->_article->guid}";
                 if (   $this->_topic->can_do('midgard:update')
                     && $this->_topic->can_do('net.nehmer.comments:moderation')) {
                     net_nehmer_comments_viewer::add_head_elements();
@@ -100,34 +100,5 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $data['view_article'] = $this->_datamanager->get_content_html();
         return $this->show('view');
-    }
-
-    /**
-     * Try to find a comments node (cache results)
-     */
-    private function _seek_comments()
-    {
-        if ($this->_config->get('comments_topic')) {
-            try {
-                $comments_topic = new midcom_db_topic($this->_config->get('comments_topic'));
-            } catch (midcom_error $e) {
-                return false;
-            }
-
-            // We got a topic. Make it a NAP node
-            $nap = new midcom_helper_nav();
-            return $nap->get_node($comments_topic->id);
-        }
-
-        // No comments topic specified, autoprobe
-        $comments_node = midcom_helper_misc::find_node_by_component('net.nehmer.comments');
-
-        // Cache the data
-        if (midcom::get()->auth->request_sudo('net.nehmer.blog')) {
-            $this->_topic->set_parameter('net.nehmer.blog', 'comments_topic', $comments_node[MIDCOM_NAV_GUID]);
-            midcom::get()->auth->drop_sudo();
-        }
-
-        return $comments_node;
     }
 }
