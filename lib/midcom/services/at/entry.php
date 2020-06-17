@@ -81,15 +81,11 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
      */
     private function _unserialize_arguments()
     {
-        $unserRet = @unserialize($this->argumentsstore);
+        $unserRet = unserialize($this->argumentsstore);
         if ($unserRet === false) {
-            //Unserialize failed (probably newline/encoding issue), try to fix the serialized string and unserialize again
-            $unserRet = @unserialize(midcom_helper_misc::fix_serialization($this->argumentsstore));
-            if ($unserRet === false) {
-                debug_add('Failed to unserialize argumentsstore', MIDCOM_LOG_WARN);
-                $this->arguments = [];
-                return;
-            }
+            debug_add('Failed to unserialize argumentsstore', MIDCOM_LOG_ERROR);
+            $this->arguments = [];
+            return;
         }
         $this->arguments = $unserRet;
     }
