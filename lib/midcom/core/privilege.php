@@ -119,13 +119,13 @@ class midcom_core_privilege
      *
      * @return midcom_core_dbaobject The DBA object to which this privileges is assigned or false on failure (f.x. missing access permissions).
      */
-    public function get_object()
+    private function get_object() : ?midcom_core_dbaobject
     {
         if ($this->__cached_object === null) {
             try {
                 $this->__cached_object = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
             } catch (midcom_error $e) {
-                return false;
+                return null;
             }
         }
         return $this->__cached_object;
@@ -133,10 +133,8 @@ class midcom_core_privilege
 
     /**
      * Set a privilege to a given content object.
-     *
-     * @param object $object A MidCOM DBA level object to which this privilege should be assigned to.
      */
-    public function set_object($object)
+    public function set_object(midcom_core_dbaobject $object)
     {
         $this->__cached_object = $object;
         $this->objectguid = $object->guid;
@@ -305,7 +303,7 @@ class midcom_core_privilege
         }
 
         $object = $this->get_object();
-        if (!is_object($object)) {
+        if (!$object) {
             debug_add("Could not retrieve the content object with the GUID '{$this->objectguid}'; see the debug level log for more information.",
                 MIDCOM_LOG_INFO);
             return false;
@@ -442,12 +440,12 @@ class midcom_core_privilege
      *
      * This function is for use in the authentication framework only.
      *
-     * @param object $object The object to query.
+     * @param midcom_core_dbaobject $object The object to query.
      * @param string $name The name of the privilege to query
      * @param string $assignee The identifier of the assignee to query.
      * @param string $classname The optional classname required only for class-limited SELF privileges.
      */
-    public static function get_privilege($object, string $name, $assignee, string $classname = '') : midcom_core_privilege
+    public static function get_privilege(midcom_core_dbaobject $object, string $name, $assignee, string $classname = '') : midcom_core_privilege
     {
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('objectguid', '=', $object->guid);
@@ -458,7 +456,7 @@ class midcom_core_privilege
 
         if (empty($result)) {
             // No such privilege stored, return non-persistent one
-            $privilege = new midcom_core_privilege();
+            $privilege = new self;
             $privilege->set_object($object);
             $privilege->set_assignee($assignee);
             $privilege->privilegename = $name;
