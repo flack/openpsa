@@ -169,22 +169,13 @@ class midcom_helper_misc
             debug_add("Couldn't read directory {$mime_fspath}", MIDCOM_LOG_WARN);
         }
 
-        $check_files = [];
-        switch ($mimetype_filename) {
-            case 'application-x-zip-compressed':
-                $check_files[] = "gnome-application-zip.png";
-                break;
-            default:
-                $check_files[] = "{$mimetype_filename}.png";
-                $check_files[] = "gnome-{$mimetype_filename}.png";
-                break;
+        if ($mimetype_filename == 'application-x-zip-compressed') {
+            $filename = "gnome-application-zip.png";
+        } else {
+            $filename = "gnome-{$mimetype_filename}.png";
         }
-
-        // Return first match
-        foreach ($check_files as $filename) {
-            if (is_readable("{$mime_fspath}/{$filename}")) {
-                return "{$mime_urlpath}/{$filename}";
-            }
+        if (is_readable("{$mime_fspath}/{$filename}")) {
+            return "{$mime_urlpath}/{$filename}";
         }
         // Default icon if there is none for the MIME type
         return $mime_urlpath . '/gnome-unknown.png';
