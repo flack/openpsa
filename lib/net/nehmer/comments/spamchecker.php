@@ -17,7 +17,29 @@ class net_nehmer_comments_spamchecker
     const SPAM = 0;
     const HAM = 1;
 
-    public static function check_linksleeve($text) : int
+    /**
+     * Check the post against possible spam filters.
+     *
+     * This will update post status on the background and log the information.
+     */
+    public static function check(net_nehmer_comments_comment $comment)
+    {
+        $ret = self::check_linksleeve($comment->title . ' ' . $comment->content . ' ' . $comment->author);
+
+        if ($ret == self::HAM) {
+            // Quality content
+            debug_add("Linksleeve noted comment \"{$comment->title}\" ({$comment->guid}) as ham");
+
+            $comment->moderate(net_nehmer_comments_comment::MODERATED, 'reported_not_junk', 'linksleeve');
+        } elseif ($ret == self::SPAM) {
+            // Spam
+            debug_add("Linksleeve noted comment \"{$comment->title}\" ({$comment->guid}) as spam");
+
+            $comment->moderate(net_nehmer_comments_comment::JUNK, 'confirmed_junk', 'linksleeve');
+        }
+    }
+
+    private static function check_linksleeve($text) : int
     {
         $data = 'content=' . $text;
         $buf = "";

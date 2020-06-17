@@ -36,8 +36,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     var $_send_notification = false;
 
-    public $_sudo_requested = false;
-
     /**
      * DBA magic defaults which assign write privileges for all USERS, so that they can
      * add new comments at will.
@@ -143,127 +141,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         return $qb;
     }
 
-    /**
-     * Check the post against possible spam filters.
-     *
-     * This will update post status on the background and log the information.
-     */
-    public function check_spam($config)
-    {
-        if (!$config->get('enable_spam_check')) {
-            // Spam checker is not enabled, skip check
-            return;
-        }
-
-        $ret = net_nehmer_comments_spamchecker::check_linksleeve($this->title . ' ' . $this->content . ' ' . $this->author);
-
-        if ($ret == net_nehmer_comments_spamchecker::HAM) {
-            // Quality content
-            debug_add("Linksleeve noted comment \"{$this->title}\" ({$this->guid}) as ham");
-
-            $this->status = self::MODERATED;
-            $this->update();
-            $this->_log_moderation('reported_not_junk', 'linksleeve');
-        } elseif ($ret == net_nehmer_comments_spamchecker::SPAM) {
-            // Spam
-            debug_add("Linksleeve noted comment \"{$this->title}\" ({$this->guid}) as spam");
-
-            $this->status = self::JUNK;
-            $this->update();
-            $this->_log_moderation('confirmed_junk', 'linksleeve');
-        }
-    }
-
-    public function report_abuse() : bool
-    {
-        if ($this->status == self::MODERATED) {
-            return false;
-        }
-
-        // Set the status
-        if (   $this->can_do('net.nehmer.comments:moderation')
-            && !$this->_sudo_requested) {
-            $this->status = self::ABUSE;
-        } else {
-            $this->status = self::REPORTED_ABUSE;
-        }
-
-        if ($this->update()) {
-            // Log who reported it
-            $this->_log_moderation('reported_abuse');
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Marks the message as confirmed abuse
-     */
-    public function confirm_abuse() : bool
-    {
-        if ($this->status == self::MODERATED) {
-            return false;
-        }
-        // Set the status
-        if (   !$this->can_do('net.nehmer.comments:moderation')
-            || $this->_sudo_requested) {
-            return false;
-        }
-
-        $this->status = self::ABUSE;
-        if ($this->update()) {
-            // Log who reported it
-            $this->_log_moderation('confirmed_abuse');
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Marks the message as confirmed junk (spam)
-     */
-    public function confirm_junk() : bool
-    {
-        if ($this->status == self::MODERATED) {
-            return false;
-        }
-
-        // Set the status
-        if (   !$this->can_do('net.nehmer.comments:moderation')
-            || $this->_sudo_requested) {
-            return false;
-        }
-
-        $this->status = self::JUNK;
-        if ($this->update()) {
-            // Log who reported it
-            $this->_log_moderation('confirmed_junk');
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Marks the message as not abuse
-     */
-    public function report_not_abuse() : bool
-    {
-        if (   !$this->can_do('net.nehmer.comments:moderation')
-            || $this->_sudo_requested) {
-            return false;
-        }
-
-        // Set the status
-        $this->status = self::MODERATED;
-
-        if ($this->update()) {
-            // Log who reported it
-            $this->_log_moderation('reported_not_abuse');
-            return true;
-        }
-        return false;
-    }
-
     public function get_logs() : array
     {
         $log_entries = [];
@@ -298,30 +175,24 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         return $log_entries;
     }
 
-    private function _log_moderation(string $action, $reporter = null)
+    public function moderate(int $status, string $action, $reporter = null) : bool
     {
+        $this->status = $status;
+        if (!$this->update()) {
+            return false;
+        }
+        // Log who reported it
         if ($reporter === null) {
-            if (midcom::get()->auth->user) {
-                $reporter = midcom::get()->auth->user->guid;
-            } else {
-                $reporter = 'anonymous';
-            }
+            $reporter = midcom::get()->auth->user->guid ?? 'anonymous';
         }
         $browser = str_replace(':', '_', $_SERVER['HTTP_USER_AGENT']);
-        $date_string = gmdate('Ymd\This');
+        $address = str_replace(':', '_', $_SERVER['REMOTE_ADDR']);
 
-        $log_action = [
-            0 => $action,
-            1 => $date_string
-        ];
-
-        $log_details = [
-            0 => $reporter,
-            1 => str_replace(':', '_', $_SERVER['REMOTE_ADDR']),
-            2 => $browser
-        ];
+        $log_action = [$action, gmdate('Ymd\This')];
+        $log_details = [$reporter, $address, $browser];
 
         $this->set_parameter('net.nehmer.comments:moderation_log', implode(':', $log_action), implode(':', $log_details));
+        return true;
     }
 
     public static function get_default_status() : array

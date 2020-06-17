@@ -230,7 +230,10 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         switch ($this->_post_controller->handle($request)) {
             case 'save':
                 // Check against comment spam
-                $this->_new_comment->check_spam($this->_config);
+                if ($this->_config->get('enable_spam_check')) {
+                    $this->check_spam($this->_new_comment);
+                }
+
                 $formdata = $this->_post_controller->get_form_values();
                 if (   $formdata['subscribe']
                     && midcom::get()->auth->user) {
