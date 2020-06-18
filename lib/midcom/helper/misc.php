@@ -205,7 +205,7 @@ class midcom_helper_misc
      * @param string $component The component name
      * @return array NAP array of the first component instance found
      */
-    public static function find_node_by_component($component)
+    public static function find_node_by_component($component) : ?array
     {
         static $cache = [];
 

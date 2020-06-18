@@ -585,17 +585,14 @@ class midcom_services_auth_acl
         }
 
         //if nothing was found, we try to recurse to parent
-        list ($parent_guid, $parent_class) = $this->get_parent_data($guid, $class);
+        [$parent_guid, $parent_class] = $this->get_parent_data($guid, $class);
 
-        if (   $parent_guid == $guid
-            || !mgd_is_guid($parent_guid)) {
-            return false;
-        }
-
-        $parent_cache_id = $user_id . '::' . $parent_guid;
-        if ($this->_load_content_privilege($privilegename, $parent_guid, $parent_class, $user_id)) {
-            self::$_content_privileges_cache[$cache_id][$privilegename] = self::$_content_privileges_cache[$parent_cache_id][$privilegename];
-            return true;
+        if ($parent_guid != $guid && mgd_is_guid($parent_guid)) {
+            $parent_cache_id = $user_id . '::' . $parent_guid;
+            if ($this->_load_content_privilege($privilegename, $parent_guid, $parent_class, $user_id)) {
+                self::$_content_privileges_cache[$cache_id][$privilegename] = self::$_content_privileges_cache[$parent_cache_id][$privilegename];
+                return true;
+            }
         }
 
         return false;
@@ -609,7 +606,7 @@ class midcom_services_auth_acl
         $parent_data = midcom::get()->dbfactory->get_parent_data($guid, $class);
         $this->_internal_sudo = $previous_sudo;
         // <== out of SUDO
-        return [current($parent_data), key($parent_data)];
+        return $parent_data;
     }
 
     /**
