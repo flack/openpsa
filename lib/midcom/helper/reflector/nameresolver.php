@@ -190,7 +190,7 @@ class midcom_helper_reflector_nameresolver
         }
 
         // incrementer, the number to add as suffix and the base name. see _generate_unique_name_resolve_i()
-        list($i, $base_name) = $this->_generate_unique_name_resolve_i($current_name, $extension);
+        [$i, $base_name] = $this->_generate_unique_name_resolve_i($current_name, $extension);
 
         $this->_object->name = $base_name;
         // decrementer, do not try more than this many times (the incrementer can raise above this if we start high enough.
@@ -271,7 +271,7 @@ class midcom_helper_reflector_nameresolver
      */
     private function _generate_unique_name_resolve_i(string $current_name, string $extension) : array
     {
-        list($i, $base_name) = $this->_parse_filename($current_name, $extension, 1);
+        [$i, $base_name] = $this->_parse_filename($current_name, $extension, 1);
 
         // Look for siblings with similar names and see if they have higher i.
         midcom::get()->auth->request_sudo('midcom.helper.reflector');

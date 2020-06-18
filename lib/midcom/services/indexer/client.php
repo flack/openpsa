@@ -90,7 +90,7 @@ abstract class midcom_services_indexer_client
 
     public function reindex()
     {
-        foreach ($this->_queries as $name => list($qb, $dm)) {
+        foreach ($this->_queries as $name => [$qb, $dm]) {
             $results = $qb->execute();
             if (!empty($results)) {
                 $documents = $this->process_results($name, $results, $dm);

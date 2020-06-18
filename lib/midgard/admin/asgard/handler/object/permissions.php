@@ -179,7 +179,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         foreach ($assignees as $assignee => $label) {
             $classname = '';
             if (strpos($assignee, '/')) {
-                list($assignee, $classname) = explode('/', $assignee, 2);
+                [$assignee, $classname] = explode('/', $assignee, 2);
             }
             foreach ($this->_privileges as $privilege) {
                 $privilege_components = explode(':', $privilege);

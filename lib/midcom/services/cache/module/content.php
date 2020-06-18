@@ -537,7 +537,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public function register_sent_header($header)
     {
         if (strpos($header, ': ') !== false) {
-            list($header, $value) = explode(': ', $header, 2);
+            [$header, $value] = explode(': ', $header, 2);
             $this->_sent_headers[$header] = $value;
         }
     }

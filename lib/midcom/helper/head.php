@@ -545,8 +545,8 @@ class midcom_helper_head
 
         $content = '';
         foreach ($this->_jquery_states as $status => $scripts) {
-            list($status_target, $status_method) = explode('.', $status);
-            $content .= "jQuery({$status_target}).{$status_method}(function() {\n";
+            [$target, $method] = explode('.', $status);
+            $content .= "jQuery({$target}).{$method}(function() {\n";
             $content .= $scripts . "\n";
             $content .= "});\n";
         }

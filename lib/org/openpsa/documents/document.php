@@ -140,7 +140,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         }
 
         //if nothing is found, do some heuristics
-        list($type, $subtype) = explode('/', $mimetype);
+        [$type, $subtype] = explode('/', $mimetype);
         $st_orig = $subtype;
 
         switch ($type) {
