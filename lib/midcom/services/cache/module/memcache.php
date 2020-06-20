@@ -73,11 +73,6 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
         }
     }
 
-    public function is_operational() : bool
-    {
-        return !empty($this->_cache->memcache_operational);
-    }
-
     /**
      * {@inheritDoc}
      */

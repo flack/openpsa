@@ -121,20 +121,30 @@ class midcom_config_test
             $this->add("OPCache", self::WARNING, "OPCache is recommended for efficient MidCOM operation");
         }
 
-        if (!class_exists('Memcached')) {
-            $this->add('Memcache', self::WARNING, 'The PHP memcached module is recommended for efficient MidCOM operation.');
-        } elseif (!midcom::get()->config->get('cache_module_memcache_backend')) {
-            $this->add('Memcache', self::WARNING, 'The PHP memcached module is recommended for efficient MidCOM operation. It is available but is not set to be in use.');
-        } elseif (midcom::get()->cache->memcache->is_operational()) {
-            $this->add('Memcache', self::OK);
-        } else {
-            $this->add('Memcache', self::ERROR, "The PHP memcached module is available and set to be in use, but it cannot be connected to.");
-        }
+        $this->check_memcached();
 
         if (!function_exists('exif_read_data')) {
             $this->add('EXIF reader', self::WARNING, 'PHP-EXIF is not available. It required for proper operation of Image Gallery components.');
         } else {
             $this->add('EXIF reader', self::OK);
+        }
+    }
+
+    private function check_memcached()
+    {
+        if (!class_exists('Memcached')) {
+            $this->add('Memcache', self::WARNING, 'The PHP memcached module is recommended for efficient MidCOM operation.');
+        } elseif (!midcom::get()->config->get('cache_module_memcache_backend')) {
+            $this->add('Memcache', self::WARNING, 'The PHP memcached module is recommended for efficient MidCOM operation. It is available but is not set to be in use.');
+        } else {
+            $config = midcom::get()->config->get('cache_module_memcache_backend_config');
+            $memcached = midcom_services_cache_module::prepare_memcached($config);
+            // Sometimes, addServer returns true even if the server is not running, so we call a command to make sure it's actually working
+            if ($memcached && $memcached->getVersion()) {
+                $this->add('Memcache', self::OK);
+            } else {
+                $this->add('Memcache', self::ERROR, "The PHP memcached module is available and set to be in use, but it cannot be connected to.");
+            }
         }
     }
 

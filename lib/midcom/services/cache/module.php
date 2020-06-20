@@ -91,23 +91,18 @@ abstract class midcom_services_cache_module
         if (!empty($config['directory'])) {
             $directory .= '/' . $config['directory'];
         }
-        $memcache_operational = false;
+
         switch ($config['driver']) {
             case 'apc':
                 $backend = new Cache\ApcuCache();
                 break;
             case 'memcached':
-                $host = !empty($config['host']) ? $config['host'] : 'localhost';
-                $port = !empty($config['port']) ? $config['port'] : 11211;
-                $memcached = new Memcached;
-                if (@$memcached->addServer($host, $port)) {
+                if ($memcached = self::prepare_memcached($config)) {
                     $backend = new Cache\MemcachedCache();
                     $backend->setMemcached($memcached);
-                    $memcache_operational = true;
                     break;
                 }
-                midcom::get()->debug->log_php_error(MIDCOM_LOG_ERROR);
-                debug_add("memcache: Failed to connect to {$host}:{$port}. Falling back to filecache", MIDCOM_LOG_ERROR);
+                debug_add("memcache: Failed to connect. Falling back to filecache", MIDCOM_LOG_ERROR);
                 // fall-through
             case 'dba':
             case 'flatfile':
@@ -125,8 +120,19 @@ abstract class midcom_services_cache_module
         }
 
         $cache = new Cache\ChainCache([new Cache\ArrayCache, $backend]);
-        $cache->memcache_operational = $memcache_operational;
         return $cache;
+    }
+
+    public static function prepare_memcached(array $config) : ?Memcached
+    {
+        $host = $config['host'] ?? 'localhost';
+        $port = $config['port'] ?? 11211;
+        $memcached = new Memcached;
+        if (!$memcached->addServer($host, $port)) {
+            midcom::get()->debug->log_php_error(MIDCOM_LOG_ERROR);
+            return null;
+        }
+        return $memcached;
     }
 
     /**
