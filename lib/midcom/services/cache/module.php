@@ -118,8 +118,7 @@ abstract class midcom_services_cache_module
                 break;
             case 'sqlite':
                 $sqlite = new SQLite3("{$directory}/{$name}.db");
-                $table = str_replace(['.', '-'], '_', $name);
-                $backend = new Cache\SQLite3Cache($sqlite, $table);
+                $backend = new Cache\SQLite3Cache($sqlite, 'cache');
                 break;
             case 'null':
             default:
@@ -127,7 +126,7 @@ abstract class midcom_services_cache_module
                 break;
         }
 
-        return new Cache\ChainCache([new Cache\ArrayCache, $backend]);
+        return $backend;
     }
 
     /**
