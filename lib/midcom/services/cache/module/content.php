@@ -131,13 +131,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private $_default_lifetime_authenticated = 0;
 
     /**
-     * Cache backend instance.
-     *
-     * @var Doctrine\Common\Cache\CacheProvider
-     */
-    private $_meta_cache;
-
-    /**
      * A cache backend used to store the actual cached pages.
      *
      * @var Doctrine\Common\Cache\CacheProvider
@@ -179,7 +172,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $backend_config['driver'] = 'null';
         }
 
-        $this->_meta_cache = $this->_create_backend('content_meta', $backend_config);
+        $this->backend = $this->_create_backend('content_meta', $backend_config);
         $this->_data_cache = $this->_create_backend('content_data', $backend_config);
 
         $this->_uncached = $config->get('cache_module_content_uncached');
@@ -256,7 +249,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // Check that we have cache for the identifier
         $request_id = $this->generate_request_identifier($request);
         // Load metadata for the content identifier connected to current request
-        $content_id = $this->_meta_cache->fetch($request_id);
+        $content_id = $this->backend->fetch($request_id);
         if ($content_id === false) {
             debug_add("MISS {$request_id}");
             // We have no information about content cached for this request
@@ -264,7 +257,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
         debug_add("HIT {$request_id}");
 
-        $data = $this->_meta_cache->fetch($content_id);
+        $data = $this->backend->fetch($content_id);
         if ($data === false) {
             debug_add("MISS meta_cache {$content_id}");
             // Content cache data is missing
@@ -550,15 +543,15 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function invalidate($guid, $object = null)
     {
-        $guidmap = $this->_meta_cache->fetch($guid);
+        $guidmap = $this->backend->fetch($guid);
         if ($guidmap === false) {
             debug_add("No entry for {$guid} in meta cache, ignoring invalidation request.");
             return;
         }
 
         foreach ($guidmap as $content_id) {
-            if ($this->_meta_cache->contains($content_id)) {
-                $this->_meta_cache->delete($content_id);
+            if ($this->backend->contains($content_id)) {
+                $this->backend->delete($content_id);
             }
 
             if ($this->_data_cache->contains($content_id)) {
@@ -618,7 +611,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $request_id => $content_id,
             $content_id => $response->headers->all()
         ];
-        $this->_meta_cache->saveMultiple($entries, $lifetime);
+        $this->backend->saveMultiple($entries, $lifetime);
 
         // Cache where the object have been
         $context = midcom_core_context::get()->id;
@@ -632,7 +625,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        $maps = $this->_meta_cache->fetchMultiple($this->context_guids[$context]);
+        $maps = $this->backend->fetchMultiple($this->context_guids[$context]);
         $to_save = [];
         foreach ($this->context_guids[$context] as $guid) {
             // Getting old map from cache or create new, empty one
@@ -649,7 +642,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             }
         }
 
-        $this->_meta_cache->saveMultiple($to_save);
+        $this->backend->saveMultiple($to_save);
     }
 
     public function check_dl_hit(Request $request)
@@ -658,7 +651,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return false;
         }
         $dl_request_id = 'DL' . $this->generate_request_identifier($request);
-        $dl_content_id = $this->_meta_cache->fetch($dl_request_id);
+        $dl_content_id = $this->backend->fetch($dl_request_id);
         if ($dl_content_id === false) {
             return false;
         }
@@ -681,7 +674,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             // Use default expiry for cache entry, most components don't bother calling expires() properly
             $lifetime = $this->_default_lifetime;
         }
-        $this->_meta_cache->save($dl_request_id, $dl_content_id, $lifetime);
+        $this->backend->save($dl_request_id, $dl_content_id, $lifetime);
         $this->_data_cache->save($dl_content_id, $dl_cache_data, $lifetime);
         // Cache where the object have been
         $this->store_context_guid_map($context, $dl_content_id, $dl_request_id);

@@ -49,13 +49,6 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     private $_data_groups = [];
 
     /**
-     * The cache backend instance to use.
-     *
-     * @var Doctrine\Common\Cache\CacheProvider
-     */
-    private $_cache;
-
-    /**
      * Initialization event handler.
      *
      * It will load the cache backend.
@@ -69,7 +62,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
             $this->_data_groups = $config->get('cache_module_memcache_data_groups');
             $backend_config = $config->get('cache_module_memcache_backend_config');
             $backend_config['driver'] = $driver;
-            $this->_cache = $this->_create_backend('module_memcache', $backend_config);
+            $this->backend = $this->_create_backend('module_memcache', $backend_config);
         }
     }
 
@@ -78,13 +71,13 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      */
     public function invalidate($guid, $object = null)
     {
-        if ($this->_cache !== null) {
+        if ($this->backend !== null) {
             foreach ($this->_data_groups as $group) {
                 if ($group == 'ACL') {
-                    $this->_cache->delete("{$group}-SELF::{$guid}");
-                    $this->_cache->delete("{$group}-CONTENT::{$guid}");
+                    $this->backend->delete("{$group}-SELF::{$guid}");
+                    $this->backend->delete("{$group}-CONTENT::{$guid}");
                 } else {
-                    $this->_cache->delete("{$group}-{$guid}");
+                    $this->backend->delete("{$group}-{$guid}");
                 }
             }
         }
@@ -100,11 +93,11 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      */
     public function get($data_group, $key)
     {
-        if ($this->_cache === null) {
+        if ($this->backend === null) {
             return false;
         }
 
-        return $this->_cache->fetch("{$data_group}-{$key}");
+        return $this->backend->fetch("{$data_group}-{$key}");
     }
 
     /**
@@ -118,7 +111,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      */
     public function put($data_group, $key, $data, $timeout = 0)
     {
-        if ($this->_cache === null) {
+        if ($this->backend === null) {
             return;
         }
 
@@ -129,7 +122,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
             return;
         }
 
-        $this->_cache->save("{$data_group}-{$key}", $data, $timeout);
+        $this->backend->save("{$data_group}-{$key}", $data, $timeout);
     }
 
     /**

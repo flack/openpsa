@@ -38,6 +38,13 @@ abstract class midcom_services_cache_module
     protected $_prefix;
 
     /**
+     * Cache backend instance.
+     *
+     * @var Doctrine\Common\Cache\CacheProvider
+     */
+    protected $backend;
+
+    /**
      * Initialize the module. This will initialize the class configuration
      * and call the corresponding event handler.
      */
@@ -119,8 +126,7 @@ abstract class midcom_services_cache_module
                 break;
         }
 
-        $cache = new Cache\ChainCache([new Cache\ArrayCache, $backend]);
-        return $cache;
+        return new Cache\ChainCache([new Cache\ArrayCache, $backend]);
     }
 
     public static function prepare_memcached(array $config) : ?Memcached

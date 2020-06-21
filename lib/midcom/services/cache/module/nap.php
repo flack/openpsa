@@ -32,13 +32,6 @@
 class midcom_services_cache_module_nap extends midcom_services_cache_module
 {
     /**
-     * The cache backend instance to use.
-     *
-     * @var Doctrine\Common\Cache\CacheProvider
-     */
-    private $_cache;
-
-    /**
      * Initialization event handler.
      *
      * It will load the cache backends for the current MidCOM topic.
@@ -51,7 +44,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         if ($driver = $config->get('cache_module_memcache_backend')) {
             $backend_config = $config->get('cache_module_memcache_backend_config');
             $backend_config['driver'] = $driver;
-            $this->_cache = $this->_create_backend('module_nap', $backend_config);
+            $this->backend = $this->_create_backend('module_nap', $backend_config);
         }
     }
 
@@ -80,11 +73,11 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
                 $parent_entry = $this->get_guid($parent->guid);
                 if (   $parent_entry
                     && $parent_entry[MIDCOM_NAV_ID] != $cached_node_id) {
-                    $this->_cache->delete($this->_prefix . '-' . $parent_entry[MIDCOM_NAV_ID] . '-leaves');
+                    $this->backend->delete($this->_prefix . '-' . $parent_entry[MIDCOM_NAV_ID] . '-leaves');
                 }
             }
             if (!empty($napobject[MIDCOM_NAV_GUID])) {
-                $this->_cache->delete($this->_prefix . '-' . $napobject[MIDCOM_NAV_GUID]);
+                $this->backend->delete($this->_prefix . '-' . $napobject[MIDCOM_NAV_GUID]);
             }
         } else {
             $cached_node_id = $napobject[MIDCOM_NAV_ID];
@@ -114,9 +107,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
 
         $leaves_key = "{$cached_node_id}-leaves";
 
-        $this->_cache->delete("{$this->_prefix}-{$cached_node_id}");
-        $this->_cache->delete($this->_prefix . '-' . $napobject[MIDCOM_NAV_GUID]);
-        $this->_cache->delete("{$this->_prefix}-{$leaves_key}");
+        $this->backend->delete("{$this->_prefix}-{$cached_node_id}");
+        $this->backend->delete($this->_prefix . '-' . $napobject[MIDCOM_NAV_GUID]);
+        $this->backend->delete("{$this->_prefix}-{$leaves_key}");
     }
 
     private function _load_from_guid(string $guid, $object)
@@ -149,11 +142,11 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function get_node($key)
     {
-        if ($this->_cache === null) {
+        if ($this->backend === null) {
             return false;
         }
         $lang_id = midcom::get()->i18n->get_current_language();
-        $result = $this->_cache->fetch("{$this->_prefix}-{$key}");
+        $result = $this->backend->fetch("{$this->_prefix}-{$key}");
         if (   !is_array($result)
             || !isset($result[$lang_id])) {
             return false;
@@ -172,12 +165,12 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function get_leaves($key)
     {
-        if ($this->_cache === null) {
+        if ($this->backend === null) {
             return false;
         }
 
         $lang_id = midcom::get()->i18n->get_current_language();
-        $result = $this->_cache->fetch("{$this->_prefix}-{$key}");
+        $result = $this->backend->fetch("{$this->_prefix}-{$key}");
         if (   !is_array($result)
             || !isset($result[$lang_id])) {
             return false;
@@ -194,18 +187,18 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function put_node($key, $data)
     {
-        if ($this->_cache === null) {
+        if ($this->backend === null) {
             return;
         }
 
         $lang_id = midcom::get()->i18n->get_current_language();
-        $result = $this->_cache->fetch("{$this->_prefix}-{$key}");
+        $result = $this->backend->fetch("{$this->_prefix}-{$key}");
         if (!is_array($result)) {
             $result = [];
         }
         $result[$lang_id] = $data;
-        $this->_cache->save("{$this->_prefix}-{$key}", $result);
-        $this->_cache->save($this->_prefix . '-' . $data[MIDCOM_NAV_GUID], $result);
+        $this->backend->save("{$this->_prefix}-{$key}", $result);
+        $this->backend->save($this->_prefix . '-' . $data[MIDCOM_NAV_GUID], $result);
     }
 
     /**
@@ -216,17 +209,17 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function put_guid($guid, $data)
     {
-        if ($this->_cache === null) {
+        if ($this->backend === null) {
             return;
         }
 
         $lang_id = midcom::get()->i18n->get_current_language();
-        $result = $this->_cache->fetch("{$this->_prefix}-{$guid}");
+        $result = $this->backend->fetch("{$this->_prefix}-{$guid}");
         if (!is_array($result)) {
             $result = [];
         }
         $result[$lang_id] = $data;
-        $this->_cache->save($this->_prefix . '-' . $guid, $result);
+        $this->backend->save($this->_prefix . '-' . $guid, $result);
     }
 
     /**
@@ -236,12 +229,12 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function get_guid($guid)
     {
-        if ($this->_cache === null) {
+        if ($this->backend === null) {
             return;
         }
 
         $lang_id = midcom::get()->i18n->get_current_language();
-        $result = $this->_cache->fetch("{$this->_prefix}-{$guid}");
+        $result = $this->backend->fetch("{$this->_prefix}-{$guid}");
         if (   !is_array($result)
             || !isset($result[$lang_id])) {
             return false;
@@ -257,16 +250,16 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function put_leaves($key, $data)
     {
-        if ($this->_cache === null) {
+        if ($this->backend === null) {
             return;
         }
 
         $lang_id = midcom::get()->i18n->get_current_language();
-        $result = $this->_cache->fetch("{$this->_prefix}-{$key}");
+        $result = $this->backend->fetch("{$this->_prefix}-{$key}");
         if (!is_array($result)) {
             $result = [];
         }
         $result[$lang_id] = $data;
-        $this->_cache->save("{$this->_prefix}-{$key}", $result);
+        $this->backend->save("{$this->_prefix}-{$key}", $result);
     }
 }
