@@ -70,8 +70,8 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     public function __construct(midcom_config $config)
     {
         parent::__construct();
+        $this->_data_groups = $config->get('cache_module_memcache_data_groups');
         if ($driver = $config->get('cache_module_memcache_backend')) {
-            $this->_data_groups = $config->get('cache_module_memcache_data_groups');
             $backend_config = $config->get('cache_module_memcache_backend_config');
             $backend_config['driver'] = $driver;
             $this->backend = $this->_create_backend('module_memcache', $backend_config);
@@ -83,14 +83,12 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      */
     public function invalidate($guid, $object = null)
     {
-        if ($this->backend !== null) {
-            foreach ($this->_data_groups as $group) {
-                if ($group == 'ACL') {
-                    $this->backend->delete("{$group}-SELF::{$guid}");
-                    $this->backend->delete("{$group}-CONTENT::{$guid}");
-                } else {
-                    $this->backend->delete("{$group}-{$guid}");
-                }
+        foreach ($this->_data_groups as $group) {
+            if ($group == 'ACL') {
+                $this->backend->delete("{$group}-SELF::{$guid}");
+                $this->backend->delete("{$group}-CONTENT::{$guid}");
+            } else {
+                $this->backend->delete("{$group}-{$guid}");
             }
         }
     }
@@ -105,10 +103,6 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      */
     public function get($data_group, $key)
     {
-        if ($this->backend === null) {
-            return false;
-        }
-
         return $this->backend->fetch("{$data_group}-{$key}");
     }
 
@@ -123,10 +117,6 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      */
     public function put($data_group, $key, $data, $timeout = 0)
     {
-        if ($this->backend === null) {
-            return;
-        }
-
         if (!in_array($data_group, $this->_data_groups)) {
             debug_add("Tried to add data to the unknown data group {$data_group}, cannot do that.", MIDCOM_LOG_WARN);
             debug_print_r('Known data groups:', $this->_data_groups);

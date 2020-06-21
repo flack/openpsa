@@ -142,13 +142,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function get_node($key)
     {
-        if ($this->backend === null) {
-            return false;
-        }
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($key);
-        if (   !is_array($result)
-            || !isset($result[$lang_id])) {
+        if (!isset($result[$lang_id])) {
             return false;
         }
 
@@ -165,14 +161,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function get_leaves($key)
     {
-        if ($this->backend === null) {
-            return false;
-        }
-
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($key);
-        if (   !is_array($result)
-            || !isset($result[$lang_id])) {
+        if (!isset($result[$lang_id])) {
             return false;
         }
 
@@ -187,10 +178,6 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function put_node($key, $data)
     {
-        if ($this->backend === null) {
-            return;
-        }
-
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($key);
         if (!is_array($result)) {
@@ -209,10 +196,6 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function put_guid($guid, $data)
     {
-        if ($this->backend === null) {
-            return;
-        }
-
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($guid);
         if (!is_array($result)) {
@@ -229,14 +212,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function get_guid($guid)
     {
-        if ($this->backend === null) {
-            return;
-        }
-
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($guid);
-        if (   !is_array($result)
-            || !isset($result[$lang_id])) {
+        if (!isset($result[$lang_id])) {
             return false;
         }
         return $result[$lang_id];
@@ -250,10 +228,6 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function put_leaves($key, $data)
     {
-        if ($this->backend === null) {
-            return;
-        }
-
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($key);
         if (!is_array($result)) {

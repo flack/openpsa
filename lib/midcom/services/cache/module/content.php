@@ -168,11 +168,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if (!isset($backend_config['directory'])) {
             $backend_config['directory'] = 'content/';
         }
-        if (!isset($backend_config['driver'])) {
-            $backend_config['driver'] = 'null';
+        if (isset($backend_config['driver'])) {
+            $this->backend = $this->_create_backend('content_meta', $backend_config);
         }
 
-        $this->backend = $this->_create_backend('content_meta', $backend_config);
         $this->_data_cache = $this->_create_backend('content_data', $backend_config);
 
         $this->_uncached = $config->get('cache_module_content_uncached');

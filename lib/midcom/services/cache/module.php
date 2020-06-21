@@ -51,6 +51,7 @@ abstract class midcom_services_cache_module
     public function __construct()
     {
         $this->_prefix = get_class($this) . $_SERVER['SERVER_NAME'];
+        $this->backend = new Cache\VoidCache();
     }
 
     /**
