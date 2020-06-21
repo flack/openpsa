@@ -104,7 +104,7 @@ abstract class midcom_services_cache_module
                 $backend = new Cache\ApcuCache();
                 break;
             case 'memcached':
-                if ($memcached = self::prepare_memcached($config)) {
+                if ($memcached = midcom_services_cache_module_memcache::prepare_memcached($config)) {
                     $backend = new Cache\MemcachedCache();
                     $backend->setMemcached($memcached);
                     break;
@@ -127,18 +127,6 @@ abstract class midcom_services_cache_module
         }
 
         return new Cache\ChainCache([new Cache\ArrayCache, $backend]);
-    }
-
-    public static function prepare_memcached(array $config) : ?Memcached
-    {
-        $host = $config['host'] ?? 'localhost';
-        $port = $config['port'] ?? 11211;
-        $memcached = new Memcached;
-        if (!$memcached->addServer($host, $port)) {
-            midcom::get()->debug->log_php_error(MIDCOM_LOG_ERROR);
-            return null;
-        }
-        return $memcached;
     }
 
     /**

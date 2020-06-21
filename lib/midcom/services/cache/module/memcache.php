@@ -48,6 +48,18 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      */
     private $_data_groups = [];
 
+    public static function prepare_memcached(array $config) : ?Memcached
+    {
+        $host = $config['host'] ?? 'localhost';
+        $port = $config['port'] ?? 11211;
+        $memcached = new Memcached;
+        if (!$memcached->addServer($host, $port)) {
+            midcom::get()->debug->log_php_error(MIDCOM_LOG_ERROR);
+            return null;
+        }
+        return $memcached;
+    }
+
     /**
      * Initialization event handler.
      *
