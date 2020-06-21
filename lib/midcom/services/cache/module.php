@@ -35,7 +35,7 @@ abstract class midcom_services_cache_module
      *
      * @var string
      */
-    protected $_prefix;
+    private $_prefix;
 
     /**
      * Cache backend instance.
