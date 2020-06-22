@@ -28,7 +28,7 @@ abstract class midcom_services_cache_module
      *
      * @var Doctrine\Common\Cache\CacheProvider[]
      */
-    protected $_backends = [];
+    private $_backends = [];
 
     /**
      * The cache key prefix.
@@ -81,11 +81,7 @@ abstract class midcom_services_cache_module
             throw new midcom_error("Cannot create backend driver instance {$name}: The driver class is not specified in the configuration.");
         }
 
-        if (is_string($config['driver'])) {
-            $backend = $this->prepare_backend($config, $name);
-        } else {
-            $backend = $config['driver'];
-        }
+        $backend = $this->prepare_backend($config, $name);
         $backend->setNamespace($name);
 
         $this->_backends[$name] = $backend;
@@ -117,8 +113,8 @@ abstract class midcom_services_cache_module
                 $backend = new Cache\FilesystemCache($directory . '/' . $name);
                 break;
             case 'sqlite':
-                $sqlite = new SQLite3("{$directory}/{$name}.db");
-                $backend = new Cache\SQLite3Cache($sqlite, 'cache');
+                $sqlite = new SQLite3("{$directory}/sqlite.db");
+                $backend = new Cache\SQLite3Cache($sqlite, $name);
                 break;
             case 'null':
             default:
