@@ -117,7 +117,7 @@ class midcom_application extends Kernel
         parent::build($container);
         $container->addCompilerPass(new loggerPass($this->cfg));
         $container->addCompilerPass(new componentPass($this->cfg));
-        $container->addCompilerPass(new cachePass($this->cfg));
+        $container->addCompilerPass(new cachePass($this->cfg, $this->getCacheDir()));
         $container->addCompilerPass(new indexerPass($this->cfg));
     }
 

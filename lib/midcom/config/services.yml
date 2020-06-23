@@ -68,15 +68,27 @@ services:
 
     cache.module.content:
         class: midcom_services_cache_module_content
-        arguments: ['@config']
+        arguments: ['@config', '@cache.module.content.backend', '@cache.module.content_data.backend']
+
+    cache.module.content.backend:
+        class: Doctrine\Common\Cache\VoidCache
+
+    cache.module.content_data.backend:
+        class: Doctrine\Common\Cache\VoidCache
 
     cache.module.memcache:
         class: midcom_services_cache_module_memcache
-        arguments: ['@config']
+        arguments: ['@config', '@cache.module.memcache.backend']
+
+    cache.module.memcache.backend:
+        class: Doctrine\Common\Cache\VoidCache
 
     cache.module.nap:
         class: midcom_services_cache_module_nap
-        arguments: ['@config']
+        arguments: ['@cache.module.nap.backend']
+
+    cache.module.nap.backend:
+        class: Doctrine\Common\Cache\VoidCache
 
     config:
         synthetic: true

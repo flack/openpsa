@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Doctrine\Common\Cache\CacheProvider;
 
 /**
  * This is the Output Caching Engine of MidCOM. It will intercept page output,
@@ -160,19 +161,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * trigger the delivery of the cached page and exit) and start the output buffer
      * afterwards.
      */
-    public function __construct(midcom_config $config)
+    public function __construct(midcom_config $config, CacheProvider $backend, CacheProvider $data_cache)
     {
-        parent::__construct();
+        parent::__construct($backend);
         $this->config = $config;
-        $backend_config = $config->get('cache_module_content_backend');
-        if (!isset($backend_config['directory'])) {
-            $backend_config['directory'] = 'content/';
-        }
-        if (isset($backend_config['driver'])) {
-            $this->backend = $this->_create_backend('content', $backend_config);
-        }
-
-        $this->_data_cache = $this->_create_backend('content_data', $backend_config);
+        $this->_data_cache = $data_cache;
+        $this->_data_cache->setNamespace($backend->getNamespace());
 
         $this->_uncached = $config->get('cache_module_content_uncached');
         $this->_headers_strategy = $this->get_strategy('cache_module_content_headers_strategy');
@@ -557,6 +551,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $this->_data_cache->delete($content_id);
             }
         }
+    }
+
+    public function invalidate_all()
+    {
+        parent::invalidate_all();
+        $this->_data_cache->flushAll();
     }
 
     /**

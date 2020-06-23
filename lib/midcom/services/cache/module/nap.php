@@ -32,23 +32,6 @@
 class midcom_services_cache_module_nap extends midcom_services_cache_module
 {
     /**
-     * Initialization event handler.
-     *
-     * It will load the cache backends for the current MidCOM topic.
-     *
-     * Initializes the backend configuration.
-     */
-    public function __construct(midcom_config $config)
-    {
-        parent::__construct();
-        if ($driver = $config->get('cache_module_memcache_backend')) {
-            $backend_config = $config->get('cache_module_memcache_backend_config');
-            $backend_config['driver'] = $driver;
-            $this->backend = $this->_create_backend('module_nap', $backend_config);
-        }
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function invalidate($guid, $object = null)

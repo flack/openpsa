@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Doctrine\Common\Cache\CacheProvider;
+
 /**
  * The Memory caching system is geared to hold needed information available quickly.
  * There are a number of limitations you have to deal with, when working with the
@@ -54,28 +56,16 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
         $port = $config['port'] ?? 11211;
         $memcached = new Memcached;
         if (!$memcached->addServer($host, $port)) {
-            midcom::get()->debug->log_php_error(MIDCOM_LOG_ERROR);
             return null;
         }
+
         return $memcached;
     }
 
-    /**
-     * Initialization event handler.
-     *
-     * It will load the cache backend.
-     *
-     * Initializes the backend configuration.
-     */
-    public function __construct(midcom_config $config)
+    public function __construct(midcom_config $config, CacheProvider $backend)
     {
-        parent::__construct();
+        parent::__construct($backend);
         $this->_data_groups = $config->get('cache_module_memcache_data_groups');
-        if ($driver = $config->get('cache_module_memcache_backend')) {
-            $backend_config = $config->get('cache_module_memcache_backend_config');
-            $backend_config['driver'] = $driver;
-            $this->backend = $this->_create_backend('module_memcache', $backend_config);
-        }
     }
 
     /**
