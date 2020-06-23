@@ -132,10 +132,10 @@ class midcom_config_test
 
     private function check_memcached()
     {
-        if (!class_exists('Memcached')) {
+        if (midcom::get()->config->get('cache_module_memcache_backend') !== 'memcached') {
+            $this->add('Memcache', self::WARNING, 'Configured backend: ' . midcom::get()->config->get('cache_module_memcache_backend'));
+        } elseif (!class_exists('Memcached')) {
             $this->add('Memcache', self::WARNING, 'The PHP memcached module is recommended for efficient MidCOM operation.');
-        } elseif (!midcom::get()->config->get('cache_module_memcache_backend')) {
-            $this->add('Memcache', self::WARNING, 'The PHP memcached module is recommended for efficient MidCOM operation. It is available but is not set to be in use.');
         } else {
             $config = midcom::get()->config->get('cache_module_memcache_backend_config');
             $memcached = midcom_services_cache_module_memcache::prepare_memcached($config);
