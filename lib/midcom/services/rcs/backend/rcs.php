@@ -67,50 +67,11 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     }
 
     /**
-     * Update object to RCS
-     * Should be called just before $object->update(), if the type parameter is omitted
-     * the function will use GUID to determine the type, this makes an extra DB query.
+     * Get the object of a revision
      *
-     * @param object $object to be updated.
-     * @param string $message
-     * @return int :
-     *      0 on success
-     *      3 on missing object->guid
-     *      nonzero on error in one of the commands.
+     * @param string $revision identifier of revision wanted
+     * @return array array representation of the object
      */
-    public function rcs_update($object, $message)
-    {
-        if (empty($object->guid)) {
-            debug_add("Missing GUID, returning error");
-            return 3;
-        }
-
-        $filename = $this->_generate_rcs_filename($object->guid);
-        $rcsfilename = "{$filename},v";
-
-        if (!file_exists($rcsfilename)) {
-            // The methods return basically what the RCS unix level command returns, so nonzero value is error and zero is ok...
-            return $this->rcs_create($object, $message);
-        }
-
-        $this->exec('co -q -f -l ' . escapeshellarg($filename));
-
-        $data = $this->rcs_object2data($object);
-
-        $this->rcs_writefile($object->guid, $data);
-        $status = $this->exec('ci -q -m' . escapeshellarg($message) . " {$filename}");
-
-        chmod($rcsfilename, 0770);
-
-        return $status;
-    }
-
-   /**
-    * Get the object of a revision
-    *
-    * @param string $revision identifier of revision wanted
-    * @return array array representation of the object
-    */
     public function get_revision($revision) : array
     {
         if (empty($this->_guid)) {
@@ -208,7 +169,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
     /* it is debatable to move this into the object when it resides nicely in a library... */
 
-    private function rcs_parse_history_entry($entry) : array
+    private function rcs_parse_history_entry(array $entry) : array
     {
         // Create the empty history array
         $history = [
@@ -311,16 +272,51 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     }
 
     /**
-     * Writes $data to file $guid, does not return anything.
+     * Update object to RCS
+     * Should be called just before $object->update()
+     *
+     * @param object $object to be updated.
+     * @param string $message
+     * @return int :
+     *      0 on success
+     *      3 on missing object->guid
+     *      nonzero on error in one of the commands.
      */
-    private function rcs_writefile(string $guid, $data)
+    private function rcs_update(midcom_core_dbaobject $object, $message)
+    {
+        if (empty($object->guid)) {
+            debug_add("Missing GUID, returning error");
+            return 3;
+        }
+
+        $filename = $this->_generate_rcs_filename($object->guid);
+        $rcsfilename = "{$filename},v";
+        $message = escapeshellarg($message);
+
+        if (!file_exists($rcsfilename)) {
+            $this->rcs_writefile($object);
+            $filepath = $this->_generate_rcs_filename($object->guid);
+            return $this->exec('ci -q -i -t-' . $message . ' -m' . $message . " {$filepath}");
+        }
+
+        $this->exec('co -q -f -l ' . escapeshellarg($filename));
+        $this->rcs_writefile($object);
+        return $this->exec('ci -q -m' . $message . " {$filename}");
+    }
+
+    /**
+     * Writes object data to file, does not return anything.
+     */
+    private function rcs_writefile($object)
     {
         if (   !is_writable($this->_config->get_rcs_root())
-            || empty($guid)) {
-            return false;
+            || empty($object->guid)) {
+            return;
         }
-        $filename = $this->_generate_rcs_filename($guid);
+        $data = $this->rcs_object2data($object);
+        $filename = $this->_generate_rcs_filename($object->guid);
         file_put_contents($filename, $data);
+        chmod($filename . ',v', 0770);
     }
 
     /**
@@ -347,36 +343,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     {
         $mapper = new midcom_helper_exporter_xml();
         return $mapper->object2data($object);
-    }
-
-    /**
-     * Add object to RCS
-     *
-     * @param object $object object to be saved
-     * @param string $description changelog comment.-
-     * @return int :
-     *      0 on success
-     *      3 on missing object->guid
-     *      nonzero on error in one of the commands.
-     */
-    private function rcs_create(midcom_core_dbaobject $object, string $description)
-    {
-        $data = $this->rcs_object2data($object);
-
-        if (empty($object->guid)) {
-            return 3;
-        }
-        $this->rcs_writefile($object->guid, $data);
-        $filepath = $this->_generate_rcs_filename($object->guid);
-        $description = escapeshellarg($description);
-
-        $status = $this->exec('ci -q -i -t-' . $description . ' -m' . $description . " {$filepath}");
-
-        $filename = $filepath . ",v";
-        if (file_exists($filename)) {
-            chmod($filename, 0770);
-        }
-        return $status;
     }
 
     private function exec(string $command, $use_rcs_bindir = true)
