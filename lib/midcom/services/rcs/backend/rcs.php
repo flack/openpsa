@@ -82,7 +82,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             return [];
         }
 
-        $data = $this->rcs_readfile($this->_guid);
+        $data = (file_exists($filepath)) ? file_get_contents($filepath) : '';
 
         $mapper = new midcom_helper_exporter_xml();
         $revision = $mapper->data2array($data);
@@ -293,45 +293,22 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $rcsfilename = "{$filename},v";
         $message = escapeshellarg($message);
 
-        if (!file_exists($rcsfilename)) {
-            $this->rcs_writefile($object);
-            $filepath = $this->_generate_rcs_filename($object->guid);
-            return $this->exec('ci -q -i -t-' . $message . ' -m' . $message . " {$filepath}");
+        if (file_exists($rcsfilename)) {
+            $this->exec('co -q -f -l ' . escapeshellarg($filename));
+            $command = 'ci -q -m' . $message . " {$filename}";
+        } else {
+            $command = 'ci -q -i -t-' . $message . ' -m' . $message . " {$filename}";
+        }
+        if (is_writable($this->_config->get_rcs_root())) {
+            file_put_contents($filename, $this->rcs_object2data($object));
+        }
+        $stat = $this->exec($command);
+
+        if (file_exists($rcsfilename)) {
+            chmod($rcsfilename, 0770);
         }
 
-        $this->exec('co -q -f -l ' . escapeshellarg($filename));
-        $this->rcs_writefile($object);
-        return $this->exec('ci -q -m' . $message . " {$filename}");
-    }
-
-    /**
-     * Writes object data to file, does not return anything.
-     */
-    private function rcs_writefile($object)
-    {
-        if (   !is_writable($this->_config->get_rcs_root())
-            || empty($object->guid)) {
-            return;
-        }
-        $data = $this->rcs_object2data($object);
-        $filename = $this->_generate_rcs_filename($object->guid);
-        file_put_contents($filename, $data);
-        chmod($filename . ',v', 0770);
-    }
-
-    /**
-     * Reads data from file $guid and returns it.
-     *
-     * @param string $guid
-     * @return string xml representation of guid
-     */
-    private function rcs_readfile(string $guid)
-    {
-        $filename = $this->_generate_rcs_filename($guid);
-        if (file_exists($filename)) {
-            return file_get_contents($filename);
-        }
-        return '';
+        return $stat;
     }
 
     /**
