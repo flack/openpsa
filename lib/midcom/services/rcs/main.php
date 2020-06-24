@@ -37,15 +37,15 @@ class midcom_services_rcs
     }
 
     /**
-     * Loads the backend
+     * Factory function for the handler object.
      */
     public function load_backend($object) : ?midcom_services_rcs_backend
     {
         if (!$object->guid) {
             return null;
         }
-
-        return $this->config->get_backend($object);
+        $class = $this->config->get_backend_class();
+        return new $class($object, $this->config);
     }
 
     /**

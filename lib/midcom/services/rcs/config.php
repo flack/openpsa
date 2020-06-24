@@ -32,15 +32,6 @@ class midcom_services_rcs_config
     }
 
     /**
-     * Factory function for the handler object.
-     */
-    public function get_backend($object) : midcom_services_rcs_backend
-    {
-        $class = $this->get_backend_class();
-        return new $class($object, $this);
-    }
-
-    /**
      * Returns the root of the directory containing the RCS files.
      */
     public function get_rcs_root() : string
@@ -67,7 +58,7 @@ class midcom_services_rcs_config
     /**
      * Returns the prefix for the rcs utilities.
      */
-    public function get_bin_prefix()
+    public function get_bin_prefix() : ?string
     {
         if (!isset($this->config['midcom_services_rcs_bin_dir'])) {
             return null;
@@ -78,7 +69,7 @@ class midcom_services_rcs_config
     /**
      * Returns the backend classname.
      */
-    private function get_backend_class() : string
+    public function get_backend_class() : string
     {
         if ($this->use_rcs()) {
             $this->test_rcs_config();

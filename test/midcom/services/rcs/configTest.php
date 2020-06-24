@@ -38,25 +38,21 @@ class midcom_services_rcs_configTest extends TestCase
         $this->assertEquals('/usr/bin/', $config->get_bin_prefix());
     }
 
-    public function test_get_backend()
+    public function test_get_backend_class()
     {
         $conf = new midcom_config;
         $conf['midcom_services_rcs_root'] = '/tmp';
         $conf['midcom_services_rcs_bin_dir'] = midcom::get()->config->get('midcom_services_rcs_bin_dir');
         $conf['midcom_services_rcs_enable'] = true;
 
-        $topic = new midcom_db_topic;
-
         $config = new midcom_services_rcs_config($conf);
-        $backend = $config->get_backend($topic);
-        $this->assertInstanceOf(midcom_services_rcs_backend_rcs::class, $backend);
+        $backend = $config->get_backend_class();
+        $this->assertEquals(midcom_services_rcs_backend_rcs::class, $backend);
 
         $conf['midcom_services_rcs_enable'] = false;
 
-        $topic = new midcom_db_topic;
-
         $config = new midcom_services_rcs_config($conf);
-        $backend = $config->get_backend($topic);
-        $this->assertInstanceOf(midcom_services_rcs_backend_null::class, $backend);
+        $backend = $config->get_backend_class();
+        $this->assertEquals(midcom_services_rcs_backend_null::class, $backend);
     }
 }

@@ -13,21 +13,14 @@
  */
 class midcom_services_rcs_backend_rcsTest extends openpsa_testcase
 {
-    protected static $_config;
-
-    public static function setUpBeforeClass()
-    {
-        $conf = new midcom_config;
-        $conf['midcom_services_rcs_enable'] = true;
-        midcom::get()->config->set('midcom_services_rcs_enable', true);
-
-        self::$_config = new midcom_services_rcs_config($conf);
-    }
-
     public function test_list_history()
     {
+        $config = new midcom_config;
+        $config->set('midcom_services_rcs_enable', true);
+        $config = new midcom_services_rcs_config($config);
+
         $topic = $this->create_object(midcom_db_topic::class, ['_use_rcs' => false]);
-        $backend = self::$_config->get_backend($topic);
+        $backend = new midcom_services_rcs_backend_rcs($topic, $config);
 
         $this->assertEquals([], $backend->list_history());
         $topic->_use_rcs = true;
@@ -35,7 +28,7 @@ class midcom_services_rcs_backend_rcsTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('midcom.core');
         $this->assertTrue($topic->update(), midcom_connection::get_error_string());
         midcom::get()->auth->drop_sudo();
-        $backend = self::$_config->get_backend($topic);
+        $backend = new midcom_services_rcs_backend_rcs($topic, $config);
 
         $this->assertCount(1, $backend->list_history());
     }
