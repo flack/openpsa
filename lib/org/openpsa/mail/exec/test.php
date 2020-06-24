@@ -11,7 +11,6 @@ if (   empty($_POST['to'])
                         <option value="try_default">Component default(s)</option>
                         <option value="mail_smtp">SMTP</option>
                         <option value="mail_sendmail">Sendmail</option>
-                        <option value="mail">mail</option>
                      </select><br/>
             From: <input name="from" size=50 type="text" value="noreply@openpsa2.org"/><br/>
             To: <input name="to" size=50 type="text" value="test@openpsa2.org" /><br/>
