@@ -39,12 +39,13 @@ class midcom_services_rcs
     /**
      * Factory function for the handler object.
      */
-    public function load_backend($object) : ?midcom_services_rcs_backend
+    public function load_backend($object) : midcom_services_rcs_backend
     {
         if (!$object->guid) {
-            return null;
+            $class = midcom_services_rcs_backend_null::class;
+        } else {
+            $class = $this->config->get_backend_class();
         }
-        $class = $this->config->get_backend_class();
         return new $class($object, $this->config);
     }
 
@@ -60,10 +61,6 @@ class midcom_services_rcs
             return true;
         }
         $backend = $this->load_backend($object);
-        if (!is_object($backend)) {
-            debug_add('Could not load handler!');
-            return false;
-        }
         if (!$backend->update($object, $message)) {
             debug_add('RCS: Could not save file!');
             return false;

@@ -175,11 +175,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     private function get_diff() : string
     {
         // Load the RCS handler
-        $rcs = midcom::get()->rcs;
-        $rcs_handler = $rcs->load_backend($this);
-        if (!$rcs_handler) {
-            return null;
-        }
+        $rcs_handler = midcom::get()->rcs->load_backend($this);
 
         // Find out what versions to diff
         $history = $rcs_handler->list_history_numeric();

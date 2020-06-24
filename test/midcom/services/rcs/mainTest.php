@@ -23,7 +23,7 @@ class midcom_services_rcs_mainTest extends openpsa_testcase
         $rcs = new midcom_services_rcs($conf);
         $topic = new midcom_db_topic;
         $handler = $rcs->load_backend($topic);
-        $this->assertNull($handler);
+        $this->assertInstanceOf(midcom_services_rcs_backend_null::class, $handler);
 
         $topic = $this->create_object(midcom_db_topic::class);
         $handler = $rcs->load_backend($topic);
