@@ -54,18 +54,29 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function update($object, $updatemessage = null) : bool
     {
         // Store user identifier and IP address to the update string
-        if (midcom::get()->auth->user) {
-            $update_string = midcom::get()->auth->user->id . "|{$_SERVER['REMOTE_ADDR']}";
+        $message = $_SERVER['REMOTE_ADDR'] . '|' . $updatemessage;
+        $message = (midcom::get()->auth->user->id ?? 'NOBODY') . '|' . $message;
+
+        $filename = $this->_generate_rcs_filename($object->guid);
+        $rcsfilename = "{$filename},v";
+        $message = escapeshellarg($message);
+
+        if (file_exists($rcsfilename)) {
+            $this->exec('co -q -f -l ' . escapeshellarg($filename));
+            $command = 'ci -q -m' . $message . " {$filename}";
         } else {
-            $update_string = "NOBODY|{$_SERVER['REMOTE_ADDR']}";
+            $command = 'ci -q -i -t-' . $message . ' -m' . $message . " {$filename}";
+        }
+        $mapper = new midcom_helper_exporter_xml;
+        file_put_contents($filename, $mapper->object2data($object));
+        $stat = $this->exec($command);
+
+        if (file_exists($rcsfilename)) {
+            chmod($rcsfilename, 0770);
         }
 
-        $update_string .= "|{$updatemessage}";
-
-        $result = $this->rcs_update($object, $update_string);
-
         // The methods return basically what the RCS unix level command returns, so nonzero value is error and zero is ok...
-        return $result == 0;
+        return $stat == 0;
     }
 
     /**
@@ -216,57 +227,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         pclose($fh);
 
         return $ret;
-    }
-
-    /**
-     * Update object to RCS
-     * Should be called just before $object->update()
-     *
-     * @param object $object to be updated.
-     * @param string $message
-     * @return int :
-     *      0 on success
-     *      3 on missing object->guid
-     *      nonzero on error in one of the commands.
-     */
-    private function rcs_update(midcom_core_dbaobject $object, $message)
-    {
-        if (empty($object->guid)) {
-            debug_add("Missing GUID, returning error");
-            return 3;
-        }
-
-        $filename = $this->_generate_rcs_filename($object->guid);
-        $rcsfilename = "{$filename},v";
-        $message = escapeshellarg($message);
-
-        if (file_exists($rcsfilename)) {
-            $this->exec('co -q -f -l ' . escapeshellarg($filename));
-            $command = 'ci -q -m' . $message . " {$filename}";
-        } else {
-            $command = 'ci -q -i -t-' . $message . ' -m' . $message . " {$filename}";
-        }
-        if (is_writable($this->_config->get_rcs_root())) {
-            file_put_contents($filename, $this->rcs_object2data($object));
-        }
-        $stat = $this->exec($command);
-
-        if (file_exists($rcsfilename)) {
-            chmod($rcsfilename, 0770);
-        }
-
-        return $stat;
-    }
-
-    /**
-     * Make xml out of an object.
-     *
-     * @param midcom_core_dbaobject $object
-     */
-    private function rcs_object2data(midcom_core_dbaobject $object) : string
-    {
-        $mapper = new midcom_helper_exporter_xml();
-        return $mapper->object2data($object);
     }
 
     private function exec(string $command, $use_rcs_bindir = true)
