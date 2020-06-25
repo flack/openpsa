@@ -1,5 +1,5 @@
 <?php
-$history = $data['history'];
+$history = $data['history']->all();
 $guid = $data['guid'];
 
 if (empty($history)) {

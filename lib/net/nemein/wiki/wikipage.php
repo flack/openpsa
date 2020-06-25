@@ -178,13 +178,12 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $rcs_handler = midcom::get()->rcs->load_backend($this);
 
         // Find out what versions to diff
-        $history = $rcs_handler->list_history();
-        if (count($history) < 2) {
+        $history = $rcs_handler->get_history();
+        if (count($history->all()) < 2) {
             return '';
         }
-        $this_version = key($history);
-        next($history);
-        $prev_version = key($history);
+        $this_version = $history->get_last()['revision'];
+        $prev_version = $history->get_prev_version($this_version);
 
         try {
             $diff_fields = $rcs_handler->get_diff($prev_version, $this_version);

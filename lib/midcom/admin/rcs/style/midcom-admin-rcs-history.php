@@ -1,5 +1,5 @@
 <?php
-$history = $data['history'];
+$history = $data['history']->all();
 $guid = $data['guid'];
 
 echo "<h1>{$data['view_title']}</h1>\n";

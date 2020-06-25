@@ -91,13 +91,14 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
     private function build_rcs_toolbar(midcom_helper_toolbar $toolbar, $current, bool $diff_view)
     {
-        $keys = array_keys($this->backend->list_history());
-        if (!isset($keys[0])) {
+        $history = $this->backend->get_history();
+        $first = $history->get_first()['revision'] ?? null;
+
+        if (!$first) {
             return;
         }
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $this->url_prefix;
-        $first = end($keys);
-        $last = $keys[0];
+        $last = $history->get_last()['revision'];
 
         $buttons = [[
             MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$first}",
@@ -107,15 +108,8 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         ]];
 
         if (!empty($current)) {
-            $previous = $this->backend->get_prev_version($current);
-            if (!$previous) {
-                $previous = $first;
-            }
-
-            $next = $this->backend->get_next_version($current);
-            if (!$next) {
-                $next = $last;
-            }
+            $previous = $history->get_prev_version($current) ?? $first;
+            $next = $history->get_next_version($current) ?? $last;
 
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$previous}",
@@ -233,7 +227,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
      */
     public function _show_history($handler_id, array &$data)
     {
-        $data['history'] = $this->backend->list_history();
+        $data['history'] = $this->backend->get_history();
         $data['guid'] = $this->object->guid;
         midcom_show_style($this->style_prefix . 'history');
     }
@@ -244,14 +238,15 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     public function _handler_diff(string $handler_id, array $args, array &$data)
     {
         $this->load_object($args[0]);
+        $history = $this->backend->get_history();
 
-        if (   !$this->backend->version_exists($args[1])
-            || !$this->backend->version_exists($args[2])) {
+        if (   !$history->version_exists($args[1])
+            || !$history->version_exists($args[2])) {
             throw new midcom_error_notfound("One of the revisions {$args[1]} or {$args[2]} does not exist.");
         }
 
         $data['diff'] = $this->backend->get_diff($args[1], $args[2]);
-        $data['comment'] = $this->backend->get_comment($args[2]);
+        $data['comment'] = $history->get($args[2]);
 
         // Set the version numbers
         $data['compare_revision'] = $args[1];
@@ -310,7 +305,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $this->object->require_do('midgard:update');
         // TODO: set another privilege for restoring?
 
-        if (   $this->backend->version_exists($args[1])
+        if (   $this->backend->get_history()->version_exists($args[1])
             && $this->backend->restore_to_revision($args[1])) {
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.rcs'), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]));
             return new midcom_response_relocate($this->get_object_url());

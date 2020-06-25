@@ -12,7 +12,7 @@ foreach ($pages as $page) {
     $changed = false;
     $authors = explode('|', substr($page->metadata->authors, 1, -1));
     $object_rcs = $rcs->load_backend($page);
-    $history = $object_rcs->list_history();
+    $history = $object_rcs->get_history()->all();
     foreach ($history as $data) {
         $user_guid = substr($data['user'], 5);
         if (!in_array($user_guid, $authors)) {

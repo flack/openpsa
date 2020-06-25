@@ -18,8 +18,10 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
     /**
      * Cached revision history for the object
+     *
+     * @var midcom_services_rcs_history
      */
-    private $_history;
+    private $history;
 
     /**
      * @var midcom_services_rcs_config
@@ -93,68 +95,23 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     }
 
     /**
-     * Check if a revision exists
-     *
-     * @param string $version
-     */
-    public function version_exists($version) : bool
-    {
-        $history = $this->list_history();
-        return array_key_exists($version, $history);
-    }
-
-    /**
-     * Get the previous versionID
-     *
-     * @param string $version
-     * @return string versionid before this one or empty string.
-     */
-    public function get_prev_version($version)
-    {
-        $versions = array_keys($this->list_history());
-        $position = array_search($version, $versions);
-
-        if ($position === false || $position == count($versions) - 1) {
-            return '';
-        }
-        return $versions[$position + 1];
-    }
-
-    /**
-     * Get the next versionID
-     *
-     * @param string $version
-     * @return string versionid before this one or empty string.
-     */
-    public function get_next_version($version)
-    {
-        $versions = array_keys($this->list_history());
-        $position = array_search($version, $versions);
-
-        if ($position === false || $position == 0) {
-            return '';
-        }
-        return $versions[$position - 1];
-    }
-
-    /**
      * Lists the number of changes that has been done to the object
      * Order: The first entry is the newest.
      *
      * @return array list of changeids
      */
-    public function list_history() : array
+    public function get_history() : ?midcom_services_rcs_history
     {
         if (empty($this->_guid)) {
-            return [];
+            return null;
         }
 
-        if ($this->_history === null) {
+        if ($this->history === null) {
             $filepath = $this->_generate_rcs_filename($this->_guid);
-            $this->_history = $this->rcs_gethistory($filepath);
+            $this->history = $this->rcs_gethistory($filepath);
         }
 
-        return $this->_history;
+        return $this->history;
     }
 
     /* it is debatable to move this into the object when it resides nicely in a library... */
@@ -212,7 +169,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      *
      * @param string $what objectid (usually the guid)
      */
-    private function rcs_gethistory(string $what) : array
+    private function rcs_gethistory(string $what) : midcom_services_rcs_history
     {
         $history = $this->rcs_exec('rlog', $what . ',v');
         $revisions = [];
@@ -235,7 +192,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
                 }
             }
         }
-        return $revisions;
+        return new midcom_services_rcs_history($revisions);
     }
 
     /**
@@ -386,18 +343,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         }
 
         return $return;
-    }
-
-    /**
-     * Get the comment of one revision.
-     *
-     * @param string $revision id
-     * @return string comment
-     */
-    public function get_comment($revision)
-    {
-        $this->list_history();
-        return $this->_history[$revision];
     }
 
     /**

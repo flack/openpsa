@@ -25,34 +25,14 @@ class midcom_services_rcs_backend_null implements midcom_services_rcs_backend
         return [];
     }
 
-    public function version_exists($version) : bool
+    public function get_history() : ?midcom_services_rcs_history
     {
-        return false;
-    }
-
-    public function get_prev_version($version)
-    {
-        return false;
-    }
-
-    public function get_next_version($version)
-    {
-        return false;
-    }
-
-    public function list_history() : array
-    {
-        return [];
+        return null;
     }
 
     public function get_diff($oldest_revision, $latest_revision) : array
     {
         return [];
-    }
-
-    public function get_comment($revision)
-    {
-        return false;
     }
 
     public function restore_to_revision($revision) : bool

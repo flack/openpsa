@@ -25,17 +25,9 @@ interface midcom_services_rcs_backend
 
     public function get_revision($revision) : array;
 
-    public function version_exists($version) : bool;
-
-    public function get_prev_version($version);
-
-    public function get_next_version($version);
-
-    public function list_history() : array;
+    public function get_history() : ?midcom_services_rcs_history;
 
     public function get_diff($oldest_revision, $latest_revision) : array;
-
-    public function get_comment($revision);
 
     public function restore_to_revision($revision) : bool;
 }
