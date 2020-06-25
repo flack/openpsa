@@ -111,7 +111,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     public function get_prev_version($version)
     {
-        $versions = $this->list_history_numeric();
+        $versions = array_keys($this->list_history());
         $position = array_search($version, $versions);
 
         if ($position === false || $position == count($versions) - 1) {
@@ -128,7 +128,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     public function get_next_version($version)
     {
-        $versions = $this->list_history_numeric();
+        $versions = array_keys($this->list_history());
         $position = array_search($version, $versions);
 
         if ($position === false || $position == 0) {
@@ -138,18 +138,8 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     }
 
     /**
-     * Return a list of the revisions as a key => value pair where
-     * the key is the index of the revision and the value is the revision id.
-     * Order: revision 0 is the newest.
-     */
-    public function list_history_numeric() : array
-    {
-        $revs = $this->list_history();
-        return array_keys($revs);
-    }
-
-    /**
      * Lists the number of changes that has been done to the object
+     * Order: The first entry is the newest.
      *
      * @return array list of changeids
      */

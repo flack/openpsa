@@ -178,12 +178,13 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $rcs_handler = midcom::get()->rcs->load_backend($this);
 
         // Find out what versions to diff
-        $history = $rcs_handler->list_history_numeric();
+        $history = $rcs_handler->list_history();
         if (count($history) < 2) {
             return '';
         }
-        $this_version = $history[0];
-        $prev_version = $history[1];
+        $this_version = key($history);
+        next($history);
+        $prev_version = key($history);
 
         try {
             $diff_fields = $rcs_handler->get_diff($prev_version, $this_version);
@@ -192,11 +193,6 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             return '';
         }
 
-        if (!array_key_exists('diff', $diff_fields['content'])) {
-            // No differences
-            return '';
-        }
-
-        return $diff_fields['content']['diff'];
+        return $diff_fields['content']['diff'] ?? '';
     }
 }

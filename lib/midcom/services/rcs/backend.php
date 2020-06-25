@@ -31,8 +31,6 @@ interface midcom_services_rcs_backend
 
     public function get_next_version($version);
 
-    public function list_history_numeric() : array;
-
     public function list_history() : array;
 
     public function get_diff($oldest_revision, $latest_revision) : array;
