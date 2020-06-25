@@ -58,11 +58,8 @@ class midcom_services_rcs_config
     /**
      * Returns the prefix for the rcs utilities.
      */
-    public function get_bin_prefix() : ?string
+    public function get_bin_prefix() : string
     {
-        if (!isset($this->config['midcom_services_rcs_bin_dir'])) {
-            return null;
-        }
         return $this->config['midcom_services_rcs_bin_dir'] . '/';
     }
 
@@ -88,12 +85,10 @@ class midcom_services_rcs_config
             throw new midcom_error("The root RCS directory {$this->config['midcom_services_rcs_root']} is not writable!");
         }
 
-        if ($this->get_bin_prefix() === null) {
-            throw new midcom_error("midcom_services_rcs_bin_dir not found in configuration. This must be defined before RCS will work.");
-        }
+        $prefix = $this->get_bin_prefix();
 
-        if (!is_executable($this->config['midcom_services_rcs_bin_dir'] . "/ci")) {
-            throw new midcom_error("Cannot execute {$this->config['midcom_services_rcs_bin_dir']}/ci.");
+        if (!is_executable("{$prefix}ci")) {
+            throw new midcom_error("Cannot execute {$prefix}ci.");
         }
     }
 }
