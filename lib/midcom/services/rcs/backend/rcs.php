@@ -183,7 +183,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
         // Revision number is in format
         // revision 1.11
-        $history['revision'] = substr($entry[0], 9);
+        $history['revision'] = preg_replace('/(\d+\.\d+).*/', '$1', substr($entry[0], 9));
 
         // Entry metadata is in format
         // date: 2006/01/10 09:40:49;  author: www-data;  state: Exp;  lines: +2 -2
