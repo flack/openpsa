@@ -61,7 +61,7 @@ class midcom_services_rcs
             return true;
         }
         $backend = $this->load_backend($object);
-        if (!$backend->update($object, $message)) {
+        if (!$backend->update($message)) {
             debug_add('RCS: Could not save file!');
             return false;
         }

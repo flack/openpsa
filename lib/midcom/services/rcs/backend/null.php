@@ -15,7 +15,7 @@ class midcom_services_rcs_backend_null implements midcom_services_rcs_backend
     {
     }
 
-    public function update($object, $updatemessage = null) : bool
+    public function update($updatemessage = null) : bool
     {
         return true;
     }

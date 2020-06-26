@@ -12,9 +12,9 @@
 class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 {
     /**
-     * GUID of the current object
+     * The current object
      */
-    private $_guid;
+    private $object;
 
     /**
      * Cached revision history for the object
@@ -31,7 +31,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function __construct($object, midcom_services_rcs_config $config)
     {
         $this->_config = $config;
-        $this->_guid = $object->guid;
+        $this->object = $object;
     }
 
     private function _generate_rcs_filename(string $guid) : string
@@ -47,17 +47,14 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
     /**
      * Save a new revision
-     *
-     * @param object $object object to be saved
-     * @return boolean true on success.
      */
-    public function update($object, $updatemessage = null) : bool
+    public function update($updatemessage = null) : bool
     {
         // Store user identifier and IP address to the update string
         $message = $_SERVER['REMOTE_ADDR'] . '|' . $updatemessage;
         $message = (midcom::get()->auth->user->id ?? 'NOBODY') . '|' . $message;
 
-        $filename = $this->_generate_rcs_filename($object->guid);
+        $filename = $this->_generate_rcs_filename($this->object->guid);
         $rcsfilename = "{$filename},v";
         $message = escapeshellarg($message);
 
@@ -68,7 +65,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             $command = 'ci -q -i -t-' . $message . ' -m' . $message . " {$filename}";
         }
         $mapper = new midcom_helper_exporter_xml;
-        file_put_contents($filename, $mapper->object2data($object));
+        file_put_contents($filename, $mapper->object2data($this->object));
         $stat = $this->exec($command);
 
         if (file_exists($rcsfilename)) {
@@ -87,10 +84,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     public function get_revision($revision) : array
     {
-        if (empty($this->_guid)) {
-            return [];
-        }
-        $filepath = $this->_generate_rcs_filename($this->_guid);
+        $filepath = $this->_generate_rcs_filename($this->object->guid);
         if ($this->exec('co -q -f -r' . escapeshellarg(trim($revision)) . " {$filepath} 2>/dev/null") != 0) {
             return [];
         }
@@ -113,12 +107,8 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     public function get_history() : ?midcom_services_rcs_history
     {
-        if (empty($this->_guid)) {
-            return null;
-        }
-
         if ($this->history === null) {
-            $filepath = $this->_generate_rcs_filename($this->_guid);
+            $filepath = $this->_generate_rcs_filename($this->object->guid);
             $this->history = $this->rcs_gethistory($filepath);
         }
 
@@ -314,18 +304,10 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function restore_to_revision($revision) : bool
     {
         $new = $this->get_revision($revision);
-
-        try {
-            $object = midcom::get()->dbfactory->get_object_by_guid($this->_guid);
-        } catch (midcom_error $e) {
-            debug_add("{$this->_guid} could not be resolved to object", MIDCOM_LOG_ERROR);
-            return false;
-        }
         $mapper = new midcom_helper_exporter_xml();
-        $object = $mapper->data2object($new, $object);
+        $this->object = $mapper->data2object($new, $this->object);
+        $this->object->set_rcs_message("Reverted to revision {$revision}");
 
-        $object->set_rcs_message("Reverted to revision {$revision}");
-
-        return $object->update();
+        return $this->object->update();
     }
 }

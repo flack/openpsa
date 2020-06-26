@@ -21,7 +21,7 @@ interface midcom_services_rcs_backend
      * @return boolean true if save succeeded.
      * @throws midcom_error on serious errors.
      */
-    public function update($object, $updatemessage = null) : bool;
+    public function update($updatemessage = null) : bool;
 
     public function get_revision($revision) : array;
 
