@@ -34,8 +34,9 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $this->object = $object;
     }
 
-    private function _generate_rcs_filename(string $guid) : string
+    private function generate_filename() : string
     {
+        $guid = $this->object->guid;
         // Keep files organized to subfolders to keep filesystem sane
         $dirpath = $this->_config->get_rcs_root() . "/{$guid[0]}/{$guid[1]}";
         if (!file_exists($dirpath)) {
@@ -54,7 +55,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $message = $_SERVER['REMOTE_ADDR'] . '|' . $updatemessage;
         $message = (midcom::get()->auth->user->id ?? 'NOBODY') . '|' . $message;
 
-        $filename = $this->_generate_rcs_filename($this->object->guid);
+        $filename = $this->generate_filename();
         $rcsfilename = "{$filename},v";
         $message = escapeshellarg($message);
 
@@ -84,7 +85,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     public function get_revision($revision) : array
     {
-        $filepath = $this->_generate_rcs_filename($this->object->guid);
+        $filepath = $this->generate_filename();
         if ($this->exec('co -q -f -r' . escapeshellarg(trim($revision)) . " {$filepath} 2>/dev/null") != 0) {
             return [];
         }
@@ -108,35 +109,55 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function get_history() : ?midcom_services_rcs_history
     {
         if ($this->history === null) {
-            $filepath = $this->_generate_rcs_filename($this->object->guid);
-            $this->history = $this->rcs_gethistory($filepath);
+            $revisions = $this->load_history($this->generate_filename() . ',v');
+            $this->history = new midcom_services_rcs_history($revisions);
         }
 
         return $this->history;
     }
 
-    /* it is debatable to move this into the object when it resides nicely in a library... */
-
-    private function rcs_parse_history_entry(array $entry) : array
+    private function load_history(string $filename) : array
     {
-        // Create the empty history array
-        $history = [
-            'revision' => null,
-            'date'     => null,
-            'lines'    => null,
-            'user'     => null,
-            'ip'       => null,
-            'message'  => null,
-        ];
+        if (!is_readable($filename)) {
+            debug_add('file ' . $filename . ' is not readable, returning empty result', MIDCOM_LOG_INFO);
+            return [];
+        }
+        $fh = popen($this->_config->get_bin_prefix() . 'rlog "' . $filename . '" 2>&1', "r");
+        $history = stream_get_contents($fh);
+        pclose($fh);
+        $revisions = [];
+        $lines = explode("\n", $history);
+        $total = count($lines);
+
+        for ($i = 0; $i < $total; $i++) {
+            if (substr($lines[$i], 0, 9) == "revision ") {
+                $history = $this->parse_history_entry($lines[$i], $lines[$i + 1], $lines[$i + 2]);
+                $revisions[$history['revision']] = $history;
+
+                $i += 3;
+                while (   $i < $total
+                        && substr($lines[$i], 0, 4) != '----'
+                        && substr($lines[$i], 0, 5) != '=====') {
+                    $i++;
+                }
+            }
+        }
+        return $revisions;
+    }
+
+    private function parse_history_entry(string $line1, string $line2, string $line3) : array
+    {
+        // Create potentially empty defaults
+        $history = ['date' => null, 'lines' => null, 'user' => null, 'ip' => null];
 
         // Revision number is in format
         // revision 1.11
-        $history['revision'] = preg_replace('/(\d+\.\d+).*/', '$1', substr($entry[0], 9));
+        $history['revision'] = preg_replace('/(\d+\.\d+).*/', '$1', substr($line1, 9));
 
         // Entry metadata is in format
         // date: 2006/01/10 09:40:49;  author: www-data;  state: Exp;  lines: +2 -2
         // NOTE: Time here appears to be stored as UTC according to http://parand.com/docs/rcs.html
-        $metadata_array = explode(';', $entry[1]);
+        $metadata_array = explode(';', $line2);
         foreach ($metadata_array as $metadata) {
             $metadata = trim($metadata);
             if (substr($metadata, 0, 5) == 'date:') {
@@ -148,7 +169,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
         // Entry message is in format
         // user:27b841929d1e04118d53dd0a45e4b93a|84.34.133.194|message
-        $message_array = explode('|', $entry[2]);
+        $message_array = explode('|', $line3);
         if (count($message_array) == 1) {
             $history['message'] = $message_array[0];
         } else {
@@ -159,64 +180,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             $history['message'] = $message_array[2];
         }
         return $history;
-    }
-
-    /*
-     * the functions below are mostly rcs functions moved into the class. Someday I'll get rid of the
-     * old files...
-     */
-    /**
-     * Get a list of the object's history
-     *
-     * @param string $what objectid (usually the guid)
-     */
-    private function rcs_gethistory(string $what) : midcom_services_rcs_history
-    {
-        $history = $this->rcs_exec('rlog', $what . ',v');
-        $revisions = [];
-        $lines = explode("\n", $history);
-        $total = count($lines);
-
-        for ($i = 0; $i < $total; $i++) {
-            if (substr($lines[$i], 0, 9) == "revision ") {
-                $history_entry = [$lines[$i], $lines[$i + 1], $lines[$i + 2]];
-                $history = $this->rcs_parse_history_entry($history_entry);
-
-                $revisions[$history['revision']] = $history;
-
-                $i += 3;
-
-                while (   $i < $total
-                       && substr($lines[$i], 0, 4) != '----'
-                       && substr($lines[$i], 0, 5) != '=====') {
-                    $i++;
-                }
-            }
-        }
-        return new midcom_services_rcs_history($revisions);
-    }
-
-    /**
-     * execute a command
-     *
-     * @param string $command The command to execute
-     * @param string $filename The file to operate on
-     * @return string command result.
-     */
-    private function rcs_exec(string $command, string $filename) : string
-    {
-        if (!is_readable($filename)) {
-            debug_add('file ' . $filename . ' is not readable, returning empty result', MIDCOM_LOG_INFO);
-            return '';
-        }
-        $fh = popen($this->_config->get_bin_prefix() . $command . ' "' . $filename . '" 2>&1', "r");
-        $ret = "";
-        while ($reta = fgets($fh, 1024)) {
-            $ret .= $reta;
-        }
-        pclose($fh);
-
-        return $ret;
     }
 
     private function exec(string $command, $use_rcs_bindir = true)
