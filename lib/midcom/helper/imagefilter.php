@@ -366,17 +366,6 @@ class midcom_helper_imagefilter
         $this->_run_command($cmd, $tempfile);
     }
 
-    public function identify($filename) : bool
-    {
-        try {
-            $cmd = midcom::get()->config->get('utility_imagemagick_base') . "identify " . escapeshellarg($filename);
-            $this->_run_command($cmd);
-        } catch (midcom_error $e) {
-            return false;
-        }
-        return true;
-    }
-
     /**
      * Automatic rotation for the image using EXIF tags.
      *
