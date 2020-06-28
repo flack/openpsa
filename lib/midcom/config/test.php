@@ -171,7 +171,7 @@ class midcom_config_test
         if ($result !== 0 && $result !== 1) {
             $this->add('ImageMagick', self::ERROR, 'The existence ImageMagick toolkit could not be verified, it is required for all kinds of image processing in MidCOM.');
         } else {
-            $this->add('ImageMagick', self::OK);
+            $this->add('ImageMagick', self::OK, implode("<br>", $output));
         }
 
         $this->check_for_utility('jpegtran', self::WARNING, 'The jpegtran utility is used for lossless JPEG operations, even though ImageMagick can do the same conversions, the lossless features provided by this utility are used where appropriate, so its installation is recommended unless it is known to cause problems.', 'The jpegtran utility is used for lossless rotations of JPEG images. If there are problems with image rotations, disabling jpegtran, which will cause ImageMagick to be used instead, probably helps.');
