@@ -31,7 +31,7 @@ class midcom_services_rcs_backend_rcsTest extends openpsa_testcase
         $this->assertEquals([], $backend->get_history()->all());
         $topic->_use_rcs = true;
         $topic->title = 'TEST';
-        $backend->update();
+        $this->assertTrue($backend->update());
         $backend = new midcom_services_rcs_backend_rcs($topic, $config);
 
         $this->assertCount(1, $backend->get_history()->all());
