@@ -9,43 +9,8 @@
 /**
  * @package midcom.services.rcs
  */
-class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
+class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 {
-    /**
-     * The current object
-     */
-    private $object;
-
-    /**
-     * Cached revision history for the object
-     *
-     * @var midcom_services_rcs_history
-     */
-    private $history;
-
-    /**
-     * @var midcom_services_rcs_config
-     */
-    private $_config;
-
-    public function __construct($object, midcom_services_rcs_config $config)
-    {
-        $this->_config = $config;
-        $this->object = $object;
-    }
-
-    private function generate_filename() : string
-    {
-        $guid = $this->object->guid;
-        // Keep files organized to subfolders to keep filesystem sane
-        $dirpath = $this->_config->get_rcs_root() . "/{$guid[0]}/{$guid[1]}";
-        if (!file_exists($dirpath)) {
-            debug_add("Directory {$dirpath} does not exist, attempting to create", MIDCOM_LOG_INFO);
-            mkdir($dirpath, 0777, true);
-        }
-        return "{$dirpath}/{$guid}";
-    }
-
     /**
      * Save a new revision
      */
@@ -73,8 +38,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             chmod($rcsfilename, 0770);
         }
 
-        // The methods return basically what the RCS unix level command returns, so nonzero value is error and zero is ok...
-        return $stat == 0;
+        return $stat;
     }
 
     /**
@@ -86,48 +50,28 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function get_revision($revision) : array
     {
         $filepath = $this->generate_filename();
-        if ($this->exec('co -q -f -r' . escapeshellarg(trim($revision)) . " {$filepath} 2>/dev/null") != 0) {
+        if (   !$this->exec('co -q -f -r' . escapeshellarg(trim($revision)) . " {$filepath} 2>/dev/null")
+            || !file_exists($filepath)) {
             return [];
         }
 
-        $data = (file_exists($filepath)) ? file_get_contents($filepath) : '';
+        $data = file_get_contents($filepath);
+        $this->run_command("rm -f {$filepath}");
 
         $mapper = new midcom_helper_exporter_xml();
-        $revision = $mapper->data2array($data);
-
-        $this->exec("rm -f {$filepath}", false);
-
-        return $revision;
+        return $mapper->data2array($data);
     }
 
-    /**
-     * Lists the number of changes that has been done to the object
-     * Order: The first entry is the newest.
-     *
-     * @return array list of changeids
-     */
-    public function get_history() : ?midcom_services_rcs_history
+    protected function load_history() : array
     {
-        if ($this->history === null) {
-            $revisions = $this->load_history($this->generate_filename() . ',v');
-            $this->history = new midcom_services_rcs_history($revisions);
-        }
-
-        return $this->history;
-    }
-
-    private function load_history(string $filename) : array
-    {
+        $filename = $this->generate_filename() . ',v';
         if (!is_readable($filename)) {
             debug_add('file ' . $filename . ' is not readable, returning empty result', MIDCOM_LOG_INFO);
             return [];
         }
-        $fh = popen($this->_config->get_bin_prefix() . 'rlog "' . $filename . '" 2>&1', "r");
-        $history = stream_get_contents($fh);
-        pclose($fh);
-        $revisions = [];
-        $lines = explode("\n", $history);
+        $lines = $this->read_handle($this->config->get_bin_prefix() . 'rlog "' . $filename . '" 2>&1');
         $total = count($lines);
+        $revisions = [];
 
         for ($i = 0; $i < $total; $i++) {
             if (substr($lines[$i], 0, 9) == "revision ") {
@@ -182,95 +126,11 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         return $history;
     }
 
-    private function exec(string $command, $use_rcs_bindir = true)
+    private function exec(string $command, $use_rcs_bindir = true) : bool
     {
-        $status = null;
-        $output = null;
-
-        // Always append stderr redirect
-        $command .= ' 2>&1';
-
         if ($use_rcs_bindir) {
-            $command = $this->_config->get_bin_prefix() . $command;
+            $command = $this->config->get_bin_prefix() . $command;
         }
-
-        debug_add("Executing '{$command}'");
-
-        try {
-            @exec($command, $output, $status);
-        } catch (Exception $e) {
-            debug_add($e->getMessage());
-        }
-
-        if ($status !== 0) {
-            debug_add("Command '{$command}' returned with status {$status}, see debug log for output", MIDCOM_LOG_WARN);
-            debug_print_r('Got output: ', $output);
-        }
-        return $status;
-    }
-
-    /**
-     * Get a html diff between two versions.
-     *
-     * @param string $oldest_revision id of the oldest revision
-     * @param string $latest_revision id of the latest revision
-     */
-    public function get_diff($oldest_revision, $latest_revision) : array
-    {
-        $oldest = $this->get_revision($oldest_revision);
-        $newest = $this->get_revision($latest_revision);
-
-        $return = [];
-        $oldest = array_intersect_key($oldest, $newest);
-
-        $repl = [
-            '<del>' => "<span class=\"deleted\">",
-            '</del>' => '</span>',
-            '<ins>' => "<span class=\"inserted\">",
-            '</ins>' => '</span>'
-        ];
-        foreach ($oldest as $attribute => $oldest_value) {
-            if (is_array($oldest_value)) {
-                continue;
-            }
-
-            $return[$attribute] = [
-                'old' => $oldest_value,
-                'new' => $newest[$attribute]
-            ];
-
-            if ($oldest_value != $newest[$attribute]) {
-                $lines1 = explode("\n", $oldest_value);
-                $lines2 = explode("\n", $newest[$attribute]);
-
-                $renderer = new midcom_services_rcs_renderer_html_sidebyside(['old' => $oldest_revision, 'new' => $latest_revision]);
-
-                if ($lines1 != $lines2) {
-                    $diff = new Diff($lines1, $lines2);
-                    // Run the diff
-                    $return[$attribute]['diff'] = $diff->render($renderer);
-                    // Modify the output for nicer rendering
-                    $return[$attribute]['diff'] = strtr($return[$attribute]['diff'], $repl);
-                }
-            }
-        }
-
-        return $return;
-    }
-
-    /**
-     * Restore an object to a certain revision.
-     *
-     * @param string $revision of revision to restore object to.
-     * @return boolean true on success.
-     */
-    public function restore_to_revision($revision) : bool
-    {
-        $new = $this->get_revision($revision);
-        $mapper = new midcom_helper_exporter_xml();
-        $this->object = $mapper->data2object($new, $this->object);
-        $this->object->set_rcs_message("Reverted to revision {$revision}");
-
-        return $this->object->update();
+        return $this->run_command($command);
     }
 }

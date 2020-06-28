@@ -9,12 +9,8 @@
 /**
  * @package midcom.services.rcs
  */
-class midcom_services_rcs_backend_null implements midcom_services_rcs_backend
+class midcom_services_rcs_backend_null extends midcom_services_rcs_backend
 {
-    public function __construct($object, midcom_services_rcs_config $config)
-    {
-    }
-
     public function update($updatemessage = null) : bool
     {
         return true;
@@ -25,18 +21,8 @@ class midcom_services_rcs_backend_null implements midcom_services_rcs_backend
         return [];
     }
 
-    public function get_history() : ?midcom_services_rcs_history
-    {
-        return null;
-    }
-
-    public function get_diff($oldest_revision, $latest_revision) : array
+    protected function load_history() : array
     {
         return [];
-    }
-
-    public function restore_to_revision($revision) : bool
-    {
-        return false;
     }
 }

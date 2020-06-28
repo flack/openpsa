@@ -1,11 +1,11 @@
 <?php
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * @package midcom.services.rcs
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  */
+
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @package midcom.services.rcs

@@ -121,14 +121,11 @@ object_rcs_history:
 object_rcs_preview:
     path: /object/rcs/preview/{guid}/{revision}/
     defaults: { _controller: 'midgard_admin_asgard_handler_object_rcs::preview' }
-    requirements: {revision: '\d+\.\d+'}
     
 object_rcs_diff:
     path: /object/rcs/diff/{guid}/{revision1}/{revision2}/
     defaults: { _controller: 'midgard_admin_asgard_handler_object_rcs::diff' }
-    requirements: {revision1: '\d+\.\d+', revision2: '\d+\.\d+'}
 
 object_rcs_restore:
     path: /object/rcs/restore/{guid}/{revision}/
     defaults: { _controller: 'midgard_admin_asgard_handler_object_rcs::restore' }
-    requirements: {revision: '\d+\.\d+'}

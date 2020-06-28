@@ -32,9 +32,9 @@ class midcom_services_rcs_config
     }
 
     /**
-     * Returns the root of the directory containing the RCS files.
+     * Returns the root of the directory containing the version-controlled files.
      */
-    public function get_rcs_root() : string
+    public function get_rootdir() : string
     {
         if (empty($this->config['midcom_services_rcs_root'])) {
             $basedir = dirname(midgard_connection::get_instance()->config->sharedir);
@@ -81,8 +81,8 @@ class midcom_services_rcs_config
      */
     public function test_rcs_config()
     {
-        if (!is_writable($this->get_rcs_root())) {
-            throw new midcom_error("The root RCS directory {$this->config['midcom_services_rcs_root']} is not writable!");
+        if (!is_writable($this->get_rootdir())) {
+            throw new midcom_error("The root directory {$this->config['midcom_services_rcs_root']} is not writable!");
         }
 
         $prefix = $this->get_bin_prefix();

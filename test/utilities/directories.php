@@ -14,7 +14,7 @@ function openpsa_test_create_dir(string $dir = '')
 function openpsa_prepare_directories() {
     if (file_exists(OPENPSA2_UNITTEST_OUTPUT_DIR)) {
         $ret = false;
-        $output = system('rm -R ' . OPENPSA2_UNITTEST_OUTPUT_DIR, $ret);
+        $output = system('rm -Rf ' . OPENPSA2_UNITTEST_OUTPUT_DIR, $ret);
 
         if ($ret) {
             throw new Exception('Could not remove old output dir: ' . $output);

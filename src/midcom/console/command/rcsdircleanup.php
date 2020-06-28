@@ -88,7 +88,7 @@ class rcsdircleanup extends Command
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $config = new midcom_services_rcs_config(midcom::get()->config);
-        $dir = $config->get_rcs_root();
+        $dir = $config->get_rootdir();
         if (!is_dir($dir)) {
             $output->writeln("<comment>Unable to detect RCS dir</comment> $dir");
             return 1;

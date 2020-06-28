@@ -43,7 +43,8 @@ class midcom_admin_rcs_handlerTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.admin.rcs');
 
-        $data = $this->run_handler('net.nehmer.static', ['__ais', 'rcs', 'preview', self::$_object->guid, '1.1']);
+        $first = midcom::get()->rcs->load_backend(self::$_object)->get_history()->get_first()['revision'];
+        $data = $this->run_handler('net.nehmer.static', ['__ais', 'rcs', 'preview', self::$_object->guid, $first]);
         $this->assertEquals('preview', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -53,7 +54,10 @@ class midcom_admin_rcs_handlerTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.admin.rcs');
 
-        $data = $this->run_handler('net.nehmer.static', ['__ais', 'rcs', 'diff', self::$_object->guid, '1.1', '1.2']);
+        $history = midcom::get()->rcs->load_backend(self::$_object)->get_history();
+        $first = $history->get_first()['revision'];
+        $last = $history->get_last()['revision'];
+        $data = $this->run_handler('net.nehmer.static', ['__ais', 'rcs', 'diff', self::$_object->guid, $first, $last]);
         $this->assertEquals('diff', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

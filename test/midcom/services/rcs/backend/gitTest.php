@@ -11,7 +11,7 @@
  *
  * @package openpsa.test
  */
-class midcom_services_rcs_backend_rcsTest extends openpsa_testcase
+class midcom_services_rcs_backend_gitTest extends openpsa_testcase
 {
     public function test_get_history()
     {
@@ -26,13 +26,12 @@ class midcom_services_rcs_backend_rcsTest extends openpsa_testcase
         $config = new midcom_services_rcs_config($config);
 
         $topic = $this->create_object(midcom_db_topic::class, ['_use_rcs' => false]);
-        $backend = new midcom_services_rcs_backend_rcs($topic, $config);
+        $backend = new midcom_services_rcs_backend_git($topic, $config);
 
         $this->assertEquals([], $backend->get_history()->all());
-        $topic->_use_rcs = true;
         $topic->title = 'TEST';
         $backend->update();
-        $backend = new midcom_services_rcs_backend_rcs($topic, $config);
+        $backend = new midcom_services_rcs_backend_git($topic, $config);
 
         $this->assertCount(1, $backend->get_history()->all());
     }

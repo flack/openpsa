@@ -13,10 +13,20 @@
  */
 class midcom_services_rcs_mainTest extends openpsa_testcase
 {
+    private $tmpdir;
+
+    public function setUp()
+    {
+        $this->tmpdir = OPENPSA2_UNITTEST_OUTPUT_DIR . '/' . __CLASS__;
+        if (!file_exists($this->tmpdir)) {
+            mkdir($this->tmpdir);
+        }
+    }
+
     public function test_load_backend()
     {
         $conf = new midcom_config;
-        $conf['midcom_services_rcs_root'] = '/tmp';
+        $conf['midcom_services_rcs_root'] = $this->tmpdir;
         $conf['midcom_services_rcs_bin_dir'] = midcom::get()->config->get('midcom_services_rcs_bin_dir');
         $conf['midcom_services_rcs_enable'] = true;
 
@@ -33,7 +43,7 @@ class midcom_services_rcs_mainTest extends openpsa_testcase
     public function test_update()
     {
         $conf = new midcom_config;
-        $conf['midcom_services_rcs_root'] = '/tmp';
+        $conf['midcom_services_rcs_root'] = $this->tmpdir;
         $conf['midcom_services_rcs_bin_dir'] = midcom::get()->config->get('midcom_services_rcs_bin_dir');
         $conf['midcom_services_rcs_enable'] = true;
         $topic = $this->create_object(midcom_db_topic::class);
