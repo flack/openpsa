@@ -123,7 +123,7 @@ class midcom_baseclasses_components_configuration
             return [];
         }
 
-        return midcom_helper_misc::parse_config(file_get_contents($filename));
+        return midcom_helper_misc::parse_config(file_get_contents($filename), $filename);
     }
 
     /**
@@ -139,6 +139,6 @@ class midcom_baseclasses_components_configuration
     public static function read_array_from_snippet(string $snippetpath) : array
     {
         $code = midcom_helper_misc::get_snippet_content_graceful($snippetpath);
-        return midcom_helper_misc::parse_config($code);
+        return midcom_helper_misc::parse_config($code, $snippetpath);
     }
 }

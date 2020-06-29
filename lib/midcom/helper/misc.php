@@ -51,12 +51,12 @@ class midcom_helper_misc
      * @param string $data The data to parse
      * @throws midcom_error
      */
-    public static function parse_config($data) : array
+    public static function parse_config($data, string $path) : array
     {
         try {
             return eval("return [{$data}\n];");
         } catch (ParseError $e) {
-            throw new midcom_error('Failed to parse config data: ' . $e->getMessage() . ' in line ' . $e->getLine());
+            throw new midcom_error('Failed to parse config data: ' . $e->getMessage() . ' in ' . $path . ' line ' . $e->getLine());
         }
     }
 

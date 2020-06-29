@@ -23,7 +23,7 @@ class schemadb
     private static function load_from_path($path) : array
     {
         $data = midcom_helper_misc::get_snippet_content($path);
-        return midcom_helper_misc::parse_config($data);
+        return midcom_helper_misc::parse_config($data, $path);
     }
 
     public function __construct(array $data = [])

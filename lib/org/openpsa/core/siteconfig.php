@@ -112,7 +112,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $this->initialize_site_structure();
         }
         midcom::get()->auth->drop_sudo();
-        $this->data = midcom_helper_misc::parse_config($this->snippet->code);
+        $this->data = midcom_helper_misc::parse_config($this->snippet->code, "/org.openpsa.cache/siteconfig");
     }
 
     /**

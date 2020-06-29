@@ -22,7 +22,7 @@ if (!isset($_REQUEST['url'])) {
         $client->basicauth['user'] = $_REQUEST['username'];
         $client->basicauth['password'] = $_REQUEST['password'];
     }
-    $vars = midcom_helper_misc::parse_config($_REQUEST['variables']);
+    $vars = midcom_helper_misc::parse_config($_REQUEST['variables'], '$_REQUEST["variables"]');
     $response = $client->post($_REQUEST['url'], $vars);
     if (!$response) {
         $display = "<h1>Error</h1>\n<p>Client error: {$client->error}</p>";
