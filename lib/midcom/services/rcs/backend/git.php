@@ -59,7 +59,7 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
         for ($i = 0; $i < $total; $i += 6) {
             [$user, $ip] = explode('@', $lines[$i + 1], 2);
             $stat = preg_replace('/.*?\d file changed/', '', $lines[$i + 4]);
-            $stat = preg_replace('/\, (\d+) .+?tions\(([\+\-])\)/', '$2$1 ', $stat);
+            $stat = preg_replace('/\, (\d+) .+?tions?\(([\+\-])\)/', '$2$1 ', $stat);
 
             $revisions[$lines[$i]] = [
                 'revision' => $lines[$i],

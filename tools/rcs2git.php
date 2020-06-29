@@ -26,6 +26,11 @@ class rcs2git extends Command
             throw new RuntimeException('Git repo already exists');
         }
         $this->exec('cd ' . $dir . ' && git init', $output);
+        if (!system('cd ' . $dir . ' && git config user.email')) {
+            $user = get_current_user();
+            $this->exec('cd ' . $dir . ' && git config user.email "' . $user . '@localhost"', $output);
+            $this->exec('cd ' . $dir . ' && git config user.name "' . $user . '"', $output);
+        }
 
         // root dir + 16 subdirs + 256 subsubdirs
         $progress = new ProgressBar($output, 273);
@@ -92,8 +97,9 @@ class rcs2git extends Command
     private function exec(string $command, OutputInterface $output) : bool
     {
         $stat = $out = null;
-        exec($command, $out, $stat);
+        exec($command . ' 2>&1', $out, $stat);
         if ($stat != 0) {
+            $output->writeln($command . ' failed with:');
             array_map([$output, 'writeln'], $out);
             return false;
         }
