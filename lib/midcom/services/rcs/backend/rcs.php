@@ -14,7 +14,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
     /**
      * Save a new revision
      */
-    public function update($updatemessage = null) : bool
+    public function update($updatemessage = null)
     {
         // Store user identifier and IP address to the update string
         $message = $_SERVER['REMOTE_ADDR'] . '|' . $updatemessage;
@@ -32,13 +32,11 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         }
         $mapper = new midcom_helper_exporter_xml;
         file_put_contents($filename, $mapper->object2data($this->object));
-        $stat = $this->exec($command);
+        $this->exec($command);
 
         if (file_exists($rcsfilename)) {
             chmod($rcsfilename, 0770);
         }
-
-        return $stat;
     }
 
     /**
@@ -50,9 +48,14 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
     public function get_revision($revision) : array
     {
         $filepath = $this->generate_filename();
-        if (   !$this->exec('co -q -f -r' . escapeshellarg(trim($revision)) . " {$filepath} 2>/dev/null")
-            || !file_exists($filepath)) {
-            return [];
+        try {
+            $this->exec('co -q -f -r' . escapeshellarg(trim($revision)) . " {$filepath} 2>/dev/null");
+        } catch (midcom_error $e) {
+            $e->log();
+        } finally {
+            if (!file_exists($filepath)) {
+                return [];
+            }
         }
 
         $data = file_get_contents($filepath);
@@ -126,11 +129,8 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         return $history;
     }
 
-    private function exec(string $command, $use_rcs_bindir = true) : bool
+    private function exec(string $command) : bool
     {
-        if ($use_rcs_bindir) {
-            $command = $this->config->get_bin_prefix() . $command;
-        }
-        return $this->run_command($command);
+        return $this->run_command($this->config->get_bin_prefix() . $command);
     }
 }

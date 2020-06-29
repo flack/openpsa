@@ -73,10 +73,9 @@ abstract class midcom_services_rcs_backend
      *
      * @param midcom_core_dbaobject $object the object to save.
      * @param string $updatemessage the message to be saved with the object.
-     * @return boolean true if save succeeded.
      * @throws midcom_error on serious errors.
      */
-    abstract public function update($updatemessage = null) : bool;
+    abstract public function update($updatemessage = null);
 
     abstract public function get_revision($revision) : array;
 

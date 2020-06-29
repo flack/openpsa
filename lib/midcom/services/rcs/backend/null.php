@@ -11,9 +11,8 @@
  */
 class midcom_services_rcs_backend_null extends midcom_services_rcs_backend
 {
-    public function update($updatemessage = null) : bool
+    public function update($updatemessage = null)
     {
-        return true;
     }
 
     public function get_revision($revision) : array

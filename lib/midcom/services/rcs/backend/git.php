@@ -13,7 +13,7 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
     /**
      * Save a new revision
      */
-    public function update($updatemessage = null) : bool
+    public function update($updatemessage = null)
     {
         $author = midcom::get()->auth->user->id ?? 'NOBODY';
         $author .= ' <' . $author . '@' . $_SERVER['REMOTE_ADDR'] . '>';
@@ -22,12 +22,10 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
         $mapper = new midcom_helper_exporter_xml;
         file_put_contents($filename, $mapper->object2data($this->object));
 
-        if ($this->exec('add ' . $this->relative_path($filename))) {
-            $command = 'commit -q --allow-empty --allow-empty-message -m ' . escapeshellarg($updatemessage) .
+        $this->exec('add ' . $this->relative_path($filename));
+        $command = 'commit -q --allow-empty --allow-empty-message -m ' . escapeshellarg($updatemessage) .
             ' --author ' . escapeshellarg($author);
-            return $this->exec($command);
-        }
-        return false;
+        $this->exec($command);
     }
 
     /**
