@@ -25,11 +25,11 @@ class rcs2git extends Command
         if (file_exists($dir . '.git')) {
             throw new RuntimeException('Git repo already exists');
         }
-        $this->exec('cd ' . $dir . ' && git init', $output);
-        if (!system('cd ' . $dir . ' && git config user.email')) {
+        $this->exec('git -C ' . $dir . ' init', $output);
+        if (!system('git -C ' . $dir . ' config user.email')) {
             $user = get_current_user();
-            $this->exec('cd ' . $dir . ' && git config user.email "' . $user . '@localhost"', $output);
-            $this->exec('cd ' . $dir . ' && git config user.name "' . $user . '"', $output);
+            $this->exec('git -C ' . $dir . ' config user.email "' . $user . '@localhost"', $output);
+            $this->exec('git -C ' . $dir . ' config user.name "' . $user . '"', $output);
         }
 
         // root dir + 16 subdirs + 256 subsubdirs
@@ -74,10 +74,10 @@ class rcs2git extends Command
                     continue;
                 }
 
-                $this->exec('cd ' . $dir . ' && git add ' . substr($filename, strlen($dir)), $output);
+                $this->exec('git -C ' . $dir . ' add ' . substr($filename, strlen($dir)), $output);
 
                 $author = escapeshellarg($current['user'] . ' <' . $current['user'] . '@' . $current['ip'] . '>');
-                $cmd = 'cd ' . $dir . ' && git commit -q --allow-empty-message -m ' . escapeshellarg($current['message']) .
+                $cmd = 'git -C ' . $dir . ' commit -q --allow-empty-message -m ' . escapeshellarg($current['message']) .
                        ' --author ' . $author . ' --date ' . escapeshellarg($current['date']);
                 $this->exec($cmd, $output);
                 $revisions++;

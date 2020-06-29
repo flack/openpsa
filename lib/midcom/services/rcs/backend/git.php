@@ -87,18 +87,23 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
 
         if (!$initialized) {
             $this->exec('init');
+            if (!$this->read_handle('config user.email')) {
+                $user = get_current_user();
+                $this->exec('config user.email "' . $user . '@localhost"');
+                $this->exec('config user.name "' . $user . '"');
+            }
         }
         return $filename;
     }
 
     protected function read_handle(string $command) : array
     {
-        return parent::read_handle('cd ' . $this->config->get_rootdir() . ' && git ' . $command);
+        return parent::read_handle('git -C ' . $this->config->get_rootdir() . ' ' . $command);
     }
 
     private function exec(string $command, string $filename = null)
     {
-        $this->run_command('cd ' . $this->config->get_rootdir() . ' && git ' . $command);
+        $this->run_command('git -C ' . $this->config->get_rootdir() . ' ' . $command);
     }
 
     private function relative_path(string $filename) : string
