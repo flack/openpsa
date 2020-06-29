@@ -96,9 +96,9 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
         return parent::read_handle('cd ' . $this->config->get_rootdir() . ' && git ' . $command);
     }
 
-    private function exec(string $command, string $filename = null) : bool
+    private function exec(string $command, string $filename = null)
     {
-        return $this->run_command('cd ' . $this->config->get_rootdir() . ' && git ' . $command);
+        $this->run_command('cd ' . $this->config->get_rootdir() . ' && git ' . $command);
     }
 
     private function relative_path(string $filename) : string

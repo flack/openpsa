@@ -54,18 +54,16 @@ abstract class midcom_services_rcs_backend
         return explode("\n", $output);
     }
 
-    protected function run_command(string $command) : bool
+    protected function run_command(string $command)
     {
         $status = $output = null;
         $command .= ' 2>&1';
         debug_add("Executing '{$command}'");
         exec($command, $output, $status);
-
         if ($status !== 0) {
-            debug_add("Command '{$command}' returned with status {$status}, see debug log for output", MIDCOM_LOG_WARN);
             debug_print_r('Got output: ', $output);
+            throw new midcom_error("Command '{$command}' returned with status {$status}:" . implode("\n", $output), MIDCOM_LOG_WARN);
         }
-        return $status === 0;
     }
 
     /**

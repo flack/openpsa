@@ -129,8 +129,8 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         return $history;
     }
 
-    private function exec(string $command) : bool
+    private function exec(string $command)
     {
-        return $this->run_command($this->config->get_bin_prefix() . $command);
+        $this->run_command($this->config->get_bin_prefix() . $command);
     }
 }
