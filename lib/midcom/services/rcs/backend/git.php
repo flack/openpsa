@@ -87,11 +87,8 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
 
         if (!$initialized) {
             $this->exec('init');
-            if (!$this->read_handle('config user.email')) {
-                $user = get_current_user();
-                $this->exec('config user.email "' . $user . '@localhost"');
-                $this->exec('config user.name "' . $user . '"');
-            }
+            $this->exec('config user.email "midcom.rcs@localhost"');
+            $this->exec('config user.name "midcom.rcs"');
         }
         return $filename;
     }
