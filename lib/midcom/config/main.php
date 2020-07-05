@@ -417,6 +417,7 @@ class midcom_config implements ArrayAccess
         'utility_unrtf' => 'unrtf',
 
         'midcom_services_rcs_bin_dir' => '/usr/bin',
+        'midcom_services_rcs_backend_class' => midcom_services_rcs_backend_rcs::class,
         'midcom_services_rcs_root' => '',
         'midcom_services_rcs_enable' => true,
 

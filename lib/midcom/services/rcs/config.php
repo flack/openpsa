@@ -69,7 +69,7 @@ class midcom_services_rcs_config
     public function get_backend_class() : string
     {
         if ($this->use_rcs()) {
-            return midcom_services_rcs_backend_rcs::class;
+            return $this->config['midcom_services_rcs_backend_class'];
         }
 
         return midcom_services_rcs_backend_null::class;
