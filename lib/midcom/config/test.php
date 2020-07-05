@@ -75,11 +75,12 @@ class midcom_config_test
 
     private function check_rcs()
     {
-        $config = midcom::get()->config;
-        if ($config->get('midcom_services_rcs_enable')) {
+        $config = new midcom_services_rcs_config(midcom::get()->config);
+        if ($config->use_rcs()) {
             try {
-                $config = new midcom_services_rcs_config($config);
-                $config->test_rcs_config();
+                $dummy = new stdClass;
+                $dummy->guid = 'ab';
+                midcom::get()->rcs->load_backend($dummy);
                 $this->add("MidCOM RCS", self::OK);
             } catch (midcom_error $e) {
                 $this->add("MidCOM RCS", self::ERROR, $e->getMessage());

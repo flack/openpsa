@@ -11,6 +11,15 @@
  */
 class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 {
+    protected function test_config()
+    {
+        parent::test_config();
+
+        if (!is_executable("{$this->config->get_bin_prefix()}ci")) {
+            throw new midcom_error("Cannot execute {$this->config->get_bin_prefix()}ci.");
+        }
+    }
+
     /**
      * Save a new revision
      */

@@ -69,26 +69,9 @@ class midcom_services_rcs_config
     public function get_backend_class() : string
     {
         if ($this->use_rcs()) {
-            $this->test_rcs_config();
             return midcom_services_rcs_backend_rcs::class;
         }
 
         return midcom_services_rcs_backend_null::class;
-    }
-
-    /**
-     * Checks if the basic rcs service is usable.
-     */
-    public function test_rcs_config()
-    {
-        if (!is_writable($this->get_rootdir())) {
-            throw new midcom_error("The root directory {$this->config['midcom_services_rcs_root']} is not writable!");
-        }
-
-        $prefix = $this->get_bin_prefix();
-
-        if (!is_executable("{$prefix}ci")) {
-            throw new midcom_error("Cannot execute {$prefix}ci.");
-        }
     }
 }

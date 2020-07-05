@@ -32,6 +32,14 @@ abstract class midcom_services_rcs_backend
     {
         $this->object = $object;
         $this->config = $config;
+        $this->test_config();
+    }
+
+    protected function test_config()
+    {
+        if (!is_writable($this->config->get_rootdir())) {
+            throw new midcom_error("The root directory {$this->config->get_rootdir()} is not writable!");
+        }
     }
 
     protected function generate_filename() : string

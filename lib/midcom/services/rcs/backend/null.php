@@ -11,6 +11,10 @@
  */
 class midcom_services_rcs_backend_null extends midcom_services_rcs_backend
 {
+    protected function test_config()
+    {
+    }
+
     public function update($updatemessage = null)
     {
     }
