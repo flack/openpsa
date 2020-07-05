@@ -139,6 +139,7 @@ services:
 
     session:
         class: midcom_services__sessioning
+        arguments: ['@request_stack']
         public: true
 
     style:

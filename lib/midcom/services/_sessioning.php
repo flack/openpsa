@@ -9,6 +9,8 @@
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Base singleton class of the MidCOM sessioning service.
@@ -48,15 +50,15 @@ use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
  */
 class midcom_services__sessioning extends Session
 {
-    public function __construct()
+    public function __construct(RequestStack $stack)
     {
-        parent::__construct($this->prepare_storage(), new NamespacedAttributeBag('midcom_session_data'));
+        parent::__construct($this->prepare_storage($stack->getCurrentRequest()), new NamespacedAttributeBag('midcom_session_data'));
     }
 
-    protected function prepare_storage()
+    protected function prepare_storage(Request $request = null)
     {
-        $cookie_secure = (   !empty($_SERVER['HTTPS'])
-                          && $_SERVER['HTTPS'] !== 'off'
+        $cookie_secure = (   $request
+                          && $request->headers->get('HTTPS') !== 'off'
                           && midcom::get()->config->get('auth_backend_simple_cookie_secure'));
 
         return new NativeSessionStorage([
