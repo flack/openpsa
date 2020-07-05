@@ -5,26 +5,16 @@
 
 namespace midcom\datamanager;
 
-use Symfony\Component\Form\FormFactoryBuilder;
-use Symfony\Component\Form\Extension\Core\CoreExtension;
-use midcom\datamanager\extension\extension;
-use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Validator\Validation;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Form;
 use midcom_core_dbaobject;
 use midcom_core_context;
 use midcom;
 use Symfony\Component\Translation\Translator;
-use Symfony\Component\Translation\Loader\XliffFileLoader;
 use midcom\datamanager\extension\transformer\multipleTransformer;
-use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use midcom\datamanager\storage\recreateable;
 use midcom\datamanager\extension\type\schemaType;
 use midcom\datamanager\extension\type\toolbarType;
-use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
-use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 use midcom\datamanager\storage\container\container;
 use midcom\datamanager\storage\container\dbacontainer;
 
@@ -56,11 +46,6 @@ class datamanager
     private $renderer;
 
     /**
-     * @var FormFactoryInterface
-     */
-    private static $factory;
-
-    /**
      * @var Form
      */
     private $form;
@@ -72,30 +57,7 @@ class datamanager
 
     private static function get_factory() : FormFactoryInterface
     {
-        if (self::$factory === null) {
-            $fb = new FormFactoryBuilder();
-
-            $lang = midcom::get()->i18n->get_current_language();
-            $translator = new Translator($lang);
-            $translator->addLoader('xlf', new XliffFileLoader);
-
-            $vb = Validation::createValidatorBuilder();
-            self::add_translation_resource($translator, $vb);
-            self::add_translation_resource($translator, $fb);
-
-            $vb->setTranslator($translator);
-
-            $session_storage = new SessionTokenStorage(midcom::get()->session);
-
-            $fb->addExtension(new extension())
-                ->addExtension(new CoreExtension())
-                ->addExtension(new HttpFoundationExtension())
-                ->addExtension(new CsrfExtension(new CsrfTokenManager(null, $session_storage), $translator))
-                ->addExtension(new ValidatorExtension($vb->getValidator()));
-
-            self::$factory = $fb->getFormFactory();
-        }
-        return self::$factory;
+        return midcom::get()->getContainer()->get('form.factory');
     }
 
     private static function add_translation_resource(Translator $translator, $object)

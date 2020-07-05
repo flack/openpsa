@@ -21,6 +21,62 @@ services:
         alias: event_dispatcher
         public: true
 
+    form.resolved_type_factory:
+        class: Symfony\Component\Form\ResolvedFormTypeFactory
+
+    form.midcom_extension:
+        class: midcom\datamanager\extension\extension
+
+    form.core_extension:
+        class: Symfony\Component\Form\Extension\Core\CoreExtension
+
+    form.http_foundation_extension:
+        class: Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension
+
+    translator.xliff_file_loader:
+        class: Symfony\Component\Translation\Loader\XliffFileLoader
+
+    translator:
+        class: Symfony\Component\Translation\Translator
+        factory: ['@i18n', 'get_translator']
+        calls:
+            - ['addLoader', [xlf, '@translator.xliff_file_loader']]
+
+    form.csrf_token_storage:
+        class: Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage
+        arguments: ['@session']
+
+    form.csrf_token_manager:
+        class: Symfony\Component\Security\Csrf\CsrfTokenManager
+        arguments: [null, '@form.csrf_token_storage']
+
+    form.csrf_extension:
+        class: Symfony\Component\Form\Extension\Csrf\CsrfExtension
+        arguments: ['@form.csrf_token_manager', '@translator']
+
+    validator.builder:
+        class: Symfony\Component\Validator\ValidatorBuilder
+        factory: [Symfony\Component\Validator\Validation, createValidatorBuilder]
+        calls:
+            - ['setTranslator', ['@translator']]
+
+    validator:
+        class: Symfony\Component\Validator\Validator\ValidatorInterface
+        factory: ['@validator.builder', getValidator]
+
+    form.validator_extension:
+        class: Symfony\Component\Form\Extension\Validator\ValidatorExtension
+        arguments: ['@validator']
+
+    form.registry:
+        class: Symfony\Component\Form\FormRegistry
+        arguments: [['@form.midcom_extension', '@form.core_extension', '@form.http_foundation_extension', '@form.csrf_extension', '@form.validator_extension'], '@form.resolved_type_factory']
+
+    form.factory:
+        class: Symfony\Component\Form\FormFactory
+        arguments: ['@form.registry']
+        public: true
+
     logger.formatter:
         class: Monolog\Formatter\LineFormatter
         arguments: [null, null, true, true]

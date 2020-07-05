@@ -10,6 +10,7 @@ use Symfony\Component\Intl\Intl;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\Translator;
 
 /**
  * This is a basic MidCOM Service which provides an interfaces to the
@@ -125,6 +126,16 @@ class midcom_services_i18n
             }
         }
         return false;
+    }
+
+    public function get_translator(array $prefixes) : Translator
+    {
+        $locale = $this->get_current_language();
+        $translator = new Translator($locale);
+        foreach ($prefixes as $prefix) {
+            $translator->addResource('xlf', $prefix . $locale . '.xlf', $locale);
+        }
+        return $translator;
     }
 
     /**

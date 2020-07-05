@@ -15,6 +15,7 @@ use midcom\dependencyInjection\loggerPass;
 use midcom\dependencyInjection\componentPass;
 use midcom\dependencyInjection\indexerPass;
 use midcom\dependencyInjection\cachePass;
+use midcom\dependencyInjection\formPass;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -119,6 +120,7 @@ class midcom_application extends Kernel
         $container->addCompilerPass(new componentPass($this->cfg));
         $container->addCompilerPass(new cachePass($this->cfg, $this->getCacheDir()));
         $container->addCompilerPass(new indexerPass($this->cfg));
+        $container->addCompilerPass(new formPass);
     }
 
     public function registerBundles()
