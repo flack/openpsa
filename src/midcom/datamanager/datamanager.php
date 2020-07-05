@@ -60,14 +60,6 @@ class datamanager
         return midcom::get()->getContainer()->get('form.factory');
     }
 
-    private static function add_translation_resource(Translator $translator, $object)
-    {
-        $rc = new \ReflectionClass($object);
-        $path = dirname($rc->getFileName());
-        $lang = $translator->getLocale();
-        $translator->addResource('xlf', $path . '/Resources/translations/validators.' . $lang . '.xlf', $lang);
-    }
-
     public static function from_schemadb($path) : self
     {
         return new static(schemadb::from_path($path));
