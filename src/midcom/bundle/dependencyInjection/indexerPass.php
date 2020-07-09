@@ -1,5 +1,5 @@
 <?php
-namespace midcom\dependencyInjection;
+namespace midcom\bundle\dependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;

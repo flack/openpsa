@@ -6,23 +6,23 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-namespace midcom\datamanager\test;
+namespace midcom\datamanager\dependencyInjection\test;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Translation\Translator;
-use midcom\dependencyInjection\formPass;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Config\Definition\Builder\ValidationBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\RequestStack;
+use midcom\bundle\dependencyInjection\translatorPass;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class formPassTest extends TestCase
+class translatorPassTest extends TestCase
 {
     public function test_process()
     {
@@ -36,7 +36,7 @@ class formPassTest extends TestCase
         $container->register('validator.builder', ValidationBuilder::class);
         $container->register('form.factory', FormFactory::class);
 
-        $pass = new formPass();
+        $pass = new translatorPass;
         $pass->process($container);
 
         $this->assertCount(2, $container->getDefinition('translator')->getArgument(0));

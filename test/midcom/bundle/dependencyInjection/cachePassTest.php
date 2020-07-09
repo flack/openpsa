@@ -6,14 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-namespace midcom\datamanager\test;
+namespace midcom\bundle\test;
 
 use midcom_config;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use midcom_services_cache;
 use Symfony\Component\DependencyInjection\Reference;
-use midcom\dependencyInjection\cachePass;
+use midcom\bundle\dependencyInjection\cachePass;
 use PHPUnit\Framework\TestCase;
 use Doctrine\Common\Cache\VoidCache;
 use Doctrine\Common\Cache\ApcuCache;

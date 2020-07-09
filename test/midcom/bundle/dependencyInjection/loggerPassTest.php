@@ -6,13 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-namespace midcom\datamanager\test;
+namespace midcom\bundle\test;
 
 use midcom_config;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-use midcom\dependencyInjection\loggerPass;
+use midcom\bundle\dependencyInjection\loggerPass;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Monolog\Handler\StreamHandler;

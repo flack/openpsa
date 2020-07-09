@@ -6,10 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-namespace midcom\datamanager\test;
+namespace midcom\bundle\test;
 
 use midcom_config;
-use midcom\dependencyInjection\indexerPass;
+use midcom\bundle\dependencyInjection\indexerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use midcom_services_indexer;

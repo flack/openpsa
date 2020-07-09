@@ -1,5 +1,5 @@
 <?php
-namespace midcom\dependencyInjection;
+namespace midcom\bundle\dependencyInjection;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use midcom_config;

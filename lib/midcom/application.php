@@ -11,11 +11,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use midcom\dependencyInjection\loggerPass;
-use midcom\dependencyInjection\componentPass;
-use midcom\dependencyInjection\indexerPass;
-use midcom\dependencyInjection\cachePass;
-use midcom\dependencyInjection\formPass;
+use midcom\bundle\midcomBundle;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -94,7 +90,6 @@ class midcom_application extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__ . '/config/services.yml');
         if (file_exists($this->getProjectDir() . '/config/services.yml')) {
             $loader->load($this->getProjectDir() . '/config/services.yml');
         }
@@ -113,19 +108,9 @@ class midcom_application extends Kernel
         $this->container->set('config', $this->cfg);
     }
 
-    protected function build(ContainerBuilder $container)
-    {
-        parent::build($container);
-        $container->addCompilerPass(new loggerPass($this->cfg));
-        $container->addCompilerPass(new componentPass($this->cfg));
-        $container->addCompilerPass(new cachePass($this->cfg, $this->getCacheDir()));
-        $container->addCompilerPass(new indexerPass($this->cfg));
-        $container->addCompilerPass(new formPass);
-    }
-
     public function registerBundles()
     {
-        return [];
+        return [new midcomBundle($this->cfg)];
     }
 
     public function getProjectDir()

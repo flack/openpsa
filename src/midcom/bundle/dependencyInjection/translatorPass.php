@@ -1,10 +1,10 @@
 <?php
-namespace midcom\dependencyInjection;
+namespace midcom\bundle\dependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
-class formPass implements CompilerPassInterface
+class translatorPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {

@@ -6,14 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-namespace midcom\datamanager\test;
+namespace midcom\bundle\test;
 
 use midcom_config;
 use midcom_services_auth_acl;
 use midcom_helper__componentloader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use midcom\dependencyInjection\componentPass;
+use midcom\bundle\dependencyInjection\componentPass;
 use midcom\events\watcher;
 use PHPUnit\Framework\TestCase;
 
