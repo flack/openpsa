@@ -122,7 +122,6 @@ EOT;
      */
     private function get_image_popup(FormInterface $form) : string
     {
-        $hostname = midcom::get()->get_host_name();
         $prefix = \midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $upload_url = $prefix . '__ais/imagepopup/upload/image/';
         $suffix = '';
@@ -137,7 +136,6 @@ EOT;
         $title = midcom::get()->i18n->get_l10n('midcom.helper.imagepopup')->get('file picker');
         $img = <<<IMG
 file_picker_callback: tiny.filepicker('$title', '$url', '$suffix'),
-imagetools_cors_hosts: ['{$hostname}'],
 images_upload_handler: tiny.image_upload_handler('$upload_url'),
 IMG;
         return $img;
