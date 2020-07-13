@@ -8,8 +8,18 @@ services:
     form.core_extension:
         class: Symfony\Component\Form\Extension\Core\CoreExtension
 
-    form.http_foundation_extension:
-        class: Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension
+    form.server_params:
+        class: Symfony\Component\Form\Util\ServerParams
+        arguments: ['@request_stack']
+
+    form.type_extension.form.request_handler:
+        class: Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationRequestHandler
+        arguments: ['@form.server_params']
+
+    form.type_extension.form.http_foundation:
+        class: Symfony\Component\Form\Extension\HttpFoundation\Type\FormTypeHttpFoundationExtension
+        arguments: ['@form.type_extension.form.request_handler']
+        tags: ['form.type_extension']
 
     translator.xliff_file_loader:
         class: Symfony\Component\Translation\Loader\XliffFileLoader
@@ -46,9 +56,13 @@ services:
         class: Symfony\Component\Form\Extension\Validator\ValidatorExtension
         arguments: ['@validator']
 
+    form.extension:
+        class: Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension
+        arguments: [null, [], !iterator []]
+
     form.registry:
         class: Symfony\Component\Form\FormRegistry
-        arguments: [['@form.midcom_extension', '@form.core_extension', '@form.http_foundation_extension', '@form.csrf_extension', '@form.validator_extension'], '@form.resolved_type_factory']
+        arguments: [['@form.extension', '@form.midcom_extension', '@form.core_extension', '@form.csrf_extension', '@form.validator_extension'], '@form.resolved_type_factory']
 
     form.factory:
         class: Symfony\Component\Form\FormFactory
