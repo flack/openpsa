@@ -5,8 +5,41 @@ services:
     form.midcom_extension:
         class: midcom\datamanager\extension\extension
 
-    form.core_extension:
-        class: Symfony\Component\Form\Extension\Core\CoreExtension
+    form.property_accessor:
+        class: Symfony\Component\PropertyAccess\PropertyAccessorInterface
+        factory: [Symfony\Component\PropertyAccess\PropertyAccess, 'createPropertyAccessor']
+
+    form.choice_list_factory.default:
+        class: Symfony\Component\Form\ChoiceList\Factory\DefaultChoiceListFactory
+
+    form.choice_list_factory.property_access:
+        class: Symfony\Component\Form\ChoiceList\Factory\PropertyAccessDecorator
+        arguments: ['@form.choice_list_factory.default', '@form.property_accessor']
+
+    form.choice_list_factory:
+        class: Symfony\Component\Form\ChoiceList\Factory\CachingFactoryDecorator
+        arguments: ['@form.choice_list_factory.property_access']
+
+    form.type.form:
+        class: Symfony\Component\Form\Extension\Core\Type\FormType
+        arguments: ['@form.property_accessor']
+        tags: ['form.type']
+
+    form.type.choice:
+        class: Symfony\Component\Form\Extension\Core\Type\ChoiceType
+        arguments: ['@form.choice_list_factory']
+        tags: ['form.type']
+
+    form.type.file:
+        class: Symfony\Component\Form\Extension\Core\Type\FileType
+        arguments: ['@translator']
+        tags: ['form.type']
+
+    form.type_extension.form.transformation_failure_handling:
+        class: Symfony\Component\Form\Extension\Core\Type\TransformationFailureExtension
+        arguments: ['@translator']
+        tags:
+            - {name: 'form.type_extension', extended-type: Symfony\Component\Form\Extension\Core\Type\FormType}
 
     form.server_params:
         class: Symfony\Component\Form\Util\ServerParams
@@ -62,7 +95,7 @@ services:
 
     form.registry:
         class: Symfony\Component\Form\FormRegistry
-        arguments: [['@form.extension', '@form.midcom_extension', '@form.core_extension', '@form.csrf_extension', '@form.validator_extension'], '@form.resolved_type_factory']
+        arguments: [['@form.extension', '@form.midcom_extension', '@form.csrf_extension', '@form.validator_extension'], '@form.resolved_type_factory']
 
     form.factory:
         class: Symfony\Component\Form\FormFactory
