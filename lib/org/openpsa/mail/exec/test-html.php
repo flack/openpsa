@@ -47,7 +47,10 @@ if (   empty($_POST['to'])
     $mail->html_body = $_POST['html_body'];
     $mail->embed_images();
     $ret = $mail->send();
-
-    echo "<p>mail->send returned {$ret}</p>\n";
+    echo "<p>mail->send returned {$ret}<br>\n";
+    if (!$ret) {
+        echo $mail->get_error_message();
+    }
+    echo "</p>\n";
 }
 ?>
