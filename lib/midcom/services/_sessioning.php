@@ -58,7 +58,7 @@ class midcom_services__sessioning extends Session
     protected function prepare_storage(Request $request = null)
     {
         $cookie_secure = (   $request
-                          && $request->headers->get('HTTPS') !== 'off'
+                          && $request->isSecure()
                           && midcom::get()->config->get('auth_backend_simple_cookie_secure'));
 
         return new NativeSessionStorage([
