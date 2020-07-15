@@ -71,9 +71,10 @@ services:
         class: Symfony\Component\Security\Csrf\CsrfTokenManager
         arguments: [null, '@form.csrf_token_storage']
 
-    form.csrf_extension:
-        class: Symfony\Component\Form\Extension\Csrf\CsrfExtension
-        arguments: ['@form.csrf_token_manager', '@translator']
+    form.type_extension.csrf:
+        class: Symfony\Component\Form\Extension\Csrf\Type\FormTypeCsrfExtension
+        arguments: ['@form.csrf_token_manager', true, '_token', '@translator', null, '@form.server_params']
+        tags: ['form.type_extension']
 
     validator.builder:
         class: Symfony\Component\Validator\ValidatorBuilder
@@ -95,7 +96,7 @@ services:
 
     form.registry:
         class: Symfony\Component\Form\FormRegistry
-        arguments: [['@form.extension', '@form.midcom_extension', '@form.csrf_extension', '@form.validator_extension'], '@form.resolved_type_factory']
+        arguments: [['@form.extension', '@form.midcom_extension', '@form.validator_extension'], '@form.resolved_type_factory']
 
     form.factory:
         class: Symfony\Component\Form\FormFactory
