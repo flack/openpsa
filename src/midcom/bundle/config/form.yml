@@ -2,8 +2,25 @@ services:
     form.resolved_type_factory:
         class: Symfony\Component\Form\ResolvedFormTypeFactory
 
-    form.midcom_extension:
-        class: midcom\datamanager\extension\extension
+    form.type_extension.midcom.form.extension:
+        class: midcom\datamanager\extension\formExtension
+        tags:
+            - {name: 'form.type_extension', extended-type: Symfony\Component\Form\Extension\Core\Type\FormType}
+
+    form.type_extension.midcom.button.extension:
+        class: midcom\datamanager\extension\buttonExtension
+        tags:
+            - {name: 'form.type_extension', extended-type: Symfony\Component\Form\Extension\Core\Type\ButtonType}
+
+    form.type_extension.midcom.text.extension:
+        class: midcom\datamanager\extension\textExtension
+        tags:
+            - {name: 'form.type_extension', extended-type: Symfony\Component\Form\Extension\Core\Type\TextType}
+
+    form.type_extension.midcom.textarea.extension:
+        class: midcom\datamanager\extension\textareaExtension
+        tags:
+            - {name: 'form.type_extension', extended-type: Symfony\Component\Form\Extension\Core\Type\TextareaType}
 
     form.property_accessor:
         class: Symfony\Component\PropertyAccess\PropertyAccessorInterface
@@ -117,7 +134,7 @@ services:
 
     form.registry:
         class: Symfony\Component\Form\FormRegistry
-        arguments: [['@form.extension', '@form.midcom_extension'], '@form.resolved_type_factory']
+        arguments: [['@form.extension'], '@form.resolved_type_factory']
 
     form.factory:
         class: Symfony\Component\Form\FormFactory
