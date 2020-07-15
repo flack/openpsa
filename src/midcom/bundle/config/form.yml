@@ -4,6 +4,7 @@ services:
 
     form.type_extension.midcom.form.extension:
         class: midcom\datamanager\extension\formExtension
+        arguments: ['@auth']
         tags:
             - {name: 'form.type_extension', extended-type: Symfony\Component\Form\Extension\Core\Type\FormType}
 
@@ -21,6 +22,26 @@ services:
         class: midcom\datamanager\extension\textareaExtension
         tags:
             - {name: 'form.type_extension', extended-type: Symfony\Component\Form\Extension\Core\Type\TextareaType}
+
+    form.type.captcha:
+        class: midcom\datamanager\extension\type\captchaType
+        arguments: ['@i18n']
+        tags: ['form.type']
+
+    form.type.privilege:
+        class: midcom\datamanager\extension\type\privilegeType
+        arguments: ['@auth', '@dbfactory']
+        tags: ['form.type']
+
+    form.type.tinymce:
+        class: midcom\datamanager\extension\type\tinymceType
+        arguments: ['@i18n']
+        tags: ['form.type']
+
+    form.type.toolbar:
+        class: midcom\datamanager\extension\type\toolbarType
+        arguments: ['@i18n']
+        tags: ['form.type']
 
     form.property_accessor:
         class: Symfony\Component\PropertyAccess\PropertyAccessorInterface

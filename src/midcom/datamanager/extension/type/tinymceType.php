@@ -8,7 +8,6 @@ namespace midcom\datamanager\extension\type;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
-use midcom;
 use midcom_helper_misc;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -20,6 +19,16 @@ use Symfony\Component\Form\AbstractType;
  */
 class tinymceType extends AbstractType
 {
+    /**
+     * @var \midcom_services_i18n
+     */
+    private $i18n;
+
+    public function __construct(\midcom_services_i18n $i18n)
+    {
+        $this->i18n = $i18n;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -52,7 +61,7 @@ class tinymceType extends AbstractType
             'mode' => $options['widget_config']['mode'],
             'elements' => $view->vars['id'],
             'local_config' => $options['widget_config']['local_config'],
-            'language' => midcom::get()->i18n->get_current_language(),
+            'language' => $this->i18n->get_current_language(),
             'img' => ($options['widget_config']['use_imagepopup']) ? $this->get_image_popup($form) : '',
         ];
         $view->vars['tinymce_snippet'] = $this->get_snippet($tiny_options);
@@ -133,7 +142,7 @@ EOT;
             $upload_url .= $suffix;
         }
 
-        $title = midcom::get()->i18n->get_l10n('midcom.helper.imagepopup')->get('file picker');
+        $title = $this->i18n->get_l10n('midcom.helper.imagepopup')->get('file picker');
         $img = <<<IMG
 file_picker_callback: tiny.filepicker('$title', '$url', '$suffix'),
 images_upload_handler: tiny.image_upload_handler('$upload_url'),

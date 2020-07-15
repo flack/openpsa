@@ -8,15 +8,24 @@ namespace midcom\datamanager\extension\type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
-use midcom;
 use midcom\datamanager\controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
- * Experimental autocomplete type
+ * Experimental toolbar type
  */
 class toolbarType extends AbstractType
 {
+    /**
+     * @var \midcom_services_i18n_l10n
+     */
+    private $l10n;
+
+    public function __construct(\midcom_services_i18n $i18n)
+    {
+        $this->l10n = $i18n->get_l10n('midcom.datamanager');
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -34,7 +43,6 @@ class toolbarType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
         foreach ($options['operations'] as $operation => $button_labels) {
             foreach ((array) $button_labels as $key => $label) {
                 if ($label == '') {
@@ -46,7 +54,7 @@ class toolbarType extends AbstractType
                 }
                 $attributes = [
                     'operation' => $operation,
-                    'label' => $l10n->get($label),
+                    'label' => $this->l10n->get($label),
                     'attr' => ['class' => 'submit ' . $operation]
                 ];
                 if ($operation == controller::SAVE) {

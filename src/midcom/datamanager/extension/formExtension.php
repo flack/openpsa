@@ -11,7 +11,6 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\OptionsResolver\Options;
-use midcom;
 use midcom\datamanager\storage\container\dbacontainer;
 
 /**
@@ -19,6 +18,16 @@ use midcom\datamanager\storage\container\dbacontainer;
  */
 class formExtension extends AbstractTypeExtension
 {
+    /**
+     * @var \midcom_services_auth
+     */
+    private $auth;
+
+    public function __construct(\midcom_services_auth $auth)
+    {
+        $this->auth = $auth;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -57,7 +66,7 @@ class formExtension extends AbstractTypeExtension
 
         if ($options['write_privilege'] !== null) {
             if (   array_key_exists('group', $options['write_privilege'])
-                && !midcom::get()->auth->is_group_member($options['write_privilege']['group'])) {
+                && !$this->auth->is_group_member($options['write_privilege']['group'])) {
                 $view->vars['readonly'] = true;
             }
             if (array_key_exists('privilege', $options['write_privilege'])) {

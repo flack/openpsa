@@ -6,7 +6,6 @@
 namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use midcom;
 use midcom_connection;
 use midcom_services_session;
 use Symfony\Component\Form\FormInterface;
@@ -24,6 +23,16 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class captchaType extends AbstractType
 {
     /**
+     * @var \midcom_services_i18n_l10n
+     */
+    private $l10n;
+
+    public function __construct(\midcom_services_i18n $i18n)
+    {
+        $this->l10n = $i18n->get_l10n('midcom.datamanager');
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -37,11 +46,10 @@ class captchaType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($session_key) {
             $value = $event->getForm()->getData();
             $session = new midcom_services_session('midcom_datamanager_captcha');
-            $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
 
             if (   !$session->exists($session_key)
                 || $value != $session->get($session_key)) {
-                $event->getForm()->addError(new FormError($l10n->get('captcha validation failed')));
+                $event->getForm()->addError(new FormError($this->l10n->get('captcha validation failed')));
             }
         });
     }

@@ -6,7 +6,6 @@
 namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use midcom;
 use midcom_core_user;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
@@ -19,6 +18,22 @@ use Symfony\Component\Form\AbstractType;
  */
 class privilegeType extends AbstractType
 {
+    /**
+     * @var \midcom_services_auth
+     */
+    private $auth;
+
+    /**
+     * @var \midcom_helper__dbfactory
+     */
+    private $dbfactory;
+
+    public function __construct(\midcom_services_auth $auth, \midcom_helper__dbfactory $dbfactory)
+    {
+        $this->auth = $auth;
+        $this->dbfactory = $dbfactory;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -61,24 +76,24 @@ class privilegeType extends AbstractType
         }
 
         if (!$object) {
-            $defaults = midcom::get()->auth->acl->get_default_privileges();
+            $defaults = $this->auth->acl->get_default_privileges();
             return $defaults[$options['privilege_name']] === MIDCOM_PRIVILEGE_ALLOW;
         }
         if ($options['assignee'] == 'SELF') {
-            if (midcom::get()->dbfactory->is_a($object, 'midgard_group')) {
+            if ($this->dbfactory->is_a($object, 'midgard_group')) {
                 $privilege = $object->get_privilege($options['privilege_name'], $options['assignee'], $options['classname']);
                 if ($privilege->guid) {
                     return $privilege->value === MIDCOM_PRIVILEGE_ALLOW;
                 }
                 // There's no sane way to query group privileges in auth right now, so we only return defaults
-                $defaults = midcom::get()->auth->acl->get_default_privileges();
+                $defaults = $this->auth->acl->get_default_privileges();
                 return $defaults[$options['privilege_name']] === MIDCOM_PRIVILEGE_ALLOW;
             }
 
-            return midcom::get()->auth->can_user_do($options['privilege_name'],
+            return $this->auth->can_user_do($options['privilege_name'],
                 new midcom_core_user($object->id), $options['classname']);
         }
-        if ($principal = midcom::get()->auth->get_assignee($options['assignee'])) {
+        if ($principal = $this->auth->get_assignee($options['assignee'])) {
             return $object->can_do($options['privilege_name'], $principal);
         }
         return $object->can_do($options['privilege_name'], $options['assignee']);
