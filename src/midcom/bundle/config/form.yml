@@ -86,9 +86,30 @@ services:
         class: Symfony\Component\Validator\Validator\ValidatorInterface
         factory: ['@validator.builder', getValidator]
 
-    form.validator_extension:
-        class: Symfony\Component\Form\Extension\Validator\ValidatorExtension
+    form.type_guesser.validator:
+        class: Symfony\Component\Form\Extension\Validator\ValidatorTypeGuesser
         arguments: ['@validator']
+        tags: ['form.type_guesser']
+
+    form.type_extension.form.validator:
+        class: Symfony\Component\Form\Extension\Validator\Type\FormTypeValidatorExtension
+        arguments: ['@validator']
+        tags:
+            - {name: 'form.type_extension', extended-type: Symfony\Component\Form\Extension\Core\Type\FormType}
+
+    form.type_extension.repeated.validator:
+        class: Symfony\Component\Form\Extension\Validator\Type\RepeatedTypeValidatorExtension
+        tags: ['form.type_extension']
+
+    form.type_extension.submit.validator:
+        class: Symfony\Component\Form\Extension\Validator\Type\SubmitTypeValidatorExtension
+        tags:
+            - {name: 'form.type_extension', extended-type: Symfony\Component\Form\Extension\Core\Type\SubmitType}
+
+    form.type_extension.upload.validator:
+        class: Symfony\Component\Form\Extension\Validator\Type\UploadValidatorExtension
+        arguments: ['@translator']
+        tags: ['form.type_extension']
 
     form.extension:
         class: Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension
@@ -96,7 +117,7 @@ services:
 
     form.registry:
         class: Symfony\Component\Form\FormRegistry
-        arguments: [['@form.extension', '@form.midcom_extension', '@form.validator_extension'], '@form.resolved_type_factory']
+        arguments: [['@form.extension', '@form.midcom_extension'], '@form.resolved_type_factory']
 
     form.factory:
         class: Symfony\Component\Form\FormFactory

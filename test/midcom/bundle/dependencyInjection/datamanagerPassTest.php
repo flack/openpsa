@@ -15,14 +15,14 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Config\Definition\Builder\ValidationBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\RequestStack;
-use midcom\bundle\dependencyInjection\translatorPass;
+use midcom\bundle\dependencyInjection\datamanagerPass;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class translatorPassTest extends TestCase
+class datamanagerPassTest extends TestCase
 {
     public function test_process()
     {
@@ -36,7 +36,7 @@ class translatorPassTest extends TestCase
         $container->register('validator.builder', ValidationBuilder::class);
         $container->register('form.factory', FormFactory::class);
 
-        $pass = new translatorPass;
+        $pass = new datamanagerPass;
         $pass->process($container);
 
         $this->assertCount(2, $container->getDefinition('translator')->getArgument(0));

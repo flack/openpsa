@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Form\DependencyInjection\FormPass;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use midcom\bundle\dependencyInjection\translatorPass;
+use midcom\bundle\dependencyInjection\datamanagerPass;
 use midcom\bundle\dependencyInjection\loggerPass;
 use midcom\bundle\dependencyInjection\componentPass;
 use midcom\bundle\dependencyInjection\cachePass;
@@ -42,6 +42,6 @@ class midcomBundle extends Bundle
         $container->addCompilerPass(new cachePass($this->config, $container->getParameter('kernel.cache_dir')));
         $container->addCompilerPass(new indexerPass($this->config));
         $container->addCompilerPass(new FormPass);
-        $container->addCompilerPass(new translatorPass);
+        $container->addCompilerPass(new datamanagerPass);
     }
 }
