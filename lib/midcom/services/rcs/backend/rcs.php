@@ -86,14 +86,14 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         $revisions = [];
 
         for ($i = 0; $i < $total; $i++) {
-            if (substr($lines[$i], 0, 9) == "revision ") {
+            if (str_starts_with($lines[$i], "revision ")) {
                 $history = $this->parse_history_entry($lines[$i], $lines[$i + 1], $lines[$i + 2]);
                 $revisions[$history['revision']] = $history;
 
                 $i += 3;
                 while (   $i < $total
-                        && substr($lines[$i], 0, 4) != '----'
-                        && substr($lines[$i], 0, 5) != '=====') {
+                        && !str_starts_with($lines[$i], '----')
+                        && !str_starts_with($lines[$i], '=====')) {
                     $i++;
                 }
             }
@@ -116,9 +116,9 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         $metadata_array = explode(';', $line2);
         foreach ($metadata_array as $metadata) {
             $metadata = trim($metadata);
-            if (substr($metadata, 0, 5) == 'date:') {
+            if (str_starts_with($metadata, 'date:')) {
                 $history['date'] = strtotime(substr($metadata, 6));
-            } elseif (substr($metadata, 0, 6) == 'lines:') {
+            } elseif (str_starts_with($metadata, 'lines:')) {
                 $history['lines'] = substr($metadata, 7);
             }
         }

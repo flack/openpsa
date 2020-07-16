@@ -101,7 +101,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
                     $url = $data['config']->get('redirection_url');
 
                     // Support varying host prefixes
-                    if (strpos($url, '__PREFIX__') !== false) {
+                    if (str_contains($url, '__PREFIX__')) {
                         $url = str_replace('__PREFIX__', midcom_connection::get_url('self'), $url);
                     }
 

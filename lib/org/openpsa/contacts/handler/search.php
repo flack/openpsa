@@ -83,7 +83,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         // Handle automatic wildcards
         $auto_wildcards = $this->_config->get('auto_wildcards');
         if (   $auto_wildcards
-            && strpos($this->_query_string_processed, '%') === false) {
+            && !str_contains($this->_query_string_processed, '%')) {
             switch ($auto_wildcards) {
                 case 'both':
                     $this->_wildcard_template = '%__TERM__%';

@@ -349,7 +349,7 @@ class midgard_admin_asgard_schemadb
             $field_label = sprintf($this->l10n->get('under %s'), midgard_admin_asgard_plugin::get_type_label($linked_type));
         } else {
             $type_label = midgard_admin_asgard_plugin::get_type_label($linked_type);
-            if (substr($type_label, 0, strlen($key)) == $key) {
+            if (str_starts_with($type_label, $key)) {
                 // Handle abbreviations like "lang" for "language"
                 $field_label = $type_label;
             } elseif ($key == $type_label) {

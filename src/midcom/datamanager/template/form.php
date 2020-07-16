@@ -43,7 +43,7 @@ class form extends base
             $params = $error->getMessageParameters();
             $message = $error->getMessage();
             foreach ($params as $param) {
-                if (strpos($message, (string) $param)) {
+                if (str_contains($message, (string) $param)) {
                     $message = str_replace($param, $this->renderer->humanize($param), $message);
                 }
             }

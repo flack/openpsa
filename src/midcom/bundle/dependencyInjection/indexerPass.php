@@ -9,7 +9,7 @@ class indexerPass extends configPass
     public function process(ContainerBuilder $container)
     {
         if ($class = $this->config->get('indexer_backend')) {
-            if (strpos($class, '_') === false) {
+            if (!str_contains($class, '_')) {
                 // Built-in backend called using the shorthand notation
                 $class = "midcom_services_indexer_backend_" . $class;
             }

@@ -120,7 +120,7 @@ class datamanager extends dialog
 
     private function prepare_url(string $url) : string
     {
-        if (   substr($url, 0, 1) != '/'
+        if (   !str_starts_with($url, '/')
             && ! preg_match('|^https?://|', $url)) {
             $url = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $url;
         }

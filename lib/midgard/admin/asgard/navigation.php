@@ -200,7 +200,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $css_class = $this->get_css_classes($object, $ref->mgdschema_class);
 
         $mode = $this->_request_data['default_mode'];
-        if (strpos($css_class, 'readonly')) {
+        if (str_contains($css_class, 'readonly')) {
             $mode = 'view';
         }
 

@@ -569,7 +569,7 @@ class midcom_helper_head
 
         foreach ($components as $component) {
             $path = $component;
-            if (strpos($component, 'effect') === 0) {
+            if (str_starts_with($component, 'effect')) {
                 if ($component !== 'effect') {
                     $path = 'effects/' . $component;
                 }

@@ -219,7 +219,7 @@ class midcom_core_user
             throw new midcom_error('Cannot instantiate magic assignees');
         }
 
-        if (substr($id, 0, 5) == 'user:') {
+        if (str_starts_with($id, 'user:')) {
             $id = substr($id, 5);
         }
 

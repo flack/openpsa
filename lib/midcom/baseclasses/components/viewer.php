@@ -255,7 +255,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
     {
         $this->_handler =& $request;
 
-        if (strpos($request['_controller'], '::') === false) {
+        if (!str_contains($request['_controller'], '::')) {
             // Support for handlers in request class (deprecated)
             $request['handler'] = [&$this, $request['handler']];
             return;

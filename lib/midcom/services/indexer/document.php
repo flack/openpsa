@@ -554,7 +554,7 @@ class midcom_services_indexer_document
      */
     public function is_a($document_type) : bool
     {
-        return strpos($this->type, $document_type) === 0;
+        return str_starts_with($this->type, $document_type);
     }
 
     /**
@@ -668,7 +668,7 @@ class midcom_services_indexer_document
     private function read_authorname($id) : string
     {
         // Check for imploded_wrapped datamanager storage.
-        if (strpos($id, '|') !== false) {
+        if (str_contains($id, '|')) {
             $id_arr = array_filter(explode('|', $id));
             // Find first non-empty value in the array and use that
             $id = (!empty($id_arr)) ? array_shift($id_arr) : false;

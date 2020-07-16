@@ -27,7 +27,7 @@ class phpValidator extends ConstraintValidator
 
         if ($return_status !== 0) {
             $parse_result = array_pop($parse_results);
-            if (strpos($parse_result, 'No syntax errors detected in ' . $tmpfile) !== false) {
+            if (str_contains($parse_result, 'No syntax errors detected in ' . $tmpfile)) {
                 // We have an error, but it's most likely a false positive, e.g. a PHP startup error
                 return;
             }

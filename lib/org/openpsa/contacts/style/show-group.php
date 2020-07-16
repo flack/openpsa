@@ -46,7 +46,7 @@ $node = $nap->get_node($nap->get_current_node());
     $siteconfig = org_openpsa_core_siteconfig::get_instance();
 
     $tabs = [];
-    if (strpos($data['view']['categories'], $data['l10n']->get('client')) !== false) {
+    if (str_contains($data['view']['categories'], $data['l10n']->get('client'))) {
         //TODO: Check for privileges somehow
         if ($invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices')) {
             $tabs[] = [

@@ -182,9 +182,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         foreach (glob($pattern, GLOB_NOSORT|GLOB_BRACE) as $path) {
             $entry = basename($path);
-            if (    substr($entry, 0, 5) == 'index'
-                 || substr($entry, 0, 7) == 'handler'
-                 || substr($entry, 0, 9) == 'urlmethod') {
+            if (   str_starts_with($entry, 'index')
+                || str_starts_with($entry, 'handler')
+                || str_starts_with($entry, 'urlmethod')) {
                 // Ignore dotfiles, handlers & index.lang.txt
                 continue;
             }

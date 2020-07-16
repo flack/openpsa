@@ -121,7 +121,7 @@ class blobs extends delayed
                 continue;
             }
             $prefix = midcom::get()->config->get('midcom_tempdir') . '/tmpfile-';
-            if (substr($att->location, 0, strlen($prefix)) === $prefix) {
+            if (str_starts_with($att->location, $prefix)) {
                 continue;
             }
             $total_moved++;

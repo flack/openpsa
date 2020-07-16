@@ -186,7 +186,7 @@ class view extends base
             case 'markdown':
                 return MarkdownExtra::defaultTransform($data['value']);
 
-            case (substr($view->vars['output_mode'], 0, 1) == 'x'):
+            case (str_starts_with($view->vars['output_mode'], 'x')):
                 // Run the contents through a custom formatter registered via mgd_register_filter
                 return midcom_helper_formatter::format($data['value'], $view->vars['output_mode']);
 

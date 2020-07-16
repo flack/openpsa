@@ -48,7 +48,7 @@ class imageTransformer extends attachmentTransformer
 
         $result = [];
         if (   !empty($array['file'])
-            || !empty($array['identifier']) && substr($array['identifier'], 0, 8) === 'tmpfile-') {
+            || !empty($array['identifier']) && str_starts_with($array['identifier'], 'tmpfile-')) {
             $result['file'] = parent::reverseTransform($array);
         } elseif (!empty($array['objects'])) {
             foreach ($array['objects'] as $key => $value) {

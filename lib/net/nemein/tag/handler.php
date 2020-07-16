@@ -134,11 +134,11 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
     public static function resolve_tagname($tagname) : string
     {
         // first get the context out
-        if (strpos($tagname, ':')) {
+        if (str_contains($tagname, ':')) {
             $tagname = explode(':', $tagname, 2)[1];
         }
         // then get rid of value
-        if (strpos($tagname, '=')) {
+        if (str_contains($tagname, '=')) {
             $tagname = explode('=', $tagname, 2)[0];
         }
         return trim($tagname);
@@ -152,11 +152,11 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
     public static function resolve_value($tagname) : string
     {
         // first get the context out
-        if (strpos($tagname, ':')) {
+        if (str_contains($tagname, ':')) {
             $tagname = explode(':', $tagname, 2)[1];
         }
         // then see if we have value
-        if (strpos($tagname, '=')) {
+        if (str_contains($tagname, '=')) {
             return trim(explode('=', $tagname, 2)[1]);
         }
         return '';
@@ -170,7 +170,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      */
     public static function resolve_context($tagname) : string
     {
-        if (strpos($tagname, ':')) {
+        if (str_contains($tagname, ':')) {
             $context = explode(':', $tagname, 2)[0];
             return trim($context);
         }
@@ -513,7 +513,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
     {
         $tags = array_keys($tags);
         foreach ($tags as &$tag) {
-            if (strpos($tag, ' ')) {
+            if (str_contains($tag, ' ')) {
                 // This tag contains whitespace, surround with quotes
                 $tag = "\"{$tag}\"";
             }

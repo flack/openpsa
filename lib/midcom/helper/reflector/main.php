@@ -264,14 +264,14 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 break;
 
             // heuristics magic (instead of adding something here, take a look at config key "create_type_magic")
-            case (strpos($type, 'member') !== false):
-            case (strpos($type, 'organization') !== false):
+            case (str_contains($type, 'member')):
+            case (str_contains($type, 'organization')):
                 $icon = 'users';
                 break;
-            case (strpos($type, 'person') !== false):
+            case (str_contains($type, 'person')):
                 $icon = 'user-o';
                 break;
-            case (strpos($type, 'event') !== false):
+            case (str_contains($type, 'event')):
                 $icon = 'calendar-o';
                 break;
 
@@ -312,18 +312,18 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 break;
 
             // heuristics magic (instead of adding something here, take a look at config key "object_icon_magic")
-            case (strpos($object_class, 'person') !== false):
+            case (str_contains($object_class, 'person')):
                 $icon = 'user';
                 break;
-            case (strpos($object_class, 'event') !== false):
+            case (str_contains($object_class, 'event')):
                 $icon = 'calendar-o';
                 break;
-            case (strpos($object_class, 'member') !== false):
-            case (strpos($object_class, 'organization') !== false):
-            case (strpos($object_class, 'group') !== false):
+            case (str_contains($object_class, 'member')):
+            case (str_contains($object_class, 'organization')):
+            case (str_contains($object_class, 'group')):
                 $icon = 'users';
                 break;
-            case (strpos($object_class, 'element') !== false):
+            case (str_contains($object_class, 'element')):
                 $icon = 'file-code-o';
                 break;
 
@@ -380,7 +380,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $search_properties = array_intersect_key($default_properties, array_flip($properties));
 
         foreach ($properties as $property) {
-            if (strpos($property, 'name') !== false) {
+            if (str_contains($property, 'name')) {
                 $search_properties[$property] = true;
             }
             // TODO: More per property heuristics

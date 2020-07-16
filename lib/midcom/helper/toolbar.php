@@ -390,7 +390,7 @@ class midcom_helper_toolbar
         if (   (   empty($item[MIDCOM_TOOLBAR_OPTIONS]["rel"])
                 // Some items may want to keep their links unmutilated
                 || $item[MIDCOM_TOOLBAR_OPTIONS]["rel"] != "directlink")
-            && substr($url, 0, 1) != '/'
+            && !str_starts_with($url, '/')
             && !preg_match('|^https?://|', $url)) {
             $url = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $url;
         }

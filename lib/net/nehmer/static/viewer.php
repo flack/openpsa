@@ -110,11 +110,11 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_viewer
         if ($order) {
             $sort_order = 'ASC';
             $sort_property = $config->get('sort_order');
-            if (strpos($sort_property, 'reverse ') === 0) {
+            if (str_starts_with($sort_property, 'reverse ')) {
                 $sort_order = 'DESC';
                 $sort_property = substr($sort_property, strlen('reverse '));
             }
-            if (strpos($sort_property, 'metadata.') === false) {
+            if (!str_contains($sort_property, 'metadata.')) {
                 $ref = midcom_helper_reflector::get('midgard_article');
                 if (!$ref->property_exists($sort_property)) {
                     $sort_property = 'metadata.' . $sort_property;

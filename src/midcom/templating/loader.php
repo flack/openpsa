@@ -224,7 +224,7 @@ class loader
         // should this be cached somehow?
 
         if ($style) {
-            if (substr($style, 0, 6) === 'theme:') {
+            if (str_starts_with($style, 'theme:')) {
                 $theme_dir = OPENPSA2_THEME_ROOT . midcom::get()->config->get('theme') . '/style';
                 $parts = explode('/', str_replace('theme:/', '', $style));
 

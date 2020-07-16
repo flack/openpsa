@@ -213,11 +213,11 @@ class org_openpsa_mail_message
             array_walk($value, [$this, '_encode_address_field']);
             return $value;
         }
-        if (strpos($value, '<')) {
-            $name = substr($value, 0, strpos($value, '<'));
+        if ($pos = strpos($value, '<')) {
+            $name = substr($value, 0, $pos);
             $name = preg_replace('/^\s*"/', '', $name);
             $name = preg_replace('/"\s*$/', '', $name);
-            $address = substr($value, strpos($value, '<') + 1);
+            $address = substr($value, $pos + 1);
             $address = substr($address, 0, strlen($address) - 1);
             $value = [$address => $name];
         }

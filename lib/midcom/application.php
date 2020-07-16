@@ -295,10 +295,10 @@ class midcom_application extends Kernel
         if (!$this->_cached_host_prefix) {
             $host_name = $this->get_host_name();
             $host_prefix = midcom_connection::get_url('prefix');
-            if (substr($host_prefix, 0, 1) != '/') {
+            if (!str_starts_with($host_prefix, '/')) {
                 $host_prefix = "/{$host_prefix}";
             }
-            if (substr($host_prefix, -1, 1) != '/') {
+            if (!str_ends_with($host_prefix, '/')) {
                 $host_prefix .= '/';
             }
             $this->_cached_host_prefix = "{$host_name}{$host_prefix}";

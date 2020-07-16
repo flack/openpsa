@@ -106,7 +106,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         $invoice = new org_openpsa_invoices_invoice_dba($guid);
 
         if ($request->request->get('oper') == 'edit') {
-            if (strpos($request->request->get('id'), 'new_') === 0) {
+            if (str_starts_with($request->request->get('id'), 'new_')) {
                 $item = new org_openpsa_invoices_invoice_item_dba();
                 $item->invoice = $invoice->id;
                 $item->create();

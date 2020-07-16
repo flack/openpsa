@@ -46,23 +46,23 @@ if (!isset($_ENV["RECIPIENT"])) {
 $recipient = $_ENV["RECIPIENT"];
 $token_length = strlen($recipient) - strlen($prefix) - strlen($suffix);
 if (   $token_length <= 0
-    || substr($recipient, 0, strlen($prefix)) != $prefix
-    || substr($recipient, strlen($prefix) + $token_length) != $suffix) {
+    || !str_starts_with($recipient, $prefix)
+    || !str_ends_with($recipient, $suffix)) {
     error_log("Recipient address does not match address template: $recipient");
     exit(1);
 }
 $token = substr($recipient, strlen($prefix), $token_length);
 
 // Log the bounce to the configured bounce logger
-if (substr($BOUNCE_LOGGER, 0, strlen("file://")) == "file://") {
+if (str_starts_with($BOUNCE_LOGGER, "file://")) {
     $fh = fopen(substr($BOUNCE_LOGGER, strlen("file://")), "w+");
     if ($fh) {
         fwrite($fh, "$token\n");
         fclose($fh);
         exit(0);
     }
-} elseif (   substr($BOUNCE_LOGGER, 0, strlen("http://")) == "http://"
-          || substr($BOUNCE_LOGGER, 0, strlen("https://")) == "https://") {
+} elseif (   str_starts_with($BOUNCE_LOGGER, "http://")
+          || str_starts_with($BOUNCE_LOGGER, "https://")) {
     $client = new org_openpsa_httplib();
     $client->post($BOUNCE_LOGGER, ["token" => $token]);
     exit(0);

@@ -103,7 +103,7 @@ class midcom_debug
             $record['extra']['caller'] .= $caller['class'] . '::';
         }
         if (   array_key_exists('function', $caller)
-            && substr($caller['function'], 0, 6) != 'debug_') {
+            && !str_starts_with($caller['function'], 'debug_')) {
             $record['extra']['caller'] .= $caller['function'];
         } else {
             $record['extra']['caller'] .= $caller['file'] . ' (' . $caller['line']. ')';

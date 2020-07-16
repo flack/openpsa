@@ -115,7 +115,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
             'height' => 0,
             'size'   => $tmpsize];
 
-        if (strpos($mime, 'image') === 0 && ($s = getimagesize($tmpname))) {
+        if (str_starts_with($mime, 'image') && ($s = getimagesize($tmpname))) {
             $stat['width'] = $s[0];
             $stat['height'] = $s[1];
         }

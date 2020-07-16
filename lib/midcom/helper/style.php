@@ -248,7 +248,7 @@ class midcom_helper_style
     public function append_substyle(string $newsub)
     {
         // Make sure try to use only the first argument if we get space separated list, fixes #1788
-        if (strpos($newsub, ' ') !== false) {
+        if (str_contains($newsub, ' ')) {
             $newsub = preg_replace('/^(.+?) .+/', '$1', $newsub);
         }
 

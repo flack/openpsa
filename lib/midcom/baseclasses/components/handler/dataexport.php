@@ -68,7 +68,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             if (empty($data['filename'])) {
                 $data['filename'] = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_topic->extra)) . '_' . date('Y-m-d') . '.csv';
             }
-            if (strpos(midcom_connection::get_url('uri'), '/', strlen(midcom_connection::get_url('uri')) - 2)) {
+            if (str_ends_with(midcom_connection::get_url('uri'), '/')) {
                 $data['filename'] = '/' . $data['filename'];
             }
             return new midcom_response_relocate(midcom_connection::get_url('uri') . $data['filename']);

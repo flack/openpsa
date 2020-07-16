@@ -98,7 +98,7 @@ class attachmentTransformer implements DataTransformerInterface
             if (empty($title)) {
                 $title = $attachment->name;
             }
-        } elseif (substr($array['identifier'], 0, 8) === 'tmpfile-') {
+        } elseif (str_starts_with($array['identifier'], 'tmpfile-')) {
             $tmpfile = midcom::get()->config->get('midcom_tempdir') . '/' . $array['identifier'];
             if (file_exists($tmpfile)) {
                 $attachment = new midcom_db_attachment;

@@ -113,7 +113,7 @@ class autocomplete
         foreach ($this->request['searchfields'] as $field) {
             $field_type = $reflector->get_midgard_type($field);
             $operator = 'LIKE';
-            if (strpos($field, '.')) {
+            if (str_contains($field, '.')) {
                 //TODO: This should be resolved properly
                 $field_type = MGD_TYPE_STRING;
             }
@@ -147,7 +147,7 @@ class autocomplete
         $query = $this->request["term"];
         $wildcard_query = $query;
         if (   isset($this->request['auto_wildcards'])
-            && strpos($query, '%') === false) {
+            && !str_contains($query, '%')) {
             switch ($this->request['auto_wildcards']) {
                 case 'start':
                     $wildcard_query = '%' . $query;

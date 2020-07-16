@@ -68,7 +68,7 @@ class midcom_db_style extends midcom_core_dbaobject
      */
     public static function id_from_path($path, $rootstyle = 0) : int
     {
-        if (substr($path, 0, 6) === 'theme:') {
+        if (str_starts_with($path, 'theme:')) {
             return 0;
         }
         static $cached = [];

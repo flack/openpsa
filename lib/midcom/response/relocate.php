@@ -27,7 +27,7 @@ class midcom_response_relocate extends RedirectResponse
      */
     public function setTargetUrl($url)
     {
-        if (   substr($url, 0, 1) != "/"
+        if (   !str_starts_with($url, "/")
             && !preg_match('|^https?://|', $url)) {
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             if ($prefix == '') {

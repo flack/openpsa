@@ -186,13 +186,13 @@ class midcom_services_auth
     private function _prepare_authentication_drivers()
     {
         $classname = midcom::get()->config->get('auth_backend');
-        if (strpos($classname, "_") === false) {
+        if (!str_contains($classname, "_")) {
             $classname = 'midcom_services_auth_backend_' . $classname;
         }
         $this->backend = new $classname($this);
 
         $classname = midcom::get()->config->get('auth_frontend');
-        if (strpos($classname, "_") === false) {
+        if (!str_contains($classname, "_")) {
             $classname = 'midcom_services_auth_frontend_' . $classname;
         }
         $this->frontend = new $classname();

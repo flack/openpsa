@@ -165,7 +165,7 @@ class resolver
         }
 
         $result['args'] = array_values(array_filter($result, function($name) {
-            return substr($name, 0, 1) !== '_';
+            return !str_starts_with($name, '_');
         }, ARRAY_FILTER_USE_KEY));
 
         return $result;

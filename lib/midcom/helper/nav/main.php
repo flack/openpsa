@@ -537,7 +537,7 @@ class midcom_helper_nav
                     $id = "custom-{$key}";
 
                     $url = "{$prefix}{$entry[MIDCOM_NAV_URL]}";
-                    if (   substr($entry[MIDCOM_NAV_URL], 0, 1) == '/'
+                    if (   str_starts_with($entry[MIDCOM_NAV_URL], '/')
                         || preg_match('|^https?://|', $entry[MIDCOM_NAV_URL])) {
                         $url = $entry[MIDCOM_NAV_URL];
                     }

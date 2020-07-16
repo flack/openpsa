@@ -524,7 +524,7 @@ class midcom_config implements ArrayAccess
         }
         // Check the midcom_config site prefix for absolute local urls
         if (   $key === 'midcom_site_url'
-            && substr($this->_merged_config[$key], 0, 1) === '/') {
+            && str_starts_with($this->_merged_config[$key], '/')) {
             $this->_merged_config[$key] = midcom::get()->get_page_prefix() . substr($this->_merged_config[$key], 1);
         }
 

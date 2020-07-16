@@ -57,7 +57,7 @@ class midcom_helper_formatter
             $variable_parts = explode(':', $variable[1]);
             $variable = '$' . $variable_parts[0];
 
-            if (strpos($variable, '.') !== false) {
+            if (str_contains($variable, '.')) {
                 $parts = explode('.', $variable);
                 $variable = $parts[0] . '->' . $parts[1];
             }

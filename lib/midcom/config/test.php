@@ -64,7 +64,7 @@ class midcom_config_test
 
         $lang = midcom::get()->i18n->get_current_language();
         $locale = Locale::getDefault();
-        if ($lang != substr($locale, 0, 2)) {
+        if (!str_starts_with($locale, $lang)) {
             $this->add('MidCOM language', self::WARNING, 'Language is set to "' . $lang . '", but the locale "' . $locale . '" is used. This might lead to problems in datamanager number inputs if decimal separators diverge');
         } else {
             $this->add('MidCOM language', self::OK, $locale);

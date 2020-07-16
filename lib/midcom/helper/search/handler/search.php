@@ -102,7 +102,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         $this->prepare_formdata($_REQUEST['type']);
 
         if (   count(explode(' ', $data['query'])) == 1
-            && strpos($data['query'], '*') === false
+            && !str_contains($data['query'], '*')
             && $this->_config->get('single_term_auto_wildcard')) {
             //If there is only one search term append * to the query if auto_wildcard is enabled
             $data['query'] .= '*';

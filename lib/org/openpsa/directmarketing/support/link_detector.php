@@ -51,7 +51,7 @@ if (isset($_ENV["domains"])) {
 if ($domains) {
     $found = false;
     foreach ($domains as $domain) {
-        if (strpos($link, $domain) !== false) {
+        if (str_contains($link, $domain)) {
             $found = true;
             break;
         }
@@ -67,7 +67,7 @@ if ($domains) {
 header("Location: $link");
 
 // Log the link to the configured link logger
-if (substr($logger, 0, strlen("file://")) == "file://") {
+if (str_starts_with($logger, "file://")) {
     if ($fh = fopen(substr($logger, strlen("file://")), "w+")) {
         fwrite($fh, "$token $link\n");
         fclose($fh);

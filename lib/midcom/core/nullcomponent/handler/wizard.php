@@ -76,7 +76,7 @@ class midcom_core_nullcomponent_handler_wizard extends midcom_baseclasses_compon
         $conf .= '$GLOBALS[\'midcom_config_local\'][\'midcom_root_topic_guid\'] = "' . $guid . '";' . "\n";
 
         $project_dir = dirname(__DIR__, 5);
-        if (strpos($project_dir, '/vendor/')) {
+        if (str_contains($project_dir, '/vendor/')) {
             $project_dir = dirname($project_dir, 3);
         }
 

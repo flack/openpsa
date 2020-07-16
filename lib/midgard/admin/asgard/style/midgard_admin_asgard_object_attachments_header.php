@@ -30,7 +30,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 $last_edit = $file->metadata->revised ?: $file->metadata->created;
                 $stat = $file->stat();
                 $preview_class = "";
-                if (strpos($file->mimetype, "application") !== 0) {
+                if (!str_starts_with($file->mimetype, "application")) {
                     $preview_class = 'class="thickbox"';
                 }
                 $manage_link = $data['router']->generate('object_open', ['guid' => $file->guid]);

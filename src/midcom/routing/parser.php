@@ -47,7 +47,7 @@ class parser
 
         $prefix_length = strlen(midcom_connection::get_url('prefix'));
         if (   $prefix_length > 1
-            && substr($url, 0, $prefix_length) == midcom_connection::get_url('prefix')) {
+            && str_starts_with($url, midcom_connection::get_url('prefix'))) {
             $url = substr($url, $prefix_length);
         }
         $url = trim($url, '/');
@@ -72,7 +72,7 @@ class parser
     public function find_urlmethod() : ?string
     {
         if (   empty($this->argv)
-            || strpos($this->argv[0], 'midcom-') !== 0) {
+            || !str_starts_with($this->argv[0], 'midcom-')) {
             return null;
         }
         return '/' . implode('/', $this->argv);

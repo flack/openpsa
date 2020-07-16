@@ -73,7 +73,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         }
         foreach ($vcalendar->select('VEVENT') as $vevent) {
             $uid = $vevent->UID->getValue();
-            if (substr($uid, -12, 12) === '-midgardGuid') {
+            if (str_ends_with($uid, '-midgardGuid')) {
                 $event = new org_openpsa_calendar_event_dba(substr($uid, 0, -12));
             } else {
                 $event = new org_openpsa_calendar_event_dba;

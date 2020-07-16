@@ -78,9 +78,9 @@ class midcom_helper_misc
         static $cached_snippets = [];
 
         if (!array_key_exists($path, $cached_snippets)) {
-            if (substr($path, 0, 5) == 'file:') {
+            if (str_starts_with($path, 'file:')) {
                 $cached_snippets[$path] = self::load_from_file($path);
-            } elseif (substr($path, 0, 5) == 'conf:') {
+            } elseif (str_starts_with($path, 'conf:')) {
                 $cached_snippets[$path] = self::load(midcom::get()->config->get('midcom_config_basedir') . '/midcom' . substr($path, 5));
             } else {
                 $cached_snippets[$path] = self::load_from_snippet($path);

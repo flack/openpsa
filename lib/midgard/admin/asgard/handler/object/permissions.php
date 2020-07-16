@@ -110,7 +110,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
         if (!empty($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges'])) {
             foreach ($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges'] as $privilege) {
-                if (!strpos($privilege, ':')) {
+                if (!str_contains($privilege, ':')) {
                     // Only component specified
                     // TODO: load components manifest and add privileges from there
                     continue;
@@ -178,7 +178,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
         foreach ($assignees as $assignee => $label) {
             $classname = '';
-            if (strpos($assignee, '/')) {
+            if (str_contains($assignee, '/')) {
                 [$assignee, $classname] = explode('/', $assignee, 2);
             }
             foreach ($this->_privileges as $privilege) {
