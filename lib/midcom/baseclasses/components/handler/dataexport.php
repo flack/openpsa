@@ -106,8 +106,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         midcom::get()->cache->content->enable_live_mode();
 
         // Dump headers
-        reset($this->_datamanagers);
-        $first_type = key($this->_datamanagers);
+        $first_type = array_key_first($this->_datamanagers);
         $multiple_types = count($this->_datamanagers) > 1;
         $row = [];
         if ($this->include_guid) {
@@ -170,8 +169,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     private function _dump_rows($output)
     {
-        reset($this->_datamanagers);
-        $first_type = key($this->_datamanagers);
+        $first_type = array_key_first($this->_datamanagers);
         // Output each row
         foreach ($this->_rows as $num => $row) {
             $data = [];
