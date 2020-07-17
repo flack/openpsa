@@ -81,23 +81,14 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
         $this->read_metadata_from_object($this->_metadata->object);
         $metadata = $this->read_metadata();
         foreach ($metadata as $key => $value) {
-            switch ($key) {
-                /**
-                 * @see parent::read_metadata_from_object()
-                 */
-                case 'revised':
-                case 'revisor':
-                case 'created':
-                case 'creator':
-                    break;
-
-                case 'keywords':
-                case 'tags':
+            /**
+             * @see parent::read_metadata_from_object()
+             */
+            if (!in_array($key, ['revised', 'revisor', 'created', 'creator'])) {
+                if (in_array($key, ['keywords', 'tags'])) {
                     $this->content .= $value . "\n";
-                    // Fall-through intentional
-                default:
-                    $this->add_text("META_{$key}", $value);
-                    break;
+                }
+                $this->add_text("META_{$key}", $value);
             }
         }
     }

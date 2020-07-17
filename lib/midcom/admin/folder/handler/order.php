@@ -46,11 +46,8 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // but when any errors are encountered, there will be a uimessage that will be shown.
         $success = true;
 
-        $count = 0;
-        foreach ($request->request->get('sortable') as $type_items) {
-            // Total number of the entries
-            $count += count($type_items);
-        }
+        // Total number of the entries
+        $count = array_sum(array_map('count', $request->request->get('sortable')));
 
         // Loop through the sortables and store the new score
         foreach ($request->request->get('sortable') as $array) {

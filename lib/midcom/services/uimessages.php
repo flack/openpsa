@@ -137,15 +137,10 @@ class midcom_services_uimessages
 
     public function get_messages() : array
     {
-        $result = [];
         if ($this->_message_stack) {
-            foreach ($this->_message_stack->all() as $messages) {
-                foreach ($messages as $message) {
-                    $result[] = $message;
-                }
-            }
+            return call_user_func_array('array_merge', $this->_message_stack->all());
         }
-        return $result;
+        return [];
     }
 
     /**

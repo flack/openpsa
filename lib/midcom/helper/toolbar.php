@@ -727,9 +727,8 @@ class midcom_helper_toolbar
      * will be reported.
      *
      * @param string $url The url to search in the list.
-     * @return int The index of the item or null, if not found.
      */
-    public function get_index_from_url($url)
+    public function get_index_from_url($url) : ?int
     {
         foreach ($this->items as $i => $item) {
             if (   $item[MIDCOM_TOOLBAR_URL] == $url

@@ -150,10 +150,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         foreach ($resolver->get_child_classes() as $schema_type) {
             $type_children = $resolver->_get_child_objects_type($schema_type, $object, $deleted);
             // PONDER: check for boolean false as result ??
-            if (empty($type_children)) {
-                continue;
+            if (!empty($type_children)) {
+                $child_objects[$schema_type] = $type_children;
             }
-            $child_objects[$schema_type] = $type_children;
         }
         return $child_objects;
     }

@@ -161,11 +161,8 @@ class midcom_helper_nav_backend
      */
     private function init_topics(midcom_db_topic $root, array $urltopics)
     {
-        $node_path_candidates = [$root];
-        foreach ($urltopics as $topic) {
-            $node_path_candidates[] = $topic;
-            $this->_current = $topic->id;
-        }
+        $node_path_candidates = array_merge([$root], $urltopics);
+        $this->_current = end($node_path_candidates)->id;
 
         $lastgood = null;
         foreach ($node_path_candidates as $topic) {

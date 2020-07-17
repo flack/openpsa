@@ -161,14 +161,8 @@ class midcom_services_metadata
             foreach (midcom::get()->config->get('metadata_head_elements') as $property => $metatag) {
                 if ($content = $view_metadata->get($property)) {
                     // Handle date fields
-                    switch ($property) {
-                        case 'published':
-                        case 'created':
-                        case 'revised':
-                        case 'approved':
-                        case 'locked':
-                            $content = gmdate('Y-m-d', (int) $content);
-                            break;
+                    if (in_array($property, ['published', 'created', 'revised', 'approved', 'locked'])) {
+                        $content = gmdate('Y-m-d', (int) $content);
                     }
 
                     midcom::get()->head->add_meta_head([

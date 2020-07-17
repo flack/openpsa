@@ -92,12 +92,11 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
 
         $classname = $this->_get_classname($object);
 
-        $data = "";
+        $data = "{$prefix}<{$classname}";
         if (!empty($object->guid)) {
-            $data .= "{$prefix}<{$classname} id=\"{$object->id}\" guid=\"{$object->guid}\">\n";
-        } else {
-            $data .= "{$prefix}<{$classname}>\n";
+            $data .= " id=\"{$object->id}\" guid=\"{$object->guid}\"";
         }
+        $data .= ">\n";
 
         foreach ($arr as $key => $val) {
             if (is_array($val)) {

@@ -155,11 +155,9 @@ class midcom_helper_configuration
      */
     private function _check_local_array(array $array)
     {
-        if (!empty($array)) {
-            $diff = array_keys(array_diff_key($array, $this->_global));
-            foreach ($diff as $key) {
-                debug_add("The key {$key} is not present in the global configuration array.", MIDCOM_LOG_INFO);
-            }
+        $diff = array_keys(array_diff_key($array, $this->_global));
+        foreach ($diff as $key) {
+            debug_add("The key {$key} is not present in the global configuration array.", MIDCOM_LOG_INFO);
         }
     }
 

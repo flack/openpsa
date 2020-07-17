@@ -114,18 +114,13 @@ class midcom_helper_reflector_nameresolver
             return $sibling_classes;
         }
         // No parent, we might be a root level class
-        $is_root_class = false;
         $root_classes = midcom_helper_reflector_tree::get_root_classes();
         foreach ($root_classes as $classname) {
             if (midcom::get()->dbfactory->is_a($this->_object, $classname)) {
-                $is_root_class = true;
-                break;
+                return $root_classes;
             }
         }
-        if (!$is_root_class) {
-            return null;
-        }
-        return $root_classes;
+        return null;
     }
 
     private function check_sibling_classes(string $name, array $schema_types, $parent = null) : bool

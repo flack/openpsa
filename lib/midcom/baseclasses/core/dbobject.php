@@ -470,10 +470,7 @@ class midcom_baseclasses_core_dbobject
             }
 
             foreach ($children_types as $children) {
-                $child_guids = [];
-                foreach ($children as $child) {
-                    $child_guids[] = $child->guid;
-                }
+                $child_guids = array_column($children, 'guid');
                 $undeleted_size += self::undelete($child_guids);
             }
         }
@@ -553,10 +550,7 @@ class midcom_baseclasses_core_dbobject
 
             if (is_array($children_types)) {
                 foreach ($children_types as $child_type => $children) {
-                    $child_guids = [];
-                    foreach ($children as $child) {
-                        $child_guids[] = $child->guid;
-                    }
+                    $child_guids = array_column($children, 'guid');
                     self::purge($child_guids, $child_type);
                 }
             }

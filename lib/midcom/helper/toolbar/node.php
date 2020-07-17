@@ -144,8 +144,6 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('delete folder', 'midcom.admin.folder')
             ]);
         }
-        foreach ($buttons as $button) {
-            $this->items[] = $this->clean_item($button);
-        }
+        $this->items = array_map([$this, 'clean_item'], $buttons);
     }
 }
