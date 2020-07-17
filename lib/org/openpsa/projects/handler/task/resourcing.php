@@ -132,11 +132,8 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $this->_task = new org_openpsa_projects_task_dba($data['prospect']->task);
         $this->_task->require_do('midgard:create');
 
-        $minimum_time_slot = $this->_task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');
-        if (empty($minimum_time_slot)) {
-            // Default to 15 minutes for minimum time here
-            $minimum_time_slot = 0.25;
-        }
+        // Default to 15 minutes for minimum time here
+        $minimum_time_slot = $this->_task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot') ?: .25;
         $data['slots'] = org_openpsa_calendar_event_member_dba::find_free_times(
             ($minimum_time_slot * 60),
             $data['person'],

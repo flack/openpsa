@@ -65,10 +65,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
             }
             return $args[0];
         }
-        if (!empty($mode)) {
-            return $mode;
-        }
-        return 'active';
+        return $mode ?: 'active';
     }
 
     private function add_toolbar_buttons()

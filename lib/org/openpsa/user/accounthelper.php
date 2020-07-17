@@ -286,8 +286,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     private function get_old_passwords() : array
     {
-        $old_passwords_string = $this->person->get_parameter("org_openpsa_user_password", "old_passwords");
-        if (!empty($old_passwords_string)) {
+        if ($old_passwords_string = $this->person->get_parameter("org_openpsa_user_password", "old_passwords")) {
             $old_passwords_array = unserialize($old_passwords_string);
             $count = count($old_passwords_array);
             $max = (int) $this->_config->get('max_old_passwords');
@@ -353,14 +352,12 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         if ($max_age_days == 0) {
             return true;
         }
-        $max_timeframe = time() - ($max_age_days * 24 * 60 * 60);
-        $last_change = $this->person->get_parameter("org_openpsa_user_password", "last_change");
 
-        if (empty($last_change)) {
-            return false;
+        if ($last_change = $this->person->get_parameter("org_openpsa_user_password", "last_change")) {
+            $max_timeframe = time() - ($max_age_days * 24 * 60 * 60);
+            return $max_timeframe < $last_change;
         }
-
-        return $max_timeframe < $last_change;
+        return false;
     }
 
     /**

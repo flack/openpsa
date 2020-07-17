@@ -73,7 +73,6 @@ class org_openpsa_mypage_workingon
             return;
         }
         $workingon = json_decode($workingon);
-
         $task_time = strtotime($workingon->start . " GMT");
 
         // Set the protected vars

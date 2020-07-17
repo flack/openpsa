@@ -30,7 +30,7 @@ trait parameters
      *
      * @param string $domain The parameter domain.
      * @param string $name The parameter name.
-     * @return string The parameter value or false otherwise (remember typesafe comparisons to protect against '' strings).
+     * @return ?string The parameter value or false otherwise (remember typesafe comparisons to protect against '' strings).
      */
     public function get_parameter($domain, $name)
     {
