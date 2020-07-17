@@ -138,7 +138,9 @@ class midcom_services_uimessages
     public function get_messages() : array
     {
         if ($this->_message_stack) {
-            return call_user_func_array('array_merge', $this->_message_stack->all());
+            if ($messages = $this->_message_stack->all()) {
+                return call_user_func_array('array_merge', $messages);
+            }
         }
         return [];
     }
