@@ -20,13 +20,6 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
      */
     public function _on_initialize()
     {
-        $config = $this->_request_data['plugin_config'];
-        if ($config) {
-            foreach ($config as $key => $value) {
-                $this->$key = $value;
-            }
-        }
-
         // Ensure we get the correct styles
         midcom::get()->style->prepend_component_styledir('midcom.admin.folder');
 
