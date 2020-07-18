@@ -291,49 +291,38 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $types = [];
 
         // Get the types that might have special display conditions
-        if (   $this->_config->get('midgard_types')
-            && preg_match_all('/\|([a-z0-9\.\-_]+)/', $this->_config->get('midgard_types'), $regs)) {
-            $types = $regs[1];
-        }
-
-        // Override with user selected
         // @TODO: Should this just include to the configuration selection, although it would break the consistency
         // of other similar preference sets, which simply override the global settings?
-        if (   midgard_admin_asgard_plugin::get_preference('midgard_types')
-            && preg_match_all('/\|([a-z0-9\.\-_]+)/', midgard_admin_asgard_plugin::get_preference('midgard_types'), $regs)) {
-            $types = $regs[1];
-        }
+        $selected = midgard_admin_asgard_plugin::get_preference('midgard_types') ?: $this->_config->get('midgard_types');
 
         // Get the inclusion/exclusion model
-        $model = $this->_config->get('midgard_types_model');
-        if (midgard_admin_asgard_plugin::get_preference('midgard_types_model')) {
-            $model = midgard_admin_asgard_plugin::get_preference('midgard_types_model');
-        }
+        $model = midgard_admin_asgard_plugin::get_preference('midgard_types_model') ?: $this->_config->get('midgard_types_model');
         $exclude = ($model == 'exclude');
 
-        // Get the possible regular expression
-        $regexp = $this->_config->get('midgard_types_regexp');
-        if (midgard_admin_asgard_plugin::get_preference('midgard_types_regexp')) {
-            $regexp = midgard_admin_asgard_plugin::get_preference('midgard_types_regexp');
+        $label_mapping = midgard_admin_asgard_plugin::get_root_classes();
+
+        if (preg_match_all('/\|([a-z0-9\.\-_]+)/', $selected, $regs)) {
+            $types = array_flip($regs[1]);
+            if ($exclude) {
+                $label_mapping = array_diff_key($label_mapping, $types);
+            } else {
+                $label_mapping = array_intersect_key($label_mapping, $types);
+            }
         }
+
+        // Get the possible regular expression
+        $regexp = midgard_admin_asgard_plugin::get_preference('midgard_types_regexp') ?: $this->_config->get('midgard_types_regexp');
 
         // "Convert" quickly to PERL regular expression
         if (!preg_match('/^[\/|]/', $regexp)) {
             $regexp = "/{$regexp}/";
         }
 
-        if ($exclude) {
-            $types = array_diff($this->root_types, $types);
-        } elseif (!empty($types)) {
-            $types = array_intersect($this->root_types, $types);
-        }
-
-        $label_mapping = midgard_admin_asgard_plugin::get_root_classes();
         // If the regular expression has been set, check which types should be shown
         if ($regexp !== '//') {
             $label_mapping = array_filter($label_mapping, function ($root_type) use ($regexp, $exclude) {
                 return preg_match($regexp, $root_type) == $exclude;
-            });
+            }, ARRAY_FILTER_USE_KEY);
         }
 
         return $label_mapping;
