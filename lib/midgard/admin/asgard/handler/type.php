@@ -33,24 +33,18 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
     private function _search(string $term) : array
     {
-        $dummy_objects = [];
         $type_class = $this->type;
         $dummy_type_object = new $type_class();
-
-        $dummy_objects[] = $dummy_type_object;
         $resolver = new midcom_helper_reflector_tree($dummy_type_object);
-        $child_classes = $resolver->get_child_classes();
-        foreach ($child_classes as $child_class) {
+        $search_results = $this->_search_type_qb($dummy_type_object, $term);
+
+        foreach ($resolver->get_child_classes() as $child_class) {
             if ($child_class != $type_class) {
-                $dummy_objects[] = new $child_class();
+                $results = $this->_search_type_qb(new $child_class(), $term);
+                $search_results = array_merge($search_results, $results);
             }
         }
 
-        $search_results = [];
-        foreach ($dummy_objects as $dummy_object) {
-            $results = $this->_search_type_qb($dummy_object, $term);
-            $search_results = array_merge($search_results, $results);
-        }
         return $search_results;
     }
 

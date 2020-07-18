@@ -106,9 +106,9 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
         if (!$this->_request_data['midcom_dba_classname']) {
             // No DBA class for the type, use plain Midgard undelete API
-            foreach ($guids as $guid) {
+            if ($guids) {
                 $qb = new midgard_query_builder($this->type);
-                $qb->add_constraint('guid', '=', $guid);
+                $qb->add_constraint('guid', 'IN', $guids);
                 $qb->include_deleted();
                 foreach ($qb->execute() as $object) {
                     if ($object->purge()) {

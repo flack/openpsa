@@ -20,50 +20,36 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
     private function _list_revised($since, $type = null, $only_mine = false) : array
     {
-        $classes = [];
+        $types = ($type !== null) ? [$type] : $this->_request_data['schema_types'];
         $revised = [];
 
         // List installed MgdSchema types and convert to DBA classes
-        foreach ($this->_request_data['schema_types'] as $schema_type) {
-            if (   $type !== null
-                && $schema_type != $type) {
-                // Skip
-                continue;
-            }
-
+        foreach ($types as $schema_type) {
             $mgdschema_class = midcom_helper_reflector::class_rewrite($schema_type);
             $dummy_object = new $mgdschema_class();
             $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
-            if (empty($midcom_dba_classname)) {
-                continue;
-            }
+            if (!empty($midcom_dba_classname)) {
+                // List all revised objects
+                $qb = new midcom_core_querybuilder($midcom_dba_classname);
+                $qb->add_constraint('metadata.revised', '>=', $since);
 
-            $classes[] = $midcom_dba_classname;
-        }
+                if (   $only_mine
+                    && midcom::get()->auth->user) {
+                    $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
+                }
 
-        // List all revised objects
-        foreach ($classes as $class) {
-            $qb_callback = [$class, 'new_query_builder'];
-            $qb = call_user_func($qb_callback);
-            $qb->add_constraint('metadata.revised', '>=', $since);
+                $qb->add_order('metadata.revision', 'DESC');
 
-            if (   $only_mine
-                && midcom::get()->auth->user) {
-                $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
-            }
-
-            $qb->add_order('metadata.revision', 'DESC');
-
-            foreach ($qb->execute() as $object) {
-                $revised["{$object->metadata->revised}_{$object->guid}_{$object->metadata->revision}"] = [
-                    'object' => $object,
-                    'revisor' => midcom::get()->auth->get_user($object->metadata->revisor)
-                ];
+                foreach ($qb->execute() as $object) {
+                    $revised["{$object->metadata->revised}_{$object->guid}_{$object->metadata->revision}"] = [
+                        'object' => $object,
+                        'revisor' => midcom::get()->auth->get_user($object->metadata->revisor)
+                    ];
+                }
             }
         }
 
         krsort($revised);
-
         return $revised;
     }
 

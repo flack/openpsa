@@ -54,14 +54,12 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             }
             $this->expanded_root_types[] = $expanded_type;
         } elseif (isset($this->_object)) {
-            foreach (midcom_helper_reflector_tree::resolve_path_parts($this->_object) as $part) {
-                $this->_object_path[] = $part['object'];
-            }
+            $this->_object_path = array_column(midcom_helper_reflector_tree::resolve_path_parts($this->_object), 'object');
 
             // we go through the path bottom up and show the first root type we find
             foreach (array_reverse($this->_object_path) as $node) {
                 foreach ($this->root_types as $root_type) {
-                    if (    is_a($node, $root_type)
+                    if (   is_a($node, $root_type)
                         || midcom_helper_reflector::is_same_class($root_type, $node->__midcom_class_name__)) {
                         $this->expanded_root_types[] = $root_type;
                         break;
@@ -330,18 +328,13 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $types = array_intersect($this->root_types, $types);
         }
 
-        $label_mapping = [];
-        foreach ($types as $root_type) {
-            // If the regular expression has been set, check which types should be shown
-            if (   $regexp !== '//'
-                && (boolean) preg_match($regexp, $root_type) == $exclude) {
-                continue;
-            }
-
-            $ref = midcom_helper_reflector_tree::get($root_type);
-            $label_mapping[$root_type] = $ref->get_class_label();
+        $label_mapping = midgard_admin_asgard_plugin::get_root_classes();
+        // If the regular expression has been set, check which types should be shown
+        if ($regexp !== '//') {
+            $label_mapping = array_filter($label_mapping, function ($root_type) use ($regexp, $exclude) {
+                return preg_match($regexp, $root_type) == $exclude;
+            });
         }
-        asort($label_mapping);
 
         return $label_mapping;
     }
@@ -434,15 +427,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $this->_request_data['navigation_type'] = '';
         }
 
-        $label_mapping = [];
-
-        foreach ($this->root_types as $root_type) {
-            $ref = midcom_helper_reflector_tree::get($root_type);
-            $label_mapping[$root_type] = $ref->get_class_label();
-        }
-        asort($label_mapping);
-
-        $this->_request_data['label_mapping'] = $label_mapping;
+        $this->_request_data['label_mapping'] = midgard_admin_asgard_plugin::get_root_classes();
         $this->_request_data['expanded_root_types'] = $this->expanded_root_types;
 
         midcom_show_style('midgard_admin_asgard_navigation_sections');

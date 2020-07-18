@@ -6,8 +6,8 @@ foreach ($data['schema_types'] as $schema_type) {
     }
 
     $type_choices[$schema_type] = $data['reflectors'][$schema_type]->get_class_label();
-    asort($type_choices);
 }
+asort($type_choices);
 $type_choices = ['any' => $data['l10n']->get('any')] + $type_choices;
 
 $revised_after_choices = [];
