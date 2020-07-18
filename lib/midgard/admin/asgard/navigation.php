@@ -287,9 +287,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      */
     private function _process_root_types() : array
     {
-        // Included or excluded types
-        $types = [];
-
         // Get the types that might have special display conditions
         // @TODO: Should this just include to the configuration selection, although it would break the consistency
         // of other similar preference sets, which simply override the global settings?
