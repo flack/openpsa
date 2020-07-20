@@ -113,10 +113,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         }
 
         foreach ($groupdata as $group) {
-            $group['title'] = $group['official'] ?: $group['name'];
-            if (!$group['title']) {
-                $group['title'] = "#{$group['id']}";
-            }
+            $group['title'] = ($group['official'] ?: $group['name']) ?: "#{$group['id']}";
             $group['level'] = $level;
 
             $data['groups_for_select'][] = $group;

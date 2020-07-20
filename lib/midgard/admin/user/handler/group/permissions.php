@@ -29,9 +29,8 @@ class midgard_admin_user_handler_group_permissions extends midcom_baseclasses_co
             $tmp[$grp->guid] = $grp->official;
             $grp = $grp->get_parent();
         }
-        $tmp = array_reverse($tmp);
 
-        foreach ($tmp as $guid => $title) {
+        foreach (array_reverse($tmp) as $guid => $title) {
             $this->add_breadcrumb($this->router->generate('group_edit', ['guid' => $guid]), $title);
         }
         $this->add_breadcrumb('', $this->_l10n->get('folders'));

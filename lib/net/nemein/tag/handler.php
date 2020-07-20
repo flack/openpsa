@@ -319,10 +319,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $results = $mc->get_rows(['tag', 'url', 'id']);
 
         foreach ($results as $result) {
-            $context = $link_mc->get_subkey($result['id'], 'context');
-            if (empty($context)) {
-                $context = 0;
-            }
+            $context = $link_mc->get_subkey($result['id'], 'context') ?: 0;
 
             if (!array_key_exists($context, $tags)) {
                 $tags[$context] = [];
@@ -372,10 +369,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         foreach ($qb->execute() as $link) {
             try {
                 $tag = new net_nemein_tag_tag_dba($link->tag);
-                $key = $tag->tag;
-                $value = $link->value;
 
-                $tags[$key] = $value;
+                $tags[$tag->tag] = $link->value;
             } catch (midcom_error $e) {
                 $e->log();
             }

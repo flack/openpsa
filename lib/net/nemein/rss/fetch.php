@@ -474,17 +474,16 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $html_tags = org_openpsa_httplib_helpers::get_anchor_values($article->content, 'tag');
         $tags = [];
 
-        if (!empty($html_tags)) {
-            foreach ($html_tags as $html_tag) {
-                if (!$html_tag['value']) {
-                    // No actual tag specified, skip
-                    continue;
-                }
-
-                $tag = strtolower(strip_tags($html_tag['value']));
-                $tags[$tag] = $html_tag['href'];
+        foreach ($html_tags as $html_tag) {
+            if (!$html_tag['value']) {
+                // No actual tag specified, skip
+                continue;
             }
 
+            $tag = strtolower(strip_tags($html_tag['value']));
+            $tags[$tag] = $html_tag['href'];
+        }
+        if (!empty($tags)) {
             net_nemein_tag_handler::tag_object($article, $tags);
         }
     }

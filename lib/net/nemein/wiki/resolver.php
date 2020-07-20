@@ -65,13 +65,10 @@ class net_nemein_wiki_resolver
 
         foreach ($subnodes as $node_id) {
             $subnode = $nap->get_node($node_id);
-            if ($subnode[MIDCOM_NAV_COMPONENT] != 'net.nemein.wiki') {
-                // This is not a wiki folder, skip
-                continue;
+            if ($subnode[MIDCOM_NAV_COMPONENT] == 'net.nemein.wiki') {
+                $subnode_children = $this->_list_wiki_nodes($subnode, "{$node_identifier}/");
+                $nodes = array_merge($nodes, $subnode_children);
             }
-
-            $subnode_children = $this->_list_wiki_nodes($subnode, "{$node_identifier}/");
-            $nodes = array_merge($nodes, $subnode_children);
         }
 
         return $nodes;
