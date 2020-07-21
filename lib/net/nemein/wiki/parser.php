@@ -156,8 +156,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         $tags_exploded = explode(',', $macro_content);
         $tags = [];
         foreach (array_filter($tags_exploded) as $tagname) {
-            $tag = net_nemein_tag_handler::resolve_tagname(trim($tagname));
-            $tags[$tag] = $tag;
+            $tags[] = net_nemein_tag_handler::resolve_tagname(trim($tagname));
         }
         $classes = [
             net_nemein_wiki_wikipage::class,

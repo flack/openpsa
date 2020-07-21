@@ -93,8 +93,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
 
         // What is still left needs to be added
-        $links_in_content = array_keys($links_in_content);
-        foreach ($links_in_content as $wikilink) {
+        foreach (array_keys($links_in_content) as $wikilink) {
             $link = new net_nemein_wiki_link_dba();
             $link->frompage = $this->id;
             $link->topage = $wikilink;
@@ -103,11 +102,12 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
     }
 
+    /**
+     * Get list of people watching this page
+     */
     private function list_watchers() : array
     {
         $topic = new midcom_db_topic($this->topic);
-        // Get list of people watching this page
-        $watchers = [];
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->add_constraint('domain', '=', 'net.nemein.wiki:watch');
         $qb->begin_group('OR');
@@ -117,15 +117,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             $qb->add_constraint('parentguid', '=', $this->guid);
         $qb->end_group();
 
-        foreach ($qb->execute() as $parameter) {
-            if (in_array($parameter->name, $watchers)) {
-                // We found this one already, skip
-                continue;
-            }
-
-            $watchers[] = $parameter->name;
-        }
-        return $watchers;
+        return array_unique(array_column($qb->execute(), 'name'));
     }
 
     private function update_watchers()

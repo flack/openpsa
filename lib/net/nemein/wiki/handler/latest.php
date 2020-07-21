@@ -62,14 +62,8 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         if (!isset($this->_request_data['latest_pages'][$history_date])) {
             $this->_request_data['latest_pages'][$history_date] = [];
         }
-
-        if (!isset($this->_request_data['latest_pages'][$history_date][$entry['object']->guid])) {
-            $this->_request_data['latest_pages'][$history_date][$entry['object']->guid] = [];
-        }
-
+        $this->_request_data['latest_pages'][$history_date][] = $entry;
         $this->_updated_pages++;
-
-        $this->_request_data['latest_pages'][$history_date][$entry['object']->guid][$version] = $entry;
     }
 
     public function _handler_latest(array &$data)
@@ -109,20 +103,16 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
             krsort($data['latest_pages']);
             $dates_shown = [];
             midcom_show_style('view-latest-header');
-            foreach ($data['latest_pages'] as $date => $objects) {
+            foreach ($data['latest_pages'] as $date => $versions) {
                 if (!isset($dates_shown[$date])) {
                     $data['date'] = $date;
                     midcom_show_style('view-latest-date');
                     $dates_shown[$date] = true;
                 }
 
-                foreach ($objects as $versions) {
-                    foreach ($versions as $version => $history) {
-                        $data['version'] = $version;
-                        $data['history'] = $history;
-                        $data['wikipage'] = $history['object'];
-                        midcom_show_style('view-latest-item');
-                    }
+                foreach ($versions as $history) {
+                    $data['history'] = $history;
+                    midcom_show_style('view-latest-item');
                 }
             }
 

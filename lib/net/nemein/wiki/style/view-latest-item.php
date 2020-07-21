@@ -1,9 +1,9 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$page = $data['wikipage'];
 $history = $data['history'];
+$page = $history['object'];
 
-$version_string = "<a href=\"{$prefix}__ais/rcs/preview/{$page->guid}/{$data['version']}\">{$data['version']}</a>";
+$version_string = "<a href=\"{$prefix}__ais/rcs/preview/{$page->guid}/{$history['revision']}\">{$history['revision']}</a>";
 
 $url = midcom::get()->permalinks->create_permalink($page->guid);
 $formatter = $data['l10n']->get_formatter();
