@@ -138,22 +138,12 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         foreach ($this->get_events() as $event) {
             // clear all data not absolutely required for busy listing
             foreach ($event->get_properties() as $fieldname) {
-                switch (true) {
-                    case ($fieldname == 'metadata'):
-                    case ($fieldname == 'guid'):
-                    case ($fieldname == 'start'):
-                    case ($fieldname == 'end'):
-                        break;
-                    case ($fieldname == 'title'):
-                        $event->title = $this->_l10n->get('busy');
-                        break;
-                    case is_array($event->$fieldname):
-                        $event->$fieldname = [];
-                        break;
-                    case is_string($event->$fieldname):
-                    default:
-                        $event->$fieldname = '';
-                        break;
+                if ($fieldname == 'title') {
+                    $event->title = $this->_l10n->get('busy');
+                } elseif (is_array($event->$fieldname)) {
+                    $event->$fieldname = [];
+                } elseif (!in_array($fieldname, ['metadata', 'guid', 'start', 'end'])) {
+                    $event->$fieldname = '';
                 }
             }
             // Only display the requested user as participant

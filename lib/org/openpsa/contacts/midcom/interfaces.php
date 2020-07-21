@@ -54,9 +54,7 @@ implements midcom_services_permalinks_resolver
         $results = $qb->execute();
 
         if (!empty($results)) {
-            foreach ($results as $group) {
-                $root_groups[$name] = $group;
-            }
+            $root_groups[$name] = end($results);
         } else {
             debug_add("OpenPSA Contacts root group could not be found", MIDCOM_LOG_WARN);
 
@@ -179,7 +177,7 @@ implements midcom_services_permalinks_resolver
         if (array_key_exists('hcards', $data)) {
             // Process those hCard values that are interesting for us
             foreach ($data['hcards'] as $hcard) {
-                $group = $this->_update_from_hcard($group, $hcard);
+                $this->_update_from_hcard($group, $hcard);
             }
 
             $group->update();
@@ -199,7 +197,7 @@ implements midcom_services_permalinks_resolver
         if (array_key_exists('hcards', $data)) {
             // Process those hCard values that are interesting for us
             foreach ($data['hcards'] as $hcard) {
-                $person = $this->_update_from_hcard($person, $hcard);
+                $this->_update_from_hcard($person, $hcard);
             }
 
             $person->update();
@@ -244,6 +242,5 @@ implements midcom_services_permalinks_resolver
                     break;
             }
         }
-        return $object;
     }
 }

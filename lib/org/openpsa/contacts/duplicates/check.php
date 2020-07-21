@@ -190,10 +190,7 @@ class org_openpsa_contacts_duplicates_check
             $this->membership_cache[$id] = [];
             $mc = midcom_db_member::new_collector('uid', $id);
             $mc->add_constraint('gid.orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
-            $memberships = $mc->get_values('gid');
-            foreach ($memberships as $member) {
-                $this->membership_cache[$id][$member] = $member;
-            }
+            $this->membership_cache[$id] = $mc->get_values('gid');
         }
         return $this->membership_cache[$id];
     }

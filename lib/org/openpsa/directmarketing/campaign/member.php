@@ -115,11 +115,10 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         if (preg_match_all('/' . $sep_start . 'CALLBACK:(.*?)' . $sep_end . '/', $content, $callback_matches)) {
             foreach ($callback_matches[0] as $k => $search) {
                 $callback_func = $callback_matches[1][$k];
-                if (!is_callable($callback_func)) {
-                    continue;
+                if (is_callable($callback_func)) {
+                    $replace = call_user_func($callback_func, $person, $this);
+                    $content = str_replace($search, $replace, $content);
                 }
-                $replace = call_user_func($callback_func, $person, $this);
-                $content = str_replace($search, $replace, $content);
             }
         }
 

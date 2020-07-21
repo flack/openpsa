@@ -142,12 +142,9 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
 
     private function add_event(org_openpsa_calendar_event_dba $event)
     {
-        // Customize label
-        $label_field = $this->_config->get('event_label');
-        if (!$label_field) {
-            $label_field = 'title';
-        }
         if (!isset($this->events[$event->guid])) {
+            // Customize label
+            $label_field = $this->_config->get('event_label') ?: 'title';
             $label = $event->$label_field;
             if ($label_field == 'creator') {
                 $user = midcom::get()->auth->get_user($event->metadata->creator);

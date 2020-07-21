@@ -114,21 +114,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             debug_add('rules[type] is not defined', MIDCOM_LOG_ERROR);
             return false;
         }
-
-        $stat = true;
-        //start with first group
-        $this->mc->begin_group(strtoupper($rules['type']));
-        reset($rules['classes']);
-        //iterate over groups
-        foreach ($rules['classes'] as $group) {
-            $stat = $this->resolve_rule_group($group);
-            if (!$stat) {
-                break;
-            }
-        }
-        $this->mc->end_group();
-
-        return $stat;
+        return $this->process_classes($rules['classes'], $rules['type']);
     }
 
     /**
@@ -142,6 +128,20 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         return $this->mc->get_rows(['lastname', 'firstname', 'email', 'guid'], 'id');
     }
 
+    private function process_classes(array $classes, string $type) : bool
+    {
+        $stat = true;
+        $this->mc->begin_group(strtoupper($type));
+        foreach ($classes as $group) {
+            $stat = $this->resolve_rule_group($group);
+            if (!$stat) {
+                break;
+            }
+        }
+        $this->mc->end_group();
+        return $stat;
+    }
+
     /**
      * Resolves the rules in a single rule group
      *
@@ -152,12 +152,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     {
         //check if rule is a group
         if (array_key_exists('groups', $group)) {
-            $this->mc->begin_group(strtoupper($group['groups']));
-            foreach ($group['classes'] as $subgroup) {
-                $this->resolve_rule_group($subgroup);
-            }
-            $this->mc->end_group();
-            return true;
+            return $this->process_classes($group['classes'], $group['groups']);
         }
         if (!array_key_exists('rules', $group)) {
             debug_add('group[rules] is not defined', MIDCOM_LOG_ERROR);
@@ -379,7 +374,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $ret = [];
 
         foreach ($object->get_properties() as $property) {
-            if (   preg_match('/^_/', $property)
+            if (   $property[0] == '_'
                 || in_array($property, $skip_properties)
                 || property_exists($object, $property)) {
                 // Skip private or otherwise invalid properties

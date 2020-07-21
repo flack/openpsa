@@ -165,14 +165,13 @@ class org_openpsa_contacts_duplicates_merge
         $changed = false;
         foreach ($person2 as $property => $value) {
             // Copy only simple properties not marked to be skipped missing from person1
-            if (   empty($person2->$property)
-                || !empty($person1->$property)
-                || isset($skip_properties[$property])
-                || !is_scalar($value)) {
-                continue;
+            if (   !empty($person2->$property)
+                && empty($person1->$property)
+                && !isset($skip_properties[$property])
+                && is_scalar($value)) {
+                $person1->$property = $value;
+                $changed = true;
             }
-            $person1->$property = $value;
-            $changed = true;
         }
         // Avoid unnecessary updates
         if ($changed && !$person1->update()) {
