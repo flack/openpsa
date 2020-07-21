@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * Cron handler to report hours from events that have confirmed task links
  *
@@ -16,9 +18,9 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
     /**
      * keyed by event guid
      *
-     * @var array
+     * @var org_openpsa_projects_task_dba[]
      */
-    private $event_links = [];
+    private $event_tasks = [];
 
     /**
      * @var org_openpsa_calendar_event_dba
@@ -69,11 +71,8 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                 continue;
             }
             $event = org_openpsa_calendar_event_dba::get_cached($member->eid);
-            $links = $this->get_event_links($event->guid);
 
-            foreach ($links as $link) {
-                $task = org_openpsa_projects_task_dba::get_cached($link->toGuid);
-
+            foreach ($this->get_tasks($event->guid) as $task) {
                 debug_add("processing task #{$task->id} ({$task->title}) for person #{$member->uid} from event #{$event->id} ({$event->title})");
 
                 // Make sure the person we found is a resource in this particular task
@@ -100,18 +99,22 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         midcom::get()->auth->drop_sudo();
     }
 
-    private function get_event_links(string $guid) : array
+    private function get_tasks(string $guid) : array
     {
-        if (!isset($this->event_links[$guid])) {
-            $qb2 = org_openpsa_relatedto_dba::new_query_builder();
-            $qb2->add_constraint('fromGuid', '=', $guid);
-            $qb2->add_constraint('fromComponent', '=', 'org.openpsa.calendar');
-            $qb2->add_constraint('toComponent', '=', 'org.openpsa.projects');
-            $qb2->add_constraint('toClass', '=', org_openpsa_projects_task_dba::class);
-            $qb2->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
-            $this->event_links[$guid] = $qb2->execute();
+        if (!isset($this->event_tasks[$guid])) {
+            $qb = org_openpsa_projects_task_dba::new_query_builder();
+            $qb->get_doctrine()
+                ->leftJoin('org_openpsa_relatedto', 'r', Join::WITH, 'r.toGuid = c.guid')
+                ->andWhere('r.fromGuid = :fromGuid AND r.fromComponent = :fromComponent AND r.toComponent = :toComponent AND r.status = :status')
+                ->setParameters([
+                    'fromGuid' => $guid,
+                    'fromComponent' => 'org.openpsa.calendar',
+                    'toComponent' => 'org.openpsa.projects',
+                    'status' => org_openpsa_relatedto_dba::CONFIRMED
+                ]);
+            $this->event_tasks[$guid] = $qb->execute();
         }
-        return $this->event_links[$guid];
+        return $this->event_tasks[$guid];
     }
 
     private function create_hour_report(org_openpsa_projects_task_dba $task, int $person_id, org_openpsa_calendar_event_dba $event) : bool
