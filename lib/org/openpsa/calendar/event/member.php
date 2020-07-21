@@ -156,8 +156,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
      */
     public static function find_free_times($amount, org_openpsa_contacts_person_dba $person, $start, $end) : array
     {
-        $slots = [];
-
         // Get current events for person
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
         $qb->get_doctrine()
@@ -180,68 +178,46 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             $events_by_date[$ymd][] = $event;
         }
 
-        // Make sure each date between start and end has at least a dummy event
+        $slots = [];
         $stamp = strtotime('today', $start) + 1;
         while ($stamp <= $end) {
-            $ymd = date('Ymd', $stamp);
-            debug_add("making sure date {$ymd} has at least one event");
-            $stamp = strtotime('tomorrow', $stamp) + 1;
-            if (array_key_exists($ymd, $events_by_date)) {
-                continue;
-            }
-            debug_add('none found, adding a dummy one');
-            $dummy = new org_openpsa_calendar_event_dba();
-            $dummy->start = $stamp;
-            $dummy->end = $stamp + 1;
-            $events_by_date[$ymd] = [$dummy];
-        }
-
-        foreach ($events_by_date as $ymd => $events) {
-            preg_match('/([0-9]{4})([0-9]{2})([0-9]{2})/', $ymd, $ymd_matches);
             // TODO: get from person's data based on event's weekday
             // PONDER: What to do with persons that do not have this data defined ??
             $workday_starts = 8;
             $workday_ends = 16;
+            $workday_starts_ts = ($workday_starts * 3600) + $stamp;
+            $workday_ends_ts = ($workday_ends * 3600) + $stamp;
+            $ymd = date('Ymd', $stamp);
 
-            $workday_starts_ts = mktime($workday_starts, 0, 0, (int)$ymd_matches[2], (int)$ymd_matches[3], (int)$ymd_matches[1]);
-            $workday_ends_ts = mktime($workday_ends, 0, 0, (int)$ymd_matches[2], (int)$ymd_matches[3], (int)$ymd_matches[1]);
-            $last_end_time = false;
+            $last_end_time = $workday_starts_ts;
             $last_event = false;
-            foreach ($events as $event) {
-                if (   $event->end <= $workday_starts_ts
-                    || $event->start >= $workday_ends_ts) {
-                    // We need not to consider this event, it is outside the defined workday
-                    continue;
-                }
 
-                debug_add("checking event #{$event->id} ({$event->title})");
-                if ($last_end_time === false) {
-                    if ($event->start > $workday_starts_ts) {
-                        // First event of the day starts after we have started working, use work start time as last end time.
-                        $last_end_time = $workday_starts_ts;
-                    } else {
-                        // Make the first event of the day the last end time and skip rest of the checks
-                        $last_end_time = $event->end;
-                        $last_event = $event;
+            if (isset($events_by_date[$ymd])) {
+                foreach ($events_by_date[$ymd] as $event) {
+                    if (   $event->end <= $workday_starts_ts
+                        || $event->start >= $workday_ends_ts) {
+                        // We need not consider this event, it is outside the defined workday
                         continue;
                     }
+                    debug_add("checking event #{$event->id} ({$event->title})");
+                    if ($event->start >= $workday_starts_ts) {
+                        $diff = $event->start - $last_end_time;
+                        if ($diff >= $amount) {
+                            // slot found
+                            $slots[] = self::_create_slot($last_end_time, $event->start, $last_event, $event);
+                        }
+                    }
+                    $last_end_time = max($last_end_time, $event->end);
+                    $last_event = $event;
                 }
-                $diff = $event->start - $last_end_time;
-                if ($diff >= $amount) {
-                    // slot found
-                    $slots[] = self::_create_slot($last_end_time, $event->start, $last_event, $event);
-                }
-                $last_end_time = $event->end;
-                $last_event = $event;
             }
             // End of day slot
-            if ($last_end_time === false) {
-                $last_end_time = $workday_starts_ts;
-            }
             if (   $last_end_time < $workday_ends_ts
                 && (($workday_ends_ts - $last_end_time) >= $amount)) {
                 $slots[] = self::_create_slot($last_end_time, $workday_ends_ts, $last_event);
             }
+
+            $stamp = strtotime('tomorrow', $stamp) + 1;
         }
 
         return $slots;
