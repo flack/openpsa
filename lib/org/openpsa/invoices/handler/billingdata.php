@@ -18,6 +18,8 @@ use midcom\datamanager\controller;
  */
 class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_invoices_handler;
+
     /**
      * Contains the object the billing data is linked to
      *
@@ -30,13 +32,8 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         $schemadb = schemadb::from_path($this->_config->get('schemadb_billing_data'));
         $vat =& $schemadb->get('default')->get_field('vat');
         // Fill VAT select
-        $vat_array = explode(',', $this->_config->get('vat_percentages'));
-        if (!empty($vat_array)) {
-            $vat_values = [];
-            foreach ($vat_array as $entry) {
-                $vat_values[$entry] = "{$entry}%";
-            }
-            $vat['type_config']['options'] = $vat_values;
+        if ($options = $this->get_vat_options($this->_config->get('vat_percentages'))) {
+            $vat['type_config']['options'] = $options;
         }
 
         $dummy_invoice = new org_openpsa_invoices_invoice_dba();

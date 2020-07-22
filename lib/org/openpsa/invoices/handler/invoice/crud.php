@@ -20,6 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_invoices_handler;
+
     /**
      * @var org_openpsa_invoices_invoice_dba
      */
@@ -130,13 +132,8 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     private function modify_schema(schema $schema)
     {
         // Fill VAT select
-        $vat_array = explode(',', $this->_config->get('vat_percentages'));
-        if (!empty($vat_array)) {
-            $vat_values = [];
-            foreach ($vat_array as $vat) {
-                $vat_values[$vat] = "{$vat}%";
-            }
-            $schema->get_field('vat')['type_config']['options'] = $vat_values;
+        if ($options = $this->get_vat_options($this->_config->get('vat_percentages'))) {
+            $schema->get_field('vat')['type_config']['options'] = $options;
         }
 
         if ($this->_config->get('invoice_pdfbuilder_class')) {

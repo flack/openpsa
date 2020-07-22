@@ -40,31 +40,31 @@ class org_openpsa_helpers
         return $output;
     }
 
-     /**
-      * @param midcom_core_dbaobject $object The object we're working on
-      * @param string $field The schema field name
-      * @return midcom_db_attachment[] List of attachments, indexed by identifier
-      */
-     public static function get_dm2_attachments($object, $field) : array
-     {
-         $attachments = [];
-         $identifiers = explode(',', $object->get_parameter('midcom.helper.datamanager2.type.blobs', 'guids_' . $field));
-         if (empty($identifiers)) {
-             return $attachments;
-         }
-         foreach ($identifiers as $identifier) {
-             $parts = explode(':', $identifier);
-             if (count($parts) != 2) {
-                 continue;
-             }
-             $guid = $parts[1];
-             try {
-                 $attachments[$parts[0]] = midcom_db_attachment::get_cached($guid);
-             } catch (midcom_error $e) {
-                 $e->log();
-             }
-         }
+    /**
+     * @param midcom_core_dbaobject $object The object we're working on
+     * @param string $field The schema field name
+     * @return midcom_db_attachment[] List of attachments, indexed by identifier
+     */
+    public static function get_dm2_attachments($object, $field) : array
+    {
+        $attachments = [];
+        $identifiers = explode(',', $object->get_parameter('midcom.helper.datamanager2.type.blobs', 'guids_' . $field));
+        if (empty($identifiers)) {
+            return $attachments;
+        }
+        foreach ($identifiers as $identifier) {
+            $parts = explode(':', $identifier);
+            if (count($parts) != 2) {
+                continue;
+            }
+            $guid = $parts[1];
+            try {
+                $attachments[$parts[0]] = midcom_db_attachment::get_cached($guid);
+            } catch (midcom_error $e) {
+                $e->log();
+            }
+        }
 
-         return $attachments;
-     }
+        return $attachments;
+    }
 }

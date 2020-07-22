@@ -37,8 +37,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
 
         $invoice_sum = 0;
         foreach ($this->_object->get_invoice_items() as $item) {
-            $entry = [];
-            $entry['id'] = $item->id;
+            $entry = ['id' => $item->id];
             try {
                 $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($item->deliverable);
                 $entry['deliverable'] = '<i class="fa fa-money" title="' . $deliverable->title . '"></i>';

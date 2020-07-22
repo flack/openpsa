@@ -52,13 +52,8 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
     private function load_datamanager() : datamanager
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb'));
-        $vat_array = explode(',', $this->_config->get('vat_percentages'));
-        if (!empty($vat_array)) {
-            $vat_values = [];
-            foreach ($vat_array as $vat) {
-                $vat_values[$vat] = "{$vat}%";
-            }
-            $schemadb->get('default')->get_field('vat')['type_config']['options'] = $vat_values;
+        if ($options = $this->get_vat_options($this->_config->get('vat_percentages'))) {
+            $schemadb->get('default')->get_field('vat')['type_config']['options'] = $options;
         }
 
         if ($this->_config->get('invoice_pdfbuilder_class')) {

@@ -53,17 +53,12 @@ class org_openpsa_helpers_list
             }
 
             $users_groups = midcom::get()->auth->user->list_memberships();
-            foreach ($users_groups as $key => $vgroup) {
-                if (is_object($vgroup)) {
-                    $cache[$array_name][$key] = $vgroup->name;
-                    if ($show_members) {
-                        $vgroup_members = $vgroup->list_members();
-                        foreach ($vgroup_members as $key2 => $person) {
-                            $cache[$array_name][$key2] = '&nbsp;&nbsp;&nbsp;' . $person->name;
-                        }
+            foreach ($users_groups as $key => $group) {
+                $cache[$array_name][$key] = $group->name;
+                if ($show_members) {
+                    foreach ($group->list_members() as $key2 => $person) {
+                        $cache[$array_name][$key2] = '&nbsp;&nbsp;&nbsp;' . $person->name;
                     }
-                } else {
-                    $cache[$array_name][$key] = $vgroup;
                 }
             }
 

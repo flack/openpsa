@@ -57,11 +57,7 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         foreach ($items as $item) {
             $item->deliverable = $this->_deliverable->id;
             $item->skip_invoice_update = true;
-            if ($item->id) {
-                $stat = $item->update();
-            } else {
-                $stat = $item->create();
-            }
+            $stat = ($item->id) ? $item->update() : $item->create();
             if (!$stat) {
                 throw new midcom_error('Failed to save item to disk, ' . midcom_connection::get_error_string());
             }

@@ -189,9 +189,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         $properties = $this->get_properties();
         // Copy current properties
         foreach ($properties as $key) {
-            if (   $key != 'guid'
-                && $key != 'id'
-                && $key != 'metadata') {
+            if (!in_array($key, ['guid', 'id', 'metadata'])) {
                 $backup->$key = $this->{$key};
             }
         }

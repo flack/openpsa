@@ -32,18 +32,15 @@ class org_openpsa_invoices_handler_rest_invoice extends midcom_baseclasses_compo
             throw new midcom_error("Invalid filter options");
         }
 
-        $person = new org_openpsa_contacts_person_dba($filter['person_guid']);
-
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
-        $qb->add_constraint("customerContact", "=", $person->id);
+        $qb->add_constraint("customerContact.guid", "=", $filter['person_guid']);
 
         $data = [];
         foreach ($qb->execute() as $invoice) {
-            $date = $invoice->date ? $invoice->date : $invoice->metadata->created;
             $data[] = [
                 "guid" => $invoice->guid,
                 "number" => $invoice->number,
-                "date" => $date,
+                "date" => $invoice->date ?: $invoice->metadata->created,
                 "status" => $invoice->get_status(),
                 "sum" => $invoice->sum
             ];

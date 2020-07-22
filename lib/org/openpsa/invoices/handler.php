@@ -13,6 +13,18 @@
  */
 trait org_openpsa_invoices_handler
 {
+    public function get_vat_options($percentages) : array
+    {
+        $values = [];
+        $vat_array = explode(',', $percentages);
+        if (!empty($vat_array)) {
+            foreach ($vat_array as $entry) {
+                $values[$entry] = "{$entry}%";
+            }
+        }
+        return $values;
+    }
+
     public function render_invoice_actions(org_openpsa_invoices_invoice_dba $invoice)
     {
         if ($invoice->paid) {

@@ -8,10 +8,10 @@ $workflow = new midcom\workflow\datamanager;
 $filename = $data['mode'];
 
 foreach ($data['hours'] as $report) {
-    $entry = [];
-
-    $entry['id'] = $report->id;
-    $entry['date'] = strftime('%Y-%m-%d', $report->date);
+    $entry = [
+        'id' => $report->id,
+        'date' => strftime('%Y-%m-%d', $report->date)
+    ];
 
     if ($data['mode'] != 'task') {
         $task = org_openpsa_projects_task_dba::get_cached($report->task);
