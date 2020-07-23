@@ -35,20 +35,10 @@ class org_openpsa_notifications_notifier_email implements org_openpsa_notificati
             $mail->from = '"' . $sender->name . '" <' . $sender->email . '>';
         } else {
             $config = midcom_baseclasses_components_configuration::get('org.openpsa.notifications', 'config');
-            $default_sender = $config->get('default_sender');
-
-            if (!empty($default_sender)) {
-                $mail->from = $default_sender;
-            } else {
-                $mail->from = '"OpenPSA Notifier" <noreply@' . $_SERVER['SERVER_NAME'] . '>';
-            }
+            $mail->from = $config->get('default_sender') ?: '"OpenPSA Notifier" <noreply@' . $_SERVER['SERVER_NAME'] . '>';
         }
 
-        if (array_key_exists('title', $message)) {
-            $mail->subject = $message['title'];
-        } else {
-            $mail->subject = 'org.openpsa.notifications message (no title provided)';
-        }
+        $mail->subject = $message['title'] ??  'org.openpsa.notifications message (no title provided)';
         if (array_key_exists('attachments', $message)) {
             $mail->attachments = $message['attachments'];
         }

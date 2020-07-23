@@ -110,10 +110,9 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         $category = ($array['invoiceable']) ? 'invoiceable' : 'uninvoiceable';
 
         if (!isset($this->_request_data['hours'][$category][$customer])) {
-            $this->_request_data['hours'][$category][$customer] = $array['hours'];
-        } else {
-            $this->_request_data['hours'][$category][$customer] += $array['hours'];
+            $this->_request_data['hours'][$category][$customer] = 0;
         }
+        $this->_request_data['hours'][$category][$customer] += $array['hours'];
         $this->_request_data['hours']['total_' . $category] += $array['hours'];
     }
 

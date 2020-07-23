@@ -21,9 +21,7 @@ $total = count($results);
 
 echo "Checking " . $total . " relatedto links. \n";
 
-$i = 0;
-foreach ($results as $result) {
-    $i++;
+foreach ($results as $i => $result) {
     try {
         midcom::get()->dbfactory->get_object_by_guid($result->fromGuid);
         midcom::get()->dbfactory->get_object_by_guid($result->toGuid);

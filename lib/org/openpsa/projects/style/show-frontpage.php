@@ -43,11 +43,7 @@ $formatter = $data['l10n']->get_formatter();
         $position = '';
 
         foreach ($projects as $i => $project) {
-            if ($class == "even") {
-                $class = 'odd';
-            } else {
-                $class = "even";
-            }
+            $class = ($class == 'even') ? 'odd' : 'even';
             if ($i == $total - 1) {
                 $position = 'bottom';
             }

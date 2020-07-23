@@ -94,17 +94,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
             $up = $group->id;
         }
 
-        $value_properties = ['title', 'code', 'id'];
-        if ($keyproperty !== 'id') {
-            $value_properties[] = $keyproperty;
-        }
-        foreach ($label_fields as $fieldname) {
-            if (   $fieldname != 'id'
-                && $fieldname != $keyproperty) {
-                $value_properties[] = $fieldname;
-                continue;
-            }
-        }
+        $value_properties = array_unique(array_merge($label_fields, [$keyproperty]));
 
         $mc = self::new_collector('up', (int)$up);
         if ($order_by_score) {

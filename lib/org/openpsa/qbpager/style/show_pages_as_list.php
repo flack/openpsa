@@ -15,7 +15,7 @@ foreach ($pages as $i => $page) {
         echo "\n<li class=\"page splitter\">...</li>";
     }
     if (   $i > 0
-            && $i < $total_links) {
+        && $i < $total_links) {
         echo "\n<li class=\"separator\"></li>";
     }
     if ($page['href'] === false) {

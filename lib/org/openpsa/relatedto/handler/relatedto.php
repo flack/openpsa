@@ -102,39 +102,32 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         $arr = [];
         if ($inbound) {
-            $object_prefix = 'from';
+            $other = 'from';
             $mc = org_openpsa_relatedto_dba::new_collector('toGuid', $this->_object->guid);
         } else {
-            $object_prefix = 'to';
+            $other = 'to';
             $mc = org_openpsa_relatedto_dba::new_collector('fromGuid', $this->_object->guid);
         }
 
-        $mc->add_value_property($object_prefix . 'Guid');
-        $mc->add_value_property($object_prefix . 'Class');
-        $mc->add_value_property($object_prefix . 'Component');
-        $mc->add_value_property('status');
         $mc->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
-        $mc->execute();
-        $links = $mc->list_keys();
+        $links = $mc->get_rows([$other . 'Component', $other . 'Class', 'status', $other . 'Guid']);
 
-        foreach (array_keys($links) as $guid) {
+        foreach ($links as $guid => $link) {
             //TODO: check for duplicates ?
-            $to_arr = [
-                'link' => [
-                    'guid' => $guid,
-                    'component' => $mc->get_subkey($guid, $object_prefix . 'Component'),
-                    'class' => $mc->get_subkey($guid, $object_prefix . 'Class'),
-                    'status' => $mc->get_subkey($guid, 'status')
-                ]
-            ];
             try {
-                $to_arr['other_obj'] = midcom::get()->dbfactory->get_object_by_guid($mc->get_subkey($guid, $object_prefix . 'Guid'));
+                $result = ['other_obj' => midcom::get()->dbfactory->get_object_by_guid($link[$other . 'Guid'])];
             } catch (midcom_error $e) {
                 continue;
             }
+            $result['link'] = [
+                'guid' => $guid,
+                'component' => $link[$other . 'Component'],
+                'class' => $link[$other . 'Class'],
+                'status' => $link['status']
+            ];
 
-            $to_arr['sort_time'] = $this->_get_object_links_sort_time($to_arr['other_obj']);
-            $arr[] = $to_arr;
+            $result['sort_time'] = $this->_get_object_links_sort_time($result['other_obj']);
+            $arr[] = $result;
         }
         return $arr;
     }
