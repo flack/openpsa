@@ -145,12 +145,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         if (empty($images)) {
             return $data;
         }
-        $ids = [];
-        foreach ($images as $image) {
-            $ids[] = $image->attachment;
-            $ids[] = $image->image;
-            $ids[] = $image->thumbnail;
-        }
+        $ids = array_merge(array_column($images, 'attachment'), array_column($images, 'image'), array_column($images, 'thumbnail'));
 
         $mc = midcom_db_attachment::new_collector();
         $mc->add_constraint('id', 'IN', $ids);

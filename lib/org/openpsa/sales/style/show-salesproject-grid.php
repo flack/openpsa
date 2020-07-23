@@ -13,12 +13,11 @@ $state_labels = [
 foreach ($data['salesprojects'] as $salesproject) {
     $salesproject_url = $data['router']->generate('salesproject_view', ['guid' => $salesproject->guid]);
 
-    $row = [];
-
-    $row['id'] = $salesproject->id;
-
-    $row['index_title'] = $salesproject->title;
-    $row['title'] = '<a href="' . $salesproject_url . '">' . $salesproject->title . '</a>';
+    $row = [
+        'id' => $salesproject->id,
+        'index_title' => $salesproject->title,
+        'title' => '<a href="' . $salesproject_url . '">' . $salesproject->title . '</a>'
+    ];
 
     if ($data['mode'] != 'customer') {
         $row['index_customer'] = '';

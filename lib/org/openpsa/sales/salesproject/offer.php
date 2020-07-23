@@ -23,15 +23,9 @@ class org_openpsa_sales_salesproject_offer_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_offer';
 
-    /**
-     * @return midcom_db_attachment|null
-     */
-    public function get_file()
+    public function get_file() : ?midcom_db_attachment
     {
-        foreach ($this->list_attachments() as $att) {
-            return $att;
-        }
-        return null;
+        return $this->list_attachments()[0] ?? null;
     }
 
     public function get_label() : string
