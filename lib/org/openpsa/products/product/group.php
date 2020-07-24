@@ -50,12 +50,11 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         // Check for duplicates
         $qb = self::new_query_builder();
         $qb->add_constraint('code', '=', $code);
+        $qb->add_constraint('up', '=', $this->up);
 
         if ($this->id) {
             $qb->add_constraint('id', '<>', $this->id);
         }
-
-        $qb->add_constraint('up', '=', $this->up);
 
         return $qb->count() > 0;
     }
@@ -88,13 +87,12 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
             } else {
                 $ret[''] = midcom::get()->i18n->get_string('toplevel', 'org.openpsa.products');
             }
-        }
-        if (mgd_is_guid($up)) {
+        } elseif (mgd_is_guid($up)) {
             $group = new self($up);
             $up = $group->id;
         }
 
-        $value_properties = array_unique(array_merge($label_fields, [$keyproperty]));
+        $value_properties = array_unique(array_merge($label_fields, [$keyproperty, 'id']));
 
         $mc = self::new_collector('up', (int)$up);
         if ($order_by_score) {
@@ -102,9 +100,8 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         }
         $mc->add_order('code');
         $mc->add_order('title');
-        $results = $mc->get_rows($value_properties);
 
-        foreach ($results as $result) {
+        foreach ($mc->get_rows($value_properties) as $result) {
             $key = $result[$keyproperty];
             $ret[$key] = $prefix;
             foreach ($label_fields as $fieldname) {
