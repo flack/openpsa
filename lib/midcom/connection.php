@@ -31,7 +31,7 @@ class midcom_connection
      * @throws Exception We use regular exceptions here, because this might run before things are properly set up
      * @return boolean Indicating success
      */
-    public static function setup($basedir = null) : bool
+    public static function setup(string $basedir) : bool
     {
         if (file_exists($basedir . 'config/midgard-portable.inc.php')) {
             include $basedir . 'config/midgard-portable.inc.php';

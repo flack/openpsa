@@ -324,7 +324,7 @@ class midcom_application extends Kernel
      * @param string $header    The header to send.
      * @param integer $response_code HTTP response code to send with the header
      */
-    public function header($header, $response_code = null)
+    public function header($header, int $response_code = null)
     {
         $this->cache->content->register_sent_header($header);
         midcom_compat_environment::get()->header($header, true, $response_code);
