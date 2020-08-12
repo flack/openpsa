@@ -16,19 +16,16 @@ use midgard\portable\api\error\exception as mgd_exception;
  */
 class midcom_error_midgard extends midcom_error
 {
-    public function __construct(mgd_exception $e, $id = null)
+    public function __construct(mgd_exception $e, $id)
     {
-        //catch last error which might be from dbaobject
-        $last_error = midcom_connection::get_error();
-
         if ($id !== null) {
-            if ($last_error === MGD_ERR_NOT_EXISTS) {
+            if ($e->getCode() === MGD_ERR_NOT_EXISTS) {
                 $code = MIDCOM_ERRNOTFOUND;
                 $message = "The object with identifier {$id} was not found.";
-            } elseif ($last_error == MGD_ERR_ACCESS_DENIED) {
+            } elseif ($e->getCode() == MGD_ERR_ACCESS_DENIED) {
                 $code = MIDCOM_ERRFORBIDDEN;
                 $message = midcom::get()->i18n->get_string('access denied', 'midcom');
-            } elseif ($last_error == MGD_ERR_OBJECT_DELETED) {
+            } elseif ($e->getCode() == MGD_ERR_OBJECT_DELETED) {
                 $code = MIDCOM_ERRNOTFOUND;
                 $message = "The object with identifier {$id} was deleted.";
             }
