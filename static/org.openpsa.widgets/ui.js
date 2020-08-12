@@ -138,16 +138,11 @@ const org_openpsa_layout = {
             axis: 'x',
             containment: 'window',
             stop: function(event, ui) {
-                var offset = Math.max((ui.offset.left), 0),
-                navigation_width = offset,
-                content_margin_left = offset + 2;
+                var offset = Math.max((ui.offset.left), 0);
 
-                $('#leftframe').css('width', navigation_width + 'px');
-                $('#content').css('margin-left', content_margin_left + 'px');
-                //workaround for problem in jquery.ui 1.11.2
-                $('#template_openpsa2_resizer').css('width', '');
+                $('#leftframe').css('width', offset + 'px');
 
-                $.post(MIDCOM_PAGE_PREFIX + '__mfa/asgard/preferences/ajax/', {openpsa2_offset: offset});
+                $.post(MIDCOM_PAGE_PREFIX + '__mfa/asgard/preferences/ajax/', {openpsa2_offset: offset + 2});
                 $(window).trigger('resize');
             }
         });

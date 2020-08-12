@@ -7,7 +7,6 @@ $pref_found = false;
 $width = midgard_admin_asgard_plugin::get_preference('openpsa2_offset');
 if ($width !== false) {
     $navigation_width = $width - 2;
-    $content_offset = $width;
     $pref_found = true;
 }
 
@@ -40,11 +39,6 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
             #container #leftframe
             {
                 width: &(navigation_width);px;
-            }
-
-            #container #content
-            {
-                margin-left: &(content_offset);px;
             }
             </style>
         <?php
