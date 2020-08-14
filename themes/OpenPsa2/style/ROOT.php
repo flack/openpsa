@@ -3,11 +3,9 @@ $i18n = midcom::get()->i18n;
 $head = midcom::get()->head;
 $context = midcom_core_context::get();
 
-$pref_found = false;
 $width = midgard_admin_asgard_plugin::get_preference('openpsa2_offset');
 if ($width !== false) {
     $navigation_width = $width - 2;
-    $pref_found = true;
 }
 
 $topic = $context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
@@ -29,25 +27,14 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
         org_openpsa_widgets_ui::add_head_elements();
         org_openpsa_widgets_tree::add_head_elements();
 
-        $head->add_jscript("const TOOLBAR_MORE_LABEL = '" . midcom::get()->i18n->get_l10n('org.openpsa.widgets')->get('more') . "';");
+        $head->add_jscript("const TOOLBAR_MORE_LABEL = '" . $i18n->get_l10n('org.openpsa.widgets')->get('more') . "';");
         $head->add_jsfile(MIDCOM_STATIC_URL . '/OpenPsa2/ui.js');
         $head->print_head_elements();
-
-        if ($pref_found) {
-            ?>
-            <style type="text/css">
-            #container #leftframe
-            {
-                width: &(navigation_width);px;
-            }
-            </style>
-        <?php
-        } ?>
-
+         ?>
     </head>
     <body<?php $head->print_jsonload(); ?>>
         <div id="container">
-          <div id="leftframe">
+          <div id="leftframe"<?php if (isset($navigation_width)) { ?> style="width: &(navigation_width);px;"<?php } ?>>
             <div id="branding">
                 <(logo)>
             </div>
@@ -80,6 +67,7 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
     <script type="text/javascript">
     org_openpsa_layout.add_splitter();
     org_openpsa_jsqueue.execute();
+    openpsa2_add_toolbar_toggle();
     </script>
     </body>
     <?php

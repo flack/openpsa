@@ -251,6 +251,29 @@ a:hover
     transition: all 0s ease 40ms;
 }
 
+#org_openpsa_toolbar .show-navigation,
+.navigation-hidden #org_openpsa_toolbar .hide-navigation,
+.navigation-hidden #leftframe, .navigation-hidden #template_openpsa2_resizer {
+    display: none;
+}
+.navigation-visible #org_openpsa_toolbar .hide-navigation,
+.navigation-hidden #org_openpsa_toolbar .show-navigation {
+    display: inline;
+}
+
+@media (max-width: 768px) {
+    body:not(.navigation-visible) #org_openpsa_toolbar .hide-navigation,
+    #leftframe, #template_openpsa2_resizer {
+        display: none;
+    }
+    .navigation-visible #leftframe, .navigation-visible #template_openpsa2_resizer {
+        display: block;
+    }
+    body:not(.navigation-visible) #org_openpsa_toolbar .show-navigation {
+        display: inline;
+    }
+}
+
 #content
 {
   background-color: #fff;
