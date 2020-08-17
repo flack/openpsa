@@ -261,19 +261,6 @@ a:hover
     display: inline;
 }
 
-@media (max-width: 768px) {
-    body:not(.navigation-visible) #org_openpsa_toolbar .hide-navigation,
-    #leftframe, #template_openpsa2_resizer {
-        display: none;
-    }
-    .navigation-visible #leftframe, .navigation-visible #template_openpsa2_resizer {
-        display: block;
-    }
-    body:not(.navigation-visible) #org_openpsa_toolbar .show-navigation {
-        display: inline;
-    }
-}
-
 #content
 {
   background-color: #fff;
@@ -914,4 +901,28 @@ aside .org_openpsa_helper_box h3
 .org_openpsa_user_goodPass, .org_openpsa_user_strongPass
 {
     color: green;
+}
+
+
+@media (max-width: 768px) {
+    body:not(.navigation-visible) #org_openpsa_toolbar .hide-navigation,
+    #leftframe, #template_openpsa2_resizer {
+        display: none;
+    }
+    .navigation-visible #leftframe, .navigation-visible #template_openpsa2_resizer {
+        display: block;
+    }
+    body:not(.navigation-visible) #org_openpsa_toolbar .show-navigation {
+        display: inline;
+    }
+
+    .content-with-sidebar {
+        flex-direction: column;
+    }
+
+    .content-with-sidebar > div.main,
+    .content-with-sidebar > aside {
+        width: 100%;
+        margin-bottom: 2em;
+    }
 }

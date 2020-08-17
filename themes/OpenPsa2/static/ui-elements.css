@@ -388,7 +388,8 @@ form.datamanager2 div.input .submit,
     margin: .2em 0 .3em 0;
     text-shadow: 1px 1px 2px white;
     color: #222;
-    padding: .1em .4em
+    padding: .1em .4em;
+    white-space: normal;
 }
 
 input[type="submit"]:not([disabled]):hover,
@@ -656,6 +657,7 @@ table.link_statistics td.bargraph div.link_count_visualization
     box-shadow: 3px 6px 12px rgba(0,0,0,.3);
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 6px;
+    max-width: calc(-0.6em + 100vw);
 }
 
 .ui-dialog .ui-dialog-titlebar .ui-dialog-title
@@ -924,7 +926,6 @@ table.link_statistics td.bargraph div.link_count_visualization
 
 .ui-tabs .ui-tabs-nav
 {
-    height: 1.9em;
     border-bottom: 1px solid #daddd6;
 }
 

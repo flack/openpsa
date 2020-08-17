@@ -15,6 +15,7 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
 <html lang="<?php echo $i18n->get_current_language(); ?>">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>&(title_prefix); - <(title)> OpenPSA</title>
         <link type="image/x-icon" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.core/openpsa-16x16.png" rel="shortcut icon"/>
         <?php
