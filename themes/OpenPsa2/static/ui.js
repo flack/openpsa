@@ -12,6 +12,10 @@ function openpsa2_add_toolbar_toggle()
             $('body').removeClass('navigation-hidden');
             $(window).trigger('resize');
         });
+
+    if (document.getElementById('org_openpsa_toolbar') && $('#org_openpsa_toolbar > .view_toolbar').length === 0) {
+        $('#org_openpsa_toolbar').append($('<ul class="midcom_toolbar view_toolbar"></ul>'));
+    }
     $('#org_openpsa_toolbar > .view_toolbar')
         .prepend(show)
         .prepend(hide);
