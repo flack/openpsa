@@ -1,6 +1,9 @@
 <?php
-require dirname(__DIR__) . '/vendor/autoload.php';
-
+if (file_exists(dirname(__DIR__) . '/vendor/autoload.php')) {
+    require dirname(__DIR__) . '/vendor/autoload.php';
+} else {
+    require dirname(__DIR__, 4) . '/vendor/autoload.php';
+}
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -71,7 +74,7 @@ class rcs2git extends Command
             do {
                 if (!$this->exec('co -q -f -r' . escapeshellarg($current['revision']) . " {$filename}", $output)) {
                     $output->writeln('Could not check out revision ' . $current['revision'] . ' in ' . $rcsfile);
-                    continue;
+                    continue 2;
                 }
 
                 $this->exec('git -C ' . $dir . ' add ' . substr($filename, strlen($dir)), $output);
