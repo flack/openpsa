@@ -103,14 +103,6 @@
  *   'user' the "classic" mode, per user content-cache, default<br/>
  *   'memberships' cache per group memberships (users that have same memberships share same cache), for many cases this should offer more performance and smaller cache but if you use per-user privileges or other user specific processing this will cause hard-to-debug issues<br/>
  *   'public' everything goes to single public cache, disabling logins altogether will likely be safer.
- * - <b>Array cache_module_nap_backend:</b> The configuration of the nap/metadata cache backend.
- *   Check the documentation of midcom_services_cache_backend of what options are available here.
- *   In general, you should use this only to change the backend driver.
- *   In all other cases you should leave this option untouched. The defaults are to store all
- *   cache databases into the 'nap/' subdirectory of the cache base directory.
- *   The databases are named after the root topic guid, which should be sufficient
- *   in all cases. If you really want to separate things here, use different directories for
- *   the backends.
  * - <b>string cache_module_memcache_backend:</b> The cache backend to use for the memcache caching
  *   module. The default is null, which disables the module entirely. This is the default. If you
  *   have both memcached and the memcached PHP extension installed, set this to 'memcached', to enable
@@ -298,9 +290,6 @@ class midcom_config implements ArrayAccess
         'cache_module_content_default_lifetime_authenticated' => 0,
         // Valid options are 'user' (default), 'memberships' and 'public'
         'cache_module_content_caching_strategy' => 'user',
-
-        // NAP Cache
-        'cache_module_nap_backend' => [] /* Auto-Detect */,
 
         // CRON Service configuration
         'cron_day_hours' => 0,
