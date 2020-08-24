@@ -2,16 +2,11 @@
 /**
  * Setup file for running unit tests
  */
-require_once dirname(__DIR__) . '/vendor/autoload.php';
-require_once __DIR__ . '/autoload.php';
+require_once __DIR__ . '/utilities/autoload.php';
 
-define('OPENPSA_TEST_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
-define('OPENPSA2_UNITTEST_RUN', true);
-define('OPENPSA2_UNITTEST_OUTPUT_DIR', OPENPSA_TEST_ROOT . '__output');
+openpsa_test_setup(__DIR__);
 
 $GLOBALS['midcom_config_local'] = [];
-
-openpsa_prepare_directories();
 
 // Check that the environment is a working one
 if (!midcom_connection::setup(dirname(__DIR__) . DIRECTORY_SEPARATOR)) {

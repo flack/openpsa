@@ -11,7 +11,12 @@ function openpsa_test_create_dir(string $dir = '')
     }
 }
 
-function openpsa_prepare_directories() {
+function openpsa_test_setup(string $dir)
+{
+    define('OPENPSA_TEST_ROOT', $dir . DIRECTORY_SEPARATOR);
+    define('OPENPSA2_UNITTEST_RUN', true);
+    define('OPENPSA2_UNITTEST_OUTPUT_DIR', OPENPSA_TEST_ROOT . '__output');
+
     if (file_exists(OPENPSA2_UNITTEST_OUTPUT_DIR)) {
         $ret = false;
         $output = system('rm -Rf ' . OPENPSA2_UNITTEST_OUTPUT_DIR, $ret);
