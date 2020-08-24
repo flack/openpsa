@@ -80,8 +80,8 @@ class midcom_config_test
             try {
                 $dummy = new stdClass;
                 $dummy->guid = 'ab';
-                midcom::get()->rcs->load_backend($dummy);
-                $this->add("MidCOM RCS", self::OK);
+                $backend = midcom::get()->rcs->load_backend($dummy);
+                $this->add("MidCOM RCS", self::OK, get_class($backend));
             } catch (midcom_error $e) {
                 $this->add("MidCOM RCS", self::ERROR, $e->getMessage());
             }
