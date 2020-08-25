@@ -13,7 +13,7 @@
  */
 class org_openpsa_mypage_handler_todayTest extends openpsa_testcase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::create_user(true);
     }

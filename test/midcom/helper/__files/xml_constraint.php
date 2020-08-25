@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Util\InvalidArgumentHelper;
+use PHPUnit\Framework\Constraint\Constraint;
 
 /**
  * Constraint for comparing XML strings produced by objectmapper. It removes
@@ -15,14 +15,13 @@ use PHPUnit\Util\InvalidArgumentHelper;
  *
  * @package openpsa.test
  */
-class xml_comparison extends IsEqual
+class xml_comparison extends Constraint
 {
-    public function __construct($value, $delta = 0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false)
+    private $value;
+
+    public function __construct(string $value)
     {
-        if (!is_string($value)) {
-            throw InvalidArgumentHelper::factory(2, 'string');
-        }
-        parent::__construct($this->_normalize_string($value, 2), $delta, $maxDepth, $canonicalize, $ignoreCase);
+        $this->value = $this->_normalize_string($value, 2);
     }
 
     private function _normalize_string($string, $argument = 1)
@@ -69,12 +68,22 @@ class xml_comparison extends IsEqual
         }
     }
 
-    public function evaluate($other, $description = '', $returnResult = false)
+    public function matches($other) : bool
+    {
+        return $this->value == $other;
+    }
+
+    public function evaluate($other, $description = '', $returnResult = false) : ?bool
     {
         if (!is_string($other)) {
             throw InvalidArgumentHelper::factory(1, 'string');
         }
 
         return parent::evaluate($this->_normalize_string($other), $description, $returnResult);
+    }
+
+    public function toString() : string
+    {
+        return 'is equal to ' . $this->exporter()->export($this->value);
     }
 }

@@ -15,7 +15,7 @@ class midcom_core_accountTest extends openpsa_testcase
 {
     protected static $_person;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_person = self::create_class_object(midcom_db_person::class);
     }

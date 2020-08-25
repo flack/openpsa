@@ -16,7 +16,7 @@ class net_nemein_wiki_handler_editTest extends openpsa_testcase
     protected static $_topic;
     protected static $_page;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         $topic_attributes = [
             'component' => 'net.nemein.wiki',

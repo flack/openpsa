@@ -19,7 +19,7 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
     protected static $_filepath;
     protected static $_filename;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_topic = self::create_class_object(midcom_db_topic::class);
         self::$_filepath = dirname(__FILE__) . '/__files/';
@@ -105,12 +105,10 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
         $this->assertFileExists($filter->get_file());
     }
 
-    /**
-     * @expectedException midcom_error
-     */
     public function testProcess_Chain_invalid()
     {
         $filter = $this->_get_prepared_filter();
+        $this->expectException(midcom_error::class);
         $filter->process_chain(";ThisCommandIsTotallyUnknown");
     }
 

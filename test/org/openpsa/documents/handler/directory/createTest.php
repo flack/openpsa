@@ -15,7 +15,7 @@ class org_openpsa_documents_handler_directory_createTest extends openpsa_testcas
 {
     protected static $_person;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_person = self::create_user(true);
     }

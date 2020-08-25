@@ -15,7 +15,7 @@ class org_openpsa_invoices_invoice_billing_dataTest extends openpsa_testcase
 {
     protected static $_contact;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_contact = self::create_class_object(org_openpsa_contacts_person_dba::class);
     }

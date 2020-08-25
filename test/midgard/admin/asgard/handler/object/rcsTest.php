@@ -15,7 +15,7 @@ class midgard_admin_asgard_handler_object_rcsTest extends openpsa_testcase
 {
     protected static $_object;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::create_user(true);
         self::$_object = self::create_class_object(midcom_db_person::class, ['_use_rcs' => true]);

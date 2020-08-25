@@ -15,7 +15,7 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
 {
     private static $project;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::create_user(true);
         self::$project = self::create_class_object(org_openpsa_projects_project::class);

@@ -17,7 +17,7 @@ class org_openpsa_relatedto_handler_relatedtoTest extends openpsa_testcase
     protected static $_object_to;
     protected static $_relation;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_object_from = self::create_class_object(org_openpsa_invoices_invoice_dba::class);
         self::$_object_to = self::create_class_object(org_openpsa_sales_salesproject_dba::class);

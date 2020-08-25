@@ -15,7 +15,7 @@ class net_nemein_rss_handler_listTest extends openpsa_testcase
 {
     protected static $topic;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::create_user(true);
         $data = [

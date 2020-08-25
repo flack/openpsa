@@ -15,7 +15,7 @@ class midcom_db_topicTest extends openpsa_testcase
 {
     protected static $_parent;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_parent = self::create_class_object(midcom_db_topic::class);
     }

@@ -15,7 +15,7 @@ class net_nemein_wiki_parserTest extends openpsa_testcase
 {
     protected static $_page;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         $topic = self::get_component_node('net.nemein.wiki');
         $attributes = [

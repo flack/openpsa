@@ -16,7 +16,7 @@ class org_openpsa_invoices_handler_invoice_crudTest extends openpsa_testcase
     protected static $_person;
     protected static $_invoice;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_person = self::create_user(true);
         self::$_invoice = self::create_class_object(org_openpsa_invoices_invoice_dba::class, [

@@ -19,7 +19,7 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
     protected static $_salesproject;
     protected static $_product;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_person = self::create_user(true);
         self::$_salesproject = self::create_class_object(org_openpsa_sales_salesproject_dba::class);

@@ -15,7 +15,7 @@ class org_openpsa_contacts_handler_person_duplicatesTest extends openpsa_testcas
 {
     protected static $_person;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_person = self::create_user(true);
     }

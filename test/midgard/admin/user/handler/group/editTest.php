@@ -15,7 +15,7 @@ class midgard_admin_user_handler_group_editTest extends openpsa_testcase
 {
     protected static $_group;
 
-    public static function setupBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_group = self::create_class_object(midcom_db_group::class);
     }

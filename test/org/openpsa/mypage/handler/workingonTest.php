@@ -15,7 +15,7 @@ class org_openpsa_mypage_handler_workingonTest extends openpsa_testcase
 {
     private static $task;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::create_user(true);
         $project = self::create_class_object(org_openpsa_projects_project::class);

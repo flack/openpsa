@@ -16,7 +16,7 @@ class org_openpsa_documents_handler_document_adminTest extends openpsa_testcase
     protected static $_person;
     protected static $_document;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_person = self::create_user(true);
 

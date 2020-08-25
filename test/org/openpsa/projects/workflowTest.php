@@ -18,7 +18,7 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
     protected static $_project;
     protected static $_task;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_user = self::create_user(true);
         self::$_other_user = self::create_user();
@@ -207,7 +207,7 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         $this->assertEquals($invoice->id, $report2->invoice);
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         self::delete_linked_objects('org_openpsa_projects_task_status_dba', 'task', self::$_task->id);
         self::delete_linked_objects('org_openpsa_projects_task_status_dba', 'task', self::$_project->id);

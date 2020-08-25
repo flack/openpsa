@@ -15,7 +15,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 {
     protected static $_salesproject;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_salesproject = self::create_class_object(org_openpsa_sales_salesproject_dba::class);
     }
@@ -264,7 +264,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         ];
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         self::delete_linked_objects('org_openpsa_sales_salesproject_deliverable_dba', 'salesproject', self::$_salesproject->id);
         parent::tearDown();

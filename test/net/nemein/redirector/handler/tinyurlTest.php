@@ -15,7 +15,7 @@ class net_nemein_redirector_handler_tinyurlTest extends openpsa_testcase
 {
     protected static $_topic;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         $topic_attributes = [
             'component' => 'net.nemein.redirector',

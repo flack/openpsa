@@ -18,7 +18,7 @@ class org_openpsa_sales_handler_viewTest extends openpsa_testcase
     protected static $_product;
     protected static $_product_subscription;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_person = self::create_user(true);
         self::$_salesproject = self::create_class_object(org_openpsa_sales_salesproject_dba::class, ['customerContact' => self::$_person->id]);

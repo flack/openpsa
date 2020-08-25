@@ -13,7 +13,7 @@
  */
 class org_openpsa_user_handler_group_listTest extends openpsa_testcase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::create_user(true);
     }

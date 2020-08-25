@@ -17,7 +17,7 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
     protected static $_tmp_folder;
     protected static $_tmp_names;
 
-    public static function setupBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_images = [];
         self::$_tmp_names = [];
@@ -93,7 +93,7 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
         return $images;
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass() : void
     {
         foreach (self::$_tmp_names as $temp_name) {
             unlink($temp_name);

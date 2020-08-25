@@ -15,7 +15,7 @@ class org_openpsa_calendar_viewerTest extends openpsa_testcase
 {
     protected static $_topic;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         $attributes = [
             'component' => 'org.openpsa.calendar',

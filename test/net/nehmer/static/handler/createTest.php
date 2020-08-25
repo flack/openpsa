@@ -16,7 +16,7 @@ class net_nehmer_static_handler_createTest extends openpsa_testcase
     protected static $_topic;
     protected static $_article;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         $topic_attributes = [
             'component' => 'net.nehmer.static',

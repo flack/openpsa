@@ -44,7 +44,7 @@ class org_openpsa_calendar_handler_icalTest extends openpsa_testcase
         $content = $data['__openpsa_testcase_response']->getContent();
 
         $this->assertEquals(1, substr_count($content, 'BEGIN:VEVENT'));
-        $this->assertContains('UID:' . $event->guid . '-midgardGuid', $content);
+        $this->assertStringContainsString('UID:' . $event->guid . '-midgardGuid', $content);
 
         midcom::get()->auth->drop_sudo();
     }

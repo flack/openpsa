@@ -16,7 +16,7 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
     protected static $_project;
     protected static $_task;
 
-    public static function setupBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::create_user(true);
 

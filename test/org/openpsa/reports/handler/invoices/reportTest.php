@@ -13,7 +13,7 @@
  */
 class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::create_user(true);
         self::create_class_object(org_openpsa_invoices_invoice_dba::class);

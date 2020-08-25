@@ -15,7 +15,7 @@ class org_openpsa_reports_handler_sales_reportTest extends openpsa_testcase
 {
     private static $person;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$person = self::create_user(true);
     }

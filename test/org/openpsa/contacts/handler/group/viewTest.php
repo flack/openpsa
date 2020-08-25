@@ -16,7 +16,7 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
     protected static $_person;
     protected static $_group;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_person = self::create_user(true);
         self::$_group = self::create_class_object(org_openpsa_contacts_group_dba::class);

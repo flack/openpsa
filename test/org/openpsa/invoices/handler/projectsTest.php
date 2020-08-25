@@ -15,7 +15,7 @@ class org_openpsa_invoices_handler_projectsTest extends openpsa_testcase
 {
     protected static $_person;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_person = self::create_user(true);
     }

@@ -16,7 +16,7 @@ class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
     protected static $_invoice;
     protected static $_deliverable;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_invoice = self::create_class_object(org_openpsa_invoices_invoice_dba::class);
         $salesproject = self::create_class_object(org_openpsa_sales_salesproject_dba::class);
@@ -67,7 +67,7 @@ class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         self::delete_linked_objects('org_openpsa_invoices_invoice_item_dba', 'invoice', self::$_invoice->id);
         parent::tearDown();

@@ -103,7 +103,7 @@ class midcom_helper_nav_backendTest extends openpsa_testcase
         ];
 
         $actual = $backend->get_leaf($leaf_id);
-        $this->assertInternalType('array', $actual);
+        $this->assertIsArray($actual);
         foreach ($expected as $key => $value) {
             $this->assertEquals($value, $actual[$key]);
         }

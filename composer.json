@@ -98,6 +98,6 @@
         "classmap": ["test"]
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5.15"
+        "phpunit/phpunit": "^7.5.15 || ^8.5.8"
     }
 }

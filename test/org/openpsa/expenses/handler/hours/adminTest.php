@@ -19,7 +19,7 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
     protected static $_task;
     protected static $_report;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         $project = self::create_class_object(org_openpsa_projects_project::class);
         self::$_task = self::create_class_object(org_openpsa_projects_task_dba::class, ['project' => $project->id]);

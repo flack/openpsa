@@ -25,7 +25,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
     protected $_salesproject;
     protected $_deliverable;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$organization = self::create_class_object(org_openpsa_contacts_group_dba::class);
         self::$manager = self::create_class_object(midcom_db_person::class);
@@ -33,7 +33,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         self::$group = self::create_class_object(org_openpsa_products_product_group_dba::class);
     }
 
-    public function setUp()
+    public function setUp() : void
     {
         $product_attributes = [
             'productGroup' => self::$group->id,

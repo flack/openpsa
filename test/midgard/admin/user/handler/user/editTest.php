@@ -15,7 +15,7 @@ class midgard_admin_user_handler_user_editTest extends openpsa_testcase
 {
     protected static $_user;
 
-    public static function setupBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_user = self::create_user();
     }

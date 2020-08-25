@@ -19,7 +19,7 @@ class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
     protected static $_task;
     protected static $_project;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_project = self::create_class_object(org_openpsa_projects_project::class);
         self::$_task = self::create_class_object(org_openpsa_projects_task_dba::class, ['project' => self::$_project->id]);

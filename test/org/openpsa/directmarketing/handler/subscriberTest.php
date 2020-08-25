@@ -20,7 +20,7 @@ class org_openpsa_directmarketing_handler_subscriberTest extends openpsa_testcas
      */
     private static $helper;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_person = self::create_user(true);
         self::$helper = new openpsa_test_campaign_helper;

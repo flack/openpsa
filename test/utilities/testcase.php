@@ -416,7 +416,7 @@ abstract class openpsa_testcase extends TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         $this->reset_server_vars();
 
@@ -442,7 +442,7 @@ abstract class openpsa_testcase extends TestCase
         midcom_baseclasses_components_configuration::reset();
     }
 
-    public static function TearDownAfterClass()
+    public static function TearDownAfterClass() : void
     {
         self::_process_delete_queue('class', self::$_class_objects);
         self::$_class_objects = [];

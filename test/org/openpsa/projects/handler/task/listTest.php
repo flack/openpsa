@@ -17,7 +17,7 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
 
     protected static $_task;
 
-    public static function setupBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         $user = self::create_user(true);
 

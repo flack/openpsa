@@ -15,7 +15,7 @@ class net_nehmer_blog_handler_configurationTest extends openpsa_testcase
 {
     protected static $_topic;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_topic = self::get_component_node('net.nehmer.blog');
     }

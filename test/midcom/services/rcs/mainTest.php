@@ -15,7 +15,7 @@ class midcom_services_rcs_mainTest extends openpsa_testcase
 {
     private $tmpdir;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->tmpdir = OPENPSA2_UNITTEST_OUTPUT_DIR . '/' . __CLASS__;
         if (!file_exists($this->tmpdir)) {

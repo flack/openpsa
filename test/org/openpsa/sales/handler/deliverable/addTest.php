@@ -18,12 +18,12 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
     protected $_salesproject;
     protected $_product;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_person = self::create_user(true);
     }
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->_salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
         $product_group = $this->create_object(org_openpsa_products_product_group_dba::class);

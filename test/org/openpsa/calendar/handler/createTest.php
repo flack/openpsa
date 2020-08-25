@@ -15,7 +15,7 @@ class org_openpsa_calendar_handler_createTest extends openpsa_testcase
 {
     protected static $_user;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_user = self::create_user(true);
     }

@@ -15,7 +15,7 @@ class midcom_helper_imagepopup_handler_listTest extends openpsa_testcase
 {
     protected static $node;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$node = self::get_component_node('net.nehmer.static');
     }

@@ -13,10 +13,10 @@
  */
 class org_openpsa_slideshow_handler_editTest extends openpsa_testcase
 {
-    public static function setupBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::create_user(true);
-        parent::setupBeforeClass();
+        parent::setUpBeforeClass();
     }
 
     public function test_handler_edit()

@@ -15,7 +15,7 @@ class org_openpsa_products_handler_product_deleteTest extends openpsa_testcase
 {
     protected static $_product;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         $group = self::create_class_object(org_openpsa_products_product_group_dba::class, ['code' => 'TEST_' . __CLASS__ . time()]);
         self::$_product = self::create_class_object(org_openpsa_products_product_dba::class, ['productGroup' => $group->id]);

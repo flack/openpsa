@@ -15,7 +15,7 @@ class midgard_admin_asgard_handler_object_manageTest extends openpsa_testcase
 {
     protected static $_object;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_object = self::create_class_object(midcom_db_topic::class);
     }
@@ -28,7 +28,7 @@ class midgard_admin_asgard_handler_object_manageTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'view', self::$_object->guid]);
         $this->assertEquals('object_view', $data['handler_id']);
         $output = $data['__openpsa_testcase_response']->getContent();
-        $this->assertRegExp('/class="midcom_helper_datamanager2_view"/', $output);
+        $this->assertStringContainsString(' class="midcom_helper_datamanager2_view"', $output);
         midcom::get()->auth->drop_sudo();
     }
 

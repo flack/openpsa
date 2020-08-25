@@ -13,7 +13,7 @@
  */
 class org_openpsa_helpers_handler_chooserTest extends openpsa_testcase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::create_user(true);
     }
@@ -41,7 +41,7 @@ class org_openpsa_helpers_handler_chooserTest extends openpsa_testcase
 
         $head_elements = midcom::get()->head->get_jshead_elements();
         $output = $head_elements[count($head_elements) - 1]['content'];
-        $this->assertRegExp('/add_item\(\{.+?"id":(\d+)/', $output);
+        $this->assertSame(1, preg_match('/add_item\(\{.+?"id":(\d+)/', $output), 'add_item() not found');
 
         $id = preg_replace('/^.+?"id":(\d+).+$/s', '$1', $output);
         $person = new org_openpsa_contacts_person_dba((int) $id);

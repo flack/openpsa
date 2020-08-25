@@ -15,7 +15,7 @@ class midcom_helper_search_handler_searchTest extends openpsa_testcase
 {
     protected static $_topic;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_topic = self::get_component_node('midcom.helper.search');
     }

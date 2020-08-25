@@ -15,7 +15,7 @@ class org_openpsa_directmarketing_handler_exportTest extends openpsa_testcase
 {
     protected static $_person;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_person = self::create_user(true);
     }

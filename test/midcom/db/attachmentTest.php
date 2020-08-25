@@ -18,7 +18,7 @@ class midcom_db_attachmentTest extends openpsa_testcase
     protected static $_topic;
     protected static $_filepath;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass() : void
     {
         self::$_topic = self::create_class_object(midcom_db_topic::class);
         self::$_filepath = dirname(__FILE__) . '/__files/';
