@@ -68,7 +68,7 @@ class midcom_core_context
         if (isset($_SERVER['REQUEST_URI'])) {
             $this->_data[MIDCOM_CONTEXT_URI] = $_SERVER['REQUEST_URI'];
         }
-        if (is_object($node)) {
+        if ($node) {
             $this->_data[MIDCOM_CONTEXT_ROOTTOPIC] = $node;
         }
 

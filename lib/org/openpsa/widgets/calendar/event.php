@@ -83,9 +83,9 @@ class org_openpsa_widgets_calendar_event
      */
     var $event;
 
-    public function __construct($event = null)
+    public function __construct(org_openpsa_calendar_event_dba $event = null)
     {
-        if (is_object($event)) {
+        if ($event) {
             $this->event = $event;
 
             // Read values from event object

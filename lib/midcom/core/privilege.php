@@ -498,7 +498,7 @@ class midcom_core_privilege
 
     private function _sync_to_db_object()
     {
-        if (!is_object($this->__privilege_object)) {
+        if (!$this->__privilege_object) {
             $this->_load($this->guid);
         }
         $this->__privilege_object->objectguid = $this->objectguid;
@@ -510,7 +510,7 @@ class midcom_core_privilege
 
     private function _sync_from_db_object()
     {
-        if (!is_object($this->__privilege_object)) {
+        if (!$this->__privilege_object) {
             return;
         }
         $this->objectguid = $this->__privilege_object->objectguid;
