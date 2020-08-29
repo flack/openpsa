@@ -392,11 +392,6 @@ class midcom_helper_metadata
     {
         midcom::get()->auth->require_do('midcom:approve', $this->__object);
         midcom::get()->auth->require_do('midgard:update', $this->__object);
-
-        if (!is_object($this->__object)) {
-            return false;
-        }
-
         return $this->__object->approve();
     }
 
@@ -411,11 +406,6 @@ class midcom_helper_metadata
     {
         midcom::get()->auth->require_do('midcom:approve', $this->__object);
         midcom::get()->auth->require_do('midgard:update', $this->__object);
-
-        if (!is_object($this->__object)) {
-            return false;
-        }
-
         return $this->__object->unapprove();
     }
 
@@ -495,8 +485,7 @@ class midcom_helper_metadata
     {
         midcom::get()->auth->require_do('midgard:update', $this->__object);
 
-        if (   is_object($this->__object)
-            && $this->__object->lock()) {
+        if ($this->__object->lock()) {
             $this->_cache = [];
             return true;
         }
@@ -523,7 +512,6 @@ class midcom_helper_metadata
     public function unlock() : bool
     {
         if (   $this->can_unlock()
-            && is_object($this->__object)
             && $this->__object->unlock()) {
             $this->_cache = [];
             return true;

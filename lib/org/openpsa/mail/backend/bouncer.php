@@ -42,9 +42,6 @@ class org_openpsa_mail_backend_bouncer extends org_openpsa_mail_backend
 
     public function get_error_message()
     {
-        if (is_object($this->_backend)) {
-            return $this->_backend->get_error_message();
-        }
-        return parent::get_error_message();
+        return $this->_backend->get_error_message();
     }
 }

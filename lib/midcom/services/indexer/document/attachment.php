@@ -70,10 +70,6 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
 
     private function process_attachment()
     {
-        if (   !isset($this->attachment->metadata)
-            || !is_object($this->attachment->metadata)) {
-            return;
-        }
         $this->creator = new midcom_db_person($this->attachment->metadata->creator);
         $this->created = $this->attachment->metadata->created;
         $this->editor = $this->creator;
