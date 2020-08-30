@@ -88,7 +88,7 @@ class midcom_helper_reflector_nameresolver
 
         // Start the magic
         midcom::get()->auth->request_sudo('midcom.helper.reflector');
-        $parent = midcom_helper_reflector_tree::get_parent($this->_object);
+        $parent = $this->_object->get_parent();
         $sibling_classes = $this->get_sibling_classes($parent);
         if ($sibling_classes === null) {
             // This should not happen, logging error and returning true (even though it's potentially dangerous)
@@ -270,7 +270,7 @@ class midcom_helper_reflector_nameresolver
 
         // Look for siblings with similar names and see if they have higher i.
         midcom::get()->auth->request_sudo('midcom.helper.reflector');
-        $parent = midcom_helper_reflector_tree::get_parent($this->_object);
+        $parent = $this->_object->get_parent();
         $sibling_classes = $this->get_sibling_classes($parent);
         if ($sibling_classes === null) {
             // This should not happen, logging error and returning true (even though it's potentially dangerous)

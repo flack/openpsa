@@ -82,42 +82,17 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             'label' => parent::get($object)->get_object_label($object),
         ];
 
-        $parent = self::get_parent($object);
+        $parent = $object->get_parent();
         while (is_object($parent)) {
             $ret[] = [
                 'object' => $parent,
                 'label' => parent::get($parent)->get_object_label($parent),
             ];
-            $parent = self::get_parent($parent);
+            $parent = $parent->get_parent();
         }
 
         $cache[$object->guid] = array_reverse($ret);
         return $cache[$object->guid];
-    }
-
-    /**
-     * Get the parent object of given object
-     *
-     * Tries to utilize MidCOM DBA features first but can fallback on pure MgdSchema
-     * as necessary
-     *
-     * NOTE: since this might fall back to pure MgdSchema never trust that MidCOM DBA features
-     * are available, check for is_callable/method_exists first !
-     *
-     * @param midgard\portable\api\mgdobject $object the object to get parent for
-     */
-    public static function get_parent($object)
-    {
-        if (method_exists($object, 'get_parent')) {
-            /**
-             * The object might have valid reasons for returning empty value here, but we can't know if it's
-             * because it's valid or because the get_parent* methods have not been overridden in the actually
-             * used class
-             */
-            return $object->get_parent();
-        }
-
-        return false;
     }
 
     private static function _check_permissions(bool $deleted) : bool
