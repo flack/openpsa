@@ -85,7 +85,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
             // We have created a new topic, now recurse to create the rest of the path.
             return $this->check_unique_wikiword($wikiword, $schema);
         }
-        if (is_object($resolved['wikipage'])) {
+        if ($resolved['wikipage']) {
             // Page exists
             throw new midcom_error('Wiki page with that name already exists.');
         }

@@ -88,8 +88,7 @@ class org_openpsa_contacts_duplicates_merge
                         if (!empty($conf['duplicate_check'])) {
                             $dup = $this->check_duplicate($results, $result, $conf['duplicate_check']);
 
-                            if (   is_object($dup)
-                                || $dup === false) {
+                            if ($dup !== true) {
                                 if (   !is_object($dup)
                                     || !array_key_exists($dup->id, $todelete)) {
                                     $todelete[$result->id] = $result;
