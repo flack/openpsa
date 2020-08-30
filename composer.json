@@ -56,7 +56,7 @@
         "symfony/var-dumper": ">=4.4",
         "symfony/yaml": ">=4.4",
         "symfony/http-kernel": ">=4.4",
-        "cocur/slugify": "^3.2"
+        "cocur/slugify": "^4.0"
     },
     "conflict": {
         "symfony/form": "4.4.9 || 5.0.9 || 5.1.0"
