@@ -90,7 +90,7 @@ class midcom_helper_misc
         return $cached_snippets[$path];
     }
 
-    private static function load_from_snippet(string $path)
+    private static function load_from_snippet(string $path) : ?string
     {
         $snippet = new midgard_snippet();
         if (!$snippet->get_by_path($path)) {

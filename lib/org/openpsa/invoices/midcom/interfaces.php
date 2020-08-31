@@ -16,7 +16,7 @@ use midcom\datamanager\datamanager;
 class org_openpsa_invoices_interface extends midcom_baseclasses_components_interface
 implements midcom_services_permalinks_resolver
 {
-    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object) : ?string
     {
         if ($object instanceof org_openpsa_invoices_invoice_dba) {
             return "invoice/{$object->guid}/";

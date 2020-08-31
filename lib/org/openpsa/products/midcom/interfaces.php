@@ -17,7 +17,7 @@ implements midcom_services_permalinks_resolver
     /**
      * @inheritdoc
      */
-    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object) : ?string
     {
         if ($object instanceof org_openpsa_products_product_dba) {
             return 'product/' . $object->guid . '/';
@@ -28,7 +28,7 @@ implements midcom_services_permalinks_resolver
         return null;
     }
 
-    private function _resolve_productgroup(org_openpsa_products_product_group_dba $product_group, midcom_db_topic $topic)
+    private function _resolve_productgroup(org_openpsa_products_product_group_dba $product_group, midcom_db_topic $topic) : ?string
     {
         $real_config = new midcom_helper_configuration($topic, 'org.openpsa.products');
 

@@ -30,7 +30,7 @@ interface midcom_services_auth_frontend
      *     'password' holding the information read by the driver or null if no
      *     information could be read.
      */
-    public function read_login_data(Request $request);
+    public function read_login_data(Request $request) : ?array;
 
     /**
      * Were login credentials found

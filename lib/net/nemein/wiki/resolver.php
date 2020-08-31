@@ -119,7 +119,7 @@ class net_nemein_wiki_resolver
         return $matches;
     }
 
-    private function resolve_namespaces(string $path, array &$matches, array $levels, bool $force_resolve_folder_tree, bool $force_as_root)
+    private function resolve_namespaces(string $path, array &$matches, array $levels, bool $force_resolve_folder_tree, bool $force_as_root) : ?array
     {
         /* We store the Wiki folder hierarchy in a static array
          that is populated only once, and even then only the

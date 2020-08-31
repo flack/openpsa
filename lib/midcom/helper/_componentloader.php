@@ -196,7 +196,7 @@ class midcom_helper__componentloader
         return $result;
     }
 
-    public function get_component_icon($component, $provide_fallback = true)
+    public function get_component_icon($component, $provide_fallback = true) : ?string
     {
         if (!$this->is_installed($component)) {
             return null;

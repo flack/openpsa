@@ -56,7 +56,7 @@ class midcom_services_permalinks
      * @param string $guid The GUID to resolve.
      * @return string The full HTTP relocation'able URL to the GUID.
      */
-    public function resolve_permalink($guid)
+    public function resolve_permalink($guid) : ?string
     {
         // resolves a guid into a fully qualified url, uses some heuristics for that, mainly replaces
         // the nap permalink resolver, with the difference that it will be based on the
@@ -140,7 +140,7 @@ class midcom_services_permalinks
         return null;
     }
 
-    private function _resolve_permalink_in_topic(midcom_db_topic $topic, midcom_core_dbaobject $object)
+    private function _resolve_permalink_in_topic(midcom_db_topic $topic, midcom_core_dbaobject $object) : ?string
     {
         $component = $topic->component;
         if (!midcom::get()->componentloader->is_installed($component)) {

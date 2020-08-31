@@ -101,10 +101,8 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
     /**
      * Load the document's attachment
-     *
-     * @return midcom_db_attachment The attachment object
      */
-    public function load_attachment()
+    public function load_attachment() : ?midcom_db_attachment
     {
         if (!$this->guid) {
             // Non-persistent object will not have attachments

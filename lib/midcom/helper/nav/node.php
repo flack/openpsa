@@ -133,7 +133,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
         return $data;
     }
 
-    private function load_data()
+    private function load_data() : ?array
     {
         if (empty($this->topic)) {
             $topic = new midcom_core_dbaproxy($this->topic_id, midcom_db_topic::class);

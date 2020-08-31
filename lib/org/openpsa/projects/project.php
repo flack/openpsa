@@ -256,7 +256,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         }
     }
 
-    private function _find_status(array $map, array $status_types)
+    private function _find_status(array $map, array $status_types) : ?int
     {
         foreach (array_intersect_key($map, $status_types) as $new_status) {
             if (is_array($new_status)) {

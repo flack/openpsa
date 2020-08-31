@@ -128,7 +128,7 @@ implements midcom_services_permalinks_resolver
         return $workflow->render_attributes() . ' href="' . $node[MIDCOM_NAV_FULLURL] . 'event/' . $guid . '/"';
     }
 
-    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object) : ?string
     {
         if ($object instanceof org_openpsa_calendar_event_dba) {
             return "event/{$object->guid}/";

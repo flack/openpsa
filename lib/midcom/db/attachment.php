@@ -43,10 +43,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         return $this->parentguid;
     }
 
-    /**
-     * @return string Parent GUID
-     */
-    public static function get_parent_guid_uncached_static($guid)
+    public static function get_parent_guid_uncached_static($guid) : ?string
     {
         $mc = new midgard_collector('midgard_attachment', 'guid', $guid);
         $mc->set_key_property('parentguid');
@@ -170,10 +167,8 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
     /**
      * Get the path to the document in the static cache
-     *
-     * @return string
      */
-    public function get_cache_path()
+    public function get_cache_path() : ?string
     {
         if (!midcom::get()->config->get('attachment_cache_enabled')) {
             return null;

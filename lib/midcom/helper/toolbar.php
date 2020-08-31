@@ -748,11 +748,8 @@ class midcom_helper_toolbar
      * function.
      *
      * @param mixed $index The integer index or URL to check
-     * @param boolean $raise_error Whether we should raise an error on missing item
-     * @throws midcom_error
-     * @return int $index The valid index (possibly translated from the URL) or null on missing index.
      */
-    protected function _check_index($index, $raise_error = true)
+    protected function _check_index($index, bool $raise_error = true) :?int
     {
         if (is_string($index)) {
             $url = $index;

@@ -42,7 +42,7 @@ implements midcom_services_permalinks_resolver
         return true;
     }
 
-    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object) : ?string
     {
         if (   $object instanceof midcom_db_article
             && $topic->id == $object->topic) {

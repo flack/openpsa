@@ -24,7 +24,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
 
     public $_use_rcs = false;
 
-    public function get_parent_guid_uncached()
+    public function get_parent_guid_uncached() : ?string
     {
         if (empty($this->fromGuid)) {
             return null;

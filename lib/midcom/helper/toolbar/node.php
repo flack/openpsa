@@ -26,7 +26,7 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
         $this->label = midcom::get()->i18n->get_string('folder', 'midcom');
     }
 
-    protected function _check_index($index, $raise_error = true)
+    protected function _check_index($index, $raise_error = true) : ?int
     {
         $this->add_commands();
         return parent::_check_index($index, $raise_error);

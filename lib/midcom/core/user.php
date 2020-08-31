@@ -522,11 +522,8 @@ class midcom_core_user
      * full control over their privacy.
      *
      * null is returned in cases where you have insufficient permissions.
-     *
-     * @return mixed The time of the last login, or null in case of insufficient privileges. If
-     *     there is no known last login time, numeric zero is returned.
      */
-    public function get_last_login()
+    public function get_last_login() : ?int
     {
         $person = $this->get_storage();
         if (!$person->can_do('midcom:isonline')) {

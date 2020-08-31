@@ -35,5 +35,5 @@ interface midcom_services_permalinks_resolver
      * @param midcom_core_dbaobject $object The object to resolve
      * @return string|null A string (even an empty one) is considered success, null a failure
      */
-    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object);
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object) : ?string;
 }

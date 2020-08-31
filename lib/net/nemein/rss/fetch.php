@@ -414,7 +414,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * @param net_nemein_rss_parser_item $item Feed item as provided by SimplePie
      * @return midcom_db_person Person object matched, or null
      */
-    public function match_item_author(net_nemein_rss_parser_item $item)
+    public function match_item_author(net_nemein_rss_parser_item $item) : ?midcom_db_person
     {
         // Parse the item for author information
         $author_info = self::parse_item_author($item);

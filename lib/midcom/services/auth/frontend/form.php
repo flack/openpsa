@@ -38,7 +38,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      *     'password' holding the information read by the driver or null if no
      *     information could be read.
      */
-    public function read_login_data(Request $request)
+    public function read_login_data(Request $request) : ?array
     {
         if (   !$request->request->has('midcom_services_auth_frontend_form_submit')
             || !$request->request->has('username')

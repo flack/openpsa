@@ -207,11 +207,8 @@ class midcom_core_group
      *
      * The default implementation will return an instance of midcom_db_group based
      * on the member $this->_storage->id if that object is defined, or null otherwise.
-     *
-     * @return midcom_db_group A MidCOM DBA object that holds the information associated with
-     *     this group, or null if there is no storage object.
      */
-    public function get_storage()
+    public function get_storage() : ?midcom_db_group
     {
         if ($this->_storage === null) {
             return null;

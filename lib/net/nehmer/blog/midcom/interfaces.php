@@ -46,7 +46,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Try to map the guid to an article of out topic.
      */
-    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
+    public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object) : ?string
     {
         if (!($object instanceof midcom_db_article)) {
             return null;
