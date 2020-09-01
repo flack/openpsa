@@ -44,7 +44,10 @@ div#org_openpsa_mypage_workingon_time
 
 div.org_openpsa_mypage_workingon .controls
 {
-    margin-top: .7em
+    margin-top: .7em;
+    display: flex;
+    justify-content: space-between;
+    width: 96%;
 }
 #org_openpsa_mypage_workingon_loading
 {

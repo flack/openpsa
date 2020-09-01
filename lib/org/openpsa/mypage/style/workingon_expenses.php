@@ -22,14 +22,14 @@ if (!empty($data['hours'])) {
                 echo ", ";
             }
         }
-        echo " )";
+        echo ") ";
     }
     echo "        </td>\n";
     echo "    </tr>\n";
     echo "    <tr>\n";
     echo "        <td>" . $data['l10n']->get('uninvoiceable') . "</td>\n";
     echo "        <td>" . round($uninvoiceable_hours, 2);
-    $uninvoiceable_count = count($data['hours']['invoiceable']);
+    $uninvoiceable_count = count($data['hours']['uninvoiceable']);
     if ($uninvoiceable_count > 0) {
         echo " (";
         $i = 1;
