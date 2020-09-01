@@ -245,7 +245,11 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
             throw new midcom_error_notfound("One of the revisions {$args[1]} or {$args[2]} does not exist.");
         }
 
-        $data['diff'] = $this->backend->get_diff($args[1], $args[2]);
+        $data['diff'] = array_filter($this->backend->get_diff($args[1], $args[2]), function($value, $key) {
+            return array_key_exists('diff', $value)
+                && !is_array($value['diff'])
+                && midcom_services_rcs::is_field_showable($key);
+        }, ARRAY_FILTER_USE_BOTH);
         $data['comment'] = $history->get($args[2]);
 
         // Set the version numbers
@@ -279,7 +283,11 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $data['guid'] = $args[0];
 
         $this->load_object($args[0]);
-        $data['preview'] = $this->backend->get_revision($revision);
+        $data['preview'] = array_filter($this->backend->get_revision($revision), function ($value, $key) {
+            return !is_array($value)
+                && !in_array($value, ['', '0000-00-00'])
+                && midcom_services_rcs::is_field_showable($key);
+        }, ARRAY_FILTER_USE_BOTH);
 
         $this->_view_toolbar->hide_item($this->url_prefix . "preview/{$this->object->guid}/{$revision}/");
 
