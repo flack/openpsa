@@ -9,7 +9,7 @@ foreach ($data['navigation_items'] as $i => $item) {
         continue;
     }
 
-    $identificator = $item[MIDCOM_NAV_GUID] ?: $item[MIDCOM_NAV_ID];
+    $identifier = $item[MIDCOM_NAV_GUID] ?: $item[MIDCOM_NAV_ID];
 
     $index = $count - $i;
     $style = '';
@@ -18,10 +18,8 @@ foreach ($data['navigation_items'] as $i => $item) {
         $style = ' style="display: none;"';
     }
 
-    // Actually we should skip all components that return the default icon as icon here!
+    // Skip all components that return the default icon
     if (   isset($item[MIDCOM_NAV_COMPONENT])
-        && $item[MIDCOM_NAV_COMPONENT] !== 'net.nehmer.static'
-        && $item[MIDCOM_NAV_COMPONENT] !== 'net.nehmer.blog'
         && ($tmp = midcom::get()->componentloader->get_component_icon($item[MIDCOM_NAV_COMPONENT], false))) {
         $icon = '<i class="fa fa-' . $tmp . '"></i>';
     } elseif (!$item[MIDCOM_NAV_GUID]) {
@@ -31,9 +29,8 @@ foreach ($data['navigation_items'] as $i => $item) {
         $icon = midcom_helper_reflector::get_object_icon($item[MIDCOM_NAV_OBJECT]);
     }
 
-
     echo "        <li class=\"sortable {$item[MIDCOM_NAV_TYPE]}\">\n";
-    echo "            <input type=\"hidden\" name=\"sortable[{$item[MIDCOM_NAV_TYPE]}][{$identificator}]\" value=\"{$index}\"{$style} />\n";
+    echo "            <input type=\"hidden\" name=\"sortable[{$item[MIDCOM_NAV_TYPE]}][{$identifier}]\" value=\"{$index}\"{$style} />\n";
     echo "            {$icon} {$item[MIDCOM_NAV_NAME]}\n";
     echo "        </li>\n";
 }
