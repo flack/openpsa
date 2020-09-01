@@ -35,7 +35,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
                 return $results[0];
             }
         }
-        return false;
+        return null;
     }
 
     public function _on_creating()

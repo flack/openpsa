@@ -103,17 +103,47 @@ class net_nemein_tag_handlerTest extends openpsa_testcase
         ];
     }
 
+    /**
+     * @dataProvider provider_string2tag_array
+     */
+    public function test_string2tag_array($input, $expected)
+    {
+        $this->assertEquals($expected, net_nemein_tag_handler::string2tag_array($input));
+    }
+
+    public function provider_string2tag_array()
+    {
+        return [
+            [
+                '',
+                []
+            ],
+            [
+                'dummy',
+                ['dummy' => '']
+            ],
+            [
+                '"dummy value"',
+                ['dummy value' => '']
+            ],
+            [
+                'tag1 "dummy value" tag2',
+                ['tag1' => '', 'dummy value' => '', 'tag2' => '']
+            ],
+        ];
+    }
+
     public function test_get_objects_with_tags()
-   {
-       $person = $this->create_object(midcom_db_person::class);
-       $tag = $this->create_object(net_nemein_tag_tag_dba::class, ['tag' => uniqid('tag')]);
-       $this->create_object(net_nemein_tag_link_dba::class, [
-           'tag' => $tag->id,
-           'fromGuid' => $person->guid,
-           'fromClass' => 'midcom_db_person'
-       ]);
-       $result = net_nemein_tag_handler::get_objects_with_tags([$tag->tag], ['midcom_db_person']);
-       $this->assertCount(1, $result);
-       $this->assertEquals($person->guid, $result[0]->guid);
-   }
+    {
+        $person = $this->create_object(midcom_db_person::class);
+        $tag = $this->create_object(net_nemein_tag_tag_dba::class, ['tag' => uniqid('tag')]);
+        $this->create_object(net_nemein_tag_link_dba::class, [
+            'tag' => $tag->id,
+            'fromGuid' => $person->guid,
+            'fromClass' => 'midcom_db_person'
+        ]);
+        $result = net_nemein_tag_handler::get_objects_with_tags([$tag->tag], ['midcom_db_person']);
+        $this->assertCount(1, $result);
+        $this->assertEquals($person->guid, $result[0]->guid);
+    }
 }

@@ -35,6 +35,7 @@ class org_openpsa_products_handler_product_createTest extends openpsa_testcase
             'productGroup' => [
                 'selection' => '[' . self::$_group->id . ']'
             ],
+            'tags' => 'tag1'
         ];
 
         $this->submit_dm_no_relocate_form('controller', $formdata, 'org.openpsa.products', ['product', 'create', 'default']);

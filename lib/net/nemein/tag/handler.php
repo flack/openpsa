@@ -480,9 +480,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $strlen = strlen($tags_string);
         for ($i = 0; $i < $strlen; $i++) {
             $char = $tags_string[$i];
-            if (   (   $char == ' '
-                    && !$quote_open)
-                || $i == $strlen) {
+            if ($char == ' ' && !$quote_open) {
                 $tags[] = $current_tag;
                 $current_tag = '';
                 continue;
@@ -496,6 +494,9 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                 continue;
             }
             $current_tag .= $char;
+        }
+        if (!empty($current_tag)) {
+            $tags[] = $current_tag;
         }
         $tags = array_filter(array_map('trim', $tags));
         return array_fill_keys($tags, '');
