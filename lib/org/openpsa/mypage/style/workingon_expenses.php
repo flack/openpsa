@@ -4,45 +4,35 @@
 
 <?php
 if (!empty($data['hours'])) {
-    $invoiceable_hours = $data['hours']['total_invoiceable'];
-    $uninvoiceable_hours = $data['hours']['total_uninvoiceable'];
-    $total_hours = $invoiceable_hours + $uninvoiceable_hours;
+    $total_hours = 0;
 
     echo "<table class=\"hours\">\n";
-    echo "    <tr>\n";
-    echo "        <td>" . $data['l10n']->get('invoiceable') . "</td>\n";
-    echo "        <td>" . round($invoiceable_hours, 2);
-    $invoiceable_count = count($data['hours']['invoiceable']);
-    if ($invoiceable_count > 0) {
-        echo " (";
-        $i = 1;
-        foreach ($data['hours']['invoiceable'] as $customer_id => $hours) {
-            echo $data['customers'][$customer_id] . " " . $hours;
-            if ($i++ != $invoiceable_count) {
-                echo ", ";
+    foreach (['invoiceable', 'uninvoiceable'] as $type) {
+        $total = $data['hours']['total_' . $type];
+        $total_hours += $total;
+
+        echo "    <tr>\n";
+        echo "        <td>" . $data['l10n']->get($type) . "</td>\n";
+        echo "        <td>" . round($total, 2);
+        $count = count($data['hours'][$type]);
+        if ($count > 0) {
+            echo " (";
+            $i = 1;
+            foreach ($data['hours'][$type] as $customer_id => $hours) {
+                echo $data['customers'][$customer_id];
+                if ($count > 1) {
+                    echo " " . $hours;
+                }
+                if ($i++ != $count) {
+                    echo ", ";
+                }
             }
+            echo ") ";
         }
-        echo ") ";
+        echo "        </td>\n";
+        echo "    </tr>\n";
     }
-    echo "        </td>\n";
-    echo "    </tr>\n";
-    echo "    <tr>\n";
-    echo "        <td>" . $data['l10n']->get('uninvoiceable') . "</td>\n";
-    echo "        <td>" . round($uninvoiceable_hours, 2);
-    $uninvoiceable_count = count($data['hours']['uninvoiceable']);
-    if ($uninvoiceable_count > 0) {
-        echo " (";
-        $i = 1;
-        foreach ($data['hours']['uninvoiceable'] as $customer_id => $hours) {
-            echo $data['customers'][$customer_id] . " " . $hours;
-            if ($i++ != $uninvoiceable_count) {
-                echo ", ";
-            }
-        }
-        echo ") ";
-    }
-    echo "        </td>\n";
-    echo "    </tr>\n";
+
     echo "</table>\n";
     echo "<form action=\"{$data['expenses_url']}\" method='post'><div>";
     $current_user = midcom::get()->auth->user->get_storage();
