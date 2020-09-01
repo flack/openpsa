@@ -1,6 +1,3 @@
-<?php
-$diff = $data['diff'];
-?>
 <h1>&(data['view_title']);</h1>
 <div class="rcs_navigation">
 <?php
@@ -12,7 +9,7 @@ echo $data['rcs_toolbar_2']->render();
 <dl class="midcom_services_rcs_diff">
 <?php
 $changes = false;
-foreach ($diff as $attribute => $values) {
+foreach ($data['diff'] as $attribute => $values) {
     if (!array_key_exists('diff', $values)) {
         continue;
     }
