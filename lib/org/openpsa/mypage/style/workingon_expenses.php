@@ -1,9 +1,8 @@
 <div class="expenses">
-     <h2><?php echo $data['l10n']->get('this week'); ?></h2>
-     <div id="content_expenses">
+    <h2><?php echo $data['l10n']->get('this week'); ?></h2>
+    <div id="content_expenses">
 
-<?php
-if (!empty($data['hours'])) {
+    <?php
     $total_hours = 0;
 
     echo "<table class=\"hours\">\n";
@@ -39,9 +38,6 @@ if (!empty($data['hours'])) {
     echo "<input type=\"hidden\" name=\"person[]\" value=\"{$current_user->id}\" />";
     echo "<input type=\"submit\" value=\"".sprintf($data['l10n']->get('see all %s hours'), round($total_hours, 2))."\" />";
     echo "</div></form>";
-} else {
-    echo "<p><a href=\"{$data['expenses_url']}\">" . midcom::get()->i18n->get_string('report hours', 'org.openpsa.expenses') . "</a></p>\n";
-}
-?>
+    ?>
 </div>
 </div>

@@ -78,10 +78,6 @@ Ausgaben-Verwaltung
 vorherige Woche
 ---STRINGEND
 
----STRING report hours
-Arbeitsstunden melden
----STRINGEND
-
 ---STRING show invoice
 Rechnung anzeigen
 ---STRINGEND

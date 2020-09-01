@@ -46,10 +46,6 @@ Henkilö
 edellinen viikko
 ---STRINGEND
 
----STRING report hours
-Raportoi tunteja
----STRINGEND
-
 ---STRING task
 Tehtävä
 ---STRINGEND

@@ -86,10 +86,6 @@ Person
 previous week
 ---STRINGEND
 
----STRING report hours
-Report hours
----STRINGEND
-
 ---STRING show invoice
 Show invoice
 ---STRINGEND
