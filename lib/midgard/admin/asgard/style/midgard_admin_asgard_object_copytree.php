@@ -10,16 +10,14 @@ $data['tree']->draw();
 ?>
 </div>
 <?php
-$tree_select = ob_get_contents();
-ob_end_clean();
+$tree_select = ob_get_clean();
 ?>
 <h1><?php echo $data['page_title']; ?></h1>
 <?php
 // Get the form with output buffering for modifications
 ob_start();
 $data['controller']->display_form();
-$form = ob_get_contents();
-ob_end_clean();
+$form = ob_get_clean();
 
 // Inject the tree to the form
 echo preg_replace('/(<form.*?>)/i', '\1' . $tree_select, $form);

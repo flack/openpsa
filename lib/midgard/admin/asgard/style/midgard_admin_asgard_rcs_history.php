@@ -27,16 +27,13 @@ echo $data['rcs_toolbar']->render();
             </thead>
             <tbody>
             <?php
-            $i = 0;
-
             foreach ($history as $number => $revision) {
                 $link = $data['router']->generate('object_rcs_preview', ['guid' => $guid, 'revision' => $number]);
-                $i++;
-                echo "                <tr id=\"midgard_admin_asgard_rcs_version_compare_{$i}_row\">\n";
+                echo "                <tr>\n";
                 echo "                    <td><input type=\"radio\" name=\"first\" value=\"{$number}\" />\n";
                 echo "                    <td><input type=\"radio\" name=\"last\" value=\"{$number}\" />\n";
-                echo "                    <td><span style=\"display: none;\">" . substr($number, 2) . "</span><a href='{$link}'>{$number}</a></td>\n";
-                echo "                    <td><span style=\"display: none;\">{$revision['date']}</span>" . strftime('%x %X Z', $revision['date']) . "</td>\n";
+                echo "                    <td><a href='{$link}'>{$number}</a></td>\n";
+                echo "                    <td>" . strftime('%x %X Z', $revision['date']) . "</td>\n";
                 echo "                    <td>";
 
                 if (   $revision['user']

@@ -1,11 +1,7 @@
 <?php
 $type_choices = [];
 foreach ($data['schema_types'] as $schema_type) {
-    if (!isset($data['reflectors'][$schema_type])) {
-        $data['reflectors'][$schema_type] = new midcom_helper_reflector($schema_type);
-    }
-
-    $type_choices[$schema_type] = $data['reflectors'][$schema_type]->get_class_label();
+    $type_choices[$schema_type] = midcom_helper_reflector::get($schema_type)->get_class_label();
 }
 asort($type_choices);
 $type_choices = ['any' => $data['l10n']->get('any')] + $type_choices;

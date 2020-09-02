@@ -1,8 +1,4 @@
-<?php
-echo "<h2>";
-echo $data['l10n']->get('trash');
-echo "</h2>";
-?>
+<h2><?php echo $data['l10n']->get('trash'); ?></h2>
 
 <table class="deleted table_widget" id="deleted">
     <thead>
