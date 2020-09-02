@@ -5,22 +5,16 @@ $node = $nap->get_node($nap->get_current_node());
 <div class="content-with-sidebar">
 <div class="main">
     <?php
-    // Display the group information
     foreach (array_filter($data['view']) as $fieldname => $fielddata) {
         switch ($fieldname) {
-            case 'homepage':
-                echo "<h2>" . $data['l10n']->get('contact information') . "</h2>\n";
-                echo "<div><strong>" . $data['l10n']->get($fieldname) . ": </strong>";
-                echo $fielddata . "</div>";
-                break;
-            case 'email':
-                echo "<div><strong>" . $data['l10n']->get($fieldname) . ": </strong>";
-                echo $fielddata . "</div>";
-                break;
             case 'notes':
                 echo "<h2>" . $data['l10n']->get('notes') . "</h2>\n";
                 echo "<pre>" . $fielddata . "</pre>";
                 break;
+            case 'homepage':
+                echo "<h2>" . $data['l10n']->get('contact information') . "</h2>\n";
+                // fall-through
+            case 'email':
             case 'categories':
             case 'official':
             case 'company_id':
@@ -76,7 +70,6 @@ $node = $nap->get_node($nap->get_current_node());
             </dl>
         </div>
         <?php
-
     }
 
     midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/members/" . $data['group']->guid . "/");
