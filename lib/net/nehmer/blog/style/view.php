@@ -26,8 +26,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     <p class="permalink" style="display: none;"><a href="&(permalink);" rel="bookmark" rev="canonical"><?php $data['l10n_midcom']->show('permalink'); ?></a></p>
 
     <?php
-    $relateds = array_filter(explode('|', $data['article']->extra3));
-    if (!empty($relateds)) {
+    if ($relateds = array_filter(explode('|', $data['article']->extra3))) {
         echo "<h2>{$data['l10n']->get('related stories')}</h2>\n";
         echo "<ul class=\"related\">\n";
         foreach ($relateds as $related) {

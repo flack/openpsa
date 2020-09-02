@@ -5,11 +5,7 @@ $view = $data['wikipage_view'];
     <h1>&(view['title']:h);</h1>
 
     <?php
-    if ($view['content'] != '') {
-        echo $view['content'];
-    } else {
-        echo "<p class=\"stub\">" . $data['l10n']->get('this page is stub') . "</p>";
-    }
+    echo $view['content'] ?: "<p class=\"stub\">" . $data['l10n']->get('this page is stub') . "</p>";
 
     // List possible wiki pages tagged with name of this page
     $tagged_pages = net_nemein_tag_handler::get_objects_with_tags([$data['wikipage']->title], [net_nemein_wiki_wikipage::class]);

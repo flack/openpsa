@@ -9,7 +9,6 @@ if (!empty($view['image'])) {
     ?>
     <div style="float: right; padding: 5px;">&(view['image']:h);</div>
     <?php
-
 }
 ?>
 

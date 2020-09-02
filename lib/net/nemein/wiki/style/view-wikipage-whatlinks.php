@@ -5,8 +5,7 @@ $view = $data['wikipage_view'];
 <h1><?php printf($data['l10n']->get('pages linking to %s'), $view['title']); ?></h1>
 
 <?php
-if (!empty($data['wikilinks'])) {
-    ?>
+if (!empty($data['wikilinks'])) { ?>
     <ul>
     <?php
     foreach ($data['wikilinks'] as $link) {
@@ -20,13 +19,10 @@ if (!empty($data['wikilinks'])) {
         $page_link = midcom::get()->permalinks->create_permalink($page->guid); ?>
         <li><a href="&(page_link);">&(page.title);</a></li>
         <?php
-
     } ?>
     </ul>
     <?php
-
-} else {
-    ?>
+} else { ?>
     <p><?php echo $data['l10n']->get('no links to page'); ?></p>
     <?php
 }

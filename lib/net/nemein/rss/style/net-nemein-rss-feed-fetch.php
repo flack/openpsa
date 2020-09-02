@@ -1,14 +1,10 @@
 <?php
-if (isset($data['feed'])) {
-    ?>
+if (isset($data['feed'])) { ?>
     <h1><?php printf($data['l10n']->get('fetch feed %s'), $data['feed']->title); ?></h1>
     <?php
-
-} else {
-    ?>
+} else { ?>
     <h1><?php echo $data['l10n']->get('fetch feeds'); ?></h1>
     <?php
-
 }
 
 if (empty($data['items'])) {

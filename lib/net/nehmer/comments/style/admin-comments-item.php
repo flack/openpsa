@@ -1,5 +1,4 @@
 <?php
-// Available request data: comments, comment, display_datamanager
 $view = $data['display_datamanager']->get_content_html();
 $comment = $data['comment'];
 $formatter = $data['l10n']->get_formatter();

@@ -1,8 +1,7 @@
 <h1><?php echo $data['view_title']; ?></h1>
 
 <?php
-if (!empty($data['orphans'])) {
-    ?>
+if (!empty($data['orphans'])) {  ?>
     <ul>
     <?php
     foreach ($data['orphans'] as $orphan) {
@@ -13,11 +12,8 @@ if (!empty($data['orphans'])) {
     } ?>
     </ul>
     <?php
-
-} else {
-    ?>
+} else { ?>
     <p><?php echo $data['l10n']->get('no orphans'); ?></p>
     <?php
-
 }
 ?>
