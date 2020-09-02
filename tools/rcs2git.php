@@ -29,11 +29,14 @@ class rcs2git extends Command
             throw new RuntimeException('Git repo already exists');
         }
         $this->exec('git -C ' . $dir . ' init', $output);
-        if (!system('git -C ' . $dir . ' config user.email')) {
+        $email = exec('git -C ' . $dir . ' config user.email');
+        $user = exec('git -C ' . $dir . ' config user.name');
+        if (!$email) {
             $user = get_current_user();
-            $this->exec('git -C ' . $dir . ' config user.email "' . $user . '@localhost"', $output);
-            $this->exec('git -C ' . $dir . ' config user.name "' . $user . '"', $output);
+            $email = $user . '@localhost';
         }
+        $this->exec('git -C ' . $dir . ' config user.email "' . $email . '"', $output);
+        $this->exec('git -C ' . $dir . ' config user.name "' . $user . '"', $output);
 
         // root dir + 16 subdirs + 256 subsubdirs
         $progress = new ProgressBar($output, 273);
