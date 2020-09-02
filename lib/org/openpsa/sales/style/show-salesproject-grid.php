@@ -122,8 +122,8 @@ $filename = preg_replace('/[^a-z0-9-]/i', '_', $filename);
 ?>
 
 <button id="&(grid_id);_export">
-	   <i class="fa fa-download"></i>
-	   <?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>
+   <i class="fa fa-download"></i>
+   <?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>
 </button>
 
 <script type="text/javascript">
@@ -131,27 +131,23 @@ $filename = preg_replace('/[^a-z0-9-]/i', '_', $filename);
 $('#&(grid_id);').jqGrid('filterToolbar');
 
 midcom_grid_csv.add({
-      id: '&(grid_id);',
-      filename: '&(filename);',
-      fields: {
-          created: '<?php echo $data['l10n']->get('created'); ?>',
-          index_title: '<?php echo $data['l10n']->get('title'); ?>',
-          <?php
-          if ($data['mode'] != 'customer') {
-    ?>
+    id: '&(grid_id);',
+    filename: '&(filename);',
+    fields: {
+        created: '<?php echo $data['l10n']->get('created'); ?>',
+        index_title: '<?php echo $data['l10n']->get('title'); ?>',
+        <?php
+        if ($data['mode'] != 'customer') { ?>
             index_customer: '<?php echo $data['l10n']->get('customer'); ?>',
-          <?php
-} ?>
-          index_owner: '<?php echo $data['l10n']->get('owner'); ?>',
-          value: '<?php echo $data['l10n']->get('value'); ?>',
-          <?php if ($data['mode'] == 'active') {
-    ?>
-              probability: '<?php echo $data['l10n']->get('probability'); ?>',
-              weightedvalue: '<?php echo $data['l10n']->get('weighted value'); ?>',
-          <?php
-} ?>
-          index_profit: '<?php echo $data['l10n']->get('profit'); ?>'
-        }
+        <?php } ?>
+        index_owner: '<?php echo $data['l10n']->get('owner'); ?>',
+        value: '<?php echo $data['l10n']->get('value'); ?>',
+        <?php if ($data['mode'] == 'active') { ?>
+            probability: '<?php echo $data['l10n']->get('probability'); ?>',
+            weightedvalue: '<?php echo $data['l10n']->get('weighted value'); ?>',
+        <?php } ?>
+        index_profit: '<?php echo $data['l10n']->get('profit'); ?>'
+      }
 });
 
 </script>

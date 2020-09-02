@@ -21,28 +21,22 @@ if (   $data['product']
                 <div class="title"><?php echo $data['l10n']->get('state'); ?></div>
                 <div class="value"><?php echo $data['l10n']->get($state); ?></div>
             </div>
-                <?php if ($data['deliverable']->supplier) {
-            ?>
+                <?php if ($data['deliverable']->supplier) { ?>
                     <div class="field">
                         <div class="title"><?php echo $data['l10n']->get('supplier'); ?></div>
                         <div class="value">&(view['supplier']:h);</div>
                     </div>
-                    <?php
-
-        } ?>
+                <?php } ?>
                 <div class="field">
                     <div class="title"><?php echo $data['l10n']->get('estimated delivery'); ?></div>
                     <div class="value">&(view['end']:h);</div>
                 </div>
-                <?php if ($data['deliverable']->notify) {
-            ?>
+                <?php if ($data['deliverable']->notify) { ?>
                     <div class="field">
                         <div class="title"><?php echo $data['l10n']->get('notify date'); ?></div>
                         <div class="value"><?php echo $view['notify']; ?></div>
                     </div>
-                    <?php
-
-        } ?>
+                <?php } ?>
                 <div class="field">
                     <div class="title"><?php echo $data['l10n_midcom']->get('description'); ?></div>
                     <div class="value">&(view['description']:h);</div>
@@ -71,14 +65,12 @@ if (   $data['product']
                         <tr>
                           <td class="title"><?php echo $data['l10n']->get('cost'); ?></td>
                           <?php
-                          if ($data['deliverable']->costType == '%') {
-                              ?>
+                          if ($data['deliverable']->costType == '%') { ?>
                               <td class="numeric"><?php echo $view['costPerUnit']; ?> %</td>
                               <td class="numeric">&nbsp;</td>
                               <td class="numeric">&nbsp;</td>
                           <?php
-                          } else {
-                              ?>
+                          } else { ?>
                               <td class="numeric"><?php echo $formatter->number($data['deliverable']->costPerUnit); ?></td>
                               <td class="numeric"><?php echo $view['plannedUnits']; ?></td>
                               <td class="numeric"><?php echo $view['units']; ?></td>
@@ -88,26 +80,20 @@ if (   $data['product']
                         </tr>
                       </tbody>
                     </table>
-                <?php if ($data['deliverable']->invoiceByActualUnits) {
-                              ?>
+                <?php if ($data['deliverable']->invoiceByActualUnits) { ?>
                     <ul>
                         <li><?php echo $data['l10n']->get('invoice by actual units'); ?></li>
                     </ul>
-                    <?php
-                          } ?>
+                    <?php } ?>
                     </div>
                 </div>
                 <?php
-                if ($data['deliverable']->invoiced > 0) {
-                    ?>
+                if ($data['deliverable']->invoiced > 0) { ?>
                     <div class="field">
                         <div class="title"><?php echo $data['l10n']->get('invoiced'); ?></div>
                         <div class="value"><?php echo $formatter->number($data['deliverable']->invoiced); ?></div>
                     </div>
-                    <?php
-
-                }
-                ?>
+                <?php } ?>
 	    </div>
      <?php
     $tabs = [];
@@ -133,15 +119,13 @@ if (   $data['product']
     </div>
 
     <aside>
-        <?php if ($data['product']) {
-                ?>
+        <?php if ($data['product']) { ?>
         <div class="products area">
             <?php
             echo "<h2>" . $data['l10n']->get('product') . "</h2>\n";
                 echo $data['product']->render_link() . "\n"; ?>
         </div>
-        <?php
-            }
+        <?php }
         midcom_show_style('show-offers');
         ?>
     </aside>

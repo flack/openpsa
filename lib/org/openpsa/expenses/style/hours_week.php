@@ -50,15 +50,12 @@ var grid = $("#&(grid_id);"),
 date_columns = <?php echo json_encode($date_columns); ?>,
 totals = {},
 day_total;
-$.each(date_columns, function(index, name)
-{
+date_columns.forEach(function(name) {
     day_total = 0;
-    $.each(grid.jqGrid('getCol', 'index_' + name), function(i, value)
-    {
+    grid.jqGrid('getCol', 'index_' + name).forEach(function(value) {
         day_total += parseFloat(value || 0);
     });
     totals[name] = Math.round(day_total * 100) / 100;
-    day_total = 0;
 });
 grid.jqGrid('footerData', 'set', totals);
 </script>

@@ -1,3 +1,5 @@
+<div class="org_openpsa_sales full-width crop-height">
+
 <?php
 $state_options = [
     org_openpsa_sales_salesproject_deliverable_dba::STATE_NEW => $data['l10n']->get('proposed'),
@@ -8,10 +10,6 @@ $state_options = [
     org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED => $data['l10n']->get('invoiced')
 ];
 $grid = $data['grid'];
-?>
-<div class="org_openpsa_sales full-width crop-height">
-
-<?php
 $grid->set_column('title', $data['l10n']->get('title'), 'classes: "ui-ellipsis"', 'string');
 $grid->set_column('salesproject', $data['l10n']->get('salesproject'), 'width: 100, classes: "ui-ellipsis"', 'string');
 $grid->set_select_column('state', $data['l10n']->get('state'), 'width: 60', $state_options);

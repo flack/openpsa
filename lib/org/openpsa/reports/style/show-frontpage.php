@@ -13,8 +13,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             midcom_show_style("show-{$component}-quick_reports");
             if ($saved_reports = org_openpsa_reports_query_dba::get_saved($component)) {
                 echo '<ul>';
-                foreach ($saved_reports as $report) {
-                    ?>
+                foreach ($saved_reports as $report) { ?>
                   <li>
                     <a href="&(data['report_prefix']);&(report.guid);/" target="_blank">
                       &(report.title);

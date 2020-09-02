@@ -3,28 +3,19 @@ $formatter = $data['l10n']->get_formatter();
 ?>
 <div class="wide">
     <h1><?php echo $data['l10n']->get('projects'); ?></h1>
+    <table class="list">
+      <thead>
+        <tr>
     <?php
-    echo "<table class='list'>\n";
-    echo "  <thead>\n";
-    echo "    <tr>\n";
     echo "        <th>" . $data['l10n']->get('project') . "</th>\n";
     echo "        <th>" . $data['l10n']->get('start') . "</th>\n";
     echo "        <th>" . $data['l10n']->get('end') . "</th>\n";
     echo "        <th colspan=\"4\">" . $data['l10n']->get('tasks') . "</th>\n";
     echo "        <th>" . $data['l10n']->get('hours') . "</th>\n";
-    echo "    </tr>\n";
-
-    echo "  </thead>\n";
     ?>
-      <tfoot>
-       <tr>
-        <td colspan="8">
-        <?php
-        printf($data['l10n']->get('%d closed projects'), $data['closed_count']);
-        ?>
-        </td>
-       </tr>
-      </tfoot>
+        </tr>
+      </thead>
+      <tbody>
     <?php
     foreach ($data['customers'] as $customer => $projects) {
         try {
@@ -75,5 +66,15 @@ $formatter = $data['l10n']->get_formatter();
         }
     }
     ?>
+      </tbody>
+      <tfoot>
+       <tr>
+        <td colspan="8">
+        <?php
+        printf($data['l10n']->get('%d closed projects'), $data['closed_count']);
+        ?>
+        </td>
+       </tr>
+      </tfoot>
     </table>
 </div>

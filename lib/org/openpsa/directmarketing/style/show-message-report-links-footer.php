@@ -1,8 +1,5 @@
-<?php
-$l10n = $data['l10n'];
-?>
     </table>
-    <input type="submit" class="button create_campaign" value="<?php echo $l10n->get('create campaign from link'); ?>"/>
+    <input type="submit" class="button create_campaign" value="<?php echo $data['l10n']->get('create campaign from link'); ?>"/>
 </form>
 <?php
         $reports_node = midcom_helper_misc::find_node_by_component('org.openpsa.reports');

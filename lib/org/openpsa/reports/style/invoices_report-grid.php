@@ -145,8 +145,8 @@ echo '</select>';
 ?>
 
 <button id="&(grid_id);_export">
-	   <i class="fa fa-download"></i>
-	   <?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>
+   <i class="fa fa-download"></i>
+   <?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>
 </button>
 
 </div>

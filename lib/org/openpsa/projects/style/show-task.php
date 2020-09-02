@@ -10,8 +10,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
 ?>
 <div class="content-with-sidebar">
 <div class="org_openpsa_projects_task main">
-    <?php if ($view_task['tags']) {
-        ?>
+    <?php if ($view_task['tags']) { ?>
         <div class="tags">(&(view_task['tags']:h);)</div>
     <?php
     } ?>
@@ -35,7 +34,6 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
                 echo '<div class="value">' . $view_task['priority'] . '</div>'; ?>
             </div>
                 <?php
-
             }
             ?>
         <div class="field">

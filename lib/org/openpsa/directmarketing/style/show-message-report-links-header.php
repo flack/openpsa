@@ -1,6 +1,3 @@
-<?php
-$l10n = $data['l10n'];
-?>
 <style type="text/css">
 table.link_statistics th.title
 {
@@ -12,11 +9,11 @@ table.link_statistics th.title
         <thead>
             <tr>
                 <th>&nbsp;</th>
-                <th><?php echo $l10n->get('link'); ?></th>
+                <th><?php echo $data['l10n']->get('link'); ?></th>
                 <th>&nbsp;</th>
-                <th><?php echo $l10n->get('total clicks'); ?></th>
-                <th><?php echo $l10n->get('% of clicks'); ?></th>
-                <th><?php echo $l10n->get('unique clickers'); ?></th>
-                <th><?php echo $l10n->get('% of recipients'); ?></th>
+                <th><?php echo $data['l10n']->get('total clicks'); ?></th>
+                <th><?php echo $data['l10n']->get('% of clicks'); ?></th>
+                <th><?php echo $data['l10n']->get('unique clickers'); ?></th>
+                <th><?php echo $data['l10n']->get('% of recipients'); ?></th>
             </tr>
         </thead>

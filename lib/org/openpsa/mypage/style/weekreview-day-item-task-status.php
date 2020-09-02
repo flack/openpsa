@@ -25,7 +25,7 @@ $message = sprintf(midcom::get()->i18n->get_string($task_status->get_status_mess
     </td>
     <td>
         <?php
-try {
+        try {
             $task = org_openpsa_projects_task_dba::get_cached($task_status->task);
 
             $task_label = $task->get_label();
@@ -33,8 +33,7 @@ try {
                 $task_label = "<a href=\"{$data['projects_url']}task/{$task->guid}/\">{$task_label}</a>";
             }
             echo $task_label;
-        } catch (midcom_error $e) {
-}
+        } catch (midcom_error $e) {}
         ?>
     </td>
     <td class="multivalue">

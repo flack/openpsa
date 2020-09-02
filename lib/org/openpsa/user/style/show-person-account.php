@@ -1,10 +1,7 @@
-<?php
-$username = $data['account']->get_username();
-?>
 <div class="area org_openpsa_helper_box">
     <h3><?php echo $data['l10n']->get("user account"); ?></h3>
     <?php
-    if ($username) {
+    if ($username = $data['account']->get_username()) {
         echo "<p>{$username}</p>\n";
         $user = new midcom_core_user($data['person']);
         if ($user->is_online() == 'online') {

@@ -15,39 +15,24 @@ try {
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
 $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
 $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
-
-$cancelation_invoice_link = false;
-if ($invoice->cancelationInvoice) {
-    $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
-    $cancelation_invoice_link = $data['router']->generate('invoice', ['guid' => $cancelation_invoice->guid]);
-
-    $cancelation_invoice_link = "<a href=\"" . $cancelation_invoice_link . "\">" . $data['l10n']->get('invoice') . " " . $cancelation_invoice->get_label() . "</a>";
-}
 ?>
 <div class="content-with-sidebar">
 <div class="main org_openpsa_invoices_invoice">
   <div class="midcom_helper_datamanager2_view">
-    <?php if ($customer) {
-            echo "<div class=\"field\"><div class=\"title\">" . $data['l10n']->get('customer') . ": </div>\n";
-            echo '<div class="value"><a href="' . $contacts_url . 'group/' . $customer->guid . '/">' . $customer->get_label() . "</a>\n</div>\n";
-            echo "</div>\n";
-        }
-    if ($invoice->date > 0) {
-        ?>
+    <?php
+    if ($customer) { ?>
+        <div class="field"><div class="title"><?php echo $data['l10n']->get('customer'); ?>: </div>
+        <div class="value"><a href="&(contacts_url);group/&(customer.guid);/"><?php echo $customer->get_label(); ?></a></div></div>
+    <?php }
+    if ($invoice->date > 0) { ?>
         <div class="field"><div class="title"><?php echo $data['l10n']->get('invoice date'); ?>: </div>
         <div class="value"><?php echo $formatter->date($invoice->date); ?></div></div>
-    <?php
+    <?php }
 
-    }
-
-    if ($invoice->deliverydate > 0) {
-        ?>
+    if ($invoice->deliverydate > 0) { ?>
         <div class="field"><div class="title"><?php echo $data['l10n']->get('invoice delivery date'); ?>: </div>
         <div class="value"><?php echo $formatter->date($invoice->deliverydate); ?></div></div>
-    <?php
-
-    }
-    ?>
+    <?php } ?>
 
     <div class="field"><div class="title"><?php echo $data['l10n_midcom']->get('description');?>: </div>
     <div class="description value">&(view['description']:h);</div></div>
@@ -57,29 +42,26 @@ if ($invoice->cancelationInvoice) {
         $owner_card = org_openpsa_widgets_contact::get($invoice->owner); ?>
         <div class="field"><div class="title"><?php echo $data['l10n_midcom']->get('owner'); ?>: </div>
         <div class="value"><?php echo $owner_card->show_inline(); ?></div></div>
-    <?php
+    <?php }
 
-    } ?>
-
-    <?php
     // does the invoice have a cancelation invoice?
-    if ($cancelation_invoice_link) {
-        echo "<div class=\"field\">";
-        echo "<div class=\"title\">" . $data['l10n']->get('canceled by') .":</div>";
-        echo "<div class=\"value\">" . $cancelation_invoice_link . "</a></div>";
-        echo "</div>";
-    }
+    if ($invoice->cancelationInvoice) {
+        $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
+        $cancelation_invoice_link = $data['router']->generate('invoice', ['guid' => $cancelation_invoice->guid]); ?>
+
+        <div class="field"><div class="title"><?php echo $data['l10n']->get('canceled by'); ?>: </div>
+        <div class="value"><a href="&(cancelation_invoice_link);"><?php echo $data['l10n']->get('invoice') . " " . $cancelation_invoice->get_label(); ?></a></div>
+        </div>
+    <?php }
     // is the invoice a cancelation invoice itself?
     if ($canceled_invoice = $invoice->get_canceled_invoice()) {
-        $canceled_invoice_link = $data['router']->generate('invoice', ['guid' => $canceled_invoice->guid]);
+        $canceled_invoice_link = $data['router']->generate('invoice', ['guid' => $canceled_invoice->guid]); ?>
 
-        echo "<div class=\"field\">";
-        echo "<div class=\"title\">" . $data['l10n']->get('cancelation invoice for') .":</div>";
-        echo "<div class=\"value\"><a href=\"" . $canceled_invoice_link . "\">" . $data['l10n']->get('invoice') . " " . $canceled_invoice->get_label() . "</a></div>";
-        echo "</div>";
-    }
-    ?>
-  </div>
+        <div class="field"><div class="title"><?php echo $data['l10n']->get('cancelation invoice for'); ?>: </div>
+        <div class="value"><a href="&(canceled_invoice_link);"><?php echo $data['l10n']->get('invoice') . " " . $canceled_invoice->get_label(); ?></a></div>
+        </div>
+	<?php } ?>
+    </div>
     <?php
     if (!empty($data['invoice_items'])) {
         ?>
@@ -136,13 +118,11 @@ if ($invoice->cancelationInvoice) {
 
     }
 
-    if ($view['files'] != "") {
-        ?>
+    if ($view['files'] != "") { ?>
         <p><strong><?php echo $data['l10n']->get('files'); ?></strong></p>
         <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'files');
     }
-    if ($view['pdf_file'] != "") {
-        ?>
+    if ($view['pdf_file'] != "") { ?>
         <p><strong><?php echo $data['l10n']->get('pdf file'); ?></strong></p>
         <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'pdf_file');
     }

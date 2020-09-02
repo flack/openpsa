@@ -5,8 +5,7 @@ $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.pr
 <div class="deliverables">
     <h2><?php echo $data['l10n']->get('deliverables'); ?></h2>
     <?php
-    if ($data['salesproject']->can_do('midgard:create')) {
-        ?>
+    if ($data['salesproject']->can_do('midgard:create')) { ?>
         <form method="post" action="&(action);" target="datamanager-dialog" data-dialog-cancel-label="<?php echo $data['l10n_midcom']->get('cancel'); ?>">
             <label><?php echo $data['l10n']->get('add item'); ?></label>
             <select name="product" id="org_openpsa_sales_salesproject_deliverable_add" data-placeholder="<?php echo $data['l10n']->get('select product'); ?>">
@@ -35,7 +34,4 @@ $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.pr
                     } ?>
             </select>
         </form>
-        <?php
-
-    }
-    ?>
+    <?php } ?>

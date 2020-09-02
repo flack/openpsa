@@ -20,8 +20,7 @@ function calculate_total()
 
     total = total.toFixed(2).replace(/\./, l10n.decimalSeparator);
 
-    while (separator_expression.test(total))
-    {
+    while (separator_expression.test(total)) {
         total = total.replace(separator_expression, '$1' + l10n.thousandsSeparator + '$2');
     }
 

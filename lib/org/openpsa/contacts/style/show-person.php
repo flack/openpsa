@@ -12,7 +12,6 @@ $node = $nap->get_node($nap->get_current_node());
     echo '<div class="avatar">';
     echo $widget->get_image('view', 'user');
     echo '</div>';
-
     ?>
 </div>
     <?php

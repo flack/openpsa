@@ -122,12 +122,12 @@ $grid_id = $data['grid']->get_identifier();
 ?>
 
 <form id="form_&(grid_id);" method="post" action="<?php echo $action_target_url; ?>">
-<input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
+	<input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 </form>
 
 <button id="&(grid_id);_export">
-	   <i class="fa fa-download"></i>
-	   <?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>
+   <i class="fa fa-download"></i>
+   <?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>
 </button>
 
 </div>
@@ -155,5 +155,4 @@ $('body').on('dialogdeleted', '[data-dialog="delete"]', function(e, message) {
     $('#&(grid_id);').jqGrid('delRowData', row_id);
     $('#&(grid_id);').trigger('reloadGrid');
 });
-
 </script>

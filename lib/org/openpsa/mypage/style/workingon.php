@@ -34,13 +34,11 @@ midcom::get()->uimessages->show();
     <div class="calculator" id="org_openpsa_mypage_workingon_time">
     </div>
     <?php
-    if ($workingon->task) {
-        ?>
+    if ($workingon->task) { ?>
          <script type="text/javascript">
 	         countup(<?php echo $workingon->start; ?>000);
          </script>
-    <?php
-    } ?>
+    <?php } ?>
       <input type="button" id="org_openpsa_mypage_workingon_stop" value="<?php echo $data['l10n']->get('stop'); ?>"/>
       <input type="button" id="org_openpsa_mypage_workingon_start" value="<?php echo $data['l10n']->get('start'); ?>"/>
     </div>

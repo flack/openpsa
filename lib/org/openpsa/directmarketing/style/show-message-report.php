@@ -1,7 +1,7 @@
 <?php
 $l10n = $data['l10n'];
 $report = $data['report'];
-$formatter = $data['l10n']->get_formatter();
+$formatter = $l10n->get_formatter();
 ?>
 <h1><?php printf($l10n->get('report for message %s'), $data['message']->title); ?></h1>
 <?php
@@ -51,12 +51,10 @@ if ($data['message']->sendStarted == 0) {
             ?>
         <td class="title"><?php printf($l10n->get('unsubscribed between %s - %s'), $first_send, $formatter->datetime($report['campaign_data']['next_message']->sendStarted)); ?></td>
     <?php
-
         } else {
             ?>
         <td class="title"><?php printf($l10n->get('unsubscribed since %s'), $first_send); ?></td>
     <?php
-
         } ?>
         <td class="numeric"><?php echo round($report['campaign_data']['unsubscribed'], 2); ?></td>
     </tr>

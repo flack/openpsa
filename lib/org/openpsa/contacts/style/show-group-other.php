@@ -18,8 +18,6 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'width: 80, classe
     // Display the group information
     foreach (array_filter($data['view']) as $fieldname => $fielddata) {
         switch ($fieldname) {
-            case 'members':
-                break;
             case 'notes':
                 echo "<h2>" . $data['l10n']->get('notes') . "</h2>\n";
                 echo "<pre>" . $fielddata . "</pre>";

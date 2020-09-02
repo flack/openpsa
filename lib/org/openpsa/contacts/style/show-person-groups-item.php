@@ -16,10 +16,7 @@ if ($data['member']->can_do('midgard:update')) {
     $view_title_form = $data['member_title'];
 }
 
-$view_group_name = $view_group->official;
-if ($view_group_name == '') {
-    $view_group_name = $view_group->name;
-}
+$view_group_name = $view_group->get_label();
 ?>
 <div class="vcard">
     <div class="organization-name">

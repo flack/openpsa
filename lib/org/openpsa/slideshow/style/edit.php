@@ -40,8 +40,7 @@ foreach ($data['images'] as $image) {
         <span class="description"><textarea rows="3" cols="40" placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>">&(image.description);</textarea></span>
       </div>
     </div>
-<?php
-} ?>
+<?php } ?>
 
 <div class="entry entry-template">
 <div class="thumbnail">

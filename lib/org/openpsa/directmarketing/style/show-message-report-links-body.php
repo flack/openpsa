@@ -10,13 +10,11 @@ if (!isset($data['body_class'])) {
 $body_class = " class='{$data['body_class']}'";
 ?>
             <tbody&(body_class);>
-<?php       if (!empty($body_title)) {
-    ?>
+<?php       if (!empty($body_title)) { ?>
                 <tr>
                     <th colspan=6 class="title">&(body_title);</th>
                 </tr>
-<?php
-}
+<?php }
             $total = 0;
 
             foreach ($link_data['counts'] as $target => $count) {
@@ -82,7 +80,6 @@ $body_class = " class='{$data['body_class']}'";
                     <td class="numeric"><?php echo round($of_recipients, 2); ?></td>
                 </tr>
                 <?php
-
             }
         ?>
                 <tr class="totals">

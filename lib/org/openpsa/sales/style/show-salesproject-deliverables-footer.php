@@ -18,7 +18,6 @@
         </div>
 
         <?php
-
         midcom_show_style('show-offers');
 
         $nap = new midcom_helper_nav();
