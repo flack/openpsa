@@ -1,19 +1,10 @@
 <?php
 $item = $data['result'];
 $url = midcom_db_attachment::get_url($item);
-$mime_icon = null;
 $item_type = "image";
 
-switch ($item->mimetype) {
-    case 'image/x-png':
-    case 'image/png':
-    case 'image/jpeg':
-    case 'image/pjpeg':
-    case 'image/gif':
-        break;
-    default:
-        $item_type = "attachment";
-        $mime_icon = midcom_helper_misc::get_mime_icon($item->mimetype);
+if (!in_array($item->mimetype, ['image/x-png', 'image/png', 'image/jpeg', 'image/pjpeg', 'image/gif'])) {
+    $item_type = "attachment";
 }
 ?>
 
@@ -28,15 +19,14 @@ if ($item_type == "image") {
         <span title="name">&(item.name);</span>
     </a>
 <?php
-
 } else {
+    $mime_icon = midcom_helper_misc::get_mime_icon($item->mimetype);
     ?>
     <img src="&(mime_icon);" alt="&(item.mimetype);" align='texttop'/>
     <a href='&(url);'>
         <span title="name">&(item.name);</span>
     </a>
 <?php
-
 }
 ?>
 
