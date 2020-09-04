@@ -171,9 +171,11 @@ function create_dialog(control, title, url) {
                 if (iframe[0].contentWindow && iframe[0].contentWindow.hasOwnProperty('stop')) {
                     iframe[0].contentWindow.stop();
                 }
+                $('body').removeClass('midcom-workflow-active');
             },
             open: function() {
                 dialog.closest('.ui-dialog').focus();
+                $('body').addClass('midcom-workflow-active');
             }};
 
     if (control.data('dialog-cancel-label')) {
