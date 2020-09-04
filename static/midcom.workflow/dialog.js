@@ -66,7 +66,9 @@ function add_item(data) {
 
 function attach_to_parent_dialog(dialog) {
     let buttons = [];
-    dialog.dialog('option', 'title', document.title);
+    if (document.title) {
+        dialog.dialog('option', 'title', document.title);
+    }
     dialog.css('visibility', 'visible');
 
     $(window).on('unload', function() {
