@@ -154,7 +154,6 @@ $(document).ready(function() {
 
 function create_dialog(control, title, url) {
     if ($('.midcom-workflow-dialog').length > 0) {
-        $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
         $('body').addClass('midcom-workflow-switching');
         $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
     }
