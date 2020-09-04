@@ -155,6 +155,8 @@ $(document).ready(function() {
 function create_dialog(control, title, url) {
     if ($('.midcom-workflow-dialog').length > 0) {
         $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
+        $('body').addClass('midcom-workflow-switching');
+        $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
     }
 
     var dialog, iframe, spinner, is_scrolling,
@@ -171,7 +173,11 @@ function create_dialog(control, title, url) {
                 if (iframe[0].contentWindow && iframe[0].contentWindow.hasOwnProperty('stop')) {
                     iframe[0].contentWindow.stop();
                 }
-                $('body').removeClass('midcom-workflow-active');
+                if ($('body').hasClass('midcom-workflow-switching')) {
+                    $('body').removeClass('midcom-workflow-switching');
+                } else {
+                    $('body').removeClass('midcom-workflow-active');
+                }
             },
             open: function() {
                 dialog.closest('.ui-dialog').focus();
