@@ -4,6 +4,7 @@ plugins: ["autoresize table save hr link preview media searchreplace print fulls
 toolbar1: "cut copy paste | undo redo | searchreplace | alignleft alignjustify alignright | outdent indent | code fullscreen",
 toolbar2: "formatselect | bold italic strikethrough sub sup | bullist numlist | link unlink image media | removeformat",
 resize: 'both',
+max_height: window.innerHeight,
 autoresize_bottom_margin: 1,
 autoresize_max_height: Math.max(200, document.documentElement.clientHeight - 100),
 image_advtab: true,
