@@ -4,12 +4,12 @@ function refresh_opener(url) {
     if (url === undefined) {
         url = window.parent.location.href;
     }
-    var button = window.parent.$('[data-dialog="dialog"][data-refresh-opener].active');
+    close();
 
+    var button = window.parent.$('[data-dialog="dialog"][data-refresh-opener].active');
     if (button.length > 0) {
         if (   button.data('refresh-opener') === false
             && button.closest('.ui-tabs').length === 0) {
-            close();
             return;
         }
         url = window.parent.location.href;
