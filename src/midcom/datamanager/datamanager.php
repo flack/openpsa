@@ -10,13 +10,13 @@ use Symfony\Component\Form\Form;
 use midcom_core_dbaobject;
 use midcom_core_context;
 use midcom;
-use Symfony\Component\Translation\Translator;
 use midcom\datamanager\extension\transformer\multipleTransformer;
 use midcom\datamanager\storage\recreateable;
 use midcom\datamanager\extension\type\schemaType;
 use midcom\datamanager\extension\type\toolbarType;
 use midcom\datamanager\storage\container\container;
 use midcom\datamanager\storage\container\dbacontainer;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Experimental datamanager class
@@ -176,36 +176,48 @@ class datamanager
         if ($reset) {
             $this->form = null;
         }
-        if ($name == null) {
+        $name = $this->get_name($name);
+
+        if (   $this->form === null
+            || $this->form->getName() != $name) {
+            $this->build_form($this->get_builder($name));
+        }
+        return $this->form;
+    }
+
+    public function get_builder(string $name = null) : FormBuilderInterface
+    {
+        $config = [
+            'schema' => $this->get_schema()
+        ];
+        return self::get_factory()->createNamedBuilder($this->get_name($name), schemaType::class, null, $config);
+    }
+
+    public function build_form(FormBuilderInterface $builder) : self
+    {
+        $storage = $this->get_storage();
+
+        $config = [
+            'operations' => $this->schema->get('operations'),
+            'index_method' => 'noindex',
+            'is_create' => $storage instanceof dbacontainer && empty($storage->get_value()->id)
+        ];
+        $builder->add('form_toolbar', toolbarType::class, $config);
+
+        $this->form = $builder->getForm()
+            ->setData($storage);
+
+        return $this;
+    }
+
+    private function get_name(?string $name) : string
+    {
+        if (!$name) {
             $name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
             // Replace the dots in the component name with underscores
             $name = midcom::get()->componentloader->path_to_prefix($name);
         }
-        if (!$name) {
-            // Fallback for componentless operation
-            $name = 'midcom_helper_datamanager2';
-        }
-
-        if (   $this->form === null
-            || $this->form->getName() != $name) {
-            $config = [
-                'schema' => $this->get_schema()
-            ];
-            $builder = self::get_factory()->createNamedBuilder($name, schemaType::class, null, $config);
-            $storage = $this->get_storage();
-
-            $config = [
-                'operations' => $this->schema->get('operations'),
-                'index_method' => 'noindex',
-                'is_create' => $storage instanceof dbacontainer && empty($storage->get_value()->id)
-            ];
-
-            $builder->add('form_toolbar', toolbarType::class, $config);
-
-            $this->form = $builder->getForm()
-                ->setData($storage);
-        }
-        return $this->form;
+        return $name ?: 'midcom_helper_datamanager2';
     }
 
     public function get_content_raw() : array
