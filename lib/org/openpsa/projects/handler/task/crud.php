@@ -10,6 +10,8 @@ use midcom\datamanager\controller;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 /**
  * Projects create/update/delete task handler
@@ -107,7 +109,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             $fields['up']['widget_config']['constraints'] = [
                 'field' => 'project',
                 'op' => '=',
-                'value' => $this->task->project || $defaults['project']
+                'value' => $this->task->project ?: $defaults['project']
             ];
             $fields['agreement']['widget'] = 'hidden';
         } else {
@@ -119,8 +121,18 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $schemadb->get('default')->set('fields', $fields);
 
         $dm = new datamanager($schemadb);
+        $builder = $dm->get_builder();
+        if ($builder->has('end')) {
+            $builder->get('end')->addEventListener(FormEvents::SUBMIT, function(FormEvent $event) {
+                if ($date = $event->getData()['date']) {
+                    // This allows one-day tasks to pass validation
+                    $date->setTime(23, 59, 59);
+                }
+            });
+        }
         return $dm->set_defaults($defaults)
             ->set_storage($this->task)
+            ->build_form($builder)
             ->get_controller();
     }
 
