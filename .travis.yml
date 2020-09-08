@@ -27,6 +27,3 @@ install:
   - sudo chown -R travis var/
 
 script: vendor/bin/phpunit --debug
-
-notifications:
-    irc: "irc.freenode.org#midgard"
