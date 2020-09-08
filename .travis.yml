@@ -1,5 +1,9 @@
 language: php
 
+cache:
+    directories:
+        - $HOME/.composer/cache
+
 php:
   - 7.1
   - 7.2
@@ -18,8 +22,9 @@ addons:
 before_install:
   - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
-before_script:
-  - ./test/travis.sh
+install:
+  - travis_retry composer install
+  - sudo chown -R travis var/
 
 script: vendor/bin/phpunit --debug
 
