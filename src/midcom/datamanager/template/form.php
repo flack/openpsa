@@ -459,6 +459,7 @@ class form extends base
             }
         } else {
             midcom::get()->head->enable_jquery_ui(['datepicker']);
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/datepicker.js');
 
             $string .= $this->renderer->widget($view['date'], ['type' => 'hidden']);
             $string .= $this->renderer->widget($view['input'], ['attr' => ['class' => 'jsdate']]);

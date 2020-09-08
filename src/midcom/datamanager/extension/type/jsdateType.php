@@ -117,33 +117,19 @@ class jsdateType extends AbstractType
             $init_min = new DateTime($options['type_config']['min_date']);
         }
 
-        //need this due to js Date begins to count the months with 0 instead of 1
-        $init_max_month = $init_max->format('n') - 1;
-        $init_min_month = $init_min->format('n') - 1;
+        $js_options = [
+            'id' => '#' . $view['input']->vars['id'],
+            'alt_id' => '#' . $view['date']->vars['id'],
+            'max_date' => $init_max->format('Y-m-d'),
+            'min_date' => $init_min->format('Y-m-d'),
+            'showOn' => $options['widget_config']['showOn']
+        ];
 
-        $script = <<<EOT
-<script type="text/javascript">
-    $("#{$view['input']->vars['id']}").datepicker({
-        maxDate: new Date({$init_max->format('Y')}, {$init_max_month}, {$init_max->format('d')}),
-        minDate: new Date({$init_min->format('Y')}, {$init_min_month}, {$init_min->format('d')}),
-        dateFormat: $.datepicker.regional[Object.keys($.datepicker.regional)[Object.keys($.datepicker.regional).length - 1]].dateFormat || $.datepicker.ISO_8601,
-        altField: "#{$view['date']->vars['id']}",
-        altFormat: $.datepicker.ISO_8601,
-        prevText: '',
-        nextText: '',
-        showOn: '{$options['widget_config']['showOn']}',
-        buttonText: '&#xf073;'
-    }).on('change', function() {
-        if ($(this).val() == '') {
-            $("#{$view['date']->vars['id']}").val('');
+        if (!empty($options['type_config']['later_than'])) {
+            $js_options['later_than'] = '#' . $view->parent[$options['type_config']['later_than']]['input']->vars['id'];
         }
-    });
-    if ($("#{$view['date']->vars['id']}").val() && $("#{$view['date']->vars['id']}").val() !== '0000-00-00') {
-        $("#{$view['input']->vars['id']}").datepicker('setDate', new Date($("#{$view['date']->vars['id']}").val()));
-    }
-</script>
-EOT;
-        $view->vars['jsinit'] = $script;
+
+        $view->vars['jsinit'] = '<script type="text/javascript">init_datepicker(' . json_encode($js_options) . ');</script>';
     }
 
     /**
