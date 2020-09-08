@@ -10,6 +10,11 @@ services:
   - memcached
   - mysql
 
+addons:
+  apt:
+    packages:
+    - rcs
+
 before_install:
   - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
