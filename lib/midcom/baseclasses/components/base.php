@@ -89,7 +89,7 @@ abstract class midcom_baseclasses_components_base
      * @param string $url The stylesheet URL
      * @param string $media The media type(s) for the stylesheet, if any
      */
-    public function add_stylesheet(string $url, $media = false)
+    public function add_stylesheet(string $url, string $media = null)
     {
         midcom::get()->head->add_stylesheet($url, $media);
     }

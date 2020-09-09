@@ -216,12 +216,8 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      * Initializes the class, only basic variable assignment.
      *
      * Put all further initialization work into the _on_initialize event handler.
-     *
-     * @param midcom_db_topic $topic The topic we are working on
-     * @param midcom_helper_configuration $config The currently active configuration.
-     * @param string $component The name of the component.
      */
-    final public function __construct(midcom_db_topic $topic, midcom_helper_configuration $config, $component)
+    final public function __construct(midcom_db_topic $topic, midcom_helper_configuration $config, string $component)
     {
         $this->_topic = $topic;
         $this->_config = $config;
@@ -247,9 +243,6 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
     /**
      * Prepares the handler callback for execution.
      * This will create the handler class instance if required.
-     *
-     * @param array $request
-     * @throws midcom_error
      */
     public function prepare_handler(array &$request)
     {
