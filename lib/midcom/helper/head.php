@@ -474,16 +474,13 @@ class midcom_helper_head
      *
      * This method adds jQuery support to the page
      */
-    public function enable_jquery($version = null)
+    public function enable_jquery()
     {
         if ($this->_jquery_enabled) {
             return;
         }
 
-        if (!$version) {
-            $version = midcom::get()->config->get('jquery_version');
-        }
-
+        $version = midcom::get()->config->get('jquery_version');
         if (midcom::get()->config->get('jquery_load_from_google')) {
             // Use Google's hosted jQuery version
             $this->_jquery_init_scripts .= $this->render_js("\n", ['url' => 'https://www.google.com/jsapi']);
