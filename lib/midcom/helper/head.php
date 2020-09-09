@@ -126,7 +126,7 @@ class midcom_helper_head
      * @see print_head_elements()
      * @see print_jsonload()
      */
-    public function add_jsfile($url, $prepend = false)
+    public function add_jsfile(string $url, bool $prepend = false)
     {
         // Adds a URL for a <script type="text/javascript" src="tinymce.js"></script>
         // like call. $url is inserted into src. Duplicates are omitted.
@@ -160,7 +160,7 @@ class midcom_helper_head
      * @see print_head_elements()
      * @see print_jsonload()
      */
-    public function add_jscript($script, $defer = '', $prepend = false)
+    public function add_jscript(string $script, $defer = '', bool $prepend = false)
     {
         $js_call = ['content' => trim($script), 'defer' => $defer];
         if ($prepend) {
@@ -180,7 +180,7 @@ class midcom_helper_head
      * @param string $state    The state where to include the code to. Defaults to document.ready
      * @see print_jquery_statuses()
      */
-    public function add_jquery_state_script($script, $state = 'document.ready')
+    public function add_jquery_state_script(string $script, string $state = 'document.ready')
     {
         $js_call = "\n" . trim($script) . "\n";
 
@@ -199,7 +199,7 @@ class midcom_helper_head
      *  @param  array  $attributes Array of attribute => value pairs to be placed in the tag.
      *  @see print_head_elements()
      */
-    public function add_meta_head($attributes = null)
+    public function add_meta_head(array $attributes)
     {
         $this->_meta_head .= '<meta' . $this->_get_attribute_string($attributes) . ' />' . "\n";
     }
@@ -213,17 +213,14 @@ class midcom_helper_head
      * @param  array  $attributes Array of attribute=> value pairs to be placed in the tag.
      * @see print_head_elements()
      */
-    public function add_style_head($script, $attributes = null)
+    public function add_style_head(string $script, array $attributes = [])
     {
         $this->_style_head .= '<style type="text/css"' . $this->_get_attribute_string($attributes) . '>' . $script . "</style>\n";
     }
 
-    private function _get_attribute_string($attributes) : string
+    private function _get_attribute_string(array $attributes) : string
     {
         $string = '';
-        if (null === $attributes) {
-            return $string;
-        }
         foreach ($attributes as $key => $val) {
             $string .= ' ' . $key . '="' . htmlspecialchars($val, ENT_COMPAT) . '"';
         }
@@ -274,7 +271,7 @@ class midcom_helper_head
      * @param string $url The stylesheet URL
      * @param string $media The media type(s) for the stylesheet, if any
      */
-    public function add_stylesheet($url, $media = false)
+    public function add_stylesheet(string $url, string $media = null)
     {
         $this->add_link_head($this->prepare_stylesheet_attributes($url, $media));
     }
@@ -285,12 +282,12 @@ class midcom_helper_head
      * @param string $url The stylesheet URL
      * @param string $media The media type(s) for the stylesheet, if any
      */
-    public function prepend_stylesheet(string $url, $media = false)
+    public function prepend_stylesheet(string $url, string $media = null)
     {
         $this->add_link_head($this->prepare_stylesheet_attributes($url, $media), true);
     }
 
-    private function prepare_stylesheet_attributes($url, $media) : array
+    private function prepare_stylesheet_attributes(string $url, ?string $media) : array
     {
         $attributes = [
             'rel'  => 'stylesheet',
@@ -319,7 +316,7 @@ class midcom_helper_head
      * @see print_head_elements()
      * @see print_jsonload()
      */
-    public function add_jsonload($method)
+    public function add_jsonload(string $method)
     {
         // Adds a method name for <body onload=".."> The string must not end with a ;, it is added automagically
         $this->_jsonload[] = $method;
