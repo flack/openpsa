@@ -75,13 +75,6 @@ class midcom_helper_head
     private $_meta_head = '';
 
     /**
-     * string with all object tags to go into a page's head.
-     *
-     * @var string
-     */
-    private $_object_head = '';
-
-    /**
      * String with all css styles to go into a page's head.
      *
      * @var string
@@ -196,21 +189,6 @@ class midcom_helper_head
         } else {
             $this->_jquery_states[$state] .= $js_call;
         }
-    }
-
-    /**
-     * Register some object tags to be added to the head element.
-     *
-     * This allows components to register object tags to be placed in the
-     * head section of the page.
-     *
-     * @param  string $script    The input between the <object></object> tags.
-     * @param  array  $attributes Array of attribute=> value pairs to be placed in the tag.
-     * @see print_head_elements()
-     */
-    public function add_object_head($script, $attributes = null)
-    {
-        $this->_object_head .= '<object' . $this->_get_attribute_string($attributes) . '>' . $script . "</object>\n";
     }
 
     /**
@@ -395,7 +373,6 @@ class midcom_helper_head
      * BODY tag. Note that these suggestions are not enforced
      *
      * @see add_link_head()
-     * @see add_object_head()
      * @see add_style_head()
      * @see add_meta_head()
      * @see add_jsfile()
@@ -458,7 +435,6 @@ class midcom_helper_head
             }
         }
 
-        $head .= $this->_object_head;
         $head .= $this->_style_head;
 
         if ($this->_jquery_enabled) {
