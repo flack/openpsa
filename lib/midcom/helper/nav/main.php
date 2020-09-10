@@ -496,15 +496,14 @@ class midcom_helper_nav
             $curr_leaf = $this->get_current_leaf();
             $curr_node = $this->get_current_node();
         } else {
-            $curr_leaf = $this->get_leaf($id);
+            $curr_leaf = false;
             $curr_node = -1;
 
-            if (!$curr_leaf) {
-                if ($node = $this->get_node($id)) {
-                    $curr_node = $node[MIDCOM_NAV_ID];
-                }
-            } else {
-                $curr_node = $this->get_node($curr_leaf[MIDCOM_NAV_NODEID]);
+            if ($leaf = $this->get_leaf($id)) {
+                $curr_leaf = $leaf[MIDCOM_NAV_ID];
+                $curr_node = $leaf[MIDCOM_NAV_NODEID];
+            } elseif ($node = $this->get_node($id)) {
+                $curr_node = $node[MIDCOM_NAV_ID];
             }
         }
         foreach ($this->get_node_path($curr_node) as $node_id) {
