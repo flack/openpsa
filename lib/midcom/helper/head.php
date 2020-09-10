@@ -44,8 +44,6 @@ class midcom_helper_head
      */
     private $_jquery_enabled = false;
 
-    private $_jquery_init_scripts = '';
-
     /**
      * Array with all JQuery state scripts for the page's head.
      *
@@ -434,10 +432,6 @@ class midcom_helper_head
 
         $head .= $this->_style_head;
 
-        if ($this->_jquery_enabled) {
-            $head .= $this->_jquery_init_scripts;
-        }
-
         if (!empty($this->_prepend_jshead)) {
             $head .= array_reduce($this->_prepend_jshead, [$this, 'render_js'], '');
         }
@@ -477,24 +471,23 @@ class midcom_helper_head
             return;
         }
 
+        $script  = "const MIDCOM_STATIC_URL = '" . MIDCOM_STATIC_URL . "',\n";
+        $script .= "      MIDCOM_PAGE_PREFIX = '" . midcom_connection::get_url('self') . "';\n";
+        array_unshift($this->_prepend_jshead, ['content' => trim($script)]);
+
         $version = midcom::get()->config->get('jquery_version');
         if (midcom::get()->config->get('jquery_load_from_google')) {
             // Use Google's hosted jQuery version
-            $this->_jquery_init_scripts .= $this->render_js("\n", ['url' => 'https://www.google.com/jsapi']);
-            $this->_jquery_init_scripts .= $this->render_js('', ['content' => 'google.load("jquery", "' . $version . '");']);
+            array_unshift($this->_prepend_jshead, ['content' => 'google.load("jquery", "' . $version . '");']);
+            array_unshift($this->_prepend_jshead, ['url' => 'https://www.google.com/jsapi']);
         } else {
             $url = MIDCOM_STATIC_URL . "/jQuery/jquery-{$version}.js";
-            $this->_jquery_init_scripts .= $this->render_js("\n", ['url' => $url]);
+            array_unshift($this->_prepend_jshead, ['url' => $url]);
         }
 
         if (!defined('MIDCOM_JQUERY_UI_URL')) {
             define('MIDCOM_JQUERY_UI_URL', MIDCOM_STATIC_URL . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version'));
         }
-
-        $script  = "const MIDCOM_STATIC_URL = '" . MIDCOM_STATIC_URL . "',\n";
-        $script .= "      MIDCOM_PAGE_PREFIX = '" . midcom_connection::get_url('self') . "';\n";
-
-        $this->_jquery_init_scripts .= $this->render_js('', ['content' => trim($script)]);
 
         $this->_jquery_enabled = true;
     }
