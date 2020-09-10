@@ -193,7 +193,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      *
      * @param string $guid The key to look up.
      */
-    public function get_guid($guid)
+    public function get_guid(string $guid)
     {
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($guid);

@@ -472,8 +472,8 @@ class midcom_helper_head
         }
 
         $script  = "const MIDCOM_STATIC_URL = '" . MIDCOM_STATIC_URL . "',\n";
-        $script .= "      MIDCOM_PAGE_PREFIX = '" . midcom_connection::get_url('self') . "';\n";
-        array_unshift($this->_prepend_jshead, ['content' => trim($script)]);
+        $script .= "      MIDCOM_PAGE_PREFIX = '" . midcom_connection::get_url('self') . "';";
+        array_unshift($this->_prepend_jshead, ['content' => $script]);
 
         $version = midcom::get()->config->get('jquery_version');
         if (midcom::get()->config->get('jquery_load_from_google')) {

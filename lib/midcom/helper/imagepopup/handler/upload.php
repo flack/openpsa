@@ -13,7 +13,7 @@
  */
 class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_components_handler
 {
-    public function _handler_upload(array &$data, $guid = null)
+    public function _handler_upload(array &$data, string $guid = null)
     {
         // Get the file
         reset($_FILES);

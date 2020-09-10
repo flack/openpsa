@@ -516,7 +516,7 @@ class midcom_helper_nav
                 'napobject' => $node,
             ];
         }
-        if ($curr_leaf !== false && $leaf = $this->get_leaf($curr_leaf)) {
+        if ($curr_leaf && $leaf = $this->get_leaf($curr_leaf)) {
             // Ignore Index Article Leaves
             if ($leaf[MIDCOM_NAV_URL] != '') {
                 $result[$leaf[MIDCOM_NAV_ID]] = [

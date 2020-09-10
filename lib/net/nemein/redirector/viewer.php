@@ -70,26 +70,21 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
                     }
                 }
 
-                $node = $nap->get_node($id);
-
-                // Node not found, fall through to configuration
-                if (!$node) {
-                    break;
+                if ($node = $nap->get_node($id)) {
+                    return $node[MIDCOM_NAV_FULLURL];
                 }
-
-                return $node[MIDCOM_NAV_FULLURL];
+                // Node not found, fall through to configuration
+                break;
 
             case 'subnode':
                 $nap = new midcom_helper_nav();
-                $nodes = $nap->list_nodes($nap->get_current_node());
 
-                // Subnodes not found, fall through to configuration
-                if (empty($nodes)) {
-                    break;
+                if ($nodes = $nap->list_nodes($nap->get_current_node())) {
+                    // Redirect to first node
+                    return $nap->get_node($nodes[0])[MIDCOM_NAV_FULLURL];
                 }
-
-                // Redirect to first node
-                return $nap->get_node($nodes[0])[MIDCOM_NAV_FULLURL];
+                // Subnodes not found, fall through to configuration
+                break;
 
             case 'permalink':
                 if ($url = midcom::get()->permalinks->resolve_permalink($data['config']->get('redirection_guid'))) {
@@ -97,8 +92,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
                 }
 
             case 'url':
-                if ($data['config']->get('redirection_url') != '') {
-                    $url = $data['config']->get('redirection_url');
+                if ($url = $data['config']->get('redirection_url')) {
 
                     // Support varying host prefixes
                     if (str_contains($url, '__PREFIX__')) {

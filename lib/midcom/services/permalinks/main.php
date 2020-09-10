@@ -82,12 +82,11 @@ class midcom_services_permalinks
         }
 
         if ($object instanceof midcom_db_topic) {
-            $napobj = $nav->get_node($object->id);
-            if (!$napobj) {
-                debug_add("Failed to retrieve the NAP object for topic {$object->id}.", MIDCOM_LOG_INFO);
-                return null;
+            if ($napobj = $nav->get_node($object->id)) {
+                return $napobj[MIDCOM_NAV_FULLURL];
             }
-            return $napobj[MIDCOM_NAV_FULLURL];
+            debug_add("Failed to retrieve the NAP object for topic {$object->id}.", MIDCOM_LOG_INFO);
+            return null;
         }
 
         if ($object instanceof midcom_db_attachment) {

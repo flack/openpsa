@@ -35,7 +35,7 @@ $indexer = midcom::get()->indexer;
 $nap = new midcom_helper_nav();
 $nodeid = $_REQUEST['nodeid'];
 $node = $nap->get_node($nodeid);
-if (empty($node)) {
+if (!$node) {
     throw new midcom_error("Could not get node {$_REQUEST['nodeid']}");
 }
 

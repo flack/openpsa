@@ -48,7 +48,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      * Prepare the topic and component listings, this is a bit work intensive though,
      * we need to traverse everything.
      */
-    private function search_nodes($node_id, midcom_helper_nav $nap, $prefix)
+    private function search_nodes(int $node_id, midcom_helper_nav $nap, $prefix)
     {
         $node = $nap->get_node($node_id);
 

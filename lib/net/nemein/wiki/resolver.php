@@ -101,7 +101,7 @@ class net_nemein_wiki_resolver
             $folder = $this->resolve_namespaces($path, $matches, $levels, $force_resolve_folder_tree, $force_as_root);
         }
 
-        if (!empty($folder)) {
+        if ($folder) {
             // Check if the wikipage exists
             $qb = net_nemein_wiki_wikipage::new_query_builder();
             $qb->add_constraint('name', '=', basename($path));
