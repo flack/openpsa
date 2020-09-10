@@ -234,7 +234,7 @@ class fi_protie_navigation
         foreach ($children as $child) {
             $item = $this->_nap->get_node($child);
 
-            $classes = $this->_get_css_classes($child, $item);
+            $classes = $this->_get_css_classes($item);
 
             $this->_display_element($item, $classes);
         }
@@ -270,28 +270,23 @@ class fi_protie_navigation
 
         // Draw each child element
         foreach ($children as $child) {
-            if ($child[MIDCOM_NAV_TYPE] === 'node') {
+            if ($child[MIDCOM_NAV_TYPE] === 'node' && $this->list_nodes === false) {
                 // If the listing of nodes is set to false, skip this item and proceed to the next
-                if ($this->list_nodes === false) {
-                    continue;
-                }
-                $item = $this->_nap->get_node($child[MIDCOM_NAV_ID]);
-            } else {
-                $item = $this->_nap->get_leaf($child[MIDCOM_NAV_ID]);
+                continue;
             }
-            $classes = $this->_get_css_classes($child, $item);
+            $classes = $this->_get_css_classes($child);
 
-            $this->_display_element($item, $classes);
+            $this->_display_element($child, $classes);
         }
 
         echo "</ul>";
     }
 
-    private function _get_css_classes($child, $item) : string
+    private function _get_css_classes(array $item) : string
     {
         $classes = [];
 
-        if ($child[MIDCOM_NAV_TYPE] === 'node') {
+        if ($item[MIDCOM_NAV_TYPE] === 'node') {
             if (   $item[MIDCOM_NAV_ID] === $this->_nap->get_current_node()
                 && (   !$this->_nap->get_current_leaf()
                     || !$this->_nap->get_leaf($this->_nap->get_current_leaf()))) {
@@ -313,9 +308,9 @@ class fi_protie_navigation
 
         if ($this->has_children_to_class) {
             if (!$this->list_leaves) {
-                $children = $this->_nap->list_nodes($child[MIDCOM_NAV_ID]);
-            } elseif ($child[MIDCOM_NAV_TYPE] == 'node') {
-                $children = $this->_nap->list_child_elements($child[MIDCOM_NAV_ID]);
+                $children = $this->_nap->list_nodes($item[MIDCOM_NAV_ID]);
+            } elseif ($item[MIDCOM_NAV_TYPE] == 'node') {
+                $children = $this->_nap->list_child_elements($item[MIDCOM_NAV_ID]);
             } else {
                 $children = false;
             }
