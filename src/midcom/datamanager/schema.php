@@ -107,12 +107,8 @@ class schema
     public function get_l10n() : midcom_services_i18n_l10n
     {
         // Populate the l10n_schema member
-        if (array_key_exists('l10n_db', $this->config)) {
-            $l10n_name = $this->config['l10n_db'];
-        } else {
-            $l10n_name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
-        }
-        if (!midcom::get()->componentloader->is_installed($l10n_name)) {
+        $l10n_name = $this->config['l10n_db'] ?? midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
+        if (!$l10n_name || !midcom::get()->componentloader->is_installed($l10n_name)) {
             $l10n_name = 'midcom';
         }
         return midcom::get()->i18n->get_l10n($l10n_name);
