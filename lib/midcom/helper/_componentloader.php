@@ -79,8 +79,6 @@ class midcom_helper__componentloader
     /**
      * Load the component specified by $path. If the component could not be loaded
      * successfully due to integrity errors, it will return false.
-     *
-     * @param string $path    The component to load.
      */
     private function load(string $path)
     {
@@ -103,11 +101,8 @@ class midcom_helper__componentloader
     /**
      * Returns true if the component identified by the MidCOM path $url
      * is installed.
-     *
-     * @param string $path    The component to be queried.
-     * @return boolean            true if it is loaded, false otherwise.
      */
-    public function is_installed($path) : bool
+    public function is_installed(string $path) : bool
     {
         return array_key_exists($path, $this->components);
     }
@@ -118,10 +113,8 @@ class midcom_helper__componentloader
      * Such an instance will be cached by the framework so that only
      * one instance is always active for each component. Missing
      * components will be dynamically loaded into memory.
-     *
-     * @param string $path    The component name.
      */
-    public function get_interface_class($path) : midcom_baseclasses_components_interface
+    public function get_interface_class(string $path) : midcom_baseclasses_components_interface
     {
         if (!array_key_exists($path, $this->_interface_classes)) {
             $this->load($path);
@@ -132,25 +125,19 @@ class midcom_helper__componentloader
 
     /**
      * Convert a component path (net.nehmer.blog) to a snippetpath (/net/nehmer/blog).
-     *
-     * @param string $component_name    Input string.
-     * @return string        Converted string.
      */
-    public function path_to_snippetpath($component_name)
+    public function path_to_snippetpath(string $component_name) : string
     {
         if (array_key_exists($component_name, $this->components)) {
             return dirname($this->components[$component_name], 2);
         }
-        debug_add("Component {$component_name} is not registered", MIDCOM_LOG_CRIT);
-        return false;
+        throw new midcom_error("Component {$component_name} is not registered");
     }
 
     /**
      * Convert a component path (net.nehmer.blog) to a class prefix (net_nehmer_blog).
-     *
-     * @param string $path    Input string.
      */
-    public function path_to_prefix($path) : string
+    public function path_to_prefix(string $path) : string
     {
         return strtr($path, ".", "_");
     }
@@ -182,10 +169,8 @@ class midcom_helper__componentloader
     /**
      * Build a complete set of custom data associated with a given component
      * identifier.
-     *
-     * @param string $component The custom data component index to look for.
      */
-    public function get_all_manifest_customdata($component) : array
+    public function get_all_manifest_customdata(string $component) : array
     {
         $result = [];
         foreach ($this->get_manifests() as $manifest) {
@@ -196,7 +181,7 @@ class midcom_helper__componentloader
         return $result;
     }
 
-    public function get_component_icon($component, bool $provide_fallback = true) : ?string
+    public function get_component_icon(string $component, bool $provide_fallback = true) : ?string
     {
         if (!$this->is_installed($component)) {
             return null;

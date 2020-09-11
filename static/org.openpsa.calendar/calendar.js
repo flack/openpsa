@@ -30,7 +30,7 @@ const openpsa_calendar_widget = {
                 var default_date = window.openpsa_calendar_instance.getDate();
                 $("#date-navigation-widget").datepicker({
                     dateFormat: "yy-mm-dd",
-                    defaultDate: default_date,
+                    initialDate: default_date,
                     prevText: "",
                     nextText: "",
                     onSelect: function(dateText) {
@@ -55,12 +55,12 @@ const openpsa_calendar_widget = {
                 case 'dayGridWeek':
                 case 'timeGridDay':
                 case 'timeGridWeek':
-                    settings.defaultView = args[0];
+                    settings.initialView = args[0];
                     break;
             }
         }
         if (args[1] !== undefined) {
-            settings.defaultDate = args[1];
+            settings.initialDate = args[1];
         }
         return settings;
     },
@@ -95,7 +95,7 @@ const openpsa_calendar_widget = {
 
         var defaults = {
             theme: true,
-            defaultView: "dayGridMonth",
+            initialView: "dayGridMonth",
             weekNumbers: true,
             weekMode: 'liquid',
             firstHour: 8,
@@ -103,9 +103,8 @@ const openpsa_calendar_widget = {
             nowIndicator: true,
             editable: true,
             navLinks: true,
-            height: 'parent',
-            plugins: ['interaction', 'dayGrid', 'timeGrid'],
-            header: {
+            height: '100%',
+            headerToolbar: {
                 left: 'dayGridMonth,timeGridWeek,timeGridDay',
                 center: 'title',
                 right: 'today prev,next'
@@ -122,16 +121,16 @@ const openpsa_calendar_widget = {
                     error: failure_callback
                 });
             },
-            datesRender: function() {
+            datesSet: function() {
                 if (!embedded) {
                     openpsa_calendar_widget.update_url(selector, prefix);
                 }
             },
-            eventRender: function (info) {
+            eventContent: function (info) {
                 if (info.event.extendedProps.participants) {
-                    $(info.el)
-                        .find('.fc-content, .fc-list-item-title a')
-                        .append('<span class="participants">(' + info.event.extendedProps.participants.join(', ') + ')</span>');
+                    return {
+                        html: '<div class="fc-event-time">' + info.timeText + '</div><div class="fc-event-title-container"><div class="fc-event-title fc-sticky">' + info.event.title + '</div></div><span class="participants">(' + info.event.extendedProps.participants.join(', ') + ')</span>'
+                    };
                 }
             },
             eventClick: function (info) {

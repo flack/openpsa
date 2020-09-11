@@ -243,7 +243,7 @@
             'title'    => 'mobile phone',
             'storage'  => 'handphone',
             'type'     => 'text',
-            'widget'   => 'text',
+            'widget'   => 'tel',
         ],
         'skype' => [
             'title'    => 'skype name',

@@ -212,8 +212,7 @@ class datamanager
 
     private function get_name(?string $name) : string
     {
-        if (!$name) {
-            $name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
+        if (!$name && $name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT)) {
             // Replace the dots in the component name with underscores
             $name = midcom::get()->componentloader->path_to_prefix($name);
         }

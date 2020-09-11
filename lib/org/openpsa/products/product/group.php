@@ -87,7 +87,8 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
             } else {
                 $ret[''] = midcom::get()->i18n->get_string('toplevel', 'org.openpsa.products');
             }
-        } elseif (mgd_is_guid($up)) {
+        }
+        if (mgd_is_guid($up)) {
             $group = new self($up);
             $up = $group->id;
         }

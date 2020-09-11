@@ -34,7 +34,6 @@ class midcom_helper__componentloaderTest extends TestCase
     {
         $componentloader = new midcom_helper__componentloader(['org.openpsa.user' => MIDCOM_ROOT . '/org/openpsa/user/config/manifest.inc']);
         $this->assertEquals(MIDCOM_ROOT . '/org/openpsa/user', $componentloader->path_to_snippetpath('org.openpsa.user'));
-        $this->assertFalse($componentloader->path_to_snippetpath('non.existent.component'));
     }
 
     public function test_path_to_prefix()
