@@ -89,11 +89,7 @@ class reindex extends Command
             }
 
             // Retrieve all child nodes and append them to $nodes:
-            $children = $nap->list_nodes($nodeid);
-            if ($children === false) {
-                throw new midcom_error("Failed to list the child nodes of {$nodeid}.");
-            }
-            $nodes = array_merge($nodes, $children);
+            $nodes = array_merge($nodes, $nap->list_nodes($nodeid));
             $nodeid = array_shift($nodes);
             $output->writeln("Done");
         }

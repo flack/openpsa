@@ -41,20 +41,12 @@ abstract class midcom_helper_nav_itemlist
 
     protected function get_nodes() : array
     {
-        $nodes_list = $this->_nap->list_nodes($this->parent_node_id);
-        if ($nodes_list === false) {
-            throw new midcom_error("Could not retrieve the subnode listing.");
-        }
-        return array_map([$this->_nap, 'get_node'], $nodes_list);
+        return array_map([$this->_nap, 'get_node'], $this->_nap->list_nodes($this->parent_node_id));
     }
 
     protected function get_leaves() : array
     {
-        $leaves_list = $this->_nap->list_leaves($this->parent_node_id);
-        if ($leaves_list === false) {
-            throw new midcom_error("Could not retrieve the leaf listing.");
-        }
-        return array_map([$this->_nap, 'get_leaf'], $leaves_list);
+        return array_map([$this->_nap, 'get_leaf'], $this->_nap->list_leaves($this->parent_node_id));
     }
 
     /**

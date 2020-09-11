@@ -61,8 +61,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
         // Recurse
         $prefix .= "{$node[MIDCOM_NAV_NAME]} &rsaquo; ";
-        $subnodes = $nap->list_nodes($node_id);
-        foreach ($subnodes as $sub_id) {
+        foreach ($nap->list_nodes($node_id) as $sub_id) {
             $this->search_nodes($sub_id, $nap, $prefix);
         }
     }
