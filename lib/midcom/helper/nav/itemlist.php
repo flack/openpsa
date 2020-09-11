@@ -25,6 +25,9 @@ abstract class midcom_helper_nav_itemlist
      */
     protected $_nap;
 
+    /**
+     * @var int
+     */
     protected $parent_node_id;
 
     /**
@@ -33,7 +36,7 @@ abstract class midcom_helper_nav_itemlist
      * @param midcom_helper_nav $nap NAP object to use.
      * @param integer $parent_topic_id An ID of the topic in which we operate.
      */
-    public function __construct(midcom_helper_nav $nap, $parent_topic_id)
+    public function __construct(midcom_helper_nav $nap, int $parent_topic_id)
     {
         $this->_nap = $nap;
         $this->parent_node_id = $parent_topic_id;
@@ -60,27 +63,23 @@ abstract class midcom_helper_nav_itemlist
 
     /**
      * Generate the object you want to use for getting a list of items for a certain topic.
-     * Use this function to create sorted lists. Example:
-     *     $nav_object = midcom_helper_nav_itemlist::factory($navorder, $this, $parent_topic);
-     *     $result = $nav_object->get_sorted_list();
-     *     print_r($result);
-     *     // shows:
-     *     array (1 => array (
-     *                    MIDCOM_NAV_ID => someid,
-     *                    MIDCOM_NAV_NAME => somename,
-     *                    MIDCOM_NAV_STYLE => false
-     *                    )
-     *                    );
-     *     Note that most searchstyles do not bother with styles. But it is useful for custom classes.
      *
-     *
-     * @param string $sorting sorttype (e.g. topicsfirst)
      * @param midcom_helper_nav $nap pointer to the NAP object.
-     * @param integer $parent_topic pointer to the topic to base the list on.
+     * @param array $parent_node NAP node to base the list on.
      */
-    public static function factory($sorting, midcom_helper_nav $nap, $parent_topic) : midcom_helper_nav_itemlist
+    public static function factory(midcom_helper_nav $nap, array $parent_node) : midcom_helper_nav_itemlist
     {
-        $class = "midcom_helper_nav_itemlist_{$sorting}";
-        return new $class($nap, $parent_topic);
+        $guid = $parent_node[MIDCOM_NAV_GUID];
+        $navorder = (int) midcom_db_parameter::get_by_objectguid($guid, 'midcom.helper.nav', 'navorder');
+        if ($navorder === MIDCOM_NAVORDER_ARTICLESFIRST) {
+            $navorder = 'articlesfirst';
+        } elseif ($navorder === MIDCOM_NAVORDER_SCORE) {
+            $navorder = 'score';
+        } else {
+            $navorder = 'topicsfirst';
+        }
+        $class = "midcom_helper_nav_itemlist_{$navorder}";
+
+        return new $class($nap, $parent_node[MIDCOM_NAV_ID]);
     }
 }

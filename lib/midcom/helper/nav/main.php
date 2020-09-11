@@ -232,23 +232,11 @@ class midcom_helper_nav
      */
     public function list_child_elements($parent_node_id) : ?array
     {
-        $parent_node = $this->get_node($parent_node_id);
-        if (!$parent_node) {
-            return null;
+        if ($parent_node = $this->get_node($parent_node_id)) {
+            $nav_object = midcom_helper_nav_itemlist::factory($this, $parent_node);
+            return $nav_object->get_sorted_list();
         }
-
-        $guid = $parent_node[MIDCOM_NAV_GUID];
-        $navorder = (int) midcom_db_parameter::get_by_objectguid($guid, 'midcom.helper.nav', 'navorder');
-        if ($navorder == MIDCOM_NAVORDER_ARTICLESFIRST) {
-            $navorder = 'articlesfirst';
-        } elseif ($navorder == MIDCOM_NAVORDER_SCORE) {
-            $navorder = 'score';
-        } else {
-            $navorder = 'topicsfirst';
-        }
-
-        $nav_object = midcom_helper_nav_itemlist::factory($navorder, $this, $parent_node_id);
-        return $nav_object->get_sorted_list();
+        return null;
     }
 
     /**
