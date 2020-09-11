@@ -214,7 +214,7 @@ class fi_protie_navigation
      */
     private function _list_child_nodes($id)
     {
-        $children = $this->_nap->list_nodes($id);
+        $children = $this->_nap->get_nodes($id);
 
         // Stop traversing the path if there are no children
         if (empty($children)) {
@@ -232,11 +232,7 @@ class fi_protie_navigation
 
         // Draw each child element
         foreach ($children as $child) {
-            $item = $this->_nap->get_node($child);
-
-            $classes = $this->_get_css_classes($item);
-
-            $this->_display_element($item, $classes);
+            $this->_display_element($child);
         }
         echo "</ul>";
     }
@@ -274,9 +270,7 @@ class fi_protie_navigation
                 // If the listing of nodes is set to false, skip this item and proceed to the next
                 continue;
             }
-            $classes = $this->_get_css_classes($child);
-
-            $this->_display_element($child, $classes);
+            $this->_display_element($child);
         }
 
         echo "</ul>";
@@ -308,7 +302,7 @@ class fi_protie_navigation
 
         if ($this->has_children_to_class) {
             if (!$this->list_leaves) {
-                $children = $this->_nap->list_nodes($item[MIDCOM_NAV_ID]);
+                $children = $this->_nap->get_nodes($item[MIDCOM_NAV_ID]);
             } elseif ($item[MIDCOM_NAV_TYPE] == 'node') {
                 $children = $this->_nap->list_child_elements($item[MIDCOM_NAV_ID]);
             } else {
@@ -331,8 +325,9 @@ class fi_protie_navigation
         return implode(' ', $classes);
     }
 
-    private function _display_element(array $item, string $css_classes)
+    private function _display_element(array $item)
     {
+        $css_classes = $this->_get_css_classes($item);
         // Finalize the class naming
         $class = ($css_classes !== '') ? ' class="' . $css_classes . '"' : '';
         $link_class = $this->css_link ? ' class="' . $this->css_link . '"' : '';

@@ -79,9 +79,9 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
             case 'subnode':
                 $nap = new midcom_helper_nav();
 
-                if ($nodes = $nap->list_nodes($nap->get_current_node())) {
+                if ($nodes = $nap->get_nodes($nap->get_current_node())) {
                     // Redirect to first node
-                    return $nap->get_node($nodes[0])[MIDCOM_NAV_FULLURL];
+                    return $nodes[0][MIDCOM_NAV_FULLURL];
                 }
                 // Subnodes not found, fall through to configuration
                 break;

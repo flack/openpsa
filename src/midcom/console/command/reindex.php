@@ -60,13 +60,11 @@ class reindex extends Command
     {
         $nap = new midcom_helper_nav();
         $nodes = [];
-        $nodeid = $input->getOption('id') ?: $nap->get_root_node();
+        $node = $nap->get_node((int) $input->getOption('id') ?: $nap->get_root_node());
 
-        while ($nodeid !== null) {
+        while ($node !== null) {
             // Reindex the node...
-            $node = $nap->get_node($nodeid);
-
-            $output->write("Processing Node #$nodeid, {$node[MIDCOM_NAV_FULLURL]}...");
+            $output->write("Processing Node #{$node[MIDCOM_NAV_ID]}, {$node[MIDCOM_NAV_FULLURL]}...");
             if (!midcom::get()->indexer->delete_all("__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}")) {
                 $output->writeln("\n<error>Failed to remove documents from index.</error>");
             }
@@ -85,12 +83,12 @@ class reindex extends Command
                     }
                 }
             } elseif ($stat === false) {
-                $output->writeln("\n<error>Failed to reindex the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.</error>");
+                $output->writeln("\n<error>Failed to reindex the node {$node[MIDCOM_NAV_ID]} which is of {$node[MIDCOM_NAV_COMPONENT]}.</error>");
             }
 
             // Retrieve all child nodes and append them to $nodes:
-            $nodes = array_merge($nodes, $nap->list_nodes($nodeid));
-            $nodeid = array_shift($nodes);
+            $nodes = array_merge($nodes, $nap->get_nodes($node[MIDCOM_NAV_ID]));
+            $node = array_shift($nodes);
             $output->writeln("Done");
         }
 

@@ -354,7 +354,7 @@ class midcom_helper_nav_backend
      * @param mixed $parent_node    The ID of the node of which the leaves are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      */
-    public function list_leaves($parent_node, $show_noentry) : array
+    public function list_leaves($parent_node, bool $show_noentry) : array
     {
         static $listed = [];
 

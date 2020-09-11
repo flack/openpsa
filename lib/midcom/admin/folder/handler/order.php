@@ -189,8 +189,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
         switch ($this->_request_data['navorder']) {
             case MIDCOM_NAVORDER_DEFAULT:
-                $nodes = $nap->list_nodes($nap->get_current_node());
-                $ret['nodes'] = array_map([$nap, 'get_node'], $nodes);
+                $ret['nodes'] = $nap->get_nodes($nap->get_current_node());
                 break;
 
             case MIDCOM_NAVORDER_TOPICSFIRST:
@@ -211,12 +210,10 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
                 }
 
                 // Get the nodes
-                $nodes = $nap->list_nodes($nap->get_current_node());
-                $ret['nodes'] = array_map([$nap, 'get_node'], $nodes);
+                $ret['nodes'] = $nap->get_nodes($nap->get_current_node());
 
                 // Get the leafs
-                $leaves = $nap->list_leaves($nap->get_current_node());
-                $ret['leaves'] = array_map([$nap, 'get_leaf'], $leaves);
+                $ret['leaves'] = $nap->get_leaves($nap->get_current_node());
                 break;
 
             case MIDCOM_NAVORDER_SCORE:

@@ -32,13 +32,12 @@ $start = microtime(true);
 
 $nap = new midcom_helper_nav();
 $nodes = [];
-$nodeid = $nap->get_root_node();
 $indexer = midcom::get()->indexer;
 
 // Use this to check that indexer is online (and hope the root topic isn't a gigantic wiki)
-$root_node = $nap->get_node($nodeid);
+$root_node = $nap->get_node($nap->get_root_node());
 $indexer->query("__TOPIC_GUID:{$root_node[MIDCOM_NAV_OBJECT]->guid}");
-unset($root_node);
+$node = $root_node;
 
 echo "<pre>\n";
 
@@ -52,12 +51,11 @@ if (   !empty($_SERVER['PHP_AUTH_USER'])
     $http_client->basicauth['password'] = $_SERVER['PHP_AUTH_PW'];
 }
 
-while ($nodeid !== null) {
+while ($node !== null) {
     // Reindex the node...
-    $node = $nap->get_node($nodeid);
-    echo "Processing node #{$nodeid}, {$node[MIDCOM_NAV_FULLURL]}: ";
+    echo "Processing node #{$node[MIDCOM_NAV_ID]}, {$node[MIDCOM_NAV_FULLURL]}: ";
     //pass the node-id & the language
-    $post_variables = ['nodeid' => $nodeid, 'language' => $language];
+    $post_variables = ['nodeid' => $node[MIDCOM_NAV_ID], 'language' => $language];
     $response = $http_client->post($reindex_topic_uri, $post_variables, ['User-Agent' => __FILE__]);
     if ($response === false) {
         // returned with failure
@@ -73,8 +71,8 @@ while ($nodeid !== null) {
     }
 
     // Retrieve all child nodes and append them to $nodes:
-    $nodes = array_merge($nodes, $nap->list_nodes($nodeid));
-    $nodeid = array_shift($nodes);
+    $nodes = array_merge($nodes, $nap->get_nodes($node[MIDCOM_NAV_ID]));
+    $node = array_shift($nodes);
 }
 
 if ($ip_sudo) {

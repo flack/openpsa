@@ -125,7 +125,7 @@ class midcom_helper_misc
 
     private static function load(string $filename)
     {
-        if (!file_exists($filename)) {
+        if (!is_readable($filename)) {
             return null;
         }
         return file_get_contents($filename);

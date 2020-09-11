@@ -41,12 +41,12 @@ abstract class midcom_helper_nav_itemlist
 
     protected function get_nodes() : array
     {
-        return array_map([$this->_nap, 'get_node'], $this->_nap->list_nodes($this->parent_node_id));
+        return $this->_nap->get_nodes($this->parent_node_id);
     }
 
     protected function get_leaves() : array
     {
-        return array_map([$this->_nap, 'get_leaf'], $this->_nap->list_leaves($this->parent_node_id));
+        return $this->_nap->get_leaves($this->parent_node_id);
     }
 
     /**

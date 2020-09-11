@@ -116,34 +116,33 @@ class midcom_helper_nav
         return $this->_backend->get_root_node();
     }
 
+
     /**
      * Lists all Sub-nodes of $parent_node. If there are no subnodes you will get
-     * an empty array, if there was an error (for instance an unknown parent node
-     * ID) you will get false.
+     * an empty array
      *
      * @param int $parent_node    The id of the node of which the subnodes are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      *     This defaults to false.
      * @see midcom_helper_nav_backend::list_nodes()
      */
-    public function list_nodes($parent_node, bool $show_noentry = false) : array
+    public function get_nodes(int $parent_node_id, bool $show_noentry = false) : array
     {
-        return $this->_backend->list_nodes($parent_node, $show_noentry);
+        return array_map([$this, 'get_node'], $this->_backend->list_nodes($parent_node_id, $show_noentry));
     }
 
     /**
      * Lists all leaves of $parent_node. If there are no leaves you will get an
-     * empty array, if there was an error (for instance an unknown parent node ID)
-     * you will get false.
+     * empty array.
      *
      * @param int $parent_node    The ID of the node of which the leaves are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      *     This defaults to false.
      * @see midcom_helper_nav_backend::list_leaves()
      */
-    public function list_leaves($parent_node, $show_noentry = false) : array
+    public function get_leaves(int $parent_node_id, bool $show_noentry = false) : array
     {
-        return $this->_backend->list_leaves($parent_node, $show_noentry);
+        return array_map([$this, 'get_leaf'], $this->_backend->list_leaves($parent_node_id, $show_noentry));
     }
 
     /**
@@ -340,7 +339,7 @@ class midcom_helper_nav
             }
 
             // Ok, append all subnodes to the queue.
-            $unprocessed_node_ids = array_merge($unprocessed_node_ids, $this->list_nodes($node_id));
+            $unprocessed_node_ids = array_merge($unprocessed_node_ids, $this->_backend->list_nodes($node_id, false));
         }
 
         debug_add("We were unable to find the GUID {$guid} in the MidCOM tree even with a full scan.", MIDCOM_LOG_INFO);
@@ -349,8 +348,7 @@ class midcom_helper_nav
 
     private function _find_leaf_in_topic(int $topic, string $guid) : ?array
     {
-        foreach ($this->list_leaves($topic, true) as $leafid) {
-            $leaf = $this->get_leaf($leafid);
+        foreach ($this->get_leaves($topic, true) as $leaf) {
             if ($leaf[MIDCOM_NAV_GUID] == $guid) {
                 return $leaf;
             }

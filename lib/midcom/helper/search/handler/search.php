@@ -39,7 +39,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             $this->_request_data['components'] = ['' => $this->_l10n->get('search all content types')];
 
             $nap = new midcom_helper_nav();
-            $this->search_nodes($nap->get_root_node(), $nap, '');
+            $this->search_nodes($nap->get_node($nap->get_root_node()), $nap, '');
         }
         $this->_request_data['type'] = $handler_id;
     }
@@ -48,10 +48,8 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      * Prepare the topic and component listings, this is a bit work intensive though,
      * we need to traverse everything.
      */
-    private function search_nodes(int $node_id, midcom_helper_nav $nap, $prefix)
+    private function search_nodes(array $node, midcom_helper_nav $nap, $prefix)
     {
-        $node = $nap->get_node($node_id);
-
         if (   !array_key_exists($node[MIDCOM_NAV_COMPONENT], $this->_request_data['components'])
             && $node[MIDCOM_NAV_COMPONENT] != 'midcom.helper.search') {
             $l10n = $this->_i18n->get_l10n($node[MIDCOM_NAV_COMPONENT]);
@@ -61,8 +59,8 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
         // Recurse
         $prefix .= "{$node[MIDCOM_NAV_NAME]} &rsaquo; ";
-        foreach ($nap->list_nodes($node_id) as $sub_id) {
-            $this->search_nodes($sub_id, $nap, $prefix);
+        foreach ($nap->get_nodes($node[MIDCOM_NAV_ID]) as $sub_node) {
+            $this->search_nodes($sub_node, $nap, $prefix);
         }
     }
 

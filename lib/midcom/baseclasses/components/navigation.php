@@ -11,7 +11,7 @@
  * setting the object to the right topic. You just have to fill the gaps for
  * getting the leaves and node data.
  *
- * Normally, it is enough if you override the members list_leaves() and get_node().
+ * Normally, it is enough if you override the members get_leaves() and get_node().
  * You usually don't even need to write a constructor, as the default one should
  * be enough for your purposes. If you need extra initialization work done when
  * "entering" a topic, use the event handler _on_set_object().
