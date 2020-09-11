@@ -1,25 +1,25 @@
 .calendar-container {
     height: 100%;
 }
-#content-text .fc-toolbar-title
+#content-text .fc-center h2
 {
     margin: 0;
     font-size: 20px;
 }
 
-.fc-day-past
+.fc-past
 {
-    background-color: #fdfcfa;
+    background: #fdfcfa;
 }
 
-.fc-day-other
+.fc-other-month
 {
-    background-color: #f1f1f0;
+    background: #f1f1f0;
 }
 
-.fc-day-other.fc-day-past
+.fc-other-month.fc-past
 {
-    background-color: #f0f0ed;
+    background: #f0f0ed;
 }
 
 .fc-event:hover {
