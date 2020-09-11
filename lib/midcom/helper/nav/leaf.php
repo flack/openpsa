@@ -18,7 +18,7 @@ class midcom_helper_nav_leaf extends midcom_helper_nav_item
 
     private $leafid;
 
-    public function __construct(midcom_helper_nav_node $node, array $data, $leafid, $from_cache = false)
+    public function __construct(midcom_helper_nav_node $node, array $data, $leafid, bool $from_cache = false)
     {
         $this->loaded = $from_cache;
         $this->node = $node;

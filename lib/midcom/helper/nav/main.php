@@ -152,10 +152,9 @@ class midcom_helper_nav
      * format. You will get false if the node ID is invalid.
      *
      * @param int $node_id    The node ID to be retrieved.
-     * @return Array        The node data as outlined in the class introduction, false on failure
      * @see midcom_helper_nav_backend::get_node()
      */
-    public function get_node($node_id)
+    public function get_node($node_id) : ?array
     {
         return $this->_backend->get_node($node_id);
     }
@@ -166,10 +165,9 @@ class midcom_helper_nav
      * format. You will get false if the leaf ID is invalid.
      *
      * @param string $leaf_id    The leaf-id to be retrieved.
-     * @return Array        The leaf-data as outlined in the class introduction, false on failure
      * @see midcom_helper_nav_backend::get_leaf()
      */
-    public function get_leaf($leaf_id)
+    public function get_leaf($leaf_id) : ?array
     {
         return $this->_backend->get_leaf($leaf_id);
     }
@@ -269,10 +267,10 @@ class midcom_helper_nav
      *
      * @param string $guid The GUID of the object to be looked up.
      * @param boolean $node_is_sufficient if we could return a good guess of correct parent node but said node does not list the $guid in leaves return the node or try to do a full (and very expensive) NAP scan ?
-     * @return mixed Either a node or leaf structure, distinguishable by MIDCOM_NAV_TYPE, or false on failure.
+     * @return ?array Either a node or leaf structure, distinguishable by MIDCOM_NAV_TYPE, or null on failure.
      * @see midcom_services_permalinks
      */
-    public function resolve_guid($guid, $node_is_sufficient = false)
+    public function resolve_guid(string $guid, bool $node_is_sufficient = false) : ?array
     {
         // First, check if the GUID is already known by the backend:
         if ($cached_result = $this->_backend->get_loaded_object_by_guid($guid)) {
@@ -294,7 +292,7 @@ class midcom_helper_nav
                 // we check this and return the node if everything is ok.
                 if (!$this->is_node_in_tree($object->id, $this->get_root_node())) {
                     debug_add("The GUID {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
-                    return false;
+                    return null;
                 }
 
                 return $this->get_node($object->id);
@@ -304,14 +302,14 @@ class midcom_helper_nav
                 // Ok, let's try to find the article using the topic in the tree.
                 if (!$this->is_node_in_tree($object->topic, $this->get_root_node())) {
                     debug_add("The GUID {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
-                    return false;
+                    return null;
                 }
                 if ($leaf = $this->_find_leaf_in_topic($object->topic, $guid)) {
                     return $leaf;
                 }
 
                 debug_add("The Article GUID {$guid} is somehow hidden from the NAP data in its topic, no results shown.", MIDCOM_LOG_INFO);
-                return false;
+                return null;
             }
 
             // Ok, unfortunately, this is not an immediate topic. We try to traverse
@@ -346,7 +344,7 @@ class midcom_helper_nav
         }
 
         debug_add("We were unable to find the GUID {$guid} in the MidCOM tree even with a full scan.", MIDCOM_LOG_INFO);
-        return false;
+        return null;
     }
 
     private function _find_leaf_in_topic(int $topic, string $guid) : ?array

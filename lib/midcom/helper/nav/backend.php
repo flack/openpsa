@@ -386,7 +386,7 @@ class midcom_helper_nav_backend
      * @param string $guid The GUID to look up in the NAP cache.
      * @return Array A NAP structure if the GUID is known, null otherwise.
      */
-    public function get_loaded_object_by_guid($guid)
+    public function get_loaded_object_by_guid(string $guid) : ?array
     {
         $entry = $this->_nap_cache->get_guid($guid);
         if (empty($entry)) {
@@ -404,16 +404,15 @@ class midcom_helper_nav_backend
      * format. You will get false if the node ID is invalid.
      *
      * @param mixed $node_id    The node ID to be retrieved.
-     * @return Array        The node data as outlined in the class introduction, false on failure
      */
-    public function get_node($node_id)
+    public function get_node($node_id) : ?array
     {
         $node = $node_id;
         if (!empty($node->guid)) {
             $node_id = $node->id;
         }
         if (!$this->load_node($node_id)) {
-            return false;
+            return null;
         }
 
         return self::$_nodes[$node_id]->get_data();
@@ -422,16 +421,15 @@ class midcom_helper_nav_backend
     /**
      * This will give you a key-value pair describing the leaf with the ID
      * $node_id. The defined keys are described above in leaf data interchange
-     * format. You will get false if the leaf ID is invalid.
+     * format. You will get null if the leaf ID is invalid.
      *
      * @param string $leaf_id    The leaf-id to be retrieved.
-     * @return Array        The leaf-data as outlined in the class introduction, false on failure
      */
-    public function get_leaf($leaf_id)
+    public function get_leaf($leaf_id) : ?array
     {
         if (!$this->load_leaf($leaf_id)) {
             debug_add("This leaf is unknown, aborting.", MIDCOM_LOG_INFO);
-            return false;
+            return null;
         }
 
         return $this->_leaves[$leaf_id]->get_data();

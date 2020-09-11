@@ -95,9 +95,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         $this->backend->delete($leaves_key);
     }
 
-    private function _load_from_guid(string $guid, $object)
+    private function _load_from_guid(string $guid, $object) : ?array
     {
-        $napobject = false;
+        $napobject = null;
         try {
             if (!is_object($object)) {
                 $object = midcom::get()->dbfactory->get_object_by_guid($guid);
