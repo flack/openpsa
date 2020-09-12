@@ -188,28 +188,23 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (midcom::get()->dbfactory->is_a($obj, midcom_db_person::class)) {
             return ['rname', 'id'];
         }
-        if ($this->get_title_property_nonstatic($obj) !== false) {
-            return $this->get_title_property_nonstatic($obj);
-        }
-        if ($this->get_name_property_nonstatic($obj) !== false) {
-            return $this->get_name_property_nonstatic($obj);
-        }
-        return 'guid';
+        return $this->get_title_property_nonstatic($obj) ??
+            $this->get_name_property_nonstatic($obj) ??
+            'guid';
     }
 
     /**
      * Get the object label property value
      *
      * @param mixed $object    MgdSchema object
-     * @return string       Label of the object
      */
-    public function get_object_label($object)
+    public function get_object_label($object) : ?string
     {
         if ($object instanceof mgdobject) {
             try {
                 $obj = midcom::get()->dbfactory->convert_midgard_to_midcom($object);
             } catch (midcom_error $e) {
-                return false;
+                return null;
             }
         } else {
             $obj = $object;
@@ -221,7 +216,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $properties = array_flip($obj->get_properties());
         if (empty($properties)) {
             debug_add("Could not list object properties, aborting", MIDCOM_LOG_ERROR);
-            return false;
+            return null;
         }
         if (isset($properties['title'])) {
             return $obj->title;
@@ -578,22 +573,21 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * @see midcom_helper_reflector::get_name_property()
      * @param object $object the object to get the name property for
-     * @return string name of property or boolean false on failure
      * @todo when midgard_reflection_property supports flagging name fields use that instead of heuristics
      */
-    public function get_name_property_nonstatic($object)
+    public function get_name_property_nonstatic($object) : ?string
     {
         return $this->get_property('name', $object);
     }
 
-    private function get_property(string $type, $object)
+    private function get_property(string $type, $object) : ?string
     {
         // Cache results per class within request
         $key = get_class($object);
-        if (isset(self::$_cache[$type][$key])) {
+        if (array_key_exists($key, self::$_cache[$type])) {
             return self::$_cache[$type][$key];
         }
-        self::$_cache[$type][$key] = false;
+        self::$_cache[$type][$key] = null;
 
         // Configured properties
         $exceptions = $this->_config->get($type . '_exceptions');
@@ -620,9 +614,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * @see midcom_helper_reflector::get_name_property_nonstatic()
      * @param object $object the object to get the name property for
-     * @return string name of property or boolean false on failure
      */
-    public static function get_name_property($object)
+    public static function get_name_property($object) : ?string
     {
         return self::get($object)->get_name_property_nonstatic($object);
     }
@@ -658,9 +651,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * even if it's just the guid
      *
      * @param object $object The object to get the title property for
-     * @return string Name of property or boolean false on failure
      */
-    public static function get_title_property($object)
+    public static function get_title_property($object) : ?string
     {
         return self::get($object)->get_title_property_nonstatic($object);
     }
@@ -673,9 +665,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * @see midcom_helper_reflector::get_object_title()
      * @param object $object the object to get the title property for
-     * @return string name of property or boolean false on failure
      */
-    public function get_title_property_nonstatic($object)
+    public function get_title_property_nonstatic($object) : ?string
     {
         return $this->get_property('title', $object);
     }
