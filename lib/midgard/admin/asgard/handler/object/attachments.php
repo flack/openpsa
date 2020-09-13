@@ -45,7 +45,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/attachments/layout.css');
     }
 
-    private function _process_file_upload(UploadedFile $file)
+    private function _process_file_upload(UploadedFile $file) : ?string
     {
         if ($this->_file === null) {
             $local_filename = midcom_db_attachment::safe_filename($file->getClientOriginalName());
@@ -60,15 +60,15 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         }
 
         if (!$local_file->copy_from_file($file->getPathname())) {
-            return false;
+            return null;
         }
         return $local_file->name;
     }
 
-    private function _process_form(Request $request)
+    private function _process_form(Request $request) : ?string
     {
         if (!$request->request->has('midgard_admin_asgard_save')) {
-            return false;
+            return null;
         }
 
         // Check if we have an uploaded file
@@ -79,7 +79,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         if ($this->_file === null) {
             if (!$request->request->has('midgard_admin_asgard_filename')) {
-                return false;
+                return null;
             }
 
             // We're creating a new file
@@ -106,14 +106,14 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         if (   $needs_update
             && !$local_file->update()) {
-            return false;
+            return null;
         }
 
         // We should always store at least an empty string so it can be edited later
         $contents = $request->request->get('midgard_admin_asgard_contents', '');
 
         if (!$local_file->copy_from_memory($contents)) {
-            return false;
+            return null;
         }
         return $local_file->name;
     }

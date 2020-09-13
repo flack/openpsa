@@ -58,7 +58,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
     /**
      * Check database for essentially same relatedto object and returns GUID if found
      */
-    public function check_db($check_status = true)
+    public function check_db($check_status = true) : ?string
     {
         $mc = self::new_collector('toGuid', $this->toGuid);
         $mc->add_constraint('fromClass', '=', $this->fromClass);
@@ -70,12 +70,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
             $mc->add_constraint('status', '=', $this->status);
         }
         $mc->set_limit(1);
-        $ret = $mc->list_keys();
-        if (!empty($ret)) {
-            return key($ret);
-        }
-
-        return false;
+        return key($mc->list_keys());
     }
 
     /**

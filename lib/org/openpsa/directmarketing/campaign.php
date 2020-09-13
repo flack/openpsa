@@ -73,7 +73,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
     {
         if (!$this->id) {
             debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);
-            return false;
+            return;
         }
         $mc = org_openpsa_directmarketing_campaign_member_dba::new_collector('campaign', $this->id);
         $mc->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::TESTER);

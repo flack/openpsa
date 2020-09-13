@@ -299,11 +299,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @return string class name (or false if the type has no parent)
      */
-    public function get_parent_class()
+    public function get_parent_class() : ?string
     {
         $parent_property = midgard_object_class::get_property_parent($this->mgdschema_class);
         if (!$parent_property) {
-            return false;
+            return null;
         }
         $ref = new midgard_reflection_property($this->mgdschema_class);
         return $ref->get_link_name($parent_property);

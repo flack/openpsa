@@ -69,9 +69,8 @@ class org_openpsa_core_queryfilter
      * Queries multiple sources for filter selection information
      *
      * @param string $filtername The filter name to query
-     * @return array The selected options, if any
      */
-    private function _get_selection(string $filtername)
+    private function _get_selection(string $filtername) : ?array
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.core');
         $filter_id = $this->_identifier . '_' . $filtername;
@@ -87,7 +86,7 @@ class org_openpsa_core_queryfilter
                 );
                 midcom::get()->uimessages->add($l10n->get('filter error'), $message_content, 'error');
             }
-            return false;
+            return null;
         }
         if (isset($_POST[$filtername])) {
             $selection = (array) $_POST[$filtername];
@@ -103,7 +102,7 @@ class org_openpsa_core_queryfilter
         if ($filter_string = $user->get_parameter("org_openpsa_core_filter", $filter_id)) {
             return unserialize($filter_string);
         }
-        return false;
+        return null;
     }
 
     /**

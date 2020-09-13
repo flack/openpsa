@@ -82,12 +82,12 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     /**
      * Load the file from the component's documentation directory.
      */
-    private function _load_file($help_id, string $component)
+    private function _load_file($help_id, string $component) : ?string
     {
         // Try loading the file
         $file = self::generate_file_path($help_id, $component);
         if (!$file) {
-            return false;
+            return null;
         }
 
         // Load the contents
@@ -100,11 +100,11 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     /**
      * Load a help file and markdownize it
      */
-    public function get_help_contents($help_id, $component)
+    public function get_help_contents($help_id, $component) : ?string
     {
         $text = $this->_load_file($help_id, $component);
         if (!$text) {
-            return false;
+            return null;
         }
         return MarkdownExtra::defaultTransform($text);
     }

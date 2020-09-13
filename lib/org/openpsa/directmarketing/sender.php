@@ -126,7 +126,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $results = $this->_qb_single_chunk();
         //The method above might have incremented the counter for internal reasons
         $batch = $this->_chunk_num + 1;
-        if ($results === false) {
+        if ($results === null) {
             $status = true; //All should be ok
         } elseif ($status = $this->process_results($results, $content)) {
             //register next batch
@@ -234,9 +234,9 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
      * Check is given member has denied contacts of given type
      *
      * @param org_openpsa_directmarketing_campaign_member_dba $member campaign_member object related to the person
-     * @return mixed org_openpsa_contacts_person_dba person on success, false if denied
+     * @return mixed org_openpsa_contacts_person_dba person on success, null if denied
      */
-    private function _get_person(org_openpsa_directmarketing_campaign_member_dba $member)
+    private function _get_person(org_openpsa_directmarketing_campaign_member_dba $member) : ?org_openpsa_contacts_person_dba
     {
         try {
             $person = org_openpsa_contacts_person_dba::get_cached($member->person);
@@ -244,7 +244,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
             debug_add("Person #{$member->person} deleted or missing, removing member (member #{$member->id})");
             $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
             $member->delete();
-            return false;
+            return null;
         }
         $type = $this->_backend->get_type();
         if (   $person->get_parameter('org.openpsa.directmarketing', "send_all_denied")
@@ -252,7 +252,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
             debug_add("Sending {$type} messages to person {$person->rname} is denied, unsubscribing member (member #{$member->id})");
             $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
             $member->update();
-            return false;
+            return null;
         }
         return $person;
     }
@@ -260,7 +260,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Loops trough send filter in chunks, adds some common constraints and checks for send-receipts.
      */
-    private function _qb_send_loop()
+    private function _qb_send_loop() : ?array
     {
         $ret = $this->_qb_single_chunk();
         $this->_chunk_num++;
@@ -269,7 +269,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         return $ret;
     }
 
-    private function _qb_single_chunk(int $level = 0)
+    private function _qb_single_chunk(int $level = 0) : ?array
     {
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $this->_backend->add_member_constraints($qb);
@@ -279,7 +279,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $results = $qb->execute_unchecked();
         if (empty($results)) {
             debug_add('Got failure or empty resultset, aborting');
-            return false;
+            return null;
         }
 
         if ($this->test_mode) {

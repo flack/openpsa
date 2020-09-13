@@ -144,23 +144,22 @@ class midcom_helper_reflector_nameresolver
     /**
      * Generates an unique name for the given object.
      *
-     * 1st IF name is empty, we generate one from title (if title is empty too, we return false)
+     * 1st IF name is empty, we generate one from title (if title is empty too, we return null)
      * Then we check if it's unique, if not we add an incrementing
      * number to it (before this we make some educated guesses about a
      * good starting value)
      *
      * @param string $title_property Property of the object to use at title, if null will be reflected (see midcom_helper_reflector::get_object_title())
      * @param string $extension The file extension, when working with attachments
-     * @return string string usable as name or boolean false on critical failures
      */
-    public function generate_unique_name($title_property = null, $extension = '')
+    public function generate_unique_name($title_property = null, $extension = '') : ?string
     {
         // Get current name and sanity-check
         $original_name = $this->get_object_name();
         if ($original_name === null) {
             // Fatal error with name resolution
             debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} returned critical failure for name resolution, aborting", MIDCOM_LOG_WARN);
-            return false;
+            return null;
         }
 
         // We need the name of the "name" property later
@@ -171,14 +170,14 @@ class midcom_helper_reflector_nameresolver
         } else {
             // Empty name, try to generate from title
             $title_copy = midcom_helper_reflector::get_object_title($this->_object, $title_property);
-            if ($title_copy === false) {
+            if ($title_copy === null) {
                 // Fatal error with title resolution
                 debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} returned critical failure for title resolution when name was empty, aborting", MIDCOM_LOG_WARN);
-                return false;
+                return null;
             }
             if (empty($title_copy)) {
                 debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} has empty name and title, aborting", MIDCOM_LOG_WARN);
-                return false;
+                return null;
             }
             $current_name = midcom_helper_misc::urlize($title_copy);
             unset($title_copy);
@@ -204,7 +203,7 @@ class midcom_helper_reflector_nameresolver
                 // Decrementer underflowed
                 debug_add("Maximum number of tries exceeded, current name was: " . $this->_object->{$name_prop}, MIDCOM_LOG_ERROR);
                 $this->_object->{$name_prop} = $original_name;
-                return false;
+                return null;
             }
             // and the incrementer
             ++$i;

@@ -78,10 +78,10 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
      * @param string $dba_class
      * @param mixed $contact_id
      */
-    private static function get_billing_data(string $dba_class, $contact_id)
+    private static function get_billing_data(string $dba_class, $contact_id) : ?self
     {
         if ($contact_id == 0) {
-            return false;
+            return null;
         }
         try {
             $contact = call_user_func([$dba_class, 'get_cached'], $contact_id);
@@ -89,7 +89,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
             $qb->add_constraint('linkGuid', '=', $contact->guid);
             $billing_data = $qb->execute();
             if (empty($billing_data)) {
-                return false;
+                return null;
             }
 
             // call set_address so the billing_data contains address of the linked contact
@@ -98,7 +98,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
             return $billing_data[0];
         } catch (midcom_error $e) {
             $e->log();
-            return false;
+            return null;
         }
     }
 

@@ -402,14 +402,13 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * @param array $classes classes to search in
      * @param string $match AND or OR, depending if you require all of the given tags on any of them, defaults to 'OR'
      * @param string $order ASC or DESC, to set the order of the returned list, defaults to 'ASC'
-     * @return array of objects or false on critical failure
      */
-    public static function get_objects_with_tags(array $tags, array $classes, $match = 'OR', $order = 'ASC')
+    public static function get_objects_with_tags(array $tags, array $classes, $match = 'OR', $order = 'ASC') : ?array
     {
         $match = str_replace(['ANY', 'ALL'], ['OR', 'AND'], strtoupper($match));
-        if ($match !== 'AND' && $match !== 'OR') {
+        if (!in_array($match, ['AND', 'OR'], true)) {
             // Invalid match rule
-            return false;
+            return null;
         }
 
         $qb = net_nemein_tag_link_dba::new_query_builder();

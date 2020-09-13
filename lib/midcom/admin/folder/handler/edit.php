@@ -112,7 +112,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         return $workflow->run($request);
     }
 
-    public function save_callback()
+    public function save_callback() : ?string
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         if ($this->_handler_id === 'edit') {
@@ -121,21 +121,21 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         return $this->_create_topic($prefix);
     }
 
-    private function _update_topic(string $prefix, string $old_name)
+    private function _update_topic(string $prefix, string $old_name) : ?string
     {
         if (isset($this->_controller->get_form_values()['style']) && $this->_controller->get_form_values()['style'] == '__create') {
             $this->edit_topic->style = $this->_create_style($this->edit_topic->name);
 
             // Failed to create the new style template
             if ($this->edit_topic->style === '') {
-                return false;
+                return null;
             }
 
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('new style created'));
 
             if (!$this->edit_topic->update()) {
                 midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()));
-                return false;
+                return null;
             }
         }
 

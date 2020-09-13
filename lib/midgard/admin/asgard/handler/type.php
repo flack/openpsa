@@ -19,13 +19,13 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
     private $type;
 
-    private function _prepare_qb($dummy_object)
+    private function _prepare_qb($dummy_object) : ?midcom_core_querybuilder
     {
         // Figure correct MidCOM DBA class to use and get midcom QB
         $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
         if (empty($midcom_dba_classname)) {
             debug_add("MidCOM DBA does not know how to handle " . get_class($dummy_object), MIDCOM_LOG_ERROR);
-            return false;
+            return null;
         }
 
         return call_user_func([$midcom_dba_classname, 'new_query_builder']);

@@ -25,12 +25,12 @@ class net_nemein_wiki_resolver
         $this->_topic = $topic;
     }
 
-    public function generate_page_url(net_nemein_wiki_wikipage $wikipage)
+    public function generate_page_url(net_nemein_wiki_wikipage $wikipage) : ?string
     {
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($wikipage->topic);
         if (!$node) {
-            return false;
+            return null;
         }
 
         if ($wikipage->name == 'index') {

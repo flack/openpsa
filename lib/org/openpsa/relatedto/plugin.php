@@ -29,11 +29,11 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      * @param array $extra Array with the possible extra-properties
      * @return mixed The newly-created relatedto object or false on failure
      */
-    public static function create($from_obj, $from_component, $to_obj, $to_component, $status = null, array $extra = [])
+    public static function create($from_obj, $from_component, $to_obj, $to_component, $status = null, array $extra = []) : ?org_openpsa_relatedto_dba
     {
         if (   !is_object($from_obj)
             || !is_object($to_obj)) {
-            return false;
+            return null;
         }
 
         if (!$status) {
@@ -65,7 +65,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
 
         if (!$rel->create()) {
             debug_add("failed to create link from {$rel->fromClass} #{$rel->fromGuid} to {$rel->toClass} #{$rel->toGuid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            return false;
+            return null;
         }
 
         return $rel;
@@ -100,13 +100,13 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      * NOTE: does not prefix the ? for the first parameter in case this needs
      * to be used with some other GET parameters.
      */
-    public static function relatedto2get(array $array) : string
+    public static function relatedto2get(array $array) : ?string
     {
         $ret = ['org_openpsa_relatedto' => []];
         foreach ($array as $rel) {
             if (!midcom::get()->dbfactory->is_a($rel, org_openpsa_relatedto_dba::class)) { //Matches also 'org_openpsa_relatedto'
                 //Wrong type of object found in array, cruelly abort the whole procedure
-                return false;
+                return null;
             }
             $entry = [
                 'toGuid' => $rel->toGuid,
@@ -135,11 +135,11 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         ]);
     }
 
-    private static function common_node_toolbar_buttons_sanitycheck(array &$data, string $button_component, $bind_object, string $calling_component)
+    private static function common_node_toolbar_buttons_sanitycheck(array &$data, string $button_component, $bind_object, string $calling_component) : ?org_openpsa_relatedto_dba
     {
         if (!midcom::get()->componentloader->is_installed($button_component)) {
             debug_add("component {$button_component} is not installed", MIDCOM_LOG_ERROR);
-            return false;
+            return null;
         }
         if (empty($data['node'])) {
             debug_add("data['node'] not given, trying with siteconfig");
@@ -147,7 +147,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             $node_guid = $siteconfig->get_node_guid($button_component);
             if (!$node_guid) {
                 debug_add("data['node'] not given, and {$button_component} could not be found in siteconfig", MIDCOM_LOG_INFO);
-                return false;
+                return null;
             }
 
             $nap = new midcom_helper_nav();
@@ -155,7 +155,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             if (empty($data['node'])) {
                 //Invalid node given/found
                 debug_add("data['node'] is invalid", MIDCOM_LOG_ERROR);
-                return false;
+                return null;
             }
         }
 

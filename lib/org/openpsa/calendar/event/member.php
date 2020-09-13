@@ -133,7 +133,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
     /**
      * Returns the person this member points to if that person can be used for notifications
      */
-    private function get_person_obj()
+    private function get_person_obj() : ?org_openpsa_contacts_person_dba
     {
         try {
             $person = org_openpsa_contacts_person_dba::get_cached($this->uid);
@@ -141,10 +141,10 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             //We need to have an email which to send to so if no email no point
             if (empty($person->email)) {
                 debug_add('person #' . $person->id . 'has no email address, aborting');
-                return false;
+                return null;
             }
         } catch (midcom_error $e) {
-            return false;
+            return null;
         }
 
         return $person;

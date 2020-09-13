@@ -299,14 +299,14 @@ class midcom_core_user
      * Get the GUID of the user's first group. This is used mainly to populate
      * the owner field during DBa object create calls
      *
-     * @return mixed GUID of the first group found or false
+     * @return ?string GUID of the first group found or null
      */
-    public function get_first_group_guid()
+    public function get_first_group_guid() : ?string
     {
         if ($this->_direct_groups !== null) {
             if (empty($this->_direct_groups)) {
                 // User is not member of any groups
-                return false;
+                return null;
             }
             return $this->_direct_groups[key($this->_direct_groups)]->get_storage()->guid;
         }
@@ -329,7 +329,7 @@ class midcom_core_user
             return $this->_direct_groups[key($this->_direct_groups)]->get_storage()->guid;
         }
 
-        return false;
+        return null;
     }
 
     /**

@@ -421,9 +421,8 @@ class midcom_helper_metadata
      * - Any valid GUID
      *
      * @param mixed $source The object to attach to, this may be either a MidgardObject or a GUID.
-     * @return midcom_helper_metadata The created metadata object.
      */
-    public static function retrieve($source)
+    public static function retrieve($source) : ?self
     {
         $object = null;
 
@@ -442,7 +441,7 @@ class midcom_helper_metadata
                 debug_add("Failed to create a metadata instance for the GUID {$guid}: " . $e->getMessage(), MIDCOM_LOG_WARN);
                 debug_print_r("Source was:", $source);
 
-                return false;
+                return null;
             }
         }
 

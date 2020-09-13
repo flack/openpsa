@@ -77,8 +77,7 @@ class midcom_helper__componentloader
     }
 
     /**
-     * Load the component specified by $path. If the component could not be loaded
-     * successfully due to integrity errors, it will return false.
+     * Load the component specified by $path
      */
     private function load(string $path)
     {

@@ -247,7 +247,6 @@ class autocomplete
 
     public static function create_item_label($object, $result_headers, $titlefield) : string
     {
-        $label = [];
         if (!empty($titlefield)) {
             if ($label = self::build_label($object, (array) $titlefield)) {
                 return $label;

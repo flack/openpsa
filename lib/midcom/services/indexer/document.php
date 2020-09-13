@@ -649,14 +649,13 @@ class midcom_services_indexer_document
      * Get person by given ID, caches results.
      *
      * @param string $id GUID or ID to get person for
-     * @return midcom_db_person object
      */
-    private function read_person($id)
+    private function read_person($id) : ?midcom_db_person
     {
         try {
             return midcom_db_person::get_cached($id);
         } catch (midcom_error $e) {
-            return false;
+            return null;
         }
     }
 

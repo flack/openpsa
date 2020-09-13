@@ -32,7 +32,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
      */
     private $_customers = [];
 
-    private function _generate_invoice(ParameterBag $post)
+    private function _generate_invoice(ParameterBag $post) : ?org_openpsa_invoices_invoice_dba
     {
         $invoice = new org_openpsa_invoices_invoice_dba();
         $invoice->customer = $post->getInt('org_openpsa_invoices_invoice_customer');
@@ -42,7 +42,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $invoice->description = $invoice->get_default('remarks');
 
         if (!$invoice->create()) {
-            return false;
+            return null;
         }
 
         // create invoice_items

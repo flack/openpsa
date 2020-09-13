@@ -142,18 +142,18 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      *
      * @param net_nemein_rss_parser_item $item Feed item as provided by SimplePie
      */
-    public function import_item(net_nemein_rss_parser_item $item)
+    public function import_item(net_nemein_rss_parser_item $item) : ?string
     {
-        if ($this->_node->component === 'net.nehmer.blog') {
-            return $this->import_article($item);
+        if ($this->_node->component !== 'net.nehmer.blog') {
+            throw new midcom_error("RSS fetching for component {$this->_node->component} is unsupported");
         }
-        throw new midcom_error("RSS fetching for component {$this->_node->component} is unsupported");
+        return $this->import_article($item);
     }
 
     /**
      * Imports an item as a news article
      */
-    private function import_article(net_nemein_rss_parser_item $item)
+    private function import_article(net_nemein_rss_parser_item $item) : ?string
     {
         $guid = $item->get_id();
         $title = $item->get_title();
@@ -162,12 +162,12 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 || trim($title) == '...')
             && empty($guid)) {
             // Something wrong with this entry, skip it
-            return false;
+            return null;
         }
 
         $article = $this->find_article($item, $guid);
         if (!$article) {
-            return false;
+            return null;
         }
 
         $article->allow_name_catenate = true;
@@ -225,12 +225,12 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
             if (   $this->apply_values($article, $values, $meta_values)
                 && !$article->update()) {
-                return false;
+                return null;
             }
         } else {
             $this->apply_values($article, $values, $meta_values);
             if (!$article->create()) {
-                return false;
+                return null;
             }
         }
 
@@ -272,7 +272,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         return $author;
     }
 
-    private function find_article(net_nemein_rss_parser_item $item, $guid)
+    private function find_article(net_nemein_rss_parser_item $item, $guid) : ?midcom_db_article
     {
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_feed->node);
@@ -290,7 +290,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $qb->add_constraint('url', '=', $link);
             if ($qb->count() > 0) {
                 // Dupe, skip
-                return false;
+                return null;
             }
         }
 

@@ -123,12 +123,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * Resolve MgdSchema object from midcom object
      *
      * @param mixed $object    MgdSchema or midcom object
-     * @return mgdobject|false
      */
-    private function resolve_object($object)
+    private function resolve_object($object) : ?mgdobject
     {
         if (!is_object($object)) {
-            return false;
+            return null;
         }
 
         $object_class = midcom_helper_reflector::resolve_baseclass(get_class($object));
@@ -202,7 +201,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * @param mixed $source     MgdSchema object for reading the parameters
      * @param mixed $parent      MgdSchema parent object (or null)
      * @param array $defaults
-     * @return boolean Indicating success
+     * @return mixed               False on failure, newly created MgdSchema root object on success
      */
     public function copy_object($source, $parent, array $defaults = [])
     {

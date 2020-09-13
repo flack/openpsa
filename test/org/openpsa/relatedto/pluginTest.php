@@ -35,10 +35,10 @@ class org_openpsa_relatedto_pluginTest extends openpsa_testcase
 
         $x = null;
         $stat = org_openpsa_relatedto_plugin::create($x, 'org.openpsa.invoices', $salesproject, 'org.openpsa.sales');
-        $this->assertFalse($stat);
+        $this->assertNull($stat);
 
         $stat = org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $x, 'org.openpsa.sales');
-        $this->assertFalse($stat);
+        $this->assertNull($stat);
 
         $relatedto2 = org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $salesproject, 'org.openpsa.sales', org_openpsa_relatedto_dba::NOTRELATED);
         $this->assertEquals($relatedto->guid, $relatedto2->guid);
