@@ -195,19 +195,14 @@ trait parameters
      * @param string $value The Parameter value. If this is empty, the corresponding parameter is deleted.
      * @return bool Indicating success.
      */
-    public function set_parameter($domain, $name, $value) : bool
+    public function set_parameter(string $domain, string $name, $value) : bool
     {
         if (!$this->guid) {
             debug_add('Cannot set parameters on a non-persistent object.', MIDCOM_LOG_WARN);
             return false;
         }
-        if (   empty($domain)
-            || empty($name)
-            || !is_string($domain)
-            || !is_string($name)) {
+        if (empty($domain) || empty($name)) {
             debug_add('Parameter domain and name must be non-empty strings', MIDCOM_LOG_WARN);
-            debug_print_r('$domain', $domain);
-            debug_print_r('$name', $name);
             return false;
         }
 
