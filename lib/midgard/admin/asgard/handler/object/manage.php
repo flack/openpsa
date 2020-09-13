@@ -332,7 +332,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         if ($handler_id === 'object_copy_tree') {
-            $parent = midcom_helper_reflector_copy::get_parent_property($this->_object->__object);
+            $parent = midcom_helper_reflector_copy::get_parent_property($this->_object);
             $this->_load_schemadb(get_class($this->_object), $parent, true);
             // Change the name for the parent field
             $this->schemadb->get_first()->get_field($parent)['title'] = $this->_l10n->get('choose the target');
@@ -407,8 +407,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 if (empty($link_properties[$parent])) {
                     throw new midcom_error('Failed to construct the target class object');
                 }
-
-                $class_name = $link_properties[$parent]['class'];
+                $class_name = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($link_properties[$parent]['class']);
                 $copy->target = new $class_name($formdata[$parent]);
             }
             $copy->exclude = array_diff($request->request->get('all_objects'), $request->request->get('selected'));
@@ -417,7 +416,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
         $new_object = $copy->execute($this->_object);
 
-        if ($new_object === false) {
+        if ($new_object === null) {
             debug_print_r('Copying failed with the following errors', $copy->errors, MIDCOM_LOG_ERROR);
             throw new midcom_error('Failed to successfully copy the object. Details in error level log');
         }
@@ -427,7 +426,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         } else {
             midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the new object'));
         }
-        return midcom::get()->dbfactory->convert_midgard_to_midcom($new_object);
+        return $new_object;
     }
 
     /**

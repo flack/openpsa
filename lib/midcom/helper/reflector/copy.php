@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midgard\portable\api\mgdobject;
-
 /**
  * The Grand Unified Reflector, copying helper class
  *
@@ -18,7 +16,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Target
      *
-     * @var mixed        MgdSchema or MidCOM dba object
+     * @var midcom_core_dbaobject
      */
     public $target;
 
@@ -102,14 +100,12 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
     /**
      * Get the parent property for overriding it
-     *
-     * @param mgdobject $object  MgdSchema object for resolving the parent property
      */
-    public static function get_parent_property(mgdobject $object) : string
+    public static function get_parent_property(midcom_core_dbaobject $object) : string
     {
-        $parent = midgard_object_class::get_property_parent($object);
+        $parent = midgard_object_class::get_property_parent($object->__mgdschema_class_name__);
         if (!$parent) {
-            $parent = midgard_object_class::get_property_up($object);
+            $parent = midgard_object_class::get_property_up($object->__mgdschema_class_name__);
 
             if (!$parent) {
                 throw new midcom_error('Failed to get the parent property for copying');
@@ -117,27 +113,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         return $parent;
-    }
-
-    /**
-     * Resolve MgdSchema object from midcom object
-     *
-     * @param mixed $object    MgdSchema or midcom object
-     */
-    private function resolve_object($object) : ?mgdobject
-    {
-        if (!is_object($object)) {
-            return null;
-        }
-
-        $object_class = midcom_helper_reflector::resolve_baseclass(get_class($object));
-
-        // Get the initial MgdSchema class
-        if ($object_class !== get_class($object)) {
-            $object = new $object_class($object->guid);
-        }
-
-        return $object;
     }
 
     /**
@@ -153,19 +128,15 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      *
      * Eventually this method will return the first root object that was created, i.e. the root
      * of the new tree.
-     *
-     * @param mixed $source        MidCOM db or MgdSchema object that will be copied
-     * @param mixed $parent        MgdSchema or MidCOM db object
-     * @return mixed               False on failure, newly created MgdSchema root object on success
      */
-    public function copy_tree($source, $parent)
+    public function copy_tree(midcom_core_dbaobject $source, midcom_core_dbaobject $parent) : ?midcom_core_dbaobject
     {
         // Copy the root object
         $root = $this->copy_object($source, $parent);
 
-        if (empty($root->guid)) {
+        if (!$root) {
             $this->errors[] = sprintf($this->_l10n->get('failed to copy object %s'), $source->guid);
-            return false;
+            return null;
         }
 
         // Add the newly copied object to the exclusion list to prevent infinite loops
@@ -197,21 +168,9 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
     /**
      * Copy an object
-     *
-     * @param mixed $source     MgdSchema object for reading the parameters
-     * @param mixed $parent      MgdSchema parent object (or null)
-     * @param array $defaults
-     * @return mixed               False on failure, newly created MgdSchema root object on success
      */
-    public function copy_object($source, $parent, array $defaults = [])
+    public function copy_object(midcom_core_dbaobject $source, ?midcom_core_dbaobject $parent, array $defaults = []) : ?midcom_core_dbaobject
     {
-        // Resolve the source object
-        $source = $this->resolve_object($source);
-        if (!$source) {
-            $this->errors[] = $this->_l10n->get('failed to get the source object');
-            return false;
-        }
-
         // Duplicate the object
         $class_name = get_class($source);
         $target = new $class_name();
@@ -245,13 +204,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             $parent_property = self::get_parent_property($source);
 
             // Copy the link to parent
-            if ($parent) {
-                $parent = $this->resolve_object($parent);
-
-                if (empty($parent->guid)) {
-                    return false;
-                }
-
+            if (!empty($parent->guid)) {
                 // @TODO: Is there a sure way to determine if the parent is
                 // GUID or is it ID? If so, please change it here.
                 $parent_key = (is_string($source->$parent_property)) ? 'guid' : 'id';
@@ -269,14 +222,13 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         $target->allow_name_catenate = true;
         if (!$target->create()) {
             $this->errors[] = $this->_l10n->get('failed to create object: ' . midcom_connection::get_error_string());
-            return false;
+            return null;
         }
 
-        if (   !$this->_copy_data('parameters', $source, $target)
-            || !$this->_copy_data('metadata', $source, $target)
-            || !$this->_copy_data('attachments', $source, $target)
-            || !$this->_copy_data('privileges', $source, $target)) {
-            return false;
+        foreach (['parameters', 'metadata', 'attachments', 'privileges'] as $type) {
+            if (!$this->_copy_data($type, $source, $target)) {
+                return null;
+            }
         }
 
         return $target;
@@ -284,13 +236,8 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
     /**
      * Copy object data
-     *
-     * @param string $type        The type of data to copy
-     * @param mixed $source      MgdSchema object for reading the parameters
-     * @param mixed $target      MgdSchema object for storing the parameters
-     * @return boolean Indicating success
      */
-    private function _copy_data(string $type, $source, $target) : bool
+    private function _copy_data(string $type, midcom_core_dbaobject $source, midcom_core_dbaobject $target) : bool
     {
         if ($this->$type) {
             $method = 'copy_' . $type;
@@ -306,21 +253,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
     /**
      * Copy parameters for the object
-     *
-     * @param mixed $source      MgdSchema object for reading the parameters
-     * @param mixed $target      MgdSchema object for storing the parameters
-     * @return boolean Indicating success
      */
-    public function copy_parameters($source, $target) : bool
+    public function copy_parameters(midcom_core_dbaobject $source, midcom_core_dbaobject $target) : bool
     {
-        $params = $source->list_parameters();
-
-        if (empty($params)) {
-            return true;
-        }
-
         // Loop through the parameters
-        foreach ($params as $parameter) {
+        foreach ($source->list_parameters() as $parameter) {
             if (!$target->set_parameter($parameter->domain, $parameter->name, $parameter->value)) {
                 $this->errors[] = sprintf($this->_l10n->get('failed to copy parameters from %s to %s'), $source->guid, $target->guid);
 
@@ -335,12 +272,8 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
     /**
      * Copy metadata for the object
-     *
-     * @param mixed $source      MgdSchema object for reading the metadata
-     * @param mixed $target      MgdSchema object for storing the metadata
-     * @return boolean Indicating success
      */
-    public function copy_metadata($source, $target) : bool
+    public function copy_metadata(midcom_core_dbaobject $source, midcom_core_dbaobject $target) : bool
     {
         foreach ($this->copy_metadata_fields as $property) {
             $target->metadata->$property = $source->metadata->$property;
@@ -356,12 +289,8 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
     /**
      * Copy attachments
-     *
-     * @param mixed $source      MgdSchema object for reading the attachments
-     * @param mixed $target      MgdSchema object for storing the attachments
-     * @return boolean Indicating success
      */
-    public function copy_attachments($source, $target) : bool
+    public function copy_attachments(midcom_core_dbaobject $source, midcom_core_dbaobject $target) : bool
     {
         $defaults = [
             'parentguid' => $target->guid,
@@ -376,12 +305,8 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
     /**
      * Copy privileges
-     *
-     * @param mixed $source      MgdSchema object for reading the privileges
-     * @param mixed $target      MgdSchema object for storing the privileges
-     * @return boolean Indicating success
      */
-    public function copy_privileges($source, $target) : bool
+    public function copy_privileges(midcom_core_dbaobject $source, midcom_core_dbaobject $target) : bool
     {
         $qb = midcom_core_privilege_db::new_query_builder();
         $qb->add_constraint('objectguid', '=', $source->guid);
@@ -406,11 +331,8 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
     /**
      * Dispatches the copy command according to the attributes set
-     *
-     * @param midcom_core_dbaobject $source
-     * @return mgdobject|false
      */
-    public function execute(midcom_core_dbaobject $source)
+    public function execute(midcom_core_dbaobject $source) : ?midcom_core_dbaobject
     {
         if ($this->recursive) {
             // Disable execution timeout and memory limit, this can be very intensive
@@ -423,7 +345,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
         if (empty($new_root_object->guid)) {
             $this->errors[] = $this->_l10n->get('failed to get the new root object');
-            return false;
+            return null;
         }
 
         return $new_root_object;
