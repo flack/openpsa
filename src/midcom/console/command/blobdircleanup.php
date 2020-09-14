@@ -12,6 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use midcom_db_attachment;
 
 /**
  * Cleanup the blobdir
@@ -75,7 +76,7 @@ class blobdircleanup extends Command
     {
         $location = $this->_determine_location($file);
         // get attachments
-        $qb = \midcom_db_attachment::new_query_builder();
+        $qb = midcom_db_attachment::new_query_builder();
         $qb->add_constraint("location", "=", $location);
         $attachments = $qb->execute();
         if (empty($attachments)) {
