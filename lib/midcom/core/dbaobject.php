@@ -11,6 +11,7 @@ use midgard\portable\api\error\exception as mgd_exception;
 use midcom\dba\parameters;
 use midcom\dba\attachments;
 use midcom\dba\privileges;
+use midgard\portable\api\mgdobject;
 
 /**
  * MidCOM DBA baseclass for MgdSchema object decorators.
@@ -41,7 +42,7 @@ abstract class midcom_core_dbaobject
     /**
      * MgdSchema object
      *
-     * @var midgard\portable\api\mgdobject MgdSchema object
+     * @var mgdobject MgdSchema object
      */
     public $__object;
 
@@ -88,7 +89,10 @@ abstract class midcom_core_dbaobject
     public function __construct($id = null)
     {
         if (is_object($id)) {
-            $this->__object = midcom::get()->dbfactory->convert_midcom_to_midgard($id);
+            if (midcom::get()->dbclassloader->is_midcom_db_object($id)) {
+                $id = $id->__object;
+            }
+            $this->set_object($id);
         } else {
             if (   is_int($id)
                 && $id < 1) {
@@ -97,7 +101,7 @@ abstract class midcom_core_dbaobject
 
             try {
                 $mgdschemaclass = $this->__mgdschema_class_name__;
-                $this->__object = new $mgdschemaclass($id);
+                $this->set_object(new $mgdschemaclass($id));
             } catch (mgd_exception $e) {
                 debug_add('Constructing ' . $this->__mgdschema_class_name__ . ' object ' . $id . ' failed, reason: ' . $e->getMessage(), MIDCOM_LOG_WARN);
                 throw new midcom_error_midgard($e, $id);
@@ -129,6 +133,11 @@ abstract class midcom_core_dbaobject
         if ($this->__object->guid) {
             midcom_baseclasses_core_dbobject::post_db_load_checks($this);
         }
+    }
+
+    private function set_object(mgdobject $object)
+    {
+        $this->__object = $object;
     }
 
     /**

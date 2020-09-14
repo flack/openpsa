@@ -117,6 +117,7 @@ class midcom_services_dbclassloader
 
     /**
      * Get a MidCOM DB class name for a MgdSchema Object.
+     * We also ensure that the corresponding component has been loaded.
      *
      * @param string|object $object The object (or classname) to check
      * @return string The corresponding MidCOM DB class name, false otherwise.

@@ -110,23 +110,9 @@ class midcom_helper__dbfactory
 
     /**
      * Convert MgdSchema object into a MidCOM DBA object.
-     *
-     * If the conversion cannot be done for some reason, the function returns null and logs
-     * an error. We also ensure that the corresponding component has been loaded.
-     *
-     * @param midgard\portable\api\mgdobject $object MgdSchema Object
      */
-    public function convert_midgard_to_midcom($object) : midcom_core_dbaobject
+    public function convert_midgard_to_midcom(mgdobject $object) : midcom_core_dbaobject
     {
-        if (!is_object($object)) {
-            debug_print_r("Object dump:", $object);
-            throw new midcom_error("Cannot cast the object to a MidCOM DBA type, it is not an object.");
-        }
-
-        if (!midcom::get()->dbclassloader->is_mgdschema_object($object)) {
-            debug_print_r("Object dump:", $object);
-            throw new midcom_error("Cannot cast the object to a MidCOM DBA type, it is not a regular MgdSchema object");
-        }
         $classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);
 
         if (!class_exists($classname)) {
@@ -134,32 +120,6 @@ class midcom_helper__dbfactory
         }
 
         return new $classname($object);
-    }
-
-    /**
-     * Helper function, it takes a MidCOM DBA object and converts it into an MgdSchema object.
-     *
-     * If the conversion cannot be done for some reason, the function throws an error.
-     *
-     * @param midcom_core_dbaobject $object MidCOM DBA Object
-     */
-    public function convert_midcom_to_midgard($object) : mgdobject
-    {
-        if (!is_object($object)) {
-            debug_print_r("Object dump:", $object);
-            throw new midcom_error("Cannot cast the object to an MgdSchema type, it is not an object");
-        }
-
-        if (!midcom::get()->dbclassloader->is_midcom_db_object($object)) {
-            if (midcom::get()->dbclassloader->is_mgdschema_object($object)) {
-                // Return it directly, it is already in the format we want
-                return $object;
-            }
-            debug_print_r("Object dump:", $object);
-            throw new midcom_error("Cannot cast the object to an MgdSchema type, it is not a MidCOM DBA object");
-        }
-
-        return $object->__object;
     }
 
     /**

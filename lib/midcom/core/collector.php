@@ -101,7 +101,6 @@ class midcom_core_collector extends midcom_core_query
         $this->execute();
         $result = $this->_query->list_keys();
         $newresult = [];
-        $classname = $this->_real_class;
         $counter = 0;
 
         foreach ($result as $object_guid => $empty_copy) {
