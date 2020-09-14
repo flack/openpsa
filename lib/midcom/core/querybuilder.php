@@ -55,13 +55,10 @@ class midcom_core_querybuilder extends midcom_core_query
 
         foreach ($this->_query->execute() as $object) {
             $classname = $this->_real_class;
-            try {
+            if ($this->is_readable($object->guid)) {
                 $result[] = new $classname($object);
-            } catch (midcom_error $e) {
-                if ($e->getCode() == MIDCOM_ERRFORBIDDEN) {
-                    $this->denied++;
-                }
-                $e->log();
+            } else {
+                $this->denied++;
             }
         }
 

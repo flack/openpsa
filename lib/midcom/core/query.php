@@ -89,6 +89,13 @@ abstract class midcom_core_query
     public $denied = 0;
 
     /**
+     * User id for ACL checks. This is set when executing to avoid unnecessary overhead
+     *
+     * @var string
+     */
+    private $_user_id;
+
+    /**
      * Class resolution into the MidCOM DBA system.
      * Currently, Midgard requires the actual MgdSchema base classes to be used
      * when dealing with the query, so we internally note the corresponding class
@@ -121,8 +128,18 @@ abstract class midcom_core_query
         return $_class_mapping_cache[$classname];
     }
 
+    protected function is_readable(string $guid) : bool
+    {
+        return !$this->_user_id
+            || midcom::get()->auth->acl->can_do_byguid('midgard:read', $guid, $this->_real_class, $this->_user_id);
+    }
+
     protected function _add_visibility_checks()
     {
+        if (!midcom::get()->auth->admin) {
+            $this->_user_id = midcom::get()->auth->acl->get_user_id();
+        }
+
         if (   $this->hide_invisible
             && !$this->_visibility_checks_added) {
             if (!midcom::get()->config->get('show_hidden_objects')) {
