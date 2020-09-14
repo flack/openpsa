@@ -431,8 +431,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $properties = self::get_object_fieldnames($obj);
 
         $links = [];
-        $parent_property = midgard_object_class::get_property_parent($obj);
-        $up_property = midgard_object_class::get_property_up($obj);
+        $parent_property = midgard_object_class::get_property_parent($this->mgdschema_class);
+        $up_property = midgard_object_class::get_property_up($this->mgdschema_class);
         foreach ($properties as $property) {
             if ($property == 'guid') {
                 // GUID, even though of type MGD_TYPE_GUID, is never a link
