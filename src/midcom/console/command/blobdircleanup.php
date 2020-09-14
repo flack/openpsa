@@ -58,7 +58,7 @@ class blobdircleanup extends Command
                 $file = $outerDir . "/" . $d;
                 if (filesize($file) == 0) {
                     $this->findings['corrupted'][] = $file;
-                } elseif ($this->get_attachment($file) === false) {
+                } elseif (!$this->get_attachment($file)) {
                     $this->findings['orphaned'][] = $file;
                 }
                 $this->_file_counter++;
@@ -71,7 +71,7 @@ class blobdircleanup extends Command
         return ltrim(str_replace($this->_dir, "", $path), "/");
     }
 
-    private function get_attachment(string $file)
+    private function get_attachment(string $file) : ?midcom_db_attachment
     {
         $location = $this->_determine_location($file);
         // get attachments
@@ -79,7 +79,7 @@ class blobdircleanup extends Command
         $qb->add_constraint("location", "=", $location);
         $attachments = $qb->execute();
         if (empty($attachments)) {
-            return false;
+            return null;
         }
         if (count($attachments) === 1) {
             return $attachments[0];

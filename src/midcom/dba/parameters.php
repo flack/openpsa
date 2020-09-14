@@ -32,7 +32,7 @@ trait parameters
      * @param string $name The parameter name.
      * @return ?string The parameter value or false otherwise (remember typesafe comparisons to protect against '' strings).
      */
-    public function get_parameter($domain, $name)
+    public function get_parameter(string $domain, string $name)
     {
         if (!$this->guid) {
             debug_add('Cannot retrieve information on a non-persistent object.', MIDCOM_LOG_INFO);
@@ -97,7 +97,7 @@ trait parameters
      *
      * @param string $domain The parameter domain to query, this may be null to indicate a full listing.
      */
-    public function list_parameters($domain = null) : array
+    public function list_parameters(string $domain = null) : array
     {
         if (!$this->guid) {
             debug_add('Cannot retrieve information on a non-persistent object.', MIDCOM_LOG_INFO);
@@ -243,19 +243,14 @@ trait parameters
      * @param string $name The Parameter name.
      * @return bool Indicating success.
      */
-    public function delete_parameter($domain, $name) : bool
+    public function delete_parameter(string $domain, string $name) : bool
     {
         if (!$this->guid) {
             debug_add('Cannot delete parameters on a non-persistent object.', MIDCOM_LOG_WARN);
             return false;
         }
-        if (   empty($domain)
-            || empty($name)
-            || !is_string($domain)
-            || !is_string($name)) {
+        if (empty($domain) || empty($name)) {
             debug_add('Parameter domain and name must be non-empty strings', MIDCOM_LOG_WARN);
-            debug_print_r('$domain', $domain);
-            debug_print_r('$name', $name);
             return false;
         }
 

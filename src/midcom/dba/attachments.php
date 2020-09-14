@@ -27,23 +27,17 @@ trait attachments
      * @param string $name The name of the attachment to look up.
      * @return midcom_db_attachment The attachment found, or false on failure.
      */
-    public function get_attachment($name)
+    public function get_attachment(string $name) : ?midcom_db_attachment
     {
         if (!$this->id) {
             debug_add('Cannot retrieve attachments on a non-persistent object.', MIDCOM_LOG_WARN);
-            return false;
+            return null;
         }
 
         // Locate attachment
         $qb = $this->get_attachment_qb();
         $qb->add_constraint('name', '=', $name);
-        $result = $qb->execute();
-
-        if (count($result) == 0) {
-            return false;
-        }
-
-        return $result[0];
+        return $qb->execute()[0] ?? null;
     }
 
     /**
@@ -75,24 +69,19 @@ trait attachments
 
     /**
      * Creates a new attachment at the current object and returns it for usage.
-     *
-     * @param string $name The name of the attachment.
-     * @param string $title The title of the attachment.
-     * @param string $mimetype The MIME-Type of the attachment.
-     * @return midcom_db_attachment The created attachment or false on failure.
      */
-    public function create_attachment($name, $title, $mimetype)
+    public function create_attachment(string $name, string $title, string $mimetype) : ?midcom_db_attachment
     {
         if (!$this->id) {
             debug_add('Cannot create attachments on a non-persistent object.', MIDCOM_LOG_WARN);
-            return false;
+            return null;
         }
 
         if (   !$this->can_do('midgard:update')
             || !$this->can_do('midgard:attachments')) {
             debug_add("Failed to set parameters, midgard:update or midgard:attachments on the " . get_class($this) . " {$this->guid} not granted for the current user.",
             MIDCOM_LOG_ERROR);
-            return false;
+            return null;
         }
 
         $attachment = new midcom_db_attachment();
@@ -104,7 +93,7 @@ trait attachments
         if (!$attachment->create()) {
             debug_add("Could not create the attachment '{$name}' for " . get_class($this) . " {$this->guid}: "  . midcom_connection::get_error_string(),
             MIDCOM_LOG_INFO);
-            return false;
+            return null;
         }
 
         return $attachment;
@@ -113,14 +102,12 @@ trait attachments
     /**
      * Returns a prepared query builder that is already limited to the attachments of the given
      * object.
-     *
-     * @return \midcom_core_querybuilder The initialized instance of the query builder or false on failure.
      */
-    public function get_attachment_qb()
+    public function get_attachment_qb() : ?\midcom_core_querybuilder
     {
         if (!$this->id) {
             debug_add('Cannot retrieve attachments on a non-persistent object.', MIDCOM_LOG_WARN);
-            return false;
+            return null;
         }
 
         $qb = midcom::get()->dbfactory->new_query_builder('midcom_db_attachment');
