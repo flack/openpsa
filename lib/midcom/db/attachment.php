@@ -48,11 +48,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $mc = new midgard_collector('midgard_attachment', 'guid', $guid);
         $mc->set_key_property('parentguid');
         $mc->execute();
-        $link_values = $mc->list_keys();
-        if (empty($link_values)) {
-            return null;
-        }
-        return key($link_values);
+        return key($mc->list_keys());
     }
 
     /**

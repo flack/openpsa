@@ -306,12 +306,7 @@ class midcom_helper_metadata
                     $mc = new midgard_collector('midgard_person', 'id', 1);
                     $mc->set_key_property('guid');
                     $mc->execute();
-                    $guids = $mc->list_keys();
-                    if (empty($guids)) {
-                        $root_user_guid = 'f6b665f1984503790ed91f39b11b5392';
-                    } else {
-                        $root_user_guid = key($guids);
-                    }
+                    $root_user_guid = key($mc->list_keys()) ?: 'f6b665f1984503790ed91f39b11b5392';
                 }
 
                 return $root_user_guid;

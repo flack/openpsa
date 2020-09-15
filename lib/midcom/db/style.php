@@ -94,10 +94,8 @@ class midcom_db_style extends midcom_core_dbaobject
             $mc->add_value_property('id');
             $mc->add_constraint('name', '=', $path_item);
             $mc->execute();
-            $styles = $mc->list_keys();
 
-            if (!empty($styles)) {
-                $style_guid = key($styles);
+            if ($style_guid = key($mc->list_keys())) {
                 $current_style = $mc->get_subkey($style_guid, 'id');
                 midcom::get()->cache->content->register($style_guid);
             }

@@ -27,11 +27,12 @@ class midgard_admin_user_validator
             $mc = new midgard_collector('midgard_user', 'login', $fields["username"]);
             $mc->set_key_property('person');
             $mc->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
+            if (isset($fields['person'])) {
+                $mc->add_constraint('person', '<>', $fields['person']);
+            }
             $mc->execute();
             $keys = $mc->list_keys();
-            if (   count($keys) > 0
-                && (   !isset($fields['person'])
-                    || key($keys) != $fields['person'])) {
+            if (count($keys) > 0) {
                 return [
                     "username" => sprintf(midcom::get()->i18n->get_string("username %s is already in use", "midgard.admin.user"), $fields['username'])
                 ];

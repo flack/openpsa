@@ -99,8 +99,7 @@ class loader
         $element_mc->add_constraint('name', '=', $name);
         $element_mc->execute();
 
-        if ($keys = $element_mc->list_keys()) {
-            $element_guid = key($keys);
+        if ($element_guid = key($element_mc->list_keys())) {
             midcom::get()->cache->content->register($element_guid);
             return $this->add_to_cache($cache_key, $element_mc->get_subkey($element_guid, 'value'));
         }
@@ -112,8 +111,7 @@ class loader
         $style_mc->add_constraint('up', '>', 0);
         $style_mc->execute();
 
-        if ($keys = $style_mc->list_keys()) {
-            $style_guid = key($keys);
+        if ($style_guid = key($style_mc->list_keys())) {
             midcom::get()->cache->content->register($style_guid);
             $up = $style_mc->get_subkey($style_guid, 'up');
             return $this->get_element_in_styletree($up, $name);

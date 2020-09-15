@@ -188,14 +188,12 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     {
         $mc = org_openpsa_documents_document_dba::new_collector('title', $name);
         $mc->add_constraint('topic.guid', '=', $dir);
-        $keys = $mc->list_keys();
-        if ($keys) {
+        if ($keys = $mc->list_keys()) {
             return key($keys);
         }
         $mc = org_openpsa_documents_directory::new_collector('extra', $name);
         $mc->add_constraint('up.guid', '=', $dir);
-        $keys = $mc->list_keys();
-        if ($keys) {
+        if ($keys = $mc->list_keys()) {
             return key($keys);
         }
         return -1;

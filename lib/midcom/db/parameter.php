@@ -37,11 +37,7 @@ class midcom_db_parameter extends midcom_core_dbaobject
         $mc = new midgard_collector('midgard_parameter', 'guid', $guid);
         $mc->set_key_property('parentguid');
         $mc->execute();
-        $link_values = $mc->list_keys();
-        if (empty($link_values)) {
-            return null;
-        }
-        return key($link_values);
+        return key($mc->list_keys());
     }
 
     /**
@@ -59,7 +55,6 @@ class midcom_db_parameter extends midcom_core_dbaobject
         $cache_key = $objectguid . '::' . $domain . '::' . $name;
 
         if (!array_key_exists($cache_key, $parameter_cache)) {
-            $parameter_cache[$cache_key] = null;
 
             $mc = midgard_parameter::new_collector('parentguid', $objectguid);
             $mc->set_key_property('value');
@@ -67,11 +62,8 @@ class midcom_db_parameter extends midcom_core_dbaobject
             $mc->add_constraint('domain', '=', $domain);
             $mc->set_limit(1);
             $mc->execute();
-            $parameters = $mc->list_keys();
 
-            if (!empty($parameters)) {
-                $parameter_cache[$cache_key] = key($parameters);
-            }
+            $parameter_cache[$cache_key] = key($mc->list_keys());
         }
         return $parameter_cache[$cache_key];
     }
