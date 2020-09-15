@@ -250,21 +250,16 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
         debug_add("HIT {$request_id}");
 
-        $data = $this->backend->fetch($content_id);
-        if ($data === false) {
+        $headers = $this->backend->fetch($content_id);
+        if ($headers === false) {
             debug_add("MISS meta_cache {$content_id}");
             // Content cache data is missing
             return;
         }
 
-        if (!isset($data['last-modified'])) {
-            debug_add('Current page is in cache, but has insufficient information', MIDCOM_LOG_INFO);
-            return;
-        }
-
         debug_add("HIT {$content_id}");
 
-        $response = new Response('', Response::HTTP_OK, $data);
+        $response = new Response('', Response::HTTP_OK, $headers);
         if (!$response->isNotModified($request)) {
             $content = $this->_data_cache->fetch($content_id);
             if ($content === false) {
@@ -690,12 +685,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     private function complete_sent_headers(Response $response)
     {
-        if ($date = $response->getLastModified()) {
-            if ((int) $date->format('U') == -1) {
-                debug_add("Failed to extract the timecode from the last modified header, defaulting to the current time.", MIDCOM_LOG_WARN);
-                $response->setLastModified(new DateTime);
-            }
-        } else {
+        if (!$response->getLastModified()) {
             /* Determine Last-Modified using MidCOM's component context,
              * Fallback to time() if this fails.
              */
