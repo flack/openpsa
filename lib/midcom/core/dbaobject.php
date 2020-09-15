@@ -390,12 +390,6 @@ abstract class midcom_core_dbaobject
         return midcom_helper_reflector::get_object_fieldnames($this);
     }
 
-    public static function new_reflection_property() : midgard_reflection_property
-    {
-        $classname = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class(get_called_class());
-        return call_user_func([$classname, 'new_reflection_property']);
-    }
-
     // ACL Shortcuts
     public function can_do(string $privilege, $user = null) : bool
     {
