@@ -161,8 +161,8 @@ class midcom_helper__dbfactory
      */
     public function get_parent(midcom_core_dbaobject $object) : ?midcom_core_dbaobject
     {
-        [$classname, $parent_guid] = $this->_get_parent_guid_cached($object->guid, function() use ($object) {
-            return $this->_get_parent_guid_uncached($object);
+        [$classname, $parent_guid] = $this->get_parent_data_cached($object->guid, function() use ($object) {
+            return $this->get_parent_data_uncached($object);
         });
 
         if (   empty($parent_guid)
@@ -207,12 +207,12 @@ class midcom_helper__dbfactory
         if (!mgd_is_guid($guid)) {
             throw new midcom_error('Tried to resolve an invalid GUID.');
         }
-        return $this->_get_parent_guid_cached($guid, function() use ($guid, $class) {
-            return $this->_get_parent_guid_uncached_static($guid, $class);
+        return $this->get_parent_data_cached($guid, function() use ($guid, $class) {
+            return $this->get_parent_data_uncached_static($guid, $class);
         });
     }
 
-    private function _get_parent_guid_cached(string $guid, callable $callback) : array
+    private function get_parent_data_cached(string $guid, callable $callback) : array
     {
         static $cached_parent_data = [];
 
@@ -247,7 +247,7 @@ class midcom_helper__dbfactory
         return $parent_data;
     }
 
-    private function _get_parent_guid_uncached(midcom_core_dbaobject $object) : array
+    private function get_parent_data_uncached(midcom_core_dbaobject $object) : array
     {
         if (method_exists($object, 'get_parent_guid_uncached')) {
             return ['', $object->get_parent_guid_uncached()];
@@ -267,7 +267,7 @@ class midcom_helper__dbfactory
      * Get the GUID of the object's parent. This is done by reading up or parent
      * property values, which will give us the parent's ID
      */
-    private function _get_parent_guid_uncached_static(string $object_guid, string $class_name) : array
+    private function get_parent_data_uncached_static(string $object_guid, string $class_name) : array
     {
         if (method_exists($class_name, 'get_parent_guid_uncached_static')) {
             return ['', $class_name::get_parent_guid_uncached_static($object_guid)];
@@ -282,13 +282,11 @@ class midcom_helper__dbfactory
             $mc->execute();
             $link_values = $mc->list_keys();
 
-            if (empty($link_values)) {
-                continue;
-            }
-            $link_value = key($link_values);
-            $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], $link_value);
-            if (null !== $parent_guid) {
-                return [$data['target_class'], $parent_guid];
+            if (!empty($link_values)) {
+                $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], key($link_values));
+                if (null !== $parent_guid) {
+                    return [$data['target_class'], $parent_guid];
+                }
             }
         }
         return ['', null];
@@ -302,18 +300,13 @@ class midcom_helper__dbfactory
         if (!array_key_exists($target_class, $this->_parent_mapping)) {
             $this->_parent_mapping[$target_class] = [];
         }
-        if (array_key_exists($link_value, $this->_parent_mapping[$target_class])) {
-            return $this->_parent_mapping[$target_class][$link_value];
+        if (!array_key_exists($link_value, $this->_parent_mapping[$target_class])) {
+            $mc2 = new midgard_collector($target_class, $target_property, $link_value);
+            $mc2->set_key_property('guid');
+            $mc2->execute();
+            $this->_parent_mapping[$target_class][$link_value] = key($mc2->list_keys());
         }
-        $this->_parent_mapping[$target_class][$link_value] = null;
 
-        $mc2 = new midgard_collector($target_class, $target_property, $link_value);
-        $mc2->set_key_property('guid');
-        $mc2->execute();
-        $guids = $mc2->list_keys();
-        if (!empty($guids)) {
-            $this->_parent_mapping[$target_class][$link_value] = key($guids);
-        }
         return $this->_parent_mapping[$target_class][$link_value];
     }
 
