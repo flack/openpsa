@@ -11,9 +11,8 @@ resolve_permalink:
     defaults: { _controller: 'midcom_core_urlmethods::process_permalink' }
 
 cache:
-    path: /midcom-cache-{action}
-    defaults: { _controller: 'midcom_core_urlmethods::process_cache' }
-    requirements: { action: 'invalidate|nocache'}
+    path: /midcom-cache-invalidate
+    defaults: { _controller: 'midcom_core_urlmethods::invalidate_cache' }
 
 logout:
     path: /midcom-logout-{url}

@@ -205,7 +205,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * expired. If not, the response is returned. In all other cases this method simply
      * returns void.
      *
-     * The midcom-cache URL methods are handled before checking for a cache hit.
+     * The midcom-cache-invalidate URL method is handled before checking for a cache hit.
      *
      * Also, any HTTP POST request will automatically circumvent the cache so that
      * any component can process the request. It will set no_cache automatically
@@ -220,8 +220,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private function _check_hit(Request $request)
     {
         foreach (midcom_connection::get_url('argv') as $arg) {
-            if (in_array($arg, ["midcom-cache-invalidate", "midcom-cache-nocache"])) {
-                // Don't cache these.
+            if ($arg == 'midcom-cache-invalidate') {
+                // Don't cache this.
                 debug_add("uncached: $arg");
                 return;
             }

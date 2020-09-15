@@ -86,34 +86,25 @@ class midcom_core_urlmethods
     }
 
     /**
-     * May take one of the following values:
-     *
-     * - "invalidate" will clear the cache of the current site
-     * - "nocache" will bypass the cache for the current request by
-     *   calling midcom::get()->cache->content->no_cache();
-     *
-     * @param string $action
+     * will clear the cache of the current site
      */
-    public function process_cache(Request $request, $action)
+    public function invalidate_cache(Request $request)
     {
-        if ($action == 'invalidate') {
-            if (!in_array($request->getClientIp(), midcom::get()->config->get('indexer_reindex_allowed_ips', []))) {
-                midcom::get()->auth->require_valid_user('basic');
-                midcom::get()->auth->require_admin_user();
-            }
-            $message = [
-                midcom::get()->i18n->get_string('MidCOM', 'midcom'),
-                midcom::get()->i18n->get_string('cache invalidation successful', 'midcom'),
-                'info'
-            ];
-            midcom::get()->cache->content->enable_live_mode();
-            midcom::get()->cache->invalidate_all();
-            midcom::get()->uimessages->add(...$message);
-
-            $url = $request->server->get('HTTP_REFERER') ?: midcom_connection::get_url('self');
-            return new midcom_response_relocate($url);
+        if (!in_array($request->getClientIp(), midcom::get()->config->get('indexer_reindex_allowed_ips', []))) {
+            midcom::get()->auth->require_valid_user('basic');
+            midcom::get()->auth->require_admin_user();
         }
-        midcom::get()->cache->content->no_cache();
+        $message = [
+            midcom::get()->i18n->get_string('MidCOM', 'midcom'),
+            midcom::get()->i18n->get_string('cache invalidation successful', 'midcom'),
+            'info'
+        ];
+        midcom::get()->cache->content->enable_live_mode();
+        midcom::get()->cache->invalidate_all();
+        midcom::get()->uimessages->add(...$message);
+
+        $url = $request->server->get('HTTP_REFERER') ?: midcom_connection::get_url('self');
+        return new midcom_response_relocate($url);
     }
 
     public function process_logout(Request $request, $url) : Response

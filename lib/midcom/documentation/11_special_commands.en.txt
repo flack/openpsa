@@ -33,6 +33,4 @@ Example: http://$host/midcom-exec-midcom/purge_deleted.php
 
 <b>string cache</b>
 
-May take one of the following values: "invalidate" will clear the cache of the
-current site, "nocache" will bypass the cache for the current request by
-calling $this->cache->content->no_cache();
+"invalidate" will clear the cache of the current site 
