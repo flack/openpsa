@@ -97,7 +97,7 @@ class midcom_services_dbclassloader
             'org.openpsa.query' => 'org.openpsa.reports',
             'org.openpsa.task' => 'org.openpsa.projects',
             'org.openpsa.project' => 'org.openpsa.projects',
-            'org.openpsa.hour' => 'org.openpsa.projects'
+            'org.openpsa.hour' => 'org.openpsa.expenses'
         ];
 
         while (!empty($class_parts)) {
