@@ -328,11 +328,8 @@ class midcom_services_indexer_document
      *
      * If a field of the same name is already present, it is overwritten
      * silently.
-     *
-     * @param string $name The field's name.
-     * @param int $timestamp The timestamp to store.
      */
-    public function add_date($name, $timestamp)
+    public function add_date(string $name, int $timestamp)
     {
         // This is always UTF-8 conformant.
         $this->_add_field($name, 'date', gmstrftime('%Y-%m-%dT%H:%M:%SZ', $timestamp), true);
@@ -349,52 +346,28 @@ class midcom_services_indexer_document
      * @param string $name The field's name, "_TS" is appended for the plain-timestamp field.
      * @param int $timestamp The timestamp to store.
      */
-    public function add_date_pair($name, $timestamp)
+    public function add_date_pair(string $name, int $timestamp)
     {
         $this->add_date($name, $timestamp);
         $this->add_unindexed("{$name}_TS", $timestamp);
     }
 
-    /**
-     * Add a keyword field.
-     *
-     * @param string $name The field's name.
-     * @param string $content The field's content.
-     */
-    public function add_keyword($name, $content)
+    public function add_keyword(string $name, string $content)
     {
         $this->_add_field($name, 'keyword', $content);
     }
 
-    /**
-     * Add a unindexed field.
-     *
-     * @param string $name The field's name.
-     * @param string $content The field's content.
-     */
-    public function add_unindexed($name, $content)
+    public function add_unindexed(string $name, string $content)
     {
         $this->_add_field($name, 'unindexed', $content);
     }
 
-    /**
-     * Add a unstored field.
-     *
-     * @param string $name The field's name.
-     * @param string $content The field's content.
-     */
-    public function add_unstored($name, $content)
+    public function add_unstored(string $name, string $content)
     {
         $this->_add_field($name, 'unstored', $this->html2text($content));
     }
 
-    /**
-     * Add a text field.
-     *
-     * @param string $name The field's name.
-     * @param string $content The field's content.
-     */
-    public function add_text($name, $content)
+    public function add_text(string $name, string $content)
     {
         $this->_add_field($name, 'text', $this->html2text($content));
     }
@@ -407,27 +380,17 @@ class midcom_services_indexer_document
      * @param string $name The field's name.
      * @param string $content The field's content, which is <b>assumed to be UTF-8 already</b>
      */
-    public function add_result($name, $content)
+    public function add_result(string $name, $content)
     {
         $this->_add_field($name, 'result', $content, true);
     }
 
     /**
      * Add a person field.
-     *
-     * @param string $name The field's name.
-     * @param midcom_db_person $person The field's content.
      */
-    private function add_person(string $name, $person)
+    private function add_person(string $name, ?midcom_db_person $person)
     {
-        if (!is_object($person)) {
-            if ($person !== null) {
-                debug_print_r("Warning, person is not an object:", $person, MIDCOM_LOG_INFO);
-            }
-            $this->add_text($name, '');
-        } else {
-            $this->add_text($name, $person->guid);
-        }
+        $this->add_text($name, $person->guid ?? '');
     }
 
     /**
@@ -486,13 +449,11 @@ class midcom_services_indexer_document
         $this->title = $this->get_field('title');
 
         $this->source = $this->get_field('__SOURCE');
-        $this->creator = $this->get_field('__CREATOR');
-        if ($this->creator != '') {
-            $this->creator = $this->read_person($this->creator);
+        if ($creator = $this->get_field('__CREATOR')) {
+            $this->creator = $this->read_person($creator);
         }
-        $this->editor = $this->get_field('__EDITOR');
-        if ($this->editor != '') {
-            $this->editor = $this->read_person($this->editor);
+        if ($editor = $this->get_field('__EDITOR')) {
+            $this->editor = $this->read_person($editor);
         }
         $this->author = $this->get_field('author');
         $this->abstract = $this->get_field('abstract');
@@ -501,13 +462,8 @@ class midcom_services_indexer_document
 
     /**
      * Internal helper which actually stores a field.
-     *
-     * @param string $name The field's name.
-     * @param string $type The field's type.
-     * @param string $content The field's content.
-     * @param boolean $is_utf8 Set this to true explicitly, to override charset conversion and assume $content is UTF-8 already.
      */
-    protected function _add_field($name, $type, $content, $is_utf8 = false)
+    protected function _add_field(string $name, string $type, $content, bool $is_utf8 = false)
     {
         $this->_fields[$name] = [
             'name' => $name,
@@ -525,10 +481,8 @@ class midcom_services_indexer_document
      *
      * Don't replace with an empty string but with a space, so that constructs like
      * <li>torben</li><li>nehmer</li> are recognized correctly.
-     *
-     * @param string $text The text to convert to text
      */
-    public function html2text($text) : string
+    public function html2text(string $text) : string
     {
         $search = [
             "'\s*<script[^>]*?>.*?</script>\s*'si", // Strip out javascript
@@ -550,9 +504,8 @@ class midcom_services_indexer_document
      *
      * @see $type
      * @see _set_type()
-     * @param string $document_type The base type to search for.
      */
-    public function is_a($document_type) : bool
+    public function is_a(string $document_type) : bool
     {
         return str_starts_with($this->type, $document_type);
     }
@@ -562,9 +515,8 @@ class midcom_services_indexer_document
      *
      * @see $type
      * @see is_a()
-     * @param string $type The name of this document type
      */
-    protected function _set_type($type)
+    protected function _set_type(string $type)
     {
         if (empty($this->type)) {
             $this->type = $type;
@@ -597,22 +549,13 @@ class midcom_services_indexer_document
 
     /**
      * Tries to resolve created, revised, author, editor and creator for the document from Midgard object
-     *
-     * @param midgard\portable\api\mgdobject $object object to use as source for the info
      */
-    public function read_metadata_from_object($object)
+    public function read_metadata_from_object(midcom_core_dbaobject $object)
     {
-        // Published is set to non-empty value, use it as creation data
-        if (   !empty($object->metadata->published)
-            && !preg_match('/0{1,4}-0{1,2}0{1,2}\s+0{1,2}:0{1,2}:0{1,2}/', $object->metadata->published)) {
-            $this->created = $this->read_unixtime($object->metadata->published);
-        } elseif (isset($object->metadata->created)) {
-            $this->created = $this->read_unixtime($object->metadata->created);
-        }
+        // if published is set to non-empty value, use it as creation data
+        $this->created = $object->metadata->published ?: $object->metadata->created;
         // Revised
-        if (isset($object->metadata->revised)) {
-            $this->edited = $this->read_unixtime($object->metadata->revised);
-        }
+        $this->edited = $object->metadata->revised;
         // Heuristics to determine author
         if (!empty($object->metadata->authors)) {
             $this->author = $this->read_authorname($object->metadata->authors);
@@ -630,30 +573,12 @@ class midcom_services_indexer_document
     }
 
     /**
-     * Heuristics to determine how to convert given timestamp to local unixtime
-     *
-     * @param string $stamp ISO or unix datetime
-     * @return int unixtime
-     */
-    private function read_unixtime($stamp)
-    {
-        if (preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $stamp)) {
-            // ISO Datetime
-            return @strtotime($stamp);
-        }
-        // Unix timestamp
-        return (int)$stamp;
-    }
-
-    /**
      * Get person by given ID, caches results.
-     *
-     * @param string $id GUID or ID to get person for
      */
-    private function read_person($id) : ?midcom_db_person
+    private function read_person(string $guid) : ?midcom_db_person
     {
         try {
-            return midcom_db_person::get_cached($id);
+            return midcom_db_person::get_cached($guid);
         } catch (midcom_error $e) {
             return null;
         }
@@ -661,18 +586,16 @@ class midcom_services_indexer_document
 
     /**
      * Gets person name for given ID (in case it's imploded_wrapped of multiple GUIDs it will use the first)
-     *
-     * @param string $id GUID or ID to get person for
      */
-    private function read_authorname($id) : string
+    private function read_authorname(string $input) : string
     {
         // Check for imploded_wrapped datamanager storage.
-        if (str_contains($id, '|')) {
-            $id_arr = array_filter(explode('|', $id));
+        if (str_contains($input, '|')) {
             // Find first non-empty value in the array and use that
-            $id = (!empty($id_arr)) ? array_shift($id_arr) : false;
+            $id_arr = array_filter(explode('|', $input));
+            $input = $id_arr[0] ?? null;
         }
 
-        return midcom::get()->auth->get_user($id)->name ?? '';
+        return midcom::get()->auth->get_user($input)->name ?? '';
     }
 }

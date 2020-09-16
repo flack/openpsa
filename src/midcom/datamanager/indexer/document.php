@@ -227,33 +227,26 @@ class document extends midcom_services_indexer_document_midcom
      * Be aware, that this will work only for current dates in range of an
      * UNIX timestamp. For all other cases you should use an ISO 8601 representation,
      * which should work as well with Lucene range queries.
-     *
-     * @param FormView $field The field that should be stored
      */
     private function add_as_date_field(FormView $field)
     {
         if (is_array($field->vars['value']) && array_key_exists('date', $field->vars['value'])) {
             $timestamp = 0;
             if (!empty($field->vars['value']['date'])) {
-                $timestamp = $field->vars['value']['date']->format('U');
+                $timestamp = (int) $field->vars['value']['date']->format('U');
             }
-            $this->add_date_pair($field->vars['name'], $timestamp);
         } else {
             $string = (string) $field->vars['value'];
             $timestamp = strtotime($string);
-            if ($timestamp === -1) {
+            if ($timestamp === false) {
                 debug_add("The string representation of the field {$field->vars['name']} could not be parsed into a timestamp; treating as 0.", MIDCOM_LOG_INFO);
                 debug_print_r('String representation was:', $string);
                 $timestamp = 0;
             }
-            $this->add_date_pair($field->vars['name'], $timestamp);
         }
+        $this->add_date_pair($field->vars['name'], $timestamp);
     }
 
-    /**
-     * @param string $name The field name
-     * @return string index method
-     */
     private function resolve_auto_method(string $name) : string
     {
         if (in_array($name, ['abstract', 'title', 'author'])) {
