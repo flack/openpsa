@@ -149,16 +149,13 @@ class midcom_services_auth
 
             $person_class = midcom::get()->config->get('person_class');
             $person = new $person_class($this->user->guid);
-            if (   midcom::get()->config->get('auth_save_prev_login')
-                && $person->get_parameter('midcom', 'last_login')) {
-                $person->set_parameter('midcom', 'prev_login', $person->get_parameter('midcom', 'last_login'));
-            }
-
-            $person->set_parameter('midcom', 'last_login', time());
 
             if (!$person->get_parameter('midcom', 'first_login')) {
                 $person->set_parameter('midcom', 'first_login', time());
+            } elseif (midcom::get()->config->get('auth_save_prev_login')) {
+                $person->set_parameter('midcom', 'prev_login', $person->get_parameter('midcom', 'last_login'));
             }
+            $person->set_parameter('midcom', 'last_login', time());
 
             // Now we check whether there is a success-relocate URL given somewhere.
             if ($request->get('midcom_services_auth_login_success_url')) {
