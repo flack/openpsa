@@ -260,10 +260,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     private function _apply_constraints(midcom_core_query $qb, string $type)
     {
         // Search using only the fields defined in config
-        $fields = explode(',', $this->_config->get($type . '_search_fields'));
-        if (is_array($fields)) {
-            $fields = array_filter($fields);
-        }
+        $fields = array_filter(explode(',', $this->_config->get($type . '_search_fields')));
         if (empty($fields)) {
             throw new midcom_error('Invalid ' . $type . ' search configuration');
         }
