@@ -16,7 +16,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Creates a QB instance for root objects
      */
-    public function _root_objects_qb($deleted)
+    public function _root_objects_qb(bool $deleted)
     {
         $schema_type = $this->mgdschema_class;
         $root_classes = self::get_root_classes();
@@ -58,7 +58,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * @param midgard\portable\api\mgdobject $object The object to get path for
      * @param string $separator the string used to separate path components
      */
-    public static function resolve_path($object, $separator = ' &gt; ') : string
+    public static function resolve_path($object, string $separator = ' &gt; ') : string
     {
         $parts = self::resolve_path_parts($object);
         return implode($separator, array_column($parts, 'label'));
@@ -114,7 +114,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * @param boolean $deleted whether to get (only) deleted or not-deleted objects
      * @return array multidimensional array (keyed by classname) of objects or false on failure
      */
-    public static function get_child_objects($object, $deleted = false)
+    public static function get_child_objects($object, bool $deleted = false)
     {
         if (!self::_check_permissions($deleted)) {
             return false;
@@ -197,7 +197,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Creates a QB instance for _get_child_objects_type
      */
-    public function _child_objects_type_qb($schema_type, $for_object, $deleted)
+    public function _child_objects_type_qb(string $schema_type, $for_object, bool $deleted)
     {
         if (!is_object($for_object)) {
             debug_add('Passed for_object argument is not object, this is fatal', MIDCOM_LOG_ERROR);
@@ -280,7 +280,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @return array of objects
      */
-    public function _get_child_objects_type($schema_type, $for_object, $deleted)
+    public function _get_child_objects_type(string $schema_type, $for_object, bool $deleted)
     {
         $qb = $this->_child_objects_type_qb($schema_type, $for_object, $deleted);
         if (!$qb) {

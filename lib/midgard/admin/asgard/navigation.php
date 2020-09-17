@@ -128,8 +128,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
     /**
      * Renders the given root objects to HTML and calls _list_child_elements()
-     *
-     * @param midcom_helper_reflector_tree $ref Reflector singleton
      */
     private function _list_root_elements(midcom_helper_reflector_tree $ref)
     {
