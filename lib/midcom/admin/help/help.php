@@ -43,9 +43,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      */
     private static function get_documentation_dir(string $component) : string
     {
-        if (!midcom::get()->componentloader->is_installed($component)) {
-            throw new midcom_error("Failed to generate documentation path for component {$component} as it is not installed.");
-        }
         return midcom::get()->componentloader->path_to_snippetpath($component) . '/documentation/';
     }
 
@@ -395,11 +392,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         midcom::get()->auth->require_valid_user();
 
         $data['component'] = $component;
-
-        if (!midcom::get()->componentloader->is_installed($data['component'])) {
-            throw new midcom_error_notfound("Component {$data['component']} is not installed.");
-        }
-
         $data['view_title'] = sprintf($this->_l10n->get('help for %s'), $this->_i18n->get_string($data['component'], $data['component']));
         midcom::get()->head->set_pagetitle($data['view_title']);
 
@@ -430,10 +422,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         $data['help_id'] = $help_id;
         $data['component'] = $component;
-        if (!midcom::get()->componentloader->is_installed($data['component'])) {
-            throw new midcom_error_notfound("Component {$data['component']} is not installed.");
-        }
-
         $data['help_files'] = $this->list_files($data['component']);
 
         if ($data['help_id'] == 'mgdschemas') {
