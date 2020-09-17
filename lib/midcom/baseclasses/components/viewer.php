@@ -255,23 +255,19 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
         }
         $request['handler'] = explode('::', $request['_controller'], 2);
 
-        $classname = $request['handler'][0];
-        if (!class_exists($classname)) {
-            throw new midcom_error("Failed to create a class instance of the type {$classname}, the class is not declared.");
-        }
+        $this->initialize_handler(new $request['handler'][0]);
+        midcom_core_context::get()->set_custom_key('request_data', $this->_request_data);
+    }
 
-        $request['handler'][0] = new $classname();
-        if (!$request['handler'][0] instanceof midcom_baseclasses_components_handler) {
-            throw new midcom_error("Failed to create a class instance of the type {$classname}, it is no subclass of midcom_baseclasses_components_handler.");
-        }
-
+    private function initialize_handler(midcom_baseclasses_components_handler $handler)
+    {
         //For plugins, set the component name explicitly so that L10n and config can be found
         if (!empty($this->active_plugin)) {
-            $request['handler'][0]->_component = $this->active_plugin->_component;
+            $handler->_component = $this->active_plugin->_component;
         }
 
-        $request['handler'][0]->initialize($this, $this->router);
-        midcom_core_context::get()->set_custom_key('request_data', $this->_request_data);
+        $handler->initialize($this, $this->router);
+        $this->_handler['handler'][0] = $handler;
     }
 
     /**
