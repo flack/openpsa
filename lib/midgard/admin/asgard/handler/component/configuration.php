@@ -152,10 +152,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     public function _handler_view(string $handler_id, string $component, array &$data)
     {
         $data['name'] = $component;
-        if (!midcom::get()->componentloader->is_installed($data['name'])) {
-            throw new midcom_error_notfound("Component {$data['name']} was not found.");
-        }
-
         $data['config'] = $this->_load_configs($data['name']);
 
         $data['view_title'] = sprintf($this->_l10n->get('configuration for %s'), $data['name']);
@@ -288,10 +284,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     public function _handler_edit(Request $request, string $handler_id, array &$data, string $component, $folder = null)
     {
         $data['name'] = $component;
-        if (!midcom::get()->componentloader->is_installed($data['name'])) {
-            throw new midcom_error_notfound("Component {$data['name']} was not found.");
-        }
-
         if ($handler_id == 'components_configuration_edit_folder') {
             $data['folder'] = new midcom_db_topic($folder);
             if ($data['folder']->component != $data['name']) {

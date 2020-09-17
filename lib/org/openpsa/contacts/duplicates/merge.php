@@ -44,10 +44,9 @@ class org_openpsa_contacts_duplicates_merge
      * @param object $obj1 Object that data will be merged to
      * @param object $obj2 Object that data will be merged from
      */
-    public function merge($obj1, $obj2, $merge_mode)
+    public function merge($obj1, $obj2, string $merge_mode)
     {
-        if (   $merge_mode !== 'all'
-            && $merge_mode !== 'future') {
+        if (!in_array($merge_mode, ['all', 'future'])) {
             debug_add("invalid mode {$merge_mode}", MIDCOM_LOG_ERROR);
             throw new midcom_error('invalid merge mode');
         }

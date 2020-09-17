@@ -114,11 +114,6 @@ class midcom_helper__dbfactory
     public function convert_midgard_to_midcom(mgdobject $object) : midcom_core_dbaobject
     {
         $classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);
-
-        if (!class_exists($classname)) {
-            throw new midcom_error("Got non-existing DBA class {$classname} for object of type " . get_class($object) . ", cannot convert.");
-        }
-
         return new $classname($object);
     }
 

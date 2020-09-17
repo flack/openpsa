@@ -157,9 +157,6 @@ class midcom_core_urlmethods
     public function process_exec(Request $request, $component, $filename, $argv) : Response
     {
         $componentloader = midcom::get()->componentloader;
-        if (!$componentloader->is_installed($component)) {
-            throw new midcom_error_notfound('The requested component is not installed');
-        }
         $path = $componentloader->path_to_snippetpath($component) . '/exec/' . $filename;
         if (!is_file($path)) {
             throw new midcom_error_notfound("File not found.");
