@@ -26,11 +26,11 @@ class org_openpsa_contacts_duplicates_merge
      *
      * @param string $mode currently valid modes are 'person' and 'group'
      */
-    public function __construct($mode, midcom_helper_configuration $config)
+    public function __construct(string $mode, midcom_helper_configuration $config)
     {
         $this->config = $config;
         $this->_object_mode = $mode;
-        if ($this->_object_mode !== 'person' && $this->_object_mode !== 'group') {
+        if (!in_array($this->_object_mode, ['person', 'group'])) {
             throw new midcom_error('invalid object mode');
         }
     }

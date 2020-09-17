@@ -83,11 +83,8 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     public static function parse($ruleset) : array
     {
-        $rules = @json_decode($ruleset, true);
+        $rules = json_decode($ruleset, true);
 
-        if (!is_array($rules)) {
-            throw new midcom_error('given ruleset could not be parsed');
-        }
         if (empty($rules)) {
             throw new midcom_error('given ruleset is empty');
         }

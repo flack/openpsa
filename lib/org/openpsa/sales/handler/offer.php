@@ -36,10 +36,6 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
     private function load_pdf_builder()
     {
         $client_class = $this->_config->get('sales_pdfbuilder_class');
-        if (!class_exists($client_class)) {
-            throw new midcom_error('Could not find PDF renderer ' . $client_class);
-        }
-
         $this->client = new $client_class($this->offer);
     }
 

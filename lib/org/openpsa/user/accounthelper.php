@@ -128,10 +128,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
                 sprintf($this->_l10n->get("account_creation_success"), $username, $password), 'ok');
         }
 
-        if (!empty($this->errstr)) {
-            throw new midcom_error('Could not create account: ' . $this->errstr);
-        }
-
         return true;
     }
 
