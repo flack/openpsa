@@ -13,12 +13,12 @@
  */
 class midcom_error extends Exception
 {
-    public function __construct($message, $code = MIDCOM_ERRCRIT)
+    public function __construct(string $message, int $code = MIDCOM_ERRCRIT)
     {
         parent::__construct($message, $code);
     }
 
-    public function log($loglevel = MIDCOM_LOG_ERROR)
+    public function log(int $loglevel = MIDCOM_LOG_ERROR)
     {
         debug_add($this->getMessage(), $loglevel);
     }

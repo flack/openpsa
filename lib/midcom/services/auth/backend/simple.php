@@ -33,7 +33,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
     /**
      * Read the configuration
      */
-    public function __construct($auth)
+    public function __construct(midcom_services_auth $auth)
     {
         $this->_cookie_id .= midcom::get()->config->get('auth_backend_simple_cookie_id');
         parent::__construct($auth);
@@ -56,7 +56,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         ];
     }
 
-    public function create_session($clientip, midcom_core_user $user) : bool
+    public function create_session(?string $clientip, midcom_core_user $user) : bool
     {
         if (empty($clientip)) {
             $clientip = $_SERVER['REMOTE_ADDR'];

@@ -79,7 +79,7 @@ class midcom_core_context
      * @param string $url
      * @param midcom_db_topic $topic
      */
-    public static function enter($url = null, midcom_db_topic $topic = null) : self
+    public static function enter(string $url = null, midcom_db_topic $topic = null) : self
     {
         $context = new static($topic);
         array_push(self::$stack, $context);

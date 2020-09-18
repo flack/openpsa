@@ -21,9 +21,8 @@ abstract class midcom_helper_exporter
      * Take an object and return an array of useful fields (removing private properties)
      *
      * @param object $object
-     * @return array
      */
-    public function object2array($object)
+    public function object2array($object) : array
     {
         if (!is_object($object)) {
             debug_add("Missing object needed as parameter.", MIDCOM_LOG_ERROR);
@@ -94,7 +93,6 @@ abstract class midcom_helper_exporter
      * Get the correct classname
      *
      * @param object $object the object
-     * @return string the mgdschema classname
      */
     protected function _get_classname($object) : string
     {

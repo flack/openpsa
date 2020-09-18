@@ -23,7 +23,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
     /**
      * Save a new revision
      */
-    public function update($updatemessage = null)
+    public function update(string $updatemessage = null)
     {
         // Store user identifier and IP address to the update string
         $message = $_SERVER['REMOTE_ADDR'] . '|' . $updatemessage;
@@ -48,13 +48,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         }
     }
 
-    /**
-     * Get the object of a revision
-     *
-     * @param string $revision identifier of revision wanted
-     * @return array array representation of the object
-     */
-    public function get_revision($revision) : array
+    public function get_revision(string $revision) : array
     {
         $filepath = $this->generate_filename();
         try {

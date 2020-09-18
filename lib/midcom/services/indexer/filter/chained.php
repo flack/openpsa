@@ -23,7 +23,6 @@ class midcom_services_indexer_filter_chained extends midcom_services_indexer_fil
 
     public function __construct()
     {
-        parent::__construct(null);
     }
 
     /**

@@ -61,7 +61,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     /**
      * Populate user interface for editing and creating topics
      */
-    public static function list_components($current_selection) : array
+    public static function list_components(string $current_selection) : array
     {
         $list = [];
 
@@ -93,7 +93,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     /**
      * List available style templates
      */
-    public static function list_styles($up = 0, $prefix = '/', $spacer = '') : array
+    public static function list_styles(int $up = 0, string $prefix = '/', string $spacer = '') : array
     {
         static $style_array = [];
 

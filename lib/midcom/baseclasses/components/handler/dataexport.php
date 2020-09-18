@@ -227,7 +227,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
     }
 
-    private function encode_csv($data)
+    private function encode_csv(string $data)
     {
         /* START: Quick'n'Dirty on-the-fly charset conversion */
         if ($this->csv['charset'] !== 'UTF-8') {

@@ -83,7 +83,7 @@ abstract class midcom_services_indexer_client
      * @param midcom_core_querybuilder $qb
      * @param midcom\datamanager\datamanager $dm datamanager (or schemadb in dm2)
      */
-    public function add_query($name, midcom_core_querybuilder $qb, $dm)
+    public function add_query(string $name, midcom_core_querybuilder $qb, $dm)
     {
         $this->_queries[$name] = [$qb, $dm];
     }
@@ -120,7 +120,7 @@ abstract class midcom_services_indexer_client
      * @param midcom\datamanager\datamanager $dm datamanager (or schemadb in dm2)
      * @return midcom_services_indexer_document[]
      */
-    abstract public function process_results($name, array $results, $dm);
+    abstract public function process_results(string $name, array $results, $dm);
 
     /**
      *

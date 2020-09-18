@@ -110,7 +110,7 @@ class midcom_core_account
         $this->_user->password = $password;
     }
 
-    public function set_usertype($type)
+    public function set_usertype(int $type)
     {
         $this->_user->usertype = $type;
     }

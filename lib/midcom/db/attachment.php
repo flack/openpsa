@@ -43,7 +43,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         return $this->parentguid;
     }
 
-    public static function get_parent_guid_uncached_static($guid) : ?string
+    public static function get_parent_guid_uncached_static(string $guid) : ?string
     {
         $mc = new midgard_collector('midgard_attachment', 'guid', $guid);
         $mc->set_key_property('parentguid');
@@ -66,7 +66,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      *     the mode parameter of the PHP fopen call. This defaults to write access.
      * @return resource A file handle to the attachment if successful, false on failure.
      */
-    public function open($mode = 'w')
+    public function open(string $mode = 'w')
     {
         if (!$this->id) {
             debug_add('Cannot open a non-persistent attachment.', MIDCOM_LOG_WARN);
@@ -139,7 +139,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * @param boolean $force_single_extension force file to single extension (defaults to true)
      * @todo add possibility to use the file utility to determine extension if missing.
      */
-    public static function safe_filename($filename, $force_single_extension = true) : string
+    public static function safe_filename(string $filename, bool $force_single_extension = true) : string
     {
         // we could use basename() here, except that it swallows multibyte chars at the
         // beginning of the string if we run in e.g. C locale..

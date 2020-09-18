@@ -442,7 +442,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * @param midgard_query_builder $qb QB instance
      * @param string $schema_type valid mgdschema class name
      */
-    public static function add_schema_sorts_to_qb($qb, $schema_type)
+    public static function add_schema_sorts_to_qb($qb, string $schema_type)
     {
         // Sort by "title" and "name" if available
         $ref = self::get($schema_type);

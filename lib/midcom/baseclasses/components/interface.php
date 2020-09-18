@@ -190,7 +190,7 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * @return boolean|midcom_services_indexer_client Indicating success or client to use
      * @see _on_reindex()
      */
-    public function reindex($topic)
+    public function reindex(midcom_db_topic $topic)
     {
         return $this->_on_reindex($topic, $this->get_config_for_topic($topic), midcom::get()->indexer);
     }
@@ -202,10 +202,8 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * Be aware, that this call does not check if the passed topic is actually handled by
      * this component, as it is theoretically possible for components to drop configuration
      * information on other topics as well.
-     *
-     * @param midcom_db_topic $topic The topic which should be queried
      */
-    public function get_config_for_topic($topic) : midcom_helper_configuration
+    public function get_config_for_topic(midcom_db_topic $topic) : midcom_helper_configuration
     {
         $this->_config->store_from_object($topic, $this->_component);
         return $this->_config;
@@ -221,7 +219,7 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * @param midcom_core_dbaobject $object The object on which the operation occurred. The system will
      *     do is_a checks against any registered class restriction on the watch.
      */
-    public function trigger_watch($operation, midcom_core_dbaobject $object)
+    public function trigger_watch(int $operation, midcom_core_dbaobject $object)
     {
         debug_add("We were notified about a watch for the operation {$operation} on " . get_class($object) . " {$object->guid}");
 

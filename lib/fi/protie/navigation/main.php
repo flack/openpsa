@@ -185,7 +185,7 @@ class fi_protie_navigation
     /**
      * Here we initialize the classes and variables needed through the class.
      */
-    public function __construct($id = null)
+    public function __construct(int $id = null)
     {
         $this->_nap = new midcom_helper_nav();
         $this->get_node_path();
@@ -212,7 +212,7 @@ class fi_protie_navigation
     /**
      * Traverse the child nodes starting from the requested node id
      */
-    private function _list_child_nodes($id)
+    private function _list_child_nodes(int $id)
     {
         $children = $this->_nap->get_nodes($id);
 
@@ -240,7 +240,7 @@ class fi_protie_navigation
     /**
      * Traverse the child elements starting from the requested node id
      */
-    private function _list_child_elements($id)
+    private function _list_child_elements(int $id)
     {
         // If only nodes are to be listed use the appropriate NAP call
         if (!$this->list_leaves) {
@@ -381,7 +381,7 @@ class fi_protie_navigation
      *
      * @param int $id root ul id
      */
-    public function set_root_element_id($id)
+    public function set_root_element_id(int $id)
     {
         $this->root_object_id = $id;
     }

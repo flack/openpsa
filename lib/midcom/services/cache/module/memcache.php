@@ -71,7 +71,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     /**
      * {@inheritDoc}
      */
-    public function invalidate($guid, $object = null)
+    public function invalidate(string $guid, $object = null)
     {
         foreach ($this->_data_groups as $group) {
             if ($group == 'ACL') {
@@ -87,11 +87,9 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      * Looks up a value in the cache and returns it. Not existent
      * keys are caught in this call as well
      *
-     * @param string $data_group The Data Group to look in.
-     * @param string $key The key to look up.
      * @return mixed The cached value on success, false on failure.
      */
-    public function get($data_group, $key)
+    public function get(string $data_group, string $key)
     {
         return $this->backend->fetch("{$data_group}-{$key}");
     }
@@ -99,13 +97,8 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     /**
      * Sets a given key in the cache. If the data group is unknown, a Warning-Level error
      * is logged and putting is denied.
-     *
-     * @param string $data_group The Data Group to look in.
-     * @param string $key The key to look up.
-     * @param mixed $data The data to store.
-     * @param int $timeout how long the data should live in the cache.
      */
-    public function put($data_group, $key, $data, $timeout = 0)
+    public function put(string $data_group, string $key, $data, int $timeout = 0)
     {
         if (!in_array($data_group, $this->_data_groups)) {
             debug_add("Tried to add data to the unknown data group {$data_group}, cannot do that.", MIDCOM_LOG_WARN);
@@ -122,10 +115,9 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      * cache's PARENT data group. If it is not found, false is returned.
      * If the object has no parent, the array value is null
      *
-     * @param string $guid The guid of which a parent is searched.
      * @return array|false The classname => GUID pair or false when nothing is in cache
      */
-    public function lookup_parent_data($guid)
+    public function lookup_parent_data(string $guid)
     {
         return $this->get('PARENT', $guid);
     }
@@ -134,10 +126,9 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      * This is a little helper that saves a parent GUID and class in the memory
      * cache's PARENT data group.
      *
-     * @param string $object_guid The guid of which a parent is saved.
      * @param array $parent_data The guid and classname of the parent which is saved.
      */
-    public function update_parent_data($object_guid, array $parent_data)
+    public function update_parent_data(string $object_guid, array $parent_data)
     {
         $this->put('PARENT', $object_guid, $parent_data);
     }

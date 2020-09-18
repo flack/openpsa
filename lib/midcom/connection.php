@@ -57,10 +57,8 @@ class midcom_connection
 
     /**
      * Set Midgard error code
-     *
-     * @param int $errorcode Midgard error code
      */
-    public static function set_error($errorcode)
+    public static function set_error(int $errorcode)
     {
         return midgard_connection::get_instance()->set_error($errorcode);
     }
@@ -118,7 +116,7 @@ class midcom_connection
         return $password === $hash;
     }
 
-    public static function prepare_password($password)
+    public static function prepare_password(string $password)
     {
         if (midcom::get()->config->get('auth_type') == 'Legacy') {
             return password_hash($password, PASSWORD_DEFAULT);
@@ -201,7 +199,7 @@ class midcom_connection
      *
      * @return mixed The data for the requested key or null if it doesn't exist
      */
-    public static function get_url($key)
+    public static function get_url(string $key)
     {
         static $parsed = false;
         if (!$parsed) {

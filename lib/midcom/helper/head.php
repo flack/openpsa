@@ -95,10 +95,8 @@ class midcom_helper_head
      *
      * This can be retrieved by accessing the component context key
      * MIDCOM_CONTEXT_PAGETITLE.
-     *
-     * @param string $string    The title to set.
      */
-    public function set_pagetitle($string)
+    public function set_pagetitle(string $string)
     {
         midcom_core_context::get()->set_key(MIDCOM_CONTEXT_PAGETITLE, $string);
     }

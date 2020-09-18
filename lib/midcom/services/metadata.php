@@ -39,9 +39,8 @@ class midcom_services_metadata
      *
      * @param int $context_id The context to retrieve the view metadata for, this
      *     defaults to the current context.
-     * @return midcom_helper_metadata
      */
-    public function get_view_metadata($context_id = null)
+    public function get_view_metadata(int $context_id = null) : ?midcom_helper_metadata
     {
         if ($context_id === null) {
             $context_id = midcom_core_context::get()->id;
@@ -96,7 +95,7 @@ class midcom_services_metadata
      * @param midcom_core_dbaobject $object The DBA class instance to get CSS classes for
      * @param string $existing_classes Existing CSS classes to append to
      */
-    public function get_object_classes($object, $existing_classes = null) : string
+    public function get_object_classes($object, string $existing_classes = null) : string
     {
         $css_classes = [];
         if ($existing_classes !== null) {

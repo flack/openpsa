@@ -320,11 +320,8 @@ class midcom_application extends Kernel
      * the regular PHP header() function, but is integrated into the framework. Every
      * Header you sent must go through this function or it might be lost later on;
      * this is especially important with caching.
-     *
-     * @param string $header    The header to send.
-     * @param integer $response_code HTTP response code to send with the header
      */
-    public function header($header, int $response_code = null)
+    public function header(string $header, int $response_code = null)
     {
         $this->cache->content->register_sent_header($header);
         midcom_compat_environment::get()->header($header, true, $response_code);
@@ -336,11 +333,8 @@ class midcom_application extends Kernel
      * Note, that this function automatically makes the page uncacheable, calls
      * midcom_finish and exit, so it will never return. If the headers have already
      * been sent, this will leave you with a partially completed page, so beware.
-     *
-     * @param string $url    The URL to redirect to, will be preprocessed as outlined above.
-     * @param int $response_code HTTP response code to send with the relocation, from 3xx series
      */
-    public function relocate($url, $response_code = 302)
+    public function relocate(string $url, int $response_code = 302)
     {
         $response = new midcom_response_relocate($url, $response_code);
         $response->send();

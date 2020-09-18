@@ -119,7 +119,7 @@ class midcom_baseclasses_components_configuration
      */
     public static function read_array_from_file(string $filename) : array
     {
-        if (!file_exists($filename)) {
+        if (!is_readable($filename)) {
             return [];
         }
 

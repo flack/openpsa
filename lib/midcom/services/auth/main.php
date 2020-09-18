@@ -205,7 +205,7 @@ class midcom_services_auth
      * @param midcom_core_user $user The user against which to check the privilege, defaults to the currently authenticated user.
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
      */
-    public function can_do($privilege, $content_object, $user = null) : bool
+    public function can_do(string $privilege, $content_object, $user = null) : bool
     {
         if (!is_object($content_object)) {
             return false;
@@ -248,12 +248,11 @@ class midcom_services_auth
      * call therefore. can_user_do is only of interest in cases where you do not have
      * any content object available, for example when creating root topics.
      *
-     * @param string $privilege The privilege to check for
      * @param midcom_core_user $user The user against which to check the privilege, defaults to the currently authenticated user,
      *     you may specify 'EVERYONE' here to check what an anonymous user can do.
      * @param string $class Optional parameter to set if the check should take type specific permissions into account. The class must be default constructible.
      */
-    public function can_user_do($privilege, $user = null, $class = null) : bool
+    public function can_user_do(string $privilege, $user = null, $class = null) : bool
     {
         if ($this->is_admin($user)) {
             // Administrators always have access.
@@ -284,7 +283,7 @@ class midcom_services_auth
      *
      * @param string $domain The domain to request sudo for. This is a component name.
      */
-    public function request_sudo($domain = null) : bool
+    public function request_sudo(string $domain = null) : bool
     {
         if (!midcom::get()->config->get('auth_allow_sudo')) {
             debug_add("SUDO is not allowed on this website.", MIDCOM_LOG_ERROR);
@@ -374,11 +373,9 @@ class midcom_services_auth
      * The check is always done against the currently authenticated user. If the
      * check is successful, the function returns silently.
      *
-     * @param string $privilege The privilege to check for
      * @param MidgardObject $content_object A Midgard Content Object
-     * @param string $message The message to show if the privilege has been denied.
      */
-    public function require_do($privilege, $content_object, $message = null)
+    public function require_do(string $privilege, $content_object, string $message = null)
     {
         if (!$this->can_do($privilege, $content_object)) {
             throw $this->access_denied($message, 'privilege %s not granted', $privilege);
@@ -399,11 +396,9 @@ class midcom_services_auth
      * The check is always done against the currently authenticated user. If the
      * check is successful, the function returns silently.
      *
-     * @param string $privilege The privilege to check for
-     * @param string $message The message to show if the privilege has been denied.
      * @param string $class Optional parameter to set if the check should take type specific permissions into account. The class must be default constructible.
      */
-    public function require_user_do($privilege, $message = null, $class = null)
+    public function require_user_do(string $privilege, string $message = null, string $class = null)
     {
         if (!$this->can_user_do($privilege, null, $class)) {
             throw $this->access_denied($message, 'privilege %s not granted', $privilege);
@@ -438,17 +433,15 @@ class midcom_services_auth
      * come from the current user, or from the sudo service.
      *
      * If the check is successful, the function returns silently.
-     *
-     * @param string $message The message to show if the admin level privileges are missing.
      */
-    public function require_admin_user($message = null)
+    public function require_admin_user(string $message = null)
     {
         if (!$this->admin && !$this->_component_sudo) {
             throw $this->access_denied($message, 'admin level privileges required');
         }
     }
 
-    private function access_denied($message, $fallback, $data = null) : midcom_error_forbidden
+    private function access_denied(?string $message, string $fallback, $data = null) : midcom_error_forbidden
     {
         if ($message === null) {
             $message = midcom::get()->i18n->get_string('access denied: ' . $fallback, 'midcom');
@@ -462,12 +455,8 @@ class midcom_services_auth
 
     /**
      * Require either a configured IP address or admin credentials
-     *
-     * @param string $domain Domain for IP sudo
-     * @throws midcom_error In case request_sudo fails
-     * @return boolean True if IP sudo is active, false otherwise
      */
-    public function require_admin_or_ip($domain) : bool
+    public function require_admin_or_ip(string $domain) : bool
     {
         $ips = midcom::get()->config->get('indexer_reindex_allowed_ips');
         if (   $ips
@@ -494,7 +483,7 @@ class midcom_services_auth
      *
      * @param string $method Preferred authentication method: form or basic
      */
-    public function require_valid_user($method = 'form')
+    public function require_valid_user(string $method = 'form')
     {
         if ($method === 'basic') {
             $this->_http_basic_auth();
@@ -526,7 +515,7 @@ class midcom_services_auth
      *     of any midcom_core_user or midcom_core_group object).
      * @return object|null corresponding object or false on failure.
      */
-    public function get_assignee($id)
+    public function get_assignee(string $id)
     {
         $parts = explode(':', $id);
 
@@ -544,10 +533,8 @@ class midcom_services_auth
     /**
      * This is a wrapper for get_user, which allows user retrieval by its name.
      * If the username is unknown, false is returned.
-     *
-     * @param string $name The name of the user to look up.
      */
-    public function get_user_by_name($name) : ?midcom_core_user
+    public function get_user_by_name(string $name) : ?midcom_core_user
     {
         $mc = new midgard_collector('midgard_user', 'login', $name);
         $mc->set_key_property('person');
@@ -570,10 +557,8 @@ class midcom_services_auth
      *
      * In the case that more than one group matches the given name, the first one is returned.
      * Note, that this should not happen as midgard group names should be unique according to the specs.
-     *
-     * @param string $name The name of the group to look up.
      */
-    public function get_midgard_group_by_name($name) : ?midcom_core_group
+    public function get_midgard_group_by_name(string $name) : ?midcom_core_group
     {
         $qb = new midgard_query_builder('midgard_group');
         $qb->add_constraint('name', '=', $name);
@@ -653,7 +638,7 @@ class midcom_services_auth
     /**
      * This call tells the backend to log in.
      */
-    public function login($username, $password, $clientip = null) : bool
+    public function login(string $username, string $password, string $clientip = null) : bool
     {
         if ($user = $this->backend->login($username, $password, $clientip)) {
             $this->set_user($user);
@@ -663,7 +648,7 @@ class midcom_services_auth
         return false;
     }
 
-    public function trusted_login($username) : bool
+    public function trusted_login(string $username) : bool
     {
         if (midcom::get()->config->get('auth_allow_trusted') !== true) {
             debug_add("Trusted logins are prohibited", MIDCOM_LOG_ERROR);

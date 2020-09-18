@@ -13,12 +13,12 @@
  */
 class midcom_error_notfound extends midcom_error
 {
-    public function __construct($message, $code = MIDCOM_ERRNOTFOUND)
+    public function __construct(string $message, int $code = MIDCOM_ERRNOTFOUND)
     {
         parent::__construct($message, $code);
     }
 
-    public function log($loglevel = MIDCOM_LOG_INFO)
+    public function log(int $loglevel = MIDCOM_LOG_INFO)
     {
         parent::log($loglevel);
     }

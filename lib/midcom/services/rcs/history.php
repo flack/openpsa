@@ -69,7 +69,7 @@ class midcom_services_rcs_history
     /**
      * Get the metadata of one revision.
      */
-    public function get($revision) : ?array
+    public function get(string $revision) : ?array
     {
         return $this->data[$revision] ?? null;
     }

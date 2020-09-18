@@ -104,7 +104,7 @@ abstract class midcom_core_query
      * @param string $classname The classname which should be converted.
      * @return string MgdSchema class name
      */
-    protected function _convert_class($classname) : string
+    protected function _convert_class(string $classname) : string
     {
         if (!class_exists($classname)) {
             throw new midcom_error("Cannot create a midcom_core_query instance for the type {$classname}: Class does not exist.");

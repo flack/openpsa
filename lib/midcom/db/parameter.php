@@ -32,7 +32,7 @@ class midcom_db_parameter extends midcom_core_dbaobject
     /**
      * Returns the Parent of the Parameter.
      */
-    public static function get_parent_guid_uncached_static($guid) : ?string
+    public static function get_parent_guid_uncached_static(string $guid) : ?string
     {
         $mc = new midgard_collector('midgard_parameter', 'guid', $guid);
         $mc->set_key_property('parentguid');
@@ -49,7 +49,7 @@ class midcom_db_parameter extends midcom_core_dbaobject
      * @param string $domain The parameter's domain
      * @param string $name The parameter to look for
      */
-    public static function get_by_objectguid($objectguid, $domain, $name)
+    public static function get_by_objectguid(string $objectguid, string $domain, string $name)
     {
         static $parameter_cache = [];
         $cache_key = $objectguid . '::' . $domain . '::' . $name;

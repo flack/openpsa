@@ -147,10 +147,8 @@ class midcom_services_indexer implements EventSubscriberInterface
      * Clear the index completely.
      *
      * This will drop the current index.
-     *
-     * @return boolean Indicating success.
      */
-    public function delete_all($constraint = '') : bool
+    public function delete_all(string $constraint = '') : bool
     {
         if ($this->_disabled) {
             return true;
@@ -181,7 +179,7 @@ class midcom_services_indexer implements EventSubscriberInterface
      * @return midcom_services_indexer_document[] An array of documents matching the query
      * @todo Refactor into multiple methods
      */
-    public function query($query, midcom_services_indexer_filter $filter = null, array $options = []) : array
+    public function query(string $query, midcom_services_indexer_filter $filter = null, array $options = []) : array
     {
         $result = [];
         if ($this->_disabled) {

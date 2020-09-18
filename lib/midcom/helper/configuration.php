@@ -112,7 +112,7 @@ class midcom_helper_configuration
      *
      * @param boolean            $global        Set to true to replace the global configuration.
      */
-    private function _store_from_object($global = false, $merge = false)
+    private function _store_from_object(bool $global = false, bool $merge = false)
     {
         // Cast to DBA type.
         if (!midcom::get()->dbclassloader->is_midcom_db_object($this->_object)) {
@@ -203,7 +203,7 @@ class midcom_helper_configuration
      * @param string $path    The parameter domain to query.
      * @param boolean $merge Should the existing local config be overridden or merged
      */
-    public function store_from_object($object, $path, $merge = false)
+    public function store_from_object($object, string $path, bool $merge = false)
     {
         $this->_object = $object;
         $this->_path = $path;
@@ -233,7 +233,7 @@ class midcom_helper_configuration
      * @return mixed        Its value or false, if the key doesn't exist.
      * @see midcom_helper_configuration::exists()
      */
-    public function get($key)
+    public function get(string $key)
     {
         if ($this->exists($key)) {
             return $this->_merged[$key];
@@ -243,11 +243,8 @@ class midcom_helper_configuration
 
     /**
      * Set a value on the current instance, if the given key exists
-     *
-     * @param string $key The configuration key to set.
-     * @param mixed $value The value to set.
      */
-    public function set($key, $value)
+    public function set(string $key, $value)
     {
         if ($this->exists($key)) {
             $this->_local[$key] = $value;
@@ -257,10 +254,8 @@ class midcom_helper_configuration
 
     /**
      * Retrieve a copy the complete configuration array.
-     *
-     * @return Array    The complete current configuration.
      */
-    public function get_all()
+    public function get_all() : array
     {
         if (   !$this->_object_stored
             && $this->_object) {
@@ -272,10 +267,8 @@ class midcom_helper_configuration
 
     /**
      * Checks for the existence of a configuration key.
-     *
-     * @param string    $key    The configuration key to check for.
      */
-    public function exists($key) : bool
+    public function exists(string $key) : bool
     {
         if (   !$this->_object_stored
             && $this->_object) {

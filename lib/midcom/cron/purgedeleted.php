@@ -13,7 +13,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
 {
     private $_cutoff;
 
-    public function set_cutoff($days)
+    public function set_cutoff(int $days)
     {
         $this->_cutoff = strtotime($days . ' days ago');
     }
@@ -57,7 +57,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         }
     }
 
-    public function process_class($mgdschema) : array
+    public function process_class(string $mgdschema) : array
     {
         $cut_off = $this->get_cutoff();
         $qb = new midgard_query_builder($mgdschema);

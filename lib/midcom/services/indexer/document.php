@@ -270,10 +270,9 @@ class midcom_services_indexer_document
     /**
      * Returns the contents of the field name or false on failure.
      *
-     * @param string $name The name of the field.
      * @return mixed The content of the field or false on failure.
      */
-    public function get_field($name)
+    public function get_field(string $name)
     {
         if (!array_key_exists($name, $this->_fields)) {
             debug_add("Field {$name} not found in the document.", MIDCOM_LOG_INFO);
@@ -289,10 +288,9 @@ class midcom_services_indexer_document
      * This should normally not be used from the outside, it is geared towards the
      * indexer backends, which need the full field information on indexing.
      *
-     * @param string $name The name of the field.
      * @return Array The full content record.
      */
-    public function get_field_record($name)
+    public function get_field_record(string $name)
     {
         if (!array_key_exists($name, $this->_fields)) {
             debug_add("Field {$name} not found in the document.", MIDCOM_LOG_INFO);
@@ -311,10 +309,8 @@ class midcom_services_indexer_document
 
     /**
      * Remove a field from the list. Nonexistent fields are ignored silently.
-     *
-     * @param string $name The name of the field.
      */
-    public function remove_field($name)
+    public function remove_field(string $name)
     {
         unset($this->_fields[$name]);
     }

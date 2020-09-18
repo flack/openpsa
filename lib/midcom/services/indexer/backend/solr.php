@@ -90,7 +90,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     /**
      * Clear the index completely or by constraint.
      */
-    public function delete_all($constraint)
+    public function delete_all(string $constraint)
     {
         $this->factory->delete_all($constraint);
         $this->post(empty($constraint));
@@ -113,7 +113,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     /**
      * {@inheritDoc}
      */
-    public function query($querystring, midcom_services_indexer_filter $filter = null, array $options = []) : array
+    public function query(string $querystring, midcom_services_indexer_filter $filter = null, array $options = []) : array
     {
         // FIXME: adapt the whole indexer system to fetching enable querying for counts and slices
         $query = array_merge($this->config->get('indexer_config_options'), $options);

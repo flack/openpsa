@@ -64,7 +64,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $file;
     }
 
-    private function get_help_title($help_id, string $component) : string
+    private function get_help_title(string $help_id, string $component) : string
     {
         if ($path = self::generate_file_path($help_id, $component)) {
             $file_contents = file($path);
@@ -79,7 +79,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     /**
      * Load the file from the component's documentation directory.
      */
-    private function _load_file($help_id, string $component) : ?string
+    private function _load_file(string $help_id, string $component) : ?string
     {
         // Try loading the file
         $file = self::generate_file_path($help_id, $component);
@@ -97,7 +97,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     /**
      * Load a help file and markdownize it
      */
-    public function get_help_contents($help_id, $component) : ?string
+    public function get_help_contents(string $help_id, string $component) : ?string
     {
         $text = $this->_load_file($help_id, $component);
         if (!$text) {

@@ -224,11 +224,8 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 
     /**
      * stops the application and outputs the info message with corresponding statuscode
-     *
-     * @param string $message
-     * @param int $statuscode
      */
-    protected function _stop($message, $statuscode = MIDCOM_ERRCRIT)
+    protected function _stop(string $message, int $statuscode = MIDCOM_ERRCRIT)
     {
         throw new midcom_error($message, $statuscode);
     }

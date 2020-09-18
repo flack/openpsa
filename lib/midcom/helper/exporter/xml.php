@@ -83,7 +83,7 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
      *
      * @param midcom_core_dbaobject $object
      */
-    public function object2data($object, $prefix = '') : string
+    public function object2data($object, string $prefix = '') : string
     {
         $arr = $this->object2array($object);
         if (!$arr) {

@@ -19,7 +19,7 @@ class midcom_helper_toolbar_help extends midcom_helper_toolbar
      */
     private $component;
 
-    public function __construct($component)
+    public function __construct(string $component)
     {
         $this->component = $component;
         $config = midcom::get()->config;

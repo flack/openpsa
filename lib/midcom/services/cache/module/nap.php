@@ -34,7 +34,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     /**
      * {@inheritDoc}
      */
-    public function invalidate($guid, $object = null)
+    public function invalidate(string $guid, $object = null)
     {
         $napobject = $this->get_guid($guid);
 
@@ -120,10 +120,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * keys are caught in this call as well, so you do not need
      * to call exists first.
      *
-     * @param string $key The key to look up.
      * @return mixed The cached value on success, false on failure.
      */
-    public function get_node($key)
+    public function get_node(string $key)
     {
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($key);
@@ -139,10 +138,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * keys are caught in this call as well, so you do not need
      * to call exists first.
      *
-     * @param string $key The key to look up.
      * @return mixed The cached value on success, false on failure.
      */
-    public function get_leaves($key)
+    public function get_leaves(string $key)
     {
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($key);
@@ -156,10 +154,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     /**
      * Sets a given node key in the cache.
      *
-     * @param string $key The key to look up.
      * @param mixed $data The data to store.
      */
-    public function put_node($key, $data)
+    public function put_node(string $key, $data)
     {
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($key);
@@ -174,10 +171,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     /**
      * Save a given array by GUID in the cache.
      *
-     * @param string $guid The key to store.
      * @param mixed $data The data to store.
      */
-    public function put_guid($guid, $data)
+    public function put_guid(string $guid, $data)
     {
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($guid);
@@ -190,8 +186,6 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
 
     /**
      * Get a given array by GUID from the cache.
-     *
-     * @param string $guid The key to look up.
      */
     public function get_guid(string $guid)
     {
@@ -206,10 +200,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     /**
      * Sets a given leave key in the cache
      *
-     * @param string $key The key to look up.
      * @param mixed $data The data to store.
      */
-    public function put_leaves($key, $data)
+    public function put_leaves(string $key, $data)
     {
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($key);

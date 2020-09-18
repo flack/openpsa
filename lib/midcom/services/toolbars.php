@@ -111,10 +111,7 @@ class midcom_services_toolbars
         return $this->_get_toolbar(MIDCOM_TOOLBAR_HELP);
     }
 
-    /**
-     * @param string $identifier
-     */
-    private function _get_toolbar($identifier) : midcom_helper_toolbar
+    private function _get_toolbar(string $identifier) : midcom_helper_toolbar
     {
         $context = midcom_core_context::get();
 

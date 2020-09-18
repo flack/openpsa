@@ -15,7 +15,7 @@ class midcom_error_forbidden extends midcom_error
 {
     private $method;
 
-    public function __construct($message = null, $code = MIDCOM_ERRFORBIDDEN, $method = 'form')
+    public function __construct(string $message = null, int $code = MIDCOM_ERRFORBIDDEN, string $method = 'form')
     {
         if ($message === null) {
             $message = midcom::get()->i18n->get_string('access denied', 'midcom');
@@ -29,7 +29,7 @@ class midcom_error_forbidden extends midcom_error
         return $this->method;
     }
 
-    public function log($loglevel = MIDCOM_LOG_DEBUG)
+    public function log(int $loglevel = MIDCOM_LOG_DEBUG)
     {
         parent::log($loglevel);
     }

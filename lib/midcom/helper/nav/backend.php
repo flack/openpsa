@@ -286,7 +286,7 @@ class midcom_helper_nav_backend
      *
      * @param string $leaf_id A valid NAP leaf id ($nodeid-$leafid pattern).
      */
-    private function load_leaf($leaf_id) : bool
+    private function load_leaf(string $leaf_id) : bool
     {
         if (!$leaf_id) {
             debug_add("Tried to load a suspicious leaf id, probably a false from get_current_leaf.");
@@ -425,7 +425,7 @@ class midcom_helper_nav_backend
      *
      * @param string $leaf_id    The leaf-id to be retrieved.
      */
-    public function get_leaf($leaf_id) : ?array
+    public function get_leaf(string $leaf_id) : ?array
     {
         if (!$this->load_leaf($leaf_id)) {
             debug_add("This leaf is unknown, aborting.", MIDCOM_LOG_INFO);
@@ -500,7 +500,7 @@ class midcom_helper_nav_backend
      * @param string $leaf_id    The Leaf-ID to search an uplink for.
      * @return mixed             The ID of the Node for which we have a match, or false on failure.
      */
-    function get_leaf_uplink($leaf_id)
+    function get_leaf_uplink(string $leaf_id)
     {
         if (!$this->load_leaf($leaf_id)) {
             debug_add("This leaf is unknown, aborting.", MIDCOM_LOG_ERROR);

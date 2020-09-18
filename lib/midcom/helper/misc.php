@@ -20,7 +20,7 @@ class midcom_helper_misc
      * @param string $characters
      * @throws InvalidArgumentException
      */
-    public static function random_string($length, $characters) : string
+    public static function random_string(int $length, string $characters) : string
     {
         if ($length < 1) {
             throw new InvalidArgumentException('invalid length');
@@ -39,7 +39,7 @@ class midcom_helper_misc
     /**
      * @param string $input
      */
-    public static function urlize($input) : string
+    public static function urlize(string $input) : string
     {
         $slugify = new Slugify;
         return $slugify->slugify($input);
@@ -47,9 +47,6 @@ class midcom_helper_misc
 
     /**
      * Turn midcom config files into PHP arrays
-     *
-     * @param string $data The data to parse
-     * @throws midcom_error
      */
     public static function parse_config($data, string $path) : array
     {
@@ -70,10 +67,9 @@ class midcom_helper_misc
      * Any error (files not found) will return null. If you want to trigger an error,
      * look for midcom_helper_misc::get_snippet_content.
      *
-     * @param string $path  The URL to the snippet.
      * @return string       The content of the snippet/file.
      */
-    public static function get_snippet_content_graceful($path)
+    public static function get_snippet_content_graceful(string $path)
     {
         static $cached_snippets = [];
 
@@ -140,10 +136,8 @@ class midcom_helper_misc
      *
      * Any error (files not found) will raise a MidCOM Error. If you want a more
      * graceful behavior, look for midcom_helper_misc::get_snippet_content_graceful
-     *
-     * @param string $path    The URL to the snippet.
      */
-    public static function get_snippet_content($path) : string
+    public static function get_snippet_content(string $path) : string
     {
         $data = self::get_snippet_content_graceful($path);
         if ($data === null) {
@@ -157,10 +151,9 @@ class midcom_helper_misc
      *
      * Used in midcom.helper.imagepopup, midgard.admin.asgard and org.openpsa.documents.
      *
-     * @param string $mimetype  Document MIME type
      * @return string    Path to the icon
      */
-    public static function get_mime_icon($mimetype) : string
+    public static function get_mime_icon(string $mimetype) : string
     {
         $mime_fspath = MIDCOM_STATIC_ROOT . '/stock-icons/mime';
         $mime_urlpath = MIDCOM_STATIC_URL . '/stock-icons/mime';
@@ -186,7 +179,7 @@ class midcom_helper_misc
      *
      * @param int $size  File size in bytes
      */
-    public static function filesize_to_string($size) : string
+    public static function filesize_to_string(int $size) : string
     {
         if ($size >= 1048576) {
             // More than a meg
@@ -202,10 +195,9 @@ class midcom_helper_misc
     /**
      * Returns the first instance of a given component on the site.
      *
-     * @param string $component The component name
      * @return array NAP array of the first component instance found
      */
-    public static function find_node_by_component($component) : ?array
+    public static function find_node_by_component(string $component) : ?array
     {
         static $cache = [];
 

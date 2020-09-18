@@ -107,7 +107,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param string $property
      * @param boolean $metadata
      */
-    public function property_exists($property, $metadata = false) : bool
+    public function property_exists(string $property, $metadata = false) : bool
     {
         return $this->_mgd_reflector->property_exists($property, $metadata);
     }
@@ -228,10 +228,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
     /**
      * Get the name of the create icon image
-     *
-     * @param string $type  Name of the type
      */
-    public static function get_create_icon($type) : string
+    public static function get_create_icon(string $type) : string
     {
         if (null === self::$_cache['create_icon_map']) {
             self::$_cache['create_icon_map'] = self::_get_icon_map('create_type_magic', 'file-o');

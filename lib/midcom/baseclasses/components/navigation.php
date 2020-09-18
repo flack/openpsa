@@ -100,7 +100,6 @@ class midcom_baseclasses_components_navigation extends midcom_baseclasses_compon
      * everything in case you need to do some custom initializations as well.
      *
      * @param midcom_db_topic $topic The topic to process.
-     * @return boolean Indicating success.
      */
     public function set_object($topic) : bool
     {

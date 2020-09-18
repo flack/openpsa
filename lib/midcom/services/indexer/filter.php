@@ -27,10 +27,8 @@ abstract class midcom_services_indexer_filter
 
     /**
      * Initialize the class.
-     *
-     * @param string $field The name of the field that should be filtered.
      */
-    public function __construct($field)
+    public function __construct(string $field)
     {
         $this->_field = $field;
     }
@@ -48,5 +46,5 @@ abstract class midcom_services_indexer_filter
      *
      * @return string The string to append to the query
      */
-    abstract public function get_query_string();
+    abstract public function get_query_string() : string;
 }

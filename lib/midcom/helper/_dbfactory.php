@@ -38,7 +38,7 @@ class midcom_helper__dbfactory
      *
      * @param string $guid The object GUID.
      */
-    public function get_object_by_guid($guid) : midcom_core_dbaobject
+    public function get_object_by_guid(string $guid) : midcom_core_dbaobject
     {
         try {
             $tmp = midgard_object_class::get_object_by_guid($guid);
@@ -86,12 +86,10 @@ class midcom_helper__dbfactory
      * This function will determine the correct type of midgard_collector that
      * has to be created. It will also call the _on_prepare_new_collector event handler.
      *
-     * @param string $classname The name of the class for which you want to create a collector.
-     * @param string $domain The domain property of the collector instance
      * @param mixed $value Value match for the collector instance
      * @see midcom_core_collector
      */
-    public function new_collector($classname, $domain, $value) : midcom_core_collector
+    public function new_collector(string $classname, ?string $domain, $value) : midcom_core_collector
     {
         return new midcom_core_collector($classname, $domain, $value);
     }
@@ -99,11 +97,8 @@ class midcom_helper__dbfactory
     /**
      * This function will determine the correct type of midgard_query_builder that
      * has to be created. It will also call the _on_prepare_new_query_builder event handler.
-     *
-     * @param string $classname The name of the class for which you want to create a query builder.
-     * @see midcom_core_querybuilder
      */
-    public function new_query_builder($classname) : midcom_core_querybuilder
+    public function new_query_builder(string $classname) : midcom_core_querybuilder
     {
         return new midcom_core_querybuilder($classname);
     }
@@ -124,7 +119,7 @@ class midcom_helper__dbfactory
      * @param mixed $object MgdSchema or MidCOM DBA object
      * @param string $class Class to check the instance against
      */
-    public function is_a($object, $class, bool $allow_string = false) : bool
+    public function is_a($object, string $class, bool $allow_string = false) : bool
     {
         if (is_a($object, $class, $allow_string)) {
             // Direct match

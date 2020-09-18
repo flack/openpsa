@@ -59,7 +59,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     /**
      * Prepare version control toolbar
      */
-    private function rcs_toolbar($current = null, $diff_view = false)
+    private function rcs_toolbar($current = null, bool $diff_view = false)
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.services.rcs/rcs.css");
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $this->url_prefix;
@@ -185,7 +185,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         midcom::get()->head->set_pagetitle($view_title);
     }
 
-    public function translate($string) : string
+    public function translate(string $string) : string
     {
         $translated = $string;
         $component = midcom::get()->dbclassloader->get_component_for_class($this->object->__midcom_class_name__);

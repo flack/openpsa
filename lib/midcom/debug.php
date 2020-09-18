@@ -57,7 +57,7 @@ class midcom_debug
         return $level_map[$level] ?? $level;
     }
 
-    public function log_php_error($loglevel)
+    public function log_php_error(int $loglevel)
     {
         $error = error_get_last();
         if (!empty($error['message'])) {
@@ -67,11 +67,8 @@ class midcom_debug
 
     /**
      * Log a message
-     *
-     * @param string $message    The message to be logged
-     * @param int $loglevel        The log level
      */
-    public function log($message, $loglevel = MIDCOM_LOG_DEBUG)
+    public function log(string $message, int $loglevel = MIDCOM_LOG_DEBUG)
     {
         $this->logger->pushProcessor([$this, 'get_caller']);
         $this->logger->addRecord(self::convert_level($loglevel), trim($message));
@@ -113,12 +110,8 @@ class midcom_debug
 
     /**
      * Dump a variable
-     *
-     * @param string $message    The message to be logged
-     * @param mixed $variable    The variable to be logged
-     * @param int $loglevel        The log level
      */
-    public function print_r($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
+    public function print_r(string $message, $variable, int $loglevel = MIDCOM_LOG_DEBUG)
     {
         $this->logger->pushProcessor(function(array $record) use ($variable) {
             $cloner = new VarCloner();
@@ -131,13 +124,9 @@ class midcom_debug
     }
 
     /**
-     * Dump stack trace, only working when XDebug is present.
-     *
-     * @param string $message    The message to be logged
-     * @param int $loglevel        The log level
-     * @link http://www.xdebug.org/ xdebug.org
+     * Dump stack trace
      */
-    public function print_function_stack($message, $loglevel = MIDCOM_LOG_DEBUG)
+    public function print_function_stack(string $message, int $loglevel = MIDCOM_LOG_DEBUG)
     {
         $this->logger->pushProcessor(function(array $record) {
             // the last four levels are already inside the debugging system, so skip those

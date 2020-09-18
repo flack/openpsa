@@ -59,6 +59,7 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
 
         $query = $this->create_object(org_openpsa_reports_query_dba::class);
         $query->set_parameter('midcom.helper.datamanager2', 'task', self::$project->guid);
+        $query->set_parameter('midcom.helper.datamanager2', 'resource', 'all');
 
         $data = $this->run_handler('org.openpsa.reports', ['projects', $query->guid, 'test.csv']);
         $this->assertEquals('projects_report_guid_file', $data['handler_id']);

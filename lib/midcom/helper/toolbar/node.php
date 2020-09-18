@@ -44,7 +44,7 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
         return parent::is_rendered();
     }
 
-    public function add_item($item, $before = -1)
+    public function add_item(array $item, $before = -1)
     {
         $this->add_commands();
         parent::add_item($item, $before);

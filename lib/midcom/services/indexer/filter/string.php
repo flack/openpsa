@@ -22,22 +22,16 @@ class midcom_services_indexer_filter_string extends midcom_services_indexer_filt
     private $value;
 
     /**
-     * Create a new date filter.
-     *
-     * Only one of the filter bounds may be 0, indicating a no limit in that
-     * direction.
-     *
-     * @param string $field The name of the field that should be filtered.
-     * @param string $value The string we're looking for
+     * Create a new string filter.
      */
-    public function __construct($field, $value)
+    public function __construct(string $field, string $value)
     {
         parent::__construct($field);
 
         $this->value = $value;
     }
 
-    public function get_query_string()
+    public function get_query_string() : string
     {
         return sprintf('%s:%s', $this->get_field(), $this->value);
     }

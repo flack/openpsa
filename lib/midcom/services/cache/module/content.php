@@ -455,10 +455,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * an expiry time on a page has been set, it is not possible, to reset it again,
      * this is for dynamic_load situation, where one component might depend on a
      * set expiry.
-     *
-     * @param int $timestamp The UNIX timestamp from which the cached page should be invalidated.
      */
-    public function expires($timestamp)
+    public function expires(int $timestamp)
     {
         if (   $this->_expires === null
             || $this->_expires > $timestamp) {
@@ -474,10 +472,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * This is usually set automatically by MidCOM for all regular HTML output and
      * for all attachment deliveries. You have to adapt it only for things like RSS
      * output.
-     *
-     * @param string $type    The content type to use.
      */
-    public function content_type($type)
+    public function content_type(string $type)
     {
         midcom::get()->header('Content-Type: ' . $type);
     }
@@ -502,10 +498,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * be resent when the cache page is delivered. midcom_application::header()
      * will automatically call this function, you need to do this only if you use
      * the PHP header function.
-     *
-     * @param string $header The header that was sent.
      */
-    public function register_sent_header($header)
+    public function register_sent_header(string $header)
     {
         if (str_contains($header, ': ')) {
             [$header, $value] = explode(': ', $header, 2);
@@ -519,7 +513,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * {@inheritDoc}
      */
-    public function invalidate($guid, $object = null)
+    public function invalidate(string $guid, $object = null)
     {
         $guidmap = $this->backend->fetch($guid);
         if ($guidmap === false) {
@@ -547,7 +541,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     /**
      * All objects loaded within a request are stored into a list for cache invalidation purposes
      */
-    public function register($guid)
+    public function register(string $guid)
     {
         // Check for uncached operation
         if ($this->_uncached) {
@@ -574,7 +568,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * Writes meta-cache entry from context data using given content id
      * Used to be part of on_request, but needed by serve-attachment method in midcom_core_urlmethods as well
      */
-    public function write_meta_cache($content_id, Request $request, Response $response)
+    public function write_meta_cache(string $content_id, Request $request, Response $response)
     {
         if (   $this->_uncached
             || $this->_no_cache) {
@@ -602,7 +596,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->store_context_guid_map($context, $content_id, $request_id);
     }
 
-    private function store_context_guid_map($context, string $content_id, string $request_id)
+    private function store_context_guid_map(int $context, string $content_id, string $request_id)
     {
         // non-existent context
         if (!array_key_exists($context, $this->context_guids)) {
@@ -643,7 +637,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         return $this->_data_cache->fetch($dl_content_id);
     }
 
-    public function store_dl_content($context, $dl_cache_data, Request $request)
+    public function store_dl_content(int $context, string $dl_cache_data, Request $request)
     {
         if (   $this->_no_cache
             || $this->_uncached) {

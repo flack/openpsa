@@ -89,11 +89,8 @@ class midcom_helper_style
     /**
      * Looks for a style element matching $path (either in a user defined style
      * or the default style snippetdir) and displays/evaluates it.
-     *
-     * @param string $path    The style element to show.
-     * @return boolean            True on success, false otherwise.
      */
-    public function show($path) : bool
+    public function show(string $path) : bool
     {
         if ($this->_context === []) {
             debug_add("Trying to show '{$path}' but there is no context set", MIDCOM_LOG_INFO);
@@ -118,10 +115,8 @@ class midcom_helper_style
 
     /**
      * Load style element content
-     *
-     * @param string $path The element name
      */
-    private function load($path) : ?string
+    private function load(string $path) : ?string
     {
         $element = $path;
         // we have full qualified path to element
@@ -167,11 +162,8 @@ class midcom_helper_style
      * This offers a bit reduced functionality and will only look in the DB root style,
      * the theme directory and midcom's style directory, because it has to work even when
      * midcom is not yet fully initialized
-     *
-     * @param string $path    The style element to show.
-     * @return boolean            True on success, false otherwise.
      */
-    public function show_midcom($path) : bool
+    public function show_midcom(string $path) : bool
     {
         try {
             $root_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);

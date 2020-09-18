@@ -149,7 +149,7 @@ class midcom_core_privilege
      * @param string $user_id The user id in question.
      * @return boolean Indicating whether the privilege record applies for the user, or not.
      */
-    public function does_privilege_apply($user_id) : bool
+    public function does_privilege_apply(string $user_id) : bool
     {
         switch ($this->__privilege['assignee']) {
             case 'EVERYONE':
@@ -208,7 +208,7 @@ class midcom_core_privilege
     /**
      * Checks whether the current assignee is a magic assignee or an object identifier.
      */
-    public function is_magic_assignee($assignee = null) : bool
+    public function is_magic_assignee(string $assignee = null) : bool
     {
         if ($assignee === null) {
             $assignee = $this->assignee;
@@ -483,7 +483,7 @@ class midcom_core_privilege
 
     private function _load($src)
     {
-        if (is_a($src, 'midcom_core_privilege_db')) {
+        if ($src instanceof midcom_core_privilege_db) {
             // Got a privilege object as argument, use that
             $this->__guid = $src->guid;
             $this->__privilege_object = $src;

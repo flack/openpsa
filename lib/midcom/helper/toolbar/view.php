@@ -17,7 +17,7 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
      * @param string $class_style The class style tag for the UL.
      * @param string $id_style The id style tag for the UL.
      */
-    public function __construct($class_style = null, $id_style = null)
+    public function __construct(string $class_style = null, string $id_style = null)
     {
         $config = midcom::get()->config;
         $class_style = $class_style ?: $config->get('toolbars_view_style_class');

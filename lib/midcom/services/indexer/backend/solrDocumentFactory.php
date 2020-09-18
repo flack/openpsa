@@ -26,7 +26,7 @@ class midcom_services_indexer_solrDocumentFactory
      */
     private $xml;
 
-    public function __construct($index_name)
+    public function __construct(string $index_name)
     {
         $this->_index_name = $index_name;
         $this->reset();
@@ -72,10 +72,8 @@ class midcom_services_indexer_solrDocumentFactory
 
     /**
      * Deletes one element
-     *
-     * @param string $id the element id
      */
-    public function delete($id)
+    public function delete(string $id)
     {
         $root = $this->xml->createElement('delete');
         $this->xml->appendChild($root);
@@ -91,7 +89,7 @@ class midcom_services_indexer_solrDocumentFactory
      * Deletes all elements with the id defined
      * (this should be all midgard documents)
      */
-    public function delete_all($constraint)
+    public function delete_all(string $constraint)
     {
         $this->reset();
         $root = $this->xml->createElement('delete');

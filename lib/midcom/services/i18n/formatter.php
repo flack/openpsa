@@ -22,7 +22,7 @@ class midcom_services_i18n_formatter
      */
     private $language;
 
-    public function __construct($language)
+    public function __construct(string $language)
     {
         $this->language = $language;
     }
@@ -54,7 +54,7 @@ class midcom_services_i18n_formatter
         return $formatter->format($value);
     }
 
-    public function customdate($value, $pattern)
+    public function customdate($value, string $pattern)
     {
         $formatter = new IntlDateFormatter($this->get_locale(), IntlDateFormatter::FULL, IntlDateFormatter::FULL);
         $formatter->setPattern($pattern);

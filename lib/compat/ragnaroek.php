@@ -10,7 +10,7 @@
  *
  * @package midcom.compat
  */
-function _midcom_stop_request($message = '')
+function _midcom_stop_request(string $message = '')
 {
     midcom_compat_environment::get()->stop_request($message);
 }
@@ -20,7 +20,7 @@ function _midcom_stop_request($message = '')
  *
  * @see midcom_helper_style::show()
  */
-function midcom_show_style($param)
+function midcom_show_style(string $param)
 {
     midcom::get()->style->show($param);
 }
@@ -35,7 +35,7 @@ class_alias(midcom_baseclasses_components_viewer::class, 'midcom_baseclasses_com
  * @param string $message    The message to be logged
  * @param int $loglevel        The log level
  */
-function debug_add($message, $loglevel = MIDCOM_LOG_DEBUG)
+function debug_add(string $message, int $loglevel = MIDCOM_LOG_DEBUG)
 {
     midcom::get()->debug->log($message, $loglevel);
 }
@@ -47,7 +47,7 @@ function debug_add($message, $loglevel = MIDCOM_LOG_DEBUG)
  * @param mixed $variable    The variable to be logged
  * @param int $loglevel        The log level
  */
-function debug_print_r($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
+function debug_print_r(string $message, $variable, int $loglevel = MIDCOM_LOG_DEBUG)
 {
     midcom::get()->debug->print_r($message, $variable, $loglevel);
 }
@@ -58,7 +58,7 @@ function debug_print_r($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
  * @param string $message    The message to be logged
  * @param int $loglevel        The log level
  */
-function debug_print_function_stack($message, $loglevel = MIDCOM_LOG_DEBUG)
+function debug_print_function_stack(string $message, int $loglevel = MIDCOM_LOG_DEBUG)
 {
     midcom::get()->debug->print_function_stack($message, $loglevel);
 }

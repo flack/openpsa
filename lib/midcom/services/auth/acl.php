@@ -288,7 +288,7 @@ class midcom_services_auth_acl
      *
      * @param array $privileges An associative privilege_name => default_values listing.
      */
-    public function register_default_privileges($privileges)
+    public function register_default_privileges(array $privileges)
     {
         foreach ($privileges as $name => $values) {
             if (!is_array($values)) {
@@ -403,16 +403,13 @@ class midcom_services_auth_acl
     /**
      * Validate whether a given privilege exists by its name. Essentially this checks
      * if a corresponding default privilege has been registered in the system.
-     *
-     * @todo This call should load the component associated to the privilege on demand.
-     * @param string $name The name of the privilege to check.
      */
-    public function privilege_exists($name) : bool
+    public function privilege_exists(string $name) : bool
     {
         return array_key_exists($name, self::$_default_privileges);
     }
 
-    public function can_do_byclass($privilege, $user, $class) : bool
+    public function can_do_byclass(string $privilege, $user, $class) : bool
     {
         if ($this->_internal_sudo) {
             debug_add('INTERNAL SUDO mode is enabled. Generic Read-Only mode set.');
@@ -469,13 +466,10 @@ class midcom_services_auth_acl
      * Works on the currently authenticated user by default, but can take another
      * user as an optional argument.
      *
-     * @param string $privilege The privilege to check for
-     * @param string $object_guid A Midgard GUID pointing to an object
-     * @param string $object_class Class of the object in question
      * @param string $user_id The user against which to check the privilege, defaults to the currently authenticated user.
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
      */
-    public function can_do_byguid($privilege, $object_guid, $object_class, $user_id) : bool
+    public function can_do_byguid(string $privilege, string $object_guid, string $object_class, string $user_id) : bool
     {
         if ($this->_internal_sudo) {
             return $this->_can_do_internal_sudo($privilege);

@@ -47,7 +47,7 @@ class midcom_core_dbaproxy
     /**
      * Constructor
      */
-    public function __construct($identifier, $classname)
+    public function __construct($identifier, string $classname)
     {
         $this->__midcom_class_name__ = $classname;
         $this->__identifier = $identifier;

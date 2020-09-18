@@ -152,7 +152,7 @@ class midcom_helper_reflector_nameresolver
      * @param string $title_property Property of the object to use at title, if null will be reflected (see midcom_helper_reflector::get_object_title())
      * @param string $extension The file extension, when working with attachments
      */
-    public function generate_unique_name($title_property = null, $extension = '') : ?string
+    public function generate_unique_name(string $title_property = null, string $extension = '') : ?string
     {
         // Get current name and sanity-check
         $original_name = $this->get_object_name();

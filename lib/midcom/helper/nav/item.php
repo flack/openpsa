@@ -30,7 +30,7 @@ abstract class midcom_helper_nav_item
 
     abstract protected function prepare_data() : array;
 
-    abstract public function is_readable_by($user_id) : bool;
+    abstract public function is_readable_by(string $user_id) : bool;
 
     protected function get_cache() : midcom_services_cache_module_nap
     {

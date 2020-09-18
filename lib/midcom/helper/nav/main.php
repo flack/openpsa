@@ -163,10 +163,9 @@ class midcom_helper_nav
      * $node_id. The defined keys are described above in leaf data interchange
      * format. You will get false if the leaf ID is invalid.
      *
-     * @param string $leaf_id    The leaf-id to be retrieved.
      * @see midcom_helper_nav_backend::get_leaf()
      */
-    public function get_leaf($leaf_id) : ?array
+    public function get_leaf(string $leaf_id) : ?array
     {
         return $this->_backend->get_leaf($leaf_id);
     }
@@ -230,7 +229,7 @@ class midcom_helper_nav
      * @param int $parent_node_id    The ID of the parent node.
      * @return Array                A list of found elements, or null on failure.
      */
-    public function list_child_elements($parent_node_id) : ?array
+    public function list_child_elements(int $parent_node_id) : ?array
     {
         if ($parent_node = $this->get_node($parent_node_id)) {
             $nav_object = midcom_helper_nav_itemlist::factory($this, $parent_node);
@@ -381,7 +380,7 @@ class midcom_helper_nav
      * @param string    $current_class    The class that should be assigned to the currently active element.
      * @param array     $skip_guids       Array of guids that are skipped.
      */
-    public function get_breadcrumb_line($separator = ' &gt; ', $class = null, $skip_levels = 0, $current_class = null, $skip_guids = []) : string
+    public function get_breadcrumb_line(string $separator = ' &gt; ', string $class = null, int $skip_levels = 0, string $current_class = null, array $skip_guids = []) : string
     {
         $breadcrumb_data = $this->get_breadcrumb_data();
         $result = '';

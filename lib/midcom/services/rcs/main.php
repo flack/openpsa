@@ -53,9 +53,8 @@ class midcom_services_rcs
      * Create or update the RCS file for the object.
      *
      * @param object $object the midgard object to be saved
-     * @param string $message the update message to save (optional)
      */
-    public function update($object, $message = null) : bool
+    public function update($object, string $message = null) : bool
     {
         if (!$this->config->use_rcs()) {
             return true;
@@ -74,7 +73,7 @@ class midcom_services_rcs
     /**
      * Determine if we should display a particular field in the diff or preview states
      */
-    public static function is_field_showable($field) : bool
+    public static function is_field_showable(string $field) : bool
     {
         return ($field !== 'id' && $field !== 'guid');
     }

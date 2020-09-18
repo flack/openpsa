@@ -81,9 +81,14 @@ abstract class midcom_services_rcs_backend
      * @param string $updatemessage the message to be saved with the object.
      * @throws midcom_error on serious errors.
      */
-    abstract public function update($updatemessage = null);
+    abstract public function update(string $updatemessage = null);
 
-    abstract public function get_revision($revision) : array;
+    /**
+     * Get the object of a revision
+     *
+     * @return array array representation of the object
+     */
+    abstract public function get_revision(string $revision) : array;
 
     /**
      * Lists the number of changes that has been done to the object
@@ -103,11 +108,8 @@ abstract class midcom_services_rcs_backend
 
     /**
      * Get a html diff between two versions.
-     *
-     * @param string $oldest_revision id of the oldest revision
-     * @param string $latest_revision id of the latest revision
      */
-    public function get_diff($oldest_revision, $latest_revision) : array
+    public function get_diff(string $oldest_revision, string $latest_revision) : array
     {
         $oldest = $this->get_revision($oldest_revision);
         $newest = $this->get_revision($latest_revision);
@@ -152,11 +154,8 @@ abstract class midcom_services_rcs_backend
 
     /**
      * Restore an object to a certain revision.
-     *
-     * @param string $revision of revision to restore object to.
-     * @return boolean true on success.
      */
-    public function restore_to_revision($revision) : bool
+    public function restore_to_revision(string $revision) : bool
     {
         $new = $this->get_revision($revision);
         $mapper = new midcom_helper_exporter_xml();

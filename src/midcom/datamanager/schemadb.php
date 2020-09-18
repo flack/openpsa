@@ -15,12 +15,12 @@ class schemadb
 {
     private $schemas = [];
 
-    public static function from_path($path) : self
+    public static function from_path(string $path) : self
     {
         return new static(static::load_from_path($path));
     }
 
-    private static function load_from_path($path) : array
+    private static function load_from_path(string $path) : array
     {
         $data = midcom_helper_misc::get_snippet_content($path);
         return midcom_helper_misc::parse_config($data, $path);

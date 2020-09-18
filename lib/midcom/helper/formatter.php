@@ -30,7 +30,7 @@ class midcom_helper_formatter
     /**
      * Register PHP function as string formatter to the Midgard formatting engine.
      */
-    public static function register($name, $function)
+    public static function register(string $name, callable $function)
     {
         self::$_filters["x{$name}"] = $function;
     }

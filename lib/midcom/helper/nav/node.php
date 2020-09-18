@@ -26,7 +26,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
         }
     }
 
-    public function is_readable_by($user_id) : bool
+    public function is_readable_by(string $user_id) : bool
     {
         return (   !$user_id
                 || !$this->guid

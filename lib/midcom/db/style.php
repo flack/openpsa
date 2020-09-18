@@ -66,7 +66,7 @@ class midcom_db_style extends midcom_core_dbaobject
      * @param int $rootstyle    ???
      * @return    int ID of the matching style or 0
      */
-    public static function id_from_path($path, $rootstyle = 0) : int
+    public static function id_from_path(string $path, $rootstyle = 0) : int
     {
         if (str_starts_with($path, 'theme:')) {
             return 0;

@@ -112,11 +112,9 @@ class midcom_services_uimessages
     /**
      * Add a message to be shown to the user.
      *
-     * @param string $title Message title
      * @param string $message Message contents, may contain HTML
-     * @param string $type Type of the message
      */
-    public function add($title, $message, $type = 'info') : bool
+    public function add(string $title, string $message, string $type = 'info') : bool
     {
         // Make sure the given class is allowed
         if (!in_array($type, $this->_allowed_types)) {
@@ -147,10 +145,8 @@ class midcom_services_uimessages
 
     /**
      * Show the message stack via javascript calls or simple html
-     *
-     * @param boolean $show_simple Show simple HTML
      */
-    public function show($show_simple = false)
+    public function show(bool $show_simple = false)
     {
         if (!$this->_message_stack) {
             return;

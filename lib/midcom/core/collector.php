@@ -28,10 +28,8 @@ class midcom_core_collector extends midcom_core_query
 {
     /**
      * The initialization routine executes the _on_prepare_new_collector callback on the class.
-     *
-     * @param string $classname The classname which should be queried.
      */
-    public function __construct(string $classname, string $domain = null, $value = null)
+    public function __construct(string $classname, ?string $domain = null, $value = null)
     {
         $mgdschemaclass = $this->_convert_class($classname);
 

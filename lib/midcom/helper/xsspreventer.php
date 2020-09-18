@@ -15,10 +15,8 @@ class midcom_helper_xsspreventer
 {
     /**
      * Escape value of an XML attribute, also adds quotes around it
-     *
-     * @param string $input Attribute value to escape
      */
-    public static function escape_attribute($input) : string
+    public static function escape_attribute(string $input) : string
     {
         $output = str_replace('"', '&quot;', $input);
         return '"' . $output . '"';
@@ -27,11 +25,8 @@ class midcom_helper_xsspreventer
     /**
      * Escape contents of an XML element
      * (basically prevents early closure of the element)
-     *
-     * @param string $element XML element to close
-     * @param string $input Element content to escape
      */
-    public static function escape_element($element, $input)
+    public static function escape_element(string $element, string $input) : string
     {
         return preg_replace_callback(
             "%(<\s*)+(/\s*)+{$element}%i",

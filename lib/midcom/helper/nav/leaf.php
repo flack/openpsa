@@ -26,7 +26,7 @@ class midcom_helper_nav_leaf extends midcom_helper_nav_item
         $this->leafid = $leafid;
     }
 
-    public function is_readable_by($user_id) : bool
+    public function is_readable_by(string $user_id) : bool
     {
         return (   empty($this->object)
                 || !$this->guid

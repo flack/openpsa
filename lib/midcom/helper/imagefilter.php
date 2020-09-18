@@ -175,11 +175,8 @@ class midcom_helper_imagefilter
      * debug log for details.
      *
      * @todo Use ImageMagick Identify to check for a valid image.
-     *
-     * @param string $filename The file to be edited.
-     * @return boolean true, if the file is valid, false otherwise.
      */
-    public function set_file($filename) : bool
+    public function set_file(string $filename) : bool
     {
         if (!self::imagemagick_available()) {
             debug_add("ImageMagick is not available, can't do any operations", MIDCOM_LOG_ERROR);
@@ -218,7 +215,7 @@ class midcom_helper_imagefilter
      *
      * @param string $chain The filter chain to be processed (filter1();filter2();...)
      */
-    public function process_chain($chain)
+    public function process_chain(string $chain)
     {
         $filters = array_filter(explode(";", $chain));
         array_map([$this, 'process_command'], $filters);
@@ -356,7 +353,7 @@ class midcom_helper_imagefilter
      * @param string $format The format to convert to. This must be a valid conversion targed
      *     recognized by Imagemagick, it defaults to 'jpg'.
      */
-    public function convert($format = 'jpg')
+    public function convert(string $format = 'jpg')
     {
         $tempfile = $this->_get_tempfile();
 

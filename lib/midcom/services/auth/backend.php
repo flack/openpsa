@@ -28,8 +28,6 @@ abstract class midcom_services_auth_backend
 
     /**
      * The constructor should do only basic initialization.
-     *
-     * @param midcom_services_auth $auth Main authentication instance
      */
     public function __construct(midcom_services_auth $auth)
     {
@@ -56,7 +54,7 @@ abstract class midcom_services_auth_backend
      * @param midcom_core_user $user
      * @return boolean Indicating success
      */
-    abstract public function create_session($clientip, midcom_core_user $user) : bool;
+    abstract public function create_session(?string $clientip, midcom_core_user $user) : bool;
 
     /**
      * This should delete the currently active login session,
@@ -122,12 +120,8 @@ abstract class midcom_services_auth_backend
 
     /**
      * Does the actual Midgard authentication.
-     *
-     * @param string $username The name of the user to authenticate.
-     * @param string $password The password of the user to authenticate.
-     * @param boolean $trusted
      */
-    public function authenticate($username, $password, $trusted = false) : ?midcom_core_user
+    public function authenticate(string $username, string $password, bool $trusted = false) : ?midcom_core_user
     {
         if (empty($username)) {
             debug_add("Failed to authenticate: Username is empty.", MIDCOM_LOG_ERROR);
@@ -152,14 +146,8 @@ abstract class midcom_services_auth_backend
     /**
      * Creates a login session using the given credentials. It assumes that
      * no login has concluded earlier
-     *
-     * @param string $username The name of the user to authenticate.
-     * @param string $password The password of the user to authenticate.
-     * @param string $clientip The client IP to which this session is assigned to. This
-     *     defaults to the client IP reported by the web server
-     * @param boolean $trusted Do a trusted login
      */
-    public function login($username, $password, $clientip = null, $trusted = false) : ?midcom_core_user
+    public function login(string $username, string $password, string $clientip = null, bool $trusted = false) : ?midcom_core_user
     {
         $user = $this->authenticate($username, $password, $trusted);
         if (!$user) {

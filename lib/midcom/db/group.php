@@ -51,11 +51,8 @@ class midcom_db_group extends midcom_core_dbaobject
      * Add the given person to this group. The current user must have
      * midgard:create privileges on this object for this to succeed. If the person is
      * already a member of this group, nothing is done.
-     *
-     * @param midcom_db_person $person The person to add.
-     * @return boolean Indicating success.
      */
-    public function add_member($person) : bool
+    public function add_member(midcom_db_person $person) : bool
     {
         $this->require_do('midgard:create');
 
@@ -79,10 +76,8 @@ class midcom_db_group extends midcom_core_dbaobject
 
     /**
      * Check whether the given user is a member of this group.
-     *
-     * @param midcom_db_person $person The person to check.
      */
-    function is_member($person) : bool
+    function is_member(midcom_db_person $person) : bool
     {
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $this->id);

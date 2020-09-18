@@ -34,11 +34,10 @@ class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
      * Only one of the filter bounds may be 0, indicating no limit in that
      * direction.
      *
-     * @param string $field The name of the field that should be filtered.
      * @param int $start Start of filter range (or 0 for no start filter)
      * @param int $end End of filter range (or 0 for no end filter)
      */
-    public function __construct($field, $start, $end)
+    public function __construct(string $field, int $start, int $end)
     {
         parent::__construct($field);
 
@@ -50,7 +49,7 @@ class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
         $this->_end = $end;
     }
 
-    public function get_query_string()
+    public function get_query_string() : string
     {
         $format = "Y-m-d\TH:i:s\Z";
         return sprintf("%s:[%s TO %s]",

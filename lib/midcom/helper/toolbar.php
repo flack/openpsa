@@ -191,11 +191,8 @@ class midcom_helper_toolbar
      *
      * Note that the styles can be changed after construction by updating
      * the id_style and class_style members.
-     *
-     * @param string $class_style The class style tag for the UL.
-     * @param string $id_style The id style tag for the UL.
      */
-    public function __construct($class_style = 'midcom_toolbar', $id_style = null)
+    public function __construct(string $class_style = 'midcom_toolbar', string $id_style = null)
     {
         $this->id_style = $id_style;
         $this->class_style = $class_style;
@@ -268,7 +265,6 @@ class midcom_helper_toolbar
      *
      * Invalid positions will result in a MidCOM Error.
      *
-     * @param array $item The item to add.
      * @param mixed $before The index before which the item should be inserted.
      *     Use -1 for appending at the end, use a string to insert
      *     it before a URL, an integer will insert it before a
@@ -277,7 +273,7 @@ class midcom_helper_toolbar
      * @see midcom_helper_toolbar::_check_index()
      * @see midcom_helper_toolbar::clean_item()
      */
-    public function add_item($item, $before = -1)
+    public function add_item(array $item, $before = -1)
     {
         if ($before != -1) {
             $before = $this->_check_index($before, false);
@@ -314,12 +310,8 @@ class midcom_helper_toolbar
     /**
      * Add an item to another item by either adding the item to the MIDCOM_TOOLBAR_SUBMENU
      * or creating a new subtoolbar and adding the item there.
-     *
-     * @param array $item
-     * @param int $index toolbar item index.
-     * @return boolean false if insert failed.
      */
-    public function add_item_to_index($item, $index) : bool
+    public function add_item_to_index(array $item, int $index) : bool
     {
         $item = $this->clean_item($item);
         if (!array_key_exists($index, $this->items)) {
@@ -339,10 +331,8 @@ class midcom_helper_toolbar
     /**
      * Clean up an item that is added, making sure that the item has all the
      * needed options and indexes.
-     *
-     * @param array $item the item to be cleaned
      */
-    public function clean_item($item) : array
+    public function clean_item(array $item) : array
     {
         static $used_access_keys = [];
 
@@ -520,12 +510,11 @@ class midcom_helper_toolbar
      * Updates an items URL using the same rules as in add_item.
      *
      * @param mixed $index The integer index or URL of the item to update.
-     * @param string $url The new URL to set.
      * @see midcom_helper_toolbar::get_index_from_url()
      * @see midcom_helper_toolbar::_check_index()
      * @see midcom_helper_toolbar::add_item()
      */
-    public function update_item_url($index, $url)
+    public function update_item_url($index, string $url)
     {
         $index = $this->_check_index($index);
         $this->set_url($this->items[$index], $url);
@@ -590,10 +579,8 @@ class midcom_helper_toolbar
 
     /**
      * Generate a label for the item that includes its accesskey
-     *
-     * @param array $item The item to label
      */
-    private function _generate_item_label($item) : string
+    private function _generate_item_label(array $item) : string
     {
         $label = htmlentities($item[MIDCOM_TOOLBAR_LABEL], ENT_COMPAT, "UTF-8");
 
@@ -617,10 +604,8 @@ class midcom_helper_toolbar
 
     /**
      * Render a regular a href... based link target.
-     *
-     * @param array $item The item to render
      */
-    private function _render_link_item($item) : string
+    private function _render_link_item(array $item) : string
     {
         $output = '';
         $attributes = $this->get_item_attributes($item);
@@ -674,10 +659,8 @@ class midcom_helper_toolbar
 
     /**
      * Render a form based link target.
-     *
-     * @param array $item The item to render
      */
-    private function _render_post_item($item) : string
+    private function _render_post_item(array $item) : string
     {
         $output = '';
 
@@ -725,10 +708,8 @@ class midcom_helper_toolbar
      *
      * Note, that if two items point to the same URL, only the first one
      * will be reported.
-     *
-     * @param string $url The url to search in the list.
      */
-    public function get_index_from_url($url) : ?int
+    public function get_index_from_url(string $url) : ?int
     {
         foreach ($this->items as $i => $item) {
             if (   $item[MIDCOM_TOOLBAR_URL] == $url

@@ -117,7 +117,7 @@ class midcom_helper_metadata
      * @param string $key The key to retrieve
      * @return mixed The key's value.
      */
-    public function get($key)
+    public function get(string $key)
     {
         if (!isset($this->_cache[$key])) {
             $this->_cache[$key] = $this->_retrieve_value($key);
@@ -174,11 +174,8 @@ class midcom_helper_metadata
 
     /**
      * Frontend for setting a single metadata option
-     *
-     * @param string $key The key to set.
-     * @param mixed $value The value to set.
      */
-    public function set($key, $value) : bool
+    public function set(string $key, $value) : bool
     {
         // Store the RCS mode
         $rcs_mode = $this->__object->_use_rcs;
@@ -256,7 +253,7 @@ class midcom_helper_metadata
      *
      * @param string $key The key that was updated. Leave empty for a complete update by the Datamanager.
      */
-    private function on_update($key = null)
+    private function on_update(string $key = null)
     {
         if ($key) {
             unset($this->_cache[$key]);

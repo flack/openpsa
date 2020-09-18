@@ -45,7 +45,7 @@ class midcom_services_at_interface extends midcom_baseclasses_components_interfa
      * @param array $args Arguments array for the method
      * @return boolean Indicating success/failure in registering the job
      */
-    public static function register($start, $component, $method, $args) : bool
+    public static function register(int $start, string $component, string $method, array $args) : bool
     {
         $entry = new midcom_services_at_entry_dba();
         $entry->start = $start;

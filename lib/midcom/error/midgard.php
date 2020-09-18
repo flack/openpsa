@@ -38,7 +38,7 @@ class midcom_error_midgard extends midcom_error
         parent::__construct($message, $code);
     }
 
-    public function log($loglevel = MIDCOM_LOG_WARN)
+    public function log(int $loglevel = MIDCOM_LOG_WARN)
     {
         parent::log($loglevel);
     }
