@@ -69,16 +69,9 @@ class midcom_services__sessioning extends Session
     }
 
     /**
-     * Returns a value from the session.
-     *
-     * Returns null if the key
-     * is non-existent. Note, that this is not necessarily a valid non-existence
-     * check, as the sessioning system does allow null values. Use the has function
-     * if unsure.
-     *
-     * @return mixed            The session key's data value, or null on failure.
+     * {@inheritdoc}
      */
-    public function get(string $key, $default = null)
+    public function get($key, $default = null)
     {
         if ($this->has($key)) {
             midcom::get()->cache->content->no_cache();
@@ -87,9 +80,9 @@ class midcom_services__sessioning extends Session
     }
 
     /**
-     * This will store the value to the specified key.
+     * {@inheritdoc}
      */
-    public function set(string $key, $value)
+    public function set($key, $value)
     {
         midcom::get()->cache->content->no_cache();
         parent::set($key, $value);
