@@ -109,9 +109,8 @@ abstract class midcom_helper_nav_item
             }
         }
 
-        if ($ret) {
-            $user_id = midcom::get()->auth->admin ? false : midcom::get()->auth->acl->get_user_id();
-            return $this->is_readable_by($user_id);
+        if ($ret && !midcom::get()->auth->admin) {
+            return $this->is_readable_by(midcom::get()->auth->acl->get_user_id());
         }
 
         return $ret;
