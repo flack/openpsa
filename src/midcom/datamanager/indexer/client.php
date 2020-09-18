@@ -15,7 +15,7 @@ use midcom_services_indexer_document;
  */
 abstract class client extends midcom_services_indexer_client
 {
-    public function process_results($name, array $results, $datamanager)
+    public function process_results(string $name, array $results, $datamanager) : array
     {
         $documents = [];
 
@@ -32,7 +32,7 @@ abstract class client extends midcom_services_indexer_client
         return $documents;
     }
 
-    public function create_document($dm)
+    public function create_document($dm) : midcom_services_indexer_document
     {
         $document = new document($dm);
         $document->read_metadata_from_object($dm->get_storage()->get_value());
