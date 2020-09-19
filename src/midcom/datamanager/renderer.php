@@ -81,7 +81,7 @@ class renderer extends FormRenderer
         return $this->searchAndRenderBlock($view, 'label', $attributes);
     }
 
-    public function humanize(string $string)
+    public function humanize($string)
     {
         $translate_string = strtolower($string);
 
