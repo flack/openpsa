@@ -47,7 +47,7 @@ abstract class container implements node, \ArrayAccess, \Iterator
         return $this->last_operation;
     }
 
-    public function set_last_operation($operation)
+    public function set_last_operation(string $operation)
     {
         $this->last_operation = $operation;
     }

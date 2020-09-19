@@ -12,7 +12,7 @@ class callback
 {
     private $validation;
 
-    public function __construct($validation)
+    public function __construct(array $validation)
     {
         $this->validation = $validation;
     }

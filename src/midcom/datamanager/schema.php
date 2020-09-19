@@ -45,10 +45,7 @@ class schema
         $this->complete_fields();
     }
 
-    /**
-     * @param string $name
-     */
-    public function set_name($name)
+    public function set_name(string $name)
     {
         $this->name = $name;
     }
@@ -58,16 +55,12 @@ class schema
         return $this->name;
     }
 
-    /**
-     * @param string $key
-     * @return mixed
-     */
-    public function get($key)
+    public function get(string $key)
     {
         return $this->config[$key];
     }
 
-    public function set($key, $value)
+    public function set(string $key, $value)
     {
         $this->config[$key] = $value;
         if ($key === 'fields') {
@@ -75,17 +68,15 @@ class schema
         }
     }
 
-    public function has_field($name) : bool
+    public function has_field(string $name) : bool
     {
         return array_key_exists($name, $this->config['fields']);
     }
 
     /**
      * Returns reference to field config (for on the fly modification)
-     *
-     * @param string $name
      */
-    public function & get_field($name) : array
+    public function & get_field(string $name) : array
     {
         if (!$this->has_field($name)) {
             throw new \midcom_error('Field ' . $name . ' is not available in this schema');

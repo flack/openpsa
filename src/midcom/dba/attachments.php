@@ -23,9 +23,6 @@ trait attachments
      * Retrieves an attachment by its name.
      * If multiple attachments match the name (should not happen in reality), the
      * first match will be returned.
-     *
-     * @param string $name The name of the attachment to look up.
-     * @return midcom_db_attachment The attachment found, or false on failure.
      */
     public function get_attachment(string $name) : ?midcom_db_attachment
     {
@@ -44,11 +41,8 @@ trait attachments
      * Delete an attachment by its name.
      * If multiple attachments match the name (should not happen in reality), the
      * first match will be deleted.
-     *
-     * @param string $name The name of the attachment to delete.
-     * @return bool Indicating success.
      */
-    public function delete_attachment($name) : bool
+    public function delete_attachment(string $name) : bool
     {
         $attachment = $this->get_attachment($name);
 

@@ -8,6 +8,7 @@ namespace midcom\datamanager\storage;
 use midcom;
 use midcom_error;
 use midcom_connection;
+use midcom_core_dbaobject;
 use midcom\datamanager\storage\container\dbacontainer;
 use midcom\datamanager\schema;
 use midgard\portable\storage\connection;
@@ -22,7 +23,7 @@ class dbacollection extends delayed
      */
     private $schema;
 
-    public function __construct($object, $config)
+    public function __construct(midcom_core_dbaobject $object, array $config)
     {
         parent::__construct($object, $config);
         $defaults = [
@@ -89,7 +90,7 @@ class dbacollection extends delayed
         $result = [];
         $qb = midcom::get()->dbfactory->new_query_builder($this->config['type_config']['mapping_class_name']);
         $qb->add_constraint($this->config['type_config']['master_fieldname'], '=', $this->get_master_foreign_key());
-        
+
         $identifier = $this->config['type_config']['master_is_id'] ? 'id' : 'guid';
 
         foreach ($qb->execute() as $object) {

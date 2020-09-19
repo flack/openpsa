@@ -281,7 +281,7 @@ class form extends base
         return $string . $this->jsinit($jsinit);
     }
 
-    protected function prepare_widget_attributes($type, FormView $view, array &$data)
+    protected function prepare_widget_attributes(string $type, FormView $view, array &$data)
     {
         $data['attr']['type'] = $type;
         if (isset($data['value'])) {

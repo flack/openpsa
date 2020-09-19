@@ -126,10 +126,7 @@ class loader extends base
         return midcom::get()->componentloader->path_to_snippetpath($component) . '/config/routes.' . $suffix;
     }
 
-    /**
-     * @param string $component
-     */
-    public function get_legacy_routes($component) : array
+    public function get_legacy_routes(string $component) : array
     {
         if (!$this->is_legacy($component)) {
             return [];

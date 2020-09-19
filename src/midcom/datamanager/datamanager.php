@@ -60,7 +60,7 @@ class datamanager
         return midcom::get()->getContainer()->get('form.factory');
     }
 
-    public static function from_schemadb($path) : self
+    public static function from_schemadb(string $path) : self
     {
         return new static(schemadb::from_path($path));
     }
@@ -71,11 +71,7 @@ class datamanager
         return $this;
     }
 
-    /**
-     * @param midcom_core_dbaobject $storage
-     * @param string $schema
-     */
-    public function set_storage(midcom_core_dbaobject $storage = null, $schemaname = null) : self
+    public function set_storage(midcom_core_dbaobject $storage = null, string $schemaname = null) : self
     {
         if (   $schemaname === null
             && !empty($storage->id)) {
@@ -102,7 +98,7 @@ class datamanager
         return $this;
     }
 
-    private function set_schema($name)
+    private function set_schema(?string $name)
     {
         if ($name && !$this->schemadb->has($name)) {
             debug_add("Given schema name {$name} was not found, reverting to default.", MIDCOM_LOG_INFO);
@@ -116,10 +112,7 @@ class datamanager
         $this->schema = $schema;
     }
 
-    /**
-     * @param string $name
-     */
-    public function get_schema($name = null) : schema
+    public function get_schema(string $name = null) : schema
     {
         if ($name) {
             return $this->schemadb->get($name);
@@ -138,7 +131,7 @@ class datamanager
         return $this->storage;
     }
 
-    public function get_renderer($template = null, $skip_empty = false) : renderer
+    public function get_renderer($template = null, bool $skip_empty = false) : renderer
     {
         if ($this->renderer === null) {
             $this->renderer = new renderer(new engine);
@@ -159,19 +152,12 @@ class datamanager
         return $this->renderer;
     }
 
-    /**
-     * @param string $name
-     */
-    public function get_controller($name = null) : controller
+    public function get_controller(string $name = null) : controller
     {
         return new controller($this, $name);
     }
 
-    /**
-     * @param string $name
-     * @param boolean $reset
-     */
-    public function get_form($name = null, $reset = false) : Form
+    public function get_form(string $name = null, bool $reset = false) : Form
     {
         if ($reset) {
             $this->form = null;
@@ -265,7 +251,7 @@ class datamanager
         return $ret;
     }
 
-    public function display_view($skip_empty = false)
+    public function display_view(bool $skip_empty = false)
     {
         $renderer = $this->get_renderer('view', $skip_empty);
         echo $renderer->block($renderer->get_view(), 'form');

@@ -46,11 +46,7 @@ class resolver
         $this->parser = new parser($this->context);
     }
 
-    /**
-     * @param string $component
-     * @param array $request_switch
-     */
-    public static function get_router($component, array $request_switch = []) : Router
+    public static function get_router(string $component, array $request_switch = []) : Router
     {
         $loader = new loader;
         if (!empty($request_switch)) {

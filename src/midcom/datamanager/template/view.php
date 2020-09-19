@@ -6,6 +6,7 @@ use midcom;
 use midcom_helper_formatter;
 use Michelf\MarkdownExtra;
 use Symfony\Component\Form\ChoiceList\View\ChoiceGroupView;
+use midcom\datamanager\renderer;
 
 class view extends base
 {
@@ -25,7 +26,7 @@ class view extends base
      */
     private $specialchars_charset = 'UTF-8';
 
-    public function __construct($renderer, $skip_empty = false)
+    public function __construct(renderer $renderer, bool $skip_empty = false)
     {
         parent::__construct($renderer);
         $this->skip_empty = $skip_empty;

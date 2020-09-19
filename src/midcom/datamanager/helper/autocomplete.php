@@ -216,7 +216,7 @@ class autocomplete
         return strnatcasecmp($a['label'], $b['label']);
     }
 
-    public static function add_head_elements($creation_mode_enabled = false, $sortable = false)
+    public static function add_head_elements(bool $creation_mode_enabled = false, bool $sortable = false)
     {
         $head = midcom::get()->head;
         $head->add_stylesheet(MIDCOM_STATIC_URL . "/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css");
@@ -235,7 +235,7 @@ class autocomplete
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/autocomplete.js');
     }
 
-    public static function get_widget_config($type) : array
+    public static function get_widget_config(string $type) : array
     {
         $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.datamanager/autocomplete.php';
 
@@ -245,7 +245,7 @@ class autocomplete
         return $config;
     }
 
-    public static function create_item_label($object, $result_headers, $titlefield) : string
+    public static function create_item_label($object, array $result_headers, $titlefield) : string
     {
         if (!empty($titlefield)) {
             if ($label = self::build_label($object, (array) $titlefield)) {

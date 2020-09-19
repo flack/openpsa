@@ -113,12 +113,12 @@ abstract class base
         return $this->attributes($attributes);
     }
 
-    public function escape($input) : string
+    public function escape(string $input) : string
     {
         return htmlentities($input, ENT_COMPAT, 'utf-8');
     }
 
-    public function attributes(array $attributes, $autoescape = false) : string
+    public function attributes(array $attributes, bool $autoescape = false) : string
     {
         $rendered = [];
         foreach ($attributes as $name => $value) {
@@ -136,7 +136,7 @@ abstract class base
         return implode(' ', $rendered);
     }
 
-    public function jsinit($code) : string
+    public function jsinit(string $code) : string
     {
         return "<script>$code</script>";
     }

@@ -113,11 +113,8 @@ class provider
      * Adds an initial order to the resultset.
      *
      * This can be overwritten by GET parameters
-     *
-     * @param string $field The column name
-     * @param string $direction The sort direction
      */
-    public function add_order($field, $direction = 'ASC')
+    public function add_order(string $field, string $direction = 'ASC')
     {
         $this->_sort_field = $field;
         $this->_sort_direction = $direction;
@@ -130,7 +127,7 @@ class provider
         $this->_datatype = $grid->get_option('datatype');
     }
 
-    public function get_grid($identifier = null) : grid
+    public function get_grid(string $identifier = null) : grid
     {
         if (null !== $identifier) {
             $this->_grid = new grid($identifier, $this->_datatype);
@@ -191,7 +188,7 @@ class provider
         return $this->_total_rows;
     }
 
-    public function get_column_total($column)
+    public function get_column_total(string $column)
     {
         $ret = 0;
         $rows = $this->get_rows();

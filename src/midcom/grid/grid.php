@@ -123,11 +123,8 @@ class grid
 
     /**
      * Constructor. Add head elements when necessary and the ID column
-     *
-     * @param string $identifier The grid's ID
-     * @param string $datatype The grid's data type
      */
-    public function __construct($identifier, $datatype)
+    public function __construct(string $identifier, string $datatype)
     {
         $this->_identifier = $identifier;
         $this->set_column('id', 'id', 'hidden:true, key:true');
@@ -155,12 +152,8 @@ class grid
 
     /**
      * Set an option
-     *
-     * @param string $key The option's name
-     * @param mixed $value The option's value
-     * @param boolean $autoquote_string Should string values be quoted
      */
-    public function set_option($key, $value, $autoquote_string = true) : self
+    public function set_option(string $key, $value, bool $autoquote_string = true) : self
     {
         $this->_raw_options[$key] = $value;
         if (   $autoquote_string
@@ -177,7 +170,7 @@ class grid
         return $this;
     }
 
-    public function get_option($key)
+    public function get_option(string $key)
     {
         if (empty($this->_raw_options[$key])) {
             return null;
@@ -188,12 +181,9 @@ class grid
     /**
      * Set a column
      *
-     * @param string $name The column's name
-     * @param string $label The column's label
-     * @param string $options The column's options
      * @param array $selectdata Should the column have a separate index, if so, which sort type
      */
-    public function set_select_column($name, $label, $options, array $selectdata) : self
+    public function set_select_column(string $name, string $label, string $options, array $selectdata) : self
     {
         $selectstring = implode(';', array_map(
             function ($key, $value) {
@@ -215,12 +205,9 @@ class grid
     /**
      * Set a column
      *
-     * @param string $name The column's name
-     * @param string $label The column's label
-     * @param string $options The column's options
      * @param string $separate_index Should the column have a separate index, if so, which sort type
      */
-    public function set_column($name, $label, $options = '', $separate_index = false) : self
+    public function set_column(string $name, string $label, string $options = '', $separate_index = false) : self
     {
         if (empty($name)) {
             throw new midcom_error('Invalid column name ' . $name);
@@ -233,7 +220,7 @@ class grid
         return $this;
     }
 
-    public function add_pager($rows_per_page = 30) : self
+    public function add_pager(int $rows_per_page = 30) : self
     {
         $this->set_option('pager', '#p_' . $this->_identifier);
         $this->set_option('rowNum', $rows_per_page);
@@ -242,10 +229,8 @@ class grid
 
     /**
      * Removes a column
-     *
-     * @param string $name The column's name
      */
-    public function remove_column($name)
+    public function remove_column(string $name)
     {
         if (   empty($name)
             || !array_key_exists($name, $this->_columns)) {
@@ -264,7 +249,7 @@ class grid
      * @param mixed $value The value, if setting individual columns
      * @param boolean $formatted Should formatters be applied to footer data
      */
-    public function set_footer_data($data, $value = null, $formatted = true)
+    public function set_footer_data($data, $value = null, bool $formatted = true)
     {
         if (null == $value) {
             $this->_footer_data = $data;
@@ -277,10 +262,8 @@ class grid
 
     /**
      * Add Javascript code that should be run before the widget constructor
-     *
-     * @param string $string
      */
-    public function prepend_js($string)
+    public function prepend_js(string $string)
     {
         $this->_prepend_js .= $string . "\n";
     }
@@ -288,7 +271,7 @@ class grid
     /**
      * Renders the grid as HTML
      */
-    public function render($entries = false)
+    public function render(array $entries = null)
     {
         if (is_array($entries)) {
             if (null !== $this->_provider) {

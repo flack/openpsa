@@ -75,11 +75,9 @@ abstract class dialog
     }
 
     /**
-     * @param string $url
-     * @param array $options
      * @return array button config in midcom_helper_toolbar format
      */
-    public function get_button($url, array $options = []) : array
+    public function get_button(string $url, array $options = []) : array
     {
         static::add_head_elements();
         $button_config = $this->get_button_config();

@@ -47,7 +47,7 @@ class blobdircleanup extends Command
             ->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files and attachments will not be deleted');
     }
 
-    public function check_dir($outerDir)
+    public function check_dir(string $outerDir)
     {
         $outerDir = rtrim($outerDir, "/");
         $dirs = array_diff(scandir($outerDir), [".", ".."]);

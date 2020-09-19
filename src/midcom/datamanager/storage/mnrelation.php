@@ -8,13 +8,14 @@ namespace midcom\datamanager\storage;
 use midcom;
 use midcom_error;
 use midcom_connection;
+use midcom_core_dbaobject;
 
 /**
  * Experimental storage class
  */
 class mnrelation extends delayed
 {
-    public function __construct($object, $config)
+    public function __construct(midcom_core_dbaobject $object, array $config)
     {
         parent::__construct($object, $config);
         $defaults = [
@@ -89,7 +90,7 @@ class mnrelation extends delayed
         return key($this->load_objects());
     }
 
-    private function create_relation($member_key, int $score)
+    private function create_relation(string $member_key, int $score)
     {
         $member = new $this->config['type_config']['mapping_class_name']();
         $member->{$this->config['type_config']['master_fieldname']} = $this->get_master_foreign_key();

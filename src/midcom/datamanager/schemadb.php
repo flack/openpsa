@@ -107,7 +107,7 @@ class schemadb
         }
     }
 
-    public function add($name, schema $schema)
+    public function add(string $name, schema $schema)
     {
         $this->schemas[$name] = $schema;
         $schema->set_name($name);
@@ -129,15 +129,12 @@ class schemadb
         return reset($this->schemas);
     }
 
-    public function has($name) : bool
+    public function has(string $name) : bool
     {
         return array_key_exists($name, $this->schemas);
     }
 
-    /**
-     * @param string $name
-     */
-    public function get($name) : schema
+    public function get(string $name) : schema
     {
         if (!array_key_exists($name, $this->schemas)) {
             throw new midcom_error('Schema ' . $name . ' not found in schemadb');
