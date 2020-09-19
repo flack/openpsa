@@ -154,9 +154,9 @@ implements client
 
     private function _load_rules(Request $request) : array
     {
-        if (!$request->get('midcom_helper_datamanager2_dummy_field_rules')) {
-            return $this->_campaign->rules;
+        if ($rules = $request->get('midcom_helper_datamanager2_dummy_field_rules')) {
+            return org_openpsa_directmarketing_campaign_ruleresolver::parse($rules);
         }
-        return org_openpsa_directmarketing_campaign_ruleresolver::parse($request->get('midcom_helper_datamanager2_dummy_field_rules'));
+        return $this->_campaign->rules;
     }
 }
