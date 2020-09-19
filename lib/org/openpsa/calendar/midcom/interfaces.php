@@ -103,7 +103,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Returns button config for opening the new event popup
      */
-    public static function get_create_button($node, $url) : array
+    public static function get_create_button($node, string $url) : array
     {
         if (empty($node[MIDCOM_NAV_FULLURL])) {
             throw new midcom_error('given node is not valid');
@@ -119,7 +119,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Returns attribute string for opening the event popup
      */
-    public static function get_viewer_attributes($guid, $node) : string
+    public static function get_viewer_attributes(string $guid, $node) : string
     {
         if (empty($node[MIDCOM_NAV_FULLURL])) {
             throw new midcom_error('given node is not valid');

@@ -20,7 +20,7 @@ trait org_openpsa_sales_handler
      * @param integer $notify The notify date
      * @param org_openpsa_sales_salesproject_deliverable_dba $deliverable The current deliverable
      */
-    public function process_notify_date($notify, org_openpsa_sales_salesproject_deliverable_dba $deliverable)
+    public function process_notify_date(int $notify, org_openpsa_sales_salesproject_deliverable_dba $deliverable)
     {
         //check if there is already an at_entry
         $mc = new org_openpsa_relatedto_collector($deliverable->guid, midcom_services_at_entry_dba::class);

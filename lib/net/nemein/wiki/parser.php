@@ -33,7 +33,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         return MarkdownExtra::defaultTransform($this->get_markdown($this->_page->content));
     }
 
-    public function get_markdown($input) : string
+    public function get_markdown(string $input) : string
     {
         return preg_replace_callback($this->_config->get('wikilink_regexp'), [$this, 'replace_wikiwords'], $input);
     }

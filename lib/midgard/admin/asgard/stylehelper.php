@@ -121,10 +121,9 @@ class midgard_admin_asgard_stylehelper
     /**
      * Get list of topics using a particular style
      *
-     * @param string $style Style path
      * @return midcom_db_topic[] List of folders
      */
-    private function _get_nodes_using_style($style) : array
+    private function _get_nodes_using_style(string $style) : array
     {
         $style_nodes = [];
         // Get topics directly using the style
@@ -143,7 +142,7 @@ class midgard_admin_asgard_stylehelper
         return $style_nodes;
     }
 
-    private function _get_nodes_inheriting_style($node) : array
+    private function _get_nodes_inheriting_style(midcom_db_topic $node) : array
     {
         $nodes = [];
         $qb = midcom_db_topic::new_query_builder();

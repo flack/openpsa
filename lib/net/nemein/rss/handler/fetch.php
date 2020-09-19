@@ -53,7 +53,7 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
     /**
      * Update the context so that we get a complete breadcrumb line towards the current location.
      */
-    private function _update_breadcrumb_line($guid)
+    private function _update_breadcrumb_line(?string $guid)
     {
         $this->add_breadcrumb($this->router->generate('feeds_list'), $this->_l10n->get('manage feeds'));
 

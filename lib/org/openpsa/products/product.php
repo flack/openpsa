@@ -76,7 +76,7 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
         return true;
     }
 
-    public function validate_code($code) : bool
+    public function validate_code(string $code) : bool
     {
         if ($code == '') {
             return true;

@@ -13,7 +13,7 @@
  */
 trait org_openpsa_invoices_handler
 {
-    public function get_vat_options($percentages) : array
+    public function get_vat_options(string $percentages) : array
     {
         $values = [];
         $vat_array = explode(',', $percentages);
@@ -62,7 +62,7 @@ trait org_openpsa_invoices_handler
         }
     }
 
-    public function prepare_toolbar($show_backlink = true)
+    public function prepare_toolbar(bool $show_backlink = true)
     {
         if ($show_backlink) {
             $this->_view_toolbar->add_item([

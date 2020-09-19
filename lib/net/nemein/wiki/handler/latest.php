@@ -50,12 +50,12 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
                     continue;
                 }
                 $history['object'] = $page;
-                $this->_add_history_entry($version, $history);
+                $this->_add_history_entry($history);
             }
         }
     }
 
-    private function _add_history_entry($version, array $entry)
+    private function _add_history_entry(array $entry)
     {
         $history_date = date('Y-m-d', $entry['date']);
 

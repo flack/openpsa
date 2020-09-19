@@ -113,7 +113,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     private $_backend;
 
-    public function __construct($backend = 'try_default', $backend_params = [])
+    public function __construct(string $backend = 'try_default', array $backend_params = [])
     {
         parent::__construct();
 

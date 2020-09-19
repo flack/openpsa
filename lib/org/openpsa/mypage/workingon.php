@@ -86,7 +86,7 @@ class org_openpsa_mypage_workingon
     /**
      * Set a task the user works on. If user was previously working on something else hours will be reported automatically.
      */
-    public function set($task_guid = '') : bool
+    public function set(string $task_guid = '') : bool
     {
         $description = trim($_POST['description']);
         midcom::get()->auth->request_sudo('org.openpsa.mypage');

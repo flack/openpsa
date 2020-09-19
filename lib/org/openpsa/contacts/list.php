@@ -49,7 +49,7 @@ class org_openpsa_contacts_list_dba extends midcom_core_dbaobject
         return true;
     }
 
-    public function add_member($guid)
+    public function add_member(string $guid)
     {
         if ($this->is_member($guid)) {
             debug_add('Person ' . $guid . ' is already on the user\'s contact list, skipping');
@@ -65,7 +65,7 @@ class org_openpsa_contacts_list_dba extends midcom_core_dbaobject
         }
     }
 
-    public function remove_member($guid)
+    public function remove_member(string $guid)
     {
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $this->id);
@@ -77,7 +77,7 @@ class org_openpsa_contacts_list_dba extends midcom_core_dbaobject
         }
     }
 
-    public function is_member($guid) : bool
+    public function is_member(string $guid) : bool
     {
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $this->id);

@@ -13,7 +13,7 @@
  */
 class org_openpsa_helpers
 {
-    public static function render_fileinfo($object, $field) : string
+    public static function render_fileinfo(midcom_core_dbaobject $object, string $field) : string
     {
         $output = '';
         $attachments = self::get_dm2_attachments($object, $field);
@@ -41,11 +41,9 @@ class org_openpsa_helpers
     }
 
     /**
-     * @param midcom_core_dbaobject $object The object we're working on
-     * @param string $field The schema field name
      * @return midcom_db_attachment[] List of attachments, indexed by identifier
      */
-    public static function get_dm2_attachments($object, $field) : array
+    public static function get_dm2_attachments(midcom_core_dbaobject $object, string $field) : array
     {
         $attachments = [];
         $identifiers = explode(',', $object->get_parameter('midcom.helper.datamanager2.type.blobs', 'guids_' . $field));

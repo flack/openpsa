@@ -57,10 +57,8 @@ implements midcom_services_permalinks_resolver
 
     /**
      * Check whether given wikiword is free in given node
-     *
-     * Returns true if word is free, false if reserved
      */
-    public static function node_wikiword_is_free($node, $wikiword) : bool
+    public static function node_wikiword_is_free(array $node, string $wikiword) : bool
     {
         if (empty($node)) {
             //Invalid node

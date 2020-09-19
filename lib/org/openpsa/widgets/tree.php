@@ -65,10 +65,9 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
     /**
      * Constructor, adds head elements and initializes some variables
      *
-     * @param string $classname The object class we're using
      * @param string $parent_field Where to look for children
      */
-    public function __construct($classname, $parent_field)
+    public function __construct(string $classname, string $parent_field)
     {
         parent::__construct();
         $this->_object_class = $classname;

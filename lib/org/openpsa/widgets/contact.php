@@ -201,7 +201,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         return $name;
     }
 
-    public function get_image($type, $fallback) : string
+    public function get_image(string $type, string $fallback) : string
     {
         $attachments = org_openpsa_helpers::get_dm2_attachments($this->person, 'photo');
         if (!empty($attachments[$type])) {
@@ -355,7 +355,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     /**
      * Renderer for organization address cards
      */
-    public static function show_address_card($customer, $cards)
+    public static function show_address_card($customer, array $cards)
     {
         $cards_to_show = [];
         $multiple_addresses = false;

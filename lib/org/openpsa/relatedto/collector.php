@@ -97,12 +97,8 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
     /**
      * Save object QB constraints for later use
-     *
-     * @param string $field The DB field
-     * @param string $operator The constraint operator
-     * @param mixed $value The constraint value
      */
-    public function add_object_constraint($field, $operator, $value)
+    public function add_object_constraint(string $field, string $operator, $value)
     {
         $this->_object_constraints[] = [
             'field' => $field,
@@ -113,11 +109,8 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
     /**
      * Save object QB orders for later use
-     *
-     * @param string $field The DB field
-     * @param string $direction The direction (ASC, DESC)
      */
-    public function add_object_order($field, $direction)
+    public function add_object_order(string $field, string $direction)
     {
         $this->_object_orders[] = [
             'field' => $field,
@@ -167,10 +160,9 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     }
 
     /**
-     * @param string $key The column the results should be grouped by
      * @return midcom_core_dbaobject[] DBA objects grouped by the specified key
      */
-    public function get_related_objects_grouped_by($key) : array
+    public function get_related_objects_grouped_by(string $key) : array
     {
         $entries = [];
         $guids = [];

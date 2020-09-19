@@ -126,7 +126,7 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
         echo "</li>\n";
     }
 
-    protected function _is_collapsed($type, $total) : bool
+    protected function _is_collapsed(string $type, int $total) : bool
     {
         if ($this->inputs) {
             return false;

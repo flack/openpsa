@@ -63,7 +63,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * Update the breadcrumb line
      *
      * @param string $handler_id
-     * @param string $guid The object's GUID
      */
     private function _update_breadcrumb($handler_id, string $guid)
     {

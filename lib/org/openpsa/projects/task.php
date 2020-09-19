@@ -178,15 +178,9 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     /**
      * Adds new contacts or resources
-     *
-     * @param string $property Where should they be added
-     * @param array $ids The IDs of the contacts to add
      */
-    public function add_members($property, $ids)
+    public function add_members(string $property, array $ids)
     {
-        if (!is_array($ids) || empty($ids)) {
-            return;
-        }
         if ($property === 'contacts') {
             $type = org_openpsa_projects_task_resource_dba::CONTACT;
         } elseif ($property === 'resources') {
@@ -262,7 +256,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     /**
      * Update hour report caches
      */
-    public function update_cache($update = true) : bool
+    public function update_cache(bool $update = true) : bool
     {
         if (!$this->id) {
             return false;

@@ -29,7 +29,7 @@ abstract class org_openpsa_mail_backend
     /**
      * Prepare the mail backend
      */
-    public static function get($implementation, array $params) : self
+    public static function get(string $implementation, array $params) : self
     {
         if (defined('OPENPSA2_UNITTEST_RUN')) {
             return self::_load_backend('unittest', $params);

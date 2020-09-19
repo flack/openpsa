@@ -26,7 +26,7 @@ class org_openpsa_calendar_vcal
     /**
      * @param string $method vCalendar method (defaults to "publish")
      */
-    public function __construct($method = "PUBLISH")
+    public function __construct(string $method = "PUBLISH")
     {
         $method = strtoupper($method);
 

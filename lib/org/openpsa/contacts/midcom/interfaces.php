@@ -38,7 +38,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Locates the root group
      */
-    public static function find_root_group($name = '__org_openpsa_contacts') : midcom_db_group
+    public static function find_root_group(string $name = '__org_openpsa_contacts') : midcom_db_group
     {
         static $root_groups = [];
 
@@ -205,7 +205,7 @@ implements midcom_services_permalinks_resolver
         return true;
     }
 
-    private function _update_from_hcard($object, $hcard)
+    private function _update_from_hcard($object, array $hcard)
     {
         foreach ($hcard as $key => $val) {
             switch ($key) {

@@ -59,10 +59,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
     /**
      * Actually fetch a feed
-     *
-     * @param string $url The URL to fetch
      */
-    public static function raw_fetch($url) : SimplePie
+    public static function raw_fetch(string $url) : SimplePie
     {
         $parser = self::get_parser();
         $parser->set_feed_url($url);

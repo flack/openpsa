@@ -26,7 +26,7 @@ class midgard_admin_user_plugin extends midcom_baseclasses_components_plugin
      *
      * @param int $length
      */
-    public static function generate_password($length = 8, $no_similars = true) : string
+    public static function generate_password(int $length = 8, bool $no_similars = true) : string
     {
         if ($no_similars) {
             $options = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';

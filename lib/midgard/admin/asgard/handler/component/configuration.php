@@ -217,7 +217,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
      *
      * @throws midcom_error
      */
-    public function check_config($values)
+    public function check_config(array $values)
     {
         $current = $this->_request_data['config']->get_all();
         $result = [];

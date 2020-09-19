@@ -55,7 +55,7 @@ class midgard_admin_asgard_schemadb
      */
     public $add_copy_fields = false;
 
-    public function __construct($object, $config, $type = null)
+    public function __construct($object, midcom_helper_configuration $config, ?string $type = null)
     {
         if ($type != null) {
             $this->_object = new $type();

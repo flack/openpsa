@@ -48,13 +48,9 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     /**
      * can be called by various handlers
      *
-     * @param string $person_guid
-     * @param string $username
-     * @param string $usermail
      * @param string $password password: leave blank for auto generated
-     * @param boolean $send_welcome_mail
      */
-    public function create_account($person_guid, $username, $usermail, $password = "", $send_welcome_mail = false) : bool
+    public function create_account(string $person_guid, string $username, string $usermail, string $password = "", bool $send_welcome_mail = false) : bool
     {
         $this->errstr = ""; // start fresh
 
@@ -151,10 +147,9 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     /**
      * Sets username and password for person
      *
-     * @param string $username Contains username
      * @param string $new_password Contains the new password to set
      */
-    public function set_account($username, $new_password) : bool
+    public function set_account(string $username, $new_password) : bool
     {
         $account = $this->get_account();
         if (!empty($new_password)) {
@@ -190,10 +185,8 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
     /**
      * Returns an auto generated password of variable length
-     *
-     * @param int $length The number of chars the password will contain
      */
-    public static function generate_password($length = 0) : string
+    public static function generate_password(int $length = 0) : string
     {
         // Safety
         if ($length == 0) {
@@ -212,10 +205,8 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
     /**
      * Returns an auto generated password which will pass the persons check_password_strength test
-     *
-     * @param int $length The number of chars the password will contain
      */
-    public function generate_safe_password($length = 0) : string
+    public function generate_safe_password(int $length = 0) : string
     {
         do {
             $password = self::generate_password($length);
@@ -226,10 +217,9 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     /**
      * Function to check if passed password was already used
      *
-     * @param string $password Password to check
      * @return bool returns true if password wasn't used already
      */
-    public function check_password_reuse($password, $show_ui_message = false) : bool
+    public function check_password_reuse(string $password, bool $show_ui_message = false) : bool
     {
         // check current password
         if (midcom_connection::verify_password($password, $this->get_account()->get_password())) {
@@ -297,10 +287,8 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
     /**
      * Function to check strength of passed password
-     *
-     * @param string $password Contains password to check
      */
-    public function check_password_strength($password, $show_ui_message = false) : bool
+    public function check_password_strength(string $password, bool $show_ui_message = false) : bool
     {
         $password_length = mb_strlen($password);
 
@@ -449,7 +437,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         return !empty($this->person->get_parameter("org_openpsa_user_blocked_account", "account_password"));
     }
 
-    public static function get_person_by_formdata($data)
+    public static function get_person_by_formdata(array $data)
     {
         if (   empty($data['username'])
             || empty($data['password'])) {
@@ -474,7 +462,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * @param string $component the component we take the config values from
      * @return boolean True if further login attempts are allowed, false otherwise
      */
-    public function check_login_attempts($component = null) : bool
+    public function check_login_attempts(string $component = null) : bool
     {
         $stat = true;
         $component = $component ?: "org.openpsa.user";

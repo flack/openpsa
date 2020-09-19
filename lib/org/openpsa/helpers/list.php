@@ -38,7 +38,7 @@ class org_openpsa_helpers_list
     /**
      * List virtual groups of user
      */
-    public static function workgroups($add_me = 'last', $show_members = false) : array
+    public static function workgroups(string $add_me = 'last', bool $show_members = false) : array
     {
         if (!midcom::get()->auth->user) {
             return [];

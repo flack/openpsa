@@ -56,10 +56,8 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
 
     /**
      * Get the item according to the given rule
-     *
-     * @param mixed $rule
      */
-    private function _get_item($rule) : net_nemein_redirector_tinyurl_dba
+    private function _get_item(string $rule) : net_nemein_redirector_tinyurl_dba
     {
         $qb = net_nemein_redirector_tinyurl_dba::new_query_builder();
         $qb->add_constraint('node', '=', $this->_topic->guid);

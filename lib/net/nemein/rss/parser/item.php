@@ -98,7 +98,7 @@ class net_nemein_rss_parser_item extends SimplePie_Item
         return $this->_local_guid;
     }
 
-    public function set_local_guid($guid)
+    public function set_local_guid(string $guid)
     {
         $this->_local_guid = $guid;
     }

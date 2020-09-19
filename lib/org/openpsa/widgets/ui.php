@@ -13,10 +13,10 @@
  */
 class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
 {
-    public static function get_config_value($value)
+    public static function get_config_value(string $key)
     {
         $config = midcom_baseclasses_components_configuration::get('org.openpsa.widgets', 'config');
-        return $config->get($value);
+        return $config->get($key);
     }
 
     public static function get_search_providers() : array

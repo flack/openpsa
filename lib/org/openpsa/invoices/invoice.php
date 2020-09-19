@@ -172,10 +172,8 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
     /**
      * Get the default value for invoice
-     *
-     * @param string $attribute
      */
-    public function get_default($attribute)
+    public function get_default(string $attribute)
     {
         $billing_data = $this->get_billing_data();
         return $billing_data->{$attribute};

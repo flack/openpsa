@@ -38,10 +38,8 @@ class org_openpsa_directmarketing_campaign_messagereceipt_dba extends midcom_cor
 
     /**
      * Check whether given token has already been used in the database
-     *
-     * @param string $token
      */
-    public static function token_is_free($token) : bool
+    public static function token_is_free(string $token) : bool
     {
         $qb = new midgard_query_builder('org_openpsa_campaign_message_receipt');
         $qb->add_constraint('token', '=', $token);

@@ -25,7 +25,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
      * @param String $handler_id   Initialized handler id
      * @param array $data          Local request data
      */
-    public function bind_to_object($object, $handler_id, $data)
+    public function bind_to_object($object, $handler_id, array $data)
     {
         if ($handler_id == 'object_deleted') {
             return;

@@ -40,7 +40,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      * The subscription cycles rely on midcom.services.at. I'm not sure if it is wise to rely on it for such
      * a totally mission critical part of OpenPSA. Some safeguards might be wise to add.
      */
-    public function run_cycle($cycle_number, $send_invoice = true) : bool
+    public function run_cycle($cycle_number, bool $send_invoice = true) : bool
     {
         if (time() < $this->_deliverable->start) {
             debug_add('Subscription hasn\'t started yet, register the start-up event to $start');
@@ -117,7 +117,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         return true;
     }
 
-    private function _create_at_entry($cycle_number, $start) : bool
+    private function _create_at_entry($cycle_number, int $start) : bool
     {
         $args = [
             'deliverable' => $this->_deliverable->guid,
@@ -198,7 +198,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         org_openpsa_notifications::notify('org.openpsa.sales:new_subscription_cycle', $owner->guid, $message);
     }
 
-    private function render_task_info($label, array $tasks) : string
+    private function render_task_info(string $label, array $tasks) : string
     {
         $content = '';
         if (!empty($tasks)) {
@@ -214,7 +214,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
     /**
      * @todo Check if we already have an open task for this delivery?
      */
-    public function create_task($start, $end, $title, org_openpsa_projects_task_dba $source_task = null) : org_openpsa_projects_task_dba
+    public function create_task(int $start, int $end, string $title, org_openpsa_projects_task_dba $source_task = null) : org_openpsa_projects_task_dba
     {
         // Create the task
         $task = new org_openpsa_projects_task_dba();
@@ -266,7 +266,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      * @param integer $months The maximum number of months to look forward
      * @param integer $start The timestamp from which to begin
      */
-    public function calculate_cycles($months = null, $start = null) : int
+    public function calculate_cycles(int $months = null, int $start = null) : int
     {
         if ($start === null) {
             $start = time();
@@ -298,7 +298,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         return $cycles;
     }
 
-    public function calculate_cycle_next($time)
+    public function calculate_cycle_next(int $time)
     {
         switch ($this->_deliverable->unit) {
             case 'm':
@@ -340,7 +340,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      * @param integer $time Original timestamp
      * @param integer $offset number of months to add
      */
-    private function _add_month($time, $offset) : DateTime
+    private function _add_month(int $time, int $offset) : DateTime
     {
         $orig = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
         $new_date = clone $orig;
@@ -357,7 +357,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         return $new_date;
     }
 
-    public function get_cycle_start($cycle_number, $time)
+    public function get_cycle_start($cycle_number, int $time)
     {
         if ($cycle_number == 1) {
             if ($this->subscription_day) {
@@ -372,7 +372,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         return $time;
     }
 
-    public function get_cycle_identifier($time)
+    public function get_cycle_identifier(int $time)
     {
         $date = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
 

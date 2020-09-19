@@ -184,7 +184,7 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Get membership maps
      */
-    private function load_memberships($id) : array
+    private function load_memberships(int $id) : array
     {
         if (!isset($this->membership_cache[$id])) {
             $this->membership_cache[$id] = [];

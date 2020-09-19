@@ -99,7 +99,7 @@ class org_openpsa_calendar_conflictmanager
      * Also allows normal events to "rob" resources from tentative ones.
      * NOTE: return false for *no* (or resolved automatically) conflicts and true for unresolvable conflicts
      */
-    public function run($rob_tentative = false) : bool
+    public function run(bool $rob_tentative = false) : bool
     {
         //If we're not busy it's not worth checking
         if (!$this->_event->busy) {

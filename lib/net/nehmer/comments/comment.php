@@ -63,10 +63,9 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * Returns a list of comments applicable to a given object, ordered by creation
      * date.
      *
-     * @param string $guid The GUID of the object to bind to.
      * @return net_nehmer_comments_comment[] List of applicable comments.
      */
-    public static function list_by_objectguid($guid, $limit = false, $order = 'ASC', $paging = false)
+    public static function list_by_objectguid(string $guid, $limit = false, string $order = 'ASC', bool $paging = false)
     {
         $qb = self::_prepare_query($guid, $paging, $limit);
         $qb->add_order('metadata.published', $order);
@@ -83,10 +82,9 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * not displaying empty comments or anonymous posts,
      * ordered by creation date.
      *
-     * @param string $guid The GUID of the object to bind to.
      * @return net_nehmer_comments_comment[] List of applicable comments.
      */
-    public static function list_by_objectguid_filter_anonymous($guid, $limit = false, $order = 'ASC', $paging = false)
+    public static function list_by_objectguid_filter_anonymous(string $guid, $limit = false, string $order = 'ASC', bool $paging = false)
     {
         $qb = self::_prepare_query($guid, $paging, $limit);
         $qb->add_order('metadata.published', $order);
@@ -104,7 +102,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * Returns the number of comments associated with a given object. This is intended for
      * outside usage to render stuff like "15 comments". The count is executed unchecked.
      */
-    public static function count_by_objectguid($guid) : int
+    public static function count_by_objectguid(string $guid) : int
     {
         $qb = self::_prepare_query($guid);
         return $qb->count_unchecked();
@@ -115,7 +113,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * This is intended for outside usage to render stuff like "15 comments". The count is
      * executed unchecked.
      */
-    public static function count_by_objectguid_filter_anonymous($guid) : int
+    public static function count_by_objectguid_filter_anonymous(string $guid) : int
     {
         $qb = self::_prepare_query($guid);
         $qb->add_constraint('author', '<>', '');

@@ -117,10 +117,8 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
 
     /**
      * Check if a node for a given component is available
-     *
-     * @param string $component the component to look for
      */
-    public function node_exists($component) : bool
+    public function node_exists(string $component) : bool
     {
         return !empty($this->get_node_guid($component));
     }
@@ -128,10 +126,9 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
     /**
      * Retrieve the full URL for the first topic of a given component
      *
-     * @param string $component the component to look for
      * @return mixed The component URL or false
      */
-    public function get_node_full_url($component)
+    public function get_node_full_url(string $component)
     {
         return $this->get($component, '_full_url');
     }
@@ -139,10 +136,9 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
     /**
      * Retrieve the relative URL for the first topic of a given component
      *
-     * @param string $component The component to look for
      * @return mixed the component URL or false
      */
-    public function get_node_relative_url($component)
+    public function get_node_relative_url(string $component)
     {
         return $this->get($component, '_relative_url');
     }
@@ -150,10 +146,9 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
     /**
      * Retrieve the GUID for the first topic of a given component
      *
-     * @param string $component the component to look for
      * @return mixed the component URL or false
      */
-    public function get_node_guid($component)
+    public function get_node_guid(string $component)
     {
         return $this->get($component, '_guid');
     }

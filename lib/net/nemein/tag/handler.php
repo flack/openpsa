@@ -21,10 +21,9 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      *
      * @param object $object MidCOM DBA object
      * @param array $tags List of tags and urls, tag is key, url is value
-     * @return boolean indicating success/failure
      * @todo Set the link->navorder property
      */
-    public static function tag_object($object, $tags, $component = null) : bool
+    public static function tag_object($object, array $tags, string $component = null) : bool
     {
         if ($component === null) {
             $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
@@ -128,10 +127,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
     /**
      * Resolve actual tag from user-inputted tags that may have contexts or values in them
-     *
-     * @param string $tagname User-inputted tag that may contain a context or value
      */
-    public static function resolve_tagname($tagname) : string
+    public static function resolve_tagname(string $tagname) : string
     {
         // first get the context out
         if (str_contains($tagname, ':')) {
@@ -146,10 +143,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
     /**
      * Resolve value from user-inputted tags that may have machine tag values
-     *
-     * @param string $tagname User-inputted tag that may contain a value
      */
-    public static function resolve_value($tagname) : string
+    public static function resolve_value(string $tagname) : string
     {
         // first get the context out
         if (str_contains($tagname, ':')) {
@@ -164,11 +159,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
     /**
      * Resolve context from user-inputted tags that may contain tag and context
-     *
-     * @param string $tagname User-inputted tag that may contain a context
-     * @return string Context without tag or empty if no context is found
      */
-    public static function resolve_context($tagname) : string
+    public static function resolve_context(string $tagname) : string
     {
         if (str_contains($tagname, ':')) {
             $context = explode(':', $tagname, 2)[0];
@@ -197,14 +189,14 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * Tag names are modified to include a possible context in format
      * context:tag
      *
-     * @return array list of tags and urls, tag is key, url is value (or false on failure)
+     * @return array list of tags and urls, tag is key, url is value
      */
     public static function get_object_tags($object) : array
     {
         return self::get_tags_by_guid($object->guid);
     }
 
-    public static function get_tags_by_guid($guid) : array
+    public static function get_tags_by_guid(string $guid) : array
     {
         $tags = [];
         $link_mc = net_nemein_tag_link::new_collector('fromGuid', $guid);
@@ -233,7 +225,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         return $tags;
     }
 
-    public static function tag_link2tagname($tag, $value = null, $context = null) : string
+    public static function tag_link2tagname(string $tag, $value = null, $context = null) : string
     {
         $tagname = $tag;
         if (!empty($context)) {
@@ -254,7 +246,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      *
      * @return array list of tags and counts, tag is key, count is value
      */
-    public static function get_tags_by_class($class, $user = null) : array
+    public static function get_tags_by_class(string $class, $user = null) : array
     {
         $tags = [];
         $tags_by_id = [];

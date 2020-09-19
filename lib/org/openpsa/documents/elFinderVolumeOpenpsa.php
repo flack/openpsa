@@ -133,7 +133,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         return $stat;
     }
 
-    private function get_by_path($path) : ?midcom_core_dbaobject
+    private function get_by_path(string $path) : ?midcom_core_dbaobject
     {
         try {
             return org_openpsa_documents_document_dba::get_cached($path);

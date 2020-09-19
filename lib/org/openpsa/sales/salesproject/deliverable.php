@@ -162,7 +162,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return $mc->get_related_objects();
     }
 
-    public function calculate_price($update = true)
+    public function calculate_price(bool $update = true)
     {
         $calculator_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
         $calculator = new $calculator_class();
@@ -187,7 +187,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
      * @param integer $task_id The ID of the task that requested the update
      * @param array $hours The task's hours
      */
-    public function update_units($task_id = 0, $hours = null)
+    public function update_units(int $task_id = 0, array $hours = null)
     {
         debug_add('Units before update: ' . $this->units . ", uninvoiceable: " . $this->uninvoiceableUnits);
 
@@ -351,7 +351,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return false;
     }
 
-    public function deliver($update_deliveries = true) : bool
+    public function deliver(bool $update_deliveries = true) : bool
     {
         if ($this->state > self::STATE_DELIVERED) {
             return false;

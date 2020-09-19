@@ -133,7 +133,7 @@ class org_openpsa_widgets_calendar_event
     /**
      * Draws one single event
      */
-    public function render($element = 'div', $h_level = 3) : string
+    public function render(string $element = 'div', int $h_level = 3) : string
     {
         $rendered_event  = '';
         $rendered_event .= "<{$element} class=\"vevent\">\n";

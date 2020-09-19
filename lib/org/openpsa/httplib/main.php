@@ -32,11 +32,8 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
 
     /**
      * Set one of the Guzzle parameters
-     *
-     * @param string $name The parameter's name
-     * @param mixed $value The new value
      */
-    public function set_param($name, $value)
+    public function set_param(string $name, $value)
     {
         $this->params[$name] = $value;
     }
@@ -68,12 +65,9 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      * Get contents of given URL
      *
      * @param string $url Fully qualified URL
-     * @param array $headers Additional HTTP headers
-     * @param string $username Username, if any
-     * @param string $password Password, if any
      * @return string Contents
      */
-    public function get($url, array $headers = [], $username = null, $password = null)
+    public function get(string $url, array $headers = [], string $username = null, string $password = null)
     {
         $request = new Request('GET', $url, $headers);
 
@@ -88,7 +82,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      * @param array $headers Additional HTTP headers
      * @return string Contents
      */
-    public function post($uri, array $variables, array $headers = [])
+    public function post(string $uri, array $variables, array $headers = [])
     {
         // Handle the variables to POST
         if (empty($variables)) {

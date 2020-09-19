@@ -123,10 +123,8 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
     /**
      * Try to generate a human-readable file type by doing some educated guessing based on mimetypes
-     *
-     * @param string $mimetype The mimetype as reported by PHP
      */
-    public static function get_file_type($mimetype) : string
+    public static function get_file_type(string $mimetype) : string
     {
         if (!preg_match('/\//', $mimetype)) {
             return $mimetype;

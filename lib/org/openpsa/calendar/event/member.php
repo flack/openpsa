@@ -55,7 +55,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         return sprintf(midcom::get()->i18n->get_string('%s in %s', 'midcom'), $person->name, $event->title);
     }
 
-    public function notify($type, org_openpsa_calendar_event_dba $event = null, $nl = "\n")
+    public function notify(string $type, org_openpsa_calendar_event_dba $event = null, string $nl = "\n")
     {
         $recipient = $this->get_person_obj();
 

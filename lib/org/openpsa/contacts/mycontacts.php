@@ -53,20 +53,20 @@ class org_openpsa_contacts_mycontacts
         return $this->_group;
     }
 
-    public function add($guid)
+    public function add(string $guid)
     {
         $group = $this->_get_group(true);
         $group->add_member($guid);
     }
 
-    public function remove($guid)
+    public function remove(string $guid)
     {
         if ($group = $this->_get_group()) {
             $group->remove_member($guid);
         }
     }
 
-    public function is_member($guid) : bool
+    public function is_member(string $guid) : bool
     {
         if ($group = $this->_get_group()) {
             return $group->is_member($guid);

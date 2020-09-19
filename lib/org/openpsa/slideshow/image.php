@@ -54,7 +54,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         $folder->delete_attachment(self::FOLDER_THUMBNAIL);
     }
 
-    public function load_attachment($type) : ?midcom_db_attachment
+    public function load_attachment(string $type) : ?midcom_db_attachment
     {
         try {
             return new midcom_db_attachment($this->$type);
@@ -64,7 +64,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         }
     }
 
-    public function generate_image($type, $filter_chain) : bool
+    public function generate_image(string $type, string $filter_chain) : bool
     {
         $original = $this->load_attachment('attachment');
         if (!$original) {

@@ -84,7 +84,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
      * Substitutes magic strings in content with values from the membership
      * and/or the person.
      */
-    public function personalize_message($content, $message_type, org_openpsa_contacts_person_dba $person) : string
+    public function personalize_message(string $content, int $message_type, org_openpsa_contacts_person_dba $person) : string
     {
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($nap->get_current_node());
@@ -138,7 +138,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
     /**
      * Creates a message receipt of type.
      */
-    public function create_receipt($message_id, $type, $token, array $parameters)
+    public function create_receipt(int $message_id, int $type, string $token, array $parameters)
     {
         $receipt = new org_openpsa_directmarketing_campaign_messagereceipt_dba();
         $receipt->orgOpenpsaObtype = $type;

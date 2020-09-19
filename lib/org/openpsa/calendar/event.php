@@ -408,7 +408,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     /**
      * Returns a string describing the event and its participants
      */
-    public function details_text($nl) : string
+    public function details_text(string $nl) : string
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
         $str = '';

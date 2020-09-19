@@ -24,7 +24,7 @@ class org_openpsa_invoices_invoice_pdf
         $this->invoice = $invoice;
     }
 
-    public function get_attachment($autocreate = false) : ?midcom_db_attachment
+    public function get_attachment(bool $autocreate = false) : ?midcom_db_attachment
     {
         $pdf_files = org_openpsa_helpers::get_dm2_attachments($this->invoice, "pdf_file");
         if (!empty($pdf_files)) {

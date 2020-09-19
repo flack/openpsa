@@ -37,10 +37,9 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     /**
      * Static method other plugins may use
      *
-     * @param string $title     Page title
      * @param array $data      Local request data
      */
-    public static function prepare_plugin($title, array &$data)
+    public static function prepare_plugin(string $title, array &$data)
     {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
         // Disable content caching
@@ -58,7 +57,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         midcom::get()->style->prepend_component_styledir(str_replace('asgard_', '', $data['plugin_name']));
     }
 
-    public static function get_type_label($type) : string
+    public static function get_type_label(string $type) : string
     {
         return midcom_helper_reflector_tree::get($type)->get_class_label();
     }
@@ -291,10 +290,8 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 
     /**
      * Get a preference for the current user
-     *
-     * @param string $preference    Name of the preference
      */
-    public static function get_preference($preference)
+    public static function get_preference(string $preference)
     {
         static $preferences = [];
 

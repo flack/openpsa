@@ -77,11 +77,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         return $this->mc;
     }
 
-    /**
-     * @param string $ruleset
-     * @throws midcom_error
-     */
-    public static function parse($ruleset) : array
+    public static function parse(string $ruleset) : array
     {
         $rules = json_decode($ruleset, true);
 

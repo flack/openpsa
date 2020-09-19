@@ -69,13 +69,13 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
     }
 
-    protected function _is_collapsed($type, $total) : bool
+    protected function _is_collapsed(string $type, int $total) : bool
     {
         return (   $total > $this->_config->get('max_navigation_entries')
                 && empty($_GET['show_all_' . $type]));
     }
 
-    protected function _list_child_elements($object, $level = 0)
+    protected function _list_child_elements($object, int $level = 0)
     {
         if ($level > 25) {
             debug_add('Recursion level 25 exceeded, aborting', MIDCOM_LOG_ERROR);

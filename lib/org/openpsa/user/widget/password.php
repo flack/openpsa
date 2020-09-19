@@ -42,7 +42,7 @@ class org_openpsa_user_widget_password extends AbstractType
         self::jsinit('input[type="password"]', $l10n, $config, false);
     }
 
-    public static function jsinit($name, midcom_services_i18n_l10n $l10n, midcom_helper_configuration $config, $userid_required)
+    public static function jsinit(string $name, midcom_services_i18n_l10n $l10n, midcom_helper_configuration $config, $userid_required)
     {
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.user/password.js');
         $conf = [

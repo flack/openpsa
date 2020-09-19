@@ -23,7 +23,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     private $_count_mode;
     private $_current_page = 1;
 
-    public function __construct($classname, $pager_id)
+    public function __construct(string $classname, string $pager_id)
     {
         if (empty($pager_id)) {
             throw new midcom_error('pager_id is not set (needed for distinguishing different instances on same request)');
@@ -35,7 +35,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $this->_prepare_qbs($classname);
     }
 
-    protected function _prepare_qbs($classname)
+    protected function _prepare_qbs(string $classname)
     {
         $this->_midcom_qb = midcom::get()->dbfactory->new_query_builder($classname);
         // Make another QB for counting, we need to do this to avoid trouble with core internal references system
@@ -278,7 +278,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return $this->_midcom_qb->add_order($param, $sort);
     }
 
-    public function begin_group($type)
+    public function begin_group(string $type)
     {
         $this->_midcom_qb_count->begin_group($type);
         $this->_midcom_qb->begin_group($type);

@@ -74,7 +74,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $this->_get_link_data($segmentation_param);
     }
 
-    private function _get_campaign_data($first_send)
+    private function _get_campaign_data(int $first_send)
     {
         $campaign_data =& $this->_request_data['report']['campaign_data'];
         $qb_unsub = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();

@@ -107,11 +107,8 @@ class midcom_exception_handler
      * If the given error code has an action configured for it, that action will be
      * performed. This means that system administrators can request email notifications
      * of 500 "Internal Errors" and a special log of 404 "Not Founds".
-     *
-     * @param int $httpcode        The error code to send.
-     * @param string $message    The message to print.
      */
-    private function send($httpcode, $message)
+    private function send(int $httpcode, string $message)
     {
         $error_actions = midcom::get()->config->get('error_actions');
         if (   !isset($error_actions[$httpcode])

@@ -19,12 +19,12 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
     private $type;
 
-    private function _prepare_qb($dummy_object) : ?midcom_core_querybuilder
+    private function _prepare_qb(string $object_class) : ?midcom_core_querybuilder
     {
         // Figure correct MidCOM DBA class to use and get midcom QB
-        $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
+        $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($object_class);
         if (empty($midcom_dba_classname)) {
-            debug_add("MidCOM DBA does not know how to handle " . get_class($dummy_object), MIDCOM_LOG_ERROR);
+            debug_add("MidCOM DBA does not know how to handle " . $object_class, MIDCOM_LOG_ERROR);
             return null;
         }
 
@@ -34,13 +34,12 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     private function _search(string $term) : array
     {
         $type_class = $this->type;
-        $dummy_type_object = new $type_class();
-        $resolver = new midcom_helper_reflector_tree($dummy_type_object);
-        $search_results = $this->_search_type_qb($dummy_type_object, $term);
+        $resolver = new midcom_helper_reflector_tree($this->type);
+        $search_results = $this->_search_type_qb($this->type, $term);
 
         foreach ($resolver->get_child_classes() as $child_class) {
             if ($child_class != $type_class) {
-                $results = $this->_search_type_qb(new $child_class(), $term);
+                $results = $this->_search_type_qb($child_class, $term);
                 $search_results = array_merge($search_results, $results);
             }
         }
@@ -48,16 +47,15 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         return $search_results;
     }
 
-    private function _search_type_qb($dummy_object, string $term) : array
+    private function _search_type_qb(string $object_class, string $term) : array
     {
-        $object_class = get_class($dummy_object);
         $mgd_reflector = new midgard_reflection_property($object_class);
 
-        $qb = $this->_prepare_qb($dummy_object);
+        $qb = $this->_prepare_qb($object_class);
         if (!$qb) {
             return [];
         }
-        $type_fields = midcom_helper_reflector::get($dummy_object)->get_search_properties();
+        $type_fields = midcom_helper_reflector::get($object_class)->get_search_properties();
 
         $constraints = 0;
         $qb->begin_group('OR');

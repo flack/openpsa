@@ -68,7 +68,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
      * @param boolean $order_by_score Set to true to sort by metadata score
      * @param array $label_fields  Object properties to show in the label (will be shown space separated)
      */
-    public static function list_groups($up, $prefix, $keyproperty, $order_by_score = false, array $label_fields = ['code', 'title']) : array
+    public static function list_groups($up, string $prefix, string $keyproperty, bool $order_by_score = false, array $label_fields = ['code', 'title']) : array
     {
         static $result_cache = [];
 

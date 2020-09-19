@@ -267,7 +267,7 @@ implements client
         return $entry;
     }
 
-    protected function add_filters($identifier)
+    protected function add_filters(string $identifier)
     {
         $qf = new org_openpsa_core_queryfilter('org_openpsa_task_list_' . $identifier);
         $date_filter = new org_openpsa_core_filter_timeframe('timeframe', 'start', 'end');
@@ -329,11 +329,7 @@ implements client
         }
     }
 
-    /**
-     * @param string $identifier
-     * @param string $datatype
-     */
-    protected function prepare_request_data($identifier, $datatype = 'local')
+    protected function prepare_request_data(string $identifier, string $datatype = 'local')
     {
         $this->_request_data['view_identifier'] = $identifier;
         $this->_request_data['show_status_controls'] = $this->show_status_controls;

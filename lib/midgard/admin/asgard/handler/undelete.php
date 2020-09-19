@@ -135,7 +135,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         }
     }
 
-    public function show_type($object, $indent = 0, $prefix = '', $enable_undelete = true)
+    public function show_type($object, int $indent = 0, string $prefix = '', bool $enable_undelete = true)
     {
         static $shown = [];
         static $url_prefix = '';

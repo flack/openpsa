@@ -39,7 +39,7 @@ class net_nehmer_comments_spamchecker
         }
     }
 
-    private static function check_linksleeve($text) : int
+    private static function check_linksleeve(string $text) : int
     {
         $data = 'content=' . $text;
         $buf = "";

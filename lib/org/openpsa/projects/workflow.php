@@ -26,10 +26,8 @@ class org_openpsa_projects_workflow
 
     /**
      * Returns the status type of a given status
-     *
-     * @param integer $status The status to convert
      */
-    public static function get_status_type($status) : string
+    public static function get_status_type(int $status) : string
     {
         $map = [
             org_openpsa_projects_task_status_dba::REJECTED => 'rejected',
@@ -276,10 +274,8 @@ class org_openpsa_projects_workflow
 
     /**
      * Reopen a closed task
-     *
-     * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    public static function reopen($task, $comment = '') : bool
+    public static function reopen(org_openpsa_projects_task_dba $task, $comment = '') : bool
     {
         debug_add("task->reopen() called with user #" . midcom_connection::get_user());
         if ($task->status != org_openpsa_projects_task_status_dba::CLOSED) {
@@ -291,11 +287,8 @@ class org_openpsa_projects_workflow
 
     /**
      * Connect the task hour reports to an invoice
-     *
-     * @param org_openpsa_projects_task_dba $task The task we're working on
-     * @param org_openpsa_invoices_invoice_dba $invoice The invoice we're working on
      */
-    public static function mark_invoiced($task, $invoice)
+    public static function mark_invoiced(org_openpsa_projects_task_dba $task, org_openpsa_invoices_invoice_dba $invoice)
     {
         debug_add("task->mark_invoiced() called with user #" . midcom_connection::get_user());
 
@@ -323,7 +316,7 @@ class org_openpsa_projects_workflow
         return $hours_marked;
     }
 
-    private static function is_manager($task) : bool
+    private static function is_manager(org_openpsa_projects_task_dba $task) : bool
     {
         return (   $task->manager == 0
                 || midcom_connection::get_user() == $task->manager);

@@ -65,10 +65,9 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
     }
 
     /**
-     * @param string $component
      * @return org_openpsa_reports_query_dba[]
      */
-    public static function get_saved($component) : array
+    public static function get_saved(string $component) : array
     {
         $qb = self::new_query_builder();
         $qb->add_constraint('component', '=', 'org.openpsa.reports');

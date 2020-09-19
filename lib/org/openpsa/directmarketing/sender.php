@@ -90,7 +90,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Sends a message to all testers
      */
-    public function send_test($content) : bool
+    public function send_test(string $content) : bool
     {
         $this->test_mode = true;
         midcom::get()->disable_limits();
@@ -107,7 +107,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Sends $content to all members of the campaign
      */
-    public function send_bg($url_base, $batch, $content) : bool
+    public function send_bg(string $url_base, int $batch, string $content) : bool
     {
         //TODO: Figure out how to recognize errors and pass the info on
 
@@ -151,7 +151,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         return true;
     }
 
-    public function register_send_job($batch, $url_base, $time = null) : bool
+    public function register_send_job(int $batch, string $url_base, int $time = null) : bool
     {
         $time = $time ?: time() + 30;
         $args = [

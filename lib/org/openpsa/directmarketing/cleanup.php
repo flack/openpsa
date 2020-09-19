@@ -88,7 +88,7 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         return $qb;
     }
 
-    public function count($kept = false) : array
+    public function count(bool $kept = false) : array
     {
         return [
             'message_receipt' => $this->get_message_receipt_qb($kept)->count_unchecked(),
