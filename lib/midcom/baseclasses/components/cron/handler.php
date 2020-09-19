@@ -21,12 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * <?php
  * class net_nehmer_static_cron_test extends midcom_baseclasses_components_cron_handler
  * {
- *     function _on_initialize()
- *     {
- *         return true;
- *     }
- *
- *     function execute()
+ *     public function execute()
  *     {
  *         $this->print_error("Executing...");
  *         $this->print_error(strftime('%x %X'));

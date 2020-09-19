@@ -51,10 +51,8 @@ class midcom_services_metadata
 
     /**
      * Sets the class of the current page for a context
-     *
-     * @param string $page_class The class that should be used for the page
      */
-    function set_page_class($page_class)
+    public function set_page_class(string $page_class)
     {
         $context = midcom_core_context::get();
 
