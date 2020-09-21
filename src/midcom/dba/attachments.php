@@ -64,7 +64,7 @@ trait attachments
     /**
      * Creates a new attachment at the current object and returns it for usage.
      */
-    public function create_attachment(string $name, string $title, string $mimetype) : ?midcom_db_attachment
+    public function create_attachment(string $name, string $title, ?string $mimetype) : ?midcom_db_attachment
     {
         if (!$this->id) {
             debug_add('Cannot create attachments on a non-persistent object.', MIDCOM_LOG_WARN);

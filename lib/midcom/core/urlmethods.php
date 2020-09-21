@@ -148,7 +148,7 @@ class midcom_core_urlmethods
      *
      * @see midcom_services_cache_module_content::enable_live_mode()
      */
-    public function process_exec(Request $request, string $component, string $filename, array $argv) : Response
+    public function process_exec(Request $request, string $component, string $filename, string $argv) : Response
     {
         $componentloader = midcom::get()->componentloader;
         $path = $componentloader->path_to_snippetpath($component) . '/exec/' . $filename;

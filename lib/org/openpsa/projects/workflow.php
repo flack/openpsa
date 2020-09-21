@@ -224,7 +224,7 @@ class org_openpsa_projects_workflow
             debug_add('Task is not approved, aborting');
             return false;
         }
-        return self::_drop_to_started($comment);
+        return self::_drop_to_started($task, $comment);
     }
 
     /**
