@@ -214,6 +214,10 @@ Szöveg
 Megnevezés
 ---STRINGEND
 
+---STRING topic
+Mappa
+---STRINGEND
+
 ---STRING user
 Felhasználó
 ---STRINGEND

@@ -108,11 +108,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 break;
             case 'object_permissions':
                 // Figure out label for the object's class
-                if ($object instanceof midcom_db_topic) {
-                    $type = midcom::get()->i18n->get_string('folder', 'midgard.admin.asgard');
-                } else {
-                    $type = $data['object_reflector']->get_class_label();
-                }
+                $type = $data['object_reflector']->get_class_label();
                 $title_string = sprintf(midcom::get()->i18n->get_string('permissions for %s %s', 'midgard.admin.asgard'), $type, $data['object_reflector']->get_object_label($object));
                 break;
             case 'object_create':

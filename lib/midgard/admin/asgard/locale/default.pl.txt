@@ -286,10 +286,6 @@ Nazwa pliku
 Filtr
 ---STRINGEND
 
----STRING folder
-folder
----STRINGEND
-
 ---STRING global
 Wartość globalna
 ---STRINGEND

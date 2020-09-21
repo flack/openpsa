@@ -33,8 +33,3 @@ Anonim felhasználók
 ---STRING USERS
 Összes felhasználó
 ---STRINGEND
-
----STRING folder
-mappa
----STRINGEND
-

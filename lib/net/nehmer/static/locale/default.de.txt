@@ -7,7 +7,7 @@ Artikel
 ---STRINGEND
 
 ---STRING autoindex
-Soll für diese Rubrik automatisch eine Index-Seite erstellt werden?
+Soll für diesen Ordner automatisch eine Index-Seite erstellt werden?
 ---STRINGEND
 
 ---STRING autoindex settings
@@ -15,7 +15,7 @@ Auto-Index-Einstellungen
 ---STRINGEND
 
 ---STRING autoindex-notes
-Die automatische Index-Seite ersetzt den Artikel mit dem URL-Namen index und besteht aus einer Liste aller Artikel und Dateianhängen der aktuellen Rubrik.
+Die automatische Index-Seite ersetzt den Artikel mit dem URL-Namen index und besteht aus einer Liste aller Artikel und Dateianhängen des aktuellen Ordners.
 ---STRINGEND
 
 ---STRING callback_function

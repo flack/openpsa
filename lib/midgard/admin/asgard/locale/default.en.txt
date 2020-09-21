@@ -302,10 +302,6 @@ Filename
 Filter
 ---STRINGEND
 
----STRING folder
-Folder
----STRINGEND
-
 ---STRING global
 Global
 ---STRINGEND

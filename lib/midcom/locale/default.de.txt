@@ -135,7 +135,7 @@ Komponente konfigurieren
 ---STRINGEND
 
 ---STRING component configuration helptext
-Mit Hilfe dieses Menüs können Sie die komponenten-spezifischen Einstellungen für diese Rubrik ändern.
+Mit Hilfe dieses Menüs können Sie die komponenten-spezifischen Einstellungen für diesen Ordner ändern.
 ---STRINGEND
 
 ---STRING confirm delete
@@ -611,7 +611,7 @@ nach oben
 ---STRINGEND
 
 ---STRING topic
-Rubrik
+Ordner
 ---STRINGEND
 
 ---STRING unapprove

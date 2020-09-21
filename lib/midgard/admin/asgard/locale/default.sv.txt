@@ -262,10 +262,6 @@ Filnamn
 Filter
 ---STRINGEND
 
----STRING folder
-katalog
----STRINGEND
-
 ---STRING global
 Global
 ---STRINGEND

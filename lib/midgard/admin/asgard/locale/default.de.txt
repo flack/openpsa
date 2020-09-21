@@ -282,10 +282,6 @@ Dateiname
 Filtern
 ---STRINGEND
 
----STRING folder
-Ordner
----STRINGEND
-
 ---STRING global
 Global
 ---STRINGEND
