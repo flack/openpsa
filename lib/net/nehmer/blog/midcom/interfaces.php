@@ -21,7 +21,7 @@ implements midcom_services_permalinks_resolver
      */
     public function _on_reindex(midcom_core_dbaobject $topic, midcom_helper_configuration $config, midcom_services_indexer &$indexer)
     {
-        if (!$config->get('disable_indexing')) {
+        if ($config->get('disable_indexing')) {
             debug_add("The topic {$topic->id} is not to be indexed, skipping indexing.");
         } else {
             $qb = midcom::get()->dbfactory->new_query_builder(midcom_db_article::class);
