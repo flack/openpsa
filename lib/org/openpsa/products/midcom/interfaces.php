@@ -50,7 +50,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Iterate over all articles and create index record using the datamanager indexer method.
      */
-    public function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex(midcom_core_dbaobject $topic, midcom_helper_configuration $config, midcom_services_indexer &$indexer)
     {
         if (   !$config->get('index_products')
             && !$config->get('index_groups')) {
@@ -72,7 +72,7 @@ implements midcom_services_permalinks_resolver
         return true;
     }
 
-    private function reindex_tree_iterator(&$indexer, array $dms, $topic, org_openpsa_products_product_group_dba $group, $config)
+    private function reindex_tree_iterator(midcom_services_indexer &$indexer, array $dms, midcom_core_dbaobject $topic, org_openpsa_products_product_group_dba $group, midcom_helper_configuration $config)
     {
         if ($group->id) {
             if ($config->get('index_groups')) {
