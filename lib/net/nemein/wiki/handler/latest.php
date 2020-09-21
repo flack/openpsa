@@ -19,7 +19,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
     /**
      * List all items updated with then given timeframe
      */
-    private function _seek_updated(int $from, $to = null)
+    private function _seek_updated(int $from, int $to = null)
     {
         if ($to === null) {
             $to = time();

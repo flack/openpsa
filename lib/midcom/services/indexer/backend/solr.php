@@ -166,7 +166,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         return $result;
     }
 
-    private function prepare_request(string $action, $body = null) : Request
+    private function prepare_request(string $action, string $body = null) : Request
     {
         $uri = "http://" . $this->config->get('indexer_xmltcp_host');
         $uri .= ":" . $this->config->get('indexer_xmltcp_port');

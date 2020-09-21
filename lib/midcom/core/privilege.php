@@ -393,7 +393,7 @@ class midcom_core_privilege
      * @param string $type SELF or CONTENT
      * @return midcom_core_privilege[]
      */
-    protected static function _query_privileges(string $guid, $type) : array
+    protected static function _query_privileges(string $guid, string $type) : array
     {
         $result = [];
 

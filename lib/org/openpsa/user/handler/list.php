@@ -39,11 +39,8 @@ implements client
 
     /**
      * Handler for listing users
-     *
-     * @param array $data Data passed to the show method
-     * @param string $guid Group GUID
      */
-    public function _handler_list(array &$data, $guid = null)
+    public function _handler_list(array &$data, string $guid = null)
     {
         $auth = midcom::get()->auth;
         if (!$auth->can_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class)) {
@@ -82,11 +79,8 @@ implements client
 
     /**
      * Lists users in JSON format
-     *
-     * @param array $data The local request data.
-     * @param string $guid The group GUID
      */
-    public function _handler_json(array &$data, $guid = null)
+    public function _handler_json(array &$data, string $guid = null)
     {
         midcom::get()->skip_page_style = true;
         $data['provider'] = $this->_provider;

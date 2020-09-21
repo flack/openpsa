@@ -103,11 +103,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         return array_keys(get_object_vars($object));
     }
 
-    /**
-     * @param string $property
-     * @param boolean $metadata
-     */
-    public function property_exists(string $property, $metadata = false) : bool
+    public function property_exists(string $property, bool $metadata = false) : bool
     {
         return $this->_mgd_reflector->property_exists($property, $metadata);
     }

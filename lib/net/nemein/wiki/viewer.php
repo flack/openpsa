@@ -56,12 +56,10 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_viewer
     /**
      * Indexes a wiki page.
      *
-     * @param datamanager $dm The Datamanager encapsulating the event.
-     * @param midcom_services_indexer $indexer The indexer instance to use.
      * @param midcom_db_topic|midcom_core_dbaproxy $topic The topic which we are bound to. If this is not an object, the code
      *     tries to load a new topic instance from the database identified by this parameter.
      */
-    public static function index(datamanager $dm, $indexer, $topic)
+    public static function index(datamanager $dm, midcom_services_indexer $indexer, $topic)
     {
         $nav = new midcom_helper_nav();
         $node = $nav->get_node($topic->id);

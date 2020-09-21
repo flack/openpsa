@@ -72,7 +72,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
         return 'email';
     }
 
-    public function send(org_openpsa_contacts_person_dba $person, org_openpsa_directmarketing_campaign_member_dba $member, $token, $subject, $content, $from)
+    public function send(org_openpsa_contacts_person_dba $person, org_openpsa_directmarketing_campaign_member_dba $member, string $token, string $subject, string $content, $from)
     {
         $mail = new org_openpsa_mail($this->_config['mail_send_backend'], $this->_config['mail_send_backend_params']);
         $mail->to = $person->email;

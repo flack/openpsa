@@ -28,7 +28,7 @@ class org_openpsa_mail_message
      */
     private $_message;
 
-    public function __construct($to, array $headers, $encoding)
+    public function __construct($to, array $headers, string $encoding)
     {
         $this->_to = $this->_encode_address_field($to);
         $this->_headers = $headers;
@@ -84,7 +84,7 @@ class org_openpsa_mail_message
         return $this->_message;
     }
 
-    public function set_header_field($name, $value)
+    public function set_header_field(string $name, $value)
     {
         $this->_headers[$name] = $value;
     }
@@ -121,14 +121,7 @@ class org_openpsa_mail_message
         $this->_html_body = null;
     }
 
-    /**
-     *
-     * @param string $body the html body
-     * @param string $altBody the alternative (text) body
-     * @param array $attachments
-     * @param boolean $do_image_embedding
-     */
-    public function set_html_body($body, $altBody, $attachments, $do_image_embedding)
+    public function set_html_body(string $body, string $altBody, array $attachments, bool $do_image_embedding)
     {
         $this->_body = $altBody;
         $this->_html_body = $body;
@@ -177,7 +170,7 @@ class org_openpsa_mail_message
         }
     }
 
-    private function _process_attachments($attachments)
+    private function _process_attachments(array $attachments)
     {
         foreach ($attachments as $att) {
             if (empty($att['mimetype'])) {

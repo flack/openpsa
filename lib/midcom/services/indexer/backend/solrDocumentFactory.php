@@ -108,7 +108,7 @@ class midcom_services_indexer_solrDocumentFactory
     /**
      * Returns the generated XML
      */
-    public function to_xml()
+    public function to_xml() : string
     {
         return $this->xml->saveXML();
     }

@@ -102,7 +102,7 @@ class midcom_core_account
      * @param string $password The password to set
      * @param boolean $encode Should the password be encoded according to the configured auth type
      */
-    public function set_password(string $password, $encode = true)
+    public function set_password(string $password, bool $encode = true)
     {
         if ($encode) {
             $password = midcom_connection::prepare_password($password);
@@ -137,7 +137,7 @@ class midcom_core_account
      * @param string $operator The operator for the username constraint
      * @param string $value The value for the username constraint
      */
-    public static function add_username_constraint(midcom_core_query $query, $operator, $value)
+    public static function add_username_constraint(midcom_core_query $query, string $operator, $value)
     {
         $qb = $query->get_doctrine();
         if (empty($query->join_added)) {
@@ -151,11 +151,8 @@ class midcom_core_account
 
     /**
      * Add username order to a query instance
-     *
-     * @param midcom_core_query $query The QB or MC instance to work on
-     * @param string $direction The value for the username constraint
      */
-    public static function add_username_order(midcom_core_query $query, $direction)
+    public static function add_username_order(midcom_core_query $query, string $direction)
     {
         $qb = $query->get_doctrine();
         if (empty($query->join_added)) {

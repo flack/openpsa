@@ -64,7 +64,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      * @param mixed $classes One or more target classes
      * @param string $direction incoming or outgoing
      */
-    public function __construct($guids, $classes, $direction = 'incoming')
+    public function __construct($guids, $classes, string $direction = 'incoming')
     {
         $this->_set_direction($direction);
 

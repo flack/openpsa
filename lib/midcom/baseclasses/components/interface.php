@@ -314,7 +314,7 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      *
      * @param object $object The object on which the operation has occurred.
      */
-    public function _on_watched_dba_import($object)
+    public function _on_watched_dba_import(midcom_core_dbaobject $object)
     {
     }
 
@@ -330,7 +330,7 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * @param midcom_services_indexer $indexer The indexer object to use for indexing. (Passed by reference!)
      * @return boolean Indicating success.
      */
-    public function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex(midcom_core_dbaobject $topic, midcom_helper_configuration $config, midcom_services_indexer &$indexer)
     {
         return true;
     }

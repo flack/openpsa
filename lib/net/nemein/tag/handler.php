@@ -389,13 +389,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
     /**
      * Gets all objects of given classes with given tags
-     *
-     * @param array $tags tags to search for
-     * @param array $classes classes to search in
-     * @param string $match AND or OR, depending if you require all of the given tags on any of them, defaults to 'OR'
-     * @param string $order ASC or DESC, to set the order of the returned list, defaults to 'ASC'
      */
-    public static function get_objects_with_tags(array $tags, array $classes, $match = 'OR', $order = 'ASC') : ?array
+    public static function get_objects_with_tags(array $tags, array $classes, string $match = 'OR', string $order = 'ASC') : ?array
     {
         $match = str_replace(['ANY', 'ALL'], ['OR', 'AND'], strtoupper($match));
         if (!in_array($match, ['AND', 'OR'], true)) {

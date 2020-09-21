@@ -294,11 +294,8 @@ class midcom_services_metadata
      * Set the currently known and required Request Metadata: The last modified timestamp and the permalink GUID.
      *
      * You may set either of the arguments to null to enforce default usage (based on NAP).
-     *
-     * @param int $lastmodified The date of last modification of this request.
-     * @param string $permalinkguid The GUID used to create a permalink for this request.
      */
-    public function set_request_metadata(int $lastmodified, $permalinkguid)
+    public function set_request_metadata(int $lastmodified, ?string $permalinkguid)
     {
         $context = midcom_core_context::get();
 

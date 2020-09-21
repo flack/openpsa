@@ -234,7 +234,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         }
     }
 
-    public function render_link(string $wikilink, $text = null) : string
+    public function render_link(string $wikilink, string $text = null) : string
     {
         if (null === $text) {
             $text = $wikilink;

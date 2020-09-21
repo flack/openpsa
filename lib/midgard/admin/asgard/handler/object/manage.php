@@ -388,7 +388,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
     }
 
-    private function _process_copy(Request $request, $parent, midcom_helper_reflector $reflector) : midcom_core_dbaobject
+    private function _process_copy(Request $request, ?string $parent, midcom_helper_reflector $reflector) : midcom_core_dbaobject
     {
         $formdata = $this->controller->get_datamanager()->get_content_raw();
         $copy = new midcom_helper_reflector_copy();

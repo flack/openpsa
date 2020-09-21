@@ -36,15 +36,7 @@ trait attachment
         return $filename;
     }
 
-    /**
-     *
-     * @param midcom_db_attachment $attachment
-     * @param string $filename
-     * @param string $title
-     * @param string $mimetype
-     * @throws midcom_error
-     */
-    protected function create_attachment(midcom_db_attachment $attachment, $filename, $title, $mimetype)
+    protected function create_attachment(midcom_db_attachment $attachment, string $filename, string $title, string $mimetype)
     {
         $attachment->name = $this->generate_unique_name($filename, $attachment->parentguid);
         $attachment->title = $title;

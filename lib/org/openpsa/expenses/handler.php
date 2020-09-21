@@ -16,10 +16,8 @@ trait org_openpsa_expenses_handler
 
     /**
      * Apply user filters to hour lists
-     *
-     * @param midcom_core_query $query The query object to work on
      */
-    public function add_list_filter(midcom_core_query $query, $add_time_filter = false)
+    public function add_list_filter(midcom_core_query $query, bool $add_time_filter = false)
     {
         $qf = new org_openpsa_core_queryfilter('org_openpsa_expenses_list');
         $person_filter = new org_openpsa_core_filter_multiselect('person');

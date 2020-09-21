@@ -15,11 +15,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
 {
     use org_openpsa_expenses_handler;
 
-    /**
-     * @param string $requested_time
-     * @param array $data The local request data.
-     */
-    private function prepare_dates($requested_time, array &$data)
+    private function prepare_dates(?string $requested_time, array &$data)
     {
         $requested_time = $requested_time ?: date('Y-m-d');
 
@@ -45,7 +41,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
      * @param array $data The local request data.
      * @param string $timestamp The timestamp
      */
-    public function _handler_index(array &$data, $timestamp = null)
+    public function _handler_index(array &$data, string $timestamp = null)
     {
         $this->prepare_dates($timestamp, $data);
 
@@ -145,7 +141,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
         return array_values($reports);
     }
 
-    private function _get_list_link(string $label, $date, $task_guid, $person_id = null) : string
+    private function _get_list_link(string $label, string $date, string $task_guid, $person_id = null) : string
     {
         if ($task_guid !== null) {
             $url = $this->router->generate('list_hours_task', ['guid' => $task_guid]);

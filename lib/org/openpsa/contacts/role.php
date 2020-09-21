@@ -22,7 +22,7 @@ class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
 
     public $_use_rcs = false;
 
-    public static function add(string $object_guid, $person, $role) : bool
+    public static function add(string $object_guid, int $person, int $role) : bool
     {
         $mc = self::new_collector('objectGuid', $object_guid);
         $mc->add_constraint('role', '=', $role);

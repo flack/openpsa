@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  */
 class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_components_handler
 {
-    private function load_datamanager(org_openpsa_expenses_hour_report_dba $report, array $defaults = [], $schema = null) : datamanager
+    private function load_datamanager(org_openpsa_expenses_hour_report_dba $report, array $defaults = [], string $schema = null) : datamanager
     {
         return datamanager::from_schemadb($this->_config->get('schemadb_hours'))
             ->set_defaults($defaults)
@@ -26,14 +26,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
     /**
      * Displays the report creation view.
-     *
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     * @param string $schema The schema to use
-     * @param string $guid Invoice or task GUID
      */
-    public function _handler_create(Request $request, string $handler_id, array &$data, string $schema, $guid = null)
+    public function _handler_create(Request $request, string $handler_id, array &$data, string $schema, string $guid = null)
     {
         $report = new org_openpsa_expenses_hour_report_dba();
 

@@ -30,7 +30,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         }
     }
 
-    public static function add_toolbar_buttons(midcom_helper_toolbar $toolbar, $enabled = true)
+    public static function add_toolbar_buttons(midcom_helper_toolbar $toolbar, bool $enabled = true)
     {
         $l10n = midcom::get()->i18n->get_l10n('net.nemein.rss');
         $buttons = [

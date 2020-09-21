@@ -459,7 +459,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         return $dir->guid;
     }
 
-    private function create_document($parentguid, $title) : ?org_openpsa_documents_document_dba
+    private function create_document(string $parentguid, string $title) : ?org_openpsa_documents_document_dba
     {
         $dir = org_openpsa_documents_directory::get_cached($parentguid);
         $document = new org_openpsa_documents_document_dba;
@@ -605,7 +605,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         return $doc->guid;
     }
 
-    private function create_attachment(org_openpsa_documents_document_dba $doc, $name, $mimetype, $fp) : bool
+    private function create_attachment(org_openpsa_documents_document_dba $doc, string $name, string $mimetype, $fp) : bool
     {
         $filename = midcom_db_attachment::safe_filename($name, true);
         $att = $doc->create_attachment($filename, $name, $mimetype);

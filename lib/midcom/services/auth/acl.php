@@ -528,14 +528,8 @@ class midcom_services_auth_acl
 
     /**
      * Look up a specific content privilege and cache the result.
-     *
-     * @param string $privilegename The privilege to check for
-     * @param string $guid A Midgard GUID pointing to an object
-     * @param string $class DBA Class of the object in question
-     * @param string $user_id The user against which to check the privilege, defaults to the currently authenticated user.
-     * @return boolean True when privilege was found, otherwise false
      */
-    private function _load_content_privilege(string $privilegename, string $guid, string $class, $user_id) : bool
+    private function _load_content_privilege(string $privilegename, string $guid, string $class, string $user_id) : bool
     {
         $cache_id = $user_id . '::' . $guid;
 

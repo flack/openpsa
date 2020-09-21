@@ -126,7 +126,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         return http_build_query($ret, '', '&');
     }
 
-    public static function add_button(midcom_helper_toolbar $toolbar, $guid)
+    public static function add_button(midcom_helper_toolbar $toolbar, string $guid)
     {
         $toolbar->add_item([
             MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/render/{$guid}/both/",
@@ -192,7 +192,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         ];
     }
 
-    public static function common_node_toolbar_buttons(midcom_helper_toolbar $toolbar, $bind_object, $calling_component, array $buttons)
+    public static function common_node_toolbar_buttons(midcom_helper_toolbar $toolbar, $bind_object, string $calling_component, array $buttons)
     {
         $workflow = new midcom\workflow\datamanager;
         $toolbar_buttons = [];
@@ -265,7 +265,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
     /**
      * function to add the button for journal_entry to the toolbar
      */
-    public static function add_journal_entry_button(midcom_helper_toolbar $toolbar, $guid)
+    public static function add_journal_entry_button(midcom_helper_toolbar $toolbar, string $guid)
     {
         $toolbar->add_item([
             MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/journalentry/{$guid}/",

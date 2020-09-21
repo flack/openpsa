@@ -533,11 +533,9 @@ class midcom_baseclasses_core_dbobject
     /**
      * Purge objects
      *
-     * @param array $guids
-     * @param string $type
      * @return integer Size of purged objects
      */
-    public static function purge(array $guids, $type) : int
+    public static function purge(array $guids, string $type) : int
     {
         $purged_size = 0;
         $qb = new midgard_query_builder($type);
@@ -727,14 +725,10 @@ class midcom_baseclasses_core_dbobject
     /**
      * This call wraps the original get_by_guid call to provide access control.
      * The calling sequence is as with the corresponding constructor.
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @param string $path The path of the object to load from the database.
-     * @return bool Indicating Success
      */
-    public static function get_by_path(midcom_core_dbaobject $object, $path) : bool
+    public static function get_by_path(midcom_core_dbaobject $object, string $path) : bool
     {
-        $object->__object->get_by_path((string) $path);
+        $object->__object->get_by_path($path);
 
         if ($object->id != 0) {
             if (!$object->can_do('midgard:read')) {

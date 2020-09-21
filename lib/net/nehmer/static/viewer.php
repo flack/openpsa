@@ -38,12 +38,10 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_viewer
     /**
      * Indexes an article.
      *
-     * @param datamanager $dm The Datamanager encapsulating the event.
-     * @param midcom_services_indexer $indexer The indexer instance to use.
      * @param midcom_db_topic|midcom_core_dbaproxy $topic The topic which we are bound to. If this is not an object, the code
      *     tries to load a new topic instance from the database identified by this parameter.
      */
-    public static function index(datamanager $dm, $indexer, $topic)
+    public static function index(datamanager $dm, midcom_services_indexer $indexer, $topic)
     {
         $nav = new midcom_helper_nav();
         $node = $nav->get_node($topic->id);
@@ -97,12 +95,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_viewer
         $this->_populate_node_toolbar();
     }
 
-    /**
-     *
-     * @param midcom_helper_configuration $config
-     * @param integer $id The topic ID
-     */
-    public static function get_topic_qb(midcom_helper_configuration $config, $id, $order = true) : midcom_core_querybuilder
+    public static function get_topic_qb(midcom_helper_configuration $config, int $id, bool $order = true) : midcom_core_querybuilder
     {
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('topic', '=', $id);

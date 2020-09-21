@@ -278,10 +278,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $config_array;
     }
 
-    /**
-     * @param string $folder The topic GUID
-     */
-    public function _handler_edit(Request $request, string $handler_id, array &$data, string $component, $folder = null)
+    public function _handler_edit(Request $request, string $handler_id, array &$data, string $component, string $folder = null)
     {
         $data['name'] = $component;
         if ($handler_id == 'components_configuration_edit_folder') {

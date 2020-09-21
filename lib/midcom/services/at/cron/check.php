@@ -70,7 +70,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
         }
     }
 
-    private function handle_error(midcom_services_at_entry_dba $entry, $error, array $args)
+    private function handle_error(midcom_services_at_entry_dba $entry, string $error, array $args)
     {
         $this->print_error($error, $args);
         //PONDER: Delete instead ? (There is currently nothing we do with failed entries)

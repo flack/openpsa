@@ -219,13 +219,8 @@ class midcom_helper_toolbar
 
     /**
      * Add a help item to the toolbar.
-     *
-     * @param string $help_id Name of the help file in component documentation directory.
-     * @param string $component Component to display the help from
-     * @param string $label Label for the help link
-     * @param string $anchor Anchor ("a name" or "id" in HTML page) to link to
      */
-    public function add_help_item($help_id, $component = null, $label = null, $anchor = null, $before = -1)
+    public function add_help_item(string $help_id, string $component = null, string $label = null, string $anchor = null, $before = -1)
     {
         $uri = "__ais/help/";
         if ($component !== null) {

@@ -157,7 +157,7 @@ class datamanager
         return new controller($this, $name);
     }
 
-    public function get_form(string $name = null, bool $reset = false) : Form
+    public function get_form(?string $name = null, bool $reset = false) : Form
     {
         if ($reset) {
             $this->form = null;

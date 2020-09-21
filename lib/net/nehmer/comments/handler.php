@@ -13,7 +13,7 @@
  */
 trait net_nehmer_comments_handler
 {
-    public function populate_post_toolbar(net_nehmer_comments_comment $comment, $viewtype = null) : midcom_helper_toolbar
+    public function populate_post_toolbar(net_nehmer_comments_comment $comment, string $viewtype = null) : midcom_helper_toolbar
     {
         $toolbar = new midcom_helper_toolbar();
         $buttons = [];
@@ -61,7 +61,7 @@ trait net_nehmer_comments_handler
                         'return_url' => midcom_connection::get_url('uri'),
                     ]
                     ];
-                if (!empty($viewtype)) {
+                if ($viewtype) {
                     $buttons[] = [
                         MIDCOM_TOOLBAR_URL => 'moderate/ajax/' . $viewtype . '/',
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete'),

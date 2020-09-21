@@ -176,7 +176,7 @@ class midcom_helper_configuration
      * @param boolean    $reset        If set to true, the current local configuration will be discarded first.
      * @see midcom_helper_configuration::reset_local()
      */
-    public function store(array $params, $reset = true)
+    public function store(array $params, bool $reset = true)
     {
         if (   !$this->_object_stored
             && $this->_object) {

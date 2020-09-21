@@ -29,12 +29,8 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
 
     /**
      * Generates an object creation view.
-     *
-     * @param Request $request The request object
-     * @param string $type The parent type
-     * @param string $guid The parent GUID
      */
-    public function _handler_create(Request $request, $type = null, $guid = null)
+    public function _handler_create(Request $request, string $type = null, string $guid = null)
     {
         $this->mode = 'create';
         $this->task = new org_openpsa_projects_task_dba;

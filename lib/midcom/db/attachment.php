@@ -180,7 +180,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         return "{$cacheroot}/{$subdir}/{$this->guid}/{$this->name}";
     }
 
-    public static function get_url($attachment, $name = null) : string
+    public static function get_url($attachment, string $name = null) : string
     {
         if (is_string($attachment)) {
             $guid = $attachment;

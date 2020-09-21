@@ -108,7 +108,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         return new Response("OK\n", Response::HTTP_OK, ['Content-Type', 'text/plain']);
     }
 
-    private function _create_link_receipt(org_openpsa_directmarketing_campaign_messagereceipt_dba $receipt, string $token, $target)
+    private function _create_link_receipt(org_openpsa_directmarketing_campaign_messagereceipt_dba $receipt, string $token, string $target)
     {
         if (!array_key_exists('create_status', $this->_request_data)) {
             $this->_request_data['create_status'] = ['receipts' => [], 'links' => []];
@@ -134,12 +134,8 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
     /**
      * Duplicates link_detector.php functionality in part (to avoid extra apache configurations)
      * and handles the logging mentioned above as well.
-     *
-     * @param Request $request The request object
-     * @param string $token The token
-     * @param string $url The URL
      */
-    public function _handler_redirect(Request $request, string $token, $url = null)
+    public function _handler_redirect(Request $request, string $token, string $url = null)
     {
         if (!empty($url)) {
             //Due to the way browsers handle the URLs this form only works for root pages

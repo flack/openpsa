@@ -31,11 +31,8 @@ class midcom_core_urlmethods
     /**
      * This method will serve the attachment denoted by the given ID/GUID.
      * It should enable caching of browsers for Navigation images and so on.
-     *
-     * @param string $guid
-     * @throws midcom_error_notfound
      */
-    public function process_serveattachmentguid(Request $request, $guid) : Response
+    public function process_serveattachmentguid(Request $request, string $guid) : Response
     {
         $attachment = new midcom_db_attachment($guid);
         if (!$attachment->can_do('midgard:autoserve_attachment')) {
@@ -107,14 +104,14 @@ class midcom_core_urlmethods
         return new midcom_response_relocate($url);
     }
 
-    public function process_logout(Request $request, $url) : Response
+    public function process_logout(Request $request, string $url) : Response
     {
         midcom::get()->cache->content->no_cache();
         midcom::get()->auth->logout();
         return $this->redirect($request, $url);
     }
 
-    public function process_login(Request $request, $url) : Response
+    public function process_login(Request $request, string $url) : Response
     {
         if (midcom::get()->auth->is_valid_user()) {
             return $this->redirect($request, $url);
@@ -149,12 +146,9 @@ class midcom_core_urlmethods
      *
      * The remaining arguments will be placed into the global $argv.
      *
-     * @param Request $request
-     * @param string $component The component to look in ("midcom" uses core scripts)
-     * @param string $filename
      * @see midcom_services_cache_module_content::enable_live_mode()
      */
-    public function process_exec(Request $request, $component, $filename, $argv) : Response
+    public function process_exec(Request $request, string $component, string $filename, array $argv) : Response
     {
         $componentloader = midcom::get()->componentloader;
         $path = $componentloader->path_to_snippetpath($component) . '/exec/' . $filename;

@@ -181,7 +181,7 @@ class org_openpsa_calendar_conflictmanager
         return [];
     }
 
-    private function _process_resource(org_openpsa_calendar_event_resource_dba $member, array &$modified_events, $rob_tentative)
+    private function _process_resource(org_openpsa_calendar_event_resource_dba $member, array &$modified_events, bool $rob_tentative)
     {
         if ($this->is_processed('resources', $member->event, $member->resource)) {
             return;
@@ -214,7 +214,7 @@ class org_openpsa_calendar_conflictmanager
         }
     }
 
-    private function _process_participant(org_openpsa_calendar_event_member_dba $member, array &$modified_events, $rob_tentative)
+    private function _process_participant(org_openpsa_calendar_event_member_dba $member, array &$modified_events, bool $rob_tentative)
     {
         if ($this->is_processed('participants', $member->eid, $member->uid)) {
             return;

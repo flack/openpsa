@@ -45,7 +45,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Prepare the indexer client
      */
-    public function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex(midcom_core_dbaobject $topic, midcom_helper_configuration $config, midcom_services_indexer &$indexer)
     {
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $dm = datamanager::from_schemadb($config->get('schemadb'));

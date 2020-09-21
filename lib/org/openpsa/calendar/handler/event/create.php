@@ -26,7 +26,7 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
      */
     private $root_event;
 
-    private function load_controller(ParameterBag $query, org_openpsa_calendar_conflictmanager $conflictmanager, $resource) : controller
+    private function load_controller(ParameterBag $query, org_openpsa_calendar_conflictmanager $conflictmanager, ?string $resource) : controller
     {
         $resource = $resource ?: midcom::get()->auth->user->guid;
         $event = new org_openpsa_calendar_event_dba();
@@ -64,12 +64,8 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
 
     /**
      * Handle the creation phase
-     *
-     * @param Request $request The request object
-     * @param array $data Public request data, passed by reference
-     * @param string $resource The resource we're working with
      */
-    public function _handler_create(Request $request, array &$data, $resource = null)
+    public function _handler_create(Request $request, array &$data, string $resource = null)
     {
         $this->root_event = org_openpsa_calendar_interface::find_root_event();
         $this->root_event->require_do('midgard:create');

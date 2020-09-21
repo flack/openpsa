@@ -13,7 +13,7 @@
  */
 trait net_nehmer_blog_handler
 {
-    public function get_url(midcom_db_article $article, $allow_external = false) : string
+    public function get_url(midcom_db_article $article, bool $allow_external = false) : string
     {
         if (   $allow_external
             && $this->_config->get('link_to_external_url')
@@ -99,11 +99,7 @@ trait net_nehmer_blog_handler
         $qb->add_constraint('up', '=', 0);
     }
 
-    /**
-     * @param midcom_core_querybuilder $qb
-     * @param string $category
-     */
-    public function apply_category_constraint($qb, $category)
+    public function apply_category_constraint($qb, string $category)
     {
         if ($category = trim($category)) {
             $qb->begin_group('OR');

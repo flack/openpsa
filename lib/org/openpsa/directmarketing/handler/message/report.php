@@ -245,7 +245,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         ];
     }
 
-    private function _calculate_percentages(array &$array, $link)
+    private function _calculate_percentages(array &$array, org_openpsa_directmarketing_link_log_dba $link)
     {
         $this->_initialize_field($array['percentages']['of_links'], $link);
         $this->_initialize_field($array['percentages']['of_recipients'], $link);
@@ -264,7 +264,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         }
     }
 
-    private function _initialize_field(array &$array, $link)
+    private function _initialize_field(array &$array, org_openpsa_directmarketing_link_log_dba $link)
     {
         if (!isset($array[$link->target])) {
             $array[$link->target] = [];
@@ -275,7 +275,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         }
     }
 
-    private function _increment_totals(array &$array, $link)
+    private function _increment_totals(array &$array, org_openpsa_directmarketing_link_log_dba $link)
     {
         if (!isset($array['tokens'][$link->token])) {
             $array['tokens'][$link->token] = 0;

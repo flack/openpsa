@@ -190,7 +190,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             $ymd = date('Ymd', $stamp);
 
             $last_end_time = $workday_starts_ts;
-            $last_event = false;
+            $last_event = null;
 
             if (isset($events_by_date[$ymd])) {
                 foreach ($events_by_date[$ymd] as $event) {
@@ -223,7 +223,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         return $slots;
     }
 
-    private static function _create_slot($start, $end, $previous, $next = false) : array
+    private static function _create_slot(int $start, int $end, ?org_openpsa_calendar_event_dba $previous, org_openpsa_calendar_event_dba $next = null) : array
     {
         return [
             'start' => $start,

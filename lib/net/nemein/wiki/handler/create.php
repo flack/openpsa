@@ -102,7 +102,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
      * @param array $data The local request data.
      * @param string $schema The DM schema
      */
-    public function _handler_create(Request $request, array &$data, $schema = null)
+    public function _handler_create(Request $request, array &$data, string $schema = null)
     {
         // Initialize sessioning first
         $data['session'] = new midcom_services_session();

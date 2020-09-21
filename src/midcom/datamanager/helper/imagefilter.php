@@ -33,7 +33,7 @@ class imagefilter
      */
     private $save_archival = false;
 
-    public function __construct(array $config, $save_archival = false)
+    public function __construct(array $config, bool $save_archival = false)
     {
         $this->config = $config;
         $this->save_archival = $save_archival;

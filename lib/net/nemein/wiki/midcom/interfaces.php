@@ -19,7 +19,7 @@ implements midcom_services_permalinks_resolver
     /**
      * @inheritdoc
      */
-    public function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex(midcom_core_dbaobject $topic, midcom_helper_configuration $config, midcom_services_indexer &$indexer)
     {
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $topic->id);

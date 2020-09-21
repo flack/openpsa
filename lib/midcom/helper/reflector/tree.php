@@ -157,10 +157,10 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Figure out constraint(s) to use to get child objects
      */
-    private function _get_link_fields(string $schema_type, $for_object) : array
+    private function _get_link_fields(string $schema_type, $classname) : array
     {
         static $cache = [];
-        $cache_key = $schema_type . '-' . get_class($for_object);
+        $cache_key = $schema_type . '-' . $classname;
         if (empty($cache[$cache_key])) {
             $ref = new midgard_reflection_property($schema_type);
 
@@ -183,7 +183,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     if (empty($info['target'])) {
                         $info['target'] = 'guid';
                     }
-                } elseif (!self::is_same_class($linked_class, get_class($for_object))) {
+                } elseif (!self::is_same_class($linked_class, $classname)) {
                     // This link points elsewhere
                     continue;
                 }
@@ -209,7 +209,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        $linkfields = $this->_get_link_fields($schema_type, $for_object);
+        $linkfields = $this->_get_link_fields($schema_type, get_class($for_object));
 
         if (empty($linkfields)) {
             debug_add("Class '{$schema_type}' has no valid link properties pointing to class '" . get_class($for_object) . "', this should not happen here", MIDCOM_LOG_ERROR);

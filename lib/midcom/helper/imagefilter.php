@@ -306,11 +306,8 @@ class midcom_helper_imagefilter
      * the result has to be stored in (a temporary file usually) and
      * the parameters passed to the command originally. It should return
      * true on a successful transformation, false otherwise.
-     *
-     * @param string $command  The name of the callback to execute
-     * @param array $args      The arguments passed to the callback
      */
-    private function execute_user_callback(callable $command, $args)
+    private function execute_user_callback(callable $command, array $args)
     {
         $tmpfile = $this->_get_tempfile();
 
@@ -535,7 +532,7 @@ class midcom_helper_imagefilter
      *
      * @param int $x Width
      */
-    public function squarethumb($x = 0, $gravity = 'center')
+    public function squarethumb($x = 0, string $gravity = 'center')
     {
         $this->crop($x, $x, $gravity);
     }
@@ -546,7 +543,7 @@ class midcom_helper_imagefilter
      * @param int $x Width
      * @param int $y Height
      */
-    public function crop($x = 0, $y = 0, $gravity = 'center')
+    public function crop($x = 0, $y = 0, string $gravity = 'center')
     {
         if ($x == 0) {
             return;
@@ -591,7 +588,7 @@ class midcom_helper_imagefilter
      * @param string $color Color
      * @param string $gravity Gravity point
      */
-    public function fill($x = null, $y = null, $color = null, $gravity = 'center')
+    public function fill($x = null, $y = null, $color = null, string $gravity = 'center')
     {
         if (   empty($x)
             || empty($y)

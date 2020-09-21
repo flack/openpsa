@@ -86,7 +86,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Prepare the indexer client
      */
-    public function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex(midcom_core_dbaobject $topic, midcom_helper_configuration $config, midcom_services_indexer &$indexer)
     {
         $root_event = self::find_root_event();
 
@@ -119,7 +119,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Returns attribute string for opening the event popup
      */
-    public static function get_viewer_attributes(string $guid, $node) : string
+    public static function get_viewer_attributes(string $guid, array $node) : string
     {
         if (empty($node[MIDCOM_NAV_FULLURL])) {
             throw new midcom_error('given node is not valid');

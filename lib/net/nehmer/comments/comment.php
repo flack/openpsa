@@ -65,7 +65,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      *
      * @return net_nehmer_comments_comment[] List of applicable comments.
      */
-    public static function list_by_objectguid(string $guid, $limit = false, string $order = 'ASC', bool $paging = false)
+    public static function list_by_objectguid(string $guid, $limit = false, string $order = 'ASC', $paging = false)
     {
         $qb = self::_prepare_query($guid, $paging, $limit);
         $qb->add_order('metadata.published', $order);
@@ -84,7 +84,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      *
      * @return net_nehmer_comments_comment[] List of applicable comments.
      */
-    public static function list_by_objectguid_filter_anonymous(string $guid, $limit = false, string $order = 'ASC', bool $paging = false)
+    public static function list_by_objectguid_filter_anonymous(string $guid, $limit = false, string $order = 'ASC', $paging = false)
     {
         $qb = self::_prepare_query($guid, $paging, $limit);
         $qb->add_order('metadata.published', $order);
@@ -121,7 +121,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         return $qb->count_unchecked();
     }
 
-    private static function _prepare_query(string $guid, bool $paging = false, $limit = false)
+    private static function _prepare_query(string $guid, $paging = false, $limit = false)
     {
         if ($paging !== false) {
             $qb = new org_openpsa_qbpager(self::class, 'net_nehmer_comments_comment');

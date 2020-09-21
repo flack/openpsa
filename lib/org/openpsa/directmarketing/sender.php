@@ -72,7 +72,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
      * @param org_openpsa_directmarketing_campaign_message_dba $message The message we're working on
      * @param array $config Configuration that gets handed to the backend
      */
-    public function __construct(org_openpsa_directmarketing_campaign_message_dba $message, array $config = [], $from = '', $subject = '')
+    public function __construct(org_openpsa_directmarketing_campaign_message_dba $message, array $config = [], $from = '', string $subject = '')
     {
         parent::__construct();
         $this->_message = $message;

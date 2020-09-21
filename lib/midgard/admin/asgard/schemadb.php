@@ -490,7 +490,7 @@ class midgard_admin_asgard_schemadb
         return $score;
     }
 
-    public function sort_schema_fields($first, $second)
+    public function sort_schema_fields(string $first, string $second)
     {
         $score1 = $this->_get_score($first);
         $score2 = $this->_get_score($second);

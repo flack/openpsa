@@ -80,7 +80,7 @@ trait org_openpsa_invoices_handler
         }
     }
 
-    public function add_next_previous(org_openpsa_invoices_invoice_dba $object, $urlprefix)
+    public function add_next_previous(org_openpsa_invoices_invoice_dba $object, string $urlprefix)
     {
         $items = [];
         $url = '';

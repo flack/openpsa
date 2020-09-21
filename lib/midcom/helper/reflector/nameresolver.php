@@ -245,7 +245,7 @@ class midcom_helper_reflector_nameresolver
 
     }
 
-    private function _parse_filename(string $name, string $extension, $default = 0) : array
+    private function _parse_filename(string $name, string $extension, int $default = 0) : array
     {
         if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $name, $name_matches)) {
             // Name already has i and base parts, split them.
@@ -285,7 +285,7 @@ class midcom_helper_reflector_nameresolver
         return [$i, $base_name];
     }
 
-    private function process_schema_type($qb, $i, string $schema_type, string $base_name, string $extension) : int
+    private function process_schema_type($qb, int $i, string $schema_type, string $base_name, string $extension) : int
     {
         if (!$qb) {
             return $i;

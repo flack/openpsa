@@ -27,7 +27,7 @@ class midcom_services_i18n_formatter
         $this->language = $language;
     }
 
-    public function number($value, $precision = 2)
+    public function number($value, int $precision = 2)
     {
         // The fallback implementation in Intl only supports DECIMAL, so we hardcode the style here..
         $formatter = new NumberFormatter($this->get_locale(), NumberFormatter::DECIMAL);
@@ -61,7 +61,7 @@ class midcom_services_i18n_formatter
         return $formatter->format($value);
     }
 
-    public function timeframe($start, $end, $mode = 'both', $range_separator = null, $fulldate = false) : string
+    public function timeframe($start, $end, string $mode = 'both', string $range_separator = null, bool $fulldate = false) : string
     {
         $ranger = new Ranger($this->get_locale());
         if ($mode !== 'date') {

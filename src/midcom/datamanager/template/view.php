@@ -283,7 +283,7 @@ class view extends base
         return '';
     }
 
-    public function checkbox_widget(FormView $view, $data)
+    public function checkbox_widget(FormView $view, array $data)
     {
         if ($data['checked']) {
             return '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/ok.png" alt="selected" />';

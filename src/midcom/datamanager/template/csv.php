@@ -91,7 +91,7 @@ class csv extends base
         return '';
     }
 
-    public function checkbox_widget(FormView $view, $data)
+    public function checkbox_widget(FormView $view, array $data)
     {
         return ($data['checked']) ? '1' : '0';
     }

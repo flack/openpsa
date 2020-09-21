@@ -52,7 +52,7 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
      *
      * @param array $array
      */
-    public function array2data(array $array, $root_node = 'array', $prefix = '') : string
+    public function array2data(array $array, string $root_node = 'array', string $prefix = '') : string
     {
         $data = "{$prefix}<{$root_node}>\n";
 

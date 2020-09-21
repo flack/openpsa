@@ -158,14 +158,8 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     /**
      * Loads the comments, does any processing according to the state of the GET list.
      * On successful processing we relocate once to ourself.
-     *
-     * @param Request $request The request object
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $data The local request data.
-     * @param string $guid The object's GUID
-     * @param string $view The custom view identifier
      */
-    public function _handler_comments(Request $request, string $handler_id, array &$data, string $guid, $view = null)
+    public function _handler_comments(Request $request, string $handler_id, array &$data, string $guid, string $view = null)
     {
         $this->_objectguid = $guid;
         midcom::get()->cache->content->register($this->_objectguid);

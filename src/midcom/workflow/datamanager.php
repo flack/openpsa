@@ -105,13 +105,13 @@ class datamanager extends dialog
         return 'close(' . json_encode($data) . ');';
     }
 
-    public function add_post_button(string $url, $label, array $args)
+    public function add_post_button(string $url, string $label, array $args)
     {
         $this->add_dialog_js();
         midcom::get()->head->add_jscript('add_post_button(' . $this->prepare_url($url) . ', "' . $label . '", ' . json_encode($args) . ');');
     }
 
-    public function add_dialog_button(dialog $dialog, $url)
+    public function add_dialog_button(dialog $dialog, string $url)
     {
         $config = $dialog->get_button_config();
         $this->add_dialog_js();

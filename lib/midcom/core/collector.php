@@ -145,11 +145,8 @@ class midcom_core_collector extends midcom_core_query
     /**
      * Convenience function to get all values of a number of columns
      * They are indexed by GUID unless you specify something else
-     *
-     * @param array $fields The fields to get
-     * @param string $indexed_by the column name to be used as index
      */
-    public function get_rows(array $fields, $indexed_by = 'guid') : array
+    public function get_rows(array $fields, string $indexed_by = 'guid') : array
     {
         array_map([$this, 'add_value_property'], $fields);
 

@@ -53,5 +53,5 @@ interface org_openpsa_directmarketing_sender_backend
      * @param string $content Message content
      * @param string $from Message sender
      */
-    public function send(org_openpsa_contacts_person_dba $person, org_openpsa_directmarketing_campaign_member_dba $member, $token, $subject, $content, $from);
+    public function send(org_openpsa_contacts_person_dba $person, org_openpsa_directmarketing_campaign_member_dba $member, string $token, string $subject, string $content, $from);
 }

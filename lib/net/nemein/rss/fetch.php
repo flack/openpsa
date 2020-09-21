@@ -270,7 +270,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         return $author;
     }
 
-    private function find_article(net_nemein_rss_parser_item $item, $guid) : ?midcom_db_article
+    private function find_article(net_nemein_rss_parser_item $item, string $guid) : ?midcom_db_article
     {
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_feed->node);

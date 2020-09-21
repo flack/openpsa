@@ -26,7 +26,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      * The see org.openpsa.projects for an example of how the component interface method
      * org_openpsa_relatedto_find_suspects() should work.
      */
-    public static function find_links_object_component(midcom_core_dbaobject $object, $component, org_openpsa_relatedto_dba $defaults) : array
+    public static function find_links_object_component(midcom_core_dbaobject $object, string $component, org_openpsa_relatedto_dba $defaults) : array
     {
         $ret = [];
 
@@ -63,7 +63,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      *
      * Tries to be smart about the direction (inbound vs outbound) properties
      */
-    public static function defaults_helper(org_openpsa_relatedto_dba $link, org_openpsa_relatedto_dba $defaults, $component, midcom_core_dbaobject $obj)
+    public static function defaults_helper(org_openpsa_relatedto_dba $link, org_openpsa_relatedto_dba $defaults, string $component, midcom_core_dbaobject $obj)
     {
         $properties = ['fromClass', 'toClass', 'fromGuid', 'toGuid', 'fromComponent', 'toComponent', 'status', 'toExtra', 'toExtra'];
         foreach ($properties as $property) {

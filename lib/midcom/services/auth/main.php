@@ -441,7 +441,7 @@ class midcom_services_auth
         }
     }
 
-    private function access_denied(?string $message, string $fallback, $data = null) : midcom_error_forbidden
+    private function access_denied(?string $message, string $fallback, string $data = null) : midcom_error_forbidden
     {
         if ($message === null) {
             $message = midcom::get()->i18n->get_string('access denied: ' . $fallback, 'midcom');

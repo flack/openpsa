@@ -27,7 +27,7 @@ class midcom_response_styled extends Response
      */
     private $context;
 
-    public function __construct(midcom_core_context $context, $root_element = 'ROOT')
+    public function __construct(midcom_core_context $context, string $root_element = 'ROOT')
     {
         parent::__construct();
         $this->set_context($context);

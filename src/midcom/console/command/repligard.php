@@ -97,17 +97,11 @@ class repligard extends Command
         return new PDO($dsn, $username, $password);
     }
 
-    private function _confirm(InputInterface $input, OutputInterface $output, string $question, $default = false) : bool
+    private function _confirm(InputInterface $input, OutputInterface $output, string $question) : bool
     {
-        $question = '<question>' . $question;
-        $options = [true => 'y', false => 'n'];
-        foreach ($options as $value => &$option) {
-            if ($value == $default) {
-                $option = strtoupper($option);
-            }
-        }
-        $question .= ' [' . implode('|', $options). ']</question> ';
-        $question = new ConfirmationQuestion($question, $default);
+        $options = [true => 'y', false => 'N'];
+        $question = '<question>' . $question . ' [' . implode('|', $options). ']</question> ';
+        $question = new ConfirmationQuestion($question, false);
         $dialog = $this->getHelperSet()->get('question');
         return $dialog->ask($input, $output, $question);
     }

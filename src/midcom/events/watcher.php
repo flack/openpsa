@@ -60,7 +60,7 @@ class watcher implements EventSubscriberInterface
         return $found;
     }
 
-    public function handle_event(dbaevent $event, $name)
+    public function handle_event(dbaevent $event, string $name)
     {
         $object = $event->get_object();
         $operation = $this->map[$name];
