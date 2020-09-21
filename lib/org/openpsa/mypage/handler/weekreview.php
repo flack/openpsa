@@ -73,7 +73,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         }
     }
 
-    private function _list_task_statuses_between(array &$data_array, $person, int $from, int $to)
+    private function _list_task_statuses_between(array &$data_array, midcom_db_person $person, int $from, int $to)
     {
         // List user's hour reports
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
@@ -119,7 +119,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         // Then start looking for stuff to display
         $this->_list_events_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
         $this->_list_hour_reports_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
-        $this->_list_task_statuses_between($data['review_data'], midcom::get()->auth->user, $data['week_start'], $data['week_end']);
+        $this->_list_task_statuses_between($data['review_data'], midcom::get()->auth->user->get_storage(), $data['week_start'], $data['week_end']);
 
         // Arrange by date/time
         ksort($data['review_data']);
