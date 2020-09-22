@@ -296,6 +296,21 @@ p
     margin-bottom: 0.5em;
 }
 
+#content .object_edit .form > fieldset
+{
+    background-color: #EEEEEC;
+    border: none;
+    border-radius: 4px;
+}
+
+#content .object_edit .form > fieldset legend
+{
+    background-color: #EEEEEC;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
+
 #content .object_view .field,
 #content .object_edit .element
 {
