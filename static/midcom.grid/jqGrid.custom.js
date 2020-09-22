@@ -504,10 +504,6 @@ const midcom_grid_helper = {
             })
             .after(toggle);
     },
-    set_tooltip: function (grid_id, column, tooltip) {
-        var thd = $("thead:first", $('#' + grid_id)[0].grid.hDiv)[0];
-        $("tr.ui-jqgrid-labels th:eq(" + column + ")", thd).attr("title", tooltip);
-    },
     setup_grid: function (grid_id, config_orig) {
         var identifier = 'openpsa-jqgrid#' + grid_id,
             saved_values = {},
