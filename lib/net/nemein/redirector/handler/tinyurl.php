@@ -38,10 +38,8 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
 
     /**
      * Populate request data
-     *
-     * @param String $handler_id
      */
-    private function _populate_request_data($handler_id)
+    private function _populate_request_data(string $handler_id)
     {
         if ($handler_id === 'edit') {
             $this->add_breadcrumb("{$this->_tinyurl->name}/", $this->_tinyurl->title);
@@ -158,10 +156,9 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Show the list of TinyURLs
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_list($handler_id, array &$data)
+    public function _show_list(string $handler_id, array &$data)
     {
         midcom_show_style('tinyurl-list-start');
 

@@ -149,10 +149,8 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
 
     /**
      * Update the context so that we get a complete breadcrumb line towards the current location.
-     *
-     * @param string $handler_id The current handler's ID
      */
-    private function _update_breadcrumb_line($handler_id)
+    private function _update_breadcrumb_line(string $handler_id)
     {
         $this->add_breadcrumb($this->router->generate('feeds_list'), $this->_l10n->get('manage feeds'));
 

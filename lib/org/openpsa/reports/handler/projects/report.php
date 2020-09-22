@@ -161,11 +161,9 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_generator($handler_id, array &$data)
+    public function _show_generator(string $handler_id, array &$data)
     {
         //Mangling if report wants to do it (done here to have style context, otherwise MidCOM will not like us.
         midcom_show_style('projects_report-basic-mangle-query');

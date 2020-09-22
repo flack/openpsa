@@ -210,10 +210,9 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     }
 
     /**
-     * @param string $handler_id Name of the used handler
      * @param array $data Data passed to the show method
      */
-    public function _show_create($handler_id, array &$data)
+    public function _show_create(string $handler_id, array &$data)
     {
         $data['files'] = $this->_files;
         $data['object'] = $this->_object;
@@ -271,10 +270,9 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Show the editing view for the requested style
      *
-     * @param string $handler_id Name of the used handler
      * @param array $data Data passed to the show method
      */
-    public function _show_edit($handler_id, array &$data)
+    public function _show_edit(string $handler_id, array &$data)
     {
         $data['files'] = $this->_files;
         $data['file'] = $this->_file;

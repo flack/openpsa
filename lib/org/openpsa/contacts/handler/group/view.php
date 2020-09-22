@@ -79,11 +79,9 @@ implements client
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_view($handler_id, array &$data)
+    public function _show_view(string $handler_id, array &$data)
     {
         if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
             midcom_show_style('show-group-other');

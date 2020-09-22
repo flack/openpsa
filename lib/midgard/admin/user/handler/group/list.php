@@ -20,7 +20,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
     /**
      * Populate breadcrumb
      */
-    private function _update_breadcrumb($handler_id)
+    private function _update_breadcrumb(string $handler_id)
     {
         $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get('midgard.admin.user'));
         $this->add_breadcrumb($this->router->generate('group_list'), $this->_l10n->get('groups'));
@@ -64,10 +64,9 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
     /**
      * Show the moving of a group phase
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_move($handler_id, array &$data)
+    public function _show_move(string $handler_id, array &$data)
     {
         midcom_show_style('midgard-admin-user-group-list-start');
 
@@ -103,10 +102,9 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
     /**
      * Show the group listing
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_list($handler_id, array &$data)
+    public function _show_list(string $handler_id, array &$data)
     {
         midcom_show_style('midgard-admin-user-group-list-start');
 

@@ -32,7 +32,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
     abstract protected function get_object_url() : string;
 
-    abstract protected function handler_callback($handler_id);
+    abstract protected function handler_callback(string $handler_id);
 
     abstract protected function get_breadcrumbs();
 
@@ -222,10 +222,9 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_history($handler_id, array &$data)
+    public function _show_history(string $handler_id, array &$data)
     {
         $data['history'] = $this->backend->get_history();
         $data['guid'] = $this->object->guid;

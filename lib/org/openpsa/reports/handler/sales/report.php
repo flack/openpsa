@@ -112,11 +112,9 @@ implements client
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_generator($handler_id, array &$data)
+    public function _show_generator(string $handler_id, array &$data)
     {
         midcom_show_style('sales_report-deliverable-start');
 

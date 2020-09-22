@@ -61,10 +61,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Update the breadcrumb line
-     *
-     * @param string $handler_id
      */
-    private function _update_breadcrumb($handler_id, string $guid)
+    private function _update_breadcrumb(string $handler_id, string $guid)
     {
         $this->add_breadcrumb($this->router->generate('import_main', ['guid' => $guid]), $this->_l10n->get('import subscribers'));
 
@@ -155,10 +153,9 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Show the import phase of email addresses
      *
-     * @param String $handler_id    Name of the request handler
      * @param array $data          Public request data, passed by reference
      */
-    public function _show_simpleemails($handler_id, array &$data)
+    public function _show_simpleemails(string $handler_id, array &$data)
     {
         if (!$this->_import_success) {
             midcom_show_style('show-import-simpleemails-form');
@@ -187,10 +184,9 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Show the vcard import interface
      *
-     * @param String $handler_id    Name of the request handler
      * @param array $data          Public request data, passed by reference
      */
-    public function _show_vcards($handler_id, array &$data)
+    public function _show_vcards(string $handler_id, array &$data)
     {
         if (!$this->_import_success) {
             midcom_show_style('show-import-vcard-form');
@@ -249,10 +245,9 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Show the CSV selection phase where user defines which field in CSV corresponds to which schema fields
      *
-     * @param String $handler_id    Name of the request handler
      * @param array $data          Public request data, passed by reference
      */
-    public function _show_csv_select($handler_id, array &$data)
+    public function _show_csv_select(string $handler_id, array &$data)
     {
         if (array_key_exists('rows', $data)) {
             // Present user with the field matching form

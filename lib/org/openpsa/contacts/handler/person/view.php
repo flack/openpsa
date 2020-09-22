@@ -94,10 +94,8 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
     /**
      * Populate the toolbar with the necessary items
-     *
-     * @param string $handler_id the ID of the current handler
      */
-    private function _populate_toolbar($handler_id)
+    private function _populate_toolbar(string $handler_id)
     {
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];
@@ -171,11 +169,9 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_group_memberships($handler_id, array &$data)
+    public function _show_group_memberships(string $handler_id, array &$data)
     {
         if (empty($data['organizations']) && empty($data['groups'])) {
             midcom_show_style('show-person-groups-empty');

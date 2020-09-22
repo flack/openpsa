@@ -48,11 +48,9 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_list($handler_id, array &$data)
+    public function _show_list(string $handler_id, array &$data)
     {
         $data['folder'] = $this->_topic;
         midcom_show_style('net-nemein-rss-feeds-list-header');

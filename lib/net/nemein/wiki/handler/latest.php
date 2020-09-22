@@ -92,11 +92,9 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_latest($handler_id, array &$data)
+    public function _show_latest(string $handler_id, array &$data)
     {
         $data['wikiname'] = $this->_topic->extra;
         if (!empty($data['latest_pages'])) {

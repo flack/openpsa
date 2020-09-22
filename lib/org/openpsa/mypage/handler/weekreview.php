@@ -143,11 +143,9 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_review($handler_id, array &$data)
+    public function _show_review(string $handler_id, array &$data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['calendar_node'] = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');

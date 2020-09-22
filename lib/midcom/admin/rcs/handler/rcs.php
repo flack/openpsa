@@ -26,7 +26,7 @@ class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
         return $items;
     }
 
-    protected function handler_callback($handler_id)
+    protected function handler_callback(string $handler_id)
     {
         $this->_view_toolbar->add_item([
             MIDCOM_TOOLBAR_URL => $this->get_object_url(),

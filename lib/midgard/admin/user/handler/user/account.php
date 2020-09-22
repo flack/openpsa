@@ -74,10 +74,9 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
     }
 
     /**
-     * @param string $handler_id Name of the used handler
      * @param array $data Data passed to the show method
      */
-    public function _show_edit($handler_id, array &$data)
+    public function _show_edit(string $handler_id, array &$data)
     {
         $data['person'] = $this->person;
         midcom_show_style('midgard-admin-user-person-edit-account');

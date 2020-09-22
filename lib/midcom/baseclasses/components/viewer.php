@@ -84,18 +84,18 @@ use midcom\routing\plugin;
  * <code>
  * /**
  *  * Exec handler example, with Docblock:
- *  * @param mixed $handler_id The ID of the handler.
+ *  * @param string $handler_id The ID of the handler.
  *  * @param array $args The argument list.
  *  * @param array $data The local request data.
  *  {@*}
- * public function _handler_xxx ($handler_id, array $args, array &$data) {}
+ * public function _handler_xxx (string $handler_id, array $args, array &$data) {}
  *
  * /**
  *  * Show handler example, with Docblock:
- *  * @param mixed $handler_id The ID of the handler.
+ *  * @param string $handler_id The ID of the handler.
  *  * @param array $data The local request data.
  *  {@*}
- * public function _show_xxx ($handler_id, array &$data) {}
+ * public function _show_xxx (string $handler_id, array &$data) {}
  * </code>
  *
  * The two callbacks match the regular processing sequence of MidCOM.

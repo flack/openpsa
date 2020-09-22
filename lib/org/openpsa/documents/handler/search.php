@@ -73,11 +73,9 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_search($handler_id, array &$data)
+    public function _show_search(string $handler_id, array &$data)
     {
         $displayed = 0;
         midcom_show_style('show-search-header');

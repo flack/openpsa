@@ -64,7 +64,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         return $dm->set_storage($this->invoice);
     }
 
-    private function populate_toolbar($handler_id)
+    private function populate_toolbar(string $handler_id)
     {
         $buttons = [];
         if ($this->invoice->can_do('midgard:update')) {
@@ -126,10 +126,8 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
 
     /**
      * Update the context so that we get a complete breadcrumb line towards the current location.
-     *
-     * @param string $handler_id The current handler
      */
-    private function update_breadcrumb($handler_id)
+    private function update_breadcrumb(string $handler_id)
     {
         if ($customer = $this->invoice->get_customer()) {
             $this->add_breadcrumb($this->router->generate('list_customer_all', ['guid' => $customer->guid]), $customer->get_label());

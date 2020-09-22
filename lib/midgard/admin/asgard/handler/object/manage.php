@@ -432,10 +432,9 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     /**
      * Show copy style
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_copy($handler_id, array &$data)
+    public function _show_copy(string $handler_id, array &$data)
     {
         // Show the tree hierarchy
         if ($handler_id === 'object_copy_tree') {

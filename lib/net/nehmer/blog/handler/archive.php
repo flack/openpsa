@@ -231,10 +231,9 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * - string 'name' => The localized name of the month.
      * - int 'count' => The number of postings in that month.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_welcome($handler_id, array &$data)
+    public function _show_welcome(string $handler_id, array &$data)
     {
         midcom_show_style('archive-welcome-start');
 
@@ -378,10 +377,9 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     /**
      * Displays the archive.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_list($handler_id, array &$data)
+    public function _show_list(string $handler_id, array &$data)
     {
         // FIXME: For some reason the config topic is lost between _handle and _show phases
         $this->_config->store_from_object($this->_topic, $this->_component);

@@ -27,7 +27,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/libconfig.css');
     }
 
-    private function _prepare_toolbar($handler_id)
+    private function _prepare_toolbar(string $handler_id)
     {
         $view_url = $this->router->generate('components_configuration', ['component' => $this->_request_data['name']]);
         $edit_url = $this->router->generate('components_configuration_edit', ['component' => $this->_request_data['name']]);
@@ -58,7 +58,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     /**
      * Set the breadcrumb data
      */
-    private function _prepare_breadcrumbs($handler_id)
+    private function _prepare_breadcrumbs(string $handler_id)
     {
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('components'), $this->_l10n->get('components'));
@@ -161,10 +161,9 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     }
 
     /**
-     * @param string $handler_id Name of the used handler
      * @param array $data Data passed to the show method
      */
-    public function _show_view($handler_id, array &$data)
+    public function _show_view(string $handler_id, array &$data)
     {
         midcom_show_style('midgard_admin_asgard_component_configuration_header');
 

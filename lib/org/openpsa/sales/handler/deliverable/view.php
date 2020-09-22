@@ -124,10 +124,9 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
     /**
      * Shows the loaded deliverable.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_view($handler_id, array &$data)
+    public function _show_view(string $handler_id, array &$data)
     {
         if ($this->_deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
             midcom_show_style('show-deliverable-subscription');

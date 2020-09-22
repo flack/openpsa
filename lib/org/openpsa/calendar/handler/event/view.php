@@ -90,10 +90,9 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
     /**
      * Show a single event
      *
-     * @param String $handler_id    Name of the request handler
      * @param array $data          Public request data, passed by reference
      */
-    public function _show_event($handler_id, array &$data)
+    public function _show_event(string $handler_id, array &$data)
     {
         if ($handler_id == 'event_view') {
             // Set title to popup

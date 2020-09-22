@@ -47,10 +47,9 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_members($handler_id, array &$data)
+    public function _show_members(string $handler_id, array &$data)
     {
         $results = $data['members_qb']->execute();
         if (!empty($results)) {
@@ -76,10 +75,9 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_subgroups($handler_id, array &$data)
+    public function _show_subgroups(string $handler_id, array &$data)
     {
         if (!empty($data['results'])) {
             $this->add_head_elements();

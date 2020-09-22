@@ -149,10 +149,9 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * Renders the selected view
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_render($handler_id, array &$data)
+    public function _show_render(string $handler_id, array &$data)
     {
         midcom_show_style('relatedto_start');
 

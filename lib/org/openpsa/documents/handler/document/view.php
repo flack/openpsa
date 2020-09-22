@@ -124,10 +124,9 @@ implements client
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_versions($handler_id, array &$data)
+    public function _show_versions(string $handler_id, array &$data)
     {
         if ($this->_provider->count_rows() == 0) {
             return;

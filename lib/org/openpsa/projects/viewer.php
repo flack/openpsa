@@ -25,9 +25,8 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_viewer
      * Update the context so that we get a complete breadcrumb line towards the current location.
      *
      * @param org_openpsa_projects_task_dba $task
-     * @param mixed $handler The current handler
      */
-    public static function add_breadcrumb_path($task, $handler)
+    public static function add_breadcrumb_path($task, midcom_baseclasses_components_handler $handler)
     {
         $tmp = [];
         while ($task) {

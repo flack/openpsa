@@ -330,7 +330,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         asort($this->_request_data['libraries']);
     }
 
-    private function _prepare_breadcrumb($handler_id)
+    private function _prepare_breadcrumb(string $handler_id)
     {
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get('midcom.admin.help'));
 
@@ -365,10 +365,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     /**
      * Shows the help system main screen
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_welcome($handler_id, array &$data)
+    public function _show_welcome(string $handler_id, array &$data)
     {
         midcom_show_style('midcom_admin_help_header');
         midcom_show_style('midcom_admin_help_about');
@@ -403,10 +402,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     /**
      * Shows the component help ToC.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_component($handler_id, array &$data)
+    public function _show_component(string $handler_id, array &$data)
     {
         midcom_show_style('midcom_admin_help_header');
 
@@ -442,10 +440,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     /**
      * Shows the help page.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_help($handler_id, array &$data)
+    public function _show_help(string $handler_id, array &$data)
     {
         midcom_show_style('midcom_admin_help_header');
         switch ($this->_request_data['help_id']) {

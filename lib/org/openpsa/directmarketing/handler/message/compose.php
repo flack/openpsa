@@ -94,10 +94,9 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     /**
      * Compose the message and send it for post-formatting
      *
-     * @param String $handler_id    Name of the request handler
      * @param array $data          Public request data, passed by reference
      */
-    public function _show_compose($handler_id, array &$data)
+    public function _show_compose(string $handler_id, array &$data)
     {
         if ($handler_id === 'compose4person') {
             ob_start();
@@ -110,7 +109,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         $this->_real_show_compose($handler_id, $data);
     }
 
-    private function _real_show_compose($handler_id, array &$data)
+    private function _real_show_compose(string $handler_id, array &$data)
     {
         $prefix = '';
         if (   !empty($data['message_array']['substyle'])

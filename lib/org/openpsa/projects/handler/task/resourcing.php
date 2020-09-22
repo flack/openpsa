@@ -26,7 +26,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    private function _prepare_request_data($handler_id)
+    private function _prepare_request_data(string $handler_id)
     {
         $this->_request_data['task'] = $this->_task;
 

@@ -77,10 +77,9 @@ class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_h
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_shell($handler_id, array &$data)
+    public function _show_shell(string $handler_id, array &$data)
     {
         if (!isset($_GET['ajax'])) {
             midcom_show_style('midgard_admin_asgard_shell');

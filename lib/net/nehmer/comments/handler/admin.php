@@ -47,11 +47,9 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_welcome($handler_id, array &$data)
+    public function _show_welcome(string $handler_id, array &$data)
     {
         midcom_show_style('admin-start');
         midcom_show_style('admin-welcome');
@@ -136,11 +134,9 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_moderate_ajax($handler_id, array &$data)
+    public function _show_moderate_ajax(string $handler_id, array &$data)
     {
         if (!empty($data['comment'])) {
             $this->_display_datamanager->set_storage($data['comment']);
@@ -166,11 +162,9 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_moderate($handler_id, array &$data)
+    public function _show_moderate(string $handler_id, array &$data)
     {
         midcom_show_style('admin-start');
         if ($data['comments']) {

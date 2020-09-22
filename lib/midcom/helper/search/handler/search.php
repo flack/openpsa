@@ -27,7 +27,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         return $this->show('search_form');
     }
 
-    private function prepare_formdata($handler_id)
+    private function prepare_formdata(string $handler_id)
     {
         $this->_request_data['query'] = (array_key_exists('query', $_REQUEST) ? $_REQUEST['query'] : '');
         if ($handler_id === 'advanced') {
@@ -235,10 +235,9 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     /**
      * Displays the resultset.
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_result($handler_id, array &$data)
+    public function _show_result(string $handler_id, array &$data)
     {
         if ($data['document_count'] > 0) {
             midcom_show_style('results');

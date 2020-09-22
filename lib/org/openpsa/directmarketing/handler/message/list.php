@@ -37,7 +37,7 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
     /**
      * Shows the loaded message.
      */
-    public function _show_list($handler_id, array &$data)
+    public function _show_list(string $handler_id, array &$data)
     {
         $qb = new org_openpsa_qbpager(org_openpsa_directmarketing_campaign_message_dba::class, 'campaign_messages');
         $qb->results_per_page = 10;

@@ -32,7 +32,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_services_rcs_handle
         return midcom_core_context::get()->get_custom_key('midcom.helper.nav.breadcrumb');
     }
 
-    protected function handler_callback($handler_id)
+    protected function handler_callback(string $handler_id)
     {
         return $this->get_response();
     }

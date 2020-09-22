@@ -65,7 +65,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     /**
      * Bind view to an object
      */
-    public static function bind_to_object($object, $handler_id, array &$data)
+    public static function bind_to_object($object, string $handler_id, array &$data)
     {
         // Tell our object to MidCOM
         midcom::get()->metadata->set_request_metadata($object->metadata->revised, $object->guid);
@@ -89,7 +89,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         self::set_pagetitle($object, $handler_id, $data);
     }
 
-    public static function set_pagetitle($object, $handler_id, array &$data)
+    public static function set_pagetitle($object, string $handler_id, array &$data)
     {
         // Figure out correct title and language handling
         switch ($handler_id) {
@@ -160,10 +160,9 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      * Populate the object breadcrumb
      *
      * @param mixed $object        MgdSchema object for which the toolbar will be created
-     * @param String $handler_id   Initialized handler id
      * @param array $data          Local request data
      */
-    private static function _set_object_breadcrumb($object, $handler_id, array $data)
+    private static function _set_object_breadcrumb($object, string $handler_id, array $data)
     {
         $breadcrumb = [];
         $label = $data['object_reflector']->get_object_label($object);

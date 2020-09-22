@@ -69,11 +69,9 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_navigation($handler_id, array &$data)
+    public function _show_navigation(string $handler_id, array &$data)
     {
         $tree_array = [
             $data['root_topic']->id => ['topic' => $data['root_topic']]

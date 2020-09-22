@@ -108,10 +108,9 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
     /**
      * Displays the index page
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_index($handler_id, array &$data)
+    public function _show_index(string $handler_id, array &$data)
     {
         $data['index_fulltext'] = $this->_config->get('index_fulltext');
 

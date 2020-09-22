@@ -73,10 +73,9 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
     /**
      * Shows the loaded components
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_list($handler_id, array &$data)
+    public function _show_list(string $handler_id, array &$data)
     {
         $this->_show_lists('components');
         $this->_show_lists('libraries');

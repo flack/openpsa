@@ -55,10 +55,9 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
     /**
      * Show list of the users
      *
-     * @param string $handler_id Name of the used handler
      * @param array $data Data passed to the show method
      */
-    public function _show_index($handler_id, array &$data)
+    public function _show_index(string $handler_id, array &$data)
     {
         if (!empty($data['images'])) {
             midcom_show_style('index');
@@ -93,10 +92,9 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
     /**
      * Show list of the users
      *
-     * @param string $handler_id Name of the used handler
      * @param array $data Data passed to the show method
      */
-    public function _show_subfolders($handler_id, array &$data)
+    public function _show_subfolders(string $handler_id, array &$data)
     {
         if (!empty($data['subfolders'])) {
             midcom_show_style('index-subfolders');

@@ -181,10 +181,9 @@ implements client
     }
 
     /**
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_dashboard($handler_id, array &$data)
+    public function _show_dashboard(string $handler_id, array &$data)
     {
         $this->_show_invoice_list('unsent');
         $this->_show_invoice_list('overdue');
@@ -310,11 +309,9 @@ implements client
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_customer($handler_id, array &$data)
+    public function _show_customer(string $handler_id, array &$data)
     {
         $this->_show_invoice_list('unsent');
         $this->_show_invoice_list('overdue');
@@ -346,11 +343,9 @@ implements client
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_deliverable($handler_id, array &$data)
+    public function _show_deliverable(string $handler_id, array &$data)
     {
         $this->_show_invoice_list();
     }

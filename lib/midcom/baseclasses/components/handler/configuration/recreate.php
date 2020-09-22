@@ -52,10 +52,9 @@ abstract class midcom_baseclasses_components_handler_configuration_recreate exte
     /**
      * Show the recreation screen
      *
-     * @param string $handler_id    Name of the handler
      * @param array  $data          Miscellaneous output data
      */
-    public function _show_recreate($handler_id, array &$data)
+    public function _show_recreate(string $handler_id, array &$data)
     {
         midcom::get()->disable_limits();
 

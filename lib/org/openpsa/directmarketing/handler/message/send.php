@@ -51,11 +51,9 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_send_bg($handler_id, array &$data)
+    public function _show_send_bg(string $handler_id, array &$data)
     {
         midcom::get()->auth->request_sudo($this->_component);
         $sender = $this->_get_sender($data);
@@ -143,11 +141,9 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_send($handler_id, array &$data)
+    public function _show_send(string $handler_id, array &$data)
     {
         $sender = $this->_get_sender($data);
         $composed = $this->compose($data);

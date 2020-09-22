@@ -122,10 +122,9 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     }
 
     /**
-     * @param string $handler_id Name of the used handler
      * @param array $data Data passed to the show method
      */
-    public function _show_list($handler_id, array &$data)
+    public function _show_list(string $handler_id, array &$data)
     {
         $data['persons'] = $this->_persons;
         midcom_show_style('midgard-admin-user-personlist-header');
@@ -284,10 +283,9 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     /**
      * Show the batch password change form
      *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_password_email($handler_id, array &$data)
+    public function _show_password_email(string $handler_id, array &$data)
     {
         $data['message_subject'] = $this->_l10n->get($this->_config->get('message_subject'));
         $data['message_body'] = $this->_l10n->get($this->_config->get('message_body'));

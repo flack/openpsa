@@ -117,11 +117,9 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
     }
 
     /**
-     *
-     * @param mixed $handler_id The ID of the handler.
      * @param array $data The local request data.
      */
-    public function _show_uninvoiced($handler_id, array &$data)
+    public function _show_uninvoiced(string $handler_id, array &$data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['projects_url'] = $siteconfig->get_node_full_url('org.openpsa.projects');
