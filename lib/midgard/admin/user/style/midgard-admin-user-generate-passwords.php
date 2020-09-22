@@ -12,10 +12,10 @@ if (!isset($_GET['ajax-form'])) {
     ?>
         <form method="get" action="<?php echo midcom_connection::get_url('uri'); ?>" id="midgard_admin_user_generated_passwords_form">
             <label for="amount">
-                <span class="label"><?php echo $data['l10n']->get('amount'); ?></span> <input type="text" name="n" id="amount" value="<?php echo $n; ?>" size="2"  maxlength="4" /> (<?php printf($data['l10n']->get('maximum %s'), $max_amount); ?>)
+                <span class="label"><?php echo $data['l10n']->get('amount'); ?></span> <input type="number" name="n" id="amount" value="<?php echo $n; ?>" size="3" min="1" max="<?php echo $max_amount; ?>" required /> (<?php printf($data['l10n']->get('maximum %s'), $max_amount); ?>)
             </label>
             <label for="length">
-                <span class="label"><?php echo $data['l10n']->get('password length'); ?></span> <input type="text" name="length" id="length" value="<?php echo $length; ?>" size="2" maxlength="2" /> (<?php printf($data['l10n']->get('maximum %s'), $max_length); ?>)
+                <span class="label"><?php echo $data['l10n']->get('password length'); ?></span> <input type="number" name="length" id="length" value="<?php echo $length; ?>" size="2" min="1" max="<?php echo $max_length; ?>" required /> (<?php printf($data['l10n']->get('maximum %s'), $max_length); ?>)
             </label>
             <label for="similar_characters">
                 <input type="checkbox" id="similar_characters" name="no_similars" value="1" <?php if ($no_similars) {
