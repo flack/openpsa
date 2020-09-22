@@ -178,7 +178,7 @@ function rule(parent, id) {
             count_child_groups = count(groups[this.parent].child_groups);
 
         if ($("#" + this.id).children(".add_row").length > 0) {
-            this.append_add_button($("#" + this.id).prevAll(".rule:first"));
+            this.append_add_button($("#" + this.id).prevAll(".rule").first());
         }
         groups[this.parent].child_rules[this.id] = null ;
 

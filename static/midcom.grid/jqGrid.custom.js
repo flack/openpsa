@@ -360,7 +360,7 @@ const midcom_grid_editable = {
     editRow: function(id) {
         $('#' + this.grid_id).jqGrid('editRow', id, this.options);
         $('#cancel_button_' + id).closest("tr")
-            .find('textarea, input[type="text"]').filter(':first:visible').focus();
+            .find('textarea, input[type="text"]').filter(':visible').first().focus();
     },
     saveRow: function(id) {
         $('#' + this.grid_id).jqGrid('saveRow', id, this.options);

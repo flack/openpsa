@@ -114,7 +114,7 @@ const org_openpsa_widgets_tabs = {
             }
         });
 
-        var insertion_point = $('link[rel="stylesheet"]:first');
+        var insertion_point = $('link[rel="stylesheet"]').first();
         head_elements.head_css.forEach(function(data) {
             if (   typeof data.type === 'undefined'
                 || typeof data.href === 'undefined'

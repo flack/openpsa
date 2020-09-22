@@ -66,7 +66,7 @@ $(document).ready(function() {
         $(this).nextAll('input[type="submit"]').prop('disabled', !$(this).val());
     });
 
-    $('#midgard_admin_user_batch_process table tbody input[type="checkbox"]:first').trigger('change');
+    $('#midgard_admin_user_batch_process table tbody input[type="checkbox"]').first().trigger('change');
 
     $('#midgard_admin_user_batch_process table').tablesorter({
     //    widgets: ['column_highlight'],
