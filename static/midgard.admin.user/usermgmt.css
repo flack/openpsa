@@ -67,6 +67,7 @@ form.datamanager2 fieldset input
     background-color: transparent;
     font-family: monospace;
     font-size: 100%;
+    outline: none;
 }
 
 #midgard_admin_user_passwords label,

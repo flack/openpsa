@@ -11,7 +11,7 @@ $url = $data['router']->generate('user_passwords');
             .attr('href', '#')
             .attr('target', '_self')
             .click(function() {
-                jQuery(this.parentNode).load('&(url);?ajax&timestamp=<?php echo time(); ?>');
+                jQuery(this.parentNode).load('&(url);?timestamp=<?php echo time(); ?>');
             });
     // ]]>
 </script>

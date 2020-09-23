@@ -19,6 +19,9 @@
     'email',
     'city',
 ],
+'passwords_max_amount' => 100,
+'passwords_max_length' => 16,
+
 'message_subject' => 'your password has been changed',
 'message_body' => "Your password has been changed. Your new password is __PASSWORD__",
 'message_footer' => "
