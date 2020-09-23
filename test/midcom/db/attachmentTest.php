@@ -76,26 +76,6 @@ class midcom_db_attachmentTest extends openpsa_testcase
         $this->assertFileEquals(self::$_filepath . 'attach.png', $blob->get_path());
     }
 
-    public function test_get_cache_path()
-    {
-        $properties = [
-            'parentguid' => self::$_topic->guid,
-            'name' => 'attach.png'
-        ];
-        $attachment = $this->_get_attachment($properties);
-
-        midcom::get()->config->set('attachment_cache_enabled', false);
-        $stat = $attachment->get_cache_path();
-        $this->assertNull($stat);
-
-        midcom::get()->config->set('attachment_cache_enabled', true);
-        $expected_path = midcom::get()->config->get('attachment_cache_root') . '/' . substr($attachment->guid, 0, 1) . '/' . $attachment->guid . '/attach.png';
-
-        $stat = $attachment->get_cache_path();
-        midcom::get()->config->set('attachment_cache_enabled', false);
-        $this->assertEquals($expected_path, $stat);
-    }
-
     public function test_file_to_cache()
     {
         $properties = [

@@ -14,11 +14,7 @@ echo "<p>" . count($atts) . " attachments to process...</p>\n";
 
 echo "<pre>\n";
 foreach ($atts as $att) {
-    try {
-        $att->file_to_cache();
-    } catch (midcom_error $e) {
-        echo 'Error: ' . $e->getMessage() . "\n";
-    }
+    $att->file_to_cache();
 }
 echo "</pre>\n";
 

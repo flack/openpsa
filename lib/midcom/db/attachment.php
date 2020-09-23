@@ -164,12 +164,8 @@ class midcom_db_attachment extends midcom_core_dbaobject
     /**
      * Get the path to the document in the static cache
      */
-    public function get_cache_path() : ?string
+    private function get_cache_path() : string
     {
-        if (!midcom::get()->config->get('attachment_cache_enabled')) {
-            return null;
-        }
-
         // Copy the file to the static directory
         $cacheroot = midcom::get()->config->get('attachment_cache_root');
         $subdir = substr($this->guid, 0, 1);
@@ -210,22 +206,17 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
     public function file_to_cache()
     {
-        // Check if the attachment can be read anonymously
         if (!midcom::get()->config->get('attachment_cache_enabled')) {
             return;
         }
 
         if (!$this->can_do('midgard:read', 'EVERYONE')) {
             debug_add("Attachment {$this->name} ({$this->guid}) is not publicly readable, not caching.");
+            $this->remove_from_cache();
             return;
         }
 
         $filename = $this->get_cache_path();
-
-        if (!$filename) {
-            debug_add("Failed to generate cache path for attachment {$this->name} ({$this->guid}), not caching.");
-            return;
-        }
 
         if (file_exists($filename) && is_link($filename)) {
             debug_add("Attachment {$this->name} ({$this->guid}) is already in cache as {$filename}, skipping.");
@@ -247,6 +238,14 @@ class midcom_db_attachment extends midcom_core_dbaobject
         }
 
         debug_add("Symlinking attachment {$this->name} ({$this->guid}) as {$filename} failed, data copied instead.");
+    }
+
+    private function remove_from_cache()
+    {
+        $filename = $this->get_cache_path();
+        if (file_exists($filename)) {
+            @unlink($filename);
+        }
     }
 
     /**
@@ -322,10 +321,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         if (   midcom::get()->config->get('attachment_cache_enabled')
             && !$this->can_do('midgard:read', 'EVERYONE')) {
             // Not public file, ensure it is removed
-            $filename = $this->get_cache_path();
-            if (file_exists($filename)) {
-                @unlink($filename);
-            }
+            $this->remove_from_cache();
         }
     }
 
@@ -344,10 +340,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     {
         if (midcom::get()->config->get('attachment_cache_enabled')) {
             // Remove attachment cache
-            $filename = $this->get_cache_path();
-            if (file_exists($filename)) {
-                @unlink($filename);
-            }
+            $this->remove_from_cache();
         }
     }
 
