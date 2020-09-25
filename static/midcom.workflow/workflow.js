@@ -314,7 +314,12 @@ function make_dialog(node, config) {
         $.widget.bridge("button", $.ui.button);
     }
 
-    node.dialog(config);
+    node
+        .on('dialogopen', function() {
+            // workaround for jqueryui rendering issue
+            node.prev().find('.ui-dialog-titlebar-close').css('outline', 'none');
+        })
+        .dialog(config);
 
     if (backup) {
         $.button = backup;
