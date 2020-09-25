@@ -1,10 +1,10 @@
 const dialog = window.frameElement ? window.parent.$(window.frameElement.parentNode) : null;
 
-function refresh_opener(url) {
+function refresh_opener(url, data) {
     if (url === undefined) {
         url = window.parent.location.href;
     }
-    close();
+    close(data);
 
     var button = window.parent.$('[data-dialog="dialog"][data-refresh-opener].active');
     if (button.length > 0) {

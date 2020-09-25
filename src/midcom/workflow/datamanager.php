@@ -82,16 +82,6 @@ class datamanager extends dialog
 
     protected function handle_save() : string
     {
-        if ($this->relocate) {
-            $url = '';
-            if (is_callable($this->save_callback)) {
-                $url = call_user_func($this->save_callback, $this->controller);
-                if ($url !== null) {
-                    $url = $this->prepare_url($url);
-                }
-            }
-            return 'refresh_opener(' . $url . ');';
-        }
         $dm = $this->controller->get_datamanager();
         $object = $dm->get_storage()->get_value();
         if ($object instanceof \midcom_core_dbaobject) {
@@ -101,6 +91,16 @@ class datamanager extends dialog
             $data['guid'] = $object->guid;
         } else {
             $data = $dm->get_content_html();
+        }
+        if ($this->relocate) {
+            $url = '';
+            if (is_callable($this->save_callback)) {
+                $url = call_user_func($this->save_callback, $this->controller);
+                if ($url !== null) {
+                    $url = $this->prepare_url($url);
+                }
+            }
+            return 'refresh_opener(' . $url . ', ' . json_encode($data) . ');';
         }
         return 'close(' . json_encode($data) . ');';
     }
