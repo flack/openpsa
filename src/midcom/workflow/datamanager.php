@@ -95,12 +95,10 @@ class datamanager extends dialog
         if ($this->relocate) {
             $url = '';
             if (is_callable($this->save_callback)) {
-                $url = call_user_func($this->save_callback, $this->controller);
-                if ($url !== null) {
-                    $url = $this->prepare_url($url);
-                }
+                $url = call_user_func($this->save_callback, $this->controller) ?? '';
             }
-            return 'refresh_opener(' . $url . ', ' . json_encode($data) . ');';
+
+            return 'refresh_opener(' . $this->prepare_url($url) . ', ' . json_encode($data) . ');';
         }
         return 'close(' . json_encode($data) . ');';
     }
