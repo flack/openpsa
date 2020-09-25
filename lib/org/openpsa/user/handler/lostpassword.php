@@ -83,7 +83,7 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
 
         // Generate a random password
         $length = max(8, $this->_config->get('min_password_length'));
-        $password = org_openpsa_user_accounthelper::generate_password($length);
+        $password = midgard_admin_user_plugin::generate_password($length);
         $account->set_password($password);
         if (!$account->save()) {
             midcom::get()->auth->drop_sudo();

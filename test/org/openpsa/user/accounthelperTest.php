@@ -188,16 +188,6 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    public function testGenerate_password()
-    {
-        $password = org_openpsa_user_accounthelper::generate_password();
-        $this->assertTrue(is_string($password));
-        $this->assertEquals(8, strlen($password));
-
-        $password = org_openpsa_user_accounthelper::generate_password(16);
-        $this->assertEquals(16, strlen($password));
-    }
-
     public function testCheck_password_strength()
     {
         $accounthelper = new org_openpsa_user_accounthelper;

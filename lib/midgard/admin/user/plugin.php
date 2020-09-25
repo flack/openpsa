@@ -28,12 +28,23 @@ class midgard_admin_user_plugin extends midcom_baseclasses_components_plugin
      */
     public static function generate_password(int $length = 8, bool $no_similars = true) : string
     {
-        if ($no_similars) {
-            $options = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-        } else {
-            $options = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        // Safety
+        if ($length < 3) {
+            $length = 8;
         }
 
-        return midcom_helper_misc::random_string($length, $options);
+        // Valid characters for default password (PONDER: make configurable ?)
+        if ($no_similars) {
+            $first_last_chars = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        } else {
+            $first_last_chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        }
+        $passwdchars = $first_last_chars . '.,-*!:+=()/&%$<>?#@';
+
+        //make sure password doesn't begin or end in punctuation character
+        $password = midcom_helper_misc::random_string(1, $first_last_chars);
+        $password .= midcom_helper_misc::random_string($length - 2, $passwdchars);
+        $password .= midcom_helper_misc::random_string(1, $first_last_chars);
+        return $password;
     }
 }

@@ -184,32 +184,12 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     }
 
     /**
-     * Returns an auto generated password of variable length
-     */
-    public static function generate_password(int $length = 0) : string
-    {
-        // Safety
-        if ($length == 0) {
-            $length = 8;
-        }
-        // Valid characters for default password (PONDER: make configurable ?)
-        $passwdchars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-*!:+=()/&%$<>?#@';
-        $first_last_chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
-        //make sure password doesn't begin or end in punctuation character
-        $password = midcom_helper_misc::random_string(1, $first_last_chars);
-        $password .= midcom_helper_misc::random_string($length - 2, $passwdchars);
-        $password .= midcom_helper_misc::random_string(1, $first_last_chars);
-        return $password;
-    }
-
-    /**
      * Returns an auto generated password which will pass the persons check_password_strength test
      */
     public function generate_safe_password(int $length = 0) : string
     {
         do {
-            $password = self::generate_password($length);
+            $password = midgard_admin_user_plugin::generate_password($length);
         } while (!$this->check_password_strength($password));
         return $password;
     }
