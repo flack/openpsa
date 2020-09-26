@@ -27,7 +27,7 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
             return $leaves;
         }
 
-        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_topic->id, $this->_config->get('sort_order'));
 
         $qb->add_constraint('up', '=', 0);
         $qb->add_constraint('metadata.navnoentry', '=', 0);

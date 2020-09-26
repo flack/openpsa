@@ -71,7 +71,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
                 return $response;
             }
         } else {
-            $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
+            $qb = net_nehmer_static_viewer::get_topic_qb($this->_topic->id, $this->_config->get('sort_order'));
             $qb->add_constraint('name', '=', $args[0]);
             $qb->add_constraint('up', '=', 0);
             $qb->set_limit(1);
@@ -118,7 +118,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
 
     private function _load_index_article()
     {
-        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_topic->id, $this->_config->get('sort_order'));
         $qb->add_constraint('name', '=', 'index');
         $qb->set_limit(1);
         $this->_article = $qb->get_result(0);

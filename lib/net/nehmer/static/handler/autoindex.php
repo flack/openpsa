@@ -43,7 +43,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     public function _handler_autoindex()
     {
         // Get last modified timestamp
-        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id, false);
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_topic->id);
 
         $qb->add_order('metadata.revised', 'DESC');
         $qb->set_limit(1);
@@ -97,7 +97,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     {
         $view = [];
         $datamanager = new datamanager($this->_request_data['schemadb']);
-        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_topic->id, $this->_config->get('sort_order'));
         $qb->add_order('title');
         $qb->add_order('name');
 
