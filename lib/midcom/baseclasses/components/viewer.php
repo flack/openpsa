@@ -21,9 +21,8 @@ use midcom\routing\plugin;
  * <b>Request switch configuration</b>
  *
  * The class uses an array which aids in URL-to-function mapping. Handlers are distinguished
- * by the "URL-space" they handle. For each handler three functions are needed, one for the
- * request handle decision ("Can Handle Phase"), one for the
- * request handling ("Handle Phase") and one for output ("Output Phase"). These handlers refer to
+ * by the "URL-space" they handle. For each handler, one function is needed for the
+ * request handling ("Handle Phase") and optionally one for output ("Output Phase"). These handlers refer to
  * another class which gets instantiated if necessary.
  *
  * All request handlers are contained in a single array, whose keys identify the various switch
@@ -164,7 +163,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
     public $_request_data = [];
 
     /**
-     * The node toolbar for the current request context. Not available during the can_handle
+     * The node toolbar for the current request context. Becomes available in the handle
      * phase.
      *
      * @var midcom_helper_toolbar
@@ -173,7 +172,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
     public $_node_toolbar;
 
     /**
-     * The view toolbar for the current request context. Not available during the can_handle
+     * The view toolbar for the current request context. Becomes available in the handle
      * phase.
      *
      * @var midcom_helper_toolbar
@@ -266,9 +265,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
     }
 
     /**
-     * Handle the request using the handler determined by the can_handle check.
-     *
-     * Before doing anything, it will call the _on_handle event handler to allow for
+     * Set up handler fields and call the _on_handle event handler to allow for
      * generic request preparation.
      *
      * @see _on_handle()
@@ -298,7 +295,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
     }
 
     /**
-     * Display the content, it uses the handler as determined by can_handle.
+     * Display the content using the matched handler.
      */
     public function show()
     {
@@ -316,11 +313,10 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      * Use this function instead of the constructor for all initialization work. You
      * can safely populate the request switch from here.
      *
-     * You should not do anything else then general startup work, as this callback
-     * executes <i>before</i> the can_handle phase. You don't know at this point
-     * whether you are even able to handle the request. Thus, anything that is specific
-     * to your request (like HTML HEAD tag adds) must not be done here. Use _on_handle
-     * instead.
+     * You should not do anything other than general startup work, as this callback
+     * executes <i>before</i> determining whether the component will handle the request.
+     * Thus, anything that is specific to your request (like HTML HEAD tag adds)
+     * must not be done here. Use _on_handle instead.
      */
     public function _on_initialize()
     {
@@ -348,8 +344,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      *
      * Only very basic testing is done to keep runtime up, currently the system only
      * checks to prevent duplicate namespace registrations. In such a case,
-     * midcom_error will be thrown. Any further validation won't be done before
-     * can_handle determines that a plugin is actually in use.
+     * midcom_error will be thrown.
      *
      * @param string $namespace The plugin namespace, checked against $args[0] during
      *     URL parsing.

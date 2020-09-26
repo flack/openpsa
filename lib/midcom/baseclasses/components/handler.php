@@ -62,7 +62,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     var $_master;
 
     /**
-     * The node toolbar for the current request context. Not available during the can_handle
+     * The node toolbar for the current request context. Becomes available in the handle
      * phase.
      *
      * @var midcom_helper_toolbar
@@ -71,7 +71,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     var $_node_toolbar;
 
     /**
-     * The view toolbar for the current request context. Not available during the can_handle
+     * The view toolbar for the current request context. Becomes available in the handle
      * phase.
      *
      * @var midcom_helper_toolbar

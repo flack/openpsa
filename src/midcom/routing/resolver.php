@@ -86,8 +86,7 @@ class resolver
      * will report an error, depending on the situation.
      *
      * Details: The logic will traverse the node tree, and for the last node it will load
-     * the component that is responsible for it. This component gets the chance to
-     * accept the request, which is basically a call to can_handle. If the component
+     * the component that is responsible for it. If the component
      * declares to be able to handle the call, its handle function is executed. Depending
      * if the handle was successful or not, it will either display an HTTP error page or
      * prepares the content handler to display the content later on.
@@ -107,7 +106,6 @@ class resolver
         $component_interface = midcom::get()->componentloader->get_interface_class($topic->component);
         $viewer = $component_interface->get_viewer($topic);
 
-        // Make can_handle check
         $parameters = $this->get_parameters($viewer);
         $viewer->prepare_handler($parameters);
 

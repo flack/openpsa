@@ -85,8 +85,7 @@ class plugin
 {
     /**
      * This variable keeps track of the registered plugin namespaces. It maps namespace
-     * identifiers against plugin config lists. This is used during can_handle startup
-     * to determine whether the request has to be relayed to a plugin.
+     * identifiers against plugin config lists.
      *
      * You have to use the viewer's register_plugin_namespace() member function during the
      * _on_initialize event to register plugin namespaces.
@@ -101,8 +100,7 @@ class plugin
      *
      * Only very basic testing is done to keep runtime up, currently the system only
      * checks to prevent duplicate namespace registrations. In such a case,
-     * midcom_error will be thrown. Any further validation won't be done before
-     * can_handle determines that a plugin is actually in use.
+     * midcom_error will be thrown.
      *
      * @param string $namespace The plugin namespace, checked against $args[0] during
      *     URL parsing.
