@@ -58,7 +58,7 @@ use midcom\routing\plugin;
  * ];
  * </code>
  *
- * This definition is usually located in either in the routes.inc file (preferred)
+ * This definition is usually located in either in the routes.yml file (preferred)
  * or the _on_initialize event handler.
  *
  * The handlers are processed in the order which they have been added to the array. This has
@@ -248,11 +248,6 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
     {
         $this->parameters =& $parameters;
 
-        if (!str_contains($parameters['_controller'], '::')) {
-            // Support for handlers in request class (deprecated)
-            $parameters['handler'] = [&$this, $parameters['handler']];
-            return;
-        }
         $parameters['handler'] = explode('::', $parameters['_controller'], 2);
 
         $this->initialize_handler(new $parameters['handler'][0]);
@@ -307,15 +302,12 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      */
     public function show()
     {
-        if (empty($this->parameters['handler'])) {
-            return;
+        if (!empty($this->parameters['handler'])) {
+            $handler = $this->parameters['handler'][0];
+            $method = "_show_{$this->parameters['handler'][1]}";
+
+            $handler->$method($this->parameters['_route'], $this->_request_data);
         }
-
-        // Call the handler:
-        $handler = $this->parameters['handler'][0];
-        $method = "_show_{$this->parameters['handler'][1]}";
-
-        $handler->$method($this->parameters['_route'], $this->_request_data);
     }
 
     /**
