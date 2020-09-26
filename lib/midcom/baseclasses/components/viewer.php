@@ -210,7 +210,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      *
      * @var Array
      */
-    private $_handler;
+    private $parameters;
 
     /**
      * Initializes the class, only basic variable assignment.
@@ -244,18 +244,18 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      * Prepares the handler callback for execution.
      * This will create the handler class instance if required.
      */
-    public function prepare_handler(array &$request)
+    public function prepare_handler(array &$parameters)
     {
-        $this->_handler =& $request;
+        $this->parameters =& $parameters;
 
-        if (!str_contains($request['_controller'], '::')) {
+        if (!str_contains($parameters['_controller'], '::')) {
             // Support for handlers in request class (deprecated)
-            $request['handler'] = [&$this, $request['handler']];
+            $parameters['handler'] = [&$this, $parameters['handler']];
             return;
         }
-        $request['handler'] = explode('::', $request['_controller'], 2);
+        $parameters['handler'] = explode('::', $parameters['_controller'], 2);
 
-        $this->initialize_handler(new $request['handler'][0]);
+        $this->initialize_handler(new $parameters['handler'][0]);
         midcom_core_context::get()->set_custom_key('request_data', $this->_request_data);
     }
 
@@ -267,7 +267,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
         }
 
         $handler->initialize($this, $this->router);
-        $this->_handler['handler'][0] = $handler;
+        $this->parameters['handler'][0] = $handler;
     }
 
     /**
@@ -281,7 +281,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
     public function handle()
     {
         // Init
-        $handler = $this->_handler['handler'][0];
+        $handler = $this->parameters['handler'][0];
 
         // Update the request data
         $this->_request_data['topic'] = $this->_topic;
@@ -294,11 +294,11 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
         $handler->_view_toolbar = $this->_view_toolbar;
 
         // Add the handler ID to request data
-        $this->_request_data['handler_id'] = $this->_handler['_route'];
+        $this->_request_data['handler_id'] = $this->parameters['_route'];
 
         if (!array_key_exists('plugin_name', $this->_request_data)) {
             // We're not using a plugin handler, so call the general handle event handler
-            $this->_on_handle($this->_handler['_route'], $this->_handler['args']);
+            $this->_on_handle($this->parameters['_route'], $this->parameters['args']);
         }
     }
 
@@ -307,15 +307,15 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      */
     public function show()
     {
-        if (empty($this->_handler['handler'])) {
+        if (empty($this->parameters['handler'])) {
             return;
         }
 
         // Call the handler:
-        $handler = $this->_handler['handler'][0];
-        $method = "_show_{$this->_handler['handler'][1]}";
+        $handler = $this->parameters['handler'][0];
+        $method = "_show_{$this->parameters['handler'][1]}";
 
-        $handler->$method($this->_handler['_route'], $this->_request_data);
+        $handler->$method($this->parameters['_route'], $this->_request_data);
     }
 
     /**

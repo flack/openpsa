@@ -108,12 +108,12 @@ class resolver
         $viewer = $component_interface->get_viewer($topic);
 
         // Make can_handle check
-        $result = $this->get_handler($viewer);
-        $viewer->prepare_handler($result);
+        $parameters = $this->get_parameters($viewer);
+        $viewer->prepare_handler($parameters);
 
         $this->context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
 
-        foreach ($result as $key => $value) {
+        foreach ($parameters as $key => $value) {
             if ($key === 'handler') {
                 $key = '_controller';
                 $value[1] = '_handler_' . $value[1];
@@ -128,7 +128,7 @@ class resolver
     /**
      * Checks against all registered handlers if a valid one can be found.
      */
-    private function get_handler(midcom_baseclasses_components_viewer $viewer) : array
+    private function get_parameters(midcom_baseclasses_components_viewer $viewer) : array
     {
         $argv = $this->request->attributes->get('argv', []);
         $prefix = $this->context->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
