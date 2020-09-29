@@ -8,7 +8,6 @@
 
 namespace midcom\bundle\test;
 
-use midcom_config;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use midcom_services_cache;
@@ -29,15 +28,17 @@ class cachePassTest extends TestCase
 {
     public function test_process_nap_apcu()
     {
-        $config = new midcom_config;
-        $config->set('cache_autoload_queue', ['nap']);
-        $config->set('cache_module_memcache_backend', 'apc');
-        $pass = new cachePass($config, OPENPSA2_UNITTEST_OUTPUT_DIR . '/cachetest');
-
         $container = $this
             ->getMockBuilder(ContainerBuilder::class)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $container
+            ->expects($this->exactly(4))
+            ->method('getParameter')
+            ->with($this->logicalOr('midcom.cache_autoload_queue', 'midcom.cache_module_memcache_backend', 'midcom.cache_module_memcache_backend_config', 'kernel.cache_dir'))
+            ->will($this->returnCallback([$this, 'get_config']));
+
 
         $container
             ->expects($this->exactly(2))
@@ -45,7 +46,20 @@ class cachePassTest extends TestCase
             ->with($this->logicalOr('cache', 'cache.module.nap.backend'))
             ->will($this->returnCallback([$this, 'get_definition_mock']));
 
-        $pass->process($container);
+        (new cachePass)->process($container);
+    }
+
+    public function get_config(string $identifier) {
+        if ($identifier === 'kernel.cache_dir') {
+            return OPENPSA2_UNITTEST_OUTPUT_DIR . '/cachetest';
+        }
+        if ($identifier === 'midcom.cache_autoload_queue') {
+            return ['nap'];
+        }
+        if ($identifier === 'midcom.cache_module_memcache_backend') {
+            return 'apc';
+        }
+        return [];
     }
 
     public function get_definition_mock($identifier)
@@ -79,13 +93,10 @@ class cachePassTest extends TestCase
         $container = $this->prepare_container();
         $container->register('cache.module.content.backend', VoidCache::class);
         $container->register('cache.module.content_data.backend', VoidCache::class);
+        $container->setParameter('midcom.cache_autoload_queue', ['content']);
+        $container->setParameter('midcom.cache_module_content_backend', ['driver' => 'memcached']);
 
-        $config = new midcom_config;
-        $config->set('cache_autoload_queue', ['content']);
-        $config->set('cache_module_content_backend', ['driver' => 'memcached']);
-        $pass = new cachePass($config, OPENPSA2_UNITTEST_OUTPUT_DIR . '/cachetest');
-
-        $pass->process($container);
+        (new cachePass)->process($container);
 
         $this->assertTrue($container->hasDefinition('cache.memcached.content'));
     }
@@ -93,14 +104,11 @@ class cachePassTest extends TestCase
     public function test_process_memcache_flatfile()
     {
         $container = $this->prepare_container();
+        $container->setParameter('midcom.cache_autoload_queue', ['memcache']);
+        $container->setParameter('midcom.cache_module_memcache_backend', 'flatfile');
         $backend = $container->register('cache.module.memcache.backend', VoidCache::class);
 
-        $config = new midcom_config;
-        $config->set('cache_autoload_queue', ['memcache']);
-        $config->set('cache_module_memcache_backend', 'flatfile');
-        $pass = new cachePass($config, OPENPSA2_UNITTEST_OUTPUT_DIR . '/cachetest');
-
-        $pass->process($container);
+        (new cachePass)->process($container);
 
         $this->assertEquals(FilesystemCache::class, $backend->getClass());
     }
@@ -108,14 +116,11 @@ class cachePassTest extends TestCase
     public function test_process_memcache_sqlite()
     {
         $container = $this->prepare_container();
+        $container->setParameter('midcom.cache_autoload_queue', ['memcache']);
+        $container->setParameter('midcom.cache_module_memcache_backend', 'sqlite');
         $backend = $container->register('cache.module.memcache.backend', VoidCache::class);
 
-        $config = new midcom_config;
-        $config->set('cache_autoload_queue', ['memcache']);
-        $config->set('cache_module_memcache_backend', 'sqlite');
-        $pass = new cachePass($config, OPENPSA2_UNITTEST_OUTPUT_DIR . '/cachetest');
-
-        $pass->process($container);
+        (new cachePass)->process($container);
 
         $this->assertEquals(SQLite3Cache::class, $backend->getClass());
     }
@@ -124,6 +129,9 @@ class cachePassTest extends TestCase
     {
         $container = new ContainerBuilder();
         $container->register('cache', midcom_services_cache::class);
+        $container->setParameter('kernel.cache_dir', OPENPSA2_UNITTEST_OUTPUT_DIR . '/cachetest');
+        $container->setParameter('midcom.cache_module_memcache_backend_config', []);
+
         return $container;
     }
 }

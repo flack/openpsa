@@ -8,7 +8,6 @@
 
 namespace midcom\bundle\test;
 
-use midcom_config;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -28,11 +27,6 @@ class loggerPassTest extends TestCase
 {
     public function test_process()
     {
-        $config = new midcom_config;
-        $config->set('log_filename', 'testname');
-        $config->set('log_level', MIDCOM_LOG_DEBUG);
-        $pass = new loggerPass($config);
-
         $logger = new ChildDefinition('logger');
         $logger->replaceArgument(0, 'request');
 
@@ -40,6 +34,14 @@ class loggerPassTest extends TestCase
             ->getMockBuilder(ContainerBuilder::class)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $container
+            ->expects($this->exactly(2))
+            ->method('getParameter')
+            ->with($this->logicalOr(
+                $this->equalTo('midcom.log_filename'),
+                $this->equalTo('midcom.log_level')))
+            ->will($this->returnCallback([$this, 'get_config']));
 
         $container
             ->expects($this->once())
@@ -54,7 +56,15 @@ class loggerPassTest extends TestCase
                 $this->equalTo('controller_resolver')))
             ->will($this->returnCallback([$this, 'get_definition_mock']));
 
-        $pass->process($container);
+        (new loggerPass)->process($container);
+    }
+
+    public function get_config(string $key)
+    {
+        if ($key === 'midcom.log_filename') {
+            return 'testname';
+        }
+        return MIDCOM_LOG_DEBUG;
     }
 
     public function get_definition_mock($identifier)

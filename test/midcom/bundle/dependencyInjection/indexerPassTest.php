@@ -8,7 +8,6 @@
 
 namespace midcom\bundle\test;
 
-use midcom_config;
 use midcom\bundle\dependencyInjection\indexerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -27,14 +26,16 @@ class indexerPassTest extends TestCase
 {
     public function test_process()
     {
-        $config = new midcom_config;
-        $config->set('indexer_backend', 'solr');
-        $pass = new indexerPass($config);
-
         $container = $this
             ->getMockBuilder(ContainerBuilder::class)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $container
+            ->expects($this->exactly(1))
+            ->method('getParameter')
+            ->with('midcom.indexer_backend')
+            ->willReturn('solr');
 
         $container
             ->expects($this->exactly(3))
@@ -45,7 +46,7 @@ class indexerPassTest extends TestCase
                 $this->equalTo('event_dispatcher')))
             ->will($this->returnCallback([$this, 'get_definition_mock']));
 
-        $pass->process($container);
+        (new indexerPass)->process($container);
     }
 
     public function get_definition_mock($identifier)

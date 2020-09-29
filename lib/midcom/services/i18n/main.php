@@ -76,9 +76,9 @@ class midcom_services_i18n
      * The fallback language is read from the MidCOM configuration directive
      * <i>i18n_fallback_language</i>.
      */
-    public function __construct(RequestStack $request_stack)
+    public function __construct(RequestStack $request_stack, string $fallback_language)
     {
-        $this->_fallback_language = midcom::get()->config->get('i18n_fallback_language');
+        $this->_fallback_language = $fallback_language;
 
         $found = false;
         if ($request = $request_stack->getCurrentRequest()) {

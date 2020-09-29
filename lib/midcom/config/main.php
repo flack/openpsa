@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 /**
  * Core configuration defaults.
  *
@@ -518,6 +520,13 @@ class midcom_config implements ArrayAccess
         }
 
         return $this->_merged_config[$key];
+    }
+
+    public function export_to(ContainerBuilder $builder)
+    {
+        foreach ($this->_merged_config as $key => $value) {
+            $builder->setParameter('midcom.' . $key, $value);
+        }
     }
 
     public function set(string $key, $value)

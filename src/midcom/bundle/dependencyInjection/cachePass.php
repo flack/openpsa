@@ -6,31 +6,23 @@ use Symfony\Component\DependencyInjection\Reference;
 use Doctrine\Common\Cache;
 use SQLite3;
 use midcom_services_cache_module_memcache;
-use midcom_config;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
-class cachePass extends configPass
+class cachePass implements CompilerPassInterface
 {
-    private $cachedir;
-
-    public function __construct(midcom_config $config, string $cachedir)
-    {
-        parent::__construct($config);
-        $this->cachedir = $cachedir;
-    }
-
     public function process(ContainerBuilder $container)
     {
-        foreach ($this->config->get('cache_autoload_queue') as $name) {
+        foreach ($container->getParameter('midcom.cache_autoload_queue') as $name) {
             $container->getDefinition('cache')
                 ->addMethodCall('add_module', [$name, new Reference('cache.module.' . $name)]);
 
             if ($name == 'nap' || $name == 'memcache') {
-                if ($driver = $this->config->get('cache_module_memcache_backend')) {
-                    $config = $this->config->get('cache_module_memcache_backend_config');
+                if ($driver = $container->getParameter('midcom.cache_module_memcache_backend')) {
+                    $config = $container->getParameter('midcom.cache_module_memcache_backend_config');
                     $this->configure_backend($name, $driver, $config, $container);
                 }
             } else {
-                $config = $this->config->get('cache_module_content_backend');
+                $config = $container->getParameter('midcom.cache_module_content_backend');
                 if (!empty($config['driver'])) {
                     if (!isset($config['directory'])) {
                         $config['directory'] = 'content/';
@@ -46,8 +38,8 @@ class cachePass extends configPass
     private function configure_backend(string $name, string $driver, array $config, ContainerBuilder $container)
     {
         $backend = $container->getDefinition('cache.module.' . $name . '.backend');
+        $directory = $container->getParameter('kernel.cache_dir');
 
-        $directory = $this->cachedir;
         if (!empty($config['directory'])) {
             $directory .= '/' . $config['directory'];
         }

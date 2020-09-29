@@ -108,9 +108,16 @@ class midcom_application extends Kernel
         $this->container->set('config', $this->cfg);
     }
 
+    protected function buildContainer()
+    {
+        $container = parent::buildContainer();
+        $this->cfg->export_to($container);
+        return $container;
+    }
+
     public function registerBundles()
     {
-        return [new midcomBundle($this->cfg)];
+        return [new midcomBundle];
     }
 
     public function getProjectDir()

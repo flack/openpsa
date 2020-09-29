@@ -8,7 +8,6 @@
 
 namespace midcom\bundle\test;
 
-use midcom_config;
 use midcom_services_auth_acl;
 use midcom_helper__componentloader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -26,17 +25,18 @@ class componentPassTest extends TestCase
 {
     public function test_process()
     {
-        $config = new midcom_config;
-        $config->set('builtin_components', ['lib/net/nehmer/comments']);
-        $config->set('midcom_components', [
-            'midgard.admin.asgard' => dirname(MIDCOM_ROOT) . '/lib/midgard/admin/asgard'
-        ]);
-        $pass = new componentPass($config);
-
         $container = $this
             ->getMockBuilder(ContainerBuilder::class)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $container
+            ->expects($this->exactly(2))
+            ->method('getParameter')
+            ->with($this->logicalOr(
+                $this->equalTo('midcom.builtin_components'),
+                $this->equalTo('midcom.midcom_components')))
+            ->will($this->returnCallback([$this, 'get_config']));
 
         $container
             ->expects($this->exactly(3))
@@ -47,7 +47,17 @@ class componentPassTest extends TestCase
                 $this->equalTo('componentloader')))
             ->will($this->returnCallback([$this, 'get_definition_mock']));
 
-        $pass->process($container);
+        (new componentPass)->process($container);
+    }
+
+    public function get_config(string $key)
+    {
+        if ($key === 'midcom.builtin_components') {
+            return ['lib/net/nehmer/comments'];
+        }
+        return [
+            'midgard.admin.asgard' => dirname(MIDCOM_ROOT) . '/lib/midgard/admin/asgard'
+        ];
     }
 
     public function get_definition_mock(string $identifier)

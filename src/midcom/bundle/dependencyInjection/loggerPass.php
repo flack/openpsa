@@ -4,14 +4,15 @@ namespace midcom\bundle\dependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
-class loggerPass extends configPass
+class loggerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
         $filehandler = $container->getDefinition('logger.filehandler');
-        $filehandler->addArgument($this->config->get('log_filename'));
-        $filehandler->addArgument(\midcom_debug::convert_level((int) $this->config->get('log_level')));
+        $filehandler->addArgument($container->getParameter('midcom.log_filename'));
+        $filehandler->addArgument(\midcom_debug::convert_level((int) $container->getParameter('midcom.log_level')));
 
         $logger = new ChildDefinition('logger');
         $logger->replaceArgument(0, 'request');

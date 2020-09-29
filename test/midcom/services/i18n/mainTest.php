@@ -19,7 +19,7 @@ class midcom_services_i18nTest extends TestCase
 {
     public function test_get_fallback_language()
     {
-        $i18n = new midcom_services_i18n(new RequestStack);
+        $i18n = new midcom_services_i18n(new RequestStack, 'en');
         $this->assertEquals('en', $i18n->get_fallback_language());
     }
 
@@ -30,7 +30,7 @@ class midcom_services_i18nTest extends TestCase
     {
         $rs = new RequestStack;
         $rs->push(new Request([], [], [], [], [], ['HTTP_ACCEPT_LANGUAGE' => $input]));
-        $i18n = new midcom_services_i18n($rs);
+        $i18n = new midcom_services_i18n($rs, 'en');
         $this->assertEquals($expected, $i18n->get_current_language());
     }
 

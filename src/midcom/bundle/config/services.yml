@@ -113,7 +113,7 @@ services:
 
     i18n:
         class: midcom_services_i18n
-        arguments: ['@request_stack']
+        arguments: ['@request_stack', '%midcom.i18n_fallback_language%']
         public: true
 
     indexer:

@@ -3,12 +3,13 @@ namespace midcom\bundle\dependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
-class indexerPass extends configPass
+class indexerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if ($class = $this->config->get('indexer_backend')) {
+        if ($class = $container->getParameter('midcom.indexer_backend')) {
             if (!str_contains($class, '_')) {
                 // Built-in backend called using the shorthand notation
                 $class = "midcom_services_indexer_backend_" . $class;

@@ -4,8 +4,9 @@ namespace midcom\bundle\dependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use midcom_core_manifest;
 use midcom_error;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
-class componentPass extends configPass
+class componentPass implements CompilerPassInterface
 {
     /**
      * @var array
@@ -20,12 +21,12 @@ class componentPass extends configPass
     public function process(ContainerBuilder $container)
     {
         $paths = [];
-        foreach ($this->config->get('builtin_components', []) as $path) {
+        foreach ($container->getParameter('midcom.builtin_components') as $path) {
             $paths[] = dirname(MIDCOM_ROOT) . '/' . $path . '/config/manifest.inc';
         }
 
         // now we look for extra components the user may have registered
-        foreach ($this->config->get('midcom_components', []) as $path) {
+        foreach ($container->getParameter('midcom.midcom_components') as $path) {
             if (!file_exists($path . '/config/manifest.inc')) {
                 throw new midcom_error('No manifest found in path ' . $path);
             }
