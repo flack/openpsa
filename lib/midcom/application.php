@@ -243,9 +243,9 @@ class midcom_application extends Kernel
     }
 
     /**
-     * Exit from the framework, execute after all output has been made.
+     * Stop the PHP process
      *
-     * <b>WARNING:</b> Anything done after calling this method will be lost.
+     * @deprecated
      */
     public function finish()
     {
