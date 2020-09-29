@@ -21,6 +21,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
+use Symfony\Component\HttpKernel\Event\TerminateEvent;
 
 /**
  * @package midcom.httpkernel
@@ -35,7 +36,8 @@ class subscriber implements EventSubscriberInterface
             KernelEvents::REQUEST => ['on_request'],
             KernelEvents::CONTROLLER_ARGUMENTS => ['on_arguments'],
             KernelEvents::VIEW => ['on_view'],
-            KernelEvents::EXCEPTION => ['on_exception']
+            KernelEvents::EXCEPTION => ['on_exception'],
+            KernelEvents::TERMINATE => ['on_terminate']
         ];
     }
 
@@ -111,5 +113,10 @@ class subscriber implements EventSubscriberInterface
     {
         $handler = new \midcom_exception_handler($event->getThrowable());
         $event->setResponse($handler->render());
+    }
+
+    public function on_terminate(TerminateEvent $event)
+    {
+        debug_add("End of MidCOM run: " . $event->getRequest()->server->get('REQUEST_URI'));
     }
 }

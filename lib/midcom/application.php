@@ -162,7 +162,9 @@ class midcom_application extends Kernel
     public function codeinit()
     {
         try {
-            $this->handle($this->request)->send();
+            $response = $this->handle($this->request);
+            $response->send();
+            $this->terminate($this->request, $response);
         } catch (Error $e) {
             $this->getHttpKernel()->terminateWithException($e);
         }
@@ -247,7 +249,6 @@ class midcom_application extends Kernel
      */
     public function finish()
     {
-        debug_add("End of MidCOM run: " . $this->request->server->get('REQUEST_URI'));
         _midcom_stop_request();
     }
 
