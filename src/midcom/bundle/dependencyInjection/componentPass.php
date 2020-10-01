@@ -5,6 +5,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use midcom_core_manifest;
 use midcom_error;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\Finder\Finder;
 
 class componentPass implements CompilerPassInterface
 {
@@ -20,10 +21,7 @@ class componentPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container)
     {
-        $paths = [];
-        foreach ($container->getParameter('midcom.builtin_components') as $path) {
-            $paths[] = dirname(MIDCOM_ROOT) . '/' . $path . '/config/manifest.inc';
-        }
+        $paths = $this->find_builtin_components();
 
         // now we look for extra components the user may have registered
         foreach ($container->getParameter('midcom.midcom_components') as $path) {
@@ -48,6 +46,19 @@ class componentPass implements CompilerPassInterface
 
         $watcher = $container->getDefinition('watcher');
         $watcher->addArgument($this->watches);
+    }
+
+    private function find_builtin_components() : array
+    {
+        $components = [];
+        $finder = (new Finder())
+            ->files()
+            ->in([MIDCOM_ROOT, dirname(MIDCOM_ROOT) . '/src'])
+            ->name('manifest.inc');
+        foreach ($finder as $file) {
+            $components[] = $file->getPathname();
+        }
+        return $components;
     }
 
     private function add_watches(string $component, array $watches)
