@@ -8,9 +8,6 @@
 'schemadb_organization_member' => 'file:/org/openpsa/contacts/config/schemadb_default_member.inc',
 'send_token_max_age' => 45, //Tokens older than this many days are cleared from database, use zero for infinite (not recommended)
 'csv_export_memberships' => 'first', // Valid values 'first', 'last' and 'all', controls what membership/group data is exported, experiment.
-'csv_export_separator' => ';',
-'csv_export_quote' => '"',
-'csv_export_content_type' => 'application/csv',
 'csv_import_check_duplicates' => true,
 'navi_order' => 'ASC',
 'campaign_list_order' => 'DESC',

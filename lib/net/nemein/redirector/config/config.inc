@@ -9,7 +9,3 @@
 'redirection_metatag_speed' => 5,
 
 'admin_redirection' => true,
-
-// TinyURL generator defaults
-'characters' => '', // Character set for randomizing the URL
-'length' => 6, // Length of the TinyURL
