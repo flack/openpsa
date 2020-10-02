@@ -1,4 +1,8 @@
 <?php
+use GuzzleHttp\Client;
+use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Exception\RequestException;
+
 /**
  * Reindex script.
  *
@@ -32,43 +36,39 @@ $start = microtime(true);
 
 $nap = new midcom_helper_nav();
 $nodes = [];
-$indexer = midcom::get()->indexer;
 
 // Use this to check that indexer is online (and hope the root topic isn't a gigantic wiki)
 $root_node = $nap->get_node($nap->get_root_node());
-$indexer->query("__TOPIC_GUID:{$root_node[MIDCOM_NAV_OBJECT]->guid}");
+midcom::get()->indexer->query("__TOPIC_GUID:{$root_node[MIDCOM_NAV_OBJECT]->guid}");
 $node = $root_node;
 
 echo "<pre>\n";
 
 $reindex_topic_uri = midcom::get()->get_page_prefix() . 'midcom-exec-midcom/reindex_singlenode.php';
 
-$http_client = new org_openpsa_httplib();
-$http_client->set_param('timeout', 300);
+$options = ['timeout' => 300];
 if (   !empty($_SERVER['PHP_AUTH_USER'])
     && !empty($_SERVER['PHP_AUTH_PW'])) {
-    $http_client->basicauth['user'] = $_SERVER['PHP_AUTH_USER'];
-    $http_client->basicauth['password'] = $_SERVER['PHP_AUTH_PW'];
+    $options['auth'] = ['user' => $_SERVER['PHP_AUTH_USER'], 'password' => $_SERVER['PHP_AUTH_PW']];
 }
+$client = new Client($options);
 
 while ($node !== null) {
     // Reindex the node...
     echo "Processing node #{$node[MIDCOM_NAV_ID]}, {$node[MIDCOM_NAV_FULLURL]}: ";
-    //pass the node-id & the language
-    $post_variables = ['nodeid' => $node[MIDCOM_NAV_ID], 'language' => $language];
-    $response = $http_client->post($reindex_topic_uri, $post_variables, ['User-Agent' => __FILE__]);
-    if ($response === false) {
-        // returned with failure
-        echo "failure.\n   Background processing failed, error: {$http_client->error}\n";
-        echo "Url: " . $reindex_topic_uri . "?" . http_build_query($post_variables) . "\n";
-    } elseif (!preg_match("#(\n|\r\n)Reindex complete for node http.*\s*</pre>\s*$#", $response)) {
-        // Does not end with 'Reindex complete for node...'
-        echo "failure.\n   Background reindex returned unexpected data:\n---\n{$response}\n---\n";
-        echo "Url: " . $reindex_topic_uri . "?" . http_build_query($post_variables) . "\n\n";
-    } else {
-        // Background reindex ok
-        echo "OK.\n";
-    }
+    $uri = $reindex_topic_uri . "?" . http_build_query(['nodeid' => $node[MIDCOM_NAV_ID], 'language' => $language]);
+    $client->getAsync($uri)
+        ->then(function(ResponseInterface $response) use ($uri) {
+            if (!preg_match("#(\n|\r\n)Reindex complete for node http.*\s*</pre>\s*$#", $response->getBody())) {
+                echo "failure.\n   Background reindex returned unexpected data:\n---\n{$response->getBody()}\n---\n";
+                echo "Url: " . $uri . "\n\n";
+            } else {
+                echo "OK.\n";
+            }
+        }, function (RequestException $e) use ($uri) {
+            echo "failure.\n   Background processing failed, error: {$e->getMessage()}\n";
+            echo "Url: " . $uri . "\n";
+        })->wait();
 
     // Retrieve all child nodes and append them to $nodes:
     $nodes = array_merge($nodes, $nap->get_nodes($node[MIDCOM_NAV_ID]));
