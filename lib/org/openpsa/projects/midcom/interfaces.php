@@ -116,7 +116,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Prepare the indexer client
      */
-    public function _on_reindex(midcom_core_dbaobject $topic, midcom_helper_configuration $config, midcom_services_indexer &$indexer)
+    public function _on_reindex($topic, midcom_helper_configuration $config, midcom_services_indexer &$indexer)
     {
         $qb_tasks = org_openpsa_projects_task_dba::new_query_builder();
         $dm_tasks = datamanager::from_schemadb($config->get('schemadb_task'));
