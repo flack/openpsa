@@ -90,15 +90,15 @@ class dbacontainer extends container
         if (in_array($location, [null, 'parameter'], true)) {
             if (class_exists('midcom\datamanager\storage\\' . $config['type'])) {
                 $classname = 'midcom\datamanager\storage\\' . $config['type'];
+            } elseif (class_exists($config['type'])) {
+                $classname = $config['type'];
             } elseif ($location === 'parameter') {
                 $classname = 'midcom\datamanager\storage\parameter';
             } else {
                 return new transientnode($config);
             }
-        } elseif ($location === 'metadata') {
-            $classname = 'midcom\datamanager\storage\metadata';
-        } elseif ($location === 'privilege') {
-            $classname = 'midcom\datamanager\storage\privilege';
+        } elseif (in_array($location, ['metadata', 'privilege'], true)) {
+            $classname = 'midcom\datamanager\storage\\' . $location;
         } else {
             $classname = property::class;
 

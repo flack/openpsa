@@ -1,16 +1,14 @@
 <?php
 /**
  * @copyright CONTENT CONTROL GmbH, http://www.contentcontrol-berlin.de
-*/
+ */
 
-namespace midcom\datamanager\storage;
-
-use net_nemein_tag_handler;
+use midcom\datamanager\storage\delayed;
 
 /**
  * Experimental storage class
  */
-class tags extends delayed
+class net_nemein_tag_datamanager_storage extends delayed
 {
     private $auto_context = null;
 

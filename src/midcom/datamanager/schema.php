@@ -178,10 +178,7 @@ class schema
                     'name' => $name
                 ];
             }
-            if ($options['type'] === 'tags') {
-                return 'tags';
-            }
-            if ($value === null) {
+            if ($options['type'] === 'tags' || $value === null) {
                 return null;
             }
             if (is_string($value)) {
@@ -233,9 +230,17 @@ class schema
             return $validation;
         };
 
+        $normalize_type = function(Options $options, $value) {
+            if ($value === 'tags') {
+                return 'net_nemein_tag_datamanager_storage';
+            }
+            return $value;
+        };
+
         $resolver->setNormalizer('storage', $normalize_storage);
         $resolver->setNormalizer('widget', $normalize_widget);
         $resolver->setNormalizer('validation', $normalize_validation);
+        $resolver->setNormalizer('type', $normalize_type);
 
         return $resolver->resolve($config);
     }
