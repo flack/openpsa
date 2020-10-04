@@ -9,6 +9,7 @@ body
 /* Main report area */
 div.org_openpsa_reports_report
 {
+    height: 100vh;
 }
 
 /* Report overall header */

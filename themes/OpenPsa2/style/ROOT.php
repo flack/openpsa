@@ -67,7 +67,7 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
 
     <script type="text/javascript">
     org_openpsa_layout.add_splitter();
-    org_openpsa_jsqueue.execute();
+    $(window).trigger('resize');
     openpsa2_add_toolbar_toggle();
     </script>
     </body>

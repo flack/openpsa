@@ -112,7 +112,6 @@ class grid
         $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'i18n/grid.locale-'. $lang . '.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'jquery.jqgrid.min.js');
 
-        \org_openpsa_widgets_ui::add_head_elements();
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.grid/jqGrid.custom.js');
 
         $head->add_stylesheet(MIDCOM_STATIC_URL . $jqgrid_path . 'ui.jqgrid.min.css');

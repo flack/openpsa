@@ -245,8 +245,7 @@ const midcom_grid_resize = {
         catch(e){}
     }
 };
-
-org_openpsa_resizers.append_handler('grid', midcom_grid_resize.event_handler);
+$(window).resize(midcom_grid_resize.event_handler);
 
 const midcom_grid_editable = {
     grid_id: '',
