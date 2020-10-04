@@ -118,16 +118,6 @@ const org_openpsa_layout = {
         }
     },
 
-    resize_content: function(containment, margin_bottom) {
-        if (typeof margin_bottom === 'undefined') {
-            margin_bottom = 0;
-        }
-        org_openpsa_resizers.prepend_handler('content', function() {
-            var content_height = $(window).height() - ($(containment).offset().top + ($(containment).outerHeight() - $(containment).height() + margin_bottom));
-            $(containment).css('height', content_height + 'px');
-        });
-    },
-
     add_splitter: function() {
         $('<div></div>')
             .attr('id', 'template_openpsa2_resizer')
