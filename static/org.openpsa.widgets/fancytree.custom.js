@@ -1,5 +1,5 @@
 const org_openpsa_tree = {
-    setup: function(identifier, prefix, options) {
+    setup: function(identifier, options) {
         var default_options = {
             minExpandLevel: 1,
             extensions: ['persist', 'glyph'],
