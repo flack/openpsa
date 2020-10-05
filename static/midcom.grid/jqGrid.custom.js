@@ -37,13 +37,11 @@ const midcom_grid_resize = {
 
         midcom_grid_resize.attach_maximizer($('.ui-jqgrid-titlebar'));
     },
-    event_handler: function(resizing) {
+    event_handler: function() {
         if (midcom_grid_resize.firstrun) {
             midcom_grid_resize.firstrun = false;
             midcom_grid_resize.add_header_controls();
-        }
-
-        if (resizing) {
+        } else {
             if (!midcom_grid_resize.timer) {
                 $(midcom_grid_resize.containment).addClass('openpsa-resizing');
             } else {
