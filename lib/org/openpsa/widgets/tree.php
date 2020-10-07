@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.widgets
  */
-class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
+class org_openpsa_widgets_tree
 {
     /**
      * The tree's root node, if any
@@ -69,7 +69,6 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
      */
     public function __construct(string $classname, string $parent_field)
     {
-        parent::__construct();
         $this->_object_class = $classname;
         $this->_parent_field = $parent_field;
 
@@ -127,7 +126,7 @@ JSINIT;
                 }
             }
             if (empty($entry['title'])) {
-                $entry['title'] = $this->_l10n->get('unknown');
+                $entry['title'] = $entry['guid'];
             }
 
             $entry['children'] = $this->_list_items($values['id']);
