@@ -283,7 +283,11 @@ abstract class openpsa_testcase extends TestCase
         foreach (array_reverse($head_elements) as $element) {
             if (   !empty($element['content'])
                 && preg_match('/refresh_opener\(.*?\);/', $element['content'])) {
-                return preg_replace('/refresh_opener\("*\/*(.*?)"*, .*\);/', '$1', $element['content']);
+                $url = preg_replace('/refresh_opener\("*\/*(.*?)"*, .*\);/', '$1', $element['content']);
+                if ($url === 'undefined') {
+                    return '';
+                }
+                return $url;
             }
         }
         $this->fail('No refresh URL found');
