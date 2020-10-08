@@ -43,7 +43,7 @@ class tinymceType extends AbstractType
                 'mode' => 'exact',
                 'theme' => $options['config']->get('tinymce_default_theme'),
                 'local_config' => '',
-                'use_imagepopup' => true,
+                'use_imagepopup' => \midcom::get()->componentloader->is_installed('midcom.helper.imagepopup'),
                 'mce_config_snippet' => null
             ];
             return helper::normalize($widget_defaults, $value);
