@@ -93,9 +93,9 @@ class datamanager extends dialog
             $data = $dm->get_content_html();
         }
         if ($this->relocate) {
-            $url = '';
+            $url = null;
             if (is_callable($this->save_callback)) {
-                $url = call_user_func($this->save_callback, $this->controller) ?? '';
+                $url = call_user_func($this->save_callback, $this->controller);
             }
 
             return 'refresh_opener(' . $this->prepare_url($url) . ', ' . json_encode($data) . ');';
@@ -116,8 +116,12 @@ class datamanager extends dialog
         midcom::get()->head->add_jscript('add_dialog_button(' . $this->prepare_url($url) . ', "' . $config[MIDCOM_TOOLBAR_LABEL] . '", ' . json_encode($config[MIDCOM_TOOLBAR_OPTIONS]) . ');');
     }
 
-    private function prepare_url(string $url) : string
+    private function prepare_url(?string $url) : string
     {
+        if ($url === null) {
+            return 'undefined';
+        }
+
         if (   !str_starts_with($url, '/')
             && ! preg_match('|^https?://|', $url)) {
             $url = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $url;
