@@ -10,7 +10,7 @@
     <item>
       <title>Import Test</title>
       <link>/news/no-such-entry/</link>
-      <description><![CDATA[Test Description]]></description>
+      <description><![CDATA[Test Description <a rel="tag" title="tag title" href="tag-link" class="test">dummy</a>]]></description>
       <author>test@openpsa2.org (Test Author)</author>
       <pubDate>Sun, 03 Mar 2013 20:23:30 +0000</pubDate>
       <guid>http://openpsa2.org/midcom-permalink-nosuchguid</guid>

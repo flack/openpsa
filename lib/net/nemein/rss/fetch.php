@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\DomCrawler\Crawler;
+
 /**
  * RSS and Atom feed fetching class. Caches the fetched items as articles
  * in net.nehmer.blog
@@ -469,7 +471,16 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      */
     private function _parse_tags(midcom_db_article $article)
     {
-        $html_tags = org_openpsa_httplib_helpers::get_anchor_values($article->content, 'tag');
+        $crawler = new Crawler($article->content);
+        $nodes = $crawler->filter('a[rel="tag"]');
+
+        $html_tags = $nodes->each(function(Crawler $node, $i) {
+            return [
+                'href' => $node->attr('href') ?? false,
+                'value' => $node->text() ?? false,
+            ];
+        });
+
         $tags = [];
 
         foreach ($html_tags as $html_tag) {

@@ -49,24 +49,4 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
             return $tag;
         });
     }
-
-    /**
-     * Get value(s) of an anchor tag(s) in HTML page.
-     *
-     * @param string $relation Relation (rel) of the anchor to fetch
-     * @return array Links matching given criteria as arrays containing keys title, href and value
-     */
-    public static function get_anchor_values(string $html, string $relation) : array
-    {
-        $crawler = new Crawler($html);
-        $nodes = $crawler->filter('a[rel="' . $relation . '"]');
-
-        return $nodes->each(function(Crawler $node, $i) {
-            return [
-                'title' => ($node->attr('title') !== null) ? $node->attr('title') : false,
-                'href' => ($node->attr('href') !== null) ? $node->attr('href') : false,
-                'value' => ($node->text() !== null) ? $node->text() : false,
-            ];
-        });
-    }
 }
