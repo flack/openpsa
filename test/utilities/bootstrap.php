@@ -37,6 +37,10 @@ $_SERVER = [
 
 midcom::register_service_class('session', mock_sessioning::class);
 
+if (class_exists('org_openpsa_core_siteconfig')) {
+    org_openpsa_core_siteconfig::get_instance();
+}
+
 // This is a bit awkward, but makes life simpler until we've transitioned more fully to the
 // httpkernel infrastructure
 $GLOBALS['kernel'] = midcom::init('test', true);

@@ -57,11 +57,7 @@ abstract class openpsa_testcase extends TestCase
     public static function get_component_node($component)
     {
         if (!isset(self::$nodes[$component])) {
-            $siteconfig = org_openpsa_core_siteconfig::get_instance();
             midcom::get()->auth->request_sudo($component);
-            if ($topic_guid = $siteconfig->get_node_guid($component)) {
-                self::$nodes[$component] = new midcom_db_topic($topic_guid);
-            } else {
                 $qb = midcom_db_topic::new_query_builder();
                 $qb->add_constraint('component', '=', $component);
                 $qb->set_limit(1);
@@ -79,7 +75,6 @@ abstract class openpsa_testcase extends TestCase
                     ];
                     self::$nodes[$component] = self::create_class_object(midcom_db_topic::class, $topic_attributes);
                 }
-            }
             midcom::get()->auth->drop_sudo();
         }
 
