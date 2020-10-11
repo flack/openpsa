@@ -76,7 +76,7 @@
             'storage' => null,
             'type' => 'mnrelation',
             'type_config' => [
-                'mapping_class_name' => 'org_openpsa_contacts_member_dba',
+                'mapping_class_name' => 'midcom_db_member',
                 'master_fieldname' => 'uid',
                 'member_fieldname' => 'gid',
                 'master_is_id' => true,
@@ -84,13 +84,13 @@
                 	[
                         'field' => 'orgOpenpsaObtype',
                         'op'    => '<',
-                        'value' => org_openpsa_contacts_group_dba::MYCONTACTS,
+                        'value' => 500, // org_openpsa_contacts_group_dba::MYCONTACTS
                     ],
                 ],
             ],
             'widget' => 'autocomplete',
             'widget_config' => [
-                'class' => 'org_openpsa_contacts_group_dba',
+                'class' => 'midcom_db_group',
                 'component' => 'org.openpsa.contacts',
                 'result_headers' => [
                 	[

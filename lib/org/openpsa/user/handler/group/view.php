@@ -71,7 +71,7 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
             ]);
         }
 
-        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class)) {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, midcom_db_person::class)) {
             $buttons[] = $workflow->get_button($this->router->generate('user_create_group', ['guid' => $guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'user',

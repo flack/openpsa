@@ -19,7 +19,7 @@ class org_openpsa_user_handler_group_notifications extends midcom_baseclasses_co
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
 
-        $group = new org_openpsa_contacts_group_dba($guid);
+        $group = new midcom_db_group($guid);
         $group->require_do('midgard:update');
 
         midcom::get()->head->set_pagetitle($this->_l10n->get("notification settings"));

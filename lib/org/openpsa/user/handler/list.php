@@ -28,7 +28,7 @@ implements client
     /**
      * The group we're working on, if any
      *
-     * @var org_openpsa_contacts_group_dba
+     * @var midcom_db_group
      */
     private $_group;
 
@@ -52,7 +52,7 @@ implements client
         $grid_id = 'org_openpsa_user_grid';
         if ($guid !== null) {
             $grid_id = 'org_openpsa_members_grid';
-            $this->_group = new org_openpsa_contacts_group_dba($guid);
+            $this->_group = new midcom_db_group($guid);
             $data['group'] = $this->_group;
             $data['provider_url'] .= 'members/' . $guid . '/';
         }
@@ -85,7 +85,7 @@ implements client
         midcom::get()->skip_page_style = true;
         $data['provider'] = $this->_provider;
         if ($guid !== null) {
-            $this->_group = new org_openpsa_contacts_group_dba($guid);
+            $this->_group = new midcom_db_group($guid);
         }
 
         return $this->show('users-grid-json');
