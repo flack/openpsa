@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\storage\blobs;
+
 /**
  * DBA class for org_openpsa_document
  *
@@ -109,7 +111,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             return null;
         }
 
-        $attachments = org_openpsa_helpers::get_dm2_attachments($this, 'document');
+        $attachments = blobs::get_attachments($this, 'document');
         if (empty($attachments)) {
             return null;
         }

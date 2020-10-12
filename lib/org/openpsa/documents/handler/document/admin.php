@@ -10,6 +10,7 @@ use midcom\datamanager\controller;
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use midcom\datamanager\storage\blobs;
 
 /**
  * Document handler class.
@@ -104,7 +105,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     public function save_callback(controller $controller)
     {
         if (empty($this->_document->title)) {
-            $attachments = org_openpsa_helpers::get_dm2_attachments($this->_document, 'document');
+            $attachments = blobs::get_attachments($this->_document, 'document');
             if (!empty($attachments)) {
                 $att = current($attachments);
                 $this->_document->title = $att->title;

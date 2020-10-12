@@ -6,6 +6,7 @@
 namespace midcom\datamanager\storage;
 
 use midcom_db_attachment;
+use midcom_core_dbaobject;
 use midcom_error;
 use midcom_connection;
 use midcom;
@@ -157,8 +158,13 @@ class blobs extends delayed
 
     protected function load_attachment_list() : array
     {
+        return self::load_map($this->object, $this->config['name']);
+    }
+
+    private static function load_map(midcom_core_dbaobject $object, string $field) : array
+    {
         $map = [];
-        $raw_list = $this->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->config['name']}");
+        $raw_list = $object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$field}");
         if (!$raw_list) {
             return $map;
         }
@@ -176,5 +182,21 @@ class blobs extends delayed
             }
         }
         return $map;
+    }
+
+    /**
+     * @return midcom_db_attachment[] List of attachments, indexed by identifier
+     */
+    public static function get_attachments(midcom_core_dbaobject $object, string $field) : array
+    {
+        $attachments = [];
+        foreach (self::load_map($object, $field) as $identifier => $guid) {
+            try {
+                $attachments[$identifier] = midcom_db_attachment::get_cached($guid);
+            } catch (midcom_error $e) {
+                $e->log();
+            }
+        }
+        return $attachments;
     }
 }

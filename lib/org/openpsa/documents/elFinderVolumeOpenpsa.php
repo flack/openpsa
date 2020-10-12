@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\storage\blobs;
+
 /**
  * elFinder driver
  *
@@ -90,7 +92,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
                 }
                 $document = new org_openpsa_documents_document_dba($test);
                 $document->backup_version();
-                $attachments = org_openpsa_helpers::get_dm2_attachments($document, 'document');
+                $attachments = blobs::get_attachments($document, 'document');
                 foreach ($attachments as $att) {
                     if (!$att->delete()) {
                         return false;
@@ -326,7 +328,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         if ($object instanceof org_openpsa_documents_document_dba) {
             $owner = $object->orgOpenpsaOwnerWg;
 
-            $attachments = org_openpsa_helpers::get_dm2_attachments($object, 'document');
+            $attachments = blobs::get_attachments($object, 'document');
             if ($attachments) {
                 $att = current($attachments);
                 $data['mime'] = $att->mimetype;
@@ -412,7 +414,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     protected function _fopen($path, $mode="rb")
     {
         $document = org_openpsa_documents_document_dba::get_cached($path);
-        $attachments = org_openpsa_helpers::get_dm2_attachments($document, 'document');
+        $attachments = blobs::get_attachments($document, 'document');
         if ($attachments) {
             $att = current($attachments);
             return $att->open($mode);

@@ -1,7 +1,9 @@
 <?php
+use midcom\datamanager\storage\blobs;
+
 $link = $data['link'];
 $document = $data['other_obj'];
-$atts = org_openpsa_helpers::get_dm2_attachments($document, 'document');
+$atts = blobs::get_attachments($document, 'document');
 ?>
 
 <li class="document" id="org_openpsa_relatedto_line_&(link['guid']);">

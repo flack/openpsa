@@ -11,6 +11,8 @@
  * @package org.openpsa.widgets
  */
 
+use midcom\datamanager\storage\blobs;
+
 /**
  * @package org.openpsa.widgets
  */
@@ -203,7 +205,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
     public function get_image(string $type, string $fallback) : string
     {
-        $attachments = org_openpsa_helpers::get_dm2_attachments($this->person, 'photo');
+        $attachments = blobs::get_attachments($this->person, 'photo');
         if (!empty($attachments[$type])) {
             return '<img class="photo" src="' . midcom_db_attachment::get_url($attachments[$type]) . '">';
         }

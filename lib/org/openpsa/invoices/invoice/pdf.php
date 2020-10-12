@@ -6,6 +6,7 @@
  */
 
 use midgard\portable\api\blob;
+use midcom\datamanager\storage\blobs;
 
 /**
  * PDF Manager
@@ -26,7 +27,7 @@ class org_openpsa_invoices_invoice_pdf
 
     public function get_attachment(bool $autocreate = false) : ?midcom_db_attachment
     {
-        $pdf_files = org_openpsa_helpers::get_dm2_attachments($this->invoice, "pdf_file");
+        $pdf_files = blobs::get_attachments($this->invoice, "pdf_file");
         if (!empty($pdf_files)) {
             return reset($pdf_files);
         }

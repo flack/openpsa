@@ -8,6 +8,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\storage\blobs;
+
 /**
  * @package org.openpsa.helpers
  */
@@ -16,7 +18,7 @@ class org_openpsa_helpers
     public static function render_fileinfo(midcom_core_dbaobject $object, string $field) : string
     {
         $output = '';
-        $attachments = self::get_dm2_attachments($object, $field);
+        $attachments = blobs::get_attachments($object, $field);
         foreach ($attachments as $attachment) {
             $stat = $attachment->stat();
             $filesize = midcom_helper_misc::filesize_to_string($stat[7]);
@@ -41,28 +43,10 @@ class org_openpsa_helpers
     }
 
     /**
-     * @return midcom_db_attachment[] List of attachments, indexed by identifier
+     * @deprecated Use midcom\datamanager\storage\blobs::get_attachments() instead
      */
     public static function get_dm2_attachments(midcom_core_dbaobject $object, string $field) : array
     {
-        $attachments = [];
-        $identifiers = explode(',', $object->get_parameter('midcom.helper.datamanager2.type.blobs', 'guids_' . $field));
-        if (empty($identifiers)) {
-            return $attachments;
-        }
-        foreach ($identifiers as $identifier) {
-            $parts = explode(':', $identifier);
-            if (count($parts) != 2) {
-                continue;
-            }
-            $guid = $parts[1];
-            try {
-                $attachments[$parts[0]] = midcom_db_attachment::get_cached($guid);
-            } catch (midcom_error $e) {
-                $e->log();
-            }
-        }
-
-        return $attachments;
+        return blobs::get_attachments($object, $field);
     }
 }
