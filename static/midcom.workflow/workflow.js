@@ -33,7 +33,9 @@ $(document).ready(function() {
                                 dialog.dialog("close");
                                 if (   typeof window.parent.$ !== "undefined"
                                     && window.parent.$('#midcom-dialog').length > 0 ) {
-                                    window.parent.$('#midcom-dialog').dialog('close');
+                                    window.parent.$('#midcom-dialog')
+                                        .dialog('close')
+                                        .trigger('dialogdeleted', [message]);
                                 }
                             });
                         }
