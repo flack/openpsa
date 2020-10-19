@@ -10,6 +10,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use midcom\events\dbaevent;
 use midgard\portable\storage\connection;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * This class is the central access point for all registered caching services. Currently
@@ -114,12 +115,14 @@ class midcom_services_cache implements EventSubscriberInterface
             debug_add("Invalidating the cache module {$name} completely.");
             $module->invalidate_all();
         }
-        $fs = new Filesystem;
-        $fs->remove([midcom::get()->getCacheDir()]);
-        // see https://github.com/symfony/symfony/pull/36540
-        if (function_exists('opcache_reset')) {
-            opcache_reset();
-        }
+        midcom::get()->dispatcher->addListener(KernelEvents::TERMINATE, function() {
+            $fs = new Filesystem;
+            $fs->remove([midcom::get()->getCacheDir()]);
+            // see https://github.com/symfony/symfony/pull/36540
+            if (function_exists('opcache_reset')) {
+                opcache_reset();
+            }
+        });
 
         connection::invalidate_cache();
     }

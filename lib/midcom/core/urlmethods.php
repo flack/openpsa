@@ -91,14 +91,13 @@ class midcom_core_urlmethods
             midcom::get()->auth->require_valid_user('basic');
             midcom::get()->auth->require_admin_user();
         }
-        $message = [
+        midcom::get()->cache->content->enable_live_mode();
+        midcom::get()->cache->invalidate_all();
+        midcom::get()->uimessages->add(
             midcom::get()->i18n->get_string('MidCOM', 'midcom'),
             midcom::get()->i18n->get_string('cache invalidation successful', 'midcom'),
             'info'
-        ];
-        midcom::get()->cache->content->enable_live_mode();
-        midcom::get()->cache->invalidate_all();
-        midcom::get()->uimessages->add(...$message);
+        );
 
         $url = $request->server->get('HTTP_REFERER') ?: midcom_connection::get_url('self');
         return new midcom_response_relocate($url);
