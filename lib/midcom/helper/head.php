@@ -450,7 +450,7 @@ class midcom_helper_head
 
     public function get_jshead_elements() : array
     {
-        return $this->_prepend_jshead + $this->_jshead;
+        return array_merge($this->_prepend_jshead, $this->_jshead);
     }
 
     public function get_link_head() : array
