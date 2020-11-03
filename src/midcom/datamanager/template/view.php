@@ -154,6 +154,14 @@ class view extends base
         return '';
     }
 
+    public function password_widget(FormView $view, array $data)
+    {
+        if (!empty($data['value'])) {
+            return '******';
+        }
+        return '';
+    }
+
     public function url_widget(FormView $view, array $data)
     {
         if (!empty($data['value'])) {
