@@ -257,12 +257,14 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     public function copy_parameters(midcom_core_dbaobject $source, midcom_core_dbaobject $target) : bool
     {
         // Loop through the parameters
-        foreach ($source->list_parameters() as $parameter) {
-            if (!$target->set_parameter($parameter->domain, $parameter->name, $parameter->value)) {
-                $this->errors[] = sprintf($this->_l10n->get('failed to copy parameters from %s to %s'), $source->guid, $target->guid);
+        foreach ($source->list_parameters() as $domain => $parameters) {
+            foreach ($parameters as $name => $value) {
+                if (!$target->set_parameter($domain, $name, $value)) {
+                    $this->errors[] = sprintf($this->_l10n->get('failed to copy parameters from %s to %s'), $source->guid, $target->guid);
 
-                if ($this->halt_on_errors) {
-                    return false;
+                    if ($this->halt_on_errors) {
+                        return false;
+                    }
                 }
             }
         }
