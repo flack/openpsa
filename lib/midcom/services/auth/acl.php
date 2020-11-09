@@ -573,7 +573,7 @@ class midcom_services_auth_acl
         }
 
         //if nothing was found, we try to recurse to parent
-        [$parent_guid, $parent_class] = $this->get_parent_data($guid, $class);
+        [$parent_class, $parent_guid] = $this->get_parent_data($guid, $class);
 
         if ($parent_guid != $guid && mgd_is_guid($parent_guid)) {
             $parent_cache_id = $user_id . '::' . $parent_guid;

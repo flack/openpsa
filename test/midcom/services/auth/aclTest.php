@@ -15,18 +15,22 @@ class midcom_services_auth_aclTest extends openpsa_testcase
 {
     public function test_can_do_parent_object_privilege()
     {
+        $person = $this->create_user();
+        $user = new midcom_core_user($person);
+
+        $person2 = $this->create_user();
+        $user2 = new midcom_core_user($person2);
+
         $topic = $this->create_object(midcom_db_topic::class);
         $article = $this->create_object(midcom_db_article::class, ['topic' => $topic->id]);
 
         $topic_denied = $this->create_object(midcom_db_topic::class);
         $article_denied = $this->create_object(midcom_db_article::class, ['topic' => $topic_denied->id]);
-        $person = $this->create_user();
 
         midcom::get()->auth->request_sudo('midcom.core');
         $person->set_privilege('midgard:read', 'SELF', MIDCOM_PRIVILEGE_DENY, 'midcom_db_article');
-        $topic_denied->set_privilege('midgard:read', 'user:' . $person->guid, MIDCOM_PRIVILEGE_DENY);
-
-        $user = new midcom_core_user($person);
+        $topic_denied->set_privilege('midgard:read', $user, MIDCOM_PRIVILEGE_DENY);
+        $topic->set_privilege('midgard:update', $user2, MIDCOM_PRIVILEGE_ALLOW);
         midcom::get()->auth->drop_sudo();
 
         $auth = midcom::get()->auth;
@@ -40,12 +44,12 @@ class midcom_services_auth_aclTest extends openpsa_testcase
         $this->assertFalse($auth->can_do('midgard:read', $article));
         $this->assertFalse($auth->can_do('midgard:read', $article_denied));
 
-        $person2 = $this->create_user();
-        $user2 = new midcom_core_user($person2);
         $auth->user = $user2;
-
         $this->assertTrue($auth->can_do('midgard:read', $article));
         $this->assertTrue($auth->can_do('midgard:read', $article_denied));
+
+        $this->assertTrue($auth->can_do('midgard:update', $topic));
+        $this->assertTrue($auth->can_do('midgard:update', $article));
     }
 
     public function test_can_do_group_privilege()
