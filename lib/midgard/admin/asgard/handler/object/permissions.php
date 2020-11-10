@@ -251,7 +251,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
             }
         }
         if ($this->additional_assignee) {
-            $label = midcom::get()->auth->get_assignee($this->additional_assignee)->name;
+            $label = midcom::get()->auth->get_assignee($this->additional_assignee)->name ?? $this->_l10n->get($this->additional_assignee);
             $assignees[$this->additional_assignee] = $label;
             $key = str_replace(':', '_', $this->additional_assignee);
             $this->_row_labels[$key] = $label;
