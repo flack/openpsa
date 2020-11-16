@@ -461,8 +461,8 @@ abstract class openpsa_testcase extends TestCase
             $object = array_pop($queue);
             $object->_use_rcs = false;
             try {
-                $stat = $object->refresh();
-                if ($stat === false) {
+                if (   method_exists($object, 'refresh')
+                    && $object->refresh() === false) {
                     // we can only assume this means that the object is already deleted.
                     // Normally, the error codes from core should tell us later on, too, but
                     // they don't seem to be reliable in all versions

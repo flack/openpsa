@@ -72,4 +72,15 @@ class midcom_services_auth_aclTest extends openpsa_testcase
         $auth->user = $user;
         $this->assertFalse($auth->can_do('midgard:read', $topic));
     }
+
+    public function test_can_do_attachment()
+    {
+        // we use mgd class here to avoid populating static caches
+        $topic = $this->create_object(midgard_topic::class);
+        midcom::get()->auth->request_sudo('midcom.core');
+        $att = $topic->create_attachment('test', 'test', 'text/html');
+        midcom::get()->auth->drop_sudo();
+        $acl = new midcom_services_auth_acl;
+        $this->assertFalse($acl->can_do_byguid('midgard:update', $att->guid, midcom_db_attachment::class, 'ANONYMOUS'));
+    }
 }

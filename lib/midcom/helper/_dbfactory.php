@@ -8,6 +8,7 @@
 
 use midgard\portable\api\error\exception as mgd_exception;
 use midgard\portable\api\mgdobject;
+use midgard\portable\storage\connection;
 
 /**
  * This class contains various factory methods to retrieve objects from the database.
@@ -259,6 +260,14 @@ class midcom_helper__dbfactory
      */
     private function get_parent_data_uncached_static(string $object_guid, string $class_name) : array
     {
+        if (!$class_name) {
+            $class_name = connection::get_em()
+                ->createQuery('SELECT r.typename from midgard:midgard_repligard r WHERE r.guid = ?1')
+                ->setParameter(1, $object_guid)
+                ->getSingleScalarResult();
+            $class_name = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($class_name);
+        }
+
         if (method_exists($class_name, 'get_parent_guid_uncached_static')) {
             return ['', $class_name::get_parent_guid_uncached_static($object_guid)];
         }
