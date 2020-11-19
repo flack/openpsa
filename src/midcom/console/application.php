@@ -12,15 +12,7 @@ use Symfony\Component\Console\Application as base_application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use midcom\console\command\exec;
-use midcom\console\command\purgedeleted;
-use midcom\console\command\blobdircleanup;
-use midcom\console\command\rcsdircleanup;
-use midcom\console\command\repligard;
-use midcom\console\command\reindex;
-use midcom\console\command\cron;
 use midcom;
-use midcom\console\command\cacheinvalidate;
 
 /**
  * OpenPSA CLI command runner
@@ -41,14 +33,14 @@ class application extends base_application
         $this->getDefinition()
             ->addOption(new InputOption('--port', '-p', InputOption::VALUE_REQUIRED, 'HTTP server port', '80'));
 
-        $this->add(new exec);
-        $this->add(new purgedeleted);
-        $this->add(new repligard);
-        $this->add(new blobdircleanup);
-        $this->add(new rcsdircleanup);
-        $this->add(new reindex);
-        $this->add(new cron);
-        $this->add(new cacheinvalidate);
+        $this->add(new command\exec);
+        $this->add(new command\purgedeleted);
+        $this->add(new command\repligard);
+        $this->add(new command\blobdircleanup);
+        $this->add(new command\rcsdircleanup);
+        $this->add(new command\reindex);
+        $this->add(new command\cron);
+        $this->add(new command\cacheinvalidate);
     }
 
     /**
@@ -56,16 +48,6 @@ class application extends base_application
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $basedir = midcom::get()->getProjectDir() . '/';
-        // we need the to register the mgdschema classes before starting midcom,
-        if (!\midcom_connection::setup($basedir)) {
-            throw new \RuntimeException('Could not open midgard connection: ' . \midcom_connection::get_error_string());
-        }
-
-        if (file_exists($basedir . 'config.inc.php')) {
-            include $basedir . 'config.inc.php';
-        }
-
         $GLOBALS['midcom_config_local']['cache_module_content_uncached'] = true;
 
         $port = $input->getParameterOption(['--port', '-p'], '80');

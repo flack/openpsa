@@ -2,16 +2,26 @@
 <?php
 
 //Some fiddling to get autoloader...
-$path = dirname(__DIR__, 3) . '/autoload.php'; // installed as dependency
-if (!file_exists($path)) {
-    $path = dirname(__DIR__) . '/vendor/autoload.php'; // installed as root package
+$basedir = dirname(__DIR__, 4) . '/'; // installed as dependency
+
+if (!file_exists($basedir . 'vendor/autoload.php')) {
+    $basedir = dirname(__DIR__) . '/'; // installed as root package
 }
-if (!file_exists($path)) {
+if (!file_exists($basedir . 'vendor/autoload.php')) {
     throw new \Exception('Composer autoloader could not be found');
 }
-require_once $path;
+require_once $basedir . 'vendor/autoload.php';
 
 use midcom\console\application;
+
+// we need the to register the mgdschema classes before starting midcom,
+if (!\midcom_connection::setup($basedir)) {
+    throw new \RuntimeException('Could not open midgard connection: ' . \midcom_connection::get_error_string());
+}
+
+if (file_exists($basedir . 'config.inc.php')) {
+    include $basedir . 'config.inc.php';
+}
 
 $console = new application();
 $console->run();
