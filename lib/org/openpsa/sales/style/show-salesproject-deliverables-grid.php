@@ -9,6 +9,7 @@ foreach ($data['deliverables'] as $entry) {
         'id' => $deliverable->id,
         'title' => '<a href="' . $data['router']->generate('deliverable_view', ['guid' => $deliverable->guid]) . '">' . $deliverable->title . '</a>',
         'index_title' => $deliverable->title,
+        'index_price' => $deliverable->get_state() == 'invoiced' ? $deliverable->invoiced : $deliverable->price,
         'price' => $deliverable->get_state() == 'invoiced' ? $deliverable->invoiced : $deliverable->price,
         'created' => strftime('%Y-%m-%d %H:%i:%s', $deliverable->metadata->created),
         'subscription' => $deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION,
@@ -53,6 +54,6 @@ midcom_grid_row_actions.init({
     identifier: '<?= $grid->get_identifier(); ?>',
     url: '&(prefix);salesproject/action/',
     actions: ['decline', 'order', 'deliver', 'invoice', 'run_cycle'],
-    totals_field: 'price'
+    totals_field: 'sum'
 });
 </script>
