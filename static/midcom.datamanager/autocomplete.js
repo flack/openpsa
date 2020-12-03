@@ -332,7 +332,9 @@ window.midcom_helper_datamanager2_autocomplete = {
         if (input.data('required')) {
             input.prop('required', selection.length === 0);
         }
-        $('#' + identifier + '_selection').val(JSON.stringify(selection));
+        $('#' + identifier + '_selection')
+            .val(JSON.stringify(selection))
+            .trigger('change');
     },
 
     /**
