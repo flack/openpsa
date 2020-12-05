@@ -9,7 +9,10 @@ function init_datepicker(options)
         prevText: '',
         nextText: '',
         showOn: options.showOn,
-        buttonText: '&#xf073;'
+        buttonText: '&#xf073;',
+        onClose: function() {
+            $(options.id).next().focus();
+        }
     }).on('change', function() {
         if ($(this).val() == '') {
             $(options.alt_id).val('');
