@@ -16,6 +16,10 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Event\PostSubmitEvent;
+use midcom\datamanager\controller;
 
 /**
  * Schema form type
@@ -64,6 +68,16 @@ class schemaType extends AbstractType
 
             $builder->add($field, $this->get_type_name($config['widget']), $this->get_settings($config));
         }
+
+        // this is mainly there to skip validation in case the user pressed cancel
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function(PostSubmitEvent $event) {
+            $form = $event->getForm();
+            if (   $form instanceof Form
+                && $form->getClickedButton()
+                && $form->getClickedButton()->getConfig()->getOption('operation') == controller::CANCEL) {
+                $event->stopPropagation();
+            }
+        }, 1);
     }
 
     /**
