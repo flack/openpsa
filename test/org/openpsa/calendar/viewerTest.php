@@ -31,8 +31,6 @@ class org_openpsa_calendar_viewerTest extends openpsa_testcase
 
     public function testHandler_frontpage()
     {
-        midcom::get()->auth->request_sudo('org.openpsa.calendar');
-
         $data = $this->run_handler(self::$_topic);
         $this->assertEquals('frontpage', $data['handler_id']);
         $this->assertInstanceOf(midcom_response_relocate::class, $data['__openpsa_testcase_response']);

@@ -93,10 +93,10 @@ class midcom_helper_reflector_nameresolver
         if ($sibling_classes === null) {
             // This should not happen, logging error and returning true (even though it's potentially dangerous)
             debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, returning true and supposing user knows what he is doing", MIDCOM_LOG_ERROR);
-            return true;
+            $stat = true;
+        } else {
+            $stat = $this->check_sibling_classes($name, $sibling_classes, $parent);
         }
-        $stat = $this->check_sibling_classes($name, $sibling_classes, $parent);
-
         midcom::get()->auth->drop_sudo();
         return $stat;
     }
