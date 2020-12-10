@@ -35,8 +35,8 @@ function countup(start) {
         if (now !== last_update) {
             let diff = (now - start) / 1000,
                 diff_s = diff % 60,
-                diff_m = Math.floor(diff / 60),
-                diff_h = Math.floor(diff_m / 60),
+                diff_m = Math.floor((diff % 3600) / 60),
+                diff_h = Math.floor(diff / 3600),
                 formatted = '';
 
             if (diff_h > 0) {
