@@ -43,9 +43,10 @@ class org_openpsa_reports_handler_sales_reportTest extends openpsa_testcase
 
         $sp = $this->create_object(org_openpsa_sales_salesproject_dba::class, [
             'owner' => self::$person->id,
+            'customerContact' => self::$person->id,
             'state' => org_openpsa_sales_salesproject_dba::STATE_WON
-
         ]);
+
         $del = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, [
             'salesproject' => $sp->id,
             'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
