@@ -18,6 +18,23 @@
     border-color: transparent;
 }
 
+.midcom-workflow-dialog .ui-widget-header .ui-dialog-titlebar-close {
+    opacity: .5;
+    background-image: none;
+    background-color: transparent;
+    border-color: transparent;
+    transition: opacity 200ms;
+}
+
+.midcom-workflow-dialog .ui-widget-header .ui-dialog-titlebar-close .ui-icon {
+    color: inherit;
+}
+
+.midcom-workflow-dialog .ui-widget-header .ui-dialog-titlebar-close:hover,
+.midcom-workflow-dialog .ui-widget-header .ui-dialog-titlebar-close:focus {
+    opacity: 1;
+}
+
 .midcom-workflow-dialog .ui-dialog-title {
     font-size: 120%
 }
