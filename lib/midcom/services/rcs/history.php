@@ -44,7 +44,7 @@ class midcom_services_rcs_history
     public function get_prev_version(string $version) : ?string
     {
         $versions = array_keys($this->data);
-        $position = array_search($version, $versions);
+        $position = array_search($version, $versions, true);
 
         if (in_array($position, [false, count($versions) - 1], true)) {
             return null;
@@ -58,7 +58,7 @@ class midcom_services_rcs_history
     public function get_next_version(string $version) : ?string
     {
         $versions = array_keys($this->data);
-        $position = array_search($version, $versions);
+        $position = array_search($version, $versions, true);
 
         if (in_array($position, [false, 0], true)) {
             return null;
