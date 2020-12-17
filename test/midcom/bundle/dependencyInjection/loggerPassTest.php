@@ -36,9 +36,10 @@ class loggerPassTest extends TestCase
             ->getMock();
 
         $container
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(3))
             ->method('getParameter')
             ->with($this->logicalOr(
+                $this->equalTo('kernel.logs_dir'),
                 $this->equalTo('midcom.log_filename'),
                 $this->equalTo('midcom.log_level')))
             ->will($this->returnCallback([$this, 'get_config']));
@@ -62,7 +63,10 @@ class loggerPassTest extends TestCase
     public function get_config(string $key)
     {
         if ($key === 'midcom.log_filename') {
-            return 'testname';
+            return null;
+        }
+        if ($key === 'kernel.logs_dir') {
+            return 'testdir';
         }
         return MIDCOM_LOG_DEBUG;
     }
@@ -89,7 +93,7 @@ class loggerPassTest extends TestCase
             ->expects($this->exactly(2))
             ->method('addArgument')
             ->with($this->logicalOr(
-                $this->equalTo('testname'),
+                $this->equalTo('testdir/midcom.log'),
                 $this->equalTo(Logger::DEBUG)));
 
         return $filehandler;

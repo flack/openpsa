@@ -139,7 +139,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  * <b>Logging configuration</b>
  *
  * - <b>string log_filename:</b> The filename to dump logging messages to, this
- *      defaults to /tmp/debug.log.
+ *      defaults to {kernel.logs_dir}/midcom.log.
  * - <b>int log_level:</b> The logging level to use when starting up the logger, set to
  *   MIDCOM_LOG_ERROR by default. You cannot use the MIDCOM* constants when setting
  *   micdom_config_local, as they are not defined at that point. Use 0 for CRITICAL,
@@ -315,7 +315,7 @@ class midcom_config implements ArrayAccess
         'indexer_xmltcp_core' => null,
 
         // Logging Configuration
-        'log_filename' => '/tmp/midcom.log',
+        'log_filename' => null,
         'log_level' => MIDCOM_LOG_ERROR,
         'error_actions' => [],
 

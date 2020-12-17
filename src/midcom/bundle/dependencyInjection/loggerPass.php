@@ -11,7 +11,11 @@ class loggerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $filehandler = $container->getDefinition('logger.filehandler');
-        $filehandler->addArgument($container->getParameter('midcom.log_filename'));
+        $filename = $container->getParameter('midcom.log_filename');
+        if (!$filename) {
+            $filename = $container->getParameter('kernel.logs_dir') . '/midcom.log';
+        }
+        $filehandler->addArgument($filename);
         $filehandler->addArgument(\midcom_debug::convert_level((int) $container->getParameter('midcom.log_level')));
 
         $logger = new ChildDefinition('logger');
