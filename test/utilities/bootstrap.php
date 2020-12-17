@@ -13,6 +13,8 @@ $defaults = [
     'midcom_services_rcs_root' => OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs',
     'cache_base_directory' => OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/',
     'midcom_tempdir' => OPENPSA2_UNITTEST_OUTPUT_DIR . '/tmp/',
+    // @todo: Really we should overwrite nernel.logs_dir here
+    'log_filename' => OPENPSA2_UNITTEST_OUTPUT_DIR . '/var/log/midcom.log'
 ];
 
 $GLOBALS['midcom_config_local'] = array_merge($defaults, $GLOBALS['midcom_config_local']);
