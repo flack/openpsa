@@ -20,6 +20,8 @@ form.datamanager2 fieldset.fieldset
 }
 
 form.datamanager2 input[type="text"],
+form.datamanager2 input[type="email"],
+form.datamanager2 input[type="url"],
 form.datamanager2 textarea
 {
     padding: .5em
