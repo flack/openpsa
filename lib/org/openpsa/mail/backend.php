@@ -15,6 +15,9 @@ abstract class org_openpsa_mail_backend
 {
     public $error = false;
 
+    /**
+     * @var Swift_Mailer
+     */
     protected $mailer;
 
     abstract public function __construct(array $params);
