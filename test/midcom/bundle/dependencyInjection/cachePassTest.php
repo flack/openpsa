@@ -90,6 +90,10 @@ class cachePassTest extends TestCase
 
     public function test_process_content_memcached()
     {
+        if (!class_exists('Memcached')) {
+            $this->markTestSkipped('php-memcached missing');
+        }
+
         $container = $this->prepare_container();
         $container->register('cache.module.content.backend', VoidCache::class);
         $container->register('cache.module.content_data.backend', VoidCache::class);
