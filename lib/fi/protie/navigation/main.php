@@ -333,7 +333,7 @@ class fi_protie_navigation
         $link_class = $this->css_link ? ' class="' . $this->css_link . '"' : '';
 
         echo "<li{$class}>";
-        echo "<a href=\"{$item[MIDCOM_NAV_ABSOLUTEURL]}\"{$link_class}>{$item[MIDCOM_NAV_NAME]}</a>";
+        echo "<a href=\"{$item[MIDCOM_NAV_ABSOLUTEURL]}\"{$link_class}>" . htmlspecialchars($item[MIDCOM_NAV_NAME]) . "</a>";
         // If either of the follow nodes switches is on, follow all the nodes
 
         if (   $item[MIDCOM_NAV_TYPE] === 'node'
