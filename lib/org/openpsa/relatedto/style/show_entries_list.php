@@ -17,7 +17,5 @@ $grid->set_column('name', $l10n->get('entry title'), '', 'string')
     ->set_option('sortname', 'remind_date');
 ?>
 <div class="full-width">
-    <table id="journalgrid"></table>
+    <?php $grid->render(); ?>
 </div>
-
-<?php $grid->render(); ?>
