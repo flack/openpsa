@@ -314,7 +314,7 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      *
      * It is called after the generic _on_watched_operation event handler.
      *
-     * @param object $object The object on which the operation has occurred.
+     * @param midcom_core_dbaobject $object The object on which the operation has occurred.
      */
     public function _on_watched_dba_import(midcom_core_dbaobject $object)
     {

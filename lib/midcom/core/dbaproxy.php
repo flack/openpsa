@@ -18,7 +18,7 @@ class midcom_core_dbaproxy
     /**
      * MidCOM DBA object
      *
-     * @var object
+     * @var midcom_core_dbaobject
      */
     private $__object;
 

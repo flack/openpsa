@@ -23,7 +23,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
     /**
      * Contains the object the billing data is linked to
      *
-     * @var object
+     * @var midcom_core_dbaobject
      */
     private $_linked_object;
 
