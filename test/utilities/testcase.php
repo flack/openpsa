@@ -429,7 +429,7 @@ abstract class openpsa_testcase extends TestCase
 
         if (midcom::get()->auth->is_component_sudo()) {
             while (midcom::get()->auth->is_component_sudo()) {
-                midcom::get()->auth->drop();
+                midcom::get()->auth->drop_sudo();
             }
             throw new RuntimeException('Unclosed component sudo detected');
         }
