@@ -120,7 +120,7 @@ class midcom_config_test
         if (ini_get('session.gc_maxlifetime') > $timeout) {
             $this->add('Setting: session.gc_maxlifetime', self::OK, ini_get('session.gc_maxlifetime'));
         } else {
-            $this->add('Setting: session.gc_maxlifetime', self::WARNING, 'session.gc_maxlifetime should be greater than auth_login_session_timeout (' . $timeout . '), otherwise login sessions will time our earlier than intended.');
+            $this->add('Setting: session.gc_maxlifetime', self::WARNING, 'session.gc_maxlifetime should be greater than auth_login_session_timeout (' . $timeout . '), otherwise login sessions will time out earlier than intended.');
         }
 
         if (ini_get("opcache.enable") == "1") {
