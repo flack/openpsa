@@ -116,6 +116,13 @@ class midcom_config_test
             $this->add('Setting: post_max_size', self::WARNING, 'post_max_size should be larger than upload_max_filesize, as both limits apply during uploads.');
         }
 
+        $timeout = midcom::get()->config->get('auth_login_session_timeout');
+        if (ini_get('session.gc_maxlifetime') > $timeout) {
+            $this->add('Setting: session.gc_maxlifetime', self::OK, ini_get('session.gc_maxlifetime'));
+        } else {
+            $this->add('Setting: session.gc_maxlifetime', self::WARNING, 'session.gc_maxlifetime should be greater than auth_login_session_timeout (' . $timeout . '), otherwise login sessions will time our earlier than intended.');
+        }
+
         if (ini_get("opcache.enable") == "1") {
             $this->add("OPCache", self::OK);
         } else {
