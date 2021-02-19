@@ -20,7 +20,7 @@ function openpsa_prepare_topics()
         'Wiki' => 'net.nemein.wiki',
     ];
     $qb = new midgard_query_builder('midgard_topic');
-    $qb->add_constraint('name', '=', 'openpsa');
+    $qb->add_constraint('component', '=', 'org.openpsa.mypage');
     $qb->add_constraint('up', '=', 0);
     $topics = $qb->execute();
     if ($topics) {
