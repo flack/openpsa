@@ -73,7 +73,8 @@
     "prefer-stable": true,
     "minimum-stability": "dev",
     "suggest": {
-        "ezyang/htmlpurifier": "^4.7"
+        "ezyang/htmlpurifier": "^4.7",
+        "ext-memcached": "*"
     },
     "provide": {
         "midgard/midcom": "*",
