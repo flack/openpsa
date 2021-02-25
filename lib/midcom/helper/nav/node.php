@@ -47,10 +47,8 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
 
                 //we always write all the subnodes to cache and filter for ACLs after the fact
                 midcom::get()->auth->request_sudo('midcom.helper.nav');
-                $subnodes = $mc->get_values('id');
+                $this->subnodes = $mc->get_values('id');
                 midcom::get()->auth->drop_sudo();
-
-                $this->subnodes = $subnodes;
             }
             $this->get_cache()->put_node($this->topic_id, $this->get_data());
         }

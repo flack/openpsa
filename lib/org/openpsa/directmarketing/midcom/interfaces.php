@@ -80,20 +80,21 @@ implements midcom_services_permalinks_resolver
         }
 
         midcom::get()->auth->request_sudo($this->_component);
+        $stat = true;
         try {
             $campaign = new org_openpsa_directmarketing_campaign_dba($args['campaign_guid']);
         } catch (midcom_error $e) {
             $handler->print_error("{$args['campaign_guid']} is not a valid campaign GUID");
-            return false;
+            $stat = false;
         }
 
-        if (!$campaign->update_smart_campaign_members()) {
+        if ($stat && !$campaign->update_smart_campaign_members()) {
             $handler->print_error('Error while calling campaign->update_smart_campaign_members(), see error log for details');
-            return false;
+            $stat = false;
         }
 
         midcom::get()->auth->drop_sudo();
-        return true;
+        return $stat;
     }
 
     /**
