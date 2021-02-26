@@ -941,6 +941,21 @@ table.midgard_admin_asgard_object_parameters th
     text-align: left;
 }
 
+table.midgard_admin_asgard_object_parameters td
+{
+    vertical-align: top;
+}
+
+table.midgard_admin_asgard_object_parameters td.name
+{
+    padding-right: 1em;
+}
+
+table.midgard_admin_asgard_object_parameters td.value
+{
+    word-wrap: anywhere;
+}
+
 table.midgard_admin_asgard_object_parameters ul,
 table.midgard_admin_asgard_object_parameters li
 {
@@ -955,7 +970,6 @@ table.midgard_admin_asgard_object_parameters li
     padding-left: 0px;
 }
 
-table.midgard_admin_asgard_object_parameters li a img,
 #content-text ul.midcom_toolbar a img
 {
     vertical-align: middle;

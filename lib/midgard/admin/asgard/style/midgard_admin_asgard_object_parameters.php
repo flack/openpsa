@@ -48,9 +48,9 @@ if (!empty($data['parameters'])) {
         }
 
         echo "        <tr>\n";
-        echo "            <td style=\"vertical-align: top;\">{$parameter->name}</td>\n";
-        echo "            <td style=\"vertical-align: top;\">" . nl2br(htmlentities($parameter->value)) . "</td>\n";
-        echo "            <td style=\"vertical-align: top;\">" . $parameter_toolbar->render() . "</td>\n";
+        echo "            <td class=\"name\">{$parameter->name}</td>\n";
+        echo "            <td class=\"value\">" . nl2br(htmlentities($parameter->value)) . "</td>\n";
+        echo "            <td>" . $parameter_toolbar->render() . "</td>\n";
         echo "        </tr>\n";
     }
     echo "    </tbody>\n";
