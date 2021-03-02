@@ -119,7 +119,11 @@ const org_openpsa_layout = {
                             url: provider.url + '/autocomplete/',
                             dataType: 'json',
                             data: {query: request.term},
-                            success: response
+                            success: response,
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                field.trigger('autocompleteerror', [jqXHR, textStatus, errorThrown]);
+                                response([]);
+                            }
                         });
                     },
                     select: function (event, ui) {
