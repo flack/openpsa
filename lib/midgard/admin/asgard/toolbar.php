@@ -13,7 +13,7 @@
  */
 class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
 {
-    private function _generate_url(string $action, $object) : string
+    private function _generate_url(string $action, midcom_core_dbaobject $object) : string
     {
         return '__mfa/asgard/object/' . $action . '/' . $object->guid . '/';
     }
@@ -21,10 +21,9 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
     /**
      * Populate the object toolbar
      *
-     * @param mixed $object        MgdSchema object for which the toolbar will be created
      * @param array $data          Local request data
      */
-    public function bind_to_object($object, string $handler_id, array $data)
+    public function bind_to_object(midcom_core_dbaobject $object, string $handler_id, array $data)
     {
         if ($handler_id == 'object_deleted') {
             return;

@@ -124,10 +124,8 @@ class midcom_services_metadata
 
     /**
      * Binds view metadata to a DBA content object
-     *
-     * @param midcom_core_dbaobject $object The DBA class instance to bind to.
      */
-    public function bind_to($object)
+    public function bind_to(midcom_core_dbaobject $object)
     {
         $context = midcom_core_context::get();
 

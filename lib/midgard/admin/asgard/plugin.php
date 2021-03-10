@@ -65,7 +65,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     /**
      * Bind view to an object
      */
-    public static function bind_to_object($object, string $handler_id, array &$data)
+    public static function bind_to_object(midcom_core_dbaobject $object, string $handler_id, array &$data)
     {
         // Tell our object to MidCOM
         midcom::get()->metadata->set_request_metadata($object->metadata->revised, $object->guid);

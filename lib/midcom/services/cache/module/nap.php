@@ -95,7 +95,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         $this->backend->delete($leaves_key);
     }
 
-    private function _load_from_guid(string $guid, $object) : ?array
+    private function _load_from_guid(string $guid, ?object $object) : ?array
     {
         $napobject = null;
         try {

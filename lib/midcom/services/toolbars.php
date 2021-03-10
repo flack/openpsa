@@ -176,7 +176,7 @@ class midcom_services_toolbars
      * @see create_object_toolbar()
      * @param midcom_helper_toolbar $toolbar
      */
-    public function bind_toolbar_to_object(midcom_helper_toolbar $toolbar, $object)
+    public function bind_toolbar_to_object(midcom_helper_toolbar $toolbar, midcom_core_dbaobject $object)
     {
         if (!midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)) {
             debug_add("Toolbar for object {$object->guid} was called before topic prefix was available, skipping global items.", MIDCOM_LOG_WARN);
