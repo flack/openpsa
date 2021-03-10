@@ -197,12 +197,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Creates a QB instance for _get_child_objects_type
      */
-    public function _child_objects_type_qb(string $schema_type, $for_object, bool $deleted)
+    public function _child_objects_type_qb(string $schema_type, object $for_object, bool $deleted)
     {
-        if (!is_object($for_object)) {
-            debug_add('Passed for_object argument is not object, this is fatal', MIDCOM_LOG_ERROR);
-            return false;
-        }
         $qb = $this->_get_type_qb($schema_type, $deleted);
         if (!$qb) {
             debug_add("Could not get QB for type '{$schema_type}'", MIDCOM_LOG_ERROR);

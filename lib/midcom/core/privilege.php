@@ -196,7 +196,7 @@ class midcom_core_privilege
      * @see midcom_services_auth::get_assignee()
      * @return midcom_core_user|midcom_core_group|null object as returned by the auth service, null on failure.
      */
-    public function get_assignee()
+    public function get_assignee() : ?object
     {
         if ($this->is_magic_assignee()) {
             return null;

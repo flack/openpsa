@@ -22,13 +22,8 @@ abstract class midcom_helper_exporter
      *
      * @param object $object
      */
-    public function object2array($object) : array
+    public function object2array(object $object) : array
     {
-        if (!is_object($object)) {
-            debug_add("Missing object needed as parameter.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         $out = [];
         $fields = midcom_helper_reflector::get_object_fieldnames($object);
 
@@ -94,7 +89,7 @@ abstract class midcom_helper_exporter
      *
      * @param object $object the object
      */
-    protected function _get_classname($object) : string
+    protected function _get_classname(object $object) : string
     {
         if (!empty($object->__mgdschema_class_name__)) {
             return $object->__mgdschema_class_name__;

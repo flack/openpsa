@@ -172,13 +172,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
     /**
      * Copy tasks of one object to another object
      */
-    public function copy_tags($from, $to) : bool
+    public function copy_tags(object $from, object $to) : bool
     {
-        if (   !is_object($from)
-            || !is_object($to)) {
-            return false;
-        }
-
         $tags = self::get_object_tags($from);
         return self::tag_object($to, $tags);
     }
@@ -191,7 +186,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      *
      * @return array list of tags and urls, tag is key, url is value
      */
-    public static function get_object_tags($object) : array
+    public static function get_object_tags(object $object) : array
     {
         return self::get_tags_by_guid($object->guid);
     }

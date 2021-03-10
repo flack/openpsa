@@ -21,8 +21,6 @@ class midcom_services_auth_mainTest extends openpsa_testcase
 
         $auth = midcom::get()->auth;
 
-        $this->assertFalse($auth->can_do('midgard:read', null));
-
         $this->assertTrue($auth->can_do('midgard:read', $topic));
         $this->assertFalse($auth->can_do('midgard:delete', $topic));
 

@@ -81,11 +81,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * @param object $object Object The object to query
      */
-    public static function get_object_fieldnames($object) : array
+    public static function get_object_fieldnames(object $object) : array
     {
-        if (!is_object($object)) {
-            throw new midcom_error('Invalid parameter type');
-        }
         $classname = get_class($object);
         $metadata = false;
 
@@ -187,10 +184,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
     /**
      * Get the object label property value
-     *
-     * @param mixed $object    MgdSchema object
      */
-    public function get_object_label($object) : ?string
+    public function get_object_label(object $object) : ?string
     {
         if ($object instanceof mgdobject) {
             try {
@@ -264,10 +259,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
     /**
      * Get the object icon
-     *
-     * @param mixed $obj          MgdSchema object
      */
-    public static function get_object_icon($obj) : string
+    public static function get_object_icon(object $obj) : string
     {
         if (null === self::$_cache['object_icon_map']) {
             self::$_cache['object_icon_map'] = self::_get_icon_map('object_icon_magic', 'file');
@@ -565,12 +558,12 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param object $object the object to get the name property for
      * @todo when midgard_reflection_property supports flagging name fields use that instead of heuristics
      */
-    public function get_name_property_nonstatic($object) : ?string
+    public function get_name_property_nonstatic(object $object) : ?string
     {
         return $this->get_property('name', $object);
     }
 
-    private function get_property(string $type, $object) : ?string
+    private function get_property(string $type, object $object) : ?string
     {
         // Cache results per class within request
         $key = get_class($object);
@@ -605,7 +598,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @see midcom_helper_reflector::get_name_property_nonstatic()
      * @param object $object the object to get the name property for
      */
-    public static function get_name_property($object) : ?string
+    public static function get_name_property(object $object) : ?string
     {
         return self::get($object)->get_name_property_nonstatic($object);
     }
@@ -620,7 +613,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param object $object the object to get the name property for
      * @param string $title_property property to use as "name", if left to default (null), will be reflected
      */
-    public static function get_object_title($object, ?string $title_property = null) : ?string
+    public static function get_object_title(object $object, ?string $title_property = null) : ?string
     {
         if ($title_property === null) {
             $title_property = self::get_title_property($object);
@@ -641,7 +634,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * @param object $object The object to get the title property for
      */
-    public static function get_title_property($object) : ?string
+    public static function get_title_property(object $object) : ?string
     {
         return self::get($object)->get_title_property_nonstatic($object);
     }
@@ -655,7 +648,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @see midcom_helper_reflector::get_object_title()
      * @param object $object the object to get the title property for
      */
-    public function get_title_property_nonstatic($object) : ?string
+    public function get_title_property_nonstatic(object $object) : ?string
     {
         return $this->get_property('title', $object);
     }

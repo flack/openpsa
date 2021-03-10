@@ -203,7 +203,7 @@ class midcom_helper_configuration
      * @param string $path    The parameter domain to query.
      * @param boolean $merge Should the existing local config be overridden or merged
      */
-    public function store_from_object($object, string $path, bool $merge = false)
+    public function store_from_object(object $object, string $path, bool $merge = false)
     {
         $this->_object = $object;
         $this->_path = $path;

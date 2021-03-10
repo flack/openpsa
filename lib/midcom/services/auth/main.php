@@ -205,12 +205,8 @@ class midcom_services_auth
      * @param midcom_core_user $user The user against which to check the privilege, defaults to the currently authenticated user.
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
      */
-    public function can_do(string $privilege, $content_object, $user = null) : bool
+    public function can_do(string $privilege, object $content_object, $user = null) : bool
     {
-        if (!is_object($content_object)) {
-            return false;
-        }
-
         if ($this->is_admin($user)) {
             // Administrators always have access.
             return true;
@@ -375,7 +371,7 @@ class midcom_services_auth
      *
      * @param MidgardObject $content_object A Midgard Content Object
      */
-    public function require_do(string $privilege, $content_object, string $message = null)
+    public function require_do(string $privilege, object $content_object, string $message = null)
     {
         if (!$this->can_do($privilege, $content_object)) {
             throw $this->access_denied($message, 'privilege %s not granted', $privilege);
@@ -515,7 +511,7 @@ class midcom_services_auth
      *     of any midcom_core_user or midcom_core_group object).
      * @return object|null corresponding object or false on failure.
      */
-    public function get_assignee(string $id)
+    public function get_assignee(string $id) : ?object
     {
         $parts = explode(':', $id);
 

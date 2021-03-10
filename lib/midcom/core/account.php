@@ -39,7 +39,7 @@ class midcom_core_account
     /**
      * @param object $person midgard_person, midcom_db_person or similar
      */
-    public function __construct($person)
+    public function __construct(object $person)
     {
         $this->_person = $person;
         $this->_user = $this->_get_user();

@@ -29,13 +29,8 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      * @param array $extra Array with the possible extra-properties
      * @return mixed The newly-created relatedto object or false on failure
      */
-    public static function create($from_obj, string $from_component, $to_obj, string $to_component, int $status = null, array $extra = []) : ?org_openpsa_relatedto_dba
+    public static function create(object $from_obj, string $from_component, object $to_obj, string $to_component, int $status = null, array $extra = []) : ?org_openpsa_relatedto_dba
     {
-        if (   !is_object($from_obj)
-            || !is_object($to_obj)) {
-            return null;
-        }
-
         if (!$status) {
             $status = org_openpsa_relatedto_dba::CONFIRMED;
         }
