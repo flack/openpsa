@@ -588,7 +588,7 @@ class midcom_services_indexer_document
         // Check for imploded_wrapped datamanager storage.
         if (str_contains($input, '|')) {
             // Find first non-empty value in the array and use that
-            $id_arr = array_filter(explode('|', $input));
+            $id_arr = array_values(array_filter(explode('|', $input)));
             $input = $id_arr[0] ?? null;
         }
 
