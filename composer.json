@@ -24,7 +24,7 @@
         "checkdomain/holiday": "^3.0.0",
         "doctrine/cache": "^1.6.0",
         "gregwar/captcha": "^1.0",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^7.2",
         "mf2/mf2": ">=0.2.12",
         "michelf/php-markdown": "^1.9.0",
         "monolog/monolog": "^1.9.1",
