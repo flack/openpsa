@@ -82,7 +82,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      */
     private function _post_create_actions()
     {
-        if ($this->_dbaclass == org_openpsa_contacts_person_dba::class) {
+        if ($this->_dbaclass == 'org_openpsa_contacts_person_dba') {
             $indexer = new org_openpsa_contacts_midcom_indexer($this->_node[MIDCOM_NAV_OBJECT]);
             $indexer->index($this->_controller->get_datamanager());
         }
@@ -104,10 +104,10 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         }
 
         switch ($this->_dbaclass) {
-            case org_openpsa_contacts_person_dba::class:
+            case 'org_openpsa_contacts_person_dba':
                 $title = 'person';
                 break;
-            case org_openpsa_products_product_group_dba::class:
+            case 'org_openpsa_products_product_group_dba':
                 $title = 'product group';
                 break;
             default:
@@ -125,10 +125,10 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         $config_key = 'schemadb';
 
         switch ($this->_dbaclass) {
-            case org_openpsa_contacts_person_dba::class:
+            case 'org_openpsa_contacts_person_dba':
                 $config_key .= '_person';
                 break;
-            case org_openpsa_products_product_group_dba::class:
+            case 'org_openpsa_products_product_group_dba':
                 $config_key .= '_group';
                 break;
             default:
