@@ -90,7 +90,7 @@ implements client
         $entry['index_author'] = '';
         $entry['author'] = '';
         if ($document->author) {
-            $author = org_openpsa_contacts_person_dba::get_cached($document->author);
+            $author = midcom_db_person::get_cached($document->author);
             $entry['index_author'] = $author->rname;
             $author_card = org_openpsa_widgets_contact::get($author->guid);
             $entry['author'] = $author_card->show_inline();
