@@ -3,7 +3,7 @@ $view = $data['document_dm'];
 $att = $data['document_attachment'];
 $stat = $att->stat();
 
-$document_type = midcom_helper_misc::filesize_to_string($stat[7]) . ' ' . org_openpsa_documents_document_dba::get_file_type($att->mimetype);
+$document_type = midcom_helper_misc::filesize_to_string($stat[7]) . ' ' . org_openpsa_helpers_fileinfo::render_type($att->mimetype);
 $link = $data['router']->generate('document-view', ['guid' => $data['document']->guid]);
 $score = round($data['document_search']->score * 100);
 

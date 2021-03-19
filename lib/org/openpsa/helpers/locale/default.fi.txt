@@ -1,0 +1,11 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE fi
+
+---STRING %s document
+%s dokumentti
+---STRINGEND
+
+---STRING application/vnd.ms-powerpoint
+Powerpoint
+---STRINGEND

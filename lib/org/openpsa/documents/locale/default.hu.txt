@@ -2,14 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE hu
 
----STRING %s document
-%s dokumentum
----STRINGEND
-
----STRING application/vnd.ms-powerpoint
-Powerpoint
----STRINGEND
-
 ---STRING create document
 Dokumentum létrehozása
 ---STRINGEND

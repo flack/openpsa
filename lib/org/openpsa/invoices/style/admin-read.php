@@ -120,11 +120,11 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
     if ($view['files'] != "") { ?>
         <p><strong><?php echo $data['l10n']->get('files'); ?></strong></p>
-        <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'files');
+        <?php echo org_openpsa_helpers_fileinfo::render($invoice, 'files');
     }
     if ($view['pdf_file'] != "") { ?>
         <p><strong><?php echo $data['l10n']->get('pdf file'); ?></strong></p>
-        <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'pdf_file');
+        <?php echo org_openpsa_helpers_fileinfo::render($invoice, 'pdf_file');
     }
 
     $tabs = [];

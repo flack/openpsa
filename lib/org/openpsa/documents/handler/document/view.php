@@ -78,7 +78,7 @@ implements client
             $stats = $att->stat();
             $entry['index_filesize'] = $stats[7];
             $entry['filesize'] = midcom_helper_misc::filesize_to_string($stats[7]);
-            $entry['mimetype'] = org_openpsa_documents_document_dba::get_file_type($att->mimetype);
+            $entry['mimetype'] = org_openpsa_helpers_fileinfo::render_type($att->mimetype);
         }
 
         $title = '<a class="tab_escape" href="' . $link . '"><img src="' . $icon . '"';

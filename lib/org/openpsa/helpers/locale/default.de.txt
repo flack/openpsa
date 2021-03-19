@@ -1,0 +1,31 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE de
+
+---STRING %s document
+%s-Dokument
+---STRINGEND
+
+---STRING %s image
+%s-Grafik
+---STRINGEND
+
+---STRING %s presentation
+%s-Präsentation
+---STRINGEND
+
+---STRING %s spreadsheet
+%s-Tabelle
+---STRINGEND
+
+---STRING %s text
+%s-Textdatei
+---STRINGEND
+
+---STRING application/octet-stream
+Binärdatei
+---STRINGEND
+
+---STRING application/x-zip-compressed
+ZIP-Archiv
+---STRINGEND

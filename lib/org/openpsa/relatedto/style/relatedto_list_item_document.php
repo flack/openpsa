@@ -17,7 +17,7 @@ $atts = blobs::get_attachments($document, 'document');
         echo midcom::get()->i18n->get_string('no files', 'org.openpsa.documents');
     } else {
         foreach ($atts as $file) {
-            $type = org_openpsa_documents_document_dba::get_file_type($file->mimetype);
+            $type = org_openpsa_helpers_fileinfo::render_type($file->mimetype);
             $url = midcom_db_attachment::get_url($file);
             echo "<a target=\"document_{$document->guid}\" href=\"{$url}\">{$file->name}</a> (" . $type . ")";
         }
