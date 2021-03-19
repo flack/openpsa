@@ -97,7 +97,7 @@
             'storage'      => 'parameter',
             'type'      => 'select',
             'type_config' => [
-                 'options' => org_openpsa_helpers_list::projects(),
+                 'options' => org_openpsa_projects_project::list(),
             ],
             'widget'        => 'select',
         ],

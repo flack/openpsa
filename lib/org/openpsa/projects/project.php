@@ -114,6 +114,28 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         }
     }
 
+    /**
+     * List projects user can see
+     */
+    public static function list() : array
+    {
+        //Only query once per request
+        static $cache = null;
+        if ($cache === null) {
+            $cache = [
+                'all' => midcom::get()->i18n->get_string('all', 'midcom')
+            ];
+
+            $qb = self::new_query_builder();
+            $qb->add_order('title');
+
+            foreach ($qb->execute() as $project) {
+                $cache[$project->guid] = $project->title;
+            }
+        }
+        return $cache;
+    }
+
     public function get_icon() : string
     {
         return 'tasks';

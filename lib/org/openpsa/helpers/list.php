@@ -14,28 +14,6 @@
 class org_openpsa_helpers_list
 {
     /**
-     * List tasks user can see
-     */
-    public static function projects() : array
-    {
-        //Only query once per request
-        static $cache = null;
-        if ($cache === null) {
-            $cache = [
-                'all' => midcom::get()->i18n->get_string('all', 'midcom')
-            ];
-
-            $qb = org_openpsa_projects_project::new_query_builder();
-            $qb->add_order('title');
-
-            foreach ($qb->execute() as $task) {
-                $cache[$task->guid] = $task->title;
-            }
-        }
-        return $cache;
-    }
-
-    /**
      * List virtual groups of user
      */
     public static function workgroups(string $add_me = 'last', bool $show_members = false) : array
