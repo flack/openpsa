@@ -118,7 +118,7 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
         foreach ($views as $view) {
             $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . $view . '/main.min.js');
         }
-        if ($lang = self::get_lang()) {
+        if ($lang = $this->get_lang()) {
             $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . "core/locales/{$lang}.js");
         }
 
