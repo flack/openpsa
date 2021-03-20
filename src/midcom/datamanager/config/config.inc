@@ -16,8 +16,7 @@
 //Pre-made autocomplete configurations
 'clever_classes' => [
     'contact' => [
-        'class' => 'org_openpsa_contacts_person_dba',
-        'component' => 'org.openpsa.contacts',
+        'class' => 'midcom_db_person',
         'titlefield' => 'name',
         'result_headers' => [
             [
@@ -36,8 +35,7 @@
         ],
     ],
     'organization' => [
-        'class'       => 'org_openpsa_contacts_group_dba',
-        'component'   => 'org.openpsa.contacts',
+        'class'       => 'midcom_db_group',
         'titlefield'  => 'official',
         'id_field'     => 'id',
         'searchfields'  => [
@@ -51,7 +49,6 @@
     ],
     'article' => [
         'class' => 'midcom_db_article',
-        'component' => 'net.nehmer.static',
         'searchfields' => ['title'],
         'orders' => [
             ['title' => 'ASC'],
@@ -61,7 +58,6 @@
     ],
     'group' => [
         'class' => 'midcom_db_group',
-        'component' => 'midgard.admin.asgard',
         'result_headers' => [
             [
                 'title' => 'name',
@@ -81,7 +77,6 @@
     ],
     'task' => [
         'class'       => 'org_openpsa_projects_task_dba',
-        'component'   => 'org.openpsa.projects',
         'titlefield'  => 'title',
         'id_field'     => 'id',
         'searchfields'  => [
@@ -95,7 +90,6 @@
     ],
     'invoice' => [
         'class' => 'org_openpsa_invoices_invoice_dba',
-        'component' => 'org.openpsa.invoices',
         'id_field' => 'id',
         'searchfields' => [
             'number',
