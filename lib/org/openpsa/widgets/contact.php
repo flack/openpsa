@@ -19,11 +19,6 @@ use midcom\datamanager\storage\blobs;
 class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 {
     /**
-     * Do we have our contact data ?
-     */
-    private $_data_read_ok = false;
-
-    /**
      * Contact information of the person being displayed
      */
     public $contact_details = [
@@ -93,7 +88,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         // TODO: Handle groups as well
         if ($person) {
             $this->person = $person;
-            $this->_data_read_ok = $this->read_object($person);
+            $this->read_object($person);
         }
     }
 
@@ -215,7 +210,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      */
     public function show_inline() : string
     {
-        if (!$this->_data_read_ok) {
+        if (!$this->person) {
             return '';
         }
         self::add_head_elements();
@@ -244,7 +239,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      */
     public function show()
     {
-        if (!$this->_data_read_ok) {
+        if (!$this->person) {
             return false;
         }
         self::add_head_elements();
