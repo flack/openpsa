@@ -11,6 +11,8 @@
  */
 class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_components_handler
 {
+    private $prefix = '/org.openpsa.calendar/fullcalendar-4.4.0/';
+
     /**
      * Initialization of the handler class
      */
@@ -91,7 +93,7 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
 
     private function get_calendar_options(array $views) : array
     {
-        org_openpsa_widgets_calendar::add_head_elements($views);
+        $this->add_head_elements($views);
         $options = [
             'businessHours' => [
                 'start' => $this->_config->get('day_start_time') . ':00',
@@ -101,10 +103,44 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
             'l10n' => ['cancel' => $this->_l10n_midcom->get('cancel')]
         ];
 
-        if ($lang = org_openpsa_widgets_calendar::get_lang()) {
+        if ($lang = $this->get_lang()) {
             $options['locale'] = $lang;
         }
 
         return $options;
+    }
+
+    private function add_head_elements(array $views)
+    {
+        $head = midcom::get()->head;
+        $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . 'core/main.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . 'interaction/main.min.js');
+        foreach ($views as $view) {
+            $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . $view . '/main.min.js');
+        }
+        if ($lang = self::get_lang()) {
+            $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . "core/locales/{$lang}.js");
+        }
+
+        $head->add_stylesheet(MIDCOM_STATIC_URL . $this->prefix . 'core/main.min.css');
+        foreach ($views as $view) {
+            $head->add_stylesheet(MIDCOM_STATIC_URL . $this->prefix . $view . '/main.min.css');
+        }
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.css');
+
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
+    }
+
+    private function get_lang() : ?string
+    {
+        $lang = midcom::get()->i18n->get_current_language();
+        if (file_exists(MIDCOM_STATIC_ROOT . $this->prefix . "core/locales/{$lang}.js")) {
+            return $lang;
+        }
+        $lang = midcom::get()->i18n->get_fallback_language();
+        if (file_exists(MIDCOM_STATIC_ROOT . $this->prefix . "core/locales/{$lang}.js")) {
+            return $lang;
+        }
+        return null;
     }
 }
