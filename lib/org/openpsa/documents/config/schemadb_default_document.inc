@@ -68,7 +68,7 @@
             'widget_config' => [
                 'clever_class'       => 'contact',
                 'id_field'     => 'id',
-                'creation_mode_enabled' => true,
+                'creation_mode_enabled' => midcom::get()->componentloader->is_installed('org.openpsa.contacts'),
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
                 'creation_default_key' => 'lastname',
              ],
