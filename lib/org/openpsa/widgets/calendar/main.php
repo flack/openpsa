@@ -7,11 +7,11 @@
  */
 
 /**
- * fullcandar-based calendar widget
+ * fullcalendar-based calendar widget
  *
  * @package org.openpsa.widgets
  */
-class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecode
+class org_openpsa_widgets_calendar
 {
     private static $prefix = '/org.openpsa.widgets/fullcalendar-4.4.0/';
 
