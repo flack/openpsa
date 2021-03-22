@@ -25,7 +25,7 @@ $node = $nap->get_node($nap->get_current_node());
                 break;
         }
     }
-    if (array_key_exists('billing_data', $data)) {
+    if (!empty($data['billing_data'])) {
         echo "<h2>" . $data['l10n']->get('invoice defaults') . "</h2>\n";
         echo "<div><strong>" . midcom::get()->i18n->get_string('vat', 'org.openpsa.invoices') . ": </strong>";
         echo $data['billing_data']->vat . " %</div>\n";
@@ -61,12 +61,12 @@ $node = $nap->get_node($nap->get_current_node());
 
 <aside>
     <?php
-    if ($data['parent_group']) {
+    if (!empty($data['parent_group'])) {
         ?>
         <div class="area parent">
           <h2><?php printf($data['l10n']->get('%s of'), $data['l10n']->get($data['view']['organization_type'])); ?></h2>
             <dl>
-                <dt><?php echo "<a href=\"{$node[MIDCOM_NAV_ABSOLUTEURL]}group/{$data['parent_group']->guid}/\">{$data['parent_group']->official}</a>"; ?></dt>
+                <dt><?php echo '<a href="' . $data['router']->generate('group_view', ['guid' => $data['parent_group']->guid]) . '">' . $data['parent_group']->official . '</a>' ?></dt>
             </dl>
         </div>
         <?php

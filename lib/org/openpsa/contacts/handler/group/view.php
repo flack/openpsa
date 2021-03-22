@@ -107,15 +107,12 @@ implements client
             $root_group = org_openpsa_contacts_interface::find_root_group();
             if ($this->group->owner != $root_group->id) {
                 $data['parent_group'] = $this->group->get_parent();
-            } else {
-                $data['parent_group'] = false;
             }
 
-            $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
-            $qb_billing_data->add_constraint('linkGuid', '=', $this->group->guid);
-            $billing_data = $qb_billing_data->execute();
-            if (!empty($billing_data)) {
-                $this->_request_data['billing_data'] = $billing_data[0];
+            if (midcom::get()->componentloader->is_installed('org.openpsa.invoices')) {
+                $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
+                $qb_billing_data->add_constraint('linkGuid', '=', $this->group->guid);
+                $this->_request_data['billing_data'] = $qb_billing_data->execute()[0] ?? null;
             }
         }
 

@@ -35,7 +35,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     public $__mgdschema_class_name__ = 'org_openpsa_person';
 
     public $autodelete_dependents = [
-        org_openpsa_calendar_event_member_dba::class => 'uid',
+        'org_openpsa_calendar_event_member_dba' => 'uid',
         midcom_db_member::class => 'uid'
     ];
 
