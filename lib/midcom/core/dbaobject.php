@@ -421,6 +421,9 @@ abstract class midcom_core_dbaobject
     private function _delete_dependents() : bool
     {
         foreach ($this->autodelete_dependents as $classname => $link_property) {
+            if (!class_exists($classname)) {
+                continue;
+            }
             $qb = midcom::get()->dbfactory->new_query_builder($classname);
             $qb->add_constraint($link_property, '=', $this->id);
             foreach ($qb->execute() as $result) {
