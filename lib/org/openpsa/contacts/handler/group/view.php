@@ -70,8 +70,7 @@ implements client
             ];
         }
 
-        $cal_node = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
-        if (!empty($cal_node)) {
+        if ($cal_node = midcom_helper_misc::find_node_by_component('org.openpsa.calendar')) {
             //TODO: Check for privileges somehow
             $buttons[] = org_openpsa_calendar_interface::get_create_button($cal_node, $this->group->guid . '/');
         }
