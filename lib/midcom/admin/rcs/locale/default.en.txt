@@ -6,8 +6,8 @@
 Back to page "%s"
 ---STRINGEND
 
----STRING changes between revision %s and %s
-Changes between revision %s and %s
+---STRING changes between revisions %s and %s
+Changes between revisions %s and %s
 ---STRINGEND
 
 ---STRING date
