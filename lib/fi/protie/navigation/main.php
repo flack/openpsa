@@ -308,11 +308,7 @@ class fi_protie_navigation
             } else {
                 $children = false;
             }
-            if (!empty($children)) {
-                $classes[] = $this->css_node;
-            } else {
-                $classes[] = $this->css_leaf;
-            }
+            $classes[] = $children ? $this->css_node : $this->css_leaf;
         }
 
         // Add information about the object's status

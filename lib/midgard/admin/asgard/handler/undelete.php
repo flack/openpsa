@@ -175,8 +175,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         echo "{$prefix}    <td>" . midcom_helper_misc::filesize_to_string($object->metadata->size) . "</td>\n";
         echo "{$prefix}</tr>\n";
 
-        $child_types = midcom_helper_reflector_tree::get_child_objects($object, true);
-        if (!empty($child_types)) {
+        if ($child_types = midcom_helper_reflector_tree::get_child_objects($object, true)) {
             $child_indent = $indent + 20;
             echo "{$prefix}<tbody class=\"children\">\n";
             foreach ($child_types as $type => $children) {

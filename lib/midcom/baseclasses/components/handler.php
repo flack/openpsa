@@ -166,10 +166,9 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      */
     public function populate_breadcrumb_line()
     {
-        if (empty($this->_breadcrumbs)) {
-            return;
+        if ($this->_breadcrumbs) {
+            midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $this->_breadcrumbs);
         }
-        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $this->_breadcrumbs);
     }
 
     /**

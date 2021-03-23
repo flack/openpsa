@@ -112,20 +112,18 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @param midgard\portable\api\mgdobject $object object to get children for
      * @param boolean $deleted whether to get (only) deleted or not-deleted objects
-     * @return array multidimensional array (keyed by classname) of objects or false on failure
+     * @return array multidimensional array (keyed by classname) of objects
      */
-    public static function get_child_objects($object, bool $deleted = false)
+    public static function get_child_objects($object, bool $deleted = false) : array
     {
         if (!self::_check_permissions($deleted)) {
-            return false;
+            return [];
         }
         $resolver = new self($object);
 
         $child_objects = [];
         foreach ($resolver->get_child_classes() as $schema_type) {
-            $type_children = $resolver->_get_child_objects_type($schema_type, $object, $deleted);
-            // PONDER: check for boolean false as result ??
-            if (!empty($type_children)) {
+            if ($type_children = $resolver->_get_child_objects_type($schema_type, $object, $deleted)) {
                 $child_objects[$schema_type] = $type_children;
             }
         }
@@ -276,12 +274,12 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @return array of objects
      */
-    public function _get_child_objects_type(string $schema_type, $for_object, bool $deleted)
+    public function _get_child_objects_type(string $schema_type, $for_object, bool $deleted) : array
     {
         $qb = $this->_child_objects_type_qb($schema_type, $for_object, $deleted);
         if (!$qb) {
             debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
-            return false;
+            return [];
         }
 
         // Sort by title and name if available

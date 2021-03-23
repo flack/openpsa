@@ -465,10 +465,6 @@ class midcom_baseclasses_core_dbobject
             // List all deleted children
             $children_types = midcom_helper_reflector_tree::get_child_objects($object, true);
 
-            if (empty($children_types)) {
-                continue;
-            }
-
             foreach ($children_types as $children) {
                 $child_guids = array_column($children, 'guid');
                 $undeleted_size += self::undelete($child_guids);
@@ -545,12 +541,9 @@ class midcom_baseclasses_core_dbobject
         foreach ($qb->execute() as $object) {
             // first kill your children
             $children_types = midcom_helper_reflector_tree::get_child_objects($object, true);
-
-            if (is_array($children_types)) {
-                foreach ($children_types as $child_type => $children) {
-                    $child_guids = array_column($children, 'guid');
-                    self::purge($child_guids, $child_type);
-                }
+            foreach ($children_types as $child_type => $children) {
+                $child_guids = array_column($children, 'guid');
+                self::purge($child_guids, $child_type);
             }
 
             // then shoot your dogs
