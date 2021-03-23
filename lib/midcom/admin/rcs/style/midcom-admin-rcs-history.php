@@ -1,4 +1,5 @@
 <?php
+midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.admin.rcs/rcs.js');
 $history = $data['history']->all();
 $guid = $data['guid'];
 
@@ -52,3 +53,6 @@ if (empty($history)) {
     <?php
 }
 ?>
+<script>
+init_controls();
+</script>
