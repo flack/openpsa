@@ -6,8 +6,8 @@
 zurück zu "%s"
 ---STRINGEND
 
----STRING changes done in revision %s to %s
-Änderungen in Revision %s von "%s"
+---STRING changes between revision %s and %s
+Änderungen zwischen Revision %s und %s
 ---STRINGEND
 
 ---STRING date

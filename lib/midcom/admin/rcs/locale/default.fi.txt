@@ -6,10 +6,6 @@
 Takaisin sivulle "%s"
 ---STRINGEND
 
----STRING changes done in revision %s to %s
-Version %s muutokset tietueeseen %s
----STRINGEND
-
 ---STRING date
 Päivämäärä
 ---STRINGEND

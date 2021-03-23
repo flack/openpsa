@@ -6,10 +6,6 @@
 Idź do strony "%s"
 ---STRINGEND
 
----STRING changes done in revision %s to %s
-Zmiany z wersji %s do %s
----STRINGEND
-
 ---STRING date
 Data
 ---STRINGEND

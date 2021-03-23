@@ -256,7 +256,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $data['latest_revision'] = $args[2];
         $data['guid'] = $args[0];
 
-        $view_title = sprintf($this->_l10n->get('changes done in revision %s to %s'), $data['latest_revision'], $this->resolve_object_title());
+        $view_title = sprintf($this->_l10n->get('changes between revision %s and %s'), $data['latest_revision'], $data['compare_revision']);
 
         // Load the toolbars
         $this->rcs_toolbar($args[2], true);
