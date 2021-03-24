@@ -120,7 +120,7 @@ class midcom_helper__dbfactory
      * @param mixed $object MgdSchema or MidCOM DBA object
      * @param string $class Class to check the instance against
      */
-    public function is_a(object $object, string $class, bool $allow_string = false) : bool
+    public function is_a($object, string $class, bool $allow_string = false) : bool
     {
         if (is_a($object, $class, $allow_string)) {
             // Direct match
