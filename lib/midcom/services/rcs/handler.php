@@ -97,7 +97,11 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $previous = $history->get_prev_version($revision) ?? $first;
         $enabled = $revision !== $first;
         $this->add_button($prefix . 'preview', $first, 'fast-backward', $enabled || $diff_view, $first);
-        $this->add_button($prefix . 'preview', $previous, 'backward', $enabled || $diff_view, $previous);
+        if ($diff_view) {
+            $this->add_button($prefix . 'preview', $revision, 'backward', true, $revision);
+        } else {
+            $this->add_button($prefix . 'preview', $previous, 'backward', $enabled, $previous);
+        }
         $this->add_button($prefix . 'diff', $this->_l10n->get('show differences'), 'step-backward', $enabled, $previous, $revision);
 
         $this->add_button($prefix . 'preview', $revision2, 'file-o', $diff_view, $revision2);
