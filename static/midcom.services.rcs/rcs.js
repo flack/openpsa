@@ -1,6 +1,6 @@
-function init_controls() 
+function init_controls(selector) 
 {
-    const form = $('form[name="midcom_admin_rcs_history"]');
+    const form = $(selector);
     
     if (form.find('tbody').children().length < 2) {
         form.find('[name="first"], [name="last"], [name="f_compare"]').css('visibility', 'hidden');

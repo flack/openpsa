@@ -1,4 +1,5 @@
 <?php
+midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.rcs/rcs.js');
 $history = $data['history']->all();
 $guid = $data['guid'];
 
@@ -48,3 +49,6 @@ if (empty($history)) {
         <input type="submit" name="f_compare" value="<?php echo $data['l10n']->get('show differences'); ?>" />
     </div>
 </form>
+<script>
+init_controls('#midgard_admin_asgard_rcs_version_compare');
+</script>
