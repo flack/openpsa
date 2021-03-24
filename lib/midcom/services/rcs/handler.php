@@ -59,103 +59,64 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     /**
      * Prepare version control toolbar
      */
-    private function rcs_toolbar(string $current = null, bool $diff_view = false)
+    private function rcs_toolbar(string $revision, string $revision2 = null)
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.services.rcs/rcs.css");
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $this->url_prefix;
-
+        $history = $this->backend->get_history();
         $this->_request_data['rcs_toolbar'] = new midcom_helper_toolbar();
-
-        $last = $this->build_rcs_toolbar($this->_request_data['rcs_toolbar'], $current, $diff_view);
+        $this->populate_rcs_toolbar($history, $prefix, $revision, $revision2);
 
         // RCS functional toolbar
         $this->_request_data['rcs_toolbar_2'] = new midcom_helper_toolbar();
+        $restore = $revision2 ?: $revision;
+
         $buttons = [
             [
                 MIDCOM_TOOLBAR_URL => "{$prefix}{$this->object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show history'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'history',
+            ], [
+                MIDCOM_TOOLBAR_URL => "{$prefix}restore/{$this->object->guid}/{$restore}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore version %s'), $restore),
+                MIDCOM_TOOLBAR_GLYPHICON => 'recycle',
+                MIDCOM_TOOLBAR_ENABLED => ($restore !== $history->get_last()['revision']),
             ]
         ];
-
-        if (!empty($current)) {
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "{$prefix}restore/{$this->object->guid}/{$current}/",
-                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore version %s'), $current),
-                MIDCOM_TOOLBAR_GLYPHICON => 'recycle',
-                MIDCOM_TOOLBAR_ENABLED => ($current !== $last),
-            ];
-        }
         $this->_request_data['rcs_toolbar_2']->add_items($buttons);
     }
 
-    private function build_rcs_toolbar(midcom_helper_toolbar $toolbar, ?string $current, bool $diff_view)
+    private function populate_rcs_toolbar(midcom_services_rcs_history $history, string $prefix, string $revision, ?string $revision2)
     {
-        $history = $this->backend->get_history();
-        $first = $history->get_first()['revision'] ?? null;
-
-        if (!$first) {
-            return;
-        }
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $this->url_prefix;
+        $first = $history->get_first()['revision'];
         $last = $history->get_last()['revision'];
 
-        $buttons = [[
-            MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$first}",
-            MIDCOM_TOOLBAR_LABEL => $first,
-            MIDCOM_TOOLBAR_GLYPHICON => 'fast-backward',
-            MIDCOM_TOOLBAR_ENABLED => ($current !== $first || $diff_view),
-        ]];
+        $revision2 = $revision2 ?? $revision;
+        $diff_view = $revision2 != $revision;
 
-        if (!empty($current)) {
-            $previous = $history->get_prev_version($current) ?? $first;
-            $next = $history->get_next_version($current) ?? $last;
+        $previous = $history->get_prev_version($revision) ?? $first;
+        $enabled = $revision !== $first;
+        $this->add_button($prefix . 'preview', $first, 'fast-backward', $enabled || $diff_view, $first);
+        $this->add_button($prefix . 'preview', $previous, 'backward', $enabled || $diff_view, $previous);
+        $this->add_button($prefix . 'diff', $this->_l10n->get('show differences'), 'step-backward', $enabled, $previous, $revision);
 
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$previous}",
-                MIDCOM_TOOLBAR_LABEL => $previous,
-                MIDCOM_TOOLBAR_GLYPHICON => 'backward',
-                MIDCOM_TOOLBAR_ENABLED => ($current !== $first || $diff_view),
-            ];
+        $this->add_button($prefix . 'preview', $revision2, 'file-o', $diff_view, $revision2);
 
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "{$prefix}diff/{$this->object->guid}/{$current}/{$previous}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show differences'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'step-backward',
-                MIDCOM_TOOLBAR_ENABLED => ($current !== $first),
-            ];
+        $next = $history->get_next_version($revision2) ?? $last;
+        $enabled = $revision2 !== $last;
+        $this->add_button($prefix . 'diff', $this->_l10n->get('show differences'), 'step-forward', $enabled, $revision2, $next);
+        $this->add_button($prefix . 'preview', $next, 'forward', $enabled || $diff_view, $next);
+        $this->add_button($prefix . 'preview', $last, 'fast-forward', $enabled || $diff_view, $last);
+    }
 
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$current}/{$current}/",
-                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('version %s'), $current),
-                MIDCOM_TOOLBAR_GLYPHICON => 'file-o',
-                MIDCOM_TOOLBAR_ENABLED => false,
-            ];
-
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "{$prefix}diff/{$this->object->guid}/{$current}/{$next}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show differences'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'step-forward',
-                MIDCOM_TOOLBAR_ENABLED => ($current !== $last),
-            ];
-
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$next}",
-                MIDCOM_TOOLBAR_LABEL => $next,
-                MIDCOM_TOOLBAR_GLYPHICON => 'forward',
-                MIDCOM_TOOLBAR_ENABLED => ($current !== $last || $diff_view),
-            ];
-        }
-
-        $buttons[] = [
-            MIDCOM_TOOLBAR_URL => "{$prefix}preview/{$this->object->guid}/{$last}",
-            MIDCOM_TOOLBAR_LABEL => $last,
-            MIDCOM_TOOLBAR_GLYPHICON => 'fast-forward',
-            MIDCOM_TOOLBAR_ENABLED => ($current !== $last || $diff_view),
-        ];
-
-        $toolbar->add_items($buttons);
-        return $last;
+    private function add_button(string $prefix, string $label, string $icon, bool $enabled, ...$args)
+    {
+        $this->_request_data['rcs_toolbar']->add_item([
+            MIDCOM_TOOLBAR_URL => "{$prefix}/{$this->object->guid}/" . implode('/', $args ?? []),
+            MIDCOM_TOOLBAR_LABEL => $label,
+            MIDCOM_TOOLBAR_GLYPHICON => $icon,
+            MIDCOM_TOOLBAR_ENABLED => $enabled,
+        ]);
     }
 
     private function prepare_request_data(string $view_title)
@@ -216,7 +177,6 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $this->load_object($args[0]);
         $view_title = sprintf($this->_l10n->get('revision history of %s'), $this->resolve_object_title());
 
-        $this->rcs_toolbar();
         $this->prepare_request_data($view_title);
         return $this->handler_callback($handler_id);
     }
@@ -256,10 +216,10 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $data['latest_revision'] = $args[2];
         $data['guid'] = $args[0];
 
-        $view_title = sprintf($this->_l10n->get('changes between revisions %s and %s'), $data['latest_revision'], $data['compare_revision']);
+        $view_title = sprintf($this->_l10n->get('changes between revisions %s and %s'), $data['compare_revision'], $data['latest_revision']);
 
         // Load the toolbars
-        $this->rcs_toolbar($args[2], true);
+        $this->rcs_toolbar($args[1], $args[2]);
         $this->prepare_request_data($view_title);
         return $this->handler_callback($handler_id);
     }

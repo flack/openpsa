@@ -7,11 +7,6 @@ if (empty($history)) {
     return;
 }
 ?>
-<div class="rcs_navigation">
-<?php
-echo $data['rcs_toolbar']->render();
-?>
-</div>
 <form method="get" action="<?php echo midcom_connection::get_url('uri'); ?>" id="midgard_admin_asgard_rcs_version_compare">
     <div>
         <table>

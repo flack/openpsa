@@ -8,11 +8,11 @@ function init_controls()
     }
     
     if (form.find('[name="first"]:checked').length === 0) {
-        form.find('[name="first"]').eq(0).trigger('click');
+        form.find('[name="first"]').eq(1).trigger('click');
     }
     
     if (form.find('[name="last"]:checked').length === 0) {
-        form.find('[name="last"]').eq(1).trigger('click');
+        form.find('[name="last"]').eq(0).trigger('click');
     }
 
     form.on('change', '[name="first"]', function() {
