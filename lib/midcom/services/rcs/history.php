@@ -19,6 +19,10 @@ class midcom_services_rcs_history
 
     public function __construct(array $history)
     {
+        $i = count($history);
+        foreach ($history as &$entry) {
+            $entry['version'] = (string) $i--;
+        }
         $this->data = $history;
     }
 
@@ -39,9 +43,9 @@ class midcom_services_rcs_history
     }
 
     /**
-     * Get the previous versionID
+     * Get the previous revision metadata
      */
-    public function get_prev_version(string $version) : ?string
+    public function get_previous(string $version) : ?array
     {
         $versions = array_keys($this->data);
         $position = array_search($version, $versions, true);
@@ -49,13 +53,13 @@ class midcom_services_rcs_history
         if (in_array($position, [false, count($versions) - 1], true)) {
             return null;
         }
-        return $versions[$position + 1];
+        return $this->data[$versions[$position + 1]];
     }
 
     /**
-     * Get the next versionID
+     * Get the next revision metadata
      */
-    public function get_next_version(string $version) : ?string
+    public function get_next(string $version) : ?array
     {
         $versions = array_keys($this->data);
         $position = array_search($version, $versions, true);
@@ -63,7 +67,7 @@ class midcom_services_rcs_history
         if (in_array($position, [false, 0], true)) {
             return null;
         }
-        return $versions[$position - 1];
+        return $this->data[$versions[$position - 1]];
     }
 
     /**

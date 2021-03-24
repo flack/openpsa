@@ -175,7 +175,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             return '';
         }
         $this_version = $history->get_last()['revision'];
-        $prev_version = $history->get_prev_version($this_version);
+        $prev_version = $history->get_previous($this_version)['revision'];
 
         try {
             $diff_fields = $rcs_handler->get_diff($prev_version, $this_version);

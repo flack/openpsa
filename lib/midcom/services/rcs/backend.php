@@ -113,6 +113,8 @@ abstract class midcom_services_rcs_backend
     {
         $oldest = $this->get_revision($oldest_revision);
         $newest = $this->get_revision($latest_revision);
+        $oldest_version = $this->history->get($oldest_revision)['version'] ?? $oldest_revision;
+        $latest_version = $this->history->get($latest_revision)['version'] ?? $latest_revision;
 
         $return = [];
         $oldest = array_intersect_key($oldest, $newest);
@@ -137,7 +139,10 @@ abstract class midcom_services_rcs_backend
                 $lines1 = explode("\n", $oldest_value);
                 $lines2 = explode("\n", $newest[$attribute]);
 
-                $renderer = new midcom_services_rcs_renderer_html_sidebyside(['old' => $oldest_revision, 'new' => $latest_revision]);
+                $renderer = new midcom_services_rcs_renderer_html_sidebyside([
+                    'old' => $oldest_version,
+                    'new' => $latest_version
+                ]);
 
                 if ($lines1 != $lines2) {
                     $diff = new Diff($lines1, $lines2);

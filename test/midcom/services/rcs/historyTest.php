@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 class midcom_services_rcs_historyTest extends TestCase
 {
-    public function test_get_next_version()
+    public function test_get_next()
     {
         $data = [
             '1.10' => [],
@@ -30,15 +30,15 @@ class midcom_services_rcs_historyTest extends TestCase
             '1.1' => []
         ];
         $history = new midcom_services_rcs_history($data);
-        $result = $history->get_next_version('1.1');
-        $this->assertEquals('1.2', $result);
-        $result = $history->get_next_version('1.9');
-        $this->assertEquals('1.10', $result);
-        $result = $history->get_next_version('1.10');
+        $result = $history->get_next('1.1');
+        $this->assertEquals(['version' => '2'], $result);
+        $result = $history->get_next('1.9');
+        $this->assertEquals(['version' => '10'], $result);
+        $result = $history->get_next('1.10');
         $this->assertNull($result);
     }
 
-    public function test_get_prev_version()
+    public function test_get_previous()
     {
         $data = [
             '1.10' => [],
@@ -53,9 +53,9 @@ class midcom_services_rcs_historyTest extends TestCase
             '1.1' => []
         ];
         $history = new midcom_services_rcs_history($data);
-        $result = $history->get_prev_version('1.1');
+        $result = $history->get_previous('1.1');
         $this->assertNull($result);
-        $result = $history->get_prev_version('1.10');
-        $this->assertEquals('1.9', $result);
+        $result = $history->get_previous('1.10');
+        $this->assertEquals(['version' => '9'], $result);
     }
 }

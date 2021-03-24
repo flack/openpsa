@@ -29,7 +29,7 @@ if (empty($history)) {
         echo "                <tr>\n";
         echo "                    <td><input type=\"radio\" name=\"first\" value=\"{$number}\" />\n";
         echo "                    <td><input type=\"radio\" name=\"last\" value=\"{$number}\" />\n";
-        echo "                    <td><a href='" . $data['router']->generate('preview', ['guid' => $guid, 'revision' => $number]) . "'>{$number}</a></td>\n";
+        echo "                    <td><a href='" . $data['router']->generate('preview', ['guid' => $guid, 'revision' => $number]) . "'>{$revision['version']}</a></td>\n";
         echo "                    <td>" . $formatter->datetime($revision['date']) . "</td>\n";
 
         if (   $revision['user']
