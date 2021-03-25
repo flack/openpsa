@@ -55,17 +55,9 @@ class midgard_admin_asgard_schemadb
      */
     public $add_copy_fields = false;
 
-    public function __construct($object, midcom_helper_configuration $config, ?string $type = null)
+    public function __construct(midcom_core_dbaobject $object, midcom_helper_configuration $config)
     {
-        if ($type != null) {
-            $this->_object = new $type();
-        } else {
-            $this->_object = $object;
-        }
-
-        if (!midcom::get()->dbclassloader->is_midcom_db_object($this->_object)) {
-            $this->_object = midcom::get()->dbfactory->convert_midgard_to_midcom($this->_object);
-        }
+        $this->_object = $object;
         $this->_reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($this->_object));
         $this->_config = $config;
         $this->l10n = midcom::get()->i18n->get_l10n('midgard.admin.asgard');

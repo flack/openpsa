@@ -90,9 +90,9 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     /**
      * Loads the schemadb from the helper class
      */
-    private function _load_schemadb(string $type = null, $include_fields = null, bool $add_copy_fields = false)
+    private function _load_schemadb(midcom_core_dbaobject $object = null, $include_fields = null, bool $add_copy_fields = false)
     {
-        $schema_helper = new midgard_admin_asgard_schemadb($this->_object, $this->_config, $type);
+        $schema_helper = new midgard_admin_asgard_schemadb($object ?? $this->_object, $this->_config);
         $schema_helper->add_copy_fields = $add_copy_fields;
         $this->schemadb = $schema_helper->create($include_fields);
     }
@@ -185,7 +185,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
         }
 
-        $this->_load_schemadb($create_type);
+        $this->_load_schemadb($this->_new_object);
 
         $dm = new datamanager($this->schemadb);
         $this->controller = $dm
@@ -333,12 +333,12 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         if ($handler_id === 'object_copy_tree') {
             $parent = midcom_helper_reflector_copy::get_parent_property($this->_object);
-            $this->_load_schemadb(get_class($this->_object), $parent, true);
+            $this->_load_schemadb($this->_object, $parent, true);
             // Change the name for the parent field
             $this->schemadb->get_first()->get_field($parent)['title'] = $this->_l10n->get('choose the target');
         } else {
             $parent = null;
-            $this->_load_schemadb(get_class($this->_object), [false], true);
+            $this->_load_schemadb($this->_object, [false], true);
         }
 
         $dm = new datamanager($this->schemadb);

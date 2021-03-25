@@ -53,7 +53,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         $qb->add_constraint('guid', '=', $guid);
 
         $object = $qb->get_result(0);
-        $this->prepare_dm($type, $object);
+        $this->prepare_dm($object);
 
         $this->_request_data['asgard_toolbar']->add_item([
             MIDCOM_TOOLBAR_URL => $this->router->generate('trash_type', ['type' => $type]),
@@ -84,9 +84,9 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
     /**
      * Loads the schemadb from the helper class
      */
-    private function prepare_dm(string $type, midcom_core_dbaobject $object)
+    private function prepare_dm(midcom_core_dbaobject $object)
     {
-        $schema_helper = new midgard_admin_asgard_schemadb($object, $this->_config, $type);
+        $schema_helper = new midgard_admin_asgard_schemadb($object, $this->_config);
         $schemadb = $schema_helper->create([]);
         $datamanager = new datamanager($schemadb);
         $datamanager
