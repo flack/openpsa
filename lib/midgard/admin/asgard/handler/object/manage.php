@@ -120,10 +120,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         // Hide the revision message
         $this->schemadb->get_first()->get_field('_rcs_message')['hidden'] = true;
 
-        $this->datamanager = new datamanager($this->schemadb);
-        $this->datamanager
-            ->set_storage($this->_object)
-            ->get_form(); // currently needed to add head elements
+        $this->datamanager = (new datamanager($this->schemadb))
+            ->set_storage($this->_object);
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
         $this->_prepare_request_data();
@@ -141,8 +139,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $this->_load_schemadb();
-        $dm = new datamanager($this->schemadb);
-        $this->controller = $dm
+        $this->controller = (new datamanager($this->schemadb))
             ->set_storage($this->_object, 'default')
             ->get_controller();
         switch ($this->controller->handle($request)) {
@@ -187,8 +184,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         $this->_load_schemadb($this->_new_object);
 
-        $dm = new datamanager($this->schemadb);
-        $this->controller = $dm
+        $this->controller = (new datamanager($this->schemadb))
             ->set_defaults($this->get_defaults($request, $create_type))
             ->set_storage($this->_new_object, 'default')
             ->get_controller();
@@ -288,10 +284,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $this->_load_schemadb();
-        $this->datamanager = new datamanager($this->schemadb);
-        $this->datamanager
-            ->set_storage($this->_object, 'default')
-            ->get_form();
+        $this->datamanager = (new datamanager($this->schemadb))
+            ->set_storage($this->_object, 'default');
 
         if ($request->request->has('midgard_admin_asgard_deleteok')) {
             // Deletion confirmed.
@@ -341,8 +335,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $this->_load_schemadb($this->_object, [false], true);
         }
 
-        $dm = new datamanager($this->schemadb);
-        $this->controller = $dm->get_controller();
+        $this->controller = (new datamanager($this->schemadb))->get_controller();
 
         $this->_prepare_request_data();
         $reflector = new midcom_helper_reflector($this->_object);
