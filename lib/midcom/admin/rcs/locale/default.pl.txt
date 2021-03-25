@@ -54,10 +54,6 @@ Użytkownik
 Wersja %s
 ---STRINGEND
 
----STRING viewing version %s of %s
-%s: wersja %s
----STRINGEND
-
 ---STRING differences between %s and %s
 Zmiany między wersją %s i %s
 ---STRINGEND

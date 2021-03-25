@@ -14,7 +14,7 @@ class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
 
     protected $url_prefix = '__ais/rcs/';
 
-    protected function get_breadcrumbs()
+    protected function get_breadcrumbs() : array
     {
         $items = [];
         if (!is_a($this->object, midcom_db_topic::class)) {

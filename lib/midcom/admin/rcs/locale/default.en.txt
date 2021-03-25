@@ -74,7 +74,7 @@ User
 Version %s
 ---STRINGEND
 
----STRING viewing version %s of %s
-Version %s of %s
+---STRING viewing version %s from %s
+Version %s from %s
 ---STRINGEND
 

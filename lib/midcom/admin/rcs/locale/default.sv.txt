@@ -66,7 +66,3 @@ Användare
 Version %s
 ---STRINGEND
 
----STRING viewing version %s of %s
-Version %s av %s
----STRINGEND
-

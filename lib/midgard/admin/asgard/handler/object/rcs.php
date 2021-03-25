@@ -26,10 +26,10 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_services_rcs_handle
         return $this->router->generate('object_open', ['guid' => $this->object->guid]);
     }
 
-    protected function get_breadcrumbs()
+    protected function get_breadcrumbs() : array
     {
         midgard_admin_asgard_plugin::bind_to_object($this->object, $this->_request_data['handler_id'], $this->_request_data);
-        return midcom_core_context::get()->get_custom_key('midcom.helper.nav.breadcrumb');
+        return midcom_core_context::get()->get_custom_key('midcom.helper.nav.breadcrumb') ?: [];
     }
 
     protected function handler_callback(string $handler_id)

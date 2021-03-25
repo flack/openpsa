@@ -62,10 +62,6 @@ Käyttäjä
 Versio %s
 ---STRINGEND
 
----STRING viewing version %s of %s
-Versio %s tietueesta %s
----STRINGEND
-
 ---STRING show differences
 Näytä erot
 ---STRINGEND
