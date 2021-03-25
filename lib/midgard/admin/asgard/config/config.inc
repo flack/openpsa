@@ -43,10 +43,6 @@
     'bearing',
     'accuracy',
 ],
-'object_skip_fields' => [
-    'guid',
-    'id',
-],
 'schemadb_permissions' => 'file:/midgard/admin/asgard/config/schemadb_permissions.inc',
 'schemadb_shell' => 'file:/midgard/admin/asgard/config/schemadb_shell.inc',
 
