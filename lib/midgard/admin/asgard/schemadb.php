@@ -6,42 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use midcom\datamanager\schemadb;
+use midcom\datamanager\schemabuilder;
 
 /**
  * Helper class to create a DM schema from an object via reflection
  *
  * @package midgard.admin.asgard
  */
-class midgard_admin_asgard_schemadb
+class midgard_admin_asgard_schemadb extends schemabuilder
 {
-    /**
-     * The object we're working with
-     *
-     * @var midcom_core_dbaobject
-     */
-    private $_object;
-
     /**
      * Component config for Asgard
      *
      * @var midcom_helper_configuration
      */
     private $_config;
-
-    /**
-     * The schema in use
-     *
-     * @var array
-     */
-    private $schema;
-
-    /**
-     * Midgard reflection property instance for the current object's class.
-     *
-     * @var midgard_reflection_property
-     */
-    private $_reflector;
 
     /**
      * @var midcom_services_i18n_l10n
@@ -57,8 +36,7 @@ class midgard_admin_asgard_schemadb
 
     public function __construct(midcom_core_dbaobject $object, midcom_helper_configuration $config)
     {
-        $this->_object = $object;
-        $this->_reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($this->_object));
+        parent::__construct($object);
         $this->_config = $config;
         $this->l10n = midcom::get()->i18n->get_l10n('midgard.admin.asgard');
     }
@@ -68,94 +46,23 @@ class midgard_admin_asgard_schemadb
      *
      * The operations are done on all available schemas within the DB.
      */
-    public function create($include_fields) : schemadb
+    protected function process_type(string $type, array $type_fields)
     {
-        $type = get_class($this->_object);
-        $type_fields = $this->_object->get_properties();
-
-        $this->schema = [
-            'description' => 'object schema',
-            'l10n_db'     => 'midgard.admin.asgard',
-            'fields'      => []
-        ];
-
-        if ($component = midcom::get()->dbclassloader->get_component_for_class($type)) {
-            $this->schema['l10n_db'] = $component;
-        }
-
-        if (!empty($include_fields)) {
-            // Skip the fields that aren't requested, if inclusion list has been defined
-            $type_fields = array_intersect($type_fields, (array) $include_fields);
-        }
-
-        $type_fields = array_filter($type_fields, [$this, '_filter_schema_fields']);
-
         usort($type_fields, [$this, 'sort_schema_fields']);
 
-        // Iterate through object properties
-        foreach ($type_fields as $key) {
-            // Linked fields should use chooser
-            if ($this->_reflector->is_link($key)) {
-                $this->_add_linked_field($key);
-                // Skip rest of processing
-                continue;
-            }
-
-            $field_type = $this->_reflector->get_midgard_type($key);
-            switch ($field_type) {
-                case MGD_TYPE_GUID:
-                case MGD_TYPE_STRING:
-                    $this->_add_string_field($key, $type);
-                    break;
-                case MGD_TYPE_LONGTEXT:
-                    $this->_add_longtext_field($key);
-                    break;
-                case MGD_TYPE_INT:
-                case MGD_TYPE_UINT:
-                    $this->_add_int_field($key);
-                    break;
-                case MGD_TYPE_FLOAT:
-                    $this->schema['fields'][$key] = [
-                        'title'       => $key,
-                        'storage'     => $key,
-                        'type'        => 'number',
-                        'widget'      => 'text',
-                    ];
-                    break;
-                case MGD_TYPE_BOOLEAN:
-                    $this->schema['fields'][$key] = [
-                        'title'       => $key,
-                        'storage'     => $key,
-                        'type'        => 'boolean',
-                        'widget'      => 'checkbox',
-                    ];
-                    break;
-                case MGD_TYPE_TIMESTAMP:
-                    $this->schema['fields'][$key] = [
-                        'title'       => $key,
-                        'storage'     => $key,
-                        'type' => 'date',
-                        'widget' => 'jsdate',
-                    ];
-                    break;
-            }
-        }
+        parent::process_type($type, $type_fields);
 
         $this->_add_rcs_field();
 
         if ($this->add_copy_fields) {
             $this->_add_copy_fields();
         }
-
-        return new schemadb(['default' => $this->schema]);
+        if (empty($this->schema['l10n_db'])) {
+            $this->schema['l10n_db'] = 'midgard.admin.asgard';
+        }
     }
 
-    private function _filter_schema_fields(string $key) : bool
-    {
-        return !in_array($key, ['id', 'guid', 'metadata']);
-    }
-
-    private function _add_string_field(string $key, string $type)
+    protected function add_string_field(string $key, string $type)
     {
         if (   $key == 'component'
             && $type == midcom_db_topic::class) {
@@ -163,9 +70,9 @@ class midgard_admin_asgard_schemadb
             return;
         }
 
-        // Special name handling, start by checking if given type is same as $this->_object and if not making a dummy copy (we're probably in creation mode then)
-        if ($this->_object instanceof $type) {
-            $name_obj = $this->_object;
+        // Special name handling, start by checking if given type is same as $this->object and if not making a dummy copy (we're probably in creation mode then)
+        if ($this->object instanceof $type) {
+            $name_obj = $this->object;
         } else {
             $name_obj = new $type();
         }
@@ -174,110 +81,7 @@ class midgard_admin_asgard_schemadb
             $this->_add_name_field($key, $name_obj);
             return;
         }
-
-        $this->schema['fields'][$key] = [
-            'title'       => $key,
-            'storage'     => $key,
-            'type'        => 'text',
-            'widget'      => 'text',
-        ];
-    }
-
-    private function _add_rcs_field()
-    {
-        $this->schema['fields']['_rcs_message'] = [
-            'title'       => $this->l10n->get('revision comment'),
-            'storage'     => null,
-            'type'        => 'rcsmessage',
-            'widget'      => 'text',
-            'start_fieldset' => [
-                'title' => $this->l10n->get('revision'),
-                'css_group' => 'rcs',
-            ],
-            'end_fieldset' => '',
-        ];
-    }
-
-    private function _add_int_field(string $key)
-    {
-        if (in_array($key, ['start', 'end', 'added', 'date'])) {
-            // We can safely assume that INT fields called start and end store unixtimes
-            $this->schema['fields'][$key] = [
-                'title'       => $key,
-                'storage'     => $key,
-                'type' => 'date',
-                'type_config' => [
-                    'storage_type' => 'UNIXTIME'
-                    ],
-                'widget' => 'jsdate',
-            ];
-        } else {
-            $this->schema['fields'][$key] = [
-                'title'       => $key,
-                'storage'     => $key,
-                'type'        => 'number',
-                'widget'      => 'text',
-            ];
-        }
-    }
-
-    private function _add_longtext_field(string $key)
-    {
-        // Figure out nice size for the editing field
-
-        $output_mode = '';
-        $widget = 'textarea';
-        $dm_type = 'text';
-
-        switch ($key) {
-            case 'content':
-            case 'description':
-                $height = 30;
-
-                // Check the user preference and configuration
-                if (   midgard_admin_asgard_plugin::get_preference('tinymce_enabled')
-                    || (   midgard_admin_asgard_plugin::get_preference('tinymce_enabled') !== '0'
-                        && $this->_config->get('tinymce_enabled'))) {
-                    $widget = 'tinymce';
-                }
-                $output_mode = 'html';
-
-                break;
-            case 'value':
-            case 'code':
-                // These are typical "large" fields
-                $height = 30;
-
-                // Check the user preference and configuration
-                if (   midgard_admin_asgard_plugin::get_preference('codemirror_enabled')
-                    || (   midgard_admin_asgard_plugin::get_preference('codemirror_enabled') !== '0'
-                        && $this->_config->get('codemirror_enabled'))) {
-                    $widget = 'codemirror';
-                }
-
-                $dm_type = 'php';
-                $output_mode = 'code';
-
-                break;
-
-            default:
-                $height = 6;
-                break;
-        }
-
-        $this->schema['fields'][$key] = [
-            'title'       => $key,
-            'storage'     => $key,
-            'type'        => $dm_type,
-            'type_config' => [
-                'output_mode' => $output_mode,
-            ],
-            'widget'      => $widget,
-            'widget_config' => [
-                'height' => $height,
-                'width' => '100%',
-            ],
-        ];
+        parent::add_string_field($key, $type);
     }
 
     private function _add_name_field(string $key, midcom_core_dbaobject $name_obj)
@@ -327,88 +131,60 @@ class midgard_admin_asgard_schemadb
         ];
     }
 
-    private function _add_linked_field(string $key)
+    protected function add_longtext_field(string $key)
     {
-        $linked_type = $this->_reflector->get_link_name($key);
-        $field_type = $this->_reflector->get_midgard_type($key);
+        parent::add_longtext_field($key);
+
+        // Check the user preference and configuration
+        if (   in_array($key, ['content', 'description'])
+            && (    midgard_admin_asgard_plugin::get_preference('tinymce_enabled')
+                || (   midgard_admin_asgard_plugin::get_preference('tinymce_enabled') !== '0'
+                    && $this->_config->get('tinymce_enabled')))) {
+            $this->schema['fields'][$key]['widget'] = 'tinymce';
+        }
+
+        if (   in_array($key, ['value', 'code'])
+            && (    midgard_admin_asgard_plugin::get_preference('codemirror_enabled')
+                || (   midgard_admin_asgard_plugin::get_preference('codemirror_enabled') !== '0'
+                    && $this->_config->get('codemirror_enabled')))) {
+            $this->schema['fields'][$key]['widget'] = 'codemirror';
+        }
+    }
+
+    protected function add_linked_field(string $key)
+    {
+        parent::add_linked_field($key);
+
+        $linked_type = $this->reflector->get_link_name($key);
+        $type_label = midcom_helper_reflector::get($linked_type)->get_class_label();
 
         if ($key == 'up') {
-            $field_label = sprintf($this->l10n->get('under %s'), midgard_admin_asgard_plugin::get_type_label($linked_type));
+            $field_label = sprintf($this->l10n->get('under %s'), $type_label);
         } else {
-            $type_label = midgard_admin_asgard_plugin::get_type_label($linked_type);
-            if (str_starts_with($type_label, $key)) {
-                // Handle abbreviations like "lang" for "language"
-                $field_label = $type_label;
-            } elseif ($key == $type_label) {
-                $field_label = $key;
-            } else {
-                $ref = midcom_helper_reflector::get($this->_object);
-                $component_l10n = $ref->get_component_l10n();
-                $field_label = sprintf($this->l10n->get('%s (%s)'), $component_l10n->get($key), $type_label);
-            }
+            $field_label = sprintf($this->l10n->get('%s (%s)'), $this->schema['fields'][$key]['title'], $type_label);
         }
+        $this->schema['fields'][$key]['title'] = $field_label;
 
-        // Get the chooser widgets
-        switch ($field_type) {
-            case MGD_TYPE_UINT:
-            case MGD_TYPE_STRING:
-            case MGD_TYPE_GUID:
-                $class = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($linked_type);
-                if (!$class) {
-                    break;
-                }
-                $this->schema['fields'][$key] = [
-                    'title'       => $field_label,
-                    'storage'     => $key,
-                    'type'        => 'select',
-                    'type_config' => [
-                        'require_corresponding_option' => false,
-                        'options' => [],
-                        'allow_other' => true,
-                        'allow_multiple' => false,
-                    ],
-                    'widget' => 'autocomplete',
-                    'widget_config' => $this->build_autocomplete_config($key, $class, $linked_type),
-                    'required' => (midgard_object_class::get_property_parent($this->_object->__mgdschema_class_name__) == $key)
-                ];
-                break;
-        }
+        $reflector = midcom_helper_reflector::get($linked_type);
+        $this->schema['fields'][$key]['widget_config']['creation_mode_enabled'] = true;
+        $this->schema['fields'][$key]['widget_config']['creation_handler'] = midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/";
+        $this->schema['fields'][$key]['widget_config']['creation_default_key'] = $reflector->get_title_property(new $linked_type);
     }
 
-    private function build_autocomplete_config(string $key, string $class, string $linked_type) : array
+    private function _add_rcs_field()
     {
-        $reflector = midcom_helper_reflector::get($linked_type);
-        $component = midcom::get()->dbclassloader->get_component_for_class($linked_type);
-        $searchfields = $reflector->get_search_properties();
-        $label_property = $reflector->get_label_property();
-        $has_parent = !empty(midgard_object_class::get_property_parent($linked_type)) || !empty(midgard_object_class::get_property_up($linked_type));
-        $result_headers = [];
-
-        foreach ($searchfields as $field) {
-            if ($field !== $label_property) {
-                $result_headers[] = [
-                    'name' => $field,
-                    'title' => ucfirst($field),
-                ];
-            }
-        }
-        $searchfields[] = 'guid';
-
-        return [
-            'class' => $class,
-            'component' => $component,
-            'titlefield' => method_exists($class, 'get_label') ? null : $label_property,
-            'id_field' => $this->_reflector->get_link_target($key),
-            'searchfields' => $searchfields,
-            'result_headers' => $result_headers,
-            'orders' => [],
-            'creation_mode_enabled' => true,
-            'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/",
-            'creation_default_key' => $reflector->get_title_property(new $linked_type),
-            'categorize_by_parent_label' => $has_parent
+        $this->schema['fields']['_rcs_message'] = [
+            'title'       => $this->l10n->get('revision comment'),
+            'storage'     => null,
+            'type'        => 'rcsmessage',
+            'widget'      => 'text',
+            'start_fieldset' => [
+                'title' => $this->l10n->get('revision'),
+                'css_group' => 'rcs',
+            ],
+            'end_fieldset' => '',
         ];
     }
-
     private function _add_copy_fields()
     {
         // Add switch for copying parameters
@@ -458,11 +234,11 @@ class midgard_admin_asgard_schemadb
 
         $score = 7;
 
-        if ($this->_reflector->get_midgard_type($field) == MGD_TYPE_LONGTEXT) {
+        if ($this->reflector->get_midgard_type($field) == MGD_TYPE_LONGTEXT) {
             $score = 1;
         } elseif (in_array($field, $preferred_fields)) {
             $score = 0;
-        } elseif ($this->_reflector->is_link($field)) {
+        } elseif ($this->reflector->is_link($field)) {
             $score = 2;
         } elseif (in_array($field, $timerange_fields)) {
             $score = 3;
