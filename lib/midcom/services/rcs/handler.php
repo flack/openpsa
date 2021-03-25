@@ -6,6 +6,8 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
+use midcom\datamanager\schemabuilder;
+use midcom\datamanager\datamanager;
 
 /**
  * @package midcom.services.rcs
@@ -264,6 +266,11 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
                 && !in_array($value, ['', '0000-00-00'])
                 && midcom_services_rcs::is_field_showable($key);
         }, ARRAY_FILTER_USE_BOTH);
+
+        $schemadb = (new schemabuilder($this->object))->create(null);
+        $data['datamanager'] = (new datamanager($schemadb))
+            ->set_defaults($data['preview'])
+            ->set_storage(new $this->object->__midcom_class_name__);
 
         $this->_view_toolbar->hide_item($this->url_prefix . "preview/{$this->object->guid}/{$revision}/");
 
