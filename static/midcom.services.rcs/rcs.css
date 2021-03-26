@@ -59,8 +59,9 @@ dl.midcom_services_rcs_diff .ChangeDelete .Left
     background-color: rgba(255, 160, 150, 0.3);
 }
 
-dl.midcom_services_rcs_diff span.deleted
+dl.midcom_services_rcs_diff del
 {
+    text-decoration: none;
     background-color: rgba(255, 160, 150, 0.6);
 }
 
@@ -69,8 +70,9 @@ dl.midcom_services_rcs_diff .ChangeInsert .Right
 {
     background-color: rgba(170, 255, 150, 0.3);
 }
-dl.midcom_services_rcs_diff span.inserted
+dl.midcom_services_rcs_diff ins
 {
+    text-decoration: none;
     background-color: rgba(170, 255, 150, 0.6);
 }
 

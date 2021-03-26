@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\datamanager;
+use midcom\datamanager\schemabuilder;
+
 /**
  * @package midcom.services.rcs
  */
@@ -117,41 +120,41 @@ abstract class midcom_services_rcs_backend
         $latest_version = $this->history->get($latest_revision)['version'] ?? $latest_revision;
 
         $return = [];
-        $oldest = array_intersect_key($oldest, $newest);
 
-        $repl = [
-            '<del>' => "<span class=\"deleted\">",
-            '</del>' => '</span>',
-            '<ins>' => "<span class=\"inserted\">",
-            '</ins>' => '</span>'
-        ];
-        foreach ($oldest as $attribute => $oldest_value) {
+        $dm = new datamanager((new schemabuilder($this->object))->create(null));
+        $oldest_dm = $dm
+            ->set_defaults($oldest)
+            ->set_storage(new $this->object->__midcom_class_name__)
+            ->get_content_csv();
+        $newest_dm = $dm
+            ->set_defaults($newest)
+            ->set_storage(new $this->object->__midcom_class_name__)
+            ->get_content_csv();
+
+        foreach ($oldest_dm as $attribute => $oldest_value) {
             if (is_array($oldest_value)) {
                 continue;
             }
 
-            $return[$attribute] = [
+            $entry = [
                 'old' => $oldest_value,
-                'new' => $newest[$attribute]
+                'new' => $newest_dm[$attribute] ?? ''
             ];
 
-            if ($oldest_value != $newest[$attribute]) {
-                $lines1 = explode("\n", $oldest_value);
-                $lines2 = explode("\n", $newest[$attribute]);
+            if ($entry['old'] != $entry['new']) {
+                $lines1 = explode("\n", $entry['old']);
+                $lines2 = explode("\n", $entry['new']);
 
                 $renderer = new midcom_services_rcs_renderer_html_sidebyside([
                     'old' => $oldest_version,
                     'new' => $latest_version
                 ]);
 
-                if ($lines1 != $lines2) {
-                    $diff = new Diff($lines1, $lines2);
-                    // Run the diff
-                    $return[$attribute]['diff'] = $diff->render($renderer);
-                    // Modify the output for nicer rendering
-                    $return[$attribute]['diff'] = strtr($return[$attribute]['diff'], $repl);
-                }
+                $diff = new Diff($lines1, $lines2);
+                // Run the diff
+                $entry['diff'] = $diff->render($renderer);
             }
+            $return[$attribute] = $entry;
         }
 
         return $return;
