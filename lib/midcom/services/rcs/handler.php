@@ -248,7 +248,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         if ($user = midcom::get()->auth->get_user($metadata['user'])) {
             $output .= $user->get_storage()->name;
         } else {
-            $user = $this->_l10n_midcom->get('unknown user');
+            $output .= $this->_l10n_midcom->get('unknown user');
         }
 
         $output .= ', ' . $this->_l10n->get_formatter()->datetime($metadata['date']) . '</span>';
