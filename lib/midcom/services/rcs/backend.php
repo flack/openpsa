@@ -125,11 +125,11 @@ abstract class midcom_services_rcs_backend
         $oldest_dm = $dm
             ->set_defaults($oldest)
             ->set_storage(new $this->object->__midcom_class_name__)
-            ->get_content_csv();
+            ->render('plaintext');
         $newest_dm = $dm
             ->set_defaults($newest)
             ->set_storage(new $this->object->__midcom_class_name__)
-            ->get_content_csv();
+            ->render('plaintext');
 
         foreach ($oldest_dm as $attribute => $oldest_value) {
             if (is_array($oldest_value)) {

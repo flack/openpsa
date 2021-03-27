@@ -80,7 +80,7 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
 
         switch ($controller->handle($request)) {
             case 'save':
-                $this->_send_form($controller->get_datamanager()->get_content_csv());
+                $this->_send_form($controller->get_datamanager()->render('plaintext'));
                 break;
             case 'cancel':
                 //Clear form

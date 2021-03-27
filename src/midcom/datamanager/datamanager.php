@@ -224,24 +224,19 @@ class datamanager
 
     public function get_content_csv() : array
     {
-        $ret = [];
-
-        $renderer = $this->get_renderer('csv');
-        foreach ($renderer->get_view()->children as $name => $value) {
-            if ($name == 'form_toolbar') {
-                continue;
-            }
-            $ret[$name] = $renderer->widget($value);
-        }
-
-        return $ret;
+        return $this->render('csv');
     }
 
     public function get_content_html() : array
     {
+        return $this->render('view');
+    }
+
+    public function render(string $type) : array
+    {
         $ret = [];
 
-        $renderer = $this->get_renderer('view');
+        $renderer = $this->get_renderer($type);
         foreach ($renderer->get_view()->children as $name => $value) {
             if ($name == 'form_toolbar') {
                 continue;
