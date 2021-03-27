@@ -69,6 +69,10 @@ table.DifferencesSideBySide tbody th
     opacity: .5;
 }
 
+table.DifferencesSideBySide tbody tr:only-child th
+{
+    opacity: 0;
+}
 
 table.DifferencesSideBySide .Left,
 table.DifferencesSideBySide .Right
