@@ -87,10 +87,6 @@ This object was locked by %s
 Parse Error in line %s
 ---STRINGEND
 
----STRING type select: no selection
-No selection
----STRINGEND
-
 ---STRING type text: value contains an expression that is not allowed: "%s". %s
 Value contains an expression that is not allowed: "%s". %s
 ---STRINGEND

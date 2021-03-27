@@ -62,10 +62,9 @@ class view extends base
                     $string .= '<h2>' . $this->renderer->humanize($child->vars['start_fieldset']['title']) . '</h2>';
                 }
             }
-            if (   !$this->skip_empty
-                 || ($child->vars['data'] !== '' && $child->vars['data'] !== null && $child->vars['data'] !== [])) {
-                $string .= $this->renderer->row($child);
-            }
+
+            $string .= $this->renderer->row($child);
+
             if (isset($child->vars['end_fieldset'])) {
                 $end_fieldsets = max(1, (int) $child->vars['end_fieldset']);
                 $string .= str_repeat('</div>', $end_fieldsets);
@@ -96,12 +95,17 @@ class view extends base
 
     public function form_row(FormView $view, array $data)
     {
+        $content = $this->renderer->widget($view);
+        if ($this->skip_empty && $content === '') {
+            return '';
+        }
+
         $class = 'field field_' . $view->vars['block_prefixes'][count($view->vars['block_prefixes']) - 2];
 
         $string = '<div class="' . $class . '">';
         $string .= $this->renderer->label($view);
         $string .= '<div class="value">';
-        $string .= $this->renderer->widget($view);
+        $string .= $content;
         return $string . '</div></div>';
     }
 
@@ -259,13 +263,7 @@ class view extends base
 
     public function autocomplete_widget(FormView $view, array $data)
     {
-        $string = implode(', ', $data['handler_options']['preset']);
-
-        if ($string == '') {
-            $string = $this->renderer->humanize('type select: no selection');
-        }
-
-        return $string;
+        return implode(', ', $data['handler_options']['preset']);
     }
 
     public function choice_widget_collapsed(FormView $view, array $data)

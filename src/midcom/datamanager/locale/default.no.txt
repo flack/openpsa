@@ -46,10 +46,6 @@ Lagre
 Passordene er ikke like.
 ---STRINGEND
 
----STRING type select: no selection
-Ikke valgt
----STRINGEND
-
 ---STRING widget select: other value
 Annen
 ---STRINGEND

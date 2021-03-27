@@ -42,10 +42,6 @@ Mentés
 A jelszavak nem egyeznek.
 ---STRINGEND
 
----STRING type select: no selection
-Nincs kijelölve
----STRINGEND
-
 ---STRING widget select: other value
 Más
 ---STRINGEND

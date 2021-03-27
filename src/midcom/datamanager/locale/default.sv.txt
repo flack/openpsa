@@ -75,10 +75,6 @@ Ojektet är låst av %s
 Tolkningsfel på rad %s
 ---STRINGEND
 
----STRING type select: no selection
-Inga val
----STRINGEND
-
 ---STRING widget privilege: allow
 Tillåt
 ---STRINGEND
