@@ -145,7 +145,7 @@ abstract class midcom_services_rcs_backend
                 $lines1 = explode("\n", $entry['old']);
                 $lines2 = explode("\n", $entry['new']);
 
-                $renderer = new midcom_services_rcs_renderer_html_sidebyside([
+                $renderer = new Diff_Renderer_Html_SideBySide([
                     'old' => $oldest_version,
                     'new' => $latest_version
                 ]);

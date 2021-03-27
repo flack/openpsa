@@ -44,8 +44,31 @@ table.DifferencesSideBySide
 {
 	width: 90%;
 	border-collapse: collapse;
-	line-height: 1.4
+	line-height: 1.4;
 }
+
+table.DifferencesSideBySide:not(.heading)
+{
+    margin-bottom: 1em;
+}
+
+table.DifferencesSideBySide:not(.heading) thead
+{
+    display: none;
+}
+
+table.DifferencesSideBySide.heading th span
+{
+    font-weight: normal;
+    display: block;
+    font-size: 90%;
+}
+
+table.DifferencesSideBySide tbody th
+{
+    opacity: .5;
+}
+
 
 table.DifferencesSideBySide .Left,
 table.DifferencesSideBySide .Right

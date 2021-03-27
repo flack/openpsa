@@ -222,6 +222,8 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
                 && midcom_services_rcs::is_field_showable($key);
         }, ARRAY_FILTER_USE_BOTH);
         $data['comment'] = $latest_revision;
+        $data['revision_info1'] = $this->render_revision_info($compare_revision);
+        $data['revision_info2'] = $this->render_revision_info($latest_revision);
 
         // Set the version numbers
         $data['guid'] = $args[0];
@@ -237,6 +239,21 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         );
 
         return $this->handler_callback($handler_id);
+    }
+
+    private function render_revision_info(array $metadata) : string
+    {
+        $output = sprintf($this->_l10n->get('version %s'), $metadata['version']) . ' <span>';
+
+        if ($user = midcom::get()->auth->get_user($metadata['user'])) {
+            $output .= $user->get_storage()->name;
+        } else {
+            $user = $this->_l10n_midcom->get('unknown user');
+        }
+
+        $output .= ', ' . $this->_l10n->get_formatter()->datetime($metadata['date']) . '</span>';
+
+        return $output;
     }
 
     /**
