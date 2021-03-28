@@ -12,7 +12,7 @@
  */
 function _midcom_stop_request(string $message = '')
 {
-    midcom_compat_environment::get()->stop_request($message);
+    midcom_compat_environment::stop_request($message);
 }
 
 /**

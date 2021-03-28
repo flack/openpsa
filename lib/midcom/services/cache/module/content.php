@@ -178,7 +178,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             // we can't call no_cache() here, because it would try to call back to this class via the global getter
             $header = 'Cache-Control: no-store, no-cache, must-revalidate';
             $this->register_sent_header($header);
-            midcom_compat_environment::get()->header($header);
+            midcom_compat_environment::header($header);
             $this->_no_cache = true;
         }
     }

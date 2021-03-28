@@ -15,19 +15,7 @@ class midcom_compat_environment
 {
     private static $_headers = [];
 
-    private static $_implementation;
-
-    public static function get() : self
-    {
-        return self::$_implementation;
-    }
-
-    public static function initialize()
-    {
-        self::$_implementation = new static;
-    }
-
-    public function header(string $string, bool $replace = true, int $http_response_code = 0)
+    public static function header(string $string, bool $replace = true, int $http_response_code = 0)
     {
         if (!defined('OPENPSA2_UNITTEST_RUN')) {
             header($string, $replace, $http_response_code);
@@ -40,7 +28,7 @@ class midcom_compat_environment
         }
     }
 
-    public function stop_request(string $message)
+    public static function stop_request(string $message)
     {
         if (!defined('OPENPSA2_UNITTEST_RUN')) {
             exit($message);

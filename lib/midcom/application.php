@@ -82,7 +82,6 @@ class midcom_application extends Kernel
 
     public function __construct(string $environment, bool $debug)
     {
-        midcom_compat_environment::initialize();
         $this->request = Request::createFromGlobals();
         $this->cfg = new midcom_config;
         parent::__construct($environment, $debug);
@@ -332,7 +331,7 @@ class midcom_application extends Kernel
     public function header(string $header, int $response_code = 0)
     {
         $this->cache->content->register_sent_header($header);
-        midcom_compat_environment::get()->header($header, true, $response_code);
+        midcom_compat_environment::header($header, true, $response_code);
     }
 
     /**
