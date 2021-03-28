@@ -235,7 +235,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     /**
      * Get error message from mail class
      */
-    public function get_error_message()
+    public function get_error_message() : string
     {
         return $this->_backend->get_error_message();
     }

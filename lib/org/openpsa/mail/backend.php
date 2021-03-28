@@ -13,7 +13,7 @@
  */
 abstract class org_openpsa_mail_backend
 {
-    public $error = false;
+    public $error;
 
     /**
      * @var Swift_Mailer
@@ -78,7 +78,7 @@ abstract class org_openpsa_mail_backend
     {
         try {
             $ret = $this->mail($message);
-            $this->error = false;
+            $this->error = null;
             return $ret;
         } catch (Exception $e) {
             $this->error = $e->getMessage();
@@ -86,15 +86,12 @@ abstract class org_openpsa_mail_backend
         }
     }
 
-    public function get_error_message()
+    public function get_error_message() : string
     {
-        if ($this->error === false) {
-            return false;
+        if ($this->error === null) {
+            return '';
         }
 
-        if (!empty($this->error)) {
-            return $this->error;
-        }
-        return 'Unknown error';
+        return $this->error ?: 'Unknown error';
     }
 }
