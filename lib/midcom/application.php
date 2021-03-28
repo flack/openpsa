@@ -329,7 +329,7 @@ class midcom_application extends Kernel
      * Header you sent must go through this function or it might be lost later on;
      * this is especially important with caching.
      */
-    public function header(string $header, int $response_code = null)
+    public function header(string $header, int $response_code = 0)
     {
         $this->cache->content->register_sent_header($header);
         midcom_compat_environment::get()->header($header, true, $response_code);

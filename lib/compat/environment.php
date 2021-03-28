@@ -27,7 +27,7 @@ class midcom_compat_environment
         self::$_implementation = new static;
     }
 
-    public function header(string $string, bool $replace = true, int $http_response_code = null)
+    public function header(string $string, bool $replace = true, int $http_response_code = 0)
     {
         if (!defined('OPENPSA2_UNITTEST_RUN')) {
             header($string, $replace, $http_response_code);
