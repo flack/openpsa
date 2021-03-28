@@ -209,7 +209,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         if (trim($label) == '') {
             $label = $ref->get_class_label() . ' #' . $object->id;
         }
-        $label = html_entity_decode($label);
 
         echo "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/{$mode}/{$object->guid}/\" title=\"GUID: {$object->guid}, ID: {$object->id}\">{$icon}{$label}</a>\n";
         if (   $selected

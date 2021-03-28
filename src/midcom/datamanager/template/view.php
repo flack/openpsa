@@ -177,7 +177,7 @@ class view extends base
     public function text_widget(FormView $view, array $data)
     {
         if (empty($view->vars['output_mode'])) {
-            $view->vars['output_mode'] = 'html';
+            $view->vars['output_mode'] = 'specialchars';
         }
 
         switch ($view->vars['output_mode']) {
