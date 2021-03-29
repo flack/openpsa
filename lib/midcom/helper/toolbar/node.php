@@ -55,11 +55,6 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
         if (!empty($this->items) || empty($this->topic->id)) {
             return;
         }
-        $topics = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS);
-        $urltopic = end($topics);
-        if (!$urltopic) {
-            $urltopic = $this->topic;
-        }
         $buttons = [];
         $workflow = new midcom\workflow\datamanager;
         if (   $this->topic->can_do('midgard:update')
@@ -68,26 +63,19 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit folder', 'midcom.admin.folder'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'g',
             ]);
-            $buttons[] = $workflow->get_button("__ais/folder/metadata/{$urltopic->guid}/", [
+            $buttons[] = $workflow->get_button("__ais/folder/metadata/{$this->topic->guid}/", [
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit folder metadata', 'midcom.admin.folder'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'database',
             ]);
-        }
-
-        if (   $urltopic->can_do('midgard:update')
-            && $urltopic->can_do('midcom.admin.folder:topic_management')) {
             // Allow to move other than root folder
-            if ($urltopic->guid !== midcom::get()->config->get('midcom_root_topic_guid')) {
+            if ($this->topic->guid !== midcom::get()->config->get('midcom_root_topic_guid')) {
                 $viewer = new midcom\workflow\viewer;
-                $buttons[] = $viewer->get_button("__ais/folder/move/{$urltopic->guid}/", [
+                $buttons[] = $viewer->get_button("__ais/folder/move/{$this->topic->guid}/", [
                     MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_GLYPHICON => 'arrows',
                 ]);
             }
-        }
 
-        if (   $this->topic->can_do('midgard:update')
-            && $this->topic->can_do('midcom.admin.folder:topic_management')) {
             $viewer = new midcom\workflow\viewer;
             $buttons[] = $viewer->get_button("__ais/folder/order/", [
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('order navigation', 'midcom.admin.folder'),
@@ -128,21 +116,21 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
             ];
         }
 
-        if (   $this->topic->can_do('midgard:create')
-            && $this->topic->can_do('midcom.admin.folder:topic_management')) {
-            $buttons[] = $workflow->get_button("__ais/folder/create/", [
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create subfolder', 'midcom.admin.folder'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'folder',
-                MIDCOM_TOOLBAR_ACCESSKEY => 'f',
-            ]);
-        }
-        if (   $urltopic->guid !== midcom::get()->config->get('midcom_root_topic_guid')
-            && $urltopic->can_do('midgard:delete')
-            && $urltopic->can_do('midcom.admin.folder:topic_management')) {
-            $workflow = new midcom\workflow\delete(['object' => $urltopic, 'recursive' => true]);
-            $buttons[] = $workflow->get_button("__ais/folder/delete/", [
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('delete folder', 'midcom.admin.folder')
-            ]);
+        if ($this->topic->can_do('midcom.admin.folder:topic_management')) {
+            if ($this->topic->can_do('midgard:create')) {
+                $buttons[] = $workflow->get_button("__ais/folder/create/", [
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create subfolder', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_GLYPHICON => 'folder',
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'f',
+                ]);
+            }
+            if (   $this->topic->guid !== midcom::get()->config->get('midcom_root_topic_guid')
+                && $this->topic->can_do('midgard:delete')) {
+                $workflow = new midcom\workflow\delete(['object' => $this->topic, 'recursive' => true]);
+                $buttons[] = $workflow->get_button("__ais/folder/delete/", [
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('delete folder', 'midcom.admin.folder')
+                ]);
+            }
         }
         $this->items = array_map([$this, 'clean_item'], $buttons);
     }
