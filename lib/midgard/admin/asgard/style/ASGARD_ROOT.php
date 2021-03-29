@@ -147,7 +147,6 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                 </div>
                 <div id="navigation">
                     <?php
-                    $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     echo "<a href=\"{$prefix}__mfa/asgard/\">";
                     echo "<img src=\"" . MIDCOM_STATIC_URL . "/midgard.admin.asgard/asgard2.png\" id=\"asgard_logo\" title=\"Asgard\" alt=\"Asgard\" />";
                     echo "</a>\n";

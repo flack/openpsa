@@ -115,10 +115,10 @@ implements client
      */
     public function _handler_list(array &$data, $guid = null)
     {
-        $data['data_url'] = 'json/';
+        $data['data_url'] = $this->router->generate('list_json');
         if ($guid !== null) {
             $data['group'] = new org_openpsa_products_product_group_dba($guid);
-            $data['data_url'] .= $guid . '/';
+            $data['data_url'] = $this->router->generate('list_json_group', ['guid' => $guid]);
 
             $this->datamanager = new datamanager($data['schemadb_group']);
             $this->datamanager->set_storage($data['group']);

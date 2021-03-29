@@ -3,8 +3,6 @@ $view_task = $data['object_view'];
 $task = $data['object'];
 $task->get_members();
 $formatter = $data['l10n']->get_formatter();
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
 $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
 ?>
@@ -79,7 +77,8 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         }
         echo "<p class=\"{$status}\">" . sprintf($data['l10n']->get('%s of %s planned hours booked'), $data['task_booked_time'], $task->plannedHours) . ".\n";
         if ($task->resources) {
-            echo "<a href=\"{$prefix}task/resourcing/{$task->guid}/\">" . $data['l10n']->get('schedule resources') . "</a>";
+            $url = $data['router']->generate('task_resourcing', ['guid' => $task->guid]);
+            echo "<a href=\"{$url}\">" . $data['l10n']->get('schedule resources') . "</a>";
         }
         echo ".</p>\n";
         ?>
@@ -90,8 +89,9 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             'title' => $data['l10n']->get('hour reports'),
         ]];
         if ($data['has_subtasks']) {
+            $url = $data['router']->generate('task-list-subtask', ['guid' => $task->guid]);
             $tabs[] = [
-                'url' => substr($prefix, 1) . 'task/list/task/' . $task->guid . '/',
+                'url' => substr($url, 1),
                 'title' => $data['l10n']->get('tasks')
             ];
         }

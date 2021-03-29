@@ -1,6 +1,4 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
 $unit_options = [];
 foreach ($data['config']->get('unit_options') as $key => $value) {
     $unit_options[$key] = $data['l10n']->get($value);
@@ -22,7 +20,7 @@ $grid->set_option('scroll', 1)
     ->set_option('rowNum', 40)
     ->set_option('height', 600)
     ->set_option('viewrecords', true)
-    ->set_option('url', $prefix . $data['data_url'])
+    ->set_option('url', $data['data_url'])
     ->set_option('sortname', 'index_lastname');
 
 $grid->set_column('code', $data['l10n']->get('code'), 'width: 80, fixed: true', 'string')
