@@ -64,13 +64,6 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     public static function list_components(string $current_selection) : array
     {
         $list = [];
-
-        $urltopics = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS);
-        if ($urltopic = end($urltopics)) {
-            if (empty($urltopic->component)) {
-                $list[''] = '';
-            }
-        }
         $allowed = midcom::get()->config->get('component_listing_allowed', []);
         $excluded = midcom::get()->config->get('component_listing_excluded', []);
 
