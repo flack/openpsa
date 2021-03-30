@@ -124,25 +124,6 @@ abstract class openpsa_testcase extends TestCase
         return $data;
     }
 
-    /**
-     * @deprecated This is redundant, since styles are evaluated when the response is constructed
-     * @param array $data
-     * @return string
-     */
-    public function show_handler($data)
-    {
-        $context = midcom_core_context::get();
-        $show_handler = $context->get_key(MIDCOM_CONTEXT_SHOWCALLBACK);
-
-        midcom::get()->style->enter_context($context);
-        ob_start();
-        call_user_func($show_handler, $context->id);
-        $output = ob_get_contents();
-        ob_end_clean();
-        midcom::get()->style->leave_context();
-        return $output;
-    }
-
     public function set_post_data(array $post_data)
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
