@@ -357,11 +357,6 @@ abstract class openpsa_testcase extends TestCase
         return $object;
     }
 
-    public static function create_persisted_object($classname, array $data = [])
-    {
-        return self::_create_object($classname, $data);
-    }
-
     public static function delete_linked_objects($classname, $link_field, $id)
     {
         midcom::get()->auth->request_sudo('midcom.core');
