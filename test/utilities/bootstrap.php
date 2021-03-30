@@ -38,14 +38,12 @@ $_SERVER = [
 
 midcom::register_service_class('session', mock_sessioning::class);
 
-// This is a bit awkward, but makes life simpler until we've transitioned more fully to the
-// httpkernel infrastructure
-$GLOBALS['kernel'] = midcom::init('test', true);
+$midcom = midcom::init('test', true);
 
 if (class_exists('org_openpsa_core_siteconfig')) {
     org_openpsa_core_siteconfig::get_instance();
 }
 
 // Clean up residue cache entries from previous runs
-midcom::get()->cache->invalidate_all();
-$GLOBALS['kernel']->reboot(null);
+$midcom->cache->invalidate_all();
+$midcom->reboot(null);

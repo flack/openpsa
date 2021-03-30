@@ -32,14 +32,14 @@ class midcom_services_cache_module_contentTest extends TestCase
         $request = Request::create('/');
         $ctx = midcom_core_context::enter('/');
         $request->attributes->set('context', $ctx);
-        $event = new RequestEvent($GLOBALS['kernel'], $request, KernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent(midcom::get(), $request, KernelInterface::MASTER_REQUEST);
 
         $module->on_request($event);
         $this->assertFalse($event->hasResponse(), 'Response should not be cached yet');
 
         // write response to cache
         $response = new Response('test');
-        $filter_event = new ResponseEvent($GLOBALS['kernel'], $request, KernelInterface::MASTER_REQUEST, $response);
+        $filter_event = new ResponseEvent(midcom::get(), $request, KernelInterface::MASTER_REQUEST, $response);
         $module->on_response($filter_event);
 
         $module->on_request($event);
@@ -50,7 +50,7 @@ class midcom_services_cache_module_contentTest extends TestCase
         $request = Request::create('/', 'GET', ['test' => 'test']);
         $ctx = midcom_core_context::enter('/');
         $request->attributes->set('context', $ctx);
-        $event = new RequestEvent($GLOBALS['kernel'], $request, KernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent(midcom::get(), $request, KernelInterface::MASTER_REQUEST);
 
         $module->on_request($event);
         $this->assertFalse($event->hasResponse(), 'Response should not be cached yet');

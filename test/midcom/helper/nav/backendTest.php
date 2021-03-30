@@ -71,7 +71,7 @@ class midcom_helper_nav_backendTest extends openpsa_testcase
 
         $request = Request::create("/$child_topic_name/$article_name/");
         $request->attributes->set('context', $context);
-        $GLOBALS['kernel']->handle($request, KernelInterface::SUB_REQUEST);
+        midcom::get()->handle($request, KernelInterface::SUB_REQUEST);
 
         $backend = new midcom_helper_nav_backend($root_topic, [$child_topic]);
 

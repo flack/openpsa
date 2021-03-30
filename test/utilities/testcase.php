@@ -112,7 +112,7 @@ abstract class openpsa_testcase extends TestCase
         $request = Request::createFromGlobals();
         $request->attributes->set('context', $context);
 
-        $result = $GLOBALS['kernel']->handle($request, KernelInterface::SUB_REQUEST);
+        $result = midcom::get()->handle($request, KernelInterface::SUB_REQUEST);
 
         $this->assertTrue($result !== false, $component . ' handle returned false on ./' . implode('/', $args) . '/');
         $data = $context->get_custom_key('request_data');
