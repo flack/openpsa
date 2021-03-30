@@ -142,6 +142,9 @@ class midcom_application extends Kernel
      */
     public function __get($key)
     {
+        if (!$this->booted) {
+            $this->boot();
+        }
         return $this->getContainer()->get($key);
     }
 

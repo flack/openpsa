@@ -60,7 +60,6 @@ class midcom
 
         // Instantiate the MidCOM main class
         self::$_application = new midcom_application($environment, $debug);
-        self::$_application->boot();
         return self::$_application;
     }
 

@@ -31,7 +31,11 @@ class cacheinvalidate extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
-        midcom::get()->cache->invalidate_all();
+        try {
+            midcom::get()->cache->invalidate_all();
+        } catch (\Throwable $e) {
+            $output->writeln($e->getMessage());
+        }
         $fs = new Filesystem;
         $fs->remove([midcom::get()->getCacheDir()]);
         return 0;
