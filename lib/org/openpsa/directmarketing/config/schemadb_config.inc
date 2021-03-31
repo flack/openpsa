@@ -28,10 +28,8 @@
             'type_config' => [
                 'options' => [
                     'try_default' => 'system default',
-                    'bouncer' => 'any bounce detector compatible',
                     'mail_smtp' => 'smtp',
                     'mail_sendmail' => 'sendmail',
-                    'mail' => 'mail() function (not recommended)',
                 ],
             ],
         ],

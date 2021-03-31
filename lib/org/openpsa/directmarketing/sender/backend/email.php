@@ -31,14 +31,6 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
         if (!isset($config['mail_send_backend_params'])) {
             $config['mail_send_backend_params'] = [];
         }
-        //Check for bounce detector usage
-        if (!empty($config['bounce_detector_address'])) {
-            //Force bouncer as backend if default specified
-            if (   empty($config['mail_send_backend'])
-                || $config['mail_send_backend'] == 'try_default') {
-                $config['mail_send_backend'] = 'bouncer';
-            }
-        }
         $this->_config = $config;
         $this->_message = $message;
     }
