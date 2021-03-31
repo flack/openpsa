@@ -184,7 +184,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
         foreach ($guids as $group_value => $grouped_guids) {
             foreach ($this->_target_classes as $classname) {
-                $qb = call_user_func([$classname, 'new_query_builder']);
+                $qb = $classname::new_query_builder();
                 $qb->add_constraint('guid', 'IN', $grouped_guids);
                 $this->_apply_object_constraints($qb);
                 $this->_apply_object_orders($qb);
@@ -214,7 +214,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         }
 
         foreach ($this->_target_classes as $classname) {
-            $qb = call_user_func([$classname, 'new_query_builder']);
+            $qb = $classname::new_query_builder();
             $qb->add_constraint('guid', 'IN', $guids);
             $this->_apply_object_constraints($qb);
             $this->_apply_object_orders($qb);

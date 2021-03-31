@@ -116,7 +116,7 @@ class org_openpsa_contacts_duplicates_merge
     private function merge_metadata($person1, $person2, array $config)
     {
         foreach (array_keys($config) as $class) {
-            $qb = call_user_func([$class, 'new_query_builder']);
+            $qb = $class::new_query_builder();
             $qb->begin_group('OR');
             $qb->add_constraint('metadata.approver', '=', $person2->guid);
             $qb->add_constraint('metadata.owner', '=', $person2->guid);

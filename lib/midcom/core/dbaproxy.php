@@ -62,7 +62,7 @@ class midcom_core_dbaproxy
         $this->__tried_to_load = true;
 
         try {
-            $this->__object = call_user_func([$this->__midcom_class_name__, 'get_cached'], $this->__identifier);
+            $this->__object = $this->__midcom_class_name__::get_cached($this->__identifier);
             return true;
         } catch (midcom_error $e) {
             $e->log();
@@ -117,7 +117,7 @@ class midcom_core_dbaproxy
             return null;
         }
 
-        return call_user_func_array([$this->__object, $method], $arguments);
+        return $this->__object->$method(...$arguments);
     }
 
     /**

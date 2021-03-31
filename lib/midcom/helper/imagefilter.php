@@ -245,7 +245,7 @@ class midcom_helper_imagefilter
 
         debug_print_r("Have to execute {$command} with these arguments:", $args);
         if (is_callable([$this, $command])) {
-            call_user_func_array([$this, $command], $args);
+            $this->$command(...$args);
         } elseif ($command != 'none') {
             debug_add('This is no known command, we try to find a callback.');
             $this->execute_user_callback($command, $args);
@@ -311,7 +311,7 @@ class midcom_helper_imagefilter
     {
         $tmpfile = $this->_get_tempfile();
 
-        if (!call_user_func($command, $this->_filename, $tmpfile, $args)) {
+        if (!$command($this->_filename, $tmpfile, $args)) {
             unlink($tmpfile);
             throw new midcom_error("The function {$command} returned false");
         }

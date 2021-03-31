@@ -24,7 +24,7 @@ class callback
                 $form = $context->getRoot();
                 // hack to get error messages to show up at the correct place (also see below)
                 $context->setNode($form->getData(), $form, null, '');
-                $result = call_user_func($entry['callback'], $this->to_array($form->getData()));
+                $result = $entry['callback']($this->to_array($form->getData()));
                 if (is_array($result)) {
                     foreach ($result as $field => $message) {
                         $context

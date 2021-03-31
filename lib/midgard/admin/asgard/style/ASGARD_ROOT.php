@@ -109,8 +109,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
 
                     <div id="content-text">
                     <?php
-                    $callback = $context->get_key(MIDCOM_CONTEXT_SHOWCALLBACK);
-                    call_user_func($callback);
+                    $context->get_key(MIDCOM_CONTEXT_SHOWCALLBACK)();
                     ?>
                     </div>
                     <div id="object_metadata">

@@ -52,7 +52,7 @@
 'link_to_external_url' => false,
 
 // Callback function will be called after creation
-// call_user_func($callback_function, $article, $topic)
+// $callback_function($article, $topic)
 'callback_function' => null,
 
 'disable_permalinks' => false,

@@ -114,7 +114,7 @@ class autocompleteType extends AbstractType
                     $identifier = (int) $identifier;
                 }
                 try {
-                    $object = call_user_func([$options['widget_config']['class'], 'get_cached'], $identifier);
+                    $object = $options['widget_config']['class']::get_cached($identifier);
                     $preset[$identifier] = autocomplete_helper::create_item_label($object, $options['widget_config']['result_headers'], $options['widget_config']['titlefield']);
                 } catch (midcom_error $e) {
                     $e->log();

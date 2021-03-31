@@ -84,7 +84,7 @@ class midcom_core_collector extends midcom_core_query
 
         $newresult = $this->_list_keys_and_check_privileges(false);
 
-        call_user_func_array([$this->_real_class, '_on_process_collector_result'], [&$newresult]);
+        $this->_real_class::_on_process_collector_result($newresult);
 
         $this->count = count($newresult);
 
@@ -172,7 +172,7 @@ class midcom_core_collector extends midcom_core_query
     {
         $result = $this->_list_keys_and_check_privileges();
 
-        call_user_func_array([$this->_real_class, '_on_process_collector_result'], [&$result]);
+        $this->_real_class::_on_process_collector_result($result);
 
         $this->count = count($result);
 

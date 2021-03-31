@@ -149,7 +149,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        return call_user_func([$midcom_dba_classname, 'new_query_builder']);
+        return $midcom_dba_classname::new_query_builder();
     }
 
     /**

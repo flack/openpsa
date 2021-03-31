@@ -278,8 +278,7 @@ class midcom_core_context
             midcom_show_style('style-init');
         }
 
-        $callback = $this->get_key(MIDCOM_CONTEXT_SHOWCALLBACK);
-        call_user_func($callback);
+        $this->get_key(MIDCOM_CONTEXT_SHOWCALLBACK)();
 
         if (!midcom::get()->skip_page_style) {
             midcom_show_style('style-finish');

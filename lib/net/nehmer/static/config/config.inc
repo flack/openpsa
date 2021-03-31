@@ -23,7 +23,7 @@
 'simple_name_handling' => true,
 
 // Callback function will be called after creation
-// call_user_func($callback_function, $article, $topic)
+// $callback_function($article, $topic)
 'callback_function' => null,
 
 'folder_in_title' => true,

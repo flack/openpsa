@@ -305,7 +305,7 @@ abstract class openpsa_testcase extends TestCase
     public static function delete_linked_objects($classname, $link_field, $id)
     {
         midcom::get()->auth->request_sudo('midcom.core');
-        $qb = call_user_func([$classname, 'new_query_builder']);
+        $qb = $classname::new_query_builder();
         $qb->add_constraint($link_field, '=', $id);
         $results = $qb->execute();
 

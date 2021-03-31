@@ -70,7 +70,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
 
 
         if ($callback = $this->_config->get('callback_function')) {
-            call_user_func($callback, $this->article, $this->_topic);
+            $callback($this->article, $this->_topic);
         }
 
         if ($this->article->name == 'index') {

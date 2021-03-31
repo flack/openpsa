@@ -28,7 +28,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             return null;
         }
 
-        return call_user_func([$midcom_dba_classname, 'new_query_builder']);
+        return $midcom_dba_classname::new_query_builder();
     }
 
     private function _search(string $term) : array

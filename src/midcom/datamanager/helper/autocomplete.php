@@ -57,7 +57,7 @@ class autocomplete
 
     private function prepare_qb()
     {
-        $qb = call_user_func([$this->request['class'], 'new_query_builder']);
+        $qb = $this->request['class']::new_query_builder();
 
         if (!empty($this->request['constraints'])) {
             $this->apply_constraints($qb, $this->request['constraints']);

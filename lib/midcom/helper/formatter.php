@@ -44,7 +44,7 @@ class midcom_helper_formatter
         if (!isset(self::$_filters[$name]) || !is_callable(self::$_filters[$name])) {
             return $content;
         }
-        return call_user_func(self::$_filters[$name], $content);
+        return self::$_filters[$name]($content);
     }
 
     /**

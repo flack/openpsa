@@ -97,7 +97,7 @@ class midcom_core_querybuilder extends midcom_core_query
             $newresult = $this->execute_windowed();
         }
 
-        call_user_func_array([$this->_real_class, '_on_process_query_result'], [&$newresult]);
+        $this->_real_class::_on_process_query_result($newresult);
 
         $this->count = count($newresult);
 
@@ -209,7 +209,7 @@ class midcom_core_querybuilder extends midcom_core_query
 
         $newresult = $this->_execute_and_check_privileges();
 
-        call_user_func_array([$this->_real_class, '_on_process_query_result'], [&$newresult]);
+        $this->_real_class::_on_process_query_result($newresult);
 
         $this->count = count($newresult);
 

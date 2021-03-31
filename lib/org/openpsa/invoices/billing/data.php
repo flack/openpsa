@@ -84,7 +84,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
             return null;
         }
         try {
-            $contact = call_user_func([$dba_class, 'get_cached'], $contact_id);
+            $contact = $dba_class::get_cached($contact_id);
             $qb = self::new_query_builder();
             $qb->add_constraint('linkGuid', '=', $contact->guid);
             $billing_data = $qb->execute();
