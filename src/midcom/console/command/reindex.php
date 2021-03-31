@@ -76,7 +76,7 @@ class reindex extends Command
                 } catch (RequestException $e) {
                     if ($e->hasResponse()) {
                         $crawler = new Crawler($e->getResponse()->getBody()->getContents());
-                        $body = $crawler->filter('body')->html();
+                        $body = $crawler->filterXPath('//body')->html();
                         $output->writeln("\n<error>" . strip_tags($body) . '</error>');
                     } else {
                         $output->writeln("\n<error>" . $e->getMessage() . '</error>');
