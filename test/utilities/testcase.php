@@ -131,13 +131,6 @@ abstract class openpsa_testcase extends TestCase
         $_REQUEST = $_POST;
     }
 
-    public function set_get_data(array $get_data)
-    {
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_GET = $get_data;
-        $_REQUEST = $_GET;
-    }
-
     public function set_dm2_formdata(midcom_helper_datamanager2_controller $controller, array $formdata)
     {
         $formname = substr($controller->formmanager->namespace, 0, -1);
