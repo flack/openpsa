@@ -27,7 +27,7 @@
 class midcom_core_collector extends midcom_core_query
 {
     /**
-     * The initialization routine executes the _on_prepare_new_collector callback on the class.
+     * The initialization routine
      */
     public function __construct(string $classname, ?string $domain = null, $value = null)
     {
@@ -37,7 +37,6 @@ class midcom_core_collector extends midcom_core_query
 
         // MidCOM's collector always uses the GUID as the key for ACL purposes
         $this->_query->set_key_property('guid');
-        call_user_func_array([$classname, '_on_prepare_new_collector'], [&$this]);
     }
 
     /**
@@ -46,7 +45,7 @@ class midcom_core_collector extends midcom_core_query
      *
      * The calling sequence of all event handlers of the associated class is like this:
      *
-     * 1. boolean _on_prepare_exec_collector(&$this) is called before the actual query execution. Return false to
+     * 1. boolean _on_execute() is called before the actual query execution. Return false to
      *    abort the operation.
      *
      * @return boolean True if the query was executed, false otherwise (e.g. if it had been executed already)
@@ -54,13 +53,11 @@ class midcom_core_collector extends midcom_core_query
      */
     public function execute()
     {
-        if (!call_user_func_array([$this->_real_class, '_on_prepare_exec_collector'], [&$this])) {
-            debug_add('The _on_prepare_exec_collector callback returned false, so we abort now.');
-            return false;
+        if ($this->prepare_execute()) {
+            $this->_add_visibility_checks();
+            return $this->_query->execute();
         }
-
-        $this->_add_visibility_checks();
-        return $this->_query->execute();
+        return false;
     }
 
     /**

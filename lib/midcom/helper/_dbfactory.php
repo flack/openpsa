@@ -85,7 +85,7 @@ class midcom_helper__dbfactory
 
     /**
      * This function will determine the correct type of midgard_collector that
-     * has to be created. It will also call the _on_prepare_new_collector event handler.
+     * has to be created.
      *
      * @param mixed $value Value match for the collector instance
      * @see midcom_core_collector
@@ -97,7 +97,7 @@ class midcom_helper__dbfactory
 
     /**
      * This function will determine the correct type of midgard_query_builder that
-     * has to be created. It will also call the _on_prepare_new_query_builder event handler.
+     * has to be created.
      */
     public function new_query_builder(string $classname) : midcom_core_querybuilder
     {

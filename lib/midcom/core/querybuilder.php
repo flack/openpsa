@@ -32,7 +32,7 @@ class midcom_core_querybuilder extends midcom_core_query
     private $max_window_size = 500;
 
     /**
-     * The initialization routine executes the _on_prepare_new_querybuilder callback on the class.
+     * The initialization routine
      *
      * @param string $classname The classname which should be queried.
      */
@@ -41,7 +41,6 @@ class midcom_core_querybuilder extends midcom_core_query
         $mgdschemaclass = $this->_convert_class($classname);
 
         $this->_query = new midgard_query_builder($mgdschemaclass);
-        call_user_func_array([$classname, '_on_prepare_new_query_builder'], [&$this]);
     }
 
     /**
@@ -72,7 +71,7 @@ class midcom_core_querybuilder extends midcom_core_query
      *
      * The calling sequence of all event handlers of the associated class is like this:
      *
-     * 1. boolean _on_prepare_exec_query_builder(&$this) is called before the actual query execution. Return false to
+     * 1. boolean _on_execute($this) is called before the actual query execution. Return false to
      *    abort the operation.
      * 2. The query is executed.
      * 3. void _on_process_query_result(&$result) is called after the successful execution of the query. You
@@ -84,8 +83,7 @@ class midcom_core_querybuilder extends midcom_core_query
     {
         $this->_reset();
 
-        if (!call_user_func_array([$this->_real_class, '_on_prepare_exec_query_builder'], [&$this])) {
-            debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
+        if (!$this->prepare_execute()) {
             return [];
         }
 
@@ -196,8 +194,7 @@ class midcom_core_querybuilder extends midcom_core_query
     {
         $this->_reset();
 
-        if (!call_user_func_array([$this->_real_class, '_on_prepare_exec_query_builder'], [&$this])) {
-            debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
+        if (!$this->prepare_execute()) {
             return [];
         }
 

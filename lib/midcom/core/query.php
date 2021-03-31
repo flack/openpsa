@@ -168,6 +168,15 @@ abstract class midcom_core_query
         $this->denied = 0;
     }
 
+    protected function prepare_execute() : bool
+    {
+        $ret = $this->_real_class::_on_execute($this);
+        if (!$ret) {
+            debug_add('The _on_execute callback returned false');
+        }
+        return $ret;
+    }
+
     public function get_doctrine() : QueryBuilder
     {
         return $this->_query->get_doctrine();
