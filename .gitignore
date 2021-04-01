@@ -15,3 +15,4 @@ phpunit.xml
 /var
 /vendor
 /web/midcom-static
+/.phpunit.result.cache
