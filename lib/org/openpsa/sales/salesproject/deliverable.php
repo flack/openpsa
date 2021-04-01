@@ -82,7 +82,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $this->calculate_price(false);
 
         if (   $this->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
-            && $this->continuous == true) {
+            && $this->continuous) {
             $this->end = 0;
         } elseif ($this->end < $this->start) {
             $this->end = $this->start + 1;

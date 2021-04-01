@@ -136,7 +136,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _show_unsubscribe(string $handler_id, array &$data)
     {
-        if ($this->_request_data['unsubscribe_status'] == false) {
+        if (!$this->_request_data['unsubscribe_status']) {
             midcom_show_style('show-unsubscribe-failed');
         } else {
             midcom_show_style('show-unsubscribe-ok');
@@ -201,7 +201,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _show_unsubscribe_all(string $handler_id, array &$data)
     {
-        if ($data['unsubscribe_status'] == false) {
+        if (!$data['unsubscribe_status']) {
             midcom_show_style('show-unsubscribe-failed');
         } else {
             midcom_show_style('show-unsubscribe-ok');

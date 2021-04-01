@@ -78,7 +78,7 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
 
             foreach ($options as $option) {
                 echo '<option value="' . $option['id'] . '"';
-                if ($option['selected'] == true) {
+                if ($option['selected']) {
                     echo " selected=\"selected\"";
                 }
                 echo '>' . $option['title'] . '</option>';

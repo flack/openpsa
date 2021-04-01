@@ -27,7 +27,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
 
         if (midcom::get()->auth->admin) {
             $data['object'] = $this->prepare_admin_view($guid);
-            if ($data['object']->metadata->deleted == false) {
+            if (!$data['object']->metadata->deleted) {
                 return new midcom_response_relocate($this->router->generate('object_open', ['guid' => $data['object']->guid]));
             }
             midgard_admin_asgard_plugin::bind_to_object($data['object'], $handler_id, $data);

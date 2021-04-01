@@ -184,7 +184,7 @@ class midcom_helper_configuration
         }
 
         $this->_check_local_array($params);
-        if ($reset == true) {
+        if ($reset) {
             $this->reset_local();
         }
         $this->_local = array_merge($this->_local, $params);

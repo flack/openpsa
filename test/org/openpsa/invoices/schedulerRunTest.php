@@ -192,7 +192,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $mc->execute();
         $result =  $mc->list_keys();
 
-        if ($values == false) {
+        if (!$values) {
             $this->assertCount(0, $result, 'Invoice was created, which shouldn\'t have happened');
         } else {
             $this->assertCount(1, $result, 'Invoice was not created');
@@ -217,7 +217,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $items = $qb->execute();
         $this->register_objects($items);
 
-        if ($items_to_verify == false) {
+        if (!$items_to_verify) {
             $this->assertCount(0, $items, 'Invoice item was created, which shouldn\'t have happened');
         } else {
             $this->assertCount(count($items_to_verify), $items, 'Wrong number of invoice items');
