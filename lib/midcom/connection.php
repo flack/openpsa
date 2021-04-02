@@ -203,15 +203,14 @@ class midcom_connection
     {
         static $parsed = false;
         if (!$parsed) {
-            if (!defined('OPENPSA2_PREFIX')) {
-                define('OPENPSA2_PREFIX', '/');
-            }
+            $self = defined('OPENPSA2_PREFIX') ? OPENPSA2_PREFIX : '/';
+
             // we're only interested in the path, so use a dummy domain for simplicity's sake
             $url_components = parse_url("http://openpsa2.org{$_SERVER['REQUEST_URI']}");
-            if (OPENPSA2_PREFIX !== '/') {
-                $url_components['path'] = preg_replace('|^' . OPENPSA2_PREFIX . '|', '/', $url_components['path']);
+            if ($self !== '/') {
+                $url_components['path'] = preg_replace('|^' . $self . '|', '/', $url_components['path']);
             }
-            self::_parse_url($url_components['path'], OPENPSA2_PREFIX, substr(OPENPSA2_PREFIX, 0, -1));
+            self::_parse_url($url_components['path'], $self, substr($self, 0, -1));
             $parsed = true;
         }
 
