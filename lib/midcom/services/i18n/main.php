@@ -254,18 +254,13 @@ class midcom_services_i18n
      * arguments.
      *
      * @param string $stringid The string to translate.
-     * @param string $component    The component for which to retrieve a string database. If omitted, this defaults to the
-     *     current component (out of the component context).
+     * @param string $component    The component for which to retrieve a string database.
      * @param string $database    The string table to retrieve from the component's locale directory. If omitted, the 'default'
      *     database is used.
      * @see midcom_services_i18n_l10n::get()
      */
-    public function get_string(string $stringid, string $component = null, string $database = 'default') : string
+    public function get_string(string $stringid, string $component, string $database = 'default') : string
     {
-        if ($component === null) {
-            $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT) ?? 'midcom';
-        }
-
         return $this->get_l10n($component, $database)->get($stringid);
     }
 
@@ -276,14 +271,13 @@ class midcom_services_i18n
      * echo_string (Zend won't allow $l10n->echo().)
      *
      * @param string $stringid The string to translate.
-     * @param string $component    The component for which to retrieve a string database. If omitted, this defaults to the
-     *     current component (out of the component context).
+     * @param string $component    The component for which to retrieve a string database.
      * @param string $database    The string table to retrieve from the component's locale directory. If omitted, the 'default'
      *     database is used.
      * @see midcom_services_i18n_l10n::get()
      * @see get_string()
      */
-    public function show_string(string $stringid, string $component = null, string $database = 'default')
+    public function show_string(string $stringid, string $component, string $database = 'default')
     {
         echo $this->get_string($stringid, $component, $database);
     }

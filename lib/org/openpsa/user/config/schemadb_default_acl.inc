@@ -13,7 +13,7 @@
             'widget'      => 'privilege',
             'storage'     => null,
             'start_fieldset' => [
-                'title' => midcom::get()->i18n->get_string('midcom'),
+                'title' => 'midcom',
                 'css_group' => 'area',
             ],
         ],

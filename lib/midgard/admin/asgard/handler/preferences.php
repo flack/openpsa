@@ -106,7 +106,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
 
         // Initialize a new array for the current language
         $prepend = [
-            '' => midcom::get()->i18n->get_string('default setting'),
+            '' => midcom::get()->i18n->get_string('default setting', 'midgard.admin.asgard'),
             $current_lang => $languages[$current_lang]
         ];
 
