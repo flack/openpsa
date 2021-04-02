@@ -134,7 +134,7 @@ class midcom_application extends Kernel
 
     public function getCacheDir()
     {
-        return $this->cfg->get('cache_base_directory') ?: parent::getCacheDir() . '/midcom';
+        return $this->cfg->get('cache_base_directory') ?: parent::getCacheDir();
     }
 
     /**
@@ -153,6 +153,9 @@ class midcom_application extends Kernel
      */
     public function __set($key, $value)
     {
+        if (!$this->booted) {
+            $this->boot();
+        }
         $this->getContainer()->set($key, $value);
     }
 
