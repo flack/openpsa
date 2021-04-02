@@ -103,14 +103,14 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
 
         // Show the link to the object
         if ($this->view_link) {
-            echo "<a href=\"{$this->page_prefix}__mfa/asgard/object/view/{$object->guid}/\" class=\"thickbox\" target=\"_blank\" title=\"" . $this->_l10n->get('view object') . "\">\n";
+            echo "<a href=\"{$this->page_prefix}__mfa/asgard/object/view/{$object->guid}/\" class=\"thickbox\" target=\"_blank\" title=\"" . $this->_l10n_midcom->get('view') . "\">\n";
             echo "<i class=\"fa fa-eye\"></i>\n";
             echo "</a>\n";
         }
 
         // Show the link to the object
         if ($this->edit_link) {
-            echo "<a href=\"{$this->page_prefix}__mfa/asgard/object/edit/{$object->guid}/\" target='_blank' title=\"" . $this->_l10n->get('edit object') . "\">\n";
+            echo "<a href=\"{$this->page_prefix}__mfa/asgard/object/edit/{$object->guid}/\" target='_blank' title=\"" . $this->_l10n_midcom->get('edit') . "\">\n";
             echo "<i class=\"fa fa-pencil\"> </i>\n";
             echo "</a>\n";
         }
