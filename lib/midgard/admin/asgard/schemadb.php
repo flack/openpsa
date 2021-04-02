@@ -112,11 +112,9 @@ class midgard_admin_asgard_schemadb extends schemabuilder
         $components = ['' => ''];
         foreach (midcom::get()->componentloader->get_manifests() as $manifest) {
             // Skip purecode components
-            if ($manifest->purecode) {
-                continue;
+            if (!$manifest->purecode) {
+                $components[$manifest->name] = $manifest->get_name_translated() . " ({$manifest->name})";
             }
-
-            $components[$manifest->name] = midcom::get()->i18n->get_string($manifest->name, $manifest->name) . " ({$manifest->name})";
         }
         asort($components);
 

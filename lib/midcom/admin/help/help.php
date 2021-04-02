@@ -295,23 +295,19 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         ];
     }
 
-    private function _load_component_data(string $name) : array
+    private function _load_component_data(midcom_core_manifest $manifest) : array
     {
-        $component_array = [];
-        $component_array['name'] = $name;
-        $component_array['title'] = '';
-
-        if ($this->_i18n->get_l10n($name)->string_exists($name)) {
-            $component_array['title'] = $this->_i18n->get_string($name, $name);
+        $data = [
+            'name' => $manifest->name,
+            'title' => $manifest->get_name_translated(),
+            'icon' => midcom::get()->componentloader->get_component_icon($manifest->name),
+            'purecode' => $manifest->purecode,
+            'description' => $manifest->description,
+        ];
+        if ($data['title'] == $data['name']) {
+            $data['title'] = '';
         }
-        $component_array['icon'] = midcom::get()->componentloader->get_component_icon($name);
-
-        if (midcom::get()->componentloader->is_installed($name)) {
-            $manifest = midcom::get()->componentloader->get_manifest($name);
-            $component_array['purecode'] = $manifest->purecode;
-            $component_array['description'] = $manifest->description;
-        }
-        return $component_array;
+        return $data;
     }
 
     private function _list_components()
@@ -319,12 +315,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $this->_request_data['components'] = [];
         $this->_request_data['libraries'] = [];
 
-        foreach (midcom::get()->componentloader->get_manifests() as $name => $manifest) {
+        foreach (midcom::get()->componentloader->get_manifests() as $manifest) {
             $type = $manifest->purecode ? 'libraries' : 'components';
 
-            $component_array = $this->_load_component_data($name);
-
-            $this->_request_data[$type][$name] = $component_array;
+            $this->_request_data[$type][$manifest->name] = $this->_load_component_data($manifest);
         }
 
         asort($this->_request_data['components']);

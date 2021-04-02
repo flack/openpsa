@@ -20,25 +20,25 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/components.css');
     }
 
-    private function _load_component_data(string $name, midcom_core_manifest $manifest) : array
+    private function _load_component_data(midcom_core_manifest $manifest) : array
     {
-        $component_array = [
-            'name' => $name,
-            'title' => $this->_i18n->get_string($name, $name),
+        $data = [
+            'name' => $manifest->name,
+            'title' => $manifest->get_name_translated(),
             'purecode' => $manifest->purecode,
-            'icon' => midcom::get()->componentloader->get_component_icon($name),
+            'icon' => midcom::get()->componentloader->get_component_icon($manifest->name),
             'description' => $manifest->description,
             'toolbar' => new midcom_helper_toolbar()
         ];
-        $component_array['toolbar']->add_item([
-            MIDCOM_TOOLBAR_URL => $this->router->generate('components_configuration', ['component' => $name]),
+
+        $data['toolbar']->add_item([
+            MIDCOM_TOOLBAR_URL => $this->router->generate('components_configuration', ['component' => $manifest->name]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
             MIDCOM_TOOLBAR_GLYPHICON => 'wrench',
         ]);
+        $data['toolbar']->add_help_item($manifest->name);
 
-        $component_array['toolbar']->add_help_item($name);
-
-        return $component_array;
+        return $data;
     }
 
     private function _list_components()
@@ -46,12 +46,10 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $this->_request_data['components'] = [];
         $this->_request_data['libraries'] = [];
 
-        foreach (midcom::get()->componentloader->get_manifests() as $name => $manifest) {
+        foreach (midcom::get()->componentloader->get_manifests() as $manifest) {
             $type = ($manifest->purecode) ? 'libraries' : 'components';
 
-            $component_array = $this->_load_component_data($name, $manifest);
-
-            $this->_request_data[$type][$name] = $component_array;
+            $this->_request_data[$type][$manifest->name] = $this->_load_component_data($manifest);
         }
     }
 
@@ -102,7 +100,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
             throw new midcom_error_notfound("Component {$component} is not installed.");
         }
 
-        $data['component_data'] = $this->_load_component_data($component, midcom::get()->componentloader->get_manifest($component));
+        $data['component_data'] = $this->_load_component_data(midcom::get()->componentloader->get_manifest($component));
 
         $data['view_title'] = $data['component_data']['title'];
 
