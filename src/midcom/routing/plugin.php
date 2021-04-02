@@ -52,23 +52,17 @@ use midcom_error;
  *
  * The first argument of this call identifies the plugin namespace, the second
  * the list of classes associated with this plugin. Each class gets its own
- * identifier. The namespace and class identifier is used to construct the
- * final plugin URL: {$anchor_prefix}/{$namespace}/{$class_identifier}/...
+ * identifier. The namespace and plugin identifier is used to construct the
+ * final plugin URL: {$anchor_prefix}/{$namespace}/{$plugin_identifier}/...
  * This gives fully unique URL namespaces to all registered plugins.
  *
  * Plugin handlers always last in queue, so they won't override component handlers.
- * Their name is prefixed with __{$namespace}-{$class_identifier} to ensure
+ * Their name is prefixed with __{$namespace}-{$plugin_identifier} to ensure
  * uniqueness.
  *
- * Each class must have these options:
+ * Each entry has these options:
  *
  * - class: The name of the class to use
- * - src: The source URL of the plugin class. This can be either a file:/...
- *   URL which is relative to MIDCOM_ROOT, snippet:/... which identifies an
- *   arbitrary snippet, or finally, component:...
- *   which will load the component specified. This is only used if the class
- *   is not yet available.
- * - name: This is the clear-text name of the plugin.
  * - config: This is an optional configuration argument, allows for customization.
  *   May be omitted, in which case it defaults to null.
  *

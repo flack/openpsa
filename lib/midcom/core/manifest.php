@@ -262,9 +262,6 @@ class midcom_core_manifest
 
     /**
      * The constructor loads the manifest indicated by the filename passed to it.
-     *
-     * If it is a relative path, it is evaluated against MIDCOM_ROOT. Otherwise,
-     * the file is accessed directly.
      */
     public function __construct(string $filename)
     {
