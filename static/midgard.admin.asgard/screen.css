@@ -311,13 +311,17 @@ p
 }
 
 
-#content .object_view .field,
+.object_view .field,
 #content .object_edit .element
 {
     display: flex;
+    padding: 2px 6px;
+}
+#content .object_view .field,
+#content .object_edit .element
+{
     background-color: #EEEEEC;
     border-radius: 4px;
-    padding: 2px 6px;
     margin-bottom: 0.5em;
 }
 
@@ -327,7 +331,7 @@ p
 }
 
 
-#content .object_view .title,
+.object_view .title,
 #content .object_edit label
 {
     width: 150px;
@@ -338,12 +342,12 @@ p
     font-weight: bold
 }
 
-#content .object_view .value
+.object_view .value
 {
     min-height: 1em
 }
 
-#content .object_view .field > .title,
+.object_view .field > .title,
 #content .object_edit .element > label
 {
     padding: .5em .1em 0 .1em;
@@ -358,7 +362,7 @@ p
 }
 
 #content .object_edit .input,
-#content .object_view .value
+.object_view .value
 {
     flex-grow: 1;
     margin-right: 15%;
@@ -366,7 +370,7 @@ p
 
 @media screen and (max-width: 900px) {
     #content .object_edit .input,
-    #content .object_view .value
+    .object_view .value
     {
         margin-right: 20px;
     }
@@ -383,12 +387,16 @@ p
     background-color: transparent;
 }
 
-#content .object_view .value
+.object_view .value
 {
     margin: 0.3em 0;
-    background-color: white;
     display: block;
     padding: 3px 10px;
+}
+
+#content .object_view .value
+{
+    background-color: white;
 }
 
 #content .object_edit .shorttext,
