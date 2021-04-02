@@ -3,9 +3,9 @@ $i18n = midcom::get()->i18n;
 $grid = $data['grid'];
 
 $group_options = [
-    'month' => $i18n->get_l10n('org.openpsa.reports')->get('month'),
+    'month' => $i18n->get_string('month', 'org.openpsa.reports'),
     'customer' => $data['l10n']->get('customer'),
-    'type' => $i18n->get_l10n('midgard.admin.asgard')->get('type')
+    'type' => $i18n->get_string('type', 'midgard.admin.asgard')
 ];
 
 $footer_data = [
@@ -26,10 +26,10 @@ $grid->set_option('loadonce', true)
 
 $grid->set_column('time', $data['l10n_midcom']->get('date'), 'width: 80, fixed: true, align: "right", formatter: "date"')
     ->set_column('month', '', 'hidden: true', 'string')
-    ->set_column('deliverable', $i18n->get_l10n('org.openpsa.sales')->get('deliverable'), 'width: 100, classes: "ui-ellipsis"', 'string')
+    ->set_column('deliverable', $i18n->get_string('deliverable', 'org.openpsa.sales'), 'width: 100, classes: "ui-ellipsis"', 'string')
     ->set_column('customer', $data['l10n']->get('customer'), 'width: 100, classes: "ui-ellipsis"', 'string')
     ->set_column('customerContact', $data['l10n']->get('customer contact'), 'width: 100, classes: "ui-ellipsis"', 'string')
-    ->set_column('type', $i18n->get_l10n('midgard.admin.asgard')->get('type'), 'width: 80, classes: "ui-ellipsis"')
+    ->set_column('type', $i18n->get_string('type', 'midgard.admin.asgard'), 'width: 80, classes: "ui-ellipsis"')
     ->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, align: "right", title: false, classes: "sum", sorttype: "number", formatter: "number", summaryType:"sum"');
 
 $grid->set_footer_data($footer_data);

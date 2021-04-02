@@ -73,7 +73,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             }
         }
 
-        return midcom::get()->i18n->get_string("help_" . $help_id, 'midcom.admin.help');
+        return $this->_l10n->get("help_" . $help_id);
     }
 
     /**
@@ -175,7 +175,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
 
         $files = [];
-        $pattern = $component_dir . '*.{' . midcom::get()->i18n->get_current_language() . ',' . midcom::get()->config->get('i18n_fallback_language') . '}.txt';
+        $pattern = $component_dir . '*.{' . $this->_i18n->get_current_language() . ',' . midcom::get()->config->get('i18n_fallback_language') . '}.txt';
 
         foreach (glob($pattern, GLOB_NOSORT|GLOB_BRACE) as $path) {
             $entry = basename($path);
@@ -300,8 +300,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $component_array = [];
         $component_array['name'] = $name;
         $component_array['title'] = '';
-        if (midcom::get()->i18n->get_l10n($name)->string_exists($name)) {
-            $component_array['title'] = midcom::get()->i18n->get_string($name, $name);
+
+        if ($this->_i18n->get_l10n($name)->string_exists($name)) {
+            $component_array['title'] = $this->_i18n->get_string($name, $name);
         }
         $component_array['icon'] = midcom::get()->componentloader->get_component_icon($name);
 
@@ -337,7 +338,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         if (in_array($handler_id, ['help', 'component'])) {
             $this->add_breadcrumb(
                 $this->router->generate('component', ['component' => $this->_request_data['component']]),
-                sprintf($this->_l10n->get('help for %s'), midcom::get()->i18n->get_string($this->_request_data['component'], $this->_request_data['component']))
+                sprintf($this->_l10n->get('help for %s'), $this->_i18n->get_string($this->_request_data['component'], $this->_request_data['component']))
             );
         }
 

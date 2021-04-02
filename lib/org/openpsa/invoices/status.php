@@ -64,7 +64,7 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
 
     public function get_button() : string
     {
-        $tooltip = midcom::get()->i18n->get_l10n('org.openpsa.relatedto')->get('add journal entry');
+        $tooltip = midcom::get()->i18n->get_string('add journal entry', 'org.openpsa.relatedto');
         $save_label = $this->l10n_midcom->get('save');
         $cancel_label = $this->l10n_midcom->get('cancel');
         return '<a id="add-journal-entry" data-guid="' . $this->invoice->guid . '" data-dialog-submit-label="' . $save_label . '" data-dialog-cancel-label="' . $cancel_label . '" title="' . $tooltip . "\">\n" .

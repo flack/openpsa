@@ -133,11 +133,11 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
 
     private function get_lang() : ?string
     {
-        $lang = midcom::get()->i18n->get_current_language();
+        $lang = $this->_i18n->get_current_language();
         if (file_exists(MIDCOM_STATIC_ROOT . $this->prefix . "core/locales/{$lang}.js")) {
             return $lang;
         }
-        $lang = midcom::get()->i18n->get_fallback_language();
+        $lang = $this->_i18n->get_fallback_language();
         if (file_exists(MIDCOM_STATIC_ROOT . $this->prefix . "core/locales/{$lang}.js")) {
             return $lang;
         }

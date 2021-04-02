@@ -65,7 +65,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
         $this->add_breadcrumb(
             $this->router->generate('components_component', ['component' => $this->_request_data['name']]),
-            midcom::get()->i18n->get_string($this->_request_data['name'], $this->_request_data['name'])
+            $this->_i18n->get_string($this->_request_data['name'], $this->_request_data['name'])
         );
         $this->add_breadcrumb(
             $this->router->generate('components_configuration', ['component' => $this->_request_data['name']]),

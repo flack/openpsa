@@ -89,10 +89,10 @@ class renderer extends FormRenderer
             return $this->l10n->get($translate_string);
         }
         if (midcom::get()->i18n->get_l10n('midcom.datamanager')->string_available($translate_string)) {
-            return midcom::get()->i18n->get_l10n('midcom.datamanager')->get($translate_string);
+            return midcom::get()->i18n->get_string($translate_string, 'midcom.datamanager');
         }
         if (midcom::get()->i18n->get_l10n('midcom')->string_available($translate_string)) {
-            return midcom::get()->i18n->get_l10n('midcom')->get($translate_string);
+            return midcom::get()->i18n->get_string($translate_string, 'midcom');
         }
 
         return $string;

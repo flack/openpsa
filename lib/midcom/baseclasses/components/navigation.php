@@ -28,17 +28,13 @@ class midcom_baseclasses_components_navigation extends midcom_baseclasses_compon
     protected $_topic;
 
     /**
-     * Initialize the NAP class, sets all state variables.
+     * Initialize the NAP class
      *
      * @param string $component The name of the component.
      */
     public function __construct(string $component)
     {
         $this->_component = $component;
-
-        $this->_i18n = midcom::get()->i18n;
-        $this->_l10n = $this->_i18n->get_l10n($this->_component);
-        $this->_l10n_midcom = $this->_i18n->get_l10n('midcom');
     }
 
     /**
@@ -51,15 +47,13 @@ class midcom_baseclasses_components_navigation extends midcom_baseclasses_compon
      * <code>
      * <?php
      *
-     *  foreach ($articles as $article)
-     *  {
-     *      $leaves[$article->id] = array
-     *      (
+     *  foreach ($articles as $article) {
+     *      $leaves[$article->id] = [
      *          MIDCOM_NAV_URL => $article->name . "/",
      *          MIDCOM_NAV_NAME => $article->title,
      *          MIDCOM_NAV_OBJECT => $article,
      *          MIDCOM_NAV_GUID => $article->guid,
-     *      )
+     *      ];
      *  }
      *
      *  return $leaves;

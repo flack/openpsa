@@ -63,7 +63,7 @@ implements midcom_services_permalinks_resolver
             $grp = new midcom_db_group();
             $grp->owner = 0;
             $grp->name = $name;
-            $grp->official = midcom::get()->i18n->get_l10n('org.openpsa.contacts')->get($name);
+            $grp->official = midcom::get()->i18n->get_string($name, 'org.openpsa.contacts');
             $ret = $grp->create();
             midcom::get()->auth->drop_sudo();
             if (!$ret) {

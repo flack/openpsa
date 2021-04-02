@@ -58,11 +58,11 @@ class datamanager extends dialog
     public function get_button_config() : array
     {
         return [
-            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_l10n('midcom')->get('edit'),
+            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit', 'midcom'),
             MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
             MIDCOM_TOOLBAR_OPTIONS => [
                 'data-dialog' => 'dialog',
-                'data-dialog-cancel-label' => midcom::get()->i18n->get_l10n('midcom')->get('cancel')
+                'data-dialog-cancel-label' => midcom::get()->i18n->get_string('cancel', 'midcom')
             ]
         ];
     }

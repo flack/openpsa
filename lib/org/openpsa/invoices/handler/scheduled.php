@@ -69,7 +69,7 @@ implements client
             $invoice_sum = $deliverable->units * $deliverable->pricePerUnit;
         } else {
             $invoice_sum = $deliverable->price;
-            $type = $this->_i18n->get_l10n('org.openpsa.reports')->get('fixed price');
+            $type = $this->_i18n->get_string('fixed price', 'org.openpsa.reports');
         }
 
         $invoice['sum'] = $invoice_sum;

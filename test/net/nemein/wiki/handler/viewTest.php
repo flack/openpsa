@@ -27,7 +27,7 @@ class net_nemein_wiki_handler_viewTest extends openpsa_testcase
         $article_properties = [
             'topic' => self::$_topic->id,
             'title' => __CLASS__ . ' ' . time(),
-            'content' => midcom::get()->i18n->get_l10n('net.nemein.wiki')->get('wiki default page content')
+            'content' => midcom::get()->i18n->get_string('wiki default page content', 'net.nemein.wiki')
         ];
         self::$_page = self::create_class_object(net_nemein_wiki_wikipage::class, $article_properties);
     }

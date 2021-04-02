@@ -27,9 +27,9 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         $head->enable_jquery_ui(['mouse', 'controlgroup', 'draggable', 'droppable', 'selectable', 'resizable', 'slider', 'button']);
         $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . 'js/elfinder.min.js');
 
-        $lang = midcom::get()->i18n->get_current_language();
+        $lang = $this->_i18n->get_current_language();
         if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "js/i18n/elfinder.{$lang}.js")) {
-            $lang = midcom::get()->i18n->get_fallback_language();
+            $lang = $this->_i18n->get_fallback_language();
             if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "js/i18n/elfinder.{$lang}.js")) {
                 $lang = 'en';
             }

@@ -161,7 +161,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $translated = $string;
         $component = midcom::get()->dbclassloader->get_component_for_class($this->object->__midcom_class_name__);
         if (midcom::get()->componentloader->is_installed($component)) {
-            $translated = midcom::get()->i18n->get_l10n($component)->get($string);
+            $translated = $this->_i18n->get_string($string, $component);
         }
         if ($translated === $string) {
             $translated = $this->_l10n->get($string);

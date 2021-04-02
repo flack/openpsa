@@ -142,7 +142,7 @@ EOT;
             $upload_url .= $suffix;
         }
 
-        $title = $this->i18n->get_l10n('midcom.helper.imagepopup')->get('file picker');
+        $title = $this->i18n->get_string('file picker', 'midcom.helper.imagepopup');
         $img = <<<IMG
 file_picker_callback: tiny.filepicker('$title', '$url', '$suffix'),
 images_upload_handler: tiny.image_upload_handler('$upload_url'),

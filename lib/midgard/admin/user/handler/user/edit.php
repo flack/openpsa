@@ -21,7 +21,7 @@ class midgard_admin_user_handler_user_edit extends midcom_baseclasses_components
         if ($this->_config->get('allow_manage_accounts')) {
             $data['asgard_toolbar']->add_item([
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/preferences/{$person->guid}/",
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('user preferences', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('user preferences', 'midgard.admin.asgard'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'sliders',
             ]);
             $account = new midcom_core_account($person);
