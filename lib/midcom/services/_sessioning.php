@@ -50,20 +50,18 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midcom_services__sessioning extends Session
 {
-    public function __construct(RequestStack $stack)
+    public function __construct(RequestStack $stack, bool $cookie_secure)
     {
-        parent::__construct($this->prepare_storage($stack->getCurrentRequest()), new NamespacedAttributeBag('midcom_session_data'));
+        $storage = $this->prepare_storage($stack->getCurrentRequest(), $cookie_secure);
+
+        parent::__construct($storage, new NamespacedAttributeBag('midcom_session_data'));
     }
 
-    protected function prepare_storage(Request $request = null)
+    protected function prepare_storage(?Request $request, bool $cookie_secure)
     {
-        $cookie_secure = (   $request
-                          && $request->isSecure()
-                          && midcom::get()->config->get('auth_backend_simple_cookie_secure'));
-
         return new NativeSessionStorage([
             'cookie_path' => midcom_connection::get_url('prefix') ?: '/',
-            'cookie_secure' => $cookie_secure,
+            'cookie_secure' => $cookie_secure && $request && $request->isSecure(),
             'cookie_httponly' => true
         ]);
     }

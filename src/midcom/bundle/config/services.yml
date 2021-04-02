@@ -139,7 +139,7 @@ services:
 
     session:
         class: midcom_services__sessioning
-        arguments: ['@request_stack']
+        arguments: ['@request_stack', '%midcom.auth_backend_simple_cookie_secure%']
         public: true
 
     style:
