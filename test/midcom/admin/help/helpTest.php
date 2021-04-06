@@ -6,14 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use PHPUnit\Framework\TestCase;
-
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_admin_help_helpTest extends TestCase
+class midcom_admin_help_helpTest extends openpsa_testcase
 {
     public function test_generate_file_path()
     {
@@ -76,5 +74,26 @@ class midcom_admin_help_helpTest extends TestCase
                 ]
             ]
         ];
+    }
+
+    public function testHandler_welcome()
+    {
+        self::create_user(true);
+        $data = $this->run_handler('net.nehmer.static', ['__ais', 'help']);
+        $this->assertEquals('welcome', $data['handler_id']);
+    }
+
+    public function testHandler_component()
+    {
+        self::create_user(true);
+        $data = $this->run_handler('net.nehmer.static', ['__ais', 'help', 'net.nemein.wiki']);
+        $this->assertEquals('component', $data['handler_id']);
+    }
+
+    public function testHandler_help()
+    {
+        self::create_user(true);
+        $data = $this->run_handler('net.nehmer.static', ['__ais', 'help', 'net.nemein.wiki', 'mgdschemas']);
+        $this->assertEquals('help', $data['handler_id']);
     }
 }
