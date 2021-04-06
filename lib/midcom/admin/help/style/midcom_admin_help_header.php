@@ -11,6 +11,16 @@
     </head>
     <body>
         <div id="mainmenu">
+        <?php
+        if ($data['handler_id'] === 'help') {
+            echo '<ul>';
+            foreach ($data['help_files'] as $id => $info) {
+                $url = $data['router']->generate('help', ['component' => $data['component'], 'help_id' => $id]);
+                echo '<li><a href="' . $url . '">' . $info['subject'] . '</a></li>';
+            }
+            echo '</ul>';
+        }
+        ?>
         </div>
 
         <div id="breadcrumb">

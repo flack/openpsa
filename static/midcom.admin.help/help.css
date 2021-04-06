@@ -10,6 +10,13 @@ body
     font-size: 80%;
 }
 
+#mainmenu {
+    position: fixed;
+    left: 0;
+    top: 180px;
+    max-width: 170px;
+}
+
 a
 {
     font-weight:bold;
