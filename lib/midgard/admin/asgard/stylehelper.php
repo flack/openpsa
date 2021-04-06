@@ -56,10 +56,9 @@ class midgard_admin_asgard_stylehelper
         }
 
         if ($this->_data['object']->name == 'ROOT') {
-            $element_path = midcom::get()->componentloader->path_to_snippetpath('midgard.admin.asgard') . '/documentation/ROOT.php';
             $this->_data['help_style_element'] = [
                 'component' => 'midcom',
-                'default'   => file_get_contents($element_path),
+                'default'   => file_get_contents(MIDCOM_ROOT . '/midcom/style/ROOT.php'),
             ];
             return 'element';
         }
