@@ -240,15 +240,15 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         foreach (glob($exec_path . '/*.php', GLOB_NOSORT) as $path) {
             $file = basename($path);
-            $data[$file] = [];
-
             $info_id = "urlmethod_" . str_replace('.php', '', $file);
 
-            $data[$file]['url'] = '/midcom-exec-' . $component . '/' . $file;
-            $data[$file]['description'] = $this->get_help_contents($info_id, $component);
+            $data[$file] = [
+                'url' => '/midcom-exec-' . $component . '/' . $file,
+            ];
 
             if (self::generate_file_path($info_id, $component)) {
                 $data[$file]['handler_help_url'] = $info_id;
+                $data[$file]['description'] = $this->get_help_contents($info_id, $component);
             }
         }
 
@@ -436,26 +436,13 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     public function _show_help(string $handler_id, array &$data)
     {
         midcom_show_style('midcom_admin_help_header');
-        switch ($this->_request_data['help_id']) {
-            case 'handlers':
-                midcom_show_style('midcom_admin_help_handlers');
-                break;
-            case 'mgdschemas':
-                midcom_show_style('midcom_admin_help_show');
-                midcom_show_style('midcom_admin_help_mgdschemas');
-                break;
-            case 'urlmethods':
-                midcom_show_style('midcom_admin_help_show');
-                midcom_show_style('midcom_admin_help_urlmethods');
-                break;
-            default:
-                midcom_show_style('midcom_admin_help_show');
-
-                if (!$this->_request_data['html']) {
-                    $this->_request_data['html'] = $this->get_help_contents('notfound', 'midcom.admin.help');
-                    midcom_show_style('midcom_admin_help_show');
-                    midcom_show_style('midcom_admin_help_component');
-                }
+        midcom_show_style('midcom_admin_help_show');
+        if (in_array($data['help_id'], ['handlers', 'mgdschemas', 'urlmethods'])) {
+            midcom_show_style('midcom_admin_help_' . $data['help_id']);
+        } elseif (!$data['html']) {
+            $data['html'] = $this->get_help_contents('notfound', 'midcom.admin.help');
+            midcom_show_style('midcom_admin_help_show');
+            midcom_show_style('midcom_admin_help_component');
         }
         midcom_show_style('midcom_admin_help_footer');
     }

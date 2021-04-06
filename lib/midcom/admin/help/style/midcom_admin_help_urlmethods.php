@@ -14,7 +14,7 @@ if (!empty($data['urlmethods'])) {
 <?php
         $first = false;
         echo "<p>\n";
-        echo $method_info['description'];
+        echo $method_info['description'] ?? '';
         echo "</p>\n"; ?>
     </div>
 </fieldset>
