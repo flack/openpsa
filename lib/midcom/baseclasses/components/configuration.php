@@ -34,10 +34,7 @@ class midcom_baseclasses_components_configuration
 
     public static function get(string $component, string $key = null)
     {
-        if (!array_key_exists($component, self::$_data)) {
-            self::_initialize($component);
-        }
-
+        self::_initialize($component);
         if ($key === null) {
             return self::$_data[$component];
         }
@@ -46,10 +43,7 @@ class midcom_baseclasses_components_configuration
 
     public static function set(string $component, string $key, $value)
     {
-        if (!array_key_exists($component, self::$_data)) {
-            self::_initialize($component);
-        }
-
+        self::_initialize($component);
         self::$_data[$component][$key] = $value;
     }
 
@@ -70,11 +64,13 @@ class midcom_baseclasses_components_configuration
      */
     private static function _initialize(string $component)
     {
-        self::$_data[$component] = [
-            'active_leaf' => false,
-            'config' => []
-        ];
-        self::_load_configuration($component);
+        if (!array_key_exists($component, self::$_data)) {
+            self::$_data[$component] = [
+                'active_leaf' => false,
+                'config' => []
+            ];
+            self::_load_configuration($component);
+        }
     }
 
     /**

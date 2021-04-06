@@ -431,17 +431,10 @@ class midcom_config implements ArrayAccess
     {
         $this->_complete_defaults();
 
-        /* ----- MERGE THE CONFIGURATION ----- */
-        if (!array_key_exists('midcom_config_site', $GLOBALS)) {
-            $GLOBALS['midcom_config_site'] = [];
-        }
-        if (!array_key_exists('midcom_config_local', $GLOBALS)) {
-            $GLOBALS['midcom_config_local'] = [];
-        }
         $this->_merged_config = array_merge(
             $this->_default_config,
-            $GLOBALS['midcom_config_site'],
-            $GLOBALS['midcom_config_local']
+            $GLOBALS['midcom_config_site'] ?? [],
+            $GLOBALS['midcom_config_local'] ?? []
         );
     }
 
