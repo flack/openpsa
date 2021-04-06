@@ -297,36 +297,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         ];
     }
 
-    private function _load_component_data(midcom_core_manifest $manifest) : array
-    {
-        $data = [
-            'name' => $manifest->name,
-            'title' => $manifest->get_name_translated(),
-            'icon' => midcom::get()->componentloader->get_component_icon($manifest->name),
-            'purecode' => $manifest->purecode,
-            'description' => $manifest->description,
-        ];
-        if ($data['title'] == $data['name']) {
-            $data['title'] = '';
-        }
-        return $data;
-    }
-
-    private function _list_components()
-    {
-        $this->_request_data['components'] = [];
-        $this->_request_data['libraries'] = [];
-
-        foreach (midcom::get()->componentloader->get_manifests() as $manifest) {
-            $type = $manifest->purecode ? 'libraries' : 'components';
-
-            $this->_request_data[$type][$manifest->name] = $this->_load_component_data($manifest);
-        }
-
-        asort($this->_request_data['components']);
-        asort($this->_request_data['libraries']);
-    }
-
     private function _prepare_breadcrumb(string $handler_id)
     {
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get('midcom.admin.help'));
@@ -337,14 +307,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                 sprintf($this->_l10n->get('help for %s'), $this->_i18n->get_string($this->_request_data['component'], $this->_request_data['component']))
             );
         }
-
-        if ($handler_id == 'help') {
-            if (in_array($this->_request_data['help_id'], ['handlers', 'urlmethods', 'mgdschemas'])) {
-                $this->add_breadcrumb("", $this->_l10n->get($this->_request_data['help_id']));
-            } else {
-                $this->add_breadcrumb("", $this->get_help_title($this->_request_data['help_id'], $this->_request_data['component']));
-            }
-        }
     }
 
     public function _handler_welcome(string $handler_id, array &$data)
@@ -352,7 +314,27 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $data['view_title'] = $this->_l10n->get($this->_component);
         midcom::get()->head->set_pagetitle($data['view_title']);
 
-        $this->_list_components();
+        $data['components'] = [];
+        $data['libraries'] = [];
+
+        foreach (midcom::get()->componentloader->get_manifests() as $manifest) {
+            $type = $manifest->purecode ? 'libraries' : 'components';
+            $title = $manifest->get_name_translated();
+            if ($title == $manifest->name) {
+                $title = '';
+            }
+
+            $data[$type][$manifest->name] = [
+                'name' => $manifest->name,
+                'title' => $title,
+                'icon' => midcom::get()->componentloader->get_component_icon($manifest->name),
+                'purecode' => $manifest->purecode,
+                'description' => $manifest->description,
+            ];
+        }
+
+        asort($data['components']);
+        asort($data['libraries']);
 
         $this->_prepare_breadcrumb($handler_id);
     }
@@ -384,11 +366,11 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     public function _handler_component(string $handler_id, string $component, array &$data)
     {
         $data['component'] = $component;
-        $data['view_title'] = sprintf($this->_l10n->get('help for %s'), $this->_i18n->get_string($data['component'], $data['component']));
+        $data['view_title'] = sprintf($this->_l10n->get('help for %s'), $this->_i18n->get_string($component, $component));
         midcom::get()->head->set_pagetitle($data['view_title']);
 
-        $data['help_files'] = $this->list_files($data['component']);
-        $data['html'] = $this->get_help_contents('index', $data['component']);
+        $data['help_files'] = $this->list_files($component);
+        $data['html'] = $this->get_help_contents('index', $component);
         $this->_prepare_breadcrumb($handler_id);
     }
 
@@ -411,21 +393,26 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     {
         $data['help_id'] = $help_id;
         $data['component'] = $component;
-        $data['help_files'] = $this->list_files($data['component']);
+        $data['help_files'] = $this->list_files($component);
 
-        if ($data['help_id'] == 'mgdschemas') {
+        if ($help_id == 'mgdschemas') {
             $this->read_schema_properties();
         }
-        $data['html'] = $this->get_help_contents($data['help_id'], $data['component']);
+        $data['html'] = $this->get_help_contents($help_id, $component);
 
         // Table of contents navi
         $data['view_title'] = sprintf(
             $this->_l10n->get('help for %s in %s'),
-            $this->get_help_title($data['help_id'], $data['component']),
-            $this->_i18n->get_string($data['component'], $data['component'])
+            $this->get_help_title($help_id, $component),
+            $this->_i18n->get_string($component, $component)
         );
         midcom::get()->head->set_pagetitle($data['view_title']);
         $this->_prepare_breadcrumb($handler_id);
+        if (in_array($help_id, ['handlers', 'urlmethods', 'mgdschemas'])) {
+            $this->add_breadcrumb("", $this->_l10n->get($help_id));
+        } else {
+            $this->add_breadcrumb("", $this->get_help_title($help_id, $component));
+        }
     }
 
     /**
@@ -440,7 +427,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         if (in_array($data['help_id'], ['handlers', 'mgdschemas', 'urlmethods'])) {
             midcom_show_style('midcom_admin_help_' . $data['help_id']);
         } elseif (!$data['html']) {
-            $data['html'] = $this->get_help_contents('notfound', 'midcom.admin.help');
+            $data['html'] = $this->get_help_contents('notfound', $this->_component);
             midcom_show_style('midcom_admin_help_show');
             midcom_show_style('midcom_admin_help_component');
         }
