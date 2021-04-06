@@ -35,31 +35,16 @@ class midcom
      */
     public static function init(string $environment = 'prod', bool $debug = false) : midcom_application
     {
-        ///////////////////////////////////
-        // Try to be smart about the paths:
-        // Define default constants
-        if (!defined('MIDCOM_ROOT')) {
-            define('MIDCOM_ROOT', __DIR__);
-        }
+        // Instantiate the MidCOM main class
+        self::$_application = new midcom_application($environment, $debug);
 
-        if (!defined('MIDCOM_STATIC_ROOT')) {
-            $pos = strrpos(MIDCOM_ROOT, '/');
-            if ($pos === false) {
-                // No slash, this is strange
-                throw new midcom_error('MIDCOM_ROOT did not contain a slash, this should not happen and is most probably the cause of a configuration error.');
-            }
-            define('MIDCOM_STATIC_ROOT', substr(MIDCOM_ROOT, 0, $pos) . '/static');
-        }
+        // Define default constants
+        define('MIDCOM_ROOT', __DIR__);
         if (!defined('MIDCOM_STATIC_URL')) {
             define('MIDCOM_STATIC_URL', '/midcom-static');
         }
-
-        if (!defined('OPENPSA2_THEME_ROOT')) {
-            define('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../var/themes/');
-        }
-
-        // Instantiate the MidCOM main class
-        self::$_application = new midcom_application($environment, $debug);
+        define('MIDCOM_STATIC_ROOT', self::$_application->getProjectDir() . '/web' . MIDCOM_STATIC_URL);
+        define('OPENPSA2_THEME_ROOT', self::$_application->getProjectDir() . '/var/themes/');
         return self::$_application;
     }
 
