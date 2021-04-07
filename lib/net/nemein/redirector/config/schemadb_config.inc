@@ -49,7 +49,6 @@
             'widget' => 'autocomplete',
             'widget_config' => [
                 'class'       => 'midcom_db_topic',
-                'component'   => 'net.nemein.redirector',
                 'titlefield'  => 'extra',
                 'id_field'     => 'guid',
                 'searchfields' => [
@@ -72,10 +71,8 @@
                 'result_headers' => [
                     [
                         'name' => 'name',
-                        'title' => 'name',
                     ], [
                         'name' => 'component',
-                        'title' => 'component',
                     ],
                 ],
                 'orders' => [

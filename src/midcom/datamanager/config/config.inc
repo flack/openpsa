@@ -21,7 +21,6 @@
         'titlefield' => 'name',
         'result_headers' => [
             [
-                'title' => 'email',
                 'name' => 'email',
             ],
         ],
@@ -61,7 +60,6 @@
         'class' => 'midcom_db_group',
         'result_headers' => [
             [
-                'title' => 'name',
                 'name' => 'name',
             ],
         ],

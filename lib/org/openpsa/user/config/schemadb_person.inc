@@ -91,10 +91,8 @@
             'widget' => 'autocomplete',
             'widget_config' => [
                 'class' => 'midcom_db_group',
-                'component' => 'org.openpsa.contacts',
                 'result_headers' => [
                 	[
-                        'title' => 'name',
                         'name' => 'name',
                     ],
                 ],

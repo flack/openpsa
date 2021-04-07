@@ -60,13 +60,10 @@
                 'result_headers' => [
                     [
                         'name' => 'email',
-                        'title' => 'email',
                     ], [
                         'name' => 'handphone',
-                        'title' => 'handphone',
                     ], [
                         'name' => 'username',
-                        'title' => 'username',
                     ],
                 ],
                 'searchfields' => [

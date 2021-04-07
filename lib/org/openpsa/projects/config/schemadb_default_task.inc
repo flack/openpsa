@@ -141,7 +141,6 @@
             'widget' => 'autocomplete',
             'widget_config' => [
                 'class'       => 'org_openpsa_contacts_person_dba',
-                'component'   => 'org.openpsa.contacts',
                 'titlefield'  => 'name',
                 'id_field'     => 'id',
                 'constraints' => [
@@ -158,7 +157,6 @@
                 ],
                 'result_headers' => [
                 	[
-                        'title' => 'email',
                         'name' => 'email',
                     ],
                 ],
@@ -206,7 +204,6 @@
             'widget' => 'autocomplete',
             'widget_config' => [
                 'class'       => 'org_openpsa_sales_salesproject_deliverable_dba',
-                'component'   => 'org.openpsa.sales',
                 'titlefield'  => 'title',
                 'categorize_by_parent_label' => 'salesproject',
                 'id_field'     => 'id',

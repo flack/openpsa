@@ -127,7 +127,6 @@
                 'widget' => 'autocomplete',
                 'widget_config' => [
                     'class'       => 'midcom_db_topic',
-                    'component'   => 'net.nehmer.blog',
                     'titlefield'  => 'extra',
                     'idfield'     => 'guid',
                     'searchfields' => [
@@ -149,7 +148,6 @@
                     'result_headers' => [
                         [
                             'name' => 'name',
-                            'title' => midcom::get()->i18n->get_string('name', 'midcom'),
                         ],
                     ],
                     'categorize_by_parent_label' => true,

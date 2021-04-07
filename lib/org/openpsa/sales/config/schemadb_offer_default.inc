@@ -38,7 +38,6 @@
             'widget' => 'autocomplete',
             'widget_config' => [
                 'class' => 'org_openpsa_sales_salesproject_deliverable_dba',
-                'component' => 'org.openpsa.sales',
                 'titlefield' => 'title',
                 'sortable' => true,
                 'constraints' => [],

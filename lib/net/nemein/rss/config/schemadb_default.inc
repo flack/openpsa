@@ -41,7 +41,6 @@
             'widget' => 'autocomplete',
             'widget_config' => [
                 'class' => 'midcom_db_person',
-                'component' => 'midgard.admin.asgard',
                 'titlefield' => 'name',
                 'id_field' => 'id',
                 'searchfields' => [
@@ -50,7 +49,7 @@
                     'username',
                 ],
                 'result_headers' => [
-                    ['name' => 'email', 'title' => 'email'],
+                    ['name' => 'email'],
                 ],
                 'orders' => [],
                 'creation_mode_enabled' => true,

@@ -29,7 +29,6 @@
             'widget'  => 'autocomplete',
             'widget_config' => [
                 'class' => 'org_openpsa_products_product_group_dba',
-                'component' => 'org.openpsa.products',
                 'titlefield' => 'title',
                 'id_field' => 'id',
                 'searchfields' => [
@@ -37,7 +36,7 @@
                     'title',
                 ],
                 'result_headers' => [
-                    ['name' => 'code', 'title' => 'code'],
+                    ['name' => 'code'],
                 ],
                 'categorize_by_parent_label' => true,
             ],

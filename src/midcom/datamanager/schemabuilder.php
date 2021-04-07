@@ -256,7 +256,6 @@ class schemabuilder
     private function build_autocomplete_config(string $key, string $class, string $linked_type) : array
     {
         $reflector = midcom_helper_reflector::get($linked_type);
-        $component = midcom::get()->dbclassloader->get_component_for_class($linked_type);
         $searchfields = $reflector->get_search_properties();
         $label_property = $reflector->get_label_property();
         $has_parent = !empty(midgard_object_class::get_property_parent($linked_type)) || !empty(midgard_object_class::get_property_up($linked_type));
@@ -264,17 +263,13 @@ class schemabuilder
 
         foreach ($searchfields as $field) {
             if ($field !== $label_property) {
-                $result_headers[] = [
-                    'name' => $field,
-                    'title' => ucfirst($field),
-                ];
+                $result_headers[] = ['name' => $field];
             }
         }
         $searchfields[] = 'guid';
 
         return [
             'class' => $class,
-            'component' => $component,
             'titlefield' => method_exists($class, 'get_label') ? null : $label_property,
             'id_field' => $this->reflector->get_link_target($key),
             'searchfields' => $searchfields,

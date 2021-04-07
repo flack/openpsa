@@ -17,13 +17,11 @@
             ],
             'widget' => 'autocomplete',
             'widget_config' => [
-                'component' => 'org.openpsa.directmarketing',
                 'class' => 'org_openpsa_directmarketing_campaign_dba',
                 'titlefield' => 'title',
                 'result_headers' => [
                     [
                         'name' => 'description',
-                        'title' => 'Description',
                     ],
                 ],
                 'searchfields' => [

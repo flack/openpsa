@@ -30,10 +30,8 @@
                 'result_headers' => [
                     [
                         'name' => 'name',
-                        'title' => 'name',
                     ], [
                         'name' => 'component',
-                        'title' => 'component',
                     ],
                 ],
                 'orders' => [

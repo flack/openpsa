@@ -58,7 +58,6 @@
             'widget' => 'autocomplete',
             'widget_config' => [
                 'class' => 'net_nemein_wiki_wikipage',
-                'component' => 'net.nemein.wiki',
                 'titlefield' => 'title',
                 'id_field' => 'name',
                 'searchfields' => [

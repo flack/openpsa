@@ -82,7 +82,6 @@
                 'result_headers' => [
                     [
                         'name' => 'location',
-                        'title' => 'location',
                     ],
                 ],
             ],

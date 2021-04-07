@@ -76,11 +76,9 @@
                 'result_headers' => [
                     [
                         'name' => 'email',
-                        'title' => 'Email',
                     ],
                     [
                         'name' => 'username',
-                        'title' => 'Username',
                     ],
                 ],
             ],

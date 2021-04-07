@@ -161,10 +161,8 @@
             'widget' => 'autocomplete',
             'widget_config' => [
                 'class' => 'org_openpsa_contacts_group_dba',
-                'component' => 'org.openpsa.contacts',
                 'result_headers' => [
                     [
-                        'title' => 'name',
                         'name' => 'name',
                     ],
                 ],

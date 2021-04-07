@@ -64,7 +64,6 @@
                 'class' => 'midcom_db_group',
                 'result_headers' => [
 	                [
-                        'title' => 'name',
                         'name' => 'name',
                     ],
                 ],

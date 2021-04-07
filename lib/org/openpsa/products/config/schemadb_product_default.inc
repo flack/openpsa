@@ -57,7 +57,6 @@
             'widget'  => 'autocomplete',
             'widget_config' => [
                 'class' => 'org_openpsa_products_product_group_dba',
-                'component' => 'org.openpsa.products',
                 'titlefield' => 'title',
                 'id_field' => 'id',
                 'searchfields' => [
@@ -65,7 +64,7 @@
                     'title',
                 ],
                 'result_headers' => [
-                    ['name' => 'code', 'title' => 'code'],
+                    ['name' => 'code'],
                 ],
                 'categorize_by_parent_label' => true,
             ],
@@ -126,11 +125,10 @@
             'widget' => 'autocomplete',
             'widget_config' => [
                 'class'       => 'midcom_db_group',
-                'component'   => 'midgard.admin.asgard',
                 'titlefield'  => 'official',
                 'id_field'     => 'id',
                 'result_headers' => [
-                    ['name' => 'name', 'title' => 'name'],
+                    ['name' => 'name'],
                 ],
                 'searchfields'  => [
                     'name',

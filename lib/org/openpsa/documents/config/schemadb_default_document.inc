@@ -84,7 +84,6 @@
             'widget'      => 'autocomplete',
             'widget_config' => [
                 'class'       => 'org_openpsa_documents_directory',
-                'component'   => 'org.openpsa.documents',
                 'id_field'     => 'id',
                 'constraints' => [
                     [
@@ -99,7 +98,6 @@
                 ],
                 'result_headers' => [
                     [
-                        'title' => 'title',
                         'name' => 'name',
                     ],
                 ],

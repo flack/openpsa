@@ -37,7 +37,7 @@ class autocompleteType extends AbstractType
             $widget_defaults = [
                 'creation_mode_enabled' => false,
                 'class' => null,
-                'component' => null,
+                'component' => null, // unused, for backward-compat only
                 'id_field' => 'guid',
                 'constraints' => [],
                 'result_headers' => [],
