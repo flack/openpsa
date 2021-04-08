@@ -183,7 +183,6 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
     private function _get_navigation_data() : array
     {
         $ret = [];
-        // Initialize the midcom_helper_nav or navigation access point
         $nap = new midcom_helper_nav();
 
         switch ($this->_request_data['navorder']) {
@@ -192,27 +191,17 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
                 break;
 
             case MIDCOM_NAVORDER_TOPICSFIRST:
-                // Sort the array to have the nodes first
                 $ret = [
-                    'nodes' => [],
-                    'leaves' => [],
+                    'nodes' => $nap->get_nodes($nap->get_current_node()),
+                    'leaves' => $nap->get_leaves($nap->get_current_node()),
                 ];
-                // Fall through
+                break;
 
             case MIDCOM_NAVORDER_ARTICLESFIRST:
-                // Sort the array to have the leaves first
-                if (!isset($ret['leaves'])) {
-                    $ret = [
-                        'leaves' => [],
-                        'nodes' => [],
-                    ];
-                }
-
-                // Get the nodes
-                $ret['nodes'] = $nap->get_nodes($nap->get_current_node());
-
-                // Get the leafs
-                $ret['leaves'] = $nap->get_leaves($nap->get_current_node());
+                $ret = [
+                    'leaves' => $nap->get_leaves($nap->get_current_node()),
+                    'nodes' => $nap->get_nodes($nap->get_current_node()),
+                ];
                 break;
 
             case MIDCOM_NAVORDER_SCORE:
