@@ -33,9 +33,9 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
     /**
      * Read the configuration
      */
-    public function __construct()
+    public function __construct(string $cookie_id)
     {
-        $this->_cookie_id .= midcom::get()->config->get('auth_backend_simple_cookie_id');
+        $this->_cookie_id .= $cookie_id;
     }
 
     public function read_session(Request $request) : ?array

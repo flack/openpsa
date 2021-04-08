@@ -106,21 +106,11 @@ class midcom_services_auth
     /**
      * Loads all configured authentication drivers.
      */
-    public function __construct(midcom_services_auth_acl $acl)
+    public function __construct(midcom_services_auth_acl $acl, midcom_services_auth_backend $backend, midcom_services_auth_frontend $frontend)
     {
         $this->acl = $acl;
-
-        $classname = midcom::get()->config->get('auth_backend');
-        if (!str_contains($classname, "_")) {
-            $classname = 'midcom_services_auth_backend_' . $classname;
-        }
-        $this->backend = new $classname();
-
-        $classname = midcom::get()->config->get('auth_frontend');
-        if (!str_contains($classname, "_")) {
-            $classname = 'midcom_services_auth_frontend_' . $classname;
-        }
-        $this->frontend = new $classname();
+        $this->backend = $backend;
+        $this->frontend = $frontend;
     }
 
     /**

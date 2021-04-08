@@ -53,10 +53,17 @@ services:
     auth.acl:
         class: midcom_services_auth_acl
 
+    auth.backend:
+        class: midcom_services_auth_backend_simple
+        arguments: ['%midcom.auth_backend_simple_cookie_id%']
+
+    auth.frontend:
+        class: midcom_services_auth_frontend_form
+
     auth:
         class: midcom_services_auth
         public: true
-        arguments: ['@auth.acl']
+        arguments: ['@auth.acl', '@auth.backend', '@auth.frontend']
 
     componentloader:
         class: midcom_helper__componentloader
