@@ -111,25 +111,23 @@ class midcom_services_auth
     private $frontend;
 
     /**
-     * Initialize the service:
-     *
-     * - Start up the login session service
-     * - Load the core privileges.
-     * - Initialize to the Midgard Authentication, then synchronize with the auth
-     *   drivers' currently authenticated user overriding the Midgard Auth if
-     *   necessary.
+     * Loads all configured authentication drivers.
      */
     public function __construct(midcom_services_auth_acl $acl)
     {
         $this->acl = $acl;
 
-        // Initialize from midgard
-        if (   midcom_connection::get_user()
-            && $user = $this->get_user(midcom_connection::get_user())) {
-            $this->set_user($user);
+        $classname = midcom::get()->config->get('auth_backend');
+        if (!str_contains($classname, "_")) {
+            $classname = 'midcom_services_auth_backend_' . $classname;
         }
+        $this->backend = new $classname($this);
 
-        $this->_prepare_authentication_drivers();
+        $classname = midcom::get()->config->get('auth_frontend');
+        if (!str_contains($classname, "_")) {
+            $classname = 'midcom_services_auth_frontend_' . $classname;
+        }
+        $this->frontend = new $classname();
     }
 
     /**
@@ -175,24 +173,6 @@ class midcom_services_auth
     {
         $this->user = $user;
         $this->admin = $user->is_admin();
-    }
-
-    /**
-     * Internal startup helper, loads all configured authentication drivers.
-     */
-    private function _prepare_authentication_drivers()
-    {
-        $classname = midcom::get()->config->get('auth_backend');
-        if (!str_contains($classname, "_")) {
-            $classname = 'midcom_services_auth_backend_' . $classname;
-        }
-        $this->backend = new $classname($this);
-
-        $classname = midcom::get()->config->get('auth_frontend');
-        if (!str_contains($classname, "_")) {
-            $classname = 'midcom_services_auth_frontend_' . $classname;
-        }
-        $this->frontend = new $classname();
     }
 
     /**
