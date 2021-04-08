@@ -159,7 +159,7 @@ class midcom_config_test
     private function ini_get_filesize(string $setting) : int
     {
         $result = ini_get($setting);
-        $last_char = substr($result, -1);
+        $last_char = $result[-1];
         if ($last_char == 'M') {
             $result = substr($result, 0, -1) * 1024 * 1024;
         } elseif ($last_char == 'K') {
