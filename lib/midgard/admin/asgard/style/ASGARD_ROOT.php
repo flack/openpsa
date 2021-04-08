@@ -1,5 +1,6 @@
 <?php
 $head = midcom::get()->head;
+$l10n = midcom::get()->i18n->get_l10n('midgard.admin.asgard');
 if (isset($data['view_title'])) {
     $head->set_pagetitle($data['view_title']);
 }
@@ -32,7 +33,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
 <html lang="<?php echo midcom::get()->i18n->get_current_language(); ?>">
     <head>
     <meta charset="UTF-8">
-    <title><?php echo $context->get_key(MIDCOM_CONTEXT_PAGETITLE); ?> (<?php echo $data['l10n']->get('asgard for'); ?> <(title)>)</title>
+    <title><?php echo $context->get_key(MIDCOM_CONTEXT_PAGETITLE); ?> (<?php echo $l10n->get('asgard for'); ?> <(title)>)</title>
         <link rel="shortcut icon" href="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/favicon.ico" />
         <?php
         $head->print_head_elements();
@@ -82,10 +83,10 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                                 echo "                                </li>\n";
                             } ?>
                                 <li>
-                                    <a href="&(prefix);__mfa/asgard/preferences/?return_uri=<?php echo midcom_connection::get_url('uri'); ?>" title="<?php echo $data['l10n']->get('user preferences'); ?>"><i class="fa fa-sliders"></i></a>
+                                    <a href="&(prefix);__mfa/asgard/preferences/?return_uri=<?php echo midcom_connection::get_url('uri'); ?>" title="<?php echo $l10n->get('user preferences'); ?>"><i class="fa fa-sliders"></i></a>
                                 </li>
                                 <li>
-                                    <a href="&(prefix);" title="<?php echo $data['l10n']->get('back to site'); ?>"><i class="fa fa-home"></i></a>
+                                    <a href="&(prefix);" title="<?php echo $l10n->get('back to site'); ?>"><i class="fa fa-home"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -122,10 +123,10 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                                 $creator = new midcom_db_person($view_metadata->get('creator'));
                                 $creator_string = "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$creator->guid}/\">$creator->name</a>";
                             } catch (midcom_error $e) {
-                                $creator_string = $data['l10n']->get('unknown person');
+                                $creator_string = $l10n->get('unknown person');
                             }
                             $created = (int) $view_metadata->get('created');
-                            printf($data['l10n']->get('created by %s on %s'), $creator_string, strftime('%c', $created) . ".\n");
+                            printf($l10n->get('created by %s on %s'), $creator_string, strftime('%c', $created) . ".\n");
 
                             $edited = (int) $view_metadata->get('revised');
                             $revision = $view_metadata->get('revision');
@@ -135,10 +136,10 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                                     $editor = new midcom_db_person($view_metadata->get('revisor'));
                                     $editor_string = "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$editor->guid}/\">$editor->name</a>";
                                 } catch (midcom_error $e) {
-                                    $editor_string = $data['l10n']->get('unknown person');
+                                    $editor_string = $l10n->get('unknown person');
                                 }
 
-                                printf($data['l10n']->get('last edited by %s on %s (revision %s)'), $editor_string, strftime('%c', $edited), $revision) . "\n";
+                                printf($l10n->get('last edited by %s on %s (revision %s)'), $editor_string, strftime('%c', $edited), $revision) . "\n";
                             }
                         }
                         ?>
@@ -160,7 +161,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
             <span class="copyrights">
                 <img src="<?php echo MIDCOM_STATIC_URL; ?>/midcom.services.toolbars/images/midgard-logo.png" alt="(M)" />
                 <strong><?php
-                    echo $data['l10n']->get('asgard for');
+                    echo $l10n->get('asgard for');
                     echo " Midgard " . mgd_version();
                 ?></strong>.
                 Copyright &copy; 1998 - <?php echo date('Y'); ?> <a href="http://www.midgard-project.org/" rel="powered">The Midgard Project</a>.
