@@ -95,7 +95,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             $this->edit_topic = new midcom_db_topic();
             $this->edit_topic->up = $this->_topic->id;
         }
-        midcom::get()->head->set_pagetitle($title);
 
         $this->_load_controller();
 
