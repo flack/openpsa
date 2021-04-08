@@ -95,10 +95,8 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
     /**
      * Read the file and return its contents
-     *
-     * @return string
      */
-    public function read()
+    public function read() : ?string
     {
         $blob = new blob($this->__object);
         return $blob->read_content();

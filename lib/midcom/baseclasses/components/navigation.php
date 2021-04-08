@@ -61,7 +61,7 @@ class midcom_baseclasses_components_navigation extends midcom_baseclasses_compon
      *
      * @return array NAP compliant list of leaves.
      */
-    public function get_leaves()
+    public function get_leaves() : array
     {
         return [];
     }
@@ -111,7 +111,7 @@ class midcom_baseclasses_components_navigation extends midcom_baseclasses_compon
      *   to the topic. NAP will abort loading this node and log the error accordingly.
      *   Return true if everything is fine.
      */
-    public function _on_set_object()
+    public function _on_set_object() : bool
     {
         return true;
     }

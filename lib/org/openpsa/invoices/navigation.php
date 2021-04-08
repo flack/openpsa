@@ -13,7 +13,7 @@
  */
 class org_openpsa_invoices_navigation extends midcom_baseclasses_components_navigation
 {
-    public function get_leaves()
+    public function get_leaves() : array
     {
         return [
             "{$this->_topic->id}:scheduled" => [

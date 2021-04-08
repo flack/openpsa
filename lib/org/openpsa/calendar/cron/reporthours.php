@@ -27,7 +27,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
      */
     private $root_event;
 
-    public function _on_initialize()
+    public function _on_initialize() : bool
     {
         $this->root_event = org_openpsa_calendar_interface::find_root_event();
         return true;

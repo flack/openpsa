@@ -64,7 +64,7 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
      *
      * @return boolean Returns true, if initialization was successful, false to abort execution
      */
-    public function _on_initialize()
+    public function _on_initialize() : bool
     {
         return true;
     }

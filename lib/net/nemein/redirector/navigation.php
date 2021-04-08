@@ -13,7 +13,7 @@
  */
 class net_nemein_redirector_navigation extends midcom_baseclasses_components_navigation
 {
-    public function get_leaves()
+    public function get_leaves() : array
     {
         $leaves = [];
         $qb = net_nemein_redirector_tinyurl_dba::new_query_builder();

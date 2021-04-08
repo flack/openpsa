@@ -15,7 +15,7 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_products_handler_configuration extends midcom_baseclasses_components_handler_configuration_recreate
 {
-    public function _load_datamanagers()
+    public function _load_datamanagers() : array
     {
         return [
             org_openpsa_products_product_group_dba::class => new datamanager($this->_request_data['schemadb_group']),
@@ -40,7 +40,7 @@ class org_openpsa_products_handler_configuration extends midcom_baseclasses_comp
         return $objects;
     }
 
-    public function _load_objects()
+    public function _load_objects() : array
     {
         return $this->_load_objects_group($this->_request_data['root_group']);
     }

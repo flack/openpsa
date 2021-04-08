@@ -21,14 +21,14 @@ abstract class midcom_baseclasses_components_handler_configuration_recreate exte
      *
      * @return midcom\datamanager\datamanager[]
      */
-    abstract public function _load_datamanagers();
+    abstract public function _load_datamanagers() : array;
 
     /**
      * Must return an array of DBA objects.
      *
      * @return midcom_core_dbaobject[]
      */
-    abstract public function _load_objects();
+    abstract public function _load_objects() : array;
 
     /**
      * Handler for regenerating all derived images used in the folder.

@@ -13,7 +13,7 @@
  */
 class org_openpsa_sales_navigation extends midcom_baseclasses_components_navigation
 {
-    public function get_leaves()
+    public function get_leaves() : array
     {
         $leaves = [];
         $modes = ['active', 'won', 'delivered', 'invoiced', 'lost'];

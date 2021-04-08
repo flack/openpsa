@@ -15,14 +15,14 @@ use midcom\datamanager\datamanager;
  */
 class net_nehmer_blog_handler_configuration extends midcom_baseclasses_components_handler_configuration_recreate
 {
-    public function _load_datamanagers()
+    public function _load_datamanagers() : array
     {
         return [
             midcom_db_article::class => new datamanager($this->_request_data['schemadb'])
         ];
     }
 
-    public function _load_objects()
+    public function _load_objects() : array
     {
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_request_data['topic']->id);

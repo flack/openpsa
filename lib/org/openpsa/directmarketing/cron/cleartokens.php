@@ -15,7 +15,7 @@ class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_co
 {
     private $cutoff;
 
-    public function _on_initialize()
+    public function _on_initialize() : bool
     {
         $days = $this->_config->get('send_token_max_age');
         if ($days == 0) {

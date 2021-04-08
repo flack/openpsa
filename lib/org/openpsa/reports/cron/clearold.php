@@ -15,7 +15,7 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
 {
     private $cutoff;
 
-    public function _on_initialize()
+    public function _on_initialize() : bool
     {
         $days = $this->_config->get('temporary_report_max_age');
         if ($days == 0) {

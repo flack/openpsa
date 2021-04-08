@@ -18,7 +18,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
     /**
      * Returns a static leaf list with access to the archive.
      */
-    public function get_leaves()
+    public function get_leaves() : array
     {
         $leaves = [];
 
