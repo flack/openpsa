@@ -22,17 +22,11 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class midcom_services_auth_backend
 {
     /**
-     * @var midcom_services_auth
+     * Internal cache of all loaded users, indexed by their identifiers.
+     *
+     * @var Array
      */
-    protected $auth;
-
-    /**
-     * The constructor should do only basic initialization.
-     */
-    public function __construct(midcom_services_auth $auth)
-    {
-        $this->auth = $auth;
-    }
+    private $_user_cache = [];
 
     /**
      * This function, always called first in the order of execution, should check
@@ -71,6 +65,38 @@ abstract class midcom_services_auth_backend
     abstract public function update_session();
 
     /**
+     * Load a user from the database and returns an object instance.
+     *
+     * @param mixed $id A valid identifier for a MidgardPerson: An existing midgard_person class
+     *     or subclass thereof, a Person ID or GUID or a midcom_core_user identifier.
+     */
+    public function get_user($id) : ?midcom_core_user
+    {
+        $param = $id;
+
+        if (isset($param->id)) {
+            $id = $param->id;
+        } elseif (!is_string($id) && !is_int($id)) {
+            debug_add('The passed argument was an object of an unsupported type: ' . gettype($param), MIDCOM_LOG_WARN);
+            debug_print_r('Complete object dump:', $param);
+            return null;
+        }
+        if (!array_key_exists($id, $this->_user_cache)) {
+            try {
+                if (is_a($param, midcom_db_person::class)) {
+                    $param = $param->__object;
+                }
+                $this->_user_cache[$id] = new midcom_core_user($param);
+            } catch (midcom_error $e) {
+                // Keep it silent while missing user object can mess here
+                $this->_user_cache[$id] = null;
+            }
+        }
+
+        return $this->_user_cache[$id];
+    }
+
+    /**
      * Checks for a running login session.
      */
     public function check_for_active_login_session(Request $request) : ?midcom_core_user
@@ -86,7 +112,7 @@ abstract class midcom_services_auth_backend
             return null;
         }
 
-        if (!$user = $this->auth->get_user($data['userid'])) {
+        if (!$user = $this->get_user($data['userid'])) {
             debug_add("The user ID {$data['userid']} is invalid, could not load the user from the database, assuming tampered session.",
             MIDCOM_LOG_ERROR);
             $this->delete_session();
@@ -140,7 +166,7 @@ abstract class midcom_services_auth_backend
             return null;
         }
 
-        return $this->auth->get_user($user->person);
+        return $this->get_user($user->person);
     }
 
     /**

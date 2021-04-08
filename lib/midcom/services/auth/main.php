@@ -70,13 +70,6 @@ class midcom_services_auth
     private $_group_cache = [];
 
     /**
-     * Internal cache of all loaded users, indexed by their identifiers.
-     *
-     * @var Array
-     */
-    private $_user_cache = [];
-
-    /**
      * This flag indicates if sudo mode is active during execution. This will only be the
      * case if the sudo system actually grants this privileges, and only until components
      * release the rights again. This does override the full access control system at this time
@@ -121,7 +114,7 @@ class midcom_services_auth
         if (!str_contains($classname, "_")) {
             $classname = 'midcom_services_auth_backend_' . $classname;
         }
-        $this->backend = new $classname($this);
+        $this->backend = new $classname();
 
         $classname = midcom::get()->config->get('auth_frontend');
         if (!str_contains($classname, "_")) {
@@ -554,28 +547,7 @@ class midcom_services_auth
      */
     public function get_user($id) : ?midcom_core_user
     {
-        $param = $id;
-
-        if (isset($param->id)) {
-            $id = $param->id;
-        } elseif (!is_string($id) && !is_int($id)) {
-            debug_add('The passed argument was an object of an unsupported type: ' . gettype($param), MIDCOM_LOG_WARN);
-            debug_print_r('Complete object dump:', $param);
-            return null;
-        }
-        if (!array_key_exists($id, $this->_user_cache)) {
-            try {
-                if (is_a($param, midcom_db_person::class)) {
-                    $param = $param->__object;
-                }
-                $this->_user_cache[$id] = new midcom_core_user($param);
-            } catch (midcom_error $e) {
-                // Keep it silent while missing user object can mess here
-                $this->_user_cache[$id] = null;
-            }
-        }
-
-        return $this->_user_cache[$id];
+        return $this->backend->get_user($id);
     }
 
     /**
