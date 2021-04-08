@@ -119,15 +119,13 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * Looks up a node in the cache and returns it. Not existent
      * keys are caught in this call as well, so you do not need
      * to call exists first.
-     *
-     * @return mixed The cached value on success, false on failure.
      */
-    public function get_node(string $key)
+    public function get_node(string $key) : ?array
     {
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($key);
         if (!isset($result[$lang_id])) {
-            return false;
+            return null;
         }
 
         return $result[$lang_id];
@@ -137,15 +135,13 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * Looks up a node in the cache and returns it. Not existent
      * keys are caught in this call as well, so you do not need
      * to call exists first.
-     *
-     * @return mixed The cached value on success, false on failure.
      */
-    public function get_leaves(string $key)
+    public function get_leaves(string $key) : ?array
     {
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($key);
         if (!isset($result[$lang_id])) {
-            return false;
+            return null;
         }
 
         return $result[$lang_id];
@@ -187,12 +183,13 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     /**
      * Get a given array by GUID from the cache.
      */
-    public function get_guid(string $guid)
+    public function get_guid(string $guid) : ?array
     {
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->backend->fetch($guid);
+
         if (!isset($result[$lang_id])) {
-            return false;
+            return null;
         }
         return $result[$lang_id];
     }

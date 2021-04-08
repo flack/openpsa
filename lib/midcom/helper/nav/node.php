@@ -62,7 +62,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
     public function get_leaves() : array
     {
         $leaves = $this->get_cache()->get_leaves("{$this->id}-leaves");
-        $from_cache = (false !== $leaves);
+        $from_cache = (null !== $leaves);
         if (!$from_cache) {
             debug_add('The leaves have not yet been loaded from the database, we do this now.');
 
@@ -179,7 +179,6 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
 
     /**
      * @param midcom_db_topic $topic
-     * @return midcom_baseclasses_components_navigation
      */
     private function get_component_nap($topic) : ?midcom_baseclasses_components_navigation
     {
