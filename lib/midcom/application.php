@@ -333,11 +333,11 @@ class midcom_application extends Kernel
      */
     public function disable_limits()
     {
-        $stat = @ini_set('max_execution_time', $this->config->get('midcom_max_execution_time'));
+        $stat = ini_set('max_execution_time', $this->config->get('midcom_max_execution_time'));
         if (false === $stat) {
             debug_add('ini_set("max_execution_time", ' . $this->config->get('midcom_max_execution_time') . ') returned false', MIDCOM_LOG_WARN);
         }
-        $stat = @ini_set('memory_limit', $this->config->get('midcom_max_memory'));
+        $stat = ini_set('memory_limit', $this->config->get('midcom_max_memory'));
         if (false === $stat) {
             debug_add('ini_set("memory_limit", ' . $this->config->get('midcom_max_memory') . ') returned false', MIDCOM_LOG_WARN);
         }
