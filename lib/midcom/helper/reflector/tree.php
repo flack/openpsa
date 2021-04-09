@@ -16,24 +16,18 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Creates a QB instance for root objects
      */
-    public function _root_objects_qb(bool $deleted)
+    public function _root_objects_qb()
     {
         $schema_type = $this->mgdschema_class;
-        $root_classes = self::get_root_classes();
-        if (!in_array($schema_type, $root_classes)) {
-            debug_add("Type {$schema_type} is not a \"root\" type", MIDCOM_LOG_ERROR);
-            return false;
-        }
 
-        $qb = $this->_get_type_qb($schema_type, $deleted);
+        $qb = $this->_get_type_qb($schema_type, false);
         if (!$qb) {
             debug_add("Could not get QB for type '{$schema_type}'", MIDCOM_LOG_ERROR);
             return false;
         }
 
         // Figure out constraint to use to get root level objects
-        $upfield = midgard_object_class::get_property_up($schema_type);
-        if (!empty($upfield)) {
+        if ($upfield = midgard_object_class::get_property_up($schema_type)) {
             $uptype = $this->_mgd_reflector->get_midgard_type($upfield);
             switch ($uptype) {
                 case MGD_TYPE_STRING:
@@ -123,7 +117,16 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
         $child_objects = [];
         foreach ($resolver->get_child_classes() as $schema_type) {
-            if ($type_children = $resolver->_get_child_objects_type($schema_type, $object, $deleted)) {
+            $qb = $resolver->_child_objects_type_qb($schema_type, $object, $deleted);
+            if (!$qb) {
+                debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
+                continue;
+            }
+
+            // Sort by title and name if available
+            self::add_schema_sorts_to_qb($qb, $schema_type);
+
+            if ($type_children = $qb->execute()) {
                 $child_objects[$schema_type] = $type_children;
             }
         }
@@ -267,25 +270,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
 
         return $qb;
-    }
-
-    /**
-     * Used by get_child_objects
-     *
-     * @return array of objects
-     */
-    public function _get_child_objects_type(string $schema_type, $for_object, bool $deleted) : array
-    {
-        $qb = $this->_child_objects_type_qb($schema_type, $for_object, $deleted);
-        if (!$qb) {
-            debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
-            return [];
-        }
-
-        // Sort by title and name if available
-        self::add_schema_sorts_to_qb($qb, $schema_type);
-
-        return $qb->execute();
     }
 
     /**

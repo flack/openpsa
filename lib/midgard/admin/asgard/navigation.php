@@ -131,7 +131,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      */
     private function _list_root_elements(midcom_helper_reflector_tree $ref)
     {
-        $qb = $ref->_root_objects_qb(false);
+        $qb = $ref->_root_objects_qb();
 
         if (   !$qb
             || !($total = $qb->count_unchecked())) {

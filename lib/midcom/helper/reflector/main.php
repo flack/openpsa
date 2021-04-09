@@ -16,7 +16,7 @@ use midgard\portable\api\mgdobject;
  */
 class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 {
-    public $mgdschema_class;
+    public $mgdschema_class = '';
 
     /**
      * @var midgard_reflection_property

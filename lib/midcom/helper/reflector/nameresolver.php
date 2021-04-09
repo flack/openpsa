@@ -225,7 +225,7 @@ class midcom_helper_reflector_nameresolver
             return false;
         }
         if ($parent === null) {
-            $qb = midcom_helper_reflector_tree::get($schema_type)->_root_objects_qb(false);
+            $qb = midcom_helper_reflector_tree::get($schema_type)->_root_objects_qb();
         } else {
             $resolver = midcom_helper_reflector_tree::get($schema_type);
             $qb = $resolver->_child_objects_type_qb($schema_type, $parent, false);
