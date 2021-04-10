@@ -89,19 +89,12 @@ class midcom_helper_reflector_nameresolver
         // Start the magic
         midcom::get()->auth->request_sudo('midcom.helper.reflector');
         $parent = $this->_object->get_parent();
-        $sibling_classes = $this->get_sibling_classes($parent);
-        if ($sibling_classes === null) {
-            // This should not happen, logging error and returning true (even though it's potentially dangerous)
-            debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, returning true and supposing user knows what he is doing", MIDCOM_LOG_ERROR);
-            $stat = true;
-        } else {
-            $stat = $this->check_sibling_classes($name, $sibling_classes, $parent);
-        }
+        $stat = $this->check_sibling_classes($name, $this->get_sibling_classes($parent), $parent);
         midcom::get()->auth->drop_sudo();
         return $stat;
     }
 
-    private function get_sibling_classes($parent = null) : ?array
+    private function get_sibling_classes($parent = null) : array
     {
         if (!empty($parent->guid)) {
             // We have parent, check siblings
@@ -120,7 +113,8 @@ class midcom_helper_reflector_nameresolver
                 return $root_classes;
             }
         }
-        return null;
+        debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes", MIDCOM_LOG_ERROR);
+        return [];
     }
 
     private function check_sibling_classes(string $name, array $schema_types, $parent = null) : bool
@@ -218,8 +212,7 @@ class midcom_helper_reflector_nameresolver
 
     private function get_sibling_qb(string $schema_type, $parent = null)
     {
-        $dummy = new $schema_type();
-        $child_name_property = midcom_helper_reflector::get_name_property($dummy);
+        $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
         if (empty($child_name_property)) {
             // This sibling class does not use names
             return false;
@@ -270,39 +263,24 @@ class midcom_helper_reflector_nameresolver
         // Look for siblings with similar names and see if they have higher i.
         midcom::get()->auth->request_sudo('midcom.helper.reflector');
         $parent = $this->_object->get_parent();
-        $sibling_classes = $this->get_sibling_classes($parent);
-        if ($sibling_classes === null) {
-            // This should not happen, logging error and returning true (even though it's potentially dangerous)
-            midcom::get()->auth->drop_sudo();
-            debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, letting higher level decide", MIDCOM_LOG_ERROR);
-            return [$i, $base_name];
-        }
-        foreach ($sibling_classes as $schema_type) {
-            $i = $this->process_schema_type($this->get_sibling_qb($schema_type, $parent), $i, $schema_type, $base_name, $extension);
+        foreach ($this->get_sibling_classes($parent) as $schema_type) {
+            if ($qb = $this->get_sibling_qb($schema_type, $parent)) {
+                $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
+
+                $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
+                if ($siblings = $qb->execute()) {
+                    $sibling = $siblings[0];
+                    $sibling_name = $sibling->{$child_name_property};
+
+                    $sibling_i = $this->_parse_filename($sibling_name, $extension)[0];
+                    if ($sibling_i >= $i) {
+                        $i = $sibling_i + 1;
+                    }
+                }
+            }
         }
         midcom::get()->auth->drop_sudo();
 
         return [$i, $base_name];
-    }
-
-    private function process_schema_type($qb, int $i, string $schema_type, string $base_name, string $extension) : int
-    {
-        if (!$qb) {
-            return $i;
-        }
-        $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
-
-        $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
-        $siblings = $qb->execute();
-        if (!empty($siblings)) {
-            $sibling = $siblings[0];
-            $sibling_name = $sibling->{$child_name_property};
-
-            $sibling_i = $this->_parse_filename($sibling_name, $extension)[0];
-            if ($sibling_i >= $i) {
-                $i = $sibling_i + 1;
-            }
-        }
-        return $i;
     }
 }
