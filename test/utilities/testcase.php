@@ -114,7 +114,7 @@ abstract class openpsa_testcase extends TestCase
 
         $result = midcom::get()->handle($request, KernelInterface::SUB_REQUEST);
 
-        $this->assertTrue($result !== false, $component . ' handle returned false on ./' . implode('/', $args) . '/');
+        $this->assertNotFalse($result, $component . ' handle returned false on ./' . implode('/', $args) . '/');
         $data = $context->get_custom_key('request_data');
         $data['__openpsa_testcase_response'] = $result;
 

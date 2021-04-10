@@ -234,7 +234,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                         break;
                     }
                 }
-                $this->assertTrue(is_object($current_item), 'Could not find item with ' . $key . ' == ' . $value);
+                $this->assertIsObject($current_item, 'Could not find item with ' . $key . ' == ' . $value);
 
                 foreach ($values as $field => $value) {
                     $this->assertEquals($value, $current_item->$field, 'Difference in invoice item field ' . $field);

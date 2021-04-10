@@ -48,7 +48,7 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
 
         // now we should got a cancelation invoice
         $invoice->refresh();
-        $this->assertTrue(($invoice->cancelationInvoice > 0), 'Missing cancelation invoice');
+        $this->assertGreaterThan(0, $invoice->cancelationInvoice, 'Missing cancelation invoice');
         $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
         $this->register_object($cancelation_invoice);
 

@@ -204,7 +204,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
     {
         $accounthelper = new org_openpsa_user_accounthelper;
         $password = $accounthelper->generate_safe_password();
-        $this->assertTrue(is_string($password));
+        $this->assertIsString($password);
         $this->assertEquals(8, strlen($password));
         $this->assertTrue($accounthelper->check_password_strength($password));
     }

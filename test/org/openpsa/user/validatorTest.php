@@ -70,7 +70,7 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
             "new_password" => 'as'
         ];
         $result = $val->validate_edit_form($fields);
-        $this->assertTrue(is_array($result));
+        $this->assertIsArray($result);
 
         midcom::get()->auth->drop_sudo();
     }
