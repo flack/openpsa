@@ -493,7 +493,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $tags[$tag] = $html_tag['href'];
         }
         if (!empty($tags)) {
-            net_nemein_tag_handler::tag_object($article, $tags);
+            net_nemein_tag_handler::tag_object($article, $tags, $this->_node->component);
         }
     }
 }
