@@ -3,7 +3,7 @@ $i18n = midcom::get()->i18n;
 $head = midcom::get()->head;
 $context = midcom_core_context::get();
 
-$width = midgard_admin_asgard_plugin::get_preference('openpsa2_offset');
+$width = midgard_admin_asgard_plugin::get_preference('openpsa2_offset', false);
 if ($width !== false) {
     $navigation_width = $width - 2;
 }

@@ -15,6 +15,6 @@ foreach ($providers as $config) {
 } ?>
 <script type="text/javascript">
 org_openpsa_layout.initialize_search(<?php echo json_encode($providers) ?>,
-    "<?php echo midgard_admin_asgard_plugin::get_preference('openpsa2_search_provider') ?>"
+    "<?php echo midgard_admin_asgard_plugin::get_preference('openpsa2_search_provider', false) ?>"
 );
 </script>

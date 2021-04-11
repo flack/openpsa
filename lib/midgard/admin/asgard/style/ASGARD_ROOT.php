@@ -6,15 +6,13 @@ if (isset($data['view_title'])) {
 }
 
 // Check the user preference and configuration
-if (   midgard_admin_asgard_plugin::get_preference('escape_frameset')
-    || (   midgard_admin_asgard_plugin::get_preference('escape_frameset') !== '0'
-        && $data['config']->get('escape_frameset'))) {
+if (midgard_admin_asgard_plugin::get_preference('escape_frameset')) {
     $head->add_jsonload('if(top.frames.length != 0 && top.location.href != this.location.href){top.location.href = this.location.href}');
 }
 
 $pref_found = false;
 
-if ($width = midgard_admin_asgard_plugin::get_preference('offset')) {
+if ($width = midgard_admin_asgard_plugin::get_preference('offset', false)) {
     $navigation_width = $width - 31;
     $content_offset = $width + 1;
     $pref_found = true;

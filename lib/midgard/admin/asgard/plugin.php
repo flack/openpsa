@@ -20,7 +20,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         midcom::get()->cache->content->no_cache();
 
         // Preferred language
-        if ($language = self::get_preference('interface_language')) {
+        if ($language = self::get_preference('interface_language', false)) {
             $this->_i18n->set_language($language);
         }
 
@@ -49,7 +49,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         self::get_default_mode($data);
 
         // Preferred language
-        if (($language = self::get_preference('interface_language'))) {
+        if ($language = self::get_preference('interface_language', false)) {
             midcom::get()->i18n->set_language($language);
         }
 
@@ -133,18 +133,9 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     public static function get_default_mode(array &$data) : string
     {
         //only set mode once per request
-        if (!empty($data['default_mode'])) {
-            return $data['default_mode'];
+        if (empty($data['default_mode'])) {
+            $data['default_mode'] = self::get_preference('edit_mode') ? 'edit' : 'view';
         }
-        $data['default_mode'] = 'view';
-
-        if (   !self::get_preference('edit_mode')
-            && midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config')->get('edit_mode') == 1) {
-            $data['default_mode'] = 'edit';
-        } elseif (self::get_preference('edit_mode') == 1) {
-            $data['default_mode'] = 'edit';
-        }
-
         return $data['default_mode'];
     }
 
@@ -286,18 +277,21 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     /**
      * Get a preference for the current user
      */
-    public static function get_preference(string $preference)
+    public static function get_preference(string $preference, bool $fallback_to_config = true)
     {
         static $preferences = [];
 
-        if (!midcom::get()->auth->user) {
-            return;
+        if (midcom::get()->auth->user && !array_key_exists($preference, $preferences)) {
+            $person = midcom_db_person::get_cached(midcom::get()->auth->user->guid);
+            $preferences[$preference] = $person->get_parameter('midgard.admin.asgard:preferences', $preference);
         }
 
-        if (!isset($preferences[$preference])) {
-            $person = midcom_db_person::get_cached(midcom::get()->auth->user->guid);
-
-            $preferences[$preference] = $person->get_parameter('midgard.admin.asgard:preferences', $preference);
+        if (!array_key_exists($preference, $preferences)) {
+            if ($fallback_to_config) {
+                $preferences[$preference] = midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config')->get($preference);
+            } else {
+                $preferences[$preference] = null;
+            }
         }
 
         return $preferences[$preference];

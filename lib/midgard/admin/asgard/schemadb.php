@@ -135,16 +135,12 @@ class midgard_admin_asgard_schemadb extends schemabuilder
 
         // Check the user preference and configuration
         if (   in_array($key, ['content', 'description'])
-            && (    midgard_admin_asgard_plugin::get_preference('tinymce_enabled')
-                || (   midgard_admin_asgard_plugin::get_preference('tinymce_enabled') !== '0'
-                    && $this->_config->get('tinymce_enabled')))) {
+            && midgard_admin_asgard_plugin::get_preference('tinymce_enabled')) {
             $this->schema['fields'][$key]['widget'] = 'tinymce';
         }
 
         if (   in_array($key, ['value', 'code'])
-            && (    midgard_admin_asgard_plugin::get_preference('codemirror_enabled')
-                || (   midgard_admin_asgard_plugin::get_preference('codemirror_enabled') !== '0'
-                    && $this->_config->get('codemirror_enabled')))) {
+            && midgard_admin_asgard_plugin::get_preference('codemirror_enabled')) {
             $this->schema['fields'][$key]['widget'] = 'codemirror';
         }
     }

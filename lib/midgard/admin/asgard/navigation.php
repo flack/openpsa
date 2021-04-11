@@ -287,10 +287,10 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         // Get the types that might have special display conditions
         // @TODO: Should this just include to the configuration selection, although it would break the consistency
         // of other similar preference sets, which simply override the global settings?
-        $selected = midgard_admin_asgard_plugin::get_preference('midgard_types') ?: $this->_config->get('midgard_types');
+        $selected = midgard_admin_asgard_plugin::get_preference('midgard_types');
 
         // Get the inclusion/exclusion model
-        $model = midgard_admin_asgard_plugin::get_preference('midgard_types_model') ?: $this->_config->get('midgard_types_model');
+        $model = midgard_admin_asgard_plugin::get_preference('midgard_types_model');
         $exclude = ($model == 'exclude');
 
         $label_mapping = midgard_admin_asgard_plugin::get_root_classes();
@@ -305,7 +305,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
 
         // Get the possible regular expression
-        $regexp = midgard_admin_asgard_plugin::get_preference('midgard_types_regexp') ?: $this->_config->get('midgard_types_regexp');
+        $regexp = midgard_admin_asgard_plugin::get_preference('midgard_types_regexp');
 
         // "Convert" quickly to PERL regular expression
         if (!preg_match('/^[\/|]/', $regexp)) {
@@ -382,9 +382,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $url = midcom_connection::get_url('self') . "__mfa/asgard/{$type}/";
             echo "    <li class=\"mgdschema-type\">";
 
-            $dbaclass = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($type);
-            if (   $dbaclass
-                && class_exists($dbaclass)) {
+            if ($dbaclass = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($type)) {
                 $object = new $dbaclass;
             } else {
                 $object = new $type;
