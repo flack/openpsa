@@ -10,6 +10,7 @@ use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
 use midcom\datamanager\controller;
+use midcom\datamanager\validation\phpValidator;
 
 /**
  * Component configuration handler
@@ -227,20 +228,9 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             $val = $current[$key];
 
             if (is_array($val)) {
-                $tmpfile = tempnam(midcom::get()->config->get('midcom_tempdir'), 'midgard_admin_asgard_handler_component_configuration_');
-                file_put_contents($tmpfile, "<?php\n\$data = array({$newval}\n);\n?>");
-
-                exec("php -l {$tmpfile} 2>&1", $parse_results, $retval);
-                debug_print_r("'php -l {$tmpfile}' returned:", $parse_results);
-                unlink($tmpfile);
-
-                if ($retval !== 0) {
-                    $parse_results = array_shift($parse_results);
-
-                    if (strstr($parse_results, 'Parse error')) {
-                        $line = preg_replace('/^.+?on line (\d+?)$/', '\1', $parse_results);
-                        $result[$key] = sprintf($this->_i18n->get_string('type php: parse error in line %s', 'midcom.datamanager'), $line);
-                    }
+                $code = "<?php\n\$data = array({$newval}\n);\n?>";
+                if ($error = phpValidator::lint($code)) {
+                    $result[$key] = $error;
                 }
             }
         }

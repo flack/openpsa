@@ -16,28 +16,31 @@ class phpValidator extends ConstraintValidator
         if (trim($value) == '') {
             return;
         }
-        $tmpfile = tempnam(midcom::get()->config->get('midcom_tempdir'), 'midcom_datamanager_validator_php_');
-        file_put_contents($tmpfile, $value);
+        if ($error = self::lint($value)) {
+            $this->context
+                ->buildViolation($error)
+                ->addViolation();
+        }
+    }
+
+    public static function lint(string $input) : ?string
+    {
         $return_status = 0;
         $parse_results = [];
-        exec("php -l {$tmpfile} 2>&1", $parse_results, $return_status);
-        unlink($tmpfile);
-
-        debug_print_r("'php -l {$tmpfile}' returned:", $parse_results);
-
+        exec(sprintf('echo %s | php -l', escapeshellarg($input)) . " 2>&1", $parse_results, $return_status);
+        debug_print_r("php -l returned:", $parse_results);
         if ($return_status !== 0) {
             $parse_result = array_pop($parse_results);
-            if (str_contains($parse_result, 'No syntax errors detected in ' . $tmpfile)) {
+            if (str_contains($parse_result, 'No syntax errors detected in ')) {
                 // We have an error, but it's most likely a false positive, e.g. a PHP startup error
-                return;
+                return null;
             }
             $parse_result = array_pop($parse_results);
             $line = preg_replace('/^.+?on line (\d+).*?$/s', '\1', $parse_result);
             $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
 
-            $this->context
-                ->buildViolation(sprintf($l10n->get('type php: parse error in line %s'), $line))
-                ->addViolation();
+            return sprintf($l10n->get('type php: parse error in line %s'), $line);
         }
+        return null;
     }
 }
