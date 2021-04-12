@@ -23,6 +23,8 @@ abstract class midcom_services_rcs_backend
 
     /**
      * The current object
+     *
+     * @var midcom_core_dbaobject
      */
     protected $object;
 
@@ -31,7 +33,7 @@ abstract class midcom_services_rcs_backend
      */
     protected $config;
 
-    public function __construct($object, midcom_services_rcs_config $config)
+    public function __construct(midcom_core_dbaobject $object, midcom_services_rcs_config $config)
     {
         $this->object = $object;
         $this->config = $config;

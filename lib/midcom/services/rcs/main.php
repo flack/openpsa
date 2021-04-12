@@ -39,7 +39,7 @@ class midcom_services_rcs
     /**
      * Factory function for the handler object.
      */
-    public function load_backend($object) : midcom_services_rcs_backend
+    public function load_backend(midcom_core_dbaobject $object) : midcom_services_rcs_backend
     {
         if (!$object->guid) {
             $class = midcom_services_rcs_backend_null::class;
@@ -51,10 +51,8 @@ class midcom_services_rcs
 
     /**
      * Create or update the RCS file for the object.
-     *
-     * @param object $object the midgard object to be saved
      */
-    public function update($object, string $message = null) : bool
+    public function update(midcom_core_dbaobject $object, string $message = null) : bool
     {
         if (!$this->config->use_rcs()) {
             return true;
@@ -75,6 +73,6 @@ class midcom_services_rcs
      */
     public static function is_field_showable(string $field) : bool
     {
-        return ($field !== 'id' && $field !== 'guid');
+        return !in_array($field, ['id', 'guid'], true);
     }
 }
