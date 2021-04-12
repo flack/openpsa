@@ -28,38 +28,28 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/libconfig.css');
     }
 
-    private function _prepare_toolbar(string $handler_id)
+    private function _prepare_toolbar(bool $is_view)
     {
         $view_url = $this->router->generate('components_configuration', ['component' => $this->_request_data['name']]);
         $edit_url = $this->router->generate('components_configuration_edit', ['component' => $this->_request_data['name']]);
-        $buttons = [
-            [
-                MIDCOM_TOOLBAR_URL => $view_url,
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'eye',
-            ],
-            [
-                MIDCOM_TOOLBAR_URL => $edit_url,
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
-            ]
-        ];
+        $buttons = [[
+            MIDCOM_TOOLBAR_URL => $view_url,
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
+            MIDCOM_TOOLBAR_GLYPHICON => 'eye',
+            MIDCOM_TOOLBAR_ENABLED => !$is_view
+        ], [
+            MIDCOM_TOOLBAR_URL => $edit_url,
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
+            MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
+            MIDCOM_TOOLBAR_ENABLED => $is_view
+        ]];
         $this->_request_data['asgard_toolbar']->add_items($buttons);
-
-        switch ($handler_id) {
-            case 'components_configuration_edit':
-                $this->_request_data['asgard_toolbar']->disable_item($edit_url);
-                break;
-            case 'components_configuration':
-                $this->_request_data['asgard_toolbar']->disable_item($view_url);
-                break;
-        }
     }
 
     /**
      * Set the breadcrumb data
      */
-    private function _prepare_breadcrumbs(string $handler_id)
+    private function _prepare_breadcrumbs()
     {
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('components'), $this->_l10n->get('components'));
@@ -72,21 +62,14 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             $this->router->generate('components_configuration', ['component' => $this->_request_data['name']]),
             $this->_l10n_midcom->get('component configuration')
         );
-
-        if ($handler_id == 'components_configuration_edit') {
-            $this->add_breadcrumb(
-                $this->router->generate('components_configuration_edit', ['component' => $this->_request_data['name']]),
-                $this->_l10n_midcom->get('edit')
-            );
-        }
     }
 
-    private function _load_configs(string $component, $object = null) : midcom_helper_configuration
+    private function _load_configs(string $component, midcom_db_topic $topic = null) : midcom_helper_configuration
     {
         $config = midcom_baseclasses_components_configuration::get($component, 'config');
 
-        if ($object) {
-            $topic_config = new midcom_helper_configuration($object, $component);
+        if ($topic) {
+            $topic_config = new midcom_helper_configuration($topic, $component);
             $config->store($topic_config->_local, false);
         }
 
@@ -107,7 +90,10 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             // TODO: Log error on deprecated config schema?
         } else {
             // Create dummy schema. Naughty component would not provide config schema.
-            $schemadb = schemadb::from_path("file:/midgard/admin/asgard/config/schemadb_libconfig.inc");
+            $schemadb = new schemadb(['default' => [
+                'description' => 'configuration for ' . $this->_request_data['name'],
+                'fields'      => []
+            ]]);
         }
         $schema = $schemadb->get($schemaname);
         $schema->set('l10n_db', $this->_request_data['name']);
@@ -150,14 +136,14 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $dm->get_controller();
     }
 
-    public function _handler_view(string $handler_id, string $component, array &$data)
+    public function _handler_view(string $component, array &$data)
     {
         $data['name'] = $component;
         $data['config'] = $this->_load_configs($data['name']);
 
         $data['view_title'] = sprintf($this->_l10n->get('configuration for %s'), $data['name']);
-        $this->_prepare_toolbar($handler_id);
-        $this->_prepare_breadcrumbs($handler_id);
+        $this->_prepare_toolbar(true);
+        $this->_prepare_breadcrumbs();
         return $this->get_response();
     }
 
@@ -170,12 +156,12 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
         foreach ($data['config']->_global as $key => $value) {
             $data['key'] = $this->_i18n->get_string($key, $data['name']);
-            $data['global'] = $this->_detect($value);
+            $data['global'] = $this->render($value);
 
             if (isset($data['config']->_local[$key])) {
-                $data['local'] = $this->_detect($data['config']->_local[$key]);
+                $data['local'] = $this->render($data['config']->_local[$key]);
             } else {
-                $data['local'] = $this->_detect(null);
+                $data['local'] = $this->render(null);
             }
 
             midcom_show_style('midgard_admin_asgard_component_configuration_item');
@@ -183,7 +169,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         midcom_show_style('midgard_admin_asgard_component_configuration_footer');
     }
 
-    private function _detect($value)
+    private function render($value)
     {
         $type = gettype($value);
 
@@ -194,7 +180,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             case 'array':
                 $content = '<ul>';
                 foreach ($value as $key => $val) {
-                    $content .= "<li>{$key} => " . $this->_detect($val) . ",</li>\n";
+                    $content .= "<li>{$key} => " . $this->render($val) . ",</li>\n";
                 }
                 $content .= '</ul>';
                 $result = "<ul>\n<li>array</li>\n<li>(\n{$content}\n)</li>\n</ul>\n";
@@ -316,9 +302,13 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             midgard_admin_asgard_plugin::bind_to_object($data['folder'], $handler_id, $data);
             $data['view_title'] = sprintf($this->_l10n->get('edit configuration for %s folder %s'), $data['name'], $data['folder']->extra);
         } else {
-            $this->_prepare_toolbar($handler_id);
+            $this->_prepare_toolbar(false);
             $data['view_title'] = sprintf($this->_l10n->get('edit configuration for %s'), $data['name']);
-            $this->_prepare_breadcrumbs($handler_id);
+            $this->_prepare_breadcrumbs();
+            $this->add_breadcrumb(
+                $this->router->generate('components_configuration_edit', ['component' => $this->_request_data['name']]),
+                $this->_l10n_midcom->get('edit')
+            );
         }
 
         return $this->get_response('midgard_admin_asgard_component_configuration_edit');
