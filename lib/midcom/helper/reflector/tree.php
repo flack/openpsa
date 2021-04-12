@@ -108,7 +108,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * @param boolean $deleted whether to get (only) deleted or not-deleted objects
      * @return array multidimensional array (keyed by classname) of objects
      */
-    public static function get_child_objects($object, bool $deleted = false) : array
+    public static function get_child_objects(object $object, bool $deleted = false) : array
     {
         if (!self::_check_permissions($deleted)) {
             return [];

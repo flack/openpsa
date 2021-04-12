@@ -15,10 +15,8 @@ trait org_openpsa_products_handler
 {
     /**
      * Update the context so that we get a complete breadcrumb line towards the current location.
-     *
-     * @param midcom_core_dbaobject $object
      */
-    public function update_breadcrumb_line($object) : array
+    public function update_breadcrumb_line(midcom_core_dbaobject $object) : array
     {
         $tmp = [];
         $root_group = $this->_config->get('root_group');

@@ -93,7 +93,7 @@ class midcom_services_metadata
      * @param midcom_core_dbaobject $object The DBA class instance to get CSS classes for
      * @param string $existing_classes Existing CSS classes to append to
      */
-    public function get_object_classes($object, string $existing_classes = null) : string
+    public function get_object_classes(midcom_core_dbaobject $object, string $existing_classes = null) : string
     {
         $css_classes = [];
         if ($existing_classes !== null) {
