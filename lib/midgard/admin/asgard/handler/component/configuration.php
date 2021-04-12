@@ -6,11 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
-use midcom\datamanager\controller;
-use midcom\datamanager\validation\phpValidator;
 
 /**
  * Component configuration handler
@@ -76,66 +73,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $config;
     }
 
-    private function load_controller() : controller
-    {
-        // Load SchemaDb
-        $schemadb_config_path = midcom::get()->componentloader->path_to_snippetpath($this->_request_data['name']) . '/config/config_schemadb.inc';
-        $schemaname = 'default';
-
-        if (file_exists($schemadb_config_path)) {
-            $schemadb = schemadb::from_path('file:/' . str_replace('.', '/', $this->_request_data['name']) . '/config/config_schemadb.inc');
-            if ($schemadb->has('config')) {
-                $schemaname = 'config';
-            }
-            // TODO: Log error on deprecated config schema?
-        } else {
-            // Create dummy schema. Naughty component would not provide config schema.
-            $schemadb = new schemadb(['default' => [
-                'description' => 'configuration for ' . $this->_request_data['name'],
-                'fields'      => []
-            ]]);
-        }
-        $schema = $schemadb->get($schemaname);
-        $schema->set('l10n_db', $this->_request_data['name']);
-        $fields = $schema->get('fields');
-
-        foreach ($this->_request_data['config']->_global as $key => $value) {
-            // try to sniff what fields are missing in schema
-            if (!array_key_exists($key, $fields)) {
-                $fields[$key] = $this->_detect_schema($key, $value);
-            }
-
-            if (   !isset($this->_request_data['config']->_local[$key])
-                || $this->_request_data['config']->_local[$key] == $this->_request_data['config']->_global[$key]) {
-                // No local configuration setting, note to user that this is the global value
-                $fields[$key]['title'] = $schema->get_l10n()->get($fields[$key]['title']);
-                $fields[$key]['title'] .= " <span class=\"global\">(" . $this->_l10n->get('global value') .")</span>";
-            }
-        }
-
-        // Prepare defaults
-        $config = array_intersect_key($this->_request_data['config']->get_all(), $fields);
-        foreach ($config as $key => $value) {
-            if (is_array($value)) {
-                $fields[$key]['default'] = var_export($value, true);
-            } else {
-                if ($fields[$key]['widget'] == 'checkbox') {
-                    $value = (boolean) $value;
-                }
-                $fields[$key]['default'] = $value;
-            }
-        }
-        $schema->set('fields', $fields);
-        $validation = $schema->get('validation') ?: [];
-        $validation[] = [
-            'callback' => [$this, 'check_config'],
-        ];
-        $schema->set('validation', $validation);
-
-        $dm = new datamanager($schemadb);
-        return $dm->get_controller();
-    }
-
     public function _handler_view(string $component, array &$data)
     {
         $data['name'] = $component;
@@ -198,61 +135,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $result;
     }
 
-    /**
-     * Ensure the configuration is valid
-     *
-     * @throws midcom_error
-     */
-    public function check_config(array $values)
-    {
-        $current = $this->_request_data['config']->get_all();
-        $result = [];
-        foreach ($values as $key => $newval) {
-            if ($newval === '' || !isset($current[$key])) {
-                continue;
-            }
-            $val = $current[$key];
-
-            if (is_array($val)) {
-                $code = "<?php\n\$data = array({$newval}\n);\n?>";
-                if ($error = phpValidator::lint($code)) {
-                    $result[$key] = $error;
-                }
-            }
-        }
-        if (empty($result)) {
-            return true;
-        }
-        return $result;
-    }
-
-    private function convert_to_config(array $values) : array
-    {
-        $config_array = [];
-
-        foreach ($this->_request_data['config']->get_all() as $key => $val) {
-            if (!isset($values[$key])) {
-                continue;
-            }
-            $newval = $values[$key];
-
-            if ($newval === '') {
-                continue;
-            }
-
-            if (is_array($val)) {
-                //try make sure entries have the same format before deciding if there was a change
-                eval("\$newval = $newval;");
-            }
-
-            if ($newval != $val) {
-                $config_array[$key] = $newval;
-            }
-        }
-
-        return $config_array;
-    }
-
     public function _handler_edit(Request $request, string $handler_id, array &$data, string $component, string $folder = null)
     {
         $data['name'] = $component;
@@ -261,7 +143,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             if ($data['folder']->component != $data['name']) {
                 throw new midcom_error_notfound("Folder {$folder} not found for configuration.");
             }
-
             $data['folder']->require_do('midgard:update');
 
             $data['config'] = $this->_load_configs($data['name'], $data['folder']);
@@ -269,7 +150,8 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             $data['config'] = $this->_load_configs($data['name']);
         }
 
-        $this->_controller = $this->load_controller();
+        $schemadb = (new midgard_admin_asgard_schemadb_config($component, $data['config'], isset($folder)))->create();
+        $this->_controller = (new datamanager($schemadb))->get_controller();
 
         switch ($this->_controller->handle($request)) {
             case 'save':
@@ -316,7 +198,24 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
     private function save_configuration(array $data) : bool
     {
-        $values = $this->convert_to_config($this->_controller->get_datamanager()->get_content_raw());
+        $raw = $this->_controller->get_datamanager()->get_content_raw();
+        $values = [];
+
+        foreach ($this->_request_data['config']->get_all() as $key => $val) {
+            if (!isset($raw[$key]) || $raw[$key] === '') {
+                continue;
+            }
+            $newval = $raw[$key];
+
+            if (is_array($val)) {
+                //try make sure entries have the same format before deciding if there was a change
+                eval("\$newval = $newval;");
+            }
+
+            if ($newval != $val) {
+                $values[$key] = $newval;
+            }
+        }
 
         if ($data['handler_id'] == 'components_configuration_edit_folder') {
             // Editing folder configuration
@@ -324,7 +223,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         }
         return $this->save_snippet($values);
     }
-
 
     /**
      * Save configuration values to a topic as "serialized" array
@@ -407,37 +305,5 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             $success = $topic->set_parameter($this->_request_data['name'], $key, $value) && $success;
         }
         return $success;
-    }
-
-    private function _detect_schema(string $key, $value) : array
-    {
-        $result = [
-            'title'       => $key,
-            'type'        => 'text',
-            'widget'      => 'text',
-        ];
-
-        $type = gettype($value);
-        switch ($type) {
-            case "boolean":
-                $result['type'] = 'boolean';
-                $result['widget'] = 'checkbox';
-                break;
-            case "array":
-                $result['widget'] = 'textarea';
-
-                if (isset($this->_request_data['folder'])) {
-                    // Complex Array fields should be readonly for topics as we cannot store and read them properly with parameters
-                    $result['readonly'] = true;
-                }
-
-                break;
-            default:
-                if (preg_match("/\n/", $value)) {
-                    $result['widget'] = 'textarea';
-                }
-        }
-
-        return $result;
     }
 }
