@@ -196,30 +196,24 @@ class midcom_services_i18n
 
     /**
      * Returns the current language code
-     *
-     * @return string
      */
-    public function get_current_language()
+    public function get_current_language() : string
     {
         return $this->_current_language;
     }
 
     /**
      * Returns the current fallback language code
-     *
-     * @return string
      */
-    public function get_fallback_language()
+    public function get_fallback_language() : string
     {
         return $this->_fallback_language;
     }
 
     /**
      * Returns the current character set
-     *
-     * @return string
      */
-    public function get_current_charset()
+    public function get_current_charset() : string
     {
         return $this->_current_charset;
     }

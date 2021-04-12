@@ -56,9 +56,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         $file = self::get_documentation_dir($component) . "{$help_id}.{$language}.txt";
         if (!file_exists($file)) {
-            if ($language != midcom::get()->config->get('i18n_fallback_language')) {
+            if ($language != midcom::get()->i18n->get_fallback_language()) {
                 // Try MidCOM's default fallback language
-                return self::generate_file_path($help_id, $component, midcom::get()->config->get('i18n_fallback_language'));
+                return self::generate_file_path($help_id, $component, midcom::get()->i18n->get_fallback_language());
             }
             return null;
         }
@@ -177,7 +177,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
 
         $files = [];
-        $pattern = $component_dir . '*.{' . $this->_i18n->get_current_language() . ',' . midcom::get()->config->get('i18n_fallback_language') . '}.txt';
+        $pattern = $component_dir . '*.{' . $this->_i18n->get_current_language() . ',' . $this->_i18n->get_fallback_language() . '}.txt';
 
         foreach (glob($pattern, GLOB_NOSORT|GLOB_BRACE) as $path) {
             $entry = basename($path);
