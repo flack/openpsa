@@ -78,10 +78,9 @@ class midcom_config_test
         $config = new midcom_services_rcs_config(midcom::get()->config);
         if ($config->use_rcs()) {
             try {
-                $dummy = new stdClass;
-                $dummy->guid = 'ab';
-                $backend = midcom::get()->rcs->load_backend($dummy);
-                $this->add("MidCOM RCS", self::OK, get_class($backend));
+                $class = $config->get_backend_class();
+                new $class(new midcom_db_topic, $config);
+                $this->add("MidCOM RCS", self::OK, $class);
             } catch (midcom_error $e) {
                 $this->add("MidCOM RCS", self::ERROR, $e->getMessage());
             }
