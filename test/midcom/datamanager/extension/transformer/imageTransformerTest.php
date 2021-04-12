@@ -10,7 +10,6 @@ namespace midcom\datamanager\test;
 use openpsa_testcase;
 use midcom;
 use midcom\datamanager\extension\transformer\imageTransformer;
-use midgard\portable\api\blob;
 
 class imageTransformerTest extends openpsa_testcase
 {
@@ -53,8 +52,7 @@ class imageTransformerTest extends openpsa_testcase
         $att = $topic->create_attachment('test', 'test', 'text/plain');
         $handle = $att->open('w');
         fwrite($handle, 'test');
-        $blob = new blob($att->__object);
-        $time = filemtime($blob->get_path());
+        $time = filemtime($att->get_path());
         $att->close();
 
         midcom::get()->auth->drop_sudo('midcom.datamanager');

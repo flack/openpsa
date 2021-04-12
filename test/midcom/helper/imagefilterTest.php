@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use midgard\portable\api\blob;
-
 /**
  * OpenPSA testcase
  *
@@ -67,9 +65,8 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
         $filter->write($attachment);
 
         // check if files are equal
-        $blob = new blob($attachment->__object);
-        $this->assertFileEquals(self::$_filename, $blob->get_path());
-        $this->assertEquals(filesize(self::$_filename), filesize($blob->get_path()));
+        $this->assertFileEquals(self::$_filename, $attachment->get_path());
+        $this->assertEquals(filesize(self::$_filename), filesize($attachment->get_path()));
 
         // test with attachment
         $filter = new midcom_helper_imagefilter($attachment);

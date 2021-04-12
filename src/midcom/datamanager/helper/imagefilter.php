@@ -8,7 +8,6 @@ namespace midcom\datamanager\helper;
 use midcom_helper_imagefilter;
 use midcom_db_attachment;
 use midcom_error;
-use midgard\portable\api\blob;
 use Symfony\Component\Mime\FileBinaryMimeTypeGuesser;
 
 /**
@@ -90,8 +89,7 @@ class imagefilter
 
     private function set_imagedata(midcom_db_attachment $attachment)
     {
-        $blob = new blob($attachment->__object);
-        $path = $blob->get_path();
+        $path = $attachment->get_path();
 
         if ($data = @getimagesize($path)) {
             $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_x', $data[0]);

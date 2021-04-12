@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use midgard\portable\api\blob;
-
 /**
  * OpenPSA testcase
  *
@@ -72,8 +70,7 @@ class midcom_db_attachmentTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
         $this->assertTrue($stat, midcom_connection::get_error_string());
 
-        $blob = new blob($attachment->__object);
-        $this->assertFileEquals(self::$_filepath . 'attach.png', $blob->get_path());
+        $this->assertFileEquals(self::$_filepath . 'attach.png', $attachment->get_path());
     }
 
     public function test_file_to_cache()

@@ -9,7 +9,6 @@
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use midgard\portable\api\blob;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -42,8 +41,7 @@ class midcom_core_urlmethods
         // Doublecheck that this is registered
         midcom::get()->cache->content->register($attachment->guid);
 
-        $blob = new blob($attachment->__object);
-        $response = new BinaryFileResponse($blob->get_path());
+        $response = new BinaryFileResponse($attachment->get_path());
         $last_modified = (int) $response->getLastModified()->format('U');
         $etag = md5("{$last_modified}{$attachment->name}{$attachment->mimetype}{$attachment->guid}");
         $response->setEtag($etag);

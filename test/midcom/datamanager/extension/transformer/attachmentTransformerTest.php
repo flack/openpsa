@@ -11,7 +11,6 @@ use openpsa_testcase;
 use midcom;
 use midcom\datamanager\extension\transformer\attachmentTransformer;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use midgard\portable\api\blob;
 
 class attachmentTransformerTest extends openpsa_testcase
 {
@@ -54,8 +53,7 @@ class attachmentTransformerTest extends openpsa_testcase
         $att = $topic->create_attachment('test', 'test', 'text/plain');
         $handle = $att->open('w');
         fwrite($handle, 'test');
-        $blob = new blob($att->__object);
-        $time = filemtime($blob->get_path());
+        $time = filemtime($att->get_path());
         $att->close();
 
         midcom::get()->auth->drop_sudo('midcom.datamanager');

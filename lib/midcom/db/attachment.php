@@ -222,15 +222,13 @@ class midcom_db_attachment extends midcom_core_dbaobject
         }
 
         // Then symlink the file
-        $blob = new blob($this->__object);
-
-        if (@symlink($blob->get_path(), $filename)) {
+        if (@symlink($this->get_path(), $filename)) {
             debug_add("Symlinked attachment {$this->name} ({$this->guid}) as {$filename}.");
             return;
         }
 
         // Symlink failed, actually copy the data
-        if (!copy($blob->get_path(), $filename)) {
+        if (!copy($this->get_path(), $filename)) {
             debug_add("Failed to cache attachment {$this->name} ({$this->guid}), copying failed.");
             return;
         }
@@ -259,15 +257,21 @@ class midcom_db_attachment extends midcom_core_dbaobject
             return false;
         }
 
-        $blob = new blob($this->__object);
-
-        $path = $blob->get_path();
+        $path = $this->get_path();
         if (!file_exists($path)) {
             debug_add("File {$path} that blob {$this->guid} points to cannot be found", MIDCOM_LOG_WARN);
             return false;
         }
 
         return stat($path);
+    }
+
+    public function get_path() : string
+    {
+        if (!$this->id) {
+            return '';
+        }
+        return (new blob($this->__object))->get_path();
     }
 
     /**

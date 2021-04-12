@@ -5,7 +5,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use midgard\portable\api\blob;
 use midcom\datamanager\storage\blobs;
 
 /**
@@ -46,8 +45,7 @@ class org_openpsa_invoices_invoice_pdf
             // check if auto generated parameter is same as md5 in current-file
             // if not the file was manually uploaded
             elseif ($checksum = $attachment->get_parameter('org.openpsa.invoices', 'auto_generated')) {
-                $blob = new blob($attachment->__object);
-                if ($checksum !== md5_file($blob->get_path())) {
+                if ($checksum !== md5_file($attachment->get_path())) {
                     $message = 'current pdf file was manually uploaded shall it be replaced ?';
                 }
             }
