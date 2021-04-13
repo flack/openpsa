@@ -40,6 +40,35 @@ class midcom_services_dbclassloaderTest extends TestCase
     }
 
     /**
+     * @dataProvider provider_class_conversion
+     */
+    public function test_class_conversion(string $midcom, string $midgard)
+    {
+        $cl = new midcom_services_dbclassloader();
+        $result = $cl->get_mgdschema_class_name_for_midcom_class($midcom);
+        $this->assertEquals($midgard, $result);
+
+        $result = $cl->get_midcom_class_name_for_mgdschema_object(new $midgard);
+        $this->assertEquals($midcom, $result);
+        $result = $cl->get_midcom_class_name_for_mgdschema_object($midgard);
+        $this->assertEquals($midcom, $result);
+    }
+
+    public function provider_class_conversion()
+    {
+        return [
+            [
+                org_openpsa_projects_task_dba::class,
+                org_openpsa_task::class
+            ],
+            [
+                midcom_db_person::class,
+                midcom::get()->config->get('person_class')
+            ]
+        ];
+    }
+
+    /**
      * @dataProvider providerGet_midcom_class_name_for_mgdschema_object
      */
     public function testGet_midcom_class_name_for_mgdschema_object($object, $result)
