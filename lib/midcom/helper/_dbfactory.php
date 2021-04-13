@@ -161,21 +161,6 @@ class midcom_helper__dbfactory
             return null;
         }
 
-        if (empty($classname)) {
-            //This must be a GUID link (or wrongly configured schema)
-            try {
-                $parent = $this->get_object_by_guid($parent_guid);
-                $parent_data = [$parent->__midcom_class_name__, $parent_guid];
-            } catch (midcom_error $e) {
-                $parent_data = ['', null];
-                $parent = null;
-            }
-            // Cache the classname so that we can avoid get_object_by_guid calls the next time
-            midcom::get()->cache->memcache->update_parent_data($object->guid, $parent_data);
-
-            return $parent;
-        }
-
         try {
             return $this->get_cached($classname, $parent_guid);
         } catch (midcom_error $e) {
@@ -217,15 +202,11 @@ class midcom_helper__dbfactory
 
         if (empty($parent_data)) {
             // No cache hit, retrieve guid and update the cache
-            [$classname, $parent_guid] = $callback();
+            $parent_data = $callback();
 
-            if (!empty($classname)) {
-                $classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($classname);
+            if (!empty($parent_data[0])) {
+                $parent_data[0] = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($parent_data[0]);
             }
-            if (!mgd_is_guid($parent_guid)) {
-                $parent_guid = null;
-            }
-            $parent_data = [$classname, $parent_guid];
 
             if (mgd_is_guid($guid)) {
                 midcom::get()->cache->memcache->update_parent_data($guid, $parent_data);
@@ -241,13 +222,13 @@ class midcom_helper__dbfactory
     private function get_parent_data_uncached(midcom_core_dbaobject $object) : array
     {
         if (method_exists($object, 'get_parent_guid_uncached')) {
-            return ['', $object->get_parent_guid_uncached()];
+            return $this->get_parent_data_from_guid($object->get_parent_guid_uncached());
         }
 
         $candidates = $this->_get_parent_candidates($object->__mgdschema_class_name__);
         foreach ($candidates as $data) {
             $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], $object->{$data['source_property']});
-            if (null !== $parent_guid) {
+            if ($parent_guid) {
                 return [$data['target_class'], $parent_guid];
             }
         }
@@ -260,16 +241,8 @@ class midcom_helper__dbfactory
      */
     private function get_parent_data_uncached_static(string $object_guid, string $class_name) : array
     {
-        if (!$class_name) {
-            $class_name = connection::get_em()
-                ->createQuery('SELECT r.typename from midgard:midgard_repligard r WHERE r.guid = ?1')
-                ->setParameter(1, $object_guid)
-                ->getSingleScalarResult();
-            $class_name = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($class_name);
-        }
-
         if (method_exists($class_name, 'get_parent_guid_uncached_static')) {
-            return ['', $class_name::get_parent_guid_uncached_static($object_guid)];
+            return $this->get_parent_data_from_guid($class_name::get_parent_guid_uncached_static($object_guid));
         }
 
         $class_name = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($class_name);
@@ -283,12 +256,25 @@ class midcom_helper__dbfactory
 
             if (!empty($link_values)) {
                 $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], key($link_values));
-                if (null !== $parent_guid) {
+                if ($parent_guid) {
                     return [$data['target_class'], $parent_guid];
                 }
             }
         }
         return ['', null];
+    }
+
+    private function get_parent_data_from_guid(string $guid) : array
+    {
+        if (!mgd_is_guid($guid)) {
+            return ['', null];
+        }
+        $class_name = connection::get_em()
+            ->createQuery('SELECT r.typename from midgard:midgard_repligard r WHERE r.guid = ?1')
+            ->setParameter(1, $guid)
+            ->getSingleScalarResult();
+
+        return [$class_name, $guid];
     }
 
     private function _load_guid(string $target_class, string $target_property, $link_value) : ?string
@@ -300,10 +286,10 @@ class midcom_helper__dbfactory
             $this->_parent_mapping[$target_class] = [];
         }
         if (!array_key_exists($link_value, $this->_parent_mapping[$target_class])) {
-            $mc2 = new midgard_collector($target_class, $target_property, $link_value);
-            $mc2->set_key_property('guid');
-            $mc2->execute();
-            $this->_parent_mapping[$target_class][$link_value] = key($mc2->list_keys());
+            $mc = new midgard_collector($target_class, $target_property, $link_value);
+            $mc->set_key_property('guid');
+            $mc->execute();
+            $this->_parent_mapping[$target_class][$link_value] = key($mc->list_keys());
         }
 
         return $this->_parent_mapping[$target_class][$link_value];
