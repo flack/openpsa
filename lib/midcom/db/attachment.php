@@ -38,7 +38,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     private $_open_write_mode = false;
 
-    public function get_parent_guid_uncached()
+    public function get_parent_guid_uncached() : string
     {
         return $this->parentguid;
     }

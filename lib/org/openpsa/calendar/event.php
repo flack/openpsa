@@ -91,7 +91,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         return $formatter->date($this->start) . " {$this->title}";
     }
 
-    public function get_parent_guid_uncached() : ?string
+    public function get_parent_guid_uncached() : string
     {
         if (   $this->up
             || $this->title != '__org_openpsa_calendar') {
@@ -100,7 +100,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
                 return $root_event->guid;
             }
         }
-        return null;
+        return '';
     }
 
     public function _on_loaded()

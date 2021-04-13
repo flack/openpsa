@@ -24,21 +24,9 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
 
     public $_use_rcs = false;
 
-    public function get_parent_guid_uncached() : ?string
+    public function get_parent_guid_uncached() : string
     {
-        if (empty($this->fromGuid)) {
-            return null;
-        }
-        $class = $this->fromClass;
-        if (!class_exists($class)) {
-            debug_add("Class '{$class}' is missing", MIDCOM_LOG_ERROR);
-            return null;
-        }
-        $parent = new $class($this->fromGuid);
-        if (empty($parent->guid)) {
-            return null;
-        }
-        return $parent->guid;
+        return $this->fromGuid;
     }
 
     public function get_label() : string
