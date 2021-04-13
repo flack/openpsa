@@ -32,12 +32,12 @@ class midcom_db_parameter extends midcom_core_dbaobject
     /**
      * Returns the Parent of the Parameter.
      */
-    public static function get_parent_guid_uncached_static(string $guid) : ?string
+    public static function get_parent_guid_uncached_static(string $guid) : string
     {
         $mc = new midgard_collector('midgard_parameter', 'guid', $guid);
         $mc->set_key_property('parentguid');
         $mc->execute();
-        return key($mc->list_keys());
+        return (string) key($mc->list_keys());
     }
 
     /**
