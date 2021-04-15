@@ -175,7 +175,7 @@ class midcom_helper__dbfactory
      * content getters are invoked.
      *
      * @param string $guid A GUID string.
-     * @param string $class class name of object (so we can use get_parent_guid_uncached_static and avoid instantiating full object)
+     * @param string $class class name of object
      * @return array The parent GUID and class (value might be null, if this is a top level object).
      */
     public function get_parent_data(string $guid, string $class) : array
@@ -221,12 +221,11 @@ class midcom_helper__dbfactory
 
     private function get_parent_data_uncached(midcom_core_dbaobject $object) : array
     {
-        if (method_exists($object, 'get_parent_guid_uncached')) {
-            return $this->get_parent_data_from_guid($object->get_parent_guid_uncached());
-        }
-
         $candidates = $this->_get_parent_candidates($object->__mgdschema_class_name__);
         foreach ($candidates as $data) {
+            if ($data['target_property'] === 'guid') {
+                return $this->get_data_from_guid($object->{$data['source_property']});
+            }
             $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], $object->{$data['source_property']});
             if ($parent_guid) {
                 return [$data['target_class'], $parent_guid];
@@ -241,10 +240,6 @@ class midcom_helper__dbfactory
      */
     private function get_parent_data_uncached_static(string $object_guid, string $class_name) : array
     {
-        if (method_exists($class_name, 'get_parent_guid_uncached_static')) {
-            return $this->get_parent_data_from_guid($class_name::get_parent_guid_uncached_static($object_guid));
-        }
-
         $class_name = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($class_name);
         $candidates = $this->_get_parent_candidates($class_name);
 
@@ -252,9 +247,12 @@ class midcom_helper__dbfactory
             $mc = new midgard_collector($class_name, 'guid', $object_guid);
             $mc->set_key_property($data['source_property']);
             $mc->execute();
-            $link_values = $mc->list_keys();
 
-            if (!empty($link_values)) {
+            if ($link_values = $mc->list_keys()) {
+                if ($data['target_property'] === 'guid') {
+                    return $this->get_data_from_guid(key($link_values));
+                }
+
                 $parent_guid = $this->_load_guid($data['target_class'], $data['target_property'], key($link_values));
                 if ($parent_guid) {
                     return [$data['target_class'], $parent_guid];
@@ -264,7 +262,7 @@ class midcom_helper__dbfactory
         return ['', null];
     }
 
-    private function get_parent_data_from_guid(string $guid) : array
+    private function get_data_from_guid(string $guid) : array
     {
         if (!mgd_is_guid($guid)) {
             return ['', null];
@@ -299,35 +297,32 @@ class midcom_helper__dbfactory
     {
         if (!isset($this->_parent_candidates[$classname])) {
             $this->_parent_candidates[$classname] = [];
-            $reflector = new midgard_reflection_property($classname);
-            $up_property = midgard_object_class::get_property_up($classname);
-            $parent_property = midgard_object_class::get_property_parent($classname);
 
-            if ($up_property) {
-                $this->_parent_candidates[$classname][] = [
-                    'source_property' => $up_property,
-                    'target_property' => $reflector->get_link_target($up_property),
-                    'target_class' => $reflector->get_link_name($up_property),
-                ];
+            if ($up = midgard_object_class::get_property_up($classname)) {
+                $this->add_candidate($classname, $up);
             }
 
-            if (   $parent_property
-                && $reflector->get_link_target($parent_property)) {
-                $target_class = $reflector->get_link_name($parent_property);
-                if ($target_class == 'midgard_person') {
-                    $person_class = midcom::get()->config->get('person_class');
-                    if ($person_class != 'midgard_person') {
-                        $target_class = $person_class;
-                    }
-                }
-                $this->_parent_candidates[$classname][] = [
-                    'source_property' => $parent_property,
-                    'target_property' => $reflector->get_link_target($parent_property),
-                    'target_class' => $target_class,
-                ];
+            if ($parent = midgard_object_class::get_property_parent($classname)) {
+                $this->add_candidate($classname, $parent);
             }
-            // FIXME: Handle GUID linking
         }
         return $this->_parent_candidates[$classname];
+    }
+
+    private function add_candidate(string $classname, string $property)
+    {
+        $mrp = new midgard_reflection_property($classname);
+
+        $data = [
+            'source_property' => $property,
+            'target_property' => $mrp->get_link_target($property) ?? 'guid',
+            'target_class' => $mrp->get_link_name($property)
+        ];
+
+        if ($data['target_class'] == 'midgard_person') {
+            $data['target_class'] = midcom::get()->config->get('person_class');
+        }
+
+        $this->_parent_candidates[$classname][] = $data;
     }
 }

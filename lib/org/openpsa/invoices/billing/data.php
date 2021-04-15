@@ -36,11 +36,6 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_billing_data';
 
-    public function get_parent_guid_uncached() : string
-    {
-        return $this->linkGuid;
-    }
-
     public function _on_creating()
     {
         $mc = self::new_collector('linkGuid', $this->linkGuid);

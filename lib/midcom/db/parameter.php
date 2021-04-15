@@ -24,22 +24,6 @@ class midcom_db_parameter extends midcom_core_dbaobject
 
     public $_use_rcs = false;
 
-    public function get_parent_guid_uncached() : string
-    {
-        return $this->parentguid;
-    }
-
-    /**
-     * Returns the Parent of the Parameter.
-     */
-    public static function get_parent_guid_uncached_static(string $guid) : string
-    {
-        $mc = new midgard_collector('midgard_parameter', 'guid', $guid);
-        $mc->set_key_property('parentguid');
-        $mc->execute();
-        return (string) key($mc->list_keys());
-    }
-
     /**
      * Read a parameter without loading the corresponding object.
      * This is primarily for improving performance, so the function does not check

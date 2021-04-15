@@ -24,11 +24,6 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
 
     public $_use_rcs = false;
 
-    public function get_parent_guid_uncached() : string
-    {
-        return $this->fromGuid;
-    }
-
     public function get_label() : string
     {
         $mc = net_nemein_tag_tag_dba::new_collector('id', $this->tag);

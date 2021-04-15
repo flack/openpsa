@@ -52,14 +52,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     }
 
     /**
-     * Link to the parent object specified in the objectguid field.
-     */
-    public function get_parent_guid_uncached() : string
-    {
-        return $this->objectguid;
-    }
-
-    /**
      * Returns a list of comments applicable to a given object, ordered by creation
      * date.
      *
