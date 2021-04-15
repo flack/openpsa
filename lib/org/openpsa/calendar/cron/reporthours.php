@@ -23,17 +23,6 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
     private $event_tasks = [];
 
     /**
-     * @var org_openpsa_calendar_event_dba
-     */
-    private $root_event;
-
-    public function _on_initialize() : bool
-    {
-        $this->root_event = org_openpsa_calendar_interface::find_root_event();
-        return true;
-    }
-
-    /**
      * Search for events within configured timeframe and if
      * they have confirmed relatedtos to tasks reports hours
      * for each participant (who is task resource) towards
@@ -45,10 +34,11 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             $this->print_error("Could not get sudo, aborting operation, see error log for details");
             return;
         }
+        $root_event = org_openpsa_calendar_interface::find_root_event();
 
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
         // Event must be directly under openpsa calendar root event
-        $qb->add_constraint('eid.up', '=', $this->root_event->id);
+        $qb->add_constraint('eid.up', '=', $root_event->id);
         // Event must have ended
         $qb->add_constraint('eid.end', '<', time());
         // Event can be at most week old
