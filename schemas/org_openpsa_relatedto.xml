@@ -19,7 +19,7 @@
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
-        <property name="linkGuid" type="guid" index="yes"/>
+        <property name="linkGuid" type="guid" index="yes" parentfield="linkGuid" />
         <property name="title" type="string" />
         <property name="text" type="text" />
         <property name="followUp" type="integer">

@@ -73,7 +73,7 @@
 
         <property name="useContactAddress" type="boolean" />
         <!-- guid of the object the billing data belongs to -->
-        <property name="linkGuid" type="string" />
+        <property name="linkGuid" type="guid" parentfield="linkGuid" />
 
     </type>
 </Schema>
