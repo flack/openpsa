@@ -67,14 +67,9 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
         $data['view_title'] = sprintf($this->_l10n->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($type));
 
-        $dummy = new $type;
-        $data['midcom_dba_classname'] = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);
         $data['type'] = $type;
-        $data['reflector'] = midcom_helper_reflector::get($data['type']);
-        $data['label_property'] = $data['reflector']->get_label_property();
 
-        if ($request->request->has('undelete')) {
-            $guids = $request->request->get('undelete');
+        if ($guids = $request->request->get('undelete')) {
             if ($request->request->has('purge')) {
                 $this->_purge($guids);
             } else {
@@ -105,16 +100,14 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
     {
         $purged_size = 0;
 
-        if (!$this->_request_data['midcom_dba_classname']) {
+        if (!midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type)) {
             // No DBA class for the type, use plain Midgard undelete API
-            if ($guids) {
-                $qb = new midgard_query_builder($this->type);
-                $qb->add_constraint('guid', 'IN', $guids);
-                $qb->include_deleted();
-                foreach ($qb->execute() as $object) {
-                    if ($object->purge()) {
-                        $purged_size += $object->metadata->size;
-                    }
+            $qb = new midgard_query_builder($this->type);
+            $qb->add_constraint('guid', 'IN', $guids);
+            $qb->include_deleted();
+            foreach ($qb->execute() as $object) {
+                if ($object->purge()) {
+                    $purged_size += $object->metadata->size;
                 }
             }
         } else {
@@ -122,18 +115,14 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             $purged_size = midcom_baseclasses_core_dbobject::purge($guids, $this->type);
         }
 
-        if ($purged_size) {
-            midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s purged'), midcom_helper_misc::filesize_to_string($purged_size)), 'info');
-        }
+        midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s purged'), midcom_helper_misc::filesize_to_string($purged_size)), 'info');
     }
 
     private function _undelete(array $guids)
     {
         // Delegate undeletion to DBA
         $undeleted_size = midcom_baseclasses_core_dbobject::undelete($guids);
-        if ($undeleted_size > 0) {
-            midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s undeleted'), midcom_helper_misc::filesize_to_string($undeleted_size)), 'info');
-        }
+        midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s undeleted'), midcom_helper_misc::filesize_to_string($undeleted_size)), 'info');
     }
 
     public function show_type(mgdobject $object, int $indent = 0, string $prefix = '', bool $enable_undelete = true)
