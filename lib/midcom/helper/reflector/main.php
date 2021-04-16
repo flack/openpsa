@@ -537,11 +537,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         // Check for decorators first
         if (!empty($class_instance->__mgdschema_class_name__)) {
             $parent_class = $class_instance->__mgdschema_class_name__;
-            if (   !empty($class_instance->__object)
-                && !$class_instance->__object instanceof $class_instance->__mgdschema_class_name__) {
-                $parent_class = get_class($class_instance->__object);
-                debug_add('mgdschema object class ' . $parent_class . ' is not an instance of ' . $class_instance->__mgdschema_class_name__, MIDCOM_LOG_INFO);
-            }
         } else {
             $parent_class = $classname;
         }

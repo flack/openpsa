@@ -147,10 +147,6 @@ abstract class midcom_core_dbaobject
      */
     public function __get($property)
     {
-        if (null === $this->__object) {
-            return null;
-        }
-
         if ($property === 'metadata') {
             if (null === $this->__metadata) {
                 $this->__metadata = new midcom_helper_metadata($this);

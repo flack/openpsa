@@ -134,12 +134,6 @@ class midcom_helper__dbfactory
             return true;
         }
 
-        if (   isset($object->__mgdschema_class_name__)
-            && $object->__mgdschema_class_name__ == $class) {
-            // Decorator without object instantiated, check class match
-            return true;
-        }
-
         return false;
     }
 
