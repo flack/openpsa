@@ -394,22 +394,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $root_classes[] = $schema_type;
         }
 
-        $root_exceptions_forceroot = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config')->get('root_class_exceptions_forceroot');
-        // Safety against misconfiguration
-        if (!is_array($root_exceptions_forceroot)) {
-            debug_add("config->get('root_class_exceptions_forceroot') did not return array, invalid configuration ??", MIDCOM_LOG_ERROR);
-            $root_exceptions_forceroot = [];
-        }
-        $root_exceptions_forceroot = array_diff($root_exceptions_forceroot, $root_classes);
-        foreach ($root_exceptions_forceroot as $schema_type) {
-            if (!class_exists($schema_type)) {
-                // Not a valid class
-                debug_add("Type {$schema_type} has been listed to always be root class, but the class does not exist", MIDCOM_LOG_WARN);
-                continue;
-            }
-            $root_classes[] = $schema_type;
-        }
-
         usort($root_classes, 'strnatcmp');
         return $root_classes;
     }

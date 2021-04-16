@@ -70,9 +70,7 @@
     /* Replicator subscriptions have their own specific admin UI */
     'midcom_helper_replicator_subscription',
 ],
-// Classes that should always be listed as root class (mainly workaround for schema bugs)
-'root_class_exceptions_forceroot' => [
-],
+
 /* Classes we do not wish to resolve as children event though strictly speaking they are */
 'child_class_exceptions_neverchild' => [
     'midgard_parameter',
