@@ -32,7 +32,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         'name' => [],
         'fieldnames' => [],
         'object_icon_map' => null,
-        'create_icon_map' => null
+        'create_type_map' => null
     ];
 
     /**
@@ -222,39 +222,49 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public static function get_create_icon(string $type) : string
     {
-        if (null === self::$_cache['create_icon_map']) {
-            self::$_cache['create_icon_map'] = self::_get_icon_map('create_type_magic', 'file-o');
-        }
-
-        $icon_callback = [$type, 'get_create_icon'];
-        switch (true) {
+        if (is_callable([$type, 'get_create_icon'])) {
             // class has static method to tell us the answer ? great !
-            case (is_callable($icon_callback)):
-                $icon = call_user_func($icon_callback);
-                break;
-            // configuration icon
-            case (isset(self::$_cache['create_icon_map'][$type])):
-                $icon = self::$_cache['create_icon_map'][$type];
-                break;
-
-            // heuristics magic (instead of adding something here, take a look at config key "create_type_magic")
-            case (str_contains($type, 'member')):
-            case (str_contains($type, 'organization')):
-                $icon = 'users';
-                break;
-            case (str_contains($type, 'person')):
-                $icon = 'user-o';
-                break;
-            case (str_contains($type, 'event')):
-                $icon = 'calendar-o';
-                break;
-
-            // Fallback default value
-            default:
-                $icon = self::$_cache['create_icon_map']['__default__'];
-                break;
+            return $type::get_create_icon();
         }
-        return $icon;
+        return self::get_icon($type, 'create_type');
+    }
+
+    /**
+     * heuristics magic (instead of adding something here, take a look at
+     * config keys "create_type_magic" and "object_icon_magic")
+     */
+    private static function get_icon(string $object_class, string $mode) : string
+    {
+        $object_baseclass = self::resolve_baseclass($object_class);
+        if (null === self::$_cache[$mode . '_map']) {
+            self::$_cache[$mode . '_map'] = self::_get_icon_map($mode . '_magic', $mode === 'create_type' ? 'file-o' : 'file');
+        }
+        $map = self::$_cache[$mode . '_map'];
+
+        switch (true) {
+            case (isset($map[$object_class])):
+                return $map[$object_class];
+
+            case (isset($map[$object_baseclass])):
+                return $map[$object_baseclass];
+
+            case (str_contains($object_class, 'person')):
+                return $mode === 'create_type' ? 'user-o' : 'user';
+
+            case (str_contains($object_class, 'event')):
+                return 'calendar-o';
+
+            case (str_contains($object_class, 'member')):
+            case (str_contains($object_class, 'organization')):
+            case (str_contains($object_class, 'group')):
+                return 'users';
+
+            case (str_contains($object_class, 'element')):
+                return 'file-code-o';
+
+            default:
+                return $map['__default__'];
+        }
     }
 
     /**
@@ -262,47 +272,11 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public static function get_object_icon(object $obj) : string
     {
-        if (null === self::$_cache['object_icon_map']) {
-            self::$_cache['object_icon_map'] = self::_get_icon_map('object_icon_magic', 'file');
-        }
-
-        $object_class = get_class($obj);
-        $object_baseclass = self::resolve_baseclass($obj);
-
-        switch (true) {
+        if (method_exists($obj, 'get_icon')) {
             // object knows it's icon, how handy!
-            case (method_exists($obj, 'get_icon')):
-                $icon = $obj->get_icon();
-                break;
-
-            // configuration icon
-            case (isset(self::$_cache['object_icon_map'][$object_class])):
-                $icon = self::$_cache['object_icon_map'][$object_class];
-                break;
-            case (isset(self::$_cache['object_icon_map'][$object_baseclass])):
-                $icon = self::$_cache['object_icon_map'][$object_baseclass];
-                break;
-
-            // heuristics magic (instead of adding something here, take a look at config key "object_icon_magic")
-            case (str_contains($object_class, 'person')):
-                $icon = 'user';
-                break;
-            case (str_contains($object_class, 'event')):
-                $icon = 'calendar-o';
-                break;
-            case (str_contains($object_class, 'member')):
-            case (str_contains($object_class, 'organization')):
-            case (str_contains($object_class, 'group')):
-                $icon = 'users';
-                break;
-            case (str_contains($object_class, 'element')):
-                $icon = 'file-code-o';
-                break;
-
-            // Fallback default value
-            default:
-                $icon = self::$_cache['object_icon_map']['__default__'];
-                break;
+            $icon = $obj->get_icon();
+        } else {
+            $icon = self::get_icon(get_class($obj), 'object_icon');
         }
 
         return '<i class="fa fa-' . $icon . '"></i>';
