@@ -177,8 +177,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (midcom::get()->dbfactory->is_a($obj, midcom_db_person::class)) {
             return ['rname', 'id'];
         }
-        return $this->get_title_property_nonstatic($obj) ??
-            $this->get_name_property_nonstatic($obj) ??
+        return $this->get_property('title', $obj) ??
+            $this->get_property('name', $obj) ??
             'guid';
     }
 
@@ -551,18 +551,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         return $cached[$classname];
     }
 
-    /**
-     * Resolve the "name" property of given object
-     *
-     * @see midcom_helper_reflector::get_name_property()
-     * @param object $object the object to get the name property for
-     * @todo when midgard_reflection_property supports flagging name fields use that instead of heuristics
-     */
-    public function get_name_property_nonstatic(object $object) : ?string
-    {
-        return $this->get_property('name', $object);
-    }
-
     private function get_property(string $type, object $object) : ?string
     {
         // Cache results per class within request
@@ -595,12 +583,11 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * Resolve the "name" property of given object
      *
-     * @see midcom_helper_reflector::get_name_property_nonstatic()
      * @param object $object the object to get the name property for
      */
     public static function get_name_property(object $object) : ?string
     {
-        return self::get($object)->get_name_property_nonstatic($object);
+        return self::get($object)->get_property('name', $object);
     }
 
     /**
@@ -636,20 +623,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public static function get_title_property(object $object) : ?string
     {
-        return self::get($object)->get_title_property_nonstatic($object);
-    }
-
-    /**
-     * Resolve the "title" property of given object
-     *
-     * NOTE: This is distinctly different from get_label_property, which will always return something
-     * even if it's just the guid
-     *
-     * @see midcom_helper_reflector::get_object_title()
-     * @param object $object the object to get the title property for
-     */
-    public function get_title_property_nonstatic(object $object) : ?string
-    {
-        return $this->get_property('title', $object);
+        return self::get($object)->get_property('title', $object);
     }
 }
