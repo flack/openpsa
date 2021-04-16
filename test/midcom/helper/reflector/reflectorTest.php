@@ -314,15 +314,11 @@ class midcom_helper_reflector_reflectorTest extends TestCase
                  'topic' => [
                      'class' => 'midgard_topic',
                      'target' => 'id',
-                     'parent' => true,
-                     'up' => false,
                      'type' => MGD_TYPE_UINT,
                  ],
                  'up' => [
                      'class' => 'midgard_article',
                      'target' => 'id',
-                     'parent' => false,
-                     'up' => true,
                      'type' => MGD_TYPE_UINT,
                  ],
             ]],
@@ -330,27 +326,21 @@ class midcom_helper_reflector_reflectorTest extends TestCase
                  'snippetdir' => [
                      'class' => 'midgard_snippetdir',
                      'target' => 'id',
-                     'parent' => true,
-                     'up' => false,
                      'type' => MGD_TYPE_UINT,
                  ],
-             ]],
-             3 => ['org_openpsa_relatedto_dba', [
+            ]],
+            3 => ['org_openpsa_relatedto_dba', [
                  'fromGuid' => [
                      'class' => null,
                      'target' => 'guid',
-                     'parent' => false,
-                     'up' => false,
                      'type' => MGD_TYPE_GUID,
                  ],
                  'toGuid' => [
                      'class' => null,
                      'target' => 'guid',
-                     'parent' => false,
-                     'up' => false,
                      'type' => MGD_TYPE_GUID,
                  ],
-             ]],
+            ]],
         ];
     }
 }

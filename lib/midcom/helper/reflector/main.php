@@ -392,8 +392,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * Link info key specification
      *     'class' string link target class name
      *     'target' string link target property (of target class)
-     *     'parent' boolean link is link to "parent" in object tree
-     *     'up' boolean link is link to "up" in object tree
      *
      * @return array multidimensional array keyed by property, values are arrays with link info (or false in case of failure)
      */
@@ -411,12 +409,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $obj = $this->_dummy_object;
 
         // Get property list and start checking (or abort on error)
-        $properties = self::get_object_fieldnames($obj);
-
         $links = [];
-        $parent_property = midgard_object_class::get_property_parent($this->mgdschema_class);
-        $up_property = midgard_object_class::get_property_up($this->mgdschema_class);
-        foreach ($properties as $property) {
+        foreach (self::get_object_fieldnames($obj) as $property) {
             if ($property == 'guid') {
                 // GUID, even though of type MGD_TYPE_GUID, is never a link
                 continue;
@@ -428,33 +422,12 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             }
             debug_add("Processing property '{$property}'");
             $linkinfo = [
-                'class' => null,
-                'target' => null,
-                'parent' => false,
-                'up' => false,
+                'class' => $ref->get_link_name($property),
+                'target' => $ref->get_link_target($property),
                 'type' => $ref->get_midgard_type($property),
             ];
-            if ($parent_property === $property) {
-                debug_add("Is 'parent' property");
-                $linkinfo['parent'] = true;
-            }
-            if ($up_property === $property) {
-                debug_add("Is 'up' property");
-                $linkinfo['up'] = true;
-            }
 
-            $type = $ref->get_link_name($property);
-            debug_add("get_link_name returned '{$type}'");
-            if (!empty($type)) {
-                $linkinfo['class'] = $type;
-            }
-
-            $target = $ref->get_link_target($property);
-
-            debug_add("get_link_target returned '{$target}'");
-            if (!empty($target)) {
-                $linkinfo['target'] = $target;
-            } elseif ($linkinfo['type'] == MGD_TYPE_GUID) {
+            if (!$linkinfo['target'] && $linkinfo['type'] == MGD_TYPE_GUID) {
                 $linkinfo['target'] = 'guid';
             }
 
