@@ -33,6 +33,8 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      */
     private $_feed;
 
+    private $category;
+
     /**
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified
      * dates.
@@ -60,9 +62,9 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
             }
 
             // TODO: Check for ".xml" suffix
-            $this->_request_data['category'] = trim(strip_tags($args[0]));
+            $this->category = trim(strip_tags($args[0]));
 
-            $this->apply_category_constraint($qb, $this->_request_data['category']);
+            $this->apply_category_constraint($qb, $this->category);
         }
 
         $qb->set_limit($this->_config->get('rss_count'));
@@ -112,8 +114,8 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
 
         switch ($handler_id) {
             case 'feed-category-rss2':
-                $this->_feed->title = sprintf($this->_l10n->get('%s category %s'), $this->_feed->title, $data['category']);
-                $this->_feed->syndicationURL = "{$this->_feed->link}feeds/category/{$data['category']}";
+                $this->_feed->title = sprintf($this->_l10n->get('%s category %s'), $this->_feed->title, $this->category);
+                $this->_feed->syndicationURL = "{$this->_feed->link}feeds/category/{$this->category}";
                 // Fall-through
 
             case 'feed-rss2':

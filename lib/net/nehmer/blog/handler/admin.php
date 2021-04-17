@@ -55,13 +55,13 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         }
 
         $dm = new datamanager($schemadb);
-        $data['controller'] = $dm->set_storage($this->article)
+        $controller = $dm->set_storage($this->article)
             ->get_controller();
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit article'));
 
         $workflow = $this->get_workflow('datamanager', [
-            'controller' => $data['controller'],
+            'controller' => $controller,
             'save_callback' => [$this, 'save_callback']
         ]);
         return $workflow->run($request);

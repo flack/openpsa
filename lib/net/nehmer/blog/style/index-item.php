@@ -11,11 +11,11 @@ if ($view_counter == 0) {
 $published = $data['l10n']->get_formatter()->datetime($data['article']->metadata->published);
 $published = sprintf($data['l10n']->get('posted on %s.'), "<abbr title=\"" . strftime('%Y-%m-%dT%H:%M:%S%z', $data['article']->metadata->published) . "\">" . $published . "</abbr>");
 
-if (array_key_exists('ajax_comments_enable', $data)) {
+if (array_key_exists('base_ajax_comments_url', $data)) {
     $published .= ' <a href="#switch_comments" onClick="showAjaxComments(this, \''.$data['article']->guid.'\'); return false;">'
                     . sprintf($data['l10n']->get('%s comments'), net_nehmer_comments_comment::count_by_objectguid($data['article']->guid))
                     . "</a>.";
-} elseif (array_key_exists('comments_enable', $data)) {
+} elseif ($data['config']->get('comments_enable')) {
     $published .= " <a href=\"{$data['local_view_url']}#net_nehmer_comments_{$data['article']->guid}\">"
                     . sprintf($data['l10n']->get('%s comments'), net_nehmer_comments_comment::count_by_objectguid($data['article']->guid))
                     . "</a>.";
@@ -53,7 +53,7 @@ if (array_key_exists('ajax_comments_enable', $data)) {
 
     }
 
-    if (array_key_exists('ajax_comments_enable', $data)) {
+    if (array_key_exists('base_ajax_comments_url', $data)) {
         echo '<div class="ajax_comments_container" style="display: none;"></div>';
     }
     ?>

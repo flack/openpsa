@@ -25,7 +25,7 @@ class net_nehmer_blog_handler_configuration extends midcom_baseclasses_component
     public function _load_objects() : array
     {
         $qb = midcom_db_article::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_request_data['topic']->id);
+        $qb->add_constraint('topic', '=', $this->_topic->id);
         return $qb->execute();
     }
 }

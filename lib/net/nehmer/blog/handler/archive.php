@@ -262,12 +262,12 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         // Use helper functions to determine start/end
         switch ($handler_id) {
             case 'archive-year-category':
-                $data['category'] = trim(strip_tags($args[1]));
+                $category = trim(strip_tags($args[1]));
                 if (   $data['datamanager']->get_schema('default')->has_field('categories')
                     && !$data['datamanager']->get_schema('default')->get_field('categories')['type_config']['allow_multiple']) {
-                    $qb->add_constraint('extra1', '=', (string) $data['category']);
+                    $qb->add_constraint('extra1', '=', (string) $category);
                 } else {
-                    $qb->add_constraint('extra1', 'LIKE', "%|{$data['category']}|%");
+                    $qb->add_constraint('extra1', 'LIKE', "%|{$category}|%");
                 }
                 //Fall-through
 
@@ -387,7 +387,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         midcom_show_style('archive-list-start');
         if ($this->_articles) {
             $data['index_fulltext'] = $this->_config->get('index_fulltext');
-            $data['comments_enable'] = (boolean) $this->_config->get('comments_enable');
 
             $total_count = count($this->_articles);
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);

@@ -26,6 +26,8 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      */
     private $_articles;
 
+    private $category;
+
     /**
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified
      * dates.
@@ -46,7 +48,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         // Filter by categories
         if (in_array($handler_id, ['index-category', 'latest-category'])) {
-            $data['category'] = trim(strip_tags($args[0]));
+            $this->category = trim(strip_tags($args[0]));
 
             $this->_process_category_constraint($qb);
         }
@@ -75,23 +77,23 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
     private function _process_category_constraint(org_openpsa_qbpager $qb)
     {
-        if (!in_array($this->_request_data['category'], $this->_request_data['categories'])) {
+        if (!in_array($this->category, $this->_request_data['categories'])) {
             if (!$this->_config->get('categories_custom_enable')) {
                 throw new midcom_error('Custom categories are not allowed');
             }
             // TODO: Check here if there are actually items in this cat?
         }
 
-        $this->apply_category_constraint($qb, $this->_request_data['category']);
+        $this->apply_category_constraint($qb, $this->category);
 
         // Add category to title
-        $this->_request_data['page_title'] = sprintf($this->_l10n->get('%s category %s'), $this->_topic->extra, $this->_request_data['category']);
+        $this->_request_data['page_title'] = sprintf($this->_l10n->get('%s category %s'), $this->_topic->extra, $this->category);
         midcom::get()->head->set_pagetitle($this->_request_data['page_title']);
 
         // Activate correct leaf
         if (   $this->_config->get('show_navigation_pseudo_leaves')
-            && in_array($this->_request_data['category'], $this->_request_data['categories'])) {
-            $this->set_active_leaf($this->_topic->id . '_CAT_' . $this->_request_data['category']);
+            && in_array($this->category, $this->_request_data['categories'])) {
+            $this->set_active_leaf($this->_topic->id . '_CAT_' . $this->category);
         }
 
         // Add RSS feed to headers
@@ -99,8 +101,8 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
             midcom::get()->head->add_link_head([
                 'rel'   => 'alternate',
                 'type'  => 'application/rss+xml',
-                'title' => $this->_l10n->get('rss 2.0 feed') . ": {$this->_request_data['category']}",
-                'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "feeds/category/{$this->_request_data['category']}/",
+                'title' => $this->_l10n->get('rss 2.0 feed') . ": {$this->category}",
+                'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "feeds/category/{$this->category}/",
             ]);
         }
     }
@@ -116,14 +118,11 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         if ($this->_config->get('ajax_comments_enable')) {
             if ($node = net_nehmer_comments_interface::get_node($this->_topic, $this->_config->get('comments_topic'))) {
-                $data['ajax_comments_enable'] = true;
                 $data['base_ajax_comments_url'] = $node[MIDCOM_NAV_RELATIVEURL] . "comment/";
             }
         }
 
         midcom_show_style('index-start');
-
-        $data['comments_enable'] = (bool) $this->_config->get('comments_enable');
 
         if ($this->_articles) {
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
