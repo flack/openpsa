@@ -162,8 +162,6 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             $this->_request_data['first_document_number'] = $first_document_id + 1;
             $this->_request_data['last_document_number'] = $last_document_id + 1;
             $this->_request_data['shown_documents'] = $last_document_id - $first_document_id + 1;
-            $this->_request_data['results_per_page'] = $results_per_page;
-            $this->_request_data['all_results'] =& $result;
             $this->_request_data['result'] = array_slice($result, $first_document_id, $results_per_page);
 
             // Register GUIDs for cache engine

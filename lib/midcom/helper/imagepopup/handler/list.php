@@ -35,33 +35,33 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
         $data['filetype'] = $filetype;
         $data['object'] = null;
-        $data['folder'] = $this->_topic;
 
         if (isset($guid)) {
             $data['object'] = midcom::get()->dbfactory->get_object_by_guid($guid);
         }
 
+        $list_title = '';
         switch ($handler_id) {
             case 'list_folder_noobject':
             case 'list_folder':
                 $data['list_type'] = 'folder';
-                $data['list_title'] = $this->_l10n->get('folder attachments');
+                $list_title = $this->_l10n->get('folder attachments');
                 break;
 
             case 'list_object':
                 $data['list_type'] = 'page';
-                $data['list_title'] = $this->_l10n->get('page attachments');
+                $list_title = $this->_l10n->get('page attachments');
                 break;
 
             case 'list_unified_noobject':
             case 'list_unified':
                 $data['list_type'] = 'unified';
-                $data['list_title'] = $this->_l10n->get('unified search');
+                $list_title = $this->_l10n->get('unified search');
                 $data['query'] = $request->query->get('query', '');
                 break;
         }
 
-        midcom::get()->head->set_pagetitle($data['list_title']);
+        midcom::get()->head->set_pagetitle($list_title);
 
         if ($data['list_type'] != 'unified') {
             $data['form'] = $this->load_controller($request, $data);
@@ -82,7 +82,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         if ($data['list_type'] == 'page') {
             $dm->set_storage($data['object'], 'default');
         } else {
-            $dm->set_storage($data['folder'], 'default');
+            $dm->set_storage($this->_topic, 'default');
         }
         $controller = $dm->get_controller();
         if ($controller->handle($request) === 'cancel') {
