@@ -127,7 +127,6 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             $this->_node_toolbar->hide_item($this->router->generate('order'));
 
             // Set page title
-            $data['folder'] = $this->_topic;
             $title = sprintf($this->_l10n->get('order navigation in folder %s'), $this->_topic->get_label());
             midcom::get()->head->set_pagetitle($title);
 
@@ -166,10 +165,8 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             midcom_show_style('midcom-admin-folder-order-start');
         }
 
-        $data['navigation'] = $this->_get_navigation_data();
-
         // Loop through each navigation type (node, leaf and mixed)
-        foreach ($data['navigation'] as $key => $array) {
+        foreach ($this->_get_navigation_data() as $key => $array) {
             $data['navigation_type'] = $key;
             $data['navigation_items'] = $array;
             midcom_show_style('midcom-admin-folder-order-type');

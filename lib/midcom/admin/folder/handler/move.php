@@ -18,9 +18,14 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
     /**
      * Object requested for move editing
      *
-     * @var midcom_core_dbaobject Object for move editing
+     * @var midcom_core_dbaobject
      */
     private $_object;
+
+    /**
+     * @var midcom_db_topic
+     */
+    private $current_folder;
 
     /**
      * Handler for folder move. Checks for updating permissions, initializes
@@ -52,10 +57,10 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         if (is_a($this->_object, midcom_db_topic::class)) {
             // This is a topic
             $this->_object->require_do('midcom.admin.folder:topic_management');
-            $data['current_folder'] = new midcom_db_topic($this->_object->up);
+            $this->current_folder = new midcom_db_topic($this->_object->up);
         } else {
             // This is a regular object
-            $data['current_folder'] = new midcom_db_topic($this->_object->topic);
+            $this->current_folder = new midcom_db_topic($this->_object->topic);
         }
         $data['handler'] = $this;
 
@@ -79,13 +84,13 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         $class = '';
         $selected = '';
         $disabled = '';
-        if ($folder->guid == $this->_request_data['current_folder']->guid) {
+        if ($folder->guid == $this->current_folder->guid) {
             $class = 'current';
             $selected = ' checked="checked"';
         }
 
         if (   !is_a($this->_object, midcom_db_topic::class)
-            && $folder->component !== $this->_request_data['current_folder']->component) {
+            && $folder->component !== $this->current_folder->component) {
             // Non-topic objects may only be moved under folders of same component
             $class = 'wrong_component';
             $disabled = ' disabled="disabled"';
@@ -143,9 +148,6 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
      */
     public function _show_move(string $handler_id, array &$data)
     {
-        // Bind object details to the request data
-        $data['object'] = $this->_object;
-
         midcom_show_style('midcom-admin-show-folder-move');
     }
 }
