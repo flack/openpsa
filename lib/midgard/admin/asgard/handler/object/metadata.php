@@ -49,7 +49,6 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
                 return new midcom_response_relocate($this->router->generate('object_view', ['guid' => $object->guid]));
         }
 
-        $data['object'] = $object;
         $data['controller'] = $controller;
         midgard_admin_asgard_plugin::bind_to_object($object, $handler_id, $data);
         return $this->get_response('midgard_admin_asgard_object_metadata');

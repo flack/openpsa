@@ -83,7 +83,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_request_data['object'] = $this->_object;
         $this->_request_data['controller'] = $this->controller;
         $this->_request_data['datamanager'] = $this->datamanager;
-        $this->_request_data['asgard_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/';
         $this->_request_data['style_helper'] = new midgard_admin_asgard_stylehelper($this->_request_data);
     }
 
@@ -305,8 +304,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
         $this->_prepare_request_data();
         $this->_add_jscripts();
-
-        $data['view_object'] = $this->datamanager->get_content_html();
 
         // Initialize the tree
         $data['tree'] = new midgard_admin_asgard_copytree($this->_object, $data);

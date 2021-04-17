@@ -15,6 +15,10 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
 {
     use midgard_admin_asgard_handler;
 
+    private $components = [];
+
+    private $libraries = [];
+
     public function _on_initialize()
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/components.css');
@@ -43,13 +47,9 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
 
     private function _list_components()
     {
-        $this->_request_data['components'] = [];
-        $this->_request_data['libraries'] = [];
-
         foreach (midcom::get()->componentloader->get_manifests() as $manifest) {
             $type = ($manifest->purecode) ? 'libraries' : 'components';
-
-            $this->_request_data[$type][$manifest->name] = $this->_load_component_data($manifest);
+            $this->$type[$manifest->name] = $this->_load_component_data($manifest);
         }
     }
 
@@ -83,7 +83,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
     {
         $this->_request_data['list_type'] = $type;
         midcom_show_style('midgard_admin_asgard_components_header');
-        foreach ($this->_request_data[$type] as $component_data) {
+        foreach ($this->$type as $component_data) {
             $this->_request_data['component_data'] = $component_data;
             midcom_show_style('midgard_admin_asgard_components_item');
         }

@@ -128,11 +128,6 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($this->type);
 
         $this->_find_component();
-        $data['documentation_component'] = $data['component'];
-        if ($data['component'] == 'midgard') {
-            $data['documentation_component'] = 'midcom';
-        }
-
         $this->_prepare_toolbar($data);
 
         // Set the breadcrumb data
@@ -177,9 +172,13 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string($data['component'], $data['component']),
                 MIDCOM_TOOLBAR_GLYPHICON => 'puzzle-piece',
             ];
+            $documentation_component = $data['component'];
+        } else {
+            $documentation_component = 'midcom';
         }
+
         $buttons[] = [
-            MIDCOM_TOOLBAR_URL => "__ais/help/{$data['documentation_component']}/mgdschemas/#{$this->type}",
+            MIDCOM_TOOLBAR_URL => "__ais/help/{$documentation_component}/mgdschemas/#{$this->type}",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('type documentation'),
             MIDCOM_TOOLBAR_OPTIONS => ['target' => '_blank'],
             MIDCOM_TOOLBAR_GLYPHICON => 'question',
@@ -199,15 +198,15 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
         // Show the garbage bins of child types
         $data['type'] = $this->type;
-        $data['reflector'] = new midcom_helper_reflector_tree($this->type);
+        $reflector = new midcom_helper_reflector_tree($this->type);
         $data['type_name'] = $this->type;
-        $data['type_translated'] = $data['reflector']->get_class_label();
-        $data['parent_type'] = $data['reflector']->get_parent_class();
+        $data['type_translated'] = $reflector->get_class_label();
+        $data['parent_type'] = $reflector->get_parent_class();
         $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         midcom_show_style('midgard_admin_asgard_type');
 
-        $types = $data['reflector']->get_child_classes();
+        $types = $reflector->get_child_classes();
 
         if (!empty($types)) {
             midcom_show_style('midgard_admin_asgard_type_children_start');
@@ -221,9 +220,9 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         midcom_show_style('midgard_admin_asgard_type_children_header');
 
         foreach ($types as $child_type) {
-            $data['reflector'] = new midcom_helper_reflector_tree($child_type);
+            $reflector = new midcom_helper_reflector_tree($child_type);
             $data['type_name'] = $child_type;
-            $data['type_translated'] = $data['reflector']->get_class_label();
+            $data['type_translated'] = $reflector->get_class_label();
 
             midcom_show_style('midgard_admin_asgard_type_children_item');
         }

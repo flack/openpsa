@@ -20,6 +20,11 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
     private $_controller;
 
+    /**
+     * @var midcom_db_topic
+     */
+    private $folder;
+
     public function _on_initialize()
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/libconfig.css');
@@ -61,12 +66,12 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         );
     }
 
-    private function _load_configs(string $component, midcom_db_topic $topic = null) : midcom_helper_configuration
+    private function _load_configs(string $component) : midcom_helper_configuration
     {
         $config = midcom_baseclasses_components_configuration::get($component, 'config');
 
-        if ($topic) {
-            $topic_config = new midcom_helper_configuration($topic, $component);
+        if ($this->folder) {
+            $topic_config = new midcom_helper_configuration($this->folder, $component);
             $config->store($topic_config->_local, false);
         }
 
@@ -138,17 +143,14 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     public function _handler_edit(Request $request, string $handler_id, array &$data, string $component, string $folder = null)
     {
         $data['name'] = $component;
-        if ($handler_id == 'components_configuration_edit_folder') {
-            $data['folder'] = new midcom_db_topic($folder);
-            if ($data['folder']->component != $data['name']) {
+        if ($folder) {
+            $this->folder = new midcom_db_topic($folder);
+            if ($this->folder->component != $data['name']) {
                 throw new midcom_error_notfound("Folder {$folder} not found for configuration.");
             }
-            $data['folder']->require_do('midgard:update');
-
-            $data['config'] = $this->_load_configs($data['name'], $data['folder']);
-        } else {
-            $data['config'] = $this->_load_configs($data['name']);
+            $this->folder->require_do('midgard:update');
         }
+        $data['config'] = $this->_load_configs($data['name']);
 
         $schemadb = (new midgard_admin_asgard_schemadb_config($component, $data['config'], isset($folder)))->create();
         $this->_controller = (new datamanager($schemadb))->get_controller();
@@ -172,23 +174,23 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
                 // FALL-THROUGH (i.e. relocate to view)
 
             case 'cancel':
-                if ($handler_id == 'components_configuration_edit_folder') {
-                    return new midcom_response_relocate($this->router->generate('object_view', ['guid' => $data['folder']->guid]));
+                if ($this->folder) {
+                    return new midcom_response_relocate($this->router->generate('object_view', ['guid' => $this->folder->guid]));
                 }
                 return new midcom_response_relocate($this->router->generate('components_configuration', ['component' => $data['name']]));
         }
 
         $data['controller'] = $this->_controller;
 
-        if ($handler_id == 'components_configuration_edit_folder') {
-            midgard_admin_asgard_plugin::bind_to_object($data['folder'], $handler_id, $data);
-            $data['view_title'] = sprintf($this->_l10n->get('edit configuration for %s folder %s'), $data['name'], $data['folder']->extra);
+        if ($this->folder) {
+            midgard_admin_asgard_plugin::bind_to_object($this->folder, $handler_id, $data);
+            $data['view_title'] = sprintf($this->_l10n->get('edit configuration for %s folder %s'), $data['name'], $this->folder->extra);
         } else {
             $this->_prepare_toolbar(false);
             $data['view_title'] = sprintf($this->_l10n->get('edit configuration for %s'), $data['name']);
             $this->_prepare_breadcrumbs();
             $this->add_breadcrumb(
-                $this->router->generate('components_configuration_edit', ['component' => $this->_request_data['name']]),
+                $this->router->generate('components_configuration_edit', ['component' => $data['name']]),
                 $this->_l10n_midcom->get('edit')
             );
         }
@@ -217,9 +219,9 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             }
         }
 
-        if ($data['handler_id'] == 'components_configuration_edit_folder') {
+        if ($this->folder) {
             // Editing folder configuration
-            return $this->save_topic($data['folder'], $values);
+            return $this->save_topic($values);
         }
         return $this->save_snippet($values);
     }
@@ -273,7 +275,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     /**
      * Save configuration values to a topic as parameters
      */
-    private function save_topic(midcom_db_topic $topic, array $config) : bool
+    private function save_topic(array $config) : bool
     {
         $success = true;
         foreach ($this->_request_data['config']->_global as $global_key => $global_value) {
@@ -284,8 +286,8 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             }
 
             // Clear unset params
-            if ($topic->get_parameter($this->_request_data['name'], $global_key)) {
-                $success = $topic->delete_parameter($this->_request_data['name'], $global_key) && $success;
+            if ($this->folder->get_parameter($this->_request_data['name'], $global_key)) {
+                $success = $this->folder->delete_parameter($this->_request_data['name'], $global_key) && $success;
             }
         }
 
@@ -302,7 +304,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             if ($value === false) {
                 $value = '0';
             }
-            $success = $topic->set_parameter($this->_request_data['name'], $key, $value) && $success;
+            $success = $this->folder->set_parameter($this->_request_data['name'], $key, $value) && $success;
         }
         return $success;
     }
