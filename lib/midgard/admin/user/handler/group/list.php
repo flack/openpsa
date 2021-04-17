@@ -143,15 +143,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
         foreach ($groups as $guid => $array) {
             $data['guid'] = $guid;
             $data['id'] = $array['id'];
-            $data['name'] = $array['name'];
-            $data['title'] = $array['official'];
-
-            if (empty($data['title'])) {
-                $data['title'] = $data['name'];
-                if (empty($data['title'])) {
-                    $data['title'] = $data['l10n_midcom']->get('unknown');
-                }
-            }
+            $data['title'] = $array['official'] ?: $array['name'] ?: $data['l10n_midcom']->get('unknown');
 
             // Show the group
             if ($move) {

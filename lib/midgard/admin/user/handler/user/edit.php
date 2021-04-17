@@ -65,7 +65,6 @@ class midgard_admin_user_handler_user_edit extends midcom_baseclasses_components
                 return new midcom_response_relocate($this->router->generate('user_list'));
         }
 
-        $data['person'] = $person;
         $data['view_title'] = sprintf($this->_l10n_midcom->get('edit %s'), $person->name);
         $this->_prepare_toolbar($data, $handler_id, $person);
         $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get($this->_component));

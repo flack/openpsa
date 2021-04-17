@@ -50,9 +50,6 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
         $this->_list_persons($request->query);
 
-        // Used in many checks, keys are IDs, values objects
-        $data['groups'] = [];
-
         // Used in select
         $data['groups_for_select'] = [];
 

@@ -33,8 +33,9 @@ class application extends base_application
         $this->getDefinition()
             ->addOption(new InputOption('--port', '-p', InputOption::VALUE_REQUIRED, 'HTTP server port', '80'));
 
-        $this->add(new command\exec);
-        $this->add(new command\purgedeleted);
+            $this->add(new command\exec);
+            $this->add(new command\data);
+            $this->add(new command\purgedeleted);
         $this->add(new command\repligard);
         $this->add(new command\blobdircleanup);
         $this->add(new command\rcsdircleanup);

@@ -79,7 +79,6 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
      */
     public function _show_edit(string $handler_id, array &$data)
     {
-        $data['person'] = $this->person;
         midcom_show_style('midgard-admin-user-person-edit-account');
     }
 
@@ -125,7 +124,6 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
         $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('user_edit', ['guid' => $this->person->guid]), $this->person->name);
         $this->add_breadcrumb("", $data['view_title']);
-        $data['person'] = $this->person;
 
         return $this->get_response('midgard-admin-user-person-delete-account');
     }

@@ -6,14 +6,12 @@ $url = $data['router']->generate('user_passwords');
     <a href="&(url);" target="_blank"><?php echo $data['l10n']->get('generate passwords'); ?></a>
 </div>
 <script type="text/javascript">
-    // <![CDATA[
-        jQuery('#midgard_admin_user_passwords a')
-            .attr('href', '#')
-            .attr('target', '_self')
-            .click(function() {
-                jQuery(this.parentNode).load('&(url);?timestamp=<?php echo time(); ?>');
-            });
-    // ]]>
+    $('#midgard_admin_user_passwords a')
+        .attr('href', '#')
+        .attr('target', '_self')
+        .click(function() {
+            $(this.parentNode).load('&(url);?timestamp=<?php echo time(); ?>');
+        });
 </script>
 
 <?php
