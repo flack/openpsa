@@ -50,10 +50,6 @@ Luo uudelleenohjaus "%s"
 Luo wiki-sivu "%s"
 ---STRINGEND
 
----STRING display_related_to
-Näytä sivuun liittyvät toiset sivut sisällössä
----STRINGEND
-
 ---STRING latest updates in %s
 Viimeisimmät päivitykset wikissä %s
 ---STRINGEND

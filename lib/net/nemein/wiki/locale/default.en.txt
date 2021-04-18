@@ -54,10 +54,6 @@ Create redirection page "%s"
 Create wiki page "%s"
 ---STRINGEND
 
----STRING display_related_to
-Display related to items in page
----STRINGEND
-
 ---STRING latest updates in %s
 Latest updates in %s
 ---STRINGEND

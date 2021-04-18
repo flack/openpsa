@@ -105,16 +105,16 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
     public function _handler_create(Request $request, array &$data, string $schema = null)
     {
         // Initialize sessioning first
-        $data['session'] = new midcom_services_session();
+        $session = new midcom_services_session();
 
         if (!$request->query->has('wikiword')) {
-            if (!$data['session']->exists('wikiword')) {
+            if (!$session->exists('wikiword')) {
                 throw new midcom_error_notfound('No wiki word given');
             }
-            $this->_wikiword = $data['session']->get('wikiword');
+            $this->_wikiword = $session->get('wikiword');
         } else {
             $this->_wikiword = $request->query->get('wikiword');
-            $data['session']->set('wikiword', $this->_wikiword);
+            $session->set('wikiword', $this->_wikiword);
         }
 
         $this->_topic->require_do('midgard:create');

@@ -26,6 +26,13 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     private $_display_datamanager;
 
+    /**
+     * @var net_nehmer_comments_comment[]
+     */
+    private $comments;
+
+    private $status;
+
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
@@ -59,7 +66,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     private function _load_comments() : array
     {
         $view_status = [];
-        switch ($this->_request_data['handler']) {
+        switch ($this->status) {
             case 'reported_abuse':
                 $this->_request_data['status_to_show'] = 'reported abuse';
                 $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
@@ -124,9 +131,8 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
 
         midcom::get()->cache->invalidate($comment->objectguid);
 
-        $this->_request_data['handler'] = $status;
-        $comments = $this->_load_comments();
-        if (!empty($comments)) {
+        $this->status = $status;
+        if ($comments = $this->_load_comments()) {
             $data['comment'] = end($comments);
             $this->_init_display_datamanager();
         }
@@ -140,17 +146,16 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     {
         if (!empty($data['comment'])) {
             $this->_display_datamanager->set_storage($data['comment']);
-            $data['comment_toolbar'] = $this->populate_post_toolbar($data['comment'], $data['handler']);
+            $data['comment_toolbar'] = $this->populate_post_toolbar($data['comment'], $this->status);
             midcom_show_style('admin-comments-item');
         }
     }
 
     public function _handler_moderate(string $status, array &$data)
     {
-        $data['handler'] = $status;
+        $this->status = $status;
 
-        $data['comments'] = $this->_load_comments();
-        if (!empty($data['comments'])) {
+        if ($this->comments = $this->_load_comments()) {
             $this->_init_display_datamanager();
         }
 
@@ -167,9 +172,9 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     public function _show_moderate(string $handler_id, array &$data)
     {
         midcom_show_style('admin-start');
-        if ($data['comments']) {
+        if ($this->comments) {
             midcom_show_style('admin-comments-start');
-            foreach ($data['comments'] as $comment) {
+            foreach ($this->comments as $comment) {
                 $data['comment'] = $comment;
                 $this->_show_moderate_ajax($handler_id, $data);
             }

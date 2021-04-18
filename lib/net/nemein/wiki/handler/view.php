@@ -32,11 +32,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     private $_datamanager;
 
-    public function _on_initialize()
-    {
-        $this->_request_data['page'] =& $this->_page;
-    }
-
     /**
      * Internal helper, loads the datamanager for the current wikipage. Any error triggers a 500.
      */
@@ -177,7 +172,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         $data['wikipage_view'] = $this->_datamanager->get_content_html();
         $data['wikipage'] = $this->_page;
-        $data['display_related_to'] = $this->_config->get('display_related_to');
 
         // Replace wikiwords
         $parser = new net_nemein_wiki_parser($this->_page);
@@ -252,8 +246,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $this->_load_datamanager();
 
         $data['wikipage_view'] = $this->_datamanager->get_content_html();
-        $data['autogenerate_toc'] = $this->_config->get('autogenerate_toc');
-        $data['display_related_to'] = $this->_config->get('display_related_to');
 
         // Replace wikiwords
         $parser = new net_nemein_wiki_parser($this->_page);

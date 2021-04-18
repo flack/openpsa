@@ -37,8 +37,7 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
             $qb = net_nemein_rss_feed_dba::new_query_builder();
             $qb->add_order('title');
             $qb->add_constraint('node', '=', $this->_topic->id);
-            $data['feeds'] = $qb->execute();
-            foreach ($data['feeds'] as $feed) {
+            foreach ($qb->execute() as $feed) {
                 $fetcher = new net_nemein_rss_fetch($feed);
                 $items = $fetcher->import();
                 $data['error'] .= $fetcher->lasterror . "<br /> \n";

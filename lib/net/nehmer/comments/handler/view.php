@@ -67,18 +67,14 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      */
     private $_display_datamanager;
 
-    private $custom_view;
-
     /**
      * Prepares the request data
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['comments'] = $this->_comments;
         $this->_request_data['objectguid'] = $this->_objectguid;
         $this->_request_data['post_controller'] = $this->_post_controller;
         $this->_request_data['display_datamanager'] = $this->_display_datamanager;
-        $this->_request_data['custom_view'] = $this->custom_view;
     }
 
     /**
@@ -198,7 +194,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 
         if ($handler_id == 'view-comments-custom') {
             midcom::get()->skip_page_style = true;
-            $this->custom_view = $view;
+            $data['custom_view'] = $view;
         }
 
         $this->_prepare_request_data();

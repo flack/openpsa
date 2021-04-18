@@ -1,4 +1,4 @@
-<h1><?php printf($data['l10n']->get('subscribe feeds for %s'), $data['folder']->extra); ?></h1>
+<h1><?php printf($data['l10n']->get('subscribe feeds for %s'), $data['topic']->extra); ?></h1>
 
 <form method="post" class="datamanager" enctype="multipart/form-data">
 

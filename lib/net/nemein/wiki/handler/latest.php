@@ -15,6 +15,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
 {
     private $_updated_pages = 0;
     private $_max_pages = 0;
+    private $latest_pages = [];
 
     /**
      * List all items updated with then given timeframe
@@ -59,16 +60,15 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
     {
         $history_date = date('Y-m-d', $entry['date']);
 
-        if (!isset($this->_request_data['latest_pages'][$history_date])) {
-            $this->_request_data['latest_pages'][$history_date] = [];
+        if (!isset($this->latest_pages[$history_date])) {
+            $this->latest_pages[$history_date] = [];
         }
-        $this->_request_data['latest_pages'][$history_date][] = $entry;
+        $this->latest_pages[$history_date][] = $entry;
         $this->_updated_pages++;
     }
 
     public function _handler_latest(array &$data)
     {
-        $data['latest_pages'] = [];
         $this->_max_pages = $this->_config->get('latest_count');
 
         // Start by looking for items within last two weeks
@@ -96,12 +96,11 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
      */
     public function _show_latest(string $handler_id, array &$data)
     {
-        $data['wikiname'] = $this->_topic->extra;
-        if (!empty($data['latest_pages'])) {
-            krsort($data['latest_pages']);
+        if (!empty($this->latest_pages)) {
+            krsort($this->latest_pages);
             $dates_shown = [];
             midcom_show_style('view-latest-header');
-            foreach ($data['latest_pages'] as $date => $versions) {
+            foreach ($this->latest_pages as $date => $versions) {
                 if (!isset($dates_shown[$date])) {
                     $data['date'] = $date;
                     midcom_show_style('view-latest-date');

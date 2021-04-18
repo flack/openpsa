@@ -54,10 +54,6 @@ Weiterleitungsseite "%s" erstellen
 Wiki-Seite "%s" erstellen
 ---STRINGEND
 
----STRING display_related_to
-Zeige Objekte, die mit dieser Seite verbunden sind
----STRINGEND
-
 ---STRING latest updates in %s
 Letzte Updates in %s
 ---STRINGEND

@@ -145,9 +145,6 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
 
         $this->_tinyurls = $qb->execute();
 
-        // Initialize the datamanager instance
-        $data['datamanager'] = datamanager::from_schemadb($this->_config->get('schemadb_tinyurl'));
-
         $data['workflow'] = $this->get_workflow('datamanager');
         // Set the request data
         $this->_populate_request_data($handler_id);
@@ -162,10 +159,13 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     {
         midcom_show_style('tinyurl-list-start');
 
+        // Initialize the datamanager instance
+        $datamanager = datamanager::from_schemadb($this->_config->get('schemadb_tinyurl'));
+
         foreach ($this->_tinyurls as $tinyurl) {
             $data['tinyurl'] = $tinyurl;
-            $data['datamanager']->set_storage($tinyurl);
-            $data['view_tinyurl'] = $data['datamanager']->get_content_html();
+            $datamanager->set_storage($tinyurl);
+            $data['view_tinyurl'] = $datamanager->get_content_html();
 
             midcom_show_style('tinyurl-list-item');
         }

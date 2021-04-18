@@ -15,6 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
 {
+    /**
+     * @var net_nemein_rss_feed_dba[]
+     */
+    private $feeds;
+
     public function _handler_opml() : Response
     {
         $opml = new OPMLCreator();
@@ -41,7 +46,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         $qb = net_nemein_rss_feed_dba::new_query_builder();
         $qb->add_order('title');
         $qb->add_constraint('node', '=', $this->_topic->id);
-        $data['feeds'] = $qb->execute();
+        $this->feeds = $qb->execute();
 
         \midcom\workflow\delete::add_head_elements();
         $this->add_breadcrumb($this->router->generate('feeds_list'), $this->_l10n->get('manage feeds'));
@@ -52,14 +57,12 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
      */
     public function _show_list(string $handler_id, array &$data)
     {
-        $data['folder'] = $this->_topic;
         midcom_show_style('net-nemein-rss-feeds-list-header');
 
-        foreach ($data['feeds'] as $feed) {
+        foreach ($this->feeds as $feed) {
             $data['feed'] = $feed;
             $data['feed_category'] = 'feed:' . md5($feed->url);
             $data['feed_toolbar'] = $this->create_toolbar($feed);
-            $data['topic'] = $this->_topic;
             midcom_show_style('net-nemein-rss-feeds-list-item');
         }
 

@@ -47,26 +47,17 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
             $feed->node = $this->_topic->id;
             $feed->url = $feed_url;
             $feed->title = $feed_title;
-            $stat = $feed->create();
-        } else {
-            // If we're updating existing feed
-            $feed = $feeds[0];
-            $feed->title = $feed_title;
-            $stat = $feed->update();
+            return $feed->create();
         }
-        if ($stat) {
-            $this->_request_data['feeds_subscribed'][$feed->id] = $feed->url;
-        }
-        return $stat;
+        // If we're updating existing feed
+        $feed = $feeds[0];
+        $feed->title = $feed_title;
+        return $feed->update();
     }
 
     public function _handler_subscribe(Request $request, string $handler_id, array &$data)
     {
         $this->_topic->require_do('midgard:create');
-
-        // Arrays for containing data on subscribed and updated feeds
-        $data['feeds_subscribed'] = [];
-        $data['feeds_updated'] = [];
 
         // Single feed addition
         $post = $request->request->get('net_nemein_rss_manage_newfeed');
@@ -106,7 +97,6 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
 
         $this->_update_breadcrumb_line($handler_id);
 
-        $data['folder'] = $this->_topic;
         return $this->show('net-nemein-rss-feeds-subscribe');
     }
 
