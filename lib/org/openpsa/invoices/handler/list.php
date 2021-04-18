@@ -46,8 +46,6 @@ implements client
      */
     private $formatter;
 
-    private $invoices_url;
-
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
