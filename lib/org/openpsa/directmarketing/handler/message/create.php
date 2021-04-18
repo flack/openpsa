@@ -30,12 +30,12 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
      */
     public function _handler_create(Request $request, string $campaign, string $schema, array &$data)
     {
-        $data['campaign'] = $this->load_campaign($campaign);
-        $data['campaign']->require_do('midgard:create');
+        $campaign = $this->load_campaign($campaign);
+        $campaign->require_do('midgard:create');
 
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_message'));
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba();
-        $this->_message->campaign = $data['campaign']->id;
+        $this->_message->campaign = $campaign->id;
         $dm->set_storage($this->_message, $schema);
         $this->_message->orgOpenpsaObtype = $dm->get_schema()->get('customdata')['org_openpsa_directmarketing_messagetype'];
 

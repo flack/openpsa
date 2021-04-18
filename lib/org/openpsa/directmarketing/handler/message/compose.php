@@ -30,6 +30,16 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     private $_datamanager;
 
     /**
+     * @var org_openpsa_directmarketing_campaign_member_dba
+     */
+    private $member;
+
+    /**
+     * @var org_openpsa_contacts_person_dba
+     */
+    private $person;
+
+    /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
      */
     private function _load_datamanager()
@@ -50,7 +60,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         midcom::get()->auth->request_sudo($this->_component);
         //Load message
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);
-        $data['campaign'] = $this->load_campaign($this->_message->campaign);
+        $this->load_campaign($this->_message->campaign);
 
         $this->_load_datamanager();
         $data['message_array'] = $this->_datamanager->get_content_raw();
@@ -64,20 +74,18 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             debug_add("Appending substyle {$data['message_array']['substyle']}");
             midcom::get()->style->append_substyle($data['message_array']['substyle']);
         }
-        $data['message'] = $this->_message;
-        $data['message_dm'] = $this->_datamanager;
 
         if ($person !== null) {
-            $data['person'] = new org_openpsa_contacts_person_dba($person);
+            $this->person = new org_openpsa_contacts_person_dba($person);
             $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-            $qb->add_constraint('person', '=', $data['person']->id);
+            $qb->add_constraint('person', '=', $this->person->id);
             $memberships = $qb->execute();
             if (empty($memberships)) {
-                $data['member'] = new org_openpsa_directmarketing_campaign_member_dba();
-                $data['member']->person = $data['person']->id;
-                $data['member']->campaign = $this->_message->campaign;
+                $this->member = new org_openpsa_directmarketing_campaign_member_dba();
+                $this->member->person = $this->person->id;
+                $this->member->campaign = $this->_message->campaign;
             } else {
-                $data['member'] = $memberships[0];
+                $this->member = $memberships[0];
             }
         }
 
@@ -102,7 +110,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             ob_start();
             $this->_real_show_compose($handler_id, $data);
             $composed = ob_get_clean();
-            $personalized = $data['member']->personalize_message($composed, $this->_message->orgOpenpsaObtype, $data['person']);
+            $personalized = $this->member->personalize_message($composed, $this->_message->orgOpenpsaObtype, $this->person);
             echo $personalized;
             return;
         }

@@ -17,6 +17,11 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
 {
     use org_openpsa_contacts_handler;
 
+    /**
+     * @var org_openpsa_contacts_group_dba[]
+     */
+    private $results;
+
     public function _handler_update_member_title(Request $request)
     {
         $response = new midcom_response_json;
@@ -71,7 +76,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
         $group = new org_openpsa_contacts_group_dba($guid);
         $qb = org_openpsa_contacts_group_dba::new_query_builder();
         $qb->add_constraint('owner', '=', $group->id);
-        $data['results'] = $qb->execute();
+        $this->results = $qb->execute();
     }
 
     /**
@@ -79,10 +84,10 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
      */
     public function _show_subgroups(string $handler_id, array &$data)
     {
-        if (!empty($data['results'])) {
+        if (!empty($this->results)) {
             $this->add_head_elements();
             midcom_show_style('show-group-subgroups-header');
-            foreach ($data['results'] as $subgroup) {
+            foreach ($this->results as $subgroup) {
                 $this->_request_data['subgroup'] = $subgroup;
                 midcom_show_style('show-group-subgroups-item');
             }

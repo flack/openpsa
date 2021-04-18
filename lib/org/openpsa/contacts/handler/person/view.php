@@ -26,18 +26,21 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     private $_contact;
 
     /**
-     * The user object for the current person, if any
-     *
-     * @var midcom_core_user
-     */
-    private $_person_user;
-
-    /**
      * The Datamanager of the contact
      *
      * @var datamanager
      */
     private $_datamanager;
+
+    /**
+     * @var org_openpsa_contacts_member_dba[]
+     */
+    private $organizations;
+
+    /**
+     * @var org_openpsa_contacts_member_dba[]
+     */
+    private $groups;
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -47,7 +50,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     {
         $this->_request_data['person'] = $this->_contact;
         $this->_request_data['datamanager'] = $this->_datamanager;
-        $this->_request_data['person_user'] = $this->_person_user;
     }
 
     private function _load_datamanager()
@@ -69,14 +71,13 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $this->_contact = new org_openpsa_contacts_person_dba($guid);
         $this->_load_datamanager();
 
-        $data['person_rss_url'] = $this->_contact->get_parameter('net.nemein.rss', 'url');
-        if ($data['person_rss_url']) {
+        if ($url = $this->_contact->get_parameter('net.nemein.rss', 'url')) {
             // We've autoprobed that this contact has a RSS feed available, link it
             midcom::get()->head->add_link_head([
                 'rel'   => 'alternate',
                 'type'  => 'application/rss+xml',
                 'title' => sprintf($this->_l10n->get('rss feed of person %s'), $this->_contact->name),
-                'href'  => $data['person_rss_url'],
+                'href'  => $url,
             ]);
         }
         $this->_prepare_request_data();
@@ -87,7 +88,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         $this->add_breadcrumb($this->router->generate('person_view', ['guid' => $this->_contact->guid]), $this->_contact->name);
         midcom::get()->head->set_pagetitle($this->_contact->name);
-        $data['contact_view'] = $this->_datamanager->get_content_html();
 
         return $this->show('show-person');
     }
@@ -160,12 +160,12 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $qb = org_openpsa_contacts_member_dba::new_query_builder();
         $qb->add_constraint('uid', '=', $data['person']->id);
         $qb->add_constraint('gid.orgOpenpsaObtype', '>', org_openpsa_contacts_group_dba::MYCONTACTS);
-        $data['organizations'] = $qb->execute();
+        $this->organizations = $qb->execute();
 
         $qb = org_openpsa_contacts_member_dba::new_query_builder();
         $qb->add_constraint('uid', '=', $data['person']->id);
         $qb->add_constraint('gid.orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::MYCONTACTS);
-        $data['groups'] = $qb->execute();
+        $this->groups = $qb->execute();
     }
 
     /**
@@ -173,7 +173,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     public function _show_group_memberships(string $handler_id, array &$data)
     {
-        if (empty($data['organizations']) && empty($data['groups'])) {
+        if (empty($this->organizations) && empty($this->groups)) {
             midcom_show_style('show-person-groups-empty');
         } else {
             $this->_show_memberships('organizations');
@@ -183,13 +183,13 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
     private function _show_memberships(string $identifier)
     {
-        if (empty($this->_request_data[$identifier])) {
+        if (empty($this->$identifier)) {
             return;
         }
         $this->_request_data['title'] = $this->_l10n->get($identifier);
         $this->add_head_elements();
         midcom_show_style('show-person-groups-header');
-        foreach ($this->_request_data[$identifier] as $member) {
+        foreach ($this->$identifier as $member) {
             try {
                 $this->_request_data['group'] = org_openpsa_contacts_group_dba::get_cached($member->gid);
             } catch (midcom_error $e) {

@@ -46,16 +46,15 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
 
         $this->add_breadcrumb($this->router->generate('message_view', ['guid' => $this->_message->guid]), $this->_message->title);
 
-        $data['message'] = $this->_message;
         $data['campaign'] = $this->_campaign;
         $data['datamanager'] = $this->_datamanager;
+        $data['message'] = $this->_message;
 
         $this->_populate_toolbar();
 
         $this->bind_view_to_object($this->_message, $this->_datamanager->get_schema()->get_name());
         midcom::get()->metadata->set_request_metadata($this->_message->metadata->revised, $this->_message->guid);
         midcom::get()->head->set_pagetitle($this->_message->title);
-        $data['view_message'] = $this->_datamanager->get_content_html();
 
         return $this->show('show-message');
     }

@@ -20,6 +20,12 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     private $_datamanager;
 
+    private $batch_url_base_full;
+
+    private $batch_number;
+
+    private $send_start;
+
     private function load_datamanager(org_openpsa_directmarketing_campaign_message_dba $message)
     {
         $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_message'))
@@ -42,7 +48,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
 
         $this->load_datamanager($data['message']);
 
-        $data['batch_number'] = $batch_number;
+        $this->batch_number = $batch_number;
         midcom_services_at_entry_dba::get_cached($job);
 
         ignore_user_abort();
@@ -60,11 +66,11 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $composed = $this->compose($data);
         debug_add('Forcing content type: text/plain');
         midcom::get()->header('Content-Type: text/plain');
-        $bgstat = $sender->send_bg($data['batch_url_base_full'], $data['batch_number'], $composed);
+        $bgstat = $sender->send_bg($this->batch_url_base_full, $this->batch_number, $composed);
         if (!$bgstat) {
             echo "ERROR\n";
         } else {
-            echo "Batch #{$data['batch_number']} DONE\n";
+            echo "Batch #{$this->batch_number} DONE\n";
         }
         midcom::get()->auth->drop_sudo();
     }
@@ -75,9 +81,9 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     private function _get_sender(array &$data) : org_openpsa_directmarketing_sender
     {
-        $data['message_array'] = $this->_datamanager->get_content_raw();
-        $data['message_array']['dm_storage'] = $this->_datamanager->get_storage();
-        if (!array_key_exists('content', $data['message_array'])) {
+        $message_array = $this->_datamanager->get_content_raw();
+        $message_array['dm_storage'] = $this->_datamanager->get_storage();
+        if (!array_key_exists('content', $message_array)) {
             throw new midcom_error('"content" not defined in schema');
         }
 
@@ -89,15 +95,15 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
 
         foreach ($settings as $config_name => $target_name) {
             if ($value = $this->_config->get($config_name)) {
-                $data['message_array'][$target_name] = $value;
+                $message_array[$target_name] = $value;
             }
         }
 
         //PONDER: Should we leave these entirely for the methods to parse from the array ?
-        $subject = $data['message_array']['subject'] ?? '';
-        $from = $data['message_array']['from'] ?? '';
+        $subject = $message_array['subject'] ?? '';
+        $from = $message_array['from'] ?? '';
 
-        $sender = new org_openpsa_directmarketing_sender($data['message'], $data['message_array'], $from, $subject);
+        $sender = new org_openpsa_directmarketing_sender($data['message'], $message_array, $from, $subject);
         if ($token_size = $this->_config->get('token_size')) {
             $sender->token_size = $token_size;
         }
@@ -109,9 +115,9 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($nap->get_current_node());
         $compose_url = $node[MIDCOM_NAV_RELATIVEURL] . 'message/compose/' . $data['message']->guid .'/';
-        $data['batch_url_base_full'] = $node[MIDCOM_NAV_RELATIVEURL] . 'message/send_bg/' . $data['message']->guid . '/';
+        $this->batch_url_base_full = $node[MIDCOM_NAV_RELATIVEURL] . 'message/send_bg/' . $data['message']->guid . '/';
         debug_add("compose_url: {$compose_url}");
-        debug_add("batch_url base: {$data['batch_url_base_full']}");
+        debug_add("batch_url base: {$this->batch_url_base_full}");
         $le_backup = ini_set('log_errors', true);
         $de_backup = ini_set('display_errors', false);
         ob_start();
@@ -128,14 +134,14 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         midcom::get()->auth->require_valid_user();
         //Load message
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($guid);
-        $data['campaign'] = $this->load_campaign($data['message']->campaign);
+        $this->load_campaign($data['message']->campaign);
 
         $this->add_breadcrumb($this->router->generate('message_view', ['guid' => $guid]), $data['message']->title);
         $this->add_breadcrumb("", $this->_l10n->get('send'));
 
         $this->load_datamanager($data['message']);
 
-        $this->_request_data['send_start'] = time();
+        $this->send_start = time();
 
         ignore_user_abort();
     }
@@ -158,7 +164,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             }
         } else {
             // Schedule background send
-            if (!$sender->register_send_job(1, $data['batch_url_base_full'], $data['send_start'])) {
+            if (!$sender->register_send_job(1, $this->batch_url_base_full, $this->send_start)) {
                 throw new midcom_error("Job registration failed: " . midcom_connection::get_error_string());
             }
             midcom_show_style('send-status');

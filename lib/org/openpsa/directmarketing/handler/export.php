@@ -44,7 +44,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
     {
         $rows = [];
         $qb_members = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        $qb_members->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
+        $qb_members->add_constraint('campaign', '=', $data['campaign']->id);
         $qb_members->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         // PONDER: Filter by status (other than tester) ??
         $qb_members->add_order('person.lastname', 'ASC');

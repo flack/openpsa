@@ -42,15 +42,14 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
         $data['widget_config'] = autocomplete::get_widget_config('contact');
         $data['widget_config']['id_field'] = 'guid';
 
-        $mycontacts = new org_openpsa_contacts_mycontacts;
-        $data['mycontacts'] = $mycontacts->list_members();
         autocomplete::add_head_elements();
     }
 
     public function _show_list(string $handler_id, array &$data)
     {
         midcom_show_style('show-mycontacts-header');
-        foreach ($data['mycontacts'] as $person) {
+        $mycontacts = new org_openpsa_contacts_mycontacts;
+        foreach ($mycontacts->list_members() as $person) {
             $data['person'] = $person;
             midcom_show_style('show-mycontacts-item');
         }

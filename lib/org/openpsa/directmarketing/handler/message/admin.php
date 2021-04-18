@@ -34,7 +34,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $this->_message->require_do('midgard:update');
 
-        $data['campaign'] = $this->load_campaign($this->_message->campaign);
+        $this->load_campaign($this->_message->campaign);
 
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_message'));
         $dm->set_storage($this->_message);

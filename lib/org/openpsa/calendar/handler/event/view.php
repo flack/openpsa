@@ -95,9 +95,6 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
     public function _show_event(string $handler_id, array &$data)
     {
         if ($handler_id == 'event_view') {
-            // Set title to popup
-            $data['title'] = sprintf($this->_l10n->get('event %s'), $data['event']->title);
-
             // Show popup
             $data['event_dm'] = $this->datamanager;
             midcom_show_style('show-event');

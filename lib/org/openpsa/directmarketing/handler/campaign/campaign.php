@@ -101,7 +101,6 @@ implements client
         $this->_datamanager->set_storage($this->_campaign);
 
         $data['campaign'] = $this->_campaign;
-        $data['datamanager'] = $this->_datamanager;
 
         $this->_populate_toolbar();
 

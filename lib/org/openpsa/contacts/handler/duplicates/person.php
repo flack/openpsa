@@ -17,9 +17,10 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_components_handler
 {
+    private $notfound = false;
+
     public function _handler_sidebyside(Request $request)
     {
-        $this->_request_data['notfound'] = false;
         $this->_request_data['person1'] = false;
         $this->_request_data['person2'] = false;
         $this->_request_data['loop_i'] = 0;
@@ -54,7 +55,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
 
             if (empty($ret)) {
                 debug_add("No more results to be had, setting notfound and breaking out of loop");
-                $this->_request_data['notfound'] = true;
+                $this->notfound = true;
                 break;
             }
 
@@ -84,7 +85,6 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                 continue;
             }
 
-            $this->_request_data['probability'] = (float)$param->value;
             $this->_request_data['person1'] = $person1;
             $this->_request_data['person2'] = $person2;
             break;
@@ -149,7 +149,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
      */
     public function _show_sidebyside(string $handler_id, array &$data)
     {
-        if (!$this->_request_data['notfound']) {
+        if (!$this->notfound) {
             midcom_show_style('show-duplicate-persons');
         } else {
             midcom_show_style('show-duplicate-persons-notfound');

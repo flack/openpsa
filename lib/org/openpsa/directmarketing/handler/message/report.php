@@ -24,13 +24,6 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     private $_message;
 
     /**
-     * The message's campaign
-     *
-     * @var org_openpsa_directmarketing_campaign_dba
-     */
-    private $_campaign;
-
-    /**
      * Builds the message report array
      */
     private function _analyze_message_report(array $data)
@@ -316,8 +309,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             ->set_storage($this->_message)
             ->get_content_raw();
 
-        $this->_campaign = $this->load_campaign($this->_message->campaign);
-        $data['campaign'] = $this->_campaign;
+        $this->load_campaign($this->_message->campaign);
 
         $identifier = $request->request->get('oo_dirmar_userule');
         if ($request->request->has('oo_dirmar_rule_' . $identifier)) {
