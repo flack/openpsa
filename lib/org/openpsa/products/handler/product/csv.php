@@ -24,20 +24,20 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
                 $root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
                 $group_name_to_filename = strtolower(str_replace(' ', '_', $root_group->code)) . '_';
             }
-            $data['schemadb_to_use'] = str_replace('.csv', '', $args[0]);
-            $data['filename'] = $group_name_to_filename . $data['schemadb_to_use'] . '_' . date('Y-m-d') . '.csv';
+            $schemadb_to_use = str_replace('.csv', '', $args[0]);
+            $data['filename'] = $group_name_to_filename . $schemadb_to_use . '_' . date('Y-m-d') . '.csv';
         } elseif (array_key_exists('org_openpsa_products_export_schema', $_POST)) {
             //We do not have filename in URL, generate one and redirect
             $data['filename'] = $_POST['org_openpsa_products_export_schema'];
             return [];
         } else {
-            $data['schemadb_to_use'] = $this->_config->get('csv_export_schema');
+            $schemadb_to_use = $this->_config->get('csv_export_schema');
         }
 
         $this->_schema = $this->_config->get('csv_export_schema');
         $schemadb = $this->_request_data['schemadb_product'];
-        if ($schemadb->has($data['schemadb_to_use'])) {
-            $this->_schema = $data['schemadb_to_use'];
+        if ($schemadb->has($schemadb_to_use)) {
+            $this->_schema = $schemadb_to_use;
         }
 
         return [$schemadb];

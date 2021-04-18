@@ -28,15 +28,15 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
         $this->task = new org_openpsa_projects_task_dba($guid);
 
         $data['object'] = $this->task;
-        $data['datamanager'] = datamanager::from_schemadb($this->_config->get('schemadb_task'))
+        $datamanager = datamanager::from_schemadb($this->_config->get('schemadb_task'))
             ->set_storage($this->task);
-        $data['object_view'] = $data['datamanager']->get_content_html();
+        $data['object_view'] = $datamanager->get_content_html();
 
         $this->populate_toolbar();
         midcom::get()->head->set_pagetitle($this->task->get_label());
         org_openpsa_projects_viewer::add_breadcrumb_path($this->task, $this);
         midcom::get()->metadata->set_request_metadata($this->task->metadata->revised, $guid);
-        $this->bind_view_to_object($this->task, $data['datamanager']->get_schema()->get_name());
+        $this->bind_view_to_object($this->task, $datamanager->get_schema()->get_name());
 
         $data['calendar_node'] = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
 

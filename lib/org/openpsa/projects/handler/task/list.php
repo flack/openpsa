@@ -63,6 +63,8 @@ implements client
      */
     protected $is_single_project = false;
 
+    protected $priority_array;
+
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
@@ -76,9 +78,9 @@ implements client
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb_task'));
         if ($schemadb->get('default')->has_field('priority')) {
-            $this->_request_data['priority_array'] = $schemadb->get('default')->get_field('priority')['type_config']['options'];
-            $this->_request_data['priority_array'][0] = $this->_l10n->get("none");
-            foreach ($this->_request_data['priority_array'] as &$title) {
+            $this->priority_array = $schemadb->get('default')->get_field('priority')['type_config']['options'];
+            $this->priority_array[0] = $this->_l10n->get("none");
+            foreach ($this->priority_array as &$title) {
                 $title = $this->_l10n->get($title);
             }
         }
@@ -119,7 +121,6 @@ implements client
         }
         $this->set_active_leaf($this->_topic->id . ':tasks_' . $args[0]);
         $this->add_filters($args[0]);
-        $this->_request_data['table-heading'] = $args[0] . ' tasks';
     }
 
     /**
@@ -248,8 +249,8 @@ implements client
 
         $entry['index_priority'] = $task->priority;
         $entry['priority'] = $task->priority;
-        if (!empty($this->_request_data['priority_array'][$task->priority])) {
-            $entry['priority'] = '<span title="' . $this->_l10n->get($this->_request_data['priority_array'][$task->priority]) . '">' . $task->priority . '</span>';
+        if (!empty($this->priority_array[$task->priority])) {
+            $entry['priority'] = '<span title="' . $this->_l10n->get($this->priority_array[$task->priority]) . '">' . $task->priority . '</span>';
         }
 
         $entry['manager'] = $manager_card->show_inline();
@@ -295,9 +296,11 @@ implements client
         }
 
         if ($this->show_customer) {
+            $siteconfig = org_openpsa_core_siteconfig::get_instance();
+            $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
             try {
                 $customer = org_openpsa_contacts_group_dba::get_cached($task->customer);
-                $customer_url = "{$this->_request_data['contacts_url']}group/{$customer->guid}/";
+                $customer_url = "{$contacts_url}group/{$customer->guid}/";
                 $ret['customer'] = "<a href='{$customer_url}' title='{$customer->official}'>{$customer->get_label()}</a>";
                 $ret['index_customer'] = $customer->name;
             } catch (midcom_error $e) {
@@ -333,10 +336,6 @@ implements client
         $this->_request_data['show_status_controls'] = $this->show_status_controls;
         $this->_request_data['show_customer'] = $this->show_customer;
         $this->_request_data['is_single_project'] = $this->is_single_project;
-
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
-        $this->_request_data['sales_url'] = $siteconfig->get_node_full_url('org.openpsa.sales');
 
         $this->provider = new provider($this, 'local');
         $this->_request_data['provider'] = $this->provider;

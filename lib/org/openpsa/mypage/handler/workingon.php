@@ -41,9 +41,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['expenses_url'] = $siteconfig->get_node_full_url('org.openpsa.expenses');
 
-        $data['requested_time'] = new DateTime;
-
-        $this->prepare_timestamps($data['requested_time']);
+        $this->prepare_timestamps(new DateTime);
         $this->_list_work_hours();
 
         autocomplete::add_head_elements();

@@ -21,6 +21,11 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
      */
     private $datamanager;
 
+    /**
+     * @var midcom_services_indexer_document[]
+     */
+    private $results;
+
     public function _on_initialize()
     {
         $this->datamanager = datamanager::from_schemadb($this->_config->get('schemadb_document'));
@@ -28,7 +33,6 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
 
     public function _handler_search(Request $request, array &$data)
     {
-        $data['results'] = [];
         if ($request->query->has('query')) {
             // Figure out where we are
             $nap = new midcom_helper_nav();
@@ -46,7 +50,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
             // TODO: Metadata support
 
             // Run the search
-            $data['results'] = $indexer->query($query, $filter);
+            $this->results = $indexer->query($query, $filter);
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.documents/layout.css");
@@ -79,9 +83,9 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
     {
         $displayed = 0;
         midcom_show_style('show-search-header');
-        if (!empty($this->_request_data['results'])) {
+        if (!empty($this->results)) {
             midcom_show_style('show-search-results-header');
-            foreach ($this->_request_data['results'] as $document) {
+            foreach ($this->results as $document) {
                 try {
                     // $obj->RI will contain either document or attachment GUID depending on match,
                     // ->source will always contain the document GUID

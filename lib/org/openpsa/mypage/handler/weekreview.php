@@ -15,6 +15,8 @@ use Doctrine\ORM\Query\Expr\Join;
  */
 class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_components_handler
 {
+    private $review_data = [];
+
     public function _handler_redirect()
     {
         $date = date('Y-m-d');
@@ -42,7 +44,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     /**
      * List user's event memberships
      */
-    private function _list_events_between(array &$data_array, int $person, int $from, int $to)
+    private function _list_events_between(int $person, int $from, int $to)
     {
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
         $qb->get_doctrine()
@@ -55,11 +57,11 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $qb->add_constraint('end', '>=', $from);
 
         foreach ($qb->execute() as $event) {
-            $this->_add_to($data_array, $event, $event->start);
+            $this->add($event, $event->start);
         }
     }
 
-    private function _list_hour_reports_between(array &$data_array, int $person, int $from, int $to)
+    private function _list_hour_reports_between(int $person, int $from, int $to)
     {
         // List user's hour reports
         $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
@@ -69,11 +71,11 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
         foreach ($qb->execute() as $hour_report) {
             $time = mktime(date('H', $hour_report->metadata->created), date('i', $hour_report->metadata->created), date('s', $hour_report->metadata->created), date('m', $hour_report->date), date('d', $hour_report->date), date('Y', $hour_report->date));
-            $this->_add_to($data_array, $hour_report, $time);
+            $this->add($hour_report, $time);
         }
     }
 
-    private function _list_task_statuses_between(array &$data_array, midcom_db_person $person, int $from, int $to)
+    private function _list_task_statuses_between(midcom_db_person $person, int $from, int $to)
     {
         // List user's hour reports
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
@@ -85,21 +87,21 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $qb->end_group();
 
         foreach ($qb->execute() as $task_status) {
-            $this->_add_to($data_array, $task_status, $task_status->timestamp);
+            $this->add($task_status, $task_status->timestamp);
         }
     }
 
-    private function _add_to(array &$array, midcom_core_dbaobject $object, int $time)
+    private function add(midcom_core_dbaobject $object, int $time)
     {
         $date = date('Y-m-d', $time);
-        $array = array_replace_recursive($array, [$date => [$time => [$object->guid => $object]]]);
+        $this->review_data = array_replace_recursive($this->review_data, [$date => [$time => [$object->guid => $object]]]);
     }
 
     public function _handler_review(string $date, array &$data)
     {
         // Get start and end times
         $date = new DateTime($date);
-        $data['requested_time'] = (int) $date->format('U');
+        $requested_time = (int) $date->format('U');
 
         $offset = $date->format('N') - 1;
         $date->modify('-' . $offset . ' days');
@@ -113,25 +115,22 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $date->modify('-2 weeks');
         $data['prev_week'] = $date->format('Y-m-d');
 
-        // Empty the data array
-        $data['review_data'] = [];
-
         // Then start looking for stuff to display
-        $this->_list_events_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
-        $this->_list_hour_reports_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
-        $this->_list_task_statuses_between($data['review_data'], midcom::get()->auth->user->get_storage(), $data['week_start'], $data['week_end']);
+        $this->_list_events_between(midcom_connection::get_user(), $data['week_start'], $data['week_end']);
+        $this->_list_hour_reports_between(midcom_connection::get_user(), $data['week_start'], $data['week_end']);
+        $this->_list_task_statuses_between(midcom::get()->auth->user->get_storage(), $data['week_start'], $data['week_end']);
 
         // Arrange by date/time
-        ksort($data['review_data']);
+        ksort($this->review_data);
 
         // Set page title
-        if ($data['requested_time'] > time()) {
+        if ($requested_time > time()) {
             $title_string = 'preview for week %s';
         } else {
             $title_string = 'review of week %s';
         }
 
-        $data['title'] = sprintf($this->_l10n->get($title_string), strftime('%W %Y', $data['requested_time']));
+        $data['title'] = sprintf($this->_l10n->get($title_string), strftime('%W %Y', $requested_time));
         midcom::get()->head->set_pagetitle($data['title']);
 
         $this->_populate_toolbar();
@@ -169,7 +168,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
             //Roll over to the next day
             $date->modify('+1 second');
 
-            if (!array_key_exists($day, $data['review_data'])) {
+            if (!array_key_exists($day, $this->review_data)) {
                 // Nothing for today
                 continue;
             }
@@ -180,9 +179,9 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
             $day_hours_total = 0;
 
             // Arrange entries per time
-            ksort($data['review_data'][$day]);
+            ksort($this->review_data[$day]);
             $data['class'] = 'even';
-            foreach ($data['review_data'][$day] as $time => $guids) {
+            foreach ($this->review_data[$day] as $time => $guids) {
                 $data['time'] = $time;
                 foreach ($guids as $object) {
                     $data['class'] = ($data['class'] == 'even') ? 'odd' : 'even';

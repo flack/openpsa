@@ -41,8 +41,8 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 
         $this->_populate_toolbar();
 
-        $data['title'] = $this->_l10n->get_formatter()->date($data['requested_time']);
-        midcom::get()->head->set_pagetitle($data['title']);
+        $title = $this->_l10n->get_formatter()->date($data['requested_time']);
+        midcom::get()->head->set_pagetitle($title);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
@@ -50,7 +50,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['calendar_url'] = $siteconfig->get_node_relative_url('org.openpsa.calendar');
         $data['projects_relative_url'] = $siteconfig->get_node_relative_url('org.openpsa.projects');
-        $data['expenses_url'] = $siteconfig->get_node_full_url('org.openpsa.expenses');
         $data['wiki_url'] = $siteconfig->get_node_relative_url('net.nemein.wiki');
         $data['wiki_guid'] = $siteconfig->get_node_guid('net.nemein.wiki');
         $data['journal_url'] = '__mfa/org.openpsa.relatedto/journalentry/list/' . $data['day_start'] . '/';

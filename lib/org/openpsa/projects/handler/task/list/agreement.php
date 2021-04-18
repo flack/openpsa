@@ -29,7 +29,6 @@ class org_openpsa_projects_handler_task_list_agreement extends org_openpsa_proje
         $this->provider->add_order('end', 'DESC');
 
         $this->add_filters('agreement');
-        $data['table-heading'] = 'agreement tasks';
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         if ($sales_url = $siteconfig->get_node_full_url('org.openpsa.sales')) {

@@ -26,10 +26,10 @@ class org_openpsa_projects_handler_task_list_project extends org_openpsa_project
         $this->prepare_request_data('project_tasks');
         $this->prepare_toolbar();
 
-        $data['project'] = new org_openpsa_projects_project($args[0]);
+        $project = new org_openpsa_projects_project($args[0]);
 
         $this->qb = org_openpsa_projects_task_dba::new_query_builder();
-        $this->qb->add_constraint('project', '=', $data['project']->id);
+        $this->qb->add_constraint('project', '=', $project->id);
         $this->add_filters('project');
     }
 
@@ -46,9 +46,8 @@ class org_openpsa_projects_handler_task_list_project extends org_openpsa_project
         $this->qb->add_order('start');
 
         midcom::get()->skip_page_style = true;
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $data['provider'] = $this->provider;
+        $data['priority_array'] = $this->priority_array;
 
         return $this->show('show-json-tasks');
     }

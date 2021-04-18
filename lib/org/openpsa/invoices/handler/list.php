@@ -42,19 +42,15 @@ implements client
     private $_list_type = 'all';
 
     /**
-     *
      * @var midcom_services_i18n_formatter
      */
     private $formatter;
 
+    private $invoices_url;
+
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
-        // Locate Contacts node for linking
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
-        $this->_request_data['invoices_url'] = $siteconfig->get_node_full_url('org.openpsa.invoices');
-
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoices.js');
         $this->formatter = $this->_l10n->get_formatter();
         midcom::get()->uimessages->add_head_elements();
@@ -106,7 +102,7 @@ implements client
         if (!is_a($this->_customer, org_openpsa_contacts_group_dba::class)) {
             try {
                 $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
-                $entry['customer'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$customer->guid}/\">" . $customer->get_label() . "</a>";
+                $entry['customer'] = "<a href=\"{$this->router->generate('list_customer_all', ['guid' => $customer->guid])}\">" . $customer->get_label() . "</a>";
                 $entry['index_customer'] = $customer->get_label();
             } catch (midcom_error $e) {
                 $entry['customer'] = '';
@@ -117,7 +113,7 @@ implements client
         if (!is_a($this->_customer, org_openpsa_contacts_person_dba::class)) {
             try {
                 $contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact);
-                $entry['contact'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$contact->guid}/\">" . $contact->get_label() . "</a>";
+                $entry['contact'] = "<a href=\"{$this->router->generate('list_customer_all', ['guid' => $contact->guid])}\">" . $contact->get_label() . "</a>";
                 $entry['index_contact'] = $contact->get_label();
             } catch (midcom_error $e) {
                 $entry['contact'] = '';
@@ -292,9 +288,11 @@ implements client
             }
         }
 
-        if ($this->_request_data['contacts_url']) {
+        // Locate Contacts node for linking
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        if ($contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts')) {
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => $this->_request_data['contacts_url'] . (is_a($this->_customer, org_openpsa_contacts_group_dba::class) ? 'group' : 'person') . "/{$guid}/",
+                MIDCOM_TOOLBAR_URL => $contacts_url . (is_a($this->_customer, org_openpsa_contacts_group_dba::class) ? 'group' : 'person') . "/{$guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'user',
             ];

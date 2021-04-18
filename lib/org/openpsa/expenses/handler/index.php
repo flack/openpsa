@@ -15,6 +15,9 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
 {
     use org_openpsa_expenses_handler;
 
+    private $previous_week;
+    private $next_week;
+
     private function prepare_dates(?string $requested_time, array &$data)
     {
         $requested_time = $requested_time ?: date('Y-m-d');
@@ -29,10 +32,10 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
         $data['week_end'] = (int) $date->format('U');
 
         $date->modify('+1 day');
-        $data['next_week'] = $date->format('Y-m-d');
+        $this->next_week = $date->format('Y-m-d');
 
         $date->modify('-14 days');
-        $data['previous_week'] = $date->format('Y-m-d');
+        $this->previous_week = $date->format('Y-m-d');
     }
 
     /**
@@ -54,7 +57,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
 
         $data['rows'] = $this->_get_sorted_reports($hours_mc);
 
-        $this->_populate_toolbar($data['previous_week'], $data['next_week']);
+        $this->_populate_toolbar();
 
         $data['view_title'] = sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %G", $data['week_start']));
         $this->add_breadcrumb('', $data['view_title']);
@@ -68,7 +71,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
         return $this->show('hours_week');
     }
 
-    private function _populate_toolbar(string $previous_week, string $next_week)
+    private function _populate_toolbar()
     {
         $week_start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
         $week_end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
@@ -80,11 +83,11 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
         ]);
 
         org_openpsa_widgets_ui::add_navigation_toolbar([[
-            MIDCOM_TOOLBAR_URL => $this->router->generate('index_timestamp', ['timestamp' => $previous_week]),
+            MIDCOM_TOOLBAR_URL => $this->router->generate('index_timestamp', ['timestamp' => $this->previous_week]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous week'),
             MIDCOM_TOOLBAR_GLYPHICON => 'chevron-left',
         ], [
-            MIDCOM_TOOLBAR_URL => $this->router->generate('index_timestamp', ['timestamp' => $next_week]),
+            MIDCOM_TOOLBAR_URL => $this->router->generate('index_timestamp', ['timestamp' => $this->next_week]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next week'),
             MIDCOM_TOOLBAR_GLYPHICON => 'chevron-right',
         ]]);
