@@ -156,6 +156,11 @@ class midcom_db_person extends midcom_core_dbaobject
         }
     }
 
+    public function get_label_property() : string
+    {
+        return 'rname';
+    }
+
     public function get_label() : string
     {
         return $this->rname;

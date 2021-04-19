@@ -82,7 +82,7 @@ class midcom_helper_reflector_reflectorTest extends TestCase
             3 => ['midgard_topic', 'extra'],
             4 => ['midcom_db_snippet', 'name'],
             5 => ['midcom_db_member', 'guid'],
-            6 => ['midcom_db_person', ['rname', 'id']],
+            6 => ['midcom_db_person', 'rname'],
             7 => ['org_openpsa_contacts_person_dba', 'rname'],
             8 => ['org_openpsa_organization', 'official'],
         ];

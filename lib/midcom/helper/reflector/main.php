@@ -163,19 +163,14 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
     /**
      * Get property name to use as label
-     *
-     * @return string name of property to use as label (or false on failure)
      */
-    public function get_label_property()
+    public function get_label_property() : string
     {
         $midcom_class = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->mgdschema_class);
         $obj = ($midcom_class) ? new $midcom_class : new $this->mgdschema_class;
 
         if (method_exists($obj, 'get_label_property')) {
             return $obj->get_label_property();
-        }
-        if (midcom::get()->dbfactory->is_a($obj, midcom_db_person::class)) {
-            return ['rname', 'id'];
         }
         return $this->get_property('title', $obj) ??
             $this->get_property('name', $obj) ??
@@ -335,8 +330,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         $label_prop = $this->get_label_property();
 
-        if (    is_string($label_prop)
-             && $label_prop != 'guid'
+        if (    $label_prop != 'guid'
              && $this->_mgd_reflector->property_exists($label_prop)) {
             $search_properties[$label_prop] = true;
         }

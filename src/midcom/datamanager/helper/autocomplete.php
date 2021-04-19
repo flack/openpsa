@@ -245,7 +245,7 @@ class autocomplete
         return $config;
     }
 
-    public static function create_item_label($object, array $result_headers, $titlefield) : string
+    public static function create_item_label($object, array $result_headers, ?string $titlefield) : string
     {
         if (!empty($titlefield)) {
             if ($label = self::build_label($object, (array) $titlefield)) {
@@ -260,7 +260,7 @@ class autocomplete
     private static function build_label($object, array $fields) : string
     {
         $label = [];
-        foreach ((array) $fields as $field) {
+        foreach ($fields as $field) {
             if ($value = self::get_property_string($object, $field)) {
                 $label[] = $value;
             }
