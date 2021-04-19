@@ -176,16 +176,14 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     'type' => $ref->get_midgard_type($field),
                     'target' => $ref->get_link_target($field)
                 ];
-                $linked_class = $ref->get_link_name($field);
-                if (   empty($linked_class)
-                    && $info['type'] === MGD_TYPE_GUID) {
-                    // Guid link without class specification, valid for all classes
-                    if (empty($info['target'])) {
-                        $info['target'] = 'guid';
+                if ($linked_class = $ref->get_link_name($field)) {
+                    if (!self::is_same_class($linked_class, $classname)) {
+                        // This link points elsewhere
+                        continue;
                     }
-                } elseif (!self::is_same_class($linked_class, $classname)) {
-                    // This link points elsewhere
-                    continue;
+                } elseif ($info['type'] === MGD_TYPE_GUID && empty($info['target'])) {
+                    // Guid link without class specification, valid for all classes
+                    $info['target'] = 'guid';
                 }
                 $data[$link_type] = $info;
             }
