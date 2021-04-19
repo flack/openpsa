@@ -165,11 +165,10 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (empty($cache[$cache_key])) {
             $ref = new midgard_reflection_property($schema_type);
 
-            $linkfields = [
+            $linkfields = array_filter([
                 'up' => midgard_object_class::get_property_up($schema_type),
                 'parent' => midgard_object_class::get_property_parent($schema_type)
-            ];
-            $linkfields = array_filter($linkfields);
+            ]);
             $data = [];
             foreach ($linkfields as $link_type => $field) {
                 $info = [
@@ -213,9 +212,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        $multiple_links = false;
-        if (count($linkfields) > 1) {
-            $multiple_links = true;
+        $multiple_links = count($linkfields) > 1;
+        if ($multiple_links) {
             $qb->begin_group('OR');
         }
 
@@ -238,23 +236,16 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 case MGD_TYPE_UINT:
                     if ($link_type == 'up') {
                         $qb->add_constraint($field, '=', (int) $for_object->$field_target);
-                    } elseif ($link_type == 'parent') {
-                        $up_property = midgard_object_class::get_property_up($schema_type);
-                        if (!empty($up_property)) {
+                    } else {
+                        if (!empty($linkfields['up']['name'])) {
                             //we only return direct children (otherwise they would turn up twice in recursive queries)
                             $qb->begin_group('AND');
                             $qb->add_constraint($field, '=', (int) $for_object->$field_target);
-                            $qb->add_constraint($up_property, '=', 0);
+                            $qb->add_constraint($linkfields['up']['name'], '=', 0);
                             $qb->end_group();
                         } else {
                             $qb->add_constraint($field, '=', (int) $for_object->$field_target);
                         }
-                    } else {
-                        $qb->begin_group('AND');
-                        $qb->add_constraint($field, '=', (int) $for_object->$field_target);
-                        // make sure we don't accidentally find other objects with the same id
-                        $qb->add_constraint($field . '.guid', '=', (string) $for_object->guid);
-                        $qb->end_group();
                     }
                     break;
                 default:
