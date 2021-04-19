@@ -249,21 +249,6 @@ class midcom_helper_reflector_reflectorTest extends TestCase
     }
 
     /**
-     * @dataProvider providerClass_rewrite
-     */
-    public function testClass_rewrite($classname, $result)
-    {
-        $this->assertEquals($result, midcom_helper_reflector::class_rewrite($classname));
-    }
-
-    public function providerClass_rewrite()
-    {
-        return [
-            3 => ['midgard_snippet', 'midgard_snippet'],
-        ];
-    }
-
-    /**
      * @dataProvider providerIs_same_class
      */
     public function testIs_same_class($classname1, $classname2, $result)

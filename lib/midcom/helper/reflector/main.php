@@ -416,7 +416,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param string $schema_type classname to check rewriting for
      * @return string new classname (or original in case no rewriting is to be done)
      */
-    public static function class_rewrite(string $schema_type) : string
+    protected static function class_rewrite(string $schema_type) : string
     {
         static $extends = false;
         if ($extends === false) {
