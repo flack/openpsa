@@ -46,40 +46,30 @@ implements midcom_services_permalinks_resolver
 
     public static function find_root_event() : org_openpsa_calendar_event_dba
     {
-        $data = midcom_baseclasses_components_configuration::get('org.openpsa.calendar');
-
-        //Check if we have already initialized
-        if (!empty($data['calendar_root_event'])) {
-            return $data['calendar_root_event'];
-        }
-
-        $root_guid = $data['config']->get('calendar_root_event');
+        $config = midcom_baseclasses_components_configuration::get('org.openpsa.calendar', 'config');
+        $root_guid = $config->get('calendar_root_event');
 
         if (mgd_is_guid($root_guid)) {
-            $root_event = org_openpsa_calendar_event_dba::get_cached($root_guid);
-        } else {
-            // Check for calendar event tree.
-            $qb = org_openpsa_calendar_event_dba::new_query_builder();
-            $qb->add_constraint('title', '=', '__org_openpsa_calendar');
-            $qb->add_constraint('up', '=', 0);
-            $ret = $qb->execute();
-            if (!empty($ret)) {
-                $root_event = $ret[0];
-            } else {
-                debug_add("OpenPSA Calendar root event could not be found", MIDCOM_LOG_ERROR);
-                //Attempt to auto-initialize
-                $root_event = self::create_root_event();
-            }
-
-            $siteconfig = org_openpsa_core_siteconfig::get_instance();
-            $topic_guid = $siteconfig->get_node_guid('org.openpsa.calendar');
-            if ($topic_guid) {
-                $topic = new midcom_db_topic($topic_guid);
-                $topic->set_parameter('org.openpsa.calendar', 'calendar_root_event', $root_event->guid);
-                $data['config']->set('calendar_root_event', $root_event->guid);
-            }
+            return org_openpsa_calendar_event_dba::get_cached($root_guid);
         }
-        $data['calendar_root_event'] = $root_event;
+        // Check for calendar event tree.
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
+        $qb->add_constraint('title', '=', '__org_openpsa_calendar');
+        $qb->add_constraint('up', '=', 0);
+        if ($ret = $qb->execute()) {
+            $root_event = $ret[0];
+        } else {
+            debug_add("OpenPSA Calendar root event could not be found", MIDCOM_LOG_ERROR);
+            //Attempt to auto-initialize
+            $root_event = self::create_root_event();
+        }
+
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        if ($topic_guid = $siteconfig->get_node_guid('org.openpsa.calendar')) {
+            $topic = new midcom_db_topic($topic_guid);
+            $topic->set_parameter('org.openpsa.calendar', 'calendar_root_event', $root_event->guid);
+            $config->set('calendar_root_event', $root_event->guid);
+        }
         return $root_event;
     }
 
