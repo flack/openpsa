@@ -11,11 +11,16 @@
  */
 class org_openpsa_products_handler_product_csv extends midcom_baseclasses_components_handler_dataexport
 {
+    /**
+     * @var midcom_services_session
+     */
+    private $session;
+
     public function _load_schemadbs(string $handler_id, array &$args, array &$data) : array
     {
-        $data['session'] = new midcom_services_session('org_openpsa_products_csvexport');
+        $this->session = new midcom_services_session('org_openpsa_products_csvexport');
         if (!empty($_POST)) {
-            $data['session']->set('POST_data', $_POST);
+            $this->session->set('POST_data', $_POST);
         }
 
         if (isset($args[0])) {
@@ -46,9 +51,9 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
     public function _load_data(string $handler_id, array &$args, array &$data) : array
     {
         if (   empty($_POST)
-            && $data['session']->exists('POST_data')) {
-            $_POST = $data['session']->get('POST_data');
-            $data['session']->remove('POST_data');
+            && $this->session->exists('POST_data')) {
+            $_POST = $this->session->get('POST_data');
+            $this->session->remove('POST_data');
         }
 
         $qb = org_openpsa_products_product_dba::new_query_builder();

@@ -40,7 +40,6 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
             case 'save':
                 $this->_reset_password($data['controller']->get_form_values());
                 $data['processing_msg'] = $this->_l10n->get('password reset, mail sent.');
-                $data['processing_msg_raw']= 'password reset, mail sent.';
                 $this->_success = true;
                 break;
 

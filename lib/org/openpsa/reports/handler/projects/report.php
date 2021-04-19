@@ -19,6 +19,8 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         'person' => true,
     ];
 
+    private $raw_results;
+
     public function _on_initialize()
     {
         $this->module = 'projects';
@@ -109,12 +111,12 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
 
     private function _analyze_raw_hours()
     {
-        if (empty($this->_request_data['raw_results']['hr'])) {
+        if (empty($this->raw_results['hr'])) {
             debug_add('Hour reports array not found', MIDCOM_LOG_WARN);
             return;
         }
         $formatter = $this->_l10n->get_formatter();
-        foreach ($this->_request_data['raw_results']['hr'] as $hour) {
+        foreach ($this->raw_results['hr'] as $hour) {
             $row = [];
             try {
                 $row['person'] = org_openpsa_contacts_person_dba::get_cached($hour->person);
@@ -184,7 +186,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         $results_hr = $this->_get_hour_reports();
 
         //For debugging and sensible passing of data
-        $this->_request_data['raw_results'] = ['hr' => $results_hr];
+        $this->raw_results = ['hr' => $results_hr];
         //TODO: Mileages, expenses
 
         $this->_request_data['report'] = ['rows' => [], 'total_hours' => 0];
@@ -193,7 +195,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         $this->_sort_rows();
 
         //TODO: add other report types when supported
-        if (empty($this->_request_data['raw_results']['hr'])) {
+        if (empty($this->raw_results['hr'])) {
             midcom_show_style('projects_report-basic-noresults');
             return;
         }

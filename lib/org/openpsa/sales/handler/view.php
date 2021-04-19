@@ -36,10 +36,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     private function _prepare_request_data()
     {
         $this->_request_data['salesproject'] = $this->_salesproject;
-
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $this->_request_data['projects_url'] = $siteconfig->get_node_relative_url('org.openpsa.projects');
-
         $this->_request_data['products'] = $this->_list_products();
     }
 
@@ -81,8 +77,10 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             $buttons[] = $workflow->get_button($this->router->generate('salesproject_delete', ['guid' => $this->_salesproject->guid]));
         }
 
-        if (!empty($this->_request_data['projects_url'])) {
-            $prefix = midcom_connection::get_url('self') . $this->_request_data['projects_url'];
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+
+        if ($projects_url = $siteconfig->get_node_relative_url('org.openpsa.projects')) {
+            $prefix = midcom_connection::get_url('self') . $projects_url;
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $prefix . "project/{$this->_salesproject->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),

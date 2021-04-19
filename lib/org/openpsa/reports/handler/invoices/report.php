@@ -213,7 +213,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['invoices_url'] = $siteconfig->get_node_full_url('org.openpsa.invoices');
-        $data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
         midcom_show_style('invoices_report-grid');
 

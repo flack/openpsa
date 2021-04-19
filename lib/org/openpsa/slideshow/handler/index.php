@@ -21,7 +21,7 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
         $qb = org_openpsa_slideshow_image_dba::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
         $qb->add_order('position');
-        $data['images'] = $qb->execute();
+        $images = $qb->execute();
 
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('component', '=', $this->_component);
@@ -32,8 +32,8 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
 
         $head = midcom::get()->head;
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/slideshow.css');
-        if (!empty($data['images'])) {
-            $data['entries'] = org_openpsa_slideshow_image_dba::get_imagedata($data['images']);
+        if (!empty($images)) {
+            $data['entries'] = org_openpsa_slideshow_image_dba::get_imagedata($images);
             $head->enable_jquery();
             $head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/galleria/galleria.min.js');
         }
@@ -59,7 +59,7 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
      */
     public function _show_index(string $handler_id, array &$data)
     {
-        if (!empty($data['images'])) {
+        if (!empty($data['entries'])) {
             midcom_show_style('index');
         } else {
             midcom_show_style('index-empty');

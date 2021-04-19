@@ -86,7 +86,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $date_label = $this->_l10n->get_formatter()->datetime();
         $relatedto_button_settings['wikinote']['wikiword'] = str_replace('/', '-', sprintf($this->_l10n->get('notes for %s %s on %s'), $class_label, $object_label, $date_label));
 
-        org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_object, $this->_request_data['topic']->component, $relatedto_button_settings);
+        org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_object, $this->_topic->component, $relatedto_button_settings);
         org_openpsa_relatedto_plugin::add_journal_entry_button($this->_view_toolbar, $this->_object->guid);
 
         $this->_request_data['object'] = $this->_object;

@@ -26,11 +26,16 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
     protected $_schema = 'export';
 
+    /**
+     * @var org_openpsa_directmarketing_campaign_dba
+     */
+    private $campaign;
+
     public function _load_schemadbs(string $handler_id, array &$args, array &$data) : array
     {
         // Try to load the correct campaign
-        $data['campaign'] = $this->load_campaign($args[0]);
-        $data['filename'] = preg_replace('/[^a-z0-9-]/i', '_', strtolower($data['campaign']->title)) . '_' . date('Y-m-d') . '.csv';
+        $this->campaign = $this->load_campaign($args[0]);
+        $data['filename'] = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->campaign->title)) . '_' . date('Y-m-d') . '.csv';
 
         return [
             'person' => schemadb::from_path($this->_config->get('schemadb_person')),
@@ -44,7 +49,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
     {
         $rows = [];
         $qb_members = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        $qb_members->add_constraint('campaign', '=', $data['campaign']->id);
+        $qb_members->add_constraint('campaign', '=', $this->campaign->id);
         $qb_members->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         // PONDER: Filter by status (other than tester) ??
         $qb_members->add_order('person.lastname', 'ASC');

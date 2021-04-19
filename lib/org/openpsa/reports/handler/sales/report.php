@@ -39,8 +39,12 @@ implements client
                 ->setParameter('resource', $this->_expand_resource($this->_request_data['query_data']['resource']));
         }
 
-        $qb->add_constraint('invoice.sent', '>=', $this->_request_data['start']);
-        $qb->add_constraint('invoice.sent', '<=', $this->_request_data['end']);
+        // Calculate time range
+        $start = $this->_request_data['query_data']['start'];
+        $end = $this->_request_data['query_data']['end'];
+
+        $qb->add_constraint('invoice.sent', '>=', $start);
+        $qb->add_constraint('invoice.sent', '<=', $end);
 
         return $qb;
     }
@@ -100,12 +104,6 @@ implements client
         if ($response = parent::_handler_generator($args, $data)) {
             return $response;
         }
-
-        $data['invoices'] = [];
-
-        // Calculate time range
-        $data['start'] = $this->_request_data['query_data']['start'];
-        $data['end'] = $this->_request_data['query_data']['end'];
 
         $provider = new provider($this, 'local');
         $data['grid'] = $provider->get_grid('deliverable_report_grid');

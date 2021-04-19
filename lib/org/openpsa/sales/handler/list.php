@@ -27,7 +27,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         // Locate Contacts node for linking
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
-        $data['reports_url'] = $siteconfig->get_node_full_url('org.openpsa.reports');
 
         $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
 
