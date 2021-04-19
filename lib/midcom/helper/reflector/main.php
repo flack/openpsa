@@ -540,19 +540,14 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * which we do not want here.
      *
      * @param object $object the object to get the name property for
-     * @param string $title_property property to use as "name", if left to default (null), will be reflected
      */
-    public static function get_object_title(object $object, ?string $title_property = null) : ?string
+    public static function get_object_title(object $object) : ?string
     {
-        if ($title_property === null) {
-            $title_property = self::get_title_property($object);
+        if ($title_property = self::get_title_property($object)) {
+            return (string) $object->{$title_property};
         }
-        if (empty($title_property)) {
-            // Could not resolve valid property
-            return null;
-        }
-
-        return (string) $object->{$title_property};
+        // Could not resolve valid property
+        return null;
     }
 
     /**

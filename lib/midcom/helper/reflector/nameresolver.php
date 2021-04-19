@@ -143,10 +143,10 @@ class midcom_helper_reflector_nameresolver
      * number to it (before this we make some educated guesses about a
      * good starting value)
      *
-     * @param string $title_property Property of the object to use at title, if null will be reflected (see midcom_helper_reflector::get_object_title())
+     * @param string $title_property Property of the object to use at title, if null will be reflected (see midcom_helper_reflector::get_title_property())
      * @param string $extension The file extension, when working with attachments
      */
-    public function generate_unique_name(string $title_property = null, string $extension = '') : ?string
+    public function generate_unique_name(string $extension = '') : ?string
     {
         // Get current name and sanity-check
         $original_name = $this->get_object_name();
@@ -163,7 +163,7 @@ class midcom_helper_reflector_nameresolver
             $current_name = $original_name;
         } else {
             // Empty name, try to generate from title
-            $title_copy = midcom_helper_reflector::get_object_title($this->_object, $title_property);
+            $title_copy = midcom_helper_reflector::get_object_title($this->_object);
             if ($title_copy === null) {
                 // Fatal error with title resolution
                 debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} returned critical failure for title resolution when name was empty, aborting", MIDCOM_LOG_WARN);

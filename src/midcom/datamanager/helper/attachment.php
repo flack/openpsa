@@ -21,6 +21,7 @@ trait attachment
     {
         $filename = midcom_db_attachment::safe_filename($filename, true);
         $attachment = new midcom_db_attachment;
+        $attachment->title = $filename;
         $attachment->name = $filename;
         $attachment->parentguid = $parentguid;
 
@@ -31,7 +32,7 @@ trait attachment
             if (preg_match('/^(.*)(\..*?)$/', $filename, $ext_matches)) {
                 $ext = $ext_matches[2];
             }
-            $filename = $resolver->generate_unique_name('name', $ext);
+            $filename = $resolver->generate_unique_name($ext);
         }
         return $filename;
     }
