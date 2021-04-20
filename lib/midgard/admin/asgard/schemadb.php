@@ -87,7 +87,7 @@ class midgard_admin_asgard_schemadb extends schemabuilder
     private function _add_name_field(string $key, midcom_core_dbaobject $name_obj)
     {
         $type_urlname_config = [];
-        $allow_unclean_name_types = $this->_config->get('allow_unclean_names_for');
+        $allow_unclean_name_types = $this->_config->get_array('allow_unclean_names_for');
         foreach ($allow_unclean_name_types as $allow_unclean_name_types_type) {
             if ($name_obj->__object instanceof $allow_unclean_name_types_type) {
                 $type_urlname_config['allow_unclean'] = true;
@@ -220,11 +220,11 @@ class midgard_admin_asgard_schemadb extends schemabuilder
 
     private function _get_score(string $field) : int
     {
-        $preferred_fields = $this->_config->get('object_preferred_fields');
-        $timerange_fields = $this->_config->get('object_timerange_fields');
-        $phone_fields = $this->_config->get('object_phone_fields');
-        $address_fields = $this->_config->get('object_address_fields');
-        $location_fields = $this->_config->get('object_location_fields');
+        $preferred_fields = $this->_config->get_array('object_preferred_fields');
+        $timerange_fields = $this->_config->get_array('object_timerange_fields');
+        $phone_fields = $this->_config->get_array('object_phone_fields');
+        $address_fields = $this->_config->get_array('object_address_fields');
+        $location_fields = $this->_config->get_array('object_location_fields');
 
         $score = 7;
 
@@ -275,7 +275,7 @@ class midgard_admin_asgard_schemadb extends schemabuilder
                 $type = 'location';
                 break;
         }
-        $fields = $this->_config->get('object_' . $type . '_fields');
+        $fields = $this->_config->get_array('object_' . $type . '_fields');
         return array_search($first, $fields) <=> array_search($second, $fields);
     }
 }

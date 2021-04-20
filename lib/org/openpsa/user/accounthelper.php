@@ -283,7 +283,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $score = $this->count_unique_characters($password) * 4;
 
         //check $password with rules
-        $rules = $this->_config->get('password_score_rules');
+        $rules = $this->_config->get_array('password_score_rules');
         foreach ($rules as $rule) {
             if (preg_match($rule['match'], $password) > 0) {
                 $score += $rule['score'];

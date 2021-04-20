@@ -52,7 +52,7 @@ class org_openpsa_contacts_duplicates_merge
         }
 
         // TODO: Check that both objects are of valid class for object mode
-        $config = $this->config->get($this->_object_mode . '_merge_configuration');
+        $config = $this->config->get_array($this->_object_mode . '_merge_configuration');
 
         $this->process_dba_classes($obj1, $obj2, $config);
 

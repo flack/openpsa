@@ -40,7 +40,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         }
         $config = midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config');
         $no_permalink = false;
-        foreach ($config->get('no_permalinks_for') as $classname) {
+        foreach ($config->get_array('no_permalinks_for') as $classname) {
             if (is_a($object, $classname)) {
                 $no_permalink = true;
                 break;

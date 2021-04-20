@@ -85,7 +85,7 @@ class midcom_core_urlmethods
      */
     public function invalidate_cache(Request $request)
     {
-        if (!in_array($request->getClientIp(), midcom::get()->config->get('indexer_reindex_allowed_ips', []))) {
+        if (!in_array($request->getClientIp(), midcom::get()->config->get_array('indexer_reindex_allowed_ips'))) {
             midcom::get()->auth->require_valid_user('basic');
             midcom::get()->auth->require_admin_user();
         }

@@ -57,7 +57,7 @@ class autocompleteType extends AbstractType
             if (!empty($value['clever_class'])) {
                 /** @var \midcom_helper_configuration $config */
                 $config = \midcom_baseclasses_components_configuration::get('midcom.datamanager', 'config');
-                $config = $config->get('clever_classes');
+                $config = $config->get_array('clever_classes');
                 if (!array_key_exists($value['clever_class'], $config)) {
                     throw new midcom_error('Invalid clever class specified');
                 }

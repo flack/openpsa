@@ -280,13 +280,9 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     private static function _get_icon_map(string $config_key, string $fallback) : array
     {
         $config = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config');
-        $icons2classes = $config->get($config_key);
         $icon_map = [];
-        //sanity
-        if (!is_array($icons2classes)) {
-            throw new midcom_error('Config key "' . $config_key . '" is not an array');
-        }
-        foreach ($icons2classes as $icon => $classes) {
+
+        foreach ($config->get_array($config_key) as $icon => $classes) {
             $icon_map = array_merge($icon_map, array_fill_keys($classes, $icon));
         }
         if (!isset($icon_map['__default__'])) {
@@ -336,14 +332,14 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // Exceptions - always search these fields
-        $always_search_all = $this->_config->get('always_search_fields') ?: [];
+        $always_search_all = $this->_config->get_array('always_search_fields');
         if (!empty($always_search_all[$this->mgdschema_class])) {
             $fields = array_intersect($always_search_all[$this->mgdschema_class], $properties);
             $search_properties += array_flip($fields);
         }
 
         // Exceptions - never search these fields
-        $never_search_all = $this->_config->get('never_search_fields') ?: [];
+        $never_search_all = $this->_config->get_array('never_search_fields');
         if (!empty($never_search_all[$this->mgdschema_class])) {
             $search_properties = array_diff_key($search_properties, array_flip($never_search_all[$this->mgdschema_class]));
         }
@@ -418,14 +414,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     protected static function class_rewrite(string $schema_type) : string
     {
-        static $extends = false;
-        if ($extends === false) {
-            $extends = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config')->get('class_extends');
-            // Safety against misconfiguration
-            if (!is_array($extends)) {
-                throw new midcom_error("config->get('class_extends') did not return array, invalid configuration ??");
-            }
-        }
+        $extends = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config')->get_array('class_extends');
         if (   isset($extends[$schema_type])
             && class_exists($extends[$schema_type])) {
             return $extends[$schema_type];
@@ -494,8 +483,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         self::$_cache[$type][$key] = null;
 
         // Configured properties
-        $exceptions = $this->_config->get($type . '_exceptions');
-        foreach ($exceptions as $class => $property) {
+        foreach ($this->_config->get_array($type . '_exceptions') as $class => $property) {
             if (midcom::get()->dbfactory->is_a($object, $class)) {
                 if (   $property !== false
                     && !$this->_mgd_reflector->property_exists($property)) {

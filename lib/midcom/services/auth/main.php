@@ -417,9 +417,8 @@ class midcom_services_auth
      */
     public function require_admin_or_ip(string $domain) : bool
     {
-        $ips = midcom::get()->config->get('indexer_reindex_allowed_ips');
-        if (   $ips
-            && in_array($_SERVER['REMOTE_ADDR'], $ips)) {
+        $ips = midcom::get()->config->get_array('indexer_reindex_allowed_ips');
+        if (in_array($_SERVER['REMOTE_ADDR'], $ips)) {
             if (!$this->request_sudo($domain)) {
                 throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
             }

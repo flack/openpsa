@@ -241,6 +241,17 @@ class midcom_helper_configuration
         return false;
     }
 
+    public function get_array(string $key) : array
+    {
+        if ($value = $this->get($key)) {
+            if (!is_array($value)) {
+                throw new midcom_error('Config key "' . $key . '" is not an array');
+            }
+            return $value;
+        }
+        return [];
+    }
+
     /**
      * Set a value on the current instance, if the given key exists
      */

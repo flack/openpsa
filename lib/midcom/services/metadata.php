@@ -153,7 +153,7 @@ class midcom_services_metadata
 
         // If an object has been bound we have more information available
         if ($view_metadata = $this->get_view_metadata()) {
-            foreach (midcom::get()->config->get('metadata_head_elements') as $property => $metatag) {
+            foreach (midcom::get()->config->get_array('metadata_head_elements') as $property => $metatag) {
                 if ($content = $view_metadata->get($property)) {
                     // Handle date fields
                     if (in_array($property, ['published', 'created', 'revised', 'approved', 'locked'])) {

@@ -110,7 +110,7 @@ class midcom_exception_handler
      */
     private function send(int $httpcode, string $message)
     {
-        $error_actions = midcom::get()->config->get('error_actions');
+        $error_actions = midcom::get()->config->get_array('error_actions');
         if (   !isset($error_actions[$httpcode])
             || !isset($error_actions[$httpcode]['action'])) {
             // No action specified for this error code, skip

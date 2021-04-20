@@ -471,6 +471,17 @@ class midcom_config implements ArrayAccess
         return $this->_merged_config[$key];
     }
 
+    public function get_array(string $key) : array
+    {
+        if ($value = $this->get($key)) {
+            if (!is_array($value)) {
+                throw new midcom_error('Config key "' . $key . '" is not an array');
+            }
+            return $value;
+        }
+        return [];
+    }
+
     public function export_to(ContainerBuilder $builder)
     {
         foreach ($this->_merged_config as $key => $value) {

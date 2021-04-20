@@ -54,7 +54,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      */
     public function _handler_welcome(Request $request, array &$data)
     {
-        $data['schema_types'] = array_diff(midcom_connection::get_schema_types(), $this->_config->get('skip_in_filter'));
+        $data['schema_types'] = array_diff(midcom_connection::get_schema_types(), $this->_config->get_array('skip_in_filter'));
 
         $data['view_title'] = $this->_l10n->get('asgard');
 

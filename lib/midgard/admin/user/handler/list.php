@@ -45,8 +45,8 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
     public function _handler_list(Request $request, array &$data)
     {
         // See what fields we want to use in the search
-        $data['search_fields'] = $this->_config->get('search_fields');
-        $data['list_fields'] = $this->_config->get('list_fields');
+        $data['search_fields'] = $this->_config->get_array('search_fields');
+        $data['list_fields'] = $this->_config->get_array('list_fields');
 
         $this->_list_persons($request->query);
 

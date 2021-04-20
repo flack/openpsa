@@ -144,7 +144,7 @@ class midcom_config_test
         } elseif (!class_exists('Memcached')) {
             $this->add('Memcache', self::WARNING, 'The PHP memcached module is recommended for efficient MidCOM operation.');
         } else {
-            $config = midcom::get()->config->get('cache_module_memcache_backend_config');
+            $config = midcom::get()->config->get_array('cache_module_memcache_backend_config');
             $memcached = midcom_services_cache_module_memcache::prepare_memcached($config);
             // Sometimes, addServer returns true even if the server is not running, so we call a command to make sure it's actually working
             if ($memcached && $memcached->getVersion()) {

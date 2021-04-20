@@ -37,7 +37,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     private function _load_controller()
     {
         // Get the configured schemas
-        $schemadbs = $this->_config->get('schemadbs_folder');
+        $schemadbs = $this->_config->get_array('schemadbs_folder');
 
         // Check if a custom schema exists
         if (array_key_exists($this->_topic->component, $schemadbs)) {
@@ -60,14 +60,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $defaults = [];
         if ($this->_handler_id == 'create') {
             // Suggest to create the same type of a folder as the parent is
-            $component_suggestion = $this->_topic->component;
-
-            //Unless config told us otherwise
-            if ($this->_config->get('default_component')) {
-                $component_suggestion = $this->_config->get('default_component');
-            }
-
-            $defaults['component'] = $component_suggestion;
+            // Unless config told us otherwise
+            $defaults['component'] = $this->_config->get('default_component') ?: $this->_topic->component;
         }
 
         $dm = new datamanager($schemadb);

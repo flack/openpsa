@@ -218,7 +218,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $data['object'] = $this->_object;
         midcom_show_style('midgard_admin_asgard_object_attachments_header');
 
-        $data['attachment_text_types'] = $this->_config->get('attachment_text_types');
+        $data['attachment_text_types'] = $this->_config->get_array('attachment_text_types');
         midcom_show_style('midgard_admin_asgard_object_attachments_new');
         midcom_show_style('midgard_admin_asgard_object_attachments_footer');
     }
@@ -241,7 +241,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->_list_files();
         $this->_add_jscripts();
 
-        $data['attachment_text_types'] = $this->_config->get('attachment_text_types');
+        $data['attachment_text_types'] = $this->_config->get_array('attachment_text_types');
         if (array_key_exists($this->_file->mimetype, $data['attachment_text_types'])) {
             // Figure out correct syntax from MIME type
             switch (preg_replace('/.+?\//', '', $this->_file->mimetype)) {

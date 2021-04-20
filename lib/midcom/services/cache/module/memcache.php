@@ -65,7 +65,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     public function __construct(midcom_config $config, CacheProvider $backend)
     {
         parent::__construct($backend);
-        $this->_data_groups = $config->get('cache_module_memcache_data_groups');
+        $this->_data_groups = $config->get_array('cache_module_memcache_data_groups');
     }
 
     /**

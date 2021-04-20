@@ -119,7 +119,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
 
         $this->encoding = $this->_i18n->get_current_charset();
 
-        $backend_params['swift_plugins'] = $this->_config->get('swift_plugins');
+        $backend_params['swift_plugins'] = $this->_config->get_array('swift_plugins');
 
         $this->_backend = org_openpsa_mail_backend::get($backend, $backend_params);
 

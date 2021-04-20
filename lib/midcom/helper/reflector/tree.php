@@ -286,13 +286,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (!isset($cache[$this->mgdschema_class])) {
             $cache[$this->mgdschema_class] = [];
 
-            $neverchild = $this->_config->get('child_class_exceptions_neverchild');
-            // Safety against misconfiguration
-            if (!is_array($neverchild)) {
-                debug_add("config->get('child_class_exceptions_neverchild') did not return array, invalid configuration ??", MIDCOM_LOG_ERROR);
-                $neverchild = [];
-            }
-            $types = array_diff(midcom_connection::get_schema_types(), $neverchild);
+            $types = array_diff(midcom_connection::get_schema_types(), $this->_config->get_array('child_class_exceptions_neverchild'));
             foreach ($types as $schema_type) {
                 if ($this->_get_link_fields($schema_type, $this->mgdschema_class)) {
                     $cache[$this->mgdschema_class][] = $schema_type;
@@ -325,12 +319,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     private static function _resolve_root_classes() : array
     {
-        $root_exceptions_notroot = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config')->get('root_class_exceptions_notroot');
-        // Safety against misconfiguration
-        if (!is_array($root_exceptions_notroot)) {
-            debug_add("config->get('root_class_exceptions_notroot') did not return array, invalid configuration ??", MIDCOM_LOG_ERROR);
-            $root_exceptions_notroot = [];
-        }
+        $root_exceptions_notroot = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config')->get_array('root_class_exceptions_notroot');
         $root_classes = [];
         $types = array_diff(midcom_connection::get_schema_types(), $root_exceptions_notroot);
         foreach ($types as $schema_type) {

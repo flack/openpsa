@@ -116,7 +116,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     public function query(string $querystring, midcom_services_indexer_filter $filter = null, array $options = []) : array
     {
         // FIXME: adapt the whole indexer system to fetching enable querying for counts and slices
-        $query = array_merge($this->config->get('indexer_config_options'), $options);
+        $query = array_merge($this->config->get_array('indexer_config_options'), $options);
         $query['q'] = $querystring;
 
         if (!empty($this->_index_name)) {

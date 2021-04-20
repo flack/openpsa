@@ -64,8 +64,8 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     public static function list_components(string $current_selection) : array
     {
         $list = [];
-        $allowed = midcom::get()->config->get('component_listing_allowed', []);
-        $excluded = midcom::get()->config->get('component_listing_excluded', []);
+        $allowed = midcom::get()->config->get_array('component_listing_allowed');
+        $excluded = midcom::get()->config->get_array('component_listing_excluded');
 
         foreach (self::get_component_list() as $component => $details) {
             if ($component !== $current_selection) {
@@ -73,7 +73,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
                     continue;
                 }
 
-                if (!empty($excluded) && in_array($component, $excluded)) {
+                if (in_array($component, $excluded)) {
                     continue;
                 }
             }

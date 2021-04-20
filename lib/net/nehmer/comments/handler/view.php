@@ -103,7 +103,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                     'storage' => null,
                     'type' => 'captcha',
                     'widget' => 'captcha',
-                    'widget_config' => $this->_config->get('captcha_config'),
+                    'widget_config' => $this->_config->get_array('captcha_config'),
                 ];
                 $this->_schemadb->get('comment')->set('fields', $fields);
             }
